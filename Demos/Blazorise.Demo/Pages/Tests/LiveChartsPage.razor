@@ -6,8 +6,9 @@
                 <CardTitle>Horizontal Line</CardTitle>
             </CardHeader>
             <CardBody>
-                <LineChart @ref="horizontalLineChart" TItem="LiveDataPoint" OptionsObject="@horizontalLineChartOptions">
-                    <ChartStreaming TItem="LiveDataPoint"
+                <LineChart @ref="@horizontalLineChart" TItem="LiveDataPoint" OptionsObject="@horizontalLineChartOptions">
+                    <ChartStreaming @ref="@horizontalLineChartStreaming"
+                                    TItem="LiveDataPoint"
                                     Options="new ChartStreamingOptions { Delay = 2000 }"
                                     Refreshed="@OnHorizontalLineRefreshed" />
                 </LineChart>
@@ -15,6 +16,8 @@
             <CardFooter>
                 <Button Color="Color.Primary" Outline Clicked="@AddNewHorizontalLineDataSet">Add DataSet</Button>
                 <Button Color="Color.Secondary" Outline Clicked="@AddNewHorizontalLineData">Add Data</Button>
+                <Button Color="Color.Primary" Outline Clicked="@PauseHorizontalLineChart">Pause</Button>
+                <Button Color="Color.Primary" Outline Clicked="@PlayHorizontalLineChart">Play</Button>
             </CardFooter>
         </Card>
     </Column>

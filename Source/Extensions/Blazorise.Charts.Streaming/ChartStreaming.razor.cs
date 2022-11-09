@@ -28,6 +28,7 @@ namespace Blazorise.Charts.Streaming
 
         #region Methods
 
+        /// <inheritdoc/>
         protected override Task OnInitializedAsync()
         {
             if ( ParentChart is not null )
@@ -57,6 +58,7 @@ namespace Blazorise.Charts.Streaming
             }
         }
 
+        /// <inheritdoc/>
         protected override async ValueTask DisposeAsync( bool disposing )
         {
             if ( disposing && Rendered )
@@ -97,6 +99,42 @@ namespace Blazorise.Charts.Streaming
 
                 await JSModule.AddData( ParentChart.ElementId, newData.DatasetIndex, newData.Value );
             }
+        }
+
+        /// <summary>
+        /// Pauses the current chart streaming.
+        /// </summary>
+        /// <param name="animate">If true the chart interpolate and animate from the last known data points.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task Pause( bool animate = true )
+        {
+            if ( !Rendered )
+                return;
+
+            if ( Options is not null )
+            {
+                Options.Pause = true;
+            }
+
+            await JSModule.Pause( ParentChart.ElementId, animate );
+        }
+
+        /// <summary>
+        /// Plays the current chart streaming.
+        /// </summary>
+        /// <param name="animate">If true the chart interpolate and animate from the last known data points.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public async Task Play( bool animate = true )
+        {
+            if ( !Rendered )
+                return;
+
+            if ( Options is not null )
+            {
+                Options.Pause = false;
+            }
+
+            await JSModule.Play( ParentChart.ElementId, animate );
         }
 
         #endregion
