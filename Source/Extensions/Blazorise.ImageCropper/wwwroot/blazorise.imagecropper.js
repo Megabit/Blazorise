@@ -42,27 +42,39 @@ export function updateOptions(element, elementId, options) {
     if (instance.cropper) {
         const cropper = instance.cropper;
 
-        if (options.source.changed) {
-            cropper.replace(options.source.value);
-        }
-
-        if (options.aspectRatio.changed) {
-            cropper.setAspectRatio(options.aspectRatio.value || NaN);
-        }
-
+        // changing the viewMode is a destructive operation so we need to create new cropper instance
         if (options.viewMode.changed) {
-            cropper.options.viewMode = options.viewMode.value || 0;
-        }
+            const initOptions = {
+                source: options.source.value,
+                aspectRatio: options.aspectRatio.value || NaN,
+                viewMode: options.viewMode.value || 0,
+                preview: options.preview.value || '',
+                enabled: options.enabled.value
+            };
 
-        if (options.preview.changed) {
-            cropper.options.preview = options.preview.value || '';
-        }
+            cropper.destroy();
 
-        if (options.enabled.changed) {
-            if (options.enabled.value) {
-                cropper.enable();
-            } else {
-                cropper.disable();
+            initialize(instance.adapter, element, elementId, initOptions);
+        }
+        else {
+            if (options.source.changed) {
+                cropper.replace(options.source.value);
+            }
+
+            if (options.aspectRatio.changed) {
+                cropper.setAspectRatio(options.aspectRatio.value || NaN);
+            }
+
+            if (options.preview.changed) {
+                cropper.options.preview = options.preview.value || '';
+            }
+
+            if (options.enabled.changed) {
+                if (options.enabled.value) {
+                    cropper.enable();
+                } else {
+                    cropper.disable();
+                }
             }
         }
     }
