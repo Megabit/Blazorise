@@ -6178,7 +6178,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
             Image Cropper
         </FieldLabel>
         <FieldBody>
-            <ImageCropper @ref=""cropper"" Source=""img/gallery/amongus.png"" PreviewSelector="".image-cropper-preview"" />
+            <ImageCropper @ref=""cropper"" Source=""img/gallery/3.jpg"" PreviewSelector="".image-cropper-preview"" />
         </FieldBody>
     </Column>
     <Column>
@@ -6196,7 +6196,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
                         <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"">Get Cropped Image</Button>
                     </Column>
                     <Column>
-                        <img src=""@result"" width=""250"" height=""250"" />
+                        <Image Source=""@result"" Style=""width: 250px; height: 250px;"" />
                     </Column>
                 </Row>
             </Column>
@@ -6208,10 +6208,6 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 @code {
     private ImageCropper cropper;
     private string result;
-    private double? ratio = 1.0;
-    private ImageCropperViewMode viewMode;
-    private bool enabled = true;
-    private bool flipX, flipY;
 
     private Task OnCropped()
     {

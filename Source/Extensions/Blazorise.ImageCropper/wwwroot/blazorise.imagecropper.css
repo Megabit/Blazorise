@@ -1,6 +1,16 @@
-﻿@import "./vendors/cropper.css?v=1.5.11";
+﻿/*@import "./vendors/cropper.css?v=1.5.11";
 
 .b-image-cropper-source {
     display: block;
     max-width: 100%;
+}*/
+
+.b-cropper-container {
+    width: 100%;
+    height: 100%;
 }
+
+    .b-cropper-container cropper-canvas {
+        min-width: 100%;
+        min-height: 100%;
+    }

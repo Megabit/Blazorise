@@ -46,42 +46,20 @@ namespace Blazorise.ImageCropper
             return InvokeSafeAsync<string>( "cropBase64", elementRef, elementId, cropOptions );
         }
 
-        private ValueTask CallCropperAction( ElementReference elementRef, string elementId, string method, params object[] arguments )
-        {
-            object[] args = new object[] { elementRef, elementId, method }.Append( arguments ).ToArray();
-            return InvokeSafeVoidAsync( "executeCropperAction", args );
-        }
-
-        public ValueTask Enable( ElementReference elementRef, string elementId, bool enabled ) => enabled
-            ? CallCropperAction( elementRef, elementId, "enable" )
-            : CallCropperAction( elementRef, elementId, "disable" );
-
-        public ValueTask Replace( ElementReference elementRef, string elementId, string source )
-            => CallCropperAction( elementRef, elementId, "replace", source );
-
-        public ValueTask Move( ElementReference elementRef, string elementId, int offsetX, int offsetY )
-            => CallCropperAction( elementRef, elementId, "move", offsetX, offsetY );
+        public ValueTask Move( ElementReference elementRef, string elementId, int x, int y )
+            => InvokeSafeVoidAsync( "move", elementRef, elementId, x, y );
 
         public ValueTask MoveTo( ElementReference elementRef, string elementId, int x, int y )
-            => CallCropperAction( elementRef, elementId, "moveTo", x, y );
+            => InvokeSafeVoidAsync( "moveTo", elementRef, elementId, x, y );
 
-        public ValueTask Zoom( ElementReference elementRef, string elementId, double ratio )
-            => CallCropperAction( elementRef, elementId, "zoom", ratio );
+        public ValueTask Zoom( ElementReference elementRef, string elementId, double scale )
+            => InvokeSafeVoidAsync( "zoom", elementRef, elementId, scale );
 
-        public ValueTask ZoomTo( ElementReference elementRef, string elementId, double ratio )
-            => CallCropperAction( elementRef, elementId, "zoomTo", ratio );
+        public ValueTask Rotate( ElementReference elementRef, string elementId, double angle )
+            => InvokeSafeVoidAsync( "rotate", elementRef, elementId, angle );
 
-        public ValueTask ZoomTo( ElementReference elementRef, string elementId, double ratio, int x, int y )
-            => CallCropperAction( elementRef, elementId, "zoomTo", ratio, new { x, y } );
-
-        public ValueTask Rotate( ElementReference elementRef, string elementId, int degree )
-            => CallCropperAction( elementRef, elementId, "rotate", degree );
-
-        public ValueTask RotateTo( ElementReference elementRef, string elementId, int degree )
-            => CallCropperAction( elementRef, elementId, "rotateTo", degree );
-
-        public ValueTask Scale( ElementReference elementRef, string elementId, int scaleX, int scaleY )
-            => CallCropperAction( elementRef, elementId, "scale", scaleX, scaleY );
+        public ValueTask Scale( ElementReference elementRef, string elementId, int x, int y )
+            => InvokeSafeVoidAsync( "scale", elementRef, elementId, x, y );
 
         /// <inheritdoc/>
         public override string ModuleFileName => $"./_content/Blazorise.ImageCropper/blazorise.imagecropper.js?v={VersionProvider.Version}";

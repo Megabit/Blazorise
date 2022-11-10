@@ -1,4 +1,4 @@
-import "./vendors/cropper.js?v=1.2.0.0";
+import Cropper from "./vendors/cropper2.js?v=1.2.0.0";
 
 import { getRequiredElement } from "../Blazorise/utilities.js?v=1.2.0.0";
 
@@ -18,17 +18,42 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         cropper: null,
     };
 
-    const cropper = new Cropper(element, options);
+    const image = new Image();
 
-    if (options.enabled) {
-        cropper.enable();
-    } else {
-        cropper.disable();
-    }
+    image.src = options.source;
+    image.alt = options.alt;
+
+    const template = (
+        `<cropper-canvas background="${options.showBackground}" disabled="${!options.enabled}">`
+        + '<cropper-image></cropper-image>'
+        + '<cropper-shade hidden></cropper-shade>'
+        + '<cropper-handle action="select" plain></cropper-handle>'
+        + `<cropper-selection initial-coverage="0.5" aspect-ratio="${options.aspectRatio ?? NaN}" initial-aspect-ratio="${options.aspectRatio ?? NaN}" movable="${options.movable}" resizable="${options.resizable}" zoomable="${options.zoomable}" keyboard="${options.keyboard}" outlined="${options.outlined}">`
+        + '<cropper-grid role="grid" bordered covered></cropper-grid>'
+        + '<cropper-crosshair centered></cropper-crosshair>'
+        + '<cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>'
+        + '<cropper-handle action="n-resize"></cropper-handle>'
+        + '<cropper-handle action="e-resize"></cropper-handle>'
+        + '<cropper-handle action="s-resize"></cropper-handle>'
+        + '<cropper-handle action="w-resize"></cropper-handle>'
+        + '<cropper-handle action="ne-resize"></cropper-handle>'
+        + '<cropper-handle action="nw-resize"></cropper-handle>'
+        + '<cropper-handle action="se-resize"></cropper-handle>'
+        + '<cropper-handle action="sw-resize"></cropper-handle>'
+        + '</cropper-selection>'
+        + '</cropper-canvas>'
+    );
+
+    const cropper = new Cropper(image, {
+        container: element,
+        template: template
+    });
 
     instance.cropper = cropper;
 
-    registerEvents(element, dotNetAdapter);
+    const cropperCanvas = cropper.getCropperCanvas();
+
+    registerEvents(cropperCanvas, dotNetAdapter);
 
     _instances[elementId] = instance;
 }
@@ -41,41 +66,31 @@ export function updateOptions(element, elementId, options) {
 
     if (instance.cropper) {
         const cropper = instance.cropper;
+        const cropperCanvas = cropper.getCropperCanvas();
+        const cropperImage = cropper.getCropperImage();
+        const cropperSelection = cropper.getCropperSelection();
 
-        // changing the viewMode is a destructive operation so we need to create new cropper instance
-        if (options.viewMode.changed) {
-            const initOptions = {
-                source: options.source.value,
-                aspectRatio: options.aspectRatio.value || NaN,
-                viewMode: options.viewMode.value || 0,
-                preview: options.preview.value || '',
-                enabled: options.enabled.value
-            };
-
-            cropper.destroy();
-
-            initialize(instance.adapter, element, elementId, initOptions);
+        if (options.source.changed) {
+            cropperImage.src = options.source.value;
         }
-        else {
-            if (options.source.changed) {
-                cropper.replace(options.source.value);
-            }
 
-            if (options.aspectRatio.changed) {
-                cropper.setAspectRatio(options.aspectRatio.value || NaN);
-            }
+        if (options.alt.changed) {
+            cropperImage.alt = options.alt.value;
+        }
 
-            if (options.preview.changed) {
-                cropper.options.preview = options.preview.value || '';
-            }
+        if (options.aspectRatio.changed) {
+            cropperSelection.aspectRatio = options.aspectRatio.value || NaN;
 
-            if (options.enabled.changed) {
-                if (options.enabled.value) {
-                    cropper.enable();
-                } else {
-                    cropper.disable();
-                }
-            }
+            cropperSelection.$move(1);
+            cropperSelection.$move(-1);
+        }
+
+        //if (options.preview.changed) {
+        //    cropper.options.preview = options.preview.value || '';
+        //}
+
+        if (options.enabled.changed) {
+            cropperCanvas.disabled = !options.enabled.value;
         }
     }
 }
@@ -93,50 +108,120 @@ export function destroy(element, elementId) {
     }
 }
 
-export function cropBase64(element, elementId, options) {
+export async function cropBase64(element, elementId, options) {
     const instance = _instances[elementId];
 
     if (instance && instance.cropper) {
-        const canvas = instance.cropper.getCroppedCanvas(options);
-        return canvas.toDataURL();
+        const cropper = instance.cropper;
+        const cropperSelection = cropper.getCropperSelection();
+        const croppedCanvas = cropperSelection.$toCanvas();
+
+        return await croppedCanvas.then((canvas) => {
+            return canvas.toDataURL();
+        });
     }
 
     return "";
 }
 
-export function executeCropperAction(element, elementId, methodName, ...args) {
+export function move(element, elementId, x, y) {
     const instance = _instances[elementId];
 
     if (!instance)
         return;
 
-    const method = instance.cropper[methodName];
-    if (!method) {
-        console.error("Blazorise Image Cropper: Unknown cropperjs method " + methodName);
-        return;
-    }
+    if (instance.cropper) {
+        const cropper = instance.cropper;
+        const cropperImage = cropper.getCropperImage();
 
-    return method.apply(instance.cropper, ...args);
+        if (cropperImage) {
+            cropperImage.$move(x, y);
+        }
+    }
+}
+
+export function moveTo(element, elementId, x, y) {
+    const instance = _instances[elementId];
+
+    if (!instance)
+        return;
+
+    if (instance.cropper) {
+        const cropper = instance.cropper;
+        const cropperImage = cropper.getCropperImage();
+
+        if (cropperImage) {
+            cropperImage.$moveTo(x, y);
+        }
+    }
+}
+
+export function zoom(element, elementId, scale) {
+    const instance = _instances[elementId];
+
+    if (!instance)
+        return;
+
+    if (instance.cropper) {
+        const cropper = instance.cropper;
+        const cropperImage = cropper.getCropperImage();
+
+        if (cropperImage) {
+            cropperImage.$zoom(scale);
+        }
+    }
+}
+
+export function rotate(element, elementId, angle) {
+    const instance = _instances[elementId];
+
+    if (!instance)
+        return;
+
+    if (instance.cropper) {
+        const cropper = instance.cropper;
+        const cropperImage = cropper.getCropperImage();
+
+        if (cropperImage) {
+            cropperImage.$rotate(`${angle}deg`);
+        }
+    }
+}
+
+export function scale(element, elementId, x, y) {
+    const instance = _instances[elementId];
+
+    if (!instance)
+        return;
+
+    if (instance.cropper) {
+        const cropper = instance.cropper;
+        const cropperImage = cropper.getCropperImage();
+
+        if (cropperImage) {
+            cropperImage.$scale(x, y);
+        }
+    }
 }
 
 function registerEvents(element, dotNetAdapter) {
-    element.addEventListener('cropstart', (event) => {
+    element.addEventListener('actionstart', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "CropStart");
     });
 
-    element.addEventListener('cropmove', (event) => {
+    element.addEventListener('actionmove', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "CropMove");
     });
 
-    element.addEventListener('cropend', (event) => {
+    element.addEventListener('actionend', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "CropEnd");
     });
 
-    element.addEventListener('crop', (event) => {
+    element.addEventListener('action', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "Crop");
     });
 
-    element.addEventListener('zoom', (event) => {
+    element.addEventListener('action', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "Zoom");
     });
 }
