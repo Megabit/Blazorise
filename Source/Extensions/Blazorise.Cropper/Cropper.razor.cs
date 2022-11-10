@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise.ImageCropper
+namespace Blazorise.Cropper
 {
     /// <summary>
-    /// Blazorise Image Cropper component based on <see href="https://fengyuanchen.github.io/cropperjs/">CropperJS</see>.
+    /// Blazorise image cropper component based on <see href="https://fengyuanchen.github.io/cropperjs/">CropperJS</see>.
     /// </summary>
-    public partial class ImageCropper : BaseComponent, IAsyncDisposable
+    public partial class Cropper : BaseComponent, IAsyncDisposable
     {
         #region Members
 
-        private DotNetObjectReference<ImageCropperAdapter> adapter;
+        private DotNetObjectReference<CropperAdapter> adapter;
 
         #endregion
 
@@ -29,7 +29,7 @@ namespace Blazorise.ImageCropper
             {
                 var sourceChanged = parameters.TryGetValue<string>( nameof( Source ), out var paramSource ) && paramSource != Source;
                 var altChanged = parameters.TryGetValue<string>( nameof( Alt ), out var paramAlt ) && paramAlt != Alt;
-                var aspectRatioChanged = parameters.TryGetValue<ImageCropperAspectRatio>( nameof( AspectRatio ), out var paramAspectRatio ) && paramAspectRatio != AspectRatio;
+                var aspectRatioChanged = parameters.TryGetValue<CropperAspectRatio>( nameof( AspectRatio ), out var paramAspectRatio ) && paramAspectRatio != AspectRatio;
                 var previewSelectorChanged = parameters.TryGetValue<string>( nameof( PreviewSelector ), out var paramPreviewSelector ) && paramPreviewSelector != PreviewSelector;
                 var enabledChanged = parameters.TryGetValue<bool>( nameof( Enabled ), out var paramEnabled ) && paramEnabled != Enabled;
 
@@ -61,7 +61,7 @@ namespace Blazorise.ImageCropper
             if ( firstRender )
             {
                 JSModule ??= new JSCropperModule( JSRuntime, VersionProvider );
-                adapter ??= DotNetObjectReference.Create( new ImageCropperAdapter( this ) );
+                adapter ??= DotNetObjectReference.Create( new CropperAdapter( this ) );
 
                 await JSModule.Initialize( adapter, ElementRef, ElementId, new
                 {
@@ -113,7 +113,7 @@ namespace Blazorise.ImageCropper
         /// </summary>
         /// <param name="options">the cropping options</param>
         /// <returns>the cropped image</returns>
-        public ValueTask<string> CropAsBase64ImageAsync( ImageCropperCropOptions options )
+        public ValueTask<string> CropAsBase64ImageAsync( CropperCropOptions options )
             => JSModule.CropBase64( ElementRef, ElementId, options );
 
         /// <summary>
@@ -249,12 +249,12 @@ namespace Blazorise.ImageCropper
         /// <summary>
         /// Indicates the aspect ratio of the selection, must a positive number.
         /// </summary>
-        [Parameter] public ImageCropperAspectRatio AspectRatio { get; set; } = ImageCropperAspectRatio.Is1x1;
+        [Parameter] public CropperAspectRatio AspectRatio { get; set; } = CropperAspectRatio.Is1x1;
 
         /// <summary>
         /// Indicates the initial aspect ratio of the selection, must a positive number.
         /// </summary>
-        [Parameter] public ImageCropperAspectRatio InitialAspectRatio { get; set; } = ImageCropperAspectRatio.Is1x1;
+        [Parameter] public CropperAspectRatio InitialAspectRatio { get; set; } = CropperAspectRatio.Is1x1;
 
         /// <summary>
         /// Indicates whether the selection is movable.

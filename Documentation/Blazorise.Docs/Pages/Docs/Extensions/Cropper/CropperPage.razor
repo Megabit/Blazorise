@@ -1,9 +1,9 @@
-﻿@page "/docs/extensions/image-cropper"
+﻿@page "/docs/extensions/cropper"
 
-<Seo Canonical="/docs/extensions/image-cropper" Title="Blazorise ImageCropper component" Description="Learn to use and work with the Blazorise ImageCropper component, which is used to crop images, that works in all major browsers." />
+<Seo Canonical="/docs/extensions/cropper" Title="Blazorise Cropper component" Description="Learn to use and work with the Blazorise Cropper component, which is used to crop images, that works in all major browsers." />
 
-<DocsPageTitle Path="Extensions/ImageCropper">
-    Blazorise ImageCropper component
+<DocsPageTitle Path="Extensions/Cropper">
+    Blazorise Cropper component
 </DocsPageTitle>
 
 <DocsPageLead>
@@ -22,14 +22,14 @@
     <DocsPageSectionHeader Title="NuGet">
         Install extension from NuGet.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ImageCropperNugetInstallExample" />
+    <DocsPageSectionSource Code="CropperNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Imports">
         In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ImportImageCropperExample" />
+    <DocsPageSectionSource Code="ImportCropperExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -41,9 +41,9 @@
         The image cropper is pretty straightforward. You need to define a Source parameter, and a reference.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <BasicImageCropperExample />
+        <BasicCropperExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicImageCropperExample" />
+    <DocsPageSectionSource Code="BasicCropperExample" />
 </DocsPageSection>
 
 <Heading Size="HeadingSize.Is2">
@@ -51,11 +51,8 @@
 </Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="Ratio" Type="ImageCropperAspectRatio" Default="Is1x1">
+    <DocsAttributesItem Name="Ratio" Type="CropperAspectRatio" Default="Is1x1">
         Defines the aspect ratio of the image cropper.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ViewMode" Type="ImageCropperViewMode" Default="Default">
-        Defines the view mode of the cropper.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Source" Type="string" Default="null">
         The original image source.

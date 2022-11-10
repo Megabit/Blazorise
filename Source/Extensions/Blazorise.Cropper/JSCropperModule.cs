@@ -4,7 +4,7 @@ using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace Blazorise.ImageCropper
+namespace Blazorise.Cropper
 {
     internal class JSCropperModule : BaseJSModule, IJSDestroyableModule
     {
@@ -13,7 +13,7 @@ namespace Blazorise.ImageCropper
         {
         }
 
-        public ValueTask Initialize( DotNetObjectReference<ImageCropperAdapter> adapterReference, ElementReference elementRef, string elementId, object options )
+        public ValueTask Initialize( DotNetObjectReference<CropperAdapter> adapterReference, ElementReference elementRef, string elementId, object options )
             => InvokeSafeVoidAsync( "initialize", adapterReference, elementRef, elementId, options );
 
         public ValueTask Destroy( ElementReference elementRef, string elementId )
@@ -22,7 +22,7 @@ namespace Blazorise.ImageCropper
         public ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
             => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
 
-        public ValueTask<string> CropBase64( ElementReference elementRef, string elementId, ImageCropperCropOptions options )
+        public ValueTask<string> CropBase64( ElementReference elementRef, string elementId, CropperCropOptions options )
         {
             var cropOptions = new
             {
@@ -36,9 +36,9 @@ namespace Blazorise.ImageCropper
                 imageSmoothingEnabled = options.ImageSmoothingEnabled,
                 imageSmoothingQuality = options.ImageSmoothingQuality switch
                 {
-                    ImageCropperSmoothingQuality.Low => "low",
-                    ImageCropperSmoothingQuality.Medium => "medium",
-                    ImageCropperSmoothingQuality.High => "high",
+                    CropperSmoothingQuality.Low => "low",
+                    CropperSmoothingQuality.Medium => "medium",
+                    CropperSmoothingQuality.High => "high",
                     _ => "low"
                 }
             };
@@ -62,6 +62,6 @@ namespace Blazorise.ImageCropper
             => InvokeSafeVoidAsync( "scale", elementRef, elementId, x, y );
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise.ImageCropper/blazorise.imagecropper.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise.Cropper/blazorise.cropper.js?v={VersionProvider.Version}";
     }
 }

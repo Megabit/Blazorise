@@ -1,9 +1,9 @@
-﻿namespace Blazorise.ImageCropper;
+﻿namespace Blazorise.Cropper;
 
 /// <summary>
 /// Image Cropper crop options
 /// </summary>
-public class ImageCropperCropOptions
+public class CropperCropOptions
 {
     /// <summary>
     /// The destination width of the output canvas.
@@ -48,5 +48,5 @@ public class ImageCropperCropOptions
     /// <summary>
     /// Set the quality of image smoothing, one of "low" (default), "medium", or "high".
     /// </summary>
-    public ImageCropperSmoothingQuality ImageSmoothingQuality { get; set; } = ImageCropperSmoothingQuality.Low;
+    public CropperSmoothingQuality ImageSmoothingQuality { get; set; } = CropperSmoothingQuality.Low;
 }

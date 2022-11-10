@@ -6,14 +6,14 @@
             Image Cropper
         </FieldLabel>
         <FieldBody>
-            <ImageCropper @ref="cropper" Source="img/gallery/3.jpg" PreviewSelector=".image-cropper-preview" />
+            <Cropper @ref="cropper" Source="img/gallery/3.jpg" PreviewSelector=".cropper-preview" />
         </FieldBody>
     </Column>
     <Column>
         <Row>
             <Column>
                 <FieldBody>
-                    <div class="image-cropper-preview" style="margin: 10px; width: 150px; height: 150px; overflow: hidden" />
+                    <div class="cropper-preview" style="margin: 10px; width: 150px; height: 150px; overflow: hidden" />
                 </FieldBody>
             </Column>
         </Row>
@@ -34,7 +34,7 @@
 
 
 @code {
-    private ImageCropper cropper;
+    private Cropper cropper;
     private string result;
 
     private Task OnCropped()

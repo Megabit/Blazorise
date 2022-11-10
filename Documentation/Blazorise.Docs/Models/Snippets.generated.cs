@@ -4899,6 +4899,58 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         public const string ChartTrendlineResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline""></script>";
 
+        public const string BasicCropperExample = @"<Row>
+    <Column>
+        <FieldLabel>
+            Image Cropper
+        </FieldLabel>
+        <FieldBody>
+            <Cropper @ref=""cropper"" Source=""img/gallery/3.jpg"" PreviewSelector="".cropper-preview"" />
+        </FieldBody>
+    </Column>
+    <Column>
+        <Row>
+            <Column>
+                <FieldBody>
+                    <div class=""cropper-preview"" style=""margin: 10px; width: 150px; height: 150px; overflow: hidden"" />
+                </FieldBody>
+            </Column>
+        </Row>
+        <Row>
+            <Column>
+                <Row Margin=""Margin.Is3.FromTop"">
+                    <Column>
+                        <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"">Get Cropped Image</Button>
+                    </Column>
+                    <Column>
+                        <Image Source=""@result"" Style=""width: 250px; height: 250px;"" />
+                    </Column>
+                </Row>
+            </Column>
+        </Row>
+    </Column>
+</Row>
+
+
+@code {
+    private Cropper cropper;
+    private string result;
+
+    private Task OnCropped()
+    {
+        return Task.CompletedTask;
+    }
+
+    private async Task GetCroppedImage()
+    {
+        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
+    }
+}";
+
+        public const string CropperNugetInstallExample = @"Install-Package Blazorise.Cropper";
+
+        public const string ImportCropperExample = @"@using Blazorise.Cropper";
+
         public const string DataGridAggregatesExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
         <DataGridAggregate Field=""@nameof( Employee.Email )"" Aggregate=""DataGridAggregateType.Count"">
@@ -6171,58 +6223,6 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 	.AddBlazorise()
 	.AddBootstrapProviders()
 +   .AddFontAwesomeIcons();";
-
-        public const string BasicImageCropperExample = @"<Row>
-    <Column>
-        <FieldLabel>
-            Image Cropper
-        </FieldLabel>
-        <FieldBody>
-            <ImageCropper @ref=""cropper"" Source=""img/gallery/3.jpg"" PreviewSelector="".image-cropper-preview"" />
-        </FieldBody>
-    </Column>
-    <Column>
-        <Row>
-            <Column>
-                <FieldBody>
-                    <div class=""image-cropper-preview"" style=""margin: 10px; width: 150px; height: 150px; overflow: hidden"" />
-                </FieldBody>
-            </Column>
-        </Row>
-        <Row>
-            <Column>
-                <Row Margin=""Margin.Is3.FromTop"">
-                    <Column>
-                        <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"">Get Cropped Image</Button>
-                    </Column>
-                    <Column>
-                        <Image Source=""@result"" Style=""width: 250px; height: 250px;"" />
-                    </Column>
-                </Row>
-            </Column>
-        </Row>
-    </Column>
-</Row>
-
-
-@code {
-    private ImageCropper cropper;
-    private string result;
-
-    private Task OnCropped()
-    {
-        return Task.CompletedTask;
-    }
-
-    private async Task GetCroppedImage()
-    {
-        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
-    }
-}";
-
-        public const string ImageCropperNugetInstallExample = @"Install-Package Blazorise.ImageCropper";
-
-        public const string ImportImageCropperExample = @"@using Blazorise.ImageCropper";
 
         public const string BasicListViewExample = @"<ListView TItem=""Country""
           Data=""Countries""

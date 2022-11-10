@@ -1,4 +1,4 @@
-﻿@page "/tests/imagecropper"
+﻿@page "/tests/cropper"
 @using System.Security.Cryptography.X509Certificates
 
 <Row>
@@ -25,11 +25,11 @@
                         </FieldLabel>
                         <FieldBody>
                             <Select @bind-SelectedValue="@ratio">
-                                <SelectItem Value="@ImageCropperAspectRatio.Is16x9.Value">16:9</SelectItem>
-                                <SelectItem Value="@ImageCropperAspectRatio.Is4x3.Value">4:3</SelectItem>
-                                <SelectItem Value="@ImageCropperAspectRatio.Is1x1.Value">1:1</SelectItem>
-                                <SelectItem Value="@ImageCropperAspectRatio.Is2x3.Value">2:3</SelectItem>
-                                <SelectItem Value="@ImageCropperAspectRatio.IsFree.Value"></SelectItem>
+                                <SelectItem Value="@CropperAspectRatio.Is16x9.Value">16:9</SelectItem>
+                                <SelectItem Value="@CropperAspectRatio.Is4x3.Value">4:3</SelectItem>
+                                <SelectItem Value="@CropperAspectRatio.Is1x1.Value">1:1</SelectItem>
+                                <SelectItem Value="@CropperAspectRatio.Is2x3.Value">2:3</SelectItem>
+                                <SelectItem Value="@CropperAspectRatio.IsFree.Value"></SelectItem>
                             </Select>
                         </FieldBody>
                     </Field>
@@ -92,16 +92,16 @@
                             Image Cropper
                         </FieldLabel>
                         <FieldBody>
-                            <ImageCropper @ref="cropper"
-                                          Source="@source"
-                                          AspectRatio="@new(ratio)"
-                                          Enabled="@enabled"
-                                          PreviewSelector=".image-cropper-preview"
-                                          CropStarted="@(()=>{Console.WriteLine("CropStarted"); return Task.CompletedTask; })"
-                                          CropEnded="@(()=>{Console.WriteLine("CropEnded"); return Task.CompletedTask; })"
-                                          CropMoved="@(()=>{Console.WriteLine("CropMoved"); return Task.CompletedTask; })"
-                                          Cropped="@(()=>{Console.WriteLine("Cropped"); return Task.CompletedTask; })"
-                                          Zoomed="@(()=>{Console.WriteLine("Zoomed"); return Task.CompletedTask; })" />
+                            <Cropper @ref="cropper"
+                                     Source="@source"
+                                     AspectRatio="@new(ratio)"
+                                     Enabled="@enabled"
+                                     PreviewSelector=".image-cropper-preview"
+                                     CropStarted="@(()=>{Console.WriteLine("CropStarted"); return Task.CompletedTask; })"
+                                     CropEnded="@(()=>{Console.WriteLine("CropEnded"); return Task.CompletedTask; })"
+                                     CropMoved="@(()=>{Console.WriteLine("CropMoved"); return Task.CompletedTask; })"
+                                     Cropped="@(()=>{Console.WriteLine("Cropped"); return Task.CompletedTask; })"
+                                     Zoomed="@(()=>{Console.WriteLine("Zoomed"); return Task.CompletedTask; })" />
                         </FieldBody>
                     </Column>
                     <Column>
@@ -129,7 +129,7 @@
 </Row>
 
 @code {
-    private ImageCropper cropper;
+    private Cropper cropper;
     private string source = "_content/Blazorise.Demo/img/gallery/3.jpg";
     private string result;
     private double? ratio = 1.0;

@@ -1,9 +1,9 @@
-﻿namespace Blazorise.ImageCropper;
+﻿namespace Blazorise.Cropper;
 
 /// <summary>
 /// Cropped Image Smoothing Quality
 /// </summary>
-public enum ImageCropperSmoothingQuality
+public enum CropperSmoothingQuality
 {
     /// <summary>
     /// Low quality.
