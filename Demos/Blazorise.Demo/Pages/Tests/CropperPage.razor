@@ -94,7 +94,7 @@
                         <FieldBody>
                             <Cropper @ref="cropper"
                                      Source="@source"
-                                     AspectRatio="@new(ratio)"
+                                     SelectionOptions="@(new CropperSelectionOptions { AspectRatio = new(ratio) })"
                                      Enabled="@enabled"
                                      PreviewSelector=".image-cropper-preview"
                                      CropStarted="@(()=>{Console.WriteLine("CropStarted"); return Task.CompletedTask; })"

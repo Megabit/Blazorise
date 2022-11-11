@@ -29,13 +29,17 @@ namespace Blazorise.Cropper
             {
                 var sourceChanged = parameters.TryGetValue<string>( nameof( Source ), out var paramSource ) && paramSource != Source;
                 var altChanged = parameters.TryGetValue<string>( nameof( Alt ), out var paramAlt ) && paramAlt != Alt;
-                var aspectRatioChanged = parameters.TryGetValue<CropperAspectRatio>( nameof( AspectRatio ), out var paramAspectRatio ) && paramAspectRatio != AspectRatio;
+                var imageOptionsChanged = parameters.TryGetValue<CropperImageOptions>( nameof( ImageOptions ), out var paramImageOptions ) && paramImageOptions != ImageOptions;
+                var selectionOptionsChanged = parameters.TryGetValue<CropperSelectionOptions>( nameof( SelectionOptions ), out var paramSelectionOptions ) && paramSelectionOptions != SelectionOptions;
+                var gridOptionsChanged = parameters.TryGetValue<CropperGridOptions>( nameof( GridOptions ), out var paramGridOptions ) && paramGridOptions != GridOptions;
                 var previewSelectorChanged = parameters.TryGetValue<string>( nameof( PreviewSelector ), out var paramPreviewSelector ) && paramPreviewSelector != PreviewSelector;
                 var enabledChanged = parameters.TryGetValue<bool>( nameof( Enabled ), out var paramEnabled ) && paramEnabled != Enabled;
 
                 if ( sourceChanged
                     || altChanged
-                    || aspectRatioChanged
+                    || imageOptionsChanged
+                    || selectionOptionsChanged
+                    || gridOptionsChanged
                     || previewSelectorChanged
                     || enabledChanged )
                 {
@@ -43,7 +47,43 @@ namespace Blazorise.Cropper
                     {
                         Source = new { Changed = sourceChanged, Value = paramSource },
                         Alt = new { Changed = altChanged, Value = paramAlt },
-                        AspectRatio = new { Changed = aspectRatioChanged, Value = paramAspectRatio.Value },
+                        Image = new
+                        {
+                            Changed = imageOptionsChanged,
+                            Value = new
+                            {
+                                Rotatable = paramImageOptions?.Rotatable ?? true,
+                                Scalable = paramImageOptions?.Scalable ?? true,
+                                Skewable = paramImageOptions?.Skewable ?? true,
+                                Translatable = paramImageOptions?.Translatable ?? true,
+                            }
+                        },
+                        Selection = new
+                        {
+                            Changed = selectionOptionsChanged,
+                            Value = new
+                            {
+                                AspectRatio = paramSelectionOptions?.AspectRatio.Value,
+                                InitialAspectRatio = paramSelectionOptions?.InitialAspectRatio.Value,
+                                InitialCoverage = paramSelectionOptions.InitialCoverage,
+                                Movable = paramSelectionOptions?.Movable ?? false,
+                                Resizable = paramSelectionOptions?.Resizable ?? false,
+                                Zoomable = paramSelectionOptions?.Zoomable ?? false,
+                                Keyboard = paramSelectionOptions?.Keyboard ?? false,
+                                Outlined = paramSelectionOptions?.Outlined ?? false
+                            }
+                        },
+                        Grid = new
+                        {
+                            Changed = gridOptionsChanged,
+                            Value = new
+                            {
+                                Rows = paramGridOptions?.Rows ?? 3,
+                                Columns = paramGridOptions?.Columns ?? 3,
+                                Bordered = paramGridOptions?.Bordered ?? false,
+                                Covered = paramGridOptions?.Covered ?? false,
+                            }
+                        },
                         Preview = new { Changed = previewSelectorChanged, Value = paramPreviewSelector },
                         Enabled = new { Changed = enabledChanged, Value = paramEnabled },
                     } ) );
@@ -67,15 +107,34 @@ namespace Blazorise.Cropper
                 {
                     Source,
                     Alt,
-                    AspectRatio = AspectRatio.Value,
                     Preview = PreviewSelector,
                     Enabled,
                     ShowBackground,
-                    Movable,
-                    Resizable,
-                    Zoomable,
-                    Keyboard,
-                    Outlined
+                    Image = new
+                    {
+                        Rotatable = ImageOptions?.Rotatable ?? true,
+                        Scalable = ImageOptions?.Scalable ?? true,
+                        Skewable = ImageOptions?.Skewable ?? true,
+                        Translatable = ImageOptions?.Translatable ?? true,
+                    },
+                    Selection = new
+                    {
+                        AspectRatio = SelectionOptions?.AspectRatio.Value,
+                        InitialAspectRatio = SelectionOptions?.InitialAspectRatio.Value,
+                        InitialCoverage = SelectionOptions?.InitialCoverage,
+                        Movable = SelectionOptions?.Movable ?? false,
+                        Resizable = SelectionOptions?.Resizable ?? false,
+                        Zoomable = SelectionOptions?.Zoomable ?? false,
+                        Keyboard = SelectionOptions?.Keyboard ?? false,
+                        Outlined = SelectionOptions?.Outlined ?? false
+                    },
+                    Grid = new
+                    {
+                        Rows = GridOptions?.Rows ?? 3,
+                        Columns = GridOptions?.Columns ?? 3,
+                        Bordered = GridOptions?.Bordered ?? false,
+                        Covered = GridOptions?.Covered ?? false,
+                    }
                 } );
             }
         }
@@ -196,6 +255,9 @@ namespace Blazorise.Cropper
 
         [Inject] private IVersionProvider VersionProvider { get; set; }
 
+        /// <inheritdoc/>
+        protected override bool ShouldAutoGenerateId => true;
+
         /// <summary>
         /// The original image source.
         /// </summary>
@@ -247,39 +309,19 @@ namespace Blazorise.Cropper
         [Parameter] public bool ShowBackground { get; set; } = true;
 
         /// <summary>
-        /// Indicates the aspect ratio of the selection, must a positive number.
+        /// Provides properties for manipulating the layout and presentation of image elements.
         /// </summary>
-        [Parameter] public CropperAspectRatio AspectRatio { get; set; } = CropperAspectRatio.Is1x1;
+        [Parameter] public CropperImageOptions ImageOptions { get; set; } = new CropperImageOptions();
 
         /// <summary>
-        /// Indicates the initial aspect ratio of the selection, must a positive number.
+        /// Provides properties for manipulating the layout and presentation.
         /// </summary>
-        [Parameter] public CropperAspectRatio InitialAspectRatio { get; set; } = CropperAspectRatio.Is1x1;
+        [Parameter] public CropperSelectionOptions SelectionOptions { get; set; } = new CropperSelectionOptions();
 
         /// <summary>
-        /// Indicates whether the selection is movable.
+        /// Provides properties for manipulating the layout and presentation of selection grid elements.
         /// </summary>
-        [Parameter] public bool Movable { get; set; } = true;
-
-        /// <summary>
-        /// Indicates whether the selection is resizable.
-        /// </summary>
-        [Parameter] public bool Resizable { get; set; } = true;
-
-        /// <summary>
-        /// Indicates whether the selection is zoomable.
-        /// </summary>
-        [Parameter] public bool Zoomable { get; set; } = true;
-
-        /// <summary>
-        /// Indicates whether keyboard control is supported.
-        /// </summary>
-        [Parameter] public bool Keyboard { get; set; } = true;
-
-        /// <summary>
-        /// Indicates whether show the outlined or not.
-        /// </summary>
-        [Parameter] public bool Outlined { get; set; } = true;
+        [Parameter] public CropperGridOptions GridOptions { get; set; } = new CropperGridOptions();
 
         #endregion
     }
