@@ -24,24 +24,24 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     image.alt = options.alt;
 
     const template = (
-        `<cropper-canvas background="${options.showBackground}" disabled="${!options.enabled}">`
-        + `<cropper-image rotatable="${options.image.rotatable}" scalable="${options.image.scalable}" skewable="${options.image.skewable}" translatable="${options.image.translatable}"></cropper-image>`
-        + '<cropper-shade hidden></cropper-shade>'
-        + '<cropper-handle action="select" plain></cropper-handle>'
-        + `<cropper-selection initial-coverage="${options.selection.initialCoverage ?? NaN}" aspect-ratio="${options.selection.aspectRatio ?? NaN}" initial-aspect-ratio="${options.selection.initialAspectRatio ?? NaN}" movable="${options.selection.movable}" resizable="${options.selection.resizable}" zoomable="${options.selection.zoomable}" keyboard="${options.selection.keyboard}" outlined="${options.selection.outlined}">`
-        + `<cropper-grid role="grid" rows="${options.grid.rows}" columns="${options.grid.columns}" bordered="${options.grid.bordered}" covered="${options.grid.covered}"></cropper-grid>`
-        + '<cropper-crosshair centered></cropper-crosshair>'
-        + '<cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>'
-        + '<cropper-handle action="n-resize"></cropper-handle>'
-        + '<cropper-handle action="e-resize"></cropper-handle>'
-        + '<cropper-handle action="s-resize"></cropper-handle>'
-        + '<cropper-handle action="w-resize"></cropper-handle>'
-        + '<cropper-handle action="ne-resize"></cropper-handle>'
-        + '<cropper-handle action="nw-resize"></cropper-handle>'
-        + '<cropper-handle action="se-resize"></cropper-handle>'
-        + '<cropper-handle action="sw-resize"></cropper-handle>'
-        + '</cropper-selection>'
-        + '</cropper-canvas>'
+        `<cropper-canvas background="${options.showBackground}" disabled="${!options.enabled}">
+          <cropper-image rotatable="${options.image.rotatable}" scalable="${options.image.scalable}" skewable="${options.image.skewable}" translatable="${options.image.translatable}"></cropper-image>
+          <cropper-shade hidden></cropper-shade>
+          <cropper-handle action="select" plain></cropper-handle>
+          <cropper-selection id="my-test-selection" initial-coverage="${options.selection.initialCoverage ?? NaN}" aspect-ratio="${options.selection.aspectRatio ?? NaN}" initial-aspect-ratio="${options.selection.initialAspectRatio ?? NaN}" movable="${options.selection.movable}" resizable="${options.selection.resizable}" zoomable="${options.selection.zoomable}" keyboard="${options.selection.keyboard}" outlined="${options.selection.outlined}">
+          <cropper-grid role="grid" rows="${options.grid.rows}" columns="${options.grid.columns}" bordered="${options.grid.bordered}" covered="${options.grid.covered}"></cropper-grid>
+          <cropper-crosshair centered></cropper-crosshair>
+          <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
+          <cropper-handle action="n-resize"></cropper-handle>
+          <cropper-handle action="e-resize"></cropper-handle>
+          <cropper-handle action="s-resize"></cropper-handle>
+          <cropper-handle action="w-resize"></cropper-handle>
+          <cropper-handle action="ne-resize"></cropper-handle>
+          <cropper-handle action="nw-resize"></cropper-handle>
+          <cropper-handle action="se-resize"></cropper-handle>
+          <cropper-handle action="sw-resize"></cropper-handle>
+          </cropper-selection>
+        </cropper-canvas>`
     );
 
     const cropper = new Cropper(image, {
