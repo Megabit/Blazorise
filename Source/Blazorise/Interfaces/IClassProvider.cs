@@ -667,6 +667,8 @@ namespace Blazorise
 
         string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
 
+        string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled );
+
         string BarDropdownItem( BarMode mode );
 
         string BarDropdownDivider( BarMode mode );

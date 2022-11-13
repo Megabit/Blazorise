@@ -1,6 +1,7 @@
 ﻿<ListView TItem="Country"
             Data="Countries"
             TextField="(item) => item.Name"
+            ValueField="(item) => item.Iso"
             Mode="ListGroupMode.Selectable"
             MaxHeight="300px"
             @bind-SelectedItem="@selectedListViewItem">

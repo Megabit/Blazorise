@@ -40,6 +40,7 @@
     "November": "november",
     "December": "december",
     "AM": "AM",
-    "PM": "PM"
+    "PM": "PM",
+    "RangeSeparator": " t/m "
   }
 }

@@ -128,7 +128,16 @@ namespace Blazorise.Components
                 if ( !string.IsNullOrEmpty( SelectedText ) )
                 {
                     var item = GetItemByText( SelectedText );
-                    if ( item != null )
+                    if ( item is null )
+                    {
+                        if ( !FreeTyping )
+                        {
+                            await ResetSelectedText();
+                        }
+                        selectedValue = new( default );
+                        await SelectedValueChanged.InvokeAsync( selectedValue );
+                    }
+                    else
                     {
                         NullableT<TValue> value = new( GetItemValue( item ) );
                         if ( !SelectedValue.IsEqual( value ) )
@@ -137,18 +146,14 @@ namespace Blazorise.Components
                             await SelectedValueChanged.InvokeAsync( value );
                         }
                     }
-                    else if ( !FreeTyping )
-                    {
-                        selectedTextParam = null;
-                        await SelectedTextChanged.InvokeAsync( selectedTextParam );
-                    }
                 }
 
-                if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
+                if ( !IsMultiple && CurrentSearch != SelectedText )
                 {
                     currentSearch = SelectedText;
 
                     await Task.WhenAll(
+                        ResetSelectedValue(),
                         CurrentSearchChanged.InvokeAsync( currentSearch ),
                         SearchChanged.InvokeAsync( currentSearch )
                     );
@@ -159,7 +164,11 @@ namespace Blazorise.Components
             if ( selectedValueParamChanged )
             {
                 var item = GetItemByValue( SelectedValue );
-                if ( item != null )
+                if ( item is null )
+                {
+                    await ResetSelectedValue();
+                }
+                else
                 {
                     string text = GetItemText( item );
                     if ( text != SelectedText )
@@ -177,11 +186,6 @@ namespace Blazorise.Components
                             );
                         }
                     }
-                }
-                else
-                {
-                    selectedValue = new( default );
-                    await SelectedValueChanged.InvokeAsync( selectedValue );
                 }
             }
 
@@ -553,14 +557,20 @@ namespace Blazorise.Components
 
         private async Task ResetSelectedText()
         {
+            var notifyChange = SelectedText is not null;
+
             selectedText = null;
-            await SelectedTextChanged.InvokeAsync( selectedText );
+            if ( notifyChange )
+                await SelectedTextChanged.InvokeAsync( selectedText );
         }
 
         private async Task ResetSelectedValue()
         {
+            var notifyChange = SelectedValue is not null;
+
             selectedValue = new( default );
-            await SelectedValueChanged.InvokeAsync( default );
+            if ( notifyChange )
+                await SelectedValueChanged.InvokeAsync( default );
         }
 
         private async Task ResetCurrentSearch()

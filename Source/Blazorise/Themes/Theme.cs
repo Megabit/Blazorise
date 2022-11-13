@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Blazorise.Extensions;
+using Blazorise.Generator.Features;
 #endregion
 
 namespace Blazorise
@@ -9,7 +11,8 @@ namespace Blazorise
     /// <summary>
     /// Holds the options for the theme.
     /// </summary>
-    public record Theme
+    [GenerateEquality]
+    public partial record Theme
     {
         /// <summary>
         /// Globaly enable or disable the theme.
@@ -19,6 +22,7 @@ namespace Blazorise
         /// <summary>
         /// Event raised after the theme options has changed.
         /// </summary>
+        [GenerateIgnoreEquality]
         public event EventHandler<EventArgs> Changed;
 
         /// <summary>

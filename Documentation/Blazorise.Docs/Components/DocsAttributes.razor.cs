@@ -14,10 +14,10 @@ namespace Blazorise.Docs.Components
         protected override Task OnAfterRenderAsync( bool firstRender )
         {
             base.OnAfterRenderAsync( firstRender );
-            if ( Ordered )
-            { 
+            if ( Ordered && firstRender )
+            {
                 DocsAttributesItems = DocsAttributesItems.OrderBy( x => x.Name ).ToList();
-                StateHasChanged();
+                return InvokeAsync( StateHasChanged );
             }
             return Task.CompletedTask;
         }
@@ -26,7 +26,7 @@ namespace Blazorise.Docs.Components
             => DocsAttributesItems.Add( item );
 
         internal bool RemoveItem( DocsAttributesItem item )
-            => DocsAttributesItems.Remove( item ); 
+            => DocsAttributesItems.Remove( item );
 
         #endregion
 

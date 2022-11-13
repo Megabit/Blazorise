@@ -20,8 +20,8 @@ namespace Blazorise
         private readonly long maxFileSize;
 
         private readonly CancellationTokenSource fillBufferCts;
-        private CancellationTokenSource? copyFileDataCts;
-        private IJSStreamReference? jsStreamReference;
+        private CancellationTokenSource copyFileDataCts;
+        private IJSStreamReference jsStreamReference;
         private readonly Task<Stream> OpenReadStreamTask;
 
         #endregion
@@ -82,15 +82,17 @@ namespace Blazorise
                     var length = (int)Math.Min( maxMessageSize, FileEntry.Size - position );
 
                     var buffer = new Memory<byte>( new byte[length], 0, length );
-                    await CopyFileDataIntoBuffer( buffer, cancellationToken );
-                    await stream.WriteAsync( buffer, cancellationToken );
+                    var bytesRead = await CopyFileDataIntoBuffer( buffer, cancellationToken );
+
+                    var bufferToWrite = buffer.Slice( 0, bytesRead );
+                    await stream.WriteAsync( bufferToWrite, cancellationToken );
 
                     cancellationToken.ThrowIfCancellationRequested();
 
-                    position += length;
+                    position += bytesRead;
                     await Task.WhenAll(
-                        FileEntryNotifier.UpdateFileWrittenAsync( FileEntry, position, buffer.ToArray() ),
-                        FileEntryNotifier.UpdateFileProgressAsync( FileEntry, buffer.Length ) );
+                        FileEntryNotifier.UpdateFileWrittenAsync( FileEntry, position, bufferToWrite.ToArray() ),
+                        FileEntryNotifier.UpdateFileProgressAsync( FileEntry, bytesRead ) );
 
                     await RefreshUI();
                 }

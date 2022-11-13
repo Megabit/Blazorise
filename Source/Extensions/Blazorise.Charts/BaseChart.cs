@@ -31,6 +31,8 @@ namespace Blazorise.Charts
                 await Initialize();
 
                 initialized = true;
+
+                NotifyInitialized();
             }
             else if ( initialized )
             {
@@ -289,7 +291,8 @@ namespace Blazorise.Charts
                 Options,
                 DataJsonString,
                 OptionsJsonString,
-                OptionsObject );
+                OptionsObject,
+                PluginNames );
         }
 
         /// <summary>

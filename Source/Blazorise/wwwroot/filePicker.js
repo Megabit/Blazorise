@@ -1,4 +1,4 @@
-﻿import { getRequiredElement } from "./utilities.js?v=1.1.1.0";
+﻿import { getRequiredElement } from "./utilities.js?v=1.1.3.0";
 
 const _instances = [];
 export function initialize(element, elementId) {
@@ -40,7 +40,7 @@ function onDrop(e, element) {
     console.log(element);
     let fileInput = getFileInput(element);
 
-    fileInput.files = getOnlyTrueFiles(e.dataTransfer.files);
+    fileInput.files = e.dataTransfer.files;
     const event = new Event('change', { bubbles: true });
     fileInput.dispatchEvent(event);
 }
@@ -48,19 +48,9 @@ function onDrop(e, element) {
 function onPaste(e, element) {
     let fileInput = getFileInput(element);
 
-    fileInput.files = getOnlyTrueFiles(e.clipboardData.files);
+    fileInput.files = e.clipboardData.files;
     const event = new Event('change', { bubbles: true });
     fileInput.dispatchEvent(event);
-}
-
-function getOnlyTrueFiles(files) {
-    const dt = new DataTransfer();
-    for (let i = 0; i < files.length; i++) {
-        let current = files[i];
-        if (current.type != "")
-            dt.items.add(current);
-    }
-    return dt.files;
 }
 
 function setFileInput(element) {

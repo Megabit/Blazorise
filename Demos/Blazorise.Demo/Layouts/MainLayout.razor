@@ -33,7 +33,7 @@ else if ( layoutType == "fixed-header-footer-only" )
                      ThemeColorChanged="@OnThemeColorChanged"
                      @bind-LayoutType="@layoutType" />
         </LayoutHeader>
-        <LayoutContent>
+        <LayoutContent Padding="Padding.Is4.OnX">
             @Body
         </LayoutContent>
         <LayoutFooter Fixed>

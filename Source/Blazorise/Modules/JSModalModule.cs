@@ -28,12 +28,8 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask OpenModal( ElementReference elementRef, bool scrollToTop )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "open", elementRef, scrollToTop );
-        }
+        public virtual ValueTask OpenModal( ElementReference elementRef, bool scrollToTop )
+            => InvokeSafeVoidAsync( "open", elementRef, scrollToTop );
 
         /// <inheritdoc/>
         public virtual async ValueTask CloseModal( ElementReference elementRef )
@@ -41,9 +37,7 @@ namespace Blazorise.Modules
             if ( IsUnsafe )
                 return;
 
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "close", elementRef );
+            await InvokeSafeVoidAsync( "close", elementRef );
         }
 
         #endregion

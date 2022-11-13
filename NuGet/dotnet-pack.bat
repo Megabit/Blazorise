@@ -28,3 +28,5 @@ dotnet pack ../Source/Extensions/Blazorise.FluentValidation/Blazorise.FluentVali
 dotnet pack ../Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.FontAwesome.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Icons.Material/Blazorise.Icons.Material.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Icons.Bootstrap/Blazorise.Icons.Bootstrap.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+
+dotnet pack ../Source/SourceGenerators/Blazorise.Generator.Features/Blazorise.Generator.Features.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg

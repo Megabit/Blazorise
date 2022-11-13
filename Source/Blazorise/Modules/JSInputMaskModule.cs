@@ -28,28 +28,16 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask Initialize( DotNetObjectReference<InputMask> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, options );
-        }
+        public virtual ValueTask Initialize( DotNetObjectReference<InputMask> dotNetObjectRef, ElementReference elementRef, string elementId, object options )
+            => InvokeSafeVoidAsync( "initialize", dotNetObjectRef, elementRef, elementId, options );
 
         /// <inheritdoc/>
-        public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "destroy", elementRef, elementId );
-        }
+        public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
+            => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
 
         /// <inheritdoc/>
-        public virtual async ValueTask ExtendAliases( ElementReference elementRef, string elementId, object aliasOptions )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "extendAliases", elementRef, elementId, aliasOptions );
-        }
+        public virtual ValueTask ExtendAliases( ElementReference elementRef, string elementId, object aliasOptions )
+            => InvokeSafeVoidAsync( "extendAliases", elementRef, elementId, aliasOptions );
 
         #endregion
 

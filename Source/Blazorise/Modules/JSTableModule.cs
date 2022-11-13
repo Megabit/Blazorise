@@ -28,52 +28,28 @@ namespace Blazorise.Modules
         #region Methods
 
         /// <inheritdoc/>
-        public virtual async ValueTask InitializeFixedHeader( ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "initializeTableFixedHeader", elementRef, elementId );
-        }
+        public virtual ValueTask InitializeFixedHeader( ElementReference elementRef, string elementId )
+            => InvokeSafeVoidAsync( "initializeTableFixedHeader", elementRef, elementId );
 
         /// <inheritdoc/>
-        public virtual async ValueTask DestroyFixedHeader( ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "destroyTableFixedHeader", elementRef, elementId );
-        }
+        public virtual ValueTask DestroyFixedHeader( ElementReference elementRef, string elementId )
+            => InvokeSafeVoidAsync( "destroyTableFixedHeader", elementRef, elementId );
 
         /// <inheritdoc/>
-        public virtual async ValueTask ScrollTableToPixels( ElementReference elementRef, string elementId, int pixels )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "fixedHeaderScrollTableToPixels", elementRef, elementId, pixels );
-        }
+        public virtual ValueTask ScrollTableToPixels( ElementReference elementRef, string elementId, int pixels )
+            => InvokeSafeVoidAsync( "fixedHeaderScrollTableToPixels", elementRef, elementId, pixels );
 
         /// <inheritdoc/>
-        public virtual async ValueTask ScrollTableToRow( ElementReference elementRef, string elementId, int row )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "fixedHeaderScrollTableToRow", elementRef, elementId, row );
-        }
+        public virtual ValueTask ScrollTableToRow( ElementReference elementRef, string elementId, int row )
+            => InvokeSafeVoidAsync( "fixedHeaderScrollTableToRow", elementRef, elementId, row );
 
         /// <inheritdoc/>
-        public virtual async ValueTask InitializeResizable( ElementReference elementRef, string elementId, TableResizeMode resizeMode )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "initializeResizable", elementRef, elementId, resizeMode );
-        }
+        public virtual ValueTask InitializeResizable( ElementReference elementRef, string elementId, TableResizeMode resizeMode )
+            => InvokeSafeVoidAsync( "initializeResizable", elementRef, elementId, resizeMode );
 
         /// <inheritdoc/>
-        public virtual async ValueTask DestroyResizable( ElementReference elementRef, string elementId )
-        {
-            var moduleInstance = await Module;
-
-            await moduleInstance.InvokeVoidAsync( "destroyResizable", elementRef, elementId );
-        }
+        public virtual ValueTask DestroyResizable( ElementReference elementRef, string elementId )
+            => InvokeSafeVoidAsync( "destroyResizable", elementRef, elementId );
 
         #endregion
 

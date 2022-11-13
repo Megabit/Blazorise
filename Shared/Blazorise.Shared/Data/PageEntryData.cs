@@ -85,6 +85,7 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/extensions/animate", "Animate", "" ),
                 new PageEntry( "docs/extensions/autocomplete", "Autocomplete", "The Autocomplete component offers simple and flexible type-ahead functionality." ),
                 new PageEntry( "docs/extensions/chart", "Chart", "Simple yet flexible charting for designers & developers." ),
+                new PageEntry( "docs/extensions/chart-datalabels", "Chart DataLabels", "Display labels on data for any type of charts." ),
                 new PageEntry( "docs/extensions/chart-live", "Chart Streaming", "Chart plugin for live streaming data." ),
                 new PageEntry( "docs/extensions/chart-trendline", "Chart Trendline", "This plugin draws an linear trendline in your Chart." ),
                 new PageEntry( "docs/extensions/datagrid/aggregates", "DataGrid Aggregates" ),
@@ -139,10 +140,10 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/helpers/utilities/position", "Position" ),
                 new PageEntry( "docs/helpers/utilities", "Utilities" ),
 
-                new PageEntry( "docs/services/message", "Message", "Message service is used for quick user confirmation actions." ),
-                new PageEntry( "docs/services/modal-provider", "Modals", "Programatically instantiate modals with custom content." ),
-                new PageEntry( "docs/services/notification", "Notification", "Notification service is used to provide feedback to the user." ),
-                new PageEntry( "docs/services/page-progress", "Page Progress", "Page Progress service is used to provide a page loading indicator to the user." ),
+                new PageEntry( "docs/services/message-provider", "Message Provider", "Message service is used for quick user confirmation actions." ),
+                new PageEntry( "docs/services/modal-provider", "Modal Provider", "Programatically instantiate modals with custom content." ),
+                new PageEntry( "docs/services/notification-provider", "Notification Provider", "Notification service is used to provide feedback to the user." ),
+                new PageEntry( "docs/services/page-progress-provider", "Page Progress Provider", "Page Progress service is used to provide a page loading indicator to the user." ),
                 new PageEntry( "docs/faq", "FAQ" ),
                 new PageEntry( "https://commercial.blazorise.com/license", "License" ),
                 }.ToArray() );
