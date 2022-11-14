@@ -82,10 +82,11 @@ namespace Blazorise.QRCode
                 {
                     var imageType = GetImageType( IconImageType );
 
-                    return $"data:image/png;base64, {code.GetGraphic( PixelsPerModule, darkColor, lightColor, image, IconSizePercent, IconBorderWidth, DrawQuietZones, imageType )}";
+                    return $"data:image/{GetImageBase64Name( IconImageType )};base64, {code.GetGraphic( PixelsPerModule, darkColor, lightColor, image, IconSizePercent, IconBorderWidth, DrawQuietZones, imageType )}";
                 }
             }
 
+            // default is always png
             return $"data:image/png;base64, {code.GetGraphic( PixelsPerModule, darkColor, lightColor, DrawQuietZones )}";
         }
 
@@ -113,6 +114,16 @@ namespace Blazorise.QRCode
                 IconImageType.Gif => ImageType.Gif,
                 IconImageType.Jpeg => ImageType.Jpeg,
                 _ => ImageType.Png,
+            };
+        }
+
+        private static string GetImageBase64Name( IconImageType iconImageType )
+        {
+            return iconImageType switch
+            {
+                IconImageType.Gif => "gif",
+                IconImageType.Jpeg => "jpeg",
+                _ => "png",
             };
         }
 
