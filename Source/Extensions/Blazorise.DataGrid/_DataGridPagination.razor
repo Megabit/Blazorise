@@ -177,7 +177,7 @@
                     </PaginationItem>
                 }
                 <PaginationItem Display="Blazorise.Display.InlineBlock.None.OnTablet">
-                    <Select @bind-SelectedValue="@PaginationContext.CurrentPage">
+                    <Select @bind-SelectedValue="@PaginationContext.CurrentPage" Size="GetSize()">
                         @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
                         {
                             var pageNumber = i;
