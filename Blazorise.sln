@@ -113,13 +113,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceGenerators", "SourceG
 		Source\SourceGenerators\README.md = Source\SourceGenerators\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Generator", "Source\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj", "{1E8A8C1F-4161-48CA-97EB-D8CA917D1DD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Generator", "Source\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj", "{1E8A8C1F-4161-48CA-97EB-D8CA917D1DD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Generator.Features", "Source\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj", "{6C3DD66E-C0F0-471F-A00E-F84BA6F30ACB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Generator.Features", "Source\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj", "{6C3DD66E-C0F0-471F-A00E-F84BA6F30ACB}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts.DataLabels", "Source\Extensions\Blazorise.Charts.DataLabels\Blazorise.Charts.DataLabels.csproj", "{35CA950A-1A6C-41D8-A29A-A1B8AC881674}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.LottieAnimation", "Source\Extensions\Blazorise.LottieAnimation\Blazorise.LottieAnimation.csproj", "{5859A0CD-8664-4600-B0D7-1E0813971353}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.MAUI", "Demos\Blazorise.Demo.MAUI\Blazorise.Demo.MAUI.csproj", "{F9515890-3956-47A7-A8BB-B27333F4FC57}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -315,6 +317,10 @@ Global
 		{5859A0CD-8664-4600-B0D7-1E0813971353}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5859A0CD-8664-4600-B0D7-1E0813971353}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5859A0CD-8664-4600-B0D7-1E0813971353}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -369,6 +375,7 @@ Global
 		{6C3DD66E-C0F0-471F-A00E-F84BA6F30ACB} = {0538DB67-B4F3-4D00-B969-D3874A52E405}
 		{35CA950A-1A6C-41D8-A29A-A1B8AC881674} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{5859A0CD-8664-4600-B0D7-1E0813971353} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{F9515890-3956-47A7-A8BB-B27333F4FC57} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
