@@ -81,8 +81,9 @@ namespace Blazorise.QRCode
                 using ( var image = GetImage( Icon ) )
                 {
                     var imageType = GetImageType( IconImageType );
+                    var imageTypeExtension = GetImageTypeExtenion( IconImageType );
 
-                    return $"data:image/{GetImageBase64Name( IconImageType )};base64, {code.GetGraphic( PixelsPerModule, darkColor, lightColor, image, IconSizePercent, IconBorderWidth, DrawQuietZones, imageType )}";
+                    return $"data:image/{imageTypeExtension};base64, {code.GetGraphic( PixelsPerModule, darkColor, lightColor, image, IconSizePercent, IconBorderWidth, DrawQuietZones, imageType )}";
                 }
             }
 
@@ -117,7 +118,7 @@ namespace Blazorise.QRCode
             };
         }
 
-        private static string GetImageBase64Name( IconImageType iconImageType )
+        private static string GetImageTypeExtenion( IconImageType iconImageType )
         {
             return iconImageType switch
             {
