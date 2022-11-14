@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -57,36 +58,40 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
             {
                 ExecuteAfterRender( async () =>
                 {
+                    var tasks = new List<Task>();
+
                     if ( currentFrameDelegateChanged )
                     {
-                        await SynchronizeSendCurrentFrame();
+                        tasks.Add( SynchronizeSendCurrentFrame() );
                     }
 
                     if ( speedChanged )
                     {
-                        await SynchronizeSpeed();
+                        tasks.Add( SynchronizeSpeed() );
                     }
 
                     if ( directionChanged )
                     {
-                        await SynchronizeDirection();
+                        tasks.Add( SynchronizeDirection() );
                     }
 
                     if ( loopChanged )
                     {
-                        await SynchronizeLoop();
+                        tasks.Add( SynchronizeLoop() );
                     }
 
                     if ( frameSyncRequired )
                     {
-                        await SynchronizeCurrentFrame();
+                        tasks.Add( SynchronizeCurrentFrame() );
                     }
                     else if ( pausedChanged )
                     {
                         // Synchronizing the current frame will already synchronize the pause setting, so we only need
                         // to do it manually if we're not synchronizing the frame
-                        await SynchronizePaused();
+                        tasks.Add( SynchronizePaused() );
                     }
+
+                    await Task.WhenAll( tasks );
                 } );
             }
         }
