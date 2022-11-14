@@ -1,0 +1,130 @@
+﻿@page "/tests/lottie-animation"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Lottie Animation Player</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column>
+                        <Field>
+                            <FieldLabel>Animation Path</FieldLabel>
+                            <TextEdit Text="@path" TextChanged="@OnPathChanged" />
+                        </Field>
+                    </Column>
+                    <Column>
+                        <Field>
+                            <FieldLabel>Background Color</FieldLabel>
+                            <ColorPicker @bind-Color="@backgroundColor" />
+                        </Field>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Field>
+                            <FieldLabel>Speed</FieldLabel>
+                            <NumericEdit TValue="double" Value="@speed" ValueChanged="@OnSpeedValueChanged" Step=".5m" Min="0" Max="3" />
+                        </Field>
+                    </Column>
+                    <Column>
+                        <Field>
+                            <FieldLabel>Direction</FieldLabel>
+                            <Select @bind-SelectedValue="@animationDirection">
+                                <SelectItem Value="LottieAnimationDirection.Forward">Forward</SelectItem>
+                                <SelectItem Value="LottieAnimationDirection.Backward">Backward</SelectItem>
+                            </Select>
+                        </Field>
+                    </Column>
+                </Row>
+                <Row Style="margin: 30px 0">
+                    <Column>
+                        <LoadingIndicator @bind-Visible="@loading">
+                            <LottieAnimation Style="@("height: 250px; background-color:" + backgroundColor)"
+                                             Path="@path"
+                                             Direction="@animationDirection"
+                                             Speed="@speed"
+                                             Paused="@paused"
+                                             Loop="@loop"
+                                             @bind-CurrentFrame="@currentFrame"
+                                             Loaded="OnLoaded"
+                                             Completed="@Stop" />
+                        </LoadingIndicator>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column Flex="Flex.JustifyContent.Center" ColumnSize="ColumnSize.IsAuto">
+                        @if ( paused )
+                        {
+                            <Button Clicked="() => paused = false">
+                                <Icon Name="IconName.Play" TextColor="TextColor.Primary" />
+                            </Button>
+                        }
+                        else
+                        {
+                            <Button Clicked="() => paused = true">
+                                <Icon Name="IconName.Pause" />
+                            </Button>
+                        }
+                        <Button Clicked="Stop">
+                            <Icon Name="IconName.Stop" />
+                        </Button>
+                    </Column>
+                    <Column Flex="Flex.JustifyContent.Center">
+                        <Slider TValue="double" Value="@currentFrame" ValueChanged="@OnSliderValueChanged" Min="0" Max="totalFrames" />
+                    </Column>
+                    <Column Flex="Flex.JustifyContent.Center" ColumnSize="ColumnSize.IsAuto">
+                        <Div Flex="Flex.JustifyContent.Center.AlignItems.Center" Style="width: 100px">
+                            @((int)currentFrame) / @totalFrames
+                        </Div>
+                        <Button Clicked="() => loop = !loop">
+                            <Icon Name="IconName.Sync" TextColor="@(loop ? TextColor.Dark : TextColor.Light)" />
+                        </Button>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private string path = "https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json";
+    private LottieAnimationDirection animationDirection = LottieAnimationDirection.Forward;
+    private double speed = 1.0;
+    private bool loop = true;
+    private bool paused = false;
+    private bool loading = true;
+    private double currentFrame = 0;
+    private double totalFrames = 0;
+    private string backgroundColor = "transparent";
+
+    private void Stop()
+    {
+        paused = true;
+        currentFrame = 0;
+    }
+
+    private void OnLoaded( LottieAnimationLoadedEventArgs eventArgs )
+    {
+        totalFrames = eventArgs.TotalFrames;
+        loading = false;
+    }
+
+    private void OnSliderValueChanged( double sliderValue )
+    {
+        Stop();
+        currentFrame = sliderValue;
+    }
+
+    private void OnSpeedValueChanged( double speedValue )
+    {
+        speed = Math.Clamp( speedValue, 0, 5 );
+    }
+
+    private void OnPathChanged( string path )
+    {
+        this.path = path;
+        loading = true;
+    }
+}
