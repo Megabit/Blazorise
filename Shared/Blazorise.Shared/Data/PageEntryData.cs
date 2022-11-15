@@ -99,6 +99,7 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/extensions/icons", "Icons", "Icons are symbols that can be used to represent various options within an application." ),
                 new PageEntry( "docs/extensions/icons-available", "Available Icons" ),
                 new PageEntry( "docs/extensions/list-view", "List View", "List views are a flexible and powerful component for displaying a series of content in a contained scrollable view by providing a data source." ),
+                new PageEntry( "docs/extensions/lottie-animation", "Lottie Animation", "The LottieAnimation component is used to embed JSON-based Lottie animations." ),
                 new PageEntry( "docs/extensions/loadingindicator", "LoadingIndicator", "A wrapper component used to add loading indocators UI to other components." ),
                 new PageEntry( "docs/extensions/markdown", "Markdown", "The Markdown component allows you to edit markdown strings." ),
                 new PageEntry( "docs/extensions/richtextedit", "RichTextEdit", "The RichTextEdit component allows you to add and use a ‘WYSIWYG’ rich text editor." ),

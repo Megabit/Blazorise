@@ -6447,6 +6447,12 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     };
 }";
 
+        public const string BasicLottieAnimationExample = @"<LottieAnimation Path=""https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json"" />";
+
+        public const string ImportLottieAnimationExample = @"@using Blazorise.LottieAnimation";
+
+        public const string LottieAnimationNugetInstallExample = @"Install-Package Blazorise.LottieAnimation";
+
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
         public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">

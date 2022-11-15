@@ -12,6 +12,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Components\Blazorise.Components.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.LottieAnimation\Blazorise.LottieAnimation.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Markdown\Blazorise.Markdown.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.QRCode\Blazorise.QRCode.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
