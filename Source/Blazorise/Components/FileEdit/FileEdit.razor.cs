@@ -319,9 +319,11 @@ namespace Blazorise
         {
             get
             {
-                var localizationString = Multiple
-                    ? "Choose files"
-                    : "Choose file";
+                var uploadTypeString = ( Attributes?.ContainsKey( "webkitdirectory" ) ?? false ) ? "folder" : "file";
+
+                var localizationString =  Multiple
+                    ? $"Choose {uploadTypeString}s"
+                    : $"Choose {uploadTypeString}";
 
                 if ( BrowseButtonLocalizer != null )
                     return BrowseButtonLocalizer.Invoke( localizationString );

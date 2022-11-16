@@ -28,6 +28,11 @@ namespace Blazorise
         string Name { get; }
 
         /// <summary>
+        /// Returns the relative path of the file.
+        /// </summary>
+        string RelativePath { get; }
+
+        /// <summary>
         /// Returns the size of the file in bytes.
         /// </summary>
         long Size { get; }

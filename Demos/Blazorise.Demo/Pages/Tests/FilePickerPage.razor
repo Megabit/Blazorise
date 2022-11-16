@@ -16,6 +16,11 @@
                         <Paragraph>By disabling progress report, file transfer can be significantly improved.</Paragraph>
                     </FieldBody>
                 </Field>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@directory">Upload Directory?</Check>
+                    </FieldBody>
+                </Field>
             </CardBody>
         </Card>
     </Column>
@@ -36,6 +41,7 @@
                             Progressed=OnFileUploadProgressChanged
                             Upload="OnFileUpload"
                             ShowMode="FilePickerShowMode.List"
+                            Directory="@directory"
                             DisableProgressReport="@disableProgressReport">
                 </FilePicker>
             </CardBody>
@@ -55,6 +61,7 @@
                             Progressed=OnFileUploadProgressChanged
                             Upload="OnFileUploadBuffered"
                             ShowMode="FilePickerShowMode.List"
+                            Directory="@directory"
                             DisableProgressReport="@disableProgressReport">
                 </FilePicker>
             </CardBody>
@@ -77,6 +84,7 @@
                             Progressed=OnFileUploadProgressChanged
                             Upload="OnFileUpload"
                             ShowMode="FilePickerShowMode.Dropdown"
+                            Directory="@directory"
                             DisableProgressReport="@disableProgressReport">
                 </FilePicker>
             </CardBody>
@@ -96,6 +104,7 @@
                             Progressed=OnFileUploadProgressChanged
                             Upload="OnFileUploadBuffered"
                             ShowMode="FilePickerShowMode.List"
+                            Directory="@directory"
                             DisableProgressReport="@disableProgressReport">
                     <FileTemplate>
                         <Div Flex="Flex.JustifyContent.Between">
@@ -142,6 +151,7 @@
 
 @code {
     private bool disableProgressReport = false;
+    private bool directory = false;
     private Stopwatch sw = new();
     private readonly int FileEditMaxChunkSize = 24 * 1024;
     private FilePicker filePicker { get; set; }

@@ -35,6 +35,11 @@ namespace Blazorise
         /// </summary>
         private _FilePickerConfirmModal filePickerConfirmModalRef;
 
+        /// <summary>
+        /// Should file picker upload directory.
+        /// </summary>
+        private bool directory;
+
         #endregion
 
         #region Methods
@@ -45,9 +50,10 @@ namespace Blazorise
             ElementContainerId = IdGenerator.Generate;
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
 
+            Attributes ??= new();
+
             base.OnInitialized();
         }
-
 
         /// <inheritdoc/>
         protected override async Task OnFirstAfterRenderAsync()
@@ -433,6 +439,38 @@ namespace Blazorise
         /// <para>This setting can speed up file transfer considerably.</para>
         /// </summary>
         [Parameter] public bool DisableProgressReport { get; set; } = false;
+
+        /// <summary>
+        /// Gets or Sets whether file picker should upload directories.
+        /// </summary>
+        [Parameter]
+        public bool Directory
+        {
+            get
+            {
+                return directory;
+            }
+            set
+            {
+                if ( value )
+                {
+                    if ( !Attributes?.ContainsKey( "webkitdirectory" ) ?? false )
+                    {
+                        Attributes?.Add( "webkitdirectory", true );
+                    }
+                }
+                else
+                {
+                    if ( Attributes?.ContainsKey( "webkitdirectory" ) ?? false)
+                    {
+                        Attributes?.Remove( "webkitdirectory" );
+                    }
+                }
+
+                InvokeAsync( StateHasChanged );
+                directory = value;
+            }
+        }
 
         #endregion
     }

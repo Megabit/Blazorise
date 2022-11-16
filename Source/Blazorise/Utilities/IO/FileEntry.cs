@@ -79,6 +79,9 @@ namespace Blazorise
         public string Name { get; set; }
 
         /// <inheritdoc/>
+        public string RelativePath { get; set; }
+
+        /// <inheritdoc/>
         public long Size { get; set; }
 
         /// <inheritdoc/>

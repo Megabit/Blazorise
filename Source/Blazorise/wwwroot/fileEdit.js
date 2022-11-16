@@ -84,7 +84,8 @@ function mapElementFilesToFileEntries(element) {
             lastModified: new Date(file.lastModified).toISOString(),
             name: file.name,
             size: file.size,
-            type: file.type
+            type: file.type,
+            relativePath: file.webkitRelativePath
         };
         element._blazorFilesById[fileEntry.id] = fileEntry;
 

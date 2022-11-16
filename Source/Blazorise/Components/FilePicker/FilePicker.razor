@@ -34,8 +34,11 @@
     {
         @FileComponentFragment
     }
-
-    <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@GetLocalizedString("Or drop files here")</Span>
+    
+    @if (!Directory)
+    {
+        <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@GetLocalizedString("Or drop files here")</Span>
+    }
 
     @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
     {
@@ -77,7 +80,7 @@
     private RenderFragment FileComponentFragment => __builder =>
     {
         <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
-              Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" DisableProgressReport="@DisableProgressReport" BrowseButtonLocalizer="@FilePickerLocalizer" @attributes="@Attributes">
+              Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" DisableProgressReport="@DisableProgressReport" BrowseButtonLocalizer="@FilePickerLocalizer" Attributes="@Attributes">
             <ChildContent>
                 @ChildTemplate
             </ChildContent>
@@ -98,6 +101,7 @@
             <Row>
                 <Column>
                     <Span Class="b-file-picker-file-name">@file.Name</Span>
+                    <Span Class="b-file-picker-file-relativepath">@file.RelativePath</Span>
                     <Span Class="b-file-picker-file-size">@GetFileSizeReadable(file)</Span>
                     @if ( IsFileBeingUploaded( file ) && !DisableProgressReport )
                     {
