@@ -35,11 +35,6 @@ namespace Blazorise
         /// </summary>
         private _FilePickerConfirmModal filePickerConfirmModalRef;
 
-        /// <summary>
-        /// Should file picker upload directory.
-        /// </summary>
-        private bool directory;
-
         #endregion
 
         #region Methods
