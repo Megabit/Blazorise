@@ -74,6 +74,7 @@ namespace Blazorise
 
         public override Task SetParametersAsync( ParameterView parameters )
         {
+            // can be extracted into an extension method
             if ( parameters.TryGetValue<bool>( nameof( Disabled ), out var paramDisabled ) )
                 disabled = new ComponentParameterInfo<bool>( nameof( Disabled ), paramDisabled, true );
             else
