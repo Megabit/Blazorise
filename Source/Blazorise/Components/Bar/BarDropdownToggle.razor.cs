@@ -18,7 +18,7 @@ namespace Blazorise
     {
         #region Members
 
-        private BarDropdownState parentDropdownState;
+        private BarDropdownState parentBarDropdownState;
 
         private BarItemState parentBarItemState;
 
@@ -41,8 +41,8 @@ namespace Blazorise
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            builder.Append( ClassProvider.BarDropdownToggle( ParentDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true ) );
-            builder.Append( ClassProvider.BarDropdownToggleDisabled( ParentDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true, IsDisabled ) );
+            builder.Append( ClassProvider.BarDropdownToggle( ParentBarDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true ) );
+            builder.Append( ClassProvider.BarDropdownToggleDisabled( ParentBarDropdownState.Mode, ParentBarDropdown?.IsBarDropdownSubmenu == true, IsDisabled ) );
 
             base.BuildClasses( builder );
         }
@@ -52,7 +52,7 @@ namespace Blazorise
         {
             base.BuildStyles( builder );
 
-            builder.Append( $"padding-left: {Indentation * ParentDropdownState.NestedIndex}rem", ParentDropdownState.IsInlineDisplay );
+            builder.Append( $"padding-left: {Indentation * ParentBarDropdownState.NestedIndex}rem", ParentBarDropdownState.IsInlineDisplay );
         }
 
         /// <inheritdoc/>
@@ -177,17 +177,17 @@ namespace Blazorise
         /// Gets or sets the parent dropdown state object.
         /// </summary>
         [CascadingParameter]
-        public BarDropdownState ParentDropdownState
+        public BarDropdownState ParentBarDropdownState
         {
-            get => parentDropdownState;
+            get => parentBarDropdownState;
             set
             {
-                if ( parentDropdownState == value )
+                if ( parentBarDropdownState == value )
                     return;
 
-                parentDropdownState = value;
+                parentBarDropdownState = value;
 
-                if ( parentDropdownState.Visible && !( parentDropdownState.Mode == BarMode.VerticalInline && parentDropdownState.BarVisible ) )
+                if ( parentBarDropdownState.Visible && !( parentBarDropdownState.Mode == BarMode.VerticalInline && parentBarDropdownState.BarVisible ) )
                 {
                     HandleVisibilityStyles( true );
                 }
