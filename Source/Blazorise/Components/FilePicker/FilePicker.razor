@@ -79,7 +79,7 @@
 @code {
     private RenderFragment FileComponentFragment => __builder =>
     {
-        <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
+        <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Directory="@Directory" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
               Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" DisableProgressReport="@DisableProgressReport" BrowseButtonLocalizer="@FilePickerLocalizer" Attributes="@Attributes">
             <ChildContent>
                 @ChildTemplate

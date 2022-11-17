@@ -319,7 +319,7 @@ namespace Blazorise
         {
             get
             {
-                var uploadTypeString = ( Attributes?.ContainsKey( "webkitdirectory" ) ?? false ) ? "folder" : "file";
+                var uploadTypeString = Directory ? "folder" : "file";
 
                 var localizationString =  Multiple
                     ? $"Choose {uploadTypeString}s"
@@ -422,6 +422,11 @@ namespace Blazorise
         /// <para>This setting can speed up file transfer considerably.</para>
         /// </summary>
         [Parameter] public bool DisableProgressReport { get; set; } = false;
+
+        /// <summary>
+        /// Gets or Sets whether file picker should upload directories.
+        /// </summary>
+        [Parameter] public bool Directory { get; set; }
 
         #endregion
     }

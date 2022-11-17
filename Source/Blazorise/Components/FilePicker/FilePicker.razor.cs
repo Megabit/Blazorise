@@ -50,8 +50,6 @@ namespace Blazorise
             ElementContainerId = IdGenerator.Generate;
             LocalizerService.LocalizationChanged += OnLocalizationChanged;
 
-            Attributes ??= new();
-
             base.OnInitialized();
         }
 
@@ -443,34 +441,7 @@ namespace Blazorise
         /// <summary>
         /// Gets or Sets whether file picker should upload directories.
         /// </summary>
-        [Parameter]
-        public bool Directory
-        {
-            get
-            {
-                return directory;
-            }
-            set
-            {
-                if ( value )
-                {
-                    if ( !Attributes?.ContainsKey( "webkitdirectory" ) ?? false )
-                    {
-                        Attributes?.Add( "webkitdirectory", true );
-                    }
-                }
-                else
-                {
-                    if ( Attributes?.ContainsKey( "webkitdirectory" ) ?? false)
-                    {
-                        Attributes?.Remove( "webkitdirectory" );
-                    }
-                }
-
-                InvokeAsync( StateHasChanged );
-                directory = value;
-            }
-        }
+        [Parameter] public bool Directory { get; set; }
 
         #endregion
     }
