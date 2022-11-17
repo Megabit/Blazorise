@@ -17,18 +17,26 @@ namespace Blazorise
     {
         private readonly bool received;
 
-        public ComponentParameterInfo( string name, T value, bool received )
+        private readonly bool changed;
+
+        public ComponentParameterInfo( T value )
         {
-            Name = name;
             Value = value;
-            this.received = received;
         }
 
-        public string Name { get; }
+        public ComponentParameterInfo( T value, bool received, bool changed )
+        {
+            Value = value;
+
+            this.received = received;
+            this.changed = changed;
+        }
 
         public T Value { get; }
 
         public bool Received => received;
+
+        public bool Changed => changed;
 
         public T GetValue( T fallback )
         {
@@ -52,7 +60,7 @@ namespace Blazorise
 
         private bool outline;
 
-        private ComponentParameterInfo<bool> disabled;
+        private ComponentParameterInfo<bool> disabled = new ComponentParameterInfo<bool>( false );
 
         private bool active;
 
@@ -76,9 +84,9 @@ namespace Blazorise
         {
             // can be extracted into an extension method
             if ( parameters.TryGetValue<bool>( nameof( Disabled ), out var paramDisabled ) )
-                disabled = new ComponentParameterInfo<bool>( nameof( Disabled ), paramDisabled, true );
+                disabled = new ComponentParameterInfo<bool>( paramDisabled, true, paramDisabled != Disabled );
             else
-                disabled = new ComponentParameterInfo<bool>( nameof( Disabled ), default, false );
+                disabled = new ComponentParameterInfo<bool>( default, false, false );
 
             if ( disabled.Received )
             {
