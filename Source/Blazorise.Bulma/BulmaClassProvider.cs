@@ -1369,6 +1369,23 @@ namespace Blazorise.Bulma
             }
         }
 
+        public override string ToDisplayType( DisplayType displayType )
+        {
+            return displayType switch
+            {
+                Blazorise.DisplayType.None => "hidden",
+                Blazorise.DisplayType.Block => "block",
+                Blazorise.DisplayType.Inline => "inline",
+                Blazorise.DisplayType.InlineBlock => "inline-block",
+                Blazorise.DisplayType.Flex => "flex",
+                Blazorise.DisplayType.InlineFlex => "inline-flex",
+                Blazorise.DisplayType.Table => "table",
+                Blazorise.DisplayType.TableRow => "table-row",
+                Blazorise.DisplayType.TableCell => "table-cell",
+                _ => null,
+            };
+        }
+
         public override string ToBackground( Background background )
         {
             var name = background.Name;
