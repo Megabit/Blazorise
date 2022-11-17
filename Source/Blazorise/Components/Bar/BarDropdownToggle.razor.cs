@@ -20,6 +20,8 @@ namespace Blazorise
 
         private BarDropdownState parentDropdownState;
 
+        private BarItemState parentBarItemState;
+
         private bool jsRegistered;
 
         private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
@@ -205,6 +207,25 @@ namespace Blazorise
         /// Cascaded <see cref="BarItem"/> component in which this <see cref="BarDropdownToggle"/> is placed.
         /// </summary>
         [CascadingParameter] protected BarItem ParentBarItem { get; set; }
+
+        /// <summary>
+        /// Gets or sets the parent bar-item state object.
+        /// </summary>
+        [CascadingParameter]
+        public BarItemState ParentBarItemState
+        {
+            get => parentBarItemState;
+            set
+            {
+                if ( parentBarItemState == value )
+                    return;
+
+                parentBarItemState = value;
+
+                DirtyClasses();
+                DirtyStyles();
+            }
+        }
 
         /// <summary>
         /// Specifies the content to be rendered inside this <see cref="BarDropdownToggle"/>.
