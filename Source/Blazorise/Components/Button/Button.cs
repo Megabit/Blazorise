@@ -13,6 +13,32 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
+    public record ComponentParameterInfo<T>
+    {
+        private readonly bool received;
+
+        public ComponentParameterInfo( string name, T value, bool received )
+        {
+            Name = name;
+            Value = value;
+            this.received = received;
+        }
+
+        public string Name { get; }
+
+        public T Value { get; }
+
+        public bool Received => received;
+
+        public T GetValue( T fallback )
+        {
+            if ( received )
+                return Value;
+
+            return fallback;
+        }
+    }
+
     /// <summary>
     /// Clickable button for actions in forms, dialogs, and more with support for multiple sizes, states, and more.
     /// </summary>
@@ -26,7 +52,7 @@ namespace Blazorise
 
         private bool outline;
 
-        private bool disabled;
+        private ComponentParameterInfo<bool> disabled;
 
         private bool active;
 
@@ -46,6 +72,21 @@ namespace Blazorise
 
         #region Methods
 
+        public override Task SetParametersAsync( ParameterView parameters )
+        {
+            if ( parameters.TryGetValue<bool>( nameof( Disabled ), out var paramDisabled ) )
+                disabled = new ComponentParameterInfo<bool>( nameof( Disabled ), paramDisabled, true );
+            else
+                disabled = new ComponentParameterInfo<bool>( nameof( Disabled ), default, false );
+
+            if ( disabled.Received )
+            {
+                DirtyClasses();
+            }
+
+            return base.SetParametersAsync( parameters );
+        }
+
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
@@ -55,7 +96,7 @@ namespace Blazorise
             builder.Append( ClassProvider.ButtonSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
             builder.Append( ClassProvider.ButtonBlock(), Block );
             builder.Append( ClassProvider.ButtonActive(), Active );
-            builder.Append( ClassProvider.ButtonDisabled(), Disabled );
+            builder.Append( ClassProvider.ButtonDisabled(), IsDisabled );
             builder.Append( ClassProvider.ButtonLoading(), Loading && LoadingTemplate == null );
 
             base.BuildClasses( builder );
@@ -129,7 +170,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected async Task ClickHandler( MouseEventArgs eventArgs )
         {
-            if ( !Disabled )
+            if ( !IsDisabled )
             {
                 await Clicked.InvokeAsync( eventArgs );
 
@@ -157,7 +198,7 @@ namespace Blazorise
                 .Type( Type.ToButtonTypeString() )
                 .Class( ClassNames )
                 .Style( StyleNames )
-                .Disabled( Disabled )
+                .Disabled( IsDisabled )
                 .AriaPressed( Active )
                 .TabIndex( TabIndex );
 
@@ -168,7 +209,7 @@ namespace Blazorise
                     .Href( To )
                     .Target( Target );
 
-                if ( Disabled )
+                if ( IsDisabled )
                 {
                     builder
                         .TabIndex( -1 )
@@ -265,7 +306,9 @@ namespace Blazorise
         /// <summary>
         /// True if button or it's parent dropdown is disabled.
         /// </summary>
-        protected bool IsDisabled => ParentDropdown?.Disabled ?? Disabled;
+        protected bool IsDisabled => disabled.Received ?
+             disabled.GetValue( ParentDropdown?.Disabled == true ) || !canExecuteCommand.GetValueOrDefault( true )
+            : false;
 
         /// <summary>
         /// True if button is placed inside of a <see cref="Field"/>.
@@ -345,17 +388,7 @@ namespace Blazorise
         /// <summary>
         /// When set to 'true', disables the component's functionality and places it in a disabled state.
         /// </summary>
-        [Parameter]
-        public bool Disabled
-        {
-            get => disabled || !canExecuteCommand.GetValueOrDefault( true );
-            set
-            {
-                disabled = value;
-
-                DirtyClasses();
-            }
-        }
+        [Parameter] public bool Disabled { get; set; }
 
         /// <summary>
         /// When set to 'true', places the component in the active state with active styling.

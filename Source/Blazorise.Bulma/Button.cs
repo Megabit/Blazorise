@@ -26,7 +26,7 @@ namespace Blazorise.Bulma
                 .Type( Type.ToButtonTypeString() )
                 .Class( ClassNames )
                 .Style( StyleNames )
-                .Disabled( Disabled )
+                .Disabled( IsDisabled )
                 .AriaPressed( Active )
                 .TabIndex( TabIndex );
 
@@ -37,7 +37,7 @@ namespace Blazorise.Bulma
                     .Href( To )
                     .Target( Target );
 
-                if ( Disabled )
+                if ( IsDisabled )
                 {
                     builder
                         .TabIndex( -1 )

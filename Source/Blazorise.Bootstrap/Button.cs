@@ -19,7 +19,7 @@ namespace Blazorise.Bootstrap
                 .Type( Type.ToButtonTypeString() )
                 .Class( ClassNames )
                 .Style( StyleNames )
-                .Disabled( Disabled )
+                .Disabled( IsDisabled )
                 .AriaPressed( Active )
                 .TabIndex( TabIndex );
 
@@ -30,7 +30,7 @@ namespace Blazorise.Bootstrap
                     .Href( To )
                     .Target( Target );
 
-                if ( Disabled )
+                if ( IsDisabled )
                 {
                     builder
                         .TabIndex( -1 )
