@@ -78,6 +78,13 @@ export function initialize(element, elementId, options) {
 
 export function destroy(element, elementId) {
     const instances = _pickers || {};
+
+    const instance = instances[elementId];
+
+    if (instance) {
+        instance.destroy();
+    }
+
     delete instances[elementId];
 }
 
