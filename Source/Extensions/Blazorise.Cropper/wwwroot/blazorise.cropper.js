@@ -28,7 +28,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
           <cropper-image rotatable="${options.image.rotatable}" scalable="${options.image.scalable}" skewable="${options.image.skewable}" translatable="${options.image.translatable}"></cropper-image>
           <cropper-shade hidden></cropper-shade>
           <cropper-handle action="select" plain></cropper-handle>
-          <cropper-selection id="my-test-selection" initial-coverage="${options.selection.initialCoverage ?? NaN}" aspect-ratio="${options.selection.aspectRatio ?? NaN}" initial-aspect-ratio="${options.selection.initialAspectRatio ?? NaN}" movable="${options.selection.movable}" resizable="${options.selection.resizable}" zoomable="${options.selection.zoomable}" keyboard="${options.selection.keyboard}" outlined="${options.selection.outlined}">
+          <cropper-selection id="cropper-selection-${elementId}" initial-coverage="${options.selection.initialCoverage ?? NaN}" aspect-ratio="${options.selection.aspectRatio ?? NaN}" initial-aspect-ratio="${options.selection.initialAspectRatio ?? NaN}" movable="${options.selection.movable}" resizable="${options.selection.resizable}" zoomable="${options.selection.zoomable}" keyboard="${options.selection.keyboard}" outlined="${options.selection.outlined}">
           <cropper-grid role="grid" rows="${options.grid.rows}" columns="${options.grid.columns}" bordered="${options.grid.bordered}" covered="${options.grid.covered}"></cropper-grid>
           <cropper-crosshair centered></cropper-crosshair>
           <cropper-handle action="move" theme-color="rgba(255, 255, 255, 0.35)"></cropper-handle>
@@ -71,7 +71,7 @@ export function initializeViewer(cropperElementRef, cropperElementId, element, e
 
     const cropperViewer = new CropperViewer();
 
-    cropperViewer.selection = "#my-test-selection";
+    cropperViewer.selection = `#cropper-selection-${cropperElementId}`;
 
     element.appendChild(cropperViewer);
 }
@@ -128,10 +128,6 @@ export function updateOptions(element, elementId, options) {
             cropperSelection.$move(1);
             cropperSelection.$move(-1);
         }
-
-        //if (options.preview.changed) {
-        //    cropper.options.preview = options.preview.value || '';
-        //}
     }
 }
 

@@ -46,6 +46,16 @@
     <DocsPageSectionSource Code="BasicCropperExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Viewer">
+        To add a preview support you can use a <Code Tag>CropperViewer</Code> component. Once added you need to connect it to a <Code Tag>Cropper</Code> by assigning the <Code>CropperState</Code> parameter. This parameter is used as a synchronization context bewteen the cropper and a viewer.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <CropperViewerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CropperViewerExample" />
+</DocsPageSection>
+
 <Heading Size="HeadingSize.Is2">
     Attributes
 </Heading>
@@ -59,9 +69,6 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Alt" Type="string" Default="null">
         The alt text of the image.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="PreviewSelector" Type="string" Default="null">
-        The CSS selector the preview image.
     </DocsAttributesItem>
     <DocsAttributesItem Name="CropStarted" Type="EventCallback">
         This event fires when the canvas (image wrapper) or the crop box starts to change.
@@ -80,5 +87,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Enabled" Type="bool" Default="true">
         Is the cropper enabled.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CropperState" Type="CropperState" Default="null">
+        Provides a shared state and syncronization context between the cropper and cropper viewer.
     </DocsAttributesItem>
 </DocsAttributes>

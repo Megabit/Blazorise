@@ -1,0 +1,39 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Row>
+    <Column>
+        <FieldLabel>
+            Image Cropper
+        </FieldLabel>
+        <FieldBody>
+            <Cropper @ref="cropper" Source="img/gallery/3.jpg" CropperState="@cropperState" />
+        </FieldBody>
+    </Column>
+    <Column>
+        <FieldLabel>
+            Preview
+        </FieldLabel>
+        <FieldBody>
+            <CropperViewer CropperState="@cropperState" Margin="Margin.Is2.FromBottom" Style="width: 150px; height: 150px;" />
+            <CropperViewer CropperState="@cropperState" Margin="Margin.Is2.FromBottom" Style="width: 100px; height: 100px;" />
+            <CropperViewer CropperState="@cropperState" Margin="Margin.Is2.FromBottom" Style="width: 50px; height: 50px;" />
+        </FieldBody>
+    </Column>
+</Row>
+
+
+@code {
+    private Cropper cropper;
+    private CropperState cropperState = new();
+    private string result;
+
+    private Task OnCropped()
+    {
+        return Task.CompletedTask;
+    }
+
+    private async Task GetCroppedImage()
+    {
+        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
+    }
+}

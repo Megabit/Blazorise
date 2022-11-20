@@ -32,7 +32,6 @@ namespace Blazorise.Cropper
                 var imageOptionsChanged = parameters.TryGetValue<CropperImageOptions>( nameof( ImageOptions ), out var paramImageOptions ) && paramImageOptions != ImageOptions;
                 var selectionOptionsChanged = parameters.TryGetValue<CropperSelectionOptions>( nameof( SelectionOptions ), out var paramSelectionOptions ) && paramSelectionOptions != SelectionOptions;
                 var gridOptionsChanged = parameters.TryGetValue<CropperGridOptions>( nameof( GridOptions ), out var paramGridOptions ) && paramGridOptions != GridOptions;
-                var previewSelectorChanged = parameters.TryGetValue<string>( nameof( PreviewSelector ), out var paramPreviewSelector ) && paramPreviewSelector != PreviewSelector;
                 var enabledChanged = parameters.TryGetValue<bool>( nameof( Enabled ), out var paramEnabled ) && paramEnabled != Enabled;
 
                 if ( sourceChanged
@@ -40,7 +39,6 @@ namespace Blazorise.Cropper
                     || imageOptionsChanged
                     || selectionOptionsChanged
                     || gridOptionsChanged
-                    || previewSelectorChanged
                     || enabledChanged )
                 {
                     ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
@@ -84,7 +82,6 @@ namespace Blazorise.Cropper
                                 Covered = paramGridOptions?.Covered ?? false,
                             }
                         },
-                        Preview = new { Changed = previewSelectorChanged, Value = paramPreviewSelector },
                         Enabled = new { Changed = enabledChanged, Value = paramEnabled },
                     } ) );
                 }
@@ -107,7 +104,6 @@ namespace Blazorise.Cropper
                 {
                     Source,
                     Alt,
-                    Preview = PreviewSelector,
                     Enabled,
                     ShowBackground,
                     Image = new
@@ -273,11 +269,6 @@ namespace Blazorise.Cropper
         [Parameter] public string Alt { get; set; }
 
         /// <summary>
-        /// The CSS selector the preview image.
-        /// </summary>
-        [Parameter] public string PreviewSelector { get; set; }
-
-        /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box starts to change.
         /// </summary>
         [Parameter] public Func<Task> CropStarted { get; set; }
@@ -328,7 +319,7 @@ namespace Blazorise.Cropper
         [Parameter] public CropperGridOptions GridOptions { get; set; } = new CropperGridOptions();
 
         /// <summary>
-        /// Provides a shared state and syncronization between the cropper and cropper viewer.
+        /// Provides a shared state and syncronization context between the cropper and cropper viewer.
         /// </summary>
         [Parameter] public CropperState CropperState { get; set; }
 

@@ -96,7 +96,6 @@
                                      Source="@source"
                                      SelectionOptions="@(new CropperSelectionOptions { AspectRatio = new(ratio) })"
                                      Enabled="@enabled"
-                                     PreviewSelector=".image-cropper-preview"
                                      CropStarted="@(()=>{Console.WriteLine("CropStarted"); return Task.CompletedTask; })"
                                      CropEnded="@(()=>{Console.WriteLine("CropEnded"); return Task.CompletedTask; })"
                                      CropMoved="@(()=>{Console.WriteLine("CropMoved"); return Task.CompletedTask; })"
@@ -116,9 +115,9 @@
                         </Row>
                         <Row>
                             <Column>
-                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 150px; height: 150px; overflow: hidden;" />
-                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 100px; height: 100px; overflow: hidden;" />
-                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 50px; height: 50px; overflow: hidden;" />
+                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 150px; height: 150px;" />
+                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 100px; height: 100px;" />
+                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 50px; height: 50px;" />
                             </Column>
                         </Row>
                     </Column>

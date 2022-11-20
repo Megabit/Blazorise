@@ -2,33 +2,16 @@
 
 <Row>
     <Column>
-        <FieldLabel>
+        <Div Margin="Margin.Is2.FromBottom">
             Image Cropper
-        </FieldLabel>
-        <FieldBody>
-            <Cropper @ref="cropper" Source="img/gallery/3.jpg" PreviewSelector=".cropper-preview" />
-        </FieldBody>
+        </Div>
+        <Cropper @ref="cropper" Source="img/gallery/3.jpg" />
     </Column>
     <Column>
-        <Row>
-            <Column>
-                <FieldBody>
-                    <div class="cropper-preview" style="margin: 10px; width: 150px; height: 150px; overflow: hidden" />
-                </FieldBody>
-            </Column>
-        </Row>
-        <Row>
-            <Column>
-                <Row Margin="Margin.Is3.FromTop">
-                    <Column>
-                        <Button Color="Color.Primary" Clicked="@GetCroppedImage">Get Cropped Image</Button>
-                    </Column>
-                    <Column>
-                        <Image Source="@result" Style="width: 250px; height: 250px;" />
-                    </Column>
-                </Row>
-            </Column>
-        </Row>
+        <Div Margin="Margin.Is2.FromBottom">
+            <Button Color="Color.Primary" Clicked="@GetCroppedImage">Get Cropped Image</Button>
+        </Div>
+        <Image Source="@result" Style="width: 250px; height: 250px;" />
     </Column>
 </Row>
 
