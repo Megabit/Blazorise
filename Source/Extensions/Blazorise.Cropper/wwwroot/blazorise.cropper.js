@@ -1,4 +1,4 @@
-import Cropper from "./vendors/cropper2.js?v=1.2.0.0";
+import Cropper, { CropperViewer } from "./vendors/cropper2.js?v=1.2.0.0";
 
 import { getRequiredElement } from "../Blazorise/utilities.js?v=1.2.0.0";
 
@@ -56,6 +56,24 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     registerEvents(cropperCanvas, dotNetAdapter);
 
     _instances[elementId] = instance;
+}
+
+export function initializeViewer(cropperElementRef, cropperElementId, element, elementId, options) {
+    const instance = _instances[cropperElementId];
+
+    if (!instance)
+        return;
+
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
+    const cropperViewer = new CropperViewer();
+
+    cropperViewer.selection = "#my-test-selection";
+
+    element.appendChild(cropperViewer);
 }
 
 export function updateOptions(element, elementId, options) {
@@ -119,15 +137,7 @@ export function updateOptions(element, elementId, options) {
 
 export function destroy(element, elementId) {
     const instances = _instances || {};
-    const instance = instances[elementId];
-
-    if (instance) {
-        if (instance.cropper) {
-            instance.cropper.destroy();
-        }
-
-        delete instances[elementId];
-    }
+    delete instances[elementId];
 }
 
 export async function cropBase64(element, elementId, options) {

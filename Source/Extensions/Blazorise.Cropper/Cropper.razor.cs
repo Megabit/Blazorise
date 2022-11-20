@@ -136,6 +136,11 @@ namespace Blazorise.Cropper
                         Covered = GridOptions?.Covered ?? false,
                     }
                 } );
+
+                if ( CropperState is not null )
+                {
+                    await CropperState.CropperInitialized.InvokeCallbackAsync( this );
+                }
             }
         }
 
@@ -214,7 +219,6 @@ namespace Blazorise.Cropper
         public ValueTask Scale( int x, int y )
             => JSModule.Scale( ElementRef, ElementId, x, y );
 
-
         internal async Task NotifyCropStart()
         {
             if ( CropStarted is not null )
@@ -249,7 +253,7 @@ namespace Blazorise.Cropper
 
         #region Properties
 
-        private JSCropperModule JSModule { get; set; }
+        internal JSCropperModule JSModule { get; set; }
 
         [Inject] private IJSRuntime JSRuntime { get; set; }
 
@@ -322,6 +326,11 @@ namespace Blazorise.Cropper
         /// Provides properties for manipulating the layout and presentation of selection grid elements.
         /// </summary>
         [Parameter] public CropperGridOptions GridOptions { get; set; } = new CropperGridOptions();
+
+        /// <summary>
+        /// Provides a shared state and syncronization between the cropper and cropper viewer.
+        /// </summary>
+        [Parameter] public CropperState CropperState { get; set; }
 
         #endregion
     }
