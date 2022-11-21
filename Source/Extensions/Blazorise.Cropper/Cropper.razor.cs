@@ -143,7 +143,6 @@ namespace Blazorise.Cropper
         /// <inheritdoc/>
         protected override void BuildClasses( ClassBuilder builder )
         {
-            //builder.Append( "b-image-cropper-source" );
             builder.Append( "b-cropper-container" );
 
             base.BuildClasses( builder );
@@ -236,13 +235,13 @@ namespace Blazorise.Cropper
         internal async Task NotifyCrop( int startX, int startY, int endX, int endY )
         {
             if ( Cropped is not null )
-                await Cropped.Invoke( new CroppedEventArgs( startX, startY, endX, endY ) );
+                await Cropped.Invoke( new CropperCroppedEventArgs( startX, startY, endX, endY ) );
         }
 
         internal async Task NotifyZoom( double scale )
         {
             if ( Zoomed is not null )
-                await Zoomed.Invoke( new ZoomedEventArgs( scale ) );
+                await Zoomed.Invoke( new CropperZoomedEventArgs( scale ) );
         }
 
         #endregion
@@ -286,12 +285,12 @@ namespace Blazorise.Cropper
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box changes.
         /// </summary>
-        [Parameter] public Func<CroppedEventArgs, Task> Cropped { get; set; }
+        [Parameter] public Func<CropperCroppedEventArgs, Task> Cropped { get; set; }
 
         /// <summary>
         /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
         /// </summary>
-        [Parameter] public Func<ZoomedEventArgs, Task> Zoomed { get; set; }
+        [Parameter] public Func<CropperZoomedEventArgs, Task> Zoomed { get; set; }
 
         /// <summary>
         /// Indicates whether this element is disabled.

@@ -3,13 +3,13 @@
 /// <summary>
 /// Provides all the information for the cropper zoom event.
 /// </summary>
-public class ZoomedEventArgs
+public class CropperZoomedEventArgs
 {
     /// <summary>
-    /// A default <see cref="ZoomedEventArgs"/> constructor.
+    /// A default <see cref="CropperZoomedEventArgs"/> constructor.
     /// </summary>
     /// <param name="scale">The scaling factor.</param>
-    public ZoomedEventArgs( double scale )
+    public CropperZoomedEventArgs( double scale )
     {
         Scale = scale;
     }

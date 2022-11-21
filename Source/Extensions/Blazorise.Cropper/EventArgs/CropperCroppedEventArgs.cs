@@ -3,16 +3,16 @@
 /// <summary>
 /// Provides all the information for the cropper crop event.
 /// </summary>
-public class CroppedEventArgs
+public class CropperCroppedEventArgs
 {
     /// <summary>
-    /// A default <see cref="CroppedEventArgs"/> constructor.
+    /// A default <see cref="CropperCroppedEventArgs"/> constructor.
     /// </summary>
     /// <param name="startX">The starting pageX value.</param>
     /// <param name="startY">The starting pageY value.</param>
     /// <param name="endX">The ending pageX value.</param>
     /// <param name="endY">The ending pageY value.</param>
-    public CroppedEventArgs( int startX, int startY, int endX, int endY )
+    public CropperCroppedEventArgs( int startX, int startY, int endX, int endY )
     {
         StartX = startX;
         StartY = startY;
