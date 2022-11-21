@@ -2,6 +2,8 @@ import Cropper, { CropperViewer } from "./vendors/cropper.js?v=1.2.0.0";
 
 import { getRequiredElement } from "../Blazorise/utilities.js?v=1.2.0.0";
 
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Cropper/blazorise.cropper.css?v=1.2.0.0\" />");
+
 const _instances = [];
 
 export function initialize(dotNetAdapter, element, elementId, options) {
