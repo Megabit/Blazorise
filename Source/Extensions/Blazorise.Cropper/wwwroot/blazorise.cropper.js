@@ -246,11 +246,15 @@ function registerEvents(element, dotNetAdapter) {
     });
 
     element.addEventListener('action', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "Crop");
+        if (event.detail.action !== "scale") {
+            invokeDotNetMethodAsync(dotNetAdapter, "Crop", event.detail.startX, event.detail.startY, event.detail.endX, event.detail.endY);
+        }
     });
 
     element.addEventListener('action', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "Zoom");
+        if (event.detail.action === "scale") {
+            invokeDotNetMethodAsync(dotNetAdapter, "Zoom", event.detail.scale);
+        }
     });
 }
 

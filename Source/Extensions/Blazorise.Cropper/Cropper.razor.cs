@@ -233,16 +233,16 @@ namespace Blazorise.Cropper
                 await CropEnded.Invoke();
         }
 
-        internal async Task NotifyCrop()
+        internal async Task NotifyCrop( int startX, int startY, int endX, int endY )
         {
             if ( Cropped is not null )
-                await Cropped.Invoke();
+                await Cropped.Invoke( new CroppedEventArgs( startX, startY, endX, endY ) );
         }
 
-        internal async Task NotifyZoom()
+        internal async Task NotifyZoom( double scale )
         {
             if ( Zoomed is not null )
-                await Zoomed.Invoke();
+                await Zoomed.Invoke( new ZoomedEventArgs( scale ) );
         }
 
         #endregion
@@ -286,12 +286,12 @@ namespace Blazorise.Cropper
         /// <summary>
         /// This event fires when the canvas (image wrapper) or the crop box changes.
         /// </summary>
-        [Parameter] public Func<Task> Cropped { get; set; }
+        [Parameter] public Func<CroppedEventArgs, Task> Cropped { get; set; }
 
         /// <summary>
         /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
         /// </summary>
-        [Parameter] public Func<Task> Zoomed { get; set; }
+        [Parameter] public Func<ZoomedEventArgs, Task> Zoomed { get; set; }
 
         /// <summary>
         /// Indicates whether this element is disabled.
