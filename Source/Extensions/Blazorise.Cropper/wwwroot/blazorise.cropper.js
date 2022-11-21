@@ -1,4 +1,4 @@
-import Cropper, { CropperViewer } from "./vendors/cropper2.js?v=1.2.0.0";
+import Cropper, { CropperViewer } from "./vendors/cropper.js?v=1.2.0.0";
 
 import { getRequiredElement } from "../Blazorise/utilities.js?v=1.2.0.0";
 
@@ -142,11 +142,14 @@ export async function cropBase64(element, elementId, options) {
     if (instance && instance.cropper) {
         const cropper = instance.cropper;
         const cropperSelection = cropper.getCropperSelection();
-        const croppedCanvas = cropperSelection.$toCanvas();
 
-        return await croppedCanvas.then((canvas) => {
-            return canvas.toDataURL();
-        });
+        if (cropperSelection) {
+            const croppedCanvas = cropperSelection.$toCanvas(options);
+
+            return await croppedCanvas.then((canvas) => {
+                return canvas.toDataURL();
+            });
+        }
     }
 
     return "";
@@ -246,11 +249,15 @@ function registerEvents(element, dotNetAdapter) {
     });
 
     element.addEventListener('action', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "Crop");
+        if (event.detail.action !== "scale") {
+            invokeDotNetMethodAsync(dotNetAdapter, "Crop", event.detail.startX, event.detail.startY, event.detail.endX, event.detail.endY);
+        }
     });
 
     element.addEventListener('action', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "Zoom");
+        if (event.detail.action === "scale") {
+            invokeDotNetMethodAsync(dotNetAdapter, "Zoom", event.detail.scale);
+        }
     });
 }
 
