@@ -4901,10 +4901,12 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
         public const string BasicCropperExample = @"<Row>
     <Column>
-        <Div Margin=""Margin.Is2.FromBottom"">
+        <FieldLabel>
             Image Cropper
-        </Div>
-        <Cropper @ref=""cropper"" Source=""img/gallery/3.jpg"" />
+        </FieldLabel>
+        <FieldBody>
+            <Cropper @ref=""cropper"" Source=""img/gallery/3.jpg"" />
+        </FieldBody>
     </Column>
     <Column>
         <Div Margin=""Margin.Is2.FromBottom"">
