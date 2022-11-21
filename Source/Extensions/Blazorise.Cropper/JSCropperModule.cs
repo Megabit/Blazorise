@@ -32,19 +32,6 @@ namespace Blazorise.Cropper
             {
                 width = options.Width,
                 height = options.Height,
-                minWidth = options.MinWidth,
-                minHeight = options.MinHeight,
-                maxWidth = options.MaxWidth?.ToString() ?? "Infinity",
-                maxHeight = options.MaxHeight?.ToString() ?? "Infinity",
-                fillColor = options.FillColor,
-                imageSmoothingEnabled = options.ImageSmoothingEnabled,
-                imageSmoothingQuality = options.ImageSmoothingQuality switch
-                {
-                    CropperSmoothingQuality.Low => "low",
-                    CropperSmoothingQuality.Medium => "medium",
-                    CropperSmoothingQuality.High => "high",
-                    _ => "low"
-                }
             };
 
             return InvokeSafeAsync<string>( "cropBase64", elementRef, elementId, cropOptions );

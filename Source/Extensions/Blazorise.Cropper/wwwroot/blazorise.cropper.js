@@ -144,7 +144,7 @@ export async function cropBase64(element, elementId, options) {
         const cropperSelection = cropper.getCropperSelection();
 
         if (cropperSelection) {
-            const croppedCanvas = cropperSelection.$toCanvas();
+            const croppedCanvas = cropperSelection.$toCanvas(options);
 
             return await croppedCanvas.then((canvas) => {
                 return canvas.toDataURL();
