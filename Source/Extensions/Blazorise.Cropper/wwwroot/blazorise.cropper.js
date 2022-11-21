@@ -142,11 +142,14 @@ export async function cropBase64(element, elementId, options) {
     if (instance && instance.cropper) {
         const cropper = instance.cropper;
         const cropperSelection = cropper.getCropperSelection();
-        const croppedCanvas = cropperSelection.$toCanvas();
 
-        return await croppedCanvas.then((canvas) => {
-            return canvas.toDataURL();
-        });
+        if (cropperSelection) {
+            const croppedCanvas = cropperSelection.$toCanvas();
+
+            return await croppedCanvas.then((canvas) => {
+                return canvas.toDataURL();
+            });
+        }
     }
 
     return "";
