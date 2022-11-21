@@ -4901,33 +4901,16 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
         public const string BasicCropperExample = @"<Row>
     <Column>
-        <FieldLabel>
+        <Div Margin=""Margin.Is2.FromBottom"">
             Image Cropper
-        </FieldLabel>
-        <FieldBody>
-            <Cropper @ref=""cropper"" Source=""img/gallery/3.jpg"" PreviewSelector="".cropper-preview"" />
-        </FieldBody>
+        </Div>
+        <Cropper @ref=""cropper"" Source=""img/gallery/3.jpg"" />
     </Column>
     <Column>
-        <Row>
-            <Column>
-                <FieldBody>
-                    <div class=""cropper-preview"" style=""margin: 10px; width: 150px; height: 150px; overflow: hidden"" />
-                </FieldBody>
-            </Column>
-        </Row>
-        <Row>
-            <Column>
-                <Row Margin=""Margin.Is3.FromTop"">
-                    <Column>
-                        <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"">Get Cropped Image</Button>
-                    </Column>
-                    <Column>
-                        <Image Source=""@result"" Style=""width: 250px; height: 250px;"" />
-                    </Column>
-                </Row>
-            </Column>
-        </Row>
+        <Div Margin=""Margin.Is2.FromBottom"">
+            <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"">Get Cropped Image</Button>
+        </Div>
+        <Image Source=""@result"" Style=""width: 250px; height: 250px;"" />
     </Column>
 </Row>
 
@@ -4948,6 +4931,44 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 }";
 
         public const string CropperNugetInstallExample = @"Install-Package Blazorise.Cropper";
+
+        public const string CropperViewerExample = @"<Row>
+    <Column>
+        <FieldLabel>
+            Image Cropper
+        </FieldLabel>
+        <FieldBody>
+            <Cropper @ref=""cropper"" Source=""img/gallery/3.jpg"" CropperState=""@cropperState"" />
+        </FieldBody>
+    </Column>
+    <Column>
+        <FieldLabel>
+            Preview
+        </FieldLabel>
+        <FieldBody>
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 150px; height: 150px;"" />
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 100px; height: 100px;"" />
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 50px; height: 50px;"" />
+        </FieldBody>
+    </Column>
+</Row>
+
+
+@code {
+    private Cropper cropper;
+    private CropperState cropperState = new();
+    private string result;
+
+    private Task OnCropped()
+    {
+        return Task.CompletedTask;
+    }
+
+    private async Task GetCroppedImage()
+    {
+        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
+    }
+}";
 
         public const string ImportCropperExample = @"@using Blazorise.Cropper";
 

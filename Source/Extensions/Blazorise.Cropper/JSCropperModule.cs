@@ -1,8 +1,9 @@
-﻿using System.Linq;
+﻿#region Using directives
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+#endregion
 
 namespace Blazorise.Cropper
 {
@@ -21,6 +22,9 @@ namespace Blazorise.Cropper
 
         public ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
             => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
+
+        public ValueTask InitializeViewer( ElementReference cropperElementRef, string cropperElementId, ElementReference elementRef, string elementId, object options )
+            => InvokeSafeVoidAsync( "initializeViewer", cropperElementRef, cropperElementId, elementRef, elementId, options );
 
         public ValueTask<string> CropBase64( ElementReference elementRef, string elementId, CropperCropOptions options )
         {

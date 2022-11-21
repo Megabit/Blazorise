@@ -96,12 +96,12 @@
                                      Source="@source"
                                      SelectionOptions="@(new CropperSelectionOptions { AspectRatio = new(ratio) })"
                                      Enabled="@enabled"
-                                     PreviewSelector=".image-cropper-preview"
                                      CropStarted="@(()=>{Console.WriteLine("CropStarted"); return Task.CompletedTask; })"
                                      CropEnded="@(()=>{Console.WriteLine("CropEnded"); return Task.CompletedTask; })"
                                      CropMoved="@(()=>{Console.WriteLine("CropMoved"); return Task.CompletedTask; })"
                                      Cropped="@(()=>{Console.WriteLine("Cropped"); return Task.CompletedTask; })"
-                                     Zoomed="@(()=>{Console.WriteLine("Zoomed"); return Task.CompletedTask; })" />
+                                     Zoomed="@(()=>{Console.WriteLine("Zoomed"); return Task.CompletedTask; })"
+                                     CropperState="@cropperState" />
                         </FieldBody>
                     </Column>
                     <Column>
@@ -113,14 +113,13 @@
                                 <img src="@result" width="250" height="250" />
                             </Column>
                         </Row>
-                        @* <FieldLabel>
-                        Preview
-                        </FieldLabel>
-                        <FieldBody>
-                        <div class="image-cropper-preview" style="margin: 10px; width: 150px; height: 150px; overflow: hidden" />
-                        <div class="image-cropper-preview" style="margin: 10px; width: 100px; height: 100px; overflow: hidden" />
-                        <div class="image-cropper-preview" style="margin: 10px; width: 50px; height: 50px; overflow: hidden" />
-                        </FieldBody>*@
+                        <Row>
+                            <Column>
+                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 150px; height: 150px;" />
+                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 100px; height: 100px;" />
+                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 50px; height: 50px;" />
+                            </Column>
+                        </Row>
                     </Column>
                 </Row>
             </CardBody>
@@ -130,6 +129,7 @@
 
 @code {
     private Cropper cropper;
+    private CropperState cropperState = new CropperState();
     private string source = "_content/Blazorise.Demo/img/gallery/3.jpg";
     private string result;
     private double? ratio = 1.0;
