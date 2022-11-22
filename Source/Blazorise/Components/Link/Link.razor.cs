@@ -134,6 +134,11 @@ namespace Blazorise
                 return true;
             }
 
+            if ( Match == Match.Custom && CustomMatch is not null && CustomMatch.Invoke( currentUriAbsolute ) )
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -243,6 +248,11 @@ namespace Blazorise
         /// URL matching behavior for a link.
         /// </summary>
         [Parameter] public Match Match { get; set; }
+
+        /// <summary>
+        /// A callback function that is used to compare current uri with the user defined uri. Must enable <see cref="Match.Custom"/> to be used.
+        /// </summary>
+        [Parameter] public Func<string, bool> CustomMatch { get; set; }
 
         /// <summary>
         /// The target attribute specifies where to open the linked document.

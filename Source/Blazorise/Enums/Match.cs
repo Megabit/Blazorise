@@ -6,15 +6,18 @@
     public enum Match
     {
         /// <summary>
-        /// Specifies that the link should be active when it matches any prefix
-        /// of the current URL.
+        /// Specifies that the link should be active when it matches any prefix of the current URL.
         /// </summary>
         Prefix,
 
         /// <summary>
-        /// Specifies that the link should be active when it matches the entire
-        /// current URL.
+        /// Specifies that the link should be active when it matches the entire current URL.
         /// </summary>
         All,
+
+        /// <summary>
+        /// Specifies that the link should be active when it matches the supplied <see cref="Link.CustomMatch"/> method callback.
+        /// </summary>
+        Custom,
     }
 }

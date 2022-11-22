@@ -44,7 +44,7 @@
         A <Code>#</Code> in front of a link location specifies that the link is pointing to an anchor on a page.
         (Anchor meaning a specific place in the middle of your page).
 
-        Typically <Code tag>a href="#"</Code> will cause the document to scroll to the top of page when clicked.
+        Typically <Code Tag>a href="#"</Code> will cause the document to scroll to the top of page when clicked.
         <Code Tag>Link</Code> addresses this by preventing the default action (scroll to top) when <Code>To</Code> is set to <Code>#</Code>.
         If you need scroll to top behavior, use a standard <Code Tag>Link To="#"&gt;...&lt;/Link</Code> tag.
     </DocsPageSectionHeader>
@@ -84,6 +84,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Match" Type="Match" Default="Prefix">
         URL matching behavior for a link.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CustomMatch" Type="Func<string, bool>" Default="null">
+        A callback function that is used to compare current uri with the user defined uri. Must enable <Code>Match.Custom</Code> to be used.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Title" Type="string" Default="null">
         Defines the title of a link, which appears to the user as a tooltip.
