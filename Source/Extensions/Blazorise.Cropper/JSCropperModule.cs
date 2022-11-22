@@ -52,6 +52,9 @@ internal class JSCropperModule : BaseJSModule, IJSDestroyableModule
     public ValueTask Scale( ElementReference elementRef, string elementId, int x, int y )
         => InvokeSafeVoidAsync( "scale", elementRef, elementId, x, y );
 
+    public ValueTask ResetSelection( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "resetSelection", elementRef, elementId );
+
     /// <inheritdoc/>
     public override string ModuleFileName => $"./_content/Blazorise.Cropper/blazorise.cropper.js?v={VersionProvider.Version}";
 }

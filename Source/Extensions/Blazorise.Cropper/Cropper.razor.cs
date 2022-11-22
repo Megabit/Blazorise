@@ -170,8 +170,8 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Get the cropped image as Base64 image.
     /// </summary>
-    /// <param name="options">the cropping options</param>
-    /// <returns>the cropped image</returns>
+    /// <param name="options">the cropping options.</param>
+    /// <returns>the cropped image.</returns>
     public ValueTask<string> CropAsBase64ImageAsync( CropperCropOptions options )
         => JSModule.CropBase64( ElementRef, ElementId, options );
 
@@ -214,6 +214,13 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     public ValueTask Scale( int x, int y )
         => JSModule.Scale( ElementRef, ElementId, x, y );
 
+    /// <summary>
+    /// Resets the selection to its initial position and size.
+    /// </summary>
+    /// <returns></returns>
+    public ValueTask ResetSelection()
+        => JSModule.ResetSelection( ElementRef, ElementId );
+
     internal async Task NotifyCropStart()
     {
         if ( CropStarted is not null )
@@ -242,6 +249,12 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     {
         if ( Zoomed is not null )
             await Zoomed.Invoke( new CropperZoomedEventArgs( scale ) );
+    }
+
+    internal async Task NotifySelectionChanged( int x, int y, int width, int height )
+    {
+        if ( SelectionChanged is not null )
+            await SelectionChanged.Invoke( new CropperSelectionChangedEventArgs( x, y, width, height ) );
     }
 
     #endregion
@@ -291,6 +304,11 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     /// This event fires when a cropper instance starts to zoom in or zoom out its canvas (image wrapper).
     /// </summary>
     [Parameter] public Func<CropperZoomedEventArgs, Task> Zoomed { get; set; }
+
+    /// <summary>
+    /// The event is fired when the position or size of the selection is going to change.
+    /// </summary>
+    [Parameter] public Func<CropperSelectionChangedEventArgs, Task> SelectionChanged { get; set; }
 
     /// <summary>
     /// Indicates whether this element is disabled.
