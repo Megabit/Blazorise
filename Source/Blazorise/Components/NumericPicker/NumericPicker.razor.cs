@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
@@ -56,6 +58,16 @@ namespace Blazorise
         /// </summary>
         private string inputMode;
 
+        /// <summary>
+        /// Indicates if the component is still initializing.
+        /// </summary>
+        private bool initializing = true;
+
+        /// <summary>
+        /// A stack of functions to execute after the rendering.
+        /// </summary>
+        private Queue<Func<Task>> delayedExecuteAfterRenderQueue;
+
         #endregion
 
         #region Constructors
@@ -76,7 +88,7 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            if ( Rendered )
+            if ( Rendered || initializing )
             {
                 var decimalsChanged = isIntegerType ? false : parameters.TryGetValue<int>( nameof( Decimals ), out var paramDecimals ) && !Decimals.IsEqual( paramDecimals );
                 var decimalSeparatorChanged = parameters.TryGetValue<string>( nameof( DecimalSeparator ), out var paramDecimalSeparator ) && !DecimalSeparator.IsEqual( paramDecimalSeparator );
@@ -111,7 +123,7 @@ namespace Blazorise
                     || allowDecimalPaddingChanged || alwaysAllowDecimalSeparatorChanged
                     || modifyValueOnWheelChanged )
                 {
-                    ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+                    TryExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                     {
                         Decimals = new { Changed = decimalsChanged, Value = GetDecimals() },
                         DecimalSeparator = new { Changed = decimalSeparatorChanged, Value = paramDecimalSeparator },
@@ -136,7 +148,7 @@ namespace Blazorise
 
                 if ( valueChanged )
                 {
-                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
+                    TryExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
                 }
             }
 
@@ -201,6 +213,10 @@ namespace Blazorise
                 WheelOn = WheelOn.ToNumericWheelOn(),
             } );
 
+            initializing = false;
+
+            TryPushExecuteAfterRender();
+
             await base.OnFirstAfterRenderAsync();
         }
 
@@ -227,6 +243,65 @@ namespace Blazorise
             builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
             base.BuildClasses( builder );
+        }
+
+        private void TryExecuteAfterRender( Func<Task> action )
+        {
+            // if we have already rendered then just forward the action to the base component
+            if ( Rendered )
+            {
+                ExecuteAfterRender( action );
+
+                return;
+            }
+
+            delayedExecuteAfterRenderQueue ??= new();
+            delayedExecuteAfterRenderQueue.Enqueue( action );
+        }
+
+        private void TryPushExecuteAfterRender()
+        {
+            if ( delayedExecuteAfterRenderQueue?.Count > 0 )
+            {
+                while ( delayedExecuteAfterRenderQueue.Count > 0 )
+                {
+                    var action = delayedExecuteAfterRenderQueue.Dequeue();
+
+                    ExecuteAfterRender( action );
+                }
+
+                InvokeAsync( StateHasChanged );
+            }
+        }
+
+        /// <summary>
+        /// Executes given action after the rendering is done.
+        /// </summary>
+        /// <remarks>Don't await this on the UI thread, because that will cause a deadlock.</remarks>
+        private async Task<T> ExecuteAfterRenderAsync<T>( Func<Task<T>> action, CancellationToken token = default )
+        {
+            var source = new TaskCompletionSource<T>();
+
+            token.Register( () => source.TrySetCanceled() );
+
+            TryExecuteAfterRender( async () =>
+            {
+                try
+                {
+                    var result = await action();
+                    source.TrySetResult( result );
+                }
+                catch ( TaskCanceledException )
+                {
+                    source.TrySetCanceled();
+                }
+                catch ( Exception e )
+                {
+                    source.TrySetException( e );
+                }
+            } );
+
+            return await source.Task.ConfigureAwait( false );
         }
 
         /// <inheritdoc/>
@@ -403,7 +478,7 @@ namespace Blazorise
                 if ( Converters.TryChangeType<TValue>( comparableNumber, out var currentValue, CurrentCultureInfo )
                     && !CurrentValue.IsEqual( currentValue ) )
                 {
-                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, currentValue ) );
+                    TryExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, currentValue ) );
 
                     // number has changed so we need to re-set the CurrentValue and re-run any validation
                     return CurrentValueHandler( FormatValueAsString( currentValue ) );
