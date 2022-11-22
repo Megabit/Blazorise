@@ -825,6 +825,15 @@ namespace Blazorise.DataGrid
             }
         }
 
+        internal Task OnRowOverCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+        {
+            return RowOver.InvokeAsync( eventArgs );
+        }
+        internal Task OnRowLeaveCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+        {
+            return RowLeave.InvokeAsync( eventArgs );
+        }
+
         internal Task OnRowClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
         {
             return RowClicked.InvokeAsync( eventArgs );
@@ -1313,6 +1322,11 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
+
+        /// <summary>
+        /// Template for mouse hover overlay display formatting.
+        /// </summary>
+        [Parameter] public RenderFragment<TItem> OverlayTemplate { get; set; }
 
 
         /// <summary>
@@ -1870,6 +1884,16 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public EventCallback<TItem> RowRemoved { get; set; }
 
+
+        /// <summary>
+        /// Event called after the mouse leaves the row.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowLeave { get; set; }
+
+        /// <summary>
+        /// Event called after the mouse is over the row.
+        /// </summary>
+        [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowOver { get; set; }
         /// <summary>
         /// Event called after the row is clicked.
         /// </summary>
