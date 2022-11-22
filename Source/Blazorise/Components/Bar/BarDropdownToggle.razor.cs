@@ -26,6 +26,8 @@ namespace Blazorise
 
         private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
 
+        private bool? disabled;
+
         #endregion
 
         #region Methods
@@ -156,7 +158,7 @@ namespace Blazorise
         /// <summary>
         /// Returns true if this BarDropdown should be disabled.
         /// </summary>
-        protected internal bool IsDisabled => ParentBarItem?.Disabled == true;
+        protected internal bool IsDisabled => ( Disabled ?? ParentBarItem?.Disabled ) == true;
 
         /// <summary>
         /// Gets or sets the <see cref="IJSClosableModule"/> instance.
@@ -167,6 +169,24 @@ namespace Blazorise
         /// Determines how much left padding will be applied to the dropdown toggle. (in rem unit)
         /// </summary>
         [Parameter] public double Indentation { get; set; } = 1.5d;
+
+        /// <summary>
+        /// Makes the toggle element look inactive.
+        /// </summary>
+        [Parameter]
+        public bool? Disabled
+        {
+            get => disabled;
+            set
+            {
+                if ( disabled == value )
+                    return;
+
+                disabled = value;
+
+                DirtyClasses();
+            }
+        }
 
         /// <summary>
         /// Occurs when the toggle button is clicked.
