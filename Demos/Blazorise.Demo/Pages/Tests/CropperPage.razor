@@ -108,6 +108,7 @@
                         <Row Margin="Margin.Is3">
                             <Column>
                                 <Button Color="Color.Primary" Clicked="GetCroppedImage">Get Cropped Image</Button>
+                                <Button Color="Color.Secondary" Clicked="ResetSelection">Reset Selection</Button>
                             </Column>
                             <Column>
                                 <img src="@result" width="250" height="250" />
@@ -139,6 +140,11 @@
     private async Task GetCroppedImage()
     {
         result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
+    }
+
+    private async Task ResetSelection()
+    {
+        await cropper.ResetSelection();
     }
 
     private async Task FlipX()

@@ -6,7 +6,7 @@
             Image Cropper
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
-            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Cropper</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">cropper</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Source</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">img/gallery/3.jpg</span><span class="quot">&quot;</span> <span class="htmlAttributeName">CropperState</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>cropperState</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Cropper</span> <span class="htmlAttributeName">Source</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">img/gallery/3.jpg</span><span class="quot">&quot;</span> <span class="htmlAttributeName">CropperState</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>cropperState</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
@@ -23,19 +23,7 @@
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
-    <span class="keyword">private</span> Cropper cropper;
     <span class="keyword">private</span> CropperState cropperState = <span class="keyword">new</span>();
-    <span class="keyword">private</span> <span class="keyword">string</span> result;
-
-    <span class="keyword">private</span> Task OnCropped()
-    {
-        <span class="keyword">return</span> Task.CompletedTask;
-    }
-
-    <span class="keyword">private</span> <span class="keyword">async</span> Task GetCroppedImage()
-    {
-        result = <span class="keyword">await</span> cropper.CropAsBase64ImageAsync( <span class="keyword">new</span>() { Width = <span class="number">250</span>, Height = <span class="number">250</span> } );
-    }
 }
 </pre></div>
 </div>

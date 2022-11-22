@@ -4905,30 +4905,45 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
             Image Cropper
         </FieldLabel>
         <FieldBody>
-            <Cropper @ref=""cropper"" Source=""img/gallery/3.jpg"" />
+            <Cropper @ref=""cropper"" Source=""img/gallery/6.jpg"" SelectionChanged=""@OnSelectionChanged"" Style=""aspect-ratio: 16 / 9; height: 100%;"" />
         </FieldBody>
     </Column>
     <Column>
         <Div Margin=""Margin.Is2.FromBottom"">
-            <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"">Get Cropped Image</Button>
+            <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"" Disabled=""@cropButtonDisabled"">Get Cropped Image</Button>
+            <Button Color=""Color.Secondary"" Clicked=""@ResetSelection"" Disabled=""@cropButtonDisabled"">Reset Selection</Button>
         </Div>
-        <Image Source=""@result"" Style=""width: 250px; height: 250px;"" />
+        <Image Source=""@result"" Border=""Border.Is1"" Style=""width: 250px; height: 250px;"" />
     </Column>
 </Row>
-
 
 @code {
     private Cropper cropper;
     private string result;
+    private bool cropButtonDisabled = true;
 
-    private Task OnCropped()
+    private Task OnSelectionChanged( CropperSelectionChangedEventArgs eventArgs )
     {
+        if ( eventArgs.Width != 0 )
+        {
+            cropButtonDisabled = false;
+
+            return InvokeAsync( StateHasChanged );
+        }
+
         return Task.CompletedTask;
     }
 
     private async Task GetCroppedImage()
     {
         result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
+    }
+
+    private async Task ResetSelection()
+    {
+        cropButtonDisabled = true;
+
+        await cropper.ResetSelection();
     }
 }";
 
@@ -4940,7 +4955,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
             Image Cropper
         </FieldLabel>
         <FieldBody>
-            <Cropper @ref=""cropper"" Source=""img/gallery/3.jpg"" CropperState=""@cropperState"" />
+            <Cropper Source=""img/gallery/3.jpg"" CropperState=""@cropperState"" />
         </FieldBody>
     </Column>
     <Column>
@@ -4955,21 +4970,8 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     </Column>
 </Row>
 
-
 @code {
-    private Cropper cropper;
     private CropperState cropperState = new();
-    private string result;
-
-    private Task OnCropped()
-    {
-        return Task.CompletedTask;
-    }
-
-    private async Task GetCroppedImage()
-    {
-        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
-    }
 }";
 
         public const string ImportCropperExample = @"@using Blazorise.Cropper";

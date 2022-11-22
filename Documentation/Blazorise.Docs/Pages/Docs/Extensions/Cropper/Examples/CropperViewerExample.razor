@@ -6,7 +6,7 @@
             Image Cropper
         </FieldLabel>
         <FieldBody>
-            <Cropper @ref="cropper" Source="img/gallery/3.jpg" CropperState="@cropperState" />
+            <Cropper Source="img/gallery/3.jpg" CropperState="@cropperState" />
         </FieldBody>
     </Column>
     <Column>
@@ -21,19 +21,6 @@
     </Column>
 </Row>
 
-
 @code {
-    private Cropper cropper;
     private CropperState cropperState = new();
-    private string result;
-
-    private Task OnCropped()
-    {
-        return Task.CompletedTask;
-    }
-
-    private async Task GetCroppedImage()
-    {
-        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
-    }
 }
