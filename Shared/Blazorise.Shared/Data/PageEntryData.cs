@@ -32,7 +32,7 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/pwa", "PWA" ),
 
                 new PageEntry( "docs/components/accordion", "Accordion", "Build vertically collapsing accordions in combination with our Collapse component." ),
-                new PageEntry( "docs/components/addon", "Adddon", "Easily extend form controls by adding text, or buttons on either side of textual inputs, custom selects, and custom file inputs." ),
+                new PageEntry( "docs/components/addon", "Addon", "Easily extend form controls by adding text, or buttons on either side of textual inputs, custom selects, and custom file inputs." ),
                 new PageEntry( "docs/components/alert", "Alert", "Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages." ),
                 new PageEntry( "docs/components/badge", "Badge", "Badges are used to draw attention and display statuses or counts." ),
                 new PageEntry( "docs/components/bar", "Bar", "A responsive navbar that can support images, links, buttons, and dropdowns." ),
