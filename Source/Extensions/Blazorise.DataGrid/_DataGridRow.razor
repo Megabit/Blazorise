@@ -24,12 +24,6 @@
               Class="@GetClass(styling, selectedStyling)"
               Style="@GetStyle(styling, selectedStyling)"
               HoverCursor="@GetHoverCursor()">
-        @if (ParentDataGrid.OverlayTemplate != null && mouseIsOver)
-        {
-            <Div Style="z-index:1000;position:absolute;right:0px;height:100%;">
-            @ParentDataGrid.OverlayTemplate(Item)
-            </Div>
-        }
         @foreach ( var column in Columns )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )
@@ -72,6 +66,15 @@
                     }
                 </TableRowCell>
             }
+        }        
+        @if (ParentDataGrid.OverlayTemplate != null && mouseIsOver)
+        {
+            <TableRowCell Style="width:0px;margin:0px;padding:0px" Overflow="Overflow.Visible">
+                <Div Style="position:absolute;right:0px;margin:0px;padding;0px">
+                        @ParentDataGrid.OverlayTemplate(Item)
+                </Div>
+            </TableRowCell>
         }
+
     </TableRow>
 }
