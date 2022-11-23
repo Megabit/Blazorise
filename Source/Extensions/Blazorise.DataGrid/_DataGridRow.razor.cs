@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Blazorise.DataGrid.Models;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.DataGrid
@@ -13,7 +14,7 @@ namespace Blazorise.DataGrid
     public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     {
         #region Members
-
+        protected bool mouseIsOver = false;
         /// <summary>
         /// List of columns used to build this row.
         /// </summary>
@@ -106,6 +107,16 @@ namespace Blazorise.DataGrid
             return base.OnAfterRenderAsync( firstRender );
         }
 
+        protected internal async Task HandleMouseLeave( BLMouseEventArgs eventArgs )
+        {
+            mouseIsOver = false;
+            await ParentDataGrid.OnRowLeaveCommand( new( Item, eventArgs ) );
+        }
+        protected internal async Task HandleMouseOver( BLMouseEventArgs eventArgs )
+        {
+            mouseIsOver = true;
+            await ParentDataGrid.OnRowOverCommand( new( Item, eventArgs ) );
+        }
         protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
         {
             if ( !clickFromMultiSelectCheck )

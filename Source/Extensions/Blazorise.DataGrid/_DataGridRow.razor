@@ -14,6 +14,8 @@
     }
 
     <TableRow Clicked="@HandleClick"
+              MouseOver="HandleMouseOver"
+              MouseLeave="HandleMouseLeave"
               DoubleClicked="@HandleDoubleClick"
               ContextMenu="@HandleContextMenu"
               ContextMenuPreventDefault="@ParentDataGrid.RowContextMenuPreventDefault"
@@ -64,6 +66,20 @@
                     }
                 </TableRowCell>
             }
+        }        
+        @if (ParentDataGrid.RowOverlayTemplate != null && mouseIsOver)
+        {
+            IFluentPositionEdgeOffset pos = Position.Absolute.End;
+            if (ParentDataGrid.RowOverlayPosition == Enums.RowOverlayPosition.Start)
+            {
+                pos = Position.Absolute.Start;
+            }
+            <TableRowCell Margin="Margin.Is0" Padding="Padding.Is0" Style="width:0px" Overflow="Overflow.Visible">
+                <Div Position="@pos" Margin="Margin.Is0" Padding="Padding.Is0" >
+                        @ParentDataGrid.RowOverlayTemplate(Item)
+                </Div>
+            </TableRowCell>
         }
+
     </TableRow>
 }
