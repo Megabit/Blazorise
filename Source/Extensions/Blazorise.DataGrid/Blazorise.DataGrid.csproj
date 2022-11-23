@@ -9,7 +9,6 @@
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <NoWarn>1591</NoWarn>
-    <Version>1.1.3</Version>
   </PropertyGroup>
 
   <ItemGroup>

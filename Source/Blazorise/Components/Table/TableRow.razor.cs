@@ -69,7 +69,7 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected Task OnMouseOverHandler(MouseEventArgs eventArgs )
         {
-            return MouseOvered.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+            return MouseOver.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
         }
 
         #endregion
@@ -134,7 +134,7 @@ namespace Blazorise
         /// <summary>
         /// Occurs when the row is mouse overed.
         /// </summary>
-        [Parameter] public EventCallback<BLMouseEventArgs> MouseOvered { get; set; }
+        [Parameter] public EventCallback<BLMouseEventArgs> MouseOver { get; set; }
 
         /// <summary>
         /// Occurs when the row is mouse leaved.

@@ -14,7 +14,7 @@
     }
 
     <TableRow Clicked="@HandleClick"
-              MouseOvered="HandleMouseOver"
+              MouseOver="HandleMouseOver"
               MouseLeave="HandleMouseLeave"
               DoubleClicked="@HandleDoubleClick"
               ContextMenu="@HandleContextMenu"
@@ -69,8 +69,8 @@
         }        
         @if (ParentDataGrid.OverlayTemplate != null && mouseIsOver)
         {
-            <TableRowCell Style="width:0px;margin:0px;padding:0px" Overflow="Overflow.Visible">
-                <Div Style="position:absolute;right:0px;margin:0px;padding;0px">
+            <TableRowCell Margin="Margin.Is0" Padding="Padding.Is0" Style="width:0px" Overflow="Overflow.Visible">
+                <Div Position="Position.Absolute.End" Margin="Margin.Is0" Padding="Padding.Is0" >
                         @ParentDataGrid.OverlayTemplate(Item)
                 </Div>
             </TableRowCell>
