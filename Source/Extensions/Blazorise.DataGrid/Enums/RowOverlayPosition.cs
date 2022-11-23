@@ -6,13 +6,13 @@
     public enum RowOverlayPosition
     {        
         /// <summary>
-        /// Overlay start at left of row.
+        /// Overlay positioned at start of row.
         /// </summary>
 
-        Left,
+        Start,
         /// <summary>
-        /// Overlay start at right of row.
+        /// Overlay positioned at right of row.
         /// </summary>
-        Right
+        End
     }
 }

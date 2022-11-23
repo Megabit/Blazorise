@@ -1329,7 +1329,7 @@ namespace Blazorise.DataGrid
         /// </summary>
         [Parameter] public RenderFragment<TItem> RowOverlayTemplate { get; set; }
 
-        [Parameter] public RowOverlayPosition RowOverlayPosition { get; set; } = RowOverlayPosition.Right;
+        [Parameter] public RowOverlayPosition RowOverlayPosition { get; set; } = RowOverlayPosition.End;
 
 
         /// <summary>
