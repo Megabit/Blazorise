@@ -106,16 +106,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Docs.Generator", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.LoadingIndicator", "Source\Extensions\Blazorise.LoadingIndicator\Blazorise.LoadingIndicator.csproj", "{570C2383-EE8C-4F02-91E8-E59B879EDCD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.FluentValidation", "Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj", "{55C2652B-18A3-4B28-935A-67D78BFE6E8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.FluentValidation", "Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj", "{55C2652B-18A3-4B28-935A-67D78BFE6E8C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SourceGenerators", "SourceGenerators", "{0538DB67-B4F3-4D00-B969-D3874A52E405}"
 	ProjectSection(SolutionItems) = preProject
 		Source\SourceGenerators\README.md = Source\SourceGenerators\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Generator", "Source\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj", "{1E8A8C1F-4161-48CA-97EB-D8CA917D1DD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Generator", "Source\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj", "{1E8A8C1F-4161-48CA-97EB-D8CA917D1DD4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Generator.Features", "Source\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj", "{6C3DD66E-C0F0-471F-A00E-F84BA6F30ACB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Generator.Features", "Source\SourceGenerators\Blazorise.Generator.Features\Blazorise.Generator.Features.csproj", "{6C3DD66E-C0F0-471F-A00E-F84BA6F30ACB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
