@@ -3964,12 +3964,14 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.1.3.0"" type=""module""></script>";
 
-        public const string AnimateExample = @"<Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
-    @foreach ( var availableAnimation in Animations.GetNames() )
-    {
-        <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
-    }
-</Select>
+        public const string AnimateExample = @"<Field>
+    <Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
+        @foreach ( var availableAnimation in Animations.GetNames() )
+        {
+            <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
+        }
+    </Select>
+</Field>
 
 @if ( showAnimate )
 {
@@ -4023,6 +4025,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         await InvokeAsync( StateHasChanged );
     }
 }";
+
+        public const string AnimateImportsExample = @"@using Blazorise.Animate";
+
+        public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
         public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.1.3.0""></script>";
 
