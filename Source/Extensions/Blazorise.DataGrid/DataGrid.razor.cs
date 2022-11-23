@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.DataGrid.Enums;
 using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
@@ -1326,7 +1327,9 @@ namespace Blazorise.DataGrid
         /// <summary>
         /// Template for mouse hover overlay display formatting.
         /// </summary>
-        [Parameter] public RenderFragment<TItem> OverlayTemplate { get; set; }
+        [Parameter] public RenderFragment<TItem> RowOverlayTemplate { get; set; }
+
+        [Parameter] public RowOverlayPosition RowOverlayPosition { get; set; } = RowOverlayPosition.Right;
 
 
         /// <summary>

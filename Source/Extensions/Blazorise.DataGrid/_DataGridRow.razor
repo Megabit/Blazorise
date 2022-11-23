@@ -67,11 +67,16 @@
                 </TableRowCell>
             }
         }        
-        @if (ParentDataGrid.OverlayTemplate != null && mouseIsOver)
+        @if (ParentDataGrid.RowOverlayTemplate != null && mouseIsOver)
         {
+            IFluentPositionEdgeOffset pos = Position.Absolute.End;
+            if (ParentDataGrid.RowOverlayPosition == Enums.RowOverlayPosition.Left)
+            {
+                pos = Position.Absolute.Start;
+            }
             <TableRowCell Margin="Margin.Is0" Padding="Padding.Is0" Style="width:0px" Overflow="Overflow.Visible">
-                <Div Position="Position.Absolute.End" Margin="Margin.Is0" Padding="Padding.Is0" >
-                        @ParentDataGrid.OverlayTemplate(Item)
+                <Div Position="@pos" Margin="Margin.Is0" Padding="Padding.Is0" >
+                        @ParentDataGrid.RowOverlayTemplate(Item)
                 </Div>
             </TableRowCell>
         }
