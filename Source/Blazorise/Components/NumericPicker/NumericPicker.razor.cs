@@ -88,7 +88,7 @@ namespace Blazorise
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            if ( Rendered || initializing )
+            if ( Rendered )
             {
                 var decimalsChanged = isIntegerType ? false : parameters.TryGetValue<int>( nameof( Decimals ), out var paramDecimals ) && !Decimals.IsEqual( paramDecimals );
                 var decimalSeparatorChanged = parameters.TryGetValue<string>( nameof( DecimalSeparator ), out var paramDecimalSeparator ) && !DecimalSeparator.IsEqual( paramDecimalSeparator );
@@ -143,7 +143,10 @@ namespace Blazorise
                         WheelOn = new { Changed = wheelOnChanged, Value = paramWheelOn.ToNumericWheelOn() },
                     } ) );
                 }
+            }
 
+            if ( Rendered || initializing )
+            {
                 var valueChanged = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !Value.IsEqual( paramValue );
 
                 if ( valueChanged )
