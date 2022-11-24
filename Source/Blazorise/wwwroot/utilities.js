@@ -193,7 +193,7 @@ function isExponential(num) {
 
 export function fromExponential(num) {
     if (!num)
-        return null;
+        return num;
 
     const eParts = getExponentialParts(num);
     if (!isExponential(eParts)) {
