@@ -1,4 +1,4 @@
-﻿import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=1.1.4.0";
+﻿import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=1.1.4.1";
 
 export function open(element, scrollToTop) {
     // adjust modal and page padding BEFORE modal is shown

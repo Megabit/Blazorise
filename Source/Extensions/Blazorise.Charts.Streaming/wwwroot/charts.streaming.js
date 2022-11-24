@@ -1,5 +1,5 @@
-import { getChart, compileOptionCallbacks } from "../Blazorise.Charts/charts.js?v=1.1.4.0";
-import { deepClone } from "../Blazorise.Charts/utilities.js?v=1.1.4.0";
+import { getChart, compileOptionCallbacks } from "../Blazorise.Charts/charts.js?v=1.1.4.1";
+import { deepClone } from "../Blazorise.Charts/utilities.js?v=1.1.4.1";
 
 Chart.defaults.set('plugins.streaming', {
     duration: 20000

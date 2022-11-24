@@ -1,4 +1,4 @@
-﻿import { getRequiredElement } from "./utilities.js?v=1.1.4.0";
+﻿import { getRequiredElement } from "./utilities.js?v=1.1.4.1";
 
 const _instances = [];
 export function initialize(element, elementId) {
