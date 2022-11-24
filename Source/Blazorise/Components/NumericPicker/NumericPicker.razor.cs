@@ -140,7 +140,7 @@ namespace Blazorise
                         MinMaxLimitsOverride = new { Changed = minMaxLimitsOverrideChanged, Value = paramMinMaxLimitsOverride },
                         SelectAllOnFocus = new { Changed = selectAllOnFocusChanged, Value = paramSelectAllOnFocus },
                         ModifyValueOnWheel = new { Changed = modifyValueOnWheelChanged, Value = paramModifyValueOnWheel },
-                        WheelOn = new { Changed = wheelOnChanged, Value = paramWheelOn },
+                        WheelOn = new { Changed = wheelOnChanged, Value = paramWheelOn.ToNumericWheelOn() },
                     } ) );
                 }
 
