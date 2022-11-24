@@ -103,10 +103,10 @@ export function updateOptions(element, elementId, options) {
         }
 
         if (options.min.changed) {
-            newOptions.minimumValue = firstNonNull(options.min.value, AutoNumeric.options.minimumValue.tenTrillions);
+            newOptions.minimumValue = fromExponential(firstNonNull(options.min.value, AutoNumeric.options.minimumValue.tenTrillions));
         }
         if (options.max.changed) {
-            newOptions.maximumValue = firstNonNull(options.max.value, AutoNumeric.options.maximumValue.tenTrillions);
+            newOptions.maximumValue = fromExponential(firstNonNull(options.max.value, AutoNumeric.options.maximumValue.tenTrillions));
         }
 
         if (options.minMaxLimitsOverride.changed) {
