@@ -72,13 +72,13 @@ namespace Blazorise
             {
                 await OnFirstAfterRenderAsync();
 
+                Rendered = true;
+
                 if ( PushDelayedExecuteAfterRender() )
                 {
                     await InvokeAsync( StateHasChanged );
                 }
             }
-
-            Rendered = true;
 
             if ( executeAfterRenderQueue?.Count > 0 )
             {
