@@ -126,24 +126,6 @@ namespace Blazorise
         }
 
         /// <inheritdoc/>
-        protected override async Task OnAfterRenderAsync( bool firstRender )
-        {
-            if ( firstRender )
-            {
-                await OnFirstAfterRenderAsync();
-            }
-
-            await base.OnAfterRenderAsync( firstRender );
-        }
-
-        /// <summary>
-        /// Method is called only once when component is first rendered.
-        /// </summary>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        protected virtual Task OnFirstAfterRenderAsync()
-            => Task.CompletedTask;
-
-        /// <inheritdoc/>
         protected override void Dispose( bool disposing )
         {
             if ( disposing )

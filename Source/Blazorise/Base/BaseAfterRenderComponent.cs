@@ -19,6 +19,11 @@ namespace Blazorise
         /// </summary>
         private Queue<Func<Task>> executeAfterRenderQueue;
 
+        /// <summary>
+        /// A stack of functions to execute after the rendering. Used only during the component initialization.
+        /// </summary>
+        private Queue<Func<Task>> delayedExecuteAfterRenderQueue;
+
         #endregion
 
         #region Methods
@@ -29,14 +34,50 @@ namespace Blazorise
         /// <param name="action"></param>
         protected void ExecuteAfterRender( Func<Task> action )
         {
-            executeAfterRenderQueue ??= new();
+            if ( ShouldDelayExecution && !Rendered )
+            {
+                delayedExecuteAfterRenderQueue ??= new();
+                delayedExecuteAfterRenderQueue.Enqueue( action );
+            }
+            else
+            {
+                executeAfterRenderQueue ??= new();
+                executeAfterRenderQueue.Enqueue( action );
+            }
+        }
 
-            executeAfterRenderQueue.Enqueue( action );
+        private bool PushDelayedExecuteAfterRender()
+        {
+            if ( delayedExecuteAfterRenderQueue?.Count > 0 )
+            {
+                while ( delayedExecuteAfterRenderQueue.Count > 0 )
+                {
+                    var action = delayedExecuteAfterRenderQueue.Dequeue();
+
+                    ExecuteAfterRender( action );
+                }
+
+                delayedExecuteAfterRenderQueue = null;
+
+                return true;
+            }
+
+            return false;
         }
 
         /// <inheritdoc/>
         protected override async Task OnAfterRenderAsync( bool firstRender )
         {
+            if ( firstRender )
+            {
+                await OnFirstAfterRenderAsync();
+
+                if ( PushDelayedExecuteAfterRender() )
+                {
+                    await InvokeAsync( StateHasChanged );
+                }
+            }
+
             Rendered = true;
 
             if ( executeAfterRenderQueue?.Count > 0 )
@@ -51,6 +92,13 @@ namespace Blazorise
 
             await base.OnAfterRenderAsync( firstRender );
         }
+
+        /// <summary>
+        /// Method is called only once when component is first rendered.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        protected virtual Task OnFirstAfterRenderAsync()
+            => Task.CompletedTask;
 
         /// <inheritdoc/>
         public void Dispose()
@@ -131,6 +179,11 @@ namespace Blazorise
         /// Indicates if component has been rendered in the browser.
         /// </summary>
         protected bool Rendered { get; private set; }
+
+        /// <summary>
+        /// Indicates if we should wait until the component is fully initialized until we execute methods.
+        /// </summary>
+        protected virtual bool ShouldDelayExecution => false;
 
         /// <summary>
         /// Service that frees the component from the memory.
