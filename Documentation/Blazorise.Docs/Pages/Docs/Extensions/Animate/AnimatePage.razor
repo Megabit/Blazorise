@@ -11,13 +11,13 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The Animate component provides a wrapper that will animate your content. It is based on the <Blazorise.Link Target="Target.Blank" To="https://michalsnik.github.io/aos/">AOS javascript library</Blazorise.Link>. 
+    The Animate component provides a wrapper that will animate your content. It is based on the <Blazorise.Link Target="Target.Blank" To="https://michalsnik.github.io/aos/">AOS javascript library</Blazorise.Link>.
 </DocsPageParagraph>
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        <Paragraph>Blazorise acts as a wrapper for the animation functionality provided by the aos library. If you're having any issues please make sure to also take a look at the aos library repository.</Paragraph>
-        
+        <Paragraph>Blazorise acts as a wrapper for the animation functionality provided by the <Link To="https://michalsnik.github.io/aos/">aos library</Link>. If you're having any issues please make sure to also take a look at the aos library repository.</Paragraph>
+
         <Paragraph>There might be certain content, that due to how they are structured/styled might not be possible to animate.</Paragraph>
         <Paragraph>It is not possible to animate:</Paragraph>
         <UnorderedList>
@@ -28,7 +28,7 @@
 
 <Alert Color="Color.Info" Visible>
     <AlertDescription>
-        Take note, that certain elements in the page may affect how the aos library finds the "offset" element necessary to trigger the animation. It is known that Sidebars for instance can affect this behaviour. 
+        Take note, that certain elements in the page may affect how the aos library finds the "offset" element necessary to trigger the animation. It is known that Sidebars for instance can affect this behaviour.
         To make sure your content is successfully animated you may configure the <Code>Anchor</Code> parameter giving the <Code>Animate</Code> component the necessary information to work.
 
         For example, the animate example given below, is configured as explained.
@@ -39,17 +39,18 @@
     Installation
 </DocsPageSubtitle>
 
-<Alert Color="Color.Info" Visible>
-    <AlertDescription>
-        The Animate extension is part of the <Code>Blazorise.Components</Code> NuGet package.
-    </AlertDescription>
-</Alert>
-
 <DocsPageSection>
     <DocsPageSectionHeader Title="NuGet">
         Install extension from NuGet.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="ComponentsNugetInstallExample"></DocsPageSectionSource>
+    <DocsPageSectionSource Code="AnimateNugetInstallExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="AnimateImportsExample" />
 </DocsPageSection>
 
 <DocsPageSection>

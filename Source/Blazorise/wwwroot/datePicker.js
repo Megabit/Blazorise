@@ -1,5 +1,5 @@
-﻿import "./vendors/flatpickr.js?v=1.1.3.0";
-import * as utilities from "./utilities.js?v=1.1.3.0";
+﻿import "./vendors/flatpickr.js?v=1.1.4.1";
+import * as utilities from "./utilities.js?v=1.1.4.1";
 
 const _pickers = [];
 
@@ -78,6 +78,13 @@ export function initialize(element, elementId, options) {
 
 export function destroy(element, elementId) {
     const instances = _pickers || {};
+
+    const instance = instances[elementId];
+
+    if (instance) {
+        instance.destroy();
+    }
+
     delete instances[elementId];
 }
 

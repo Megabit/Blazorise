@@ -33,6 +33,11 @@ namespace Blazorise.Markdown
         /// </summary>
         private bool autofocus;
 
+        /// <summary>
+        /// A stack of functions to execute after the rendering.
+        /// </summary>
+        private Queue<Func<Task>> delayedExecuteAfterRenderQueue;
+
         #endregion
 
         #region Methods
@@ -50,9 +55,9 @@ namespace Blazorise.Markdown
         /// <inheritdoc/>
         public override async Task SetParametersAsync( ParameterView parameters )
         {
-            if ( Initialized && parameters.TryGetValue<string>( nameof( Value ), out var newValue ) && newValue != Value )
+            if ( Rendered && parameters.TryGetValue<string>( nameof( Value ), out var newValue ) && newValue != Value )
             {
-                ExecuteAfterRender( () => SetValueAsync( newValue ) );
+                TryExecuteAfterRender( () => SetValueAsync( newValue ) );
             }
 
             await base.SetParametersAsync( parameters );
@@ -70,7 +75,7 @@ namespace Blazorise.Markdown
                     }
                     else
                     {
-                        ExecuteAfterRender( () => Focus() );
+                        TryExecuteAfterRender( () => Focus() );
                     }
                 }
                 else
@@ -81,13 +86,9 @@ namespace Blazorise.Markdown
         }
 
         /// <inheritdoc/>
-        protected override async Task OnAfterRenderAsync( bool firstRender )
+        protected override async Task OnFirstAfterRenderAsync()
         {
-            await base.OnAfterRenderAsync( firstRender );
-
-            if ( firstRender )
-            {
-                dotNetObjectRef ??= DotNetObjectReference.Create( this );
+            dotNetObjectRef ??= DotNetObjectReference.Create( this );
 
                 await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
                 {
@@ -150,8 +151,9 @@ namespace Blazorise.Markdown
                     UsePreviewRender = PreviewRender != null,
                 } );
 
-                Initialized = true;
-            }
+            TryPushExecuteAfterRender();
+
+            await base.OnFirstAfterRenderAsync();
         }
 
         /// <inheritdoc/>
@@ -170,16 +172,72 @@ namespace Blazorise.Markdown
             await base.DisposeAsync( disposing );
         }
 
+        protected void TryExecuteAfterRender( Func<Task> action )
+        {
+            // if we have already rendered then just forward the action to the base component
+            if ( Rendered )
+            {
+                ExecuteAfterRender( action );
+
+                return;
+            }
+
+            delayedExecuteAfterRenderQueue ??= new();
+            delayedExecuteAfterRenderQueue.Enqueue( action );
+        }
+
+        protected void TryPushExecuteAfterRender()
+        {
+            if ( delayedExecuteAfterRenderQueue?.Count > 0 )
+            {
+                while ( delayedExecuteAfterRenderQueue.Count > 0 )
+                {
+                    var action = delayedExecuteAfterRenderQueue.Dequeue();
+
+                    ExecuteAfterRender( action );
+                }
+
+                InvokeAsync( StateHasChanged );
+            }
+        }
+
+        /// <summary>
+        /// Executes given action after the rendering is done.
+        /// </summary>
+        /// <remarks>Don't await this on the UI thread, because that will cause a deadlock.</remarks>
+        protected async Task<T> ExecuteAfterRenderAsync<T>( Func<Task<T>> action, CancellationToken token = default )
+        {
+            var source = new TaskCompletionSource<T>();
+
+            token.Register( () => source.TrySetCanceled() );
+
+            TryExecuteAfterRender( async () =>
+            {
+                try
+                {
+                    var result = await action();
+                    source.TrySetResult( result );
+                }
+                catch ( TaskCanceledException )
+                {
+                    source.TrySetCanceled();
+                }
+                catch ( Exception e )
+                {
+                    source.TrySetException( e );
+                }
+            } );
+
+            return await source.Task.ConfigureAwait( false );
+        }
+
         /// <summary>
         /// Gets the markdown value.
         /// </summary>
         /// <returns>Markdown value.</returns>
         public async Task<string> GetValueAsync()
         {
-            if ( !Initialized )
-                return null;
-
-            return await JSModule.GetValue( ElementId );
+            return await ExecuteAfterRenderAsync( async () => await JSModule.GetValue( ElementId ) );
         }
 
         /// <summary>
@@ -189,10 +247,7 @@ namespace Blazorise.Markdown
         /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task SetValueAsync( string value )
         {
-            if ( !Initialized )
-                return;
-
-            await JSModule.SetValue( ElementId, value );
+            await InvokeAsync( () => TryExecuteAfterRender( async () => await JSModule.SetValue( ElementId, value ) ) );
         }
 
         /// <summary>
@@ -382,11 +437,6 @@ namespace Blazorise.Markdown
         /// Gets or sets the <see cref="IJSFileModule"/> instance.
         /// </summary>
         [Inject] public IJSFileModule JSFileModule { get; set; }
-
-        /// <summary>
-        /// Indicates if markdown editor is properly initialized.
-        /// </summary>
-        protected bool Initialized { get; set; }
 
         /// <summary>
         /// Gets or set the javascript runtime.
