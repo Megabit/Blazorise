@@ -377,6 +377,9 @@ namespace Blazorise.Markdown
         /// <inheritdoc/>
         protected override bool ShouldAutoGenerateId => true;
 
+        /// <inheritdoc/>
+        protected override bool ShouldDelayExecution => true;
+
         /// <summary>
         /// Gets or sets the <see cref="JSMarkdownModule"/> instance.
         /// </summary>
