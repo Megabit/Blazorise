@@ -64,6 +64,9 @@ public partial class DropContainer<TItem> : BaseComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task CommitTransaction( string dropZoneName, bool reorderIsAllowed )
     {
+        if ( transaction is null )
+            return;
+
         await transaction.Commit();
 
         var index = -1;

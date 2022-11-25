@@ -1102,6 +1102,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public int MinLength { get; set; } = 1;
 
     /// <summary>
+    /// Specifies the maximum number of characters allowed in the input element.
+    /// </summary>
+    [Parameter] public int? MaxEntryLength { get; set; }
+
+    /// <summary>
     /// Sets the maximum height of the dropdown menu.
     /// </summary>
     [Parameter] public string MaxMenuHeight { get; set; }

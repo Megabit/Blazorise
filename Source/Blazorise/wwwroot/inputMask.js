@@ -1,5 +1,5 @@
-﻿import Inputmask from "./vendors/inputmask.js?v=1.1.3.0";
-import { getRequiredElement } from "./utilities.js?v=1.1.3.0";
+﻿import Inputmask from "./vendors/inputmask.js?v=1.1.4.1";
+import { getRequiredElement } from "./utilities.js?v=1.1.4.1";
 
 let _instances = [];
 

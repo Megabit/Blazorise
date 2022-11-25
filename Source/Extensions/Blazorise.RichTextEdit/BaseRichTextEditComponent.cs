@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 #endregion
@@ -11,6 +12,15 @@ namespace Blazorise.RichTextEdit;
 /// </summary>
 public class BaseRichTextEditComponent : BaseComponent
 {
+    #region Members
+
+    /// <summary>
+    /// A stack of functions to execute after the rendering.
+    /// </summary>
+    private Queue<Func<Task>> delayedExecuteAfterRenderQueue;
+
+    #endregion
+
     #region Constructors
 
     /// <summary>
@@ -22,6 +32,35 @@ public class BaseRichTextEditComponent : BaseComponent
 
     #region Methods
 
+    protected void TryExecuteAfterRender( Func<Task> action )
+    {
+        // if we have already rendered then just forward the action to the base component
+        if ( Rendered )
+        {
+            ExecuteAfterRender( action );
+
+            return;
+        }
+
+        delayedExecuteAfterRenderQueue ??= new();
+        delayedExecuteAfterRenderQueue.Enqueue( action );
+    }
+
+    protected void TryPushExecuteAfterRender()
+    {
+        if ( delayedExecuteAfterRenderQueue?.Count > 0 )
+        {
+            while ( delayedExecuteAfterRenderQueue.Count > 0 )
+            {
+                var action = delayedExecuteAfterRenderQueue.Dequeue();
+
+                ExecuteAfterRender( action );
+            }
+
+            InvokeAsync( StateHasChanged );
+        }
+    }
+
     /// <summary>
     /// Executes given action after the rendering is done.
     /// </summary>
@@ -32,7 +71,7 @@ public class BaseRichTextEditComponent : BaseComponent
 
         token.Register( () => source.TrySetCanceled() );
 
-        ExecuteAfterRender( async () =>
+        TryExecuteAfterRender( async () =>
         {
             try
             {
