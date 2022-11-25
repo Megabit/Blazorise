@@ -1104,7 +1104,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Specifies the maximum number of characters allowed in the input element.
         /// </summary>
-        [Parameter] public int? MaxLength { get; set; }
+        [Parameter] public int? MaxEntryLength { get; set; }
 
         /// <summary>
         /// Sets the maximum height of the dropdown menu.
