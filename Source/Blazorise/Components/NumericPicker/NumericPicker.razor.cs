@@ -58,11 +58,6 @@ namespace Blazorise
         /// </summary>
         private string inputMode;
 
-        /// <summary>
-        /// Indicates if the component is still initializing.
-        /// </summary>
-        private bool initializing = true;
-
         #endregion
 
         #region Constructors
@@ -140,14 +135,11 @@ namespace Blazorise
                 }
             }
 
-            if ( Rendered || initializing )
-            {
-                var valueChanged = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !Value.IsEqual( paramValue );
+            var valueChanged = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !Value.IsEqual( paramValue );
 
-                if ( valueChanged )
-                {
-                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
-                }
+            if ( valueChanged )
+            {
+                ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
             }
 
             // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
@@ -210,8 +202,6 @@ namespace Blazorise
                 ModifyValueOnWheel,
                 WheelOn = WheelOn.ToNumericWheelOn(),
             } );
-
-            initializing = false;
 
             await base.OnFirstAfterRenderAsync();
         }
