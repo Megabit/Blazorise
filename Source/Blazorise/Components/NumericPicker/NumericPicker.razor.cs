@@ -213,8 +213,6 @@ namespace Blazorise
 
             initializing = false;
 
-            //PushDelayedExecuteAfterRender();
-
             await base.OnFirstAfterRenderAsync();
         }
 

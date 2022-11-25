@@ -145,8 +145,6 @@ namespace Blazorise.Markdown
                 ToolbarButtonClassPrefix
             } );
 
-            //PushDelayedExecuteAfterRender();
-
             await base.OnFirstAfterRenderAsync();
         }
 

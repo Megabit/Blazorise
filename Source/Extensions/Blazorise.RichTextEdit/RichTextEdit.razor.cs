@@ -50,8 +50,6 @@ namespace Blazorise.RichTextEdit
                 await OnContentChanged();
             }
 
-            //PushDelayedExecuteAfterRender();
-
             await base.OnFirstAfterRenderAsync();
         }
 
