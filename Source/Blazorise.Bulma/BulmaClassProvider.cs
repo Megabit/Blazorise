@@ -326,6 +326,12 @@ namespace Blazorise.Bulma
 
         #endregion
 
+        #region FocusTrap
+
+        public override string FocusTrap() => "focus-trap";
+
+        #endregion
+
         #region Control
 
         public override string ControlCheck() => "control";
@@ -691,6 +697,9 @@ namespace Blazorise.Bulma
                 ? "dropdown-item"
                 : "navbar-link b-bar-dropdown-toggle"
             : "b-bar-link b-bar-dropdown-toggle";
+
+        public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
+            => mode == Blazorise.BarMode.Horizontal && disabled ? "navbar-link-disabled" : null;
 
         public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-item" : "b-bar-dropdown-item";
 
@@ -1358,6 +1367,23 @@ namespace Blazorise.Bulma
                 default:
                     return null;
             }
+        }
+
+        public override string ToDisplayType( DisplayType displayType )
+        {
+            return displayType switch
+            {
+                Blazorise.DisplayType.None => "hidden",
+                Blazorise.DisplayType.Block => "block",
+                Blazorise.DisplayType.Inline => "inline",
+                Blazorise.DisplayType.InlineBlock => "inline-block",
+                Blazorise.DisplayType.Flex => "flex",
+                Blazorise.DisplayType.InlineFlex => "inline-flex",
+                Blazorise.DisplayType.Table => "table",
+                Blazorise.DisplayType.TableRow => "table-row",
+                Blazorise.DisplayType.TableCell => "table-cell",
+                _ => null,
+            };
         }
 
         public override string ToBackground( Background background )

@@ -1229,6 +1229,19 @@ public class Gender
 
         public const string DateEditDateTimeExample = @"<DateEdit TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
 
+        public const string DateEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>dateEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <DateEdit @ref=""@dateEditRef"" TValue=""DateTime"" />
+</Field>
+
+@code {
+    DateEdit<DateTime> dateEditRef;
+}";
+
         public const string DateEditWithBindExample = @"<DateEdit TValue=""DateTime?"" @bind-Date=""@selectedDate"" />
 
 @code{
@@ -1637,6 +1650,19 @@ public class Gender
 <Field>
     <FileEdit Filter="".jpg, .png, .gif"" />
 </Field>";
+
+        public const string FileEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>fileEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <FileEdit @ref=""@fileEditRef"" />
+</Field>
+
+@code {
+    FileEdit fileEditRef;
+}";
 
         public const string FilePickerCustomExample = @"@using System.IO
 
@@ -2933,9 +2959,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicStepExample = @"<Steps SelectedStep=""@selectedStep"" SelectedStepChanged=""@OnSelectedStepChanged"">
     <Items>
-        <Step Name=""step1"">Step 1</Step>
-        <Step Name=""step2"">Step 2</Step>
-        <Step Name=""step3"">Step 3</Step>
+        <Step Name=""step1"">Create campaign settings</Step>
+        <Step Name=""step2"">Create an ad group</Step>
+        <Step Name=""step3"">Create an add</Step>
         <Step Name=""step4"">
             <Marker>
                 <Icon Name=""IconName.Flag"" />
@@ -3600,6 +3626,19 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" Inline />";
 
+        public const string TimeEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>timeEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <TimeEdit @ref=""@timeEditRef"" TValue=""DateTime"" />
+</Field>
+
+@code {
+    TimeEdit<DateTime> timeEditRef;
+}";
+
         public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
 
 @code{
@@ -3953,6 +3992,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js"" type=""module""></script>";
 
+        public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
+
+        public const string TemplatesInstallExample = @"dotnet new install Blazorise.Templates";
+
+        public const string TemplatesVersionInstallExample = @"dotnet new install Blazorise.Templates::1.1.0";
+
         public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js"" type=""module""></script>";
 
         public const string AnimateExample = @"<Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
@@ -4015,7 +4060,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.1.0.0""></script>";
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.1.3.0""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -4288,14 +4333,59 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ChartEventExample = @"<Chart @ref=""barChart"" Type=""ChartType.Bar"" TItem=""double"" Clicked=""@OnClicked"" />
-@code{
+@code {
     Chart<double> barChart;
 
-    void OnClicked( ChartMouseEventArgs e )
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
+    }
+
+    async Task HandleRedraw()
+    {
+        await barChart.Clear();
+
+        await barChart.AddLabelsDatasetsAndUpdate( Labels, GetBarChartDataset() );
+    }
+
+    private BarChartDataset<double> GetBarChartDataset()
+    {
+        return new()
+            {
+                Label = ""# of randoms"",
+                Data = RandomizeData(),
+                BackgroundColor = backgroundColors,
+                BorderColor = borderColors,
+                BorderWidth = 1
+            };
+    }
+
+    string[] Labels = { ""Red"", ""Blue"", ""Yellow"", ""Green"", ""Purple"", ""Orange"" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
+    List<double> RandomizeData()
+    {
+        var r = new Random( DateTime.Now.Millisecond );
+
+        return new List<double> {
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble() };
+    }
+
+    Task OnClicked( ChartMouseEventArgs e )
     {
         var model = e.Model as BarChartModel;
 
-        Console.WriteLine( $""{model.X}-{model.Y}"" );
+        Console.WriteLine( $""Handling event for {nameof( BarChartModel )}: x:{model.X} y:{model.Y}"" );
+        return Task.CompletedTask;
     }
 }";
 
@@ -4358,6 +4448,172 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string ChartNugetInstallExample = @"Install-Package Blazorise.Charts";
 
         public const string ChartResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>";
+
+        public const string ChartDataLabelsExample = @"<LineChart @ref=""@lineChart"" TItem=""int"" Options=""@lineChartOptions"">
+    <ChartDataLabels TItem=""int"" Datasets=""@lineDataLabelsDatasets"" Options=""@lineDataLabelsOptions"" />
+</LineChart>
+
+@code {
+    private LineChart<int> lineChart;
+
+    // define regular chart options
+    LineChartOptions lineChartOptions = new()
+    {
+        AspectRatio = 5d / 3d,
+        Layout = new()
+        {
+            Padding = new()
+            {
+                Top = 32,
+                Right = 16,
+                Bottom = 16,
+                Left = 8
+            }
+        },
+        Elements = new()
+        {
+            Line = new()
+            {
+                Fill = false,
+                Tension = 0.4,
+            }
+        },
+        Scales = new()
+        {
+            Y = new()
+            {
+                Stacked = true,
+            }
+        },
+        Plugins = new()
+        {
+            Legend = new()
+            {
+                Display = false
+            }
+        }
+    };
+
+    // define specific dataset styles by targeting them with the DatasetIndex
+    List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
+    {
+        new()
+        {
+            DatasetIndex = 0,
+            Options = new()
+            {
+                BackgroundColor = BackgroundColors[0],
+                BorderColor = BorderColors[0],
+                Align = ""start"",
+                Anchor = ""start""
+            }
+        },
+        new()
+        {
+            DatasetIndex = 1,
+            Options = new ()
+            {
+                BackgroundColor = BackgroundColors[1],
+                BorderColor = BorderColors[1],
+            }
+        },
+        new()
+        {
+            DatasetIndex = 2,
+            Options = new ()
+            {
+                BackgroundColor = BackgroundColors[2],
+                BorderColor = BorderColors[2],
+                Align = ""end"",
+                Anchor = ""end""
+            }
+        },
+    };
+
+    // some shared options for all data-labels
+    ChartDataLabelsOptions lineDataLabelsOptions = new()
+    {
+        BorderRadius = 4,
+        Color = ""#ffffff"",
+        Font = new()
+        {
+            Weight = ""bold""
+        },
+        Formatter = ChartMathFormatter.Round,
+        Padding = new( 6 )
+    };
+
+    private static string[] Labels = new string[] { ""1"", ""2"", ""3"", ""4"", ""5"", ""6"" };
+    private static string[] BackgroundColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private static string[] BorderColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private Random random = new( DateTime.Now.Millisecond );
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw( lineChart, GetLineChartDataset );
+
+            await lineChart.Clear();
+
+            await lineChart.AddLabelsDatasetsAndUpdate( Labels,
+                GetLineChartDataset( 0 ),
+                GetLineChartDataset( 1 ),
+                GetLineChartDataset( 2 ) );
+        }
+    }
+
+    private async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<int, TDataSet> getDataSet )
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
+        where TModel : ChartModel
+    {
+        await chart.Clear();
+
+        await chart.AddLabelsDatasetsAndUpdate( Labels,
+            getDataSet( 0 ),
+            getDataSet( 1 ),
+            getDataSet( 2 ) );
+    }
+
+    private LineChartDataset<int> GetLineChartDataset( int colorIndex )
+    {
+        return new()
+        {
+            Label = ""# of randoms"",
+            Data = RandomizeData( 2, 9 ),
+            BackgroundColor = BackgroundColors[colorIndex],
+            BorderColor = BorderColors[colorIndex],
+        };
+    }
+
+    List<int> RandomizeData( int min, int max )
+    {
+        return Enumerable.Range( 0, Labels.Count() ).Select( x => random.Next( min, max ) ).ToList();
+    }
+}";
+
+        public const string ChartDataLabelsNugetInstallExample = @"Install-Package Blazorise.Charts.DataLabels";
+
+        public const string ChartDataLabelsResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0""></script>";
+
+        public const string ChartDataLabelsScriptableExample = @"static Expression<Func<ScriptableOptionsContext, string>> TestScriptableColor = ( context ) => context.Active ? ""#ff0000"" : ""#4bc0c0"";
+
+List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
+{
+    new()
+    {
+        DatasetIndex = 0,
+        Options = new()
+        {
+            BackgroundColor = TestScriptableColor,
+            BorderColor = TestScriptableColor,
+            Align = ""start"",
+            Anchor = ""start""
+        }
+    },
+    ...
+};";
 
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
@@ -4450,6 +4706,105 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ChartStreamingNugetInstallExample = @"Install-Package Blazorise.Charts.Streaming";
+
+        public const string ChartStreamingPauseExample = @"<LineChart @ref=""@horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
+    <ChartStreaming @ref=""@chartStreaming""
+                    TItem=""LiveDataPoint""
+                    Options=""new ChartStreamingOptions { Delay = 2000 }""
+                    Refreshed=""@OnHorizontalLineRefreshed"" />
+</LineChart>
+
+<Row>
+    <Column>
+        <Button Color=""Color.Primary"" Clicked=""@(()=>chartStreaming.Pause())"">Pause</Button>
+        <Button Color=""Color.Primary"" Clicked=""@(()=>chartStreaming.Play())"">Play</Button>
+    </Column>
+</Row>
+
+@code{
+    LineChart<LiveDataPoint> horizontalLineChart;
+    ChartStreaming<LiveDataPoint>  chartStreaming;
+    Random random = new Random( DateTime.Now.Millisecond );
+
+    string[] Labels = { ""Red"", ""Blue"", ""Yellow"", ""Green"", ""Purple"", ""Orange"" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
+    public struct LiveDataPoint
+    {
+        public object X { get; set; }
+
+        public object Y { get; set; }
+    }
+
+    object horizontalLineChartOptions = new
+    {
+        Scales = new
+        {
+            Y = new
+            {
+                Title = new
+                {
+                    Display = true,
+                    Text = ""Value""
+                }
+            }
+        },
+        Interaction = new
+        {
+            intersect = false
+        }
+    };
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await Task.WhenAll(
+                HandleRedraw( horizontalLineChart, GetLineChartDataset1 ) );
+        }
+    }
+
+    async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( BaseChart<TDataSet, TItem, TOptions, TModel> chart, params Func<TDataSet>[] getDataSets )
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
+        where TModel : ChartModel
+    {
+        await chart.Clear();
+
+        await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSets.Select( x => x.Invoke() ).ToArray() );
+    }
+
+    LineChartDataset<LiveDataPoint> GetLineChartDataset1()
+    {
+        return new LineChartDataset<LiveDataPoint>
+        {
+            Data = new List<LiveDataPoint>(),
+            Label = ""Dataset 1 (linear interpolation)"",
+            BackgroundColor = backgroundColors[0],
+            BorderColor = borderColors[0],
+            Fill = false,
+            Tension = 0,
+            BorderDash = new List<int> { 8, 4 },
+        };
+    }
+
+    Task OnHorizontalLineRefreshed( ChartStreamingData<LiveDataPoint> data )
+    {
+        data.Value = new LiveDataPoint
+        {
+            X = DateTime.Now,
+            Y = RandomScalingFactor(),
+        };
+
+        return Task.CompletedTask;
+    }
+
+    double RandomScalingFactor()
+    {
+        return ( random.NextDouble() > 0.5 ? 1.0 : -1.0 ) * Math.Round( random.NextDouble() * 100 );
+    }
+}";
 
         public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/luxon@1.27.0""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0""></script>
@@ -5759,7 +6114,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string FluentValidationImportExample = @"@using Blazorise.FluentValidation";
 
-        public const string FluentValidationNugetInstallExample = @"Install-Package Blazorise.FluentValidation";
+        public const string FluentValidationNugetInstallExample = @"Install-Package Blazorise.FluentValidation
+Install-Package FluentValidation.DependencyInjectionExtensions";
 
         public const string FluentValidationRegisterValidatorsExample = @"using Blazorise;
 using Blazorise.Bootstrap;
@@ -6091,12 +6447,18 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     };
 }";
 
+        public const string BasicLottieAnimationExample = @"<LottieAnimation Path=""https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json"" />";
+
+        public const string ImportLottieAnimationExample = @"@using Blazorise.LottieAnimation";
+
+        public const string LottieAnimationNugetInstallExample = @"Install-Package Blazorise.LottieAnimation";
+
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
         public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">
     <Toolbar>
         <MarkdownToolbarButton Action=""MarkdownAction.Bold"" Icon=""fa fa-bolt"" Title=""Bold"" />
-        <MarkdownToolbarButton Separator Name=""Custom button"" Value=""@(""hello"")"" Icon=""fa fa-star"" Title=""A Custom Button"" />
+        <MarkdownToolbarButton Separator Name=""Custom button"" Value=""@(""hello"")"" Icon=""fa fa-star"" Title=""A Custom Button"" Text=""My Custom Button"" />
         <MarkdownToolbarButton Separator Name=""https://github.com/Ionaru/easy-markdown-editor"" Icon=""fa fab fa-github"" Title=""A Custom Link"" />
     </Toolbar>
 </Markdown>
@@ -6139,6 +6501,24 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 }";
 
         public const string MarkdownNugetInstallExample = @"Install-Package Blazorise.Markdown";
+
+        public const string MarkdownPreviewRenderExample = @"<Markdown Value=""@markdownValue"" ValueChanged=""@OnMarkdownValueChanged"" PreviewRender=""@PreviewRender"" />
+
+@code {
+    string markdownValue = ""# EasyMDE \n Go ahead, play around with the editor! Be sure to check out **bold**, *italic*, [links](https://google.com) and all the other features. You can type the Markdown syntax, use the toolbar, or use shortcuts like `ctrl-b` or `cmd-b`."";
+
+    Task OnMarkdownValueChanged( string value )
+    {
+        markdownValue = value;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task<string> PreviewRender( string plainText )
+    {
+        return Task.FromResult( Markdig.Markdown.ToHtml( markdownValue ?? string.Empty ) );
+    }
+}";
 
         public const string MarkdownShortcutsExample = @"<Markdown Shortcuts=""@(new MarkdownShortcuts{ CleanBlock = null, ToggleCodeBlock = ""Cmd+E"" })"" />";
 
@@ -6208,6 +6588,12 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.M"" PixelsPerModule=""4"" />
 <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.Q"" PixelsPerModule=""4"" />
 <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.H"" PixelsPerModule=""4"" />";
+
+        public const string QRCodeIconExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.H"" Icon=""@base64PngIcon"" />
+
+@code {
+    string base64PngIcon = ""data:image/png;base64, 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"";
+}";
 
         public const string QRCodeNugetInstallExample = @"Install-Package Blazorise.QRCode";
 
@@ -6573,7 +6959,8 @@ builder.Services
         public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.0.0/antd.css"" integrity=""sha256-nzhI/tsi9npc5ir08wCgBpg43SEIrc7crRJLsHE0/60="" crossorigin=""anonymous"" />
 <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"">
 
-<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />";
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css"" rel=""stylesheet"" />";
 
         public const string AntDesignGuideUsingExample = @"@using Blazorise";
 
@@ -6606,6 +6993,7 @@ builder.Services
 	<div id=""app""></div>
 
 	<!-- inside of body section and after the div/app tag  -->
+	<!-- These are the standard js dependencies this provider tipically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
 	<script src=""https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"" integrity=""sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"" crossorigin=""anonymous""></script>
 	<script src=""https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"" integrity=""sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"" crossorigin=""anonymous""></script>
 	<script src=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"" integrity=""sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"" crossorigin=""anonymous""></script>
@@ -6643,6 +7031,7 @@ builder.Services
   <div id=""app""></div>
 
   <!-- inside of body section and after the div/app tag  -->
+  <!-- These are the standard js dependencies this provider tipically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
   <script src=""https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"" integrity=""sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"" crossorigin=""anonymous""></script>
 </body>
 </html>";
@@ -6706,12 +7095,14 @@ builder.Services
 <link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css"" rel=""stylesheet"" />
 
 <!-- Optional JavaScript -->
+<!-- These are the standard js dependencies this provider tipically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
 <!-- jQuery first, then Popper.js, then Material JS -->
 <script src=""https://code.jquery.com/jquery-3.3.1.slim.min.js""></script>
 <script src=""https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js""></script>
 <script src=""https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js""></script>
-<script src=""js/material.min.js""></script>
 
+<!-- Mandatory JavaScript -->
+<script src=""js/material.min.js""></script>
 <script src=""_content/Blazorise.Material/blazorise.material.js""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
@@ -7065,6 +7456,159 @@ builder.Services
 
 <MessageProvider />";
 
+        public const string CounterExample = @"<Heading>Counter</Heading>
+
+<Paragraph>@Value</Paragraph>
+
+@code {
+    [Parameter] public long Value { get; set; }
+}";
+
+        public const string CustomStructureModalExample = @"<ModalHeader>
+    <ModalTitle>My Custom Structure</ModalTitle>
+    <CloseButton />
+</ModalHeader>
+<ModalBody MaxHeight=""70"">
+    Welcome @UserName!
+</ModalBody>
+<ModalFooter>
+    <Button Color=""Color.Success"" Clicked=""Confirm"">Cheers!</Button>
+</ModalFooter>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    [Parameter] public string UserName { get; set; }
+
+    private async Task Confirm()
+    {
+        await ModalService.Hide();
+    }
+}";
+
+        public const string FormularyModalExample = @"<ModalHeader>
+    <ModalTitle>
+        Please fill in the formulary
+    </ModalTitle>
+    <CloseButton />
+</ModalHeader>
+<ModalBody>
+    <Field Horizontal>
+        <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">First Name</FieldLabel>
+        <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+            <TextEdit @bind-Text=""model.FirstName""></TextEdit>
+        </FieldBody>
+    </Field>
+
+    <Field Horizontal>
+        <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is3.OnDesktop"">Email</FieldLabel>
+        <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is9.OnDesktop"">
+            <TextEdit @bind-Text=""model.Email""></TextEdit>
+        </FieldBody>
+    </Field>
+
+    @if ( !isValid )
+    {
+        <Paragraph>
+            <Label>Invalid Submission!</Label>
+        </Paragraph>
+    }
+</ModalBody>
+<ModalFooter>
+    <Button Color=""Color.Success "" Clicked=""Confirm"">Confirm</Button>
+    <Button Color=""Color.Secondary"" Clicked=""ModalService.Hide"">Close</Button>
+</ModalFooter>
+@code {
+    private Employee model = new();
+    private bool isValid = true;
+    [Inject] public IModalService ModalService { get; set; }
+    [Parameter] public Func<Employee, Task<bool>> OnValidate { get; set; }
+    [Parameter] public Func<Employee, Task> OnSuccess { get; set; }
+
+    private async Task Confirm()
+    {
+        if ( OnValidate is not null )
+            isValid = await OnValidate( model );
+
+        if ( !isValid )
+        {
+            return;
+        }
+
+        await OnSuccess( model );
+        await ModalService.Hide();
+    }
+}";
+
+        public const string ModalProviderCustomRenderFragmentExample = @"<Button Color=""Color.Primary"" Clicked=""ShowRenderFragment"">Show Custom Structure</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    private RenderFragment customFragment => __builder =>
+    {
+        <Paragraph>This content is provided by a custom RenderFragment</Paragraph>
+    };
+
+    public Task ShowRenderFragment()
+    {
+        return ModalService.Show( ""My Custom RenderFragment!"", customFragment );
+    }
+}";
+
+        public const string ModalProviderCustomStructureExample = @"<Field Horizontal>
+    <FieldLabel ColumnSize=""ColumnSize.IsFull.OnTablet.Is2.OnDesktop"">User Name</FieldLabel>
+    <FieldBody ColumnSize=""ColumnSize.IsFull.OnTablet.Is10.OnDesktop"">
+        <TextEdit @bind-Text=""userName""></TextEdit>
+    </FieldBody>
+</Field>
+
+<Button Color=""Color.Primary"" Clicked=""ShowCustomStructure"">Show Custom Structure</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+    private string userName = ""John Doe"";
+
+    public Task ShowCustomStructure()
+    {
+        return ModalService.Show<CustomStructureModalExample>( parameters => parameters.Add( x => x.UserName, userName ), new ModalInstanceOptions() { UseModalStructure = false } );
+    }
+}";
+
+        public const string ModalProviderFormularyExample = @"<Paragraph>
+    @formularyMessage
+</Paragraph>
+<Button Color=""Color.Primary"" Clicked=""ShowFormulary"">Show</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    private string formularyMessage = """";
+
+    public Task ShowFormulary()
+    {
+        formularyMessage = string.Empty;
+        return ModalService.Show<FormularyModalExample>( x =>
+        {
+            x.Add( x => x.OnValidate, FormularyValidate );
+            x.Add( x => x.OnSuccess, FormularySuccess );
+        },
+        new ModalInstanceOptions()
+            {
+                UseModalStructure = false
+            } );
+    }
+
+    private Task<bool> FormularyValidate( Employee employee )
+        => Task.FromResult( !string.IsNullOrWhiteSpace( employee.FirstName ) && !string.IsNullOrWhiteSpace( employee.Email ) );
+
+    private Task FormularySuccess( Employee employee )
+    {
+        formularyMessage = $""Employee : {employee.FirstName} saved successfully!"";
+        return InvokeAsync( StateHasChanged );
+    }
+}";
+
         public const string ModalProviderInstantiationExample = @"<Button Color=""Color.Primary"" Clicked=""ShowCounter"">Show Counter</Button>
 
 @code {
@@ -7074,7 +7618,7 @@ builder.Services
     {
         Random random = new();
         var newValue = random.NextInt64( 100 );
-        return ModalService.Show<Counter>( ""My Custom Content!"", x => x.Add( x => x.Value, newValue ) );
+        return ModalService.Show<CounterExample>( ""My Custom Content!"", x => x.Add( x => x.Value, newValue ) );
     }
 }";
 
@@ -7094,7 +7638,6 @@ builder.Services
 
         public const string ModalServiceOptionsExample = @"<Button Clicked=""InstantiateModal""></Button>
 @code {
-
     [Inject] public IModalService ModalService { get; set; }
 
     public Task InstantiateModal()
@@ -7181,11 +7724,12 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.0.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.3.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.1.0.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.0.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.1.3.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.3.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.3.0""></script>";
 
     }
 }

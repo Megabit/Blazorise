@@ -3,7 +3,7 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>QR Code Component (based on <Anchor To="https://github.com/codebude/QRCoder">QRCoder</Anchor>)</CardTitle>
+                <CardTitle>QR Code Component (based on <Anchor To="https://github.com/kozakdenys/qr-code-styling">qr-code-styling</Anchor> library)</CardTitle>
             </CardHeader>
             <CardBody>
                 <Row>
@@ -48,11 +48,56 @@
                             </Field>
                             <Field>
                                 <FieldLabel>
+                                    Pixels Per Module
+                                </FieldLabel>
+                                <FieldBody>
+                                    <NumericPicker @bind-Value="pixelsPerModule" ShowStepButtons="false" Decimals="0" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
                                     As Anchor
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Switch @bind-Checked="asAnchor">
-                                    </Switch>
+                                    <Switch @bind-Checked="asAnchor"></Switch>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Draw Quiet Zones
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Switch @bind-Checked="drawQuietZones"></Switch>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Fields>
+                            <Field>
+                                <FieldLabel>
+                                    Base64 PNG Image
+                                </FieldLabel>
+                                <FieldBody>
+                                    <TextEdit @bind-Text="base64PngIcon" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Icon Size Percent
+                                </FieldLabel>
+                                <FieldBody>
+                                    <NumericPicker @bind-Value="iconSizePercentage" ShowStepButtons="false" Decimals="0" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Icon Border Width
+                                </FieldLabel>
+                                <FieldBody>
+                                    <NumericPicker @bind-Value="iconBorderWidth" ShowStepButtons="false" Decimals="0" />
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -65,12 +110,12 @@
                         @if ( asAnchor )
                         {
                             <Anchor To="@text" Target="Target.Blank">
-                                <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" />
+                                <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" PixelsPerModule="@pixelsPerModule" DrawQuietZones="@drawQuietZones" Icon="@base64PngIcon" IconSizePercentage="@iconSizePercentage" IconBorderWidth="@iconBorderWidth" />
                             </Anchor>
                         }
                         else
                         {
-                            <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" />
+                            <QRCode Value="@text" EccLevel="@eccLevel" DarkColor="@darkColor" LightColor="@lightColor" PixelsPerModule="@pixelsPerModule" DrawQuietZones="@drawQuietZones" Icon="@base64PngIcon" IconSizePercentage="@iconSizePercentage" IconBorderWidth="@iconBorderWidth" />
                         }
                     </Column>
                 </Row>
@@ -82,7 +127,12 @@
 @code {
     private string text = "https://blazorise.com";
     private EccLevel eccLevel = EccLevel.L;
-    private string darkColor = "black";
+    private string darkColor = "#3F51B5CC";
     private string lightColor = "white";
+    private int pixelsPerModule = 10;
     private bool asAnchor = false;
+    private bool drawQuietZones = true;
+    private string base64PngIcon = "brand-logo.png";
+    private int iconSizePercentage = 40;
+    private int iconBorderWidth = 0;
 }

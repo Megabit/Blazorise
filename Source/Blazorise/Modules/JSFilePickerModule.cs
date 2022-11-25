@@ -29,11 +29,11 @@ namespace Blazorise.Modules
 
         /// <inheritdoc/>
         public virtual ValueTask Initialize( ElementReference elementRef, string elementId )
-            => InvokeVoidAsync( "initialize", elementRef, elementId );
+            => InvokeSafeVoidAsync( "initialize", elementRef, elementId );
 
         /// <inheritdoc/>
         public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
-            => InvokeVoidAsync( "destroy", elementRef, elementId );
+            => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
 
         #endregion
 

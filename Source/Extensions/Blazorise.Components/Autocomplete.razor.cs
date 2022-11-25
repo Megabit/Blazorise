@@ -128,7 +128,16 @@ namespace Blazorise.Components
                 if ( !string.IsNullOrEmpty( SelectedText ) )
                 {
                     var item = GetItemByText( SelectedText );
-                    if ( item != null )
+                    if ( item is null )
+                    {
+                        if ( !FreeTyping )
+                        {
+                            await ResetSelectedText();
+                        }
+                        selectedValue = new( default );
+                        await SelectedValueChanged.InvokeAsync( selectedValue );
+                    }
+                    else
                     {
                         NullableT<TValue> value = new( GetItemValue( item ) );
                         if ( !SelectedValue.IsEqual( value ) )
@@ -137,17 +146,17 @@ namespace Blazorise.Components
                             await SelectedValueChanged.InvokeAsync( value );
                         }
                     }
-                    else if ( !FreeTyping )
-                    {
-                        selectedTextParam = null;
-                        await SelectedTextChanged.InvokeAsync( selectedTextParam );
-                    }
                 }
 
-                if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
+                if ( !IsMultiple && CurrentSearch != SelectedText )
                 {
                     currentSearch = SelectedText;
-                    await CurrentSearchChanged.InvokeAsync( currentSearch );
+
+                    await Task.WhenAll(
+                        ResetSelectedValue(),
+                        CurrentSearchChanged.InvokeAsync( currentSearch ),
+                        SearchChanged.InvokeAsync( currentSearch )
+                    );
                 }
             }
 
@@ -155,7 +164,11 @@ namespace Blazorise.Components
             if ( selectedValueParamChanged )
             {
                 var item = GetItemByValue( SelectedValue );
-                if ( item != null )
+                if ( item is null )
+                {
+                    await ResetSelectedValue();
+                }
+                else
                 {
                     string text = GetItemText( item );
                     if ( text != SelectedText )
@@ -166,14 +179,13 @@ namespace Blazorise.Components
                         if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
                         {
                             currentSearch = SelectedText;
-                            await CurrentSearchChanged.InvokeAsync( currentSearch );
+
+                            await Task.WhenAll(
+                                CurrentSearchChanged.InvokeAsync( currentSearch ),
+                                SearchChanged.InvokeAsync( currentSearch )
+                            );
                         }
                     }
-                }
-                else
-                {
-                    selectedValue = new( default );
-                    await SelectedValueChanged.InvokeAsync( selectedValue );
                 }
             }
 
@@ -227,6 +239,7 @@ namespace Blazorise.Components
 
                     await Task.WhenAll(
                         CurrentSearchChanged.InvokeAsync( currentSearch ),
+                        SearchChanged.InvokeAsync( currentSearch ),
                         SelectedTextChanged.InvokeAsync( selectedText ),
                         SelectedValueChanged.InvokeAsync( selectedValue )
                     );
@@ -256,8 +269,7 @@ namespace Blazorise.Components
             }
             else
             {
-                currentSearch = text;
-                await CurrentSearchChanged.InvokeAsync( currentSearch );
+                await SetCurrentSearch( text );
 
                 if ( ManualReadMode )
                     await InvokeReadData();
@@ -486,6 +498,7 @@ namespace Blazorise.Components
                 await Task.WhenAll(
                     SelectedValueChanged.InvokeAsync( selectedValue ),
                     CurrentSearchChanged.InvokeAsync( currentSearch ),
+                    SearchChanged.InvokeAsync( currentSearch ),
                     SelectedTextChanged.InvokeAsync( selectedText )
                 );
             }
@@ -544,20 +557,52 @@ namespace Blazorise.Components
 
         private async Task ResetSelectedText()
         {
+            var notifyChange = SelectedText is not null;
+
             selectedText = null;
-            await SelectedTextChanged.InvokeAsync( selectedText );
+            if ( notifyChange )
+                await SelectedTextChanged.InvokeAsync( selectedText );
         }
 
         private async Task ResetSelectedValue()
         {
+            var notifyChange = SelectedValue is not null;
+
             selectedValue = new( default );
-            await SelectedValueChanged.InvokeAsync( default );
+            if ( notifyChange )
+                await SelectedValueChanged.InvokeAsync( default );
         }
 
         private async Task ResetCurrentSearch()
         {
             currentSearch = string.Empty;
-            await CurrentSearchChanged.InvokeAsync( currentSearch );
+
+            await Task.WhenAll(
+                CurrentSearchChanged.InvokeAsync( currentSearch ),
+                SearchChanged.InvokeAsync( currentSearch )
+            );
+        }
+
+        private async Task ResetSelectedValues()
+        {
+            selectedValues?.Clear();
+            await SelectedValuesChanged.InvokeAsync( selectedValues );
+        }
+
+        private async Task ResetSelectedTexts()
+        {
+            SelectedTexts?.Clear();
+            await SelectedTextsChanged.InvokeAsync( SelectedTexts );
+        }
+
+        private async Task SetCurrentSearch( string searchValue )
+        {
+            currentSearch = searchValue;
+
+            await Task.WhenAll(
+                CurrentSearchChanged.InvokeAsync( currentSearch ),
+                SearchChanged.InvokeAsync( CurrentSearch )
+            );
         }
 
         private Task ResetActiveItemIndex()
@@ -689,13 +734,24 @@ namespace Blazorise.Components
         }
 
         /// <summary>
-        /// Clears the selected value and the search field.
+        /// Clears the current selection.
         /// </summary>
         public async Task ResetSelected()
         {
             await ResetActiveItemIndex();
             await ResetSelectedText();
             await ResetSelectedValue();
+        }
+
+        /// <summary>
+        /// Clears the selected value and the search field.
+        /// </summary>
+        public async Task Clear()
+        {
+            await ResetSelected();
+            await ResetSelectedTexts();
+            await ResetSelectedValues();
+            await SetCurrentSearch( string.Empty );
         }
 
         private Task UpdateActiveFilterIndex( int activeItemIndex )
@@ -736,13 +792,47 @@ namespace Blazorise.Components
         }
 
         /// <summary>
+        /// Sets focus on the input element, if it can be focused.
+        /// </summary>
+        /// <param name="scrollToElement">If true the browser should scroll the document to bring the newly-focused element into view.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task Focus( bool scrollToElement = true )
+        {
+            if ( textEditRef != null )
+                return textEditRef.Focus( scrollToElement );
+
+            return Task.CompletedTask;
+        }
+
+        /// <summary>
         /// Closes the <see cref="Autocomplete{TItem, TValue}"/> Dropdown.
         /// </summary>
         /// <returns></returns>
-        public async Task Close()
+        public Task Close()
+        {
+            return Close( CloseReason.UserClosing );
+        }
+
+        /// <summary>
+        /// Closes the <see cref="Autocomplete{TItem, TValue}"/> Dropdown.
+        /// </summary>
+        /// <param name="closeReason">Specifies the reason for a component close event.</param>
+        /// <returns></returns>
+        public async Task Close( CloseReason closeReason )
         {
             canShowDropDown = false;
             await ResetActiveItemIndex();
+        }
+
+        /// <summary>
+        /// Determines if Autocomplete can be closed
+        /// </summary>
+        /// <returns>True if Autocomplete can be closed.</returns>
+        /// 
+        [Obsolete( "IsSafeToClose is deprecated. This API now always returns true." )]
+        public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
+        {
+            return Task.FromResult( true );
         }
 
         /// <summary>
@@ -790,7 +880,7 @@ namespace Blazorise.Components
         /// <summary>
         /// Gets whether the <typeparamref name="TValue"/> is selected.
         /// </summary>
-        /// <param name="item"></param>
+        /// <param name="value"></param>
         /// <returns></returns>
         public bool IsSelectedvalue( TValue value )
         {
@@ -1127,6 +1217,7 @@ namespace Blazorise.Components
         /// Gets or sets the currently selected item text.
         /// </summary>
         [Parameter]
+        [Obsolete( "CurrentSearch is deprecated and will be removed in a future version, please use Search instead." )]
         public string CurrentSearch
         {
             get => currentSearch ?? currentSearchParam ?? string.Empty;
@@ -1134,9 +1225,25 @@ namespace Blazorise.Components
         }
 
         /// <summary>
+        /// Occurs on every search text change.
+        /// </summary>
+        [Obsolete( "CurrentSearchChanged is deprecated and will be removed in a future version, please use SearchChanged instead." )]
+        [Parameter] public EventCallback<string> CurrentSearchChanged { get; set; }
+
+        /// <summary>
         /// Gets or sets the currently selected item text.
         /// </summary>
-        [Parameter] public EventCallback<string> CurrentSearchChanged { get; set; }
+        [Parameter]
+        public string Search
+        {
+            get => CurrentSearch;
+            set => CurrentSearch = value;
+        }
+
+        /// <summary>
+        /// Occurs on every search text change.
+        /// </summary>
+        [Parameter] public EventCallback<string> SearchChanged { get; set; }
 
         /// <summary>
         /// Currently selected items values.

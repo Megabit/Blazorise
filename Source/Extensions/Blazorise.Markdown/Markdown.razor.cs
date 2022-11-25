@@ -146,7 +146,8 @@ namespace Blazorise.Markdown
                     StyleSelectedText,
                     SyncSideBySidePreviewScroll,
                     UnorderedListStyle,
-                    ToolbarButtonClassPrefix
+                    ToolbarButtonClassPrefix,
+                    UsePreviewRender = PreviewRender != null,
                 } );
 
                 Initialized = true;
@@ -233,7 +234,7 @@ namespace Blazorise.Markdown
         }
 
         /// <summary>
-        /// Notifies the component that file input value has changed.
+        /// Notifies the component that file input value has changed. Should only be used internally!
         /// </summary>
         /// <param name="file">Changed file.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
@@ -334,6 +335,20 @@ namespace Blazorise.Markdown
         public virtual async Task Focus( bool scrollToElement = true )
         {
             await JSModule.Focus( ElementId, scrollToElement );
+        }
+
+        /// <summary>
+        /// Notifies the component that preview render has being requested. Should only be used internally!
+        /// </summary>
+        /// <param name="plainText">Plain text of the markdown value.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        [JSInvokable]
+        public Task<string> NotifyPreviewRender( string plainText )
+        {
+            if ( PreviewRender != null )
+                return PreviewRender.Invoke( plainText );
+
+            return Task.FromResult<string>( null );
         }
 
         #endregion
@@ -708,6 +723,11 @@ namespace Blazorise.Markdown
         /// <para>This setting can speed up file transfer considerably.</para>
         /// </summary>
         [Parameter] public bool DisableProgressReport { get; set; } = false;
+
+        /// <summary>
+        /// Custom function for parsing the plaintext Markdown and returning HTML. Used when user previews.
+        /// </summary>
+        [Parameter] public Func<string, Task<string>> PreviewRender { get; set; }
 
         #endregion
     }

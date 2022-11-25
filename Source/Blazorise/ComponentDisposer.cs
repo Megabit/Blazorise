@@ -1,13 +1,8 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
-using Microsoft.Extensions.DependencyInjection;
 #endregion
 
 namespace Blazorise
@@ -29,11 +24,17 @@ namespace Blazorise
     {
         #region Members
 
+        private bool active;
+
         private bool disposePossible;
 
-        private readonly IList<object> disposables;
+        private bool retried;
 
-        private const string PROPERTY_DISPOSABLES = "Disposables";
+        private IList<object> disposables;
+
+        private const string FIELD_DISPOSABLES = "_disposables";
+
+        private const string DEFAULT_DOTNET_SERVICEPROVIDER = "ServiceProviderEngineScope";
 
         private static Func<object, IList<object>> disposablesGetter;
 
@@ -48,7 +49,11 @@ namespace Blazorise
         public ComponentDisposer( IServiceProvider serviceProvider )
         {
             ServiceProvider = serviceProvider;
-            disposables = LoadServiceProviderDisposableList();
+            
+            active = ServiceProvider.GetType().Name.Equals( DEFAULT_DOTNET_SERVICEPROVIDER, StringComparison.InvariantCultureIgnoreCase );
+
+            if ( active ) 
+                disposables = LoadServiceProviderDisposableList();
         }
 
         #endregion
@@ -57,8 +62,16 @@ namespace Blazorise
 
         public void Dispose<TComponent>( TComponent component ) where TComponent : IComponent
         {
-            if ( !disposePossible )
+            if ( !active )
                 return;
+
+            if ( !disposePossible && !retried )
+            {
+                disposables = LoadServiceProviderDisposableList();
+                retried = true;
+            }
+
+            if ( !disposePossible ) return;
 
             if ( component is BaseAfterRenderComponent afterRenderComponent && ( afterRenderComponent.Disposed || afterRenderComponent.AsyncDisposed ) )
             {
@@ -73,23 +86,14 @@ namespace Blazorise
         /// <returns>List of object references the ServiceProvider uses to track disposables</returns>
         private IList<object> LoadServiceProviderDisposableList()
         {
-            try
-            {
-                if ( disposablesGetter is null )
-                    disposablesGetter = ExpressionCompiler.CreatePropertyGetter<IList<object>>( ServiceProvider, PROPERTY_DISPOSABLES );
+            if ( disposablesGetter is null )
+                disposablesGetter = ExpressionCompiler.CreateFieldGetter<IList<object>>( ServiceProvider, FIELD_DISPOSABLES );
 
-                var disposables = disposablesGetter( ServiceProvider );
+            var disposables = disposablesGetter( ServiceProvider );
 
-                disposePossible = !disposables.IsNullOrEmpty();
+            disposePossible = !disposables.IsNullOrEmpty();
 
-                return disposables;
-            }
-            catch
-            {
-                disposePossible = false;
-            }
-
-            return new List<object>();
+            return disposables;
         }
 
         #endregion

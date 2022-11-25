@@ -75,6 +75,14 @@ namespace Blazorise.Modules
         ValueTask Select( ElementReference elementRef, string elementId, bool focus );
 
         /// <summary>
+        /// Show a browser picker for the supplied input element.
+        /// </summary>
+        /// <param name="elementRef">Reference to the rendered element.</param>
+        /// <param name="elementId">ID of the rendered element.</param>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        ValueTask ShowPicker( ElementReference elementRef, string elementId );
+
+        /// <summary>
         /// Scrolls the view to the given anchor element.
         /// </summary>
         /// <param name="anchorTarget">Anchor element id.</param>

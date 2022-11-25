@@ -311,6 +311,12 @@ namespace Blazorise.Providers
 
         #endregion
 
+        #region FocusTrap
+
+        public string FocusTrap() => null;
+
+        #endregion
+
         #region Control
 
         public string ControlCheck() => null;
@@ -666,6 +672,8 @@ namespace Blazorise.Providers
         public string BarDropdownShow( BarMode mode ) => null;
 
         public string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => null;
+
+        public string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => null;
 
         public string BarDropdownItem( BarMode mode ) => null;
 

@@ -12,51 +12,20 @@ namespace Blazorise.Charts
     /// <typeparam name="T">The type of data this <see cref="IndexableOption{T}"/> is supposed to hold.</typeparam>
     public class IndexableOption<T> : IEquatable<IndexableOption<T>>
     {
+        #region Members
+
         /// <summary>
         /// The compile-time name of the property which gets the wrapped value. This is used internally for serialization.
         /// </summary>
         internal const string PropertyName = nameof( BoxedValue );
 
-        // for serialization, there has to be a cast to object anyway
-        internal object BoxedValue => IsIndexed ? IndexedValues : SingleValue;
-
         private readonly T[] indexedValues;
 
         private readonly T singleValue;
 
-        /// <summary>
-        /// The indexed values represented by this instance.
-        /// </summary>
-        public T[] IndexedValues
-        {
-            get
-            {
-                if ( !IsIndexed )
-                    throw new InvalidOperationException( "This instance represents a single value. The indexed values are not available." );
+        #endregion
 
-                return indexedValues;
-            }
-        }
-
-        /// <summary>
-        /// The single value represented by this instance.
-        /// </summary>
-        public T SingleValue
-        {
-            get
-            {
-                if ( IsIndexed )
-                    throw new InvalidOperationException( "This instance represents an array of values. The single value is not available." );
-
-                return singleValue;
-            }
-        }
-
-        /// <summary>
-        /// Gets the value indicating whether the option wrapped in this <see cref="IndexableOption{T}"/> is indexed.
-        /// <para>True if the wrapped value represents an array of <typeparamref name="T"/>, false if it represents a single value of <typeparamref name="T"/>.</para>
-        /// </summary>
-        public bool IsIndexed { get; }
+        #region Constructors
 
         /// <summary>
         /// Creates a new instance of <see cref="IndexableOption{T}"/> which represents a single value.
@@ -77,6 +46,10 @@ namespace Blazorise.Charts
             this.indexedValues = indexedValues ?? throw new ArgumentNullException( nameof( indexedValues ) );
             IsIndexed = true;
         }
+
+        #endregion
+
+        #region Operators
 
         /// <summary>
         /// Implicitly wraps a single value of <typeparamref name="T"/> to a new instance of <see cref="IndexableOption{T}"/>.
@@ -99,6 +72,26 @@ namespace Blazorise.Charts
 
             return new( indexedValues );
         }
+
+        /// <summary>
+        /// Determines whether two specified <see cref="IndexableOption{T}"/> instances contain the same value.
+        /// </summary>
+        /// <param name="a">The first <see cref="IndexableOption{T}"/> to compare</param>
+        /// <param name="b">The second <see cref="IndexableOption{T}"/> to compare</param>
+        /// <returns>true if the value of a is the same as the value of b; otherwise, false.</returns>
+        public static bool operator ==( IndexableOption<T> a, IndexableOption<T> b ) => a.Equals( b );
+
+        /// <summary>
+        /// Determines whether two specified <see cref="IndexableOption{T}"/> instances contain different values.
+        /// </summary>
+        /// <param name="a">The first <see cref="IndexableOption{T}"/> to compare</param>
+        /// <param name="b">The second <see cref="IndexableOption{T}"/> to compare</param>
+        /// <returns>true if the value of a is different from the value of b; otherwise, false.</returns>
+        public static bool operator !=( IndexableOption<T> a, IndexableOption<T> b ) => !( a == b );
+
+        #endregion
+
+        #region Methods
 
         private static void CheckIsNotIndexableOption( Type type )
         {
@@ -172,20 +165,47 @@ namespace Blazorise.Charts
             return hashCode;
         }
 
-        /// <summary>
-        /// Determines whether two specified <see cref="IndexableOption{T}"/> instances contain the same value.
-        /// </summary>
-        /// <param name="a">The first <see cref="IndexableOption{T}"/> to compare</param>
-        /// <param name="b">The second <see cref="IndexableOption{T}"/> to compare</param>
-        /// <returns>true if the value of a is the same as the value of b; otherwise, false.</returns>
-        public static bool operator ==( IndexableOption<T> a, IndexableOption<T> b ) => a.Equals( b );
+        #endregion
+
+        #region Properties
+
+        // for serialization, there has to be a cast to object anyway
+        internal object BoxedValue => IsIndexed ? IndexedValues : SingleValue;
 
         /// <summary>
-        /// Determines whether two specified <see cref="IndexableOption{T}"/> instances contain different values.
+        /// Gets the value indicating whether the option wrapped in this <see cref="IndexableOption{T}"/> is indexed.
+        /// <para>True if the wrapped value represents an array of <typeparamref name="T"/>, false if it represents a single value of <typeparamref name="T"/>.</para>
         /// </summary>
-        /// <param name="a">The first <see cref="IndexableOption{T}"/> to compare</param>
-        /// <param name="b">The second <see cref="IndexableOption{T}"/> to compare</param>
-        /// <returns>true if the value of a is different from the value of b; otherwise, false.</returns>
-        public static bool operator !=( IndexableOption<T> a, IndexableOption<T> b ) => !( a == b );
+        public bool IsIndexed { get; }
+
+        /// <summary>
+        /// The indexed values represented by this instance.
+        /// </summary>
+        public T[] IndexedValues
+        {
+            get
+            {
+                if ( !IsIndexed )
+                    throw new InvalidOperationException( "This instance represents a single value. The indexed values are not available." );
+
+                return indexedValues;
+            }
+        }
+
+        /// <summary>
+        /// The single value represented by this instance.
+        /// </summary>
+        public T SingleValue
+        {
+            get
+            {
+                if ( IsIndexed )
+                    throw new InvalidOperationException( "This instance represents an array of values. The single value is not available." );
+
+                return singleValue;
+            }
+        }
+
+        #endregion
     }
 }

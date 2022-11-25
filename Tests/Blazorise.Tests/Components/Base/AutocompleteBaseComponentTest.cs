@@ -3,11 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Components;
 using Blazorise.Tests.Extensions;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Xunit;
 #endregion
 
@@ -16,19 +18,38 @@ namespace Blazorise.Tests.Components
     public class AutocompleteBaseComponentTest : TestContext
     {
 
+        public void TestFocus<TComponent>( Func<IRenderedComponent<TComponent>, Task> focus ) where TComponent : IComponent
+        {
+            var comp = RenderComponent<TComponent>();
+
+            comp.InvokeAsync( async () => await focus( comp ) );
+
+            comp.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "focus" ), TestExtensions.WaitTime );
+        }
+
+        public void TestClear<TComponent>( Func<IRenderedComponent<TComponent>, Task> clear, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
+        {
+            var comp = RenderComponent<TComponent>( parameters =>
+                parameters.TryAdd( "SelectedValue", "CN" )
+            );
+
+            comp.InvokeAsync( async () => await clear( comp ) );
+            comp.Render();
+
+            var input = comp.Find( ".b-is-autocomplete input" );
+            var inputText = input.GetAttribute( "value" );
+
+            comp.WaitForAssertion( () => Assert.Empty( inputText ), TestExtensions.WaitTime );
+            comp.WaitForAssertion( () => Assert.Null( getSelectedText( comp ) ), TestExtensions.WaitTime );
+        }
+
         public void TestFreeTypedValue<TComponent>( string freeTypedValue, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
         {
             var comp = RenderComponent<TComponent>();
 
             var autoComplete = comp.Find( ".b-is-autocomplete input" );
 
-            autoComplete.Focus();
-            autoComplete.Input( freeTypedValue );
-
-            foreach ( var item in freeTypedValue )
-            {
-                autoComplete.KeyDown( item );
-            }
+            Input( autoComplete, freeTypedValue );
 
             autoComplete.KeyDown( Key.Enter );
 
@@ -43,13 +64,7 @@ namespace Blazorise.Tests.Components
 
             var autoComplete = comp.Find( ".b-is-autocomplete input" );
 
-            autoComplete.Focus();
-            autoComplete.Input( freeTypedValue );
-
-            foreach ( var item in freeTypedValue )
-            {
-                autoComplete.KeyDown( item );
-            }
+            Input( autoComplete, freeTypedValue );
 
             WaitAndEnterFirstOption( comp, expectedValue, false );
 
@@ -57,12 +72,20 @@ namespace Blazorise.Tests.Components
             comp.WaitForAssertion( () => Assert.Equal( expectedValue, getSelectedText( comp ) ), TestExtensions.WaitTime );
         }
 
+        protected static async Task Input( AngleSharp.Dom.IElement autoComplete, string freeTypedValue )
+        {
+            await autoComplete.FocusAsync( new() );
+            await autoComplete.InputAsync( new() { Value = freeTypedValue } );
+
+            foreach ( var item in freeTypedValue )
+            {
+                await autoComplete.KeyDownAsync( new() { Key = item.ToString() } );
+            }
+        }
 
         public void TestSelectValue<TComponent>( string expectedText, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
         {
-            var comp = RenderComponent<TComponent>(
-                     parameters =>
-                        parameters.TryAdd( "SelectedValue", (string[])null ) );
+            var comp = RenderComponent<TComponent>();
 
             var autoComplete = comp.Find( ".b-is-autocomplete input" );
 
@@ -235,6 +258,34 @@ namespace Blazorise.Tests.Components
 
     public class AutocompleteMultipleBaseComponentTest : TestContext
     {
+        public void TestFocus<TComponent>( Func<IRenderedComponent<TComponent>, Task> focus ) where TComponent : IComponent
+        {
+            var comp = RenderComponent<TComponent>();
+
+            comp.InvokeAsync( async () => await focus( comp ) );
+
+            comp.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "focus" ), TestExtensions.WaitTime );
+        }
+
+        public void TestClear<TComponent>( Func<IRenderedComponent<TComponent>, Task> clear, Func<IRenderedComponent<TComponent>, string[]> getSelectedTexts ) where TComponent : IComponent
+        {
+            var comp = RenderComponent<TComponent>( parameters =>
+                parameters.TryAdd( "SelectedValues", new List<string> { "PT", "HR" } )
+            );
+
+            comp.InvokeAsync( async () => await clear( comp ) );
+            comp.Render();
+
+            var input = comp.Find( ".b-is-autocomplete input" );
+            var inputText = input.GetAttribute( "value" );
+
+            var badges = comp.FindAll( ".b-is-autocomplete .badge" );
+
+            comp.WaitForAssertion( () => Assert.Empty( inputText ), TestExtensions.WaitTime );
+            comp.WaitForAssertion( () => Assert.Empty( badges ), TestExtensions.WaitTime );
+            comp.WaitForAssertion( () => Assert.Empty( getSelectedTexts( comp ) ), TestExtensions.WaitTime );
+        }
+
         public void TestInitialSelectedValues<TComponent>( Func<IRenderedComponent<TComponent>, string[]> getSelectedTexts ) where TComponent : IComponent
         {
             // setup

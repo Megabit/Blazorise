@@ -310,6 +310,12 @@ namespace Blazorise
 
         #endregion
 
+        #region FocusTrap
+
+        public abstract string FocusTrap();
+
+        #endregion
+
         #region Control
 
         public abstract string ControlCheck();
@@ -663,6 +669,8 @@ namespace Blazorise
         public abstract string BarDropdownShow( BarMode mode );
 
         public abstract string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
+
+        public abstract string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled );
 
         public abstract string BarDropdownItem( BarMode mode );
 

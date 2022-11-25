@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -13,8 +14,6 @@ namespace Blazorise
     {
         #region Members
 
-        private ElementReference containerRef;
-
         private ElementReference startFirstRef;
 
         private ElementReference startSecondRef;
@@ -24,6 +23,8 @@ namespace Blazorise
         private ElementReference endSecondRef;
 
         private bool shiftTabPressed;
+
+        private bool shouldRender = true;
 
         #endregion
 
@@ -49,6 +50,14 @@ namespace Blazorise
             }
 
             return base.OnAfterRenderAsync( firstRender );
+        }
+
+        /// <inheritdoc/>
+        protected override void BuildClasses( ClassBuilder builder )
+        {
+            builder.Append( ClassProvider.FocusTrap() );
+
+            base.BuildClasses( builder );
         }
 
         /// <summary>
@@ -99,10 +108,23 @@ namespace Blazorise
         /// <returns>A task that represents the asynchronous operation.</returns>
         protected virtual void OnKeyPressedHandler( KeyboardEventArgs args )
         {
+            shouldRender = false;
+
             if ( args.Key == "Tab" )
             {
                 shiftTabPressed = args.ShiftKey;
             }
+        }
+
+        /// <inheritdoc/>
+        protected override bool ShouldRender()
+        {
+            if ( shouldRender )
+                return true;
+
+            shouldRender = true;
+
+            return false;
         }
 
         #endregion

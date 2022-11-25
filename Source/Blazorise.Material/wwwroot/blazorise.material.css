@@ -142,6 +142,10 @@
 }
 
 .b-is-autocomplete.b-is-autocomplete-multipleselection {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 0.25rem;
   max-width: 100%;
   width: 100%;
   cursor: text;
@@ -152,6 +156,12 @@
   background-color: transparent;
   max-width: inherit;
   width: auto;
+  flex-grow: 1;
+}
+.b-is-autocomplete.b-is-autocomplete-multipleselection > .badge {
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+  flex-grow: initial;
 }
 
 .b-is-autocomplete .dropdown-menu:before {
@@ -565,6 +575,10 @@ select[readonly] {
 select[readonly] option,
 select[readonly] optgroup {
   display: none;
+}
+
+.focus-trap {
+  display: contents;
 }
 
 .no-gutters {

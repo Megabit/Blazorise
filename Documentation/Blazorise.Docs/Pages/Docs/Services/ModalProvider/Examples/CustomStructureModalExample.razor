@@ -1,0 +1,23 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<ModalHeader>
+    <ModalTitle>My Custom Structure</ModalTitle>
+    <CloseButton />
+</ModalHeader>
+<ModalBody MaxHeight="70">
+    Welcome @UserName!
+</ModalBody>
+<ModalFooter>
+    <Button Color="Color.Success" Clicked="Confirm">Cheers!</Button>
+</ModalFooter>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    [Parameter] public string UserName { get; set; }
+
+    private async Task Confirm()
+    {
+        await ModalService.Hide();
+    }
+}

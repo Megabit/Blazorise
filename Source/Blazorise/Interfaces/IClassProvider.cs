@@ -309,6 +309,12 @@ namespace Blazorise
 
         #endregion
 
+        #region FocusTrap
+
+        string FocusTrap();
+
+        #endregion
+
         #region Control
 
         string ControlCheck();
@@ -660,6 +666,8 @@ namespace Blazorise
         string BarDropdownShow( BarMode mode );
 
         string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
+
+        string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled );
 
         string BarDropdownItem( BarMode mode );
 

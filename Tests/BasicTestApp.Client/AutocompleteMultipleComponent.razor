@@ -1,4 +1,5 @@
-﻿<Autocomplete TItem="Country"
+﻿<Autocomplete @ref="AutoCompleteRef"
+                TItem="Country"
                 TValue="string"
                 Data="@Countries"
                 TextField="@(( item ) => item.Name)"
@@ -12,9 +13,11 @@
 </Autocomplete>
 
 @code{
-    [Inject]
-    public CountryData CountryData { get; set; }
+    [Inject] public CountryData CountryData { get; set; }
+
     public IEnumerable<Country> Countries;
+
+    public Autocomplete<Country, string> AutoCompleteRef { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

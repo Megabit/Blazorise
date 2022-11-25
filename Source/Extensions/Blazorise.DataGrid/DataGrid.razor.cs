@@ -252,6 +252,11 @@ namespace Blazorise.DataGrid
                 await JSModule.Initialize( tableRef.ElementRef, ElementId );
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
+                
+                if ( Theme is not null )
+                {
+                    Theme.Changed += OnThemeChanged;
+                }
 
                 if ( ManualReadMode || VirtualizeManualReadMode )
                     await Reload();
@@ -269,12 +274,17 @@ namespace Blazorise.DataGrid
         {
             if ( disposing )
             {
-                if ( paginationContext != null )
+                if ( paginationContext is not null )
                 {
                     paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
                     paginationContext.UnsubscribeOnPageChanged( OnPageChanged );
                     paginationContext.CancellationTokenSource?.Dispose();
                     paginationContext.CancellationTokenSource = null;
+                }
+
+                if ( Theme is not null )
+                {
+                    Theme.Changed -= OnThemeChanged;
                 }
             }
 
@@ -366,6 +376,16 @@ namespace Blazorise.DataGrid
 
         #region Events
 
+        /// <summary>
+        /// An event raised when theme settings changes.
+        /// </summary>
+        /// <param name="sender">An object that raised the event.</param>
+        /// <param name="eventArgs"></param>
+        private void OnThemeChanged( object sender, EventArgs eventArgs )
+        {
+            InvokeAsync( StateHasChanged );
+        }
+
         private async void OnPageSizeChanged( int pageSize )
         {
             paginationContext.CancellationTokenSource?.Cancel();
@@ -429,7 +449,7 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
-        /// Deleted the specified item from the <see cref="Data"/> source.
+        /// Deletes the specified item from the <see cref="Data"/> source.
         /// </summary>
         /// <param name="item">Item to delete.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
@@ -663,7 +683,7 @@ namespace Blazorise.DataGrid
         }
 
         /// <summary>
-        /// Updated the cell of the current editing item that matches the <paramref name="fieldName"/>.
+        /// Updates the cell of the current editing item that matches the <paramref name="fieldName"/>.
         /// </summary>
         /// <param name="fieldName">Cell field name.</param>
         /// <param name="value">New cell value.</param>
@@ -1293,6 +1313,12 @@ namespace Blazorise.DataGrid
         #endregion
 
         #region Properties
+
+
+        /// <summary>
+        /// Cascaded theme settings.
+        /// </summary>
+        [CascadingParameter] public Theme Theme { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.

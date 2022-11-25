@@ -133,6 +133,7 @@ namespace Blazorise.Tests.Helpers
                 module.SetupVoid( "setProperty", _ => true ).SetVoidResult();
                 module.Setup<string>( "getUserAgent", _ => true ).SetResult( String.Empty );
                 module.SetupVoid( "scrollElementIntoView", _ => true ).SetVoidResult();
+                module.SetupVoid( "focus", _ => true ).SetVoidResult();
             }
 
             public static void AddModal( BunitJSInterop jsInterop )

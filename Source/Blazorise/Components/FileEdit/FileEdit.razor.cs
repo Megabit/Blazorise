@@ -253,6 +253,15 @@ namespace Blazorise
             return JSFileEditModule.RemoveFile( ElementRef, ElementId, fileId );
         }
 
+        /// <summary>
+        /// Show a browser picker for the file input.
+        /// </summary>
+        /// <returns>A task that represents the asynchronous operation.</returns>
+        public Task ShowPicker()
+        {
+            return JSUtilitiesModule.ShowPicker( ElementRef, ElementId ).AsTask();
+        }
+
         #endregion
 
         #region Properties

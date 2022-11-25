@@ -1,21 +1,26 @@
-﻿<Autocomplete TItem="Country"
+﻿<Autocomplete @ref="AutoCompleteRef"
+              TItem="Country"
               TValue="string"
               Data="@Countries"
               TextField="@(( item ) => item.Name)"
               ValueField="@(( item ) => item.Iso)"
-              @bind-SelectedValue="SelectedValue"
-              @bind-SelectedText="SelectedText"
+              SelectedValue="@SelectedValue"
+              SelectedValueChanged="@OnSelectedValueChanged"
+              SelectedText="@SelectedText"
+              SelectedTextChanged="@OnSelectedTextChanged"
               Placeholder="Search..."
-              FreeTyping
+              FreeTyping="@FreeTyping"
               MinLength="@MinLength"
               AutoPreSelect="@AutoPreSelect">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
 @code {
-    [Inject]
-    public CountryData CountryData { get; set; }
+    [Inject] public CountryData CountryData { get; set; }
+
     public IEnumerable<Country> Countries;
+
+    public Autocomplete<Country, string> AutoCompleteRef { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -23,11 +28,32 @@
         await base.OnInitializedAsync();
     }
 
+    private Task OnSelectedValueChanged(string e)
+    {
+        SelectedValue = e;
+        return SelectedValueChanged.InvokeAsync(e);
+    }
+
+    private Task OnSelectedTextChanged(string e)
+    {
+        SelectedText = e;
+        return SelectedTextChanged.InvokeAsync( e );
+    }
+
+    [Parameter]
+    public bool FreeTyping { get; set; } = true;
+
     [Parameter]
     public string SelectedValue { get; set; }
 
     [Parameter]
+    public EventCallback<string> SelectedValueChanged { get; set; }
+
+    [Parameter]
     public string SelectedText { get; set; }
+
+    [Parameter]
+    public EventCallback<string> SelectedTextChanged { get; set; }
 
     [Parameter]
     public int MinLength { get; set; } = 1;

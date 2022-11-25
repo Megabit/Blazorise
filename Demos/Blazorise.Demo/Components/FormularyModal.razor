@@ -20,7 +20,7 @@
         </FieldBody>
     </Field>
 
-    @if (!isValid)
+    @if ( !isValid )
     {
         <Paragraph>
             <Label>Invalid Submission!</Label>
@@ -40,17 +40,15 @@
 
     private async Task Confirm()
     {
-        if (OnValidate is not null)
-            isValid = await OnValidate(model);
+        if ( OnValidate is not null )
+            isValid = await OnValidate( model );
 
-        if (!isValid)
+        if ( !isValid )
         {
             return;
         }
 
-        await OnSuccess(model);
+        await OnSuccess( model );
         await ModalService.Hide();
     }
-
-
 }

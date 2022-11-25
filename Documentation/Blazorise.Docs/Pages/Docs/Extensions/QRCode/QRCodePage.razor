@@ -66,6 +66,21 @@
     <DocsPageSectionSource Code="QRCodeErrorCorrectionExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Icon">
+        <Paragraph>
+            Placing an icon in the middle of <Code Tag>QRCode</Code> is very simple. You just need to set the <Code>Icon</Code> parameter. It can be in base64 format, or an absolute URL.
+        </Paragraph>
+        <Paragraph>
+            Please be aware that placing an icon in the middle will also cover part of the QR code and make it unreadable. So it would be best to increase the error level by setting the <Code>EccLevel</Code> parameter.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <QRCodeIconExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="QRCodeIconExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Best Practices
 </DocsPageSubtitle>
@@ -76,6 +91,14 @@
 
 <DocsPageParagraph>
     To optimize your web for SEO, define the <Code>Alt</Code> parameter to describe the QR image content, eg. <Code>Alt="QRCode image"</Code>.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Increase Error Correction Level for Images
+</Heading>
+
+<DocsPageParagraph>
+    Placing an image within the QRCode can make it unreadable, so it is best to increase the error level(<Strong>EccLevel</Strong>) of the code so that the QR scanners can easily read it.
 </DocsPageParagraph>
 
 <Heading Size="HeadingSize.Is2">
@@ -106,5 +129,14 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="DrawQuietZones" Type="bool" Default="true">
         Draw quiet zones (blank margins around QR Code image).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Icon" Type="string" Default="null">
+        The icon that is places in the middle of the QRCode, can be in base64 format or an absolute url.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IconSizePercentage" Type="int" Default="40">
+        Defines how much space the icon will occupy within the QRCode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IconBorderWidth" Type="int" Default="0">
+        Defines how large the borders will be for the icon that is placed within the QRCode.
     </DocsAttributesItem>
 </DocsAttributes>

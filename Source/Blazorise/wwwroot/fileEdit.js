@@ -1,4 +1,4 @@
-﻿import { getRequiredElement } from "./utilities.js?v=1.1.0.0";
+﻿import { getRequiredElement } from "./utilities.js?v=1.1.3.0";
 
 const _instances = [];
 let nextFileId = 0;
@@ -56,6 +56,20 @@ export function reset(element, elementId) {
                 throw new Error(err);
             });
         }
+    }
+}
+
+export function open(element, elementId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
+    if ('showPicker' in HTMLInputElement.prototype) {
+        element.showPicker();
+    }
+    else {
+        element.click();
     }
 }
 

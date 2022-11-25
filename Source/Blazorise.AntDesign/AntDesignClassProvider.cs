@@ -322,6 +322,12 @@ namespace Blazorise.AntDesign
 
         #endregion
 
+        #region FocusTrap
+
+        public override string FocusTrap() => "ant-focus-trap";
+
+        #endregion
+
         #region Control
 
         public override string ControlCheck() => UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check";
@@ -675,6 +681,8 @@ namespace Blazorise.AntDesign
         public override string BarDropdownShow( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-open" : "ant-menu-submenu-open";
 
         public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-title" : "ant-menu-submenu-title";
+
+        public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => mode == Blazorise.BarMode.Horizontal && disabled ? "ant-menu-submenu-disabled" : null;
 
         public override string BarDropdownItem( BarMode mode ) => "ant-menu-item ant-menu-item-only-child";
 

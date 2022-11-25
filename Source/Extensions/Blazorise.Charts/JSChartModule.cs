@@ -28,7 +28,7 @@ namespace Blazorise.Charts
 
         #region Methods
 
-        public virtual async ValueTask Initialize<TItem, TOptions>( DotNetObjectReference<ChartAdapter> dotNetObjectReference, object eventOptions, ElementReference canvasRef, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject )
+        public virtual async ValueTask Initialize<TItem, TOptions>( DotNetObjectReference<ChartAdapter> dotNetObjectReference, object eventOptions, ElementReference canvasRef, string canvasId, ChartType type, ChartData<TItem> data, TOptions options, string dataJsonString, string optionsJsonString, object optionsObject, IReadOnlyList<string> pluginNames )
         {
             var moduleInstance = await Module;
 
@@ -42,7 +42,8 @@ namespace Blazorise.Charts
                 (object)options,
                 dataJsonString,
                 optionsJsonString,
-                optionsObject );
+                optionsObject,
+                pluginNames );
         }
 
         public virtual async ValueTask ChangeType( ElementReference canvasRef, string canvasId, ChartType type )

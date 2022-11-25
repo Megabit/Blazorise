@@ -47,6 +47,11 @@
                                 <BarIcon IconName="IconName.BookReader" /> Usage
                             </BarLink>
                         </BarItem>
+                         <BarItem>
+                            <BarLink To="docs/templates">
+                                <BarIcon IconName="IconName.FileAlt" /> Templates
+                            </BarLink>
+                        </BarItem>
                         <BarItem>
                             <BarLink To="docs/theming">
                                 <BarIcon IconName="IconName.Brush" /> Theming
@@ -124,6 +129,7 @@
                                         <BarDropdownToggle>Chart</BarDropdownToggle>
                                         <BarDropdownMenu>
                                             <BarDropdownItem To="docs/extensions/chart">Start Here</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-datalabels">DataLabels</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-live">Live Chart</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-trendline">Trendline</BarDropdownItem>
                                         </BarDropdownMenu>
@@ -149,6 +155,7 @@
                                         </BarDropdownMenu>
                                     </BarDropdown>
                                     <BarDropdownItem To="docs/extensions/list-view">ListView</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/lottie-animation">LottieAnimation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/richtextedit">RichTextEdit</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/selectlist">SelectList</BarDropdownItem>
@@ -169,10 +176,10 @@
                                     <BarIcon IconName="IconName.Comment" /> Services
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
-                                    <BarDropdownItem To="docs/services/message-provider">Messages</BarDropdownItem>
-                                    <BarDropdownItem To="docs/services/modal-provider">Modals</BarDropdownItem>
-                                    <BarDropdownItem To="docs/services/notification-provider">Notifications</BarDropdownItem>
-                                    <BarDropdownItem To="docs/services/page-progress-provider">Page Progress</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/message-provider">Message Provider</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/modal-provider">Modal Provider</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/notification-provider">Notification Provider</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/page-progress-provider">PageProgress Provider</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -210,6 +217,17 @@
                                     <BarDropdownItem To="docs/helpers/utilities/position">Position</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/sizes">Sizes</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities">Utilities</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarSpecificationsMenuVisible">
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Book" /> Specifications
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/specifications">Introduction</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/autocomplete">Autocomplete</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
