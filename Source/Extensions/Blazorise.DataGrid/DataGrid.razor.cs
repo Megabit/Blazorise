@@ -252,7 +252,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await JSModule.Initialize( tableRef.ElementRef, ElementId );
             paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
             paginationContext.SubscribeOnPageChanged( OnPageChanged );
-                
+
             if ( Theme is not null )
             {
                 Theme.Changed += OnThemeChanged;
@@ -1209,9 +1209,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             if ( CustomFilter != null )
             {
                 query = from item in query
-                    where item != null
-                    where CustomFilter( item )
-                    select item;
+                        where item != null
+                        where CustomFilter( item )
+                        select item;
             }
 
             foreach ( var column in Columns )
@@ -1222,9 +1222,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 if ( column.CustomFilter != null )
                 {
                     query = from item in query
-                        let cellRealValue = column.GetValue( item )
-                        where column.CustomFilter( cellRealValue, column.Filter.SearchValue )
-                        select item;
+                            let cellRealValue = column.GetValue( item )
+                            where column.CustomFilter( cellRealValue, column.Filter.SearchValue )
+                            select item;
                 }
                 else
                 {
@@ -1234,10 +1234,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                         continue;
 
                     query = from item in query
-                        let cellRealValue = column.GetValue( item )
-                        let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                        where CompareFilterValues( cellStringValue, stringSearchValue )
-                        select item;
+                            let cellRealValue = column.GetValue( item )
+                            let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
+                            where CompareFilterValues( cellStringValue, stringSearchValue )
+                            select item;
                 }
             }
         }

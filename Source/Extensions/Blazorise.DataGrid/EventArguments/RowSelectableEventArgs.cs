@@ -15,7 +15,7 @@ public class RowSelectableEventArgs<TItem> : EventArgs
     /// </summary>
     /// <param name="item">Model that belongs to the grid row.</param>
     /// <param name="selectReason">Indicates the Row Select Reason</param>
-    public RowSelectableEventArgs( TItem item, DataGridSelectReason selectReason)
+    public RowSelectableEventArgs( TItem item, DataGridSelectReason selectReason )
     {
         Item = item;
         SelectReason = selectReason;
@@ -25,7 +25,7 @@ public class RowSelectableEventArgs<TItem> : EventArgs
     /// Gets the model.
     /// </summary>
     public TItem Item { get; }
-     
+
     /// <summary>
     /// Gets the Row Select Reason
     /// </summary>

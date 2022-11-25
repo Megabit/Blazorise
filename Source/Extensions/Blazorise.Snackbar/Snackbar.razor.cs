@@ -67,7 +67,7 @@ public partial class Snackbar : BaseComponent, IDisposable
         builder.Append( "snackbar" );
         builder.Append( "snackbar-show", Visible );
         builder.Append( "snackbar-multi-line", Multiline );
-        builder.Append( $"snackbar-{ Location.GetName()}", Location != SnackbarLocation.Default );
+        builder.Append( $"snackbar-{Location.GetName()}", Location != SnackbarLocation.Default );
         builder.Append( $"snackbar-{Color.GetName()}", Color != SnackbarColor.Default );
 
         base.BuildClasses( builder );

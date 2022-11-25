@@ -16,25 +16,25 @@ public class StaticSiteServerFixture : WebHostServerFixture
 
     protected override IWebHost CreateWebHost()
     {
-        if (string.IsNullOrEmpty(SampleSiteName))
+        if ( string.IsNullOrEmpty( SampleSiteName ) )
         {
-            throw new InvalidOperationException($"No value was provided for {nameof(SampleSiteName)}");
+            throw new InvalidOperationException( $"No value was provided for {nameof( SampleSiteName )}" );
         }
 
-        var sampleSitePath = FindSampleOrTestSitePath(SampleSiteName);
+        var sampleSitePath = FindSampleOrTestSitePath( SampleSiteName );
 
         return new WebHostBuilder()
             .UseKestrel()
-            .UseContentRoot(sampleSitePath)
-            .UseWebRoot(string.Empty)
+            .UseContentRoot( sampleSitePath )
+            .UseWebRoot( string.Empty )
             .UseStartup<StaticSiteStartup>()
-            .UseUrls("http://127.0.0.1:0")
+            .UseUrls( "http://127.0.0.1:0" )
             .Build();
     }
 
     private class StaticSiteStartup
     {
-        public void Configure(IApplicationBuilder app)
+        public void Configure( IApplicationBuilder app )
         {
             app.UseFileServer();
         }

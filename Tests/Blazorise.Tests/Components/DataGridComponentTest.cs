@@ -73,9 +73,9 @@ public class DataGridComponentTest : TestContext
         // test
         comp.Find( "#btnEdit" ).Click();
 
-        comp.Input( "input", updatedName, 
-            ( firstInput ) => firstInput.SetAttribute( "value", updatedName ));
-            
+        comp.Input( "input", updatedName,
+            ( firstInput ) => firstInput.SetAttribute( "value", updatedName ) );
+
         comp.Click( "#btnSave" );
 
         var currentName = comp.Instance.InMemoryData[0].Name;

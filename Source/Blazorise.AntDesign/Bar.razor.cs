@@ -27,9 +27,9 @@ public partial class Bar : Blazorise.Bar
     #region Properties
 
     [Parameter]
-    public override bool Visible 
-    { 
-        get => base.Visible; 
+    public override bool Visible
+    {
+        get => base.Visible;
         set
         {
             // prevent bar from calling the same code multiple times
@@ -44,8 +44,8 @@ public partial class Bar : Blazorise.Bar
     }
 
     [Parameter]
-    public override BarMode Mode 
-    { 
+    public override BarMode Mode
+    {
         get => base.Mode;
         set
         {

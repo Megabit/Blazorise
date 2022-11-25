@@ -17,8 +17,8 @@ public class ApplicationLoadingIndicator : LoadingIndicator
     }
 
     protected override void OnParametersSet()
-    { 
-        if (Service == null)
+    {
+        if ( Service == null )
         {
             Service = serviceProvider.GetService<ILoadingIndicatorService>();
         }

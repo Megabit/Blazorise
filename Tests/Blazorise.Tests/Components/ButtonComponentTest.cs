@@ -45,10 +45,10 @@ public class ButtonComponentTest : TestContext
     {
         // setup
         var comp = RenderComponent<ButtonComponent>();
-            
+
         var result = comp.Find( "#basic-button-event-result" );
         var button = comp.Find( "#basic-button" );
-            
+
         // test
         button.Click();
         var result1 = result.InnerHtml;

@@ -98,14 +98,16 @@ public class DataGridDetailRowComponentTest : TestContext
     {
         // setup
         var comp = RenderComponent<DataGridDetailRowComponent>(
-            parameters => {
+            parameters =>
+            {
                 parameters.Add( x => x.DetailRowStartsVisible, false );
-                parameters.Add( x => x.DetailRowTrigger, (context) => {
+                parameters.Add( x => x.DetailRowTrigger, ( context ) =>
+                {
                     context.Single = true;
                     context.Toggleable = false;
                     return true;
                 } );
-            } ); 
+            } );
 
         // test
         var rowsBefore = comp.FindAll( "#lblFraction" );
@@ -134,9 +136,11 @@ public class DataGridDetailRowComponentTest : TestContext
     {
         // setup
         var comp = RenderComponent<DataGridDetailRowComponent>(
-            parameters => {
+            parameters =>
+            {
                 parameters.Add( x => x.DetailRowStartsVisible, false );
-                parameters.Add( x => x.DetailRowTrigger, ( context ) => {
+                parameters.Add( x => x.DetailRowTrigger, ( context ) =>
+                {
                     context.Single = true;
                     context.Toggleable = true;
                     return true;
@@ -171,9 +175,11 @@ public class DataGridDetailRowComponentTest : TestContext
     {
         // setup
         var comp = RenderComponent<DataGridDetailRowComponent>(
-            parameters => {
+            parameters =>
+            {
                 parameters.Add( x => x.DetailRowStartsVisible, false );
-                parameters.Add( x => x.DetailRowTrigger, ( context ) => {
+                parameters.Add( x => x.DetailRowTrigger, ( context ) =>
+                {
                     context.Toggleable = false;
                     return true;
                 } );

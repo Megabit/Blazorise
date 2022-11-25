@@ -66,7 +66,7 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        if ( firstRender  )
+        if ( firstRender )
         {
             await JSModule.Initialize( ElementRef, ElementId );
         }

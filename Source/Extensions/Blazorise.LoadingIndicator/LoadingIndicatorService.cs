@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Blazorise.LoadingIndicator;
 
 /// <inheritdoc />
-public class LoadingIndicatorService: ILoadingIndicatorService
+public class LoadingIndicatorService : ILoadingIndicatorService
 {
     #region Members
 
@@ -106,7 +106,7 @@ public class LoadingIndicatorService: ILoadingIndicatorService
         List<Task> tasks;
         lock ( hashLock )
         {
-            tasks = new(indicators.Count);
+            tasks = new( indicators.Count );
             foreach ( var indicator in indicators )
             {
                 tasks.Add( indicator.SetVisible( value ) );

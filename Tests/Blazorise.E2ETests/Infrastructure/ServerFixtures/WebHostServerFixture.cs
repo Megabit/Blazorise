@@ -14,7 +14,7 @@ public abstract class WebHostServerFixture : ServerFixture
     protected override string StartAndGetRootUri()
     {
         _host = CreateWebHost();
-        RunInBackgroundThread(_host.Start);
+        RunInBackgroundThread( _host.Start );
         return _host.ServerFeatures
             .Get<IServerAddressesFeature>()
             .Addresses.Single();

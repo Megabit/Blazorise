@@ -21,12 +21,12 @@ public class FunctionCompilerTests
     [InlineData( "Information.Message", null )]
     [InlineData( "Information.Detail.Id", "0" )]
     [InlineData( "Information.Detail.Description", null )]
-    public void ValueGetter_ReturnsCorrectPropertyOrField_DefaultValue(string field, string expected)
+    public void ValueGetter_ReturnsCorrectPropertyOrField_DefaultValue( string field, string expected )
     {
-        var test = new Test( );
+        var test = new Test();
         var valueGetter = FunctionCompiler.CreateValueGetter<Test>( field );
 
-        Assert.Equal(expected, valueGetter( test )?.ToString());
+        Assert.Equal( expected, valueGetter( test )?.ToString() );
     }
 
     [Theory]

@@ -39,7 +39,7 @@ public class DataGridButtonRowComponentTest : TestContext
 
         // validate
         var expectedResult = startingDataCount + 1;
-        comp.WaitForAssertion( () => Assert.Equal(expectedResult, comp.Instance.InMemoryData.Count), System.TimeSpan.FromSeconds(3) );
+        comp.WaitForAssertion( () => Assert.Equal( expectedResult, comp.Instance.InMemoryData.Count ), System.TimeSpan.FromSeconds( 3 ) );
     }
 
     [Theory]
@@ -86,7 +86,7 @@ public class DataGridButtonRowComponentTest : TestContext
         var currentDataCount = comp.Instance.InMemoryData.Count;
 
         // validate
-        var expectedResult = startingDataCount -1;
+        var expectedResult = startingDataCount - 1;
         comp.WaitForAssertion( () => Assert.Equal( expectedResult, currentDataCount ), System.TimeSpan.FromSeconds( 3 ) );
     }
 }

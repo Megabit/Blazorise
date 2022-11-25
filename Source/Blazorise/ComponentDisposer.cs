@@ -49,10 +49,10 @@ internal class ComponentDisposer : IComponentDisposer
     public ComponentDisposer( IServiceProvider serviceProvider )
     {
         ServiceProvider = serviceProvider;
-            
+
         active = ServiceProvider.GetType().Name.Equals( DEFAULT_DOTNET_SERVICEPROVIDER, StringComparison.InvariantCultureIgnoreCase );
 
-        if ( active ) 
+        if ( active )
             disposables = LoadServiceProviderDisposableList();
     }
 
@@ -71,7 +71,8 @@ internal class ComponentDisposer : IComponentDisposer
             retried = true;
         }
 
-        if ( !disposePossible ) return;
+        if ( !disposePossible )
+            return;
 
         if ( component is BaseAfterRenderComponent afterRenderComponent && ( afterRenderComponent.Disposed || afterRenderComponent.AsyncDisposed ) )
         {

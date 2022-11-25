@@ -191,13 +191,13 @@ public class TextLocalizer<T> : ITextLocalizer<T>
         var translations = GetTranslations();
 
         return ( from t in translations
-            select new
-            {
-                t.Key,
-                Value = arguments.Length > 0
-                    ? string.Format( localizerService.SelectedCulture, t.Value, arguments )
-                    : t.Value
-            } ).ToDictionary( x => x.Key, x => x.Value );
+                 select new
+                 {
+                     t.Key,
+                     Value = arguments.Length > 0
+                         ? string.Format( localizerService.SelectedCulture, t.Value, arguments )
+                         : t.Value
+                 } ).ToDictionary( x => x.Key, x => x.Value );
     }
 
     #endregion

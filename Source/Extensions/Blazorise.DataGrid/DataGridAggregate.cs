@@ -35,8 +35,8 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
             return 0;
 
         return ( from item in Data
-            let value = column.GetValue( item )
-            select Convert.ToDecimal( value ) ).Sum();
+                 let value = column.GetValue( item )
+                 select Convert.ToDecimal( value ) ).Sum();
     }
 
     /// <summary>
@@ -51,8 +51,8 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
             return 0;
 
         return ( from item in Data
-            let value = column.GetValue( item )
-            select Convert.ToDecimal( value ) ).Min();
+                 let value = column.GetValue( item )
+                 select Convert.ToDecimal( value ) ).Min();
     }
 
     /// <summary>
@@ -67,8 +67,8 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
             return 0;
 
         return ( from item in Data
-            let value = column.GetValue( item )
-            select Convert.ToDecimal( value ) ).Max();
+                 let value = column.GetValue( item )
+                 select Convert.ToDecimal( value ) ).Max();
     }
 
     /// <summary>
@@ -83,8 +83,8 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
             return 0;
 
         return ( from item in Data
-            let value = column.GetValue( item )
-            select Convert.ToDecimal( value ) ).Average();
+                 let value = column.GetValue( item )
+                 select Convert.ToDecimal( value ) ).Average();
     }
 
     /// <summary>
@@ -110,9 +110,9 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
             return 0;
 
         return ( from item in Data
-            let value = Convert.ToBoolean( column.GetValue( item ) )
-            where value
-            select value ).Count();
+                 let value = Convert.ToBoolean( column.GetValue( item ) )
+                 where value
+                 select value ).Count();
     }
 
     /// <summary>
@@ -127,9 +127,9 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
             return 0;
 
         return ( from item in Data
-            let value = Convert.ToBoolean( column.GetValue( item ) )
-            where !value
-            select value ).Count();
+                 let value = Convert.ToBoolean( column.GetValue( item ) )
+                 where !value
+                 select value ).Count();
     }
 
     protected override void OnInitialized()

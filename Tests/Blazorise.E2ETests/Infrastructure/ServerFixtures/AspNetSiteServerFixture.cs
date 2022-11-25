@@ -8,7 +8,7 @@ namespace Blazorise.E2ETests.Infrastructure.ServerFixtures;
 
 public class AspNetSiteServerFixture : WebHostServerFixture
 {
-    public delegate IWebHost BuildWebHost(string[] args);
+    public delegate IWebHost BuildWebHost( string[] args );
 
     public BuildWebHost BuildWebHostMethod { get; set; }
 
@@ -16,20 +16,20 @@ public class AspNetSiteServerFixture : WebHostServerFixture
 
     protected override IWebHost CreateWebHost()
     {
-        if (BuildWebHostMethod == null)
+        if ( BuildWebHostMethod == null )
         {
             throw new InvalidOperationException(
-                $"No value was provided for {nameof(BuildWebHostMethod)}");
+                $"No value was provided for {nameof( BuildWebHostMethod )}" );
         }
 
         var sampleSitePath = FindSampleOrTestSitePath(
-            BuildWebHostMethod.Method.DeclaringType!.Assembly.GetName().Name);
+            BuildWebHostMethod.Method.DeclaringType!.Assembly.GetName().Name );
 
-        return BuildWebHostMethod(new[]
+        return BuildWebHostMethod( new[]
         {
             "--urls", "http://127.0.0.1:0",
             "--contentroot", sampleSitePath,
             "--environment", Environment.ToString(),
-        });
+        } );
     }
 }

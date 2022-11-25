@@ -708,23 +708,23 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             if ( CustomFilter != null )
             {
                 query = from q in query
-                    where q != null
-                    where CustomFilter( q, CurrentSearch )
-                    select q;
+                        where q != null
+                        where CustomFilter( q, CurrentSearch )
+                        select q;
             }
             else if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
-                    let text = GetItemText( q )
-                    where text.IndexOf( CurrentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
-                    select q;
+                        let text = GetItemText( q )
+                        where text.IndexOf( CurrentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
+                        select q;
             }
             else
             {
                 query = from q in query
-                    let text = GetItemText( q )
-                    where text.StartsWith( CurrentSearch, StringComparison.OrdinalIgnoreCase )
-                    select q;
+                        let text = GetItemText( q )
+                        where text.StartsWith( CurrentSearch, StringComparison.OrdinalIgnoreCase )
+                        select q;
             }
         }
 

@@ -14,16 +14,16 @@ public class ToggleExecutionModeServerFixture<TClientProgram>
     private AspNetSiteServerFixture.BuildWebHost _buildWebHostMethod;
     private IDisposable _serverToDispose;
 
-    public void UseAspNetHost(AspNetSiteServerFixture.BuildWebHost buildWebHostMethod)
+    public void UseAspNetHost( AspNetSiteServerFixture.BuildWebHost buildWebHostMethod )
     {
         _buildWebHostMethod = buildWebHostMethod
-                              ?? throw new ArgumentNullException(nameof(buildWebHostMethod));
+                              ?? throw new ArgumentNullException( nameof( buildWebHostMethod ) );
         UsingAspNetHost = true;
     }
 
     protected override string StartAndGetRootUri()
     {
-        if (_buildWebHostMethod == null)
+        if ( _buildWebHostMethod == null )
         {
             // Use Blazor's dev host server
             var underlying = new DevHostServerFixture<TClientProgram>();

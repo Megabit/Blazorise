@@ -10,7 +10,7 @@ public abstract class BaseTemplateContext<TItem>
     /// Initializes BaseContext.
     /// </summary>
     /// <param name="item">Holds the Item.</param>
-    public BaseTemplateContext(TItem item)
+    public BaseTemplateContext( TItem item )
     {
         Item = item;
     }

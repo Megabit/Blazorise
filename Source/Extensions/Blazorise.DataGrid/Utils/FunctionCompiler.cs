@@ -42,7 +42,7 @@ public static class FunctionCompiler
             throw new ArgumentException( $"Cannot detect the member of {item.Type}", propertyOrFieldName );
 
         field = Expression.Condition( Expression.Equal( item, Expression.Default( item.Type ) ),
-            IsNullable( field.Type ) ? Expression.Constant( null, field.Type ) : Expression.Default( field.Type ), 
+            IsNullable( field.Type ) ? Expression.Constant( null, field.Type ) : Expression.Default( field.Type ),
             field );
 
         if ( parts.Length > 1 )

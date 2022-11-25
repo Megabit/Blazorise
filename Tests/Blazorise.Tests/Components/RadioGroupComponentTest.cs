@@ -38,7 +38,7 @@ public class RadioGroupComponentTest : TestContext
         Assert.Equal( "red", result.InnerHtml );
 
         // test 3
-        radioB.Change("blue" );
+        radioB.Change( "blue" );
 
         Assert.Null( radioR.GetAttribute( "checked" ) );
         Assert.NotNull( radioB.GetAttribute( "checked" ) );

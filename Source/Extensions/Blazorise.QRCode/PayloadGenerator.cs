@@ -642,8 +642,8 @@ public static class PayloadGenerator
             if ( source.Any( ( KeyValuePair<string, string> keyPair ) => !string.IsNullOrEmpty( keyPair.Value ) ) )
             {
                 text = "?" + string.Join( "&", ( from keyPair in source
-                    where !string.IsNullOrEmpty( keyPair.Value )
-                    select keyPair.Key + "=" + keyPair.Value ).ToArray() );
+                                                 where !string.IsNullOrEmpty( keyPair.Value )
+                                                 select keyPair.Key + "=" + keyPair.Value ).ToArray() );
             }
 
             return Enum.GetName( typeof( BitcoinLikeCryptoCurrencyType ), currencyType )!.ToLower() + ":" + address + text;
@@ -2888,25 +2888,25 @@ public static class PayloadGenerator
         private List<string> GetOptionalFieldsAsList()
         {
             return ( from field in oFields.GetType().GetProperties()
-                where field.GetValue( oFields, null ) != null
-                select field ).Select( delegate ( PropertyInfo field )
-            {
-                object value = field.GetValue( oFields, null );
-                string text = ( field.PropertyType.Equals( typeof( DateTime? ) ) ? ( (DateTime)value ).ToString( "dd.MM.yyyy" ) : value.ToString() );
-                return field.Name + "=" + text;
-            } ).ToList();
+                     where field.GetValue( oFields, null ) != null
+                     select field ).Select( delegate ( PropertyInfo field )
+                 {
+                     object value = field.GetValue( oFields, null );
+                     string text = ( field.PropertyType.Equals( typeof( DateTime? ) ) ? ( (DateTime)value ).ToString( "dd.MM.yyyy" ) : value.ToString() );
+                     return field.Name + "=" + text;
+                 } ).ToList();
         }
 
         private List<string> GetMandatoryFieldsAsList()
         {
             return ( from field in mFields.GetType().GetFields()
-                where field.GetValue( mFields ) != null
-                select field ).Select( delegate ( FieldInfo field )
-            {
-                object value = field.GetValue( mFields );
-                string text = ( field.FieldType.Equals( typeof( DateTime? ) ) ? ( (DateTime)value ).ToString( "dd.MM.yyyy" ) : value.ToString() );
-                return field.Name + "=" + text;
-            } ).ToList();
+                     where field.GetValue( mFields ) != null
+                     select field ).Select( delegate ( FieldInfo field )
+                 {
+                     object value = field.GetValue( mFields );
+                     string text = ( field.FieldType.Equals( typeof( DateTime? ) ) ? ( (DateTime)value ).ToString( "dd.MM.yyyy" ) : value.ToString() );
+                     return field.Name + "=" + text;
+                 } ).ToList();
         }
 
         private static string ValidateInput( string input, string fieldname, string pattern, string errorText = null )

@@ -37,7 +37,7 @@ public partial class SnackbarAction : BaseComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "snackbar-action-button" );
-        builder.Append( $"snackbar-action-button-{ ParentSnackbar.Color.GetName()}", ParentSnackbar != null && ParentSnackbar.Color != SnackbarColor.Default );
+        builder.Append( $"snackbar-action-button-{ParentSnackbar.Color.GetName()}", ParentSnackbar != null && ParentSnackbar.Color != SnackbarColor.Default );
 
         base.BuildClasses( builder );
     }

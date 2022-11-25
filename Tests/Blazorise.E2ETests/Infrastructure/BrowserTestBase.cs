@@ -21,7 +21,7 @@ public class BrowserTestBase : IClassFixture<BrowserFixture>
 
     public static ITestOutputHelper Output => _output.Value;
 
-    public BrowserTestBase(BrowserFixture browserFixture, ITestOutputHelper output)
+    public BrowserTestBase( BrowserFixture browserFixture, ITestOutputHelper output )
     {
         _browser.Value = browserFixture.Browser;
         _logs.Value = browserFixture.Logs;
