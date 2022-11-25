@@ -1,0 +1,26 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Row>
+    <Column>
+        <FieldLabel>
+            Image Cropper
+        </FieldLabel>
+        <FieldBody>
+            <Cropper Source="img/gallery/3.jpg" CropperState="@cropperState" />
+        </FieldBody>
+    </Column>
+    <Column>
+        <FieldLabel>
+            Preview
+        </FieldLabel>
+        <FieldBody>
+            <CropperViewer CropperState="@cropperState" Margin="Margin.Is2.FromBottom" Style="width: 150px; height: 150px;" />
+            <CropperViewer CropperState="@cropperState" Margin="Margin.Is2.FromBottom" Style="width: 100px; height: 100px;" />
+            <CropperViewer CropperState="@cropperState" Margin="Margin.Is2.FromBottom" Style="width: 50px; height: 50px;" />
+        </FieldBody>
+    </Column>
+</Row>
+
+@code {
+    private CropperState cropperState = new();
+}

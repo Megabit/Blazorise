@@ -30,6 +30,12 @@ namespace Blazorise.Docs.Server
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            services.AddServerSideBlazor().AddHubOptions( ( o ) =>
+            {
+                o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
+            } );
+
             services.AddHttpContextAccessor();
 
             services
