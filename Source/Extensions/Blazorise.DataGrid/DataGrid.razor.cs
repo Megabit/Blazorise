@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazorise.DataGrid.Enums;
 using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
@@ -253,7 +252,7 @@ namespace Blazorise.DataGrid
                 await JSModule.Initialize( tableRef.ElementRef, ElementId );
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
-                
+
                 if ( Theme is not null )
                 {
                     Theme.Changed += OnThemeChanged;
@@ -1325,14 +1324,6 @@ namespace Blazorise.DataGrid
         #region Properties
 
         /// <summary>
-        /// Template for mouse hover overlay display formatting.
-        /// </summary>
-        [Parameter] public RenderFragment<TItem> RowOverlayTemplate { get; set; }
-
-        [Parameter] public RowOverlayPosition RowOverlayPosition { get; set; } = RowOverlayPosition.End;
-
-
-        /// <summary>
         /// Cascaded theme settings.
         /// </summary>
         [CascadingParameter] public Theme Theme { get; set; }
@@ -2176,6 +2167,16 @@ namespace Blazorise.DataGrid
                             : selectedRowDataIdx + ( CurrentPage - 1 ) * PageSize;
             }
         }
+
+        /// <summary>
+        /// Template for mouse hover overlay display formatting.
+        /// </summary>
+        [Parameter] public RenderFragment<TItem> RowOverlayTemplate { get; set; }
+
+        /// <summary>
+        /// Defines the position of the row overlay.
+        /// </summary>
+        [Parameter] public DataGridRowOverlayPosition RowOverlayPosition { get; set; } = DataGridRowOverlayPosition.End;
 
         #endregion
     }

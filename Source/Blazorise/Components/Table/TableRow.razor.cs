@@ -57,7 +57,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task OnMouseLeaveHandler(MouseEventArgs eventArgs )
+        protected Task OnMouseLeaveHandler( MouseEventArgs eventArgs )
         {
             return MouseLeave.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
         }
@@ -67,7 +67,7 @@ namespace Blazorise
         /// </summary>
         /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task OnMouseOverHandler(MouseEventArgs eventArgs )
+        protected Task OnMouseOverHandler( MouseEventArgs eventArgs )
         {
             return MouseOver.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
         }
