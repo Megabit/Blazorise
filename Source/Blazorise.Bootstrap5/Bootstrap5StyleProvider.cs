@@ -1,33 +1,32 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Bootstrap5
+namespace Blazorise.Bootstrap5;
+
+public class Bootstrap5StyleProvider
+    : StyleProvider
 {
-    public class Bootstrap5StyleProvider
-        : StyleProvider
-    {
-        #region Modal
+    #region Modal
 
-        public override string ModalShow() => "display: block;";
+    public override string ModalShow() => "display: block;";
 
-        #endregion
+    #endregion
 
-        #region ModalBody
+    #region ModalBody
 
-        public override string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto;";
+    public override string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto;";
 
-        #endregion
+    #endregion
 
-        #region ProgressBar
+    #region ProgressBar
 
-        public override string ProgressBarValue( int value ) => $"width: {value}%";
+    public override string ProgressBarValue( int value ) => $"width: {value}%";
 
-        public override string ProgressBarSize( Size size ) => null;
+    public override string ProgressBarSize( Size size ) => null;
 
-        #endregion
+    #endregion
 
-        #region Layout
+    #region Layout
 
-        #endregion
-    }
+    #endregion
 }

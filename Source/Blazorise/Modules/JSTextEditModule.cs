@@ -4,49 +4,48 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise.Modules
+namespace Blazorise.Modules;
+
+/// <summary>
+/// Default implementation of the <see cref="TextEdit"/> JS module.
+/// </summary>
+public class JSTextEditModule : BaseJSModule, IJSTextEditModule
 {
+    #region Constructors
+
     /// <summary>
-    /// Default implementation of the <see cref="TextEdit"/> JS module.
+    /// Default module constructor.
     /// </summary>
-    public class JSTextEditModule : BaseJSModule, IJSTextEditModule
+    /// <param name="jsRuntime">JavaScript runtime instance.</param>
+    /// <param name="versionProvider">Version provider.</param>
+    public JSTextEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
+        : base( jsRuntime, versionProvider )
     {
-        #region Constructors
-
-        /// <summary>
-        /// Default module constructor.
-        /// </summary>
-        /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        /// <param name="versionProvider">Version provider.</param>
-        public JSTextEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-            : base( jsRuntime, versionProvider )
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc/>
-        public virtual ValueTask Initialize( ElementReference elementRef, string elementId, string maskType, string editMask )
-            => InvokeSafeVoidAsync( "initialize", elementRef, elementId, maskType, editMask );
-
-        /// <inheritdoc/>
-        public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
-        {
-            if ( IsUnsafe )
-                return;
-
-            await InvokeSafeVoidAsync( "destroy", elementRef, elementId );
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise/textEdit.js?v={VersionProvider.Version}";
-
-        #endregion
     }
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, string maskType, string editMask )
+        => InvokeSafeVoidAsync( "initialize", elementRef, elementId, maskType, editMask );
+
+    /// <inheritdoc/>
+    public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
+    {
+        if ( IsUnsafe )
+            return;
+
+        await InvokeSafeVoidAsync( "destroy", elementRef, elementId );
+    }
+
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc/>
+    public override string ModuleFileName => $"./_content/Blazorise/textEdit.js?v={VersionProvider.Version}";
+
+    #endregion
 }

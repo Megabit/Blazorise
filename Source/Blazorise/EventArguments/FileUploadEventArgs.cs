@@ -2,25 +2,24 @@
 using System;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Provides the file context for upload.
+/// </summary>
+public class FileUploadEventArgs : EventArgs
 {
     /// <summary>
-    /// Provides the file context for upload.
+    /// Gets the file currently being uploaded.
     /// </summary>
-    public class FileUploadEventArgs : EventArgs
-    {
-        /// <summary>
-        /// Gets the file currently being uploaded.
-        /// </summary>
-        public IFileEntry File { get; }
+    public IFileEntry File { get; }
 
-        /// <summary>
-        /// A default <see cref="FileUploadEventArgs"/> constructor.
-        /// </summary>
-        /// <param name="file">File that is being processed.</param>
-        public FileUploadEventArgs( IFileEntry file )
-        {
-            File = file;
-        }
+    /// <summary>
+    /// A default <see cref="FileUploadEventArgs"/> constructor.
+    /// </summary>
+    /// <param name="file">File that is being processed.</param>
+    public FileUploadEventArgs( IFileEntry file )
+    {
+        File = file;
     }
 }

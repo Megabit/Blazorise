@@ -2,38 +2,38 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Blazorise.LoadingIndicator
+namespace Blazorise.LoadingIndicator;
+
+public class ApplicationLoadingIndicator : LoadingIndicator
 {
-    public class ApplicationLoadingIndicator : LoadingIndicator
+    #region Methods
+
+    public ApplicationLoadingIndicator()
     {
-        #region Methods
+        SpinnerHeight = "128px";
+        FullScreen = true;
+        FadeIn = true;
+        IndicatorTemplate = BlazoriseSpinner;
+    }
 
-        public ApplicationLoadingIndicator()
+    protected override void OnParametersSet()
+    { 
+        if (Service == null)
         {
-            SpinnerHeight = "128px";
-            FullScreen = true;
-            FadeIn = true;
-            IndicatorTemplate = BlazoriseSpinner;
+            Service = serviceProvider.GetService<ILoadingIndicatorService>();
         }
 
-        protected override void OnParametersSet()
-        { 
-            if (Service == null)
-            {
-                Service = serviceProvider.GetService<ILoadingIndicatorService>();
-            }
+        base.OnParametersSet();
+    }
 
-            base.OnParametersSet();
-        }
+    #endregion
 
-        #endregion
+    #region Properties
 
-        #region Properties
-
-        private RenderFragment BlazoriseSpinner => ( builder ) =>
-        {
-            builder.OpenRegion( 0 );
-            builder.AddMarkupContent( 1, @$"
+    private RenderFragment BlazoriseSpinner => ( builder ) =>
+    {
+        builder.OpenRegion( 0 );
+        builder.AddMarkupContent( 1, @$"
                 <svg class='b-loading-indicator-blazorise' viewBox='0 0 52.917 52.917'
                     {( !string.IsNullOrEmpty( SpinnerWidth ) ? $"width = '{SpinnerWidth}'" : "" )}
                     {( !string.IsNullOrEmpty( SpinnerHeight ) ? $"height='{SpinnerHeight}'" : "" )}>
@@ -43,12 +43,11 @@ namespace Blazorise.LoadingIndicator
                     <path style='fill:#9317e1;fill-opacity:1;fill-rule:nonzero;stroke:none' d='m0 0 72.09 42.423 36.119-21.211-72.238-41.385Z' transform='matrix(.25315 0 0 -.25315 17.315 45.271)'/>
                     <path style='fill:#bb61f6;fill-opacity:1;fill-rule:nonzero;stroke:none' d='M0 0v-84.995l-36.119 21.212.223 42.423z' transform='matrix(.25315 0 0 -.25315 44.708 18.385)'/>
                 </svg>" );
-            builder.CloseRegion();
-        };
+        builder.CloseRegion();
+    };
 
-        [Inject]
-        IServiceProvider serviceProvider { get; set; }
+    [Inject]
+    IServiceProvider serviceProvider { get; set; }
 
-        #endregion
-    }
+    #endregion
 }

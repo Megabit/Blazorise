@@ -1,28 +1,27 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Defines the element translation based on its center.
+/// </summary>
+public enum PositionTranslateType
 {
     /// <summary>
-    /// Defines the element translation based on its center.
+    /// Translation will not be applied to an element.
     /// </summary>
-    public enum PositionTranslateType
-    {
-        /// <summary>
-        /// Translation will not be applied to an element.
-        /// </summary>
-        None,
+    None,
 
-        /// <summary>
-        /// Translate on both X and Y coordinates.
-        /// </summary>
-        Middle,
+    /// <summary>
+    /// Translate on both X and Y coordinates.
+    /// </summary>
+    Middle,
 
-        /// <summary>
-        /// Translate on X coordinate.
-        /// </summary>
-        MiddleX,
+    /// <summary>
+    /// Translate on X coordinate.
+    /// </summary>
+    MiddleX,
 
-        /// <summary>
-        /// Translate on Y coordinate.
-        /// </summary>
-        MiddleY,
-    }
+    /// <summary>
+    /// Translate on Y coordinate.
+    /// </summary>
+    MiddleY,
 }

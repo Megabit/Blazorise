@@ -1,14 +1,13 @@
-﻿namespace Blazorise.DataGrid
+﻿namespace Blazorise.DataGrid;
+
+/// <summary>
+/// Defines the type of filter operations.
+/// </summary>
+public enum DataGridFilterMethod
 {
-    /// <summary>
-    /// Defines the type of filter operations.
-    /// </summary>
-    public enum DataGridFilterMethod
-    {
-        Contains,
-        StartsWith,
-        EndsWith,
-        Equals,
-        NotEquals,
-    }
+    Contains,
+    StartsWith,
+    EndsWith,
+    Equals,
+    NotEquals,
 }

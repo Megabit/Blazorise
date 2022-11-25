@@ -1,7 +1,6 @@
-﻿namespace Blazorise.Animate
+﻿namespace Blazorise.Animate;
+
+public class LinearEasing : IEasing
 {
-    public class LinearEasing : IEasing
-    {
-        public string Name => "linear";
-    }
+    public string Name => "linear";
 }

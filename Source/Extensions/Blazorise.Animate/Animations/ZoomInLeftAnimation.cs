@@ -1,7 +1,6 @@
-﻿namespace Blazorise.Animate
+﻿namespace Blazorise.Animate;
+
+public class ZoomInLeftAnimation : IAnimation
 {
-    public class ZoomInLeftAnimation : IAnimation
-    {
-        public string Name => "zoom-in-left";
-    }
+    public string Name => "zoom-in-left";
 }

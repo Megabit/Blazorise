@@ -1,7 +1,6 @@
-﻿namespace Blazorise.Animate
+﻿namespace Blazorise.Animate;
+
+public class ZoomOutDownAnimation : IAnimation
 {
-    public class ZoomOutDownAnimation : IAnimation
-    {
-        public string Name => "zoom-out-down";
-    }
+    public string Name => "zoom-out-down";
 }

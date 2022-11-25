@@ -1,28 +1,27 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Defines the text transformation.
+/// </summary>
+public enum TextTransform
 {
     /// <summary>
-    /// Defines the text transformation.
+    /// No capitalization. The text renders as it is. This is default.
     /// </summary>
-    public enum TextTransform
-    {
-        /// <summary>
-        /// No capitalization. The text renders as it is. This is default.
-        /// </summary>
-        Default,
+    Default,
 
-        /// <summary>
-        /// Transforms all characters to lowercase.
-        /// </summary>
-        Lowercase,
+    /// <summary>
+    /// Transforms all characters to lowercase.
+    /// </summary>
+    Lowercase,
 
-        /// <summary>
-        /// Transforms all characters to uppercase.
-        /// </summary>
-        Uppercase,
+    /// <summary>
+    /// Transforms all characters to uppercase.
+    /// </summary>
+    Uppercase,
 
-        /// <summary>
-        /// Transforms the first character of each word to uppercase.
-        /// </summary>
-        Capitalize,
-    }
+    /// <summary>
+    /// Transforms the first character of each word to uppercase.
+    /// </summary>
+    Capitalize,
 }

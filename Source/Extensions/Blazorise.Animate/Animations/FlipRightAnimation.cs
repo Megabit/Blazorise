@@ -1,7 +1,6 @@
-﻿namespace Blazorise.Animate
+﻿namespace Blazorise.Animate;
+
+public class FlipRightAnimation : IAnimation
 {
-    public class FlipRightAnimation : IAnimation
-    {
-        public string Name => "flip-right";
-    }
+    public string Name => "flip-right";
 }

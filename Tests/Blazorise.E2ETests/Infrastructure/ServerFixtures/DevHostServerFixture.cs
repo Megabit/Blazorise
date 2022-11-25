@@ -5,32 +5,31 @@ using Microsoft.AspNetCore.Hosting;
 using System.Collections.Generic;
 using DevHostServerProgram = BasicTestApp.Server.Program;
 
-namespace Blazorise.E2ETests.Infrastructure.ServerFixtures
+namespace Blazorise.E2ETests.Infrastructure.ServerFixtures;
+
+public class DevHostServerFixture<TProgram> : WebHostServerFixture
 {
-    public class DevHostServerFixture<TProgram> : WebHostServerFixture
+    public string Environment { get; set; }
+    public string PathBase { get; set; }
+    public string ContentRoot { get; private set; }
+
+    protected override IWebHost CreateWebHost()
     {
-        public string Environment { get; set; }
-        public string PathBase { get; set; }
-        public string ContentRoot { get; private set; }
+        ContentRoot = FindSampleOrTestSitePath( typeof( TProgram ).Assembly.GetName().Name );
 
-        protected override IWebHost CreateWebHost()
+        var args = new List<string>
         {
-            ContentRoot = FindSampleOrTestSitePath( typeof( TProgram ).Assembly.GetName().Name );
+            "--urls", "http://127.0.0.1:0",
+            "--contentroot", ContentRoot,
+            "--pathbase", PathBase
+        };
 
-            var args = new List<string>
-            {
-                "--urls", "http://127.0.0.1:0",
-                "--contentroot", ContentRoot,
-                "--pathbase", PathBase
-            };
-
-            if ( !string.IsNullOrEmpty( Environment ) )
-            {
-                args.Add( "--environment" );
-                args.Add( Environment );
-            }
-
-            return DevHostServerProgram.BuildWebHost( args.ToArray() );
+        if ( !string.IsNullOrEmpty( Environment ) )
+        {
+            args.Add( "--environment" );
+            args.Add( Environment );
         }
+
+        return DevHostServerProgram.BuildWebHost( args.ToArray() );
     }
 }
