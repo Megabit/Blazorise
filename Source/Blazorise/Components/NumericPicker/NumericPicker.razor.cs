@@ -459,9 +459,6 @@ namespace Blazorise
         protected override bool ShouldAutoGenerateId => true;
 
         /// <inheritdoc/>
-        protected override bool ShouldDelayExecution => true;
-
-        /// <inheritdoc/>
         protected override TValue InternalValue { get => Value; set => Value = value; }
 
         /// <summary>

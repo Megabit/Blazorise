@@ -152,9 +152,6 @@ namespace Blazorise.RichTextEdit
 
         #region Properties
 
-        /// <inheritdoc/>
-        protected override bool ShouldDelayExecution => true;
-
         /// <summary>
         /// Gets or sets the <see cref="JSRichTextEditModule"/> instance.
         /// </summary>

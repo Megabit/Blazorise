@@ -34,7 +34,7 @@ namespace Blazorise
         /// <param name="action"></param>
         protected void ExecuteAfterRender( Func<Task> action )
         {
-            if ( ShouldDelayExecution && !Rendered )
+            if ( !Rendered )
             {
                 delayedExecuteAfterRenderQueue ??= new();
                 delayedExecuteAfterRenderQueue.Enqueue( action );
@@ -179,11 +179,6 @@ namespace Blazorise
         /// Indicates if component has been rendered in the browser.
         /// </summary>
         protected bool Rendered { get; private set; }
-
-        /// <summary>
-        /// Indicates if we should wait until the component is fully initialized until we execute methods.
-        /// </summary>
-        protected virtual bool ShouldDelayExecution => false;
 
         /// <summary>
         /// Service that frees the component from the memory.
