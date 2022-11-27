@@ -33,11 +33,6 @@ namespace Blazorise.Markdown
         /// </summary>
         private bool autofocus;
 
-        /// <summary>
-        /// A stack of functions to execute after the rendering.
-        /// </summary>
-        private Queue<Func<Task>> delayedExecuteAfterRenderQueue;
-
         #endregion
 
         #region Methods
@@ -57,7 +52,7 @@ namespace Blazorise.Markdown
         {
             if ( Rendered && parameters.TryGetValue<string>( nameof( Value ), out var newValue ) && newValue != Value )
             {
-                TryExecuteAfterRender( () => SetValueAsync( newValue ) );
+                ExecuteAfterRender( () => SetValueAsync( newValue ) );
             }
 
             await base.SetParametersAsync( parameters );
@@ -75,7 +70,7 @@ namespace Blazorise.Markdown
                     }
                     else
                     {
-                        TryExecuteAfterRender( () => Focus() );
+                        ExecuteAfterRender( () => Focus() );
                     }
                 }
                 else
@@ -150,8 +145,6 @@ namespace Blazorise.Markdown
                 ToolbarButtonClassPrefix
             } );
 
-            TryPushExecuteAfterRender();
-
             await base.OnFirstAfterRenderAsync();
         }
 
@@ -171,35 +164,6 @@ namespace Blazorise.Markdown
             await base.DisposeAsync( disposing );
         }
 
-        protected void TryExecuteAfterRender( Func<Task> action )
-        {
-            // if we have already rendered then just forward the action to the base component
-            if ( Rendered )
-            {
-                ExecuteAfterRender( action );
-
-                return;
-            }
-
-            delayedExecuteAfterRenderQueue ??= new();
-            delayedExecuteAfterRenderQueue.Enqueue( action );
-        }
-
-        protected void TryPushExecuteAfterRender()
-        {
-            if ( delayedExecuteAfterRenderQueue?.Count > 0 )
-            {
-                while ( delayedExecuteAfterRenderQueue.Count > 0 )
-                {
-                    var action = delayedExecuteAfterRenderQueue.Dequeue();
-
-                    ExecuteAfterRender( action );
-                }
-
-                InvokeAsync( StateHasChanged );
-            }
-        }
-
         /// <summary>
         /// Executes given action after the rendering is done.
         /// </summary>
@@ -210,7 +174,7 @@ namespace Blazorise.Markdown
 
             token.Register( () => source.TrySetCanceled() );
 
-            TryExecuteAfterRender( async () =>
+            ExecuteAfterRender( async () =>
             {
                 try
                 {
@@ -246,7 +210,7 @@ namespace Blazorise.Markdown
         /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task SetValueAsync( string value )
         {
-            await InvokeAsync( () => TryExecuteAfterRender( async () => await JSModule.SetValue( ElementId, value ) ) );
+            await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetValue( ElementId, value ) ) );
         }
 
         /// <summary>

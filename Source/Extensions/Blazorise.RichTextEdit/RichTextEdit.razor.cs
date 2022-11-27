@@ -50,7 +50,7 @@ namespace Blazorise.RichTextEdit
                 await OnContentChanged();
             }
 
-            TryPushExecuteAfterRender();
+            await base.OnFirstAfterRenderAsync();
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask SetHtmlAsync( string html )
         {
-            await InvokeAsync( () => TryExecuteAfterRender( async () => await JSModule.SetHtmlAsync( EditorRef, html ) ) );
+            await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetHtmlAsync( EditorRef, html ) ) );
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Blazorise.RichTextEdit
         /// <seealso href="https://quilljs.com/docs/delta/"/>
         public async ValueTask SetDeltaAsync( string deltaJson )
         {
-            await InvokeAsync( () => TryExecuteAfterRender( async () => await JSModule.SetDeltaAsync( EditorRef, deltaJson ) ) );
+            await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetDeltaAsync( EditorRef, deltaJson ) ) );
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask SetTextAsync( string text )
         {
-            await InvokeAsync( () => TryExecuteAfterRender( async () => await JSModule.SetTextAsync( EditorRef, text ) ) );
+            await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetTextAsync( EditorRef, text ) ) );
         }
 
         /// <summary>
@@ -109,7 +109,7 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         public async ValueTask ClearAsync()
         {
-            await InvokeAsync( () => TryExecuteAfterRender( async () =>
+            await InvokeAsync( () => ExecuteAfterRender( async () =>
             {
                 await JSModule.ClearAsync( EditorRef );
                 await OnContentChanged();
@@ -145,7 +145,7 @@ namespace Blazorise.RichTextEdit
         /// </summary>
         private async Task SetReadOnly( bool value )
         {
-            await InvokeAsync( () => TryExecuteAfterRender( async () => await JSModule.SetReadOnly( EditorRef, value ) ) );
+            await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetReadOnly( EditorRef, value ) ) );
         }
 
         #endregion

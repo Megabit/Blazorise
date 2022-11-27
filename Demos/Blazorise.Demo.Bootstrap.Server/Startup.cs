@@ -59,6 +59,7 @@ namespace Blazorise.Demo.Bootstrap.Server
 
             app.UseEndpoints( endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage( "/_Host" );
             } );

@@ -58,16 +58,6 @@ namespace Blazorise
         /// </summary>
         private string inputMode;
 
-        /// <summary>
-        /// Indicates if the component is still initializing.
-        /// </summary>
-        private bool initializing = true;
-
-        /// <summary>
-        /// A stack of functions to execute after the rendering.
-        /// </summary>
-        private Queue<Func<Task>> delayedExecuteAfterRenderQueue;
-
         #endregion
 
         #region Constructors
@@ -123,7 +113,7 @@ namespace Blazorise
                     || allowDecimalPaddingChanged || alwaysAllowDecimalSeparatorChanged
                     || modifyValueOnWheelChanged )
                 {
-                    TryExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+                    ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                     {
                         Decimals = new { Changed = decimalsChanged, Value = GetDecimals() },
                         DecimalSeparator = new { Changed = decimalSeparatorChanged, Value = paramDecimalSeparator },
@@ -145,14 +135,11 @@ namespace Blazorise
                 }
             }
 
-            if ( Rendered || initializing )
-            {
-                var valueChanged = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !Value.IsEqual( paramValue );
+            var valueChanged = parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !Value.IsEqual( paramValue );
 
-                if ( valueChanged )
-                {
-                    TryExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
-                }
+            if ( valueChanged )
+            {
+                ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, paramValue ) );
             }
 
             // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
@@ -216,10 +203,6 @@ namespace Blazorise
                 WheelOn = WheelOn.ToNumericWheelOn(),
             } );
 
-            initializing = false;
-
-            TryPushExecuteAfterRender();
-
             await base.OnFirstAfterRenderAsync();
         }
 
@@ -248,35 +231,6 @@ namespace Blazorise
             base.BuildClasses( builder );
         }
 
-        private void TryExecuteAfterRender( Func<Task> action )
-        {
-            // if we have already rendered then just forward the action to the base component
-            if ( Rendered )
-            {
-                ExecuteAfterRender( action );
-
-                return;
-            }
-
-            delayedExecuteAfterRenderQueue ??= new();
-            delayedExecuteAfterRenderQueue.Enqueue( action );
-        }
-
-        private void TryPushExecuteAfterRender()
-        {
-            if ( delayedExecuteAfterRenderQueue?.Count > 0 )
-            {
-                while ( delayedExecuteAfterRenderQueue.Count > 0 )
-                {
-                    var action = delayedExecuteAfterRenderQueue.Dequeue();
-
-                    ExecuteAfterRender( action );
-                }
-
-                InvokeAsync( StateHasChanged );
-            }
-        }
-
         /// <summary>
         /// Executes given action after the rendering is done.
         /// </summary>
@@ -287,7 +241,7 @@ namespace Blazorise
 
             token.Register( () => source.TrySetCanceled() );
 
-            TryExecuteAfterRender( async () =>
+            ExecuteAfterRender( async () =>
             {
                 try
                 {
@@ -481,7 +435,7 @@ namespace Blazorise
                 if ( Converters.TryChangeType<TValue>( comparableNumber, out var currentValue, CurrentCultureInfo )
                     && !CurrentValue.IsEqual( currentValue ) )
                 {
-                    TryExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, currentValue ) );
+                    ExecuteAfterRender( async () => await JSModule.UpdateValue( ElementRef, ElementId, currentValue ) );
 
                     // number has changed so we need to re-set the CurrentValue and re-run any validation
                     return CurrentValueHandler( FormatValueAsString( currentValue ) );
