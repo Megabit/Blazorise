@@ -289,7 +289,7 @@ namespace Blazorise.Markdown
                 await ImageUploadEnded.Invoke( new( fileEntry, success, fileInvalidReason ) );
 
             if ( success )
-                await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl );
+                await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty );
             else
                 await JSModule.NotifyImageUploadError( ElementId, fileEntry.ErrorMessage );
         }
