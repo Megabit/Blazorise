@@ -1,18 +1,17 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Defines the breadcrumb activation mode.
+/// </summary>
+public enum BreadcrumbMode
 {
     /// <summary>
-    /// Defines the breadcrumb activation mode.
+    /// No activation will be applied, meaning it must be applied manually by setting the <see cref="BreadcrumbItem.Active"/> property.
     /// </summary>
-    public enum BreadcrumbMode
-    {
-        /// <summary>
-        /// No activation will be applied, meaning it must be applied manually by setting the <see cref="BreadcrumbItem.Active"/> property.
-        /// </summary>
-        None,
+    None,
 
-        /// <summary>
-        /// Breadcrumb items will be activated based on current navigation.
-        /// </summary>
-        Auto,
-    }
+    /// <summary>
+    /// Breadcrumb items will be activated based on current navigation.
+    /// </summary>
+    Auto,
 }

@@ -2,25 +2,24 @@
 using System;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Supplies the information about the alert visibility state.
+/// </summary>
+public class AlertStateEventArgs : EventArgs
 {
     /// <summary>
-    /// Supplies the information about the alert visibility state.
+    /// A default <see cref="AlertStateEventArgs"/> constructor.
     /// </summary>
-    public class AlertStateEventArgs : EventArgs
+    /// <param name="visible">Visibility flag.</param>
+    public AlertStateEventArgs( bool visible )
     {
-        /// <summary>
-        /// A default <see cref="AlertStateEventArgs"/> constructor.
-        /// </summary>
-        /// <param name="visible">Visibility flag.</param>
-        public AlertStateEventArgs( bool visible )
-        {
-            Visible = visible;
-        }
-
-        /// <summary>
-        /// Gets that flag that indicates if the alert is visible.
-        /// </summary>
-        public bool Visible { get; }
+        Visible = visible;
     }
+
+    /// <summary>
+    /// Gets that flag that indicates if the alert is visible.
+    /// </summary>
+    public bool Visible { get; }
 }

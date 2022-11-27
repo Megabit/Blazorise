@@ -6,25 +6,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Charts
+namespace Blazorise.Charts;
+
+public partial class LineChart<TItem> : BaseChart<LineChartDataset<TItem>, TItem, LineChartOptions, LineChartModel>
 {
-    public partial class LineChart<TItem> : BaseChart<LineChartDataset<TItem>, TItem, LineChartOptions, LineChartModel>
+    #region Members
+
+    #endregion
+
+    #region Constructors
+
+    public LineChart()
     {
-        #region Members
-
-        #endregion
-
-        #region Constructors
-
-        public LineChart()
-        {
-            Type = ChartType.Line;
-        }
-
-        #endregion
-
-        #region Properties
-
-        #endregion
+        Type = ChartType.Line;
     }
+
+    #endregion
+
+    #region Properties
+
+    #endregion
 }

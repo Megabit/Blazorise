@@ -3,23 +3,22 @@ using System;
 using System.Threading.Tasks;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <inheritdoc/>
+class PageProgressService : IPageProgressService
 {
     /// <inheritdoc/>
-    class PageProgressService : IPageProgressService
+    public event EventHandler<PageProgressEventArgs> ProgressChanged;
+
+    /// <inheritdoc/>
+    public Task Go( int? percentage, Action<PageProgressOptions> options = null )
     {
-        /// <inheritdoc/>
-        public event EventHandler<PageProgressEventArgs> ProgressChanged;
+        var pageProgressOptions = PageProgressOptions.Default;
+        options?.Invoke( pageProgressOptions );
 
-        /// <inheritdoc/>
-        public Task Go( int? percentage, Action<PageProgressOptions> options = null )
-        {
-            var pageProgressOptions = PageProgressOptions.Default;
-            options?.Invoke( pageProgressOptions );
+        ProgressChanged?.Invoke( this, new( percentage, pageProgressOptions ) );
 
-            ProgressChanged?.Invoke( this, new( percentage, pageProgressOptions ) );
-
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }

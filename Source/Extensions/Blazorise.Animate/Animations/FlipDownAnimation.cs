@@ -1,7 +1,6 @@
-﻿namespace Blazorise.Animate
+﻿namespace Blazorise.Animate;
+
+public class FlipDownAnimation : IAnimation
 {
-    public class FlipDownAnimation : IAnimation
-    {
-        public string Name => "flip-down";
-    }
+    public string Name => "flip-down";
 }

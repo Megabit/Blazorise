@@ -1,18 +1,17 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Defines the look and position of the bar toggler.
+/// </summary>
+public enum BarTogglerMode
 {
     /// <summary>
-    /// Defines the look and position of the bar toggler.
+    /// The standard inline bar toggler. Supported by Horizontal and Vertical BarModes.
     /// </summary>
-    public enum BarTogglerMode
-    {
-        /// <summary>
-        /// The standard inline bar toggler. Supported by Horizontal and Vertical BarModes.
-        /// </summary>
-        Normal,
+    Normal,
 
-        /// <summary>
-        /// A popout style bar toggler. Supported only on Vertical BarModes.
-        /// </summary>
-        Popout
-    }
+    /// <summary>
+    /// A popout style bar toggler. Supported only on Vertical BarModes.
+    /// </summary>
+    Popout
 }

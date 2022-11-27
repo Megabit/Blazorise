@@ -1,16 +1,15 @@
-﻿namespace Blazorise.Shared.Models
-{
-    public class Country
-    {
-        public Country( string name, string iso, string capital )
-        {
-            Name = name;
-            Iso = iso;
-            Capital = capital;
-        }
+﻿namespace Blazorise.Shared.Models;
 
-        public string Name { get; }
-        public string Iso { get; }
-        public string Capital { get; }
+public class Country
+{
+    public Country( string name, string iso, string capital )
+    {
+        Name = name;
+        Iso = iso;
+        Capital = capital;
     }
+
+    public string Name { get; }
+    public string Iso { get; }
+    public string Capital { get; }
 }

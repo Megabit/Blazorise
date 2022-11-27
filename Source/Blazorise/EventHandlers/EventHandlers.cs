@@ -3,15 +3,13 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
-namespace Blazorise
-{
+namespace Blazorise;
 #if NET6_0
-    [EventHandler( "onmouseenter", typeof( MouseEventArgs ), true, true )]
-    [EventHandler( "onmouseleave", typeof( MouseEventArgs ), true, true )]
+[EventHandler( "onmouseenter", typeof( MouseEventArgs ), true, true )]
+[EventHandler( "onmouseleave", typeof( MouseEventArgs ), true, true )]
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public static class EventHandlers
+public static class EventHandlers
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
-    {
-    }
-#endif
+{
 }
+#endif

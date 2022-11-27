@@ -2,23 +2,22 @@
 using Blazorise.Utilities;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Wrapper for all text inside of <see cref="Card"/> component.
+/// </summary>
+public partial class CardText : BaseTypographyComponent
 {
-    /// <summary>
-    /// Wrapper for all text inside of <see cref="Card"/> component.
-    /// </summary>
-    public partial class CardText : BaseTypographyComponent
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        #region Methods
+        builder.Append( ClassProvider.CardText() );
 
-        /// <inheritdoc/>
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.CardText() );
-
-            base.BuildClasses( builder );
-        }
-
-        #endregion
+        base.BuildClasses( builder );
     }
+
+    #endregion
 }

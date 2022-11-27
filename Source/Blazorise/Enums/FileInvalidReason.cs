@@ -1,33 +1,32 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Provides information about the invalid file.
+/// </summary>
+public enum FileInvalidReason
 {
     /// <summary>
-    /// Provides information about the invalid file.
+    /// File is Valid.
     /// </summary>
-    public enum FileInvalidReason
-    {
-        /// <summary>
-        /// File is Valid.
-        /// </summary>
-        None,
+    None,
 
-        /// <summary>
-        /// File Max Lenght was exceeded.
-        /// </summary>
-        MaxLengthExceeded,
+    /// <summary>
+    /// File Max Lenght was exceeded.
+    /// </summary>
+    MaxLengthExceeded,
 
-        /// <summary>
-        /// The length of the buffer was not as expected when reading the file into the buffer.
-        /// </summary>
-        UnexpectedBufferChunkLength,
+    /// <summary>
+    /// The length of the buffer was not as expected when reading the file into the buffer.
+    /// </summary>
+    UnexpectedBufferChunkLength,
 
-        /// <summary>
-        /// Task was cancelled.
-        /// </summary>
-        TaskCancelled,
+    /// <summary>
+    /// Task was cancelled.
+    /// </summary>
+    TaskCancelled,
 
-        /// <summary>
-        /// Unexpected error, please see exception.
-        /// </summary>
-        UnexpectedError
-    }
+    /// <summary>
+    /// Unexpected error, please see exception.
+    /// </summary>
+    UnexpectedError
 }

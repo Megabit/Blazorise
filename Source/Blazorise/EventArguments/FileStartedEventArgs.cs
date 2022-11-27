@@ -2,25 +2,24 @@
 using System;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Provides the information about the file started to be uploaded.
+/// </summary>
+public class FileStartedEventArgs : EventArgs
 {
     /// <summary>
-    /// Provides the information about the file started to be uploaded.
+    /// A default <see cref="FileStartedEventArgs"/> constructor.
     /// </summary>
-    public class FileStartedEventArgs : EventArgs
+    /// <param name="file">File that is started with upload.</param>
+    public FileStartedEventArgs( IFileEntry file )
     {
-        /// <summary>
-        /// A default <see cref="FileStartedEventArgs"/> constructor.
-        /// </summary>
-        /// <param name="file">File that is started with upload.</param>
-        public FileStartedEventArgs( IFileEntry file )
-        {
-            File = file;
-        }
-
-        /// <summary>
-        /// Gets the file currently being uploaded.
-        /// </summary>
-        public IFileEntry File { get; }
+        File = file;
     }
+
+    /// <summary>
+    /// Gets the file currently being uploaded.
+    /// </summary>
+    public IFileEntry File { get; }
 }

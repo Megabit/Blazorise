@@ -1,25 +1,24 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Charts
+namespace Blazorise.Charts;
+
+public partial class PieChart<TItem> : BaseChart<PieChartDataset<TItem>, TItem, PieChartOptions, PieChartModel>
 {
-    public partial class PieChart<TItem> : BaseChart<PieChartDataset<TItem>, TItem, PieChartOptions, PieChartModel>
+    #region Members
+
+    #endregion
+
+    #region Constructors
+
+    public PieChart()
     {
-        #region Members
-
-        #endregion
-
-        #region Constructors
-
-        public PieChart()
-        {
-            Type = ChartType.Pie;
-        }
-
-        #endregion
-
-        #region Properties
-
-        #endregion
+        Type = ChartType.Pie;
     }
+
+    #endregion
+
+    #region Properties
+
+    #endregion
 }

@@ -2,25 +2,24 @@
 using System;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Supplies the information about the dropdown state.
+/// </summary>
+public class DropdownStateEventArgs : EventArgs
 {
     /// <summary>
-    /// Supplies the information about the dropdown state.
+    /// A default <see cref="DropdownStateEventArgs"/> constructor.
     /// </summary>
-    public class DropdownStateEventArgs : EventArgs
+    /// <param name="visible">Visibility flag.</param>
+    public DropdownStateEventArgs( bool visible )
     {
-        /// <summary>
-        /// A default <see cref="DropdownStateEventArgs"/> constructor.
-        /// </summary>
-        /// <param name="visible">Visibility flag.</param>
-        public DropdownStateEventArgs( bool visible )
-        {
-            Visible = visible;
-        }
-
-        /// <summary>
-        /// Gets that flag that indicates if the dropdown is opened.
-        /// </summary>
-        public bool Visible { get; }
+        Visible = visible;
     }
+
+    /// <summary>
+    /// Gets that flag that indicates if the dropdown is opened.
+    /// </summary>
+    public bool Visible { get; }
 }

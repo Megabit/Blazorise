@@ -9,37 +9,36 @@ using System;
 using Xunit.Abstractions;
 using BasicTestApp.Server;
 
-namespace Blazorise.E2ETests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure;
+
+public class BasicTestAppTestBase : ServerTestBase<ToggleExecutionModeServerFixture<Program>>
 {
-    public class BasicTestAppTestBase : ServerTestBase<ToggleExecutionModeServerFixture<Program>>
+    public string ServerPathBase
+        => "/subdir" + ( _serverFixture.UsingAspNetHost ? "#server" : "" );
+
+    public BasicTestAppTestBase(
+        BrowserFixture browserFixture,
+        ToggleExecutionModeServerFixture<Program> serverFixture,
+        ITestOutputHelper output )
+        : base( browserFixture, serverFixture, output )
     {
-        public string ServerPathBase
-            => "/subdir" + ( _serverFixture.UsingAspNetHost ? "#server" : "" );
+        serverFixture.PathBase = ServerPathBase;
+    }
 
-        public BasicTestAppTestBase(
-            BrowserFixture browserFixture,
-            ToggleExecutionModeServerFixture<Program> serverFixture,
-            ITestOutputHelper output )
-            : base( browserFixture, serverFixture, output )
-        {
-            serverFixture.PathBase = ServerPathBase;
-        }
+    protected IWebElement MountTestComponent<TComponent>() where TComponent : IComponent
+    {
+        var componentTypeName = typeof( TComponent ).FullName;
+        var testSelector = WaitUntilTestSelectorReady();
+        testSelector.SelectByValue( "none" );
+        testSelector.SelectByValue( componentTypeName );
+        return Browser.FindElement( By.TagName( "app" ) );
+    }
 
-        protected IWebElement MountTestComponent<TComponent>() where TComponent : IComponent
-        {
-            var componentTypeName = typeof( TComponent ).FullName;
-            var testSelector = WaitUntilTestSelectorReady();
-            testSelector.SelectByValue( "none" );
-            testSelector.SelectByValue( componentTypeName );
-            return Browser.FindElement( By.TagName( "app" ) );
-        }
-
-        protected SelectElement WaitUntilTestSelectorReady()
-        {
-            var elemToFind = By.CssSelector( "#test-selector > select" );
-            new WebDriverWait( Browser, TimeSpan.FromSeconds( 30 ) ).Until(
-                driver => driver.FindElement( elemToFind ) != null );
-            return new( Browser.FindElement( elemToFind ) );
-        }
+    protected SelectElement WaitUntilTestSelectorReady()
+    {
+        var elemToFind = By.CssSelector( "#test-selector > select" );
+        new WebDriverWait( Browser, TimeSpan.FromSeconds( 30 ) ).Until(
+            driver => driver.FindElement( elemToFind ) != null );
+        return new( Browser.FindElement( elemToFind ) );
     }
 }

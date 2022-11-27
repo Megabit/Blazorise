@@ -3,21 +3,20 @@ using System.Threading.Tasks;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise.Charts.Streaming
+namespace Blazorise.Charts.Streaming;
+
+public class ChartStreamingAdapter
 {
-    public class ChartStreamingAdapter
+    private readonly IChartStreaming chartStreaming;
+
+    public ChartStreamingAdapter( IChartStreaming chartStreaming )
     {
-        private readonly IChartStreaming chartStreaming;
+        this.chartStreaming = chartStreaming;
+    }
 
-        public ChartStreamingAdapter( IChartStreaming chartStreaming )
-        {
-            this.chartStreaming = chartStreaming;
-        }
-
-        [JSInvokable]
-        public Task Refresh()
-        {
-            return chartStreaming.Refresh();
-        }
+    [JSInvokable]
+    public Task Refresh()
+    {
+        return chartStreaming.Refresh();
     }
 }

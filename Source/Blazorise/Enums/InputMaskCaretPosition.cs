@@ -1,33 +1,32 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Positioning of the caret on click.
+/// </summary>
+public enum InputMaskCaretPosition
 {
     /// <summary>
-    /// Positioning of the caret on click.
+    /// Nothing will happen.
     /// </summary>
-    public enum InputMaskCaretPosition
-    {
-        /// <summary>
-        /// Nothing will happen.
-        /// </summary>
-        None,
+    None,
 
-        /// <summary>
-        /// Based on the last valid position (default).
-        /// </summary>
-        LastValidPosition,
+    /// <summary>
+    /// Based on the last valid position (default).
+    /// </summary>
+    LastValidPosition,
 
-        /// <summary>
-        /// Position caret to radixpoint on initial click.
-        /// </summary>
-        RadixFocus,
+    /// <summary>
+    /// Position caret to radixpoint on initial click.
+    /// </summary>
+    RadixFocus,
 
-        /// <summary>
-        /// Select the whole input.
-        /// </summary>
-        Select,
+    /// <summary>
+    /// Select the whole input.
+    /// </summary>
+    Select,
 
-        /// <summary>
-        /// Ignore the click and continue the mask.
-        /// </summary>
-        Ignore,
-    }
+    /// <summary>
+    /// Ignore the click and continue the mask.
+    /// </summary>
+    Ignore,
 }

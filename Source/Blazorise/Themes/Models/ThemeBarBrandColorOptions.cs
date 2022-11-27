@@ -1,13 +1,12 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Defines the theme options for the <see cref="BarBrand"/> component.
+/// </summary>
+public record ThemeBarBrandColorOptions
 {
     /// <summary>
-    /// Defines the theme options for the <see cref="BarBrand"/> component.
+    /// Gets or sets the brand background color.
     /// </summary>
-    public record ThemeBarBrandColorOptions
-    {
-        /// <summary>
-        /// Gets or sets the brand background color.
-        /// </summary>
-        public string BackgroundColor { get; set; }
-    }
+    public string BackgroundColor { get; set; }
 }
