@@ -10,6 +10,9 @@ namespace Blazorise.DataGrid
     {
         #region Properties
 
+        protected override bool ShouldRender()
+            => false;
+
         protected bool HasCommandColumn
             => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
 

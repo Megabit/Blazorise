@@ -252,7 +252,7 @@ namespace Blazorise.DataGrid
                 await JSModule.Initialize( tableRef.ElementRef, ElementId );
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
-                
+
                 if ( Theme is not null )
                 {
                     Theme.Changed += OnThemeChanged;
@@ -1074,6 +1074,15 @@ namespace Blazorise.DataGrid
 
         protected async ValueTask<ItemsProviderResult<TItem>> VirtualizeItemsProviderHandler( ItemsProviderRequest request )
         {
+            // Credit to Steve Sanderson's Quickgrid implementation
+            // Debounce the requests. This eliminates a lot of redundant queries at the cost of slight lag after interactions.
+            // TODO: Consider making this configurable, or smarter (e.g., doesn't delay on first call in a batch, then the amount
+            // of delay increases if you rapidly issue repeated requests, such as when scrolling a long way)
+            await Task.Delay( 100 );
+
+            if ( request.CancellationToken.IsCancellationRequested )
+                return default;
+
             var requestCount = request.StartIndex > 0
                 ? Math.Min( request.Count, TotalItems.Value - request.StartIndex )
                 : request.Count;
@@ -1082,7 +1091,7 @@ namespace Blazorise.DataGrid
             await Task.Yield(); // This line makes sure SetParametersAsync catches up, since we depend upon Data Parameter.
 
             if ( request.CancellationToken.IsCancellationRequested )
-                return new();
+                return default;
             else
                 return new( Data.ToList(), TotalItems.Value );
         }
