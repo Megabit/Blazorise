@@ -252,7 +252,7 @@ namespace Blazorise.DataGrid
                 await JSModule.Initialize( tableRef.ElementRef, ElementId );
                 paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
                 paginationContext.SubscribeOnPageChanged( OnPageChanged );
-                
+
                 if ( Theme is not null )
                 {
                     Theme.Changed += OnThemeChanged;
@@ -1078,7 +1078,8 @@ namespace Blazorise.DataGrid
             // Debounce the requests. This eliminates a lot of redundant queries at the cost of slight lag after interactions.
             // TODO: Consider making this configurable, or smarter (e.g., doesn't delay on first call in a batch, then the amount
             // of delay increases if you rapidly issue repeated requests, such as when scrolling a long way)
-            await Task.Delay(100);
+            await Task.Delay( 100 );
+
             if ( request.CancellationToken.IsCancellationRequested )
                 return default;
 
