@@ -22,7 +22,7 @@ function initializeDropZone(element) {
         element.addEventListener("dragenter", onDragHover);
         element.addEventListener("dragover", onDragHover);
         element.addEventListener("dragleave", onDragLeave);
-        element.addEventListener("drop", (e) => onDrop(e, element));
+        element.addEventListener("drop", async (e) => await onDrop(e, element), false);
         element.addEventListener('paste', (e) => onPaste(e, element));
     }
 }
@@ -72,13 +72,15 @@ function getFileInput(element) {
 
 async function getFilesAsync(dataTransfer) {
     const files = [];
+    const queue = [];
     for (let i = 0; i < dataTransfer.items.length; i++) {
         const item = dataTransfer.items[i];
         if (item.kind === "file") {
-            const entry = item.webkitGetAsEntry();
-            const entryContent = await readEntryContentAsync(entry);
-            files.push(...entryContent);
-            continue;
+            if (typeof item.webkitGetAsEntry === "function") {
+                const entry = item.webkitGetAsEntry();
+                queue.push(readEntryContentAsync(entry).then(x => files.push(...x)));
+                continue;
+            }
 
             const file = item.getAsFile();
             if (file) {
@@ -86,23 +88,22 @@ async function getFilesAsync(dataTransfer) {
             }
         }
     }
-
+    await Promise.all(queue);
     return files;
 }
 
 // Returns a promise with all the files of the directory hierarchy
 function readEntryContentAsync(entry) {
-    return new Promise ((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         let reading = 0;
         const contents = [];
 
-        readEntry(entry, "");
+        readEntry(entry);
 
-        function readEntry(entry, path) {
+        function readEntry(entry) {
             if (entry.isFile) {
                 reading++;
                 entry.file(file => {
-                    file.webkitRelativePath = path + file.name;
                     reading--;
                     contents.push(file);
 
@@ -111,17 +112,17 @@ function readEntryContentAsync(entry) {
                     }
                 });
             } else if (entry.isDirectory) {
-                readReaderContent(entry.createReader(), path);
+                readReaderContent(entry.createReader());
             }
         }
 
-        function readReaderContent(reader, path) {
+        function readReaderContent(reader) {
             reading++;
 
             reader.readEntries(function (entries) {
                 reading--;
                 for (const entry of entries) {
-                    readEntry(entry, path + entry.name);
+                    readEntry(entry);
                 }
 
                 if (reading === 0) {
