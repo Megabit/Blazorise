@@ -298,6 +298,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     {
         return Progressed.InvokeAsync( fileProgressedEventArgs );
     }
+
     #endregion
 
     #region Properties
