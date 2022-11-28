@@ -3,36 +3,36 @@ using System.Threading.Tasks;
 using Blazorise.Shared.Models;
 using Microsoft.Extensions.Caching.Memory;
 
-namespace Blazorise.Shared.Data
+namespace Blazorise.Shared.Data;
+
+public class PageEntryData
 {
-    public class PageEntryData
+    private readonly IMemoryCache cache;
+    private readonly string cacheKey = "cache_searchentries";
+
+    /// <summary>
+    /// Simplified code to get & cache data in memory...
+    /// </summary>
+    public PageEntryData( IMemoryCache memoryCache )
     {
-        private readonly IMemoryCache cache;
-        private readonly string cacheKey = "cache_searchentries";
+        cache = memoryCache;
+    }
 
-        /// <summary>
-        /// Simplified code to get & cache data in memory...
-        /// </summary>
-        public PageEntryData( IMemoryCache memoryCache )
+    public Task<PageEntry[]> GetDataAsync()
+        => cache.GetOrCreateAsync( cacheKey, LoadData );
+
+    private Task<PageEntry[]> LoadData( ICacheEntry cacheEntry )
+    {
+        return Task.FromResult( new PageEntry[]
         {
-            cache = memoryCache;
-        }
-
-        public Task<PageEntry[]> GetDataAsync()
-            => cache.GetOrCreateAsync( cacheKey, LoadData );
-
-        private Task<PageEntry[]> LoadData( ICacheEntry cacheEntry )
-        {
-            return Task.FromResult( new PageEntry[]
-            {
-                new PageEntry( "docs", "Overview" ),
-                new PageEntry( "docs/start", "Start" ),
-                new PageEntry( "docs/usage", "Usage" ),
-                new PageEntry( "docs/theming", "Theming" ),
-                new PageEntry( "docs/pwa", "PWA" ),
+            new PageEntry( "docs", "Overview" ),
+            new PageEntry( "docs/start", "Start" ),
+            new PageEntry( "docs/usage", "Usage" ),
+            new PageEntry( "docs/theming", "Theming" ),
+            new PageEntry( "docs/pwa", "PWA" ),
 
                 new PageEntry( "docs/components/accordion", "Accordion", "Build vertically collapsing accordions in combination with our Collapse component." ),
-                new PageEntry( "docs/components/addon", "Adddon", "Easily extend form controls by adding text, or buttons on either side of textual inputs, custom selects, and custom file inputs." ),
+                new PageEntry( "docs/components/addon", "Addon", "Easily extend form controls by adding text, or buttons on either side of textual inputs, custom selects, and custom file inputs." ),
                 new PageEntry( "docs/components/alert", "Alert", "Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages." ),
                 new PageEntry( "docs/components/badge", "Badge", "Badges are used to draw attention and display statuses or counts." ),
                 new PageEntry( "docs/components/bar", "Bar", "A responsive navbar that can support images, links, buttons, and dropdowns." ),
@@ -100,6 +100,7 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/extensions/icons-available", "Available Icons" ),
                 new PageEntry( "docs/extensions/list-view", "List View", "List views are a flexible and powerful component for displaying a series of content in a contained scrollable view by providing a data source." ),
                 new PageEntry( "docs/extensions/lottie-animation", "Lottie Animation", "The LottieAnimation component is used to embed JSON-based Lottie animations." ),
+                new PageEntry( "docs/extensions/cropper", "Cropper", "A component used to crop images." ),
                 new PageEntry( "docs/extensions/loadingindicator", "LoadingIndicator", "A wrapper component used to add loading indocators UI to other components." ),
                 new PageEntry( "docs/extensions/markdown", "Markdown", "The Markdown component allows you to edit markdown strings." ),
                 new PageEntry( "docs/extensions/richtextedit", "RichTextEdit", "The RichTextEdit component allows you to add and use a ‘WYSIWYG’ rich text editor." ),
@@ -112,42 +113,41 @@ namespace Blazorise.Shared.Data
                 new PageEntry( "docs/extensions/qrcode", "QRCode", "A component used to generate QR codes." ),
                 new PageEntry( "docs/extensions/fluent-validation", "FluentValidation", "A validation component for building strongly-typed validation rules." ),
 
-                new PageEntry( "docs/usage/ant-design", "AntDesign Usage" ),
-                new PageEntry( "docs/usage/bootstrap4", "Bootstrap 4 Usage" ),
-                new PageEntry( "docs/usage/bootstrap5", "Bootstrap 5 Usage" ),
-                new PageEntry( "docs/usage/bulma", "Bulma Usage" ),
-                new PageEntry( "docs/usage/material", "Material Usage" ),
-                new PageEntry( "docs/helpers/colors", "Color Utilities" ),
-                new PageEntry( "docs/helpers/enums/bar", "Enums: Bar" ),
-                new PageEntry( "docs/helpers/enums/button", "Enums: Button" ),
-                new PageEntry( "docs/helpers/enums/chart", "Enums: Button" ),
-                new PageEntry( "docs/helpers/enums/common", "Enums: Common" ),
-                new PageEntry( "docs/helpers/enums/datagrid", "Enums: DataGrid" ),
-                new PageEntry( "docs/helpers/enums/date", "Enums: Date" ),
-                new PageEntry( "docs/helpers/enums/divider", "Enums: Divider" ),
-                new PageEntry( "docs/helpers/enums/dropdown", "Enums: Dropdown" ),
-                new PageEntry( "docs/helpers/enums/heading", "Enums: Heading" ),
-                new PageEntry( "docs/helpers/enums/icon", "Enums: Icon" ),
-                new PageEntry( "docs/helpers/enums/listgroup", "Enums: ListGroup" ),
-                new PageEntry( "docs/helpers/enums/snackbar", "Enums: Snackbar" ),
-                new PageEntry( "docs/helpers/enums/spinkit", "Enums: SpinKit" ),
-                new PageEntry( "docs/helpers/enums/table", "Enums: Table" ),
-                new PageEntry( "docs/helpers/enums/tabs", "Enums: Tabs" ),
-                new PageEntry( "docs/helpers/enums/text", "Enums: Text" ),
-                new PageEntry( "docs/helpers/enums/tooltip", "Enums: Tooltip" ),
-                new PageEntry( "docs/helpers/enums/validation", "Enums: Validation" ),
-                new PageEntry( "docs/helpers/localization", "Localization" ),
-                new PageEntry( "docs/helpers/sizes", "Sizes" ),
-                new PageEntry( "docs/helpers/utilities/position", "Position" ),
-                new PageEntry( "docs/helpers/utilities", "Utilities" ),
+            new PageEntry( "docs/usage/ant-design", "AntDesign Usage" ),
+            new PageEntry( "docs/usage/bootstrap4", "Bootstrap 4 Usage" ),
+            new PageEntry( "docs/usage/bootstrap5", "Bootstrap 5 Usage" ),
+            new PageEntry( "docs/usage/bulma", "Bulma Usage" ),
+            new PageEntry( "docs/usage/material", "Material Usage" ),
+            new PageEntry( "docs/helpers/colors", "Color Utilities" ),
+            new PageEntry( "docs/helpers/enums/bar", "Enums: Bar" ),
+            new PageEntry( "docs/helpers/enums/button", "Enums: Button" ),
+            new PageEntry( "docs/helpers/enums/chart", "Enums: Button" ),
+            new PageEntry( "docs/helpers/enums/common", "Enums: Common" ),
+            new PageEntry( "docs/helpers/enums/datagrid", "Enums: DataGrid" ),
+            new PageEntry( "docs/helpers/enums/date", "Enums: Date" ),
+            new PageEntry( "docs/helpers/enums/divider", "Enums: Divider" ),
+            new PageEntry( "docs/helpers/enums/dropdown", "Enums: Dropdown" ),
+            new PageEntry( "docs/helpers/enums/heading", "Enums: Heading" ),
+            new PageEntry( "docs/helpers/enums/icon", "Enums: Icon" ),
+            new PageEntry( "docs/helpers/enums/listgroup", "Enums: ListGroup" ),
+            new PageEntry( "docs/helpers/enums/snackbar", "Enums: Snackbar" ),
+            new PageEntry( "docs/helpers/enums/spinkit", "Enums: SpinKit" ),
+            new PageEntry( "docs/helpers/enums/table", "Enums: Table" ),
+            new PageEntry( "docs/helpers/enums/tabs", "Enums: Tabs" ),
+            new PageEntry( "docs/helpers/enums/text", "Enums: Text" ),
+            new PageEntry( "docs/helpers/enums/tooltip", "Enums: Tooltip" ),
+            new PageEntry( "docs/helpers/enums/validation", "Enums: Validation" ),
+            new PageEntry( "docs/helpers/localization", "Localization" ),
+            new PageEntry( "docs/helpers/sizes", "Sizes" ),
+            new PageEntry( "docs/helpers/utilities/position", "Position" ),
+            new PageEntry( "docs/helpers/utilities", "Utilities" ),
 
-                new PageEntry( "docs/services/message-provider", "Message Provider", "Message service is used for quick user confirmation actions." ),
-                new PageEntry( "docs/services/modal-provider", "Modal Provider", "Programatically instantiate modals with custom content." ),
-                new PageEntry( "docs/services/notification-provider", "Notification Provider", "Notification service is used to provide feedback to the user." ),
-                new PageEntry( "docs/services/page-progress-provider", "Page Progress Provider", "Page Progress service is used to provide a page loading indicator to the user." ),
-                new PageEntry( "docs/faq", "FAQ" ),
-                new PageEntry( "https://commercial.blazorise.com/license", "License" ),
-                }.ToArray() );
-        }
+            new PageEntry( "docs/services/message-provider", "Message Provider", "Message service is used for quick user confirmation actions." ),
+            new PageEntry( "docs/services/modal-provider", "Modal Provider", "Programatically instantiate modals with custom content." ),
+            new PageEntry( "docs/services/notification-provider", "Notification Provider", "Notification service is used to provide feedback to the user." ),
+            new PageEntry( "docs/services/page-progress-provider", "Page Progress Provider", "Page Progress service is used to provide a page loading indicator to the user." ),
+            new PageEntry( "docs/faq", "FAQ" ),
+            new PageEntry( "https://commercial.blazorise.com/license", "License" ),
+        }.ToArray() );
     }
 }

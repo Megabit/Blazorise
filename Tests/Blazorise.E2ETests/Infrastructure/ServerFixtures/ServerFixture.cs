@@ -7,84 +7,83 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 
-namespace Blazorise.E2ETests.Infrastructure.ServerFixtures
+namespace Blazorise.E2ETests.Infrastructure.ServerFixtures;
+
+public abstract class ServerFixture : IDisposable
 {
-    public abstract class ServerFixture : IDisposable
+    private static readonly Lazy<Dictionary<string, string>> _projects = new( FindProjects );
+
+    public Uri RootUri => _rootUriInitializer.Value;
+
+    private readonly Lazy<Uri> _rootUriInitializer;
+
+    public ServerFixture()
     {
-        private static readonly Lazy<Dictionary<string, string>> _projects = new( FindProjects );
+        _rootUriInitializer = new( () =>
+            new( StartAndGetRootUri() ) );
+    }
 
-        public Uri RootUri => _rootUriInitializer.Value;
+    public abstract void Dispose();
 
-        private readonly Lazy<Uri> _rootUriInitializer;
+    protected abstract string StartAndGetRootUri();
 
-        public ServerFixture()
+    protected static string FindSolutionDir()
+    {
+        return FindClosestDirectoryContaining(
+            "Blazorise.sln",
+            Path.GetDirectoryName( typeof( ServerFixture ).Assembly.Location ) );
+    }
+
+    private static Dictionary<string, string> FindProjects()
+    {
+        var solutionDir = FindSolutionDir();
+        return Directory.GetFiles( solutionDir, "*.csproj", SearchOption.AllDirectories )
+            .ToDictionary( Path.GetFileNameWithoutExtension, Path.GetDirectoryName );
+    }
+
+    protected static string FindSampleOrTestSitePath( string projectName )
+    {
+        var projects = _projects.Value;
+        if ( projects.TryGetValue( projectName, out var dir ) )
         {
-            _rootUriInitializer = new( () =>
-                 new( StartAndGetRootUri() ) );
+            return dir;
         }
 
-        public abstract void Dispose();
+        throw new ArgumentException( $"Cannot find a sample or test site with name '{projectName}'." );
+    }
 
-        protected abstract string StartAndGetRootUri();
-
-        protected static string FindSolutionDir()
+    private static string FindClosestDirectoryContaining(
+        string filename,
+        string startDirectory )
+    {
+        var dir = startDirectory;
+        while ( true )
         {
-            return FindClosestDirectoryContaining(
-                "Blazorise.sln",
-                Path.GetDirectoryName( typeof( ServerFixture ).Assembly.Location ) );
-        }
-
-        private static Dictionary<string, string> FindProjects()
-        {
-            var solutionDir = FindSolutionDir();
-            return Directory.GetFiles( solutionDir, "*.csproj", SearchOption.AllDirectories )
-                .ToDictionary( Path.GetFileNameWithoutExtension, Path.GetDirectoryName );
-        }
-
-        protected static string FindSampleOrTestSitePath( string projectName )
-        {
-            var projects = _projects.Value;
-            if ( projects.TryGetValue( projectName, out var dir ) )
+            if ( File.Exists( Path.Combine( dir, filename ) ) )
             {
                 return dir;
             }
 
-            throw new ArgumentException( $"Cannot find a sample or test site with name '{projectName}'." );
-        }
-
-        private static string FindClosestDirectoryContaining(
-            string filename,
-            string startDirectory )
-        {
-            var dir = startDirectory;
-            while ( true )
+            dir = Directory.GetParent( dir )?.FullName;
+            if ( string.IsNullOrEmpty( dir ) )
             {
-                if ( File.Exists( Path.Combine( dir, filename ) ) )
-                {
-                    return dir;
-                }
-
-                dir = Directory.GetParent( dir )?.FullName;
-                if ( string.IsNullOrEmpty( dir ) )
-                {
-                    throw new FileNotFoundException(
-                        $"Could not locate a file called '{filename}' in " +
-                        $"directory '{startDirectory}' or any parent directory." );
-                }
+                throw new FileNotFoundException(
+                    $"Could not locate a file called '{filename}' in " +
+                    $"directory '{startDirectory}' or any parent directory." );
             }
         }
+    }
 
-        protected static void RunInBackgroundThread( Action action )
+    protected static void RunInBackgroundThread( Action action )
+    {
+        var isDone = new ManualResetEvent( false );
+
+        new Thread( () =>
         {
-            var isDone = new ManualResetEvent( false );
+            action();
+            isDone.Set();
+        } ).Start();
 
-            new Thread( () =>
-             {
-                 action();
-                 isDone.Set();
-             } ).Start();
-
-            isDone.WaitOne();
-        }
+        isDone.WaitOne();
     }
 }

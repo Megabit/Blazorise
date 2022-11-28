@@ -2,20 +2,19 @@
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// The <c>abbr</c> tag defines an abbreviation or an acronym, like "HTML", "CSS", "Mr.", "Dr.", "ASAP", "ATM".
+/// </summary>
+public partial class Abbreviation : BaseElementComponent
 {
+    #region Properties
+
     /// <summary>
-    /// The <c>abbr</c> tag defines an abbreviation or an acronym, like "HTML", "CSS", "Mr.", "Dr.", "ASAP", "ATM".
+    /// The title attribute specifies extra information about an element.
     /// </summary>
-    public partial class Abbreviation : BaseElementComponent
-    {
-        #region Properties
+    [Parameter] public string Title { get; set; }
 
-        /// <summary>
-        /// The title attribute specifies extra information about an element.
-        /// </summary>
-        [Parameter] public string Title { get; set; }
-
-        #endregion
-    }
+    #endregion
 }

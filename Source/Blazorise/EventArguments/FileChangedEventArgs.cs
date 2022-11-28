@@ -2,25 +2,24 @@
 using System;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Supplies the information about the selected files ready to be uploaded.
+/// </summary>
+public class FileChangedEventArgs : EventArgs
 {
     /// <summary>
-    /// Supplies the information about the selected files ready to be uploaded.
+    /// A default <see cref="FileChangedEventArgs"/> constructor.
     /// </summary>
-    public class FileChangedEventArgs : EventArgs
+    /// <param name="files">List of files.</param>
+    public FileChangedEventArgs( params IFileEntry[] files )
     {
-        /// <summary>
-        /// A default <see cref="FileChangedEventArgs"/> constructor.
-        /// </summary>
-        /// <param name="files">List of files.</param>
-        public FileChangedEventArgs( params IFileEntry[] files )
-        {
-            Files = files;
-        }
-
-        /// <summary>
-        /// Gets the list of selected files.
-        /// </summary>
-        public IFileEntry[] Files { get; }
+        Files = files;
     }
+
+    /// <summary>
+    /// Gets the list of selected files.
+    /// </summary>
+    public IFileEntry[] Files { get; }
 }

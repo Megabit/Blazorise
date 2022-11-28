@@ -1,13 +1,12 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// An interface implemented by Id generators.
+/// </summary>
+public interface IIdGenerator
 {
     /// <summary>
-    /// An interface implemented by Id generators.
+    /// Gets the newly generated and globally unique value.
     /// </summary>
-    public interface IIdGenerator
-    {
-        /// <summary>
-        /// Gets the newly generated and globally unique value.
-        /// </summary>
-        string Generate { get; }
-    }
+    string Generate { get; }
 }

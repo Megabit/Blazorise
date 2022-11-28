@@ -1,9 +1,8 @@
-﻿namespace TodoApp
-{
-    public class Todo
-    {
-        public bool Completed { get; set; }
+﻿namespace TodoApp;
 
-        public string Description { get; set; }
-    }
+public class Todo
+{
+    public bool Completed { get; set; }
+
+    public string Description { get; set; }
 }

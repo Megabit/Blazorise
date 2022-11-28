@@ -1,39 +1,38 @@
 ﻿using OpenQA.Selenium;
 
-namespace Blazorise.E2ETests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure;
+
+public static class WebElementExtensions
 {
-    public static class WebElementExtensions
+    public static bool ElementIsPresent( this IWebElement element, By by )
     {
-        public static bool ElementIsPresent( this IWebElement element, By by )
+        try
         {
-            try
-            {
-                return element.FindElement( by ).Displayed;
-            }
-            catch ( NoSuchElementException )
-            {
-                return false;
-            }
+            return element.FindElement( by ).Displayed;
         }
-
-        public static void SendKeysSequentially( this IWebElement target, string text )
+        catch ( NoSuchElementException )
         {
-            // Calling it for each character works around some chars being skipped
-            // https://stackoverflow.com/a/40986041
-            foreach ( var c in text )
-            {
-                target.SendKeys( c.ToString() );
-            }
+            return false;
         }
+    }
 
-        public static void ClearText( this IWebElement target )
+    public static void SendKeysSequentially( this IWebElement target, string text )
+    {
+        // Calling it for each character works around some chars being skipped
+        // https://stackoverflow.com/a/40986041
+        foreach ( var c in text )
         {
-            int length = target.Text.Length;
+            target.SendKeys( c.ToString() );
+        }
+    }
 
-            for ( int i = length; i > 0; --i )
-            {
-                target.SendKeys( Keys.Backspace );
-            }
+    public static void ClearText( this IWebElement target )
+    {
+        int length = target.Text.Length;
+
+        for ( int i = length; i > 0; --i )
+        {
+            target.SendKeys( Keys.Backspace );
         }
     }
 }

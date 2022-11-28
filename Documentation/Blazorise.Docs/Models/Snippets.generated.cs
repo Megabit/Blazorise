@@ -3938,46 +3938,49 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     @*other validation fields*@
 </Validations>";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.1.4.1"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.1.4.1"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.1.4.1"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.1.4.1"" type=""module""></script>";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.1.4.1"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.1.4.1"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.1.4.1"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js"" type=""module""></script>
-<script src=""_content/Blazorise/button.js"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/fileEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js"" type=""module""></script>
-<script src=""_content/Blazorise/io.js"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/numericEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/select.js"" type=""module""></script>
-<script src=""_content/Blazorise/table.js"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/fileEdit.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/memoEdit.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/popper.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/textEdit.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=1.1.4.1"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.1.4.1"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -3985,12 +3988,12 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.1.4.1"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.1.4.1"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=1.1.4.1"" type=""module""></script>";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.1.4.1"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
 
@@ -3998,14 +4001,16 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TemplatesVersionInstallExample = @"dotnet new install Blazorise.Templates::1.1.0";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.1.4.1"" type=""module""></script>";
 
-        public const string AnimateExample = @"<Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
-    @foreach ( var availableAnimation in Animations.GetNames() )
-    {
-        <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
-    }
-</Select>
+        public const string AnimateExample = @"<Field>
+    <Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
+        @foreach ( var availableAnimation in Animations.GetNames() )
+        {
+            <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
+        }
+    </Select>
+</Field>
 
 @if ( showAnimate )
 {
@@ -4060,7 +4065,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.1.3.0""></script>";
+        public const string AnimateImportsExample = @"@using Blazorise.Animate";
+
+        public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
+
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.1.4.1""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -4898,6 +4907,83 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
         public const string ChartTrendlineResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline""></script>";
+
+        public const string BasicCropperExample = @"<Row>
+    <Column>
+        <FieldLabel>
+            Image Cropper
+        </FieldLabel>
+        <FieldBody>
+            <Cropper @ref=""cropper"" Source=""img/gallery/6.jpg"" SelectionChanged=""@OnSelectionChanged"" Style=""aspect-ratio: 16 / 9; height: 100%;"" />
+        </FieldBody>
+    </Column>
+    <Column>
+        <Div Margin=""Margin.Is2.FromBottom"">
+            <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"" Disabled=""@cropButtonDisabled"">Get Cropped Image</Button>
+            <Button Color=""Color.Secondary"" Clicked=""@ResetSelection"" Disabled=""@cropButtonDisabled"">Reset Selection</Button>
+        </Div>
+        <Image Source=""@result"" Border=""Border.Is1"" Style=""width: 250px; height: 250px;"" />
+    </Column>
+</Row>
+
+@code {
+    private Cropper cropper;
+    private string result;
+    private bool cropButtonDisabled = true;
+
+    private Task OnSelectionChanged( CropperSelectionChangedEventArgs eventArgs )
+    {
+        if ( eventArgs.Width != 0 )
+        {
+            cropButtonDisabled = false;
+
+            return InvokeAsync( StateHasChanged );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task GetCroppedImage()
+    {
+        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
+    }
+
+    private async Task ResetSelection()
+    {
+        cropButtonDisabled = true;
+
+        await cropper.ResetSelection();
+    }
+}";
+
+        public const string CropperNugetInstallExample = @"Install-Package Blazorise.Cropper";
+
+        public const string CropperViewerExample = @"<Row>
+    <Column>
+        <FieldLabel>
+            Image Cropper
+        </FieldLabel>
+        <FieldBody>
+            <Cropper Source=""img/gallery/3.jpg"" CropperState=""@cropperState"" />
+        </FieldBody>
+    </Column>
+    <Column>
+        <FieldLabel>
+            Preview
+        </FieldLabel>
+        <FieldBody>
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 150px; height: 150px;"" />
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 100px; height: 100px;"" />
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 50px; height: 50px;"" />
+        </FieldBody>
+    </Column>
+</Row>
+
+@code {
+    private CropperState cropperState = new();
+}";
+
+        public const string ImportCropperExample = @"@using Blazorise.Cropper";
 
         public const string DataGridAggregatesExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
@@ -6589,6 +6675,12 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.Q"" PixelsPerModule=""4"" />
 <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.H"" PixelsPerModule=""4"" />";
 
+        public const string QRCodeIconExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.H"" Icon=""@base64PngIcon"" />
+
+@code {
+    string base64PngIcon = ""data:image/png;base64, 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"";
+}";
+
         public const string QRCodeNugetInstallExample = @"Install-Package Blazorise.QRCode";
 
         public const string RichTextEditConfigurationExample = @"<RichTextEdit ConfigureQuillJsMethod=""myComponent.configureQuillJs"" />
@@ -7718,12 +7810,12 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.3.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.3.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.4.1"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.4.1"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.1.3.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.3.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.3.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.1.4.1""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.4.1""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.4.1""></script>";
 
     }
 }

@@ -1,64 +1,64 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 #endregion
 
-namespace Blazorise.RichTextEdit
+namespace Blazorise.RichTextEdit;
+
+/// <summary>
+/// Base <see cref="Blazorise.RichTextEdit"/> component
+/// </summary>
+public class BaseRichTextEditComponent : BaseComponent
 {
+    #region Constructors
+
     /// <summary>
-    /// Base <see cref="Blazorise.RichTextEdit"/> component
+    /// Creates a new <see cref="BaseRichTextEditComponent"/>
     /// </summary>
-    public class BaseRichTextEditComponent : BaseComponent
+    protected BaseRichTextEditComponent() { }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Executes given action after the rendering is done.
+    /// </summary>
+    /// <remarks>Don't await this on the UI thread, because that will cause a deadlock.</remarks>
+    protected async Task<T> ExecuteAfterRender<T>( Func<Task<T>> action, CancellationToken token = default )
     {
-        #region Constructors
+        var source = new TaskCompletionSource<T>();
 
-        /// <summary>
-        /// Creates a new <see cref="BaseRichTextEditComponent"/>
-        /// </summary>
-        protected BaseRichTextEditComponent() { }
+        token.Register( () => source.TrySetCanceled() );
 
-        #endregion
-
-        #region Methods
-
-        /// <summary>
-        /// Executes given action after the rendering is done.
-        /// </summary>
-        /// <remarks>Don't await this on the UI thread, because that will cause a deadlock.</remarks>
-        protected async Task<T> ExecuteAfterRender<T>( Func<Task<T>> action, CancellationToken token = default )
+        ExecuteAfterRender( async () =>
         {
-            var source = new TaskCompletionSource<T>();
-
-            token.Register( () => source.TrySetCanceled() );
-
-            ExecuteAfterRender( async () =>
+            try
             {
-                try
-                {
-                    var result = await action();
-                    source.TrySetResult( result );
-                }
-                catch ( TaskCanceledException )
-                {
-                    source.TrySetCanceled();
-                }
-                catch ( Exception e )
-                {
-                    source.TrySetException( e );
-                }
-            } );
+                var result = await action();
+                source.TrySetResult( result );
+            }
+            catch ( TaskCanceledException )
+            {
+                source.TrySetCanceled();
+            }
+            catch ( Exception e )
+            {
+                source.TrySetException( e );
+            }
+        } );
 
-            return await source.Task.ConfigureAwait( false );
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <inheritdoc/>
-        protected override bool ShouldAutoGenerateId => true;
-
-        #endregion
+        return await source.Task.ConfigureAwait( false );
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
+    #endregion
 }

@@ -1,7 +1,6 @@
-﻿namespace Blazorise.Animate
+﻿namespace Blazorise.Animate;
+
+public class FadeDownAnimation : IAnimation
 {
-    public class FadeDownAnimation : IAnimation
-    {
-        public string Name => "fade-down";
-    }
+    public string Name => "fade-down";
 }

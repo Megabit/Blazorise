@@ -6,173 +6,172 @@ using System.Text;
 using System.Threading.Tasks;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Base interface for all fluent overflow builders.
+/// </summary>
+public interface IFluentOverflow
 {
     /// <summary>
-    /// Base interface for all fluent overflow builders.
+    /// Builds the classnames based on overflow rules.
     /// </summary>
-    public interface IFluentOverflow
-    {
-        /// <summary>
-        /// Builds the classnames based on overflow rules.
-        /// </summary>
-        /// <param name="classProvider">Currently used class provider.</param>
-        /// <returns>List of classnames for the given rules and the class provider.</returns>
-        string Class( IClassProvider classProvider );
-    }
+    /// <param name="classProvider">Currently used class provider.</param>
+    /// <returns>List of classnames for the given rules and the class provider.</returns>
+    string Class( IClassProvider classProvider );
+}
+
+/// <summary>
+/// Second set of overflow rules.
+/// </summary>
+public interface IFluentOverflowSecondRule :
+    IFluentOverflow
+{
+    /// <summary>
+    /// The overflow is not clipped. The content renders outside the element's box.
+    /// </summary>
+    IFluentOverflow Visible { get; }
 
     /// <summary>
-    /// Second set of overflow rules.
+    /// The overflow is clipped, and the rest of the content will be invisible.
     /// </summary>
-    public interface IFluentOverflowSecondRule :
-        IFluentOverflow
-    {
-        /// <summary>
-        /// The overflow is not clipped. The content renders outside the element's box.
-        /// </summary>
-        IFluentOverflow Visible { get; }
-
-        /// <summary>
-        /// The overflow is clipped, and the rest of the content will be invisible.
-        /// </summary>
-        IFluentOverflow Hidden { get; }
-
-        /// <summary>
-        /// The overflow is clipped, and a scrollbar is added to see the rest of the content.
-        /// </summary>
-        IFluentOverflow Scroll { get; }
-
-        /// <summary>
-        /// Similar to scroll, but it adds scrollbars only when necessary.
-        /// </summary>
-        IFluentOverflow Auto { get; }
-    }
+    IFluentOverflow Hidden { get; }
 
     /// <summary>
-    /// Default implementation of fluent overflow builder.
+    /// The overflow is clipped, and a scrollbar is added to see the rest of the content.
     /// </summary>
-    public class FluentOverflow :
-        IFluentOverflow,
-        IFluentOverflowSecondRule
+    IFluentOverflow Scroll { get; }
+
+    /// <summary>
+    /// Similar to scroll, but it adds scrollbars only when necessary.
+    /// </summary>
+    IFluentOverflow Auto { get; }
+}
+
+/// <summary>
+/// Default implementation of fluent overflow builder.
+/// </summary>
+public class FluentOverflow :
+    IFluentOverflow,
+    IFluentOverflowSecondRule
+{
+    #region Members
+
+    /// <summary>
+    /// Holds the default overflow type.
+    /// </summary>
+    private OverflowType overflowType;
+
+    /// <summary>
+    /// Holds the second overflow type.
+    /// </summary>
+    private OverflowType secondOverflowType;
+
+    /// <summary>
+    /// Indicates if the rules have changed.
+    /// </summary>
+    private bool dirty = true;
+
+    /// <summary>
+    /// Holds the built classnames bases on the overflow rules.
+    /// </summary>
+    private string classNames;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    public string Class( IClassProvider classProvider )
     {
-        #region Members
-
-        /// <summary>
-        /// Holds the default overflow type.
-        /// </summary>
-        private OverflowType overflowType;
-
-        /// <summary>
-        /// Holds the second overflow type.
-        /// </summary>
-        private OverflowType secondOverflowType;
-
-        /// <summary>
-        /// Indicates if the rules have changed.
-        /// </summary>
-        private bool dirty = true;
-
-        /// <summary>
-        /// Holds the built classnames bases on the overflow rules.
-        /// </summary>
-        private string classNames;
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc/>
-        public string Class( IClassProvider classProvider )
+        if ( dirty )
         {
-            if ( dirty )
+            if ( overflowType != OverflowType.Default )
             {
-                if ( overflowType != OverflowType.Default )
-                {
-                    classNames = classProvider.Overflow( overflowType, secondOverflowType );
-                }
-
-                dirty = false;
+                classNames = classProvider.Overflow( overflowType, secondOverflowType );
             }
 
-            return classNames;
+            dirty = false;
         }
 
-        /// <summary>
-        /// Flags the classnames to be rebuilt.
-        /// </summary>
-        private void Dirty()
-        {
-            dirty = true;
-        }
-
-        /// <summary>
-        /// Starts the new overflow rule.
-        /// </summary>
-        /// <param name="overflowType">Overflow type to be applied.</param>
-        /// <returns>Next rule reference.</returns>
-        public IFluentOverflowSecondRule WithOverflow( OverflowType overflowType )
-        {
-            this.overflowType = overflowType;
-            Dirty();
-
-            return this;
-        }
-
-        /// <summary>
-        /// Starts the new overflow rule.
-        /// </summary>
-        /// <param name="overflowType">Overflow type to be applied.</param>
-        /// <returns>Next rule reference.</returns>
-        public IFluentOverflowSecondRule WithSecondOverflow( OverflowType overflowType )
-        {
-            this.secondOverflowType = overflowType;
-            Dirty();
-
-            return this;
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <inheritdoc/>
-        public IFluentOverflow Visible => WithSecondOverflow( OverflowType.Visible );
-
-        /// <inheritdoc/>
-        public IFluentOverflow Hidden => WithSecondOverflow( OverflowType.Hidden );
-
-        /// <inheritdoc/>
-        public IFluentOverflow Scroll => WithSecondOverflow( OverflowType.Scroll );
-
-        /// <inheritdoc/>
-        public IFluentOverflow Auto => WithSecondOverflow( OverflowType.Auto );
-
-        #endregion
+        return classNames;
     }
 
     /// <summary>
-    /// The overflow property controls what happens to content that is too big to fit into an area.
+    /// Flags the classnames to be rebuilt.
     /// </summary>
-    public static class Overflow
+    private void Dirty()
     {
-        /// <summary>
-        /// The overflow is not clipped. The content renders outside the element's box.
-        /// </summary>
-        public static IFluentOverflowSecondRule Visible => new FluentOverflow().WithOverflow( OverflowType.Visible );
-
-        /// <summary>
-        /// The overflow is clipped, and the rest of the content will be invisible.
-        /// </summary>
-        public static IFluentOverflowSecondRule Hidden => new FluentOverflow().WithOverflow( OverflowType.Hidden );
-
-        /// <summary>
-        /// The overflow is clipped, and a scrollbar is added to see the rest of the content.
-        /// </summary>
-        public static IFluentOverflowSecondRule Scroll => new FluentOverflow().WithOverflow( OverflowType.Scroll );
-
-        /// <summary>
-        /// Similar to scroll, but it adds scrollbars only when necessary.
-        /// </summary>
-        public static IFluentOverflowSecondRule Auto => new FluentOverflow().WithOverflow( OverflowType.Auto );
+        dirty = true;
     }
+
+    /// <summary>
+    /// Starts the new overflow rule.
+    /// </summary>
+    /// <param name="overflowType">Overflow type to be applied.</param>
+    /// <returns>Next rule reference.</returns>
+    public IFluentOverflowSecondRule WithOverflow( OverflowType overflowType )
+    {
+        this.overflowType = overflowType;
+        Dirty();
+
+        return this;
+    }
+
+    /// <summary>
+    /// Starts the new overflow rule.
+    /// </summary>
+    /// <param name="overflowType">Overflow type to be applied.</param>
+    /// <returns>Next rule reference.</returns>
+    public IFluentOverflowSecondRule WithSecondOverflow( OverflowType overflowType )
+    {
+        this.secondOverflowType = overflowType;
+        Dirty();
+
+        return this;
+    }
+
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc/>
+    public IFluentOverflow Visible => WithSecondOverflow( OverflowType.Visible );
+
+    /// <inheritdoc/>
+    public IFluentOverflow Hidden => WithSecondOverflow( OverflowType.Hidden );
+
+    /// <inheritdoc/>
+    public IFluentOverflow Scroll => WithSecondOverflow( OverflowType.Scroll );
+
+    /// <inheritdoc/>
+    public IFluentOverflow Auto => WithSecondOverflow( OverflowType.Auto );
+
+    #endregion
+}
+
+/// <summary>
+/// The overflow property controls what happens to content that is too big to fit into an area.
+/// </summary>
+public static class Overflow
+{
+    /// <summary>
+    /// The overflow is not clipped. The content renders outside the element's box.
+    /// </summary>
+    public static IFluentOverflowSecondRule Visible => new FluentOverflow().WithOverflow( OverflowType.Visible );
+
+    /// <summary>
+    /// The overflow is clipped, and the rest of the content will be invisible.
+    /// </summary>
+    public static IFluentOverflowSecondRule Hidden => new FluentOverflow().WithOverflow( OverflowType.Hidden );
+
+    /// <summary>
+    /// The overflow is clipped, and a scrollbar is added to see the rest of the content.
+    /// </summary>
+    public static IFluentOverflowSecondRule Scroll => new FluentOverflow().WithOverflow( OverflowType.Scroll );
+
+    /// <summary>
+    /// Similar to scroll, but it adds scrollbars only when necessary.
+    /// </summary>
+    public static IFluentOverflowSecondRule Auto => new FluentOverflow().WithOverflow( OverflowType.Auto );
 }

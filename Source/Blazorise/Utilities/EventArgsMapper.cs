@@ -2,30 +2,29 @@
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
-namespace Blazorise.Utilities
+namespace Blazorise.Utilities;
+
+internal static class EventArgsMapper
 {
-    internal static class EventArgsMapper
+    public static BLMouseEventArgs ToMouseEventArgs( MouseEventArgs e )
     {
-        public static BLMouseEventArgs ToMouseEventArgs( MouseEventArgs e )
-        {
-            if ( e == null )
-                return null;
+        if ( e == null )
+            return null;
 
-            return new( ToMouseButton( e.Button ),
-                e.Detail,
-                new( (int)e.ScreenX, (int)e.ScreenY ),
-                new( (int)e.ClientX, (int)e.ClientY ),
-                e.CtrlKey, e.ShiftKey, e.AltKey, e.MetaKey );
-        }
+        return new( ToMouseButton( e.Button ),
+            e.Detail,
+            new( (int)e.ScreenX, (int)e.ScreenY ),
+            new( (int)e.ClientX, (int)e.ClientY ),
+            e.CtrlKey, e.ShiftKey, e.AltKey, e.MetaKey );
+    }
 
-        private static MouseButton ToMouseButton( long button )
+    private static MouseButton ToMouseButton( long button )
+    {
+        return button switch
         {
-            return button switch
-            {
-                1 => MouseButton.Middle,
-                2 => MouseButton.Right,
-                _ => MouseButton.Left,
-            };
-        }
+            1 => MouseButton.Middle,
+            2 => MouseButton.Right,
+            _ => MouseButton.Left,
+        };
     }
 }

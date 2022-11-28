@@ -8,31 +8,30 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
-namespace BasicTestApp.Client
+namespace BasicTestApp.Client;
+
+[ExcludeFromCodeCoverage]
+public class Program
 {
-    [ExcludeFromCodeCoverage]
-    public class Program
+    public static async Task Main( string[] args )
     {
-        public static async Task Main( string[] args )
-        {
-            var builder = WebAssemblyHostBuilder.CreateDefault( args );
+        var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
-            builder.Services
-                .AddBlazorise( options =>
-                {
-                    options.Immediate = true;
-                } )
-                .AddBootstrapProviders()
-                .AddFontAwesomeIcons();
+        builder.Services
+            .AddBlazorise( options =>
+            {
+                options.Immediate = true;
+            } )
+            .AddBootstrapProviders()
+            .AddFontAwesomeIcons();
 
-            builder.Services.AddMemoryCache();
-            builder.Services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
-            builder.Services.AddScoped<Blazorise.Shared.Data.CountryData>();
-            builder.RootComponents.Add<Index>( "root" );
+        builder.Services.AddMemoryCache();
+        builder.Services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
+        builder.Services.AddScoped<Blazorise.Shared.Data.CountryData>();
+        builder.RootComponents.Add<Index>( "root" );
 
-            var host = builder.Build();
+        var host = builder.Build();
 
-            await host.RunAsync();
-        }
+        await host.RunAsync();
     }
 }

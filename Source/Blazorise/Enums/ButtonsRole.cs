@@ -1,18 +1,17 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Buttons group behaviour.
+/// </summary>
+public enum ButtonsRole
 {
     /// <summary>
-    /// Buttons group behaviour.
+    /// Display buttons as addons.
     /// </summary>
-    public enum ButtonsRole
-    {
-        /// <summary>
-        /// Display buttons as addons.
-        /// </summary>
-        Addons,
+    Addons,
 
-        /// <summary>
-        /// Display buttons as toolbar buttons.
-        /// </summary>
-        Toolbar,
-    }
+    /// <summary>
+    /// Display buttons as toolbar buttons.
+    /// </summary>
+    Toolbar,
 }

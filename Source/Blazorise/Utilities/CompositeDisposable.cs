@@ -3,45 +3,43 @@ using System;
 using System.Collections.ObjectModel;
 #endregion
 
-namespace Blazorise.Utilities
-{
+namespace Blazorise.Utilities;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public sealed class CompositeDisposable : Collection<IDisposable>, IDisposable
+public sealed class CompositeDisposable : Collection<IDisposable>, IDisposable
+{
+    #region Methods
+
+    public void Dispose()
     {
-        #region Methods
-
-        public void Dispose()
+        foreach ( var disposable in Items )
         {
-            foreach ( var disposable in Items )
-            {
-                disposable.Dispose();
-            }
-
-            Clear();
+            disposable.Dispose();
         }
 
-        #endregion
+        Clear();
     }
 
-    public static class CompositeDisposableEx
-    {
-        #region Methods
-
-        public static T DisposeWith<T>( this T disposable, CompositeDisposable cleanup )
-            where T : IDisposable
-        {
-            if ( disposable == null )
-                throw new ArgumentNullException( nameof( disposable ) );
-
-            if ( cleanup == null )
-                throw new ArgumentNullException( nameof( cleanup ) );
-
-            cleanup.Add( disposable );
-
-            return disposable;
-        }
-
-        #endregion
-    }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+    #endregion
 }
+
+public static class CompositeDisposableEx
+{
+    #region Methods
+
+    public static T DisposeWith<T>( this T disposable, CompositeDisposable cleanup )
+        where T : IDisposable
+    {
+        if ( disposable == null )
+            throw new ArgumentNullException( nameof( disposable ) );
+
+        if ( cleanup == null )
+            throw new ArgumentNullException( nameof( cleanup ) );
+
+        cleanup.Add( disposable );
+
+        return disposable;
+    }
+
+    #endregion
+}
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

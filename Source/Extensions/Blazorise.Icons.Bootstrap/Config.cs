@@ -2,10 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
-namespace Blazorise.Icons.Bootstrap
+namespace Blazorise.Icons.Bootstrap;
+
+public static class Config
 {
-    public static class Config
-    {
-        public static IServiceCollection AddBootstrapIcons( this IServiceCollection serviceCollection ) => serviceCollection.AddSingleton<IIconProvider, BootstrapIconProvider>();
-    }
+    public static IServiceCollection AddBootstrapIcons( this IServiceCollection serviceCollection ) => serviceCollection.AddSingleton<IIconProvider, BootstrapIconProvider>();
 }

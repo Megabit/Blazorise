@@ -1,7 +1,6 @@
-﻿namespace Blazorise.Animate
+﻿namespace Blazorise.Animate;
+
+public class EaseOutSineEasing : IEasing
 {
-    public class EaseOutSineEasing : IEasing
-    {
-        public string Name => "ease-out-sine";
-    }
+    public string Name => "ease-out-sine";
 }

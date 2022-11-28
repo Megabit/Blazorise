@@ -4,44 +4,43 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise.Modules
+namespace Blazorise.Modules;
+
+/// <summary>
+/// Default implementation of the <see cref="FilePicker"/> JS module.
+/// </summary>
+public class JSFilePickerModule : BaseJSModule, IJSFilePickerModule
 {
+    #region Constructors
+
     /// <summary>
-    /// Default implementation of the <see cref="FilePicker"/> JS module.
+    /// Default module constructor.
     /// </summary>
-    public class JSFilePickerModule : BaseJSModule, IJSFilePickerModule
+    /// <param name="jsRuntime">JavaScript runtime instance.</param>
+    /// <param name="versionProvider">Version provider.</param>
+    public JSFilePickerModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
+        : base( jsRuntime, versionProvider )
     {
-        #region Constructors
-
-        /// <summary>
-        /// Default module constructor.
-        /// </summary>
-        /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        /// <param name="versionProvider">Version provider.</param>
-        public JSFilePickerModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-            : base( jsRuntime, versionProvider )
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc/>
-        public virtual ValueTask Initialize( ElementReference elementRef, string elementId )
-            => InvokeSafeVoidAsync( "initialize", elementRef, elementId );
-
-        /// <inheritdoc/>
-        public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
-            => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
-
-        #endregion
-
-        #region Properties
-
-        /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise/filePicker.js?v={VersionProvider.Version}";
-
-        #endregion
     }
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    public virtual ValueTask Initialize( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "initialize", elementRef, elementId );
+
+    /// <inheritdoc/>
+    public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
+
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc/>
+    public override string ModuleFileName => $"./_content/Blazorise/filePicker.js?v={VersionProvider.Version}";
+
+    #endregion
 }

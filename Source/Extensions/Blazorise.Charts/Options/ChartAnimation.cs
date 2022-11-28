@@ -2,35 +2,34 @@
 using System.Text.Json.Serialization;
 #endregion
 
-namespace Blazorise.Charts
+namespace Blazorise.Charts;
+
+/// <summary>
+/// Defines the chart animation options.
+/// </summary>
+public class ChartAnimation
 {
     /// <summary>
-    /// Defines the chart animation options.
+    /// The number of milliseconds an animation takes.
     /// </summary>
-    public class ChartAnimation
-    {
-        /// <summary>
-        /// The number of milliseconds an animation takes.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? Duration { get; set; }
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public int? Duration { get; set; }
 
-        /// <summary>
-        /// Easing function to use. <see href="https://www.chartjs.org/docs/latest/configuration/animations.html#easing">more...</see>
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string Easing { get; set; }
+    /// <summary>
+    /// Easing function to use. <see href="https://www.chartjs.org/docs/latest/configuration/animations.html#easing">more...</see>
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public string Easing { get; set; }
 
-        /// <summary>
-        /// Delay before starting the animations.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? Delay { get; set; }
+    /// <summary>
+    /// Delay before starting the animations.
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public int? Delay { get; set; }
 
-        /// <summary>
-        /// If set to true, the animations loop endlessly.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? Loop { get; set; }
-    }
+    /// <summary>
+    /// If set to true, the animations loop endlessly.
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public bool? Loop { get; set; }
 }

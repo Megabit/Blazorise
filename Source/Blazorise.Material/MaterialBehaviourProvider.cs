@@ -1,11 +1,10 @@
-﻿namespace Blazorise.Material
+﻿namespace Blazorise.Material;
+
+public class MaterialBehaviourProvider : BehaviourProvider
 {
-    public class MaterialBehaviourProvider : BehaviourProvider
-    {
-        #region DataGrid
+    #region DataGrid
 
-        public override bool DataGridRowMultiSelectPreventClick => true;
+    public override bool DataGridRowMultiSelectPreventClick => true;
 
-        #endregion
-    }
+    #endregion
 }

@@ -3,14 +3,13 @@ using Blazorise;
 #endregion
 
 
-namespace Blazorise.Docs.Layouts
+namespace Blazorise.Docs.Layouts;
+
+public partial class MainLayout
 {
-    public partial class MainLayout
-    {
-        #region Members
+    #region Members
 
-        private bool topbarVisible = false;
+    private bool topbarVisible = false;
 
-        #endregion
-    }
+    #endregion
 }

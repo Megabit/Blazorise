@@ -2,60 +2,59 @@
 using System.Text.Json.Serialization;
 #endregion
 
-namespace Blazorise.Charts
+namespace Blazorise.Charts;
+
+/// <summary>
+/// Legend Label Configuration.
+/// </summary>
+public class ChartLegendLabel
 {
     /// <summary>
-    /// Legend Label Configuration.
+    /// Width of coloured box.
     /// </summary>
-    public class ChartLegendLabel
-    {
-        /// <summary>
-        /// Width of coloured box.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? BoxWidth { get; set; }
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public double? BoxWidth { get; set; }
 
-        /// <summary>
-        /// Height of the coloured box.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? BoxHeight { get; set; }
+    /// <summary>
+    /// Height of the coloured box.
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public double? BoxHeight { get; set; }
 
-        /// <summary>
-        /// Color of label and the strikethrough.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
-        public IndexableOption<object> Color { get; set; }
+    /// <summary>
+    /// Color of label and the strikethrough.
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+    public IndexableOption<object> Color { get; set; }
 
-        /// <summary>
-        /// Font of the label.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public ChartFont Font { get; set; }
+    /// <summary>
+    /// Font of the label.
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public ChartFont Font { get; set; }
 
-        /// <summary>
-        /// Padding between rows of colored boxes.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public object Padding { get; set; }
+    /// <summary>
+    /// Padding between rows of colored boxes.
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public object Padding { get; set; }
 
-        /// <summary>
-        /// If specified, this style of point is used for the legend. Only used if usePointStyle is true.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string PointStyle { get; set; }
+    /// <summary>
+    /// If specified, this style of point is used for the legend. Only used if usePointStyle is true.
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public string PointStyle { get; set; }
 
-        /// <summary>
-        /// Horizontal alignment of the label text. Options are: 'left', 'right' or 'center'.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string TextAlign { get; set; }
+    /// <summary>
+    /// Horizontal alignment of the label text. Options are: 'left', 'right' or 'center'.
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public string TextAlign { get; set; }
 
-        /// <summary>
-        /// Label style will match corresponding point style (size is based on the minimum value between boxWidth and font.size).
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public bool? UsePointStyle { get; set; }
-    }
+    /// <summary>
+    /// Label style will match corresponding point style (size is based on the minimum value between boxWidth and font.size).
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public bool? UsePointStyle { get; set; }
 }
