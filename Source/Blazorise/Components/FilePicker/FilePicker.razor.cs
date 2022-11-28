@@ -66,6 +66,7 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
 
             LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
+
         await base.DisposeAsync( disposing );
     }
 

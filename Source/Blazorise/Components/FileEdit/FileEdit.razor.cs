@@ -390,99 +390,6 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     /// </summary>
     [Parameter] public EventCallback<FileStartedEventArgs> Started { get; set; }
 
-
-    /// <summary>
-    /// Gets the localized browse button text.
-    /// </summary>
-    protected string BrowseButtonString
-    {
-        get
-        {
-            var uploadTypeString = Directory ? "folder" : "file";
-
-            var localizationString =  Multiple
-                ? $"Choose {uploadTypeString}s"
-                : $"Choose {uploadTypeString}";
-
-            if ( BrowseButtonLocalizer != null )
-                return BrowseButtonLocalizer.Invoke( localizationString );
-
-            return Localizer[localizationString];
-        }
-    }
-
-    /// <summary>
-    /// Occurs when an individual file upload has ended.
-    /// </summary>
-    [Parameter] public EventCallback<FileEndedEventArgs> Ended { get; set; }
-
-
-    /// <summary>
-    /// Occurs every time the part of file has being written to the destination stream.
-    /// </summary>
-    [Parameter] public EventCallback<FileWrittenEventArgs> Written { get; set; }
-
-    /// <summary>
-    /// Notifies the progress of file being written to the destination stream.
-    /// </summary>
-    [Parameter] public EventCallback<FileProgressedEventArgs> Progressed { get; set; }
-
-    /// <summary>
-    /// If true file input will be automatically reset after it has being uploaded.
-    /// </summary>
-    [Parameter] public bool AutoReset { get; set; } = true;
-
-    /// <summary>
-    /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
-    /// </summary>
-    [Parameter] public TextLocalizerHandler BrowseButtonLocalizer { get; set; }
-
-    /// <summary>
-    /// Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
-    /// <para>This setting can speed up file transfer considerably.</para>
-    /// </summary>
-    [Parameter] public bool DisableProgressReport { get; set; } = false;
-
-    /// <summary>
-    /// Sets the placeholder for the empty file input.
-    /// </summary>
-    [Parameter] public string Placeholder { get; set; }
-
-    /// <summary>
-    /// Specifies the types of files that the input accepts. https://www.w3schools.com/tags/att_input_accept.asp"
-    /// </summary>
-    [Parameter] public string Filter { get; set; }
-
-    /// <summary>
-    /// Gets or sets the max chunk size when uploading the file.
-    /// Take note that if you're using <see cref="OpenReadStream(FileEntry, CancellationToken)"/> you're provided with a stream and should configure the chunk size when handling with the stream.
-    /// </summary>
-    /// <remarks>
-    /// https://docs.microsoft.com/en-us/aspnet/core/blazor/javascript-interoperability/call-dotnet-from-javascript?view=aspnetcore-6.0#stream-from-javascript-to-net
-    /// </remarks>
-    [Parameter] public int MaxChunkSize { get; set; } = 20 * 1024;
-
-    /// <summary>
-    /// Maximum file size in bytes, checked before starting upload (note: never trust client, always check file
-    /// size at server-side). Defaults to <see cref="long.MaxValue"/>.
-    /// </summary>
-    [Parameter] public long MaxFileSize { get; set; } = long.MaxValue;
-
-    /// <summary>
-    /// Gets or sets the Segment Fetch Timeout when uploading the file.
-    /// </summary>
-    [Parameter] public TimeSpan SegmentFetchTimeout { get; set; } = TimeSpan.FromMinutes( 1 );
-
-    /// <summary>
-    /// Occurs every time the selected file has changed, including when the reset operation is executed.
-    /// </summary>
-    [Parameter] public EventCallback<FileChangedEventArgs> Changed { get; set; }
-
-    /// <summary>
-    /// Occurs when an individual file upload has started.
-    /// </summary>
-    [Parameter] public EventCallback<FileStartedEventArgs> Started { get; set; }
-
     /// <summary>
     /// Occurs when an individual file upload has ended.
     /// </summary>
@@ -513,6 +420,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     /// <para>This setting can speed up file transfer considerably.</para>
     /// </summary>
     [Parameter] public bool DisableProgressReport { get; set; } = false;
+
 
     /// <summary>
     /// Gets or Sets whether file picker should upload directories.
@@ -520,5 +428,4 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     [Parameter] public bool Directory { get; set; }
 
     #endregion
-
 }
