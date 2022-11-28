@@ -421,7 +421,6 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     /// </summary>
     [Parameter] public bool DisableProgressReport { get; set; } = false;
 
-
     /// <summary>
     /// Gets or Sets whether file picker should upload directories.
     /// </summary>
