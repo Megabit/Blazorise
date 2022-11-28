@@ -19,6 +19,11 @@ public abstract class BaseAfterRenderComponent : ComponentBase
     /// </summary>
     private Queue<Func<Task>> executeAfterRenderQueue;
 
+    /// <summary>
+    /// A stack of functions to execute after the rendering. Used only during the component initialization.
+    /// </summary>
+    private Queue<Func<Task>> delayedExecuteAfterRenderQueue;
+
     #endregion
 
     #region Methods
@@ -29,15 +34,51 @@ public abstract class BaseAfterRenderComponent : ComponentBase
     /// <param name="action"></param>
     protected void ExecuteAfterRender( Func<Task> action )
     {
-        executeAfterRenderQueue ??= new();
+        if ( !Rendered )
+        {
+            delayedExecuteAfterRenderQueue ??= new();
+            delayedExecuteAfterRenderQueue.Enqueue( action );
+        }
+        else
+        {
+            executeAfterRenderQueue ??= new();
+            executeAfterRenderQueue.Enqueue( action );
+        }
+    }
 
-        executeAfterRenderQueue.Enqueue( action );
+    private bool PushDelayedExecuteAfterRender()
+    {
+        if ( delayedExecuteAfterRenderQueue?.Count > 0 )
+        {
+            while ( delayedExecuteAfterRenderQueue.Count > 0 )
+            {
+                var action = delayedExecuteAfterRenderQueue.Dequeue();
+
+                ExecuteAfterRender( action );
+            }
+
+            delayedExecuteAfterRenderQueue = null;
+
+            return true;
+        }
+
+        return false;
     }
 
     /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        Rendered = true;
+        if ( firstRender )
+        {
+            await OnFirstAfterRenderAsync();
+
+            Rendered = true;
+
+            if ( PushDelayedExecuteAfterRender() )
+            {
+                await InvokeAsync( StateHasChanged );
+            }
+        }
 
         if ( executeAfterRenderQueue?.Count > 0 )
         {
@@ -51,6 +92,13 @@ public abstract class BaseAfterRenderComponent : ComponentBase
 
         await base.OnAfterRenderAsync( firstRender );
     }
+
+    /// <summary>
+    /// Method is called only once when component is first rendered.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected virtual Task OnFirstAfterRenderAsync()
+        => Task.CompletedTask;
 
     /// <inheritdoc/>
     public void Dispose()

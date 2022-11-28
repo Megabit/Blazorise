@@ -33,11 +33,6 @@ public partial class Markdown : BaseComponent,
     /// </summary>
     private bool autofocus;
 
-    /// <summary>
-    /// A stack of functions to execute after the rendering.
-    /// </summary>
-    private Queue<Func<Task>> delayedExecuteAfterRenderQueue;
-
     #endregion
 
     #region Methods
@@ -57,7 +52,7 @@ public partial class Markdown : BaseComponent,
     {
         if ( Rendered && parameters.TryGetValue<string>( nameof( Value ), out var newValue ) && newValue != Value )
         {
-            TryExecuteAfterRender( () => SetValueAsync( newValue ) );
+            ExecuteAfterRender( () => SetValueAsync( newValue ) );
         }
 
         await base.SetParametersAsync( parameters );
@@ -75,7 +70,7 @@ public partial class Markdown : BaseComponent,
                 }
                 else
                 {
-                    TryExecuteAfterRender( () => Focus() );
+                    ExecuteAfterRender( () => Focus() );
                 }
             }
             else
@@ -151,8 +146,6 @@ public partial class Markdown : BaseComponent,
             UsePreviewRender = PreviewRender != null,
         } );
 
-        TryPushExecuteAfterRender();
-
         await base.OnFirstAfterRenderAsync();
     }
 
@@ -172,35 +165,6 @@ public partial class Markdown : BaseComponent,
         await base.DisposeAsync( disposing );
     }
 
-    protected void TryExecuteAfterRender( Func<Task> action )
-    {
-        // if we have already rendered then just forward the action to the base component
-        if ( Rendered )
-        {
-            ExecuteAfterRender( action );
-
-            return;
-        }
-
-        delayedExecuteAfterRenderQueue ??= new();
-        delayedExecuteAfterRenderQueue.Enqueue( action );
-    }
-
-    protected void TryPushExecuteAfterRender()
-    {
-        if ( delayedExecuteAfterRenderQueue?.Count > 0 )
-        {
-            while ( delayedExecuteAfterRenderQueue.Count > 0 )
-            {
-                var action = delayedExecuteAfterRenderQueue.Dequeue();
-
-                ExecuteAfterRender( action );
-            }
-
-            InvokeAsync( StateHasChanged );
-        }
-    }
-
     /// <summary>
     /// Executes given action after the rendering is done.
     /// </summary>
@@ -211,7 +175,7 @@ public partial class Markdown : BaseComponent,
 
         token.Register( () => source.TrySetCanceled() );
 
-        TryExecuteAfterRender( async () =>
+        ExecuteAfterRender( async () =>
         {
             try
             {
@@ -247,7 +211,7 @@ public partial class Markdown : BaseComponent,
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task SetValueAsync( string value )
     {
-        await InvokeAsync( () => TryExecuteAfterRender( async () => await JSModule.SetValue( ElementId, value ) ) );
+        await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetValue( ElementId, value ) ) );
     }
 
     /// <summary>
@@ -326,7 +290,7 @@ public partial class Markdown : BaseComponent,
             await ImageUploadEnded.Invoke( new( fileEntry, success, fileInvalidReason ) );
 
         if ( success )
-            await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl );
+            await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty );
         else
             await JSModule.NotifyImageUploadError( ElementId, fileEntry.ErrorMessage );
     }
