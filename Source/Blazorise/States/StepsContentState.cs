@@ -1,13 +1,12 @@
-﻿namespace Blazorise.States
+﻿namespace Blazorise.States;
+
+/// <summary>
+/// Holds the information about the current state of the <see cref="Steps"/> component.
+/// </summary>
+public record StepsContentState
 {
     /// <summary>
-    /// Holds the information about the current state of the <see cref="Steps"/> component.
+    /// Gets the name of the selected step panel.
     /// </summary>
-    public record StepsContentState
-    {
-        /// <summary>
-        /// Gets the name of the selected step panel.
-        /// </summary>
-        public string SelectedPanel { get; init; }
-    }
+    public string SelectedPanel { get; init; }
 }

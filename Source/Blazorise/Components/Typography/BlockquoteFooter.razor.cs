@@ -3,23 +3,22 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Element for identifying the source of the quote.
+/// </summary>
+public partial class BlockquoteFooter : BaseTypographyComponent
 {
-    /// <summary>
-    /// Element for identifying the source of the quote.
-    /// </summary>
-    public partial class BlockquoteFooter : BaseTypographyComponent
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        #region Methods
+        builder.Append( ClassProvider.BlockquoteFooter() );
 
-        /// <inheritdoc/>
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.BlockquoteFooter() );
-
-            base.BuildClasses( builder );
-        }
-
-        #endregion
+        base.BuildClasses( builder );
     }
+
+    #endregion
 }

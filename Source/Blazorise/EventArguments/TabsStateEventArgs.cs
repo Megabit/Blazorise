@@ -2,25 +2,24 @@
 using System;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Supplies the information about the selected tab.
+/// </summary>
+public class TabsStateEventArgs : EventArgs
 {
     /// <summary>
-    /// Supplies the information about the selected tab.
+    /// A default <see cref="TabsStateEventArgs"/> constructor.
     /// </summary>
-    public class TabsStateEventArgs : EventArgs
+    /// <param name="tabName">Tab name.</param>
+    public TabsStateEventArgs( string tabName )
     {
-        /// <summary>
-        /// A default <see cref="TabsStateEventArgs"/> constructor.
-        /// </summary>
-        /// <param name="tabName">Tab name.</param>
-        public TabsStateEventArgs( string tabName )
-        {
-            TabName = tabName;
-        }
-
-        /// <summary>
-        /// Gets the selected tab name.
-        /// </summary>
-        public string TabName { get; }
+        TabName = tabName;
     }
+
+    /// <summary>
+    /// Gets the selected tab name.
+    /// </summary>
+    public string TabName { get; }
 }

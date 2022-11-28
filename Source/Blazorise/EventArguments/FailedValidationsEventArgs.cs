@@ -3,25 +3,24 @@ using System;
 using System.Collections.Generic;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Supplies the information about the failed validation.
+/// </summary>
+public class FailedValidationsEventArgs : EventArgs
 {
     /// <summary>
-    /// Supplies the information about the failed validation.
+    /// A default <see cref="FailedValidationsEventArgs"/> constructor.
     /// </summary>
-    public class FailedValidationsEventArgs : EventArgs
+    /// <param name="errorMessages">List of error messages.</param>
+    public FailedValidationsEventArgs( IReadOnlyList<string> errorMessages )
     {
-        /// <summary>
-        /// A default <see cref="FailedValidationsEventArgs"/> constructor.
-        /// </summary>
-        /// <param name="errorMessages">List of error messages.</param>
-        public FailedValidationsEventArgs( IReadOnlyList<string> errorMessages )
-        {
-            ErrorMessages = errorMessages;
-        }
-
-        /// <summary>
-        /// Gets the list of all error messages.
-        /// </summary>
-        public IReadOnlyList<string> ErrorMessages { get; }
+        ErrorMessages = errorMessages;
     }
+
+    /// <summary>
+    /// Gets the list of all error messages.
+    /// </summary>
+    public IReadOnlyList<string> ErrorMessages { get; }
 }

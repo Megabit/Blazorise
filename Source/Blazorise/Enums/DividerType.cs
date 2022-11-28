@@ -1,28 +1,27 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Specifies horizontal line style variants.
+/// </summary>
+public enum DividerType
 {
     /// <summary>
-    /// Specifies horizontal line style variants.
+    /// Horizontal line will be solid.
     /// </summary>
-    public enum DividerType
-    {
-        /// <summary>
-        /// Horizontal line will be solid.
-        /// </summary>
-        Solid,
+    Solid,
 
-        /// <summary>
-        /// Horizontal line will be dashed.
-        /// </summary>
-        Dashed,
+    /// <summary>
+    /// Horizontal line will be dashed.
+    /// </summary>
+    Dashed,
 
-        /// <summary>
-        /// Horizontal line will be dotted.
-        /// </summary>
-        Dotted,
+    /// <summary>
+    /// Horizontal line will be dotted.
+    /// </summary>
+    Dotted,
 
-        /// <summary>
-        /// Horizontal line be separated by text.
-        /// </summary>
-        TextContent,
-    }
+    /// <summary>
+    /// Horizontal line be separated by text.
+    /// </summary>
+    TextContent,
 }

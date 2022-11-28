@@ -1,26 +1,25 @@
-﻿namespace Blazorise.Video
-{
-    internal static class Extensions
-    {
-        public static string ToStreamingLibrary( this StreamingLibrary streamingLibrary )
-        {
-            return streamingLibrary switch
-            {
-                StreamingLibrary.Hls => "Hls",
-                StreamingLibrary.Dash => "Dash",
-                _ => "Html5",
-            };
-        }
+﻿namespace Blazorise.Video;
 
-        public static string ToVideoProtectionType( this VideoProtectionType videoProtectionType )
+internal static class Extensions
+{
+    public static string ToStreamingLibrary( this StreamingLibrary streamingLibrary )
+    {
+        return streamingLibrary switch
         {
-            return videoProtectionType switch
-            {
-                VideoProtectionType.PlayReady => "PlayReady",
-                VideoProtectionType.Widevine => "Widevine",
-                VideoProtectionType.FairPlay => "FairPlay",
-                _ => null,
-            };
-        }
+            StreamingLibrary.Hls => "Hls",
+            StreamingLibrary.Dash => "Dash",
+            _ => "Html5",
+        };
+    }
+
+    public static string ToVideoProtectionType( this VideoProtectionType videoProtectionType )
+    {
+        return videoProtectionType switch
+        {
+            VideoProtectionType.PlayReady => "PlayReady",
+            VideoProtectionType.Widevine => "Widevine",
+            VideoProtectionType.FairPlay => "FairPlay",
+            _ => null,
+        };
     }
 }

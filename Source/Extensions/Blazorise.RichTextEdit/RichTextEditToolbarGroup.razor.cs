@@ -3,32 +3,31 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.RichTextEdit
+namespace Blazorise.RichTextEdit;
+
+public partial class RichTextEditToolbarGroup : BaseComponent
 {
-    public partial class RichTextEditToolbarGroup : BaseComponent
+    #region Methods
+
+    /// <summary>
+    /// Builds the classes.
+    /// </summary>
+    /// <param name="builder">The builder.</param>
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        #region Methods
+        builder.Append( "ql-formats" );
 
-        /// <summary>
-        /// Builds the classes.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( "ql-formats" );
-
-            base.BuildClasses( builder );
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the child content.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        #endregion
+        base.BuildClasses( builder );
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets or sets the child content.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

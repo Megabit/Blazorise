@@ -6,34 +6,32 @@ using Bunit;
 using Xunit;
 #endregion
 
-namespace Blazorise.Tests.Components
-{
+namespace Blazorise.Tests.Components;
 
-    public class DataGridMultiSelectComponentTest : TestContext
+public class DataGridMultiSelectComponentTest : TestContext
+{
+    public DataGridMultiSelectComponentTest()
     {
-        public DataGridMultiSelectComponentTest()
+        BlazoriseConfig.AddBootstrapProviders( Services );
+        BlazoriseConfig.JSInterop.AddDataGrid( this.JSInterop );
+    }
+
+    [Fact]
+    public void MultipleSelectAll_Should_Select_Unselect_AllRows()
+    {
+        var comp = RenderComponent<DataGridMultiSelectComponent>();
+        comp.Find( "input[type=checkbox]:first-child" ).Change( true );
+        var allCheckbox = comp.FindAll( "input[type=checkbox]" );
+        foreach ( var checkbox in allCheckbox )
         {
-            BlazoriseConfig.AddBootstrapProviders( Services );
-            BlazoriseConfig.JSInterop.AddDataGrid( this.JSInterop );
+            Assert.NotNull( checkbox.GetAttribute( "checked" ) );
         }
 
-        [Fact]
-        public void MultipleSelectAll_Should_Select_Unselect_AllRows()
+        comp.Find( "input[type=checkbox]:first-child" ).Change( false );
+        allCheckbox = comp.FindAll( "input[type=checkbox]" );
+        foreach ( var checkbox in allCheckbox )
         {
-            var comp = RenderComponent<DataGridMultiSelectComponent>();
-            comp.Find( "input[type=checkbox]:first-child" ).Change( true );
-            var allCheckbox = comp.FindAll( "input[type=checkbox]" );
-            foreach ( var checkbox in allCheckbox )
-            {
-                Assert.NotNull( checkbox.GetAttribute( "checked" ) );
-            }
-
-            comp.Find( "input[type=checkbox]:first-child" ).Change( false );
-            allCheckbox = comp.FindAll( "input[type=checkbox]" );
-            foreach ( var checkbox in allCheckbox )
-            {
-                Assert.Null( checkbox.GetAttribute( "checked" ) );
-            }
+            Assert.Null( checkbox.GetAttribute( "checked" ) );
         }
     }
 }

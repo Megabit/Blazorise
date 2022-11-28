@@ -6,25 +6,24 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Charts
+namespace Blazorise.Charts;
+
+public partial class BarChart<TItem> : BaseChart<BarChartDataset<TItem>, TItem, BarChartOptions, BarChartModel>
 {
-    public partial class BarChart<TItem> : BaseChart<BarChartDataset<TItem>, TItem, BarChartOptions, BarChartModel>
+    #region Members
+
+    #endregion
+
+    #region Constructors
+
+    public BarChart()
     {
-        #region Members
-
-        #endregion
-
-        #region Constructors
-
-        public BarChart()
-        {
-            Type = ChartType.Bar;
-        }
-
-        #endregion
-
-        #region Properties
-
-        #endregion
+        Type = ChartType.Bar;
     }
+
+    #endregion
+
+    #region Properties
+
+    #endregion
 }

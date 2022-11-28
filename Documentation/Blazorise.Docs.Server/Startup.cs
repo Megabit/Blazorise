@@ -13,16 +13,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Blazorise.Docs.Server
-{
-    public class Startup
-    {
-        public Startup( IConfiguration configuration )
-        {
-            Configuration = configuration;
-        }
+namespace Blazorise.Docs.Server;
 
-        public IConfiguration Configuration { get; }
+public class Startup
+{
+    public Startup( IConfiguration configuration )
+    {
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
@@ -30,86 +30,91 @@ namespace Blazorise.Docs.Server
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+
+            services.AddServerSideBlazor().AddHubOptions( ( o ) =>
+            {
+                o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
+            } );
+
             services.AddHttpContextAccessor();
 
-            services
-              .AddBlazorise( options =>
-              {
-                  options.Immediate = true; // optional
-              } )
-              .AddBootstrap5Providers()
-              .AddFontAwesomeIcons()
-              .AddBlazoriseRichTextEdit()
-              .AddBlazoriseFluentValidation();
-
-            services.AddValidatorsFromAssembly( typeof( App ).Assembly );
-
-            services.AddMemoryCache();
-            services.AddScoped<Shared.Data.EmployeeData>();
-            services.AddScoped<Shared.Data.CountryData>();
-            services.AddScoped<Shared.Data.PageEntryData>();
-
-            services.AddResponseCompression( options =>
+        services
+            .AddBlazorise( options =>
             {
-                options.EnableForHttps = true;
-                options.Providers.Add<BrotliCompressionProvider>();
-                options.Providers.Add<GzipCompressionProvider>();
-            } );
+                options.Immediate = true; // optional
+            } )
+            .AddBootstrap5Providers()
+            .AddFontAwesomeIcons()
+            .AddBlazoriseRichTextEdit()
+            .AddBlazoriseFluentValidation();
 
-            services.Configure<BrotliCompressionProviderOptions>( options =>
-            {
-                options.Level = CompressionLevel.Fastest;
-            } );
+        services.AddValidatorsFromAssembly( typeof( App ).Assembly );
 
-            services.Configure<GzipCompressionProviderOptions>( options =>
-            {
-                options.Level = CompressionLevel.SmallestSize;
-            } );
+        services.AddMemoryCache();
+        services.AddScoped<Shared.Data.EmployeeData>();
+        services.AddScoped<Shared.Data.CountryData>();
+        services.AddScoped<Shared.Data.PageEntryData>();
 
-            services.AddHsts( options =>
-            {
-                options.Preload = true;
-                options.IncludeSubDomains = true;
-                options.MaxAge = TimeSpan.FromDays( 365 );
-            } );
-        }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure( IApplicationBuilder app, IWebHostEnvironment env )
+        services.AddResponseCompression( options =>
         {
-            app.UseResponseCompression();
+            options.EnableForHttps = true;
+            options.Providers.Add<BrotliCompressionProvider>();
+            options.Providers.Add<GzipCompressionProvider>();
+        } );
 
-            if ( env.IsDevelopment() )
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionHandler( "/Error" );
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
+        services.Configure<BrotliCompressionProviderOptions>( options =>
+        {
+            options.Level = CompressionLevel.Fastest;
+        } );
 
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
+        services.Configure<GzipCompressionProviderOptions>( options =>
+        {
+            options.Level = CompressionLevel.SmallestSize;
+        } );
 
-            app.UseRouting();
+        services.AddHsts( options =>
+        {
+            options.Preload = true;
+            options.IncludeSubDomains = true;
+            options.MaxAge = TimeSpan.FromDays( 365 );
+        } );
+    }
 
-            app.UseEndpoints( endpoints =>
-            {
-                endpoints.MapGet( "/robots.txt", async context =>
-                {
-                    await Seo.GenerateRobots( context );
-                } );
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure( IApplicationBuilder app, IWebHostEnvironment env )
+    {
+        app.UseResponseCompression();
 
-                endpoints.MapGet( "/sitemap.txt", async context =>
-                {
-                    await Seo.GenerateSitemap( context );
-                } );
-
-                endpoints.MapBlazorHub();
-                endpoints.MapFallbackToPage( "/_Host" );
-            } );
+        if ( env.IsDevelopment() )
+        {
+            app.UseDeveloperExceptionPage();
         }
+        else
+        {
+            app.UseExceptionHandler( "/Error" );
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            app.UseHsts();
+        }
+
+        app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseRouting();
+
+        app.UseEndpoints( endpoints =>
+        {
+            endpoints.MapGet( "/robots.txt", async context =>
+            {
+                await Seo.GenerateRobots( context );
+            } );
+
+            endpoints.MapGet( "/sitemap.txt", async context =>
+            {
+                await Seo.GenerateSitemap( context );
+            } );
+
+            endpoints.MapBlazorHub();
+            endpoints.MapFallbackToPage( "/_Host" );
+        } );
     }
 }

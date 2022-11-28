@@ -11,131 +11,130 @@ using System.Text;
 using System.Threading.Tasks;
 //using Microsoft.AspNetCore.Testing;
 
-namespace Blazorise.E2ETests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure;
+
+class SeleniumStandaloneServer
 {
-    class SeleniumStandaloneServer
+    private static readonly TimeSpan Timeout = TimeSpan.FromSeconds( 30 );
+    private static readonly object _instanceCreationLock = new();
+    private static SeleniumStandaloneServer _instance;
+
+    public Uri Uri { get; }
+
+    public static SeleniumStandaloneServer Instance
     {
-        private static readonly TimeSpan Timeout = TimeSpan.FromSeconds(30);
-        private static readonly object _instanceCreationLock = new();
-        private static SeleniumStandaloneServer _instance;
-
-        public Uri Uri { get; }
-
-        public static SeleniumStandaloneServer Instance
+        get
         {
-            get
+            lock ( _instanceCreationLock )
             {
-                lock (_instanceCreationLock)
-                {
-                    _instance ??= new();
-                }
+                _instance ??= new();
+            }
 
-                return _instance;
+            return _instance;
+        }
+    }
+
+    private SeleniumStandaloneServer()
+    {
+        var port = FindAvailablePort();
+        Uri = new UriBuilder( "http", "localhost", port, "/wd/hub" ).Uri;
+
+        var psi = new ProcessStartInfo
+        {
+            FileName = "npm",
+            Arguments = $"run selenium-standalone start -- -- -port {port}",
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+        };
+
+        if ( RuntimeInformation.IsOSPlatform( OSPlatform.Windows ) )
+        {
+            psi.FileName = "cmd";
+            psi.Arguments = $"/c npm {psi.Arguments}";
+        }
+
+        var process = Process.Start( psi );
+
+        var builder = new StringBuilder();
+        process.OutputDataReceived += LogOutput;
+        process.ErrorDataReceived += LogOutput;
+
+        process.BeginOutputReadLine();
+        process.BeginErrorReadLine();
+
+        // The Selenium sever has to be up for the entirety of the tests and is only shutdown when the application (i.e. the test) exits.
+        AppDomain.CurrentDomain.ProcessExit += ( _, _ ) =>
+        {
+            if ( !process.HasExited )
+            {
+                process.KillTree( TimeSpan.FromSeconds( 10 ) );
+                process.Dispose();
+            }
+        };
+
+        void LogOutput( object sender, DataReceivedEventArgs e )
+        {
+            lock ( builder )
+            {
+                builder.AppendLine( e.Data );
             }
         }
 
-        private SeleniumStandaloneServer()
+        var waitForStart = Task.Run( async () =>
         {
-            var port = FindAvailablePort();
-            Uri = new UriBuilder("http", "localhost", port, "/wd/hub").Uri;
-
-            var psi = new ProcessStartInfo
+            using var httpClient = new HttpClient
             {
-                FileName = "npm",
-                Arguments = $"run selenium-standalone start -- -- -port {port}",
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
+                Timeout = TimeSpan.FromSeconds( 1 ),
             };
 
-            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+            while ( true )
             {
-                psi.FileName = "cmd";
-                psi.Arguments = $"/c npm {psi.Arguments}";
-            }
-
-            var process = Process.Start(psi);
-
-            var builder = new StringBuilder();
-            process.OutputDataReceived += LogOutput;
-            process.ErrorDataReceived += LogOutput;
-
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-
-            // The Selenium sever has to be up for the entirety of the tests and is only shutdown when the application (i.e. the test) exits.
-            AppDomain.CurrentDomain.ProcessExit += (_, _) =>
-            {
-                if (!process.HasExited)
+                try
                 {
-                    process.KillTree(TimeSpan.FromSeconds(10));
-                    process.Dispose();
-                }
-            };
+                    var responseTask = httpClient.GetAsync( Uri );
 
-            void LogOutput(object sender, DataReceivedEventArgs e)
-            {
-                lock (builder)
-                {
-                    builder.AppendLine(e.Data);
-                }
-            }
-
-            var waitForStart = Task.Run(async () =>
-            {
-                using var httpClient = new HttpClient
-                {
-                    Timeout = TimeSpan.FromSeconds(1),
-                };
-
-                while (true)
-                {
-                    try
+                    var response = await responseTask;
+                    if ( response.StatusCode == HttpStatusCode.OK )
                     {
-                        var responseTask = httpClient.GetAsync(Uri);
-
-                        var response = await responseTask;
-                        if (response.StatusCode == HttpStatusCode.OK)
-                        {
-                            return;
-                        }
+                        return;
                     }
-                    catch (OperationCanceledException)
-                    {
-
-                    }
-                    await Task.Delay(1000);
                 }
-            });
-
-            try
-            {
-                waitForStart.TimeoutAfter(Timeout).Wait(1000);
-            }
-            catch (Exception ex)
-            {
-                string output;
-                lock (builder)
+                catch ( OperationCanceledException )
                 {
-                    output = builder.ToString();
-                }
 
-                throw new InvalidOperationException($"Failed to start selenium sever. {Environment.NewLine}{output}", ex.GetBaseException());
+                }
+                await Task.Delay( 1000 );
             }
+        } );
+
+        try
+        {
+            waitForStart.TimeoutAfter( Timeout ).Wait( 1000 );
         }
-
-        static int FindAvailablePort()
+        catch ( Exception ex )
         {
-            var listener = new TcpListener(IPAddress.Loopback, 0);
+            string output;
+            lock ( builder )
+            {
+                output = builder.ToString();
+            }
 
-            try
-            {
-                listener.Start();
-                return ((IPEndPoint)listener.LocalEndpoint).Port;
-            }
-            finally
-            {
-                listener.Stop();
-            }
+            throw new InvalidOperationException( $"Failed to start selenium sever. {Environment.NewLine}{output}", ex.GetBaseException() );
+        }
+    }
+
+    static int FindAvailablePort()
+    {
+        var listener = new TcpListener( IPAddress.Loopback, 0 );
+
+        try
+        {
+            listener.Start();
+            return ( (IPEndPoint)listener.LocalEndpoint ).Port;
+        }
+        finally
+        {
+            listener.Stop();
         }
     }
 }

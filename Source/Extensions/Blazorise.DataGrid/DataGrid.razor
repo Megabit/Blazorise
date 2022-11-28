@@ -59,7 +59,7 @@
                                         {
                                             @column.SortDirectionTemplate( column.CurrentSortDirection )
                                         }
-                                        else 
+                                        else
                                         {
                                             if ( column.CurrentSortDirection == SortDirection.Default && ShowDefaultSortIcon )
                                             {
@@ -144,7 +144,7 @@
                             </ChildContent>
                             <Placeholder>
                                 <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                    @LoadingTemplate
+                                    &nbsp;@LoadingTemplate
                                 </_DataGridFullColumnSpanRow>
                             </Placeholder>
                         </Virtualize>
@@ -157,7 +157,7 @@
                             </ChildContent>
                             <Placeholder>
                                 <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                    @LoadingTemplate
+                                    &nbsp;@LoadingTemplate
                                 </_DataGridFullColumnSpanRow>
                             </Placeholder>
                         </Virtualize>

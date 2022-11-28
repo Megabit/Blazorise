@@ -2,1267 +2,1265 @@
 using System.Collections.Generic;
 #endregion
 
-namespace Blazorise
-{
+namespace Blazorise;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public interface IClassProvider
-    {
-        #region TextEdit
+public interface IClassProvider
+{
+    #region TextEdit
 
-        string TextEdit( bool plaintext );
+    string TextEdit( bool plaintext );
 
-        string TextEditSize( Size size );
+    string TextEditSize( Size size );
 
-        string TextEditColor( Color color );
+    string TextEditColor( Color color );
 
-        string TextEditValidation( ValidationStatus validationStatus );
+    string TextEditValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region MemoEdit
+    #region MemoEdit
 
-        string MemoEdit( bool plaintext );
+    string MemoEdit( bool plaintext );
 
-        string MemoEditSize( Size size );
+    string MemoEditSize( Size size );
 
-        string MemoEditValidation( ValidationStatus validationStatus );
+    string MemoEditValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region Select
+    #region Select
 
-        string Select();
+    string Select();
 
-        string SelectMultiple();
+    string SelectMultiple();
 
-        string SelectSize( Size size );
+    string SelectSize( Size size );
 
-        string SelectValidation( ValidationStatus validationStatus );
+    string SelectValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region NumericEdit
+    #region NumericEdit
 
-        string NumericEdit( bool plaintext );
+    string NumericEdit( bool plaintext );
 
-        string NumericEditSize( Size size );
+    string NumericEditSize( Size size );
 
-        string NumericEditColor( Color color );
+    string NumericEditColor( Color color );
 
-        string NumericEditValidation( ValidationStatus validationStatus );
+    string NumericEditValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region DateEdit
+    #region DateEdit
 
-        string DateEdit( bool plaintext );
+    string DateEdit( bool plaintext );
 
-        string DateEditSize( Size size );
+    string DateEditSize( Size size );
 
-        string DateEditColor( Color color );
+    string DateEditColor( Color color );
 
-        string DateEditValidation( ValidationStatus validationStatus );
+    string DateEditValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region TimeEdit
+    #region TimeEdit
 
-        string TimeEdit( bool plaintext );
+    string TimeEdit( bool plaintext );
 
-        string TimeEditSize( Size size );
+    string TimeEditSize( Size size );
 
-        string TimeEditColor( Color color );
+    string TimeEditColor( Color color );
 
-        string TimeEditValidation( ValidationStatus validationStatus );
+    string TimeEditValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region ColorEdit
+    #region ColorEdit
 
-        string ColorEdit();
+    string ColorEdit();
 
-        string ColorEditSize( Size size );
+    string ColorEditSize( Size size );
 
-        #endregion
+    #endregion
 
-        #region DatePicker
+    #region DatePicker
 
-        string DatePicker( bool plaintext );
+    string DatePicker( bool plaintext );
 
-        string DatePickerSize( Size size );
+    string DatePickerSize( Size size );
 
-        string DatePickerColor( Color color );
+    string DatePickerColor( Color color );
 
-        string DatePickerValidation( ValidationStatus validationStatus );
+    string DatePickerValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region TimePicker
+    #region TimePicker
 
-        string TimePicker( bool plaintext );
+    string TimePicker( bool plaintext );
 
-        string TimePickerSize( Size size );
+    string TimePickerSize( Size size );
 
-        string TimePickerColor( Color color );
+    string TimePickerColor( Color color );
 
-        string TimePickerValidation( ValidationStatus validationStatus );
+    string TimePickerValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region ColorPicker
+    #region ColorPicker
 
-        string ColorPicker();
+    string ColorPicker();
 
-        string ColorPickerSize( Size size );
+    string ColorPickerSize( Size size );
 
-        #endregion
+    #endregion
 
-        #region NumericPicker
+    #region NumericPicker
 
-        string NumericPicker( bool plaintext );
+    string NumericPicker( bool plaintext );
 
-        string NumericPickerSize( Size size );
+    string NumericPickerSize( Size size );
 
-        string NumericPickerColor( Color color );
+    string NumericPickerColor( Color color );
 
-        string NumericPickerValidation( ValidationStatus validationStatus );
+    string NumericPickerValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region InputMask
+    #region InputMask
 
-        string InputMask( bool plaintext );
+    string InputMask( bool plaintext );
 
-        string InputMaskSize( Size size );
+    string InputMaskSize( Size size );
 
-        string InputMaskColor( Color color );
+    string InputMaskColor( Color color );
 
-        string InputMaskValidation( ValidationStatus validationStatus );
+    string InputMaskValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region Check
+    #region Check
 
-        string Check();
+    string Check();
 
-        string CheckSize( Size size );
+    string CheckSize( Size size );
 
-        string CheckInline();
+    string CheckInline();
 
-        string CheckCursor( Cursor cursor );
+    string CheckCursor( Cursor cursor );
 
-        string CheckValidation( ValidationStatus validationStatus );
+    string CheckValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region RadioGroup
+    #region RadioGroup
 
-        string RadioGroup( bool buttons, Orientation orientation );
+    string RadioGroup( bool buttons, Orientation orientation );
 
-        public string RadioGroupSize( bool buttons, Orientation orientation, Size size );
+    public string RadioGroupSize( bool buttons, Orientation orientation, Size size );
 
-        string RadioGroupValidation( ValidationStatus validationStatus );
+    string RadioGroupValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region Radio
+    #region Radio
 
-        string Radio( bool button );
+    string Radio( bool button );
 
-        string RadioSize( bool button, Size size );
+    string RadioSize( bool button, Size size );
 
-        string RadioInline( bool inline );
+    string RadioInline( bool inline );
 
-        string RadioCursor( Cursor cursor );
+    string RadioCursor( Cursor cursor );
 
-        string RadioValidation( ValidationStatus validationStatus );
+    string RadioValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region Switch
+    #region Switch
 
-        string Switch();
+    string Switch();
 
-        string SwitchColor( Color color );
+    string SwitchColor( Color color );
 
-        string SwitchSize( Size size );
+    string SwitchSize( Size size );
 
-        string SwitchChecked( bool @checked );
+    string SwitchChecked( bool @checked );
 
-        string SwitchCursor( Cursor cursor );
+    string SwitchCursor( Cursor cursor );
 
-        string SwitchValidation( ValidationStatus validationStatus );
+    string SwitchValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region FileEdit
+    #region FileEdit
 
-        string FileEdit();
+    string FileEdit();
 
-        string FileEditSize( Size size );
+    string FileEditSize( Size size );
 
-        string FileEditValidation( ValidationStatus validationStatus );
+    string FileEditValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region Slider
+    #region Slider
 
-        string Slider();
+    string Slider();
 
-        string SliderColor( Color color );
+    string SliderColor( Color color );
 
-        string SliderValidation( ValidationStatus validationStatus );
+    string SliderValidation( ValidationStatus validationStatus );
 
-        #endregion
+    #endregion
 
-        #region Rating
+    #region Rating
 
-        string Rating();
+    string Rating();
 
-        string RatingDisabled( bool disabled );
+    string RatingDisabled( bool disabled );
 
-        string RatingReadonly( bool @readonly );
+    string RatingReadonly( bool @readonly );
 
-        string RatingItem();
+    string RatingItem();
 
-        string RatingItemColor( Color color );
+    string RatingItemColor( Color color );
 
-        string RatingItemSelected( bool selected );
+    string RatingItemSelected( bool selected );
 
-        string RatingItemHovered( bool hover );
+    string RatingItemHovered( bool hover );
 
-        #endregion
+    #endregion
 
-        #region Label
+    #region Label
 
-        string Label();
+    string Label();
 
-        string LabelType( LabelType labelType );
+    string LabelType( LabelType labelType );
 
-        string LabelCursor( Cursor cursor );
+    string LabelCursor( Cursor cursor );
 
-        #endregion
+    #endregion
 
-        #region Help
+    #region Help
 
-        string Help();
+    string Help();
 
-        #endregion
+    #endregion
 
-        #region Validation
+    #region Validation
 
-        string ValidationSuccess();
+    string ValidationSuccess();
 
-        string ValidationSuccessTooltip();
+    string ValidationSuccessTooltip();
 
-        string ValidationError();
+    string ValidationError();
 
-        string ValidationErrorTooltip();
+    string ValidationErrorTooltip();
 
-        string ValidationNone();
+    string ValidationNone();
 
-        string ValidationSummary();
+    string ValidationSummary();
 
-        string ValidationSummaryError();
+    string ValidationSummaryError();
 
-        #endregion
+    #endregion
 
-        #region Fields
+    #region Fields
 
-        string Fields();
+    string Fields();
 
-        string FieldsBody();
+    string FieldsBody();
 
-        string FieldsColumn();
+    string FieldsColumn();
 
-        #endregion
+    #endregion
 
-        #region Field
+    #region Field
 
-        string Field();
+    string Field();
 
-        string FieldHorizontal();
+    string FieldHorizontal();
 
-        string FieldColumn();
+    string FieldColumn();
 
-        string FieldValidation( ValidationStatus validationStatus );
+    string FieldValidation( ValidationStatus validationStatus );
 
-        string FieldJustifyContent( JustifyContent justifyContent );
+    string FieldJustifyContent( JustifyContent justifyContent );
 
-        #endregion
+    #endregion
 
-        #region FieldLabel
+    #region FieldLabel
 
-        string FieldLabel( bool horizontal );
+    string FieldLabel( bool horizontal );
 
-        #endregion
+    #endregion
 
-        #region FieldBody
+    #region FieldBody
 
-        string FieldBody();
+    string FieldBody();
 
-        #endregion
+    #endregion
 
-        #region FieldHelp
+    #region FieldHelp
 
-        string FieldHelp();
+    string FieldHelp();
 
-        #endregion
+    #endregion
 
-        #region FocusTrap
+    #region FocusTrap
 
-        string FocusTrap();
+    string FocusTrap();
 
-        #endregion
+    #endregion
 
-        #region Control
+    #region Control
 
-        string ControlCheck();
+    string ControlCheck();
 
-        string ControlRadio();
+    string ControlRadio();
 
-        string ControlSwitch();
+    string ControlSwitch();
 
-        string ControlFile();
+    string ControlFile();
 
-        string ControlText();
+    string ControlText();
 
-        #endregion
+    #endregion
 
-        #region Addons
+    #region Addons
 
-        string Addons();
+    string Addons();
 
-        string AddonsSize( Size size );
+    string AddonsSize( Size size );
 
-        string AddonsHasButton( bool hasButton );
+    string AddonsHasButton( bool hasButton );
 
-        string Addon( AddonType addonType );
+    string Addon( AddonType addonType );
 
-        string AddonLabel();
+    string AddonLabel();
 
-        //string AddonContainer();
+    //string AddonContainer();
 
-        #endregion
+    #endregion
 
-        #region Inline
+    #region Inline
 
-        string Inline();
+    string Inline();
 
-        #endregion
+    #endregion
 
-        #region Button
+    #region Button
 
-        string Button();
+    string Button();
 
-        string ButtonColor( Color color );
+    string ButtonColor( Color color );
 
-        string ButtonOutline( Color color );
+    string ButtonOutline( Color color );
 
-        string ButtonSize( Size size );
+    string ButtonSize( Size size );
 
-        string ButtonBlock();
+    string ButtonBlock();
 
-        string ButtonActive();
+    string ButtonActive();
 
-        string ButtonDisabled();
+    string ButtonDisabled();
 
-        string ButtonLoading();
+    string ButtonLoading();
 
-        #endregion
+    #endregion
 
-        #region Buttons
+    #region Buttons
 
-        string Buttons( ButtonsRole role, Orientation orientation );
+    string Buttons( ButtonsRole role, Orientation orientation );
 
-        string ButtonsSize( Size size );
+    string ButtonsSize( Size size );
 
-        #endregion
+    #endregion
 
-        #region CloseButton
+    #region CloseButton
 
-        string CloseButton();
+    string CloseButton();
 
-        #endregion
+    #endregion
 
-        #region Dropdown
+    #region Dropdown
 
-        string Dropdown( bool isDropdownSubmenu );
+    string Dropdown( bool isDropdownSubmenu );
 
-        string DropdownGroup();
+    string DropdownGroup();
 
-        string DropdownObserverShow();
+    string DropdownObserverShow();
 
-        string DropdownShow();
+    string DropdownShow();
 
-        string DropdownRight();
+    string DropdownRight();
 
-        string DropdownItem();
+    string DropdownItem();
 
-        string DropdownItemActive( bool active );
+    string DropdownItemActive( bool active );
 
-        string DropdownItemDisabled( bool disabled );
+    string DropdownItemDisabled( bool disabled );
 
-        string DropdownDivider();
+    string DropdownDivider();
 
-        string DropdownHeader();
+    string DropdownHeader();
 
-        string DropdownMenu();
+    string DropdownMenu();
 
-        string DropdownMenuScrollable();
+    string DropdownMenuScrollable();
 
-        //string DropdownMenuBody();
+    //string DropdownMenuBody();
 
-        string DropdownMenuVisible( bool visible );
+    string DropdownMenuVisible( bool visible );
 
-        string DropdownMenuRight();
+    string DropdownMenuRight();
 
-        string DropdownToggle( bool isDropdownSubmenu );
+    string DropdownToggle( bool isDropdownSubmenu );
 
-        string DropdownToggleColor( Color color );
+    string DropdownToggleColor( Color color );
 
-        string DropdownToggleOutline( Color color );
+    string DropdownToggleOutline( Color color );
 
-        string DropdownToggleSize( Size size );
+    string DropdownToggleSize( Size size );
 
-        string DropdownToggleSplit();
+    string DropdownToggleSplit();
 
-        string DropdownToggleIcon( bool visible );
+    string DropdownToggleIcon( bool visible );
 
-        string DropdownDirection( Direction direction );
+    string DropdownDirection( Direction direction );
 
-        #endregion
+    #endregion
 
-        #region Tabs
+    #region Tabs
 
-        string Tabs( bool pills );
+    string Tabs( bool pills );
 
-        string TabsCards();
+    string TabsCards();
 
-        string TabsFullWidth();
+    string TabsFullWidth();
 
-        string TabsJustified();
+    string TabsJustified();
 
-        string TabsVertical();
+    string TabsVertical();
 
-        string TabItem();
+    string TabItem();
 
-        string TabItemActive( bool active );
+    string TabItemActive( bool active );
 
-        string TabItemDisabled( bool disabled );
+    string TabItemDisabled( bool disabled );
 
-        string TabLink();
+    string TabLink();
 
-        string TabLinkActive( bool active );
+    string TabLinkActive( bool active );
 
-        string TabLinkDisabled( bool disabled );
+    string TabLinkDisabled( bool disabled );
 
-        string TabsContent();
+    string TabsContent();
 
-        string TabPanel();
+    string TabPanel();
 
-        string TabPanelActive( bool active );
+    string TabPanelActive( bool active );
 
-        #endregion
+    #endregion
 
-        #region Steps
+    #region Steps
 
-        string Steps();
+    string Steps();
 
-        string StepItem();
+    string StepItem();
 
-        string StepItemActive( bool active );
+    string StepItemActive( bool active );
 
-        string StepItemCompleted( bool completed );
+    string StepItemCompleted( bool completed );
 
-        string StepItemColor( Color color );
+    string StepItemColor( Color color );
 
-        string StepItemMarker();
+    string StepItemMarker();
 
-        string StepItemDescription();
+    string StepItemDescription();
 
-        string StepsContent();
+    string StepsContent();
 
-        string StepPanel();
+    string StepPanel();
 
-        string StepPanelActive( bool active );
+    string StepPanelActive( bool active );
 
-        #endregion
+    #endregion
 
-        #region Carousel
+    #region Carousel
 
-        string Carousel();
+    string Carousel();
 
-        string CarouselSlides();
+    string CarouselSlides();
 
-        string CarouselSlide();
+    string CarouselSlide();
 
-        string CarouselSlideActive( bool active );
+    string CarouselSlideActive( bool active );
 
-        string CarouselSlideSlidingLeft( bool left );
+    string CarouselSlideSlidingLeft( bool left );
 
-        string CarouselSlideSlidingRight( bool right );
+    string CarouselSlideSlidingRight( bool right );
 
-        string CarouselSlideSlidingPrev( bool previous );
+    string CarouselSlideSlidingPrev( bool previous );
 
-        string CarouselSlideSlidingNext( bool next );
+    string CarouselSlideSlidingNext( bool next );
 
-        string CarouselIndicators();
+    string CarouselIndicators();
 
-        string CarouselIndicator();
+    string CarouselIndicator();
 
-        string CarouselIndicatorActive( bool active );
+    string CarouselIndicatorActive( bool active );
 
-        string CarouselFade( bool fade );
+    string CarouselFade( bool fade );
 
-        string CarouselCaption();
+    string CarouselCaption();
 
-        #endregion
+    #endregion
 
-        #region Jumbotron
+    #region Jumbotron
 
-        string Jumbotron();
+    string Jumbotron();
 
-        string JumbotronBackground( Background background );
+    string JumbotronBackground( Background background );
 
-        string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize );
+    string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize );
 
-        string JumbotronSubtitle();
+    string JumbotronSubtitle();
 
-        #endregion
+    #endregion
 
-        #region Card
+    #region Card
 
-        string CardDeck();
+    string CardDeck();
 
-        string CardGroup();
+    string CardGroup();
 
-        string Card();
+    string Card();
 
-        string CardWhiteText();
+    string CardWhiteText();
 
-        string CardActions();
+    string CardActions();
 
-        string CardBody();
+    string CardBody();
 
-        string CardFooter();
+    string CardFooter();
 
-        string CardHeader();
+    string CardHeader();
 
-        string CardImage();
+    string CardImage();
 
-        string CardTitle( bool insideHeader );
+    string CardTitle( bool insideHeader );
 
-        string CardTitleSize( bool insideHeader, int? size );
+    string CardTitleSize( bool insideHeader, int? size );
 
-        string CardSubtitle( bool insideHeader );
+    string CardSubtitle( bool insideHeader );
 
-        string CardSubtitleSize( bool insideHeader, int size );
+    string CardSubtitleSize( bool insideHeader, int size );
 
-        string CardText();
+    string CardText();
 
-        string CardLink();
+    string CardLink();
 
-        #endregion
+    #endregion
 
-        #region ListGroup
+    #region ListGroup
 
-        string ListGroup();
+    string ListGroup();
 
-        string ListGroupFlush();
+    string ListGroupFlush();
 
-        string ListGroupItem();
+    string ListGroupItem();
 
-        string ListGroupItemSelectable();
+    string ListGroupItemSelectable();
 
-        string ListGroupItemActive();
+    string ListGroupItemActive();
 
-        string ListGroupItemDisabled();
+    string ListGroupItemDisabled();
 
-        string ListGroupItemColor( Color color );
+    string ListGroupItemColor( Color color );
 
-        #endregion
+    #endregion
 
-        #region Layout
+    #region Layout
 
-        string Layout();
+    string Layout();
 
-        string LayoutHasSider();
+    string LayoutHasSider();
 
-        string LayoutContent();
+    string LayoutContent();
 
-        string LayoutHeader();
+    string LayoutHeader();
 
-        string LayoutHeaderFixed();
+    string LayoutHeaderFixed();
 
-        string LayoutFooter();
+    string LayoutFooter();
 
-        string LayoutFooterFixed();
+    string LayoutFooterFixed();
 
-        string LayoutSider();
+    string LayoutSider();
 
-        string LayoutSiderContent();
+    string LayoutSiderContent();
 
-        string LayoutLoading();
+    string LayoutLoading();
 
-        string LayoutRoot();
+    string LayoutRoot();
 
-        #endregion
+    #endregion
 
-        #region Container
+    #region Container
 
-        string Container( Breakpoint breakpoint );
+    string Container( Breakpoint breakpoint );
 
-        string ContainerFluid();
+    string ContainerFluid();
 
-        #endregion
+    #endregion
 
-        #region Bar
+    #region Bar
 
-        string Bar();
+    string Bar();
 
-        string BarInitial( bool initial );
+    string BarInitial( bool initial );
 
-        string BarAlignment( Alignment alignment );
+    string BarAlignment( Alignment alignment );
 
-        string BarThemeContrast( ThemeContrast themeContrast );
+    string BarThemeContrast( ThemeContrast themeContrast );
 
-        string BarBreakpoint( Breakpoint breakpoint );
+    string BarBreakpoint( Breakpoint breakpoint );
 
-        string BarMode( BarMode mode );
+    string BarMode( BarMode mode );
 
-        string BarItem( BarMode mode, bool hasDropdown );
+    string BarItem( BarMode mode, bool hasDropdown );
 
-        string BarItemActive( BarMode mode );
+    string BarItemActive( BarMode mode );
 
-        string BarItemDisabled( BarMode mode );
+    string BarItemDisabled( BarMode mode );
 
-        string BarItemHasDropdown( BarMode mode );
+    string BarItemHasDropdown( BarMode mode );
 
-        string BarItemHasDropdownShow( BarMode mode );
+    string BarItemHasDropdownShow( BarMode mode );
 
-        string BarLink( BarMode mode );
+    string BarLink( BarMode mode );
 
-        string BarLinkDisabled( BarMode mode );
+    string BarLinkDisabled( BarMode mode );
 
-        string BarBrand( BarMode mode );
+    string BarBrand( BarMode mode );
 
-        string BarToggler( BarMode mode, BarTogglerMode togglerMode );
+    string BarToggler( BarMode mode, BarTogglerMode togglerMode );
 
-        string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow );
+    string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow );
 
-        string BarMenu( BarMode mode );
+    string BarMenu( BarMode mode );
 
-        string BarMenuShow( BarMode mode );
+    string BarMenuShow( BarMode mode );
 
-        string BarStart( BarMode mode );
+    string BarStart( BarMode mode );
 
-        string BarEnd( BarMode mode );
+    string BarEnd( BarMode mode );
 
-        //string BarHasDropdown();
+    //string BarHasDropdown();
 
-        string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
+    string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
 
-        string BarDropdownShow( BarMode mode );
+    string BarDropdownShow( BarMode mode );
 
-        string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
+    string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
 
-        string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled );
+    string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled );
 
-        string BarDropdownItem( BarMode mode );
+    string BarDropdownItem( BarMode mode );
 
-        string BarDropdownDivider( BarMode mode );
+    string BarDropdownDivider( BarMode mode );
 
-        string BarTogglerIcon( BarMode mode );
+    string BarTogglerIcon( BarMode mode );
 
-        string BarDropdownMenu( BarMode mode );
+    string BarDropdownMenu( BarMode mode );
 
-        string BarDropdownMenuVisible( BarMode mode, bool visible );
+    string BarDropdownMenuVisible( BarMode mode, bool visible );
 
-        string BarDropdownMenuRight( BarMode mode );
+    string BarDropdownMenuRight( BarMode mode );
 
-        string BarDropdownMenuContainer( BarMode mode );
+    string BarDropdownMenuContainer( BarMode mode );
 
-        string BarCollapsed( BarMode mode );
+    string BarCollapsed( BarMode mode );
 
-        string BarLabel();
+    string BarLabel();
 
-        #endregion
+    #endregion
 
-        #region Accordion
+    #region Accordion
 
-        string Accordion();
+    string Accordion();
 
-        #endregion
+    #endregion
 
-        #region Collapse
+    #region Collapse
 
-        string Collapse( bool accordion );
+    string Collapse( bool accordion );
 
-        string CollapseActive( bool accordion, bool active );
+    string CollapseActive( bool accordion, bool active );
 
-        string CollapseHeader( bool accordion );
+    string CollapseHeader( bool accordion );
 
-        string CollapseBody( bool accordion );
+    string CollapseBody( bool accordion );
 
-        string CollapseBodyActive( bool accordion, bool active );
+    string CollapseBodyActive( bool accordion, bool active );
 
-        string CollapseBodyContent( bool accordion );
+    string CollapseBodyContent( bool accordion );
 
-        #endregion
+    #endregion
 
-        #region Row
+    #region Row
 
-        string Row();
+    string Row();
 
-        string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
+    string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
 
-        string RowNoGutters();
+    string RowNoGutters();
 
-        #endregion
+    #endregion
 
-        #region Column
+    #region Column
 
-        string Column( bool hasSizes );
+    string Column( bool hasSizes );
 
-        string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules );
+    string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules );
 
-        #endregion
+    #endregion
 
-        #region Display
+    #region Display
 
-        string Display( DisplayType displayType, DisplayDefinition displayDefinition );
+    string Display( DisplayType displayType, DisplayDefinition displayDefinition );
 
-        string Display( DisplayType displayType, IEnumerable<DisplayDefinition> displayDefinitions );
+    string Display( DisplayType displayType, IEnumerable<DisplayDefinition> displayDefinitions );
 
-        #endregion
+    #endregion
 
-        #region Alert
+    #region Alert
 
-        string Alert();
+    string Alert();
 
-        string AlertColor( Color color );
+    string AlertColor( Color color );
 
-        string AlertDismisable();
+    string AlertDismisable();
 
-        string AlertFade();
+    string AlertFade();
 
-        string AlertShow();
+    string AlertShow();
 
-        string AlertHasMessage();
+    string AlertHasMessage();
 
-        string AlertHasDescription();
+    string AlertHasDescription();
 
-        string AlertMessage();
+    string AlertMessage();
 
-        string AlertDescription();
+    string AlertDescription();
 
-        #endregion
+    #endregion
 
-        #region Modal
+    #region Modal
 
-        string Modal();
+    string Modal();
 
-        string ModalFade();
+    string ModalFade();
 
-        string ModalFade( bool animation );
+    string ModalFade( bool animation );
 
-        string ModalVisible( bool visible );
+    string ModalVisible( bool visible );
 
-        string ModalBackdrop();
+    string ModalBackdrop();
 
-        string ModalBackdropFade();
+    string ModalBackdropFade();
 
-        string ModalBackdropVisible( bool visible );
+    string ModalBackdropVisible( bool visible );
 
-        string ModalContent( bool dialog );
+    string ModalContent( bool dialog );
 
-        string ModalContentSize( ModalSize modalSize );
+    string ModalContentSize( ModalSize modalSize );
 
-        string ModalContentFullscreen( bool fullscreen );
+    string ModalContentFullscreen( bool fullscreen );
 
-        string ModalContentCentered( bool centered );
+    string ModalContentCentered( bool centered );
 
-        string ModalContentScrollable( bool scrollable );
+    string ModalContentScrollable( bool scrollable );
 
-        string ModalBody();
+    string ModalBody();
 
-        string ModalHeader();
+    string ModalHeader();
 
-        string ModalFooter();
+    string ModalFooter();
 
-        string ModalTitle();
+    string ModalTitle();
 
-        #endregion
+    #endregion
 
-        #region Pagination
+    #region Pagination
 
-        string Pagination();
+    string Pagination();
 
-        string PaginationSize( Size size );
+    string PaginationSize( Size size );
 
-        string PaginationItem();
+    string PaginationItem();
 
-        string PaginationItemActive();
+    string PaginationItemActive();
 
-        string PaginationItemDisabled();
+    string PaginationItemDisabled();
 
-        string PaginationLink();
+    string PaginationLink();
 
-        string PaginationLinkActive();
+    string PaginationLinkActive();
 
-        string PaginationLinkDisabled();
+    string PaginationLinkDisabled();
 
-        #endregion
+    #endregion
 
-        #region Progress
+    #region Progress
 
-        string Progress();
+    string Progress();
 
-        string ProgressSize( Size size );
+    string ProgressSize( Size size );
 
-        string ProgressColor( Color color );
+    string ProgressColor( Color color );
 
-        string ProgressStriped();
+    string ProgressStriped();
 
-        string ProgressAnimated();
+    string ProgressAnimated();
 
-        string ProgressWidth( int width );
+    string ProgressWidth( int width );
 
-        string ProgressBar();
+    string ProgressBar();
 
-        string ProgressBarSize( Size size );
+    string ProgressBarSize( Size size );
 
-        string ProgressBarColor( Color color );
+    string ProgressBarColor( Color color );
 
-        string ProgressBarStriped();
+    string ProgressBarStriped();
 
-        string ProgressBarAnimated();
+    string ProgressBarAnimated();
 
-        string ProgressBarWidth( int width );
+    string ProgressBarWidth( int width );
 
-        #endregion
+    #endregion
 
-        #region Chart
+    #region Chart
 
-        string Chart();
+    string Chart();
 
-        #endregion
+    #endregion
 
-        #region Colors
+    #region Colors
 
-        string BackgroundColor( Background background );
+    string BackgroundColor( Background background );
 
-        #endregion
+    #endregion
 
-        #region Table
+    #region Table
 
-        string Table();
+    string Table();
 
-        string TableFullWidth();
+    string TableFullWidth();
 
-        string TableStriped();
+    string TableStriped();
 
-        string TableHoverable();
+    string TableHoverable();
 
-        string TableBordered();
+    string TableBordered();
 
-        string TableNarrow();
+    string TableNarrow();
 
-        string TableBorderless();
+    string TableBorderless();
 
-        string TableHeader();
+    string TableHeader();
 
-        string TableHeaderThemeContrast( ThemeContrast themeContrast );
+    string TableHeaderThemeContrast( ThemeContrast themeContrast );
 
-        string TableHeaderCell();
+    string TableHeaderCell();
 
-        string TableFooter();
+    string TableFooter();
 
-        string TableBody();
+    string TableBody();
 
-        string TableRow();
+    string TableRow();
 
-        string TableRowColor( Color color );
+    string TableRowColor( Color color );
 
-        string TableRowHoverCursor();
+    string TableRowHoverCursor();
 
-        string TableRowIsSelected();
+    string TableRowIsSelected();
 
-        string TableRowHeader();
+    string TableRowHeader();
 
-        string TableRowCell();
+    string TableRowCell();
 
-        string TableRowCellColor( Color color );
+    string TableRowCellColor( Color color );
 
-        string TableResponsive();
+    string TableResponsive();
 
-        string TableFixedHeader();
+    string TableFixedHeader();
 
-        #endregion
+    #endregion
 
-        #region Badge
+    #region Badge
 
-        string Badge();
+    string Badge();
 
-        string BadgeColor( Color color );
+    string BadgeColor( Color color );
 
-        string BadgePill();
+    string BadgePill();
 
-        string BadgeClose();
+    string BadgeClose();
 
-        #endregion
+    #endregion
 
-        #region Media
+    #region Media
 
-        string Media();
+    string Media();
 
-        string MediaLeft();
+    string MediaLeft();
 
-        string MediaRight();
+    string MediaRight();
 
-        string MediaBody();
+    string MediaBody();
 
-        #endregion
+    #endregion
 
-        #region Text
+    #region Text
 
-        string TextColor( TextColor textColor );
+    string TextColor( TextColor textColor );
 
-        string TextAlignment( TextAlignment textAlignment );
+    string TextAlignment( TextAlignment textAlignment );
 
-        string TextTransform( TextTransform textTransform );
+    string TextTransform( TextTransform textTransform );
 
-        string TextWeight( TextWeight textWeight );
+    string TextWeight( TextWeight textWeight );
 
-        string TextOverflow( TextOverflow textOverflow );
+    string TextOverflow( TextOverflow textOverflow );
 
-        string TextItalic();
+    string TextItalic();
 
-        #endregion
+    #endregion
 
-        #region Code
+    #region Code
 
-        string Code();
+    string Code();
 
-        #endregion
+    #endregion
 
-        #region Heading
+    #region Heading
 
-        string HeadingSize( HeadingSize headingSize );
+    string HeadingSize( HeadingSize headingSize );
 
-        #endregion
+    #endregion
 
-        #region DisplayHeading
+    #region DisplayHeading
 
-        string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
+    string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
 
-        #endregion
+    #endregion
 
-        #region Paragraph
+    #region Paragraph
 
-        string Paragraph();
+    string Paragraph();
 
-        string ParagraphColor( TextColor textColor );
+    string ParagraphColor( TextColor textColor );
 
-        #endregion
+    #endregion
 
-        #region Blockquote
+    #region Blockquote
 
-        string Blockquote();
+    string Blockquote();
 
-        string BlockquoteFooter();
+    string BlockquoteFooter();
 
-        #endregion
+    #endregion
 
-        #region Figure
+    #region Figure
 
-        string Figure();
+    string Figure();
 
-        string FigureSize( FigureSize figureSize );
+    string FigureSize( FigureSize figureSize );
 
-        string FigureImage();
+    string FigureImage();
 
-        string FigureImageRounded();
+    string FigureImageRounded();
 
-        string FigureCaption();
+    string FigureCaption();
 
-        #endregion
+    #endregion
 
-        #region Image
+    #region Image
 
-        string Image();
+    string Image();
 
-        string ImageFluid( bool fluid );
+    string ImageFluid( bool fluid );
 
-        #endregion
+    #endregion
 
-        #region Breadcrumb
+    #region Breadcrumb
 
-        string Breadcrumb();
+    string Breadcrumb();
 
-        string BreadcrumbItem();
+    string BreadcrumbItem();
 
-        string BreadcrumbItemActive();
+    string BreadcrumbItemActive();
 
-        string BreadcrumbLink();
+    string BreadcrumbLink();
 
-        #endregion
+    #endregion
 
-        #region Tooltip
+    #region Tooltip
 
-        string Tooltip();
+    string Tooltip();
 
-        string TooltipPlacement( TooltipPlacement tooltipPlacement );
+    string TooltipPlacement( TooltipPlacement tooltipPlacement );
 
-        string TooltipMultiline();
+    string TooltipMultiline();
 
-        string TooltipAlwaysActive();
+    string TooltipAlwaysActive();
 
-        string TooltipFade();
+    string TooltipFade();
 
-        string TooltipInline();
+    string TooltipInline();
 
-        #endregion
+    #endregion
 
-        #region Divider
+    #region Divider
 
-        string Divider();
+    string Divider();
 
-        string DividerType( DividerType dividerType );
+    string DividerType( DividerType dividerType );
 
-        #endregion
+    #endregion
 
-        #region States
+    #region States
 
-        string Show();
+    string Show();
 
-        string Fade();
+    string Fade();
 
-        string Active();
+    string Active();
 
-        string Disabled();
+    string Disabled();
 
-        string Collapsed();
+    string Collapsed();
 
-        #endregion
+    #endregion
 
-        #region Layout
+    #region Layout
 
-        string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint );
+    string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint );
 
-        string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules );
+    string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules );
 
-        #endregion
+    #endregion
 
-        #region Borders
+    #region Borders
 
-        string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor );
+    string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor );
 
-        string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules );
+    string Border( BorderSize borderSize, IEnumerable<(BorderSide borderSide, BorderColor borderColor)> rules );
 
-        string BorderRadius( BorderRadius borderRadius );
+    string BorderRadius( BorderRadius borderRadius );
 
-        #endregion
+    #endregion
 
-        #region Flex
+    #region Flex
 
-        string Flex( FlexType flexType );
+    string Flex( FlexType flexType );
 
-        string Flex( FlexDefinition flexDefinition );
+    string Flex( FlexDefinition flexDefinition );
 
-        string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
+    string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
 
-        string FlexAlignment( Alignment alignment );
+    string FlexAlignment( Alignment alignment );
 
-        #endregion
+    #endregion
 
-        #region Sizing
+    #region Sizing
 
-        string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
+    string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
 
-        #endregion
+    #endregion
 
-        #region Float
+    #region Float
 
-        string Float( Float @float );
+    string Float( Float @float );
 
-        string Clearfix();
+    string Clearfix();
 
-        #endregion
+    #endregion
 
-        #region Visibility
+    #region Visibility
 
-        string Visibility( Visibility visibility );
+    string Visibility( Visibility visibility );
 
-        #endregion
+    #endregion
 
-        #region VerticalAlignment
+    #region VerticalAlignment
 
-        string VerticalAlignment( VerticalAlignment verticalAlignment );
+    string VerticalAlignment( VerticalAlignment verticalAlignment );
 
-        #endregion
+    #endregion
 
-        #region Shadow
+    #region Shadow
 
-        string Shadow( Shadow shadow );
+    string Shadow( Shadow shadow );
 
-        #endregion
+    #endregion
 
-        #region Overflow
+    #region Overflow
 
-        string Overflow( OverflowType overflowType, OverflowType secondOverflowType );
+    string Overflow( OverflowType overflowType, OverflowType secondOverflowType );
 
-        #endregion
+    #endregion
 
-        #region Position
+    #region Position
 
-        string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType );
+    string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType );
 
-        string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType );
+    string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType );
 
-        #endregion
+    #endregion
 
-        #region Custom
+    #region Custom
 
-        string Casing( CharacterCasing characterCasing );
+    string Casing( CharacterCasing characterCasing );
 
-        #endregion
+    #endregion
 
-        #region Elements
+    #region Elements
 
-        string UnorderedList();
+    string UnorderedList();
 
-        string UnorderedListUnstyled( bool unstyled );
+    string UnorderedListUnstyled( bool unstyled );
 
-        string OrderedList();
+    string OrderedList();
 
-        string OrderedListUnstyled( bool unstyled );
+    string OrderedListUnstyled( bool unstyled );
 
-        string OrderedListType( OrderedListType orderedListType );
+    string OrderedListType( OrderedListType orderedListType );
 
-        string DescriptionList();
+    string DescriptionList();
 
-        string DescriptionListTerm();
+    string DescriptionListTerm();
 
-        string DescriptionListDefinition();
+    string DescriptionListDefinition();
 
-        #endregion
+    #endregion
 
-        #region Enums
+    #region Enums
 
-        /* 
-         * These methods are named with "To" prefix to indicate they're used only to convert en enum to the equivalent
-         * keyword in the implementation class provider.
-         */
+    /* 
+     * These methods are named with "To" prefix to indicate they're used only to convert en enum to the equivalent
+     * keyword in the implementation class provider.
+     */
 
-        string ToSize( Size size );
+    string ToSize( Size size );
 
-        string ToBreakpoint( Breakpoint breakpoint );
+    string ToBreakpoint( Breakpoint breakpoint );
 
-        string ToColor( Color color );
+    string ToColor( Color color );
 
-        string ToBackground( Background background );
+    string ToBackground( Background background );
 
-        string ToTextColor( TextColor textColor );
+    string ToTextColor( TextColor textColor );
 
-        string ToThemeContrast( ThemeContrast themeContrast );
+    string ToThemeContrast( ThemeContrast themeContrast );
 
-        string ToFloat( Float @float );
+    string ToFloat( Float @float );
 
-        string ToBorderRadius( BorderRadius borderRadius );
+    string ToBorderRadius( BorderRadius borderRadius );
 
-        string ToSpacing( Spacing spacing );
+    string ToSpacing( Spacing spacing );
 
-        string ToSide( Side side );
+    string ToSide( Side side );
 
-        string ToAlignment( Alignment alignment );
+    string ToAlignment( Alignment alignment );
 
-        string ToTextAlignment( TextAlignment textAlignment );
+    string ToTextAlignment( TextAlignment textAlignment );
 
-        string ToTextTransform( TextTransform textTransform );
+    string ToTextTransform( TextTransform textTransform );
 
-        string ToTextWeight( TextWeight textWeight );
+    string ToTextWeight( TextWeight textWeight );
 
-        string ToTextOverflow( TextOverflow textOverflow );
+    string ToTextOverflow( TextOverflow textOverflow );
 
-        string ToColumnWidth( ColumnWidth columnWidth );
+    string ToColumnWidth( ColumnWidth columnWidth );
 
-        string ToDisplayType( DisplayType displayType );
+    string ToDisplayType( DisplayType displayType );
 
-        string ToDisplayDirection( DisplayDirection displayDirection );
+    string ToDisplayDirection( DisplayDirection displayDirection );
 
-        string ToModalSize( ModalSize modalSize );
+    string ToModalSize( ModalSize modalSize );
 
-        string ToSpacingSize( SpacingSize spacingSize );
+    string ToSpacingSize( SpacingSize spacingSize );
 
-        string ToJustifyContent( JustifyContent justifyContent );
+    string ToJustifyContent( JustifyContent justifyContent );
 
-        string ToScreenreader( Screenreader screenreader );
+    string ToScreenreader( Screenreader screenreader );
 
-        string ToHeadingSize( HeadingSize headingSize );
+    string ToHeadingSize( HeadingSize headingSize );
 
-        string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
+    string ToDisplayHeadingSize( DisplayHeadingSize displayHeadingSize );
 
-        string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize );
+    string ToJumbotronTitleSize( JumbotronTitleSize jumbotronTitleSize );
 
-        string ToPlacement( Placement placement );
+    string ToPlacement( Placement placement );
 
-        string ToTooltipPlacement( TooltipPlacement tooltipPlacement );
+    string ToTooltipPlacement( TooltipPlacement tooltipPlacement );
 
-        string ToFigureSize( FigureSize figureSize );
+    string ToFigureSize( FigureSize figureSize );
 
-        string ToCharacterCasing( CharacterCasing characterCasing );
+    string ToCharacterCasing( CharacterCasing characterCasing );
 
-        string ToBarMode( BarMode mode );
+    string ToBarMode( BarMode mode );
 
-        string ToBarCollapsedMode( BarCollapseMode collapseMode );
+    string ToBarCollapsedMode( BarCollapseMode collapseMode );
 
-        string ToDirection( FlexDirection direction );
+    string ToDirection( FlexDirection direction );
 
-        string ToJustifyContent( FlexJustifyContent justifyContent );
+    string ToJustifyContent( FlexJustifyContent justifyContent );
 
-        string ToAlignItems( FlexAlignItems alignItems );
+    string ToAlignItems( FlexAlignItems alignItems );
 
-        string ToAlignSelf( FlexAlignSelf alignSelf );
+    string ToAlignSelf( FlexAlignSelf alignSelf );
 
-        string ToAlignContent( FlexAlignContent alignContent );
+    string ToAlignContent( FlexAlignContent alignContent );
 
-        string ToGrowShrink( FlexGrowShrink growShrink );
+    string ToGrowShrink( FlexGrowShrink growShrink );
 
-        string ToGrowShrinkSize( FlexGrowShrinkSize growShrinkSize );
+    string ToGrowShrinkSize( FlexGrowShrinkSize growShrinkSize );
 
-        string ToWrap( FlexWrap wrap );
+    string ToWrap( FlexWrap wrap );
 
-        string ToOrder( FlexOrder order );
+    string ToOrder( FlexOrder order );
 
-        string ToSizingType( SizingType sizingType );
+    string ToSizingType( SizingType sizingType );
 
-        string ToSizingSize( SizingSize sizingSize );
+    string ToSizingSize( SizingSize sizingSize );
 
-        string ToVerticalAlignment( VerticalAlignment verticalAlignment );
+    string ToVerticalAlignment( VerticalAlignment verticalAlignment );
 
-        string ToShadow( Shadow shadow );
+    string ToShadow( Shadow shadow );
 
-        string ToOrderedListType( OrderedListType orderedListType );
+    string ToOrderedListType( OrderedListType orderedListType );
 
-        string ToPositionType( PositionType positionType );
+    string ToPositionType( PositionType positionType );
 
-        string ToPositionEdgeType( PositionEdgeType positionEdgeType );
+    string ToPositionEdgeType( PositionEdgeType positionEdgeType );
 
-        string ToPositionTranslateType( PositionTranslateType positionTranslateType );
+    string ToPositionTranslateType( PositionTranslateType positionTranslateType );
 
-        #endregion
+    #endregion
 
-        /// <summary>
-        /// Enables a custom css for select/check/radio/file inputs.
-        /// </summary>
-        bool UseCustomInputStyles { get; set; }
+    /// <summary>
+    /// Enables a custom css for select/check/radio/file inputs.
+    /// </summary>
+    bool UseCustomInputStyles { get; set; }
 
-        /// <summary>
-        /// Gets the provider implementation name.
-        /// </summary>
-        string Provider { get; }
-    }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+    /// <summary>
+    /// Gets the provider implementation name.
+    /// </summary>
+    string Provider { get; }
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

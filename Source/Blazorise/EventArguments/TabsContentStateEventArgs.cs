@@ -2,25 +2,24 @@
 using System;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Supplies the information about the selected panel.
+/// </summary>
+public class TabsContentStateEventArgs : EventArgs
 {
     /// <summary>
-    /// Supplies the information about the selected panel.
+    /// A default <see cref="TabsContentStateEventArgs"/> constructor.
     /// </summary>
-    public class TabsContentStateEventArgs : EventArgs
+    /// <param name="panelName">Panel name.</param>
+    public TabsContentStateEventArgs( string panelName )
     {
-        /// <summary>
-        /// A default <see cref="TabsContentStateEventArgs"/> constructor.
-        /// </summary>
-        /// <param name="panelName">Panel name.</param>
-        public TabsContentStateEventArgs( string panelName )
-        {
-            PanelName = panelName;
-        }
-
-        /// <summary>
-        /// Gets the selected panel name.
-        /// </summary>
-        public string PanelName { get; }
+        PanelName = panelName;
     }
+
+    /// <summary>
+    /// Gets the selected panel name.
+    /// </summary>
+    public string PanelName { get; }
 }

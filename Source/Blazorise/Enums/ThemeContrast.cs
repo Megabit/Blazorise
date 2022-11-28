@@ -1,23 +1,22 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Adjusts the theme contrast.
+/// </summary>
+public enum ThemeContrast
 {
     /// <summary>
-    /// Adjusts the theme contrast.
+    /// Undefined.
     /// </summary>
-    public enum ThemeContrast
-    {
-        /// <summary>
-        /// Undefined.
-        /// </summary>
-        None,
+    None,
 
-        /// <summary>
-        /// Adjusts the theme for a light colors.
-        /// </summary>
-        Light,
+    /// <summary>
+    /// Adjusts the theme for a light colors.
+    /// </summary>
+    Light,
 
-        /// <summary>
-        /// Adjusts the theme for a dark colors.
-        /// </summary>
-        Dark,
-    }
+    /// <summary>
+    /// Adjusts the theme for a dark colors.
+    /// </summary>
+    Dark,
 }

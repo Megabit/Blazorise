@@ -1,11 +1,10 @@
-﻿namespace Blazorise.Bulma
+﻿namespace Blazorise.Bulma;
+
+public class BulmaBehaviourProvider : BehaviourProvider
 {
-    public class BulmaBehaviourProvider : BehaviourProvider
-    {
-        #region DataGrid
+    #region DataGrid
 
-        public override bool DataGridRowMultiSelectPreventClick => true;
+    public override bool DataGridRowMultiSelectPreventClick => true;
 
-        #endregion
-    }
+    #endregion
 }

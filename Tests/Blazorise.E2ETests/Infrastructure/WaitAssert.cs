@@ -8,77 +8,75 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using Xunit;
 
-namespace Blazorise.E2ETests.Infrastructure
+namespace Blazorise.E2ETests.Infrastructure;
+// XUnit assertions, but hooked into Selenium's polling mechanism
+
+public class WaitAssert
 {
-    // XUnit assertions, but hooked into Selenium's polling mechanism
+    private readonly static TimeSpan DefaultTimeout = TimeSpan.FromSeconds( 3 );
 
-    public class WaitAssert
+    public static void Equal<T>( T expected, Func<T> actual )
+        => WaitAssertCore( () => Assert.Equal( expected, actual() ) );
+
+    public static void NotEqual<T>( T expected, Func<T> actual )
+        => WaitAssertCore( () => Assert.NotEqual( expected, actual() ) );
+
+    public static void True( Func<bool> actual )
+        => WaitAssertCore( () => Assert.True( actual() ) );
+
+    public static void True( Func<bool> actual, TimeSpan timeout )
+        => WaitAssertCore( () => Assert.True( actual() ), timeout );
+
+    public static void False( Func<bool> actual )
+        => WaitAssertCore( () => Assert.False( actual() ) );
+
+    public static void Contains( string expectedSubstring, Func<string> actualString )
+        => WaitAssertCore( () => Assert.Contains( expectedSubstring, actualString() ) );
+
+    public static void NotContains( string expectedSubstring, Func<string> actualString )
+        => WaitAssertCore( () => Assert.DoesNotContain( expectedSubstring, actualString() ) );
+
+    public static void Collection<T>( Func<IEnumerable<T>> actualValues, params Action<T>[] elementInspectors )
+        => WaitAssertCore( () => Assert.Collection( actualValues(), elementInspectors ) );
+
+    public static void Empty( Func<IEnumerable> actualValues )
+        => WaitAssertCore( () => Assert.Empty( actualValues() ) );
+
+    public static void Single( Func<IEnumerable> actualValues )
+        => WaitAssertCore( () => Assert.Single( actualValues() ) );
+
+    public static void Null( Func<object> actual )
+        => WaitAssertCore( () => Assert.Null( actual() ) );
+
+    public static void NotNull( Func<object> actual )
+        => WaitAssertCore( () => Assert.NotNull( actual() ) );
+
+    private static void WaitAssertCore( Action assertion, TimeSpan timeout = default )
     {
-        private readonly static TimeSpan DefaultTimeout = TimeSpan.FromSeconds( 3 );
-
-        public static void Equal<T>( T expected, Func<T> actual )
-            => WaitAssertCore( () => Assert.Equal( expected, actual() ) );
-
-        public static void NotEqual<T>( T expected, Func<T> actual )
-            => WaitAssertCore( () => Assert.NotEqual( expected, actual() ) );
-
-        public static void True( Func<bool> actual )
-            => WaitAssertCore( () => Assert.True( actual() ) );
-
-        public static void True( Func<bool> actual, TimeSpan timeout )
-            => WaitAssertCore( () => Assert.True( actual() ), timeout );
-
-        public static void False( Func<bool> actual )
-            => WaitAssertCore( () => Assert.False( actual() ) );
-
-        public static void Contains( string expectedSubstring, Func<string> actualString )
-            => WaitAssertCore( () => Assert.Contains( expectedSubstring, actualString() ) );
-
-        public static void NotContains( string expectedSubstring, Func<string> actualString )
-            => WaitAssertCore( () => Assert.DoesNotContain( expectedSubstring, actualString() ) );
-
-        public static void Collection<T>( Func<IEnumerable<T>> actualValues, params Action<T>[] elementInspectors )
-            => WaitAssertCore( () => Assert.Collection( actualValues(), elementInspectors ) );
-
-        public static void Empty( Func<IEnumerable> actualValues )
-            => WaitAssertCore( () => Assert.Empty( actualValues() ) );
-
-        public static void Single( Func<IEnumerable> actualValues )
-            => WaitAssertCore( () => Assert.Single( actualValues() ) );
-
-        public static void Null( Func<object> actual )
-            => WaitAssertCore( () => Assert.Null( actual() ) );
-
-        public static void NotNull( Func<object> actual )
-           => WaitAssertCore( () => Assert.NotNull( actual() ) );
-
-        private static void WaitAssertCore( Action assertion, TimeSpan timeout = default )
+        if ( timeout == default )
         {
-            if ( timeout == default )
-            {
-                timeout = DefaultTimeout;
-            }
+            timeout = DefaultTimeout;
+        }
 
-            try
+        try
+        {
+            new WebDriverWait( BrowserTestBase.Browser, timeout ).Until( _ =>
             {
-                new WebDriverWait( BrowserTestBase.Browser, timeout ).Until( _ =>
-                   {
-                       try
-                       {
-                           assertion();
-                           return true;
-                       }
-                       catch
-                       {
-                           return false;
-                       }
-                   } );
-            }
-            catch ( WebDriverTimeoutException )
-            {
-                // Instead of reporting it as a timeout, report the Xunit exception
-                assertion();
-            }
+                try
+                {
+                    assertion();
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            } );
+        }
+        catch ( WebDriverTimeoutException )
+        {
+            // Instead of reporting it as a timeout, report the Xunit exception
+            assertion();
         }
     }
 }

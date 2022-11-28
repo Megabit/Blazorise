@@ -1,18 +1,17 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Provider used to get the Blazorise version number.
+/// </summary>
+public interface IVersionProvider
 {
     /// <summary>
-    /// Provider used to get the Blazorise version number.
+    /// Gets the version number.
     /// </summary>
-    public interface IVersionProvider
-    {
-        /// <summary>
-        /// Gets the version number.
-        /// </summary>
-        string Version { get; }
+    string Version { get; }
 
-        /// <summary>
-        /// Gets the milestone version number.
-        /// </summary>
-        string MilestoneVersion { get; }
-    }
+    /// <summary>
+    /// Gets the milestone version number.
+    /// </summary>
+    string MilestoneVersion { get; }
 }
