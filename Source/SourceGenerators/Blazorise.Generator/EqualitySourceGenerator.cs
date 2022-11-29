@@ -79,24 +79,24 @@ namespace Blazorise.Generator
             context.AddSource( $"{className}.generated.cs", SourceText.From( $@"{usings}
 {( usings.Contains( USING_EXTENSIONS ) ? string.Empty : USING_EXTENSIONS )}
 
-namespace {namespaceName};
-
-public partial record {className} 
+namespace {namespaceName}
 {{
-
-    /// <inheritdoc/>
-    public virtual bool Equals( {className} obj )
+    public partial record {className} 
     {{
-        {returnEquals}
-    }}
 
-    /// <inheritdoc/>
-    public override int GetHashCode()
-    {{
-        {returnGetHashCode}
+        /// <inheritdoc/>
+        public virtual bool Equals( {className} obj )
+        {{
+            {returnEquals}
+        }}
+
+        /// <inheritdoc/>
+        public override int GetHashCode()
+        {{
+            {returnGetHashCode}
+        }}
     }}
-}}
-", Encoding.UTF8 ) );
+}}", Encoding.UTF8 ) );
         }
 
         private bool IsValid( SyntaxList<AttributeListSyntax> attributes )
