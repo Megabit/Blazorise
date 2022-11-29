@@ -1636,6 +1636,17 @@ public class Gender
     <FigureCaption>A caption for the above image.</FigureCaption>
 </Figure>";
 
+        public const string DirectoryFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Directory />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
         public const string ExtensionsLimitFileEditExample = @"<!-- Accept all image formats by IANA media type wildcard-->
 <Field>
     <FileEdit Filter=""image/*"" />
@@ -1723,6 +1734,34 @@ public class Gender
         catch ( Exception exc )
         {
             Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string FilePickerDirectoryExample = @"@using System.IO
+
+<Field>
+    <FilePicker Directory Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.List"" />
+</Field>
+
+@code {
+
+    async Task OnFileUpload(FileUploadEventArgs e)
+    {
+        try
+        {
+            using (MemoryStream result = new MemoryStream())
+            {
+                await e.File.OpenReadStream(long.MaxValue).CopyToAsync(result);
+            }
+        }
+        catch (Exception exc)
+        {
+            Console.WriteLine(exc.Message);
         }
         finally
         {

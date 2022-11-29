@@ -27,6 +27,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     #region Members
 
     private bool multiple;
+    private bool directory;
 
     // taken from https://github.com/aspnet/AspNetCore/issues/11159
     private DotNetObjectReference<FileEditAdapter> dotNetObjectRef;
@@ -319,9 +320,11 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     {
         get
         {
+            var uploadTypeString = Directory ? "folder" : "file";
+
             var localizationString = Multiple
-                ? "Choose files"
-                : "Choose file";
+                ? $"Choose {uploadTypeString}s"
+                : $"Choose {uploadTypeString}";
 
             if ( BrowseButtonLocalizer != null )
                 return BrowseButtonLocalizer.Invoke( localizationString );
@@ -424,7 +427,17 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     /// <summary>
     /// Gets or Sets whether file picker should upload directories.
     /// </summary>
-    [Parameter] public bool Directory { get; set; }
+    [Parameter]
+    public bool Directory
+    {
+        get => directory;
+        set
+        {
+            directory = value;
+
+            DirtyClasses();
+        }
+    }
 
     #endregion
 }
