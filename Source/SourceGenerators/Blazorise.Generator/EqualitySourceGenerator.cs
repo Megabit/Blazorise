@@ -14,6 +14,7 @@ namespace Blazorise.Generator
     public class EqualitySourceGenerator : ISourceGenerator
     {
         private const string STANDARD_SPACING = "\t\t\t";
+        private const string USING_EXTENSIONS = "using Blazorise.Extensions;";
 
         public void Initialize( GeneratorInitializationContext context ) => context.RegisterForSyntaxNotifications( () => new GenerateEqualityFinder() );
 
@@ -76,25 +77,26 @@ namespace Blazorise.Generator
             var returnGetHashCode = GenerateGetHashCodeReturn( propertiesForEquality );
 
             context.AddSource( $"{className}.generated.cs", SourceText.From( $@"{usings}
+{( usings.Contains( USING_EXTENSIONS ) ? string.Empty : USING_EXTENSIONS )}
 
-namespace {namespaceName}
+namespace {namespaceName};
+
+public partial record {className} 
 {{
-    public partial record {className} 
+
+    /// <inheritdoc/>
+    public virtual bool Equals( {className} obj )
     {{
-
-        /// <inheritdoc/>
-        public virtual bool Equals( {className} obj )
-        {{
-            {returnEquals}
-        }}
-
-        /// <inheritdoc/>
-        public override int GetHashCode()
-        {{
-            {returnGetHashCode}
-        }}
+        {returnEquals}
     }}
-}}", Encoding.UTF8 ) );
+
+    /// <inheritdoc/>
+    public override int GetHashCode()
+    {{
+        {returnGetHashCode}
+    }}
+}}
+", Encoding.UTF8 ) );
         }
 
         private bool IsValid( SyntaxList<AttributeListSyntax> attributes )
