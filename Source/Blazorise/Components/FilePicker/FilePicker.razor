@@ -20,7 +20,7 @@
                         <DropdownMenu Class="b-file-picker-files">
                             @foreach ( var file in FileEdit.Files )
                             {
-                                <DropdownItem @key="@file" Class="b-file-picker-file">
+                                <DropdownItem @key="file.Id" Class="b-file-picker-file">
                                     @FileContentFragment(file)
                                 </DropdownItem>
                             }
