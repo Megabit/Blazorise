@@ -200,6 +200,9 @@ namespace Blazorise.Markdown
         /// <returns>Markdown value.</returns>
         public async Task<string> GetValueAsync()
         {
+            if ( Rendered )
+                return await JSModule.GetValue( ElementId );
+
             return await ExecuteAfterRenderAsync( async () => await JSModule.GetValue( ElementId ) );
         }
 
@@ -210,6 +213,13 @@ namespace Blazorise.Markdown
         /// <returns>A task that represents the asynchronous operation.</returns>
         public async Task SetValueAsync( string value )
         {
+            if ( Rendered )
+            {
+                await JSModule.SetValue( ElementId, value );
+
+                return;
+            }
+
             await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetValue( ElementId, value ) ) );
         }
 
