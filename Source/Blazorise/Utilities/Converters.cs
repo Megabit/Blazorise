@@ -180,15 +180,15 @@ namespace Blazorise.Utilities
         /// Tries to parse a large string repesenting a number and returns an object of the specified type and whose value is equivalent to the specified object.
         /// </summary>
         /// <typeparam name="TValue">The type of object to return.</typeparam>
-        /// <param name="value">An object that implements the <see cref="IConvertible"/> interface.</param>
+        /// <param name="value">The numeric string representation.</param>
         /// <param name="result">New instance of object whose value is equivalent to the specified object.</param>
         /// <param name="cultureInfo">Culture info to use for conversion.</param>
         /// <returns>True if conversion was successful.</returns>
-        public static bool TryParseAndLimitLargeNumber<TValue>( object value, out TValue result, CultureInfo cultureInfo = null )
+        public static bool TryParseAndLimitLargeNumber<TValue>( string value, out TValue result, CultureInfo cultureInfo = null )
         {
             try
             {
-                if ( BigInteger.TryParse( value?.ToString(), NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, cultureInfo ?? CultureInfo.InvariantCulture, out var bigNumber ) )
+                if ( BigInteger.TryParse( value, NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, cultureInfo ?? CultureInfo.InvariantCulture, out var bigNumber ) )
                 {
                     Type conversionType = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
 
