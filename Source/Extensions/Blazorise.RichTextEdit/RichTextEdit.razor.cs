@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -58,6 +57,13 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// </summary>
     public async ValueTask SetHtmlAsync( string html )
     {
+        if ( Rendered )
+        {
+            await JSModule.SetHtmlAsync( EditorRef, html );
+
+            return;
+        }
+
         await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetHtmlAsync( EditorRef, html ) ) );
     }
 
@@ -66,6 +72,11 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// </summary>
     public async ValueTask<string> GetHtmlAsync()
     {
+        if ( Rendered )
+        {
+            return await JSModule.GetHtmlAsync( EditorRef );
+        }
+
         return await ExecuteAfterRender( async () => await JSModule.GetHtmlAsync( EditorRef ) );
     }
 
@@ -75,6 +86,13 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// <seealso href="https://quilljs.com/docs/delta/"/>
     public async ValueTask SetDeltaAsync( string deltaJson )
     {
+        if ( Rendered )
+        {
+            await JSModule.SetDeltaAsync( EditorRef, deltaJson );
+
+            return;
+        }
+
         await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetDeltaAsync( EditorRef, deltaJson ) ) );
     }
 
@@ -84,6 +102,11 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// <seealso href="https://quilljs.com/docs/delta/"/>
     public async ValueTask<string> GetDeltaAsync()
     {
+        if ( Rendered )
+        {
+            return await JSModule.GetDeltaAsync( EditorRef );
+        }
+
         return await ExecuteAfterRender( async () => await JSModule.GetDeltaAsync( EditorRef ) );
     }
 
@@ -92,6 +115,13 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// </summary>
     public async ValueTask SetTextAsync( string text )
     {
+        if ( Rendered )
+        {
+            await JSModule.SetTextAsync( EditorRef, text );
+
+            return;
+        }
+
         await InvokeAsync( () => ExecuteAfterRender( async () => await JSModule.SetTextAsync( EditorRef, text ) ) );
     }
 
@@ -101,6 +131,11 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// <seealso href="https://quilljs.com/docs/delta/"/>
     public async ValueTask<string> GetTextAsync()
     {
+        if ( Rendered )
+        {
+            return await JSModule.GetTextAsync( EditorRef );
+        }
+
         return await ExecuteAfterRender( async () => await JSModule.GetTextAsync( EditorRef ) );
     }
 
