@@ -177,7 +177,7 @@ namespace Blazorise.Utilities
         }
 
         /// <summary>
-        /// Tries to parse a large string repesenting a number and returns an object of the specified type and whose value is equivalent to the specified object.
+        /// Tries to parse a large string representing a number and returns an object of the specified type and whose value is equivalent to the specified object.
         /// </summary>
         /// <typeparam name="TValue">The type of object to return.</typeparam>
         /// <param name="value">The numeric string representation.</param>
