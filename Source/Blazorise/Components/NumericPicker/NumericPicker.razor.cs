@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq.Expressions;
+using System.Numerics;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -292,6 +293,10 @@ namespace Blazorise
             if ( Converters.TryChangeType<TValue>( value, out var result, CurrentCultureInfo ) )
             {
                 return Task.FromResult( new ParseValue<TValue>( true, result, null ) );
+            }
+            else if ( Converters.TryParseAndLimitLargeNumber<TValue>( value, out var result2, CurrentCultureInfo ) )
+            {
+                return Task.FromResult( new ParseValue<TValue>( true, result2, null ) );
             }
             else
             {

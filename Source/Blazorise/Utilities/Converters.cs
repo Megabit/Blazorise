@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Numerics;
 using System.Runtime.Serialization;
 using Blazorise.Extensions;
 #endregion
@@ -167,6 +168,51 @@ namespace Blazorise.Utilities
                     result = (TValue)Convert.ChangeType( value, conversionType, cultureInfo ?? CultureInfo.InvariantCulture );
 
                 return true;
+            }
+            catch
+            {
+                result = default;
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Tries to parse a large string representing a number and returns an object of the specified type and whose value is equivalent to the specified object.
+        /// </summary>
+        /// <typeparam name="TValue">The type of object to return.</typeparam>
+        /// <param name="value">The numeric string representation.</param>
+        /// <param name="result">New instance of object whose value is equivalent to the specified object.</param>
+        /// <param name="cultureInfo">Culture info to use for conversion.</param>
+        /// <returns>True if conversion was successful.</returns>
+        public static bool TryParseAndLimitLargeNumber<TValue>( string value, out TValue result, CultureInfo cultureInfo = null )
+        {
+            try
+            {
+                if ( BigInteger.TryParse( value, NumberStyles.AllowLeadingSign | NumberStyles.AllowDecimalPoint, cultureInfo ?? CultureInfo.InvariantCulture, out var bigNumber ) )
+                {
+                    Type conversionType = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
+
+                    result = conversionType switch
+                    {
+                        Type byteType when byteType == typeof( byte ) || byteType == typeof( byte? ) => bigNumber > byte.MaxValue ? (TValue)(object)byte.MaxValue : bigNumber < byte.MinValue ? (TValue)(object)byte.MinValue : (TValue)(object)bigNumber,
+                        Type shortType when shortType == typeof( short ) || shortType == typeof( short? ) => bigNumber > short.MaxValue ? (TValue)(object)short.MaxValue : bigNumber < short.MinValue ? (TValue)(object)short.MinValue : (TValue)(object)bigNumber,
+                        Type intType when intType == typeof( int ) || intType == typeof( int? ) => bigNumber > int.MaxValue ? (TValue)(object)int.MaxValue : bigNumber < int.MinValue ? (TValue)(object)int.MinValue : (TValue)(object)bigNumber,
+                        Type longType when longType == typeof( long ) || longType == typeof( long? ) => bigNumber > long.MaxValue ? (TValue)(object)long.MaxValue : bigNumber < long.MinValue ? (TValue)(object)long.MinValue : (TValue)(object)bigNumber,
+                        Type floatType when floatType == typeof( float ) || floatType == typeof( float? ) => bigNumber > (BigInteger)float.MaxValue ? (TValue)(object)float.MaxValue : bigNumber < (BigInteger)float.MinValue ? (TValue)(object)float.MinValue : (TValue)(object)bigNumber,
+                        Type doubleType when doubleType == typeof( double ) || doubleType == typeof( double? ) => bigNumber > (BigInteger)double.MaxValue ? (TValue)(object)double.MaxValue : bigNumber < (BigInteger)double.MinValue ? (TValue)(object)double.MinValue : (TValue)(object)bigNumber,
+                        Type decimalType when decimalType == typeof( decimal ) || decimalType == typeof( decimal? ) => bigNumber > (BigInteger)decimal.MaxValue ? (TValue)(object)decimal.MaxValue : bigNumber < (BigInteger)decimal.MinValue ? (TValue)(object)decimal.MinValue : (TValue)(object)bigNumber,
+                        Type sbyteType when sbyteType == typeof( sbyte ) || sbyteType == typeof( sbyte? ) => bigNumber > sbyte.MaxValue ? (TValue)(object)sbyte.MaxValue : bigNumber < sbyte.MinValue ? (TValue)(object)sbyte.MinValue : (TValue)(object)bigNumber,
+                        Type ushortType when ushortType == typeof( ushort ) || ushortType == typeof( ushort? ) => bigNumber > ushort.MaxValue ? (TValue)(object)ushort.MaxValue : bigNumber < ushort.MinValue ? (TValue)(object)ushort.MinValue : (TValue)(object)bigNumber,
+                        Type uintType when uintType == typeof( uint ) || uintType == typeof( uint? ) => bigNumber > uint.MaxValue ? (TValue)(object)uint.MaxValue : bigNumber < uint.MinValue ? (TValue)(object)uint.MinValue : (TValue)(object)bigNumber,
+                        Type ulongType when ulongType == typeof( ulong ) || ulongType == typeof( ulong? ) => bigNumber > ulong.MaxValue ? (TValue)(object)ulong.MaxValue : bigNumber < ulong.MinValue ? (TValue)(object)ulong.MinValue : (TValue)(object)bigNumber,
+                        _ => default,
+                    };
+
+                    return true;
+                }
+
+                result = default;
+                return false;
             }
             catch
             {
