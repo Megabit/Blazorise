@@ -13,40 +13,6 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise
 {
-    public record ComponentParameterInfo<T>
-    {
-        private readonly bool received;
-
-        private readonly bool changed;
-
-        public ComponentParameterInfo( T value )
-        {
-            Value = value;
-        }
-
-        public ComponentParameterInfo( T value, bool received, bool changed )
-        {
-            Value = value;
-
-            this.received = received;
-            this.changed = changed;
-        }
-
-        public T Value { get; }
-
-        public bool Received => received;
-
-        public bool Changed => changed;
-
-        public T GetValue( T fallback )
-        {
-            if ( received )
-                return Value;
-
-            return fallback;
-        }
-    }
-
     /// <summary>
     /// Clickable button for actions in forms, dialogs, and more with support for multiple sizes, states, and more.
     /// </summary>
@@ -60,7 +26,7 @@ namespace Blazorise
 
         private bool outline;
 
-        private ComponentParameterInfo<bool> disabled = new ComponentParameterInfo<bool>( false );
+        private ComponentParameterInfo<bool> disabled;
 
         private bool active;
 
@@ -80,15 +46,12 @@ namespace Blazorise
 
         #region Methods
 
+        /// <inheritdoc/>
         public override Task SetParametersAsync( ParameterView parameters )
         {
-            // can be extracted into an extension method
-            if ( parameters.TryGetValue<bool>( nameof( Disabled ), out var paramDisabled ) )
-                disabled = new ComponentParameterInfo<bool>( paramDisabled, true, paramDisabled != Disabled );
-            else
-                disabled = new ComponentParameterInfo<bool>( default, false, false );
+            parameters.TryGetParameter( nameof( Disabled ), Disabled, out disabled );
 
-            if ( disabled.Received )
+            if ( disabled.Received || disabled.Changed )
             {
                 DirtyClasses();
             }
@@ -316,7 +279,7 @@ namespace Blazorise
         /// True if button or it's parent dropdown is disabled.
         /// </summary>
         protected bool IsDisabled => disabled.Received ?
-             disabled.GetValue( ParentDropdown?.Disabled == true ) || !canExecuteCommand.GetValueOrDefault( true )
+             disabled.GetValueOrDefault( ParentDropdown?.Disabled == true ) || !canExecuteCommand.GetValueOrDefault( true )
             : false;
 
         /// <summary>
@@ -547,3 +510,4 @@ namespace Blazorise
 
         #endregion
     }
+}
