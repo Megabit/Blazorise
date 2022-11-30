@@ -10,7 +10,7 @@ export function initialize(adapter, element, elementId) {
 
     // save an instance of adapter
     _instances[elementId] = new FileEditInfo(adapter, element, elementId);
-
+    element.addEventListener("drop", async (e) => await onDrop(e, element), false);
     element.addEventListener('change', function handleInputFileChange(event) {
 
         var fileList = mapElementFilesToFileEntries(element);
@@ -95,6 +95,90 @@ function mapElementFilesToFileEntries(element) {
         return fileEntry;
     });
     return fileList;
+}
+
+function getFileInput(element) {
+    return _instances[element.id].element.fileInput;
+}
+
+async function onDrop(e, element) {
+    e.preventDefault();
+    console.log(element);
+    let fileInput = element;
+
+    let _files = await getFilesAsync(e.dataTransfer);
+    var dt = new DataTransfer();
+
+    for (var i = 0; i < _files.length; i++) {
+        dt.items.add(_files[i]);
+    }
+    fileInput.files = dt.files;
+
+    const event = new Event('change', { bubbles: true });
+    fileInput.dispatchEvent(event);
+}
+
+async function getFilesAsync(dataTransfer) {
+    const files = [];
+    const queue = [];
+    for (let i = 0; i < dataTransfer.items.length; i++) {
+        const item = dataTransfer.items[i];
+        if (item.kind === "file") {
+            if (typeof item.webkitGetAsEntry === "function") {
+                const entry = item.webkitGetAsEntry();
+                queue.push(readEntryContentAsync(entry).then(x => files.push(...x)));
+                continue;
+            }
+
+            const file = item.getAsFile();
+            if (file) {
+                files.push(file);
+            }
+        }
+    }
+    await Promise.all(queue);
+    return files;
+}
+
+// Returns a promise with all the files of the directory hierarchy
+function readEntryContentAsync(entry) {
+    return new Promise((resolve, reject) => {
+        let reading = 0;
+        const contents = [];
+
+        readEntry(entry);
+
+        function readEntry(entry) {
+            if (entry.isFile) {
+                reading++;
+                entry.file(file => {
+                    reading--;
+                    contents.push(file);
+
+                    if (reading === 0) {
+                        resolve(contents);
+                    }
+                });
+            } else if (entry.isDirectory) {
+                readReaderContent(entry.createReader());
+            }
+        }
+
+        function readReaderContent(reader) {
+            reading++;
+
+            reader.readEntries(function (entries) {
+                reading--;
+                for (const entry of entries) {
+                    readEntry(entry);
+                }
+
+                if (reading === 0) {
+                    resolve(contents);
+                }
+            });
+        }
+    });
 }
 
 class FileEditInfo {
