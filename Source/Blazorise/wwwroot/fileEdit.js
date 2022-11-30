@@ -97,10 +97,6 @@ function mapElementFilesToFileEntries(element) {
     return fileList;
 }
 
-function getFileInput(element) {
-    return _instances[element.id].element.fileInput;
-}
-
 async function onDrop(e, element) {
     e.preventDefault();
     console.log(element);
