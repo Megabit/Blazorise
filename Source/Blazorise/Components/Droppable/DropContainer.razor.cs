@@ -81,7 +81,8 @@ namespace Blazorise
                 }
             }
 
-            await ItemDropped.InvokeAsync( new DraggableDroppedEventArgs<TItem>( transaction.Item, dropZoneName, transaction.SourceZoneName, index ) );
+            if ( ItemDropped is not null )
+                await ItemDropped.Invoke( new DraggableDroppedEventArgs<TItem>( transaction.Item, dropZoneName, transaction.SourceZoneName, index ) );
 
             var transactionFinishedEventArgs = new DraggableTransactionEnded<TItem>( dropZoneName, true, transaction );
 
@@ -247,7 +248,7 @@ namespace Blazorise
         /// <summary>
         /// Callback that indicates that an item has been dropped on a drop zone. Should be used to update the "status" of the data item.
         /// </summary>
-        [Parameter] public EventCallback<DraggableDroppedEventArgs<TItem>> ItemDropped { get; set; }
+        [Parameter] public Func<DraggableDroppedEventArgs<TItem>, Task> ItemDropped { get; set; }
 
         /// <summary>
         /// Determines if the item is allowed to be dropped to the specified zone.
