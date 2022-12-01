@@ -120,7 +120,8 @@ namespace Blazorise
         [Parameter]
         public bool Disabled
         {
-            get => disabled; set
+            get => disabled;
+            set
             {
                 if ( disabled == value )
                     return;
