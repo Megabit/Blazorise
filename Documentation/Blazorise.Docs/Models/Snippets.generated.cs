@@ -1367,9 +1367,10 @@ public class Gender
         new DropItem() { Name = ""Cabbage"", Group = ""Vegetable"", Image = ""img/fruit/cabbage.png"" },
     };
 
-    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
     {
         dropItem.Item.Group = dropItem.DropZoneName;
+        return Task.CompletedTask;
     }
 }";
 
@@ -1432,9 +1433,10 @@ public class Gender
         new DropItem() { Name = ""Item 5"", Group = ""2"" },
     };
 
-    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
     {
         dropItem.Item.Group = dropItem.DropZoneName;
+        return Task.CompletedTask;
     }
 }";
 

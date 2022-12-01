@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
@@ -432,12 +433,14 @@ namespace Blazorise.Tests.Components
 
             DropContainer<object> sut = new DropContainer<object>()
             {
-                ItemDropped = new EventCallback<DraggableDroppedEventArgs<object>>( null, DropEvent )
+                ItemDropped = new Func<DraggableDroppedEventArgs<object>, Task>( DropEvent )
             };
 
-            void DropEvent( DraggableDroppedEventArgs<object> e )
+            Task DropEvent( DraggableDroppedEventArgs<object> e )
             {
                 returnedArgs = e;
+
+                return Task.CompletedTask;
             }
 
             sut.StartTransaction( new object(), "source_zone_name", 0, () => Task.CompletedTask, () => Task.CompletedTask );

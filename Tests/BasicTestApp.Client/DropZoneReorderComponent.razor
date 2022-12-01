@@ -35,9 +35,10 @@
 
     public List<int> IndexHistory { get; set; } = new();
 
-    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
     {
         dropItem.Item.Group = dropItem.DropZoneName;
         IndexHistory.Add( dropItem.IndexInZone );
+        return Task.CompletedTask;
     }
 }
