@@ -2,7 +2,7 @@
 @typeparam TItem
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @ondragenter="@OnDragEnterHandler" @ondragleave="@OnDragLeaveHandler" @ondrop="@OnDropHandler" @attributes="@Attributes">
+    <div @key="@ElementId" @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @ondragenter="@OnDragEnterHandler" @ondragleave="@OnDragLeaveHandler" @ondrop="@OnDropHandler" @attributes="@Attributes">
         @ChildContent
 
         @if ( !OnlyZone )
@@ -15,16 +15,16 @@
             {
                 @if ( !items.Any() )
                 {
-                    <div class="@PlaceholderClassBuilder.Class"></div>
+                    <div @key="@($"{ElementId}_item_preview_placeholder")" class="@PlaceholderClassBuilder.Class"></div>
                 }
                 else
                 {
                     if ( transactionIndex == -1 )
                     {
-                        <div class="@PlaceholderClassBuilder.Class"></div>
+                        <div @key="@($"{ElementId}_item_preview_placeholder")" class="@PlaceholderClassBuilder.Class"></div>
                     }
 
-                    <_Draggable @key="@ElementId" TItem="TItem" Item="default" ZoneName="@Name" Disabled="true" HideContent="false" Class="draggable-preview-start" />
+                    <_Draggable @key="@($"{ElementId}_item_preview")" TItem="TItem" Item="default" ZoneName="@Name" Disabled="true" HideContent="false" Class="draggable-preview-start" />
                 }
             }
 
@@ -32,7 +32,7 @@
             {
                 var indexCopy = index;
 
-                <_Draggable @key="@(item.GetHashCode())" TItem="TItem" Item="@item" ZoneName="@Name" DraggingClass="@GetItemDraggingClass()" Disabled="@GetItemDisabled(item)" DisabledClass="@GetItemDisabledClass()" DragStarted="@OnDragStarted" DragEnded="@OnDragEnded" Index="@indexCopy">
+                <_Draggable @key="@($"{ElementId}_item_draggable_{indexCopy}")" TItem="TItem" Item="@item" ZoneName="@Name" DraggingClass="@GetItemDraggingClass()" Disabled="@GetItemDisabled(item)" DisabledClass="@GetItemDisabledClass()" DragStarted="@OnDragStarted" DragEnded="@OnDragEnded" Index="@indexCopy">
                     @{
                         var renderer = ItemTemplate ?? ParentContainer?.ItemTemplate;
                     }
@@ -45,7 +45,7 @@
 
                 if ( transactionIndex == indexCopy && !IsOrigin( indexCopy ) )
                 {
-                    <div class="@PlaceholderClassBuilder.Class"></div>
+                    <div @key="@($"{ElementId}_item_placeholder")" class="@PlaceholderClassBuilder.Class"></div>
                 }
 
                 index++;
