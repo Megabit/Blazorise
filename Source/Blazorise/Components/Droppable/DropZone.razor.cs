@@ -332,9 +332,19 @@ namespace Blazorise
             return (item, canBeDropped);
         }
 
-        private void OnDragStarted() => dragging = true;
+        private Task OnDragStarted()
+        {
+            dragging = true;
 
-        private void OnDragEnded() => dragging = false;
+            return Task.CompletedTask;
+        }
+
+        private Task OnDragEnded( TItem item )
+        {
+            dragging = false;
+
+            return Task.CompletedTask;
+        }
 
         private int count;
         private IEnumerable<TItem> GetItems()
