@@ -6,9 +6,15 @@
 /// <typeparam name="T"></typeparam>
 public record struct ComponentParameterInfo<T>
 {
+    #region Members
+
     private readonly bool received;
 
     private readonly bool changed;
+
+    #endregion
+
+    #region Constructors
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ComponentParameterInfo{T}"/> structure to the specified value.
@@ -36,20 +42,9 @@ public record struct ComponentParameterInfo<T>
         this.changed = changed;
     }
 
-    /// <summary>
-    /// Gets the actual value that was received through the supplied parameters.
-    /// </summary>
-    public T Value { get; }
+    #endregion
 
-    /// <summary>
-    /// Indicates if the parameter was being defined and received through the component parameters or attributes.
-    /// </summary>
-    public bool Received => received;
-
-    /// <summary>
-    /// Indicates if the received parameter has being changed since the last rendering. 
-    /// </summary>
-    public bool Changed => changed;
+    #region Methods
 
     /// <summary>
     /// Retrieves the value of the current <see cref="ComponentParameterInfo{T}"/> object, or a default value.
@@ -66,4 +61,25 @@ public record struct ComponentParameterInfo<T>
 
         return Value;
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets the actual value that was received through the supplied parameters.
+    /// </summary>
+    public T Value { get; }
+
+    /// <summary>
+    /// Indicates if the parameter was being defined and received through the component parameters or attributes.
+    /// </summary>
+    public bool Received => received;
+
+    /// <summary>
+    /// Indicates if the received parameter has being changed since the last rendering. 
+    /// </summary>
+    public bool Changed => changed;
+
+    #endregion
 }
