@@ -167,6 +167,34 @@
 
     <script src="_content/Blazorise.Animate/blazorise.animate.js?v=1.1.4.1"></script>
     <script src="_content/Blazorise.Docs/blazorise.docs.min.js?v=1.1.4.1"></script>
-    <script src="_framework/blazor.server.js"></script>
+    <script src="_framework/blazor.server.js" autostart="false"></script>
+    <script>
+        Blazor.start({
+            reconnectionHandler: {
+                onConnectionDown: (options, error) => {
+                    var isReloading = false;
+
+                    async function attemptReload() {
+
+                        if (!isReloading) {
+                            isReloading = true;
+                            var request = new Request({
+                                url: '/healthcheck',
+                                method: 'GET'
+                            });
+                            var result = await fetch(request);
+
+                            if (result.status == 200) {
+                                document.location.reload();
+                            }
+                            isReloading = false;
+                        }
+                    }
+                    setInterval(attemptReload, 1500);
+                },
+                onConnectionUp: () => console.log("Reconnected!")
+            }
+        });
+    </script>
 </body>
 </html>
