@@ -2901,6 +2901,19 @@ li.ant-list-item-actionable {
   content: "— ";
 }
 
+.ant-typography-left {
+  text-align: left !important;
+}
+.ant-typography-right {
+  text-align: right !important;
+}
+.ant-typography-center {
+  text-align: center !important;
+}
+.ant-typography-justify {
+  text-align: justify !important;
+}
+
 .ant-steps-item.ant-steps-item-active.ant-steps-item-process.ant-steps-item-finish .ant-steps-item-icon {
   background-color: #1890ff;
 }
@@ -6383,19 +6396,6 @@ li.ant-list-item-actionable {
     flex-direction: column-reverse !important;
   }
 }
-.ant-text-left {
-  text-align: left !important;
-}
-.ant-text-right {
-  text-align: right !important;
-}
-.ant-text-center {
-  text-align: center !important;
-}
-.ant-text-justify {
-  text-align: justify !important;
-}
-
 .ant-border {
   border: 1px solid #adb5bd !important;
 }
