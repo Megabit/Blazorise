@@ -433,7 +433,7 @@ namespace Blazorise.Tests.Components
 
             DropContainer<object> sut = new DropContainer<object>()
             {
-                ItemDropped = new Func<DraggableDroppedEventArgs<object>, Task>( DropEvent )
+                ItemDropped = new EventCallback<DraggableDroppedEventArgs<object>>( null, DropEvent )
             };
 
             Task DropEvent( DraggableDroppedEventArgs<object> e )
