@@ -930,19 +930,19 @@ public class TailwindClassProvider : ClassProvider
 
     #region Pagination
 
-    public override string Pagination() => "pagination";
+    public override string Pagination() => "flex list-style-none";
 
     public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
 
     public override string PaginationItem() => "page-item";
 
-    public override string PaginationItemActive() => Active();
+    public override string PaginationItemActive() => "active";
 
-    public override string PaginationItemDisabled() => Disabled();
+    public override string PaginationItemDisabled() => "disabled";
 
-    public override string PaginationLink() => "page-link";
+    public override string PaginationLink() => "page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 focus:shadow-none";
 
-    public override string PaginationLinkActive() => null;
+    public override string PaginationLinkActive() => "bg-blue-600";
 
     public override string PaginationLinkDisabled() => null;
 
