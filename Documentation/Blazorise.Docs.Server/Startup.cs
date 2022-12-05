@@ -78,6 +78,8 @@ namespace Blazorise.Docs.Server
                 options.IncludeSubDomains = true;
                 options.MaxAge = TimeSpan.FromDays( 365 );
             } );
+
+            services.AddHealthChecks();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -112,6 +114,8 @@ namespace Blazorise.Docs.Server
                 {
                     await Seo.GenerateSitemap( context );
                 } );
+
+                endpoints.MapHealthChecks( "/healthcheck" );
 
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage( "/_Host" );
