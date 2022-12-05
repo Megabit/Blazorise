@@ -368,21 +368,21 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region Button
 
-    public override string Button() => "btn";
+    public override string Button( bool outline ) => "btn";
 
-    public override string ButtonColor( Color color ) => $"{Button()}-{ToColor( color )}";
+    public override string ButtonColor( Color color, bool outline ) => $"{Button( outline )}-{ToColor( color )}";
 
-    public override string ButtonOutline( Color color ) => color != Blazorise.Color.Default ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+    public override string ButtonOutline( Color color, bool outline ) => color != Blazorise.Color.Default ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline";
 
-    public override string ButtonSize( Size size ) => $"{Button()}-{ToSize( size )}";
+    public override string ButtonSize( Size size, bool outline ) => $"{Button( outline )}-{ToSize( size )}";
 
-    public override string ButtonBlock() => $"{Button()}-block";
+    public override string ButtonBlock( bool outline ) => $"{Button( outline )}-block";
 
-    public override string ButtonActive() => "active";
+    public override string ButtonActive( bool outline ) => "active";
 
-    public override string ButtonDisabled() => "disabled";
+    public override string ButtonDisabled( bool outline ) => "disabled";
 
-    public override string ButtonLoading() => null;
+    public override string ButtonLoading( bool outline ) => null;
 
     #endregion
 
@@ -443,11 +443,11 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
-    public override string DropdownToggleColor( Color color ) => $"{Button()}-{ToColor( color )}";
+    public override string DropdownToggleColor( Color color ) => $"btn-{ToColor( color )}";
 
-    public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.Default ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+    public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.Default ? $"btn-outline-{ToColor( color )}" : $"btn-outline";
 
-    public override string DropdownToggleSize( Size size ) => $"{Button()}-{ToSize( size )}";
+    public override string DropdownToggleSize( Size size ) => $"btn-{ToSize( size )}";
 
     public override string DropdownToggleSplit() => "dropdown-toggle-split";
 

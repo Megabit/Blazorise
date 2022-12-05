@@ -352,21 +352,21 @@ public interface IClassProvider
 
     #region Button
 
-    string Button();
+    string Button( bool outline );
 
-    string ButtonColor( Color color );
+    string ButtonColor( Color color, bool outline );
 
-    string ButtonOutline( Color color );
+    string ButtonOutline( Color color, bool outline );
 
-    string ButtonSize( Size size );
+    string ButtonSize( Size size, bool outline );
 
-    string ButtonBlock();
+    string ButtonBlock( bool outline );
 
-    string ButtonActive();
+    string ButtonActive( bool outline );
 
-    string ButtonDisabled();
+    string ButtonDisabled( bool outline );
 
-    string ButtonLoading();
+    string ButtonLoading( bool outline );
 
     #endregion
 

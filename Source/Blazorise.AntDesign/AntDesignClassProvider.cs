@@ -377,21 +377,21 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Button
 
-    public override string Button() => "ant-btn";
+    public override string Button( bool outline ) => "ant-btn";
 
-    public override string ButtonColor( Color color ) => $"{Button()}-{ToColor( color )}";
+    public override string ButtonColor( Color color, bool outline ) => $"{Button( outline )}-{ToColor( color )}";
 
-    public override string ButtonOutline( Color color ) => color != Blazorise.Color.Default ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+    public override string ButtonOutline( Color color, bool outline ) => color != Blazorise.Color.Default ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline";
 
-    public override string ButtonSize( Size size ) => $"{Button()}-{ToSize( size )}";
+    public override string ButtonSize( Size size, bool outline ) => $"{Button( outline )}-{ToSize( size )}";
 
-    public override string ButtonBlock() => $"{Button()}-block";
+    public override string ButtonBlock( bool outline ) => $"{Button( outline )}-block";
 
-    public override string ButtonActive() => "ant-btn-active";
+    public override string ButtonActive( bool outline ) => "ant-btn-active";
 
-    public override string ButtonDisabled() => "ant-btn-disabled";
+    public override string ButtonDisabled( bool outline ) => "ant-btn-disabled";
 
-    public override string ButtonLoading() => "ant-btn-loading";
+    public override string ButtonLoading( bool outline ) => "ant-btn-loading";
 
     #endregion
 
@@ -452,11 +452,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
 
-    public override string DropdownToggleColor( Color color ) => $"{Button()}-{ToColor( color )}";
+    public override string DropdownToggleColor( Color color ) => $"ant-btn-{ToColor( color )}";
 
-    public override string DropdownToggleOutline( Color color ) => color != Color.Default ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+    public override string DropdownToggleOutline( Color color ) => color != Color.Default ? $"ant-btn-outline-{ToColor( color )}" : $"ant-btn-outline";
 
-    public override string DropdownToggleSize( Size size ) => $"{Button()}-{ToSize( size )}";
+    public override string DropdownToggleSize( Size size ) => $"ant-btn-{ToSize( size )}";
 
     public override string DropdownToggleSplit() => "dropdown-toggle-split";
 

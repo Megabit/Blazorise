@@ -355,21 +355,21 @@ class EmptyClassProvider : IClassProvider
 
     #region Button
 
-    public string Button() => null;
+    public string Button( bool outline ) => null;
 
-    public string ButtonColor( Color color ) => null;
+    public string ButtonColor( Color color, bool outline ) => null;
 
-    public string ButtonOutline( Color color ) => null;
+    public string ButtonOutline( Color color, bool outline ) => null;
 
-    public string ButtonSize( Size size ) => null;
+    public string ButtonSize( Size size, bool outline ) => null;
 
-    public string ButtonBlock() => null;
+    public string ButtonBlock( bool outline ) => null;
 
-    public string ButtonActive() => null;
+    public string ButtonActive( bool outline ) => null;
 
-    public string ButtonDisabled() => null;
+    public string ButtonDisabled( bool outline ) => null;
 
-    public string ButtonLoading() => null;
+    public string ButtonLoading( bool outline ) => null;
 
     #endregion
 

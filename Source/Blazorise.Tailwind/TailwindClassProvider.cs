@@ -376,21 +376,64 @@ public class TailwindClassProvider : ClassProvider
 
     #region Button
 
-    public override string Button() => "btn";
+    public override string Button( bool outline ) => "inline-block px-6 py-2.5 transition duration-150 ease-in-out";
 
-    public override string ButtonColor( Color color ) => $"{Button()}-{ToColor( color )}";
+    public override string ButtonColor( Color color, bool outline )// => $"bg-{ToColor( color )} hover:bg-{ToColor( color )}-500";
+    {
+        var name = color?.Name;
 
-    public override string ButtonOutline( Color color ) => color != Blazorise.Color.Default ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+        return name switch
+        {
+            "primary" => "bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg",
+            "secondary" => "bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg",
+            "success" => "bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg",
+            "danger" => "bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg",
+            "warning" => "bg-yellow-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-lg",
+            "info" => "bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg",
+            "light" => "bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg",
+            "dark" => "bg-gray-800 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-900 hover:shadow-lg focus:bg-gray-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-900 active:shadow-lg",
+            "link" => "bg-transparent text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:text-blue-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:ring-0 active:bg-gray-200",
+            _ => null,
+        };
+    }
 
-    public override string ButtonSize( Size size ) => $"{Button()}-{ToSize( size )}";
+    public override string ButtonOutline( Color color, bool outline ) => null;
 
-    public override string ButtonBlock() => $"{Button()}-block";
+    public override string ButtonSize( Size size, bool outline ) => $"px-{ToButtonSpacingSizeX( size )} py-{ToButtonSpacingSizeY( size )} text-{ToSize( size )}";
 
-    public override string ButtonActive() => "active";
+    public override string ButtonBlock( bool outline ) => null;
 
-    public override string ButtonDisabled() => "disabled";
+    public override string ButtonActive( bool outline ) => "active";
 
-    public override string ButtonLoading() => null;
+    public override string ButtonDisabled( bool outline ) => "disabled";
+
+    public override string ButtonLoading( bool outline ) => null;
+
+    public virtual string ToButtonSpacingSizeX( Size size )
+    {
+        return size switch
+        {
+            Blazorise.Size.ExtraSmall => "2",
+            Blazorise.Size.Small => "2",
+            Blazorise.Size.Medium => "3",
+            Blazorise.Size.Large => "4",
+            Blazorise.Size.ExtraLarge => "5",
+            _ => null,
+        };
+    }
+
+    public virtual string ToButtonSpacingSizeY( Size size )
+    {
+        return size switch
+        {
+            Blazorise.Size.ExtraSmall => "1",
+            Blazorise.Size.Small => "1",
+            Blazorise.Size.Medium => "2",
+            Blazorise.Size.Large => "3",
+            Blazorise.Size.ExtraLarge => "4",
+            _ => null,
+        };
+    }
 
     #endregion
 
@@ -451,11 +494,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
-    public override string DropdownToggleColor( Color color ) => $"{Button()}-{ToColor( color )}";
+    public override string DropdownToggleColor( Color color ) => $"{Button( false )}-{ToColor( color )}";
 
-    public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.Default ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+    public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.Default ? $"{Button( false )}-outline-{ToColor( color )}" : $"{Button( false )}-outline";
 
-    public override string DropdownToggleSize( Size size ) => $"{Button()}-{ToSize( size )}";
+    public override string DropdownToggleSize( Size size ) => $"{Button( false )}-{ToSize( size )}";
 
     public override string DropdownToggleSplit() => "dropdown-toggle-split";
 

@@ -353,21 +353,21 @@ public abstract class ClassProvider : IClassProvider
 
     #region Button
 
-    public abstract string Button();
+    public abstract string Button( bool outline );
 
-    public abstract string ButtonColor( Color color );
+    public abstract string ButtonColor( Color color, bool outline );
 
-    public abstract string ButtonOutline( Color color );
+    public abstract string ButtonOutline( Color color, bool outline );
 
-    public abstract string ButtonSize( Size size );
+    public abstract string ButtonSize( Size size, bool outline );
 
-    public abstract string ButtonBlock();
+    public abstract string ButtonBlock( bool outline );
 
-    public abstract string ButtonActive();
+    public abstract string ButtonActive( bool outline );
 
-    public abstract string ButtonDisabled();
+    public abstract string ButtonDisabled( bool outline );
 
-    public abstract string ButtonLoading();
+    public abstract string ButtonLoading( bool outline );
 
     #endregion
 

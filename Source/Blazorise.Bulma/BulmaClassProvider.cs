@@ -380,21 +380,21 @@ public class BulmaClassProvider : ClassProvider
 
     #region Button
 
-    public override string Button() => "button";
+    public override string Button( bool outline ) => "button";
 
-    public override string ButtonColor( Color color ) => $"is-{ToColor( color )}";
+    public override string ButtonColor( Color color, bool outline ) => $"is-{ToColor( color )}";
 
-    public override string ButtonOutline( Color color ) => $"is-{ToColor( color )} is-outlined";
+    public override string ButtonOutline( Color color, bool outline ) => $"is-{ToColor( color )} is-outlined";
 
-    public override string ButtonSize( Size size ) => $"is-{ToSize( size )}";
+    public override string ButtonSize( Size size, bool outline ) => $"is-{ToSize( size )}";
 
-    public override string ButtonBlock() => "is-fullwidth";
+    public override string ButtonBlock( bool outline ) => "is-fullwidth";
 
-    public override string ButtonActive() => "is-active";
+    public override string ButtonActive( bool outline ) => "is-active";
 
-    public override string ButtonDisabled() => "is-disabled";
+    public override string ButtonDisabled( bool outline ) => "is-disabled";
 
-    public override string ButtonLoading() => "is-loading";
+    public override string ButtonLoading( bool outline ) => "is-loading";
 
     #endregion
 

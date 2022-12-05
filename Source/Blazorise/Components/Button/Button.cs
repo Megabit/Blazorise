@@ -49,14 +49,14 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.Button() );
-        builder.Append( ClassProvider.ButtonColor( Color ), Color != Color.Default && !Outline );
-        builder.Append( ClassProvider.ButtonOutline( Color ), Color != Color.Default && Outline );
-        builder.Append( ClassProvider.ButtonSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.ButtonBlock(), Block );
-        builder.Append( ClassProvider.ButtonActive(), Active );
-        builder.Append( ClassProvider.ButtonDisabled(), Disabled );
-        builder.Append( ClassProvider.ButtonLoading(), Loading && LoadingTemplate == null );
+        builder.Append( ClassProvider.Button( Outline ) );
+        builder.Append( ClassProvider.ButtonColor( Color, Outline ), Color != Color.Default && !Outline );
+        builder.Append( ClassProvider.ButtonOutline( Color, Outline ), Color != Color.Default && Outline );
+        builder.Append( ClassProvider.ButtonSize( ThemeSize, Outline ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.ButtonBlock( Outline ), Block );
+        builder.Append( ClassProvider.ButtonActive( Outline ), Active );
+        builder.Append( ClassProvider.ButtonDisabled( Outline ), Disabled );
+        builder.Append( ClassProvider.ButtonLoading( Outline ), Loading && LoadingTemplate == null );
 
         base.BuildClasses( builder );
     }
