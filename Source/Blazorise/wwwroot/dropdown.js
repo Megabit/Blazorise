@@ -48,7 +48,7 @@ export function initialize(element, elementId, targetElementId, altTargetElement
 
     const instance = createPopper(targetElement, menuElement, {
         placement: getPopperDirection(options.direction, options.rightAligned),
-        strategy: "absolute",
+        strategy: "fixed",
         modifiers: [
             {
                 name: "preventOverflow",
