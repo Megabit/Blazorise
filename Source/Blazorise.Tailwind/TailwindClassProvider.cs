@@ -148,7 +148,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Check
 
-    public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+    public override string Check() => "form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer";
 
     public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
 
@@ -252,7 +252,7 @@ public class TailwindClassProvider : ClassProvider
     {
         return labelType switch
         {
-            Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => UseCustomInputStyles ? "custom-control-label" : "form-check-label",
+            Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => "form-check-label inline-block text-gray-800",
             Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
             _ => null,
         };
@@ -336,11 +336,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check";
+    public override string ControlCheck() => "form-check";
 
-    public override string ControlRadio() => UseCustomInputStyles ? "custom-control custom-radio" : "form-check";
+    public override string ControlRadio() => "form-check";
 
-    public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
+    public override string ControlSwitch() => "form-check";
 
     public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
 
