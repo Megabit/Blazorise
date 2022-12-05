@@ -1036,11 +1036,28 @@ public class TailwindClassProvider : ClassProvider
 
     #region Badge
 
-    public override string Badge() => "badge";
+    public override string Badge() => "text-xs inline-block py-1 px-2.5 leading-none text-center whitespace-nowrap align-baseline font-bold bg-blue-600 text-white rounded";
 
-    public override string BadgeColor( Color color ) => $"{Badge()}-{ToColor( color )}";
+    public override string BadgeColor( Color color )
+    {
+        var name = color?.Name;
 
-    public override string BadgePill() => $"{Badge()}-pill";
+        return name switch
+        {
+            "primary" => "bg-blue-600 text-white",
+            "secondary" => "bg-purple-600 text-white",
+            "success" => "bg-green-500 text-white",
+            "danger" => "bg-red-600 text-white",
+            "warning" => "bg-yellow-500 text-white",
+            "info" => "bg-indigo-400 text-white",
+            "light" => "bg-gray-200 text-white",
+            "dark" => "bg-gray-800 text-white",
+            "link" => "bg-indigo-400 text-white",
+            _ => null,
+        };
+    }
+
+    public override string BadgePill() => "rounded-full";
 
     public override string BadgeClose() => "badge-close";
 
