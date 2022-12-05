@@ -376,7 +376,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region Button
 
-    public override string Button( bool outline ) => "inline-block px-6 py-2.5 transition duration-150 ease-in-out";
+    public override string Button( bool outline ) => outline
+        ? "inline-block px-6 py-2 border-2 mb-2"
+        : "inline-block px-6 py-2.5 transition duration-150 ease-in-out mb-2";
 
     public override string ButtonColor( Color color, bool outline )// => $"bg-{ToColor( color )} hover:bg-{ToColor( color )}-500";
     {
@@ -397,15 +399,32 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string ButtonOutline( Color color, bool outline ) => null;
+    public override string ButtonOutline( Color color, bool outline )
+    {
+        var name = color?.Name;
+
+        return name switch
+        {
+            "primary" => "border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+            "secondary" => "border-purple-600 text-purple-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+            "success" => "border-green-500 text-green-500 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+            "danger" => "border-red-600 text-red-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+            "warning" => "border-yellow-500 text-yellow-500 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+            "info" => "border-blue-400 text-blue-400 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+            "light" => "border-gray-200 text-gray-200 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+            "dark" => "border-gray-800 text-gray-800 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+            "link" => null,
+            _ => null,
+        };
+    }
 
     public override string ButtonSize( Size size, bool outline ) => $"px-{ToButtonSpacingSizeX( size )} py-{ToButtonSpacingSizeY( size )} text-{ToSize( size )}";
 
-    public override string ButtonBlock( bool outline ) => null;
+    public override string ButtonBlock( bool outline ) => "w-full";
 
     public override string ButtonActive( bool outline ) => "active";
 
-    public override string ButtonDisabled( bool outline ) => "disabled";
+    public override string ButtonDisabled( bool outline ) => "pointer-events-none opacity-60";
 
     public override string ButtonLoading( bool outline ) => null;
 
@@ -832,9 +851,26 @@ public class TailwindClassProvider : ClassProvider
 
     #region Alert
 
-    public override string Alert() => "alert";
+    public override string Alert() => "rounded-lg py-5 px-6 mb-4 text-base mb-3";
 
-    public override string AlertColor( Color color ) => $"{Alert()}-{ToColor( color )}";
+    public override string AlertColor( Color color )
+    {
+        var name = color?.Name;
+
+        return name switch
+        {
+            "primary" => "bg-blue-100 text-blue-700",
+            "secondary" => "bg-purple-100 text-purple-700",
+            "success" => "bg-green-100 text-green-700",
+            "danger" => "bg-red-100 text-red-700",
+            "warning" => "bg-yellow-100 text-yellow-700",
+            "info" => "bg-indigo-100 text-indigo-700",
+            "light" => "bg-gray-50 text-gray-500",
+            "dark" => "bg-gray-300 text-gray-800",
+            "link" => "",
+            _ => null,
+        };
+    }
 
     public override string AlertDismisable() => "alert-dismissible";
 
