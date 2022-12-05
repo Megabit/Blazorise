@@ -439,5 +439,17 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter] public bool Directory { get; set; }
 
+    /// <summary>
+    /// Gets the localized browse button text.
+    /// </summary>
+    protected string DragAndDropString
+    {
+        get
+        {
+            var localizationString = Directory ? "Or drop files or folders here" : "Or drop files here";
+            return GetLocalizedString( localizationString );
+        }
+    }
+
     #endregion
 }
