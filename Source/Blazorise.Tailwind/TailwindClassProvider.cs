@@ -894,7 +894,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Modal
 
-    public override string Modal() => "modal";
+    public override string Modal() => "modal fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto";
 
     public override string ModalFade() => Fade();
 
@@ -908,7 +908,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
 
-    public override string ModalContent( bool dialog ) => "modal-content";
+    public override string ModalContent( bool dialog ) => "modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current";
 
     public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
 
@@ -918,13 +918,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalContentScrollable( bool scrollable ) => null;
 
-    public override string ModalBody() => "modal-body";
+    public override string ModalBody() => "modal-body relative p-4";
 
-    public override string ModalHeader() => "modal-header";
+    public override string ModalHeader() => "modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md";
 
-    public override string ModalFooter() => "modal-footer";
+    public override string ModalFooter() => "modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md";
 
-    public override string ModalTitle() => "modal-title";
+    public override string ModalTitle() => "text-xl font-medium leading-normal text-gray-800";
 
     #endregion
 

@@ -47,5 +47,7 @@ public static class Config
     {
         { typeof( Blazorise.CardImage ), typeof( Tailwind.CardImage ) },
         { typeof( Blazorise.CardText ), typeof( Tailwind.CardText ) },
+        { typeof( Blazorise.Modal ), typeof( Tailwind.Modal ) },
+        { typeof( Blazorise.ModalContent ), typeof( Tailwind.ModalContent ) },
     };
 }
