@@ -10,7 +10,9 @@ public class TailwindClassProvider : ClassProvider
 {
     #region TextEdit
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TextEdit( bool plaintext ) => plaintext
+        ? "form-control-plaintext"
+        : "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
     public override string TextEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -22,7 +24,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region MemoEdit
 
-    public override string MemoEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string MemoEdit( bool plaintext ) => plaintext
+        ? "form-control-plaintext"
+        : "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
     public override string MemoEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -32,7 +36,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Select
 
-    public override string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
+    public override string Select() => "form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
     public override string SelectMultiple() => null;
 
@@ -56,7 +60,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region DateEdit
 
-    public override string DateEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string DateEdit( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
     public override string DateEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -68,7 +72,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region TimeEdit
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TimeEdit( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
     public override string TimeEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -88,7 +92,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region DatePicker
 
-    public override string DatePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string DatePicker( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
     public override string DatePickerSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -100,7 +104,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region TimePicker
 
-    public override string TimePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TimePicker( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
     public override string TimePickerSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -120,7 +124,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region NumericPicker
 
-    public override string NumericPicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string NumericPicker( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
     public override string NumericPickerSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -132,7 +136,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region InputMask
 
-    public override string InputMask( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string InputMask( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
     public override string InputMaskSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -172,7 +176,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Radio
 
-    public override string Radio( bool button ) => button ? null : UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+    public override string Radio( bool button ) => button ? null : "form-check-label inline-block text-gray-800";
 
     public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
 
@@ -204,7 +208,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region FileEdit
 
-    public override string FileEdit() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
+    public override string FileEdit() => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
 
     public override string FileEditSize( Size size ) => $"{FileEdit()}-{ToSize( size )}";
 
@@ -214,7 +218,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Slider
 
-    public override string Slider() => "form-control-range";
+    public override string Slider() => "form-range appearance-none w-full h-6 p-0 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none";
 
     public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
 
@@ -294,11 +298,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region Field
 
-    public override string Field() => "form-group";
+    public override string Field() => "mb-3";
 
-    public override string FieldHorizontal() => "row";
+    public override string FieldHorizontal() => "grid grid-cols-12";
 
-    public override string FieldColumn() => "col";
+    public override string FieldColumn() => "col-span-12";
 
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -308,7 +312,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region FieldLabel
 
-    public override string FieldLabel( bool horizontal ) => horizontal ? "col-form-label" : null;
+    public override string FieldLabel( bool horizontal ) => horizontal ? "col-form-label" : "form-label inline-block mb-2 text-gray-700";
 
     #endregion
 
@@ -320,7 +324,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region FieldHelp
 
-    public override string FieldHelp() => "form-text text-muted";
+    public override string FieldHelp() => "block mt-1 text-xs text-gray-600";
 
     #endregion
 
@@ -637,7 +641,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardGroup() => "card-group";
 
-    public override string Card() => "card w-96 card-compact";
+    public override string Card() => "block p-6 rounded-lg shadow-lg bg-white";
 
     public override string CardWhiteText() => "text-white";
 
@@ -651,7 +655,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardImage() => null;
 
-    public override string CardTitle( bool insideHeader ) => "card-title";
+    public override string CardTitle( bool insideHeader ) => "text-gray-900 text-xl leading-tight font-medium mb-2";
 
     public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
@@ -659,7 +663,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
-    public override string CardText() => "card-text";
+    public override string CardText() => "text-gray-700 text-base mb-4";
 
     public override string CardLink() => "card-link";
 
@@ -814,7 +818,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Column
 
-    public override string Column( bool hasSizes ) => hasSizes ? null : "col";
+    public override string Column( bool hasSizes ) => hasSizes ? null : "col-span-12";
 
     public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
@@ -822,7 +826,7 @@ public class TailwindClassProvider : ClassProvider
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
         {
-            return $"{baseClass}-{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
+            return $"{ToBreakpoint( breakpoint )}:{baseClass}-{ToColumnWidth( columnWidth )}";
         }
 
         return $"{baseClass}-{ToColumnWidth( columnWidth )}";
