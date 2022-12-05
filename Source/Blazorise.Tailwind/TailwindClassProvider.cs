@@ -575,7 +575,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardGroup() => "card-group";
 
-    public override string Card() => "card";
+    public override string Card() => "card w-96 card-compact";
 
     public override string CardWhiteText() => "text-white";
 
@@ -587,7 +587,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardHeader() => "card-header";
 
-    public override string CardImage() => "card-img-top";
+    public override string CardImage() => null;
 
     public override string CardTitle( bool insideHeader ) => "card-title";
 
@@ -736,7 +736,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Row
 
-    public override string Row() => "row";
+    public override string Row() => "grid grid-cols-12";
 
     public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
     {
@@ -756,7 +756,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
-        var baseClass = offset ? "offset" : "col";
+        var baseClass = offset ? "offset" : "col-span";
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
         {
@@ -1301,6 +1301,31 @@ public class TailwindClassProvider : ClassProvider
     public override string DescriptionListTerm() => null;
 
     public override string DescriptionListDefinition() => null;
+
+    #endregion
+
+    #region Enums
+
+    public override string ToColumnWidth( ColumnWidth columnWidth )
+    {
+        return columnWidth switch
+        {
+            Blazorise.ColumnWidth.Is1 => "1",
+            Blazorise.ColumnWidth.Is2 => "2",
+            Blazorise.ColumnWidth.Is3 or Blazorise.ColumnWidth.Quarter => "3",
+            Blazorise.ColumnWidth.Is4 or Blazorise.ColumnWidth.Third => "4",
+            Blazorise.ColumnWidth.Is5 => "5",
+            Blazorise.ColumnWidth.Is6 or Blazorise.ColumnWidth.Half => "6",
+            Blazorise.ColumnWidth.Is7 => "7",
+            Blazorise.ColumnWidth.Is8 => "8",
+            Blazorise.ColumnWidth.Is9 => "9",
+            Blazorise.ColumnWidth.Is10 => "10",
+            Blazorise.ColumnWidth.Is11 => "11",
+            Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => "12",
+            Blazorise.ColumnWidth.Auto => "auto",
+            _ => null,
+        };
+    }
 
     #endregion
 
