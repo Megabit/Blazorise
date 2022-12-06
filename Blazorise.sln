@@ -125,9 +125,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.LottieAnimation",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.MAUI", "Demos\Blazorise.Demo.MAUI\Blazorise.Demo.MAUI.csproj", "{F9515890-3956-47A7-A8BB-B27333F4FC57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Tailwind", "Source\Blazorise.Tailwind\Blazorise.Tailwind.csproj", "{452E1C4E-F81A-46EC-AA86-7CC53FB1BCB3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Tailwind", "Source\Blazorise.Tailwind\Blazorise.Tailwind.csproj", "{452E1C4E-F81A-46EC-AA86-7CC53FB1BCB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Demo.Tailwind", "Demos\Blazorise.Demo.Tailwind\Blazorise.Demo.Tailwind.csproj", "{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Tailwind", "Demos\Blazorise.Demo.Tailwind\Blazorise.Demo.Tailwind.csproj", "{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

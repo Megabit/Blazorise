@@ -382,7 +382,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ButtonOutline( Color color, bool outline ) => color != Blazorise.Color.Default ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline";
 
-    public override string ButtonSize( Size size, bool outline ) => $"{Button( outline )}-{ToSize( size )}";
+    public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"{Button( outline )}-{ToSize( size )}";
 
     public override string ButtonBlock( bool outline ) => $"{Button( outline )}-block";
 

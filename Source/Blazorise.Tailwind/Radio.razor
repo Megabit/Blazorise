@@ -1,0 +1,36 @@
+﻿@typeparam TValue
+@inherits Blazorise.Radio<TValue>
+@if ( AsButton )
+{
+    @if ( ParentRadioGroup?.Orientation == Orientation.Horizontal )
+    {
+        <li class="w-fit border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
+            <div class="flex items-center pl-3">
+                @RadioFragment
+            </div>
+        </li>
+    }
+    else
+    {
+        <li class="w-fit rounded-t-lg border-b border-gray-200 dark:border-gray-600">
+            <div class="flex items-center pl-3">
+                @RadioFragment
+            </div>
+        </li>
+    }
+}
+else
+{
+    <Control Role="ControlRole.Radio" Inline="@(ParentRadioGroup?.Inline ?? Inline)">
+        @RadioFragment
+    </Control>
+
+}
+@code {
+    protected RenderFragment RadioFragment => __builder =>
+    {
+        <input @ref="@ElementRef" id="@ElementId" type="radio" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@Checked" value="@Value" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" name="@Group" @attributes="@Attributes" />
+        <Label Type="LabelType.Radio" For="@ElementId" Style="@Style" Cursor="@Cursor">@ChildContent</Label>
+        @Feedback
+    };
+}

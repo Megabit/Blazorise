@@ -52,7 +52,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.Button( Outline ) );
         builder.Append( ClassProvider.ButtonColor( Color, Outline ), Color != Color.Default && !Outline );
         builder.Append( ClassProvider.ButtonOutline( Color, Outline ), Color != Color.Default && Outline );
-        builder.Append( ClassProvider.ButtonSize( ThemeSize, Outline ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.ButtonSize( ThemeSize, Outline ) );
         builder.Append( ClassProvider.ButtonBlock( Outline ), Block );
         builder.Append( ClassProvider.ButtonActive( Outline ), Active );
         builder.Append( ClassProvider.ButtonDisabled( Outline ), Disabled );

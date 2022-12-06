@@ -386,7 +386,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ButtonOutline( Color color, bool outline ) => $"is-{ToColor( color )} is-outlined";
 
-    public override string ButtonSize( Size size, bool outline ) => $"is-{ToSize( size )}";
+    public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"is-{ToSize( size )}";
 
     public override string ButtonBlock( bool outline ) => "is-fullwidth";
 

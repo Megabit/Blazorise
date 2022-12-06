@@ -30,12 +30,12 @@ public partial class ModalContent : Blazorise.ModalContent
 
     private void BuildDialogClasses( ClassBuilder builder )
     {
-        builder.Append( "modal-dialog relative w-auto pointer-events-none" );
+        builder.Append( "relative w-full h-full" );
+
+        builder.Append( ClassProvider.ToModalSize( Size ) );
 
         if ( Size == ModalSize.Fullscreen )
             builder.Append( "modal-fullscreen" );
-        else if ( Size != ModalSize.Default )
-            builder.Append( $"modal-{ClassProvider.ToModalSize( Size )}" );
 
         builder.Append( ClassProvider.ModalContentCentered( Centered ) );
 

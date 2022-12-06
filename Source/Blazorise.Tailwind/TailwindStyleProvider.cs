@@ -7,7 +7,7 @@ public class TailwindStyleProvider : StyleProvider
 {
     #region Modal
 
-    public override string ModalShow() => "display: block;";
+    public override string ModalShow() => null;
 
     #endregion
 

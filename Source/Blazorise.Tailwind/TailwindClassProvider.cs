@@ -11,8 +11,8 @@ public class TailwindClassProvider : ClassProvider
     #region TextEdit
 
     public override string TextEdit( bool plaintext ) => plaintext
-        ? "form-control-plaintext"
-        : "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+        ? "text-gray-900 text-sm border-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
     public override string TextEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -26,7 +26,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string MemoEdit( bool plaintext ) => plaintext
         ? "form-control-plaintext"
-        : "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+        : "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
     public override string MemoEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -36,7 +36,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Select
 
-    public override string Select() => "form-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+    public override string Select() => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
     public override string SelectMultiple() => null;
 
@@ -48,7 +48,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region NumericEdit
 
-    public override string NumericEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string NumericEdit( bool plaintext ) => plaintext
+        ? "form-control-plaintext"
+        : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
     public override string NumericEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -60,7 +62,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region DateEdit
 
-    public override string DateEdit( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+    public override string DateEdit( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
     public override string DateEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -72,7 +74,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region TimeEdit
 
-    public override string TimeEdit( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+    public override string TimeEdit( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
     public override string TimeEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -92,7 +94,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region DatePicker
 
-    public override string DatePicker( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+    public override string DatePicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
     public override string DatePickerSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -104,7 +106,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region TimePicker
 
-    public override string TimePicker( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+    public override string TimePicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
     public override string TimePickerSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -124,7 +126,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region NumericPicker
 
-    public override string NumericPicker( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+    public override string NumericPicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
     public override string NumericPickerSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -136,7 +138,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region InputMask
 
-    public override string InputMask( bool plaintext ) => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+    public override string InputMask( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
 
     public override string InputMaskSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -148,7 +150,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Check
 
-    public override string Check() => "form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer";
+    public override string Check() => "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
 
     public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
 
@@ -163,8 +165,10 @@ public class TailwindClassProvider : ClassProvider
     #region RadioGroup
 
     public override string RadioGroup( bool buttons, Orientation orientation ) => buttons
-        ? orientation == Orientation.Horizontal ? "btn-group btn-group-toggle" : "btn-group-vertical btn-group-toggle"
-        : null;
+        ? orientation == Orientation.Horizontal
+            ? "items-center w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+            : "w-48 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        : "flex flex-wrap";
 
     public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => buttons
         ? orientation == Orientation.Horizontal ? $"btn-group-{ToSize( size )}" : $"btn-group-vertical-{ToSize( size )}"
@@ -176,7 +180,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Radio
 
-    public override string Radio( bool button ) => button ? null : "form-check-label inline-block text-gray-800";
+    public override string Radio( bool button ) => button ? null : "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
 
     public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
 
@@ -192,7 +196,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Switch
 
-    public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+    public override string Switch() => "sr-only peer";
 
     public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
 
@@ -200,7 +204,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string SwitchChecked( bool @checked ) => null;
 
-    public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
+    public override string SwitchCursor( Cursor cursor ) => null;
 
     public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -208,7 +212,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region FileEdit
 
-    public override string FileEdit() => "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none";
+    public override string FileEdit() => "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400";
 
     public override string FileEditSize( Size size ) => $"{FileEdit()}-{ToSize( size )}";
 
@@ -218,7 +222,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Slider
 
-    public override string Slider() => "form-range appearance-none w-full h-6 p-0 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none";
+    public override string Slider() => "w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700";
 
     public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
 
@@ -252,7 +256,8 @@ public class TailwindClassProvider : ClassProvider
     {
         return labelType switch
         {
-            Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => "form-check-label inline-block text-gray-800",
+            Blazorise.LabelType.Check or Blazorise.LabelType.Radio => "ml-2 text-sm font-medium text-gray-900 dark:text-gray-300",
+            Blazorise.LabelType.Switch => "ml-3 text-sm font-medium text-gray-900 dark:text-gray-300",
             Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
             _ => null,
         };
@@ -312,7 +317,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region FieldLabel
 
-    public override string FieldLabel( bool horizontal ) => horizontal ? "col-form-label" : "form-label inline-block mb-2 text-gray-700";
+    public override string FieldLabel( bool horizontal ) => "block mb-2 text-sm font-medium text-gray-900 dark:text-white";
 
     #endregion
 
@@ -336,11 +341,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => "form-check";
+    public override string ControlCheck() => "flex items-center mb-4 mr-4";
 
-    public override string ControlRadio() => "form-check";
+    public override string ControlRadio() => "flex items-center mb-4 mr-4";
 
-    public override string ControlSwitch() => "form-check";
+    public override string ControlSwitch() => "inline-flex relative items-center cursor-pointer mb-4 mr-4";
 
     public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
 
@@ -381,24 +386,24 @@ public class TailwindClassProvider : ClassProvider
     #region Button
 
     public override string Button( bool outline ) => outline
-        ? "inline-block px-6 py-2 border-2 mb-2"
-        : "inline-block px-6 py-2.5 transition duration-150 ease-in-out mb-2";
+        ? "border focus:ring-4 focus:outline-none font-medium rounded-lg text-center mr-2 mb-2 group:mr:2 group:mb:0"
+        : "focus:ring-4 font-medium rounded-lg focus:outline-none rounded-lg mr-2 mb-2 group:mr-0 group:mb-0";
 
-    public override string ButtonColor( Color color, bool outline )// => $"bg-{ToColor( color )} hover:bg-{ToColor( color )}-500";
+    public override string ButtonColor( Color color, bool outline )
     {
         var name = color?.Name;
 
         return name switch
         {
-            "primary" => "bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg",
-            "secondary" => "bg-purple-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-purple-700 hover:shadow-lg focus:bg-purple-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-purple-800 active:shadow-lg",
-            "success" => "bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg",
-            "danger" => "bg-red-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-red-700 hover:shadow-lg focus:bg-red-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-red-800 active:shadow-lg",
-            "warning" => "bg-yellow-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-yellow-600 hover:shadow-lg focus:bg-yellow-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-yellow-700 active:shadow-lg",
-            "info" => "bg-blue-400 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-500 hover:shadow-lg focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-600 active:shadow-lg",
-            "light" => "bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg",
-            "dark" => "bg-gray-800 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-900 hover:shadow-lg focus:bg-gray-900 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-900 active:shadow-lg",
-            "link" => "bg-transparent text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:text-blue-700 hover:bg-gray-100 focus:bg-gray-100 focus:outline-none focus:ring-0 active:bg-gray-200",
+            "primary" => "text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
+            "secondary" => "text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-100 dark:bg-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-600",// "text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700",
+            "success" => "text-white bg-green-700 hover:bg-green-800 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800",
+            "danger" => "text-white bg-red-700 hover:bg-red-800 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900",
+            "warning" => "text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-yellow-300 dark:focus:ring-yellow-900",
+            "info" => "text-white bg-purple-700 hover:bg-purple-800 focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900",
+            "light" => "text-gray-900 bg-gray-300 border border-gray-300 hover:bg-gray-100 focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700",
+            "dark" => "text-white bg-gray-800 hover:bg-gray-900 focus:ring-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700",
+            "link" => "text-blue-600 dark:text-blue-500 hover:underline",
             _ => null,
         };
     }
@@ -409,54 +414,39 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
-            "secondary" => "border-purple-600 text-purple-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
-            "success" => "border-green-500 text-green-500 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
-            "danger" => "border-red-600 text-red-600 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
-            "warning" => "border-yellow-500 text-yellow-500 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
-            "info" => "border-blue-400 text-blue-400 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
-            "light" => "border-gray-200 text-gray-200 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
-            "dark" => "border-gray-800 text-gray-800 font-medium text-xs leading-tight uppercase rounded hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
-            "link" => null,
+            "primary" => "text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800",
+            "secondary" => "text-gray-500 hover:text-white border border-gray-500 hover:bg-gray-600 focus:ring-gray-100 dark:border-gray-300 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-400 dark:focus:ring-gray-600",
+            "success" => "text-green-700 hover:text-white border-green-700 hover:bg-green-800 focus:ring-green-300 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800",
+            "danger" => "text-red-700 hover:text-white border-red-700 hover:bg-red-800 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900",
+            "warning" => "text-yellow-400 hover:text-white border-yellow-400 hover:bg-yellow-500 focus:ring-yellow-300 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900",
+            "info" => "text-purple-700 hover:text-white border-purple-700 hover:bg-purple-800 focus:ring-purple-300 dark:border-purple-400 dark:text-purple-400 dark:hover:text-white dark:hover:bg-purple-500 dark:focus:ring-purple-900",
+            "light" => "text-gray-900 hover:text-white border-gray-300 hover:bg-gray-100 focus:ring-gray-200 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700",
+            "dark" => "text-gray-900 hover:text-white border-gray-800 hover:bg-gray-900 focus:ring-gray-300 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800",
+            "link" => "",
             _ => null,
         };
     }
 
-    public override string ButtonSize( Size size, bool outline ) => $"px-{ToButtonSpacingSizeX( size )} py-{ToButtonSpacingSizeY( size )} text-{ToSize( size )}";
+    public override string ButtonSize( Size size, bool outline )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "px-3 py-2 text-xs",
+            Size.Small => "px-3 py-2 text-sm",
+            Size.Medium => "px-6 py-4 text-base",
+            Size.Large => "px-6 py-5 text-base",
+            Size.ExtraLarge => "px-6 py-6 text-base",
+            _ => "px-5 py-2.5 text-sm"
+        };
+    }
 
     public override string ButtonBlock( bool outline ) => "w-full";
 
     public override string ButtonActive( bool outline ) => "active";
 
-    public override string ButtonDisabled( bool outline ) => "pointer-events-none opacity-60";
+    public override string ButtonDisabled( bool outline ) => "cursor-not-allowed opacity-60";
 
     public override string ButtonLoading( bool outline ) => null;
-
-    public virtual string ToButtonSpacingSizeX( Size size )
-    {
-        return size switch
-        {
-            Blazorise.Size.ExtraSmall => "2",
-            Blazorise.Size.Small => "2",
-            Blazorise.Size.Medium => "3",
-            Blazorise.Size.Large => "4",
-            Blazorise.Size.ExtraLarge => "5",
-            _ => null,
-        };
-    }
-
-    public virtual string ToButtonSpacingSizeY( Size size )
-    {
-        return size switch
-        {
-            Blazorise.Size.ExtraSmall => "1",
-            Blazorise.Size.Small => "1",
-            Blazorise.Size.Medium => "2",
-            Blazorise.Size.Large => "3",
-            Blazorise.Size.ExtraLarge => "4",
-            _ => null,
-        };
-    }
 
     #endregion
 
@@ -470,7 +460,7 @@ public class TailwindClassProvider : ClassProvider
         if ( orientation == Orientation.Vertical )
             return "btn-group-vertical";
 
-        return "btn-group";
+        return "group inline-flex rounded-md shadow-sm";
     }
 
     public override string ButtonsSize( Size size ) => $"btn-group-{ToSize( size )}";
@@ -479,7 +469,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region CloseButton
 
-    public override string CloseButton() => "close";
+    public override string CloseButton() => "text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white";
 
     #endregion
 
@@ -641,21 +631,21 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardGroup() => "card-group";
 
-    public override string Card() => "block p-6 rounded-lg shadow-lg bg-white";
+    public override string Card() => "max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700";
 
     public override string CardWhiteText() => "text-white";
 
     public override string CardActions() => "card-actions";
 
-    public override string CardBody() => "card-body";
+    public override string CardBody() => "p-5";
 
-    public override string CardFooter() => "card-footer";
+    public override string CardFooter() => "px-5 py-4";
 
-    public override string CardHeader() => "card-header";
+    public override string CardHeader() => "px-5 py-4";
 
-    public override string CardImage() => null;
+    public override string CardImage() => "rounded-t-lg";
 
-    public override string CardTitle( bool insideHeader ) => "text-gray-900 text-xl leading-tight font-medium mb-2";
+    public override string CardTitle( bool insideHeader ) => "mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white";
 
     public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
@@ -663,7 +653,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
-    public override string CardText() => "text-gray-700 text-base mb-4";
+    public override string CardText() => "mb-3 font-normal text-gray-700 dark:text-gray-400";
 
     public override string CardLink() => "card-link";
 
@@ -671,11 +661,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region ListGroup
 
-    public override string ListGroup() => "list-group";
+    public override string ListGroup() => "w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white";
 
-    public override string ListGroupFlush() => "list-group-flush";
+    public override string ListGroupFlush() => "border-x-0";
 
-    public override string ListGroupItem() => "list-group-item";
+    public override string ListGroupItem() => "py-3 px-4 w-full border-b border-gray-200 dark:border-gray-600";
 
     public override string ListGroupItemSelectable() => "list-group-item-action";
 
@@ -802,7 +792,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Row
 
-    public override string Row() => "grid grid-cols-12";
+    public override string Row() => "grid grid-cols-12 space-x-4";
 
     public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
     {
@@ -855,7 +845,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Alert
 
-    public override string Alert() => "rounded-lg py-5 px-6 mb-4 text-base mb-3";
+    public override string Alert() => "p-4 mb-4 text-sm rounded-lg";
 
     public override string AlertColor( Color color )
     {
@@ -863,14 +853,14 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "bg-blue-100 text-blue-700",
-            "secondary" => "bg-purple-100 text-purple-700",
-            "success" => "bg-green-100 text-green-700",
-            "danger" => "bg-red-100 text-red-700",
-            "warning" => "bg-yellow-100 text-yellow-700",
-            "info" => "bg-indigo-100 text-indigo-700",
-            "light" => "bg-gray-50 text-gray-500",
-            "dark" => "bg-gray-300 text-gray-800",
+            "primary" => "blue-700 bg-blue-400 dark:bg-blue-500 dark:text-blue-800",
+            "secondary" => "gray-500 bg-gray-100 dark:bg-gray-100 dark:text-gray-600",
+            "success" => "text-green-700 bg-green-100 dark:bg-green-200 dark:text-green-800",
+            "danger" => "text-red-700 bg-red-100 dark:bg-red-200 dark:text-red-800",
+            "warning" => "text-yellow-700 bg-yellow-100 dark:bg-yellow-200 dark:text-yellow-800",
+            "info" => "blue-700 bg-blue-100 dark:bg-blue-200 dark:text-blue-800",
+            "light" => "",
+            "dark" => "text-gray-700 bg-gray-100 dark:bg-gray-700 dark:text-gray-300",
             "link" => "",
             _ => null,
         };
@@ -894,23 +884,23 @@ public class TailwindClassProvider : ClassProvider
 
     #region Modal
 
-    public override string Modal() => "modal fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto";
+    public override string Modal() => "fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full justify-center items-center";
 
-    public override string ModalFade() => Fade();
+    public override string ModalFade() => null;
 
-    public override string ModalFade( bool animation ) => animation ? Fade() : null;
+    public override string ModalFade( bool animation ) => null;
 
-    public override string ModalVisible( bool visible ) => visible ? Show() : null;
+    public override string ModalVisible( bool visible ) => visible ? "flex" : "hidden";
 
-    public override string ModalBackdrop() => "modal-backdrop";
+    public override string ModalBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40";
 
-    public override string ModalBackdropFade() => Fade();
+    public override string ModalBackdropFade() => null;
 
-    public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+    public override string ModalBackdropVisible( bool visible ) => null;
 
-    public override string ModalContent( bool dialog ) => "modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current";
+    public override string ModalContent( bool dialog ) => "relative bg-white rounded-lg shadow dark:bg-gray-700";
 
-    public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
+    public override string ModalContentSize( ModalSize modalSize ) => null;
 
     public override string ModalContentFullscreen( bool fullscreen ) => null;
 
@@ -918,13 +908,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalContentScrollable( bool scrollable ) => null;
 
-    public override string ModalBody() => "modal-body relative p-4";
+    public override string ModalBody() => "p-6 space-y-6";
 
-    public override string ModalHeader() => "modal-header flex flex-shrink-0 items-center justify-between p-4 border-b border-gray-200 rounded-t-md";
+    public override string ModalHeader() => "flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600";
 
-    public override string ModalFooter() => "modal-footer flex flex-shrink-0 flex-wrap items-center justify-end p-4 border-t border-gray-200 rounded-b-md";
+    public override string ModalFooter() => "flex items-center p-6 space-x-2 border-t border-gray-200 rounded-b dark:border-gray-600";
 
-    public override string ModalTitle() => "text-xl font-medium leading-normal text-gray-800";
+    public override string ModalTitle() => "text-xl font-semibold text-gray-900 dark:text-white";
 
     #endregion
 
@@ -1424,6 +1414,17 @@ public class TailwindClassProvider : ClassProvider
             Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => "12",
             Blazorise.ColumnWidth.Auto => "auto",
             _ => null,
+        };
+    }
+
+    public override string ToModalSize( ModalSize modalSize )
+    {
+        return modalSize switch
+        {
+            Blazorise.ModalSize.Small => "max-w-md md:h-aut",
+            Blazorise.ModalSize.Large => "max-w-4xl md:h-auto",
+            Blazorise.ModalSize.ExtraLarge => "max-w-7xl md:h-auto",
+            _ => "max-w-2xl md:h-auto",
         };
     }
 
