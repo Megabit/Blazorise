@@ -80,7 +80,7 @@ namespace Blazorise.DataGrid
         private bool virtualizeFilterChanged;
 
         /// <summary>
-        /// The CancellationTokenSource for the Filtering Change EVent.
+        /// The CancellationTokenSource for the Filtering Change Event.
         /// </summary>
         private CancellationTokenSource filterCancellationTokenSource;
 
