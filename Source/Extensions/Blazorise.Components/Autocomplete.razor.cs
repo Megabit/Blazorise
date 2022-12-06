@@ -363,10 +363,13 @@ namespace Blazorise.Components
 
                 if ( ActiveItemIndex >= 0 )
                 {
-                    var item = FilteredData[ActiveItemIndex];
-                    if ( item != null && ValueField != null )
+                    if ( FilteredData?.Count > 0 )
                     {
-                        await OnDropdownItemSelected( ValueField.Invoke( item ) );
+                        var item = FilteredData[ActiveItemIndex];
+                        if ( item != null && ValueField != null )
+                        {
+                            await OnDropdownItemSelected( ValueField.Invoke( item ) );
+                        }
                     }
                 }
 
