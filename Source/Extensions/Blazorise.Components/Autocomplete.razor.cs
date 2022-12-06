@@ -363,7 +363,7 @@ namespace Blazorise.Components
 
                 if ( ActiveItemIndex >= 0 )
                 {
-                    if ( FilteredData?.Count > 0 )
+                    if ( FilteredData?.Count > 0 && DropdownVisible )
                     {
                         var item = FilteredData[ActiveItemIndex];
                         if ( item != null && ValueField != null )
@@ -436,7 +436,7 @@ namespace Blazorise.Components
 
         private async Task OnDropdownItemSelected( object value )
         {
-            if ( SelectionMode == AutocompleteSelectionMode.Default )
+            if ( SelectionMode == AutocompleteSelectionMode.Default && MinLength > 0 )
             {
                 await Close();
             }
