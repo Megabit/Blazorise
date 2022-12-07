@@ -369,6 +369,7 @@ namespace Blazorise.Components
                         if ( item != null && ValueField != null )
                         {
                             await OnDropdownItemSelected( ValueField.Invoke( item ) );
+                            ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, ActiveItemIndex ) );
                         }
                     }
                 }
