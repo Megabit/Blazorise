@@ -665,6 +665,7 @@ namespace Blazorise.Components
         {
             await RemoveMultipleText( text );
             await RemoveMultipleValue( GetValueByText( text ) );
+            DirtyFilter();
         }
 
         /// <summary>
@@ -676,6 +677,7 @@ namespace Blazorise.Components
         {
             await RemoveMultipleText( GetItemText( value ) );
             await RemoveMultipleValue( value );
+            DirtyFilter();
         }
 
         private void FilterData()
