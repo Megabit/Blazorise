@@ -436,7 +436,8 @@ namespace Blazorise.Components
 
         private async Task OnDropdownItemSelected( object value )
         {
-            if ( SelectionMode == AutocompleteSelectionMode.Default )
+            //TODO : Once Multiple is deprecated we may remove the && !IsMultiple condition
+            if ( SelectionMode == AutocompleteSelectionMode.Default && !IsMultiple )
             {
                 await Close();
             }
@@ -448,18 +449,7 @@ namespace Blazorise.Components
                     await Close();
                     await ResetCurrentSearch();
                 }
-                else if ( !IsSuggestSelectedItems )
-                {
-                    if ( AutoPreSelect )
-                    {
-                        ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count, ActiveItemIndex ) );
-                    }
-                    else
-                    {
-                        await ResetActiveItemIndex();
-                    }
-                }
-                else
+                else if ( IsSuggestSelectedItems )
                 {
                     ActiveItemIndex = FilteredData.Index( x => ValueField( x ).IsEqual( value ) );
                 }
@@ -506,6 +496,7 @@ namespace Blazorise.Components
                 );
             }
 
+            ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, ActiveItemIndex ) );
             await Revalidate();
         }
 
