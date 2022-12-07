@@ -442,7 +442,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ButtonBlock( bool outline ) => "w-full";
 
-    public override string ButtonActive( bool outline ) => "active";
+    public override string ButtonActive( bool outline ) => "bg-blend-darken";
 
     public override string ButtonDisabled( bool outline ) => "cursor-not-allowed opacity-60";
 
@@ -792,7 +792,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Row
 
-    public override string Row() => "grid grid-cols-12 space-x-4";
+    public override string Row() => "grid grid-cols-12 gap-x-4";
 
     public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
     {
