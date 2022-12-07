@@ -1,5 +1,5 @@
 ﻿import { getRequiredElement } from "./utilities.js?v=1.1.4.1";
-import { getFilesAsync } from "./fileUtilities.js?v=1.1.4.1";
+import { getFilesAsync } from "./fileEdit.js?v=1.1.4.1";
 
 const _instances = [];
 export function initialize(element, elementId) {
