@@ -1139,13 +1139,13 @@ public class TailwindClassProvider : ClassProvider
 
     #region Breadcrumb
 
-    public override string Breadcrumb() => "breadcrumb";
+    public override string Breadcrumb() => "flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700";
 
-    public override string BreadcrumbItem() => "breadcrumb-item";
+    public override string BreadcrumbItem() => null;
 
-    public override string BreadcrumbItemActive() => Active();
+    public override string BreadcrumbItemActive() => null;
 
-    public override string BreadcrumbLink() => null;
+    public override string BreadcrumbLink() => "flex items-center";
 
     #endregion
 

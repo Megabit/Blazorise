@@ -45,6 +45,9 @@ public static class Config
 
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
+        { typeof( Blazorise.Breadcrumb ), typeof( Tailwind.Breadcrumb ) },
+        { typeof( Blazorise.BreadcrumbItem ), typeof( Tailwind.BreadcrumbItem ) },
+        { typeof( Blazorise.BreadcrumbLink ), typeof( Tailwind.BreadcrumbLink ) },
         { typeof( Blazorise.CardImage ), typeof( Tailwind.CardImage ) },
         { typeof( Blazorise.CardText ), typeof( Tailwind.CardText ) },
         { typeof( Blazorise.Check<> ), typeof( Tailwind.Check<> ) },
