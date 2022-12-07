@@ -45,6 +45,15 @@ public static class Config
 
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
+        { typeof( Blazorise.Bar ), typeof( Tailwind.Bar ) },
+        { typeof( Blazorise.BarDropdown ), typeof( Tailwind.BarDropdown ) },
+        { typeof( Blazorise.BarDropdownItem ), typeof( Tailwind.BarDropdownItem ) },
+        { typeof( Blazorise.BarDropdownMenu ), typeof( Tailwind.BarDropdownMenu ) },
+        { typeof( Blazorise.BarDropdownToggle ), typeof( Tailwind.BarDropdownToggle ) },
+        { typeof( Blazorise.BarEnd ), typeof( Tailwind.BarEnd ) },
+        { typeof( Blazorise.BarItem ), typeof( Tailwind.BarItem ) },
+        { typeof( Blazorise.BarMenu ), typeof( Tailwind.BarMenu ) },
+        { typeof( Blazorise.BarStart ), typeof( Tailwind.BarStart ) },
         { typeof( Blazorise.Breadcrumb ), typeof( Tailwind.Breadcrumb ) },
         { typeof( Blazorise.BreadcrumbItem ), typeof( Tailwind.BreadcrumbItem ) },
         { typeof( Blazorise.BreadcrumbLink ), typeof( Tailwind.BreadcrumbLink ) },

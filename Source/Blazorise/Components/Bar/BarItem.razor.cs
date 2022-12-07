@@ -137,6 +137,11 @@ public partial class BarItem : BaseComponent
     }
 
     /// <summary>
+    /// Gets or sets the reference to the parent <see cref="Bar"/> component.
+    /// </summary>
+    [CascadingParameter] protected Bar ParentBar { get; set; }
+
+    /// <summary>
     /// Specifies the content to be rendered inside this <see cref="BarItem"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }

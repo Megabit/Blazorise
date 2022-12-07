@@ -688,7 +688,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Bar
 
-    public override string Bar() => "navbar";
+    public override string Bar() => "bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900";
 
     public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
 
@@ -702,8 +702,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarItem( BarMode mode, bool hasDropdown ) => mode == Blazorise.BarMode.Horizontal
         ? hasDropdown
-            ? "nav-item dropdown"
-            : "nav-item"
+            ? null
+            : null
         : "b-bar-item";
 
     public override string BarItemActive( BarMode mode ) => Active();
@@ -714,11 +714,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarItemHasDropdownShow( BarMode mode ) => null;
 
-    public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-link" : "b-bar-link";
+    public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" : "b-bar-link";
 
     public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
-    public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
+    public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "flex items-center" : "b-bar-brand";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler" :
         togglerMode == BarTogglerMode.Popout ? "b-bar-toggler-popout" : "b-bar-toggler-inline";
@@ -729,34 +729,34 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarMenuShow( BarMode mode ) => Show();
 
-    public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav mr-auto" : "b-bar-start";
+    public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "items-center justify-between hidden w-full md:flex md:w-auto md:order-1 mr-auto" : "b-bar-start";
 
-    public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav ml-auto" : "b-bar-end";
+    public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "items-center justify-between hidden w-full md:flex md:w-auto md:order-1 ml-auto" : "b-bar-end";
 
     public override string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
-        ? "dropdown"
+        ? null
         : "b-bar-dropdown";
 
     public override string BarDropdownShow( BarMode mode ) => Show();
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu
-            ? "dropdown-item"
-            : "nav-link dropdown-toggle"
+            ? "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+            : "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
         : "b-bar-link b-bar-dropdown-toggle";
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
         => mode == Blazorise.BarMode.Horizontal && disabled ? "disabled" : null;
 
-    public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-item" : "b-bar-dropdown-item";
+    public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" : "b-bar-dropdown-item";
 
     public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
 
     public override string BarDropdownDivider( BarMode mode ) => "dropdown-divider";
 
-    public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu" : "b-bar-dropdown-menu";
+    public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600" : "b-bar-dropdown-menu";
 
-    public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
+    public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? "block" : "hidden";
 
     public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-right" : "b-bar-right";
 
