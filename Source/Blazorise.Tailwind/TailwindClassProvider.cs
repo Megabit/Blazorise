@@ -442,7 +442,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ButtonBlock( bool outline ) => "w-full";
 
-    public override string ButtonActive( bool outline ) => "bg-blend-darken";
+    public override string ButtonActive( bool outline ) => "active";
 
     public override string ButtonDisabled( bool outline ) => "cursor-not-allowed opacity-60";
 
