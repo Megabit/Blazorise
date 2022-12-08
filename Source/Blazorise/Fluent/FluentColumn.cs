@@ -16,7 +16,7 @@ public interface IFluentColumn
     /// </summary>
     /// <param name="classProvider">Class provider used by the current framework provider.</param>
     /// <returns>Return list of css classnames.</returns>
-    string Class( IClassProvider classProvider );
+    string Class( IClassProvider classProvider, Row row );
 
     /// <summary>
     /// True if there are column sizes defined.
@@ -191,6 +191,8 @@ public class FluentColumn :
 
     private class ColumnDefinition
     {
+        public ColumnWidth ColumnWidth { get; set; }
+
         public Breakpoint Breakpoint { get; set; }
 
         public bool Offset { get; set; }
@@ -198,7 +200,7 @@ public class FluentColumn :
 
     private ColumnDefinition currentColumn;
 
-    private readonly Dictionary<ColumnWidth, List<ColumnDefinition>> rules = new();
+    private readonly List<ColumnDefinition> rules = new();
 
     private List<string> customRules;
 
@@ -211,14 +213,26 @@ public class FluentColumn :
     #region Methods
 
     /// <inheritdoc/>
-    public string Class( IClassProvider classProvider )
+    public string Class( IClassProvider classProvider, Row row )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules.Count( x => x.Key != ColumnWidth.Default ) > 0 )
-                    builder.Append( rules.Select( r => classProvider.Column( r.Key, r.Value.Select( v => (v.Breakpoint, v.Offset) ) ) ) );
+                if ( rules.Count( x => x.ColumnWidth != ColumnWidth.Default ) > 0 )
+                {
+                    int previousColumnWidth = 0;
+
+                    foreach ( var rule in rules )
+                    {
+                        var currentColumnWidth = ToColumnWidthNumber( rule.ColumnWidth );
+
+                        builder.Append( classProvider.Column( rule.ColumnWidth, previousColumnWidth, row?.TotalUsedSpace ?? 0, rule.Breakpoint, rule.Offset ) );
+
+                        previousColumnWidth = currentColumnWidth;
+                        row?.RaiseUsedSpace( currentColumnWidth );
+                    }
+                }
 
                 if ( customRules?.Count > 0 )
                     builder.Append( customRules );
@@ -232,6 +246,27 @@ public class FluentColumn :
         }
 
         return classNames;
+    }
+
+    private static int ToColumnWidthNumber( ColumnWidth columnWidth )
+    {
+        return columnWidth switch
+        {
+            Blazorise.ColumnWidth.Is1 => 1,
+            Blazorise.ColumnWidth.Is2 => 2,
+            Blazorise.ColumnWidth.Is3 or Blazorise.ColumnWidth.Quarter => 3,
+            Blazorise.ColumnWidth.Is4 or Blazorise.ColumnWidth.Third => 4,
+            Blazorise.ColumnWidth.Is5 => 5,
+            Blazorise.ColumnWidth.Is6 or Blazorise.ColumnWidth.Half => 6,
+            Blazorise.ColumnWidth.Is7 => 7,
+            Blazorise.ColumnWidth.Is8 => 8,
+            Blazorise.ColumnWidth.Is9 => 9,
+            Blazorise.ColumnWidth.Is10 => 10,
+            Blazorise.ColumnWidth.Is11 => 11,
+            Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => 12,
+            Blazorise.ColumnWidth.Auto => 0,
+            _ => 0,
+        };
     }
 
     private void Dirty()
@@ -248,12 +283,12 @@ public class FluentColumn :
     {
         HasSizes = true;
 
-        var columnDefinition = new ColumnDefinition { Breakpoint = Breakpoint.None };
-
-        if ( rules.TryGetValue( columnSize, out var rule ) )
-            rule.Add( columnDefinition );
-        else
-            rules.Add( columnSize, new() { columnDefinition } );
+        var columnDefinition = new ColumnDefinition { ColumnWidth = columnSize, Breakpoint = Breakpoint.None };
+        rules.Add( columnDefinition );
+        //if ( rules.TryGetValue( columnSize, out var rule ) )
+        //    rule.Add( columnDefinition );
+        //else
+        //    rules.Add( columnSize, new() { columnDefinition } );
 
         currentColumn = columnDefinition;
         Dirty();

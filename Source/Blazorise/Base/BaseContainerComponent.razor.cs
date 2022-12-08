@@ -22,7 +22,7 @@ public abstract class BaseContainerComponent : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         if ( ColumnSize != null )
-            builder.Append( ColumnSize.Class( ClassProvider ) );
+            builder.Append( ColumnSize.Class( ClassProvider, ParentRow ) );
 
         base.BuildClasses( builder );
     }
@@ -50,6 +50,8 @@ public abstract class BaseContainerComponent : BaseComponent
     /// Specifies the content to be rendered inside this <see cref="BaseContainerComponent"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [CascadingParameter] public Row ParentRow { get; set; }
 
     #endregion
 }

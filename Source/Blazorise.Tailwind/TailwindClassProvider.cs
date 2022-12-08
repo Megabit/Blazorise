@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 #endregion
@@ -810,20 +811,40 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Column( bool hasSizes ) => hasSizes ? null : "col-span-12";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( ColumnWidth columnWidth, int previousColumnWidth, int totalColumnsWidth, Breakpoint breakpoint, bool offset )
     {
-        var baseClass = offset ? "offset" : "col-span";
+        var columnWidthValue = ToColumnWidth( columnWidth );
+
+        if ( offset && columnWidthValue != null && columnWidthValue != "auto"
+            && int.TryParse( columnWidthValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out var columnWidthNumber ) )
+        {
+            //var hasPrevious = int.TryParse( ToColumnWidth( previousColumnWidth ), NumberStyles.Integer, CultureInfo.InvariantCulture, out var previousColumnWidthNumber );
+
+            //var move = hasPrevious
+            //    ? columnWidthNumber
+            //    : columnWidthNumber + columnWidthNumber;
+
+            var start = totalColumnsWidth + 1;
+            var end = start + columnWidthNumber;
+
+            if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
+            {
+                return $"{ToBreakpoint( breakpoint )}:col-start-{start} {ToBreakpoint( breakpoint )}:col-end-{end}";
+            }
+
+            return $"col-start-{start}";
+        }
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
         {
-            return $"{ToBreakpoint( breakpoint )}:{baseClass}-{ToColumnWidth( columnWidth )}";
+            return $"{ToBreakpoint( breakpoint )}:col-span-{columnWidthValue}";
         }
 
-        return $"{baseClass}-{ToColumnWidth( columnWidth )}";
+        return $"col-span-{columnWidthValue}";
     }
 
-    public override string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules )
-        => string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+    //public override string Column( ColumnWidth columnWidth, ColumnWidth previousColumnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules )
+    //    => string.Join( " ", rules.Select( r => Column( columnWidth, previousColumnWidth, r.breakpoint, r.offset ) ) );
 
     #endregion
 

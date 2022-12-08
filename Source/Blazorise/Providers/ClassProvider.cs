@@ -727,10 +727,10 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Column( bool hasSizes );
 
-    public abstract string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
+    public abstract string Column( ColumnWidth columnWidth, int previousColumnWidth, int totalColumnsWidth, Breakpoint breakpoint, bool offset );
 
-    public virtual string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-        string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+    //public virtual string Column( ColumnWidth columnWidth, ColumnWidth previousColumnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
+    //    string.Join( " ", rules.Select( r => Column( columnWidth, previousColumnWidth, r.breakpoint, r.offset ) ) );
 
     #endregion
 

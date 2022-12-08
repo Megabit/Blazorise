@@ -22,7 +22,7 @@ public abstract class BaseSizableFieldComponent : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         if ( ColumnSize != null && ColumnSizeSupported )
-            builder.Append( ColumnSize.Class( ClassProvider ) );
+            builder.Append( ColumnSize.Class( ClassProvider, null ) );
 
         base.BuildClasses( builder );
     }

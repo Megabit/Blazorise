@@ -38,6 +38,15 @@ public partial class Row : BaseComponent
         base.BuildStyles( builder );
     }
 
+    private int usedSpace = 0;
+
+    public void RaiseUsedSpace( int space )
+    {
+        usedSpace += space;
+    }
+
+    public int TotalUsedSpace => usedSpace;
+
     #endregion
 
     #region Properties

@@ -30,7 +30,7 @@ public partial class Fields : BaseComponent
         if ( ColumnSize != null )
         {
             builder.Append( ClassProvider.FieldsColumn() );
-            builder.Append( ColumnSize.Class( ClassProvider ) );
+            builder.Append( ColumnSize.Class( ClassProvider, null ) );
         }
 
         base.BuildClasses( builder );
