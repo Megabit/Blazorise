@@ -9,10 +9,11 @@ namespace Blazorise;
 /// <summary>
 /// A wrapper that represents a column in a flexbox grid.
 /// </summary>
-public partial class Column : BaseContainerComponent, IDisposable
+public partial class Column : BaseColumnableComponent, IDisposable
 {
     #region Methods
 
+    /// <inheritdoc/>
     protected override void OnInitialized()
     {
         ParentRow?.NotifyColumnInitialized( this );
@@ -20,6 +21,7 @@ public partial class Column : BaseContainerComponent, IDisposable
         base.OnInitialized();
     }
 
+    /// <inheritdoc/>
     protected override void Dispose( bool disposing )
     {
         if ( disposing )

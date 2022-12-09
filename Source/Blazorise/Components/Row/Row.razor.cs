@@ -39,9 +39,9 @@ public partial class Row : BaseComponent
         base.BuildStyles( builder );
     }
 
-    private List<BaseContainerComponent> columns = new List<BaseContainerComponent>();
+    private List<BaseColumnableComponent> columns = new List<BaseColumnableComponent>();
 
-    public void NotifyColumnInitialized( BaseContainerComponent column )
+    internal void NotifyColumnInitialized( BaseColumnableComponent column )
     {
         if ( !columns.Contains( column ) )
         {
@@ -49,7 +49,7 @@ public partial class Row : BaseComponent
         }
     }
 
-    public void NotifyColumnDestroyed( BaseContainerComponent column )
+    internal void NotifyColumnDestroyed( BaseColumnableComponent column )
     {
         if ( columns.Contains( column ) )
         {
@@ -57,11 +57,11 @@ public partial class Row : BaseComponent
         }
     }
 
-    public int ColumnIndex( BaseContainerComponent column ) => columns.IndexOf( column );
+    public int ColumnIndex( BaseColumnableComponent column ) => columns.IndexOf( column );
 
     private int usedSpace = 0;
 
-    public void ResetUsedSpace( BaseContainerComponent column )
+    public void ResetUsedSpace( BaseColumnableComponent column )
     {
         if ( column is not null && ColumnIndex( column ) <= 0 )
             usedSpace = 0;

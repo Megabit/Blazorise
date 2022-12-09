@@ -16,7 +16,7 @@ public interface IFluentColumn
     /// </summary>
     /// <param name="classProvider">Class provider used by the current framework provider.</param>
     /// <returns>Return list of css classnames.</returns>
-    string Class( IClassProvider classProvider, Row row, BaseContainerComponent currentColumn = null );
+    string Class( IClassProvider classProvider, Row row, BaseColumnableComponent currentColumn = null );
 
     /// <summary>
     /// True if there are column sizes defined.
@@ -213,7 +213,7 @@ public class FluentColumn :
     #region Methods
 
     /// <inheritdoc/>
-    public string Class( IClassProvider classProvider, Row row, BaseContainerComponent currentColumn = null )
+    public string Class( IClassProvider classProvider, Row row, BaseColumnableComponent currentColumn = null )
     {
         if ( dirty )
         {

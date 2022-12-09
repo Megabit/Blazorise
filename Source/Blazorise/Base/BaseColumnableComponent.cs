@@ -8,7 +8,7 @@ namespace Blazorise;
 /// <summary>
 /// Base class for components that are containers for other components.
 /// </summary>
-public abstract class BaseContainerComponent : BaseComponent
+public abstract class BaseColumnableComponent : BaseComponent
 {
     #region Members
 
@@ -47,7 +47,7 @@ public abstract class BaseContainerComponent : BaseComponent
     }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="BaseContainerComponent"/>.
+    /// Specifies the content to be rendered inside this <see cref="BaseColumnableComponent"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
