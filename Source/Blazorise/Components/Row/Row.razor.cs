@@ -39,9 +39,9 @@ public partial class Row : BaseComponent
         base.BuildStyles( builder );
     }
 
-    private List<Column> columns = new List<Column>();
+    private List<BaseContainerComponent> columns = new List<BaseContainerComponent>();
 
-    public void NotifyColumnInitialized( Column column )
+    public void NotifyColumnInitialized( BaseContainerComponent column )
     {
         if ( !columns.Contains( column ) )
         {
@@ -49,7 +49,7 @@ public partial class Row : BaseComponent
         }
     }
 
-    public void NotifyColumnDestroyed( Column column )
+    public void NotifyColumnDestroyed( BaseContainerComponent column )
     {
         if ( columns.Contains( column ) )
         {
@@ -57,29 +57,43 @@ public partial class Row : BaseComponent
         }
     }
 
-    public int ColumnIndex( Column column ) => columns.IndexOf( column );
+    public int ColumnIndex( BaseContainerComponent column ) => columns.IndexOf( column );
 
     private int usedSpace = 0;
 
-    //public void ResetUsedSpace( Column column )
-    //{
-    //    if ( ColumnIndex( column ) <= 0 )
-    //    {
-    //        usedSpace = 0;
-    //    }
-    //}
+    public void ResetUsedSpace( BaseContainerComponent column )
+    {
+        if ( column is not null && ColumnIndex( column ) <= 0 )
+            usedSpace = 0;
+    }
 
     public void IncreaseUsedSpace( int space )
     {
         usedSpace += space;
     }
 
-    public void DecreaseUsedSpace( int space )
-    {
-        usedSpace -= space;
-    }
-
     public int TotalUsedSpace => usedSpace;
+
+    private static int ToColumnWidthIndex( ColumnWidth columnWidth )
+    {
+        return columnWidth switch
+        {
+            Blazorise.ColumnWidth.Is1 => 1,
+            Blazorise.ColumnWidth.Is2 => 2,
+            Blazorise.ColumnWidth.Is3 or Blazorise.ColumnWidth.Quarter => 3,
+            Blazorise.ColumnWidth.Is4 or Blazorise.ColumnWidth.Third => 4,
+            Blazorise.ColumnWidth.Is5 => 5,
+            Blazorise.ColumnWidth.Is6 or Blazorise.ColumnWidth.Half => 6,
+            Blazorise.ColumnWidth.Is7 => 7,
+            Blazorise.ColumnWidth.Is8 => 8,
+            Blazorise.ColumnWidth.Is9 => 9,
+            Blazorise.ColumnWidth.Is10 => 10,
+            Blazorise.ColumnWidth.Is11 => 11,
+            Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => 12,
+            Blazorise.ColumnWidth.Auto => 0,
+            _ => 0,
+        };
+    }
 
     #endregion
 

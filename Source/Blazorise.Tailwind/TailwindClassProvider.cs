@@ -811,28 +811,22 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Column( bool hasSizes ) => hasSizes ? null : "col-span-12";
 
-    public override string Column( ColumnWidth columnWidth, int previousColumnWidth, int totalColumnsWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom )
     {
         var columnWidthValue = ToColumnWidth( columnWidth );
 
         if ( offset && columnWidthValue != null && columnWidthValue != "auto"
             && int.TryParse( columnWidthValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out var columnWidthNumber ) )
         {
-            //var hasPrevious = int.TryParse( ToColumnWidth( previousColumnWidth ), NumberStyles.Integer, CultureInfo.InvariantCulture, out var previousColumnWidthNumber );
+            //var start = totalColumnsWidth + 1;
+            //var end = start + columnWidthNumber;
 
-            //var move = hasPrevious
-            //    ? columnWidthNumber
-            //    : columnWidthNumber + columnWidthNumber;
+            //if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
+            //{
+            //    return $"{ToBreakpoint( columnDefinition.Breakpoint )}:col-start-{start} {ToBreakpoint( columnDefinition.Breakpoint )}:col-end-{end}";
+            //}
 
-            var start = totalColumnsWidth + 1;
-            var end = start + columnWidthNumber;
-
-            if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
-            {
-                return $"{ToBreakpoint( breakpoint )}:col-start-{start} {ToBreakpoint( breakpoint )}:col-end-{end}";
-            }
-
-            return $"col-start-{start}";
+            return $"col-start-{startFrom + 1}";
         }
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
@@ -842,9 +836,6 @@ public class TailwindClassProvider : ClassProvider
 
         return $"col-span-{columnWidthValue}";
     }
-
-    //public override string Column( ColumnWidth columnWidth, ColumnWidth previousColumnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules )
-    //    => string.Join( " ", rules.Select( r => Column( columnWidth, previousColumnWidth, r.breakpoint, r.offset ) ) );
 
     #endregion
 

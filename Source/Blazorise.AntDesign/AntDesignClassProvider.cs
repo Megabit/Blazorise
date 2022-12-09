@@ -746,7 +746,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Column( bool hasSizes ) => "ant-col";
 
-    public override string Column( ColumnWidth columnWidth, int previousColumnWidth, int totalColumnsWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom )
     {
         // AntDesign requires for base ant-col class to be always defined.
         var sb = new StringBuilder( "ant-col" );
@@ -761,9 +761,6 @@ public class AntDesignClassProvider : ClassProvider
 
         return sb.ToString();
     }
-
-    //public override string Column( ColumnWidth columnWidth, ColumnWidth previousColumnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-    //    string.Join( " ", rules.Select( r => Column( columnWidth, previousColumnWidth, r.breakpoint, r.offset ) ) );
 
     #endregion
 

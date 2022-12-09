@@ -764,7 +764,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Column( bool hasSizes ) => hasSizes ? null : "column";
 
-    public override string Column( ColumnWidth columnWidth, int previousColumnWidth, int totalColumnsWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom )
     {
         var baseClass = offset ? "offset-" : null;
 
@@ -778,9 +778,6 @@ public class BulmaClassProvider : ClassProvider
 
         return $"column is-{baseClass}{ToColumnWidth( columnWidth )}";
     }
-
-    //public override string Column( ColumnWidth columnWidth, ColumnWidth previousColumnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-    //    string.Join( " ", rules.Select( r => Column( columnWidth, previousColumnWidth, r.breakpoint, r.offset ) ) );
 
     #endregion
 

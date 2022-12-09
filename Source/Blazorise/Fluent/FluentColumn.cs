@@ -16,7 +16,7 @@ public interface IFluentColumn
     /// </summary>
     /// <param name="classProvider">Class provider used by the current framework provider.</param>
     /// <returns>Return list of css classnames.</returns>
-    string Class( IClassProvider classProvider, Row row );
+    string Class( IClassProvider classProvider, Row row, BaseContainerComponent currentColumn = null );
 
     /// <summary>
     /// True if there are column sizes defined.
@@ -196,10 +196,6 @@ public class FluentColumn :
         public Breakpoint Breakpoint { get; set; }
 
         public bool Offset { get; set; }
-
-        //public ColumnWidth OffsetColumnWidth { get; set; }
-
-        //public bool HasSomething => Offset || Breakpoint != Breakpoint.None;
     }
 
     private ColumnDefinition columnDefinition;
@@ -217,51 +213,34 @@ public class FluentColumn :
     #region Methods
 
     /// <inheritdoc/>
-    public string Class( IClassProvider classProvider, Row row )
+    public string Class( IClassProvider classProvider, Row row, BaseContainerComponent currentColumn = null )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
+                row?.ResetUsedSpace( currentColumn );
+
                 if ( HasSizes )
                 {
-                    int previousColumnWidth = 0;
-
                     ColumnDefinition previousColumnDefinition = null;
 
                     foreach ( var columnDefinition in columnDefinitions )
                     {
                         row?.IncreaseUsedSpace( ToColumnWidthIndex( columnDefinition.ColumnWidth ) );
 
-                        // If the previous rule was without extra rule it means we're chaining rules. So the new size is mostly for the offset.
-                        if ( previousColumnDefinition != null  )
-                        {
-                            if(  !previousColumnDefinition.Offset && columnDefinition.Offset )
-                            {
-                                row?.DecreaseUsedSpace( ToColumnWidthIndex( previousColumnDefinition.ColumnWidth ) );
-                            }
-                            else
-                            {
+                        var startFrom = row?.TotalUsedSpace ?? 0;
 
-                            }
-                        }
+                        if ( previousColumnDefinition != null && !previousColumnDefinition.Offset && columnDefinition.Offset )
+                            startFrom -= ToColumnWidthIndex( previousColumnDefinition.ColumnWidth );
 
-                        builder.Append( classProvider.Column( columnDefinition.ColumnWidth, previousColumnWidth, row?.TotalUsedSpace ?? 0, columnDefinition.Breakpoint, columnDefinition.Offset ) );
+                        if ( startFrom < 0 )
+                            startFrom = 0;
+
+                        builder.Append( classProvider.Column( columnDefinition.ColumnWidth, columnDefinition.Breakpoint, columnDefinition.Offset, startFrom ) );
 
                         previousColumnDefinition = columnDefinition;
                     }
-
-                    //int previousColumnWidth = 0;
-
-                    //foreach ( var rule in rules )
-                    //{
-                    //    var currentColumnWidth = ToColumnWidthIndex( rule.ColumnWidth );
-
-                    //    builder.Append( classProvider.Column( rule.ColumnWidth, previousColumnWidth, row?.TotalUsedSpace ?? 0, rule.Breakpoint, rule.Offset ) );
-
-                    //    previousColumnWidth = currentColumnWidth;
-                    //    row?.RaiseUsedSpace( currentColumnWidth );
-                    //}
                 }
 
                 if ( customRules?.Count > 0 )

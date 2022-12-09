@@ -22,7 +22,7 @@ public abstract class BaseContainerComponent : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         if ( ColumnSize != null )
-            builder.Append( ColumnSize.Class( ClassProvider, ParentRow ) );
+            builder.Append( ColumnSize.Class( ClassProvider, ParentRow, this ) );
 
         base.BuildClasses( builder );
     }

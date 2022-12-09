@@ -747,7 +747,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Column( bool hasSizes ) => hasSizes ? null : "col";
 
-    public override string Column( ColumnWidth columnWidth, int previousColumnWidth, int totalColumnsWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom )
     {
         var baseClass = offset ? "offset" : "col";
 
@@ -758,9 +758,6 @@ public class Bootstrap5ClassProvider : ClassProvider
 
         return $"{baseClass}-{ToColumnWidth( columnWidth )}";
     }
-
-    //public override string Column( ColumnWidth columnWidth, ColumnWidth previousColumnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules )
-    //    => string.Join( " ", rules.Select( r => Column( columnWidth, previousColumnWidth, r.breakpoint, r.offset ) ) );
 
     #endregion
 
