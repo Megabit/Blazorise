@@ -1,23 +1,4 @@
 ﻿@page "/tests/utilities/layout"
-<Button Color="Color.Primary" Clicked="@(()=>visible = !visible)">TOGGLE</Button>
-
-<Row>
-    <Column>
-        TEST 1
-    </Column>
-    @if ( visible )
-    {
-        <Column>
-            TEST 2
-        </Column>
-    }
-    <Column>
-        TEST 3
-    </Column>
-</Row>
-@code {
-    bool visible = true;
-}
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
