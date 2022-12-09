@@ -818,13 +818,10 @@ public class TailwindClassProvider : ClassProvider
         if ( offset && columnWidthValue != null && columnWidthValue != "auto"
             && int.TryParse( columnWidthValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out var columnWidthNumber ) )
         {
-            //var start = totalColumnsWidth + 1;
-            //var end = start + columnWidthNumber;
-
-            //if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
-            //{
-            //    return $"{ToBreakpoint( columnDefinition.Breakpoint )}:col-start-{start} {ToBreakpoint( columnDefinition.Breakpoint )}:col-end-{end}";
-            //}
+            if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
+            {
+                return $"{ToBreakpoint( breakpoint )}:col-start-{startFrom + 1}";
+            }
 
             return $"col-start-{startFrom + 1}";
         }
