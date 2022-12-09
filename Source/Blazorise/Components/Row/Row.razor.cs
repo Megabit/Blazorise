@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -38,11 +39,44 @@ public partial class Row : BaseComponent
         base.BuildStyles( builder );
     }
 
+    private List<Column> columns = new List<Column>();
+
+    public void NotifyColumnInitialized( Column column )
+    {
+        if ( !columns.Contains( column ) )
+        {
+            columns.Add( column );
+        }
+    }
+
+    public void NotifyColumnDestroyed( Column column )
+    {
+        if ( columns.Contains( column ) )
+        {
+            columns.Remove( column );
+        }
+    }
+
+    public int ColumnIndex( Column column ) => columns.IndexOf( column );
+
     private int usedSpace = 0;
 
-    public void RaiseUsedSpace( int space )
+    //public void ResetUsedSpace( Column column )
+    //{
+    //    if ( ColumnIndex( column ) <= 0 )
+    //    {
+    //        usedSpace = 0;
+    //    }
+    //}
+
+    public void IncreaseUsedSpace( int space )
     {
         usedSpace += space;
+    }
+
+    public void DecreaseUsedSpace( int space )
+    {
+        usedSpace -= space;
     }
 
     public int TotalUsedSpace => usedSpace;

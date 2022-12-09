@@ -196,11 +196,15 @@ public class FluentColumn :
         public Breakpoint Breakpoint { get; set; }
 
         public bool Offset { get; set; }
+
+        //public ColumnWidth OffsetColumnWidth { get; set; }
+
+        //public bool HasSomething => Offset || Breakpoint != Breakpoint.None;
     }
 
-    private ColumnDefinition currentColumn;
+    private ColumnDefinition columnDefinition;
 
-    private readonly List<ColumnDefinition> rules = new();
+    private readonly List<ColumnDefinition> columnDefinitions = new();
 
     private List<string> customRules;
 
@@ -219,19 +223,45 @@ public class FluentColumn :
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules.Count( x => x.ColumnWidth != ColumnWidth.Default ) > 0 )
+                if ( HasSizes )
                 {
                     int previousColumnWidth = 0;
 
-                    foreach ( var rule in rules )
+                    ColumnDefinition previousColumnDefinition = null;
+
+                    foreach ( var columnDefinition in columnDefinitions )
                     {
-                        var currentColumnWidth = ToColumnWidthNumber( rule.ColumnWidth );
+                        row?.IncreaseUsedSpace( ToColumnWidthIndex( columnDefinition.ColumnWidth ) );
 
-                        builder.Append( classProvider.Column( rule.ColumnWidth, previousColumnWidth, row?.TotalUsedSpace ?? 0, rule.Breakpoint, rule.Offset ) );
+                        // If the previous rule was without extra rule it means we're chaining rules. So the new size is mostly for the offset.
+                        if ( previousColumnDefinition != null  )
+                        {
+                            if(  !previousColumnDefinition.Offset && columnDefinition.Offset )
+                            {
+                                row?.DecreaseUsedSpace( ToColumnWidthIndex( previousColumnDefinition.ColumnWidth ) );
+                            }
+                            else
+                            {
 
-                        previousColumnWidth = currentColumnWidth;
-                        row?.RaiseUsedSpace( currentColumnWidth );
+                            }
+                        }
+
+                        builder.Append( classProvider.Column( columnDefinition.ColumnWidth, previousColumnWidth, row?.TotalUsedSpace ?? 0, columnDefinition.Breakpoint, columnDefinition.Offset ) );
+
+                        previousColumnDefinition = columnDefinition;
                     }
+
+                    //int previousColumnWidth = 0;
+
+                    //foreach ( var rule in rules )
+                    //{
+                    //    var currentColumnWidth = ToColumnWidthIndex( rule.ColumnWidth );
+
+                    //    builder.Append( classProvider.Column( rule.ColumnWidth, previousColumnWidth, row?.TotalUsedSpace ?? 0, rule.Breakpoint, rule.Offset ) );
+
+                    //    previousColumnWidth = currentColumnWidth;
+                    //    row?.RaiseUsedSpace( currentColumnWidth );
+                    //}
                 }
 
                 if ( customRules?.Count > 0 )
@@ -248,7 +278,7 @@ public class FluentColumn :
         return classNames;
     }
 
-    private static int ToColumnWidthNumber( ColumnWidth columnWidth )
+    private static int ToColumnWidthIndex( ColumnWidth columnWidth )
     {
         return columnWidth switch
         {
@@ -283,14 +313,18 @@ public class FluentColumn :
     {
         HasSizes = true;
 
-        var columnDefinition = new ColumnDefinition { ColumnWidth = columnSize, Breakpoint = Breakpoint.None };
-        rules.Add( columnDefinition );
-        //if ( rules.TryGetValue( columnSize, out var rule ) )
-        //    rule.Add( columnDefinition );
+        // If the previous rule was without extra rule it means we're chaining rules. So the new size is mostly for the offset.
+        //if ( columnDefinition != null && !columnDefinition.Offset )
+        //{
+        //    columnDefinition.OffsetColumnWidth = columnSize;
+        //}
         //else
-        //    rules.Add( columnSize, new() { columnDefinition } );
+        //{
+        columnDefinition = columnDefinition = new ColumnDefinition { ColumnWidth = columnSize, Breakpoint = Breakpoint.None };
 
-        currentColumn = columnDefinition;
+        columnDefinitions.Add( columnDefinition );
+        //}
+
         Dirty();
 
         return this;
@@ -320,7 +354,7 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnWithSize WithBreakpoint( Breakpoint breakpoint )
     {
-        currentColumn.Breakpoint = breakpoint;
+        columnDefinition.Breakpoint = breakpoint;
         Dirty();
 
         return this;
@@ -369,7 +403,7 @@ public class FluentColumn :
     /// <summary>
     /// Move columns to the right.
     /// </summary>
-    public IFluentColumnOnBreakpoint WithOffset { get { currentColumn.Offset = true; Dirty(); return this; } }
+    public IFluentColumnOnBreakpoint WithOffset { get { columnDefinition.Offset = true; Dirty(); return this; } }
 
     /// <summary>
     /// One column width.

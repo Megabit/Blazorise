@@ -1,4 +1,290 @@
 ﻿@page "/tests/utilities/layout"
+<Button Color="Color.Primary" Clicked="@(()=>visible = !visible)">TOGGLE</Button>
+
+<Row>
+    <Column>
+        TEST 1
+    </Column>
+    @if ( visible )
+    {
+        <Column>
+            TEST 2
+        </Column>
+    }
+    <Column>
+        TEST 3
+    </Column>
+</Row>
+@code {
+    bool visible = true;
+}
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Container</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>This container is centered on desktop.</CardText>
+            </CardBody>
+            <CardBody>
+                <Container>
+                    <Alert Color="Color.Primary" Visible>
+                        Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
+                    </Alert>
+                </Container>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Fluid Container</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>If you don't want to have a maximum width but want to keep the some margin on the left and right sides, add the <code>Fluid</code> modifier:</CardText>
+            </CardBody>
+            <CardBody>
+                <Container Fluid>
+                    <Alert Color="Color.Primary" Visible>
+                        Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
+                    </Alert>
+                </Container>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Grid Example</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>As the grid can be divided into 12 columns, there are size utilities for each division:</CardText>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is12">
+                        <Alert Color="Color.Primary" Visible>
+                            Is12
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is11">
+                        <Alert Color="Color.Primary" Visible>
+                            Is11
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is1">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is1
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is10">
+                        <Alert Color="Color.Primary" Visible>
+                            Is10
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is2
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is9">
+                        <Alert Color="Color.Primary" Visible>
+                            Is9
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is3
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is8">
+                        <Alert Color="Color.Primary" Visible>
+                            Is8
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is4">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is4
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is7">
+                        <Alert Color="Color.Primary" Visible>
+                            Is7
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is5">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is5
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is6">
+                        <Alert Color="Color.Primary" Visible>
+                            Is6
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is6">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is6
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is5">
+                        <Alert Color="Color.Primary" Visible>
+                            Is5
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is7">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is7
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is4">
+                        <Alert Color="Color.Primary" Visible>
+                            Is4
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is8">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is8
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Alert Color="Color.Primary" Visible>
+                            Is3
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is9">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is9
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Alert Color="Color.Primary" Visible>
+                            Is2
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is10">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is10
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is1">
+                        <Alert Color="Color.Primary" Visible>
+                            Is1
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is11">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is11
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Alert Color="Color.Primary" Visible>
+                            Is2
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is3
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is4">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is4
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is2
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is1">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is1
+                        </Alert>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Variable width content</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use <code>ColumnSize.IsAuto</code> utilities to size columns based on the natural width of their content.</CardText>
+            </CardBody>
+            <CardBody>
+                <Row Flex="Flex.JustifyContent.Center">
+                    <Column ColumnSize="ColumnSize.Is2.OnWidescreen">
+                        <Alert Color="Color.Primary" Visible>
+                            Is2.OnWidescreen
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto.OnDesktop">
+                        <Alert Color="Color.Primary" Visible>
+                            Variable width content
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is2.OnWidescreen">
+                        <Alert Color="Color.Primary" Visible>
+                            Is2.OnWidescreen
+                        </Alert>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Alert Color="Color.Primary" Visible>
+                            1 of 3
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto.OnDesktop">
+                        <Alert Color="Color.Primary" Visible>
+                            Variable width content
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is2.OnWidescreen">
+                        <Alert Color="Color.Primary" Visible>
+                            3 of 3
+                        </Alert>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 
 <Row>
     <Column>
@@ -18,7 +304,7 @@
                     </Column>
                     <Column ColumnSize="ColumnSize.Is4.Is4.WithOffset">
                         <Alert Color="Color.Primary" Visible>
-                            Is4.Is4.WithOffset
+                            Is4.WithOffset
                         </Alert>
                     </Column>
                 </Row>
@@ -38,6 +324,73 @@
                     <Column ColumnSize="ColumnSize.Is6.Is3.WithOffset">
                         <Alert Color="Color.Primary" Visible>
                             Is6.Is3.WithOffset
+                        </Alert>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>No gutters</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>The gutters between columns in our predefined grid classes can be removed with <code>NoGutters</code>. This removes the negative margins from <code>Row</code> and the horizontal padding from all immediate children columns.</CardText>
+            </CardBody>
+            <CardBody>
+                <Row NoGutters>
+                    <Column ColumnSize="ColumnSize.Is6.OnTablet.Is8.OnDesktop">
+                        <Alert Color="Color.Primary" Visible>
+                            Is6.OnTablet.Is8.OnDesktop
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is6.Is4.OnDesktop">
+                        <Alert Color="Color.Primary" Visible>
+                            Is6.OnTablet.Is4.OnDesktop
+                        </Alert>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Row Columns</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Use the responsive <code>RowColumns.Are*</code> utilities to quickly set the number of columns that best render your content and layout.
+
+                    Whereas normal <code>ColumnSize.Is*</code> utilities apply to the individual columns (e.g., <code>ColumnSize.Is4</code>), the row columns utilities are set on the parent <code>Row</code> as a shortcut.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Row RowColumns="RowColumns.Are1.Are2.OnTablet.Are4.OnDesktop">
+                    <Column>
+                        <Alert Color="Color.Primary" Visible>
+                            Column
+                        </Alert>
+                    </Column>
+                    <Column>
+                        <Alert Color="Color.Primary" Visible>
+                            Column
+                        </Alert>
+                    </Column>
+                    <Column>
+                        <Alert Color="Color.Primary" Visible>
+                            Column
+                        </Alert>
+                    </Column>
+                    <Column>
+                        <Alert Color="Color.Primary" Visible>
+                            Column
                         </Alert>
                     </Column>
                 </Row>

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,9 +9,26 @@ namespace Blazorise;
 /// <summary>
 /// A wrapper that represents a column in a flexbox grid.
 /// </summary>
-public partial class Column : BaseContainerComponent
+public partial class Column : BaseContainerComponent, IDisposable
 {
     #region Methods
+
+    protected override void OnInitialized()
+    {
+        ParentRow?.NotifyColumnInitialized( this );
+
+        base.OnInitialized();
+    }
+
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentRow?.NotifyColumnDestroyed( this );
+        }
+
+        base.Dispose( disposing );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
