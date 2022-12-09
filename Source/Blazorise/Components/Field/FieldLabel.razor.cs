@@ -51,10 +51,5 @@ public partial class FieldLabel : BaseSizableFieldComponent
         }
     }
 
-    /// <summary>
-    /// Gets or sets the reference to the parent <see cref="FieldLabel"/> component.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
     #endregion
 }

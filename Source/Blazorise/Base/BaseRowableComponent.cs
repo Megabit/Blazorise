@@ -1,22 +1,32 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise;
 
+public interface IRowableComponent
+{
+    void NotifyColumnInitialized( IColumnableComponent column );
+
+    void NotifyColumnDestroyed( IColumnableComponent column );
+
+    void ResetUsedSpace( IColumnableComponent column );
+
+    void IncreaseUsedSpace( int space );
+
+    /// <summary>
+    /// Gets the total space used by the columns placed inside of the row component.
+    /// </summary>
+    int TotalUsedSpace { get; }
+}
+
 /// <summary>
-/// Container for multiple <see cref="Field"/> component that needs to be placed in a flexbox grid row.
+/// Base class for components that are containers for other components.
 /// </summary>
-public partial class Fields : BaseColumnableComponent, IRowableComponent, IDisposable
+public abstract class BaseRowableComponent : BaseComponent, IRowableComponent
 {
     #region Members
-
-    private string label;
-
-    private string help;
 
     private int spaceUsedByColumnables = 0;
 
@@ -25,19 +35,6 @@ public partial class Fields : BaseColumnableComponent, IRowableComponent, IDispo
     #endregion
 
     #region Methods
-
-    /// <inheritdoc/>
-    protected override void BuildClasses( ClassBuilder builder )
-    {
-        builder.Append( ClassProvider.Fields() );
-
-        if ( ColumnSize != null )
-        {
-            builder.Append( ClassProvider.FieldsColumn() );
-        }
-
-        base.BuildClasses( builder );
-    }
 
     public void NotifyColumnInitialized( IColumnableComponent column )
     {
@@ -74,34 +71,9 @@ public partial class Fields : BaseColumnableComponent, IRowableComponent, IDispo
     public int TotalUsedSpace => spaceUsedByColumnables;
 
     /// <summary>
-    /// Sets the field label.
+    /// Specifies the content to be rendered inside this <see cref="BaseRowableComponent"/>.
     /// </summary>
-    [Parameter]
-    public string Label
-    {
-        get => label;
-        set
-        {
-            label = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
-    /// Sets the field help-text positioned bellow the field.
-    /// </summary>
-    [Parameter]
-    public string Help
-    {
-        get => help;
-        set
-        {
-            help = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

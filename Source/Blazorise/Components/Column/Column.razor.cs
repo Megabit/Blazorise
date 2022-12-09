@@ -14,25 +14,6 @@ public partial class Column : BaseColumnableComponent, IDisposable
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        ParentRow?.NotifyColumnInitialized( this );
-
-        base.OnInitialized();
-    }
-
-    /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
-    {
-        if ( disposing )
-        {
-            ParentRow?.NotifyColumnDestroyed( this );
-        }
-
-        base.Dispose( disposing );
-    }
-
-    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         // Only add column classname if there are no custom sizes defined!

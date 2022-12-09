@@ -11,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// Wrapper for form input components like label, text, button, etc.
 /// </summary>
-public partial class Field : BaseComponent, IDisposable
+public partial class Field : BaseColumnableComponent, IRowableComponent, IDisposable
 {
     #region Members
 
@@ -27,16 +27,9 @@ public partial class Field : BaseComponent, IDisposable
 
     private ValidationStatus previousValidationStatus;
 
-    #endregion
+    private int spaceUsedByColumnables = 0;
 
-    #region Constructors
-
-    /// <summary>
-    /// A default constructor for <see cref="Field"/>.
-    /// </summary>
-    public Field()
-    {
-    }
+    private List<IColumnableComponent> columnables = new();
 
     #endregion
 
@@ -127,9 +120,44 @@ public partial class Field : BaseComponent, IDisposable
         hookables.Add( component );
     }
 
+    internal void UnHook( BaseComponent component )
+    {
+        hookables?.Remove( component );
+    }
+
+    public void NotifyColumnInitialized( IColumnableComponent column )
+    {
+        if ( !columnables.Contains( column ) )
+        {
+            columnables.Add( column );
+        }
+    }
+
+    public void NotifyColumnDestroyed( IColumnableComponent column )
+    {
+        if ( columnables.Contains( column ) )
+        {
+            columnables.Remove( column );
+        }
+    }
+
+    public void ResetUsedSpace( IColumnableComponent column )
+    {
+        if ( column is not null && columnables.IndexOf( column ) <= 0 )
+            spaceUsedByColumnables = 0;
+    }
+
+    public void IncreaseUsedSpace( int space )
+    {
+        spaceUsedByColumnables += space;
+    }
+
     #endregion
 
     #region Properties
+
+    /// <inheritdoc/>
+    public int TotalUsedSpace => spaceUsedByColumnables;
 
     /// <summary>
     /// Determines if the field is inside of <see cref="Fields"/> component.
@@ -154,21 +182,6 @@ public partial class Field : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Determines how much space will be used by the field inside of the grid row.
-    /// </summary>
-    [Parameter]
-    public IFluentColumn ColumnSize
-    {
-        get => columnSize;
-        set
-        {
-            columnSize = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
     /// Aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally).
     /// </summary>
     [Parameter]
@@ -182,11 +195,6 @@ public partial class Field : BaseComponent, IDisposable
             DirtyClasses();
         }
     }
-
-    /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="Field"/>.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
     /// Gets or sets the reference to the parent <see cref="Fields"/> component.

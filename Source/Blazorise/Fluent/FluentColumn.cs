@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using System.Linq;
 using Blazorise.Utilities;
 #endregion
 
@@ -15,8 +14,10 @@ public interface IFluentColumn
     /// Builds and returns the classnames for column sizes.
     /// </summary>
     /// <param name="classProvider">Class provider used by the current framework provider.</param>
+    /// <param name="rowable">A rowable component that is a container for <see cref="BaseColumnableComponent"/> components.</param>
+    /// <param name="currentColumnable">Currently processed columnable component.</param>
     /// <returns>Return list of css classnames.</returns>
-    string Class( IClassProvider classProvider, Row row, BaseColumnableComponent currentColumn = null );
+    string Class( IClassProvider classProvider, IRowableComponent rowable, IColumnableComponent currentColumnable );
 
     /// <summary>
     /// True if there are column sizes defined.
@@ -213,13 +214,13 @@ public class FluentColumn :
     #region Methods
 
     /// <inheritdoc/>
-    public string Class( IClassProvider classProvider, Row row, BaseColumnableComponent currentColumn = null )
+    public string Class( IClassProvider classProvider, IRowableComponent rowable, IColumnableComponent currentColumnable )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                row?.ResetUsedSpace( currentColumn );
+                rowable?.ResetUsedSpace( currentColumnable );
 
                 if ( HasSizes )
                 {
@@ -227,9 +228,12 @@ public class FluentColumn :
 
                     foreach ( var columnDefinition in columnDefinitions )
                     {
-                        row?.IncreaseUsedSpace( ToColumnWidthIndex( columnDefinition.ColumnWidth ) );
+                        if ( columnDefinition.ColumnWidth == ColumnWidth.Default )
+                            continue;
 
-                        var startFrom = row?.TotalUsedSpace ?? 0;
+                        rowable?.IncreaseUsedSpace( ToColumnWidthIndex( columnDefinition.ColumnWidth ) );
+
+                        var startFrom = rowable?.TotalUsedSpace ?? 0;
 
                         if ( previousColumnDefinition != null && !previousColumnDefinition.Offset && columnDefinition.Offset )
                             startFrom -= ToColumnWidthIndex( previousColumnDefinition.ColumnWidth );
@@ -290,19 +294,12 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnOnBreakpointWithOffsetAndSize WithColumnSize( ColumnWidth columnSize )
     {
-        HasSizes = true;
+        if ( columnSize != ColumnWidth.Default )
+            HasSizes = true;
 
-        // If the previous rule was without extra rule it means we're chaining rules. So the new size is mostly for the offset.
-        //if ( columnDefinition != null && !columnDefinition.Offset )
-        //{
-        //    columnDefinition.OffsetColumnWidth = columnSize;
-        //}
-        //else
-        //{
         columnDefinition = columnDefinition = new ColumnDefinition { ColumnWidth = columnSize, Breakpoint = Breakpoint.None };
 
         columnDefinitions.Add( columnDefinition );
-        //}
 
         Dirty();
 
