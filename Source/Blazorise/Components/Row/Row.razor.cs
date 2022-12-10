@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// A wrapper that represents a row in a flexbox grid.
 /// </summary>
-public partial class Row : BaseRowableComponent
+public partial class Row : BaseRowComponent
 {
     #region Members
 

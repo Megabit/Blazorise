@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base class for components that are containers for columnable components.
 /// </summary>
-public abstract class BaseRowableComponent : BaseComponent
+public abstract class BaseRowComponent : BaseComponent
 {
     #region Properties
 
@@ -19,7 +19,7 @@ public abstract class BaseRowableComponent : BaseComponent
     [Inject] protected IRowContext RowContext { get; set; }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="BaseRowableComponent"/>.
+    /// Specifies the content to be rendered inside this <see cref="BaseRowComponent"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
