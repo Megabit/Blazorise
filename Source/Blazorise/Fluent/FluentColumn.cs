@@ -222,7 +222,7 @@ public class FluentColumn :
             {
                 rowable?.ResetUsedSpace( currentColumnable );
 
-                if ( HasSizes )
+                if ( HasSizes && columnDefinitions?.Count > 0 )
                 {
                     ColumnDefinition previousColumnDefinition = null;
 
