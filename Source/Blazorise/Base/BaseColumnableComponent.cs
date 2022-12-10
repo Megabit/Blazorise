@@ -22,7 +22,7 @@ public abstract class BaseColumnableComponent : BaseComponent, IColumnableCompon
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ParentRowable?.NotifyColumnableInitialized( this );
+        ParentRowableContext?.NotifyColumnableInitialized( this );
 
         base.OnInitialized();
     }
@@ -32,7 +32,7 @@ public abstract class BaseColumnableComponent : BaseComponent, IColumnableCompon
     {
         if ( disposing )
         {
-            ParentRowable?.NotifyColumnableRemoved( this );
+            ParentRowableContext?.NotifyColumnableRemoved( this );
         }
 
         base.Dispose( disposing );
@@ -42,7 +42,7 @@ public abstract class BaseColumnableComponent : BaseComponent, IColumnableCompon
     protected override void BuildClasses( ClassBuilder builder )
     {
         if ( ColumnSize != null && !PreventColumnSize )
-            builder.Append( ColumnSize.Class( ClassProvider, ParentRowable, this ) );
+            builder.Append( ColumnSize.Class( ClassProvider, ParentRowableContext, this ) );
 
         base.BuildClasses( builder );
     }
@@ -59,7 +59,7 @@ public abstract class BaseColumnableComponent : BaseComponent, IColumnableCompon
     /// <summary>
     /// Cascaded component that is a container for this component.
     /// </summary>
-    [CascadingParameter] protected IRowableComponent ParentRowable { get; set; }
+    [CascadingParameter] protected IRowableContext ParentRowableContext { get; set; }
 
     /// <summary>
     /// Defines the column sizes.

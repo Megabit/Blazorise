@@ -1,12 +1,13 @@
 ﻿#region Using directives
 #endregion
 
+
 namespace Blazorise;
 
 /// <summary>
 /// Interface for the components based on column sizes.
 /// </summary>
-public interface IRowableComponent
+public interface IRowableContext
 {
     /// <summary>
     /// Notifies the row component that one of its child component is a column and that it is initialized.

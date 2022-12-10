@@ -10,17 +10,13 @@ namespace Blazorise;
 /// <summary>
 /// Container for multiple <see cref="Field"/> component that needs to be placed in a flexbox grid row.
 /// </summary>
-public partial class Fields : BaseColumnableComponent, IRowableComponent
+public partial class Fields : BaseColumnableComponent
 {
     #region Members
 
     private string label;
 
     private string help;
-
-    private int spaceUsedByColumnables = 0;
-
-    private List<IColumnableComponent> columnables = new();
 
     #endregion
 
@@ -39,46 +35,14 @@ public partial class Fields : BaseColumnableComponent, IRowableComponent
         base.BuildClasses( builder );
     }
 
-    /// <inheritdoc/>
-    public void NotifyColumnableInitialized( IColumnableComponent column )
-    {
-        if ( columnables is not null && !columnables.Contains( column ) )
-        {
-            columnables.Add( column );
-        }
-    }
-
-    /// <inheritdoc/>
-    public void NotifyColumnableRemoved( IColumnableComponent column )
-    {
-        if ( columnables is not null && columnables.Contains( column ) )
-        {
-            columnables.Remove( column );
-        }
-    }
-
-    /// <inheritdoc/>
-    public void ResetUsedSpace( IColumnableComponent column )
-    {
-        if ( column is not null && columnables.IndexOf( column ) <= 0 )
-            spaceUsedByColumnables = 0;
-    }
-
-    /// <inheritdoc/>
-    public void IncreaseUsedSpace( int space )
-    {
-        spaceUsedByColumnables += space;
-
-        if ( spaceUsedByColumnables > 12 )
-            spaceUsedByColumnables = 12;
-    }
-
     #endregion
 
-    #region Properties
+    #region Properties   
 
-    /// <inheritdoc/>
-    public int TotalUsedSpace => spaceUsedByColumnables;
+    /// <summary>
+    /// Gets the rowable context used to calculate used space by the columns.
+    /// </summary>
+    [Inject] protected IRowableContext RowableContext { get; set; }
 
     /// <summary>
     /// Sets the field label.

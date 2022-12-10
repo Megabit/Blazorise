@@ -1,7 +1,9 @@
 ﻿@namespace Blazorise
 @inherits BaseTypographyComponent
 <CascadingValue Value="@this" IsFixed>
-    <dl @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @attributes="@Attributes">
-        @ChildContent
-    </dl>
+    <CascadingValue Value="@RowableContext" IsFixed>
+        <dl @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @attributes="@Attributes">
+            @ChildContent
+        </dl>
+    </CascadingValue>
 </CascadingValue>

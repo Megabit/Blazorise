@@ -51,6 +51,8 @@ public static class Config
             serviceCollection.AddScoped( mapping.Key, mapping.Value );
         }
 
+        serviceCollection.AddTransient<IRowableContext, RowableContext>();
+
         return serviceCollection;
     }
 

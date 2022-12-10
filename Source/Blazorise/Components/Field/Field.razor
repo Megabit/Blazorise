@@ -1,7 +1,9 @@
 ﻿@namespace Blazorise
 @inherits BaseColumnableComponent
 <CascadingValue Value="@this" IsFixed>
-    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </div>
+    <CascadingValue Value="@RowableContext" IsFixed>
+        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </div>
+    </CascadingValue>
 </CascadingValue>

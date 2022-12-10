@@ -11,13 +11,11 @@ namespace Blazorise;
 /// <summary>
 /// Wrapper for form input components like label, text, button, etc.
 /// </summary>
-public partial class Field : BaseColumnableComponent, IRowableComponent, IDisposable
+public partial class Field : BaseColumnableComponent, IDisposable
 {
     #region Members
 
     private bool horizontal;
-
-    private IFluentColumn columnSize;
 
     private JustifyContent justifyContent = JustifyContent.Default;
 
@@ -26,10 +24,6 @@ public partial class Field : BaseColumnableComponent, IRowableComponent, IDispos
     private Validation previousParentValidation;
 
     private ValidationStatus previousValidationStatus;
-
-    private int spaceUsedByColumnables = 0;
-
-    private List<IColumnableComponent> columnables = new();
 
     #endregion
 
@@ -125,46 +119,14 @@ public partial class Field : BaseColumnableComponent, IRowableComponent, IDispos
         hookables?.Remove( component );
     }
 
-    /// <inheritdoc/>
-    public void NotifyColumnableInitialized( IColumnableComponent column )
-    {
-        if ( columnables is not null && !columnables.Contains( column ) )
-        {
-            columnables.Add( column );
-        }
-    }
-
-    /// <inheritdoc/>
-    public void NotifyColumnableRemoved( IColumnableComponent column )
-    {
-        if ( columnables is not null && columnables.Contains( column ) )
-        {
-            columnables.Remove( column );
-        }
-    }
-
-    /// <inheritdoc/>
-    public void ResetUsedSpace( IColumnableComponent column )
-    {
-        if ( column is not null && columnables.IndexOf( column ) <= 0 )
-            spaceUsedByColumnables = 0;
-    }
-
-    /// <inheritdoc/>
-    public void IncreaseUsedSpace( int space )
-    {
-        spaceUsedByColumnables += space;
-
-        if ( spaceUsedByColumnables > 12 )
-            spaceUsedByColumnables = 12;
-    }
-
     #endregion
 
     #region Properties
 
-    /// <inheritdoc/>
-    public int TotalUsedSpace => spaceUsedByColumnables;
+    /// <summary>
+    /// Gets the rowable context used to calculate used space by the columns.
+    /// </summary>
+    [Inject] protected IRowableContext RowableContext { get; set; }
 
     /// <summary>
     /// Determines if the field is inside of <see cref="Fields"/> component.

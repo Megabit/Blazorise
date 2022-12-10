@@ -17,7 +17,7 @@ public interface IFluentColumn
     /// <param name="rowable">A rowable component that is a container for <see cref="BaseColumnableComponent"/> components.</param>
     /// <param name="currentColumnable">Currently processed columnable component.</param>
     /// <returns>Return list of css classnames.</returns>
-    string Class( IClassProvider classProvider, IRowableComponent rowable, IColumnableComponent currentColumnable );
+    string Class( IClassProvider classProvider, IRowableContext rowable, IColumnableComponent currentColumnable );
 
     /// <summary>
     /// True if there are column sizes defined.
@@ -214,7 +214,7 @@ public class FluentColumn :
     #region Methods
 
     /// <inheritdoc/>
-    public string Class( IClassProvider classProvider, IRowableComponent rowable, IColumnableComponent currentColumnable )
+    public string Class( IClassProvider classProvider, IRowableContext rowable, IColumnableComponent currentColumnable )
     {
         if ( dirty )
         {
