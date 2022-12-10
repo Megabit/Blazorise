@@ -22,7 +22,7 @@ public partial class DescriptionListTerm : BaseTypographyComponent, IColumnableC
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ParentRowable?.NotifyColumnInitialized( this );
+        ParentRowable?.NotifyColumnableInitialized( this );
 
         base.OnInitialized();
     }
@@ -32,7 +32,7 @@ public partial class DescriptionListTerm : BaseTypographyComponent, IColumnableC
     {
         if ( disposing )
         {
-            ParentRowable?.NotifyColumnDestroyed( this );
+            ParentRowable?.NotifyColumnableRemoved( this );
         }
 
         base.Dispose( disposing );

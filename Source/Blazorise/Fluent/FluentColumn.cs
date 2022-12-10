@@ -231,12 +231,12 @@ public class FluentColumn :
                         if ( columnDefinition.ColumnWidth == ColumnWidth.Default )
                             continue;
 
-                        rowable?.IncreaseUsedSpace( ToColumnWidthIndex( columnDefinition.ColumnWidth ) );
+                        rowable?.IncreaseUsedSpace( GetUsedSpace( columnDefinition.ColumnWidth ) );
 
                         var startFrom = rowable?.TotalUsedSpace ?? 0;
 
                         if ( previousColumnDefinition != null && !previousColumnDefinition.Offset && columnDefinition.Offset )
-                            startFrom -= ToColumnWidthIndex( previousColumnDefinition.ColumnWidth );
+                            startFrom -= GetUsedSpace( previousColumnDefinition.ColumnWidth );
 
                         if ( startFrom < 0 )
                             startFrom = 0;
@@ -261,7 +261,7 @@ public class FluentColumn :
         return classNames;
     }
 
-    private static int ToColumnWidthIndex( ColumnWidth columnWidth )
+    private static int GetUsedSpace( ColumnWidth columnWidth )
     {
         return columnWidth switch
         {

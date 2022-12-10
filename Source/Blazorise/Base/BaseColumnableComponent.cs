@@ -22,7 +22,7 @@ public abstract class BaseColumnableComponent : BaseComponent, IColumnableCompon
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ParentRowable?.NotifyColumnInitialized( this );
+        ParentRowable?.NotifyColumnableInitialized( this );
 
         base.OnInitialized();
     }
@@ -32,7 +32,7 @@ public abstract class BaseColumnableComponent : BaseComponent, IColumnableCompon
     {
         if ( disposing )
         {
-            ParentRowable?.NotifyColumnDestroyed( this );
+            ParentRowable?.NotifyColumnableRemoved( this );
         }
 
         base.Dispose( disposing );

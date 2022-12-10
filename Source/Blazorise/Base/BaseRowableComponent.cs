@@ -22,7 +22,7 @@ public abstract class BaseRowableComponent : BaseComponent, IRowableComponent
     #region Methods
 
     /// <inheritdoc/>
-    public void NotifyColumnInitialized( IColumnableComponent column )
+    public void NotifyColumnableInitialized( IColumnableComponent column )
     {
         if ( columnables is not null && !columnables.Contains( column ) )
         {
@@ -31,7 +31,7 @@ public abstract class BaseRowableComponent : BaseComponent, IRowableComponent
     }
 
     /// <inheritdoc/>
-    public void NotifyColumnDestroyed( IColumnableComponent column )
+    public void NotifyColumnableRemoved( IColumnableComponent column )
     {
         if ( columnables is not null && columnables.Contains( column ) )
         {

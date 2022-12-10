@@ -126,7 +126,7 @@ public partial class Field : BaseColumnableComponent, IRowableComponent, IDispos
     }
 
     /// <inheritdoc/>
-    public void NotifyColumnInitialized( IColumnableComponent column )
+    public void NotifyColumnableInitialized( IColumnableComponent column )
     {
         if ( columnables is not null && !columnables.Contains( column ) )
         {
@@ -135,7 +135,7 @@ public partial class Field : BaseColumnableComponent, IRowableComponent, IDispos
     }
 
     /// <inheritdoc/>
-    public void NotifyColumnDestroyed( IColumnableComponent column )
+    public void NotifyColumnableRemoved( IColumnableComponent column )
     {
         if ( columnables is not null && columnables.Contains( column ) )
         {

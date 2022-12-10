@@ -12,13 +12,13 @@ public interface IRowableComponent
     /// Notifies the row component that one of its child component is a column and that it is initialized.
     /// </summary>
     /// <param name="column">Column that is initialized.</param>
-    void NotifyColumnInitialized( IColumnableComponent column );
+    void NotifyColumnableInitialized( IColumnableComponent column );
 
     /// <summary>
     /// Notifies the row component that one of its child component is a column and that it is disposed.
     /// </summary>
     /// <param name="column">Column that is disposed.</param>
-    void NotifyColumnDestroyed( IColumnableComponent column );
+    void NotifyColumnableRemoved( IColumnableComponent column );
 
     /// <summary>
     /// Forces the row to start calculating used space from start.

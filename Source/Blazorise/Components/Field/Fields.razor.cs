@@ -40,7 +40,7 @@ public partial class Fields : BaseColumnableComponent, IRowableComponent
     }
 
     /// <inheritdoc/>
-    public void NotifyColumnInitialized( IColumnableComponent column )
+    public void NotifyColumnableInitialized( IColumnableComponent column )
     {
         if ( columnables is not null && !columnables.Contains( column ) )
         {
@@ -49,7 +49,7 @@ public partial class Fields : BaseColumnableComponent, IRowableComponent
     }
 
     /// <inheritdoc/>
-    public void NotifyColumnDestroyed( IColumnableComponent column )
+    public void NotifyColumnableRemoved( IColumnableComponent column )
     {
         if ( columnables is not null && columnables.Contains( column ) )
         {
