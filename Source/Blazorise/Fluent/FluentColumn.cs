@@ -14,10 +14,10 @@ public interface IFluentColumn
     /// Builds and returns the classnames for column sizes.
     /// </summary>
     /// <param name="classProvider">Class provider used by the current framework provider.</param>
-    /// <param name="rowContext">A row context that for a container of <see cref="BaseColumnableComponent"/> components.</param>
-    /// <param name="currentColumnable">Currently processed columnable component.</param>
+    /// <param name="rowContext">A row context that for a container of <see cref="BaseColumnComponent"/> components.</param>
+    /// <param name="currentColumn">Currently processed column component.</param>
     /// <returns>Return list of css classnames.</returns>
-    string Class( IClassProvider classProvider, IRowContext rowContext, IColumnableComponent currentColumnable );
+    string Class( IClassProvider classProvider, IRowContext rowContext, IColumnComponent currentColumn );
 
     /// <summary>
     /// True if there are column sizes defined.
@@ -214,13 +214,13 @@ public class FluentColumn :
     #region Methods
 
     /// <inheritdoc/>
-    public string Class( IClassProvider classProvider, IRowContext rowContext, IColumnableComponent currentColumnable )
+    public string Class( IClassProvider classProvider, IRowContext rowContext, IColumnComponent currentColumn )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                rowContext?.ResetUsedSpace( currentColumnable );
+                rowContext?.ResetUsedSpace( currentColumn );
 
                 if ( HasSizes && columnDefinitions?.Count > 0 )
                 {

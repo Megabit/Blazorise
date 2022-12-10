@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// A wrapper that represents a column in a flexbox grid.
 /// </summary>
-public partial class Column : BaseColumnableComponent, IDisposable
+public partial class Column : BaseColumnComponent, IDisposable
 {
     #region Methods
 

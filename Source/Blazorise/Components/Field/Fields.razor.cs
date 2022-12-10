@@ -10,7 +10,7 @@ namespace Blazorise;
 /// <summary>
 /// Container for multiple <see cref="Field"/> component that needs to be placed in a flexbox grid row.
 /// </summary>
-public partial class Fields : BaseColumnableComponent
+public partial class Fields : BaseColumnComponent
 {
     #region Members
 

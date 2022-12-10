@@ -9,13 +9,13 @@ public interface IRowContext
     /// Notifies the row component that one of its child component is a column and that it is initialized.
     /// </summary>
     /// <param name="column">Column that is initialized.</param>
-    void NotifyColumnableInitialized( IColumnableComponent column );
+    void NotifyColumnInitialized( IColumnComponent column );
 
     /// <summary>
     /// Notifies the row component that one of its child component is a column and that it is disposed.
     /// </summary>
     /// <param name="column">Column that is disposed.</param>
-    void NotifyColumnableRemoved( IColumnableComponent column );
+    void NotifyColumnRemoved( IColumnComponent column );
 
     /// <summary>
     /// Forces the row to start calculating used space from start.
@@ -27,7 +27,7 @@ public interface IRowContext
     /// placed behind an if statement) then the column would have a highest index once it is recreated. For those cases
     /// it is advised to developers to use the <see cref="BaseComponent.Display"/> parameter to show or hide the column.
     /// </remarks>
-    void ResetUsedSpace( IColumnableComponent column );
+    void ResetUsedSpace( IColumnComponent column );
 
     /// <summary>
     /// Increases the used space by the specified amount.

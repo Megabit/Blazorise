@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base class for components that are containers for other components.
 /// </summary>
-public abstract class BaseColumnableComponent : BaseComponent, IColumnableComponent, IDisposable
+public abstract class BaseColumnComponent : BaseComponent, IColumnComponent, IDisposable
 {
     #region Members
 
@@ -22,7 +22,7 @@ public abstract class BaseColumnableComponent : BaseComponent, IColumnableCompon
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ParentRowContext?.NotifyColumnableInitialized( this );
+        ParentRowContext?.NotifyColumnInitialized( this );
 
         base.OnInitialized();
     }
@@ -32,7 +32,7 @@ public abstract class BaseColumnableComponent : BaseComponent, IColumnableCompon
     {
         if ( disposing )
         {
-            ParentRowContext?.NotifyColumnableRemoved( this );
+            ParentRowContext?.NotifyColumnRemoved( this );
         }
 
         base.Dispose( disposing );
@@ -77,7 +77,7 @@ public abstract class BaseColumnableComponent : BaseComponent, IColumnableCompon
     }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="BaseColumnableComponent"/>.
+    /// Specifies the content to be rendered inside this <see cref="BaseColumnComponent"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

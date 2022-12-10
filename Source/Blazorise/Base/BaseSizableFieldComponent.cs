@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base class for field and input components that can be sized in grid layout.
 /// </summary>
-public abstract class BaseSizableFieldComponent : BaseColumnableComponent, IDisposable
+public abstract class BaseSizableFieldComponent : BaseColumnComponent, IDisposable
 {
     #region Methods
 

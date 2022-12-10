@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Element which specify a term.
 /// </summary>
-public partial class DescriptionListDefinition : BaseTypographyComponent, IColumnableComponent, IDisposable
+public partial class DescriptionListDefinition : BaseTypographyComponent, IColumnComponent, IDisposable
 {
     #region Members
 
@@ -22,7 +22,7 @@ public partial class DescriptionListDefinition : BaseTypographyComponent, IColum
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ParentRowContext?.NotifyColumnableInitialized( this );
+        ParentRowContext?.NotifyColumnInitialized( this );
 
         base.OnInitialized();
     }
@@ -32,7 +32,7 @@ public partial class DescriptionListDefinition : BaseTypographyComponent, IColum
     {
         if ( disposing )
         {
-            ParentRowContext?.NotifyColumnableRemoved( this );
+            ParentRowContext?.NotifyColumnRemoved( this );
         }
 
         base.Dispose( disposing );

@@ -9,48 +9,48 @@ public class RowContext : IRowContext
 {
     #region Members
 
-    private int spaceUsedByColumnables = 0;
+    private int spaceUsedByColumns = 0;
 
-    private List<IColumnableComponent> columnables;
+    private List<IColumnComponent> columns;
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc/>
-    public void NotifyColumnableInitialized( IColumnableComponent column )
+    public void NotifyColumnInitialized( IColumnComponent column )
     {
-        columnables ??= new();
+        columns ??= new();
 
-        if ( columnables is not null && !columnables.Contains( column ) )
+        if ( columns is not null && !columns.Contains( column ) )
         {
-            columnables.Add( column );
+            columns.Add( column );
         }
     }
 
     /// <inheritdoc/>
-    public void NotifyColumnableRemoved( IColumnableComponent column )
+    public void NotifyColumnRemoved( IColumnComponent column )
     {
-        if ( columnables is not null && columnables.Contains( column ) )
+        if ( columns is not null && columns.Contains( column ) )
         {
-            columnables.Remove( column );
+            columns.Remove( column );
         }
     }
 
     /// <inheritdoc/>
-    public void ResetUsedSpace( IColumnableComponent column )
+    public void ResetUsedSpace( IColumnComponent column )
     {
-        if ( column is not null && columnables is not null && columnables.IndexOf( column ) <= 0 )
-            spaceUsedByColumnables = 0;
+        if ( column is not null && columns is not null && columns.IndexOf( column ) <= 0 )
+            spaceUsedByColumns = 0;
     }
 
     /// <inheritdoc/>
     public void IncreaseUsedSpace( int space )
     {
-        spaceUsedByColumnables += space;
+        spaceUsedByColumns += space;
 
-        if ( spaceUsedByColumnables > 12 )
-            spaceUsedByColumnables = 12;
+        if ( spaceUsedByColumns > 12 )
+            spaceUsedByColumns = 12;
     }
 
     #endregion
@@ -58,7 +58,7 @@ public class RowContext : IRowContext
     #region Properties
 
     /// <inheritdoc/>
-    public int TotalUsedSpace => spaceUsedByColumnables;
+    public int TotalUsedSpace => spaceUsedByColumns;
 
     #endregion
 }

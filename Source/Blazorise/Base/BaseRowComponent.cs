@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// Base class for components that are containers for columnable components.
+/// Base class for components that are containers for column components.
 /// </summary>
 public abstract class BaseRowComponent : BaseComponent
 {
