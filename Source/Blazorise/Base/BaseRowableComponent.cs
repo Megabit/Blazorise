@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base class for components that are containers for other components.
 /// </summary>
-public abstract class BaseRowableComponent : BaseComponent, IRowableComponent, IDisposable
+public abstract class BaseRowableComponent : BaseComponent, IRowableComponent
 {
     #region Members
 
@@ -20,21 +20,6 @@ public abstract class BaseRowableComponent : BaseComponent, IRowableComponent, I
     #endregion
 
     #region Methods
-
-    /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
-    {
-        if ( disposing )
-        {
-            if ( columnables is not null )
-            {
-                columnables.Clear();
-                columnables = null;
-            }
-        }
-
-        base.Dispose( disposing );
-    }
 
     /// <inheritdoc/>
     public void NotifyColumnInitialized( IColumnableComponent column )

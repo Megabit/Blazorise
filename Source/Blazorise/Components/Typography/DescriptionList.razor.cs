@@ -10,7 +10,7 @@ namespace Blazorise;
 /// <summary>
 /// A description list is a list of items with a description or definition of each item.
 /// </summary>
-public partial class DescriptionList : BaseTypographyComponent, IRowableComponent, IDisposable
+public partial class DescriptionList : BaseTypographyComponent, IRowableComponent
 {
     #region Members
 
@@ -33,21 +33,6 @@ public partial class DescriptionList : BaseTypographyComponent, IRowableComponen
             builder.Append( ClassProvider.Row() );
 
         base.BuildClasses( builder );
-    }
-
-    /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
-    {
-        if ( disposing )
-        {
-            if ( columnables is not null )
-            {
-                columnables.Clear();
-                columnables = null;
-            }
-        }
-
-        base.Dispose( disposing );
     }
 
     /// <inheritdoc/>

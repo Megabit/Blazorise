@@ -10,7 +10,7 @@ namespace Blazorise;
 /// <summary>
 /// Container for multiple <see cref="Field"/> component that needs to be placed in a flexbox grid row.
 /// </summary>
-public partial class Fields : BaseColumnableComponent, IRowableComponent, IDisposable
+public partial class Fields : BaseColumnableComponent, IRowableComponent
 {
     #region Members
 
@@ -37,21 +37,6 @@ public partial class Fields : BaseColumnableComponent, IRowableComponent, IDispo
         }
 
         base.BuildClasses( builder );
-    }
-
-    /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
-    {
-        if ( disposing )
-        {
-            if ( columnables is not null )
-            {
-                columnables.Clear();
-                columnables = null;
-            }
-        }
-
-        base.Dispose( disposing );
     }
 
     /// <inheritdoc/>

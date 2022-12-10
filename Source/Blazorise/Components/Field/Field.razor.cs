@@ -65,12 +65,6 @@ public partial class Field : BaseColumnableComponent, IRowableComponent, IDispos
             {
                 ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
             }
-
-            if ( columnables is not null )
-            {
-                columnables.Clear();
-                columnables = null;
-            }
         }
 
         base.Dispose( disposing );

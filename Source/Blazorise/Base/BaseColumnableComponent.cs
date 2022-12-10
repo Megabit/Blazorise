@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base class for components that are containers for other components.
 /// </summary>
-public abstract class BaseColumnableComponent : BaseComponent, IColumnableComponent
+public abstract class BaseColumnableComponent : BaseComponent, IColumnableComponent, IDisposable
 {
     #region Members
 
