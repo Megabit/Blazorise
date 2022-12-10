@@ -22,7 +22,7 @@ public partial class DescriptionListTerm : BaseTypographyComponent, IColumnableC
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        RowableContext?.NotifyColumnableInitialized( this );
+        ParentRowContext?.NotifyColumnableInitialized( this );
 
         base.OnInitialized();
     }
@@ -32,7 +32,7 @@ public partial class DescriptionListTerm : BaseTypographyComponent, IColumnableC
     {
         if ( disposing )
         {
-            RowableContext?.NotifyColumnableRemoved( this );
+            ParentRowContext?.NotifyColumnableRemoved( this );
         }
 
         base.Dispose( disposing );
@@ -44,7 +44,7 @@ public partial class DescriptionListTerm : BaseTypographyComponent, IColumnableC
         builder.Append( ClassProvider.DescriptionListTerm() );
 
         if ( ColumnSize != null )
-            builder.Append( ColumnSize.Class( ClassProvider, RowableContext, this ) );
+            builder.Append( ColumnSize.Class( ClassProvider, ParentRowContext, this ) );
 
         base.BuildClasses( builder );
     }
@@ -53,7 +53,10 @@ public partial class DescriptionListTerm : BaseTypographyComponent, IColumnableC
 
     #region Properties
 
-    [CascadingParameter] protected IRowableContext RowableContext { get; } = new RowableContext();
+    /// <summary>
+    /// Cascaded row context from a container of this component.
+    /// </summary>
+    [CascadingParameter] protected IRowContext ParentRowContext { get; } = new RowContext();
 
     /// <summary>
     /// Determines how much space will be used by the term inside of the description list row.

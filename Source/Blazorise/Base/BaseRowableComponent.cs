@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// Base class for components that are containers for other components.
+/// Base class for components that are containers for columnable components.
 /// </summary>
 public abstract class BaseRowableComponent : BaseComponent
 {
     #region Properties
 
     /// <summary>
-    /// Gets the rowable context used to calculate used space by the columns.
+    /// Gets the row context used to calculate used space by the columns.
     /// </summary>
-    [Inject] protected IRowableContext RowableContext { get; set; }
+    [Inject] protected IRowContext RowContext { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="BaseRowableComponent"/>.

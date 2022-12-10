@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace Blazorise;
 
 /// <inheritdoc/>
-public class RowableContext : IRowableContext
+public class RowContext : IRowContext
 {
     #region Members
 

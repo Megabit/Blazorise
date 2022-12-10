@@ -2,7 +2,7 @@
 @inherits BaseRowableComponent
 <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <CascadingValue Value="@this" IsFixed>
-        <CascadingValue Value="@RowableContext" IsFixed>
+        <CascadingValue Value="@RowContext" IsFixed>
             <CascadingValue Value="@GutterState">
                 @ChildContent
             </CascadingValue>

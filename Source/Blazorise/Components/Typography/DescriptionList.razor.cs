@@ -36,9 +36,9 @@ public partial class DescriptionList : BaseTypographyComponent
     #region Properties
 
     /// <summary>
-    /// Gets the rowable context used to calculate used space by the columns.
+    /// Gets the row context used to calculate used space by the columns.
     /// </summary>
-    [Inject] protected IRowableContext RowableContext { get; set; }
+    [Inject] protected IRowContext RowContext { get; set; }
 
     /// <summary>
     /// Specifies that description list will be arranged in a rows and columns.

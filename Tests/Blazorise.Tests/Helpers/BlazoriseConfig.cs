@@ -66,7 +66,7 @@ public static class BlazoriseConfig
         services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
         services.AddScoped<Blazorise.Shared.Data.CountryData>();
 
-        services.AddScoped<IRowableContext, RowableContext>();
+        services.AddScoped<IRowContext, RowContext>();
     }
 
     internal class VersionProvider : IVersionProvider
