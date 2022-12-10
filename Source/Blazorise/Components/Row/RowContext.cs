@@ -11,7 +11,7 @@ public class RowContext : IRowContext
 
     private int spaceUsedByColumnables = 0;
 
-    private List<IColumnableComponent> columnables = new();
+    private List<IColumnableComponent> columnables;
 
     #endregion
 
@@ -20,6 +20,8 @@ public class RowContext : IRowContext
     /// <inheritdoc/>
     public void NotifyColumnableInitialized( IColumnableComponent column )
     {
+        columnables ??= new();
+
         if ( columnables is not null && !columnables.Contains( column ) )
         {
             columnables.Add( column );
@@ -38,7 +40,7 @@ public class RowContext : IRowContext
     /// <inheritdoc/>
     public void ResetUsedSpace( IColumnableComponent column )
     {
-        if ( column is not null && columnables.IndexOf( column ) <= 0 )
+        if ( column is not null && columnables is not null && columnables.IndexOf( column ) <= 0 )
             spaceUsedByColumnables = 0;
     }
 
