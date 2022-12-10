@@ -1,8 +1,4 @@
-﻿#region Using directives
-#endregion
-
-
-namespace Blazorise;
+﻿namespace Blazorise;
 
 /// <summary>
 /// Interface for the components based on column sizes.
