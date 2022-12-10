@@ -199,7 +199,7 @@ public class FluentColumn :
         public bool Offset { get; set; }
     }
 
-    private ColumnDefinition columnDefinition;
+    private ColumnDefinition currentColumnDefinition;
 
     private readonly List<ColumnDefinition> columnDefinitions = new();
 
@@ -300,9 +300,9 @@ public class FluentColumn :
         if ( columnSize != ColumnWidth.Default )
             HasSizes = true;
 
-        columnDefinition = new ColumnDefinition { ColumnWidth = columnSize, Breakpoint = Breakpoint.None };
+        currentColumnDefinition = new ColumnDefinition { ColumnWidth = columnSize, Breakpoint = Breakpoint.None };
 
-        columnDefinitions.Add( columnDefinition );
+        columnDefinitions.Add( currentColumnDefinition );
 
         Dirty();
 
@@ -333,7 +333,7 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnWithSize WithBreakpoint( Breakpoint breakpoint )
     {
-        columnDefinition.Breakpoint = breakpoint;
+        currentColumnDefinition.Breakpoint = breakpoint;
         Dirty();
 
         return this;
@@ -382,7 +382,7 @@ public class FluentColumn :
     /// <summary>
     /// Move columns to the right.
     /// </summary>
-    public IFluentColumnOnBreakpoint WithOffset { get { columnDefinition.Offset = true; Dirty(); return this; } }
+    public IFluentColumnOnBreakpoint WithOffset { get { currentColumnDefinition.Offset = true; Dirty(); return this; } }
 
     /// <summary>
     /// One column width.
