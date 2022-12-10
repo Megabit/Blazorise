@@ -300,7 +300,7 @@ public class FluentColumn :
         if ( columnSize != ColumnWidth.Default )
             HasSizes = true;
 
-        columnDefinition = columnDefinition = new ColumnDefinition { ColumnWidth = columnSize, Breakpoint = Breakpoint.None };
+        columnDefinition = new ColumnDefinition { ColumnWidth = columnSize, Breakpoint = Breakpoint.None };
 
         columnDefinitions.Add( columnDefinition );
 
