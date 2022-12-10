@@ -5,11 +5,6 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise;
 
-public interface IColumnableComponent
-{
-    IFluentColumn ColumnSize { get; }
-}
-
 /// <summary>
 /// Base class for components that are containers for other components.
 /// </summary>

@@ -1,30 +1,15 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise;
 
-public interface IRowableComponent
-{
-    void NotifyColumnInitialized( IColumnableComponent column );
-
-    void NotifyColumnDestroyed( IColumnableComponent column );
-
-    void ResetUsedSpace( IColumnableComponent column );
-
-    void IncreaseUsedSpace( int space );
-
-    /// <summary>
-    /// Gets the total space used by the columns placed inside of the row component.
-    /// </summary>
-    int TotalUsedSpace { get; }
-}
-
 /// <summary>
 /// Base class for components that are containers for other components.
 /// </summary>
-public abstract class BaseRowableComponent : BaseComponent, IRowableComponent
+public abstract class BaseRowableComponent : BaseComponent, IRowableComponent, IDisposable
 {
     #region Members
 
@@ -36,28 +21,47 @@ public abstract class BaseRowableComponent : BaseComponent, IRowableComponent
 
     #region Methods
 
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( columnables is not null )
+            {
+                columnables.Clear();
+                columnables = null;
+            }
+        }
+
+        base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
     public void NotifyColumnInitialized( IColumnableComponent column )
     {
-        if ( !columnables.Contains( column ) )
+        if ( columnables is not null && !columnables.Contains( column ) )
         {
             columnables.Add( column );
         }
     }
 
+    /// <inheritdoc/>
     public void NotifyColumnDestroyed( IColumnableComponent column )
     {
-        if ( columnables.Contains( column ) )
+        if ( columnables is not null && columnables.Contains( column ) )
         {
             columnables.Remove( column );
         }
     }
 
+    /// <inheritdoc/>
     public void ResetUsedSpace( IColumnableComponent column )
     {
         if ( column is not null && columnables.IndexOf( column ) <= 0 )
             spaceUsedByColumnables = 0;
     }
 
+    /// <inheritdoc/>
     public void IncreaseUsedSpace( int space )
     {
         spaceUsedByColumnables += space;

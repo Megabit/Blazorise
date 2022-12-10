@@ -39,10 +39,6 @@ public partial class Row : BaseRowableComponent
         base.BuildStyles( builder );
     }
 
-
-
-    
-
     #endregion
 
     #region Properties

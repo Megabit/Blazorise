@@ -39,28 +39,47 @@ public partial class Fields : BaseColumnableComponent, IRowableComponent, IDispo
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( columnables is not null )
+            {
+                columnables.Clear();
+                columnables = null;
+            }
+        }
+
+        base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
     public void NotifyColumnInitialized( IColumnableComponent column )
     {
-        if ( !columnables.Contains( column ) )
+        if ( columnables is not null && !columnables.Contains( column ) )
         {
             columnables.Add( column );
         }
     }
 
+    /// <inheritdoc/>
     public void NotifyColumnDestroyed( IColumnableComponent column )
     {
-        if ( columnables.Contains( column ) )
+        if ( columnables is not null && columnables.Contains( column ) )
         {
             columnables.Remove( column );
         }
     }
 
+    /// <inheritdoc/>
     public void ResetUsedSpace( IColumnableComponent column )
     {
         if ( column is not null && columnables.IndexOf( column ) <= 0 )
             spaceUsedByColumnables = 0;
     }
 
+    /// <inheritdoc/>
     public void IncreaseUsedSpace( int space )
     {
         spaceUsedByColumnables += space;

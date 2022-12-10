@@ -11,12 +11,6 @@ namespace Blazorise;
 /// </summary>
 public abstract class BaseSizableFieldComponent : BaseColumnableComponent, IDisposable
 {
-    #region Members
-
-    private IFluentColumn columnSize;
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc/>
