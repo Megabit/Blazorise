@@ -240,7 +240,7 @@ public class FluentColumn :
                         if ( previousColumnDefinition != null && !previousColumnDefinition.Offset && columnDefinition.Offset )
                             startFrom -= GetUsedSpace( previousColumnDefinition.ColumnWidth );
 
-                        // Make sure we don't too far down.
+                        // Make sure we aren't too far down.
                         if ( startFrom < 0 )
                             startFrom = 0;
 
