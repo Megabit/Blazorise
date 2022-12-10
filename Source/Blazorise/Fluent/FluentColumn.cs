@@ -235,9 +235,12 @@ public class FluentColumn :
 
                         var startFrom = rowable?.TotalUsedSpace ?? 0;
 
+                        // If the offset has changed we're most probably chaining rules and we need to revert to last used space so that offset
+                        // position can be applied properly.
                         if ( previousColumnDefinition != null && !previousColumnDefinition.Offset && columnDefinition.Offset )
                             startFrom -= GetUsedSpace( previousColumnDefinition.ColumnWidth );
 
+                        // Make sure we don't too far down.
                         if ( startFrom < 0 )
                             startFrom = 0;
 

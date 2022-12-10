@@ -68,6 +68,9 @@ public partial class Fields : BaseColumnableComponent, IRowableComponent
     public void IncreaseUsedSpace( int space )
     {
         spaceUsedByColumnables += space;
+
+        if ( spaceUsedByColumnables > 12 )
+            spaceUsedByColumnables = 12;
     }
 
     #endregion

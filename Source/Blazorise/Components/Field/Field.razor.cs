@@ -154,6 +154,9 @@ public partial class Field : BaseColumnableComponent, IRowableComponent, IDispos
     public void IncreaseUsedSpace( int space )
     {
         spaceUsedByColumnables += space;
+
+        if ( spaceUsedByColumnables > 12 )
+            spaceUsedByColumnables = 12;
     }
 
     #endregion

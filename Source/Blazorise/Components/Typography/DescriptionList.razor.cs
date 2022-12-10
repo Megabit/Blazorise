@@ -64,6 +64,9 @@ public partial class DescriptionList : BaseTypographyComponent, IRowableComponen
     public void IncreaseUsedSpace( int space )
     {
         spaceUsedByColumnables += space;
+
+        if ( spaceUsedByColumnables > 12 )
+            spaceUsedByColumnables = 12;
     }
 
     #endregion
