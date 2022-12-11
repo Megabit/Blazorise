@@ -33,10 +33,13 @@ public interface IRowContext
     /// Increases the used space by the specified amount.
     /// </summary>
     /// <param name="space">Space to increase.</param>
-    void IncreaseUsedSpace( int space );
+    /// <param name="breakpoint">Breakpoint for which we calculate used space.</param>
+    /// <returns>Calculated used space.</returns>
+    int IncreaseUsedSpace( int space, Breakpoint breakpoint );
 
     /// <summary>
     /// Gets the total space used by the columns placed inside of the row component.
     /// </summary>
-    int TotalUsedSpace { get; }
+    /// <param name="breakpoint">Breakpoint for which we calculate used space.</param>
+    int TotalUsedSpace( Breakpoint breakpoint );
 }

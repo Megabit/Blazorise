@@ -9,9 +9,9 @@ public class RowContext : IRowContext
 {
     #region Members
 
-    private int spaceUsedByColumns = 0;
-
     private List<IColumnComponent> columns;
+
+    private Dictionary<Breakpoint, int> usedSpaces = new();
 
     #endregion
 
@@ -41,16 +41,25 @@ public class RowContext : IRowContext
     public void ResetUsedSpace( IColumnComponent column )
     {
         if ( column is not null && columns is not null && columns.IndexOf( column ) <= 0 )
-            spaceUsedByColumns = 0;
+        {
+            foreach ( var kv in usedSpaces )
+                usedSpaces[kv.Key] = 0;
+        }
     }
 
     /// <inheritdoc/>
-    public void IncreaseUsedSpace( int space )
+    public int IncreaseUsedSpace( int space, Breakpoint breakpoint )
     {
-        spaceUsedByColumns += space;
+        usedSpaces.TryGetValue( breakpoint, out var usedSpace );
 
-        if ( spaceUsedByColumns > 12 )
-            spaceUsedByColumns = 12;
+        usedSpace += space;
+
+        if ( usedSpace > 12 )
+            usedSpace = 12;
+
+        usedSpaces[breakpoint] = usedSpace;
+
+        return usedSpace;
     }
 
     #endregion
@@ -58,7 +67,7 @@ public class RowContext : IRowContext
     #region Properties
 
     /// <inheritdoc/>
-    public int TotalUsedSpace => spaceUsedByColumns;
+    public int TotalUsedSpace( Breakpoint breakpoint ) => usedSpaces[breakpoint];
 
     #endregion
 }

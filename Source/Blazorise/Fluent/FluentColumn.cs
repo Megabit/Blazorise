@@ -231,13 +231,11 @@ public class FluentColumn :
                         if ( columnDefinition.ColumnWidth == ColumnWidth.Default )
                             continue;
 
-                        rowContext?.IncreaseUsedSpace( GetUsedSpace( columnDefinition.ColumnWidth ) );
-
-                        var startFrom = rowContext?.TotalUsedSpace ?? 0;
+                        var startFrom = rowContext?.IncreaseUsedSpace( GetUsedSpace( columnDefinition.ColumnWidth ), columnDefinition.Breakpoint ) ?? 0;
 
                         // If the offset has changed we're most probably chaining rules and we need to revert to last used space so that offset
                         // position can be applied properly.
-                        if ( previousColumnDefinition != null && !previousColumnDefinition.Offset && columnDefinition.Offset )
+                        if ( previousColumnDefinition != null && previousColumnDefinition.Breakpoint == columnDefinition.Breakpoint && !previousColumnDefinition.Offset && columnDefinition.Offset )
                             startFrom -= GetUsedSpace( previousColumnDefinition.ColumnWidth );
 
                         // Make sure we aren't too far down.
