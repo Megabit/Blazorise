@@ -11,7 +11,7 @@ public class RowContext : IRowContext
 
     private List<IColumnComponent> columns;
 
-    private Dictionary<Breakpoint, int> usedSpaces = new();
+    private Dictionary<Breakpoint, int> usedSpaces;
 
     #endregion
 
@@ -40,6 +40,8 @@ public class RowContext : IRowContext
     /// <inheritdoc/>
     public void ResetUsedSpace( IColumnComponent column )
     {
+        usedSpaces ??= new();
+
         if ( column is not null && columns is not null && columns.IndexOf( column ) <= 0 )
         {
             foreach ( var kv in usedSpaces )
