@@ -233,19 +233,19 @@ public class TailwindClassProvider : ClassProvider
 
     #region Rating
 
-    public override string Rating() => "rating";
+    public override string Rating() => "flex items-center";
 
-    public override string RatingDisabled( bool disabled ) => disabled ? "rating-disabled" : null;
+    public override string RatingDisabled( bool disabled ) => disabled ? "cursor-not-allowed opacity-60" : null;
 
-    public override string RatingReadonly( bool @readonly ) => @readonly ? "rating-readonly" : null;
+    public override string RatingReadonly( bool @readonly ) => null;
 
-    public override string RatingItem() => "rating-item";
+    public override string RatingItem() => "w-5 h-5";
 
-    public override string RatingItemColor( Color color ) => $"rating-item-{ToColor( color )}";
+    public override string RatingItemColor( Color color ) => $"text-{ToColor( color )}-400";
 
     public override string RatingItemSelected( bool selected ) => null;
 
-    public override string RatingItemHovered( bool hover ) => hover ? "rating-item-hover" : null;
+    public override string RatingItemHovered( bool hover ) => hover ? "hover:opacity-80" : null;
 
     #endregion
 
