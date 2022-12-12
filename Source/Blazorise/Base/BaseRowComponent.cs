@@ -14,9 +14,9 @@ public abstract class BaseRowComponent : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets the row context used to calculate used space by the columns.
+    /// Gets the row state used to calculate used space by the columns.
     /// </summary>
-    [Inject] protected IRowContext RowContext { get; set; }
+    [Inject] protected IRowState RowState { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="BaseRowComponent"/>.

@@ -37,7 +37,7 @@ public partial class FieldBody : Blazorise.FieldBody
 
         if ( ColumnSize != null )
         {
-            builder.Append( ColumnSize.Class( ClassProvider, ParentRowContext, this ) );
+            builder.Append( ColumnSize.Class( ClassProvider, ParentRowState, this ) );
         }
     }
 

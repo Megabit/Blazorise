@@ -22,7 +22,7 @@ public partial class DescriptionListDefinition : BaseTypographyComponent, IColum
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        ParentRowContext?.NotifyColumnInitialized( this );
+        ParentRowState?.NotifyColumnInitialized( this );
 
         base.OnInitialized();
     }
@@ -32,7 +32,7 @@ public partial class DescriptionListDefinition : BaseTypographyComponent, IColum
     {
         if ( disposing )
         {
-            ParentRowContext?.NotifyColumnRemoved( this );
+            ParentRowState?.NotifyColumnRemoved( this );
         }
 
         base.Dispose( disposing );
@@ -44,7 +44,7 @@ public partial class DescriptionListDefinition : BaseTypographyComponent, IColum
         builder.Append( ClassProvider.DescriptionListDefinition() );
 
         if ( ColumnSize != null )
-            builder.Append( ColumnSize.Class( ClassProvider, ParentRowContext, this ) );
+            builder.Append( ColumnSize.Class( ClassProvider, ParentRowState, this ) );
 
         base.BuildClasses( builder );
     }
@@ -56,7 +56,7 @@ public partial class DescriptionListDefinition : BaseTypographyComponent, IColum
     /// <summary>
     /// Cascaded row context from a container of this component.
     /// </summary>
-    [CascadingParameter] protected IRowContext ParentRowContext { get; } = new RowContext();
+    [CascadingParameter] protected IRowState ParentRowState { get; }
 
     /// <summary>
     /// Determines how much space will be used by the definition inside of the description list row.

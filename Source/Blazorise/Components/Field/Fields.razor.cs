@@ -42,7 +42,7 @@ public partial class Fields : BaseColumnComponent
     /// <summary>
     /// Gets the row context used to calculate used space by the columns.
     /// </summary>
-    [Inject] protected IRowContext RowContext { get; set; }
+    [Inject] protected IRowState RowState { get; set; }
 
     /// <summary>
     /// Sets the field label.

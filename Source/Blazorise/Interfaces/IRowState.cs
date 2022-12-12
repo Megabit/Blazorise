@@ -1,9 +1,9 @@
 ﻿namespace Blazorise;
 
 /// <summary>
-/// Interface for the components based on column sizes.
+/// State for the components based on column sizes.
 /// </summary>
-public interface IRowContext
+public interface IRowState
 {
     /// <summary>
     /// Notifies the row component that one of its child component is a column and that it is initialized.
