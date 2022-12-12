@@ -961,7 +961,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ProgressWidth( int width ) => null;
 
-    public override string ProgressBar() => "shadow-none flex flex-col text-center whitespace-nowrap justify-center";
+    public override string ProgressBar() => "text-xs shadow-none flex flex-col text-center whitespace-nowrap justify-center";
 
     public override string ProgressBarSize( Size size ) => null;
 
