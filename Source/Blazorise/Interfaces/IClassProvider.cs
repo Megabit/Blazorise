@@ -498,6 +498,8 @@ public interface IClassProvider
 
     string CarouselSlideActive( bool active );
 
+    string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides );
+
     string CarouselSlideSlidingLeft( bool left );
 
     string CarouselSlideSlidingRight( bool right );

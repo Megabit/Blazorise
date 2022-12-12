@@ -586,27 +586,43 @@ public class TailwindClassProvider : ClassProvider
 
     #region Carousel
 
-    public override string Carousel() => "carousel slide";
+    public override string Carousel() => "relative";
 
-    public override string CarouselSlides() => "carousel-inner";
+    public override string CarouselSlides() => "relative overflow-hidden rounded-lg h-56 md:h-96";
 
-    public override string CarouselSlide() => "carousel-item";
+    public override string CarouselSlide() => "duration-700 ease-in-out absolute inset-0 transition-all transform";
 
-    public override string CarouselSlideActive( bool active ) => active ? Active() : null;
+    public override string CarouselSlideActive( bool active ) => null;
 
-    public override string CarouselSlideSlidingLeft( bool left ) => left ? "carousel-item-left" : null;
+    public override string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides )
+    {
+        if ( activeSlideIndex == slideindex )
+            return "z-20 translate-x-0";
 
-    public override string CarouselSlideSlidingRight( bool right ) => right ? "carousel-item-right" : null;
+        if ( ( activeSlideIndex == 0 && slideindex == totalSlides - 1 )
+            || ( slideindex == activeSlideIndex - 1 ) )
+            return "z-10 -translate-x-full";
 
-    public override string CarouselSlideSlidingPrev( bool previous ) => previous ? "carousel-item-prev" : null;
+        if ( ( activeSlideIndex == totalSlides - 1 && slideindex == 0 )
+            || ( slideindex == activeSlideIndex + 1 ) )
+            return "z-10 translate-x-full";
 
-    public override string CarouselSlideSlidingNext( bool next ) => next ? "carousel-item-next" : null;
+        return "z-10 translate-x-full hidden";
+    }
 
-    public override string CarouselIndicators() => "carousel-indicators";
+    public override string CarouselSlideSlidingLeft( bool left ) => null;
 
-    public override string CarouselIndicator() => null;
+    public override string CarouselSlideSlidingRight( bool right ) => null;
 
-    public override string CarouselIndicatorActive( bool active ) => active ? Active() : null;
+    public override string CarouselSlideSlidingPrev( bool previous ) => null;
+
+    public override string CarouselSlideSlidingNext( bool next ) => null;
+
+    public override string CarouselIndicators() => "absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2";
+
+    public override string CarouselIndicator() => "w-3 h-3 rounded-full";
+
+    public override string CarouselIndicatorActive( bool active ) => active ? "bg-white dark:bg-gray-800" : "bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800";
 
     public override string CarouselFade( bool fade ) => fade ? "carousel-fade" : null;
 

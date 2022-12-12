@@ -59,6 +59,7 @@ public static class Config
         { typeof( Blazorise.BreadcrumbLink ), typeof( Tailwind.BreadcrumbLink ) },
         { typeof( Blazorise.CardImage ), typeof( Tailwind.CardImage ) },
         { typeof( Blazorise.CardText ), typeof( Tailwind.CardText ) },
+        { typeof( Blazorise.Carousel ), typeof( Tailwind.Carousel ) },
         { typeof( Blazorise.Check<> ), typeof( Tailwind.Check<> ) },
         { typeof( Blazorise.CloseButton ), typeof( Tailwind.CloseButton ) },
         { typeof( Blazorise.Modal ), typeof( Tailwind.Modal ) },

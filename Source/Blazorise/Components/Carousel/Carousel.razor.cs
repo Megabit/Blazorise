@@ -477,6 +477,14 @@ public partial class Carousel : BaseComponent, IDisposable
         }
     }
 
+    /// <summary>
+    /// Gets the index of the slide with the specified name.
+    /// </summary>
+    /// <param name="slideName">Slide name.</param>
+    /// <returns>An index of slide.</returns>
+    public int SlideIndex( string slideName )
+        => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == slideName ) );
+
     #endregion
 
     #region Properties

@@ -501,6 +501,8 @@ class EmptyClassProvider : IClassProvider
 
     public string CarouselSlideActive( bool active ) => null;
 
+    public string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides ) => null;
+
     public string CarouselSlideSlidingLeft( bool left ) => null;
 
     public string CarouselSlideSlidingRight( bool right ) => null;

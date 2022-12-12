@@ -537,6 +537,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string CarouselSlideActive( bool active ) => active ? Active() : null;
 
+    public override string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides ) => null;
+
     public override string CarouselSlideSlidingLeft( bool left ) => left ? "carousel-item-left" : null;
 
     public override string CarouselSlideSlidingRight( bool right ) => right ? "carousel-item-right" : null;

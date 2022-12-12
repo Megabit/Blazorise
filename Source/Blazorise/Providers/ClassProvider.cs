@@ -499,6 +499,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string CarouselSlideActive( bool active );
 
+    public abstract string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides );
+
     public abstract string CarouselSlideSlidingLeft( bool left );
 
     public abstract string CarouselSlideSlidingRight( bool right );

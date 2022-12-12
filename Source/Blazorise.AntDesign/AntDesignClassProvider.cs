@@ -538,6 +538,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CarouselSlideActive( bool active ) => active ? "slick-active slick-current" : null;
 
+    public override string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides ) => null;
+
     public override string CarouselSlideSlidingLeft( bool left ) => null;
 
     public override string CarouselSlideSlidingRight( bool right ) => null;
