@@ -731,9 +731,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Column( bool hasSizes ) => null;
 
-    public string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
-
-    private string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+    public string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom ) => null;
 
     #endregion
 

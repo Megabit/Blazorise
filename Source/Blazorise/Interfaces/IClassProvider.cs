@@ -724,7 +724,7 @@ public interface IClassProvider
 
     string Column( bool hasSizes );
 
-    string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules );
+    string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom );
 
     #endregion
 

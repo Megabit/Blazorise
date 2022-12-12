@@ -16,7 +16,7 @@ namespace Blazorise;
 /// <summary>
 /// A slideshow component for cycling through elements - images or slides of text.
 /// </summary>
-public partial class Carousel : BaseContainerComponent, IDisposable
+public partial class Carousel : BaseComponent, IDisposable
 {
     #region Members
 
@@ -684,6 +684,11 @@ public partial class Carousel : BaseContainerComponent, IDisposable
     /// Function used to handle custom localization for next button that will override a default <see cref="ITextLocalizer"/>.
     /// </summary>
     [Parameter] public TextLocalizerHandler NextButtonLocalizer { get; set; }
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="Carousel"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

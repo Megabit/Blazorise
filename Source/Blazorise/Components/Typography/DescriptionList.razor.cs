@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System;
+using System.Collections.Generic;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -32,6 +34,11 @@ public partial class DescriptionList : BaseTypographyComponent
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the row context used to calculate used space by the columns.
+    /// </summary>
+    [Inject] protected IRowState RowState { get; set; }
 
     /// <summary>
     /// Specifies that description list will be arranged in a rows and columns.

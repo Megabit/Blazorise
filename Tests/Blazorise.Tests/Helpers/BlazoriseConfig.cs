@@ -65,6 +65,8 @@ public static class BlazoriseConfig
         services.AddMemoryCache();
         services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
         services.AddScoped<Blazorise.Shared.Data.CountryData>();
+
+        services.AddScoped<IRowState, RowState>();
     }
 
     internal class VersionProvider : IVersionProvider

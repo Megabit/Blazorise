@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Element which specify a term.
 /// </summary>
-public partial class DescriptionListDefinition : BaseTypographyComponent
+public partial class DescriptionListDefinition : BaseTypographyComponent, IColumnComponent, IDisposable
 {
     #region Members
 
@@ -19,12 +20,31 @@ public partial class DescriptionListDefinition : BaseTypographyComponent
     #region Methods
 
     /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        ParentRowState?.NotifyColumnInitialized( this );
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentRowState?.NotifyColumnRemoved( this );
+        }
+
+        base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.DescriptionListDefinition() );
 
         if ( ColumnSize != null )
-            builder.Append( ColumnSize.Class( ClassProvider ) );
+            builder.Append( ColumnSize.Class( ClassProvider, ParentRowState, this ) );
 
         base.BuildClasses( builder );
     }
@@ -32,6 +52,11 @@ public partial class DescriptionListDefinition : BaseTypographyComponent
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Cascaded row context from a container of this component.
+    /// </summary>
+    [CascadingParameter] protected IRowState ParentRowState { get; }
 
     /// <summary>
     /// Determines how much space will be used by the definition inside of the description list row.

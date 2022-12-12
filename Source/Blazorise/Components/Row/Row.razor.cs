@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// A wrapper that represents a row in a flexbox grid.
 /// </summary>
-public partial class Row : BaseComponent
+public partial class Row : BaseRowComponent
 {
     #region Members
 
@@ -82,11 +83,6 @@ public partial class Row : BaseComponent
     /// Removes the negative margins from row and the horizontal padding from all immediate children columns.
     /// </summary>
     [Parameter] public bool NoGutters { get; set; }
-
-    /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="Row"/>.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

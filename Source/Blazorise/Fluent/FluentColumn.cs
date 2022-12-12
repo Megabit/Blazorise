@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using System.Linq;
 using Blazorise.Utilities;
 #endregion
 
@@ -15,8 +14,10 @@ public interface IFluentColumn
     /// Builds and returns the classnames for column sizes.
     /// </summary>
     /// <param name="classProvider">Class provider used by the current framework provider.</param>
+    /// <param name="rowState">A row state that for a container of <see cref="BaseColumnComponent"/> components.</param>
+    /// <param name="currentColumn">Currently processed column component.</param>
     /// <returns>Return list of css classnames.</returns>
-    string Class( IClassProvider classProvider );
+    string Class( IClassProvider classProvider, IRowState rowState, IColumnComponent currentColumn );
 
     /// <summary>
     /// True if there are column sizes defined.
@@ -191,14 +192,16 @@ public class FluentColumn :
 
     private class ColumnDefinition
     {
+        public ColumnWidth ColumnWidth { get; set; }
+
         public Breakpoint Breakpoint { get; set; }
 
         public bool Offset { get; set; }
     }
 
-    private ColumnDefinition currentColumn;
+    private ColumnDefinition currentColumnDefinition;
 
-    private readonly Dictionary<ColumnWidth, List<ColumnDefinition>> rules = new();
+    private readonly List<ColumnDefinition> columnDefinitions = new();
 
     private List<string> customRules;
 
@@ -211,14 +214,39 @@ public class FluentColumn :
     #region Methods
 
     /// <inheritdoc/>
-    public string Class( IClassProvider classProvider )
+    public string Class( IClassProvider classProvider, IRowState rowState, IColumnComponent currentColumn )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules.Count( x => x.Key != ColumnWidth.Default ) > 0 )
-                    builder.Append( rules.Select( r => classProvider.Column( r.Key, r.Value.Select( v => (v.Breakpoint, v.Offset) ) ) ) );
+                rowState?.ResetUsedSpace( currentColumn );
+
+                if ( HasSizes && columnDefinitions?.Count > 0 )
+                {
+                    ColumnDefinition previousColumnDefinition = null;
+
+                    foreach ( var columnDefinition in columnDefinitions )
+                    {
+                        if ( columnDefinition.ColumnWidth == ColumnWidth.Default )
+                            continue;
+
+                        var startFrom = rowState?.IncreaseUsedSpace( GetUsedSpace( columnDefinition.ColumnWidth ), columnDefinition.Breakpoint ) ?? 0;
+
+                        // If the offset has changed we're most probably chaining rules and we need to revert to last used space so that offset
+                        // position can be applied properly.
+                        if ( previousColumnDefinition != null && previousColumnDefinition.Breakpoint == columnDefinition.Breakpoint && !previousColumnDefinition.Offset && columnDefinition.Offset )
+                            startFrom -= GetUsedSpace( previousColumnDefinition.ColumnWidth );
+
+                        // Make sure we aren't too far down.
+                        if ( startFrom < 0 )
+                            startFrom = 0;
+
+                        builder.Append( classProvider.Column( columnDefinition.ColumnWidth, columnDefinition.Breakpoint, columnDefinition.Offset, startFrom ) );
+
+                        previousColumnDefinition = columnDefinition;
+                    }
+                }
 
                 if ( customRules?.Count > 0 )
                     builder.Append( customRules );
@@ -234,6 +262,27 @@ public class FluentColumn :
         return classNames;
     }
 
+    private static int GetUsedSpace( ColumnWidth columnWidth )
+    {
+        return columnWidth switch
+        {
+            Blazorise.ColumnWidth.Is1 => 1,
+            Blazorise.ColumnWidth.Is2 => 2,
+            Blazorise.ColumnWidth.Is3 or Blazorise.ColumnWidth.Quarter => 3,
+            Blazorise.ColumnWidth.Is4 or Blazorise.ColumnWidth.Third => 4,
+            Blazorise.ColumnWidth.Is5 => 5,
+            Blazorise.ColumnWidth.Is6 or Blazorise.ColumnWidth.Half => 6,
+            Blazorise.ColumnWidth.Is7 => 7,
+            Blazorise.ColumnWidth.Is8 => 8,
+            Blazorise.ColumnWidth.Is9 => 9,
+            Blazorise.ColumnWidth.Is10 => 10,
+            Blazorise.ColumnWidth.Is11 => 11,
+            Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => 12,
+            Blazorise.ColumnWidth.Auto => 0,
+            _ => 0,
+        };
+    }
+
     private void Dirty()
     {
         dirty = true;
@@ -246,16 +295,13 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnOnBreakpointWithOffsetAndSize WithColumnSize( ColumnWidth columnSize )
     {
-        HasSizes = true;
+        if ( columnSize != ColumnWidth.Default )
+            HasSizes = true;
 
-        var columnDefinition = new ColumnDefinition { Breakpoint = Breakpoint.None };
+        currentColumnDefinition = new ColumnDefinition { ColumnWidth = columnSize, Breakpoint = Breakpoint.None };
 
-        if ( rules.TryGetValue( columnSize, out var rule ) )
-            rule.Add( columnDefinition );
-        else
-            rules.Add( columnSize, new() { columnDefinition } );
+        columnDefinitions.Add( currentColumnDefinition );
 
-        currentColumn = columnDefinition;
         Dirty();
 
         return this;
@@ -285,7 +331,7 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnWithSize WithBreakpoint( Breakpoint breakpoint )
     {
-        currentColumn.Breakpoint = breakpoint;
+        currentColumnDefinition.Breakpoint = breakpoint;
         Dirty();
 
         return this;
@@ -334,7 +380,7 @@ public class FluentColumn :
     /// <summary>
     /// Move columns to the right.
     /// </summary>
-    public IFluentColumnOnBreakpoint WithOffset { get { currentColumn.Offset = true; Dirty(); return this; } }
+    public IFluentColumnOnBreakpoint WithOffset { get { currentColumnDefinition.Offset = true; Dirty(); return this; } }
 
     /// <summary>
     /// One column width.

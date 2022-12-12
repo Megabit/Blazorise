@@ -17,8 +17,6 @@ public partial class Addons : BaseComponent, IDisposable
 
     private Size? size;
 
-    private IFluentColumn columnSize;
-
     private List<Button> registeredButtons;
 
     #endregion
@@ -131,21 +129,6 @@ public partial class Addons : BaseComponent, IDisposable
     /// Gets the size based on the theme settings.
     /// </summary>
     protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
-
-    /// <summary>
-    /// Determines how much space will be used by the addons inside of the grid row.
-    /// </summary>
-    [Parameter]
-    public IFluentColumn ColumnSize
-    {
-        get => columnSize;
-        set
-        {
-            columnSize = value;
-
-            DirtyClasses();
-        }
-    }
 
     /// <summary>
     /// Changes the size of the elements placed inside of this <see cref="Accordion"/>.

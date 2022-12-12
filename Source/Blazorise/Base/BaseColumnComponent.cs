@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// Element which specify a term.
+/// Base class for components that are containers for other components.
 /// </summary>
-public partial class DescriptionListTerm : BaseTypographyComponent, IColumnComponent, IDisposable
+public abstract class BaseColumnComponent : BaseComponent, IColumnComponent, IDisposable
 {
     #region Members
 
@@ -41,9 +41,7 @@ public partial class DescriptionListTerm : BaseTypographyComponent, IColumnCompo
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.DescriptionListTerm() );
-
-        if ( ColumnSize != null )
+        if ( ColumnSize != null && !PreventColumnSize )
             builder.Append( ColumnSize.Class( ClassProvider, ParentRowState, this ) );
 
         base.BuildClasses( builder );
@@ -54,12 +52,17 @@ public partial class DescriptionListTerm : BaseTypographyComponent, IColumnCompo
     #region Properties
 
     /// <summary>
-    /// Cascaded row context from a container of this component.
+    /// Indicates if the column size generator should be skipped. Used to override the use of column sizes by some of the providers.
     /// </summary>
-    [CascadingParameter] protected IRowState ParentRowState { get; }
+    protected virtual bool PreventColumnSize => false;
 
     /// <summary>
-    /// Determines how much space will be used by the term inside of the description list row.
+    /// Cascaded row state from a container of this component.
+    /// </summary>
+    [CascadingParameter] protected IRowState ParentRowState { get; set; }
+
+    /// <summary>
+    /// Defines the column sizes.
     /// </summary>
     [Parameter]
     public IFluentColumn ColumnSize
@@ -72,6 +75,11 @@ public partial class DescriptionListTerm : BaseTypographyComponent, IColumnCompo
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="BaseColumnComponent"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }
