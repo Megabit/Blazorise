@@ -63,6 +63,8 @@ public static class Config
         { typeof( Blazorise.CloseButton ), typeof( Tailwind.CloseButton ) },
         { typeof( Blazorise.Modal ), typeof( Tailwind.Modal ) },
         { typeof( Blazorise.ModalContent ), typeof( Tailwind.ModalContent ) },
+        { typeof( Blazorise.Progress ), typeof( Tailwind.Progress ) },
+        { typeof( Blazorise.ProgressBar ), typeof( Tailwind.ProgressBar ) },
         { typeof( Blazorise.Radio<> ), typeof( Tailwind.Radio<> ) },
         { typeof( Blazorise.RadioGroup<> ), typeof( Tailwind.RadioGroup<> ) },
         { typeof( Blazorise.Switch<> ), typeof( Tailwind.Switch<> ) },
