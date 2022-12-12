@@ -12,8 +12,8 @@ public class TailwindClassProvider : ClassProvider
     #region TextEdit
 
     public override string TextEdit( bool plaintext ) => plaintext
-        ? "text-gray-900 text-sm border-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+        ? "text-gray-900 text-sm border-none focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+        : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
     public override string TextEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -27,7 +27,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string MemoEdit( bool plaintext ) => plaintext
         ? "form-control-plaintext"
-        : "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+        : "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
     public override string MemoEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -37,7 +37,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Select
 
-    public override string Select() => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+    public override string Select() => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
     public override string SelectMultiple() => null;
 
@@ -51,7 +51,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string NumericEdit( bool plaintext ) => plaintext
         ? "form-control-plaintext"
-        : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+        : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
     public override string NumericEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -63,7 +63,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region DateEdit
 
-    public override string DateEdit( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+    public override string DateEdit( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
     public override string DateEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -75,7 +75,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region TimeEdit
 
-    public override string TimeEdit( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+    public override string TimeEdit( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
     public override string TimeEditSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -95,7 +95,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region DatePicker
 
-    public override string DatePicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+    public override string DatePicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
     public override string DatePickerSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -107,7 +107,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region TimePicker
 
-    public override string TimePicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+    public override string TimePicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
     public override string TimePickerSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -127,7 +127,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region NumericPicker
 
-    public override string NumericPicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+    public override string NumericPicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
     public override string NumericPickerSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -139,7 +139,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region InputMask
 
-    public override string InputMask( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500";
+    public override string InputMask( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
     public override string InputMaskSize( Size size ) => $"form-control-{ToSize( size )}";
 
@@ -151,7 +151,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Check
 
-    public override string Check() => "w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+    public override string Check() => "w-4 h-4 text-primary-600 bg-gray-100 rounded border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
 
     public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
 
@@ -181,7 +181,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Radio
 
-    public override string Radio( bool button ) => button ? null : "w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+    public override string Radio( bool button ) => button ? null : "w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
 
     public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
 
@@ -396,15 +396,15 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "text-white bg-blue-700 hover:bg-blue-800 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800",
-            "secondary" => "text-white bg-gray-500 hover:bg-gray-600 focus:ring-gray-100 dark:bg-gray-400 dark:hover:bg-gray-500 dark:focus:ring-gray-600",// "text-gray-900 bg-white border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700",
-            "success" => "text-white bg-green-700 hover:bg-green-800 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800",
-            "danger" => "text-white bg-red-700 hover:bg-red-800 focus:ring-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900",
-            "warning" => "text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-yellow-300 dark:focus:ring-yellow-900",
-            "info" => "text-white bg-purple-700 hover:bg-purple-800 focus:ring-purple-300 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900",
-            "light" => "text-gray-900 bg-gray-300 border border-gray-300 hover:bg-gray-100 focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700",
-            "dark" => "text-white bg-gray-800 hover:bg-gray-900 focus:ring-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700",
-            "link" => "text-blue-600 dark:text-blue-500 hover:underline",
+            "primary" => "text-white bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800",
+            "secondary" => "text-white bg-secondary-500 hover:bg-secondary-600 focus:ring-secondary-100 dark:bg-secondary-400 dark:hover:bg-secondary-500 dark:focus:ring-secondary-600",
+            "success" => "text-white bg-success-700 hover:bg-success-800 focus:ring-success-300 dark:bg-success-600 dark:hover:bg-success-700 dark:focus:ring-success-800",
+            "danger" => "text-white bg-danger-700 hover:bg-danger-800 focus:ring-danger-300 dark:bg-danger-600 dark:hover:bg-danger-700 dark:focus:ring-danger-900",
+            "warning" => "text-white bg-warning-400 hover:bg-warning-500 focus:ring-warning-300 dark:focus:ring-warning-900",
+            "info" => "text-white bg-info-700 hover:bg-info-800 focus:ring-info-300 dark:bg-info-600 dark:hover:bg-info-700 dark:focus:ring-info-900",
+            "light" => "text-light-900 bg-light-300 border border-light-300 hover:bg-light-100 focus:ring-light-200 dark:bg-light-800 dark:text-white dark:border-light-600 dark:hover:bg-light-700 dark:hover:border-light-600 dark:focus:ring-light-700",
+            "dark" => "text-white bg-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:bg-dark-800 dark:hover:bg-dark-700 dark:focus:ring-dark-700 dark:border-dark-700",
+            "link" => "text-primary-600 dark:text-primary-500 hover:underline",
             _ => null,
         };
     }
@@ -415,14 +415,14 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:text-white dark:hover:bg-blue-600 dark:focus:ring-blue-800",
-            "secondary" => "text-gray-500 hover:text-white border border-gray-500 hover:bg-gray-600 focus:ring-gray-100 dark:border-gray-300 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-400 dark:focus:ring-gray-600",
-            "success" => "text-green-700 hover:text-white border-green-700 hover:bg-green-800 focus:ring-green-300 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800",
-            "danger" => "text-red-700 hover:text-white border-red-700 hover:bg-red-800 focus:ring-red-300 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900",
-            "warning" => "text-yellow-400 hover:text-white border-yellow-400 hover:bg-yellow-500 focus:ring-yellow-300 dark:border-yellow-300 dark:text-yellow-300 dark:hover:text-white dark:hover:bg-yellow-400 dark:focus:ring-yellow-900",
-            "info" => "text-purple-700 hover:text-white border-purple-700 hover:bg-purple-800 focus:ring-purple-300 dark:border-purple-400 dark:text-purple-400 dark:hover:text-white dark:hover:bg-purple-500 dark:focus:ring-purple-900",
-            "light" => "text-gray-900 hover:text-white border-gray-300 hover:bg-gray-100 focus:ring-gray-200 dark:border-gray-600 dark:text-white dark:hover:text-white dark:hover:bg-gray-700 dark:focus:ring-gray-700",
-            "dark" => "text-gray-900 hover:text-white border-gray-800 hover:bg-gray-900 focus:ring-gray-300 dark:border-gray-600 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-800",
+            "primary" => "text-primary-700 hover:text-white border border-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-600 dark:focus:ring-primary-800",
+            "secondary" => "text-secondary-500 hover:text-white border border-secondary-500 hover:bg-secondary-600 focus:ring-secondary-100 dark:border-secondary-300 dark:text-secondary-300 dark:hover:text-white dark:hover:bg-secondary-400 dark:focus:ring-secondary-600",
+            "success" => "text-success-700 hover:text-white border-success-700 hover:bg-success-800 focus:ring-success-300 dark:border-success-500 dark:text-success-500 dark:hover:text-white dark:hover:bg-success-600 dark:focus:ring-success-800",
+            "danger" => "text-danger-700 hover:text-white border-danger-700 hover:bg-danger-800 focus:ring-danger-300 dark:border-danger-500 dark:text-danger-500 dark:hover:text-white dark:hover:bg-danger-600 dark:focus:ring-danger-900",
+            "warning" => "text-warning-400 hover:text-white border-warning-400 hover:bg-warning-500 focus:ring-warning-300 dark:border-warning-300 dark:text-warning-300 dark:hover:text-white dark:hover:bg-warning-400 dark:focus:ring-warning-900",
+            "info" => "text-info-700 hover:text-white border-info-700 hover:bg-info-800 focus:ring-info-300 dark:border-info-400 dark:text-info-400 dark:hover:text-white dark:hover:bg-info-500 dark:focus:ring-info-900",
+            "light" => "text-light-900 hover:text-white border-light-300 hover:bg-light-100 focus:ring-light-200 dark:border-light-600 dark:text-white dark:hover:text-white dark:hover:bg-light-700 dark:focus:ring-light-700",
+            "dark" => "text-dark-900 hover:text-white border-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:border-dark-600 dark:text-dark-400 dark:hover:text-white dark:hover:bg-dark-600 dark:focus:ring-dark-800",
             "link" => "",
             _ => null,
         };
@@ -715,7 +715,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarItemHasDropdownShow( BarMode mode ) => null;
 
-    public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" : "b-bar-link";
+    public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" : "b-bar-link";
 
     public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
@@ -742,8 +742,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu
-            ? "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-            : "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+            ? "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+            : "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
         : "b-bar-link b-bar-dropdown-toggle";
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
@@ -862,15 +862,15 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "text-blue-800 bg-blue-300 dark:bg-blue-500 dark:text-blue-800",
-            "secondary" => "text-gray-500 bg-gray-300 dark:bg-gray-100 dark:text-gray-600",
-            "success" => "text-green-700 bg-green-100 dark:bg-green-200 dark:text-green-800",
-            "danger" => "text-red-700 bg-red-100 dark:bg-red-200 dark:text-red-800",
-            "warning" => "text-yellow-700 bg-yellow-100 dark:bg-yellow-200 dark:text-yellow-800",
-            "info" => "text-purple-700 bg-purple-100 dark:bg-purple-200 dark:text-purple-800",
-            "light" => "text-gray-500 bg-gray-100 dark:bg-gray-100 dark:text-gray-600",
-            "dark" => "text-gray-100 bg-gray-800 dark:bg-gray-300 dark:text-gray-700",
-            "link" => "text-blue-600 dark:text-blue-500 hover:underline",
+            "primary" => "text-primary-800 bg-primary-300 dark:bg-primary-500 dark:text-primary-800",
+            "secondary" => "text-secondary-500 bg-secondary-300 dark:bg-secondary-100 dark:text-secondary-600",
+            "success" => "text-success-700 bg-success-100 dark:bg-success-200 dark:text-success-800",
+            "danger" => "text-danger-700 bg-danger-100 dark:bg-danger-200 dark:text-danger-800",
+            "warning" => "text-warning-700 bg-warning-100 dark:bg-warning-200 dark:text-warning-800",
+            "info" => "text-info-700 bg-info-100 dark:bg-info-200 dark:text-info-800",
+            "light" => "text-light-500 bg-light-100 dark:bg-light-100 dark:text-light-600",
+            "dark" => "text-dark-100 bg-dark-800 dark:bg-dark-300 dark:text-dark-700",
+            "link" => "text-primary-600 dark:text-primary-500 hover:underline",
             _ => null,
         };
     }
@@ -941,7 +941,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string PaginationLink() => "page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 focus:shadow-none";
 
-    public override string PaginationLinkActive() => "bg-blue-600";
+    public override string PaginationLinkActive() => "bg-primary-600";
 
     public override string PaginationLinkDisabled() => null;
 
@@ -1043,15 +1043,15 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "bg-blue-100 text-blue-800 dark:bg-blue-200 dark:text-blue-800",
-            "secondary" => "bg-gray-100 text-gray-800 dark:bg-gray-200 dark:text-gray-800",
-            "success" => "bg-green-100 text-green-800 dark:bg-green-200 dark:text-green-900",
-            "danger" => "bg-red-100 text-red-800 dark:bg-red-200 dark:text-red-900",
-            "warning" => "bg-yellow-100 text-yellow-800 dark:bg-yellow-200 dark:text-yellow-900",
-            "info" => "bg-purple-100 text-purple-800 dark:bg-purple-200 dark:text-purple-900",
-            "light" => "bg-gray-100 text-gray-800 dark:bg-gray-200 dark:text-gray-800",
-            "dark" => "bg-gray-800 text-gray-100 dark:bg-gray-300 dark:text-gray-700",
-            "link" => "text-blue-600 dark:text-blue-500 hover:underline",
+            "primary" => "bg-primary-100 text-primary-800 dark:bg-primary-200 dark:text-primary-800",
+            "secondary" => "bg-secondary-100 text-secondary-800 dark:bg-secondary-200 dark:text-secondary-800",
+            "success" => "bg-success-100 text-success-800 dark:bg-success-200 dark:text-success-900",
+            "danger" => "bg-danger-100 text-danger-800 dark:bg-danger-200 dark:text-danger-900",
+            "warning" => "bg-warning-100 text-warning-800 dark:bg-warning-200 dark:text-warning-900",
+            "info" => "bg-info-100 text-info-800 dark:bg-info-200 dark:text-info-900",
+            "light" => "bg-light-100 text-light-800 dark:bg-light-200 dark:text-light-800",
+            "dark" => "bg-dark-800 text-dark-100 dark:bg-dark-300 dark:text-dark-700",
+            "link" => "text-primary-600 dark:text-primary-500 hover:underline",
             _ => null,
         };
     }
