@@ -951,7 +951,18 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Progress() => "w-full bg-gray-200 rounded-full dark:bg-gray-700";
 
-    public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
+    public override string ProgressSize( Size size )
+    {
+        return size switch
+        {
+            Blazorise.Size.ExtraSmall => "h-1",
+            Blazorise.Size.Small => "h-1.5",
+            Blazorise.Size.Medium => "h-3",
+            Blazorise.Size.Large => "h-4",
+            Blazorise.Size.ExtraLarge => "h-6",
+            _ => "h-2.5",
+        };
+    }
 
     public override string ProgressColor( Color color ) => null;
 
@@ -975,7 +986,7 @@ public class TailwindClassProvider : ClassProvider
             "secondary" => "bg-secondary-600 text-secondary-100",
             "success" => "bg-success-600 text-success-100",
             "danger" => "bg-danger-600 text-danger-100",
-            "warning" => "bg-warning-600 text-warning-100",
+            "warning" => "bg-warning-400 text-warning-100",
             "info" => "bg-info-600 text-info-100",
             "light" => "bg-light-100 text-light-600",
             "dark" => "bg-dark-600 text-dark-100",

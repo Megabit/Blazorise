@@ -4,20 +4,35 @@
     <CascadingValue Value="@State">
         @if ( HasProgressBar )
         {
-            <div class="w-full bg-gray-200 rounded-full dark:bg-gray-700 mb-3 flex overflow-hidden h-2.5">
+            <div class="@HasProgressBarClassNames">
                 @ChildContent
             </div>
         }
         else
         {
             <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-                <div class="@GetInnerClassNames" style="@($"width: {Percentage}%;")">@ChildContent</div>
+                <div class="@InnerClassNames" style="@($"width: {Percentage}%;")">@ChildContent</div>
             </div>
         }
     </CascadingValue>
 </CascadingValue>
 @code {
-    string GetInnerClassNames
+    string HasProgressBarClassNames
+    {
+        get
+        {
+            var sb = new StringBuilder( "w-full bg-gray-200 rounded-full dark:bg-gray-700 mb-3 flex overflow-hidden" );
+
+            if ( ChildContent == null )
+            {
+                sb.Append( " " ).Append( ClassProvider.ProgressSize( ThemeSize ) );
+            }
+
+            return sb.ToString();
+        }
+    }
+
+    string InnerClassNames
     {
         get
         {
@@ -25,52 +40,25 @@
 
             if ( Color != Color.Default )
             {
-                sb.Append( " " ).Append( GetProgressBackgroundColor( Color ) );
-                sb.Append( " " ).Append( GetProgressTextColor( Color ) );
+                sb.Append( " " ).Append( ClassProvider.ProgressBarColor( Color ) );
             }
 
             if ( ChildContent == null )
             {
-                sb.Append( " h-2.5" );
+                sb.Append( " " ).Append( ClassProvider.ProgressSize( ThemeSize ) );
+            }
+
+            if ( Striped )
+            {
+                sb.Append( " bg-striped" );
+            }
+
+            if ( Animated )
+            {
+                sb.Append( " bg-striped-animated" );
             }
 
             return sb.ToString();
         }
-    }
-
-    string GetProgressBackgroundColor( Color color )
-    {
-        var name = color?.Name;
-
-        return name switch
-        {
-            "primary" => "bg-primary-600",
-            "secondary" => "bg-secondary-600",
-            "success" => "bg-success-600",
-            "danger" => "bg-danger-600",
-            "warning" => "bg-warning-600",
-            "info" => "bg-info-600",
-            "light" => "bg-light-100",
-            "dark" => "bg-dark-600",
-            _ => null,
-        };
-    }
-
-    string GetProgressTextColor( Color color )
-    {
-        var name = color?.Name;
-
-        return name switch
-        {
-            "primary" => "text-primary-100",
-            "secondary" => "text-secondary-100",
-            "success" => "text-success-100",
-            "danger" => "text-danger-100",
-            "warning" => "text-warning-100",
-            "info" => "text-info-100",
-            "light" => "text-light-600",
-            "dark" => "text-dark-100",
-            _ => null,
-        };
     }
 }
