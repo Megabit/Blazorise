@@ -530,33 +530,33 @@ public class TailwindClassProvider : ClassProvider
 
     #region Tabs
 
-    public override string Tabs( bool pills ) => pills ? "nav nav-pills" : "nav nav-tabs";
+    public override string Tabs( bool pills ) => pills ? "flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400" : "flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400";
 
     public override string TabsCards() => "card-header-tabs";
 
-    public override string TabsFullWidth() => "nav-fill";
+    public override string TabsFullWidth() => "w-full";
 
     public override string TabsJustified() => "nav-justified";
 
     public override string TabsVertical() => "flex-column";
 
-    public override string TabItem() => "nav-item";
+    public override string TabItem() => "mr-2";
 
     public override string TabItemActive( bool active ) => null;
 
     public override string TabItemDisabled( bool disabled ) => null;
 
-    public override string TabLink() => "nav-link";
+    public override string TabLink() => "inline-block p-4 rounded-t-lg";
 
-    public override string TabLinkActive( bool active ) => active ? $"{Active()} {Show()}" : null;
+    public override string TabLinkActive( bool active ) => active ? "text-primary-600 dark:text-primary-500" : "hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300";
 
-    public override string TabLinkDisabled( bool disabled ) => disabled ? "disabled" : null;
+    public override string TabLinkDisabled( bool disabled ) => disabled ? "opacity-60" : null;
 
-    public override string TabsContent() => "tab-content";
+    public override string TabsContent() => null;
 
-    public override string TabPanel() => "tab-pane";
+    public override string TabPanel() => "p-4 bg-gray-50 rounded-lg dark:bg-gray-800";
 
-    public override string TabPanelActive( bool active ) => active ? $"{Active()} {Show()}" : null;
+    public override string TabPanelActive( bool active ) => active ? null : "hidden";
 
     #endregion
 
