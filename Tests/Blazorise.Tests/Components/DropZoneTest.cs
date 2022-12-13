@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
@@ -435,9 +436,11 @@ public class DropZoneTest : TestContext
             ItemDropped = new EventCallback<DraggableDroppedEventArgs<object>>( null, DropEvent )
         };
 
-        void DropEvent( DraggableDroppedEventArgs<object> e )
+        Task DropEvent( DraggableDroppedEventArgs<object> e )
         {
             returnedArgs = e;
+
+            return Task.CompletedTask;
         }
 
         sut.StartTransaction( new object(), "source_zone_name", 0, () => Task.CompletedTask, () => Task.CompletedTask );
