@@ -33,6 +33,12 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
 
     private Dictionary<TItem, int> indices = new();
 
+    private bool recalculateItems = true;
+
+    private bool shouldRerender = true;
+
+    private IEnumerable<TItem> items;
+
     #endregion
 
     #region Constructors
@@ -167,6 +173,9 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
             }
         }
 
+        recalculateItems = true;
+        shouldRerender = true;
+
         DirtyClasses();
 
         InvokeAsync( StateHasChanged );
@@ -175,6 +184,9 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
     private void OnContainerRefreshRequested( object sender, EventArgs e )
     {
         indices.Clear();
+
+        recalculateItems = true;
+        shouldRerender = true;
 
         DirtyClasses();
 
@@ -185,6 +197,9 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( e.ZoneName != Name && e.OldZoneName != Name )
             return;
+
+        recalculateItems = true;
+        shouldRerender = true;
 
         DirtyClasses();
 
@@ -317,20 +332,38 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
         return (item, canBeDropped);
     }
 
-    private void OnDragStarted() => dragging = true;
+    private Task OnDragStarted()
+    {
+        dragging = true;
 
-    private void OnDragEnded() => dragging = false;
+        return Task.CompletedTask;
+    }
 
+    private Task OnDragEnded( TItem item )
+    {
+        dragging = false;
+
+        return Task.CompletedTask;
+    }
+
+    private int count;
     private IEnumerable<TItem> GetItems()
     {
-        Func<TItem, bool> predicate = ( item ) => ParentContainer.ItemsFilter( item, Name ?? string.Empty );
-
-        if ( ItemsFilter != null )
+        if ( recalculateItems )
         {
-            predicate = ItemsFilter;
+            recalculateItems = false;
+
+            Func<TItem, bool> predicate = ( item ) => ParentContainer.ItemsFilter( item, Name ?? string.Empty );
+
+            if ( ItemsFilter != null )
+            {
+                predicate = ItemsFilter;
+            }
+
+            items = ( ParentContainer?.Items ?? Enumerable.Empty<TItem>() ).Where( predicate ).OrderBy( x => GetItemIndex( x ) ).ToArray();
         }
 
-        return ( ParentContainer?.Items ?? Enumerable.Empty<TItem>() ).Where( predicate ).OrderBy( x => GetItemIndex( x ) ).ToArray();
+        return items ?? Enumerable.Empty<TItem>();
     }
 
     private bool GetItemDisabled( TItem item )
@@ -377,6 +410,17 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
     #endregion
 
     #region Properties
+
+    protected override bool ShouldRender()
+    {
+        if ( shouldRerender )
+        {
+            shouldRerender = false;
+            return true;
+        }
+
+        return shouldRerender;
+    }
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;

@@ -363,10 +363,13 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
             if ( ActiveItemIndex >= 0 )
             {
-                var item = FilteredData[ActiveItemIndex];
-                if ( item != null && ValueField != null )
+                if ( FilteredData?.Count > 0 )
                 {
-                    await OnDropdownItemSelected( ValueField.Invoke( item ) );
+                    var item = FilteredData[ActiveItemIndex];
+                    if ( item != null && ValueField != null )
+                    {
+                        await OnDropdownItemSelected( ValueField.Invoke( item ) );
+                    }
                 }
             }
 
@@ -433,7 +436,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private async Task OnDropdownItemSelected( object value )
     {
-        if ( SelectionMode == AutocompleteSelectionMode.Default )
+        //TODO : Once Multiple is deprecated we may remove the && !IsMultiple condition
+        if ( SelectionMode == AutocompleteSelectionMode.Default && !IsMultiple )
         {
             await Close();
         }
@@ -445,18 +449,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await Close();
                 await ResetCurrentSearch();
             }
-            else if ( !IsSuggestSelectedItems )
-            {
-                if ( AutoPreSelect )
-                {
-                    ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count, ActiveItemIndex ) );
-                }
-                else
-                {
-                    await ResetActiveItemIndex();
-                }
-            }
-            else
+            else if ( IsSuggestSelectedItems )
             {
                 ActiveItemIndex = FilteredData.Index( x => ValueField( x ).IsEqual( value ) );
             }
@@ -503,6 +496,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             );
         }
 
+        ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, ActiveItemIndex ) );
         await Revalidate();
     }
 
@@ -671,6 +665,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         await RemoveMultipleText( text );
         await RemoveMultipleValue( GetValueByText( text ) );
+        DirtyFilter();
     }
 
     /// <summary>
@@ -682,6 +677,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         await RemoveMultipleText( GetItemText( value ) );
         await RemoveMultipleValue( value );
+        DirtyFilter();
     }
 
     private void FilterData()
