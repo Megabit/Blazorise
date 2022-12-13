@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +10,7 @@ namespace Blazorise;
 /// <summary>
 /// Toggle visibility of almost any content on your pages in a vertically collapsing container.
 /// </summary>
-public partial class Collapse : BaseComponent
+public partial class Collapse : BaseComponent, IDisposable
 {
     #region Members
 
@@ -18,6 +19,25 @@ public partial class Collapse : BaseComponent
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        ParentAccordion?.NotifyCollapseInitialized( this );
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentAccordion?.NotifyCollapseRemoved( this );
+        }
+
+        base.Dispose( disposing );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -47,6 +67,16 @@ public partial class Collapse : BaseComponent
     /// Determines if the collapse is placed inside of accordion component.
     /// </summary>
     public bool InsideAccordion => ParentAccordion != null;
+
+    /// <summary>
+    /// Determines if the collapse is placed inside of accordion component as the first item.
+    /// </summary>
+    public bool FirstInAccordion => ParentAccordion?.IsFirstInAccordion( this ) == true;
+
+    /// <summary>
+    /// Determines if the collapse is placed inside of accordion component as the last item.
+    /// </summary>
+    public bool LastInAccordion => ParentAccordion?.IsLastInAccordion( this ) == true;
 
     /// <summary>
     /// Gets or sets the collapse visibility state.

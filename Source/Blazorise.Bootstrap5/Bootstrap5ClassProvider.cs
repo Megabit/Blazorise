@@ -725,7 +725,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string CollapseBodyActive( bool accordion, bool active ) => active ? Show() : null;
 
-    public override string CollapseBodyContent( bool accordion ) => accordion ? "accordion-body" : "card-body";
+    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => accordion ? "accordion-body" : "card-body";
 
     #endregion
 

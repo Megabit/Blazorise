@@ -711,7 +711,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string CollapseBodyActive( bool accordion, bool active );
 
-    public abstract string CollapseBodyContent( bool accordion );
+    public abstract string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion );
 
     #endregion
 

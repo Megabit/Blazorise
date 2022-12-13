@@ -724,7 +724,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CollapseBodyActive( bool accordion, bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
 
-    public override string CollapseBodyContent( bool accordion ) => "ant-collapse-content-box";
+    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "ant-collapse-content-box";
 
     #endregion
 

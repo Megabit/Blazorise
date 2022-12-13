@@ -797,13 +797,16 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CollapseActive( bool accordion, bool active ) => null;
 
-    public override string CollapseHeader( bool accordion ) => "card-header";
+    public override string CollapseHeader( bool accordion ) => null;
 
-    public override string CollapseBody( bool accordion ) => "collapse";
+    public override string CollapseBody( bool accordion ) => null;
 
-    public override string CollapseBodyActive( bool accordion, bool active ) => active ? Show() : null;
+    public override string CollapseBodyActive( bool accordion, bool active ) => active ? null : "hidden";
 
-    public override string CollapseBodyContent( bool accordion ) => "card-body";
+    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion )
+        => lastInAccordion
+        ? "p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+        : "p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900";
 
     #endregion
 

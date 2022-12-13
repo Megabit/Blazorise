@@ -742,7 +742,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string CollapseBodyActive( bool accordion, bool active ) => active ? Show() : null;
 
-    public override string CollapseBodyContent( bool accordion ) => "card-content";
+    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "card-content";
 
     #endregion
 

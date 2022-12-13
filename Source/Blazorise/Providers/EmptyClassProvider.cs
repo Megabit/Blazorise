@@ -715,7 +715,7 @@ class EmptyClassProvider : IClassProvider
 
     public string CollapseBodyActive( bool accordion, bool active ) => null;
 
-    public string CollapseBodyContent( bool accordion ) => null;
+    public string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => null;
 
     #endregion
 

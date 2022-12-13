@@ -708,7 +708,7 @@ public interface IClassProvider
 
     string CollapseBodyActive( bool accordion, bool active );
 
-    string CollapseBodyContent( bool accordion );
+    string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion );
 
     #endregion
 
