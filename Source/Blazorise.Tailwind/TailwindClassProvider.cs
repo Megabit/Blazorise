@@ -276,11 +276,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region Validation
 
-    public override string ValidationSuccess() => "valid-feedback";
+    public override string ValidationSuccess() => "mt-2 text-sm text-success-600 dark:text-success-500";
 
     public override string ValidationSuccessTooltip() => "valid-tooltip";
 
-    public override string ValidationError() => "invalid-feedback";
+    public override string ValidationError() => "mt-2 text-sm text-danger-600 dark:text-danger-500";
 
     public override string ValidationErrorTooltip() => "invalid-tooltip";
 
