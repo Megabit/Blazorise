@@ -80,13 +80,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private bool virtualizeFilterChanged;
 
     /// <summary>
+    /// The CancellationTokenSource for the Filtering Change Event.
+    /// </summary>
+    private CancellationTokenSource filterCancellationTokenSource;
+
+    /// <summary>
     /// Holds the state of sorted columns grouped by the sort-mode.
     /// </summary>
     protected Dictionary<DataGridSortMode, List<DataGridColumn<TItem>>> sortByColumnsDictionary = new()
-    {
-        { DataGridSortMode.Single, new() },
-        { DataGridSortMode.Multiple, new() },
-    };
+        {
+            { DataGridSortMode.Single, new() },
+            { DataGridSortMode.Multiple, new() },
+        };
 
     private readonly Lazy<Func<TItem>> newItemCreator;
 
@@ -286,6 +291,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 Theme.Changed -= OnThemeChanged;
             }
+
+            filterCancellationTokenSource?.Dispose();
+            filterCancellationTokenSource = null;
         }
 
         return base.DisposeAsync( disposing );
@@ -1261,9 +1269,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     protected internal Task OnFilterChanged( DataGridColumn<TItem> column, object value )
     {
+        filterCancellationTokenSource?.Cancel();
+        filterCancellationTokenSource = new();
+
         virtualizeFilterChanged = true;
         column.Filter.SearchValue = value;
-        return Reload();
+        return Reload( filterCancellationTokenSource.Token );
     }
 
     private bool CompareFilterValues( string searchValue, string compareTo )

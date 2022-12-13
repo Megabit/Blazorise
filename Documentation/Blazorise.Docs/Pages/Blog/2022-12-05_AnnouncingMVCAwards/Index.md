@@ -51,7 +51,7 @@ This year, we internally selected six MVCs whose work deserved reward. Here are 
 
 🎗️Mitchell Currey, UK - [GitHub Profile](https://github.com/MitchellNZ)
 
-🎗️Niek Jannink, Netherlands - [GitHub Profile](https://github.com/njannink)
+🎗️Niek Jannink, Ecuador - [GitHub Profile](https://github.com/njannink)
 
 🎗️Simon Cropp, Australia - [GitHub Profile](https://github.com/SimonCropp)
 
