@@ -43,7 +43,8 @@ namespace Blazorise
 
             ParentContainer.StartTransaction( Item, ZoneName ?? string.Empty, Index, OnDroppedSucceeded, OnDroppedCanceled );
 
-            await DragStarted.InvokeAsync();
+            if ( DragStarted is not null )
+                await DragStarted.Invoke();
         }
 
         private async Task OnDragEndHandler( DragEventArgs e )
@@ -56,7 +57,8 @@ namespace Blazorise
             }
             else
             {
-                await DragEnded.InvokeAsync( Item );
+                if ( DragEnded is not null )
+                    await DragEnded.Invoke( Item );
             }
         }
 
@@ -76,7 +78,8 @@ namespace Blazorise
         {
             dragging = false;
 
-            await DragEnded.InvokeAsync( Item );
+            if ( DragEnded is not null )
+                await DragEnded.Invoke( Item );
 
             await InvokeAsync( StateHasChanged );
         }
@@ -85,7 +88,8 @@ namespace Blazorise
         {
             dragging = false;
 
-            await DragEnded.InvokeAsync( Item );
+            if ( DragEnded is not null )
+                await DragEnded.Invoke( Item );
 
             await InvokeAsync( StateHasChanged );
         }
@@ -107,12 +111,12 @@ namespace Blazorise
         /// <summary>
         /// An event that is raised when a drag operation has started.
         /// </summary>
-        [Parameter] public EventCallback<TItem> DragStarted { get; set; }
+        [Parameter] public Func<Task> DragStarted { get; set; }
 
         /// <summary>
         /// An event that is raised when a drag operation has ended.
         /// </summary>
-        [Parameter] public EventCallback<TItem> DragEnded { get; set; }
+        [Parameter] public Func<TItem, Task> DragEnded { get; set; }
 
         /// <summary>
         /// If true, the draggable item canot be dragged.
@@ -120,7 +124,8 @@ namespace Blazorise
         [Parameter]
         public bool Disabled
         {
-            get => disabled; set
+            get => disabled;
+            set
             {
                 if ( disabled == value )
                     return;
