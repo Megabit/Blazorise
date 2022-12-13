@@ -1,6 +1,6 @@
-import { getRequiredElement } from "./utilities.js?v=1.1.4.1";
-import { createPopper } from "./popper.js?v=1.1.4.1";
-import { createAttributesObserver, observeClassChanged, destroyObserver } from "./observer.js?v=1.1.4.1";
+import { getRequiredElement } from "./utilities.js?v=1.1.5.0";
+import { createPopper } from "./popper.js?v=1.1.5.0";
+import { createAttributesObserver, observeClassChanged, destroyObserver } from "./observer.js?v=1.1.5.0";
 
 const _instances = [];
 const DIRECTION_DEFAULT = 'Default'
