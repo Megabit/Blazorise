@@ -1356,19 +1356,19 @@ public class TailwindClassProvider : ClassProvider
             sb.Append( "flex-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
 
         if ( flexDefinition.JustifyContent != FlexJustifyContent.Default )
-            sb.Append( "justify-content-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+            sb.Append( "justify-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
 
         if ( flexDefinition.AlignItems != FlexAlignItems.Default )
-            sb.Append( "align-items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+            sb.Append( "items-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
 
         if ( flexDefinition.AlignSelf != FlexAlignSelf.Default )
-            sb.Append( "align-self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+            sb.Append( "self-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
 
         if ( flexDefinition.AlignContent != FlexAlignContent.Default )
-            sb.Append( "align-content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+            sb.Append( "content-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
 
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+            sb.Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
 
         if ( flexDefinition.Wrap != FlexWrap.Default )
             sb.Append( "flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
@@ -1377,7 +1377,7 @@ public class TailwindClassProvider : ClassProvider
             sb.Append( "order-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
 
         if ( flexDefinition.Fill )
-            sb.Append( "flex-" ).Append( breakpoint ).Append( "fill" );
+            sb.Append( "flex-" ).Append( breakpoint ).Append( "auto" );
 
         return sb.ToString();
     }
@@ -1387,7 +1387,7 @@ public class TailwindClassProvider : ClassProvider
         var sb = new StringBuilder();
 
         if ( flexType != FlexType.Default )
-            sb.Append( $"d-{ToFlexType( flexType )}" ).Append( ' ' );
+            sb.Append( $"{ToFlexType( flexType )}" ).Append( ' ' );
 
         sb.Append( string.Join( ' ', flexDefinitions.Select( x => Flex( x ) ) ) );
 
