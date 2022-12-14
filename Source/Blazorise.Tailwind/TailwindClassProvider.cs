@@ -1468,18 +1468,18 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType )
     {
-        return $"{ToPositionEdgeType( edgeType )}-{edgeOffset}";
+        return $"{ToPositionEdgeType( edgeType )}-{( edgeOffset == 50 ? "1/2" : edgeOffset == 100 ? "full" : edgeOffset )}";
     }
 
     public override string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType )
     {
-        var sb = new StringBuilder( $"position-{ToPositionType( positionType )}" );
+        var sb = new StringBuilder( $"{ToPositionType( positionType )}" );
 
         if ( edges != null && edges.Count() > 0 )
             sb.Append( ' ' ).Append( string.Join( " ", edges.Select( x => Position( positionType, x.edgeType, x.edgeOffset, translateType ) ) ) );
 
         if ( translateType != PositionTranslateType.None )
-            sb.Append( " translate-" ).Append( ToPositionTranslateType( translateType ) );
+            sb.Append( ' ' ).Append( ToPositionTranslateType( translateType ) );
 
         return sb.ToString();
     }
@@ -1575,6 +1575,29 @@ public class TailwindClassProvider : ClassProvider
             Blazorise.FlexDirection.ReverseRow => "row-reverse",
             Blazorise.FlexDirection.Column => "col",
             Blazorise.FlexDirection.ReverseColumn => "col-reverse",
+            _ => null,
+        };
+    }
+
+    public override string ToPositionEdgeType( PositionEdgeType positionEdgeType )
+    {
+        return positionEdgeType switch
+        {
+            Blazorise.PositionEdgeType.Top => "top",
+            Blazorise.PositionEdgeType.Start => "left",
+            Blazorise.PositionEdgeType.Bottom => "bottom",
+            Blazorise.PositionEdgeType.End => "right",
+            _ => null,
+        };
+    }
+
+    public override string ToPositionTranslateType( PositionTranslateType positionTranslateType )
+    {
+        return positionTranslateType switch
+        {
+            Blazorise.PositionTranslateType.Middle => "-translate-x-1/2 -translate-y-1/2",
+            Blazorise.PositionTranslateType.MiddleX => "-translate-x-1/2",
+            Blazorise.PositionTranslateType.MiddleY => "-translate-y-1/2",
             _ => null,
         };
     }
