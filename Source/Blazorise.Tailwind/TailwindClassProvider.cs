@@ -862,7 +862,7 @@ public class TailwindClassProvider : ClassProvider
     public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
     {
         var baseClass = displayDefinition.Breakpoint != Breakpoint.None && displayDefinition.Breakpoint != Blazorise.Breakpoint.Mobile
-            ? $"{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
+            ? $"{ToBreakpoint( displayDefinition.Breakpoint )}:{ToDisplayType( displayType )}"
             : $"{ToDisplayType( displayType )}";
 
         if ( displayDefinition.Direction != DisplayDirection.Default )
@@ -1340,7 +1340,7 @@ public class TailwindClassProvider : ClassProvider
     public override string Flex( FlexType flexType )
     {
         return flexType != FlexType.Default
-            ? $"d-{ToFlexType( flexType )}"
+            ? $"{ToFlexType( flexType )}"
             : null;
     }
 
@@ -1348,8 +1348,8 @@ public class TailwindClassProvider : ClassProvider
     {
         var sb = new StringBuilder();
 
-        var breakpoint = flexDefinition.Breakpoint != Breakpoint.None && flexDefinition.Breakpoint != Breakpoint.Mobile
-            ? $"{ToBreakpoint( flexDefinition.Breakpoint )}-"
+        var breakpoint = flexDefinition.Breakpoint != Breakpoint.None
+            ? $"{ToBreakpoint( flexDefinition.Breakpoint )}:"
             : null;
 
         if ( flexDefinition.Direction != FlexDirection.Default )
@@ -1394,7 +1394,7 @@ public class TailwindClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
+    public override string FlexAlignment( Alignment alignment ) => $"justify-{ToAlignment( alignment )}";
 
     #endregion
 
