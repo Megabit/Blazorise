@@ -1037,7 +1037,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Table
 
-    public override string Table() => "table";
+    public override string Table() => "w-full text-sm text-left text-gray-500 dark:text-gray-400 group";
 
     public override string TableFullWidth() => null;
 
@@ -1045,23 +1045,28 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableHoverable() => "table-hover";
 
-    public override string TableBordered() => "table-bordered";
+    public override string TableBordered() => "border";
 
     public override string TableNarrow() => "table-sm";
 
-    public override string TableBorderless() => "table-borderless";
+    public override string TableBorderless() => "border-0";
 
-    public override string TableHeader() => null;
+    public override string TableHeader() => "text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400";
 
-    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"table-thead-theme thead-{ToThemeContrast( themeContrast )}";
+    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) 
+        => themeContrast == ThemeContrast.Light
+            ? "text-gray-700 bg-gray-200 dark:text-gray-200 dark:bg-gray-700"
+            : themeContrast == ThemeContrast.Dark
+                ? "text-gray-100 bg-gray-700 dark:text-gray-700 dark:bg-gray-100"
+                : null;
 
-    public override string TableHeaderCell() => null;
+    public override string TableHeaderCell() => "py-3 px-6";
 
     public override string TableFooter() => null;
 
     public override string TableBody() => null;
 
-    public override string TableRow() => null;
+    public override string TableRow() => "group-[.table-striped.table-hover]:odd:bg-white group-[.table-striped.table-hover]:even:bg-gray-50 group-[.table-striped.table-hover]:odd:hover:bg-gray-50 group-[.table-striped.table-hover]:even:hover:bg-white group-[.table-striped:not(.table-hover)]:odd:bg-white group-[.table-striped:not(.table-hover)]:even:bg-gray-50 group-[.table-hover:not(.table-striped)]:hover:bg-gray-50 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
 
     public override string TableRowColor( Color color ) => $"table-{ToColor( color )}";
 
@@ -1069,9 +1074,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowIsSelected() => "selected";
 
-    public override string TableRowHeader() => null;
+    public override string TableRowHeader() => "group-[.table-sm]:py-2 group-[:not(.table-sm)]:py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white";
 
-    public override string TableRowCell() => null;
+    public override string TableRowCell() => "group-[.table-sm]:py-2 group-[:not(.table-sm)]:py-4 px-6";
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
 
@@ -1140,7 +1145,7 @@ public class TailwindClassProvider : ClassProvider
             "dark" => "text-gray-500 dark:text-gray-400",
             "body" => "text-gray-500 dark:text-gray-400",
             "muted" => "text-gray-500 dark:text-gray-400",
-            "white" => "text-gray-500 dark:text-gray-400",
+            "white" => "text-white dark:text-black",
             "black-50" => "text-gray-500 dark:text-gray-400",
             "white-50" => "text-gray-500 dark:text-gray-400",
             _ => "text-gray-500 dark:text-gray-400",
