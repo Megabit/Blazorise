@@ -1567,6 +1567,18 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
+    public override string ToDirection( FlexDirection direction )
+    {
+        return direction switch
+        {
+            Blazorise.FlexDirection.Row => "row",
+            Blazorise.FlexDirection.ReverseRow => "row-reverse",
+            Blazorise.FlexDirection.Column => "col",
+            Blazorise.FlexDirection.ReverseColumn => "col-reverse",
+            _ => null,
+        };
+    }
+
     #endregion
 
     public override bool UseCustomInputStyles { get; set; } = true;
