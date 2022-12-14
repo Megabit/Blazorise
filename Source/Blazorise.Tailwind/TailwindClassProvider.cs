@@ -862,8 +862,8 @@ public class TailwindClassProvider : ClassProvider
     public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
     {
         var baseClass = displayDefinition.Breakpoint != Breakpoint.None && displayDefinition.Breakpoint != Blazorise.Breakpoint.Mobile
-            ? $"d-{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
-            : $"d-{ToDisplayType( displayType )}";
+            ? $"{ToBreakpoint( displayDefinition.Breakpoint )}-{ToDisplayType( displayType )}"
+            : $"{ToDisplayType( displayType )}";
 
         if ( displayDefinition.Direction != DisplayDirection.Default )
             return $"{baseClass} flex-{ToDisplayDirection( displayDefinition.Direction )}";
