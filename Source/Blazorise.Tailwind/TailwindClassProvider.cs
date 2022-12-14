@@ -1124,17 +1124,38 @@ public class TailwindClassProvider : ClassProvider
 
     #region Text
 
-    public override string TextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+    public override string TextColor( TextColor textColor )
+    {
+        var name = textColor?.Name;
+
+        return name switch
+        {
+            "primary" => "text-primary-600 dark:text-primary-500",
+            "secondary" => "text-secondary-600 dark:text-secondary-500",
+            "success" => "text-success-500 dark:text-success-400",
+            "danger" => "text-danger-600 dark:text-danger-500",
+            "warning" => "text-warning-400 dark:text-warning-300",
+            "info" => "text-info-600 dark:text-info-500",
+            "light" => "text-light-600 dark:text-light-500",
+            "dark" => "text-gray-500 dark:text-gray-400",
+            "body" => "text-gray-500 dark:text-gray-400",
+            "muted" => "text-gray-500 dark:text-gray-400",
+            "white" => "text-gray-500 dark:text-gray-400",
+            "black-50" => "text-gray-500 dark:text-gray-400",
+            "white-50" => "text-gray-500 dark:text-gray-400",
+            _ => "text-gray-500 dark:text-gray-400",
+        };
+    }
 
     public override string TextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
 
-    public override string TextTransform( TextTransform textTransform ) => $"text-{ToTextTransform( textTransform )}";
+    public override string TextTransform( TextTransform textTransform ) => ToTextTransform( textTransform );
 
-    public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
+    public override string TextWeight( TextWeight textWeight ) => $"font-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
 
-    public override string TextItalic() => "font-italic";
+    public override string TextItalic() => "italic";
 
     #endregion
 
@@ -1146,7 +1167,19 @@ public class TailwindClassProvider : ClassProvider
 
     #region Heading
 
-    public override string HeadingSize( HeadingSize headingSize ) => $"h{ToHeadingSize( headingSize )}";
+    public override string HeadingSize( HeadingSize headingSize )
+    {
+        return headingSize switch
+        {
+            Blazorise.HeadingSize.Is1 => "text-5xl font-extrabold dark:text-white",
+            Blazorise.HeadingSize.Is2 => "text-4xl font-bold dark:text-white",
+            Blazorise.HeadingSize.Is3 => "text-3xl font-bold dark:text-white",
+            Blazorise.HeadingSize.Is4 => "text-2xl font-bold dark:text-white",
+            Blazorise.HeadingSize.Is5 => "text-xl font-bold dark:text-white",
+            Blazorise.HeadingSize.Is6 => "text-lg font-bold dark:text-white",
+            _ => null,
+        };
+    }
 
     #endregion
 
@@ -1158,17 +1191,38 @@ public class TailwindClassProvider : ClassProvider
 
     #region Paragraph
 
-    public override string Paragraph() => null;
+    public override string Paragraph() => "mb-3 font-light text-gray-500 dark:text-gray-400";
 
-    public override string ParagraphColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+    public override string ParagraphColor( TextColor textColor )
+    {
+        var name = textColor?.Name;
+
+        return name switch
+        {
+            "primary" => "text-primary-600 dark:text-primary-500",
+            "secondary" => "text-secondary-600 dark:text-secondary-500",
+            "success" => "text-success-500 dark:text-success-400",
+            "danger" => "text-danger-600 dark:text-danger-500",
+            "warning" => "text-warning-400 dark:text-warning-300",
+            "info" => "text-info-600 dark:text-info-500",
+            "light" => "text-light-600 dark:text-light-500",
+            "dark" => "text-gray-500 dark:text-gray-400",
+            "body" => "text-gray-500 dark:text-gray-400",
+            "muted" => "text-gray-500 dark:text-gray-400",
+            "white" => "text-gray-500 dark:text-gray-400",
+            "black-50" => "text-gray-500 dark:text-gray-400",
+            "white-50" => "text-gray-500 dark:text-gray-400",
+            _ => "text-gray-500 dark:text-gray-400",
+        };
+    }
 
     #endregion
 
     #region Blockquote
 
-    public override string Blockquote() => "blockquote";
+    public override string Blockquote() => "text-xl italic font-semibold text-gray-900 dark:text-white";
 
-    public override string BlockquoteFooter() => "blockquote-footer";
+    public override string BlockquoteFooter() => "text-sm font-light text-gray-500 dark:text-gray-400";
 
     #endregion
 
