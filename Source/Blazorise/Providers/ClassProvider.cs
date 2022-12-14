@@ -1621,8 +1621,8 @@ public abstract class ClassProvider : IClassProvider
         {
             Blazorise.FlexDirection.Row => "row",
             Blazorise.FlexDirection.ReverseRow => "row-reverse",
-            Blazorise.FlexDirection.Column => "col",
-            Blazorise.FlexDirection.ReverseColumn => "col-reverse",
+            Blazorise.FlexDirection.Column => "column",
+            Blazorise.FlexDirection.ReverseColumn => "column-reverse",
             _ => null,
         };
     }
