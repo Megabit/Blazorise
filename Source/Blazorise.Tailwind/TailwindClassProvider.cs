@@ -318,7 +318,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region FieldLabel
 
-    public override string FieldLabel( bool horizontal ) => "block mb-2 text-sm font-medium text-gray-900 dark:text-white";
+    public override string FieldLabel( bool horizontal ) => horizontal
+        ? "block my-auto text-sm font-medium text-gray-900 dark:text-white"
+        : "block my-2 text-sm font-medium text-gray-900 dark:text-white";
 
     #endregion
 
