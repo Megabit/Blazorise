@@ -28,7 +28,7 @@ public partial class PaginationLink : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.PaginationLink() );
-        builder.Append( ClassProvider.PaginationLinkActive(), ParentPaginationItemState.Active );
+        builder.Append( ClassProvider.PaginationLinkActive( ParentPaginationItemState.Active ) );
 
         base.BuildClasses( builder );
     }

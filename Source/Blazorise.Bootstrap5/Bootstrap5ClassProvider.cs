@@ -851,7 +851,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string PaginationLink() => "page-link";
 
-    public override string PaginationLinkActive() => null;
+    public override string PaginationLinkActive( bool active ) => null;
 
     public override string PaginationLinkDisabled() => null;
 

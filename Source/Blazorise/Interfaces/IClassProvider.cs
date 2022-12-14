@@ -810,7 +810,7 @@ public interface IClassProvider
 
     string PaginationLink();
 
-    string PaginationLinkActive();
+    string PaginationLinkActive( bool active );
 
     string PaginationLinkDisabled();
 

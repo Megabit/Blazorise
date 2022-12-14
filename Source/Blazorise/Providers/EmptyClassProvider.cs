@@ -817,7 +817,7 @@ class EmptyClassProvider : IClassProvider
 
     public string PaginationLink() => null;
 
-    public string PaginationLinkActive() => null;
+    public string PaginationLinkActive( bool active ) => null;
 
     public string PaginationLinkDisabled() => null;
 

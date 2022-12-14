@@ -950,19 +950,22 @@ public class TailwindClassProvider : ClassProvider
 
     #region Pagination
 
-    public override string Pagination() => "flex list-style-none";
+    public override string Pagination() => "inline-flex -space-x-px group";
 
     public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
 
-    public override string PaginationItem() => "page-item";
+    public override string PaginationItem() => null;
 
-    public override string PaginationItemActive() => "active";
+    public override string PaginationItemActive() => null;
 
-    public override string PaginationItemDisabled() => "disabled";
+    public override string PaginationItemDisabled() => null;
 
-    public override string PaginationLink() => "page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 focus:shadow-none";
+    public override string PaginationLink() => "cursor-pointer px-3 py-2 leading-tight border";
 
-    public override string PaginationLinkActive() => "bg-primary-600";
+    public override string PaginationLinkActive( bool active )
+        => active
+        ? "text-primary-600 bg-primary-50 hover:bg-primary-100 hover:text-primary-700 dark:bg-gray-700 dark:text-white"
+        : "text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white";
 
     public override string PaginationLinkDisabled() => null;
 
@@ -1053,7 +1056,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableHeader() => "text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400";
 
-    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) 
+    public override string TableHeaderThemeContrast( ThemeContrast themeContrast )
         => themeContrast == ThemeContrast.Light
             ? "text-gray-700 bg-gray-200 dark:text-gray-200 dark:bg-gray-700"
             : themeContrast == ThemeContrast.Dark

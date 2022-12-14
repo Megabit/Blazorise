@@ -854,7 +854,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string PaginationLink() => "ant-pagination-link";
 
-    public override string PaginationLinkActive() => null;
+    public override string PaginationLinkActive( bool active ) => null;
 
     public override string PaginationLinkDisabled() => null;
 
