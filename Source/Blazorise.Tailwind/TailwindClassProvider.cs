@@ -1350,18 +1350,19 @@ public class TailwindClassProvider : ClassProvider
     {
         var sb = new StringBuilder();
 
-        if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
-            sb.Append( "min-v" );
+        if ( sizingDefinition.IsMin )
+            sb.Append( "min-" );
         else if ( sizingDefinition.IsMax )
-            sb.Append( "m" );
-        else if ( sizingDefinition.IsViewport )
-            sb.Append( "v" );
+            sb.Append( "max-" );
 
         sb.Append( sizingType == SizingType.Width
             ? "w"
             : "h" );
 
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
+
+        if ( sizingDefinition.IsViewport )
+            sb.Append( "screen" );
 
         return sb.ToString();
     }
