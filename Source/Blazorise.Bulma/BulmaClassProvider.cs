@@ -1095,6 +1095,14 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region Link
+
+    public override string Link() => null;
+
+    public override string LinkActive( bool active ) => active ? Active() : null;
+
+    #endregion
+
     #region States
 
     public override string Show() => "is-block";

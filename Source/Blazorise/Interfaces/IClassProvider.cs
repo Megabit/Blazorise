@@ -1034,6 +1034,14 @@ public interface IClassProvider
 
     #endregion
 
+    #region Link
+
+    string Link();
+
+    string LinkActive( bool active );
+
+    #endregion
+
     #region States
 
     string Show();

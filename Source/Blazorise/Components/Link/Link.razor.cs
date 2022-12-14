@@ -71,7 +71,8 @@ public partial class Link : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.Active(), active );
+        builder.Append( ClassProvider.Link() );
+        builder.Append( ClassProvider.LinkActive( active ) );
 
         base.BuildClasses( builder );
     }

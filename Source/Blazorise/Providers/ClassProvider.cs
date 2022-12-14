@@ -1038,6 +1038,14 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Link
+
+    public abstract string Link();
+
+    public abstract string LinkActive( bool active );
+
+    #endregion
+
     #region States
 
     public abstract string Show();

@@ -1041,6 +1041,14 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Link
+
+    public string Link() => null;
+
+    public string LinkActive( bool active ) => null;
+
+    #endregion
+
     #region States
 
     public string Show() => null;

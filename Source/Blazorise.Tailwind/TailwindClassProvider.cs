@@ -1284,6 +1284,14 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Link
+
+    public override string Link() => "font-medium text-blue-600 dark:text-blue-500 hover:underline";
+
+    public override string LinkActive( bool active ) => active ? Active() : null;
+
+    #endregion
+
     #region States
 
     public override string Show() => "show";
