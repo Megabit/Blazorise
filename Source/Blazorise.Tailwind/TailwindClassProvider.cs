@@ -1540,6 +1540,33 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
+    public override string ToBorderSide( BorderSide borderSide )
+    {
+        return borderSide switch
+        {
+            Blazorise.BorderSide.Bottom => "b",
+            Blazorise.BorderSide.Start => "l",
+            Blazorise.BorderSide.End => "r",
+            _ => "t",
+        };
+    }
+
+    public override string ToBorderRadius( BorderRadius borderRadius )
+    {
+        return borderRadius switch
+        {
+            Blazorise.BorderRadius.Rounded => "rounded",
+            Blazorise.BorderRadius.RoundedTop => "rounded-t",
+            Blazorise.BorderRadius.RoundedEnd => "rounded-r",
+            Blazorise.BorderRadius.RoundedBottom => "rounded-b",
+            Blazorise.BorderRadius.RoundedStart => "rounded-l",
+            Blazorise.BorderRadius.RoundedCircle => "rounded-full",
+            Blazorise.BorderRadius.RoundedPill => "rounded-full",
+            Blazorise.BorderRadius.RoundedZero => "rounded-none",
+            _ => null,
+        };
+    }
+
     #endregion
 
     public override bool UseCustomInputStyles { get; set; } = true;
