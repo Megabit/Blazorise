@@ -1755,10 +1755,10 @@ public abstract class ClassProvider : IClassProvider
     {
         return sizingSize switch
         {
-            Blazorise.SizingSize.Is25 => "1/4",
-            Blazorise.SizingSize.Is50 => "1/2",
-            Blazorise.SizingSize.Is75 => "3/4",
-            Blazorise.SizingSize.Is100 => "full",
+            Blazorise.SizingSize.Is25 => "25",
+            Blazorise.SizingSize.Is50 => "50",
+            Blazorise.SizingSize.Is75 => "75",
+            Blazorise.SizingSize.Is100 => "100",
             Blazorise.SizingSize.Auto => "auto",
             _ => null,
         };

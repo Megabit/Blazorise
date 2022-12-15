@@ -1618,6 +1618,19 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
+    public override string ToSizingSize( SizingSize sizingSize )
+    {
+        return sizingSize switch
+        {
+            Blazorise.SizingSize.Is25 => "1/4",
+            Blazorise.SizingSize.Is50 => "1/2",
+            Blazorise.SizingSize.Is75 => "3/4",
+            Blazorise.SizingSize.Is100 => "full",
+            Blazorise.SizingSize.Auto => "auto",
+            _ => null,
+        };
+    }
+
     #endregion
 
     public override bool UseCustomInputStyles { get; set; } = true;
