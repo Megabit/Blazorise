@@ -112,7 +112,7 @@
                             900: '#4A1D96'
                         },
                         light: {
-                            DEFAULT: '#6B7280',
+                            DEFAULT: '#F3F4F6',
                             50: '#F9FAFB',
                             100: '#F3F4F6',
                             200: '#E5E7EB',
@@ -125,7 +125,7 @@
                             900: '#111827'
                         },
                         dark: {
-                            DEFAULT: '#6B7280',
+                            DEFAULT: '#1F2937',
                             50: '#F9FAFB',
                             100: '#F3F4F6',
                             200: '#E5E7EB',
@@ -162,7 +162,58 @@
                         '1': 1
                     }
                 }
-            }
+            },
+            plugins: [
+                ({ addVariant }) => {
+                    // based on: https://github.com/tailwindlabs/tailwindcss/blob/f116f9f6648af81bf22e0c28d01a8da015a53180/src/corePlugins.js#L61-L129
+                    [
+                        // Positional
+                        ['first', ':first-child'],
+                        ['last', ':last-child'],
+                        ['only', ':only-child'],
+                        ['odd', ':nth-child(odd)'],
+                        ['even', ':nth-child(even)'],
+                        'first-of-type',
+                        'last-of-type',
+                        'only-of-type',
+
+                        // State
+                        'visited',
+                        'target',
+                        ['open', '[open]'],
+
+                        // Forms
+                        'default',
+                        'checked',
+                        'indeterminate',
+                        'placeholder-shown',
+                        'autofill',
+                        'required',
+                        'valid',
+                        'invalid',
+                        'in-range',
+                        'out-of-range',
+                        'read-only',
+
+                        // Content
+                        'empty',
+
+                        // Interactive
+                        'focus-within',
+                        'hover',
+                        'focus',
+                        'focus-visible',
+                        'active',
+                        'disabled',
+                    ]
+                        .map((variant) =>
+                            Array.isArray(variant) ? variant : [variant, `:${variant}`]
+                        )
+                        .forEach(([variantName, state]) => {
+                            addVariant(`parent-${variantName}`, `:merge(.parent)${state} > &`);
+                        });
+                }
+            ]
         }
     </script>
 
