@@ -258,7 +258,7 @@ public class TailwindClassProvider : ClassProvider
         return labelType switch
         {
             Blazorise.LabelType.Check or Blazorise.LabelType.Radio => "ml-2 text-sm font-medium text-gray-900 dark:text-gray-300",
-            Blazorise.LabelType.Switch => "ml-3 text-sm font-medium text-gray-900 dark:text-gray-300",
+            Blazorise.LabelType.Switch => "inline-flex relative items-center cursor-pointer",
             Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
             _ => null,
         };
