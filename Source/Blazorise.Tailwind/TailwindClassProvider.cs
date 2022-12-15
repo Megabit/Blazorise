@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -664,7 +665,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardImage() => "rounded-t-lg";
 
-    public override string CardTitle( bool insideHeader ) => "mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white";
+    public override string CardTitle( bool insideHeader ) => "mb-2 text-2xl font-bold tracking-tight";
 
     public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
@@ -672,7 +673,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
-    public override string CardText() => "mb-3 font-normal text-gray-700 dark:text-gray-400";
+    public override string CardText() => "mb-3 font-normal";
 
     public override string CardLink() => "card-link";
 
@@ -1218,7 +1219,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Paragraph
 
-    public override string Paragraph() => "mb-3 font-light text-gray-500 dark:text-gray-400";
+    public override string Paragraph() => "mb-3 font-light";
 
     public override string ParagraphColor( TextColor textColor )
     {
