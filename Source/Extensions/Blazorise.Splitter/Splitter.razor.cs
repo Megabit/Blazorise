@@ -45,7 +45,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Determines how the gutter aligns between the two elements.
     /// </summary>
-    [Parameter] public SplitGutterAlignment GutterAlign { get; init; }
+    [Parameter] public SplitGutterAlignment GutterAlign { get; init; } = SplitGutterAlignment.Center;
 
     /// <summary>
     /// Snap to minimum size offset in pixels.
@@ -53,7 +53,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     [Parameter] public JavascriptNumberOrArray SnapOffset { get; init; }
 
     /// <summary>
-    /// Drag this JavascriptNumber of pixels at a time. Defaults to 1 for smooth dragging, but can be set to a pixel value to give more control over the resulting sizes.
+    /// Drag this number of pixels at a time. Defaults to 1 for smooth dragging, but can be set to a pixel value to give more control over the resulting sizes.
     /// Works particularly well when the gutterSize is set to the same size.
     /// </summary>
     [Parameter] public JavascriptNumber DragInterval { get; init; }
@@ -61,7 +61,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Direction to split.
     /// </summary>
-    [Parameter] public SplitDirection? Direction { get; init; }
+    [Parameter] public SplitDirection Direction { get; init; } = SplitDirection.Horizontal;
 
     /// <summary>
     /// Cursor to display while dragging.
@@ -92,6 +92,13 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
     // Used to ensure we're only ever able to create a single instance despite multi-threaded rendering
     private readonly SemaphoreSlim _createInstanceLock = new( 1, 1 );
+
+    /// <inheritdoc/>
+    protected override Task OnInitializedAsync()
+    {
+        JSModule ??= new JSSplitModule(JSRuntime, VersionProvider);
+        return base.OnInitializedAsync();
+    }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {

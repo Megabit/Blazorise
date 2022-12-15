@@ -41,7 +41,7 @@ public class JSSplitModule : BaseJSModule
     #region Properties
 
     /// <inheritdoc />
-    public override string ModuleFileName => $"./_content/Blazorise.Splitter/split.js?v={VersionProvider.Version}";
+    public override string ModuleFileName => $"./_content/Blazorise.Splitter/split-interop.js?v={VersionProvider.Version}";
 
     #endregion
 

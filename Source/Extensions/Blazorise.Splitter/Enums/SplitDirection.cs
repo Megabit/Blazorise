@@ -5,18 +5,16 @@ namespace Blazorise.Splitter;
 /// <summary>
 /// Split directions
 /// </summary>
-[JsonConverter( typeof( JsonStringEnumConverter ) )]
+[JsonConverter( typeof( CamelCaseEnumJsonConverter ) )]
 public enum SplitDirection
 {
     /// <summary>
     /// Split horizontally
     /// </summary>
-    [JsonPropertyName( "horizontal" )]
     Horizontal,
 
     /// <summary>
     /// Split vertically
     /// </summary>
-    [JsonPropertyName( "vertical" )]
     Vertical
 }
