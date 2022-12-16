@@ -390,8 +390,8 @@ public class TailwindClassProvider : ClassProvider
     #region Button
 
     public override string Button( bool outline ) => outline
-        ? "border focus:ring-4 focus:outline-none font-medium rounded-lg text-center mr-2 mb-2 group:mr:2 group:mb:0"
-        : "focus:ring-4 font-medium rounded-lg focus:outline-none rounded-lg mr-2 mb-2 group:mr-0 group:mb-0";
+        ? "border focus:ring-4 focus:outline-none font-medium rounded-lg text-center group:mr:2 group:mb:0"
+        : "focus:ring-4 font-medium rounded-lg focus:outline-none rounded-lg group:mr-0 group:mb-0";
 
     public override string ButtonColor( Color color, bool outline )
     {
@@ -681,19 +681,80 @@ public class TailwindClassProvider : ClassProvider
 
     #region ListGroup
 
-    public override string ListGroup() => "w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white";
+    public override string ListGroup() => "w-full text-sm font-medium text-gray-900 bg-white border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white";
 
-    public override string ListGroupFlush() => "border-x-0";
+    public override string ListGroupFlush( bool flush ) => flush ? "border-y border-x-0" : "border rounded-lg";
 
-    public override string ListGroupItem() => "py-3 px-4 w-full border-b border-gray-200 dark:border-gray-600";
+    public override string ListGroupItem() => "py-3 px-4 w-full border-b last:border-b-0";
 
-    public override string ListGroupItemSelectable() => "list-group-item-action";
+    public override string ListGroupItemSelectable() => "cursor-pointer focus:outline-none";
 
-    public override string ListGroupItemActive() => Active();
+    public override string ListGroupItemActive() => null/*"text-white bg-primary-700"*/;
 
-    public override string ListGroupItemDisabled() => Disabled();
+    public override string ListGroupItemDisabled() => "bg-gray-100 cursor-not-allowed dark:bg-gray-600 dark:text-gray-400";
 
-    public override string ListGroupItemColor( Color color ) => $"{ListGroupItem()}-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active )
+    {
+        var sb = new StringBuilder();
+
+        var name = color?.Name;
+
+        if ( active )
+        {
+            sb.Append( name switch
+            {
+                "primary" => "text-white bg-primary-700",
+                "secondary" => "text-white bg-secondary-700",
+                "success" => "text-white bg-success-700",
+                "danger" => "text-white bg-danger-700",
+                "warning" => "text-white bg-warning-700",
+                "info" => "text-white bg-info-700",
+                "light" => "text-gray-800 bg-light-300",
+                "dark" => "text-white bg-dark-700",
+                "link" => "text-primary-700 dark:text-primary-200",
+                _ => "text-white bg-primary-700",
+            } );
+        }
+        else
+        {
+            sb.Append( name switch
+            {
+                "primary" => "text-white bg-primary-400 dark:bg-primary-600",
+                "secondary" => "text-white bg-secondary-400 dark:bg-secondary-400",
+                "success" => "text-white bg-success-400 dark:bg-success-600",
+                "danger" => "text-white bg-danger-400 dark:bg-danger-600",
+                "warning" => "text-white bg-warning-400 dark:bg-warning-600",
+                "info" => "text-white bg-info-400 dark:bg-info-600",
+                "light" => "text-gray-800 bg-light-100 dark:text-white dark:bg-light-300",
+                "dark" => "text-white bg-dark-700",
+                "link" => "text-primary-400 dark:text-primary-500",
+                _ => name,
+            } );
+        }
+
+        if ( color != Color.Default && selectable )
+        {
+            sb.Append( ' ' ).Append( name switch
+            {
+                "primary" => "hover:bg-primary-500 focus:ring-primary-500 dark:hover:bg-primary-700 dark:focus:ring-primary-800",
+                "secondary" => "hover:bg-secondary-500 focus:ring-secondary-500 dark:hover:bg-secondary-500 dark:focus:ring-secondary-600",
+                "success" => "hover:bg-success-500 focus:ring-success-500 dark:hover:bg-success-700 dark:focus:ring-success-800",
+                "danger" => "hover:bg-danger-500 focus:ring-danger-500 dark:hover:bg-danger-700 dark:focus:ring-danger-900",
+                "warning" => "hover:bg-warning-500 focus:ring-warning-500 dark:focus:ring-warning-900",
+                "info" => "hover:bg-info-500 focus:ring-info-500 dark:hover:bg-info-700 dark:focus:ring-info-900",
+                "light" => "hover:bg-light-200 focus:ring-light-300 dark:hover:border-light-600 dark:focus:ring-light-700",
+                "dark" => "hover:bg-dark-600 focus:ring-dark-600 dark:bg-dark-800 dark:hover:bg-dark-700 dark:focus:ring-dark-700",
+                "link" => "hover:underline",
+                _ => name,
+            } );
+        }
+        else
+        {
+            sb.Append( ' ' ).Append( "border-gray-200 dark:border-gray-600" );
+        }
+
+        return sb.ToString();
+    }
 
     #endregion
 
@@ -1181,7 +1242,16 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TextWeight( TextWeight textWeight ) => $"font-{ToTextWeight( textWeight )}";
 
-    public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
+    public override string TextOverflow( TextOverflow textOverflow )
+    {
+        return textOverflow switch
+        {
+            Blazorise.TextOverflow.Wrap => "whitespace-normal",
+            Blazorise.TextOverflow.NoWrap => "whitespace-nowrap",
+            Blazorise.TextOverflow.Truncate => "text-ellipsis overflow-hidden whitespace-nowrap",
+            _ => null,
+        };
+    }
 
     public override string TextItalic() => "italic";
 
@@ -1213,7 +1283,17 @@ public class TailwindClassProvider : ClassProvider
 
     #region DisplayHeading
 
-    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"display-{ToDisplayHeadingSize( displayHeadingSize )}";
+    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize )
+    {
+        return displayHeadingSize switch
+        {
+            Blazorise.DisplayHeadingSize.Is1 => "text-7xl font-light dark:text-white",
+            Blazorise.DisplayHeadingSize.Is2 => "text-6xl font-light dark:text-white",
+            Blazorise.DisplayHeadingSize.Is3 => "text-5xl font-light dark:text-white",
+            Blazorise.DisplayHeadingSize.Is4 => "text-4xl font-light dark:text-white",
+            _ => null,
+        };
+    }
 
     #endregion
 
@@ -1256,15 +1336,15 @@ public class TailwindClassProvider : ClassProvider
 
     #region Figure
 
-    public override string Figure() => "figure";
+    public override string Figure() => "max-w-lg";
 
     public override string FigureSize( FigureSize figureSize ) => $"figure-is-{ToFigureSize( figureSize )}";
 
-    public override string FigureImage() => "figure-img img-fluid";
+    public override string FigureImage() => "max-w-full h-auto";
 
-    public override string FigureImageRounded() => "rounded";
+    public override string FigureImageRounded() => "rounded-lg";
 
-    public override string FigureCaption() => "figure-caption";
+    public override string FigureCaption() => "mt-2 text-sm text-center text-gray-500 dark:text-gray-400";
 
     #endregion
 

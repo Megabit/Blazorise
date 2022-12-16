@@ -573,7 +573,7 @@ class EmptyClassProvider : IClassProvider
 
     public string ListGroup() => null;
 
-    public string ListGroupFlush() => null;
+    public string ListGroupFlush( bool flush ) => null;
 
     public string ListGroupItem() => null;
 
@@ -583,7 +583,7 @@ class EmptyClassProvider : IClassProvider
 
     public string ListGroupItemDisabled() => null;
 
-    public string ListGroupItemColor( Color color ) => null;
+    public string ListGroupItemColor( Color color, bool selectable, bool active ) => null;
 
     #endregion
 

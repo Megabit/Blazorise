@@ -30,7 +30,7 @@ public partial class ListGroup : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ListGroup() );
-        builder.Append( ClassProvider.ListGroupFlush(), Flush );
+        builder.Append( ClassProvider.ListGroupFlush( Flush ) );
 
         base.BuildClasses( builder );
     }

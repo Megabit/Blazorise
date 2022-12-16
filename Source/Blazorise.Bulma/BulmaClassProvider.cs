@@ -613,7 +613,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ListGroup() => "list-group";
 
-    public override string ListGroupFlush() => "list-group-flush";
+    public override string ListGroupFlush( bool flush ) => flush ? "list-group-flush" : null;
 
     public override string ListGroupItem() => "list-group-item";
 
@@ -623,7 +623,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled() => Disabled();
 
-    public override string ListGroupItemColor( Color color ) => $"is-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"is-{ToColor( color )}";
 
     #endregion
 
