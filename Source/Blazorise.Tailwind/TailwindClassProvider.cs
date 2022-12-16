@@ -369,13 +369,13 @@ public class TailwindClassProvider : ClassProvider
     {
         return addonType switch
         {
-            AddonType.Start => "addon-start inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
-            AddonType.End => "addon-end inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
+            AddonType.Start => "addon-start inline-flex items-center text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
+            AddonType.End => "addon-end inline-flex items-center text-sm text-gray-900 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
             _ => "addon-body",
         };
     }
 
-    public override string AddonLabel() => "block text-sm font-medium text-gray-900 dark:text-white";
+    public override string AddonLabel() => "block px-3 text-sm font-medium text-gray-900 dark:text-white";
 
     //public override string AddonContainer() => null;
 

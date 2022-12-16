@@ -8,4 +8,24 @@
         border-top-left-radius: 0;
         border-bottom-left-radius: 0;
     }
+
+    > .addon-start {
+        button {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+
+    > .addon-end {
+        button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+
+    > input:not(:first-child):not(.dropdown-menu) + input:not(:first-child):not(.dropdown-menu) {
+        border-left: 0;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
 }
