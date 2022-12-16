@@ -1242,7 +1242,16 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TextWeight( TextWeight textWeight ) => $"font-{ToTextWeight( textWeight )}";
 
-    public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
+    public override string TextOverflow( TextOverflow textOverflow )
+    {
+        return textOverflow switch
+        {
+            Blazorise.TextOverflow.Wrap => "whitespace-normal",
+            Blazorise.TextOverflow.NoWrap => "whitespace-nowrap",
+            Blazorise.TextOverflow.Truncate => "text-ellipsis overflow-hidden whitespace-nowrap",
+            _ => null,
+        };
+    }
 
     public override string TextItalic() => "italic";
 
@@ -1274,7 +1283,17 @@ public class TailwindClassProvider : ClassProvider
 
     #region DisplayHeading
 
-    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"display-{ToDisplayHeadingSize( displayHeadingSize )}";
+    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize )
+    {
+        return displayHeadingSize switch
+        {
+            Blazorise.DisplayHeadingSize.Is1 => "text-7xl font-light dark:text-white",
+            Blazorise.DisplayHeadingSize.Is2 => "text-6xl font-light dark:text-white",
+            Blazorise.DisplayHeadingSize.Is3 => "text-5xl font-light dark:text-white",
+            Blazorise.DisplayHeadingSize.Is4 => "text-4xl font-light dark:text-white",
+            _ => null,
+        };
+    }
 
     #endregion
 
