@@ -1336,15 +1336,15 @@ public class TailwindClassProvider : ClassProvider
 
     #region Figure
 
-    public override string Figure() => "figure";
+    public override string Figure() => "max-w-lg";
 
     public override string FigureSize( FigureSize figureSize ) => $"figure-is-{ToFigureSize( figureSize )}";
 
-    public override string FigureImage() => "figure-img img-fluid";
+    public override string FigureImage() => "max-w-full h-auto";
 
-    public override string FigureImageRounded() => "rounded";
+    public override string FigureImageRounded() => "rounded-lg";
 
-    public override string FigureCaption() => "figure-caption";
+    public override string FigureCaption() => "mt-2 text-sm text-center text-gray-500 dark:text-gray-400";
 
     #endregion
 
