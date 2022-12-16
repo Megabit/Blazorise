@@ -571,7 +571,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ListGroup();
 
-    public abstract string ListGroupFlush();
+    public abstract string ListGroupFlush( bool flush );
 
     public abstract string ListGroupItem();
 

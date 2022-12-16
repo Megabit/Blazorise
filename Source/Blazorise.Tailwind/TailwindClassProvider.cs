@@ -681,11 +681,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region ListGroup
 
-    public override string ListGroup() => "w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white";
+    public override string ListGroup() => "w-full text-sm font-medium text-gray-900 bg-white border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white";
 
-    public override string ListGroupFlush() => "border-x-0";
+    public override string ListGroupFlush( bool flush ) => flush ? "border-y border-x-0" : "border rounded-lg";
 
-    public override string ListGroupItem() => "py-3 px-4 w-full border-b border-gray-200 dark:border-gray-600";
+    public override string ListGroupItem() => "py-3 px-4 w-full border-b last:border-b-0 border-gray-200 dark:border-gray-600";
 
     public override string ListGroupItemSelectable() => "list-group-item-action";
 

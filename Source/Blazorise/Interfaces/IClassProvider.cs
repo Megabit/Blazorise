@@ -570,7 +570,7 @@ public interface IClassProvider
 
     string ListGroup();
 
-    string ListGroupFlush();
+    string ListGroupFlush( bool flush );
 
     string ListGroupItem();
 

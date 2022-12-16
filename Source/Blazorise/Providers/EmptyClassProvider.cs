@@ -573,7 +573,7 @@ class EmptyClassProvider : IClassProvider
 
     public string ListGroup() => null;
 
-    public string ListGroupFlush() => null;
+    public string ListGroupFlush( bool flush ) => null;
 
     public string ListGroupItem() => null;
 

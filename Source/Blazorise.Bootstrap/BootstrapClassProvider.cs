@@ -609,7 +609,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ListGroup() => "list-group";
 
-    public override string ListGroupFlush() => "list-group-flush";
+    public override string ListGroupFlush( bool flush ) => flush ? "list-group-flush" : null;
 
     public override string ListGroupItem() => "list-group-item";
 

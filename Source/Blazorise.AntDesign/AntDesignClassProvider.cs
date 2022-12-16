@@ -610,7 +610,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ListGroup() => "ant-list ant-list-split ant-list-bordered";
 
-    public override string ListGroupFlush() => "ant-list-flush";
+    public override string ListGroupFlush( bool flush ) => flush ? "ant-list-flush" : null;
 
     public override string ListGroupItem() => "ant-list-item ant-list-item-no-flex";
 
