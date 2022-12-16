@@ -580,7 +580,7 @@ public interface IClassProvider
 
     string ListGroupItemDisabled();
 
-    string ListGroupItemColor( Color color );
+    string ListGroupItemColor( Color color, bool selectable, bool active );
 
     #endregion
 

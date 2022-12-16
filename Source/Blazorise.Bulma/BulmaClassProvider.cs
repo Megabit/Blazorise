@@ -623,7 +623,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled() => Disabled();
 
-    public override string ListGroupItemColor( Color color ) => $"is-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"is-{ToColor( color )}";
 
     #endregion
 

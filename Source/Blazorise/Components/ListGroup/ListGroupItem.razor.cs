@@ -41,7 +41,7 @@ public partial class ListGroupItem : BaseComponent
         builder.Append( ClassProvider.ListGroupItemSelectable(), ParentListGroupState?.Mode == ListGroupMode.Selectable );
         builder.Append( ClassProvider.ListGroupItemActive(), Active );
         builder.Append( ClassProvider.ListGroupItemDisabled(), Disabled );
-        builder.Append( ClassProvider.ListGroupItemColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.ListGroupItemColor( Color, ParentListGroupState?.Mode == ListGroupMode.Selectable, Active ) );
 
         base.BuildClasses( builder );
     }

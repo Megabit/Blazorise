@@ -620,7 +620,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled() => Disabled();
 
-    public override string ListGroupItemColor( Color color ) => $"ant-list-item-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"ant-list-item-{ToColor( color )}";
 
     #endregion
 

@@ -619,7 +619,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled() => Disabled();
 
-    public override string ListGroupItemColor( Color color ) => $"{ListGroupItem()}-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"{ListGroupItem()}-{ToColor( color )}";
 
     #endregion
 

@@ -583,7 +583,7 @@ class EmptyClassProvider : IClassProvider
 
     public string ListGroupItemDisabled() => null;
 
-    public string ListGroupItemColor( Color color ) => null;
+    public string ListGroupItemColor( Color color, bool selectable, bool active ) => null;
 
     #endregion
 

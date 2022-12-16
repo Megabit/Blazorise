@@ -581,7 +581,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ListGroupItemDisabled();
 
-    public abstract string ListGroupItemColor( Color color );
+    public abstract string ListGroupItemColor( Color color, bool selectable, bool active );
 
     #endregion
 
