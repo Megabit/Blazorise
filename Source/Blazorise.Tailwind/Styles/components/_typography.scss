@@ -6,3 +6,10 @@
     line-height: 1.5rem;
     margin-bottom: 1rem;
 }
+
+@each $dimension in $figure-dimensions {
+    .figure-is-#{$dimension}x#{$dimension} {
+        height: $dimension * 1px;
+        width: $dimension * 1px;
+    }
+}

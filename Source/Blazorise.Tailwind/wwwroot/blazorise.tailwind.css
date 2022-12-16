@@ -33,3 +33,48 @@ p {
   line-height: 1.5rem;
   margin-bottom: 1rem;
 }
+
+.figure-is-16x16 {
+  height: 16px;
+  width: 16px;
+}
+
+.figure-is-24x24 {
+  height: 24px;
+  width: 24px;
+}
+
+.figure-is-32x32 {
+  height: 32px;
+  width: 32px;
+}
+
+.figure-is-48x48 {
+  height: 48px;
+  width: 48px;
+}
+
+.figure-is-64x64 {
+  height: 64px;
+  width: 64px;
+}
+
+.figure-is-96x96 {
+  height: 96px;
+  width: 96px;
+}
+
+.figure-is-128x128 {
+  height: 128px;
+  width: 128px;
+}
+
+.figure-is-256x256 {
+  height: 256px;
+  width: 256px;
+}
+
+.figure-is-512x512 {
+  height: 512px;
+  width: 512px;
+}
