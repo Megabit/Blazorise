@@ -1,0 +1,11 @@
+﻿.addons {
+    > :not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    > :not(:first-child):not(.dropdown-menu) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
