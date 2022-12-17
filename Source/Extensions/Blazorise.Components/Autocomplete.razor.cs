@@ -100,22 +100,28 @@ namespace Blazorise.Components
             bool selectedValuesParamChanged = false;
             bool selectedTextsParamChanged = false;
 
-            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !selectedValuesParam.AreEqualOrdered( paramSelectedValues ) )
+            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) 
+                && !selectedValuesParam.AreEqualOrdered( paramSelectedValues ) )
             {
                 selectedValuesParamChanged = true;
                 selectedValues = null;
             }
 
-            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts ) )
+            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) 
+                && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts ) )
             {
                 selectedTextsParamChanged = true;
                 selectedTexts = null;
             }
 
-            // set properties
             await base.SetParametersAsync( parameters );
 
-            // autoselect value based on selected text
+            await SyncronizeSingle( selectedValueParamChanged, selectedTextParamChanged );
+            await SynchronizeMultiple( selectedValuesParamChanged, selectedTextsParamChanged );
+        }
+
+        private async Task SyncronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
+        {
             if ( selectedTextParamChanged && !selectedValueParamChanged )
             {
                 if ( !string.IsNullOrEmpty( SelectedText ) )
@@ -153,7 +159,6 @@ namespace Blazorise.Components
                 }
             }
 
-            // autoselect text based on selected value
             if ( selectedValueParamChanged )
             {
                 var item = GetItemByValue( SelectedValue );
@@ -181,11 +186,13 @@ namespace Blazorise.Components
                     }
                 }
             }
+        }
 
+        private async Task SynchronizeMultiple( bool selectedValuesParamChanged, bool selectedTextsParamChanged )
+        {
             List<TValue> values = null;
             List<string> texts = null;
 
-            // autoselect values based on texts
             if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() && !selectedValuesParamChanged )
             {
                 values = Data.IntersectBy( SelectedTexts, e => GetItemText( e ) ).Select( e => GetItemValue( e ) ).ToList();
@@ -195,13 +202,11 @@ namespace Blazorise.Components
                 }
             }
 
-            // autoselect texts based on values
             if ( selectedValuesParamChanged && !selectedValuesParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() )
             {
                 texts = Data.IntersectBy( SelectedValues, e => GetItemValue( e ) ).Select( e => GetItemText( e ) ).ToList();
             }
 
-            // fire change events
             if ( values is not null && !SelectedValues.AreEqualOrdered( values ) )
             {
                 selectedValues = values;
