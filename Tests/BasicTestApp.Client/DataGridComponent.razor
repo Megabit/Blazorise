@@ -1,5 +1,5 @@
 ﻿<DataGrid TItem="Employee"
-          Data="InMemoryData"
+          Data="@Data"
           ShowPager
           ShowPageSizes
           Sortable
@@ -39,11 +39,23 @@
                         Caption="Name"
                         Editable />
     </DataGridColumns>
+    <EmptyTemplate>
+        No Records...
+    </EmptyTemplate>
 </DataGrid>
 
 @code {
     [Parameter]
-    public DataGridEditMode DataGridEditMode { get; set; }        
+    public DataGridEditMode DataGridEditMode { get; set; }     
+    
+    [Parameter]
+    public List<Employee> Data { get; set; } = new()
+        {
+            new() { Name = "John", Fraction = "1/2" },
+            new() { Name = "Sarah", Fraction = "1/4" },
+            new() { Name = "Paul", Fraction = "1/8" },
+            new() { Name = "Ana", Fraction = "3/4" }
+        };
 
     public class Employee
     {
@@ -70,12 +82,4 @@
         }
 
     }
-
-    public List<Employee> InMemoryData { get; set; } = new()
-        {
-            new() { Name = "John", Fraction = "1/2" },
-            new() { Name = "Sarah", Fraction = "1/4" },
-            new() { Name = "Paul", Fraction = "1/8" },
-            new() { Name = "Ana", Fraction = "3/4" }
-        };
 }
