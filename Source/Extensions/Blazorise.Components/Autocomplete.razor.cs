@@ -100,14 +100,14 @@ namespace Blazorise.Components
             bool selectedValuesParamChanged = false;
             bool selectedTextsParamChanged = false;
 
-            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) 
+            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues )
                 && !selectedValuesParam.AreEqualOrdered( paramSelectedValues ) )
             {
                 selectedValuesParamChanged = true;
                 selectedValues = null;
             }
 
-            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) 
+            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
                 && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts ) )
             {
                 selectedTextsParamChanged = true;
@@ -217,6 +217,11 @@ namespace Blazorise.Components
             {
                 selectedTexts = texts;
                 await SelectedTextsChanged.InvokeAsync( texts );
+            }
+
+            if ( ( selectedValuesParamChanged && values is null && SelectedValues is null ) || ( selectedTextsParamChanged && texts is null && SelectedTexts is null ) )
+            {
+                await Task.WhenAll( ResetSelectedValues(), ResetSelectedTexts() );
             }
         }
 
@@ -605,7 +610,7 @@ namespace Blazorise.Components
 
         private async Task AddMultipleValue( TValue value )
         {
-            SelectedValues ??= new( );
+            SelectedValues ??= new();
 
             if ( !SelectedValues.Contains( value ) && value != null )
             {
@@ -632,7 +637,8 @@ namespace Blazorise.Components
 
         private async Task RemoveMultipleText( string text )
         {
-            if ( SelectedTexts is null ) return;
+            if ( SelectedTexts is null )
+                return;
 
             SelectedTexts.Remove( text );
             await SelectedTextsChanged.InvokeAsync( SelectedTexts );
@@ -643,7 +649,8 @@ namespace Blazorise.Components
 
         private async Task RemoveMultipleValue( TValue value )
         {
-            if ( SelectedValues is null ) return;
+            if ( SelectedValues is null )
+                return;
 
             SelectedValues.Remove( value );
             await SelectedValuesChanged.InvokeAsync( SelectedValues );
