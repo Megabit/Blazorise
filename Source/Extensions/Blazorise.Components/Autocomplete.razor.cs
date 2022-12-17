@@ -65,9 +65,6 @@ namespace Blazorise.Components
         string currentSearch;
         string currentSearchParam;
 
-        string selectedText;
-        string selectedTextParam;
-
         NullableT<TValue> selectedValue;
         TValue selectedValueParam;
 
@@ -90,7 +87,6 @@ namespace Blazorise.Components
             }
 
             bool selectedValueParamChanged = false;
-            bool selectedTextParamChanged = false;
 
             if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !selectedValueParam.IsEqual( paramSelectedValue ) )
             {
@@ -98,11 +94,8 @@ namespace Blazorise.Components
                 selectedValueParamChanged = true;
             }
 
-            if ( parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && selectedTextParam != paramSelectedText )
-            {
-                selectedText = null;
-                selectedTextParamChanged = true;
-            }
+            var selectedTextParamChanged = parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && SelectedText != paramSelectedText;
+
 
             bool selectedValuesParamChanged = false;
             bool selectedTextsParamChanged = false;
@@ -173,8 +166,8 @@ namespace Blazorise.Components
                     string text = GetItemText( item );
                     if ( text != SelectedText )
                     {
-                        selectedText = text;
-                        await SelectedTextChanged.InvokeAsync( selectedText );
+                        SelectedText = text;
+                        await SelectedTextChanged.InvokeAsync( SelectedText );
 
                         if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
                         {
@@ -234,13 +227,13 @@ namespace Blazorise.Components
             {
                 if ( HasFilteredData )
                 {
-                    currentSearch = selectedText = GetItemText( FilteredData.First() );
+                    currentSearch = SelectedText = GetItemText( FilteredData.First() );
                     selectedValue = new( GetItemValue( FilteredData.First() ) );
 
                     await Task.WhenAll(
                         CurrentSearchChanged.InvokeAsync( currentSearch ),
                         SearchChanged.InvokeAsync( currentSearch ),
-                        SelectedTextChanged.InvokeAsync( selectedText ),
+                        SelectedTextChanged.InvokeAsync( SelectedText ),
                         SelectedValueChanged.InvokeAsync( selectedValue )
                     );
                 }
@@ -278,10 +271,10 @@ namespace Blazorise.Components
                 {
                     ActiveItemIndex = 0;
                     selectedValue = new( GetItemValue( FilteredData.First() ) );
-                    selectedText = GetItemText( FilteredData.First() );
+                    SelectedText = GetItemText( FilteredData.First() );
                     await Task.WhenAll(
                         SelectedValueChanged.InvokeAsync( selectedValue ),
-                        SelectedTextChanged.InvokeAsync( selectedText )
+                        SelectedTextChanged.InvokeAsync( SelectedText )
                         );
                 }
                 else
@@ -295,8 +288,8 @@ namespace Blazorise.Components
 
                     if ( FreeTyping )
                     {
-                        selectedText = CurrentSearch;
-                        await SelectedTextChanged.InvokeAsync( selectedText );
+                        SelectedText = CurrentSearch;
+                        await SelectedTextChanged.InvokeAsync( SelectedText );
                     }
                     else
                     {
@@ -485,14 +478,14 @@ namespace Blazorise.Components
             {
                 selectedValue = new( selectedTValue );
                 var item = GetItemByValue( selectedValue );
-                currentSearch = selectedText = GetItemText( item );
+                currentSearch = SelectedText = GetItemText( item );
                 DirtyFilter();
 
                 await Task.WhenAll(
                     SelectedValueChanged.InvokeAsync( selectedValue ),
                     CurrentSearchChanged.InvokeAsync( currentSearch ),
                     SearchChanged.InvokeAsync( currentSearch ),
-                    SelectedTextChanged.InvokeAsync( selectedText )
+                    SelectedTextChanged.InvokeAsync( SelectedText )
                 );
             }
 
@@ -553,9 +546,9 @@ namespace Blazorise.Components
         {
             var notifyChange = SelectedText is not null;
 
-            selectedText = null;
+            SelectedText = null;
             if ( notifyChange )
-                await SelectedTextChanged.InvokeAsync( selectedText );
+                await SelectedTextChanged.InvokeAsync( SelectedText );
         }
 
         private async Task ResetSelectedValue()
@@ -1207,11 +1200,7 @@ namespace Blazorise.Components
         /// Gets or sets the currently selected item text.
         /// </summary>
         [Parameter]
-        public string SelectedText
-        {
-            get => selectedText ?? selectedTextParam;
-            set => selectedTextParam = value;
-        }
+        public string SelectedText { get; set; }
 
         /// <summary>
         /// Gets or sets the currently selected item text.
