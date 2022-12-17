@@ -68,10 +68,7 @@ namespace Blazorise.Components
         NullableT<TValue> selectedValue;
         TValue selectedValueParam;
 
-        List<TValue> selectedValues;
         List<TValue> selectedValuesParam;
-
-        List<string> selectedTexts;
         List<string> selectedTextsParam;
 
         #endregion
@@ -96,23 +93,12 @@ namespace Blazorise.Components
 
             var selectedTextParamChanged = parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && SelectedText != paramSelectedText;
 
+            var selectedValuesParamChanged = parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues )
+                && !selectedValuesParam.AreEqualOrdered( paramSelectedValues );
 
-            bool selectedValuesParamChanged = false;
-            bool selectedTextsParamChanged = false;
+            var selectedTextsParamChanged = parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
+                && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts );
 
-            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues )
-                && !selectedValuesParam.AreEqualOrdered( paramSelectedValues ) )
-            {
-                selectedValuesParamChanged = true;
-                selectedValues = null;
-            }
-
-            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
-                && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts ) )
-            {
-                selectedTextsParamChanged = true;
-                selectedTexts = null;
-            }
 
             await base.SetParametersAsync( parameters );
 
@@ -209,13 +195,13 @@ namespace Blazorise.Components
 
             if ( values is not null && !SelectedValues.AreEqualOrdered( values ) )
             {
-                selectedValues = values;
+                SelectedValues = values;
                 await SelectedValuesChanged.InvokeAsync( values );
             }
 
             if ( texts is not null && !SelectedTexts.AreEqualOrdered( texts ) )
             {
-                selectedTexts = texts;
+                SelectedTexts = texts;
                 await SelectedTextsChanged.InvokeAsync( texts );
             }
 
@@ -1258,7 +1244,7 @@ namespace Blazorise.Components
         [Parameter]
         public List<TValue> SelectedValues
         {
-            get => selectedValuesParam ?? selectedValues;
+            get => selectedValuesParam;
             set => selectedValuesParam = ( value == null ? null : new( value ) );
         }
 
@@ -1275,7 +1261,7 @@ namespace Blazorise.Components
         [Parameter]
         public List<string> SelectedTexts
         {
-            get => selectedTextsParam ?? selectedTexts;
+            get => selectedTextsParam;
             set => selectedTextsParam = ( value == null ? null : new( value ) );
         }
 
