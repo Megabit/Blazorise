@@ -725,7 +725,7 @@ class EmptyClassProvider : IClassProvider
 
     public string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition ) => null;
 
-    public string RowNoGutters() => null;
+    public string RowNoGutters( bool noGutters ) => null;
 
     #endregion
 

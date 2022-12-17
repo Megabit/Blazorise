@@ -23,7 +23,7 @@ public partial class Row : BaseRowComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Row() );
-        builder.Append( ClassProvider.RowNoGutters(), NoGutters );
+        builder.Append( ClassProvider.RowNoGutters( NoGutters ) );
 
         if ( RowColumns != null && RowColumns.HasSizes )
             builder.Append( RowColumns.Class( ClassProvider ) );

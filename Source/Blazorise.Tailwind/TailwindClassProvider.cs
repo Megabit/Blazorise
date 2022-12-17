@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
@@ -295,7 +296,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Fields
 
-    public override string Fields() => "form-row";
+    public override string Fields() => "flex flex-row gap-x-4";
 
     public override string FieldsBody() => null;
 
@@ -307,9 +308,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Field() => "mb-3";
 
-    public override string FieldHorizontal() => "grid grid-cols-12";
+    public override string FieldHorizontal() => "flex flex-row";
 
-    public override string FieldColumn() => "col-span-12";
+    public override string FieldColumn() => "basis-full";
 
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -383,7 +384,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Inline
 
-    public override string Inline() => "form-inline";
+    public override string Inline() => "flex flex-row flex-wrap";
 
     #endregion
 
@@ -876,7 +877,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Row
 
-    public override string Row() => "grid grid-cols-12 gap-x-4";
+    public override string Row() => "flex flex-row";
 
     public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
     {
@@ -886,35 +887,38 @@ public class TailwindClassProvider : ClassProvider
         return $"row-cols-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
-    public override string RowNoGutters() => "no-gutters";
+    public override string RowNoGutters( bool noGutters ) => noGutters ? "gap-0" : "gap-x-4";
 
     #endregion
 
     #region Column
 
-    public override string Column( bool hasSizes ) => hasSizes ? null : "col-span-12";
+    public override string Column( bool hasSizes ) => hasSizes ? null : "basis-full";
 
     public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom )
     {
-        var columnWidthValue = ToColumnWidth( columnWidth );
+        var columnWidthNumber = ToColumnWidthNumber( columnWidth );
 
-        if ( offset && columnWidthValue != null && columnWidthValue != "auto"
-            && int.TryParse( columnWidthValue, NumberStyles.Integer, CultureInfo.InvariantCulture, out var columnWidthNumber ) )
+        if ( offset && columnWidthNumber > 0 )
         {
+            var percentage = Math.Round( ( columnWidthNumber / 12d ) * 100, 6 ).ToString( CultureInfo.InvariantCulture );
+
             if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
             {
-                return $"{ToBreakpoint( breakpoint )}:col-start-{startFrom + 1}";
+                return $"{ToBreakpoint( breakpoint )}:ml-[{percentage}%]";
             }
 
-            return $"col-start-{startFrom + 1}";
+            return $"ml-[{percentage}%]";
         }
+
+        var columnWidthValue = ToColumnWidth( columnWidth );
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
         {
-            return $"{ToBreakpoint( breakpoint )}:col-span-{columnWidthValue}";
+            return $"{ToBreakpoint( breakpoint )}:basis-{columnWidthValue}";
         }
 
-        return $"col-span-{columnWidthValue}";
+        return $"basis-{columnWidthValue}";
     }
 
     #endregion
@@ -1628,20 +1632,41 @@ public class TailwindClassProvider : ClassProvider
     {
         return columnWidth switch
         {
-            Blazorise.ColumnWidth.Is1 => "1",
-            Blazorise.ColumnWidth.Is2 => "2",
-            Blazorise.ColumnWidth.Is3 or Blazorise.ColumnWidth.Quarter => "3",
-            Blazorise.ColumnWidth.Is4 or Blazorise.ColumnWidth.Third => "4",
-            Blazorise.ColumnWidth.Is5 => "5",
-            Blazorise.ColumnWidth.Is6 or Blazorise.ColumnWidth.Half => "6",
-            Blazorise.ColumnWidth.Is7 => "7",
-            Blazorise.ColumnWidth.Is8 => "8",
-            Blazorise.ColumnWidth.Is9 => "9",
-            Blazorise.ColumnWidth.Is10 => "10",
-            Blazorise.ColumnWidth.Is11 => "11",
-            Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => "12",
+            Blazorise.ColumnWidth.Is1 => "1/12",
+            Blazorise.ColumnWidth.Is2 => "2/12",
+            Blazorise.ColumnWidth.Is3 or Blazorise.ColumnWidth.Quarter => "3/12",
+            Blazorise.ColumnWidth.Is4 or Blazorise.ColumnWidth.Third => "4/12",
+            Blazorise.ColumnWidth.Is5 => "5/12",
+            Blazorise.ColumnWidth.Is6 or Blazorise.ColumnWidth.Half => "6/12",
+            Blazorise.ColumnWidth.Is7 => "7/12",
+            Blazorise.ColumnWidth.Is8 => "8/12",
+            Blazorise.ColumnWidth.Is9 => "9/12",
+            Blazorise.ColumnWidth.Is10 => "10/12",
+            Blazorise.ColumnWidth.Is11 => "11/12",
+            Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => "full",
             Blazorise.ColumnWidth.Auto => "auto",
             _ => null,
+        };
+    }
+
+    private static int ToColumnWidthNumber( ColumnWidth columnWidth )
+    {
+        return columnWidth switch
+        {
+            ColumnWidth.Is1 => 1,
+            ColumnWidth.Is2 => 2,
+            ColumnWidth.Is3 or ColumnWidth.Quarter => 3,
+            ColumnWidth.Is4 or ColumnWidth.Third => 4,
+            ColumnWidth.Is5 => 5,
+            ColumnWidth.Is6 or ColumnWidth.Half => 6,
+            ColumnWidth.Is7 => 7,
+            ColumnWidth.Is8 => 8,
+            ColumnWidth.Is9 => 9,
+            ColumnWidth.Is10 => 10,
+            ColumnWidth.Is11 => 11,
+            ColumnWidth.Is12 or ColumnWidth.Full => 12,
+            ColumnWidth.Auto => 0,
+            _ => 0,
         };
     }
 

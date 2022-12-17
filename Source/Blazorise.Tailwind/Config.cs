@@ -65,6 +65,7 @@ public static class Config
         { typeof( Blazorise.Check<> ), typeof( Tailwind.Check<> ) },
         { typeof( Blazorise.CloseButton ), typeof( Tailwind.CloseButton ) },
         { typeof( Blazorise.Button ), typeof( Tailwind.Button ) },
+        { typeof( Blazorise.Field ), typeof( Tailwind.Field ) },
         { typeof( Blazorise.Modal ), typeof( Tailwind.Modal ) },
         { typeof( Blazorise.ModalContent ), typeof( Tailwind.ModalContent ) },
         { typeof( Blazorise.Progress ), typeof( Tailwind.Progress ) },

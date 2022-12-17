@@ -748,7 +748,7 @@ public class BootstrapClassProvider : ClassProvider
         return $"row-cols-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
-    public override string RowNoGutters() => "no-gutters";
+    public override string RowNoGutters( bool noGutters ) => noGutters ? "no-gutters" : null;
 
     #endregion
 

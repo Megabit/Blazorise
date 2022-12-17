@@ -718,7 +718,7 @@ public interface IClassProvider
 
     string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
 
-    string RowNoGutters();
+    string RowNoGutters( bool noGutters );
 
     #endregion
 

@@ -721,7 +721,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
 
-    public abstract string RowNoGutters();
+    public abstract string RowNoGutters( bool noGutters );
 
     #endregion
 
