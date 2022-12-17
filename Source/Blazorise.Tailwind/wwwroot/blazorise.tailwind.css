@@ -20,6 +20,13 @@
   border-bottom-left-radius: 0;
 }
 
+.breadcrumb .breadcrumb-item:first-child > div > svg {
+  display: none;
+}
+.breadcrumb .breadcrumb-item:first-child > div > span {
+  margin-left: 0;
+}
+
 .btn-xl {
   height: 5rem;
   min-height: 5rem;
