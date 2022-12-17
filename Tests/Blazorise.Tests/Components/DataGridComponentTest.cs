@@ -30,9 +30,9 @@ namespace Blazorise.Tests.Components
                 parameters.Add( x => x.Data, null ) );
 
             // validate
-            var emptyTemplateValue = comp.Find( "tbody tr td" ).GetAttribute( "textContent" );
+            var emptyTemplateValue = comp.Find( "tbody tr td" ).TextContent;
 
-            Assert.Equal( expectedEmptyTemplate, emptyTemplateValue );
+            Assert.Contains( expectedEmptyTemplate, emptyTemplateValue );
         }
 
         [Fact]
