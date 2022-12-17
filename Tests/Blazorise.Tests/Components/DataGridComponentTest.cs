@@ -20,6 +20,22 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
+        public void NoData_Should_Render_EmptyTemplate()
+        {
+            // setup
+            var expectedEmptyTemplate = "No Records...";
+
+            // test
+            var comp = RenderComponent<DataGridComponent>( parameters =>
+                parameters.Add( x => x.Data, null ) );
+
+            // validate
+            var emptyTemplateValue = comp.Find( "tbody tr td" ).GetAttribute( "textContent" );
+
+            Assert.Equal( expectedEmptyTemplate, emptyTemplateValue );
+        }
+
+        [Fact]
         public void SortByField_Should_CorrectlySortRows()
         {
             // setup
@@ -47,16 +63,16 @@ namespace Blazorise.Tests.Components
             // setup
             var comp = RenderComponent<DataGridComponent>( parameters =>
                 parameters.Add( x => x.DataGridEditMode, editMode ) );
-            var startingDataCount = comp.Instance.InMemoryData.Count;
+            var startingDataCount = comp.Instance.Data.Count;
 
             // test
             comp.Click( "#btnNew" );
             comp.Click( "#btnSave" );
-            var currentDataCount = comp.Instance.InMemoryData.Count;
+            var currentDataCount = comp.Instance.Data.Count;
 
             // validate
             var expectedResult = startingDataCount + 1;
-            comp.WaitForAssertion( () => Assert.Equal( expectedResult, comp.Instance.InMemoryData.Count ), System.TimeSpan.FromSeconds( 3 ) );
+            comp.WaitForAssertion( () => Assert.Equal( expectedResult, comp.Instance.Data.Count ), System.TimeSpan.FromSeconds( 3 ) );
         }
 
         [Theory]
@@ -73,15 +89,15 @@ namespace Blazorise.Tests.Components
             // test
             comp.Find( "#btnEdit" ).Click();
 
-            comp.Input( "input", updatedName, 
-                ( firstInput ) => firstInput.SetAttribute( "value", updatedName ));
-            
+            comp.Input( "input", updatedName,
+                ( firstInput ) => firstInput.SetAttribute( "value", updatedName ) );
+
             comp.Click( "#btnSave" );
 
-            var currentName = comp.Instance.InMemoryData[0].Name;
+            var currentName = comp.Instance.Data[0].Name;
 
             // validate
-            comp.WaitForAssertion( () => Assert.Contains( comp.Instance.InMemoryData, x => x.Name == updatedName ), System.TimeSpan.FromSeconds( 3 ) );
+            comp.WaitForAssertion( () => Assert.Contains( comp.Instance.Data, x => x.Name == updatedName ), System.TimeSpan.FromSeconds( 3 ) );
         }
 
         [Theory]
@@ -93,12 +109,12 @@ namespace Blazorise.Tests.Components
             // setup
             var comp = RenderComponent<DataGridComponent>( parameters =>
                 parameters.Add( x => x.DataGridEditMode, editMode ) );
-            var startingDataCount = comp.Instance.InMemoryData.Count;
+            var startingDataCount = comp.Instance.Data.Count;
 
             // test
             comp.Click( "#btnDelete" );
 
-            var currentDataCount = comp.Instance.InMemoryData.Count;
+            var currentDataCount = comp.Instance.Data.Count;
 
             // validate
             var expectedResult = startingDataCount - 1;
