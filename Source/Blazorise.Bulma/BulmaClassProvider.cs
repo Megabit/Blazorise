@@ -874,7 +874,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string PaginationLinkActive( bool active ) => active ? "is-current" : null;
 
-    public override string PaginationLinkDisabled( bool disabled ) => disabled: "is-disabled":null;
+    public override string PaginationLinkDisabled( bool disabled ) => disabled ? "is-disabled" : null;
 
     #endregion
 
