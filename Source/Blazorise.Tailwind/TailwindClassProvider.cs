@@ -1205,7 +1205,7 @@ public class TailwindClassProvider : ClassProvider
                 ? "text-gray-100 bg-gray-700 dark:text-gray-700 dark:bg-gray-100"
                 : null;
 
-    public override string TableHeaderCell() => "py-3 px-6";
+    public override string TableHeaderCell() => "py-3 px-3";
 
     public override string TableFooter() => null;
 
@@ -1219,9 +1219,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowIsSelected() => "selected";
 
-    public override string TableRowHeader() => "group-[.table-sm]:py-2 group-[:not(.table-sm)]:py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white";
+    public override string TableRowHeader() => "group-[.table-sm]:py-2 group-[:not(.table-sm)]:py-4 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
 
-    public override string TableRowCell() => "group-[.table-sm]:py-2 group-[:not(.table-sm)]:py-4 px-6";
+    public override string TableRowCell() => "group-[.table-sm]:py-2 group-[:not(.table-sm)]:py-4 px-4";
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
 
