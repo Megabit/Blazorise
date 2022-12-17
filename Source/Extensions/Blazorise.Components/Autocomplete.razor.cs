@@ -193,7 +193,7 @@ namespace Blazorise.Components
             List<TValue> values = null;
             List<string> texts = null;
 
-            if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() && !selectedValuesParamChanged )
+            if ( selectedTextsParamChanged && selectedTextsParam is not null && !Data.IsNullOrEmpty() && !selectedValuesParamChanged )
             {
                 values = Data.IntersectBy( SelectedTexts, e => GetItemText( e ) ).Select( e => GetItemValue( e ) ).ToList();
                 if ( !FreeTyping )
@@ -202,7 +202,7 @@ namespace Blazorise.Components
                 }
             }
 
-            if ( selectedValuesParamChanged && !selectedValuesParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() )
+            if ( selectedValuesParamChanged && selectedValuesParam is not null && !Data.IsNullOrEmpty() )
             {
                 texts = Data.IntersectBy( SelectedValues, e => GetItemValue( e ) ).Select( e => GetItemText( e ) ).ToList();
             }
@@ -577,8 +577,8 @@ namespace Blazorise.Components
 
         private async Task ResetSelectedValues()
         {
-            selectedValues?.Clear();
-            await SelectedValuesChanged.InvokeAsync( selectedValues );
+            SelectedValues?.Clear();
+            await SelectedValuesChanged.InvokeAsync( SelectedValues );
         }
 
         private async Task ResetSelectedTexts()
