@@ -808,7 +808,7 @@ public interface IClassProvider
 
     string PaginationLinkActive( bool active );
 
-    string PaginationLinkDisabled();
+    string PaginationLinkDisabled( bool disabled );
 
     #endregion
 

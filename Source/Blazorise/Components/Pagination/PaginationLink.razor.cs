@@ -29,6 +29,7 @@ public partial class PaginationLink : BaseComponent
     {
         builder.Append( ClassProvider.PaginationLink() );
         builder.Append( ClassProvider.PaginationLinkActive( ParentPaginationItemState.Active ) );
+        builder.Append( ClassProvider.PaginationLinkDisabled( ParentPaginationItemState.Disabled ) );
 
         base.BuildClasses( builder );
     }

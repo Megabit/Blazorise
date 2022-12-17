@@ -1073,24 +1073,26 @@ public class TailwindClassProvider : ClassProvider
 
     #region Pagination
 
-    public override string Pagination() => "inline-flex -space-x-px group";
+    public override string Pagination() => "pagination flex -space-x-px";
 
     public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
 
-    public override string PaginationItem() => null;
+    public override string PaginationItem() => "pagination-item";
 
     public override string PaginationItemActive() => null;
 
     public override string PaginationItemDisabled() => null;
 
-    public override string PaginationLink() => "cursor-pointer px-3 py-2 leading-tight border";
+    public override string PaginationLink()
+        => "pagination-link relative block px-3 py-2 leading-tight border";
 
-    public override string PaginationLinkActive( bool active )
-        => active
+    public override string PaginationLinkActive( bool active ) => active
         ? "text-primary-600 bg-primary-50 hover:bg-primary-100 hover:text-primary-700 dark:bg-gray-700 dark:text-white"
         : "text-gray-500 bg-white hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white";
 
-    public override string PaginationLinkDisabled() => null;
+    public override string PaginationLinkDisabled( bool disabled ) => disabled
+        ? "cursor-not-allowed opacity-60"
+        : "cursor-pointer";
 
     #endregion
 

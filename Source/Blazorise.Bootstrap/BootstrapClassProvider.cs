@@ -861,7 +861,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string PaginationLinkActive( bool active ) => null;
 
-    public override string PaginationLinkDisabled() => null;
+    public override string PaginationLinkDisabled( bool disabled ) => null;
 
     #endregion
 

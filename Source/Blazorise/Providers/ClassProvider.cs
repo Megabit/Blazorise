@@ -812,7 +812,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string PaginationLinkActive( bool active );
 
-    public abstract string PaginationLinkDisabled();
+    public abstract string PaginationLinkDisabled( bool disabled );
 
     #endregion
 
