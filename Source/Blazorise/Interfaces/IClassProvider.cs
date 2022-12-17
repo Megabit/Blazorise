@@ -446,7 +446,7 @@ public interface IClassProvider
 
     string TabItemDisabled( bool disabled );
 
-    string TabLink();
+    string TabLink( TabPosition tabPosition );
 
     string TabLinkActive( bool active );
 

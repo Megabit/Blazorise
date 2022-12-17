@@ -578,7 +578,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region Tabs
 
-    public override string Tabs( bool pills ) => pills ? "flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400" : "flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400";
+    public override string Tabs( bool pills ) => pills
+        ? "flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400"
+        : "flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400";
 
     public override string TabsCards() => "card-header-tabs";
 
@@ -586,7 +588,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TabsJustified() => "nav-justified";
 
-    public override string TabsVertical() => "flex-column";
+    public override string TabsVertical() => "flex-col";
 
     public override string TabItem() => "mr-2";
 
@@ -594,11 +596,22 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TabItemDisabled( bool disabled ) => null;
 
-    public override string TabLink() => "inline-block p-4 rounded-t-lg";
+    public override string TabLink( TabPosition tabPosition )
+    {
+        return tabPosition switch
+        {
+            TabPosition.Start => "w-full inline-block p-4 rounded-l-lg border-transparent border-r-2",
+            TabPosition.End => "w-full inline-block p-4 rounded-r-lg border-transparent border-l-2",
+            TabPosition.Bottom => "inline-block p-4 rounded-b-lg border-transparent border-t-2",
+            _ => "inline-block p-4 rounded-t-lg border-transparent border-b-2"
+        };
+    }
+    public override string TabLinkActive( bool active ) => active
+        ? "text-primary-600 hover:text-primary-600 dark:text-primary-500 dark:hover:text-primary-500 border-primary-600 dark:border-primary-500"
+        : "dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300";
 
-    public override string TabLinkActive( bool active ) => active ? "text-primary-600 dark:text-primary-500" : "hover:text-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 dark:hover:text-gray-300";
-
-    public override string TabLinkDisabled( bool disabled ) => disabled ? "opacity-60" : null;
+    public override string TabLinkDisabled( bool disabled )
+        => disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer";
 
     public override string TabsContent() => null;
 
@@ -1442,7 +1455,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Link
 
-    public override string Link() => "font-medium text-blue-600 dark:text-blue-500 hover:underline";
+    public override string Link() => "font-medium text-primary-600 dark:text-primary-500 hover:underline";
 
     public override string LinkActive( bool active ) => active ? Active() : null;
 

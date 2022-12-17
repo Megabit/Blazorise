@@ -496,7 +496,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TabLinkDisabled( bool disabled ) => disabled ? Disabled() : null;
 
-    public override string TabLink() => null;
+    public override string TabLink( TabPosition tabPosition ) => null;
 
     public override string TabLinkActive( bool active ) => null;
 

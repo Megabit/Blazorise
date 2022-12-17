@@ -491,7 +491,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TabItemDisabled( bool disabled ) => disabled ? "ant-tabs-tab-disabled" : null;
 
-    public override string TabLink() => null;
+    public override string TabLink( TabPosition tabPosition ) => null;
 
     public override string TabLinkActive( bool active ) => null;
 

@@ -447,7 +447,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TabItemDisabled( bool disabled );
 
-    public abstract string TabLink();
+    public abstract string TabLink( TabPosition tabPosition );
 
     public abstract string TabLinkActive( bool active );
 

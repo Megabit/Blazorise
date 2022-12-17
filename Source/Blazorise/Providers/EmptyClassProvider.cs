@@ -449,7 +449,7 @@ class EmptyClassProvider : IClassProvider
 
     public string TabItemDisabled( bool disabled ) => null;
 
-    public string TabLink() => null;
+    public string TabLink( TabPosition tabPosition ) => null;
 
     public string TabLinkActive( bool active ) => null;
 

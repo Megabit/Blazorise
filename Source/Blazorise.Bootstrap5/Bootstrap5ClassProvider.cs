@@ -485,7 +485,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TabItemDisabled( bool disabled ) => null;
 
-    public override string TabLink() => "nav-link";
+    public override string TabLink( TabPosition tabPosition ) => "nav-link";
 
     public override string TabLinkActive( bool active ) => active ? $"{Active()} {Show()}" : null;
 
