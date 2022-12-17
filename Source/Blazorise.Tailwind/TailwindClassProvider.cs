@@ -398,6 +398,23 @@ public class TailwindClassProvider : ClassProvider
     {
         var name = color?.Name;
 
+        if ( outline )
+        {
+            return name switch
+            {
+                "primary" => "text-primary-700 hover:text-white border border-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-600 dark:focus:ring-primary-800",
+                "secondary" => "text-secondary-500 hover:text-white border border-secondary-500 hover:bg-secondary-600 focus:ring-secondary-100 dark:border-secondary-300 dark:text-secondary-300 dark:hover:text-white dark:hover:bg-secondary-400 dark:focus:ring-secondary-600",
+                "success" => "text-success-700 hover:text-white border-success-700 hover:bg-success-800 focus:ring-success-300 dark:border-success-500 dark:text-success-500 dark:hover:text-white dark:hover:bg-success-600 dark:focus:ring-success-800",
+                "danger" => "text-danger-700 hover:text-white border-danger-700 hover:bg-danger-800 focus:ring-danger-300 dark:border-danger-500 dark:text-danger-500 dark:hover:text-white dark:hover:bg-danger-600 dark:focus:ring-danger-900",
+                "warning" => "text-warning-400 hover:text-white border-warning-400 hover:bg-warning-500 focus:ring-warning-300 dark:border-warning-300 dark:text-warning-300 dark:hover:text-white dark:hover:bg-warning-400 dark:focus:ring-warning-900",
+                "info" => "text-info-700 hover:text-white border-info-700 hover:bg-info-800 focus:ring-info-300 dark:border-info-400 dark:text-info-400 dark:hover:text-white dark:hover:bg-info-500 dark:focus:ring-info-900",
+                "light" => "text-light-200 hover:text-white border-light-300 hover:bg-light-100 focus:ring-light-200 dark:border-light-600 dark:text-white dark:hover:text-white dark:hover:bg-light-700 dark:focus:ring-light-700",
+                "dark" => "text-dark-900 hover:text-white border-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:border-dark-600 dark:text-dark-400 dark:hover:text-white dark:hover:bg-dark-600 dark:focus:ring-dark-800",
+                "link" => "text-primary-600 dark:text-primary-500 hover:underline",
+                _ => null,
+            };
+        }
+
         return name switch
         {
             "primary" => "text-white bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800",
@@ -408,25 +425,6 @@ public class TailwindClassProvider : ClassProvider
             "info" => "text-white bg-info-700 hover:bg-info-800 focus:ring-info-300 dark:bg-info-600 dark:hover:bg-info-700 dark:focus:ring-info-900",
             "light" => "text-light-900 bg-light-300 border border-light-300 hover:bg-light-100 focus:ring-light-200 dark:bg-light-800 dark:text-white dark:border-light-600 dark:hover:bg-light-700 dark:hover:border-light-600 dark:focus:ring-light-700",
             "dark" => "text-white bg-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:bg-dark-800 dark:hover:bg-dark-700 dark:focus:ring-dark-700 dark:border-dark-700",
-            "link" => "text-primary-600 dark:text-primary-500 hover:underline",
-            _ => null,
-        };
-    }
-
-    public override string ButtonOutline( Color color, bool outline )
-    {
-        var name = color?.Name;
-
-        return name switch
-        {
-            "primary" => "text-primary-700 hover:text-white border border-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-600 dark:focus:ring-primary-800",
-            "secondary" => "text-secondary-500 hover:text-white border border-secondary-500 hover:bg-secondary-600 focus:ring-secondary-100 dark:border-secondary-300 dark:text-secondary-300 dark:hover:text-white dark:hover:bg-secondary-400 dark:focus:ring-secondary-600",
-            "success" => "text-success-700 hover:text-white border-success-700 hover:bg-success-800 focus:ring-success-300 dark:border-success-500 dark:text-success-500 dark:hover:text-white dark:hover:bg-success-600 dark:focus:ring-success-800",
-            "danger" => "text-danger-700 hover:text-white border-danger-700 hover:bg-danger-800 focus:ring-danger-300 dark:border-danger-500 dark:text-danger-500 dark:hover:text-white dark:hover:bg-danger-600 dark:focus:ring-danger-900",
-            "warning" => "text-warning-400 hover:text-white border-warning-400 hover:bg-warning-500 focus:ring-warning-300 dark:border-warning-300 dark:text-warning-300 dark:hover:text-white dark:hover:bg-warning-400 dark:focus:ring-warning-900",
-            "info" => "text-info-700 hover:text-white border-info-700 hover:bg-info-800 focus:ring-info-300 dark:border-info-400 dark:text-info-400 dark:hover:text-white dark:hover:bg-info-500 dark:focus:ring-info-900",
-            "light" => "text-light-900 hover:text-white border-light-300 hover:bg-light-100 focus:ring-light-200 dark:border-light-600 dark:text-white dark:hover:text-white dark:hover:bg-light-700 dark:focus:ring-light-700",
-            "dark" => "text-dark-900 hover:text-white border-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:border-dark-600 dark:text-dark-400 dark:hover:text-white dark:hover:bg-dark-600 dark:focus:ring-dark-800",
             "link" => "text-primary-600 dark:text-primary-500 hover:underline",
             _ => null,
         };

@@ -50,8 +50,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Button( Outline ) );
-        builder.Append( ClassProvider.ButtonColor( Color, Outline ), Color != Color.Default && !Outline );
-        builder.Append( ClassProvider.ButtonOutline( Color, Outline ), Color != Color.Default && Outline );
+        builder.Append( ClassProvider.ButtonColor( Color, Outline ) );
         builder.Append( ClassProvider.ButtonSize( ThemeSize, Outline ) );
         builder.Append( ClassProvider.ButtonBlock( Outline ), Block );
         builder.Append( ClassProvider.ButtonActive( Outline ), Active );

@@ -357,8 +357,6 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ButtonColor( Color color, bool outline );
 
-    public abstract string ButtonOutline( Color color, bool outline );
-
     public abstract string ButtonSize( Size size, bool outline );
 
     public abstract string ButtonBlock( bool outline );

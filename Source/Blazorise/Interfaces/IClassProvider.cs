@@ -356,8 +356,6 @@ public interface IClassProvider
 
     string ButtonColor( Color color, bool outline );
 
-    string ButtonOutline( Color color, bool outline );
-
     string ButtonSize( Size size, bool outline );
 
     string ButtonBlock( bool outline );

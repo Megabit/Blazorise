@@ -359,8 +359,6 @@ class EmptyClassProvider : IClassProvider
 
     public string ButtonColor( Color color, bool outline ) => null;
 
-    public string ButtonOutline( Color color, bool outline ) => null;
-
     public string ButtonSize( Size size, bool outline ) => null;
 
     public string ButtonBlock( bool outline ) => null;
