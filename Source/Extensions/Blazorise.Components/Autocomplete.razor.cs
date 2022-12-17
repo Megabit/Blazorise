@@ -102,11 +102,11 @@ namespace Blazorise.Components
 
             await base.SetParametersAsync( parameters );
 
-            await SyncronizeSingle( selectedValueParamChanged, selectedTextParamChanged );
+            await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged );
             await SynchronizeMultiple( selectedValuesParamChanged, selectedTextsParamChanged );
         }
 
-        private async Task SyncronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
+        private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
         {
             if ( selectedTextParamChanged && !selectedValueParamChanged )
             {
