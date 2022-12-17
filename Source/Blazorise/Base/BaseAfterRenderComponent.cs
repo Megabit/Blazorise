@@ -80,6 +80,8 @@ namespace Blazorise
                 }
             }
 
+            Rendered = true;
+
             if ( executeAfterRenderQueue?.Count > 0 )
             {
                 while ( executeAfterRenderQueue.Count > 0 )
