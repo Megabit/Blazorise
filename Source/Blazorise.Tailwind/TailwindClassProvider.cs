@@ -391,8 +391,8 @@ public class TailwindClassProvider : ClassProvider
     #region Button
 
     public override string Button( bool outline ) => outline
-        ? "border focus:ring-4 focus:outline-none font-medium rounded-lg text-center group:mr:2 group:mb:0"
-        : "focus:ring-4 font-medium rounded-lg focus:outline-none rounded-lg group:mr-0 group:mb-0";
+        ? "button border focus:ring-4 focus:outline-none font-medium rounded-lg text-center group:mr:2 group:mb:0"
+        : "button focus:ring-4 font-medium rounded-lg focus:outline-none rounded-lg group:mr-0 group:mb-0";
 
     public override string ButtonColor( Color color, bool outline )
     {
@@ -427,7 +427,7 @@ public class TailwindClassProvider : ClassProvider
             "info" => "text-info-700 hover:text-white border-info-700 hover:bg-info-800 focus:ring-info-300 dark:border-info-400 dark:text-info-400 dark:hover:text-white dark:hover:bg-info-500 dark:focus:ring-info-900",
             "light" => "text-light-900 hover:text-white border-light-300 hover:bg-light-100 focus:ring-light-200 dark:border-light-600 dark:text-white dark:hover:text-white dark:hover:bg-light-700 dark:focus:ring-light-700",
             "dark" => "text-dark-900 hover:text-white border-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:border-dark-600 dark:text-dark-400 dark:hover:text-white dark:hover:bg-dark-600 dark:focus:ring-dark-800",
-            "link" => "",
+            "link" => "text-primary-600 dark:text-primary-500 hover:underline",
             _ => null,
         };
     }
@@ -480,9 +480,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region Dropdown
 
-    public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
+    public override string Dropdown( bool isDropdownSubmenu ) => "dropdown relative";
 
-    public override string DropdownGroup() => "btn-group";
+    public override string DropdownGroup() => "dropdown-group inline-flex align-middle";
 
     public override string DropdownObserverShow() => DropdownShow();
 
@@ -490,35 +490,81 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownRight() => null;
 
-    public override string DropdownItem() => "dropdown-item";
+    public override string DropdownItem() => "block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white";
 
-    public override string DropdownItemActive( bool active ) => active ? Active() : null;
+    public override string DropdownItemActive( bool active ) => null;
 
-    public override string DropdownItemDisabled( bool disabled ) => disabled ? Disabled() : null;
+    public override string DropdownItemDisabled( bool disabled ) => disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer";
 
     public override string DropdownDivider() => "dropdown-divider";
 
-    public override string DropdownHeader() => "dropdown-header";
+    public override string DropdownHeader() => "py-3 px-4 text-sm text-gray-900 dark:text-white";
 
-    public override string DropdownMenu() => "dropdown-menu";
+    public override string DropdownMenu() => "z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 block";
 
     public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
 
     //public override string DropdownMenuBody() => null;
 
-    public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
+    public override string DropdownMenuVisible( bool visible ) => visible ? "block" : "hidden";
 
     public override string DropdownMenuRight() => "dropdown-menu-right";
 
-    public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
+        => isDropdownSubmenu ? "dropdown-toggle-submenu block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        : "dropdown-toggle focus:ring-4 focus:outline-none font-medium text-sm text-center inline-flex items-center";
 
-    public override string DropdownToggleColor( Color color ) => $"{Button( false )}-{ToColor( color )}";
+    public override string DropdownToggleColor( Color color, bool outline )
+    {
+        var name = color?.Name;
 
-    public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.Default ? $"{Button( false )}-outline-{ToColor( color )}" : $"{Button( false )}-outline";
+        if ( outline )
+        {
+            return name switch
+            {
+                "primary" => "text-primary-700 hover:text-white border border-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:border-primary-500 dark:text-primary-500 dark:hover:text-white dark:hover:bg-primary-600 dark:focus:ring-primary-800",
+                "secondary" => "text-secondary-500 hover:text-white border border-secondary-500 hover:bg-secondary-600 focus:ring-secondary-100 dark:border-secondary-300 dark:text-secondary-300 dark:hover:text-white dark:hover:bg-secondary-400 dark:focus:ring-secondary-600",
+                "success" => "text-success-700 hover:text-white border-success-700 hover:bg-success-800 focus:ring-success-300 dark:border-success-500 dark:text-success-500 dark:hover:text-white dark:hover:bg-success-600 dark:focus:ring-success-800",
+                "danger" => "text-danger-700 hover:text-white border-danger-700 hover:bg-danger-800 focus:ring-danger-300 dark:border-danger-500 dark:text-danger-500 dark:hover:text-white dark:hover:bg-danger-600 dark:focus:ring-danger-900",
+                "warning" => "text-warning-400 hover:text-white border-warning-400 hover:bg-warning-500 focus:ring-warning-300 dark:border-warning-300 dark:text-warning-300 dark:hover:text-white dark:hover:bg-warning-400 dark:focus:ring-warning-900",
+                "info" => "text-info-700 hover:text-white border-info-700 hover:bg-info-800 focus:ring-info-300 dark:border-info-400 dark:text-info-400 dark:hover:text-white dark:hover:bg-info-500 dark:focus:ring-info-900",
+                "light" => "text-light-900 hover:text-white border-light-300 hover:bg-light-100 focus:ring-light-200 dark:border-light-600 dark:text-white dark:hover:text-white dark:hover:bg-light-700 dark:focus:ring-light-700",
+                "dark" => "text-dark-900 hover:text-white border-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:border-dark-600 dark:text-dark-400 dark:hover:text-white dark:hover:bg-dark-600 dark:focus:ring-dark-800",
+                "link" => "",
+                _ => null,
+            };
+        }
 
-    public override string DropdownToggleSize( Size size ) => $"{Button( false )}-{ToSize( size )}";
+        return name switch
+        {
+            "primary" => "text-white bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800",
+            "secondary" => "text-white bg-secondary-500 hover:bg-secondary-600 focus:ring-secondary-100 dark:bg-secondary-400 dark:hover:bg-secondary-500 dark:focus:ring-secondary-600",
+            "success" => "text-white bg-success-700 hover:bg-success-800 focus:ring-success-300 dark:bg-success-600 dark:hover:bg-success-700 dark:focus:ring-success-800",
+            "danger" => "text-white bg-danger-700 hover:bg-danger-800 focus:ring-danger-300 dark:bg-danger-600 dark:hover:bg-danger-700 dark:focus:ring-danger-900",
+            "warning" => "text-white bg-warning-400 hover:bg-warning-500 focus:ring-warning-300 dark:focus:ring-warning-900",
+            "info" => "text-white bg-info-700 hover:bg-info-800 focus:ring-info-300 dark:bg-info-600 dark:hover:bg-info-700 dark:focus:ring-info-900",
+            "light" => "text-light-900 bg-light-300 border border-light-300 hover:bg-light-100 focus:ring-light-200 dark:bg-light-800 dark:text-white dark:border-light-600 dark:hover:bg-light-700 dark:hover:border-light-600 dark:focus:ring-light-700",
+            "dark" => "text-white bg-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:bg-dark-800 dark:hover:bg-dark-700 dark:focus:ring-dark-700 dark:border-dark-700",
+            "link" => "text-primary-600 dark:text-primary-500 hover:underline",
+            _ => null,
+        };
+    }
 
-    public override string DropdownToggleSplit() => "dropdown-toggle-split";
+    public override string DropdownToggleSize( Size size, bool outline )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "px-3 py-2 text-xs",
+            Size.Small => "px-3 py-2 text-sm",
+            Size.Medium => "px-6 py-4 text-base",
+            Size.Large => "px-6 py-5 text-base",
+            Size.ExtraLarge => "px-6 py-6 text-base",
+            _ => "px-4 py-2.5 text-sm"
+        };
+    }
+
+    public override string DropdownToggleSplit( bool split )
+        => split ? "rounded-l-0 rounded-r-lg" : "rounded-lg";
 
     public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
 

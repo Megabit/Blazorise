@@ -28,6 +28,11 @@
   font-size: 1.5rem;
 }
 
+.dropdown.dropdown-group > .button:not(:last-child):not(.dropdown-toggle) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 .card .card-body {
   /*flex-direction: row;*/
   /*flex-wrap: wrap;*/

@@ -450,15 +450,16 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownMenuRight() => "dropdown-menu-right";
 
-    public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
 
-    public override string DropdownToggleColor( Color color ) => $"ant-btn-{ToColor( color )}";
+    public override string DropdownToggleColor( Color color, bool outline ) => outline
+        ? color != Color.Default ? $"ant-btn-outline-{ToColor( color )}" : $"ant-btn-outline"
+        : color != Color.Default ? $"ant-btn-{ToColor( color )}" : null;
 
-    public override string DropdownToggleOutline( Color color ) => color != Color.Default ? $"ant-btn-outline-{ToColor( color )}" : $"ant-btn-outline";
+    public override string DropdownToggleSize( Size size, bool outline )
+        => size != Size.Default ? $"ant-btn-{ToSize( size )}" : null;
 
-    public override string DropdownToggleSize( Size size ) => $"ant-btn-{ToSize( size )}";
-
-    public override string DropdownToggleSplit() => "dropdown-toggle-split";
+    public override string DropdownToggleSplit( bool split ) => split ? "dropdown-toggle-split" : null;
 
     public override string DropdownToggleIcon( bool visible ) => null;
 

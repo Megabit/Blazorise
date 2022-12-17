@@ -417,15 +417,13 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DropdownMenuRight();
 
-    public abstract string DropdownToggle( bool isDropdownSubmenu );
+    public abstract string DropdownToggle( bool isDropdownSubmenu, bool outline );
 
-    public abstract string DropdownToggleColor( Color color );
+    public abstract string DropdownToggleColor( Color color, bool outline );
 
-    public abstract string DropdownToggleOutline( Color color );
+    public abstract string DropdownToggleSize( Size size, bool outline );
 
-    public abstract string DropdownToggleSize( Size size );
-
-    public abstract string DropdownToggleSplit();
+    public abstract string DropdownToggleSplit( bool split );
 
     public abstract string DropdownToggleIcon( bool visible );
 

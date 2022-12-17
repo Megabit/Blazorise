@@ -75,7 +75,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
                 {
                     Direction = GetDropdownDirection().ToString( "g" ),
                     RightAligned = RightAligned,
-                    DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu ),
+                    DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu, childrenDropdownToggles?.FirstOrDefault()?.Outline ?? false ),
                     DropdownMenuClassNames = ClassProvider.DropdownMenu(),
                     DropdownShowClassName = ClassProvider.DropdownObserverShow()
                 } );

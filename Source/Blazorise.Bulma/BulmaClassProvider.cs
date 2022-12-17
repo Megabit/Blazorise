@@ -453,15 +453,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DropdownMenuRight() => null;
 
-    public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
-    public override string DropdownToggleColor( Color color ) => $"is-{ToColor( color )}";
+    public override string DropdownToggleColor( Color color, bool outline ) => outline
+        ? color != Color.Default ? $"is-{ToColor( color )} is-outlined" : null
+        : color != Color.Default ? $"is-{ToColor( color )}" : null;
 
-    public override string DropdownToggleOutline( Color color ) => $"is-{ToColor( color )} is-outlined";
+    public override string DropdownToggleSize( Size size, bool outline )
+        => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string DropdownToggleSize( Size size ) => $"is-{ToSize( size )}";
-
-    public override string DropdownToggleSplit() => null;
+    public override string DropdownToggleSplit( bool split ) => null;
 
     public override string DropdownToggleIcon( bool visible ) => null;
 

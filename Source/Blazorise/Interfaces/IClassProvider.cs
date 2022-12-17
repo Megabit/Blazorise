@@ -416,15 +416,13 @@ public interface IClassProvider
 
     string DropdownMenuRight();
 
-    string DropdownToggle( bool isDropdownSubmenu );
+    string DropdownToggle( bool isDropdownSubmenu, bool outline );
 
-    string DropdownToggleColor( Color color );
+    string DropdownToggleColor( Color color, bool outline );
 
-    string DropdownToggleOutline( Color color );
+    string DropdownToggleSize( Size size, bool outline );
 
-    string DropdownToggleSize( Size size );
-
-    string DropdownToggleSplit();
+    string DropdownToggleSplit( bool split );
 
     string DropdownToggleIcon( bool visible );
 

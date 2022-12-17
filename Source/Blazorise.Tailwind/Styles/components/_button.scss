@@ -5,3 +5,12 @@
     padding-right: 2rem;
     font-size: 1.5rem;
 }
+
+.dropdown {
+    &.dropdown-group {
+        > .button:not(:last-child):not(.dropdown-toggle) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+}

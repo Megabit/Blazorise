@@ -441,15 +441,16 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DropdownMenuRight() => "dropdown-menu-end";
 
-    public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
-    public override string DropdownToggleColor( Color color ) => $"btn-{ToColor( color )}";
+    public override string DropdownToggleColor( Color color, bool outline ) => outline
+        ? color != Color.Default ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
+        : color != Color.Default ? $"btn-{ToColor( color )}" : null;
 
-    public override string DropdownToggleOutline( Color color ) => color != Blazorise.Color.Default ? $"btn-outline-{ToColor( color )}" : $"btn-outline";
+    public override string DropdownToggleSize( Size size, bool outline )
+        => size != Size.Default ? $"btn-{ToSize( size )}" : null;
 
-    public override string DropdownToggleSize( Size size ) => $"btn-{ToSize( size )}";
-
-    public override string DropdownToggleSplit() => "dropdown-toggle-split";
+    public override string DropdownToggleSplit( bool split ) => split ? "dropdown-toggle-split" : null;
 
     public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
 

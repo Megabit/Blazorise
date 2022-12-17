@@ -419,15 +419,13 @@ class EmptyClassProvider : IClassProvider
 
     public string DropdownMenuRight() => null;
 
-    public string DropdownToggle( bool isDropdownSubmenu ) => null;
+    public string DropdownToggle( bool isDropdownSubmenu, bool outline ) => null;
 
-    public string DropdownToggleColor( Color color ) => null;
+    public string DropdownToggleColor( Color color, bool outline ) => null;
 
-    public string DropdownToggleOutline( Color color ) => null;
+    public string DropdownToggleSize( Size size, bool outline ) => null;
 
-    public string DropdownToggleSize( Size size ) => null;
-
-    public string DropdownToggleSplit() => null;
+    public string DropdownToggleSplit( bool split ) => null;
 
     public string DropdownToggleIcon( bool visible ) => null;
 
