@@ -1073,7 +1073,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Pagination
 
-    public override string Pagination() => "pagination flex -space-x-px";
+    public override string Pagination() => "pagination flex -space-x-px mb-3";
 
     public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
 
@@ -1084,7 +1084,7 @@ public class TailwindClassProvider : ClassProvider
     public override string PaginationItemDisabled() => null;
 
     public override string PaginationLink()
-        => "pagination-link relative block px-3 py-2 leading-tight border";
+        => "pagination-link relative block px-3 py-2.5 leading-tight border";
 
     public override string PaginationLinkActive( bool active ) => active
         ? "text-primary-600 bg-primary-50 hover:bg-primary-100 hover:text-primary-700 dark:bg-gray-700 dark:text-white"
