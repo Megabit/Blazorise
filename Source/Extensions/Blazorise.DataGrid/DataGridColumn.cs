@@ -328,9 +328,19 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
 
     /// <summary>
-    /// Specifies the display behavior of a cell.
+    /// Specifies the display utility of a cell.
     /// </summary>
     [Parameter] public IFluentDisplay Display { get; set; }
+
+    /// <summary>
+    /// Specifies the flex utility of a cell.
+    /// </summary>
+    [Parameter] public IFluentFlex Flex { get; set; }
+
+    /// <summary>
+    /// Specifies the gap utility of a cell.
+    /// </summary>
+    [Parameter] public IFluentGap Gap { get; set; }
 
     /// <summary>
     /// Defines the alignment for column header cell.

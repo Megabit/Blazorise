@@ -2,7 +2,7 @@
 @inherits _BaseDataGridRowCommand<TItem>
 @if ( EditState == DataGridEditState.Edit )
 {
-    <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display">
+    <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@GetCommandFlex()" Gap="@GetCommandGap()">
         @if ( ParentDataGrid.CommandColumn?.SaveCommandAllowed == true )
         {
             var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
@@ -56,7 +56,7 @@
 }
 else if ( EditState == DataGridEditState.None && ParentDataGrid.IsCommandVisible )
 {
-    <TableRowCell @onclick:stopPropagation="ParentDataGrid.CommandColumn?.PreventRowClick ?? false" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display">
+    <TableRowCell @onclick:stopPropagation="ParentDataGrid.CommandColumn?.PreventRowClick ?? false" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@GetCommandFlex()" Gap="@GetCommandGap()">
         @if ( ParentDataGrid.CommandColumn?.EditCommandAllowed == true )
         {
             var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );

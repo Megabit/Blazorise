@@ -31,7 +31,7 @@
                 @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed || ParentDataGrid.CommandColumn.CancelCommandAllowed )
                 {
                     <Row>
-                        <Column>
+                        <Column Flex="@GetCommandFlex()" Gap="@GetCommandGap()">
                             @if ( ParentDataGrid.CommandColumn is null || ParentDataGrid.CommandColumn.SaveCommandAllowed )
                             {
                                 var saveButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveButtonLocalizer, "Save" );
@@ -104,7 +104,7 @@ else if ( EditMode == DataGridEditMode.Inline )
             {
                 @if ( column.IsCommandColumn )
                 {
-                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="column" Save="@SaveWithValidation" />
+                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="@column" Save="@SaveWithValidation" />
                 }
                 else if ( column.IsMultiSelectColumn )
                 {
@@ -114,13 +114,15 @@ else if ( EditMode == DataGridEditMode.Inline )
                                       Style="@column.BuildCellStyle(Item)"
                                       TextAlignment="@column.TextAlignment"
                                       VerticalAlignment="@column.VerticalAlignment"
-                                      Display="@column.Display">
+                                      Display="@column.Display"
+                                      Flex="@column.Flex"
+                                      Gap="@column.Gap">
                         </TableRowCell>
                     }
                 }
                 else if ( column.Displayable )
                 {
-                    <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display">
+                    <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
                         @if ( column.CellValueIsEditable )
                         {
                             <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
