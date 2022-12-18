@@ -118,3 +118,13 @@ p {
   padding-right: 0;
   padding-left: 0;
 }
+
+.b-table .b-table-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  cursor: col-resize;
+  user-select: none;
+  z-index: 1;
+}

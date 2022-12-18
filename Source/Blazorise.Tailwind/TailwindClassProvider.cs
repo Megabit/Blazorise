@@ -1184,7 +1184,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Table
 
-    public override string Table() => "w-full text-sm text-left text-gray-500 dark:text-gray-400 group";
+    public override string Table() => "w-full text-sm text-left text-gray-500 dark:text-gray-400 group mb-3";
 
     public override string TableFullWidth() => null;
 
@@ -1198,7 +1198,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableBorderless() => "border-0";
 
-    public override string TableHeader() => "text-xs text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400";
+    public override string TableHeader() => "text-xs text-gray-800 bg-white dark:bg-gray-700 dark:text-gray-400";
 
     public override string TableHeaderThemeContrast( ThemeContrast themeContrast )
         => themeContrast == ThemeContrast.Light
@@ -1207,7 +1207,7 @@ public class TailwindClassProvider : ClassProvider
                 ? "text-gray-100 bg-gray-700 dark:text-gray-700 dark:bg-gray-100"
                 : null;
 
-    public override string TableHeaderCell() => "py-3 px-3";
+    public override string TableHeaderCell() => "py-4 px-4";
 
     public override string TableFooter() => null;
 
