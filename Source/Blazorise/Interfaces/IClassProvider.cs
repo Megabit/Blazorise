@@ -1060,6 +1060,14 @@ public interface IClassProvider
 
     #endregion
 
+    #region Gap
+
+    string Gap( GapSize gapSize, GapSide gapSide );
+
+    string Gap( GapSize gapSize, IEnumerable<GapSide> rules );
+
+    #endregion
+
     #region Borders
 
     string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor );
@@ -1200,6 +1208,8 @@ public interface IClassProvider
     string ToModalSize( ModalSize modalSize );
 
     string ToSpacingSize( SpacingSize spacingSize );
+
+    string ToGapSize( GapSize gapSize );
 
     string ToJustifyContent( JustifyContent justifyContent );
 

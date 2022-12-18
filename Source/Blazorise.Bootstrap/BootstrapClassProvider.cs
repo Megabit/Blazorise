@@ -1119,6 +1119,22 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
+    #region Gap
+
+    public override string Gap( GapSize gapSize, GapSide gapSide )
+    {
+        var side = gapSide != GapSide.None && gapSide != GapSide.All
+            ? $"{ToGapSide( gapSide )}-"
+            : null;
+
+        return $"gap-{side}{ToGapSize( gapSize )}";
+    }
+
+    public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
+        => string.Join( " ", rules.Select( x => Gap( gapSize, x ) ) );
+
+    #endregion
+
     #region Borders
 
     public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )

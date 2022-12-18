@@ -1487,7 +1487,24 @@ public class TailwindClassProvider : ClassProvider
         return $"{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
     }
 
-    public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
+    public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules )
+        => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
+
+    #endregion
+
+    #region Gap
+
+    public override string Gap( GapSize gapSize, GapSide gapSide )
+    {
+        var side = gapSide != GapSide.None && gapSide != GapSide.All
+            ? $"{ToGapSide( gapSide )}-"
+            : null;
+
+        return $"gap-{side}{ToGapSize( gapSize )}";
+    }
+
+    public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
+        => string.Join( " ", rules.Select( x => Gap( gapSize, x ) ) );
 
     #endregion
 

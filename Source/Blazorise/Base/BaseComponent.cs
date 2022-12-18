@@ -34,6 +34,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
     private IFluentSpacing padding;
 
+    private IFluentGap gap;
+
     private IFluentDisplay display;
 
     private IFluentBorder border;
@@ -163,6 +165,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
         if ( Padding != null )
             builder.Append( Padding.Class( ClassProvider ) );
+
+        if ( Gap != null )
+            builder.Append( Gap.Class( ClassProvider ) );
 
         if ( Display != null )
             builder.Append( Display.Class( ClassProvider ) );
@@ -462,6 +467,21 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         set
         {
             padding = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Defines the element gap spacing.
+    /// </summary>
+    [Parameter]
+    public IFluentGap Gap
+    {
+        get => gap;
+        set
+        {
+            gap = value;
 
             DirtyClasses();
         }

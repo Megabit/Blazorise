@@ -1064,6 +1064,14 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Gap
+
+    public abstract string Gap( GapSize gapSize, GapSide gapSide );
+
+    public abstract string Gap( GapSize gapSize, IEnumerable<GapSide> rules );
+
+    #endregion
+
     #region Borders
 
     public abstract string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor );
@@ -1262,6 +1270,16 @@ public abstract class ClassProvider : IClassProvider
         };
     }
 
+    public virtual string ToGapSide( GapSide gapSide )
+    {
+        return gapSide switch
+        {
+            Blazorise.GapSide.X => "x",
+            Blazorise.GapSide.Y => "y",
+            _ => null,
+        };
+    }
+
     public virtual string ToAlignment( Alignment alignment )
     {
         return alignment switch
@@ -1414,6 +1432,20 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.SpacingSize.Is4 => "4",
             Blazorise.SpacingSize.Is5 => "5",
             Blazorise.SpacingSize.IsAuto => "auto",
+            _ => null,
+        };
+    }
+
+    public virtual string ToGapSize( GapSize gapSize )
+    {
+        return gapSize switch
+        {
+            Blazorise.GapSize.Is0 => "0",
+            Blazorise.GapSize.Is1 => "1",
+            Blazorise.GapSize.Is2 => "2",
+            Blazorise.GapSize.Is3 => "3",
+            Blazorise.GapSize.Is4 => "4",
+            Blazorise.GapSize.Is5 => "5",
             _ => null,
         };
     }

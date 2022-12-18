@@ -1067,6 +1067,14 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Gap
+
+    public string Gap( GapSize gapSize, GapSide gapSide ) => null;
+
+    public string Gap( GapSize gapSize, IEnumerable<GapSide> rules ) => null;
+
+    #endregion
+
     #region Borders
 
     public string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor ) => null;
@@ -1202,6 +1210,8 @@ class EmptyClassProvider : IClassProvider
     public string ToModalSize( ModalSize modalSize ) => null;
 
     public string ToSpacingSize( SpacingSize spacingSize ) => null;
+
+    public string ToGapSize( GapSize gapSize ) => null;
 
     public string ToJustifyContent( JustifyContent justifyContent ) => null;
 
