@@ -63,10 +63,10 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     }
 
     protected IFluentFlex GetCommandFlex()
-        => Column.Flex ?? DefaultFlex;
+        => ParentDataGrid.CommandColumn.Flex ?? DefaultFlex;
 
     protected IFluentGap GetCommandGap()
-        => Column.Gap ?? DefaultGap;
+        => ParentDataGrid.CommandColumn.Gap ?? DefaultGap;
 
     #endregion
 
