@@ -40,9 +40,42 @@
   border-bottom-right-radius: 0;
 }
 
-.card .card-body {
-  /*flex-direction: row;*/
-  /*flex-wrap: wrap;*/
+.card-group > .card {
+  flex: 1 0 0%;
+}
+.card-group > .card + .card {
+  margin-left: 0;
+  border-left: 0;
+}
+.card-group > .card:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.card-group > .card:not(:last-child) .card-image,
+.card-group > .card:not(:last-child) .card-image > img,
+.card-group > .card:not(:last-child) .card-header {
+  border-top-right-radius: 0;
+}
+.card-group > .card:not(:last-child) .card-image,
+.card-group > .card:not(:last-child) .card-image > img,
+.card-group > .card:not(:last-child) .card-footer {
+  border-bottom-right-radius: 0;
+}
+.card-group > .card:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.card-group > .card:not(:first-child) .card-image, .card-group > .card:not(:first-child) .card-image > img,
+.card-group > .card:not(:first-child) .card-header {
+  border-top-left-radius: 0;
+}
+.card-group > .card:not(:first-child) .card-image, .card-group > .card:not(:first-child) .card-image > img,
+.card-group > .card:not(:first-child) .card-footer {
+  border-bottom-left-radius: 0;
+}
+
+.card-deck > .card {
+  flex: 1 0 0%;
 }
 
 @keyframes progress-bar-stripes {

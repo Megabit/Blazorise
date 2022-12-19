@@ -705,25 +705,25 @@ public class TailwindClassProvider : ClassProvider
 
     #region Card
 
-    public override string CardDeck() => "card-deck";
+    public override string CardDeck() => "card-deck flex flex-row gap-x-4";
 
-    public override string CardGroup() => "card-group";
+    public override string CardGroup() => "card-group flex flex-row gap-x-0";
 
-    public override string Card() => "max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700";
+    public override string Card() => "card max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700";
 
     public override string CardWhiteText() => "text-white";
 
     public override string CardActions() => "card-actions";
 
-    public override string CardBody() => "p-5";
+    public override string CardBody() => "card-body p-5";
 
-    public override string CardFooter() => "px-5 py-4";
+    public override string CardFooter() => "card-footer px-5 py-4";
 
-    public override string CardHeader() => "px-5 py-4";
+    public override string CardHeader() => "card-header px-5 py-4";
 
-    public override string CardImage() => "rounded-t-lg";
+    public override string CardImage() => "card-image rounded-t-lg";
 
-    public override string CardTitle( bool insideHeader ) => "mb-2 text-2xl font-bold tracking-tight";
+    public override string CardTitle( bool insideHeader ) => "card-title mb-2 text-2xl font-bold tracking-tight";
 
     public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
@@ -731,7 +731,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
-    public override string CardText() => "mb-3 font-normal";
+    public override string CardText() => "card-text mb-3 font-normal";
 
     public override string CardLink() => "card-link";
 
