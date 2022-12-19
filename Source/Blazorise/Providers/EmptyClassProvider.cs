@@ -479,6 +479,8 @@ class EmptyClassProvider : IClassProvider
 
     public string StepItemMarker() => null;
 
+    public string StepItemMarkerColor( Color color ) => null;
+
     public string StepItemDescription() => null;
 
     public string StepsContent() => null;

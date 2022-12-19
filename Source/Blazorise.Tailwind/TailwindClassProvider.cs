@@ -689,17 +689,19 @@ public class TailwindClassProvider : ClassProvider
 
     #region Steps
 
-    public override string Steps() => "steps";
+    public override string Steps() => "relative flex justify-between w-full list-none overflow-hidden";
 
-    public override string StepItem() => "step";
+    public override string StepItem() => "basis-auto h-16";
 
     public override string StepItemActive( bool active ) => active ? "step-active" : null;
 
     public override string StepItemCompleted( bool completed ) => completed ? "step-completed" : null;
 
-    public override string StepItemColor( Color color ) => $"{StepItem()}-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => null;
 
-    public override string StepItemMarker() => "step-circle";
+    public override string StepItemMarker() => "my-6 mr-2 flex justify-center items-center rounded-full w-6 h-6 text-sm";
+
+    public override string StepItemMarkerColor( Color color ) => $"bg-{ToColor( color )}";
 
     public override string StepItemDescription() => "step-text";
 

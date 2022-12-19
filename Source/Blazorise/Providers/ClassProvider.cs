@@ -477,6 +477,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string StepItemMarker();
 
+    public abstract string StepItemMarkerColor( Color color );
+
     public abstract string StepItemDescription();
 
     public abstract string StepsContent();

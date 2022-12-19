@@ -476,6 +476,8 @@ public interface IClassProvider
 
     string StepItemMarker();
 
+    string StepItemMarkerColor( Color color );
+
     string StepItemDescription();
 
     string StepsContent();

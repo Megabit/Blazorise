@@ -515,6 +515,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string StepItemMarker() => "step-circle";
 
+    public override string StepItemMarkerColor( Color color ) => null;
+
     public override string StepItemDescription() => "step-text";
 
     public override string StepsContent() => "steps-content";

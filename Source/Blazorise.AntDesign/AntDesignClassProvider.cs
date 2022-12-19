@@ -521,6 +521,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string StepItemMarker() => "ant-steps-item-icon";
 
+    public override string StepItemMarkerColor( Color color ) => null;
+
     public override string StepItemDescription() => "ant-steps-item-content";
 
     public override string StepsContent() => "ant-steps-content";
