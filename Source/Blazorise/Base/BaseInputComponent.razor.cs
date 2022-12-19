@@ -388,7 +388,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <summary>
     /// Gets the size based on the theme settings.
     /// </summary>
-    protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
+    protected Size ThemeSize => ( Size ?? ParentAddons?.Size ).GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
 
     /// <summary>
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
@@ -519,6 +519,11 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// Parent field body.
     /// </summary>
     [CascadingParameter] protected FieldBody ParentFieldBody { get; set; }
+
+    /// <summary>
+    /// Gets or sets the reference to the parent addons.
+    /// </summary>
+    [CascadingParameter] protected Addons ParentAddons { get; set; }
 
     /// <summary>
     /// Parent focusable container.

@@ -130,8 +130,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TimePicker( Plaintext ) );
-        builder.Append( ClassProvider.TimePickerSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.TimePickerColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.TimePickerSize( ThemeSize ) );
+        builder.Append( ClassProvider.TimePickerColor( Color ) );
         builder.Append( ClassProvider.TimePickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );

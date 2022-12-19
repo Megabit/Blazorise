@@ -339,6 +339,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Addon( AddonType addonType );
 
+    public abstract string AddonSize( Size size );
+
     public abstract string AddonLabel();
 
     //public abstract string AddonContainer();

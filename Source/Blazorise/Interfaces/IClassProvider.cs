@@ -338,6 +338,8 @@ public interface IClassProvider
 
     string Addon( AddonType addonType );
 
+    string AddonSize( Size size );
+
     string AddonLabel();
 
     //string AddonContainer();

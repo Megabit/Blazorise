@@ -65,7 +65,7 @@ public partial class Addons : BaseComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Addons() );
-        builder.Append( ClassProvider.AddonsSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.AddonsSize( ThemeSize ) );
         builder.Append( ClassProvider.AddonsHasButton( registeredButtons?.Count > 0 ) );
 
         base.BuildClasses( builder );

@@ -143,7 +143,7 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ColorPicker() );
-        builder.Append( ClassProvider.ColorPickerSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.ColorPickerSize( ThemeSize ) );
 
         base.BuildClasses( builder );
     }

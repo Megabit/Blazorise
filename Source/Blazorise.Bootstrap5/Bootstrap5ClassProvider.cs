@@ -12,9 +12,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string TextEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string TextEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => $"text-{ToColor( color )}";
+    public override string TextEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
     public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -24,7 +24,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string MemoEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string MemoEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string MemoEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
     public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -36,7 +36,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string SelectMultiple() => null;
 
-    public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
+    public override string SelectSize( Size size ) => size != Size.Default ? $"{Select()}-{ToSize( size )}" : null;
 
     public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -46,9 +46,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string NumericEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string NumericEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string NumericEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => $"text-{ToColor( color )}";
+    public override string NumericEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
     public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -58,9 +58,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DateEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string DateEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string DateEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string DateEditColor( Color color ) => $"text-{ToColor( color )}";
+    public override string DateEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
     public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -70,9 +70,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TimeEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string TimeEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string TimeEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => $"text-{ToColor( color )}";
+    public override string TimeEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
     public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -82,7 +82,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ColorEdit() => "form-control";
 
-    public override string ColorEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string ColorEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
     #endregion
 
@@ -90,9 +90,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DatePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string DatePickerSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string DatePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => $"text-{ToColor( color )}";
+    public override string DatePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -102,9 +102,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TimePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string TimePickerSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string TimePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => $"text-{ToColor( color )}";
+    public override string TimePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -114,7 +114,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ColorPicker() => "form-control b-input-color-picker";
 
-    public override string ColorPickerSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string ColorPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
     #endregion
 
@@ -122,9 +122,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string NumericPicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string NumericPickerSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => $"text-{ToColor( color )}";
+    public override string NumericPickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -134,9 +134,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string InputMask( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
 
-    public override string InputMaskSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string InputMaskSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => $"text-{ToColor( color )}";
+    public override string InputMaskColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -206,7 +206,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string FileEdit() => "form-control";
 
-    public override string FileEditSize( Size size ) => $"{FileEdit()}-{ToSize( size )}";
+    public override string FileEditSize( Size size ) => size != Size.Default ? $"{FileEdit()}-{ToSize( size )}" : null;
 
     public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -348,11 +348,13 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Addons() => "input-group";
 
-    public override string AddonsSize( Size size ) => $"input-group-{ToSize( size )}";
+    public override string AddonsSize( Size size ) => size != Size.Default ? $"input-group-{ToSize( size )}" : null;
 
     public override string AddonsHasButton( bool hasButton ) => null;
 
     public override string Addon( AddonType addonType ) => null;
+
+    public override string AddonSize( Size size ) => null;
 
     public override string AddonLabel() => "input-group-text";
 

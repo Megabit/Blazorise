@@ -12,9 +12,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TextEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string TextEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string TextEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => $"is-{ToColor( color )}";
+    public override string TextEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -24,7 +24,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string MemoEdit( bool plaintext ) => plaintext ? "textarea is-static" : "textarea";
 
-    public override string MemoEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string MemoEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -36,7 +36,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string SelectMultiple() => "is-multiple";
 
-    public override string SelectSize( Size size ) => $"is-{ToSize( size )}";
+    public override string SelectSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -46,9 +46,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string NumericEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string NumericEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string NumericEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => $"is-{ToColor( color )}";
+    public override string NumericEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -58,9 +58,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DateEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string DateEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string DateEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string DateEditColor( Color color ) => $"is-{ToColor( color )}";
+    public override string DateEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -70,9 +70,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TimeEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string TimeEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string TimeEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => $"is-{ToColor( color )}";
+    public override string TimeEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -82,7 +82,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ColorEdit() => "input";
 
-    public override string ColorEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string ColorEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     #endregion
 
@@ -90,9 +90,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DatePicker( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string DatePickerSize( Size size ) => $"is-{ToSize( size )}";
+    public override string DatePickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => $"is-{ToColor( color )}";
+    public override string DatePickerColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -102,9 +102,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TimePicker( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string TimePickerSize( Size size ) => $"is-{ToSize( size )}";
+    public override string TimePickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => $"is-{ToColor( color )}";
+    public override string TimePickerColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -114,7 +114,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ColorPicker() => "input b-input-color-picker";
 
-    public override string ColorPickerSize( Size size ) => $"is-{ToSize( size )}";
+    public override string ColorPickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     #endregion
 
@@ -122,9 +122,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string NumericPicker( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string NumericPickerSize( Size size ) => $"is-{ToSize( size )}";
+    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => $"is-{ToColor( color )}";
+    public override string NumericPickerColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -134,9 +134,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string InputMask( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string InputMaskSize( Size size ) => $"is-{ToSize( size )}";
+    public override string InputMaskSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => $"is-{ToColor( color )}";
+    public override string InputMaskColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -201,7 +201,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string FileEdit() => "file-input";
 
-    public override string FileEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string FileEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -350,7 +350,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Addons() => "field has-addons";
 
-    public override string AddonsSize( Size size ) => $"is-{ToSize( size )}";
+    public override string AddonsSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     public override string AddonsHasButton( bool hasButton ) => null;
 
@@ -365,6 +365,8 @@ public class BulmaClassProvider : ClassProvider
                 return "control is-expanded";
         }
     }
+
+    public override string AddonSize( Size size ) => null;
 
     public override string AddonLabel() => "button is-static";
 

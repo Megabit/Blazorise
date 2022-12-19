@@ -14,10 +14,21 @@ public class TailwindClassProvider : ClassProvider
     #region TextEdit
 
     public override string TextEdit( bool plaintext ) => plaintext
-        ? "text-gray-900 text-sm border-none focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-        : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
+        ? "text-gray-900 border-none focus:ring-primary-500 focus:border-primary-500 block w-full dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+        : "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
-    public override string TextEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string TextEditSize( Size size )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "p-1.5 sm:text-xs",
+            Size.Small => "p-2 sm:text-xs",
+            Size.Medium => "p-3 text-md",
+            Size.Large => "p-4 sm:text-md",
+            Size.ExtraLarge => "p-4 sm:text-lg",
+            _ => "p-2.5 text-sm"
+        };
+    }
 
     public override string TextEditColor( Color color ) => $"text-{ToColor( color )}";
 
@@ -28,10 +39,10 @@ public class TailwindClassProvider : ClassProvider
     #region MemoEdit
 
     public override string MemoEdit( bool plaintext ) => plaintext
-        ? "form-control-plaintext"
-        : "block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
+        ? "block w-full text-gray-900 border-none focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+        : "block w-full text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
 
-    public override string MemoEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string MemoEditSize( Size size ) => TextEditSize( size );
 
     public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -39,11 +50,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region Select
 
-    public override string Select() => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
+    public override string Select() => TextEdit( false );
 
     public override string SelectMultiple() => null;
 
-    public override string SelectSize( Size size ) => $"{Select()}-{ToSize( size )}";
+    public override string SelectSize( Size size ) => TextEditSize( size );
 
     public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -51,11 +62,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region NumericEdit
 
-    public override string NumericEdit( bool plaintext ) => plaintext
-        ? "form-control-plaintext"
-        : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
+    public override string NumericEdit( bool plaintext ) => TextEdit( plaintext );
 
-    public override string NumericEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string NumericEditSize( Size size ) => TextEditSize( size );
 
     public override string NumericEditColor( Color color ) => $"text-{ToColor( color )}";
 
@@ -65,9 +74,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region DateEdit
 
-    public override string DateEdit( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
+    public override string DateEdit( bool plaintext ) => TextEdit( plaintext );
 
-    public override string DateEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string DateEditSize( Size size ) => TextEditSize( size );
 
     public override string DateEditColor( Color color ) => $"text-{ToColor( color )}";
 
@@ -77,9 +86,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region TimeEdit
 
-    public override string TimeEdit( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
+    public override string TimeEdit( bool plaintext ) => TextEdit( plaintext );
 
-    public override string TimeEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string TimeEditSize( Size size ) => TextEditSize( size );
 
     public override string TimeEditColor( Color color ) => $"text-{ToColor( color )}";
 
@@ -89,17 +98,28 @@ public class TailwindClassProvider : ClassProvider
 
     #region ColorEdit
 
-    public override string ColorEdit() => "form-control";
+    public override string ColorEdit() => TextEdit( false );
 
-    public override string ColorEditSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string ColorEditSize( Size size )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "p-1.5 sm:text-xs h-6",
+            Size.Small => "p-2 sm:text-xs h-8",
+            Size.Medium => "p-3 text-md h-12",
+            Size.Large => "p-4 sm:text-md h-14",
+            Size.ExtraLarge => "p-4 sm:text h-16",
+            _ => "p-2 text-sm h-10"
+        };
+    }
 
     #endregion
 
     #region DatePicker
 
-    public override string DatePicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
+    public override string DatePicker( bool plaintext ) => TextEdit( plaintext );
 
-    public override string DatePickerSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string DatePickerSize( Size size ) => TextEditSize( size );
 
     public override string DatePickerColor( Color color ) => $"text-{ToColor( color )}";
 
@@ -109,9 +129,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region TimePicker
 
-    public override string TimePicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
+    public override string TimePicker( bool plaintext ) => TextEdit( plaintext );
 
-    public override string TimePickerSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string TimePickerSize( Size size ) => TextEditSize( size );
 
     public override string TimePickerColor( Color color ) => $"text-{ToColor( color )}";
 
@@ -121,17 +141,28 @@ public class TailwindClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => "form-control b-input-color-picker";
+    public override string ColorPicker() => TextEdit( false );
 
-    public override string ColorPickerSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string ColorPickerSize( Size size )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "pl-8 py-1.2 sm:text-xs",
+            Size.Small => "pl-8 py-2 sm:text-xs",
+            Size.Medium => "pl-8 py-3 text-md",
+            Size.Large => "pl-8 py-4 sm:text-md",
+            Size.ExtraLarge => "pl-8 py-4 sm:text-lg",
+            _ => "pl-8 py-2.5 text-sm"
+        };
+    }
 
     #endregion
 
     #region NumericPicker
 
-    public override string NumericPicker( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
+    public override string NumericPicker( bool plaintext ) => TextEdit( plaintext );
 
-    public override string NumericPickerSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string NumericPickerSize( Size size ) => TextEditSize( size );
 
     public override string NumericPickerColor( Color color ) => $"text-{ToColor( color )}";
 
@@ -141,9 +172,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region InputMask
 
-    public override string InputMask( bool plaintext ) => "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500";
+    public override string InputMask( bool plaintext ) => TextEdit( plaintext );
 
-    public override string InputMaskSize( Size size ) => $"form-control-{ToSize( size )}";
+    public override string InputMaskSize( Size size ) => TextEditSize( size );
 
     public override string InputMaskColor( Color color ) => $"text-{ToColor( color )}";
 
@@ -153,9 +184,20 @@ public class TailwindClassProvider : ClassProvider
 
     #region Check
 
-    public override string Check() => "w-4 h-4 text-primary-600 bg-gray-100 rounded border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+    public override string Check() => "text-primary-600 bg-gray-100 rounded border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
 
-    public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
+    public override string CheckSize( Size size )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "w-2 h-2",
+            Size.Small => "w-3 h-3",
+            Size.Medium => "w-5 h-5",
+            Size.Large => "w-6 h-6",
+            Size.ExtraLarge => "w-8 h-8",
+            _ => "w-4 h-4"
+        };
+    }
 
     public override string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
 
@@ -183,9 +225,20 @@ public class TailwindClassProvider : ClassProvider
 
     #region Radio
 
-    public override string Radio( bool button ) => button ? null : "w-4 h-4 text-primary-600 bg-gray-100 border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+    public override string Radio( bool button ) => button ? null : "text-primary-600 bg-gray-100 border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
 
-    public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
+    public override string RadioSize( bool button, Size size )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "w-2 h-2",
+            Size.Small => "w-3 h-3",
+            Size.Medium => "w-5 h-5",
+            Size.Large => "w-6 h-6",
+            Size.ExtraLarge => "w-8 h-8",
+            _ => "w-4 h-4"
+        };
+    }
 
     public override string RadioInline( bool inline ) => inline
         ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline"
@@ -203,7 +256,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
 
-    public override string SwitchSize( Size size ) => $"custom-control-input-{ToSize( size )}";
+    public override string SwitchSize( Size size ) => null;
 
     public override string SwitchChecked( bool @checked ) => null;
 
@@ -215,9 +268,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region FileEdit
 
-    public override string FileEdit() => "block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400";
+    public override string FileEdit() => "block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400";
 
-    public override string FileEditSize( Size size ) => $"{FileEdit()}-{ToSize( size )}";
+    public override string FileEditSize( Size size ) => TextEditSize( size );
 
     public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -362,7 +415,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Addons() => "addons flex";
 
-    public override string AddonsSize( Size size ) => $"input-group-{ToSize( size )}";
+    public override string AddonsSize( Size size ) => null;
 
     public override string AddonsHasButton( bool hasButton ) => null;
 
@@ -370,13 +423,26 @@ public class TailwindClassProvider : ClassProvider
     {
         return addonType switch
         {
-            AddonType.Start => "addon-start inline-flex items-center text-sm text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
-            AddonType.End => "addon-end inline-flex items-center text-sm text-gray-900 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
+            AddonType.Start => "addon-start inline-flex items-center text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
+            AddonType.End => "addon-end inline-flex items-center text-gray-900 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
             _ => "addon-body",
         };
     }
 
-    public override string AddonLabel() => "block px-3 text-sm font-medium text-gray-900 dark:text-white";
+    public override string AddonSize( Size size )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "sm:text-xs",
+            Size.Small => "sm:text-xs",
+            Size.Medium => "text-md",
+            Size.Large => "sm:text-md",
+            Size.ExtraLarge => "sm:text-lg",
+            _ => "text-sm"
+        };
+    }
+
+    public override string AddonLabel() => "block px-3 font-medium text-gray-900 dark:text-white";
 
     //public override string AddonContainer() => null;
 

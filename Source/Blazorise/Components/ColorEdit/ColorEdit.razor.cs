@@ -37,7 +37,7 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ColorEdit() );
-        builder.Append( ClassProvider.ColorEditSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.ColorEditSize( ThemeSize ) );
 
         base.BuildClasses( builder );
     }

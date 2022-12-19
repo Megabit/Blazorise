@@ -341,6 +341,8 @@ class EmptyClassProvider : IClassProvider
 
     public string Addon( AddonType addonType ) => null;
 
+    public string AddonSize( Size size ) => null;
+
     public string AddonLabel() => null;
 
     //public string AddonContainer() => null;
