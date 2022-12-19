@@ -693,13 +693,13 @@ public class TailwindClassProvider : ClassProvider
 
     #region Jumbotron
 
-    public override string Jumbotron() => "jumbotron";
+    public override string Jumbotron() => "py-8 px-4 mx-auto w-full text-center lg:py-16 lg:px-12 text-gray-100 dark:text-gray-800";
 
-    public override string JumbotronBackground( Background background ) => $"jumbotron-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => $"bg-{ToBackground( background )}";
 
-    public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+    public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"text-gray-100 dark:text-gray-800 {DisplayHeadingSize( (Blazorise.DisplayHeadingSize)jumbotronTitleSize )}";
 
-    public override string JumbotronSubtitle() => "lead";
+    public override string JumbotronSubtitle() => "mb-8 text-lg font-normal text-gray-100 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-800";
 
     #endregion
 
