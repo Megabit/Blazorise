@@ -1930,6 +1930,36 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
+    public override string ToDisplayType( DisplayType displayType )
+    {
+        return displayType switch
+        {
+            Blazorise.DisplayType.None => "hidden",
+            Blazorise.DisplayType.Block => "block",
+            Blazorise.DisplayType.Inline => "inline",
+            Blazorise.DisplayType.InlineBlock => "inline-block",
+            Blazorise.DisplayType.Flex => "flex",
+            Blazorise.DisplayType.InlineFlex => "inline-flex",
+            Blazorise.DisplayType.Table => "table",
+            Blazorise.DisplayType.TableRow => "table-row",
+            Blazorise.DisplayType.TableCell => "table-cell",
+            _ => null,
+        };
+    }
+
+    public override string ToJustifyContent( JustifyContent justifyContent )
+    {
+        return justifyContent switch
+        {
+            Blazorise.JustifyContent.Start => "justify-start",
+            Blazorise.JustifyContent.End => "justify-end",
+            Blazorise.JustifyContent.Center => "justify-center",
+            Blazorise.JustifyContent.Between => "justify-between",
+            Blazorise.JustifyContent.Around => "justify-around",
+            _ => null,
+        };
+    }
+
     #endregion
 
     public override bool UseCustomInputStyles { get; set; } = true;
