@@ -20,6 +20,15 @@ public class Button : Blazorise.Button
 
     protected override void BuildClasses( ClassBuilder builder )
     {
+        if ( ParentButtons != null )
+        {
+            builder.Append( "rounded-none first:rounded-l-lg last:rounded-r-lg" );
+        }
+        else
+        {
+            builder.Append( "rounded-lg" );
+        }
+
         if ( ParentCollapseHeader?.ParentCollapse != null )
         {
             if ( ParentCollapseHeader.ParentCollapse.InsideAccordion )

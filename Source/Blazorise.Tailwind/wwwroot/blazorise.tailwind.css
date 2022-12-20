@@ -40,6 +40,15 @@
   border-bottom-right-radius: 0;
 }
 
+.button-group:not(.button-group-vertical) > .dropdown:first-child > .dropdown-toggle {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.button-group:not(.button-group-vertical) > .dropdown:last-child > .dropdown-toggle {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .card-group > .card {
   flex: 1 0 0%;
 }

@@ -457,8 +457,8 @@ public class TailwindClassProvider : ClassProvider
     #region Button
 
     public override string Button( bool outline ) => outline
-        ? "button border focus:ring-4 focus:outline-none font-medium rounded-lg text-center group:mr:2 group:mb:0 rounded-none first:rounded-l-lg last:rounded-r-lg"
-        : "button focus:ring-4 font-medium rounded-lg focus:outline-none rounded-lg group:mr-0 group:mb-0";
+        ? "button border focus:ring-4 focus:outline-none font-medium text-center"
+        : "button focus:ring-4 font-medium focus:outline-none";
 
     public override string ButtonColor( Color color, bool outline )
     {
@@ -524,12 +524,12 @@ public class TailwindClassProvider : ClassProvider
     public override string Buttons( ButtonsRole role, Orientation orientation )
     {
         if ( role == ButtonsRole.Toolbar )
-            return "btn-toolbar";
+            return "group button-group-toolbar inline-flex gap-x-2";
 
         if ( orientation == Orientation.Vertical )
-            return "btn-group-vertical";
+            return "button-group-vertical";
 
-        return "btn-group group inline-flex";
+        return "group button-group inline-flex gap-x-0";
     }
 
     public override string ButtonsSize( Size size ) => $"btn-group-{ToSize( size )}";

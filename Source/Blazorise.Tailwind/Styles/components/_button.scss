@@ -14,3 +14,19 @@
         }
     }
 }
+
+.button-group:not(.button-group-vertical) {
+    > .dropdown:first-child {
+        > .dropdown-toggle {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+
+    > .dropdown:last-child {
+        > .dropdown-toggle {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+}
