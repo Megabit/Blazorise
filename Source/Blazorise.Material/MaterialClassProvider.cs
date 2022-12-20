@@ -17,7 +17,7 @@ public class MaterialClassProvider : Bootstrap.BootstrapClassProvider
 
     public override string StepItemColor( Color color ) => $"{StepItem()}-{ToColor( color )}";
 
-    public override string StepItemMarkerColor( Color color ) => null;
+    public override string StepItemMarkerColor( Color color, bool active ) => null;
 
     public override string StepItemMarker() => "stepper-icon";
 
