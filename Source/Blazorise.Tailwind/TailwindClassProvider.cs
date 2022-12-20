@@ -503,9 +503,9 @@ public class TailwindClassProvider : ClassProvider
         {
             Size.ExtraSmall => "px-3 py-2 text-xs",
             Size.Small => "px-3 py-2 text-sm",
-            Size.Medium => "px-6 py-4 text-base",
-            Size.Large => "px-6 py-5 text-base",
-            Size.ExtraLarge => "px-6 py-6 text-base",
+            Size.Medium => "px-6 py-3 text-base",
+            Size.Large => "px-6 py-3.5 text-base",
+            Size.ExtraLarge => "px-6 py-4 text-base",
             _ => "px-5 py-2.5 text-sm"
         };
     }
