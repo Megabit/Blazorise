@@ -708,7 +708,19 @@ public class TailwindClassProvider : ClassProvider
 
         if ( active )
         {
-            return "text-white bg-primary-800 hover:bg-primary-900 focus:ring-primary-400 dark:bg-primary-700 dark:hover:bg-primary-800 dark:focus:ring-primary-900 shadow-md shadow-blue-900";
+            return name switch
+            {
+                "primary" => "text-white bg-primary-800 hover:bg-primary-900 focus:ring-primary-400 dark:bg-primary-700 dark:hover:bg-primary-800 dark:focus:ring-primary-900 shadow-md shadow-blue-900",
+                "secondary" => "text-white bg-secondary-500 hover:bg-secondary-600 focus:ring-secondary-100 dark:bg-secondary-400 dark:hover:bg-secondary-500 dark:focus:ring-secondary-600 shadow-md shadow-secondary-600",
+                "success" => "text-white bg-success-700 hover:bg-success-800 focus:ring-success-300 dark:bg-success-600 dark:hover:bg-success-700 dark:focus:ring-success-800 shadow-md shadow-success-800",
+                "danger" => "text-white bg-danger-700 hover:bg-danger-800 focus:ring-danger-300 dark:bg-danger-600 dark:hover:bg-danger-700 dark:focus:ring-danger-900 shadow-md shadow-danger-800",
+                "warning" => "text-white bg-warning-400 hover:bg-warning-500 focus:ring-warning-300 dark:focus:ring-warning-900 shadow-md shadow-blue-900 shadow-md shadow-warning-500",
+                "info" => "text-white bg-info-700 hover:bg-info-800 focus:ring-info-300 dark:bg-info-600 dark:hover:bg-info-700 dark:focus:ring-info-900 shadow-md shadow-info-800",
+                "light" => "text-light-900 bg-light-300 border border-light-300 hover:bg-light-100 focus:ring-light-200 dark:bg-light-800 dark:text-white dark:border-light-600 dark:hover:bg-light-700 dark:hover:border-light-600 dark:focus:ring-light-700 shadow-md shadow-light-400",
+                "dark" => "text-white bg-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:bg-dark-800 dark:hover:bg-dark-700 dark:focus:ring-dark-700 dark:border-dark-700 shadow-md shadow-dark-900",
+                "link" => "text-primary-600 dark:text-primary-500 hover:underline",
+                _ => "text-white bg-primary-800 hover:bg-primary-900 focus:ring-primary-400 dark:bg-primary-700 dark:hover:bg-primary-800 dark:focus:ring-primary-900 shadow-md shadow-blue-900",
+            };
         }
 
         return name switch
