@@ -1172,7 +1172,7 @@ public class TailwindClassProvider : ClassProvider
     public override string PaginationItemDisabled() => null;
 
     public override string PaginationLink()
-        => "pagination-link relative block px-3 py-2.5 leading-tight border";
+        => "pagination-link relative block px-3 py-2.5 leading-tight border rounded-lg";
 
     public override string PaginationLinkActive( bool active ) => active
         ? "text-primary-600 bg-primary-50 hover:bg-primary-100 hover:text-primary-700 dark:bg-gray-700 dark:text-white"

@@ -87,6 +87,18 @@
   flex: 1 0 0%;
 }
 
+.pagination > li.pagination-item:first-child > * {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.pagination > li.pagination-item:last-child > * {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.pagination > li.pagination-item:not(:first-child):not(:last-child) > * {
+  border-radius: 0;
+}
+
 @keyframes progress-bar-stripes {
   0% {
     background-position-x: 1rem;
@@ -99,6 +111,16 @@
 
 .bg-striped-animated {
   animation: 1s linear infinite progress-bar-stripes;
+}
+
+.b-table .b-table-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  cursor: col-resize;
+  user-select: none;
+  z-index: 1;
 }
 
 p {
@@ -159,14 +181,4 @@ p {
 .no-gutters > [class*=column-] {
   padding-right: 0;
   padding-left: 0;
-}
-
-.b-table .b-table-resizer {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 5px;
-  cursor: col-resize;
-  user-select: none;
-  z-index: 1;
 }

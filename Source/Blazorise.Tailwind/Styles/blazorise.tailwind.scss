@@ -4,21 +4,8 @@
 @import "components/breadcrumb";
 @import "components/button";
 @import "components/card";
+@import "components/pagination";
 @import "components/progress";
+@import "components/table";
 @import "components/typography";
-
-.no-gutters > .pl-2.pr-2,
-.no-gutters > [class*=column-] {
-    padding-right: 0;
-    padding-left: 0;
-}
-
-.b-table .b-table-resizer {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 5px;
-    cursor: col-resize;
-    user-select: none;
-    z-index: 1;
-}
+@import "components/utilities";
