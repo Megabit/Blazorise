@@ -209,15 +209,14 @@ public class TailwindClassProvider : ClassProvider
 
     #region RadioGroup
 
-    public override string RadioGroup( bool buttons, Orientation orientation ) => buttons
-        ? orientation == Orientation.Horizontal
-            ? "items-center w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-            : "w-48 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
-        : "flex flex-wrap";
+    public override string RadioGroup( bool buttons, Orientation orientation )
+        => buttons
+            ? orientation == Orientation.Horizontal
+                ? "inline-flex flex-row items-center text-sm font-medium"
+                : "inline-flex flex-col items-start justify-center text-sm font-medium"
+                    : "inline-flex flex-wrap";
 
-    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => buttons
-        ? orientation == Orientation.Horizontal ? $"btn-group-{ToSize( size )}" : $"btn-group-vertical-{ToSize( size )}"
-        : null;
+    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => null;
 
     public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -225,7 +224,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region Radio
 
-    public override string Radio( bool button ) => button ? null : "text-primary-600 bg-gray-100 border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
+    public override string Radio( bool button ) => button
+        ? "absolute cursor-none"
+        : "text-primary-600 bg-gray-100 border-gray-300 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600";
 
     public override string RadioSize( bool button, Size size )
     {
@@ -399,9 +400,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => "flex items-center mb-4 mr-4";
+    public override string ControlCheck() => "inline-flex items-center mb-4 mr-4";
 
-    public override string ControlRadio() => "flex items-center mb-4 mr-4";
+    public override string ControlRadio() => "inline-flex items-center mb-4 mr-4";
 
     public override string ControlSwitch() => "inline-flex relative items-center cursor-pointer mb-4 mr-4";
 
