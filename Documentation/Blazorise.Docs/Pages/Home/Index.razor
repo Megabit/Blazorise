@@ -4,7 +4,7 @@
 
 <Div Class="home-banner" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
     <Container>
-        <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is4.FromTop.Is4.FromBottom" Source="/img/logos/blazorise-small.svg" Text="Blazorise logo" Style="width: 120px; height: 120px;" />
+        <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is4.FromTop.Is4.FromBottom" Source="@BlazoriseLogo" Text="Blazorise logo" Style="width: 120px; height: 120px;" />
         <DisplayHeading Size="DisplayHeadingSize.Is4" TextWeight="TextWeight.Bold" Padding="Padding.Is3.OnY">
             The modern UI components for Blazor
         </DisplayHeading>
@@ -460,4 +460,20 @@
 </Div>
 @code {
     string selectedPopularComponentsTab = "DataGrid";
+
+    private bool IsChristmasHolidays
+    {
+        get
+        {
+            var d1 = new DateTime( DateTime.Today.Year, 12, 15 );
+            var d2 = d1.AddDays( 20 );
+            var now = DateTime.Now;
+
+            return now >= d1 && now <= d2;
+        }
+    }
+
+    string BlazoriseLogo => IsChristmasHolidays
+        ? "/img/logos/blazorise-small-santa-hat.svg"
+        : "/img/logos/blazorise-small.svg";
 }

@@ -1438,13 +1438,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Returns true if EmptyTemplate is set and Data is null or empty.
     /// </summary>
     protected bool IsEmptyTemplateVisible
-        => !IsLoading && !IsNewItemInGrid && EmptyTemplate != null && Data.IsNullOrEmpty() && Rendered;
+        => !IsLoading && !IsNewItemInGrid && EmptyTemplate != null && Data.IsNullOrEmpty() && VirtualizeRendered;
 
     /// <summary>
     /// Returns true if EmptyFilterTemplate is set and FilteredData is null or empty.
     /// </summary>
     protected bool IsEmptyFilterTemplateVisible
-        => !IsLoading && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !data.IsNullOrEmpty() && FilteredData.IsNullOrEmpty() ) && Rendered;
+        => !IsLoading && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !data.IsNullOrEmpty() && FilteredData.IsNullOrEmpty() ) && VirtualizeRendered;
+
+    /// <summary>
+    /// Returns true if Virtualize is false or if Virtualize is true && Rendered
+    /// This flag is to make sure Templates don't 'fight' for control over the Virtualize Initial Render.
+    /// </summary>
+    protected bool VirtualizeRendered => !Virtualize || ( Virtualize && Rendered );
 
     /// <summary>
     /// Returns true if ShowPager is true and grid is not empty or loading.
