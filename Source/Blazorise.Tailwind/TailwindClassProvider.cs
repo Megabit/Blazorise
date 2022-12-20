@@ -545,9 +545,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region Dropdown
 
-    public override string Dropdown( bool isDropdownSubmenu ) => "dropdown relative";
+    public override string Dropdown( bool isDropdownSubmenu ) => "dropdown relative inline-flex";
 
-    public override string DropdownGroup() => "dropdown-group inline-flex align-middle";
+    public override string DropdownGroup() => "dropdown-group align-middle";
 
     public override string DropdownObserverShow() => DropdownShow();
 
