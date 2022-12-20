@@ -199,9 +199,9 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+    public override string CheckInline() => null;
 
-    public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
+    public override string CheckCursor( Cursor cursor ) => $"cursor-{ToCursor( cursor )}";
 
     public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -245,7 +245,7 @@ public class TailwindClassProvider : ClassProvider
         ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline"
         : null;
 
-    public override string RadioCursor( Cursor cursor ) => $"{( UseCustomInputStyles ? "custom-control-input" : "form-check-input" )}-{ToCursor( cursor )}";
+    public override string RadioCursor( Cursor cursor ) => $"cursor-{ToCursor( cursor )}";
 
     public override string RadioValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -320,7 +320,7 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}";
+    public override string LabelCursor( Cursor cursor ) => $"cursor-{ToCursor( cursor )}";
 
     #endregion
 
@@ -400,11 +400,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => "inline-flex items-center mb-4 mr-4";
+    public override string ControlCheck() => "inline-flex items-center mr-4";
 
-    public override string ControlRadio() => "inline-flex items-center mb-4 mr-4";
+    public override string ControlRadio() => "inline-flex items-center mr-4";
 
-    public override string ControlSwitch() => "inline-flex relative items-center cursor-pointer mb-4 mr-4";
+    public override string ControlSwitch() => "inline-flex relative items-center cursor-pointer mr-4";
 
     public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
 
@@ -1924,8 +1924,8 @@ public class TailwindClassProvider : ClassProvider
     {
         return validationStatus switch
         {
-            Blazorise.ValidationStatus.Success => "bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-green-500",
-            Blazorise.ValidationStatus.Error => "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 text-sm rounded-lg focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 block w-full p-2.5 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500",
+            Blazorise.ValidationStatus.Success => "bg-green-50 border border-green-500 text-green-900 dark:text-green-400 placeholder-green-700 dark:placeholder-green-500 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-green-500",
+            Blazorise.ValidationStatus.Error => "bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 dark:bg-gray-700 focus:border-red-500 dark:text-red-500 dark:placeholder-red-500 dark:border-red-500",
             _ => null,
         };
     }
