@@ -524,7 +524,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string StepItemMarker() => "step-marker";
 
-    public override string StepItemMarkerColor( Color color ) => null;
+    public override string StepItemMarkerColor( Color color, bool active ) => null;
 
     public override string StepItemDescription() => "step-details";
 

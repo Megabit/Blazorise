@@ -113,6 +113,23 @@
   animation: 1s linear infinite progress-bar-stripes;
 }
 
+.steps .step-item:not(:first-child) .step-item-head:before {
+  flex: 1;
+  height: 1px;
+  width: 100%;
+  margin-right: 0.5rem;
+  content: "";
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.steps .step-item:not(:last-child) .step-item-head:after {
+  flex: 1;
+  height: 1px;
+  width: 100%;
+  margin-left: 0.5rem;
+  content: "";
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 .b-table .b-table-resizer {
   position: absolute;
   top: 0;

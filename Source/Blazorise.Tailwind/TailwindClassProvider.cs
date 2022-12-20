@@ -690,9 +690,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region Steps
 
-    public override string Steps() => "relative flex justify-between w-full list-none overflow-hidden";
+    public override string Steps() => "steps relative flex justify-between w-full list-none overflow-hidden";
 
-    public override string StepItem() => "basis-auto h-16";
+    public override string StepItem() => "step-item flex-auto h-16";
 
     public override string StepItemActive( bool active ) => active ? "step-active" : null;
 
@@ -700,36 +700,39 @@ public class TailwindClassProvider : ClassProvider
 
     public override string StepItemColor( Color color ) => null;
 
-    public override string StepItemMarker() => "my-6 mr-2 flex justify-center items-center rounded-full w-6 h-6 text-sm";
+    public override string StepItemMarker() => "step-item-head-icon step-item-my-6 mr-2 flex justify-center items-center rounded-full w-7 h-7 text-sm border-2";
 
-    public override string StepItemMarkerColor( Color color )
+    public override string StepItemMarkerColor( Color color, bool active )
     {
         var name = color?.Name;
 
+        if ( active )
+        {
+            return "text-white bg-primary-800 hover:bg-primary-900 focus:ring-primary-400 dark:bg-primary-700 dark:hover:bg-primary-800 dark:focus:ring-primary-900 shadow-md shadow-blue-900";
+        }
+
         return name switch
         {
-            "primary" => "bg-primary-500",
-            "secondary" => "bg-secondary-500",
-            "success" => "bg-success-500",
-            "danger" => "bg-danger-500",
-            "warning" => "bg-warning-400",
-            "info" => "bg-info",
-            "light" => "bg-light",
-            "dark" => "bg-dark",
-            "white" => "bg-white",
-            "transparent" => "bg-transparent",
-            "body" => "bg-body",
-            _ => name,
+            "primary" => "text-white bg-primary-700 hover:bg-primary-800 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800",
+            "secondary" => "text-white bg-secondary-500 hover:bg-secondary-600 focus:ring-secondary-100 dark:bg-secondary-400 dark:hover:bg-secondary-500 dark:focus:ring-secondary-600",
+            "success" => "text-white bg-success-700 hover:bg-success-800 focus:ring-success-300 dark:bg-success-600 dark:hover:bg-success-700 dark:focus:ring-success-800",
+            "danger" => "text-white bg-danger-700 hover:bg-danger-800 focus:ring-danger-300 dark:bg-danger-600 dark:hover:bg-danger-700 dark:focus:ring-danger-900",
+            "warning" => "text-white bg-warning-400 hover:bg-warning-500 focus:ring-warning-300 dark:focus:ring-warning-900",
+            "info" => "text-white bg-info-700 hover:bg-info-800 focus:ring-info-300 dark:bg-info-600 dark:hover:bg-info-700 dark:focus:ring-info-900",
+            "light" => "text-light-900 bg-light-300 border border-light-300 hover:bg-light-100 focus:ring-light-200 dark:bg-light-800 dark:text-white dark:border-light-600 dark:hover:bg-light-700 dark:hover:border-light-600 dark:focus:ring-light-700",
+            "dark" => "text-white bg-dark-800 hover:bg-dark-900 focus:ring-dark-300 dark:bg-dark-800 dark:hover:bg-dark-700 dark:focus:ring-dark-700 dark:border-dark-700",
+            "link" => "text-primary-600 dark:text-primary-500 hover:underline",
+            _ => null,
         };
     }
 
-    public override string StepItemDescription() => "font-medium";
+    public override string StepItemDescription() => "step-item-head-text font-medium";
 
     public override string StepsContent() => "steps-content";
 
     public override string StepPanel() => "step-panel";
 
-    public override string StepPanelActive( bool active ) => active ? "active" : null;
+    public override string StepPanelActive( bool active ) => active ? "block" : "hidden";
 
     #endregion
 
