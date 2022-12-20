@@ -37,7 +37,7 @@ function findClosableComponentIndex(elementId) {
 
     for (index = 0; index < closableComponents.length; ++index) {
         if (closableComponents[index].elementId === elementId)
-            return closableComponents[index];
+            return index;
     }
 
     return null;
@@ -48,7 +48,7 @@ function findClosableLightComponentIndex(elementId) {
 
     for (index = 0; index < closableLightComponents.length; ++index) {
         if (closableLightComponents[index].elementId === elementId)
-            return closableLightComponents[index];
+            return index;
     }
 
     return null;
