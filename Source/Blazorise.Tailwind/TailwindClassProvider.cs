@@ -457,7 +457,7 @@ public class TailwindClassProvider : ClassProvider
     #region Button
 
     public override string Button( bool outline ) => outline
-        ? "button border focus:ring-4 focus:outline-none font-medium rounded-lg text-center group:mr:2 group:mb:0"
+        ? "button border focus:ring-4 focus:outline-none font-medium rounded-lg text-center group:mr:2 group:mb:0 rounded-none first:rounded-l-lg last:rounded-r-lg"
         : "button focus:ring-4 font-medium rounded-lg focus:outline-none rounded-lg group:mr-0 group:mb-0";
 
     public override string ButtonColor( Color color, bool outline )
@@ -529,7 +529,7 @@ public class TailwindClassProvider : ClassProvider
         if ( orientation == Orientation.Vertical )
             return "btn-group-vertical";
 
-        return "group inline-flex rounded-md shadow-sm";
+        return "btn-group group inline-flex";
     }
 
     public override string ButtonsSize( Size size ) => $"btn-group-{ToSize( size )}";
@@ -701,9 +701,28 @@ public class TailwindClassProvider : ClassProvider
 
     public override string StepItemMarker() => "my-6 mr-2 flex justify-center items-center rounded-full w-6 h-6 text-sm";
 
-    public override string StepItemMarkerColor( Color color ) => $"bg-{ToColor( color )}";
+    public override string StepItemMarkerColor( Color color )
+    {
+        var name = color?.Name;
 
-    public override string StepItemDescription() => "step-text";
+        return name switch
+        {
+            "primary" => "bg-primary-500",
+            "secondary" => "bg-secondary-500",
+            "success" => "bg-success-500",
+            "danger" => "bg-danger-500",
+            "warning" => "bg-warning-400",
+            "info" => "bg-info",
+            "light" => "bg-light",
+            "dark" => "bg-dark",
+            "white" => "bg-white",
+            "transparent" => "bg-transparent",
+            "body" => "bg-body",
+            _ => name,
+        };
+    }
+
+    public override string StepItemDescription() => "font-medium";
 
     public override string StepsContent() => "steps-content";
 

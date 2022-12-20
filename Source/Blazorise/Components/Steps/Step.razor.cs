@@ -76,7 +76,7 @@ public partial class Step : BaseComponent, IDisposable
     protected virtual void BuildMarkerClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.StepItemMarker() );
-        builder.Append( ClassProvider.StepItemMarkerColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.StepItemMarkerColor( Color ) );
     }
 
     /// <summary>
