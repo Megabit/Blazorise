@@ -1,6 +1,9 @@
 ﻿tailwind.config = {
     content: ["**/*.razor", "**/*.cshtml", "**/*.html"],
     theme: {
+        container: {
+            center: true,
+        },
         screens: {
             'sm': '640px',
             'md': '768px',

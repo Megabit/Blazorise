@@ -906,10 +906,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region Container
 
-    public override string Container( Breakpoint breakpoint )
-        => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"container-{ToBreakpoint( breakpoint )}" : "container";
+    public override string Container( Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
+        ? $"{ToBreakpoint( breakpoint )}:container {ToBreakpoint( breakpoint )}:mx-auto {ToBreakpoint( breakpoint )}:px-4"
+        : "container mx-auto px-4";
 
-    public override string ContainerFluid() => "container-fluid";
+    public override string ContainerFluid() => "container mx-auto";
 
     #endregion
 
