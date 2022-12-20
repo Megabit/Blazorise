@@ -24,12 +24,7 @@ public class Button : Blazorise.Button
         {
             builder.Append( "rounded-none first:rounded-l-lg last:rounded-r-lg" );
         }
-        else
-        {
-            builder.Append( "rounded-lg" );
-        }
-
-        if ( ParentCollapseHeader?.ParentCollapse != null )
+        else if ( ParentCollapseHeader?.ParentCollapse != null )
         {
             if ( ParentCollapseHeader.ParentCollapse.InsideAccordion )
             {
@@ -60,7 +55,12 @@ public class Button : Blazorise.Button
 
             builder.Append( "collapsed", !CollapseVisible );
 
+            // TODO: create a dedicated <AccordionButton> component instead of using regular Button and then modifing it.
             return;
+        }
+        else
+        {
+            builder.Append( "rounded-lg" );
         }
 
         base.BuildClasses( builder );
