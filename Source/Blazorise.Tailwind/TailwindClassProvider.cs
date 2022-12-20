@@ -1161,7 +1161,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Pagination
 
-    public override string Pagination() => "pagination flex -space-x-px";
+    public override string Pagination() => "pagination flex -space-x-px mb-3";
 
     public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
 
