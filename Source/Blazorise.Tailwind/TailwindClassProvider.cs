@@ -931,7 +931,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Bar
 
-    public override string Bar() => "bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900";
+    public override string Bar() => "b-bar";
 
     public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
 
@@ -941,7 +941,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarBreakpoint( Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
 
-    public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
+    public override string BarMode( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
+        ? $"b-bar-{ToBarMode( mode )} bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900"
+        : $"b-bar-{ToBarMode( mode )}";
 
     public override string BarItem( BarMode mode, bool hasDropdown ) => mode == Blazorise.BarMode.Horizontal
         ? hasDropdown
