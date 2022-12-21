@@ -140,6 +140,25 @@
   z-index: 1;
 }
 
+.b-table-fixed-header {
+  overflow-y: auto;
+}
+.b-table-fixed-header > .b-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.b-table-fixed-header > .b-table > thead:not(.table-thead-theme) > tr > th {
+  background: white;
+}
+.b-table-fixed-header > .b-table > thead > tr > th {
+  border-top: none;
+  position: sticky;
+  z-index: 10;
+}
+.b-table-fixed-header > .b-table > thead > tr:nth-child(1) > th {
+  top: 0;
+}
+
 p {
   --tw-text-opacity: 1;
   color: rgb(75 85 99/var(--tw-text-opacity));
