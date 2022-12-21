@@ -350,11 +350,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region Fields
 
-    public override string Fields() => "flex flex-row flex-wrap";
+    public override string Fields() => "flex flex-row flex-wrap -mx-2";
 
     public override string FieldsBody() => null;
 
-    public override string FieldsColumn() => "basis-0 grow pl-2 pr-2 first:pl-0 last:pr-0 w-full";
+    public override string FieldsColumn() => "basis-0 grow pl-2 pr-2 w-full";
 
     #endregion
 
@@ -364,7 +364,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string FieldHorizontal() => "flex flex-row";
 
-    public override string FieldColumn() => "basis-0 grow pl-2 pr-2 first:pl-0 last:pr-0 w-full";
+    public override string FieldColumn() => "basis-0 grow pl-2 pr-2 w-full";
 
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -1044,7 +1044,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Row
 
-    public override string Row() => "flex flex-row flex-wrap";
+    public override string Row() => "flex flex-row flex-wrap -mx-2";
 
     public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
     {
@@ -1054,13 +1054,13 @@ public class TailwindClassProvider : ClassProvider
         return $"row-cols-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
-    public override string RowNoGutters( bool noGutters ) => noGutters ? "no-gutters" : null;
+    public override string RowNoGutters( bool noGutters ) => noGutters ? "mx-0 no-gutters" : null;
 
     #endregion
 
     #region Column
 
-    public override string Column( bool hasSizes ) => hasSizes ? null : "basis-0 pl-2 pr-2 first:pl-0 last:pr-0 grow";
+    public override string Column( bool hasSizes ) => hasSizes ? null : "basis-0 pl-2 pr-2 grow";
 
     public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom )
     {
@@ -1072,20 +1072,20 @@ public class TailwindClassProvider : ClassProvider
 
             if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
             {
-                return $"{ToBreakpoint( breakpoint )}:ml-[{percentage}%] pl-2 pr-2 first:pl-0 last:pr-0";
+                return $"{ToBreakpoint( breakpoint )}:ml-[{percentage}%] pl-2 pr-2";
             }
 
-            return $"ml-[{percentage}%] pl-2 pr-2 first:pl-0 last:pr-0";
+            return $"ml-[{percentage}%] pl-2 pr-2";
         }
 
         var columnWidthValue = ToColumnWidth( columnWidth );
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
         {
-            return $"{ToBreakpoint( breakpoint )}:basis-{columnWidthValue} pl-2 pr-2 first:pl-0 last:pr-0";
+            return $"{ToBreakpoint( breakpoint )}:basis-{columnWidthValue} pl-2 pr-2";
         }
 
-        return $"basis-{columnWidthValue} pl-2 pr-2 first:pl-0 last:pr-0";
+        return $"basis-{columnWidthValue} pl-2 pr-2";
     }
 
     #endregion
