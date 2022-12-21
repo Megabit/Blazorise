@@ -844,9 +844,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ModalContent( bool dialog ) => dialog ? "modal-card" : "modal-content";
 
-    public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
+    public override string ModalContentSize( ModalSize modalSize )
+    {
+        if ( modalSize == ModalSize.Default )
+            return null;
 
-    public override string ModalContentFullscreen( bool fullscreen ) => fullscreen ? "modal-fullscreen" : null;
+        if ( modalSize == ModalSize.Fullscreen )
+            return "modal-fullscreen";
+
+        return $"modal-{ToModalSize( modalSize )}";
+    }
 
     public override string ModalContentCentered( bool centered ) => null;
 

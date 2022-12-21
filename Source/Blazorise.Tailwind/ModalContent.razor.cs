@@ -35,7 +35,7 @@ public partial class ModalContent : Blazorise.ModalContent
         builder.Append( ClassProvider.ToModalSize( Size ) );
 
         if ( Size == ModalSize.Fullscreen )
-            builder.Append( "modal-fullscreen" );
+            builder.Append( "modal-fullscreen h-screen w-screen max-w-none h-full m-0" );
 
         builder.Append( ClassProvider.ModalContentCentered( Centered ) );
 

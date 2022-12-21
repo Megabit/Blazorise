@@ -394,7 +394,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region FocusTrap
 
-    public override string FocusTrap() => "focus-trap";
+    public override string FocusTrap() => "contents";
 
     #endregion
 
@@ -1157,17 +1157,21 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalBackdropVisible( bool visible ) => null;
 
-    public override string ModalContent( bool dialog ) => "relative bg-white rounded-lg shadow dark:bg-gray-700";
+    public override string ModalContent( bool dialog ) => "relative flex flex-col w-full bg-white rounded-lg shadow dark:bg-gray-700";
 
-    public override string ModalContentSize( ModalSize modalSize ) => null;
+    public override string ModalContentSize( ModalSize modalSize )
+    {
+        if ( modalSize == ModalSize.Fullscreen )
+            return "h-screen w-screen max-w-none h-full m-0 rounded-none border-none border-0";
 
-    public override string ModalContentFullscreen( bool fullscreen ) => null;
+        return null;
+    }
 
     public override string ModalContentCentered( bool centered ) => null;
 
     public override string ModalContentScrollable( bool scrollable ) => null;
 
-    public override string ModalBody() => "p-6 space-y-6";
+    public override string ModalBody() => "relative flex-auto p-6 space-y-6";
 
     public override string ModalHeader() => "flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600";
 
