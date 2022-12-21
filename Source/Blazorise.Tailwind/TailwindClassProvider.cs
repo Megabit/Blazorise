@@ -939,16 +939,18 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
 
-    public override string BarBreakpoint( Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
+    public override string BarBreakpoint( Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
+        ? $"navbar-expand-{ToBreakpoint( breakpoint )}"
+        : null;
 
     public override string BarMode( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? $"b-bar-{ToBarMode( mode )} bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900"
+        ? $"b-bar-{ToBarMode( mode )} px-2 sm:px-4 py-2.5"
         : $"b-bar-{ToBarMode( mode )}";
 
     public override string BarItem( BarMode mode, bool hasDropdown ) => mode == Blazorise.BarMode.Horizontal
         ? hasDropdown
-            ? null
-            : null
+            ? "relative"
+            : "relative"
         : "b-bar-item";
 
     public override string BarItemActive( BarMode mode ) => Active();
@@ -959,7 +961,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarItemHasDropdownShow( BarMode mode ) => null;
 
-    public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent" : "b-bar-link";
+    public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
+        ? "block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+        : "b-bar-link";
 
     public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
@@ -987,7 +991,7 @@ public class TailwindClassProvider : ClassProvider
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu
             ? "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-            : "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+            : "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 md:hover:text-primary-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white"
         : "b-bar-link b-bar-dropdown-toggle";
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
@@ -999,7 +1003,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarDropdownDivider( BarMode mode ) => "dropdown-divider";
 
-    public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600" : "b-bar-dropdown-menu";
+    public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600" : "b-bar-dropdown-menu";
 
     public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? "block" : "hidden";
 
@@ -1569,7 +1573,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Link() => "font-medium text-primary-600 dark:text-primary-500 hover:underline";
 
-    public override string LinkActive( bool active ) => active ? Active() : null;
+    public override string LinkActive( bool active ) => active ? "active" : null;
 
     #endregion
 

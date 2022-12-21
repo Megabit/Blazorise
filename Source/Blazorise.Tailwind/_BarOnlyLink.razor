@@ -1,0 +1,46 @@
+﻿@using Blazorise.Utilities;
+@inherits Blazorise.BaseLinkComponent
+<a id="@ElementId" href="@To" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
+    @ChildContent
+</a>
+@code {
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        if ( Mode == BarMode.Horizontal )
+        {
+            if ( InsideDropdown )
+            {
+                if ( Active )
+                {
+                    builder.Append( "block px-4 py-2 bg-primary-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer" );
+                }
+                else
+                {
+                    builder.Append( "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer" );
+                }
+            }
+            else
+            {
+                if ( Active )
+                {
+                    builder.Append( "block py-2 pl-3 pr-4 text-white bg-primary-700 rounded md:bg-transparent md:text-primary-700 md:p-0 md:dark:text-white dark:bg-primary-600 md:dark:bg-transparent cursor-pointer" );
+                }
+                else
+                {
+                    builder.Append( "block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent cursor-pointer" );
+                }
+            }
+        }
+        else
+        {
+            // we are only interested in the active state for the vertical bar links
+            builder.Append( ClassProvider.LinkActive( Active ) );
+        }
+
+        base.BuildClasses( builder );
+    }
+
+    [Parameter] public bool InsideDropdown { get; set; }
+
+    [Parameter] public BarMode? Mode { get; set; }
+}

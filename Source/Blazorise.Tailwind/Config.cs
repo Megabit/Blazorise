@@ -54,6 +54,7 @@ public static class Config
         { typeof( Blazorise.BarDropdownToggle ), typeof( Tailwind.BarDropdownToggle ) },
         { typeof( Blazorise.BarEnd ), typeof( Tailwind.BarEnd ) },
         { typeof( Blazorise.BarItem ), typeof( Tailwind.BarItem ) },
+        { typeof( Blazorise.BarLink ), typeof( Tailwind.BarLink ) },
         { typeof( Blazorise.BarMenu ), typeof( Tailwind.BarMenu ) },
         { typeof( Blazorise.BarStart ), typeof( Tailwind.BarStart ) },
         { typeof( Blazorise.Breadcrumb ), typeof( Tailwind.Breadcrumb ) },
