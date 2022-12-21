@@ -1298,19 +1298,19 @@ public class TailwindClassProvider : ClassProvider
 
     #region Table
 
-    public override string Table() => "w-full text-sm text-left text-gray-500 dark:text-gray-400 group mb-3";
+    public override string Table() => "b-table w-full text-sm text-left text-gray-500 dark:text-gray-400 group mb-3";
 
-    public override string TableFullWidth() => null;
+    public override string TableFullWidth() => "b-table-fullwidth";
 
-    public override string TableStriped() => "table-striped";
+    public override string TableStriped() => "b-table-striped";
 
-    public override string TableHoverable() => "table-hover";
+    public override string TableHoverable() => "b-table-hoverable";
 
-    public override string TableBordered() => "border";
+    public override string TableBordered() => "b-table-bordered border";
 
-    public override string TableNarrow() => "table-sm";
+    public override string TableNarrow() => "b-table-sm";
 
-    public override string TableBorderless() => "border-0";
+    public override string TableBorderless() => "b-table-borderless border-0";
 
     public override string TableHeader() => "text-xs text-gray-800 bg-white dark:bg-gray-700 dark:text-gray-400";
 
@@ -1323,27 +1323,27 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableHeaderCell() => "py-4 px-4";
 
-    public override string TableFooter() => null;
+    public override string TableFooter() => "b-table-footer";
 
-    public override string TableBody() => null;
+    public override string TableBody() => "b-table-body";
 
-    public override string TableRow() => "group-[.table-striped.table-hover]:odd:bg-white group-[.table-striped.table-hover]:even:bg-gray-50 group-[.table-striped.table-hover]:odd:hover:bg-gray-50 group-[.table-striped.table-hover]:even:hover:bg-white group-[.table-striped:not(.table-hover)]:odd:bg-white group-[.table-striped:not(.table-hover)]:even:bg-gray-50 group-[.table-hover:not(.table-striped)]:hover:bg-gray-50 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
+    public override string TableRow() => "b-table-row group-[.b-table-striped.b-table-hoverable]:odd:bg-white group-[.b-table-striped.b-table-hoverable]:even:bg-gray-50 group-[.b-table-striped.b-table-hoverable]:odd:hover:bg-gray-50 group-[.b-table-striped.b-table-hoverable]:even:hover:bg-white group-[.b-table-striped:not(.b-table-hoverable)]:odd:bg-white group-[.b-table-striped:not(.b-table-hoverable)]:even:bg-gray-50 group-[.b-table-hoverable:not(.b-table-striped)]:hover:bg-gray-50 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
 
-    public override string TableRowColor( Color color ) => $"table-{ToColor( color )}";
+    public override string TableRowColor( Color color ) => $"bg-{ToColor( color )}";
 
-    public override string TableRowHoverCursor() => "table-row-selectable";
+    public override string TableRowHoverCursor() => "b-table-row-selectable";
 
-    public override string TableRowIsSelected() => "selected";
+    public override string TableRowIsSelected() => "b-table-row-selected";
 
-    public override string TableRowHeader() => "group-[.table-sm]:py-2 group-[:not(.table-sm)]:py-4 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
+    public override string TableRowHeader() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
 
-    public override string TableRowCell() => "group-[.table-sm]:py-2 group-[:not(.table-sm)]:py-4 px-4";
+    public override string TableRowCell() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4";
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
 
-    public override string TableResponsive() => "table-responsive";
+    public override string TableResponsive() => "b-table-responsive";
 
-    public override string TableFixedHeader() => "table-fixed-header";
+    public override string TableFixedHeader() => "b-table-fixed-header";
 
     #endregion
 
