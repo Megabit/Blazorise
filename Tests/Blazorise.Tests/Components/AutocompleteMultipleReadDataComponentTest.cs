@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Xunit;
@@ -24,9 +25,9 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
-        public void Clear_ShouldReset()
+        public Task Clear_ShouldReset()
         {
-            TestClear<AutocompleteMultipleReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
+            return TestClear<AutocompleteMultipleReadDataComponent>( async ( comp ) => await comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
         }
 
         [Theory]

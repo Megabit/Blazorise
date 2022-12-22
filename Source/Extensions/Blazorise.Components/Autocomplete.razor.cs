@@ -65,16 +65,10 @@ namespace Blazorise.Components
         string currentSearch;
         string currentSearchParam;
 
-        string selectedText;
-        string selectedTextParam;
-
         NullableT<TValue> selectedValue;
         TValue selectedValueParam;
 
-        List<TValue> selectedValues = new();
         List<TValue> selectedValuesParam;
-
-        List<string> selectedTexts = new();
         List<string> selectedTextsParam;
 
         #endregion
@@ -90,7 +84,6 @@ namespace Blazorise.Components
             }
 
             bool selectedValueParamChanged = false;
-            bool selectedTextParamChanged = false;
 
             if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !selectedValueParam.IsEqual( paramSelectedValue ) )
             {
@@ -98,31 +91,23 @@ namespace Blazorise.Components
                 selectedValueParamChanged = true;
             }
 
-            if ( parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && selectedTextParam != paramSelectedText )
-            {
-                selectedText = null;
-                selectedTextParamChanged = true;
-            }
+            var selectedTextParamChanged = parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && SelectedText != paramSelectedText;
 
-            bool selectedValuesParamChanged = false;
-            bool selectedTextsParamChanged = false;
+            var selectedValuesParamChanged = parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues )
+                && !selectedValuesParam.AreEqualOrdered( paramSelectedValues );
 
-            if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !selectedValuesParam.AreEqualOrdered( paramSelectedValues ) )
-            {
-                selectedValuesParamChanged = true;
-                selectedValues = null;
-            }
+            var selectedTextsParamChanged = parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
+                && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts );
 
-            if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts ) )
-            {
-                selectedTextsParamChanged = true;
-                selectedTexts = null;
-            }
 
-            // set properties
             await base.SetParametersAsync( parameters );
 
-            // autoselect value based on selected text
+            await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged );
+            await SynchronizeMultiple( selectedValuesParamChanged, selectedTextsParamChanged );
+        }
+
+        private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
+        {
             if ( selectedTextParamChanged && !selectedValueParamChanged )
             {
                 if ( !string.IsNullOrEmpty( SelectedText ) )
@@ -160,7 +145,6 @@ namespace Blazorise.Components
                 }
             }
 
-            // autoselect text based on selected value
             if ( selectedValueParamChanged )
             {
                 var item = GetItemByValue( SelectedValue );
@@ -173,8 +157,8 @@ namespace Blazorise.Components
                     string text = GetItemText( item );
                     if ( text != SelectedText )
                     {
-                        selectedText = text;
-                        await SelectedTextChanged.InvokeAsync( selectedText );
+                        SelectedText = text;
+                        await SelectedTextChanged.InvokeAsync( SelectedText );
 
                         if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
                         {
@@ -188,12 +172,14 @@ namespace Blazorise.Components
                     }
                 }
             }
+        }
 
+        private async Task SynchronizeMultiple( bool selectedValuesParamChanged, bool selectedTextsParamChanged )
+        {
             List<TValue> values = null;
             List<string> texts = null;
 
-            // autoselect values based on texts
-            if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() && !selectedValuesParamChanged )
+            if ( selectedTextsParamChanged && selectedTextsParam is not null && !Data.IsNullOrEmpty() && !selectedValuesParamChanged )
             {
                 values = Data.IntersectBy( SelectedTexts, e => GetItemText( e ) ).Select( e => GetItemValue( e ) ).ToList();
                 if ( !FreeTyping )
@@ -202,23 +188,26 @@ namespace Blazorise.Components
                 }
             }
 
-            // autoselect texts based on values
-            if ( selectedValuesParamChanged && !selectedValuesParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() )
+            if ( selectedValuesParamChanged && selectedValuesParam is not null && !Data.IsNullOrEmpty() )
             {
                 texts = Data.IntersectBy( SelectedValues, e => GetItemValue( e ) ).Select( e => GetItemText( e ) ).ToList();
             }
 
-            // fire change events
-            if ( !values.IsNullOrEmpty() && !SelectedValues.AreEqualOrdered( values ) )
+            if ( values is not null && !SelectedValues.AreEqualOrdered( values ) )
             {
-                selectedValues = values;
+                SelectedValues = values;
                 await SelectedValuesChanged.InvokeAsync( values );
             }
 
-            if ( !texts.IsNullOrEmpty() && !SelectedTexts.AreEqualOrdered( texts ) )
+            if ( texts is not null && !SelectedTexts.AreEqualOrdered( texts ) )
             {
-                selectedTexts = texts;
+                SelectedTexts = texts;
                 await SelectedTextsChanged.InvokeAsync( texts );
+            }
+
+            if ( ( selectedValuesParamChanged && values is null && SelectedValues is null ) || ( selectedTextsParamChanged && texts is null && SelectedTexts is null ) )
+            {
+                await Task.WhenAll( ResetSelectedValues(), ResetSelectedTexts() );
             }
         }
 
@@ -234,13 +223,13 @@ namespace Blazorise.Components
             {
                 if ( HasFilteredData )
                 {
-                    currentSearch = selectedText = GetItemText( FilteredData.First() );
+                    currentSearch = SelectedText = GetItemText( FilteredData.First() );
                     selectedValue = new( GetItemValue( FilteredData.First() ) );
 
                     await Task.WhenAll(
                         CurrentSearchChanged.InvokeAsync( currentSearch ),
                         SearchChanged.InvokeAsync( currentSearch ),
-                        SelectedTextChanged.InvokeAsync( selectedText ),
+                        SelectedTextChanged.InvokeAsync( SelectedText ),
                         SelectedValueChanged.InvokeAsync( selectedValue )
                     );
                 }
@@ -278,10 +267,10 @@ namespace Blazorise.Components
                 {
                     ActiveItemIndex = 0;
                     selectedValue = new( GetItemValue( FilteredData.First() ) );
-                    selectedText = GetItemText( FilteredData.First() );
+                    SelectedText = GetItemText( FilteredData.First() );
                     await Task.WhenAll(
                         SelectedValueChanged.InvokeAsync( selectedValue ),
-                        SelectedTextChanged.InvokeAsync( selectedText )
+                        SelectedTextChanged.InvokeAsync( SelectedText )
                         );
                 }
                 else
@@ -295,8 +284,8 @@ namespace Blazorise.Components
 
                     if ( FreeTyping )
                     {
-                        selectedText = CurrentSearch;
-                        await SelectedTextChanged.InvokeAsync( selectedText );
+                        SelectedText = CurrentSearch;
+                        await SelectedTextChanged.InvokeAsync( SelectedText );
                     }
                     else
                     {
@@ -485,14 +474,14 @@ namespace Blazorise.Components
             {
                 selectedValue = new( selectedTValue );
                 var item = GetItemByValue( selectedValue );
-                currentSearch = selectedText = GetItemText( item );
+                currentSearch = SelectedText = GetItemText( item );
                 DirtyFilter();
 
                 await Task.WhenAll(
                     SelectedValueChanged.InvokeAsync( selectedValue ),
                     CurrentSearchChanged.InvokeAsync( currentSearch ),
                     SearchChanged.InvokeAsync( currentSearch ),
-                    SelectedTextChanged.InvokeAsync( selectedText )
+                    SelectedTextChanged.InvokeAsync( SelectedText )
                 );
             }
 
@@ -553,9 +542,9 @@ namespace Blazorise.Components
         {
             var notifyChange = SelectedText is not null;
 
-            selectedText = null;
+            SelectedText = null;
             if ( notifyChange )
-                await SelectedTextChanged.InvokeAsync( selectedText );
+                await SelectedTextChanged.InvokeAsync( SelectedText );
         }
 
         private async Task ResetSelectedValue()
@@ -579,8 +568,8 @@ namespace Blazorise.Components
 
         private async Task ResetSelectedValues()
         {
-            selectedValues?.Clear();
-            await SelectedValuesChanged.InvokeAsync( selectedValues );
+            SelectedValues?.Clear();
+            await SelectedValuesChanged.InvokeAsync( SelectedValues );
         }
 
         private async Task ResetSelectedTexts()
@@ -607,6 +596,8 @@ namespace Blazorise.Components
 
         private async Task AddMultipleValue( TValue value )
         {
+            SelectedValues ??= new();
+
             if ( !SelectedValues.Contains( value ) && value != null )
             {
                 SelectedValues.Add( value );
@@ -619,6 +610,8 @@ namespace Blazorise.Components
 
         private Task AddMultipleText( string text )
         {
+            SelectedTexts ??= new();
+
             if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
             {
                 SelectedTexts.Add( text );
@@ -630,6 +623,9 @@ namespace Blazorise.Components
 
         private async Task RemoveMultipleText( string text )
         {
+            if ( SelectedTexts is null )
+                return;
+
             SelectedTexts.Remove( text );
             await SelectedTextsChanged.InvokeAsync( SelectedTexts );
 
@@ -639,6 +635,9 @@ namespace Blazorise.Components
 
         private async Task RemoveMultipleValue( TValue value )
         {
+            if ( SelectedValues is null )
+                return;
+
             SelectedValues.Remove( value );
             await SelectedValuesChanged.InvokeAsync( SelectedValues );
         }
@@ -698,7 +697,7 @@ namespace Blazorise.Components
 
             if ( !ManualReadMode )
             {
-                if ( IsMultiple && !IsSuggestSelectedItems )
+                if ( IsMultiple && !IsSuggestSelectedItems && !SelectedValues.IsNullOrEmpty() )
                     query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
                 if ( CustomFilter != null )
@@ -903,7 +902,7 @@ namespace Blazorise.Components
         {
             return FreeTyping
                     ? IsMultiple
-                        ? string.Join( ';', SelectedTexts )
+                        ? SelectedTexts.IsNullOrEmpty() ? string.Empty : string.Join( ';', SelectedTexts )
                         : CurrentSearch?.ToString()
                     : SelectedValue?.ToString();
         }
@@ -948,7 +947,7 @@ namespace Blazorise.Components
         /// <param name="value"></param>
         /// <returns></returns>
         public TItem GetItemByValue( TValue value )
-            => Data != null
+            => Data is not null
                    ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
                    : default;
 
@@ -958,13 +957,19 @@ namespace Blazorise.Components
         /// <param name="text"></param>
         /// <returns></returns>
         public TItem GetItemByText( string text )
-            => Data != null
+            => Data is not null
                    ? Data.FirstOrDefault( x => TextField( x ).IsEqual( text ) )
                    : default;
 
-
+        /// <summary>
+        /// Gets a <typeparamref name="TValue"/> from <see cref="SelectedValues"/> by using the provided <see cref="TextField"/> && <see cref="ValueField"/>.
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
         private TValue GetValueByText( string text )
-            => SelectedValues.FirstOrDefault( x => GetItemText( x ) == text );
+            => SelectedValues is not null
+            ? SelectedValues.FirstOrDefault( x => GetItemText( x ) == text )
+            : default;
 
         #endregion
 
@@ -1193,11 +1198,7 @@ namespace Blazorise.Components
         /// Gets or sets the currently selected item text.
         /// </summary>
         [Parameter]
-        public string SelectedText
-        {
-            get => selectedText ?? selectedTextParam;
-            set => selectedTextParam = value;
-        }
+        public string SelectedText { get; set; }
 
         /// <summary>
         /// Gets or sets the currently selected item text.
@@ -1243,7 +1244,7 @@ namespace Blazorise.Components
         [Parameter]
         public List<TValue> SelectedValues
         {
-            get => selectedValuesParam ?? ( selectedValues ??= new() );
+            get => selectedValuesParam;
             set => selectedValuesParam = ( value == null ? null : new( value ) );
         }
 
@@ -1260,7 +1261,7 @@ namespace Blazorise.Components
         [Parameter]
         public List<string> SelectedTexts
         {
-            get => selectedTextsParam ?? ( selectedTexts ??= new() );
+            get => selectedTextsParam;
             set => selectedTextsParam = ( value == null ? null : new( value ) );
         }
 

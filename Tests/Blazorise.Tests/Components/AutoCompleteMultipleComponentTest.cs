@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Linq;
+using System.Threading.Tasks;
 using AngleSharp.Dom;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
@@ -29,9 +30,9 @@ namespace Blazorise.Tests.Components
         }
 
         [Fact]
-        public void Clear_ShouldReset()
+        public Task Clear_ShouldReset()
         {
-            TestClear<AutocompleteMultipleComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
+            return TestClear<AutocompleteMultipleComponent>( async ( comp ) => await comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
         }
 
         [Fact]
