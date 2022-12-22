@@ -1,0 +1,7 @@
+﻿@namespace Blazorise.Splitter
+@inherits BaseComponent
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @Attributes="@Attributes">
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</div>
