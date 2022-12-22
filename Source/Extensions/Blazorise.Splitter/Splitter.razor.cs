@@ -1,10 +1,12 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+#endregion
 
 namespace Blazorise.Splitter;
 
@@ -13,10 +15,108 @@ namespace Blazorise.Splitter;
 /// </summary>
 public partial class Splitter : BaseComponent, IAsyncDisposable
 {
+    #region Members
+
+    private readonly List<ElementReference> splitSections = new();
+
+    // Used to ensure we're only ever able to create a single instance despite multi-threaded rendering
+    private readonly SemaphoreSlim createInstanceLock = new( 1, 1 );
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override Task OnInitializedAsync()
+    {
+        JSModule ??= new JSSplitModule( JSRuntime, VersionProvider );
+        return base.OnInitializedAsync();
+    }
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        await CreateInstance();
+    }
+
+    /// <inheritdoc />
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "split flex" );
+
+        base.BuildClasses( builder );
+    }
+
+    public void RegisterSection( ElementReference section )
+    {
+        splitSections.Add( section );
+
+        StateHasChanged();
+    }
+
+    public void UnregisterSection( ElementReference section )
+    {
+        splitSections.Remove( section );
+
+        StateHasChanged();
+    }
+
+    private async Task CreateInstance()
+    {
+        await createInstanceLock.WaitAsync();
+
+        try
+        {
+            if ( JSSplitInstance is not null )
+                await JSSplitInstance.InvokeVoidAsync( "destroy" );
+
+            if ( splitSections.Count > 0 )
+            {
+                var options = new SplitterConfiguration
+                {
+                    Sizes = Sizes,
+                    MinSize = MinSize,
+                    MaxSize = MaxSize,
+                    ExpandToMin = ExpandToMin,
+                    GutterSize = GutterSize,
+                    GutterAlign = GutterAlign,
+                    SnapOffset = SnapOffset,
+                    DragInterval = DragInterval,
+                    Direction = Direction,
+                    Cursor = Cursor
+                };
+
+                JSSplitInstance = await JSModule.InitializeSplit( splitSections, options );
+            }
+        }
+        finally
+        {
+            createInstanceLock.Release();
+        }
+    }
+
+    #endregion
+
+    #region Properties
+
     /// <summary>
-    /// <see cref="SplitterSection"/>s
+    /// Gets or sets the <see cref="JSSplitModule"/> instance.
     /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; } = null!;
+    protected JSSplitModule JSModule { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the reference to the JS split instance
+    /// </summary>
+    protected IJSObjectReference JSSplitInstance { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the JS runtime.
+    /// </summary>
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    /// <summary>
+    /// Gets or sets the version provider.
+    /// </summary>
+    [Inject] private IVersionProvider VersionProvider { get; set; }
 
     /// <summary>
     /// Initial sizes of each element in percents or CSS values.
@@ -70,92 +170,9 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     [Parameter] public string Cursor { get; init; }
 
     /// <summary>
-    /// Gets or sets the <see cref="JSSplitModule"/> instance.
+    /// Specifies the content to be rendered inside this <see cref="Splitter"/>.
     /// </summary>
-    protected JSSplitModule JSModule { get; private set; }
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
-    /// <summary>
-    /// Gets or sets the reference to the JS split instance
-    /// </summary>
-    protected IJSObjectReference JSSplitInstance { get; private set; }
-
-    /// <summary>
-    /// Gets or sets the JS runtime.
-    /// </summary>
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-
-    /// <summary>
-    /// Gets or sets the version provider.
-    /// </summary>
-    [Inject] private IVersionProvider VersionProvider { get; set; }
-
-    private readonly List<ElementReference> _splitSections = new();
-
-    // Used to ensure we're only ever able to create a single instance despite multi-threaded rendering
-    private readonly SemaphoreSlim _createInstanceLock = new( 1, 1 );
-
-    /// <inheritdoc/>
-    protected override Task OnInitializedAsync()
-    {
-        JSModule ??= new JSSplitModule( JSRuntime, VersionProvider );
-        return base.OnInitializedAsync();
-    }
-
-    protected override async Task OnAfterRenderAsync( bool firstRender )
-    {
-        await CreateInstance();
-    }
-
-    /// <inheritdoc />
-    protected override void BuildClasses( ClassBuilder builder )
-    {
-        builder.Append( "split flex" );
-
-        base.BuildClasses( builder );
-    }
-
-    public void RegisterSection( ElementReference section )
-    {
-        _splitSections.Add( section );
-        StateHasChanged();
-    }
-
-    public void UnregisterSection( ElementReference section )
-    {
-        _splitSections.Remove( section );
-        StateHasChanged();
-    }
-
-    private async Task CreateInstance()
-    {
-        await _createInstanceLock.WaitAsync();
-
-        try
-        {
-            if ( JSSplitInstance != null )
-                await JSSplitInstance.InvokeVoidAsync( "destroy" );
-
-            if ( _splitSections.Count > 0 )
-            {
-                var options = new SplitterConfiguration
-                {
-                    Sizes = Sizes,
-                    MinSize = MinSize,
-                    MaxSize = MaxSize,
-                    ExpandToMin = ExpandToMin,
-                    GutterSize = GutterSize,
-                    GutterAlign = GutterAlign,
-                    SnapOffset = SnapOffset,
-                    DragInterval = DragInterval,
-                    Direction = Direction,
-                    Cursor = Cursor
-                };
-                JSSplitInstance = await JSModule.InitializeSplit( _splitSections, options );
-            }
-        }
-        finally
-        {
-            _createInstanceLock.Release();
-        }
-    }
+    #endregion
 }

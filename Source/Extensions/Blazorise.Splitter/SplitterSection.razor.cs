@@ -1,21 +1,24 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Splitter;
 
 /// <summary>
 /// A resizable section of a <see cref="Splitter"/> component
 /// </summary>
-public partial class SplitterSection : BaseComponent
+public partial class SplitterSection : BaseComponent, IDisposable
 {
     #region Methods
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        if ( Parent == null )
+        if ( Parent is null )
             throw new ArgumentNullException( nameof( Parent ), "SplitSection must exist within a Split" );
+
         base.OnInitialized();
     }
 
@@ -39,23 +42,27 @@ public partial class SplitterSection : BaseComponent
     /// <inheritdoc />
     protected override void Dispose( bool disposing )
     {
-        Parent.UnregisterSection( ElementRef );
+        if ( disposing )
+        {
+            Parent.UnregisterSection( ElementRef );
+        }
+
         base.Dispose( disposing );
     }
 
     #endregion
 
-    #region Parameters
-
-    /// <summary>
-    /// Child content to render in this section
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    #region Properties
 
     /// <summary>
     /// Parent <see cref="Splitter"/> component
     /// </summary>
     [CascadingParameter] public Splitter Parent { get; set; } = null!;
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="SplitterSection"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

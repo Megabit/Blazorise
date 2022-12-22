@@ -11,7 +11,6 @@ namespace Blazorise.Splitter;
 /// </summary>
 public class JSSplitModule : BaseJSModule
 {
-
     #region Constructor
 
     /// <summary>
@@ -44,5 +43,4 @@ public class JSSplitModule : BaseJSModule
     public override string ModuleFileName => $"./_content/Blazorise.Splitter/blazorise.splitter.js?v={VersionProvider.Version}";
 
     #endregion
-
 }
