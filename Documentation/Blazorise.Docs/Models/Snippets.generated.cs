@@ -1751,19 +1751,18 @@ public class Gender
 </Field>
 
 @code {
-
-    async Task OnFileUpload(FileUploadEventArgs e)
+    async Task OnFileUpload( FileUploadEventArgs e )
     {
         try
         {
-            using (MemoryStream result = new MemoryStream())
+            using ( MemoryStream result = new MemoryStream() )
             {
-                await e.File.OpenReadStream(long.MaxValue).CopyToAsync(result);
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
             }
         }
-        catch (Exception exc)
+        catch ( Exception exc )
         {
-            Console.WriteLine(exc.Message);
+            Console.WriteLine( exc.Message );
         }
         finally
         {

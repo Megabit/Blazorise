@@ -8,19 +8,18 @@
 </pre></div>
 <div class="csharp"><pre>
 <span class="atSign">&#64;</span>code {
-
-    <span class="keyword">async</span> Task OnFileUpload(FileUploadEventArgs e)
+    <span class="keyword">async</span> Task OnFileUpload( FileUploadEventArgs e )
     {
         <span class="keyword">try</span>
         {
-            <span class="keyword">using</span> (MemoryStream result = <span class="keyword">new</span> MemoryStream())
+            <span class="keyword">using</span> ( MemoryStream result = <span class="keyword">new</span> MemoryStream() )
             {
-                <span class="keyword">await</span> e.File.OpenReadStream(<span class="keyword">long</span>.MaxValue).CopyToAsync(result);
+                <span class="keyword">await</span> e.File.OpenReadStream( <span class="keyword">long</span>.MaxValue ).CopyToAsync( result );
             }
         }
-        <span class="keyword">catch</span> (Exception exc)
+        <span class="keyword">catch</span> ( Exception exc )
         {
-            Console.WriteLine(exc.Message);
+            Console.WriteLine( exc.Message );
         }
         <span class="keyword">finally</span>
         {

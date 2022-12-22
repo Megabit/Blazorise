@@ -347,7 +347,28 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
         get => multiple;
         set
         {
+            if ( multiple == value )
+                return;
+
             multiple = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Gets or Sets whether file picker should upload directories.
+    /// </summary>
+    [Parameter]
+    public bool Directory
+    {
+        get => directory;
+        set
+        {
+            if ( directory == value )
+                return;
+
+            directory = value;
 
             DirtyClasses();
         }
@@ -423,21 +444,6 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     /// <para>This setting can speed up file transfer considerably.</para>
     /// </summary>
     [Parameter] public bool DisableProgressReport { get; set; } = false;
-
-    /// <summary>
-    /// Gets or Sets whether file picker should upload directories.
-    /// </summary>
-    [Parameter]
-    public bool Directory
-    {
-        get => directory;
-        set
-        {
-            directory = value;
-
-            DirtyClasses();
-        }
-    }
 
     #endregion
 }
