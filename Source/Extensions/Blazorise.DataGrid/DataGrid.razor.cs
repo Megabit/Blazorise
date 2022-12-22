@@ -246,10 +246,10 @@ namespace Blazorise.DataGrid
         {
             await CheckMultipleSelectionSetEmpty( parameters );
 
-            if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var changedData ) && !Data.AreEqual( changedData ) )
+            if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
                 SetDirty();
 
-            if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var changedSelectionMode ) && SelectionMode != changedSelectionMode )
+            if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
                 ExecuteAfterRender( HandleSelectionModeChanged );
 
             await base.SetParametersAsync( parameters );
