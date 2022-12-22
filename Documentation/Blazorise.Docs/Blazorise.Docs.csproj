@@ -68,11 +68,6 @@
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Pages\Docs\Components\Files\Code\DirectoryFileEditExampleCode.html" />
-    <None Remove="Pages\Docs\Components\Files\Code\FilePickerDirectoryExampleCode.html" />
-    <None Remove="Pages\Docs\Components\Files\Code\MultipleDirectoryFileEditExampleCode.html" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="bundleconfig.json" />
     <None Include="compilerconfig.json" />
   </ItemGroup>
