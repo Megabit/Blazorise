@@ -546,7 +546,7 @@ public class TailwindClassProvider : ClassProvider
     #region Dropdown
 
     public override string Dropdown( bool isDropdownSubmenu ) => isDropdownSubmenu
-        ? "b-dropdown b-dropdown-submenu relative inline-flex"
+        ? "b-dropdown b-dropdown-submenu relative inline-flex w-full"
         : "b-dropdown relative inline-flex";
 
     public override string DropdownGroup() => "b-dropdown-group align-middle";
@@ -582,7 +582,7 @@ public class TailwindClassProvider : ClassProvider
     public override string DropdownMenuRight() => "b-dropdown-menu-right";
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
-        ? "b-dropdown-toggle-submenu block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
         : "b-dropdown-toggle focus:ring-4 focus:outline-none font-medium text-sm text-center inline-flex items-center";
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu
