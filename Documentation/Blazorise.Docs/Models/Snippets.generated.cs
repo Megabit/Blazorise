@@ -1747,7 +1747,7 @@ public class Gender
         public const string FilePickerDirectoryExample = @"@using System.IO
 
 <Field>
-    <FilePicker Directory Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.List"" />
+    <FilePicker Directory Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.List"" />
 </Field>
 
 @code {
@@ -1840,6 +1840,17 @@ public class Gender
         {
             this.StateHasChanged();
         }
+    }
+}";
+
+        public const string MultipleDirectoryFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Directory Multiple />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
     }
 }";
 
