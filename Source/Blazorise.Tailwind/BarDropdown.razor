@@ -3,7 +3,9 @@
     <CascadingValue Value="@State">
         @if ( ParentBar?.Mode == BarMode.Horizontal )
         {
-            @ChildContent
+            <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" data-visible="@VisibleString">
+                @ChildContent
+            </div>
         }
         else
         {

@@ -545,7 +545,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region Dropdown
 
-    public override string Dropdown( bool isDropdownSubmenu ) => "b-dropdown relative inline-flex";
+    public override string Dropdown( bool isDropdownSubmenu ) => isDropdownSubmenu
+        ? "b-dropdown b-dropdown-submenu relative inline-flex"
+        : "b-dropdown relative inline-flex";
 
     public override string DropdownGroup() => "b-dropdown-group align-middle";
 
@@ -567,7 +569,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownMenu() => "b-dropdown-menu z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700";
 
-    public override string DropdownMenuSelector() => "b-dropdown-menu";
+    public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
     public override string DropdownMenuScrollable() => "b-dropdown-menu-scrollable";
 
@@ -984,8 +986,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarItem( BarMode mode, bool hasDropdown ) => mode == Blazorise.BarMode.Horizontal
         ? hasDropdown
-            ? "relative"
-            : "relative"
+            ? "b-bar-item relative"
+            : "b-bar-item relative"
         : "b-bar-item";
 
     public override string BarItemActive( BarMode mode ) => Active();
@@ -997,38 +999,44 @@ public class TailwindClassProvider : ClassProvider
     public override string BarItemHasDropdownShow( BarMode mode ) => null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+        ? "b-bar-link block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
         : "b-bar-link";
 
     public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
-    public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "flex items-center" : "b-bar-brand";
+    public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
+        ? "b-bar-brand flex items-center"
+        : "b-bar-brand";
 
-    public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-toggler" :
+    public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? "b-bar-toggler navbar-toggler" :
         togglerMode == BarTogglerMode.Popout ? "b-bar-toggler-popout" : "b-bar-toggler-inline";
 
     public override string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow ) => isShow || mode != Blazorise.BarMode.Horizontal ? null : "collapsed";
 
-    public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal 
-        ? "collapse navbar-collapse z-30"
+    public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
+        ? "b-bar-menu collapse navbar-collapse z-30"
         : "b-bar-menu";
 
     public override string BarMenuShow( BarMode mode ) => Show();
 
-    public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "items-center justify-between hidden w-full md:flex md:w-auto md:order-1 mr-auto" : "b-bar-start";
+    public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
+        ? "b-bar-start items-center justify-between hidden w-full md:flex md:w-auto md:order-1 mr-auto"
+        : "b-bar-start";
 
-    public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "items-center justify-between hidden w-full md:flex md:w-auto md:order-1 ml-auto" : "b-bar-end";
+    public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
+        ? "b-bar-end items-center justify-between hidden w-full md:flex md:w-auto md:order-1 ml-auto"
+        : "b-bar-end";
 
     public override string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
-        ? null
+        ? "b-bar-dropdown b-bar-dropdown-horizontal relative"
         : "b-bar-dropdown";
 
     public override string BarDropdownShow( BarMode mode ) => Show();
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu
-            ? "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-            : "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 md:hover:text-primary-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white"
+            ? "b-bar-dropdown-toggle flex items-center justify-between w-full px-4 py-2 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+            : "b-bar-dropdown-toggle flex items-center justify-between w-full px-4 py-2 font-medium text-gray-700 md:hover:text-primary-700 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white"
         : "b-bar-link b-bar-dropdown-toggle";
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => mode == Blazorise.BarMode.Horizontal && disabled

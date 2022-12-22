@@ -30,3 +30,60 @@
         }
     }
 }
+
+.b-dropdown {
+    position: relative;
+
+    > .b-dropdown-menu > ul {
+        > .b-dropdown.b-dropdown-submenu:not(.dropup, .dropleft, .dropright) {
+            position: relative;
+
+            > .b-dropdown-menu > ul {
+                top: auto;
+                left: auto;
+                bottom: auto;
+                right: auto;
+            }
+        }
+
+        > .b-dropdown.b-dropdown-submenu.dropup, > .b-dropdown.b-dropdown-submenu.dropleft, > .b-dropdown.b-dropdown-submenu.dropright {
+            .b-dropdown-toggle::after {
+                position: absolute;
+                right: 10%;
+                top: 45%;
+            }
+        }
+    }
+
+    &.dropup {
+        > .b-dropdown-menu > ul {
+            top: auto;
+            left: auto;
+            bottom: 100%;
+            margin-top: 0;
+            margin-bottom: .125rem;
+        }
+    }
+
+    &.dropright {
+        > .b-dropdown-menu > ul {
+            top: 0%;
+            right: auto;
+            left: 100%;
+            bottom: auto;
+            margin-top: 0;
+            margin-left: .125rem;
+        }
+    }
+
+    &.dropleft {
+        > .b-dropdown-menu > ul {
+            top: 0%;
+            right: 100%;
+            left: auto;
+            bottom: auto;
+            margin-top: 0;
+            margin-right: .125rem;
+        }
+    }
+}
