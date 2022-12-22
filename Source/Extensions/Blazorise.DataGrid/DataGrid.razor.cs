@@ -246,6 +246,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await CheckMultipleSelectionSetEmpty( parameters );
 
+        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
+            SetDirty();
+
+        if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
+            ExecuteAfterRender( HandleSelectionModeChanged );
+
         await base.SetParametersAsync( parameters );
     }
 
@@ -322,7 +328,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     private async Task HandleSelectionModeChanged()
     {
-        if ( selectionMode == DataGridSelectionMode.Multiple && SelectedRow != null )
+        if ( SelectionMode == DataGridSelectionMode.Multiple && SelectedRow != null )
         {
             SelectedRows ??= new();
 
@@ -333,7 +339,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 await SelectedRowsChanged.InvokeAsync( SelectedRows );
             }
         }
-        else if ( selectionMode == DataGridSelectionMode.Single && SelectedRows != null )
+        else if ( SelectionMode == DataGridSelectionMode.Single && SelectedRows != null )
         {
             SelectedRows = null;
 
@@ -573,7 +579,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await SelectRow( item );
 
-        await InvokeAsync( StateHasChanged );
+        await Refresh();
     }
 
     /// <summary>
@@ -743,7 +749,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     protected internal Task ToggleDetailRow( TItem item, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
         => ToggleDetailRow( GetRowInfo( item ), detailRowTriggerType, forceDetailRow, skipDetailRowTriggerType );
 
-    protected internal Task ToggleDetailRow( DataGridRowInfo<TItem> rowInfo, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
+    protected internal async Task ToggleDetailRow( DataGridRowInfo<TItem> rowInfo, DetailRowTriggerType detailRowTriggerType, bool forceDetailRow = false, bool skipDetailRowTriggerType = false )
     {
         if ( rowInfo is not null )
         {
@@ -757,7 +763,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 var detailRowTriggerResult = DetailRowTrigger( detailRowTriggerContext );
 
                 if ( !skipDetailRowTriggerType && detailRowTriggerType != detailRowTriggerContext.DetailRowTriggerType )
-                    return Task.CompletedTask;
+                    return;
 
                 rowInfo.SetRowDetail( detailRowTriggerResult, detailRowTriggerContext.Toggleable );
 
@@ -774,10 +780,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 rowInfo.ToggleDetailRow();
             }
 
-            return InvokeAsync( StateHasChanged );
+            await Refresh();
         }
 
-        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -887,8 +892,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         await SelectedRowsChanged.InvokeAsync( SelectedRows );
-
-        await InvokeAsync( StateHasChanged );
+        await Refresh();
     }
 
     private async Task HandleShiftClick( MultiSelectEventArgs<TItem> eventArgs )
@@ -957,8 +961,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         UnSelectAllRows = !selectAll;
 
         await SelectedRowsChanged.InvokeAsync( SelectedRows );
-
-        await InvokeAsync( StateHasChanged );
+        await Refresh();
     }
 
     // this is to give user a way to stop save if necessary
@@ -1438,13 +1441,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Returns true if EmptyTemplate is set and Data is null or empty.
     /// </summary>
     protected bool IsEmptyTemplateVisible
-        => !IsLoading && !IsNewItemInGrid && EmptyTemplate != null && Data.IsNullOrEmpty() && Rendered;
+        => !IsLoading && !IsNewItemInGrid && EmptyTemplate != null && Data.IsNullOrEmpty() && VirtualizeRendered;
 
     /// <summary>
     /// Returns true if EmptyFilterTemplate is set and FilteredData is null or empty.
     /// </summary>
     protected bool IsEmptyFilterTemplateVisible
-        => !IsLoading && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !data.IsNullOrEmpty() && FilteredData.IsNullOrEmpty() ) && Rendered;
+        => !IsLoading && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !Data.IsNullOrEmpty() && FilteredData.IsNullOrEmpty() ) && VirtualizeRendered;
+
+    /// <summary>
+    /// Returns true if Virtualize is false or if Virtualize is true && Rendered
+    /// This flag is to make sure Templates don't 'fight' for control over the Virtualize Initial Render.
+    /// </summary>
+    protected bool VirtualizeRendered => !Virtualize || ( Virtualize && Rendered );
 
     /// <summary>
     /// Returns true if ShowPager is true and grid is not empty or loading.
@@ -1592,15 +1601,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the datagrid data-source.
     /// </summary>
     [Parameter]
-    public IEnumerable<TItem> Data
-    {
-        get { return data; }
-        set
-        {
-            SetDirty();
-            data = value;
-        }
-    }
+    public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
     /// Gets or sets the calculated aggregate data.
@@ -1848,7 +1849,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets current selection mode.
     /// </summary>
-    [Parameter] public DataGridSelectionMode SelectionMode { get { return selectionMode; } set { selectionMode = value; ExecuteAfterRender( HandleSelectionModeChanged ); } }
+    [Parameter] public DataGridSelectionMode SelectionMode { get; set; }
 
     /// <summary>
     /// Occurs after the selected row has changed.
