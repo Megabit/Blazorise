@@ -65,16 +65,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     string currentSearch;
     string currentSearchParam;
 
-    string selectedText;
-    string selectedTextParam;
-
     NullableT<TValue> selectedValue;
     TValue selectedValueParam;
 
-    List<TValue> selectedValues = new();
     List<TValue> selectedValuesParam;
-
-    List<string> selectedTexts = new();
     List<string> selectedTextsParam;
 
     #endregion
@@ -90,7 +84,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
 
         bool selectedValueParamChanged = false;
-        bool selectedTextParamChanged = false;
 
         if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !selectedValueParam.IsEqual( paramSelectedValue ) )
         {
@@ -98,31 +91,23 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             selectedValueParamChanged = true;
         }
 
-        if ( parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && selectedTextParam != paramSelectedText )
-        {
-            selectedText = null;
-            selectedTextParamChanged = true;
-        }
+        var selectedTextParamChanged = parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && SelectedText != paramSelectedText;
 
-        bool selectedValuesParamChanged = false;
-        bool selectedTextsParamChanged = false;
+        var selectedValuesParamChanged = parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues )
+            && !selectedValuesParam.AreEqualOrdered( paramSelectedValues );
 
-        if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !selectedValuesParam.AreEqualOrdered( paramSelectedValues ) )
-        {
-            selectedValuesParamChanged = true;
-            selectedValues = null;
-        }
+        var selectedTextsParamChanged = parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
+            && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts );
 
-        if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts ) )
-        {
-            selectedTextsParamChanged = true;
-            selectedTexts = null;
-        }
 
-        // set properties
         await base.SetParametersAsync( parameters );
 
-        // autoselect value based on selected text
+        await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged );
+        await SynchronizeMultiple( selectedValuesParamChanged, selectedTextsParamChanged );
+    }
+
+    private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
+    {
         if ( selectedTextParamChanged && !selectedValueParamChanged )
         {
             if ( !string.IsNullOrEmpty( SelectedText ) )
@@ -160,7 +145,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             }
         }
 
-        // autoselect text based on selected value
         if ( selectedValueParamChanged )
         {
             var item = GetItemByValue( SelectedValue );
@@ -173,8 +157,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 string text = GetItemText( item );
                 if ( text != SelectedText )
                 {
-                    selectedText = text;
-                    await SelectedTextChanged.InvokeAsync( selectedText );
+                    SelectedText = text;
+                    await SelectedTextChanged.InvokeAsync( SelectedText );
 
                     if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
                     {
@@ -188,12 +172,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 }
             }
         }
+    }
 
+    private async Task SynchronizeMultiple( bool selectedValuesParamChanged, bool selectedTextsParamChanged )
+    {
         List<TValue> values = null;
         List<string> texts = null;
 
-        // autoselect values based on texts
-        if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() && !selectedValuesParamChanged )
+        if ( selectedTextsParamChanged && selectedTextsParam is not null && !Data.IsNullOrEmpty() && !selectedValuesParamChanged )
         {
             values = Data.IntersectBy( SelectedTexts, e => GetItemText( e ) ).Select( e => GetItemValue( e ) ).ToList();
             if ( !FreeTyping )
@@ -202,23 +188,26 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             }
         }
 
-        // autoselect texts based on values
-        if ( selectedValuesParamChanged && !selectedValuesParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() )
+        if ( selectedValuesParamChanged && selectedValuesParam is not null && !Data.IsNullOrEmpty() )
         {
             texts = Data.IntersectBy( SelectedValues, e => GetItemValue( e ) ).Select( e => GetItemText( e ) ).ToList();
         }
 
-        // fire change events
-        if ( !values.IsNullOrEmpty() && !SelectedValues.AreEqualOrdered( values ) )
+        if ( values is not null && !SelectedValues.AreEqualOrdered( values ) )
         {
-            selectedValues = values;
+            SelectedValues = values;
             await SelectedValuesChanged.InvokeAsync( values );
         }
 
-        if ( !texts.IsNullOrEmpty() && !SelectedTexts.AreEqualOrdered( texts ) )
+        if ( texts is not null && !SelectedTexts.AreEqualOrdered( texts ) )
         {
-            selectedTexts = texts;
+            SelectedTexts = texts;
             await SelectedTextsChanged.InvokeAsync( texts );
+        }
+
+        if ( ( selectedValuesParamChanged && values is null && SelectedValues is null ) || ( selectedTextsParamChanged && texts is null && SelectedTexts is null ) )
+        {
+            await Task.WhenAll( ResetSelectedValues(), ResetSelectedTexts() );
         }
     }
 
@@ -234,13 +223,13 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         {
             if ( HasFilteredData )
             {
-                currentSearch = selectedText = GetItemText( FilteredData.First() );
+                currentSearch = SelectedText = GetItemText( FilteredData.First() );
                 selectedValue = new( GetItemValue( FilteredData.First() ) );
 
                 await Task.WhenAll(
                     CurrentSearchChanged.InvokeAsync( currentSearch ),
                     SearchChanged.InvokeAsync( currentSearch ),
-                    SelectedTextChanged.InvokeAsync( selectedText ),
+                    SelectedTextChanged.InvokeAsync( SelectedText ),
                     SelectedValueChanged.InvokeAsync( selectedValue )
                 );
             }
@@ -278,11 +267,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             {
                 ActiveItemIndex = 0;
                 selectedValue = new( GetItemValue( FilteredData.First() ) );
-                selectedText = GetItemText( FilteredData.First() );
+                SelectedText = GetItemText( FilteredData.First() );
                 await Task.WhenAll(
                     SelectedValueChanged.InvokeAsync( selectedValue ),
-                    SelectedTextChanged.InvokeAsync( selectedText )
-                );
+                    SelectedTextChanged.InvokeAsync( SelectedText )
+                    );
             }
             else
             {
@@ -295,8 +284,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
                 if ( FreeTyping )
                 {
-                    selectedText = CurrentSearch;
-                    await SelectedTextChanged.InvokeAsync( selectedText );
+                    SelectedText = CurrentSearch;
+                    await SelectedTextChanged.InvokeAsync( SelectedText );
                 }
                 else
                 {
@@ -485,14 +474,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         {
             selectedValue = new( selectedTValue );
             var item = GetItemByValue( selectedValue );
-            currentSearch = selectedText = GetItemText( item );
+            currentSearch = SelectedText = GetItemText( item );
             DirtyFilter();
 
             await Task.WhenAll(
                 SelectedValueChanged.InvokeAsync( selectedValue ),
                 CurrentSearchChanged.InvokeAsync( currentSearch ),
                 SearchChanged.InvokeAsync( currentSearch ),
-                SelectedTextChanged.InvokeAsync( selectedText )
+                SelectedTextChanged.InvokeAsync( SelectedText )
             );
         }
 
@@ -553,9 +542,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         var notifyChange = SelectedText is not null;
 
-        selectedText = null;
+        SelectedText = null;
         if ( notifyChange )
-            await SelectedTextChanged.InvokeAsync( selectedText );
+            await SelectedTextChanged.InvokeAsync( SelectedText );
     }
 
     private async Task ResetSelectedValue()
@@ -579,8 +568,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private async Task ResetSelectedValues()
     {
-        selectedValues?.Clear();
-        await SelectedValuesChanged.InvokeAsync( selectedValues );
+        SelectedValues?.Clear();
+        await SelectedValuesChanged.InvokeAsync( SelectedValues );
     }
 
     private async Task ResetSelectedTexts()
@@ -607,6 +596,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private async Task AddMultipleValue( TValue value )
     {
+        SelectedValues ??= new();
+
         if ( !SelectedValues.Contains( value ) && value != null )
         {
             SelectedValues.Add( value );
@@ -619,6 +610,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private Task AddMultipleText( string text )
     {
+        SelectedTexts ??= new();
+
         if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
         {
             SelectedTexts.Add( text );
@@ -630,6 +623,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private async Task RemoveMultipleText( string text )
     {
+        if ( SelectedTexts is null )
+            return;
+
         SelectedTexts.Remove( text );
         await SelectedTextsChanged.InvokeAsync( SelectedTexts );
 
@@ -639,6 +635,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private async Task RemoveMultipleValue( TValue value )
     {
+        if ( SelectedValues is null )
+            return;
+
         SelectedValues.Remove( value );
         await SelectedValuesChanged.InvokeAsync( SelectedValues );
     }
@@ -698,7 +697,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         if ( !ManualReadMode )
         {
-            if ( IsMultiple && !IsSuggestSelectedItems )
+            if ( IsMultiple && !IsSuggestSelectedItems && !SelectedValues.IsNullOrEmpty() )
                 query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
             if ( CustomFilter != null )
@@ -902,10 +901,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     private string GetValidationValue()
     {
         return FreeTyping
-            ? IsMultiple
-                ? string.Join( ';', SelectedTexts )
-                : CurrentSearch?.ToString()
-            : SelectedValue?.ToString();
+                ? IsMultiple
+                    ? SelectedTexts.IsNullOrEmpty() ? string.Empty : string.Join( ';', SelectedTexts )
+                    : CurrentSearch?.ToString()
+                : SelectedValue?.ToString();
     }
 
     private string GetItemText( TValue value )
@@ -948,9 +947,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <param name="value"></param>
     /// <returns></returns>
     public TItem GetItemByValue( TValue value )
-        => Data != null
-            ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
-            : default;
+        => Data is not null
+               ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
+               : default;
 
     /// <summary>
     /// Gets a <typeparamref name="TItem"/> from <see cref="Data"/> by using the provided <see cref="TextField"/>.
@@ -958,13 +957,19 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <param name="text"></param>
     /// <returns></returns>
     public TItem GetItemByText( string text )
-        => Data != null
-            ? Data.FirstOrDefault( x => TextField( x ).IsEqual( text ) )
-            : default;
+        => Data is not null
+               ? Data.FirstOrDefault( x => TextField( x ).IsEqual( text ) )
+               : default;
 
-
+    /// <summary>
+    /// Gets a <typeparamref name="TValue"/> from <see cref="SelectedValues"/> by using the provided <see cref="TextField"/> && <see cref="ValueField"/>.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
     private TValue GetValueByText( string text )
-        => SelectedValues.FirstOrDefault( x => GetItemText( x ) == text );
+        => SelectedValues is not null
+        ? SelectedValues.FirstOrDefault( x => GetItemText( x ) == text )
+        : default;
 
     #endregion
 
@@ -1198,11 +1203,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets or sets the currently selected item text.
     /// </summary>
     [Parameter]
-    public string SelectedText
-    {
-        get => selectedText ?? selectedTextParam;
-        set => selectedTextParam = value;
-    }
+    public string SelectedText { get; set; }
 
     /// <summary>
     /// Gets or sets the currently selected item text.
@@ -1248,7 +1249,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter]
     public List<TValue> SelectedValues
     {
-        get => selectedValuesParam ?? ( selectedValues ??= new() );
+        get => selectedValuesParam;
         set => selectedValuesParam = ( value == null ? null : new( value ) );
     }
 
@@ -1265,7 +1266,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter]
     public List<string> SelectedTexts
     {
-        get => selectedTextsParam ?? ( selectedTexts ??= new() );
+        get => selectedTextsParam;
         set => selectedTextsParam = ( value == null ? null : new( value ) );
     }
 

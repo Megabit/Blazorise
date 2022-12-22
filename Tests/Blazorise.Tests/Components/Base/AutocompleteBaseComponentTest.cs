@@ -267,14 +267,15 @@ public class AutocompleteMultipleBaseComponentTest : TestContext
         comp.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "focus" ), TestExtensions.WaitTime );
     }
 
-    public void TestClear<TComponent>( Func<IRenderedComponent<TComponent>, Task> clear, Func<IRenderedComponent<TComponent>, string[]> getSelectedTexts ) where TComponent : IComponent
+    public async Task TestClear<TComponent>( Func<IRenderedComponent<TComponent>, Task> clear, Func<IRenderedComponent<TComponent>, string[]> getSelectedTexts ) where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>( parameters =>
-            parameters.TryAdd( "SelectedValues", new List<string> { "PT", "HR" } )
-        );
+        {
+            parameters.TryAdd( "SelectedValues", new List<string> { "PT", "HR" } );
+            parameters.TryAdd( "MinLength", 0 );
+        } );
 
-        comp.InvokeAsync( async () => await clear( comp ) );
-        comp.Render();
+        await comp.InvokeAsync( async () => await clear( comp ) );
 
         var input = comp.Find( ".b-is-autocomplete input" );
         var inputText = input.GetAttribute( "value" );
