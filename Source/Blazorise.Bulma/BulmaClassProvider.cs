@@ -447,6 +447,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DropdownMenu() => "dropdown-menu";
 
+    public override string DropdownMenuSelector() => "dropdown-menu";
+
     public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
 
     //public override string DropdownMenuBody() => "dropdown-content";
@@ -456,6 +458,8 @@ public class BulmaClassProvider : ClassProvider
     public override string DropdownMenuRight() => null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
+
+    public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
         ? color != Color.Default ? $"is-{ToColor( color )} is-outlined" : null

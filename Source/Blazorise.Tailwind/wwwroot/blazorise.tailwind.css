@@ -35,16 +35,16 @@
   font-size: 1.5rem;
 }
 
-.dropdown.dropdown-group > .button:not(:last-child):not(.dropdown-toggle) {
+.b-dropdown.b-dropdown-group > .button:not(:last-child):not(.b-dropdown-toggle) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.button-group:not(.button-group-vertical) > .dropdown:first-child > .dropdown-toggle {
+.b-button-group:not(.b-button-group-vertical) > .b-dropdown:first-child > .b-dropdown-toggle {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.button-group:not(.button-group-vertical) > .dropdown:last-child > .dropdown-toggle {
+.b-button-group:not(.b-button-group-vertical) > .b-dropdown:last-child > .b-dropdown-toggle {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }

@@ -411,6 +411,8 @@ class EmptyClassProvider : IClassProvider
 
     public string DropdownMenu() => null;
 
+    public string DropdownMenuSelector() => null;
+
     public string DropdownMenuScrollable() => null;
 
     //public string DropdownMenuBody() => null;
@@ -420,6 +422,8 @@ class EmptyClassProvider : IClassProvider
     public string DropdownMenuRight() => null;
 
     public string DropdownToggle( bool isDropdownSubmenu, bool outline ) => null;
+
+    public string DropdownToggleSelector( bool isDropdownSubmenu ) => null;
 
     public string DropdownToggleColor( Color color, bool outline ) => null;
 

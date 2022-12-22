@@ -409,6 +409,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DropdownMenu();
 
+    public abstract string DropdownMenuSelector();
+
     public abstract string DropdownMenuScrollable();
 
     //public abstract string DropdownMenuBody();
@@ -418,6 +420,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string DropdownMenuRight();
 
     public abstract string DropdownToggle( bool isDropdownSubmenu, bool outline );
+
+    public abstract string DropdownToggleSelector( bool isDropdownSubmenu );
 
     public abstract string DropdownToggleColor( Color color, bool outline );
 

@@ -435,6 +435,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string DropdownMenu() => "dropdown-menu";
 
+    public override string DropdownMenuSelector() => "dropdown-menu";
+
     public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
 
     //public override string DropdownMenuBody() => null;
@@ -444,6 +446,8 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string DropdownMenuRight() => "dropdown-menu-end";
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
+
+    public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
         ? color != Color.Default ? $"btn-outline-{ToColor( color )}" : $"btn-outline"

@@ -525,12 +525,12 @@ public class TailwindClassProvider : ClassProvider
     public override string Buttons( ButtonsRole role, Orientation orientation )
     {
         if ( role == ButtonsRole.Toolbar )
-            return "group button-group-toolbar inline-flex gap-x-2";
+            return "group b-button-group-toolbar inline-flex gap-x-2";
 
         if ( orientation == Orientation.Vertical )
-            return "button-group-vertical";
+            return "b-button-group-vertical";
 
-        return "group button-group inline-flex gap-x-0";
+        return "group b-button-group inline-flex gap-x-0";
     }
 
     public override string ButtonsSize( Size size ) => $"btn-group-{ToSize( size )}";
@@ -545,39 +545,47 @@ public class TailwindClassProvider : ClassProvider
 
     #region Dropdown
 
-    public override string Dropdown( bool isDropdownSubmenu ) => "dropdown relative inline-flex";
+    public override string Dropdown( bool isDropdownSubmenu ) => "b-dropdown relative inline-flex";
 
-    public override string DropdownGroup() => "dropdown-group align-middle";
+    public override string DropdownGroup() => "b-dropdown-group align-middle";
 
     public override string DropdownObserverShow() => DropdownShow();
 
-    public override string DropdownShow() => Show();
+    public override string DropdownShow() => "b-dropdown-show";
 
     public override string DropdownRight() => null;
 
-    public override string DropdownItem() => "block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white";
+    public override string DropdownItem() => "b-dropdown-item block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white";
 
-    public override string DropdownItemActive( bool active ) => null;
+    public override string DropdownItemActive( bool active ) => "b-dropdown-item-active";
 
-    public override string DropdownItemDisabled( bool disabled ) => disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer";
+    public override string DropdownItemDisabled( bool disabled ) => disabled ? "b-dropdown-item-disabled cursor-not-allowed opacity-60" : "cursor-pointer";
 
-    public override string DropdownDivider() => "dropdown-divider";
+    public override string DropdownDivider() => "b-dropdown-divider";
 
-    public override string DropdownHeader() => "py-3 px-4 text-sm text-gray-900 dark:text-white";
+    public override string DropdownHeader() => "b-dropdown-header py-3 px-4 text-sm text-gray-900 dark:text-white";
 
-    public override string DropdownMenu() => "z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 block";
+    public override string DropdownMenu() => "b-dropdown-menu z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700";
 
-    public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
+    public override string DropdownMenuSelector() => "b-dropdown-menu";
+
+    public override string DropdownMenuScrollable() => "b-dropdown-menu-scrollable";
 
     //public override string DropdownMenuBody() => null;
 
-    public override string DropdownMenuVisible( bool visible ) => visible ? "block" : "hidden";
+    public override string DropdownMenuVisible( bool visible ) => visible
+        ? "b-dropdown-menu-show block"
+        : "b-dropdown-menu-hide hidden";
 
-    public override string DropdownMenuRight() => "dropdown-menu-right";
+    public override string DropdownMenuRight() => "b-dropdown-menu-right";
 
-    public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
-        => isDropdownSubmenu ? "dropdown-toggle-submenu block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        : "dropdown-toggle focus:ring-4 focus:outline-none font-medium text-sm text-center inline-flex items-center";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
+        ? "b-dropdown-toggle-submenu block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        : "b-dropdown-toggle focus:ring-4 focus:outline-none font-medium text-sm text-center inline-flex items-center";
+
+    public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu
+        ? "b-dropdown-toggle-submenu"
+        : "b-dropdown-toggle";
 
     public override string DropdownToggleColor( Color color, bool outline )
     {
@@ -628,10 +636,11 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string DropdownToggleSplit( bool split )
-        => split ? "rounded-l-0 rounded-r-lg" : "rounded-lg";
+    public override string DropdownToggleSplit( bool split ) => split
+        ? "b-dropdown-toggle-split rounded-l-0 rounded-r-lg"
+        : "rounded-lg";
 
-    public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
+    public override string DropdownToggleIcon( bool visible ) => visible ? null : "b-dropdown-toggle-hidden";
 
     public override string DropdownDirection( Direction direction ) => direction switch
     {
@@ -919,6 +928,32 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Layout
+
+    public override string Layout() => "b-layout";
+
+    public override string LayoutHasSider() => "b-layout-has-sider";
+
+    public override string LayoutContent() => "b-layout-content";
+
+    public override string LayoutHeader() => "b-layout-header z-30";
+
+    public override string LayoutHeaderFixed() => "b-layout-header-fixed";
+
+    public override string LayoutFooter() => "b-layout-footer";
+
+    public override string LayoutFooterFixed() => "b-layout-footer-fixed";
+
+    public override string LayoutSider() => "b-layout-sider";
+
+    public override string LayoutSiderContent() => "b-layout-sider-content";
+
+    public override string LayoutLoading() => "b-layout-loading";
+
+    public override string LayoutRoot() => "b-layout-root";
+
+    #endregion
+
     #region Container
 
     public override string Container( Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
@@ -974,7 +1009,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarTogglerCollapsed( BarMode mode, BarTogglerMode togglerMode, bool isShow ) => isShow || mode != Blazorise.BarMode.Horizontal ? null : "collapsed";
 
-    public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "collapse navbar-collapse" : "b-bar-menu";
+    public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal 
+        ? "collapse navbar-collapse z-30"
+        : "b-bar-menu";
 
     public override string BarMenuShow( BarMode mode ) => Show();
 
@@ -994,20 +1031,29 @@ public class TailwindClassProvider : ClassProvider
             : "flex items-center justify-between w-full py-2 pl-3 pr-4 font-medium text-gray-700 md:hover:text-primary-700 md:p-0 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white"
         : "b-bar-link b-bar-dropdown-toggle";
 
-    public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled )
-        => mode == Blazorise.BarMode.Horizontal && disabled ? "disabled" : null;
+    public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => mode == Blazorise.BarMode.Horizontal && disabled
+        ? "disabled"
+        : null;
 
-    public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" : "b-bar-dropdown-item";
+    public override string BarDropdownItem( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
+        ? "b-bar-dropdown-item block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+        : "b-bar-dropdown-item";
 
-    public override string BarTogglerIcon( BarMode mode ) => "navbar-toggler-icon";
+    public override string BarTogglerIcon( BarMode mode ) => "b-bar-toggler-icon";
 
-    public override string BarDropdownDivider( BarMode mode ) => "dropdown-divider";
+    public override string BarDropdownDivider( BarMode mode ) => "b-bar-dropdown-divider";
 
-    public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600" : "b-bar-dropdown-menu";
+    public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
+        ? "b-bar-dropdown-menu absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+        : "b-bar-dropdown-menu";
 
-    public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? "block" : "hidden";
+    public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible
+        ? "b-bar-dropdown-menu-show block"
+        : "b-bar-dropdown-menu-hide hidden";
 
-    public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-right" : "b-bar-right";
+    public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
+        ? "b-bar-dropdown-menu-right right-0 left-auto"
+        : "b-bar-right";
 
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
 

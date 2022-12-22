@@ -408,6 +408,8 @@ public interface IClassProvider
 
     string DropdownMenu();
 
+    string DropdownMenuSelector();
+
     string DropdownMenuScrollable();
 
     //string DropdownMenuBody();
@@ -417,6 +419,8 @@ public interface IClassProvider
     string DropdownMenuRight();
 
     string DropdownToggle( bool isDropdownSubmenu, bool outline );
+
+    string DropdownToggleSelector( bool isDropdownSubmenu );
 
     string DropdownToggleColor( Color color, bool outline );
 
