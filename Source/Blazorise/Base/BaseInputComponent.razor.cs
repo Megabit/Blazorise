@@ -388,7 +388,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <summary>
     /// Gets the size based on the theme settings.
     /// </summary>
-    protected Size ThemeSize => ( Size ?? ParentAddons?.Size ).GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
+    protected Size ThemeSize => Size.GetValueOrDefault( ParentAddons?.Size ?? Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
 
     /// <summary>
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
