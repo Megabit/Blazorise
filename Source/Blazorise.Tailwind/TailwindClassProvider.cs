@@ -539,7 +539,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region CloseButton
 
-    public override string CloseButton() => "text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white";
+    public override string CloseButton() => "group-[.b-alert]:absolute group-[.b-alert]:top-0 group-[.b-alert]:right-0 group-[.b-alert]:px-4 group-[.b-alert]:py-2 float-right text-gray-400 bg-transparent hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:text-white";
 
     #endregion
 
@@ -1174,7 +1174,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Alert
 
-    public override string Alert() => "p-4 mb-4 text-sm rounded-lg";
+    public override string Alert() => "b-alert group relative p-4 mb-4 text-sm rounded-lg";
 
     public override string AlertColor( Color color )
     {
