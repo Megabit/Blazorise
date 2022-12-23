@@ -1,4 +1,12 @@
-﻿.addons > :not(:last-child) {
+﻿.b-accordion > .b-collapse:not(:first-child) > .b-collapse-header .b-accordion-button {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.b-accordion > .b-collapse:not(:last-child) > .b-collapse-header .b-accordion-button {
+  border-bottom-width: 0;
+}
+
+.addons > :not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }

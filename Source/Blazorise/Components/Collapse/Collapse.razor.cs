@@ -59,6 +59,24 @@ public partial class Collapse : BaseComponent, IDisposable
         return InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Sets the visibility state of this <see cref="Collapse"/> component.
+    /// </summary>
+    /// <param name="visible">True if <see cref="Collapse"/> is visible.</param>
+    private void HandleVisibilityState( bool visible )
+    {
+        DirtyClasses();
+    }
+
+    /// <summary>
+    /// Raises all registered events for this <see cref="Collapse"/> component.
+    /// </summary>
+    /// <param name="visible">True if <see cref="Collapse"/> is visible.</param>
+    private void RaiseEvents( bool visible )
+    {
+        InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
+    }
+
     #endregion
 
     #region Properties
@@ -87,11 +105,20 @@ public partial class Collapse : BaseComponent, IDisposable
         get => visible;
         set
         {
+            if ( visible == value )
+                return;
+
             visible = value;
 
-            DirtyClasses();
+            HandleVisibilityState( value );
+            RaiseEvents( value );
         }
     }
+
+    /// <summary>
+    /// Occurs when the collapse visibility state changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the cascaded parent accordion component.

@@ -26,6 +26,7 @@ public class Button : Blazorise.Button
         }
         else if ( ParentCollapseHeader?.ParentCollapse != null )
         {
+            // TODO v2: Obsolete, remove this in v2! We have introduced AccordionToggle instead of using regular Button for toggle of collapse in the accordion.
             if ( ParentCollapseHeader.ParentCollapse.InsideAccordion )
             {
                 var first = ParentCollapseHeader.ParentCollapse.FirstInAccordion;
@@ -55,7 +56,6 @@ public class Button : Blazorise.Button
 
             builder.Append( "collapsed", !CollapseVisible );
 
-            // TODO: create a dedicated <AccordionButton> component instead of using regular Button and then modifing it.
             return;
         }
         else

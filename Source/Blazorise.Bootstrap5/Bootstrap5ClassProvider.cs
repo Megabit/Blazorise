@@ -722,6 +722,14 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #endregion
 
+    #region AccordionToggle
+
+    public override string AccordionToggle() => "accordion-button btn";
+
+    public override string AccordionToggleCollapsed( bool collapsed ) => collapsed ? null : "collapsed";
+
+    #endregion
+
     #region Collapse
 
     public override string Collapse( bool accordion ) => accordion ? "accordion-item" : "card";

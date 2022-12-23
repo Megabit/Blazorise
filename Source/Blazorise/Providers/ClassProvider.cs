@@ -703,6 +703,14 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region AccordionToggle
+
+    public abstract string AccordionToggle();
+
+    public abstract string AccordionToggleCollapsed( bool collapsed );
+
+    #endregion
+
     #region Collapse
 
     public abstract string Collapse( bool accordion );

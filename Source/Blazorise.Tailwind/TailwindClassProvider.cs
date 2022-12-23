@@ -1073,19 +1073,29 @@ public class TailwindClassProvider : ClassProvider
 
     #region Accordion
 
-    public override string Accordion() => "accordion";
+    public override string Accordion() => "b-accordion";
+
+    #endregion
+
+    #region AccordionToggle
+
+    public override string AccordionToggle() => "b-accordion-button flex items-center justify-between w-full p-5 font-medium text-left border border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800";
+
+    public override string AccordionToggleCollapsed( bool collapsed ) => collapsed
+        ? "b-accordion-toggle-collapsed bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
+        : "b-accordion-toggle-collapsed text-gray-500 dark:text-gray-400";
 
     #endregion
 
     #region Collapse
 
-    public override string Collapse( bool accordion ) => "card";
+    public override string Collapse( bool accordion ) => "b-collapse";
 
-    public override string CollapseActive( bool accordion, bool active ) => null;
+    public override string CollapseActive( bool accordion, bool active ) => "b-collapse-active";
 
-    public override string CollapseHeader( bool accordion ) => null;
+    public override string CollapseHeader( bool accordion ) => "b-collapse-header";
 
-    public override string CollapseBody( bool accordion ) => null;
+    public override string CollapseBody( bool accordion ) => "b-collapse-body";
 
     public override string CollapseBodyActive( bool accordion, bool active ) => active ? null : "hidden";
 

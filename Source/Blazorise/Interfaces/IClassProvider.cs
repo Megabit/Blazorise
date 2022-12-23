@@ -700,6 +700,14 @@ public interface IClassProvider
 
     #endregion
 
+    #region AccordionButton
+
+    string AccordionToggle();
+
+    string AccordionToggleCollapsed( bool collapsed );
+
+    #endregion
+
     #region Collapse
 
     string Collapse( bool accordion );

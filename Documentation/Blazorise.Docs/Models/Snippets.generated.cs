@@ -503,7 +503,7 @@ public class Gender
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse1Visible = !collapse1Visible)"">Switch 1</Button>
+                <AccordionToggle>Switch 1</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -513,7 +513,7 @@ public class Gender
     <Collapse Visible=""@collapse2Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse2Visible = !collapse2Visible)"">Switch 2</Button>
+                <AccordionToggle>Switch 2</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -523,7 +523,7 @@ public class Gender
     <Collapse Visible=""@collapse3Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse3Visible = !collapse3Visible)"">Switch 3</Button>
+                <AccordionToggle>Switch 3</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -531,7 +531,7 @@ public class Gender
         </CollapseBody>
     </Collapse>
 </Accordion>
-@code{
+@code {
     bool collapse1Visible = true;
     bool collapse2Visible = false;
     bool collapse3Visible = false;

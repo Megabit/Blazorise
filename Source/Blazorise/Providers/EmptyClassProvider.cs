@@ -707,6 +707,14 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region AccordionToggle
+
+    public string AccordionToggle() => null;
+
+    public string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    #endregion
+
     #region Collapse
 
     public string Collapse( bool accordion ) => null;
