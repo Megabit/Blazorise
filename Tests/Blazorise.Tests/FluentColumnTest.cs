@@ -33,7 +33,7 @@ public class FluentColumnTest
 
         columnsSize.WithColumnSize( columnWidth );
 
-        var classname = columnsSize.Class( classProvider, null, null );
+        var classname = columnsSize.Class( classProvider );
 
         Assert.Equal( expected, classname );
     }
@@ -108,7 +108,7 @@ public class FluentColumnTest
         if ( breakpoint != Breakpoint.None )
             columnsSize.WithBreakpoint( breakpoint );
 
-        var classname = columnsSize.Class( classProvider, null, null );
+        var classname = columnsSize.Class( classProvider );
 
         Assert.Equal( expected, classname );
     }

@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Element which specify a term.
 /// </summary>
-public partial class DescriptionListTerm : BaseTypographyComponent, IColumnComponent, IDisposable
+public partial class DescriptionListTerm : BaseTypographyComponent, IColumnComponent
 {
     #region Members
 
@@ -20,31 +20,12 @@ public partial class DescriptionListTerm : BaseTypographyComponent, IColumnCompo
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        ParentRowState?.NotifyColumnInitialized( this );
-
-        base.OnInitialized();
-    }
-
-    /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
-    {
-        if ( disposing )
-        {
-            ParentRowState?.NotifyColumnRemoved( this );
-        }
-
-        base.Dispose( disposing );
-    }
-
-    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.DescriptionListTerm() );
 
         if ( ColumnSize != null )
-            builder.Append( ColumnSize.Class( ClassProvider, ParentRowState, this ) );
+            builder.Append( ColumnSize.Class( ClassProvider ) );
 
         base.BuildClasses( builder );
     }
@@ -52,11 +33,6 @@ public partial class DescriptionListTerm : BaseTypographyComponent, IColumnCompo
     #endregion
 
     #region Properties
-
-    /// <summary>
-    /// Cascaded row context from a container of this component.
-    /// </summary>
-    [CascadingParameter] protected IRowState ParentRowState { get; }
 
     /// <summary>
     /// Determines how much space will be used by the term inside of the description list row.

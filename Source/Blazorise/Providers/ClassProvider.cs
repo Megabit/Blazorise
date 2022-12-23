@@ -741,7 +741,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Column( bool hasSizes );
 
-    public abstract string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom );
+    public abstract string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 
     #endregion
 

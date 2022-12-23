@@ -9,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Base class for components that are containers for other components.
 /// </summary>
-public abstract class BaseColumnComponent : BaseComponent, IColumnComponent, IDisposable
+public abstract class BaseColumnComponent : BaseComponent, IColumnComponent
 {
     #region Members
 
@@ -20,29 +20,10 @@ public abstract class BaseColumnComponent : BaseComponent, IColumnComponent, IDi
     #region Methods
 
     /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        ParentRowState?.NotifyColumnInitialized( this );
-
-        base.OnInitialized();
-    }
-
-    /// <inheritdoc/>
-    protected override void Dispose( bool disposing )
-    {
-        if ( disposing )
-        {
-            ParentRowState?.NotifyColumnRemoved( this );
-        }
-
-        base.Dispose( disposing );
-    }
-
-    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         if ( ColumnSize != null && !PreventColumnSize )
-            builder.Append( ColumnSize.Class( ClassProvider, ParentRowState, this ) );
+            builder.Append( ColumnSize.Class( ClassProvider ) );
 
         base.BuildClasses( builder );
     }
@@ -55,11 +36,6 @@ public abstract class BaseColumnComponent : BaseComponent, IColumnComponent, IDi
     /// Indicates if the column size generator should be skipped. Used to override the use of column sizes by some of the providers.
     /// </summary>
     protected virtual bool PreventColumnSize => false;
-
-    /// <summary>
-    /// Cascaded row state from a container of this component.
-    /// </summary>
-    [CascadingParameter] protected IRowState ParentRowState { get; set; }
 
     /// <summary>
     /// Defines the column sizes.
