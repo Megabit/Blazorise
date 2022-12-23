@@ -568,6 +568,8 @@ public interface IClassProvider
 
     string CardLink();
 
+    string CardLinkActive( bool active );
+
     #endregion
 
     #region ListGroup

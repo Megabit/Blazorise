@@ -607,6 +607,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string CardLink() => "card-link";
 
+    public override string CardLinkActive( bool active ) => LinkActive( active );
+
     #endregion
 
     #region ListGroup

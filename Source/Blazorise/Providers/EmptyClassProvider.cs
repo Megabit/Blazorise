@@ -571,6 +571,8 @@ class EmptyClassProvider : IClassProvider
 
     public string CardLink() => null;
 
+    public string CardLinkActive( bool active ) => null;
+
     #endregion
 
     #region ListGroup

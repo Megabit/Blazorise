@@ -569,6 +569,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string CardLink();
 
+    public abstract string CardLinkActive( bool active );
+
     #endregion
 
     #region ListGroup

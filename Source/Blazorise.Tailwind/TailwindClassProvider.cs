@@ -847,7 +847,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardText() => "card-text mb-3 font-normal";
 
-    public override string CardLink() => "card-link";
+    public override string CardLink() => "inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
+
+    public override string CardLinkActive( bool active ) => LinkActive( active );
 
     #endregion
 
@@ -1637,7 +1639,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Link() => "font-medium text-primary-600 dark:text-primary-500 hover:underline";
 
-    public override string LinkActive( bool active ) => active ? "active" : null;
+    public override string LinkActive( bool active ) => active ? "font-medium active" : null;
 
     #endregion
 

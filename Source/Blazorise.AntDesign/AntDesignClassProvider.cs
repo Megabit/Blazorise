@@ -613,6 +613,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CardLink() => "ant-card-extra";
 
+    public override string CardLinkActive( bool active ) => LinkActive( active );
+
     #endregion
 
     #region ListGroup
