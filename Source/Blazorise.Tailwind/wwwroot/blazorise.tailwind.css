@@ -1,4 +1,8 @@
-﻿.b-accordion > .b-collapse:not(:first-child) > .b-collapse-header .b-accordion-button {
+﻿:root {
+  --b-bar-horizontal-height: 88px;
+}
+
+.b-accordion > .b-collapse:not(:first-child) > .b-collapse-header .b-accordion-button {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
