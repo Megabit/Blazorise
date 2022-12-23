@@ -34,6 +34,16 @@
 .b-dropdown {
     position: relative;
 
+    .b-dropdown-toggle-arrow {
+        transition: transform 200ms ease-out;
+    }
+
+    > .b-dropdown-toggle[aria-expanded="true"] {
+        > svg.b-dropdown-toggle-arrow {
+            transform: rotate(180deg);
+        }
+    }
+
     > .b-dropdown-menu > ul {
         > .b-dropdown.b-dropdown-submenu:not(.dropup, .dropleft, .dropright) {
             position: relative;
@@ -56,6 +66,20 @@
     }
 
     &.dropup {
+        > .b-dropdown-toggle-submenu {
+            &[aria-expanded="true"] {
+                > svg.b-dropdown-toggle-arrow {
+                    transform: rotate(0deg);
+                }
+            }
+
+            &[aria-expanded="false"] {
+                > svg.b-dropdown-toggle-arrow {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
         > .b-dropdown-menu > ul {
             top: auto;
             left: auto;
@@ -66,6 +90,20 @@
     }
 
     &.dropright {
+        > .b-dropdown-toggle-submenu {
+            &[aria-expanded="true"] {
+                > svg.b-dropdown-toggle-arrow {
+                    transform: rotate(90deg);
+                }
+            }
+
+            &[aria-expanded="false"] {
+                > svg.b-dropdown-toggle-arrow {
+                    transform: rotate(-90deg);
+                }
+            }
+        }
+
         > .b-dropdown-menu > ul {
             top: 0%;
             right: auto;
@@ -77,6 +115,20 @@
     }
 
     &.dropleft {
+        > .b-dropdown-toggle-submenu {
+            &[aria-expanded="true"] {
+                > svg.b-dropdown-toggle-arrow {
+                    transform: rotate(-90deg);
+                }
+            }
+
+            &[aria-expanded="false"] {
+                > svg.b-dropdown-toggle-arrow {
+                    transform: rotate(90deg);
+                }
+            }
+        }
+
         > .b-dropdown-menu > ul {
             top: 0%;
             right: 100%;

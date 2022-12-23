@@ -32,6 +32,12 @@
   border-bottom-left-radius: 0;
 }
 
+.b-bar-horizontal .b-bar-dropdown > .b-bar-dropdown-toggle > .b-bar-dropdown-toggle-arrow {
+  transition: transform 200ms ease-out;
+}
+.b-bar-horizontal .b-bar-dropdown > .b-bar-dropdown-toggle[aria-expanded=true] > svg.b-bar-dropdown-toggle-arrow {
+  transform: rotate(180deg);
+}
 .b-bar-horizontal .b-bar-dropdown .b-bar-dropdown-menu > ul > .b-bar-dropdown > .b-bar-dropdown-menu {
   top: 0;
   left: 100%;
@@ -71,6 +77,12 @@
 .b-dropdown {
   position: relative;
 }
+.b-dropdown .b-dropdown-toggle-arrow {
+  transition: transform 200ms ease-out;
+}
+.b-dropdown > .b-dropdown-toggle[aria-expanded=true] > svg.b-dropdown-toggle-arrow {
+  transform: rotate(180deg);
+}
 .b-dropdown > .b-dropdown-menu > ul > .b-dropdown.b-dropdown-submenu:not(.dropup, .dropleft, .dropright) {
   position: relative;
 }
@@ -85,12 +97,24 @@
   right: 10%;
   top: 45%;
 }
+.b-dropdown.dropup > .b-dropdown-toggle-submenu[aria-expanded=true] > svg.b-dropdown-toggle-arrow {
+  transform: rotate(0deg);
+}
+.b-dropdown.dropup > .b-dropdown-toggle-submenu[aria-expanded=false] > svg.b-dropdown-toggle-arrow {
+  transform: rotate(180deg);
+}
 .b-dropdown.dropup > .b-dropdown-menu > ul {
   top: auto;
   left: auto;
   bottom: 100%;
   margin-top: 0;
   margin-bottom: 0.125rem;
+}
+.b-dropdown.dropright > .b-dropdown-toggle-submenu[aria-expanded=true] > svg.b-dropdown-toggle-arrow {
+  transform: rotate(90deg);
+}
+.b-dropdown.dropright > .b-dropdown-toggle-submenu[aria-expanded=false] > svg.b-dropdown-toggle-arrow {
+  transform: rotate(-90deg);
 }
 .b-dropdown.dropright > .b-dropdown-menu > ul {
   top: 0%;
@@ -99,6 +123,12 @@
   bottom: auto;
   margin-top: 0;
   margin-left: 0.125rem;
+}
+.b-dropdown.dropleft > .b-dropdown-toggle-submenu[aria-expanded=true] > svg.b-dropdown-toggle-arrow {
+  transform: rotate(-90deg);
+}
+.b-dropdown.dropleft > .b-dropdown-toggle-submenu[aria-expanded=false] > svg.b-dropdown-toggle-arrow {
+  transform: rotate(90deg);
 }
 .b-dropdown.dropleft > .b-dropdown-menu > ul {
   top: 0%;
