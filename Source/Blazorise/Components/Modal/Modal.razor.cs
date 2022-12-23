@@ -383,7 +383,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     private async Task SetVisibleState( bool visible )
     {
         if ( visible )
-            lazyLoaded = ( RenderMode == ModalRenderMode.LazyLoad );
+            lazyLoaded = RenderMode == ModalRenderMode.LazyLoad;
 
         state = state with { Visible = visible };
 
@@ -439,6 +439,11 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// Gets the reference to state object for this modal.
     /// </summary>
     protected internal ModalState State => state;
+
+    /// <summary>
+    /// Evaluates the rendering mode to see of the modal content is ready to be rendered.
+    /// </summary>
+    protected bool ShouldRenderContent => RenderMode == ModalRenderMode.Default || ( RenderMode == ModalRenderMode.LazyReload && IsVisible ) || ( RenderMode == ModalRenderMode.LazyLoad && lazyLoaded );
 
     /// <summary>
     /// Gets the list of all element ids that could trigger modal close event.
