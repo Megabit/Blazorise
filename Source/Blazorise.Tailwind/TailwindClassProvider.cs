@@ -571,7 +571,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
-    public override string DropdownMenuScrollable() => "b-dropdown-menu-scrollable";
+    public override string DropdownMenuScrollable() => "b-dropdown-menu-scrollable max-h-[var(--dropdown-list-menu-max-height)] overflow-y-scroll";
 
     //public override string DropdownMenuBody() => null;
 
