@@ -1126,7 +1126,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Column( bool hasSizes ) => hasSizes ? null : "basis-0 pl-2 pr-2 grow";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom )
+    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         var columnWidthNumber = ToColumnWidthNumber( columnWidth );
 

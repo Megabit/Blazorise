@@ -745,7 +745,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Column( bool hasSizes ) => null;
 
-    public string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom ) => null;
+    public string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
 
     #endregion
 

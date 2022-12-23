@@ -40,11 +40,6 @@ public partial class Fields : BaseColumnComponent
     #region Properties   
 
     /// <summary>
-    /// Gets the row context used to calculate used space by the columns.
-    /// </summary>
-    [Inject] protected IRowState RowState { get; set; }
-
-    /// <summary>
     /// Sets the field label.
     /// </summary>
     [Parameter]

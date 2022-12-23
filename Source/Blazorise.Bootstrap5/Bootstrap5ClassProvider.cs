@@ -766,7 +766,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Column( bool hasSizes ) => hasSizes ? null : "col";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom )
+    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         var baseClass = offset ? "offset" : "col";
 

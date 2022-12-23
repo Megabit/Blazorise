@@ -14,10 +14,8 @@ public interface IFluentColumn
     /// Builds and returns the classnames for column sizes.
     /// </summary>
     /// <param name="classProvider">Class provider used by the current framework provider.</param>
-    /// <param name="rowState">A row state that for a container of <see cref="BaseColumnComponent"/> components.</param>
-    /// <param name="currentColumn">Currently processed column component.</param>
     /// <returns>Return list of css classnames.</returns>
-    string Class( IClassProvider classProvider, IRowState rowState, IColumnComponent currentColumn );
+    string Class( IClassProvider classProvider );
 
     /// <summary>
     /// True if there are column sizes defined.
@@ -214,14 +212,12 @@ public class FluentColumn :
     #region Methods
 
     /// <inheritdoc/>
-    public string Class( IClassProvider classProvider, IRowState rowState, IColumnComponent currentColumn )
+    public string Class( IClassProvider classProvider )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                rowState?.ResetUsedSpace( currentColumn );
-
                 if ( HasSizes && columnDefinitions?.Count > 0 )
                 {
                     ColumnDefinition previousColumnDefinition = null;
@@ -231,18 +227,7 @@ public class FluentColumn :
                         if ( columnDefinition.ColumnWidth == ColumnWidth.Default )
                             continue;
 
-                        var startFrom = rowState?.IncreaseUsedSpace( GetUsedSpace( columnDefinition.ColumnWidth ), columnDefinition.Breakpoint ) ?? 0;
-
-                        // If the offset has changed we're most probably chaining rules and we need to revert to last used space so that offset
-                        // position can be applied properly.
-                        if ( previousColumnDefinition != null && previousColumnDefinition.Breakpoint == columnDefinition.Breakpoint && !previousColumnDefinition.Offset && columnDefinition.Offset )
-                            startFrom -= GetUsedSpace( previousColumnDefinition.ColumnWidth );
-
-                        // Make sure we aren't too far down.
-                        if ( startFrom < 0 )
-                            startFrom = 0;
-
-                        builder.Append( classProvider.Column( columnDefinition.ColumnWidth, columnDefinition.Breakpoint, columnDefinition.Offset, startFrom ) );
+                        builder.Append( classProvider.Column( columnDefinition.ColumnWidth, columnDefinition.Breakpoint, columnDefinition.Offset ) );
 
                         previousColumnDefinition = columnDefinition;
                     }

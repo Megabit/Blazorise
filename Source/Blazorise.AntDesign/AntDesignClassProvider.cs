@@ -765,7 +765,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Column( bool hasSizes ) => "ant-col";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset, int startFrom )
+    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         // AntDesign requires for base ant-col class to be always defined.
         var sb = new StringBuilder( "ant-col" );

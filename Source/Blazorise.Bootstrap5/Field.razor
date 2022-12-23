@@ -1,8 +1,6 @@
 ﻿@inherits Blazorise.Field
 <CascadingValue Value="@this" IsFixed>
-    <CascadingValue Value="@RowState" IsFixed>
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-            @ChildContent
-        </div>
-    </CascadingValue>
+    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </div>
 </CascadingValue>

@@ -14,11 +14,6 @@ public abstract class BaseRowComponent : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Gets the row state used to calculate used space by the columns.
-    /// </summary>
-    [Inject] protected IRowState RowState { get; set; }
-
-    /// <summary>
     /// Specifies the content to be rendered inside this <see cref="BaseRowComponent"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }

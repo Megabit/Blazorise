@@ -124,11 +124,6 @@ public partial class Field : BaseColumnComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets the row context used to calculate used space by the columns.
-    /// </summary>
-    [Inject] protected IRowState RowState { get; set; }
-
-    /// <summary>
     /// Determines if the field is inside of <see cref="Fields"/> component.
     /// </summary>
     protected bool IsFields => ParentFields != null;
