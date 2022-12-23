@@ -29,32 +29,10 @@ public class Button : Blazorise.Button
             // TODO v2: Obsolete, remove this in v2! We have introduced AccordionToggle instead of using regular Button for toggle of collapse in the accordion.
             if ( ParentCollapseHeader.ParentCollapse.InsideAccordion )
             {
-                var first = ParentCollapseHeader.ParentCollapse.FirstInAccordion;
-                var last = ParentCollapseHeader.ParentCollapse.LastInAccordion;
-
-                if ( first )
-                {
-                    builder.Append( CollapseVisible
-                        ? "flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
-                        : "flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400" );
-
-                }
-                else if ( last )
-                {
-                    builder.Append( CollapseVisible
-                        ? "flex items-center justify-between w-full p-5 font-medium text-left border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
-                        : "flex items-center justify-between w-full p-5 font-medium text-left border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400" );
-
-                }
-                else
-                {
-                    builder.Append( CollapseVisible
-                        ? "flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
-                        : "flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-500 dark:text-gray-400" );
-                }
+                builder.Append( ClassProvider.AccordionToggle() );
             }
 
-            builder.Append( "collapsed", !CollapseVisible );
+            builder.Append( ClassProvider.AccordionToggleCollapsed( CollapseVisible ) );
 
             return;
         }
