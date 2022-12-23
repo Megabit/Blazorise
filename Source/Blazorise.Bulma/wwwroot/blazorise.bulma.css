@@ -7843,6 +7843,12 @@ tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
   content: "— ";
 }
 
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
 .flatpickr-months {
   margin: 0.5rem 0;
 }

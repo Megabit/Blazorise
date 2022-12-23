@@ -1047,6 +1047,12 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region Lead
+
+    public override string Lead() => "lead";
+
+    #endregion
+
     #region Paragraph
 
     public override string Paragraph() => null;

@@ -972,6 +972,12 @@ public interface IClassProvider
 
     #endregion
 
+    #region Lead
+
+    string Lead();
+
+    #endregion
+
     #region Paragraph
 
     string Paragraph();

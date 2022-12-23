@@ -976,6 +976,12 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Lead
+
+    public abstract string Lead();
+
+    #endregion
+
     #region Paragraph
 
     public abstract string Paragraph();

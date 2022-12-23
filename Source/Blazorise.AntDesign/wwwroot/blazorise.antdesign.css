@@ -2914,6 +2914,12 @@ li.ant-list-item-actionable {
   text-align: justify !important;
 }
 
+.ant-lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
 .gap-0 {
   gap: 0 !important;
 }

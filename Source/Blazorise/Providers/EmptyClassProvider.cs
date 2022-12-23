@@ -979,6 +979,12 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Lead
+
+    public string Lead() => null;
+
+    #endregion
+
     #region Paragraph
 
     public string Paragraph() => null;

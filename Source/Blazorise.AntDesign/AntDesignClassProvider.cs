@@ -1023,6 +1023,12 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region Lead
+
+    public override string Lead() => "ant-lead";
+
+    #endregion
+
     #region Paragraph
 
     public override string Paragraph() => "ant-typography";

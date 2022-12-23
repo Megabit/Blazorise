@@ -1540,6 +1540,12 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Lead
+
+    public override string Lead() => "mb-3 text-lg font-light text-gray-500 md:text-xl dark:text-gray-400";
+
+    #endregion
+
     #region Paragraph
 
     public override string Paragraph() => "mb-3 font-light";
