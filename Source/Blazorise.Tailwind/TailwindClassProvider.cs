@@ -414,7 +414,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Addons
 
-    public override string Addons() => "addons flex";
+    public override string Addons() => "b-addons flex";
 
     public override string AddonsSize( Size size ) => null;
 
@@ -424,9 +424,9 @@ public class TailwindClassProvider : ClassProvider
     {
         return addonType switch
         {
-            AddonType.Start => "addon-start inline-flex items-center text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
-            AddonType.End => "addon-end inline-flex items-center text-gray-900 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
-            _ => "addon-body",
+            AddonType.Start => "b-addon-start inline-flex items-center text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
+            AddonType.End => "b-addon-end inline-flex items-center text-gray-900 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
+            _ => "b-addon-body",
         };
     }
 
@@ -443,7 +443,7 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string AddonLabel() => "block px-3 font-medium text-gray-900 dark:text-white";
+    public override string AddonLabel() => "b-addon-label block px-3 font-medium text-gray-900 dark:text-white";
 
     //public override string AddonContainer() => null;
 
