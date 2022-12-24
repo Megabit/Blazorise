@@ -1674,7 +1674,7 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string ToBorderColor( BorderColor borderColor )
     {
-        return borderColor.Name + "-600";
+        return borderColor.Name;
     }
 
     public virtual string ToDirection( FlexDirection direction )

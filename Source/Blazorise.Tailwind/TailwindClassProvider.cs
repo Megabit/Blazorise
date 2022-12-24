@@ -2102,6 +2102,11 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
+    public override string ToBorderColor( BorderColor borderColor )
+    {
+        return $"{borderColor.Name}-600";
+    }
+
     #endregion
 
     public override bool UseCustomInputStyles { get; set; } = true;
