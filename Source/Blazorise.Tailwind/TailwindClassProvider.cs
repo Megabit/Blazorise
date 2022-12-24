@@ -1393,13 +1393,42 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableBody() => "b-table-body";
 
-    public override string TableRow() => "b-table-row group-[.b-table-striped.b-table-hoverable]:odd:bg-white group-[.b-table-striped.b-table-hoverable]:even:bg-gray-50 group-[.b-table-striped.b-table-hoverable]:odd:hover:bg-gray-50 group-[.b-table-striped.b-table-hoverable]:even:hover:bg-white group-[.b-table-striped:not(.b-table-hoverable)]:odd:bg-white group-[.b-table-striped:not(.b-table-hoverable)]:even:bg-gray-50 group-[.b-table-hoverable:not(.b-table-striped)]:hover:bg-gray-50 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
+    public override string TableRow( bool striped, bool hoverable )
+    {
+        if ( striped && hoverable )
+            return "b-table-row odd:bg-white even:bg-gray-50 odd:hover:bg-gray-100 even:hover:bg-white odd:bg-white even:bg-gray-50 hover:bg-gray-100 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
 
-    public override string TableRowColor( Color color ) => $"bg-{ToColor( color )}";
+        if ( striped )
+            return "b-table-row odd:bg-white even:bg-gray-50 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
 
-    public override string TableRowHoverCursor() => "b-table-row-selectable";
+        if ( hoverable )
+            return "b-table-row hover:bg-gray-100 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
 
-    public override string TableRowIsSelected() => "b-table-row-selected";
+        return "b-table-row group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700";
+    }
+
+    public override string TableRowColor( Color color )
+    {
+        var name = color?.Name;
+
+        return name switch
+        {
+            "primary" => "!text-primary-800 !bg-primary-300 !dark:bg-primary-500 !dark:text-primary-800",
+            "secondary" => "!text-secondary-500 !bg-secondary-300 !dark:bg-secondary-100 !dark:text-secondary-600",
+            "success" => "!text-success-700 !bg-success-100 !dark:bg-success-200 !dark:text-success-800",
+            "danger" => "!text-danger-700 !bg-danger-100 !dark:bg-danger-200 !dark:text-danger-800",
+            "warning" => "!text-warning-700 !bg-warning-100 !dark:bg-warning-200 !dark:text-warning-800",
+            "info" => "!text-info-700 !bg-info-100 !dark:bg-info-200 !dark:text-info-800",
+            "light" => "!text-light-500 bg-light-100 !dark:bg-light-100 !dark:text-light-600",
+            "dark" => "!text-dark-100 !bg-dark-800 !dark:bg-dark-300 !dark:text-dark-700",
+            "link" => "!text-primary-600 !dark:text-primary-500 !hover:underline",
+            _ => null,
+        };
+    }
+
+    public override string TableRowHoverCursor() => "cursor-pointer";
+
+    public override string TableRowIsSelected() => "b-table-row-selected !text-primary-800 !bg-primary-300 !dark:bg-primary-500 !dark:text-primary-800";
 
     public override string TableRowHeader() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
 

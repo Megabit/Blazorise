@@ -898,7 +898,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableBody();
 
-    public abstract string TableRow();
+    public abstract string TableRow( bool striped, bool hoverable );
 
     public abstract string TableRowColor( Color color );
 

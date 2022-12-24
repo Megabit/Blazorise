@@ -949,7 +949,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableBody() => null;
 
-    public override string TableRow() => null;
+    public override string TableRow( bool striped, bool hoverable ) => null;
 
     public override string TableRowColor( Color color ) => $"table-{ToColor( color )}";
 

@@ -901,7 +901,7 @@ class EmptyClassProvider : IClassProvider
 
     public string TableBody() => null;
 
-    public string TableRow() => null;
+    public string TableRow( bool striped, bool hoverable ) => null;
 
     public string TableRowColor( Color color ) => null;
 

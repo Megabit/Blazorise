@@ -945,7 +945,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableBody() => "ant-table-tbody";
 
-    public override string TableRow() => "ant-table-row";
+    public override string TableRow( bool striped, bool hoverable ) => "ant-table-row";
 
     public override string TableRowColor( Color color ) => $"ant-table-{ToColor( color )}";
 

@@ -894,7 +894,7 @@ public interface IClassProvider
 
     string TableBody();
 
-    string TableRow();
+    string TableRow( bool striped, bool hoverable );
 
     string TableRowColor( Color color );
 

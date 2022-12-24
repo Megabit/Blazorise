@@ -27,7 +27,7 @@ public partial class TableRow : BaseDraggableComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.TableRow() );
+        builder.Append( ClassProvider.TableRow( ParentTable.Striped, ParentTable.Hoverable ) );
         builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.Default );
         builder.Append( ClassProvider.TableRowIsSelected(), Selected );
         builder.Append( ClassProvider.TableRowHoverCursor(), HoverCursor != Cursor.Default );
@@ -55,6 +55,11 @@ public partial class TableRow : BaseDraggableComponent
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the cascaded parent table component.
+    /// </summary>
+    [CascadingParameter] protected Table ParentTable { get; set; }
 
     /// <summary>
     /// Gets or sets the row variant color.
