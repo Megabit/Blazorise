@@ -539,7 +539,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region CloseButton
 
-    public override string CloseButton() => "rounded-lg text-sm inline-flex";
+    public override string CloseButton() => "text-sm inline-flex";
 
     #endregion
 
@@ -1444,7 +1444,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Badge
 
-    public override string Badge() => "text-xs font-semibold mr-2 px-2.5 py-0.5 rounded";
+    public override string Badge() => "inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded";
 
     public override string BadgeColor( Color color )
     {

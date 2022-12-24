@@ -48,6 +48,7 @@ public static class Config
         { typeof( Blazorise.Accordion ), typeof( Tailwind.Accordion ) },
         { typeof( Blazorise.AccordionToggle ), typeof( Tailwind.AccordionToggle ) },
         { typeof( Blazorise.Addon ), typeof( Tailwind.Addon ) },
+        { typeof( Blazorise.Badge ), typeof( Tailwind.Badge ) },
         { typeof( Blazorise.Bar ), typeof( Tailwind.Bar ) },
         { typeof( Blazorise.BarDropdown ), typeof( Tailwind.BarDropdown ) },
         { typeof( Blazorise.BarDropdownItem ), typeof( Tailwind.BarDropdownItem ) },
