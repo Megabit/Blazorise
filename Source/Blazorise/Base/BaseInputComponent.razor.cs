@@ -386,6 +386,11 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     }
 
     /// <summary>
+    /// Gets the <see cref="ReadOnly"/> value represented as a string.
+    /// </summary>
+    protected string ReadOnlyAsString => ReadOnly ? "true" : "false";
+
+    /// <summary>
     /// Gets the size based on the theme settings.
     /// </summary>
     protected Size ThemeSize => Size.GetValueOrDefault( ParentAddons?.Size ?? Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
