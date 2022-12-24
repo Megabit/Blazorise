@@ -60,7 +60,7 @@
   font-size: 1.5rem;
 }
 
-.b-dropdown.b-dropdown-group > .button:not(:last-child):not(.b-dropdown-toggle) {
+.b-dropdown.b-dropdown-group > .b-button:not(:last-child):not(.b-dropdown-toggle) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }

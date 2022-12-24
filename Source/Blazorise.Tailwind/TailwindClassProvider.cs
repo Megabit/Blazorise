@@ -458,8 +458,8 @@ public class TailwindClassProvider : ClassProvider
     #region Button
 
     public override string Button( bool outline ) => outline
-        ? "button border focus:ring-4 focus:outline-none font-medium text-center"
-        : "button focus:ring-4 font-medium focus:outline-none";
+        ? "b-button inline-flex items-center border focus:ring-4 focus:outline-none font-medium text-center"
+        : "b-button inline-flex items-center focus:ring-4 font-medium focus:outline-none";
 
     public override string ButtonColor( Color color, bool outline )
     {
