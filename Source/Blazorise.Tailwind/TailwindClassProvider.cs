@@ -859,6 +859,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ListGroupFlush( bool flush ) => flush ? "border-y border-x-0" : "border rounded-lg";
 
+    public override string ListGroupScrollable( bool scrollable ) => scrollable ? "overflow-y-scroll" : null;
+
     public override string ListGroupItem() => "py-3 px-4 w-full border-b last:border-b-0";
 
     public override string ListGroupItemSelectable() => "cursor-pointer focus:outline-none";

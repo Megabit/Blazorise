@@ -623,6 +623,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ListGroupFlush( bool flush ) => flush ? "ant-list-flush" : null;
 
+    public override string ListGroupScrollable( bool scrollable ) => scrollable ? "ant-list-scrollable" : null;
+
     public override string ListGroupItem() => "ant-list-item ant-list-item-no-flex";
 
     public override string ListGroupItemSelectable() => "ant-list-item-actionable";

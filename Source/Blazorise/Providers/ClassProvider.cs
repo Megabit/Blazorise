@@ -579,6 +579,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ListGroupFlush( bool flush );
 
+    public abstract string ListGroupScrollable( bool scrollable );
+
     public abstract string ListGroupItem();
 
     public abstract string ListGroupItemSelectable();

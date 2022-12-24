@@ -640,7 +640,7 @@ select[readonly] optgroup {
   z-index: 161;
 }
 
-.b-list-view {
+.list-group-scrollable {
   overflow-y: scroll;
 }
 

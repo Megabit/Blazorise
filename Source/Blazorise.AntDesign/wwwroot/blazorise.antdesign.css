@@ -2308,7 +2308,7 @@ li.ant-list-item-actionable {
   border-color: #3273dc;
 }
 
-.b-list-view {
+.ant-list-scrollable {
   overflow-y: scroll;
 }
 

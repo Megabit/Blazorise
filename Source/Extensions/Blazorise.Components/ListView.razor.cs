@@ -52,7 +52,7 @@ public partial class ListView<TItem> : ComponentBase
     }
 
     protected string ListGroupClassNames
-        => $"b-list-view {Class}";
+        => Class;
 
     protected string ListGroupStyleNames
     {
@@ -86,6 +86,12 @@ public partial class ListView<TItem> : ComponentBase
     /// </summary>
     [Parameter]
     public bool Flush { get; set; }
+
+    /// <summary>
+    /// Makes the list group scrollable by adding a vertical scrollbar.
+    /// </summary>
+    [Parameter]
+    public bool Scrollable { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the items data-source.

@@ -578,6 +578,8 @@ public interface IClassProvider
 
     string ListGroupFlush( bool flush );
 
+    string ListGroupScrollable( bool scrollable );
+
     string ListGroupItem();
 
     string ListGroupItemSelectable();

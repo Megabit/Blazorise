@@ -622,6 +622,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ListGroupFlush( bool flush ) => flush ? "list-group-flush" : null;
 
+    public override string ListGroupScrollable( bool scrollable ) => scrollable ? "list-group-scrollable" : null;
+
     public override string ListGroupItem() => "list-group-item";
 
     public override string ListGroupItemSelectable() => "list-group-item-action";

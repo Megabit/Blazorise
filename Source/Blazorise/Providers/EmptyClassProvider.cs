@@ -581,6 +581,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ListGroupFlush( bool flush ) => null;
 
+    public string ListGroupScrollable( bool scrollable ) => null;
+
     public string ListGroupItem() => null;
 
     public string ListGroupItemSelectable() => null;
