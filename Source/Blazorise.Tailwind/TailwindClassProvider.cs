@@ -1266,7 +1266,20 @@ public class TailwindClassProvider : ClassProvider
     public override string PaginationItemDisabled() => null;
 
     public override string PaginationLink()
-        => "pagination-link relative block px-3 py-2.5 leading-tight border rounded-lg";
+        => "pagination-link relative block leading-tight border rounded-lg";
+
+    public override string PaginationLinkSize( Size size )
+    {
+        return size switch
+        {
+            Size.ExtraSmall => "px-2 py-1.5",
+            Size.Small => "px-2.5 py-2",
+            Size.Medium => "px-3 py-3",
+            Size.Large => "px-4 py-3.5",
+            Size.ExtraLarge => "px-3 py-2.5",
+            _ => "px-3 py-2.5"
+        };
+    }
 
     public override string PaginationLinkActive( bool active ) => active
         ? "text-primary-600 bg-primary-50 hover:bg-primary-100 hover:text-primary-700 dark:bg-gray-700 dark:text-white"

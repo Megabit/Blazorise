@@ -828,6 +828,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string PaginationLink();
 
+    public abstract string PaginationLinkSize( Size size );
+
     public abstract string PaginationLinkActive( bool active );
 
     public abstract string PaginationLinkDisabled( bool disabled );

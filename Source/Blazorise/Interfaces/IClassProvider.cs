@@ -824,6 +824,8 @@ public interface IClassProvider
 
     string PaginationLink();
 
+    string PaginationLinkSize( Size size );
+
     string PaginationLinkActive( bool active );
 
     string PaginationLinkDisabled( bool disabled );
