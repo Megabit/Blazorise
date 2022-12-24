@@ -1459,7 +1459,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Badge
 
-    public override string Badge() => "inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded";
+    public override string Badge() => "b-badge inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded";
 
     public override string BadgeColor( Color color )
     {
@@ -1480,21 +1480,21 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string BadgePill() => "rounded-full";
+    public override string BadgePill() => "b-badge-pill rounded-full";
 
-    public override string BadgeClose() => "badge-close";
+    public override string BadgeClose() => null;
 
     #endregion
 
     #region Media
 
-    public override string Media() => "media";
+    public override string Media() => "b-media flex";
 
-    public override string MediaLeft() => "media-left";
+    public override string MediaLeft() => "b-media-left shrink-0";
 
-    public override string MediaRight() => "media-right";
+    public override string MediaRight() => "b-media-right shrink ml-3";
 
-    public override string MediaBody() => "media-body";
+    public override string MediaBody() => "b-media-body shrink ml-3";
 
     #endregion
 
@@ -1546,7 +1546,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Code
 
-    public override string Code() => null;
+    public override string Code() => "b-code";
 
     #endregion
 
@@ -1556,12 +1556,12 @@ public class TailwindClassProvider : ClassProvider
     {
         return headingSize switch
         {
-            Blazorise.HeadingSize.Is1 => "text-5xl font-extrabold dark:text-white",
-            Blazorise.HeadingSize.Is2 => "text-4xl font-bold dark:text-white",
-            Blazorise.HeadingSize.Is3 => "text-3xl font-bold dark:text-white",
-            Blazorise.HeadingSize.Is4 => "text-2xl font-bold dark:text-white",
-            Blazorise.HeadingSize.Is5 => "text-xl font-bold dark:text-white",
-            Blazorise.HeadingSize.Is6 => "text-lg font-bold dark:text-white",
+            Blazorise.HeadingSize.Is1 => "b-heading-1 text-5xl font-extrabold dark:text-white",
+            Blazorise.HeadingSize.Is2 => "b-heading-2 text-4xl font-bold dark:text-white",
+            Blazorise.HeadingSize.Is3 => "b-heading-3 text-3xl font-bold dark:text-white",
+            Blazorise.HeadingSize.Is4 => "b-heading-4 text-2xl font-bold dark:text-white",
+            Blazorise.HeadingSize.Is5 => "b-heading-5 text-xl font-bold dark:text-white",
+            Blazorise.HeadingSize.Is6 => "b-heading-6 text-lg font-bold dark:text-white",
             _ => null,
         };
     }
@@ -1574,10 +1574,10 @@ public class TailwindClassProvider : ClassProvider
     {
         return displayHeadingSize switch
         {
-            Blazorise.DisplayHeadingSize.Is1 => "text-7xl font-light dark:text-white",
-            Blazorise.DisplayHeadingSize.Is2 => "text-6xl font-light dark:text-white",
-            Blazorise.DisplayHeadingSize.Is3 => "text-5xl font-light dark:text-white",
-            Blazorise.DisplayHeadingSize.Is4 => "text-4xl font-light dark:text-white",
+            Blazorise.DisplayHeadingSize.Is1 => "b-displayheading-1 text-7xl font-light dark:text-white",
+            Blazorise.DisplayHeadingSize.Is2 => "b-displayheading-2 text-6xl font-light dark:text-white",
+            Blazorise.DisplayHeadingSize.Is3 => "b-displayheading-3 text-5xl font-light dark:text-white",
+            Blazorise.DisplayHeadingSize.Is4 => "b-displayheading-4 text-4xl font-light dark:text-white",
             _ => null,
         };
     }
@@ -1586,13 +1586,13 @@ public class TailwindClassProvider : ClassProvider
 
     #region Lead
 
-    public override string Lead() => "mb-3 text-lg font-light text-gray-500 md:text-xl dark:text-gray-400";
+    public override string Lead() => "b-lead mb-3 text-lg font-light text-gray-500 md:text-xl dark:text-gray-400";
 
     #endregion
 
     #region Paragraph
 
-    public override string Paragraph() => "mb-3 font-light";
+    public override string Paragraph() => "b-paragraph mb-3 font-light";
 
     public override string ParagraphColor( TextColor textColor )
     {
@@ -1621,9 +1621,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region Blockquote
 
-    public override string Blockquote() => "text-xl italic font-semibold text-gray-900 dark:text-white";
+    public override string Blockquote() => "b-blockquote text-xl italic font-semibold text-gray-900 dark:text-white";
 
-    public override string BlockquoteFooter() => "text-sm font-light text-gray-500 dark:text-gray-400";
+    public override string BlockquoteFooter() => "b-blockquote-footer text-sm font-light text-gray-500 dark:text-gray-400";
 
     #endregion
 
