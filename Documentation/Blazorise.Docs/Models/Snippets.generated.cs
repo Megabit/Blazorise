@@ -4004,6 +4004,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.1.5.0"" type=""module""></script>";
 
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.1.5.0"" type=""module""></script>";
+
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
 
         public const string TemplatesInstallExample = @"dotnet new install Blazorise.Templates";
@@ -7201,6 +7204,30 @@ builder.Services
 <script src=""_content/Blazorise.Material/blazorise.material.js""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
+
+        public const string TailwindGuideNuget1Example = @"Install-Package Blazorise.Tailwind";
+
+        public const string TailwindGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+
+        public const string TailwindGuideRegistrationExample = @"using Blazorise;
+using Blazorise.Tailwind;
+using Blazorise.Icons.FontAwesome;
+
+builder.Services
+    .AddBlazorise()
+    .AddTailwindProviders()
+    .AddFontAwesomeIcons();";
+
+        public const string TailwindGuideSourceFilesExample = @"<link href=""https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"" rel=""stylesheet"">
+<link rel=""stylesheet"" href=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css"" />
+<script src=""https://cdn.tailwindcss.com""></script>
+<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.1.4.1""></script>
+
+<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />
+
+<script src=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.js""></script>";
+
+        public const string TailwindGuideUsingExample = @"@using Blazorise";
 
         public const string CustomLanguageExample = @"<Field>
     <FileEdit Multiple=""false"" />
