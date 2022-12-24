@@ -118,7 +118,21 @@
                     <AlertMessage>Alert Link.</AlertMessage>
                     <CloseButton />
                 </Alert>
-                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert5" Dismisable>
+                <Alert Color="Color.Light" @bind-Visible="@dismisableAlert5" Dismisable>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>Alert Link.</AlertMessage>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Dark" @bind-Visible="@dismisableAlert6" Dismisable>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>Alert Link.</AlertMessage>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert7" Dismisable>
                     <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
                         Big one!
                         <CloseButton />
@@ -141,4 +155,6 @@
     bool dismisableAlert3 = true;
     bool dismisableAlert4 = true;
     bool dismisableAlert5 = true;
+    bool dismisableAlert6 = true;
+    bool dismisableAlert7 = true;
 }
