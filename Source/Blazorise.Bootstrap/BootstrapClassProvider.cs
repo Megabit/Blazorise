@@ -789,6 +789,9 @@ public class BootstrapClassProvider : ClassProvider
         return $"{baseClass}-{ToColumnWidth( columnWidth )}";
     }
 
+    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
+       => string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+
     #endregion
 
     #region Display

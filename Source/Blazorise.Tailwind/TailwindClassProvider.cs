@@ -362,9 +362,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Field() => "mb-3";
 
-    public override string FieldHorizontal() => "flex flex-row";
+    public override string FieldHorizontal() => "flex flex-wrap flex-row";
 
-    public override string FieldColumn() => "basis-0 grow pl-2 pr-2 w-full";
+    public override string FieldColumn() => "basis-full grow-0 pl-2 pr-2 w-full";
 
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -1128,33 +1128,35 @@ public class TailwindClassProvider : ClassProvider
 
     #region Column
 
-    public override string Column( bool hasSizes ) => hasSizes ? null : "basis-0 pl-2 pr-2 grow";
+    public override string Column( bool hasSizes ) => hasSizes ? null : "relative w-full basis-0 grow pl-2 pr-2";
 
     public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         var columnWidthNumber = ToColumnWidthNumber( columnWidth );
+        var breakpointPart = breakpoint != Blazorise.Breakpoint.None && breakpoint >= Blazorise.Breakpoint.Tablet
+            ? $"{ToBreakpoint( breakpoint )}:"
+            : null;
 
         if ( offset && columnWidthNumber > 0 )
         {
             var percentage = Math.Round( ( columnWidthNumber / 12d ) * 100, 6 ).ToString( CultureInfo.InvariantCulture );
 
-            if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
-            {
-                return $"{ToBreakpoint( breakpoint )}:ml-[{percentage}%] pl-2 pr-2";
-            }
-
-            return $"ml-[{percentage}%] pl-2 pr-2";
+            return $"{breakpointPart}ml-[{percentage}%]";
         }
 
         var columnWidthValue = ToColumnWidth( columnWidth );
 
-        if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
+
+        if ( columnWidthValue == "auto" )
         {
-            return $"{ToBreakpoint( breakpoint )}:basis-{columnWidthValue} pl-2 pr-2";
+            return $"relative w-auto max-w-full {breakpointPart}basis-{columnWidthValue}";
         }
 
-        return $"basis-{columnWidthValue} pl-2 pr-2";
+        return $"relative w-full {breakpointPart}basis-{columnWidthValue}";
     }
+
+    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
+       => $"{string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) )} pl-2 pr-2";
 
     #endregion
 
@@ -2105,6 +2107,19 @@ public class TailwindClassProvider : ClassProvider
     public override string ToBorderColor( BorderColor borderColor )
     {
         return $"{borderColor.Name}-600";
+    }
+
+    public override string ToBreakpoint( Breakpoint breakpoint )
+    {
+        return breakpoint switch
+        {
+            Blazorise.Breakpoint.Mobile => "sm",
+            Blazorise.Breakpoint.Tablet => "md",
+            Blazorise.Breakpoint.Desktop => "lg",
+            Blazorise.Breakpoint.Widescreen => "xl",
+            Blazorise.Breakpoint.FullHD => "2xl",
+            _ => null,
+        };
     }
 
     #endregion

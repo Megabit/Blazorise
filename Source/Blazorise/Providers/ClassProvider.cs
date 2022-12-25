@@ -747,6 +747,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 
+    public abstract string Column( IEnumerable<ColumnDefinition> columnDefinitions );
+
     #endregion
 
     #region Display

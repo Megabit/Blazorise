@@ -744,6 +744,8 @@ public interface IClassProvider
 
     string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 
+    string Column( IEnumerable<ColumnDefinition> columnDefinitions );
+
     #endregion
 
     #region Display

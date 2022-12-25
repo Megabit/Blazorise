@@ -751,6 +751,8 @@ class EmptyClassProvider : IClassProvider
 
     public string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
 
+    public string Column( IEnumerable<ColumnDefinition> columnDefinitions ) => null;
+
     #endregion
 
     #region Display

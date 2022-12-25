@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Linq;
 using Blazorise.Utilities;
 #endregion
 
@@ -177,6 +178,27 @@ public interface IFluentColumnWithSize :
 }
 
 /// <summary>
+/// Holds the build information for current column rules.
+/// </summary>
+public class ColumnDefinition
+{
+    /// <summary>
+    /// Gets or sets the column size.
+    /// </summary>
+    public ColumnWidth ColumnWidth { get; set; }
+
+    /// <summary>
+    /// Gets or sets the breakpoint rule.
+    /// </summary>
+    public Breakpoint Breakpoint { get; set; }
+
+    /// <summary>
+    /// Gets or sets the flag to indicate we want to offset column by the <see cref="ColumnWidth"/>.
+    /// </summary>
+    public bool Offset { get; set; }
+}
+
+/// <summary>
 /// Default implementation of fluent column builder.
 /// </summary>
 public class FluentColumn :
@@ -187,15 +209,6 @@ public class FluentColumn :
     IFluentColumnWithOffset
 {
     #region Members
-
-    private class ColumnDefinition
-    {
-        public ColumnWidth ColumnWidth { get; set; }
-
-        public Breakpoint Breakpoint { get; set; }
-
-        public bool Offset { get; set; }
-    }
 
     private ColumnDefinition currentColumnDefinition;
 
@@ -220,17 +233,7 @@ public class FluentColumn :
             {
                 if ( HasSizes && columnDefinitions?.Count > 0 )
                 {
-                    ColumnDefinition previousColumnDefinition = null;
-
-                    foreach ( var columnDefinition in columnDefinitions )
-                    {
-                        if ( columnDefinition.ColumnWidth == ColumnWidth.Default )
-                            continue;
-
-                        builder.Append( classProvider.Column( columnDefinition.ColumnWidth, columnDefinition.Breakpoint, columnDefinition.Offset ) );
-
-                        previousColumnDefinition = columnDefinition;
-                    }
+                    builder.Append( classProvider.Column( columnDefinitions.Where( x => x.ColumnWidth != ColumnWidth.Default ) ) );
                 }
 
                 if ( customRules?.Count > 0 )
