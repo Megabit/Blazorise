@@ -364,7 +364,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string FieldHorizontal() => "flex flex-wrap flex-row";
 
-    public override string FieldColumn() => "basis-full grow-0 pl-2 pr-2 w-full";
+    public override string FieldColumn() => "relative basis-0 grow pl-2 pr-2 w-full max-w-full";
 
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
