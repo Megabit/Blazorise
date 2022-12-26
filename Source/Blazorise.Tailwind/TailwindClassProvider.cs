@@ -1508,20 +1508,20 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "text-primary-600 dark:text-primary-500",
-            "secondary" => "text-secondary-600 dark:text-secondary-500",
-            "success" => "text-success-500 dark:text-success-400",
-            "danger" => "text-danger-600 dark:text-danger-500",
-            "warning" => "text-warning-400 dark:text-warning-300",
-            "info" => "text-info-600 dark:text-info-500",
-            "light" => "text-light-600 dark:text-light-500",
-            "dark" => "text-gray-500 dark:text-gray-400",
-            "body" => "text-gray-500 dark:text-gray-400",
-            "muted" => "text-gray-500 dark:text-gray-400",
-            "white" => "text-white dark:text-black",
-            "black-50" => "text-gray-500 dark:text-gray-400",
-            "white-50" => "text-gray-500 dark:text-gray-400",
-            _ => "text-gray-500 dark:text-gray-400",
+            "primary" => "!text-primary-600 !dark:text-primary-500",
+            "secondary" => "!text-secondary-600 !dark:text-secondary-500",
+            "success" => "!text-success-500 !dark:text-success-400",
+            "danger" => "!text-danger-600 !dark:text-danger-500",
+            "warning" => "!text-warning-400 !dark:text-warning-300",
+            "info" => "!text-info-600 !dark:text-info-500",
+            "light" => "!text-light-600 !dark:text-light-500",
+            "dark" => "!text-gray-800 !dark:text-gray-200",
+            "body" => "!text-gray-500 !dark:text-gray-400",
+            "muted" => "!text-gray-300 !dark:text-gray-600",
+            "white" => "!text-white !dark:text-black",
+            "black-50" => "!text-gray-600 !dark:text-gray-300",
+            "white-50" => "!text-gray-300 !dark:text-gray-400",
+            _ => "!text-gray-500 !dark:text-gray-400",
         };
     }
 
