@@ -171,3 +171,9 @@ code {
     width: 150px;
     overflow-wrap: break-word;
 }
+
+.b-demo-products {
+    cursor: pointer !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+}
