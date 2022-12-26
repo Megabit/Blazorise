@@ -769,7 +769,7 @@ public class BulmaClassProvider : ClassProvider
 
     #region Row
 
-    public override string Row() => "columns";
+    public override string Row() => "columns is-multiline";
 
     public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
     {
