@@ -761,13 +761,13 @@ public class TailwindClassProvider : ClassProvider
 
     #region Carousel
 
-    public override string Carousel() => "relative";
+    public override string Carousel() => "b-carousel relative";
 
-    public override string CarouselSlides() => "relative overflow-hidden rounded-lg h-56 md:h-96";
+    public override string CarouselSlides() => "b-carousel-slides relative overflow-hidden rounded-lg h-56 md:h-96";
 
-    public override string CarouselSlide() => "duration-700 ease-in-out absolute inset-0 transition-all transform";
+    public override string CarouselSlide() => "b-carousel-slide duration-700 ease-in-out absolute inset-0 transition-all transform";
 
-    public override string CarouselSlideActive( bool active ) => null;
+    public override string CarouselSlideActive( bool active ) => active ? "b-carousel-slide-active" : null;
 
     public override string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides )
     {
@@ -793,27 +793,27 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CarouselSlideSlidingNext( bool next ) => null;
 
-    public override string CarouselIndicators() => "absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2";
+    public override string CarouselIndicators() => "b-carousel-indicators absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2";
 
-    public override string CarouselIndicator() => "w-3 h-3 rounded-full";
+    public override string CarouselIndicator() => "b-carousel-indicator w-3 h-3 rounded-full";
 
-    public override string CarouselIndicatorActive( bool active ) => active ? "bg-white dark:bg-gray-800" : "bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800";
+    public override string CarouselIndicatorActive( bool active ) => active ? "b-carousel-indicator-active bg-white dark:bg-gray-800" : "bg-white/50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800";
 
-    public override string CarouselFade( bool fade ) => fade ? "carousel-fade" : null;
+    public override string CarouselFade( bool fade ) => fade ? "b-carousel-fade" : null;
 
-    public override string CarouselCaption() => "carousel-caption";
+    public override string CarouselCaption() => "b-carousel-caption";
 
     #endregion
 
     #region Jumbotron
 
-    public override string Jumbotron() => "py-8 px-4 mx-auto w-full text-center lg:py-16 lg:px-12 text-gray-100 dark:text-gray-800";
+    public override string Jumbotron() => "b-jumbotron py-8 px-4 mx-auto w-full text-center lg:py-16 lg:px-12 text-gray-100 dark:text-gray-800";
 
     public override string JumbotronBackground( Background background ) => $"bg-{ToBackground( background )}";
 
-    public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"text-gray-100 dark:text-gray-800 {DisplayHeadingSize( (Blazorise.DisplayHeadingSize)jumbotronTitleSize )}";
+    public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"b-jumbotron-title text-gray-100 dark:text-gray-800 {DisplayHeadingSize( (Blazorise.DisplayHeadingSize)jumbotronTitleSize )}";
 
-    public override string JumbotronSubtitle() => "mb-8 text-lg font-normal text-gray-100 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-800";
+    public override string JumbotronSubtitle() => "b-jumbotron-subtitle mb-8 text-lg font-normal text-gray-100 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-800";
 
     #endregion
 
@@ -855,19 +855,19 @@ public class TailwindClassProvider : ClassProvider
 
     #region ListGroup
 
-    public override string ListGroup() => "w-full text-sm font-medium text-gray-900 bg-white border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white";
+    public override string ListGroup() => "b-listgroup w-full text-sm font-medium text-gray-900 bg-white border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white";
 
-    public override string ListGroupFlush( bool flush ) => flush ? "border-y border-x-0" : "border rounded-lg";
+    public override string ListGroupFlush( bool flush ) => flush ? "b-listgroup-flush border-y border-x-0" : "border rounded-lg";
 
-    public override string ListGroupScrollable( bool scrollable ) => scrollable ? "overflow-y-scroll" : null;
+    public override string ListGroupScrollable( bool scrollable ) => scrollable ? "b-listgroup-scrollable overflow-y-scroll" : null;
 
-    public override string ListGroupItem() => "py-3 px-4 w-full border-b last:border-b-0";
+    public override string ListGroupItem() => "b-listgroup-item py-3 px-4 w-full border-b last:border-b-0";
 
-    public override string ListGroupItemSelectable() => "cursor-pointer focus:outline-none";
+    public override string ListGroupItemSelectable() => "b-listgroup-item-selectable cursor-pointer focus:outline-none";
 
-    public override string ListGroupItemActive() => null/*"text-white bg-primary-700"*/;
+    public override string ListGroupItemActive() => "b-listgroup-item-active";
 
-    public override string ListGroupItemDisabled() => "bg-gray-100 cursor-not-allowed dark:bg-gray-600 dark:text-gray-400";
+    public override string ListGroupItemDisabled() => "b-listgroup-item-disabled bg-gray-100 cursor-not-allowed dark:bg-gray-600 dark:text-gray-400";
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active )
     {
