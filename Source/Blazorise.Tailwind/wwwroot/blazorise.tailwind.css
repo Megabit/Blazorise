@@ -45,10 +45,10 @@
   margin-right: 0.1rem;
 }
 
-.breadcrumb .breadcrumb-item:first-child > div > svg {
+.b-breadcrumb .b-breadcrumb-item:first-child > div > svg {
   display: none;
 }
-.breadcrumb .breadcrumb-item:first-child > div > span {
+.b-breadcrumb .b-breadcrumb-item:first-child > div > span {
   margin-left: 0;
 }
 
