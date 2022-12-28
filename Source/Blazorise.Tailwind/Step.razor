@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.Step
 <CascadingValue Value="@this" IsFixed>
     <li id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
-        <div class="step-item-head flex items-center cursor-pointer leading-5 no-underline">
+        <div class="b-step-item-head flex items-center cursor-pointer leading-5 no-underline">
             @if ( Marker != null || Caption != null )
             {
                 @if ( Marker != null )

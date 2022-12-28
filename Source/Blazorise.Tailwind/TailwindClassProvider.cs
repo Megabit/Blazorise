@@ -701,17 +701,17 @@ public class TailwindClassProvider : ClassProvider
 
     #region Steps
 
-    public override string Steps() => "steps relative flex justify-between w-full list-none overflow-hidden";
+    public override string Steps() => "b-steps relative flex justify-between w-full list-none overflow-hidden";
 
-    public override string StepItem() => "step-item flex-auto h-16";
+    public override string StepItem() => "b-step-item flex-auto h-16";
 
-    public override string StepItemActive( bool active ) => active ? "step-active" : null;
+    public override string StepItemActive( bool active ) => active ? "b-step-active" : null;
 
-    public override string StepItemCompleted( bool completed ) => completed ? "step-completed" : null;
+    public override string StepItemCompleted( bool completed ) => completed ? "b-step-completed" : null;
 
     public override string StepItemColor( Color color ) => null;
 
-    public override string StepItemMarker() => "step-item-head-icon step-item-my-6 mr-2 flex justify-center items-center rounded-full w-7 h-7 text-sm border-2";
+    public override string StepItemMarker() => "b-step-item-head-icon my-6 mr-2 flex justify-center items-center rounded-full w-7 h-7 text-sm border-2";
 
     public override string StepItemMarkerColor( Color color, bool active )
     {
@@ -749,11 +749,11 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string StepItemDescription() => "step-item-head-text font-medium";
+    public override string StepItemDescription() => "b-step-item-head-text font-medium";
 
-    public override string StepsContent() => "steps-content";
+    public override string StepsContent() => "b-steps-content";
 
-    public override string StepPanel() => "step-panel";
+    public override string StepPanel() => "b-step-panel";
 
     public override string StepPanelActive( bool active ) => active ? "block" : "hidden";
 

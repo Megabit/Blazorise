@@ -1,7 +1,7 @@
 ﻿
-.steps {
-    .step-item:not(:first-child) {
-        .step-item-head:before {
+.b-steps {
+    .b-step-item:not(:first-child) {
+        .b-step-item-head:before {
             flex: 1;
             height: 1px;
             width: 100%;
@@ -11,8 +11,8 @@
         }
     }
 
-    .step-item:not(:last-child) {
-        .step-item-head:after {
+    .b-step-item:not(:last-child) {
+        .b-step-item-head:after {
             flex: 1;
             height: 1px;
             width: 100%;
