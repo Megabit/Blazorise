@@ -1461,7 +1461,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Badge
 
-    public override string Badge() => "b-badge inline-flex items-center text-xs font-semibold px-2.5 py-0.5 rounded";
+    public override string Badge() => "b-badge inline-flex items-center text-[0.75em] leading-[1em] font-semibold px-2.5 py-1 rounded";
 
     public override string BadgeColor( Color color )
     {
