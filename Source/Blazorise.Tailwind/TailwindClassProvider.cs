@@ -819,35 +819,35 @@ public class TailwindClassProvider : ClassProvider
 
     #region Card
 
-    public override string CardDeck() => "card-deck flex flex-row gap-x-4";
+    public override string CardDeck() => "b-card-deck flex flex-row gap-x-4";
 
-    public override string CardGroup() => "card-group flex flex-row gap-x-0";
+    public override string CardGroup() => "b-card-group flex flex-row gap-x-0";
 
-    public override string Card() => "card max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700";
+    public override string Card() => "b-card max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700";
 
     public override string CardWhiteText() => "text-white";
 
-    public override string CardActions() => "card-actions";
+    public override string CardActions() => "b-card-actions";
 
-    public override string CardBody() => "card-body p-5 text-inherit";
+    public override string CardBody() => "b-card-body p-5 text-inherit";
 
-    public override string CardFooter() => "card-footer px-5 py-4 text-inherit";
+    public override string CardFooter() => "b-card-footer px-5 py-4 text-inherit";
 
-    public override string CardHeader() => "card-header px-5 py-4 text-inherit";
+    public override string CardHeader() => "b-card-header px-5 py-4 text-inherit";
 
-    public override string CardImage() => "card-image rounded-t-lg text-inherit";
+    public override string CardImage() => "b-card-image rounded-t-lg text-inherit";
 
-    public override string CardTitle( bool insideHeader ) => "card-title mb-2 text-2xl font-bold tracking-tight text-inherit";
+    public override string CardTitle( bool insideHeader ) => "b-card-title mb-2 text-2xl font-bold tracking-tight text-inherit";
 
     public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
-    public override string CardSubtitle( bool insideHeader ) => "card-subtitle text-inherit";
+    public override string CardSubtitle( bool insideHeader ) => "b-card-subtitle text-inherit";
 
     public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
-    public override string CardText() => "card-text mb-3 font-normal text-inherit";
+    public override string CardText() => "b-card-text mb-3 font-normal text-inherit";
 
-    public override string CardLink() => "inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
+    public override string CardLink() => "b-card-link inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 

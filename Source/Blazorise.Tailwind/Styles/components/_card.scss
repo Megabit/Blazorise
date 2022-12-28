@@ -1,8 +1,8 @@
-﻿.card-group {
-    > .card {
+﻿.b-card-group {
+    > .b-card {
         flex: 1 0 0%;
 
-        + .card {
+        + .b-card {
             margin-left: 0;
             border-left: 0;
         }
@@ -11,15 +11,15 @@
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
 
-            .card-image,
-            .card-image > img,
-            .card-header {
+            .b-card-image,
+            .b-card-image > img,
+            .b-card-header {
                 border-top-right-radius: 0;
             }
 
-            .card-image,
-            .card-image > img,
-            .card-footer {
+            .b-card-image,
+            .b-card-image > img,
+            .b-card-footer {
                 border-bottom-right-radius: 0;
             }
         }
@@ -28,21 +28,21 @@
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
 
-            .card-image, .card-image > img,
-            .card-header {
+            .b-card-image, .b-card-image > img,
+            .b-card-header {
                 border-top-left-radius: 0;
             }
 
-            .card-image, .card-image > img,
-            .card-footer {
+            .b-card-image, .b-card-image > img,
+            .b-card-footer {
                 border-bottom-left-radius: 0;
             }
         }
     }
 }
 
-.card-deck {
-    > .card {
+.b-card-deck {
+    > .b-card {
         flex: 1 0 0%;
     }
 }

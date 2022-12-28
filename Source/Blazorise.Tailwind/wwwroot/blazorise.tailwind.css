@@ -52,41 +52,41 @@
   margin-left: 0;
 }
 
-.card-group > .card {
+.b-card-group > .b-card {
   flex: 1 0 0%;
 }
-.card-group > .card + .card {
+.b-card-group > .b-card + .b-card {
   margin-left: 0;
   border-left: 0;
 }
-.card-group > .card:not(:last-child) {
+.b-card-group > .b-card:not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.card-group > .card:not(:last-child) .card-image,
-.card-group > .card:not(:last-child) .card-image > img,
-.card-group > .card:not(:last-child) .card-header {
+.b-card-group > .b-card:not(:last-child) .b-card-image,
+.b-card-group > .b-card:not(:last-child) .b-card-image > img,
+.b-card-group > .b-card:not(:last-child) .b-card-header {
   border-top-right-radius: 0;
 }
-.card-group > .card:not(:last-child) .card-image,
-.card-group > .card:not(:last-child) .card-image > img,
-.card-group > .card:not(:last-child) .card-footer {
+.b-card-group > .b-card:not(:last-child) .b-card-image,
+.b-card-group > .b-card:not(:last-child) .b-card-image > img,
+.b-card-group > .b-card:not(:last-child) .b-card-footer {
   border-bottom-right-radius: 0;
 }
-.card-group > .card:not(:first-child) {
+.b-card-group > .b-card:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-.card-group > .card:not(:first-child) .card-image, .card-group > .card:not(:first-child) .card-image > img,
-.card-group > .card:not(:first-child) .card-header {
+.b-card-group > .b-card:not(:first-child) .b-card-image, .b-card-group > .b-card:not(:first-child) .b-card-image > img,
+.b-card-group > .b-card:not(:first-child) .b-card-header {
   border-top-left-radius: 0;
 }
-.card-group > .card:not(:first-child) .card-image, .card-group > .card:not(:first-child) .card-image > img,
-.card-group > .card:not(:first-child) .card-footer {
+.b-card-group > .b-card:not(:first-child) .b-card-image, .b-card-group > .b-card:not(:first-child) .b-card-image > img,
+.b-card-group > .b-card:not(:first-child) .b-card-footer {
   border-bottom-left-radius: 0;
 }
 
-.card-deck > .card {
+.b-card-deck > .b-card {
   flex: 1 0 0%;
 }
 
