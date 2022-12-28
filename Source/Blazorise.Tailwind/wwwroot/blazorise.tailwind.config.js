@@ -199,6 +199,24 @@
                 .forEach(([variantName, state]) => {
                     addVariant(`parent-${variantName}`, `:merge(.parent)${state} > &`);
                 });
-        }
+        },
+        function ({ addBase, theme }) {
+            function extractColorVars(colorObj, colorGroup = '') {
+                return Object.keys(colorObj).reduce((vars, colorKey) => {
+                    const value = colorObj[colorKey];
+
+                    const newVars =
+                        typeof value === 'string'
+                            ? { [`--btw-color${colorGroup}-${colorKey}`]: value }
+                            : extractColorVars(value, `-${colorKey}`);
+
+                    return { ...vars, ...newVars };
+                }, {});
+            }
+
+            addBase({
+                ':root': extractColorVars(theme('colors')),
+            });
+        },
     ]
 }
