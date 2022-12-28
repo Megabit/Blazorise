@@ -1086,6 +1086,34 @@ public class Gender
     </Buttons>
 </Buttons>";
 
+        public const string CardBackgroundExample = @"<Card Background=""Background.Success"" WhiteText>
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            With supporting text below as a natural lead-in to additional content.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
+    </CardBody>
+</Card>";
+
+        public const string CardButtonExample = @"<Card>
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
+    </CardBody>
+</Card>";
+
         public const string CardDeckExample = @"<CardDeck>
     <Card>
         <CardImage Source=""/img/gallery/2.jpg"" Alt=""Card image cap 3""></CardImage>
@@ -1119,15 +1147,29 @@ public class Gender
     </Card>
 </CardDeck>";
 
-        public const string CardExample = @"<Card Margin=""Margin.Is4.OnY"">
-    <CardImage Source=""img/gallery/7.jpg"" Alt=""Placeholder image"">
-    </CardImage>
+        public const string CardExample = @"<Card>
     <CardBody>
-        <CardTitle Size=""5"">Card title</CardTitle>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
         <CardText>
-            Some quick example text to build on the card title and make up the bulk of the card's content.
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
         </CardText>
-        <Button Color=""Color.Primary"">Button</Button>
+    </CardBody>
+</Card>";
+
+        public const string CardImageExample = @"<Card>
+    <CardImage Source=""/img/gallery/2.jpg"" Alt=""Placeholder image"" />
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
     </CardBody>
 </Card>";
 
