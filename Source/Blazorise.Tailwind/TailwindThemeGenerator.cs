@@ -76,82 +76,77 @@ public class TailwindThemeGenerator : ThemeGenerator
         if ( variant == "link" )
         {
             sb
-                .Append( $".btn-{variant}" ).Append( "{" )
+                .Append( $".b-button-{variant}" ).Append( "{" )
                 .Append( $"color: {background};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-{variant}:hover" )
+            sb.Append( $".b-button-{variant}:hover" )
                 .Append( "{" )
                 .Append( $"color: {hoverBackground};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-{variant}.disabled," )
-                .Append( $".btn-{variant}:disabled" )
+            sb.Append( $".b-button-{variant}.disabled," )
+                .Append( $".b-button-{variant}:disabled" )
                 .Append( "{" )
                 .Append( $"color: {ToHex( Darken( background, 15f ) )};" )
                 .AppendLine( "}" );
         }
         else
         {
-            sb.Append( $".btn-{variant}," )
-                .Append( $"a.btn-{variant}" )
+            sb.Append( $".b-button-{variant}," )
+                .Append( $"a.button-{variant}" )
                 .Append( "{" )
                 .Append( $"color: {yiqBackground};" )
                 .Append( GetGradientBg( theme, background, options?.GradientBlendPercentage ) )
-                .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-{variant}:hover," )
-                .Append( $"a.btn-{variant}:hover" )
+            sb.Append( $".b-button-{variant}:hover," )
+                .Append( $"a.b-button-{variant}:hover" )
                 .Append( "{" )
                 .Append( $"color: {yiqHoverBackground};" )
                 .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
-                .Append( $"border-color: {hoverBorder};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-{variant}:focus," )
-                .Append( $".btn-{variant}.focus," )
-                .Append( $"a.btn-{variant}:focus," )
-                .Append( $"a.btn-{variant}.focus" )
+            sb.Append( $".b-button-{variant}:focus," )
+                .Append( $".b-button-{variant}.focus," )
+                .Append( $"a.b-button-{variant}:focus," )
+                .Append( $"a.b-button-{variant}.focus" )
                 .Append( "{" )
                 .Append( $"color: {yiqHoverBackground};" )
                 .Append( GetGradientBg( theme, hoverBackground, options?.GradientBlendPercentage ) )
-                .Append( $"border-color: {hoverBorder};" )
-                .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
+                .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".25rem"} {boxShadow};" )
                 .AppendLine( "}" );
 
-            sb.Append( $".btn-{variant}.disabled," )
-                .Append( $".btn-{variant}:disabled," )
-                .Append( $"a.btn-{variant}.disabled," )
-                .Append( $"a.btn-{variant}:disabled" )
+            sb.Append( $".b-button-{variant}.disabled," )
+                .Append( $".b-button-{variant}:disabled," )
+                .Append( $"a.b-button-{variant}.disabled," )
+                .Append( $"a.b-button-{variant}:disabled" )
                 .Append( "{" )
                 .Append( $"color: {yiqBackground};" )
                 .Append( $"background-color: {background};" )
-                .Append( $"border-color: {border};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".btn-{variant}:not(:disabled):not(.disabled):active," )
-                .Append( $".btn-{variant}:not(:disabled):not(.disabled).active," )
-                .Append( $".show>.btn-{variant}.dropdown-toggle," )
-                .Append( $"a.btn-{variant}:not(:disabled):not(.disabled):active," )
-                .Append( $"a.btn-{variant}:not(:disabled):not(.disabled).active," )
-                .Append( $"a.show>.btn-{variant}.dropdown-toggle" )
+                .Append( $".b-button-{variant}:not(:disabled):not(.disabled):active," )
+                .Append( $".b-button-{variant}:not(:disabled):not(.disabled).active," )
+                .Append( $".show>.b-button-{variant}.b-dropdown-toggle," )
+                .Append( $"a.b-button-{variant}:not(:disabled):not(.disabled):active," )
+                .Append( $"a.b-button-{variant}:not(:disabled):not(.disabled).active," )
+                .Append( $"a.show>.b-button-{variant}.b-dropdown-toggle" )
                 .Append( "{" )
                 .Append( $"color: {yiqActiveBackground};" )
                 .Append( $"background-color: {activeBackground};" )
-                .Append( $"border-color: {activeBorder};" )
                 .AppendLine( "}" );
 
             sb
-                .Append( $".btn-{variant}:not(:disabled):not(.disabled):active:focus," )
-                .Append( $".btn-{variant}:not(:disabled):not(.disabled).active:focus," )
-                .Append( $".show>.btn-{variant}.dropdown-toggle:focus," )
-                .Append( $"a.btn-{variant}:not(:disabled):not(.disabled):active:focus," )
-                .Append( $"a.btn-{variant}:not(:disabled):not(.disabled).active:focus," )
-                .Append( $"a.show>.btn-{variant}.dropdown-toggle:focus" )
+                .Append( $".b-button-{variant}:not(:disabled):not(.disabled):active:focus," )
+                .Append( $".b-button-{variant}:not(:disabled):not(.disabled).active:focus," )
+                .Append( $".show>.b-button-{variant}.b-dropdown-toggle:focus," )
+                .Append( $"a.b-button-{variant}:not(:disabled):not(.disabled):active:focus," )
+                .Append( $"a.b-button-{variant}:not(:disabled):not(.disabled).active:focus," )
+                .Append( $"a.show>.b-button-{variant}.b-dropdown-toggle:focus" )
                 .Append( "{" )
-                .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow}" )
+                .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".25rem"} {boxShadow}" )
                 .AppendLine( "}" );
         }
     }
@@ -163,16 +158,16 @@ public class TailwindThemeGenerator : ThemeGenerator
         var boxShadow = Var( ThemeVariables.OutlineButtonBoxShadowColor( variant ) );
 
         sb
-            .Append( $".btn-outline-{variant}," )
-            .Append( $"a.btn-outline-{variant}" )
+            .Append( $".b-button-outline-{variant}," )
+            .Append( $"a.b-button-outline-{variant}" )
             .Append( "{" )
             .Append( $"color: {color};" )
             .Append( $"border-color: {color};" )
             .AppendLine( "}" );
 
         sb
-            .Append( $".btn-outline-{variant}:hover," )
-            .Append( $"a.btn-outline-{variant}:hover" )
+            .Append( $".b-button-outline-{variant}:hover," )
+            .Append( $"a.b-button-outline-{variant}:hover" )
             .Append( "{" )
             .Append( $"color: {yiqColor};" )
             .Append( $"background-color: {color};" )
@@ -180,31 +175,31 @@ public class TailwindThemeGenerator : ThemeGenerator
             .AppendLine( "}" );
 
         sb
-            .Append( $".btn-outline-{variant}:focus," )
-            .Append( $".btn-outline-{variant}.focus," )
-            .Append( $"a.btn-outline-{variant}:focus," )
-            .Append( $"a.btn-outline-{variant}.focus" )
+            .Append( $".b-button-outline-{variant}:focus," )
+            .Append( $".b-button-outline-{variant}.focus," )
+            .Append( $"a.b-button-outline-{variant}:focus," )
+            .Append( $"a.b-button-outline-{variant}.focus" )
             .Append( "{" )
-            .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
+            .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".25rem"} {boxShadow};" )
             .AppendLine( "}" );
 
         sb
-            .Append( $".btn-outline-{variant}.disabled," )
-            .Append( $".btn-outline-{variant}:disabled," )
-            .Append( $"a.btn-outline-{variant}.disabled," )
-            .Append( $"a.btn-outline-{variant}:disabled" )
+            .Append( $".b-button-outline-{variant}.disabled," )
+            .Append( $".b-button-outline-{variant}:disabled," )
+            .Append( $"a.b-button-outline-{variant}.disabled," )
+            .Append( $"a.b-button-outline-{variant}:disabled" )
             .Append( "{" )
             .Append( $"color: {color};" )
             .Append( "background-color: transparent;" )
             .AppendLine( "}" );
 
         sb
-            .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled):active," )
-            .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled).active," )
-            .Append( $".show>.btn-outline-{variant}.dropdown-toggle," )
-            .Append( $"a.btn-outline-{variant}:not(:disabled):not(.disabled):active," )
-            .Append( $"a.btn-outline-{variant}:not(:disabled):not(.disabled).active," )
-            .Append( $"a.show>.btn-outline-{variant}.dropdown-toggle" )
+            .Append( $".b-button-outline-{variant}:not(:disabled):not(.disabled):active," )
+            .Append( $".b-button-outline-{variant}:not(:disabled):not(.disabled).active," )
+            .Append( $".show>.b-button-outline-{variant}.b-dropdown-toggle," )
+            .Append( $"a.b-button-outline-{variant}:not(:disabled):not(.disabled):active," )
+            .Append( $"a.b-button-outline-{variant}:not(:disabled):not(.disabled).active," )
+            .Append( $"a.show>.b-button-outline-{variant}.b-dropdown-toggle" )
             .Append( "{" )
             .Append( $"color: {yiqColor};" )
             .Append( $"background-color: {color};" )
@@ -212,14 +207,14 @@ public class TailwindThemeGenerator : ThemeGenerator
             .AppendLine( "}" );
 
         sb
-            .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled):active:focus," )
-            .Append( $".btn-outline-{variant}:not(:disabled):not(.disabled).active:focus," )
-            .Append( $".show>.btn-outline-{variant}.dropdown-toggle:focus," )
-            .Append( $"a.btn-outline-{variant}:not(:disabled):not(.disabled):active:focus," )
-            .Append( $"a.btn-outline-{variant}:not(:disabled):not(.disabled).active:focus," )
-            .Append( $"a.show>.btn-outline-{variant}.dropdown-toggle:focus" )
+            .Append( $".b-button-outline-{variant}:not(:disabled):not(.disabled):active:focus," )
+            .Append( $".b-button-outline-{variant}:not(:disabled):not(.disabled).active:focus," )
+            .Append( $".show>.b-button-outline-{variant}.b-dropdown-toggle:focus," )
+            .Append( $"a.b-button-outline-{variant}:not(:disabled):not(.disabled):active:focus," )
+            .Append( $"a.b-button-outline-{variant}:not(:disabled):not(.disabled).active:focus," )
+            .Append( $"a.show>.b-button-outline-{variant}.b-dropdown-toggle:focus" )
             .Append( "{" )
-            .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".2rem"} {boxShadow};" )
+            .Append( $"box-shadow: 0 0 0 {options?.BoxShadowSize ?? ".25rem"} {boxShadow};" )
             .AppendLine( "}" );
     }
 
