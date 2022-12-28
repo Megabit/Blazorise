@@ -829,23 +829,23 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardActions() => "card-actions";
 
-    public override string CardBody() => "card-body p-5";
+    public override string CardBody() => "card-body p-5 text-inherit";
 
-    public override string CardFooter() => "card-footer px-5 py-4";
+    public override string CardFooter() => "card-footer px-5 py-4 text-inherit";
 
-    public override string CardHeader() => "card-header px-5 py-4";
+    public override string CardHeader() => "card-header px-5 py-4 text-inherit";
 
-    public override string CardImage() => "card-image rounded-t-lg";
+    public override string CardImage() => "card-image rounded-t-lg text-inherit";
 
-    public override string CardTitle( bool insideHeader ) => "card-title mb-2 text-2xl font-bold tracking-tight";
+    public override string CardTitle( bool insideHeader ) => "card-title mb-2 text-2xl font-bold tracking-tight text-inherit";
 
     public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
-    public override string CardSubtitle( bool insideHeader ) => "card-subtitle";
+    public override string CardSubtitle( bool insideHeader ) => "card-subtitle text-inherit";
 
     public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
-    public override string CardText() => "card-text mb-3 font-normal";
+    public override string CardText() => "card-text mb-3 font-normal text-inherit";
 
     public override string CardLink() => "inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
 
