@@ -46,7 +46,7 @@ public record ThemeColorOptions : IEnumerable<KeyValuePair<string, Func<string>>
     /// <summary>
     /// Gets or sets the primary theme color.
     /// </summary>
-    public string Primary { get; set; } = ThemeColors.Blue.Shades["400"].Value;
+    public string Primary { get; set; } = ThemeColors.Blue.Shades["500"].Value;
 
     /// <summary>
     /// Gets or sets the secondary theme color.
@@ -86,5 +86,5 @@ public record ThemeColorOptions : IEnumerable<KeyValuePair<string, Func<string>>
     /// <summary>
     /// Gets or sets the link theme color.
     /// </summary>
-    public string Link { get; set; } = ThemeColors.Blue.Shades["400"].Value;
+    public string Link { get; set; } = ThemeColors.Blue.Shades["500"].Value;
 }

@@ -1272,8 +1272,13 @@ public abstract class ThemeGenerator : IThemeGenerator
             return System.Drawing.Color.Empty;
         }
     }
-    
-    protected static (double h, double s, double l) HexStringToHSL( string hexColor )
+
+    /// <summary>
+    /// Converts the hexadecimal string into a <see cref="HslColor">HlsColor</see> value.
+    /// </summary>
+    /// <param name="hexColor">A color represented as hexadecimal string.</param>
+    /// <returns>Parsed color value or <see cref="HslColor.Empty">Empty</see> if failed.</returns>
+    protected static HslColor HexStringToHslColor( string hexColor )
     {
         if ( hexColor.Length == 6 && !hexColor.StartsWith( "#" ) )
         {
@@ -1314,9 +1319,14 @@ public abstract class ThemeGenerator : IThemeGenerator
         s = +( s * 100 );
         l = +( l * 100 );
 
-        return (h, s, l);
+        return new HslColor( h, s, l );
     }
 
+    /// <summary>
+    /// Gets the relative brightness of any point in a colorspace, normalized to 0 for darkest black and 1 for lightest white.
+    /// </summary>
+    /// <param name="color">The color from which to calculate luminance.</param>
+    /// <returns>Rteurns the relative brightness of any point in a colorspace, normalized to 0 for darkest black and 1 for lightest white.</returns>
     protected static double LuminanceFromColor( System.Drawing.Color color )
     {
         // Formula from WCAG 2.0
@@ -1330,6 +1340,11 @@ public abstract class ThemeGenerator : IThemeGenerator
         return 21.26 * rgb[0] + 71.52 * rgb[1] + 7.22 * rgb[2];
     }
 
+    /// <summary>
+    /// Gets the relative brightness of any point in a colorspace, normalized to 0 for darkest black and 1 for lightest white.
+    /// </summary>
+    /// <param name="hexColor">The hex color from which to calculate luminance.</param>
+    /// <returns>Rteurns the relative brightness of any point in a colorspace, normalized to 0 for darkest black and 1 for lightest white.</returns>
     protected static double LuminanceFromColor( string hexColor )
     {
         return LuminanceFromColor( ParseColor( hexColor ) );
@@ -1409,68 +1424,6 @@ public abstract class ThemeGenerator : IThemeGenerator
         return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
     }
 
-    protected static System.Drawing.Color HSLtoRGB( double h, double s, double l )
-    {
-        s /= 100;
-        l /= 100;
-
-        var c = ( 1 - Math.Abs( 2 * l - 1 ) ) * s;
-        var x = c * ( 1 - Math.Abs( ( ( h / 60 ) % 2 ) - 1 ) );
-        var m = l - c / 2;
-        var r = 0d;
-        var g = 0d;
-        var b = 0d;
-
-        if ( h >= 0 && h < 60 )
-        {
-            r = c;
-            g = x;
-            b = 0;
-        }
-        else if ( h >= 60 && h < 120 )
-        {
-            r = x;
-            g = c;
-            b = 0;
-        }
-        else if ( h >= 120 && h < 180 )
-        {
-            r = 0;
-            g = c;
-            b = x;
-        }
-        else if ( h >= 180 && h < 240 )
-        {
-            r = 0;
-            g = x;
-            b = c;
-        }
-        else if ( h >= 240 && h < 300 )
-        {
-            r = x;
-            g = 0;
-            b = c;
-        }
-        else if ( h >= 300 && h < 360 )
-        {
-            r = c;
-            g = 0;
-            b = x;
-        }
-
-        return System.Drawing.Color.FromArgb( 255,
-            (int)Math.Round( ( r + m ) * 255 ),
-            (int)Math.Round( ( g + m ) * 255 ),
-            (int)Math.Round( ( b + m ) * 255 ) );
-    }
-
-    protected static string HSLToHex( double h, double s, double l )
-    {
-        var color = HSLtoRGB( h, s, l );
-
-        return ToHex( color );
-    }
-
     /// <summary>
     /// Converts the color 8 digit hexadecimal string.
     /// </summary>
@@ -1479,6 +1432,18 @@ public abstract class ThemeGenerator : IThemeGenerator
     protected static string ToHexRGBA( System.Drawing.Color color )
     {
         return $"#{color.R:X2}{color.G:X2}{color.B:X2}{color.A:X2}";
+    }
+
+    /// <summary>
+    /// Converts the hslColor to a 6 digit hexadecimal, or 8 digit hexadecimal string if alpha is defined.
+    /// </summary>
+    /// <param name="hslColor">Color to convert.</param>
+    /// <returns>A 6 or 8 hexadecimal digit representation of color value.</returns>
+    protected static string ToHex( HslColor hslColor )
+    {
+        var color = hslColor.ToColor();
+
+        return ToHex( color );
     }
 
     /// <summary>

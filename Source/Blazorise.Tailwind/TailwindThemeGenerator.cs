@@ -36,40 +36,6 @@ public class TailwindThemeGenerator : ThemeGenerator
         base.GenerateBreakpointStyles( sb, theme, breakpointName, breakpointSize );
     }
 
-    class Swatch
-    {
-        public string Hex { get; set; }
-        public double Stop { get; set; }
-        public double Hue { get; set; }
-        public double HueScale { get; set; }
-        public double Saturation { get; set; }
-        public double SaturationScale { get; set; }
-        public double Lightness { get; set; }
-    }
-
-    class Palette
-    {
-        public string Hex { get; set; }
-
-        public Swatch[] Swatches { get; set; }
-
-        public double? Hue { get; set; }
-
-        public double? Saturation { get; set; }
-
-        /// <summary>
-        /// Lightness/Luminance Distribution 0-100.
-        /// </summary>
-        public double? LightnessMin { get; set; }
-
-        /// <summary>
-        /// Lightness/Luminance Distribution 0-100.
-        /// </summary>
-        public double? LightnessMax { get; set; }
-
-        public bool? UseLightness { get; set; }
-    }
-
     IReadOnlyDictionary<int, double> CreateHueScale( double tweak )
     {
         return new Dictionary<int, double>()
@@ -140,13 +106,13 @@ public class TailwindThemeGenerator : ThemeGenerator
         return safeValues;
     }
 
-    double LightnessFromHSL( double h, double s, double l )
+    double LightnessFromHSL( HslColor hslColor )
     {
         var vals = new List<double>();
 
         for ( var index = 99; index >= 0; index-- )
         {
-            vals[index] = Math.Abs( l - LuminanceFromColor( HSLtoRGB( h, s, index ) ) );
+            vals[index] = Math.Abs( hslColor.Luminosity - LuminanceFromColor( new HslColor( hslColor.Hue, hslColor.Saturation, index ).ToColor() ) );
         }
 
         // Run through all these and find the closest to 0
@@ -165,54 +131,54 @@ public class TailwindThemeGenerator : ThemeGenerator
         return newL;
     }
 
-    List<Swatch> CreateSwatches( Palette palette )
+    IReadOnlyCollection<ThemeSwatch> CreateThemeSwatches( ThemeSwatchOptions swatchOptions )
     {
-        var value = palette.Hex;
+        var value = swatchOptions.HexColor;
 
         // Tweaks may be passed in, otherwise use defaults
-        var useLightness = palette.UseLightness ?? true;
-        var hue = palette.Hue ?? 0;
-        var saturation = palette.Saturation ?? 0;
-        var lightnessMin = palette.LightnessMin ?? 0;
-        var lightnessMax = palette.LightnessMax ?? 100;
+        var useLightness = swatchOptions.UseLightness ?? true;
+        var hue = swatchOptions.Hue ?? 0;
+        var saturation = swatchOptions.Saturation ?? 0;
+        var lightnessMin = swatchOptions.LightnessMin ?? 0;
+        var lightnessMax = swatchOptions.LightnessMax ?? 100;
 
         // Create hue and saturation scales based on tweaks
         var hueScale = CreateHueScale( hue );
         var saturationScale = CreateSaturationScale( saturation );
 
         // Get the base hex's H/S/L values
-        var (h, s, l) = HexStringToHSL( value );
+        var hslColor = HexStringToHslColor( value );
 
         // Create lightness scales based on tweak + lightness/luminance of current value
-        var lightnessValue = useLightness ? l : LuminanceFromColor( value );
+        var lightnessValue = useLightness ? hslColor.Luminosity : LuminanceFromColor( value );
         var distributionScale = CreateDistributionValues( lightnessMin, lightnessMax, lightnessValue );
 
-        var swatches = hueScale.Select( ( kv, i ) =>
+        return hueScale.Select( ( kv, i ) =>
         {
             // Hue value must be between 0-360
             // todo: fix this inside the function
-            var newH = h + kv.Value;
+            var newH = hslColor.Hue + kv.Value;
             newH = newH < 0 ? 360 + newH - 1 : newH;
             newH = newH > 720 ? newH - 360 : newH;
             newH = newH > 360 ? newH - 360 : newH;
 
             // Saturation must be between 0-100
-            var newS = s + saturationScale.ElementAt( i ).Value;
+            var newS = hslColor.Saturation + saturationScale.ElementAt( i ).Value;
             newS = newS > 100 ? 100 : newS;
 
             var newL = useLightness
                ? distributionScale.ElementAt( i ).Value
-               : LightnessFromHSL( newH, newS, distributionScale.ElementAt( i ).Value );
+               : LightnessFromHSL( new HslColor( newH, newS, distributionScale.ElementAt( i ).Value ) );
 
-            var newHex = HSLToHex( newH, newS, newL );
-            var paletteI = kv.Key;
+            var newHex = ToHex( new HslColor( newH, newS, newL ) );
+            var swatchKey = kv.Key;
 
-            return new Swatch
+            return new ThemeSwatch
             {
-                Stop = paletteI,
+                Key = swatchKey,
                 // Sometimes the initial value is changed slightly during conversion,
                 // overriding that with the original value
-                Hex = paletteI == 500 ? palette.Hex.ToUpperInvariant() : newHex.ToUpperInvariant(),
+                HexColor = swatchKey == 500 ? swatchOptions.HexColor.ToUpperInvariant() : newHex.ToUpperInvariant(),
                 // Used in graphs
                 Hue = newH,
                 HueScale = hueScale.ElementAt( i ).Value,
@@ -221,22 +187,35 @@ public class TailwindThemeGenerator : ThemeGenerator
                 Lightness = newL,
             };
         } ).ToList();
-
-        return swatches;
     }
 
     protected override void GenerateColorStyles( StringBuilder sb, Theme theme, string variant, string color )
     {
         base.GenerateColorStyles( sb, theme, variant, color );
 
-        var swatches = CreateSwatches( new Palette
+        var swatches = CreateThemeSwatches( new ThemeSwatchOptions
         {
-            Hex = color
+            HexColor = color
         } );
 
         foreach ( var swatch in swatches )
         {
-            sb.Append( $".bg-{variant}-{swatch.Stop}" ).Append( "{" ).Append( $"background-color: {swatch.Hex} !important;" ).AppendLine( "}" );
+            sb.Append( $".bg-{variant}-{swatch.Key}" ).Append( "{" ).Append( $"background-color: {swatch.HexColor};" ).AppendLine( "}" );
+        }
+    }
+
+    protected override void GenerateTypographyVariantStyles( StringBuilder sb, Theme theme, string variant, string color )
+    {
+        base.GenerateTypographyVariantStyles( sb, theme, variant, color );
+
+        var swatches = CreateThemeSwatches( new ThemeSwatchOptions
+        {
+            HexColor = color
+        } );
+
+        foreach ( var swatch in swatches )
+        {
+            sb.Append( $".text-{variant}-{swatch.Key}" ).Append( "{" ).Append( $"color: {swatch.HexColor};" ).AppendLine( "}" );
         }
     }
 
