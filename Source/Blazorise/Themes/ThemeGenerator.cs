@@ -1272,6 +1272,68 @@ public abstract class ThemeGenerator : IThemeGenerator
             return System.Drawing.Color.Empty;
         }
     }
+    
+    protected static (double h, double s, double l) HexStringToHSL( string hexColor )
+    {
+        if ( hexColor.Length == 6 && !hexColor.StartsWith( "#" ) )
+        {
+            hexColor = $"#{hexColor}";
+        }
+
+        // Convert hex to RGB first
+        var color = HexStringToColor( hexColor );
+
+        // Then to HSL
+        var r = color.R / 255d;
+        var g = color.G / 255d;
+        var b = color.B / 255d;
+
+        var cmin = Math.Min( Math.Min( r, g ), b );
+        var cmax = Math.Max( Math.Max( r, g ), b );
+        var delta = cmax - cmin;
+        var h = 0d;
+        var s = 0d;
+        var l = 0d;
+
+        if ( delta == 0 )
+            h = 0;
+        else if ( cmax == r )
+            h = ( ( g - b ) / delta ) % 6;
+        else if ( cmax == g )
+            h = ( b - r ) / delta + 2;
+        else
+            h = ( r - g ) / delta + 4;
+
+        h = Math.Round( h * 60 );
+
+        if ( h < 0 )
+            h += 360;
+
+        l = ( cmax + cmin ) / 2;
+        s = delta == 0 ? 0 : delta / ( 1 - Math.Abs( 2 * l - 1 ) );
+        s = +( s * 100 );
+        l = +( l * 100 );
+
+        return (h, s, l);
+    }
+
+    protected static double LuminanceFromColor( System.Drawing.Color color )
+    {
+        // Formula from WCAG 2.0
+        var rgb = new double[] { color.R, color.G, color.B }.Select( c =>
+        {
+            c /= 255d;// to 0-1 range
+
+            return c < 0.03928 ? c / 12.92 : Math.Pow( ( c + 0.055 ) / 1.055, 2.4 );
+        } ).ToArray();
+
+        return 21.26 * rgb[0] + 71.52 * rgb[1] + 7.22 * rgb[2];
+    }
+
+    protected static double LuminanceFromColor( string hexColor )
+    {
+        return LuminanceFromColor( ParseColor( hexColor ) );
+    }
 
     /// <summary>
     /// Converts the function call into into a <see cref="System.Drawing.Color">Color</see> value.
@@ -1345,6 +1407,68 @@ public abstract class ThemeGenerator : IThemeGenerator
             return $"#{color.R:X2}{color.G:X2}{color.B:X2}{color.A:X2}";
 
         return $"#{color.R:X2}{color.G:X2}{color.B:X2}";
+    }
+
+    protected static System.Drawing.Color HSLtoRGB( double h, double s, double l )
+    {
+        s /= 100;
+        l /= 100;
+
+        var c = ( 1 - Math.Abs( 2 * l - 1 ) ) * s;
+        var x = c * ( 1 - Math.Abs( ( ( h / 60 ) % 2 ) - 1 ) );
+        var m = l - c / 2;
+        var r = 0d;
+        var g = 0d;
+        var b = 0d;
+
+        if ( h >= 0 && h < 60 )
+        {
+            r = c;
+            g = x;
+            b = 0;
+        }
+        else if ( h >= 60 && h < 120 )
+        {
+            r = x;
+            g = c;
+            b = 0;
+        }
+        else if ( h >= 120 && h < 180 )
+        {
+            r = 0;
+            g = c;
+            b = x;
+        }
+        else if ( h >= 180 && h < 240 )
+        {
+            r = 0;
+            g = x;
+            b = c;
+        }
+        else if ( h >= 240 && h < 300 )
+        {
+            r = x;
+            g = 0;
+            b = c;
+        }
+        else if ( h >= 300 && h < 360 )
+        {
+            r = c;
+            g = 0;
+            b = x;
+        }
+
+        return System.Drawing.Color.FromArgb( 255,
+            (int)Math.Round( ( r + m ) * 255 ),
+            (int)Math.Round( ( g + m ) * 255 ),
+            (int)Math.Round( ( b + m ) * 255 ) );
+    }
+
+    protected static string HSLToHex( double h, double s, double l )
+    {
+        var color = HSLtoRGB( h, s, l );
+
+        return ToHex( color );
     }
 
     /// <summary>
