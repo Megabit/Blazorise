@@ -1453,7 +1453,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
 
-    public override string TableResponsive() => "b-table-responsive";
+    public override string TableResponsive() => "b-table-responsive overflow-x-auto relative shadow-md sm:rounded-lg";
 
     public override string TableFixedHeader() => "b-table-fixed-header";
 
