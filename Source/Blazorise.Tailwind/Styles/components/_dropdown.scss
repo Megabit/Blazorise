@@ -5,6 +5,12 @@
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
+
+        > .b-button + .b-button.b-dropdown-toggle {
+            > .b-dropdown-toggle-arrow {
+                margin-left: 0;
+            }
+        }
     }
 }
 

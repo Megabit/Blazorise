@@ -100,6 +100,9 @@
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
+.b-dropdown.b-dropdown-group > .b-button + .b-button.b-dropdown-toggle > .b-dropdown-toggle-arrow {
+  margin-left: 0;
+}
 
 .b-button-group:not(.b-button-group-vertical) > .b-dropdown:first-child > .b-dropdown-toggle {
   border-top-right-radius: 0;
