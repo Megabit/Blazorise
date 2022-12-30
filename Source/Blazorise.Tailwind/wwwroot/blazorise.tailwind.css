@@ -10,11 +10,11 @@
   border-bottom-width: 0;
 }
 
-.b-addons > :not(:last-child) {
+.b-addons > .b-addon-body:not(:last-child) > input {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.b-addons > :not(:first-child):not(.b-dropdown-menu) {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -32,7 +32,7 @@
   width: 1%;
   min-width: 0;
 }
-.b-addons > input:not(:first-child):not(.b-dropdown-menu) + input:not(:first-child):not(.b-dropdown-menu) {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input {
   border-left: 0;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
