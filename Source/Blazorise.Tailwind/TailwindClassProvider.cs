@@ -426,7 +426,7 @@ public class TailwindClassProvider : ClassProvider
         {
             AddonType.Start => "b-addon-start inline-flex items-center text-gray-900 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
             AddonType.End => "b-addon-end inline-flex items-center text-gray-900 bg-gray-200 border border-l-0 border-gray-300 rounded-r-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600",
-            _ => "b-addon-body",
+            _ => "b-addon-body contents",
         };
     }
 

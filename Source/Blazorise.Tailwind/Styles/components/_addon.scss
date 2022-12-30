@@ -23,6 +23,15 @@
         }
     }
 
+    > .b-addon-body {
+        > input {
+            position: relative;
+            flex: 1 1 auto;
+            width: 1%;
+            min-width: 0;
+        }
+    }
+
     > input:not(:first-child):not(.b-dropdown-menu) + input:not(:first-child):not(.b-dropdown-menu) {
         border-left: 0;
         border-top-left-radius: 0;
