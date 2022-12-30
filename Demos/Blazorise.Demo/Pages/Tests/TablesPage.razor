@@ -502,67 +502,91 @@
             </CardBody>
             <CardBody>
                 <Row>
-                    <Column>
-                        <Switch @bind-Checked="@fixedHeader">Fixed header</Switch>
-                        @if ( fixedHeader )
-                        {
-                            <Addons>
-                                <Addon AddonType="AddonType.Body">
-                                    <NumericEdit Size="Size.Small" TValue="int" @bind-Value="scrollToValue" />
-                                </Addon>
-                                <Addon AddonType="AddonType.End">
-                                    <Button Size="Size.Small" Color="Color.Primary" Clicked="@ScrollToRow"> Scroll To Row </Button>
-                                </Addon>
-                            </Addons>
-                        }
+                    <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is12.OnMobile">
+                        <Field>
+                            <Row>
+                                <Column>
+                                    <Switch @bind-Checked="@fixedHeader">Fixed header</Switch>
+                                </Column>
+                                @if ( fixedHeader )
+                                {
+                                    <Column>
+                                        <Addons>
+                                            <Addon AddonType="AddonType.Body">
+                                                <NumericEdit TValue="int" @bind-Value="scrollToValue" />
+                                            </Addon>
+                                            <Addon AddonType="AddonType.End">
+                                                <Button Color="Color.Primary" Clicked="@ScrollToRow"> Scroll To Row </Button>
+                                            </Addon>
+                                        </Addons>
+                                    </Column>
+                                }
+                            </Row>
+                        </Field>
+                        <Field>
+                            <Switch @bind-Checked="@stripped">Stripped</Switch>
+                        </Field>
+                        <Field>
+                            <Switch @bind-Checked="@bordered">Bordered</Switch>
+                        </Field>
+                        <Field>
+                            <Switch @bind-Checked="@borderless">Borderless</Switch>
+                        </Field>
+                        <Field>
+                            <Switch @bind-Checked="@hoverable">Hoverable</Switch>
+                        </Field>
+                        <Field>
+                            <Switch @bind-Checked="@small">Narrow rows</Switch>
+                        </Field>
+                        <Field>
+                            <Row>
+                                <Column>
+                                    <Switch @bind-Checked="@resizable">Resizable</Switch>
+                                </Column>
+                                @if ( resizable )
+                                {
+                                    <Column>
+                                        <Select @bind-SelectedValue="@resizeMode">
+                                            <SelectItem Value="TableResizeMode.Header">Header</SelectItem>
+                                            <SelectItem Value="TableResizeMode.Columns">Columns</SelectItem>
+                                        </Select>
+                                    </Column>
+                                }
+                            </Row>
+                        </Field>
                     </Column>
-                    <Column><Switch @bind-Checked="@stripped">Stripped</Switch></Column>
-                    <Column><Switch @bind-Checked="@bordered">Bordered</Switch></Column>
-                    <Column><Switch @bind-Checked="@borderless">Borderless</Switch></Column>
-                    <Column><Switch @bind-Checked="@hoverable">Hoverable</Switch></Column>
-                    <Column><Switch @bind-Checked="@small">Narrow rows</Switch></Column>
-                    <Column>
-                        <Switch @bind-Checked="@resizable">Resizable</Switch>
-                        @if ( resizable )
-                        {
-                            <Select Size="Size.Small" @bind-SelectedValue="@resizeMode">
-                                <SelectItem Value="TableResizeMode.Header">Header</SelectItem>
-                                <SelectItem Value="TableResizeMode.Columns">Columns</SelectItem>
-                            </Select>
-                        }
+                    <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is12.OnMobile">
+                        <Table @ref="@tableRef" FixedHeader="@fixedHeader" Striped="@stripped" Bordered="@bordered" Borderless="@borderless" Hoverable="@hoverable" Narrow="@small" Resizable="@resizable" ResizeMode="@resizeMode" FixedHeaderTableHeight="300px">
+                            <TableHeader>
+                                <TableRow>
+                                    <TableHeaderCell>#</TableHeaderCell>
+                                    <TableHeaderCell>Column heading</TableHeaderCell>
+                                    <TableHeaderCell>Column heading</TableHeaderCell>
+                                    <TableHeaderCell>Column heading</TableHeaderCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableHeaderCell>#2</TableHeaderCell>
+                                    <TableHeaderCell>Column heading2</TableHeaderCell>
+                                    <TableHeaderCell>Column heading2</TableHeaderCell>
+                                    <TableHeaderCell>Column heading2</TableHeaderCell>
+                                </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                                @for ( int i = 1; i <= 10; ++i )
+                                {
+                                    var index = i.ToString();
+
+                                    <TableRow @key="@index">
+                                        <TableRowHeader>@index</TableRowHeader>
+                                        <TableRowCell>Column content</TableRowCell>
+                                        <TableRowCell>Column content</TableRowCell>
+                                        <TableRowCell>Column content</TableRowCell>
+                                    </TableRow>
+                                }
+                            </TableBody>
+                        </Table>
                     </Column>
                 </Row>
-            </CardBody>
-            <CardBody>
-                <Table @ref="@tableRef" FixedHeader="@fixedHeader" Striped="@stripped" Bordered="@bordered" Borderless="@borderless" Hoverable="@hoverable" Narrow="@small" Resizable="@resizable" ResizeMode="@resizeMode" FixedHeaderTableHeight="300px">
-                    <TableHeader>
-                        <TableRow>
-                            <TableHeaderCell>#</TableHeaderCell>
-                            <TableHeaderCell>Column heading</TableHeaderCell>
-                            <TableHeaderCell>Column heading</TableHeaderCell>
-                            <TableHeaderCell>Column heading</TableHeaderCell>
-                        </TableRow>
-                        <TableRow>
-                            <TableHeaderCell>#2</TableHeaderCell>
-                            <TableHeaderCell>Column heading2</TableHeaderCell>
-                            <TableHeaderCell>Column heading2</TableHeaderCell>
-                            <TableHeaderCell>Column heading2</TableHeaderCell>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                        @for ( int i = 1; i <= 10; ++i )
-                        {
-                            var index = i.ToString();
-
-                            <TableRow @key="@index">
-                                <TableRowHeader>@index</TableRowHeader>
-                                <TableRowCell>Column content</TableRowCell>
-                                <TableRowCell>Column content</TableRowCell>
-                                <TableRowCell>Column content</TableRowCell>
-                            </TableRow>
-                        }
-                    </TableBody>
-                </Table>
             </CardBody>
         </Card>
     </Column>
