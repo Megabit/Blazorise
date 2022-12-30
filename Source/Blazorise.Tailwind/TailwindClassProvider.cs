@@ -1744,7 +1744,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
     {
-        var sb = new StringBuilder( "border" );
+        var sb = new StringBuilder( "!border" );
 
         if ( borderSide != BorderSide.All )
             sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
@@ -1753,7 +1753,7 @@ public class TailwindClassProvider : ClassProvider
             sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
         if ( borderColor != BorderColor.None )
-            sb.Append( " border-" ).Append( ToBorderColor( borderColor ) );
+            sb.Append( " !border-" ).Append( ToBorderColor( borderColor ) );
 
         return sb.ToString();
     }
