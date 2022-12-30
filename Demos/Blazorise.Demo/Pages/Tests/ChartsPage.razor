@@ -120,4 +120,17 @@
             </CardBody>
         </Card>
     </Column>
+    <Column ColumnSize="ColumnSize.IsThird.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Line chart with two Y axis</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Outline Clicked="@(async () => await HandleRedraw( multiAxisLineChart, GetLineChartDataset ))">Redraw</Button>
+            </CardBody>
+            <CardBody>
+                <LineChart @ref="multiAxisLineChart" TItem="double" OptionsObject="@multiAxisLineChartOptions" />
+            </CardBody>
+        </Card>
+    </Column>
 </Row>

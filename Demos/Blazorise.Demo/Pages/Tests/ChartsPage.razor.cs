@@ -17,6 +17,7 @@ public partial class ChartsPage
     private Chart<double> radarChart;
     private Chart<ScatterChartPoint> scatterChart;
     private Chart<BubbleChartPoint> bubbleChart;
+    private LineChart<double> multiAxisLineChart;
 
     ChartOptions chartOptions = new()
     {
@@ -49,6 +50,44 @@ public partial class ChartsPage
         AspectRatio = 1.5
     };
 
+    object multiAxisLineChartOptions = new
+    {
+        responsive = true,
+        interaction = new
+        {
+            mode = "index",
+            intersect = false,
+        },
+        stacked = false,
+        plugins = new
+        {
+            title = new
+            {
+                display = true,
+                text = "Chart.js Line Chart - Multi Axis"
+            }
+        },
+        scales = new
+        {
+            y = new
+            {
+                type = "linear",
+                display = true,
+                position = "left"
+            },
+            y1 = new
+            {
+                type = "linear",
+                display = true,
+                position = "right",
+                grid = new
+                {
+                    drawOnChartArea = false
+                }
+            }
+        }
+    };
+
     private LineChart<double> lineChartWithData;
 
     private string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
@@ -74,7 +113,8 @@ public partial class ChartsPage
                 HandleRedraw( radarChart, GetRadarChartDataset ),
                 HandleRedraw( lineChartWithData, GetLineChartDataset ),
                 HandleRedraw( scatterChart, GetScatterChartDataset ),
-                HandleRedraw( bubbleChart, GetBubbleChartDataset ) );
+                HandleRedraw( bubbleChart, GetBubbleChartDataset ),
+                HandleRedraw( multiAxisLineChart, GetLineChartDataset ) );
         }
     }
 
