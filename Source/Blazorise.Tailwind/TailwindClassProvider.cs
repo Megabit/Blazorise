@@ -1714,9 +1714,9 @@ public class TailwindClassProvider : ClassProvider
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
     {
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Breakpoint.Mobile )
-            return $"{ToBreakpoint( breakpoint )}:{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
+            return $"!{ToBreakpoint( breakpoint )}:{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
 
-        return $"{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
+        return $"!{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
     }
 
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules )
