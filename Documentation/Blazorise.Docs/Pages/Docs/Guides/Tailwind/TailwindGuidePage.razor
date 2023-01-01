@@ -43,9 +43,16 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader>
-        The next step is to change your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file and include the CSS and JS source files:
+        Add the following to your HTML head section. Depending on whether you're running WebAssembly or Server, it's either <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code>.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="TailwindGuideSourceFilesExample" />
+    <DocsPageSectionSource Code="TailwindGuideSourceFiles1Example" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        In the same file add the following. It should be placed just before the default blazor script.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TailwindGuideSourceFiles2Example" />
 </DocsPageSection>
 
 <Alert Color="Color.Info" Visible>

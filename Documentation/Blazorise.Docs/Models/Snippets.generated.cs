@@ -7260,14 +7260,17 @@ builder.Services
     .AddTailwindProviders()
     .AddFontAwesomeIcons();";
 
-        public const string TailwindGuideSourceFilesExample = @"<link href=""https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"" rel=""stylesheet"">
+        public const string TailwindGuideSourceFiles1Example = @"<link href=""https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"" rel=""stylesheet"">
 <link rel=""stylesheet"" href=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css"" />
+<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />
+
 <script src=""https://cdn.tailwindcss.com""></script>
 <script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.1.4.1""></script>
 
-<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css"" rel=""stylesheet"" />";
 
-<script src=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.js""></script>";
+        public const string TailwindGuideSourceFiles2Example = @"<script src=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.js""></script>";
 
         public const string TailwindGuideUsingExample = @"@using Blazorise";
 
