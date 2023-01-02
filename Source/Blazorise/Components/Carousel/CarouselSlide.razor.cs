@@ -59,6 +59,7 @@ public partial class CarouselSlide : BaseComponent
     {
         builder.Append( ClassProvider.CarouselSlide() );
         builder.Append( ClassProvider.CarouselSlideActive( Active ) );
+        builder.Append( ClassProvider.CarouselSlideIndex( ParentCarousel.SelectedSlideIndex, ParentCarousel.SlideIndex( Name ), ParentCarousel.NumberOfSlides ) );
         builder.Append( ClassProvider.CarouselSlideSlidingLeft( Left ) );
         builder.Append( ClassProvider.CarouselSlideSlidingRight( Right ) );
         builder.Append( ClassProvider.CarouselSlideSlidingPrev( Prev ) );

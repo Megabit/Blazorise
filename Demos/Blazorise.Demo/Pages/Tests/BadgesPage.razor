@@ -1,0 +1,92 @@
+﻿@page "/tests/badges";
+<Row>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Badge</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Use the following badge elements to indicate counts or labels inside or outside components.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Badge Color="Color.Primary">Primary</Badge>
+                <Badge Color="Color.Secondary">Secondary</Badge>
+                <Badge Color="Color.Success">Success</Badge>
+                <Badge Color="Color.Danger">Danger</Badge>
+                <Badge Color="Color.Warning">Warning</Badge>
+                <Badge Color="Color.Info">Info</Badge>
+                <Badge Color="Color.Light">Light</Badge>
+                <Badge Color="Color.Dark">Dark</Badge>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Pill Badge</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Use the <code>Pill</code> modifier class to make badges more rounded.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Badge Color="Color.Primary" Pill>Primary</Badge>
+                <Badge Color="Color.Secondary" Pill>Secondary</Badge>
+                <Badge Color="Color.Success" Pill>Success</Badge>
+                <Badge Color="Color.Danger" Pill>Danger</Badge>
+                <Badge Color="Color.Warning" Pill>Warning</Badge>
+                <Badge Color="Color.Info" Pill>Info</Badge>
+                <Badge Color="Color.Light" Pill>Light</Badge>
+                <Badge Color="Color.Dark" Pill>Dark</Badge>
+                <Badge Color="Color.Link" Pill>Link</Badge>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Dismissable badges</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Use the <Code>CloseClicked</Code> event handler to dismiss the current badge.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Badge Color="Color.Primary" CloseClicked="@(()=>Console.WriteLine("Primary closed"))">Primary</Badge>
+                <Badge Color="Color.Secondary" CloseClicked="@(()=>Console.WriteLine("Secondary closed"))">Secondary</Badge>
+                <Badge Color="Color.Success" CloseClicked="@(()=>Console.WriteLine("Success closed"))">Success</Badge>
+                <Badge Color="Color.Danger" CloseClicked="@(()=>Console.WriteLine("Danger closed"))">Danger</Badge>
+                <Badge Color="Color.Warning" CloseClicked="@(()=>Console.WriteLine("Warning closed"))">Warning</Badge>
+                <Badge Color="Color.Info" CloseClicked="@(()=>Console.WriteLine("Info closed"))">Info</Badge>
+                <Badge Color="Color.Light" CloseClicked="@(()=>Console.WriteLine("Light closed"))">Light</Badge>
+                <Badge Color="Color.Dark" CloseClicked="@(()=>Console.WriteLine("Dark closed"))">Dark</Badge>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Badge scaling</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Badges scale to match the size of the immediate parent element by using relative font sizing and <Code>em</Code> units.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Heading Size="HeadingSize.Is1">Example heading<Badge Color="Color.Primary">New</Badge></Heading>
+                <Heading Size="HeadingSize.Is2">Example heading<Badge Color="Color.Success">New</Badge></Heading>
+                <Heading Size="HeadingSize.Is3">Example heading<Badge Color="Color.Info">New</Badge></Heading>
+                <Heading Size="HeadingSize.Is4">Example heading<Badge Color="Color.Danger">New</Badge></Heading>
+                <Heading Size="HeadingSize.Is5">Example heading<Badge Color="Color.Warning">New</Badge></Heading>
+                <Heading Size="HeadingSize.Is6">Example heading<Badge Color="Color.Secondary">New</Badge></Heading>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

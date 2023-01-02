@@ -1,0 +1,21 @@
+﻿@inherits Blazorise.BarDropdownItem
+@if ( ParentBar?.Mode == BarMode.Horizontal )
+{
+    <li>
+        <_BarOnlyLink ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Mode="@ParentBar?.Mode" InsideDropdown="@(ParentBarDropdown is not null)" Clicked="@ClickHandler" Attributes="@Attributes">
+            @ChildContent
+        </_BarOnlyLink>
+    </li>
+}
+else
+{
+    <_BarOnlyLink ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Mode="@ParentBar?.Mode" InsideDropdown="@(ParentBarDropdown is not null)" Clicked="@ClickHandler" Attributes="@Attributes">
+        @ChildContent
+    </_BarOnlyLink>
+}
+@code {
+    /// <summary>
+    /// Gets or sets the reference to the parent <see cref="Bar"/> component.
+    /// </summary>
+    [CascadingParameter] protected Bar ParentBar { get; set; }
+}

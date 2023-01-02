@@ -76,8 +76,8 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.NumericEdit( Plaintext ) );
-        builder.Append( ClassProvider.NumericEditSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.NumericEditColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.NumericEditSize( ThemeSize ) );
+        builder.Append( ClassProvider.NumericEditColor( Color ) );
         builder.Append( ClassProvider.NumericEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );

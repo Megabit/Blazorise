@@ -125,6 +125,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.LottieAnimation",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.MAUI", "Demos\Blazorise.Demo.MAUI\Blazorise.Demo.MAUI.csproj", "{F9515890-3956-47A7-A8BB-B27333F4FC57}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Tailwind", "Source\Blazorise.Tailwind\Blazorise.Tailwind.csproj", "{452E1C4E-F81A-46EC-AA86-7CC53FB1BCB3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Tailwind", "Demos\Blazorise.Demo.Tailwind\Blazorise.Demo.Tailwind.csproj", "{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -327,6 +331,14 @@ Global
 		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F9515890-3956-47A7-A8BB-B27333F4FC57}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{452E1C4E-F81A-46EC-AA86-7CC53FB1BCB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{452E1C4E-F81A-46EC-AA86-7CC53FB1BCB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{452E1C4E-F81A-46EC-AA86-7CC53FB1BCB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{452E1C4E-F81A-46EC-AA86-7CC53FB1BCB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -383,6 +395,8 @@ Global
 		{35CA950A-1A6C-41D8-A29A-A1B8AC881674} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{5859A0CD-8664-4600-B0D7-1E0813971353} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{F9515890-3956-47A7-A8BB-B27333F4FC57} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
+		{452E1C4E-F81A-46EC-AA86-7CC53FB1BCB3} = {73CD9574-5204-442D-A67C-CA7B038057C2}
+		{47EEB5B2-3CA1-436C-8317-E69F611FA1E3} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}

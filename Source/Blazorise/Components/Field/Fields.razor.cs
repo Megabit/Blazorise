@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System;
+using System.Collections.Generic;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,15 +10,13 @@ namespace Blazorise;
 /// <summary>
 /// Container for multiple <see cref="Field"/> component that needs to be placed in a flexbox grid row.
 /// </summary>
-public partial class Fields : BaseComponent
+public partial class Fields : BaseColumnComponent
 {
     #region Members
 
     private string label;
 
     private string help;
-
-    private IFluentColumn columnSize;
 
     #endregion
 
@@ -30,7 +30,6 @@ public partial class Fields : BaseComponent
         if ( ColumnSize != null )
         {
             builder.Append( ClassProvider.FieldsColumn() );
-            builder.Append( ColumnSize.Class( ClassProvider ) );
         }
 
         base.BuildClasses( builder );
@@ -38,7 +37,7 @@ public partial class Fields : BaseComponent
 
     #endregion
 
-    #region Properties
+    #region Properties   
 
     /// <summary>
     /// Sets the field label.
@@ -69,26 +68,6 @@ public partial class Fields : BaseComponent
             DirtyClasses();
         }
     }
-
-    /// <summary>
-    /// Determines how much space will be used by the field inside of the grid row.
-    /// </summary>
-    [Parameter]
-    public IFluentColumn ColumnSize
-    {
-        get => columnSize;
-        set
-        {
-            columnSize = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
-    /// Gets or sets the reference to the parent <see cref="Fields"/> component.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

@@ -115,6 +115,11 @@ public class Startup
                 await Seo.GenerateSitemap( context );
             } );
 
+            endpoints.MapGet( "/sitemap.xml", async context =>
+            {
+                await Seo.GenerateSitemapXml( context );
+            } );
+
             endpoints.MapHealthChecks( "/healthcheck" );
 
             endpoints.MapBlazorHub();

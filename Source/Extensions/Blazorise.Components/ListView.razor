@@ -1,5 +1,5 @@
 ﻿@typeparam TItem
-<ListGroup Class="@ListGroupClassNames" Style="@ListGroupStyleNames" Flush="@Flush" Mode="@Mode" SelectedItem="@GetItemValue( SelectedItem )" SelectedItemChanged="@SelectedListGroupItemChanged" Attributes="@Attributes">
+<ListGroup Class="@ListGroupClassNames" Style="@ListGroupStyleNames" Flush="@Flush" Scrollable="@Scrollable" Mode="@Mode" SelectedItem="@GetItemValue( SelectedItem )" SelectedItemChanged="@SelectedListGroupItemChanged" Attributes="@Attributes">
     @if ( Data != null )
     {
         @foreach ( var item in Data ?? Enumerable.Empty<TItem>() )

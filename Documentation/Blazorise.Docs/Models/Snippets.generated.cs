@@ -503,7 +503,7 @@ public class Gender
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse1Visible = !collapse1Visible)"">Switch 1</Button>
+                <AccordionToggle>Switch 1</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -513,7 +513,7 @@ public class Gender
     <Collapse Visible=""@collapse2Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse2Visible = !collapse2Visible)"">Switch 2</Button>
+                <AccordionToggle>Switch 2</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -523,7 +523,7 @@ public class Gender
     <Collapse Visible=""@collapse3Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse3Visible = !collapse3Visible)"">Switch 3</Button>
+                <AccordionToggle>Switch 3</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -531,7 +531,7 @@ public class Gender
         </CollapseBody>
     </Collapse>
 </Accordion>
-@code{
+@code {
     bool collapse1Visible = true;
     bool collapse2Visible = false;
     bool collapse3Visible = false;
@@ -1086,6 +1086,34 @@ public class Gender
     </Buttons>
 </Buttons>";
 
+        public const string CardBackgroundExample = @"<Card Background=""Background.Success"" WhiteText>
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            With supporting text below as a natural lead-in to additional content.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
+    </CardBody>
+</Card>";
+
+        public const string CardButtonExample = @"<Card>
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
+    </CardBody>
+</Card>";
+
         public const string CardDeckExample = @"<CardDeck>
     <Card>
         <CardImage Source=""/img/gallery/2.jpg"" Alt=""Card image cap 3""></CardImage>
@@ -1119,15 +1147,29 @@ public class Gender
     </Card>
 </CardDeck>";
 
-        public const string CardExample = @"<Card Margin=""Margin.Is4.OnY"">
-    <CardImage Source=""img/gallery/7.jpg"" Alt=""Placeholder image"">
-    </CardImage>
+        public const string CardExample = @"<Card>
     <CardBody>
-        <CardTitle Size=""5"">Card title</CardTitle>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
         <CardText>
-            Some quick example text to build on the card title and make up the bulk of the card's content.
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
         </CardText>
-        <Button Color=""Color.Primary"">Button</Button>
+    </CardBody>
+</Card>";
+
+        public const string CardImageExample = @"<Card>
+    <CardImage Source=""/img/gallery/2.jpg"" Alt=""Placeholder image"" />
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
     </CardBody>
 </Card>";
 
@@ -3759,11 +3801,18 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <Heading Size=""HeadingSize.Is5"">h5. Blazorise heading</Heading>
 <Heading Size=""HeadingSize.Is6"">h6. Blazorise heading</Heading>";
 
+        public const string TypographyLeadExample = @"<Lead>
+    Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work and deploy.
+</Lead>
+<Paragraph>
+    Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
+</Paragraph>";
+
         public const string TypographyParagraphExample = @"<Paragraph>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras fermentum odio eu feugiat pretium nibh ipsum consequat. Pulvinar etiam non quam lacus suspendisse faucibus interdum posuere. Nunc sed velit dignissim sodales ut. Mi bibendum neque egestas congue quisque egestas diam in arcu. Quis vel eros donec ac odio tempor. Fermentum posuere urna nec tincidunt praesent. Eget velit aliquet sagittis id consectetur. Molestie at elementum eu facilisis sed odio morbi quis commodo. Ut consequat semper viverra nam libero justo laoreet sit.
+    Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work and deploy.
 </Paragraph>
 <Paragraph>
-    Cursus euismod quis viverra nibh cras. Fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Varius quam quisque id diam vel quam. Eget sit amet tellus cras adipiscing enim eu turpis. In est ante in nibh mauris cursus mattis. Interdum velit laoreet id donec ultrices tincidunt. Sollicitudin aliquam ultrices sagittis orci a. Turpis egestas sed tempus urna et pharetra pharetra. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Ipsum dolor sit amet consectetur adipiscing elit ut. Enim eu turpis egestas pretium aenean pharetra. Diam sit amet nisl suscipit adipiscing bibendum est. Turpis massa sed elementum tempus egestas. Accumsan in nisl nisi scelerisque eu ultrices vitae. Purus ut faucibus pulvinar elementum integer. Id interdum velit laoreet id donec ultrices tincidunt arcu. Aliquam vestibulum morbi blandit cursus risus at ultrices.
+    Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
 </Paragraph>";
 
         public const string TypographyTextExample = @"<Text TextColor=""TextColor.Primary"">
@@ -4045,6 +4094,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <script src=""_content/Blazorise.Material/tooltip.js?v=1.1.5.0"" type=""module""></script>";
 
         public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.1.5.0"" type=""module""></script>";
+
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.1.5.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
 
@@ -7243,6 +7295,33 @@ builder.Services
 <script src=""_content/Blazorise.Material/blazorise.material.js""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
+
+        public const string TailwindGuideNuget1Example = @"Install-Package Blazorise.Tailwind";
+
+        public const string TailwindGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+
+        public const string TailwindGuideRegistrationExample = @"using Blazorise;
+using Blazorise.Tailwind;
+using Blazorise.Icons.FontAwesome;
+
+builder.Services
+    .AddBlazorise()
+    .AddTailwindProviders()
+    .AddFontAwesomeIcons();";
+
+        public const string TailwindGuideSourceFiles1Example = @"<link href=""https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"" rel=""stylesheet"">
+<link rel=""stylesheet"" href=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css"" />
+<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />
+
+<script src=""https://cdn.tailwindcss.com""></script>
+<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.1.4.1""></script>
+
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css"" rel=""stylesheet"" />";
+
+        public const string TailwindGuideSourceFiles2Example = @"<script src=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.js""></script>";
+
+        public const string TailwindGuideUsingExample = @"@using Blazorise";
 
         public const string CustomLanguageExample = @"<Field>
     <FileEdit Multiple=""false"" />

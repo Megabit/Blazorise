@@ -1,10 +1,7 @@
 ﻿@page "/tests/carousel"
 <Row>
-    <Column ColumnSize="ColumnSize.IsFull">
+    <Column>
         <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
-                <CardTitle>Carousel</CardTitle>
-            </CardHeader>
             <CardBody>
                 <Fields>
                     <Field ColumnSize="ColumnSize.Is3">
@@ -15,33 +12,79 @@
                     </Field>
                 </Fields>
             </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Basic carousel</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Carousel that loops automatically.</CardText>
+            </CardBody>
             <CardBody>
                 <Carousel @bind-SelectedSlide="@selectedSlide" ShowIndicators="@showIndicators" ShowControls="@showControls">
                     <CarouselSlide Name="1">
-                        <Image Source="assets/images/slides/430-1230x500.jpg" Text="City Skyline" Display="Display.Block" Width="Width.Is100" />
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-01.jpg" Text="City Skyline" Display="Display.Block" Width="Width.Is100" />
                     </CarouselSlide>
                     <CarouselSlide Name="2">
-                        <Image Source="assets/images/slides/431-1230x500.jpg" Text="Coffee" Display="Display.Block" Width="Width.Is100" />
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-02.jpg" Text="Coffee" Display="Display.Block" Width="Width.Is100" />
                     </CarouselSlide>
                     <CarouselSlide Name="3">
-                        <Image Source="assets/images/slides/432-1230x500.jpg" Text="Mountain" Display="Display.Block" Width="Width.Is100" />
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-03.jpg" Text="Mountain" Display="Display.Block" Width="Width.Is100" />
                     </CarouselSlide>
                     <CarouselSlide Name="4">
-                        <Image Source="assets/images/slides/433-1230x500.jpg" Text="Bear" Display="Display.Block" Width="Width.Is100" />
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-04.jpg" Text="Bear" Display="Display.Block" Width="Width.Is100" />
                     </CarouselSlide>
                     <CarouselSlide Name="5">
-                        <Image Source="assets/images/slides/434-1230x500.jpg" Text="Lake" Display="Display.Block" Width="Width.Is100" />
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-05.jpg" Text="Lake" Display="Display.Block" Width="Width.Is100" />
                     </CarouselSlide>
                     <CarouselSlide Name="6">
-                        <Image Source="assets/images/slides/435-1230x500.jpg" Text="Camera" Display="Display.Block" Width="Width.Is100" />
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-06.jpg" Text="Camera" Display="Display.Block" Width="Width.Is100" />
+                    </CarouselSlide>
+                </Carousel>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Manual carousel</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Carousel with disabled <Code>Autoplay</Code>.</CardText>
+            </CardBody>
+            <CardBody>
+                <Carousel @bind-SelectedSlide="@selectedSlide2" ShowIndicators="false" ShowControls="true" Autoplay="false">
+                    <CarouselSlide Name="1">
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-01.jpg" Text="City Skyline" Display="Display.Block" Width="Width.Is100" />
+                    </CarouselSlide>
+                    <CarouselSlide Name="2">
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-02.jpg" Text="Coffee" Display="Display.Block" Width="Width.Is100" />
+                    </CarouselSlide>
+                    <CarouselSlide Name="3">
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-03.jpg" Text="Mountain" Display="Display.Block" Width="Width.Is100" />
+                    </CarouselSlide>
+                    <CarouselSlide Name="4">
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-04.jpg" Text="Bear" Display="Display.Block" Width="Width.Is100" />
+                    </CarouselSlide>
+                    <CarouselSlide Name="5">
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-05.jpg" Text="Lake" Display="Display.Block" Width="Width.Is100" />
+                    </CarouselSlide>
+                    <CarouselSlide Name="6">
+                        <Image Source="_content/Blazorise.Demo/img/slides/slide-06.jpg" Text="Camera" Display="Display.Block" Width="Width.Is100" />
                     </CarouselSlide>
                 </Carousel>
             </CardBody>
         </Card>
     </Column>
 </Row>
-@code{
+@code {
     private string selectedSlide = "2";
+    private string selectedSlide2 = "2";
     bool showIndicators = true;
     bool showControls = true;
 }

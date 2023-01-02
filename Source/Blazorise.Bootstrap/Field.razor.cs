@@ -17,15 +17,8 @@ public partial class Field : Blazorise.Field
         if ( IsFields && ColumnSize == null )
             builder.Append( ClassProvider.FieldColumn() );
 
-        if ( ColumnSize != null )
-            builder.Append( ColumnSize.Class( ClassProvider ) );
-
         base.BuildClasses( builder );
     }
-
-    #endregion
-
-    #region Properties
 
     #endregion
 }

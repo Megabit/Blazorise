@@ -6747,7 +6747,7 @@ li.list-group-item-action {
   cursor: pointer;
 }
 
-.b-list-view {
+.list-group-scrollable {
   overflow-y: scroll;
 }
 
@@ -7046,6 +7046,78 @@ li.list-group-item-action {
 }
 .rating .rating-item.is-hover {
   opacity: 0.7;
+}
+
+.is-gap-0 {
+  gap: 0 !important;
+}
+
+.is-gap-y-0 {
+  row-gap: 0 !important;
+}
+
+.is-gap-x-0 {
+  column-gap: 0 !important;
+}
+
+.is-gap-1 {
+  gap: 0.25rem !important;
+}
+
+.is-gap-y-1 {
+  row-gap: 0.25rem !important;
+}
+
+.is-gap-x-1 {
+  column-gap: 0.25rem !important;
+}
+
+.is-gap-2 {
+  gap: 0.5rem !important;
+}
+
+.is-gap-y-2 {
+  row-gap: 0.5rem !important;
+}
+
+.is-gap-x-2 {
+  column-gap: 0.5rem !important;
+}
+
+.is-gap-3 {
+  gap: 1rem !important;
+}
+
+.is-gap-y-3 {
+  row-gap: 1rem !important;
+}
+
+.is-gap-x-3 {
+  column-gap: 1rem !important;
+}
+
+.is-gap-4 {
+  gap: 1.5rem !important;
+}
+
+.is-gap-y-4 {
+  row-gap: 1.5rem !important;
+}
+
+.is-gap-x-4 {
+  column-gap: 1.5rem !important;
+}
+
+.is-gap-5 {
+  gap: 3rem !important;
+}
+
+.is-gap-y-5 {
+  row-gap: 3rem !important;
+}
+
+.is-gap-x-5 {
+  column-gap: 3rem !important;
 }
 
 .steps {
@@ -7769,6 +7841,12 @@ tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
 }
 .blockquote-footer::before {
   content: "— ";
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+  margin-bottom: 1rem;
 }
 
 .flatpickr-months {

@@ -61,3 +61,21 @@ public static class MathUtils<T>
         return subtractFunc.Value( a, b );
     }
 }
+
+/// <summary>
+/// Helper class for running math calculations on known types.
+/// </summary>
+public static class MathUtils
+{
+    /// <summary>
+    /// Rounds a double value to the nearest integer or to a specified number of decimal places.
+    /// </summary>
+    /// <param name="value">The value to round.</param>
+    /// <param name="precision">The number of decimal places to round to. If not specified, the value will be rounded to the nearest integer.</param>
+    /// <returns>The rounded value.</returns>
+    public static double Round( double value, int precision = 0 )
+    {
+        var multiplier = Math.Pow( 10, precision );
+        return Math.Round( value * multiplier ) / multiplier;
+    }
+}

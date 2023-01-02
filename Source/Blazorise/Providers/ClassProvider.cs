@@ -339,6 +339,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Addon( AddonType addonType );
 
+    public abstract string AddonSize( Size size );
+
     public abstract string AddonLabel();
 
     //public abstract string AddonContainer();
@@ -353,21 +355,19 @@ public abstract class ClassProvider : IClassProvider
 
     #region Button
 
-    public abstract string Button();
+    public abstract string Button( bool outline );
 
-    public abstract string ButtonColor( Color color );
+    public abstract string ButtonColor( Color color, bool outline );
 
-    public abstract string ButtonOutline( Color color );
+    public abstract string ButtonSize( Size size, bool outline );
 
-    public abstract string ButtonSize( Size size );
+    public abstract string ButtonBlock( bool outline );
 
-    public abstract string ButtonBlock();
+    public abstract string ButtonActive( bool outline );
 
-    public abstract string ButtonActive();
+    public abstract string ButtonDisabled( bool outline );
 
-    public abstract string ButtonDisabled();
-
-    public abstract string ButtonLoading();
+    public abstract string ButtonLoading( bool outline );
 
     #endregion
 
@@ -409,6 +409,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DropdownMenu();
 
+    public abstract string DropdownMenuSelector();
+
     public abstract string DropdownMenuScrollable();
 
     //public abstract string DropdownMenuBody();
@@ -417,15 +419,15 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DropdownMenuRight();
 
-    public abstract string DropdownToggle( bool isDropdownSubmenu );
+    public abstract string DropdownToggle( bool isDropdownSubmenu, bool outline );
 
-    public abstract string DropdownToggleColor( Color color );
+    public abstract string DropdownToggleSelector( bool isDropdownSubmenu );
 
-    public abstract string DropdownToggleOutline( Color color );
+    public abstract string DropdownToggleColor( Color color, bool outline );
 
-    public abstract string DropdownToggleSize( Size size );
+    public abstract string DropdownToggleSize( Size size, bool outline );
 
-    public abstract string DropdownToggleSplit();
+    public abstract string DropdownToggleSplit( bool split );
 
     public abstract string DropdownToggleIcon( bool visible );
 
@@ -451,7 +453,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TabItemDisabled( bool disabled );
 
-    public abstract string TabLink();
+    public abstract string TabLink( TabPosition tabPosition );
 
     public abstract string TabLinkActive( bool active );
 
@@ -479,6 +481,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string StepItemMarker();
 
+    public abstract string StepItemMarkerColor( Color color, bool active );
+
     public abstract string StepItemDescription();
 
     public abstract string StepsContent();
@@ -498,6 +502,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string CarouselSlide();
 
     public abstract string CarouselSlideActive( bool active );
+
+    public abstract string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides );
 
     public abstract string CarouselSlideSlidingLeft( bool left );
 
@@ -563,13 +569,17 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string CardLink();
 
+    public abstract string CardLinkActive( bool active );
+
     #endregion
 
     #region ListGroup
 
     public abstract string ListGroup();
 
-    public abstract string ListGroupFlush();
+    public abstract string ListGroupFlush( bool flush );
+
+    public abstract string ListGroupScrollable( bool scrollable );
 
     public abstract string ListGroupItem();
 
@@ -579,7 +589,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ListGroupItemDisabled();
 
-    public abstract string ListGroupItemColor( Color color );
+    public abstract string ListGroupItemColor( Color color, bool selectable, bool active );
 
     #endregion
 
@@ -697,6 +707,14 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region AccordionToggle
+
+    public abstract string AccordionToggle();
+
+    public abstract string AccordionToggleCollapsed( bool collapsed );
+
+    #endregion
+
     #region Collapse
 
     public abstract string Collapse( bool accordion );
@@ -709,7 +727,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string CollapseBodyActive( bool accordion, bool active );
 
-    public abstract string CollapseBodyContent( bool accordion );
+    public abstract string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion );
 
     #endregion
 
@@ -719,7 +737,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition );
 
-    public abstract string RowNoGutters();
+    public abstract string RowNoGutters( bool noGutters );
 
     #endregion
 
@@ -729,8 +747,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 
-    public virtual string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-        string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+    public abstract string Column( IEnumerable<ColumnDefinition> columnDefinitions );
 
     #endregion
 
@@ -785,8 +802,6 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ModalContentSize( ModalSize modalSize );
 
-    public abstract string ModalContentFullscreen( bool fullscreen );
-
     public abstract string ModalContentCentered( bool centered );
 
     public abstract string ModalContentScrollable( bool scrollable );
@@ -815,9 +830,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string PaginationLink();
 
-    public abstract string PaginationLinkActive();
+    public abstract string PaginationLinkSize( Size size );
 
-    public abstract string PaginationLinkDisabled();
+    public abstract string PaginationLinkActive( bool active );
+
+    public abstract string PaginationLinkDisabled( bool disabled );
 
     #endregion
 
@@ -887,7 +904,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableBody();
 
-    public abstract string TableRow();
+    public abstract string TableRow( bool striped, bool hoverable );
 
     public abstract string TableRowColor( Color color );
 
@@ -965,6 +982,12 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Lead
+
+    public abstract string Lead();
+
+    #endregion
+
     #region Paragraph
 
     public abstract string Paragraph();
@@ -1039,6 +1062,14 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Link
+
+    public abstract string Link();
+
+    public abstract string LinkActive( bool active );
+
+    #endregion
+
     #region States
 
     public abstract string Show();
@@ -1058,6 +1089,14 @@ public abstract class ClassProvider : IClassProvider
     public abstract string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint );
 
     public abstract string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules );
+
+    #endregion
+
+    #region Gap
+
+    public abstract string Gap( GapSize gapSize, GapSide gapSide );
+
+    public abstract string Gap( GapSize gapSize, IEnumerable<GapSide> rules );
 
     #endregion
 
@@ -1259,6 +1298,16 @@ public abstract class ClassProvider : IClassProvider
         };
     }
 
+    public virtual string ToGapSide( GapSide gapSide )
+    {
+        return gapSide switch
+        {
+            Blazorise.GapSide.X => "x",
+            Blazorise.GapSide.Y => "y",
+            _ => null,
+        };
+    }
+
     public virtual string ToAlignment( Alignment alignment )
     {
         return alignment switch
@@ -1411,6 +1460,20 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.SpacingSize.Is4 => "4",
             Blazorise.SpacingSize.Is5 => "5",
             Blazorise.SpacingSize.IsAuto => "auto",
+            _ => null,
+        };
+    }
+
+    public virtual string ToGapSize( GapSize gapSize )
+    {
+        return gapSize switch
+        {
+            Blazorise.GapSize.Is0 => "0",
+            Blazorise.GapSize.Is1 => "1",
+            Blazorise.GapSize.Is2 => "2",
+            Blazorise.GapSize.Is3 => "3",
+            Blazorise.GapSize.Is4 => "4",
+            Blazorise.GapSize.Is5 => "5",
             _ => null,
         };
     }

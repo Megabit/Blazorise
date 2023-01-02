@@ -47,8 +47,8 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.DateEdit( Plaintext ) );
-        builder.Append( ClassProvider.DateEditSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.DateEditColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.DateEditSize( ThemeSize ) );
+        builder.Append( ClassProvider.DateEditColor( Color ) );
         builder.Append( ClassProvider.DateEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );

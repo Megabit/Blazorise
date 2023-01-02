@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -9,7 +10,7 @@ namespace Blazorise;
 /// <summary>
 /// Toggle visibility of almost any content on your pages in a vertically collapsing container.
 /// </summary>
-public partial class Collapse : BaseComponent
+public partial class Collapse : BaseComponent, IDisposable
 {
     #region Members
 
@@ -18,6 +19,25 @@ public partial class Collapse : BaseComponent
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        ParentAccordion?.NotifyCollapseInitialized( this );
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentAccordion?.NotifyCollapseRemoved( this );
+        }
+
+        base.Dispose( disposing );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -39,6 +59,24 @@ public partial class Collapse : BaseComponent
         return InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Sets the visibility state of this <see cref="Collapse"/> component.
+    /// </summary>
+    /// <param name="visible">True if <see cref="Collapse"/> is visible.</param>
+    private void HandleVisibilityState( bool visible )
+    {
+        DirtyClasses();
+    }
+
+    /// <summary>
+    /// Raises all registered events for this <see cref="Collapse"/> component.
+    /// </summary>
+    /// <param name="visible">True if <see cref="Collapse"/> is visible.</param>
+    private void RaiseEvents( bool visible )
+    {
+        InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
+    }
+
     #endregion
 
     #region Properties
@@ -49,6 +87,16 @@ public partial class Collapse : BaseComponent
     public bool InsideAccordion => ParentAccordion != null;
 
     /// <summary>
+    /// Determines if the collapse is placed inside of accordion component as the first item.
+    /// </summary>
+    public bool FirstInAccordion => ParentAccordion?.IsFirstInAccordion( this ) == true;
+
+    /// <summary>
+    /// Determines if the collapse is placed inside of accordion component as the last item.
+    /// </summary>
+    public bool LastInAccordion => ParentAccordion?.IsLastInAccordion( this ) == true;
+
+    /// <summary>
     /// Gets or sets the collapse visibility state.
     /// </summary>
     [Parameter]
@@ -57,11 +105,20 @@ public partial class Collapse : BaseComponent
         get => visible;
         set
         {
+            if ( visible == value )
+                return;
+
             visible = value;
 
-            DirtyClasses();
+            HandleVisibilityState( value );
+            RaiseEvents( value );
         }
     }
+
+    /// <summary>
+    /// Occurs when the collapse visibility state changes.
+    /// </summary>
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the cascaded parent accordion component.

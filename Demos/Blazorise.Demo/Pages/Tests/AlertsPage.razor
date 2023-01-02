@@ -1,0 +1,160 @@
+﻿@page "/tests/alerts"
+<Row>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Alert</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Alerts are available for any length of text, as well as an optional dismiss button.</CardText>
+            </CardBody>
+            <CardBody>
+                <Alert Color="Color.Primary" Visible>
+                    <AlertMessage>Primary message!</AlertMessage>
+                    <AlertDescription>You successfully read this important alert message.</AlertDescription>
+                </Alert>
+                <Alert Color="Color.Secondary" Visible>
+                    <AlertMessage>Well done!</AlertMessage>
+                    <AlertDescription>You successfully read this important alert message.</AlertDescription>
+                </Alert>
+                <Alert Color="Color.Success" Visible>
+                    <AlertMessage>Well done!</AlertMessage>
+                    <AlertDescription>You successfully read this important alert message.</AlertDescription>
+                </Alert>
+                <Alert Color="Color.Danger" Visible>
+                    <AlertMessage>Oh snap!</AlertMessage>
+                    <AlertDescription>
+                        Change a few things up and try submitting again.
+                    </AlertDescription>
+                </Alert>
+                <Alert Color="Color.Warning" Visible>
+                    <AlertMessage>Warning!</AlertMessage>
+                    <AlertDescription>
+                        Better check yourself, you're not looking too good.
+                    </AlertDescription>
+                </Alert>
+                <Alert Color="Color.Info" Visible>
+                    <AlertMessage>Info alert!</AlertMessage>
+                    <AlertDescription>
+                        This alert needs your attention, but it's not super important.
+                    </AlertDescription>
+                </Alert>
+                <Alert Color="Color.Light" Visible>
+                    <AlertMessage>Light alert!</AlertMessage>
+                    <AlertDescription>
+                        This alert needs your attention, but it's not super important.
+                    </AlertDescription>
+                </Alert>
+                <Alert Color="Color.Dark" Visible>
+                    <AlertMessage>Dark alert!</AlertMessage>
+                    <AlertDescription>
+                        This alert needs your attention, but it's not super important.
+                    </AlertDescription>
+                </Alert>
+                <Alert Color="Color.Link" Visible>
+                    <AlertMessage>Link alert!</AlertMessage>
+                    <AlertDescription>
+                        This alert needs your attention, but it's not super important.
+                    </AlertDescription>
+                </Alert>
+                <Alert Color="Color.Success" Visible>
+                    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">Big one!</Heading>
+                    <Paragraph>
+                        <AlertMessage>Well done!</AlertMessage>
+                        <AlertDescription>
+                            You successfully read this important alert message.
+                        </AlertDescription>
+                    </Paragraph>
+                    <Paragraph>
+                        <Button Color="Color.Success">Wanna do this</Button>
+                        <Button Color="Color.Light">Or do this</Button>
+                    </Paragraph>
+                </Alert>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Dismisable Alert</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Add a dismiss button and the which adds extra padding to the right of the alert and positions the <code>CloseButton</code>.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Alert Color="Color.Success" @bind-Visible="@dismisableAlert1" Dismisable>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>
+                        Alert Link.
+                    </AlertMessage>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert2" Dismisable>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>
+                        Alert Link.
+                    </AlertMessage>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Warning" @bind-Visible="@dismisableAlert3" Dismisable>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>
+                        Alert Link.
+                    </AlertMessage>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Danger" @bind-Visible="@dismisableAlert4" Dismisable>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>Alert Link.</AlertMessage>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Light" @bind-Visible="@dismisableAlert5" Dismisable>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>Alert Link.</AlertMessage>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Dark" @bind-Visible="@dismisableAlert6" Dismisable>
+                    <AlertDescription>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                    </AlertDescription>
+                    <AlertMessage>Alert Link.</AlertMessage>
+                    <CloseButton />
+                </Alert>
+                <Alert Color="Color.Info" @bind-Visible="@dismisableAlert7" Dismisable>
+                    <Heading Size="HeadingSize.Is4" TextColor="TextColor.Success">
+                        Big one!
+                        <CloseButton />
+                    </Heading>
+                    <Paragraph>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Duis mollis, est non commodo luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet fermentum.
+                    </Paragraph>
+                    <Paragraph>
+                        <Button Color="Color.Info">Wanna do this</Button>
+                        <Button Color="Color.Light">Or do this</Button>
+                    </Paragraph>
+                </Alert>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
+    bool dismisableAlert1 = true;
+    bool dismisableAlert2 = true;
+    bool dismisableAlert3 = true;
+    bool dismisableAlert4 = true;
+    bool dismisableAlert5 = true;
+    bool dismisableAlert6 = true;
+    bool dismisableAlert7 = true;
+}

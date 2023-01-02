@@ -34,6 +34,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
     private IFluentSpacing padding;
 
+    private IFluentGap gap;
+
     private IFluentDisplay display;
 
     private IFluentBorder border;
@@ -163,6 +165,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
         if ( Padding != null )
             builder.Append( Padding.Class( ClassProvider ) );
+
+        if ( Gap != null )
+            builder.Append( Gap.Class( ClassProvider ) );
 
         if ( Display != null )
             builder.Append( Display.Class( ClassProvider ) );
@@ -401,6 +406,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => visibility;
         set
         {
+            if ( visibility == value )
+                return;
+
             visibility = value;
 
             DirtyClasses();
@@ -416,6 +424,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => width;
         set
         {
+            if ( width == value )
+                return;
+
             width = value;
 
             DirtyClasses();
@@ -431,6 +442,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => height;
         set
         {
+            if ( height == value )
+                return;
+
             height = value;
 
             DirtyClasses();
@@ -446,6 +460,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => margin;
         set
         {
+            if ( margin == value )
+                return;
+
             margin = value;
 
             DirtyClasses();
@@ -461,7 +478,28 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => padding;
         set
         {
+            if ( padding == value )
+                return;
+
             padding = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Defines the element gap spacing.
+    /// </summary>
+    [Parameter]
+    public IFluentGap Gap
+    {
+        get => gap;
+        set
+        {
+            if ( gap == value )
+                return;
+
+            gap = value;
 
             DirtyClasses();
         }
@@ -476,6 +514,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => display;
         set
         {
+            if ( display == value )
+                return;
+
             display = value;
 
             DirtyClasses();
@@ -491,6 +532,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => border;
         set
         {
+            if ( border == value )
+                return;
+
             border = value;
 
             DirtyClasses();
@@ -506,6 +550,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => flex;
         set
         {
+            if ( flex == value )
+                return;
+
             flex = value;
 
             DirtyClasses();
@@ -521,6 +568,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => position;
         set
         {
+            if ( position == value )
+                return;
+
             position = value;
 
             DirtyClasses();
@@ -536,6 +586,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => overflow;
         set
         {
+            if ( overflow == value )
+                return;
+
             overflow = value;
 
             DirtyClasses();

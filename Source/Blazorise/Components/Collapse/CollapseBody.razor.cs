@@ -45,7 +45,7 @@ public partial class CollapseBody : BaseComponent
     /// <param name="builder">Class builder used to append the classnames.</param>
     private void BuildBodyClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.CollapseBodyContent( ParentCollapse?.InsideAccordion == true ) );
+        builder.Append( ClassProvider.CollapseBodyContent( ParentCollapse?.InsideAccordion == true, ParentCollapse?.FirstInAccordion == true, ParentCollapse?.LastInAccordion == true ) );
     }
 
     /// <inheritdoc/>
