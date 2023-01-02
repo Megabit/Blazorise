@@ -2637,6 +2637,10 @@ ol.ordered-list-upper-roman {
   border-left: 5px solid #3273dc !important;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .flatpickr-months {
   margin: 0.5rem 0;
 }

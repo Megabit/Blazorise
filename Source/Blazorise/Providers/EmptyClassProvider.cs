@@ -903,6 +903,8 @@ class EmptyClassProvider : IClassProvider
 
     public string TableHeaderCell() => null;
 
+    public string TableHeaderCellCursor( Cursor cursor ) => null;
+
     public string TableFooter() => null;
 
     public string TableBody() => null;

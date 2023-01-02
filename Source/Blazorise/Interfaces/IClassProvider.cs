@@ -896,6 +896,8 @@ public interface IClassProvider
 
     string TableHeaderCell();
 
+    string TableHeaderCellCursor( Cursor cursor );
+
     string TableFooter();
 
     string TableBody();

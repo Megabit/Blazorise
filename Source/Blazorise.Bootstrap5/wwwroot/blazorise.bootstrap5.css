@@ -353,7 +353,6 @@ input[type=button].btn-block {
     right: auto;
     left: 0;
   }
-
   .dropdown-menu-sm-end {
     right: 0;
     left: auto;
@@ -364,7 +363,6 @@ input[type=button].btn-block {
     right: auto;
     left: 0;
   }
-
   .dropdown-menu-md-end {
     right: 0;
     left: auto;
@@ -375,7 +373,6 @@ input[type=button].btn-block {
     right: auto;
     left: 0;
   }
-
   .dropdown-menu-lg-end {
     right: 0;
     left: auto;
@@ -386,7 +383,6 @@ input[type=button].btn-block {
     right: auto;
     left: 0;
   }
-
   .dropdown-menu-xl-end {
     right: 0;
     left: auto;
@@ -811,7 +807,7 @@ input[readonly=readonly][type=range]::-ms-thumb {
     display: inline-block;
   }
   .form-inline .input-group,
-.form-inline .custom-select {
+  .form-inline .custom-select {
     width: auto;
   }
   .form-inline .form-check {
@@ -2796,6 +2792,10 @@ ol.ordered-list-upper-roman {
 
 .border-link-start-5 {
   border-left: 5px solid #3273dc !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .flatpickr-months {

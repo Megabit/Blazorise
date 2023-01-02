@@ -900,6 +900,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableHeaderCell();
 
+    public abstract string TableHeaderCellCursor( Cursor cursor );
+
     public abstract string TableFooter();
 
     public abstract string TableBody();
