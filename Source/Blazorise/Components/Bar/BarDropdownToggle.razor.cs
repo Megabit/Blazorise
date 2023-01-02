@@ -104,6 +104,22 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
         return Clicked.InvokeAsync( eventArgs );
     }
 
+    /// <summary>
+    /// Handler for @onkeydown event.
+    /// </summary>
+    /// <param name="eventArgs">Information about the keyboard down event.</param>
+    /// <returns>Returns awaitable task</returns>
+    protected Task KeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        if ( IsDisabled )
+            return Task.CompletedTask;
+
+        if ( ParentBarDropdown != null && eventArgs.Key == "Enter" )
+            return ParentBarDropdown.Toggle( ElementId );
+
+        return Task.CompletedTask;
+    }
+
     /// <inheritdoc/>
     public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
     {
