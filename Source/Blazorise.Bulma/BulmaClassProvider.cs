@@ -972,6 +972,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableHeaderCell() => null;
 
+    public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"is-cursor-{ToCursor( cursor )}" : null;
+
     public override string TableFooter() => null;
 
     public override string TableBody() => null;

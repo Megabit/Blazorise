@@ -41,7 +41,7 @@
                             }
                             else
                             {
-                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable && column.Sortable ? "; cursor: pointer" : "")}{(column.Width != null ? $"; width: {column.Width}" : "")}".TrimStart( ' ', ';' ))" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
+                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
                                     @if ( column.ShowCaption )
                                     {
                                         @if ( column.CaptionTemplate != null )

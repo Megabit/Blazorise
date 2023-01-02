@@ -1406,6 +1406,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableHeaderCell() => "py-4 px-4";
 
+    public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
+
     public override string TableFooter() => "b-table-footer";
 
     public override string TableBody() => "b-table-body";
