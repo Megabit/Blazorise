@@ -159,6 +159,10 @@
             display: block !important;
         }
 
+        .ant-display#{$infix}-none {
+            display: none !important;
+        }
+
         .ant-display#{$infix}-flex {
             display: flex !important;
         }
