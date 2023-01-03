@@ -68,6 +68,7 @@ public static class Config
         { typeof( Blazorise.Check<> ), typeof( Tailwind.Check<> ) },
         { typeof( Blazorise.CloseButton ), typeof( Tailwind.CloseButton ) },
         { typeof( Blazorise.ColorPicker ), typeof( Tailwind.ColorPicker ) },
+        { typeof( Blazorise.Dropdown ), typeof( Tailwind.Dropdown ) },
         { typeof( Blazorise.DropdownHeader ), typeof( Tailwind.DropdownHeader ) },
         { typeof( Blazorise.DropdownItem ), typeof( Tailwind.DropdownItem ) },
         { typeof( Blazorise.DropdownMenu ), typeof( Tailwind.DropdownMenu ) },
