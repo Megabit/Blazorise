@@ -20,6 +20,14 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && !paramText.IsEqual( Text ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation != null )

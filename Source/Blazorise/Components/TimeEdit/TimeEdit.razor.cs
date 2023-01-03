@@ -2,6 +2,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -20,7 +21,14 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        // Let blazor do its thing!
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<TValue>( nameof( Time ), out var paramTime ) && !paramTime.IsEqual( Time ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation != null )

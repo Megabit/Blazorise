@@ -51,6 +51,14 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<TValue>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation != null )

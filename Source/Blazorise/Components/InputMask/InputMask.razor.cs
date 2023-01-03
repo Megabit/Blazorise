@@ -30,7 +30,14 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        // Let blazor do its thing!
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation != null )

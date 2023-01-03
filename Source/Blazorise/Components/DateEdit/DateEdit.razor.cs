@@ -21,7 +21,14 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        // Let blazor do its thing!
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate ) && !paramDate.IsEqual( Date ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation != null )
