@@ -249,7 +249,7 @@ public class Bootstrap5ClassProvider : ClassProvider
         return labelType switch
         {
             Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => "form-check-label",
-            Blazorise.LabelType.File => "form-label",
+            Blazorise.LabelType.File => "input-group-text",
             _ => null,
         };
     }
@@ -338,7 +338,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ControlSwitch() => "form-check form-switch";
 
-    public override string ControlFile() => null;
+    public override string ControlFile() => "input-group form-file";
 
     public override string ControlText() => null;
 

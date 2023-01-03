@@ -417,3 +417,15 @@ input[readonly="readonly"][type=range] {
 .focus-trap {
     display: contents;
 }
+
+.form-file input[type=file] {
+    margin-left: -2px !important;
+}
+
+.form-file input[type=file]::-webkit-file-upload-button {
+    display: none;
+}
+
+.form-file input[type=file]::file-selector-button {
+    display: none;
+}
