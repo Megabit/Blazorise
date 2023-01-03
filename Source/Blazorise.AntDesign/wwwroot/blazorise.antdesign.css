@@ -4080,6 +4080,10 @@ li.ant-list-item-actionable {
   display: block !important;
 }
 
+.ant-display-none {
+  display: none !important;
+}
+
 .ant-display-flex {
   display: flex !important;
 }
@@ -4456,6 +4460,9 @@ li.ant-list-item-actionable {
   .ant-display-xs-block {
     display: block !important;
   }
+  .ant-display-xs-none {
+    display: none !important;
+  }
   .ant-display-xs-flex {
     display: flex !important;
   }
@@ -4826,6 +4833,9 @@ li.ant-list-item-actionable {
   }
   .ant-display-sm-block {
     display: block !important;
+  }
+  .ant-display-sm-none {
+    display: none !important;
   }
   .ant-display-sm-flex {
     display: flex !important;
@@ -5198,6 +5208,9 @@ li.ant-list-item-actionable {
   .ant-display-md-block {
     display: block !important;
   }
+  .ant-display-md-none {
+    display: none !important;
+  }
   .ant-display-md-flex {
     display: flex !important;
   }
@@ -5569,6 +5582,9 @@ li.ant-list-item-actionable {
   .ant-display-lg-block {
     display: block !important;
   }
+  .ant-display-lg-none {
+    display: none !important;
+  }
   .ant-display-lg-flex {
     display: flex !important;
   }
@@ -5939,6 +5955,9 @@ li.ant-list-item-actionable {
   }
   .ant-display-xl-block {
     display: block !important;
+  }
+  .ant-display-xl-none {
+    display: none !important;
   }
   .ant-display-xl-flex {
     display: flex !important;
