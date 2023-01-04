@@ -22,6 +22,12 @@
                     </NodeContent>
                 </TreeView>
             </CardBody>
+            <CardBody>
+                @foreach ( var node in ExpandedNodes ?? Enumerable.Empty<NodeInfo>() )
+                {
+                    <Badge Color="Color.Info">@node.Text</Badge>
+                }
+            </CardBody>
         </Card>
     </Column>
 </Row>
