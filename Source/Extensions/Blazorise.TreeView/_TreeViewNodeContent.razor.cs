@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -55,7 +54,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected Task OnClick()
     {
-        //DirtyClasses();
+        DirtyClasses();
         Parent?.SelectNode( Node );
 
         return Task.CompletedTask;

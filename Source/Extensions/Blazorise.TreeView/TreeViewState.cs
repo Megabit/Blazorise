@@ -1,47 +1,17 @@
-﻿#region Using directives
-using System;
-using Blazorise.Extensions;
-#endregion
+﻿namespace Blazorise.TreeView;
 
-namespace Blazorise.TreeView;
-
-public struct TreeViewState<TNode> : IEquatable<TreeViewState<TNode>>
+/// <summary>
+/// Holds the state of the treeview.
+/// </summary>
+/// <typeparam name="TNode">Type of the node.</typeparam>
+public record struct TreeViewState<TNode>
 {
-    #region Methods
-
-    public override bool Equals( object obj )
-        => obj is TreeViewState<TNode> state && Equals( state );
-
-    public bool Equals( TreeViewState<TNode> other )
-    {
-        return SelectedNode.IsEqual( other.SelectedNode );
-    }
-
-    public override int GetHashCode()
-    {
-        int result = 0;
-
-        if ( SelectedNode != null )
-            result ^= SelectedNode.GetHashCode();
-
-        return result;
-    }
-
-    public static bool operator ==( TreeViewState<TNode> lhs, TreeViewState<TNode> rhs )
-    {
-        return lhs.Equals( rhs );
-    }
-
-    public static bool operator !=( TreeViewState<TNode> lhs, TreeViewState<TNode> rhs )
-    {
-        return !lhs.Equals( rhs );
-    }
-
-    #endregion
-
     #region Properties
 
-    public TNode SelectedNode { readonly get; set; }
+    /// <summary>
+    /// Gets or sets the currently selected node.
+    /// </summary>
+    public TNode SelectedNode { get; init; }
 
     #endregion
 }

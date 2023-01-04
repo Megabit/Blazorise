@@ -2,17 +2,15 @@
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
     <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @foreach ( TNode node in Nodes ?? Enumerable.Empty<TNode>() )
+        @foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
         {
-            //bool nodeExpanded = ParentNode == null || Expanded;
-            bool nodeExpanded = ExpandedNodes.Contains( node );
-            bool hasChildren = HasChildNodes( node );
+            bool hasChildren = HasChildNodes( nodeState.Node );
 
             <div>
                 @if ( hasChildren )
                 {
-                    <span class="tree-view-icon" @onclick="@(() => OnToggleNode(node, !nodeExpanded))">
-                        @if ( nodeExpanded )
+                    <span class="tree-view-icon" @onclick="@(() => OnToggleNode(nodeState))">
+                        @if ( nodeState.Expanded )
                         {
                             <Icon Name="@CollapseIconName" IconStyle="@CollapseIconStyle" IconSize="@CollapseIconSize" />
                         }
@@ -23,20 +21,20 @@
                     </span>
                 }
 
-                <_TreeViewNodeContent TNode="TNode" Node="@node"
+                <_TreeViewNodeContent TNode="TNode" Node="@nodeState.Node"
                                       NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
                                       SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))">
-                    @NodeContent( node )
+                    @NodeContent( nodeState.Node )
                 </_TreeViewNodeContent>
 
-                @if ( nodeExpanded && hasChildren )
+                @if ( nodeState.Expanded && hasChildren )
                 {
-                    <_TreeViewNode Nodes="GetChildNodes(node)"
+                    <_TreeViewNode Nodes="@GetChildNodes(nodeState.Node)"
                                    NodeContent="NodeContent"
                                    GetChildNodes="GetChildNodes"
                                    ExpandedNodes="ExpandedNodes"
                                    ExpandedNodesChanged="ExpandedNodesChanged"
-                                   Expanded="nodeExpanded"
+                                   Expanded="nodeState.Expanded"
                                    HasChildNodes="HasChildNodes"
                                    NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
                                    SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))"

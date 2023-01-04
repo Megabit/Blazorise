@@ -1,6 +1,8 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -15,9 +17,21 @@ public partial class TreeView<TNode> : BaseComponent
     {
     };
 
+    private IEnumerable<TreeViewNodeState<TNode>> nodeStates;
+
     #endregion
 
     #region Methods
+
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes ) )
+        {
+            nodeStates = paramNodes?.Select( x => new TreeViewNodeState<TNode>( x, true ) )?.ToList();
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
 
     public void SelectNode( TNode node )
     {
@@ -82,7 +96,7 @@ public partial class TreeView<TNode> : BaseComponent
             if ( state.SelectedNode.IsEqual( value ) )
                 return;
 
-            state.SelectedNode = value;
+            state = state with { SelectedNode = value };
 
             SelectedNodeChanged.InvokeAsync( state.SelectedNode );
 

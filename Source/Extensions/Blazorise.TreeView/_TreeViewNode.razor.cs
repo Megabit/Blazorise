@@ -1,7 +1,10 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
+using Blazorise.Extensions;
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -12,11 +15,23 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 {
     #region Members
 
-    private bool expanded = true;
+    private bool expanded;
+
+    private IEnumerable<TreeViewNodeState<TNode>> NodeStates;
 
     #endregion
 
     #region Methods
+
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes ) )
+        {
+            NodeStates = paramNodes?.Select( x => new TreeViewNodeState<TNode>( x, Expanded ) )?.ToList();
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
 
     protected override void BuildClasses( ClassBuilder builder )
     {
@@ -26,25 +41,18 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         base.BuildClasses( builder );
     }
 
-    //protected Task OnToggleNode()
-    //{
-    //    Expanded = !Expanded;
-
-    //    return Task.CompletedTask;
-    //}
-
-    protected void OnToggleNode( TNode node, bool expand )
+    protected void OnToggleNode( TreeViewNodeState<TNode> nodeState )
     {
-        bool expanded = ExpandedNodes.Contains( node );
+        nodeState.Expanded = !nodeState.Expanded;
 
-        if ( expanded && !expand )
+        if ( nodeState.Expanded )
         {
-            ExpandedNodes.Remove( node );
+            ExpandedNodes.Remove( nodeState.Node );
             ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
         }
-        else if ( !expanded && expand )
+        else if ( !nodeState.Expanded )
         {
-            ExpandedNodes.Add( node );
+            ExpandedNodes.Add( nodeState.Node );
             ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
         }
 
@@ -72,6 +80,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
 
+    /// <summary>
+    /// Defines if the treenode should be expanded.
+    /// </summary>
     [Parameter]
     public bool Expanded
     {
