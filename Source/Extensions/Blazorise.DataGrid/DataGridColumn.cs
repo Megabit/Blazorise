@@ -313,6 +313,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public SortDirection SortDirection { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the sort direction will be Inverted.
+    /// </summary>
+    [Parameter] public bool InverseSorting { get; set; }
+
+    /// <summary>
     /// Gets or sets the column's display sort direction template.
     /// </summary>
     [Parameter] public RenderFragment<SortDirection> SortDirectionTemplate { get; set; }
