@@ -1125,7 +1125,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             if ( changeSortDirection )
             {
-                column.CurrentSortDirection = sortDirection ?? column.CurrentSortDirection.NextDirection( column.InverseSorting );
+                column.CurrentSortDirection = sortDirection ?? column.CurrentSortDirection.NextDirection( column.ReverseSorting );
             }
 
             if ( !SortByColumns.Any( c => c.GetFieldToSort() == column.GetFieldToSort() ) )
