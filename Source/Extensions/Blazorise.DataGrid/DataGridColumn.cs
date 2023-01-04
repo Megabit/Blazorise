@@ -313,6 +313,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public SortDirection SortDirection { get; set; }
 
     /// <summary>
+    /// Gets or sets the sort direction on the first click.
+    /// </summary>
+    [Parameter] public SortDirection FirstClickSortDirection { get; set; }
+
+    /// <summary>
     /// Gets or sets the column's display sort direction template.
     /// </summary>
     [Parameter] public RenderFragment<SortDirection> SortDirectionTemplate { get; set; }
