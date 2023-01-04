@@ -15,8 +15,6 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 {
     #region Members
 
-    private bool expanded;
-
     private IEnumerable<TreeViewNodeState<TNode>> NodeStates;
 
     #endregion
@@ -47,15 +45,16 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
         if ( nodeState.Expanded )
         {
-            ExpandedNodes.Remove( nodeState.Node );
-            ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
-        }
-        else if ( !nodeState.Expanded )
-        {
             ExpandedNodes.Add( nodeState.Node );
             ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
         }
+        else
+        {
+            ExpandedNodes.Remove( nodeState.Node );
+            ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+        }
 
+        DirtyClasses();
         InvokeAsync( StateHasChanged );
     }
 
@@ -83,20 +82,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     /// <summary>
     /// Defines if the treenode should be expanded.
     /// </summary>
-    [Parameter]
-    public bool Expanded
-    {
-        get => expanded;
-        set
-        {
-            if ( value == expanded )
-                return;
-
-            expanded = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public bool Expanded { get; set; }
 
     /// <summary>
     /// Defines the name of the treenode expand icon.
