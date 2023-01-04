@@ -23,7 +23,7 @@ public static class ExtensionMethods
         switch ( direction )
         {
             case SortDirection.Default:
-                return !isInverse ? SortDirection.Ascending : SortDirection.Descending;
+                return isInverse ? SortDirection.Descending : SortDirection.Ascending;
             case SortDirection.Ascending:
                 return SortDirection.Descending;
             case SortDirection.Descending:

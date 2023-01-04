@@ -313,9 +313,9 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public SortDirection SortDirection { get; set; }
 
     /// <summary>
-    /// Gets or sets the sort direction on the first click.
+    /// Gets or sets whether the sort direction will be Inverted.
     /// </summary>
-    [Parameter] public SortDirection FirstClickSortDirection { get; set; }
+    [Parameter] public bool InverseSorting { get; set; }
 
     /// <summary>
     /// Gets or sets the column's display sort direction template.
