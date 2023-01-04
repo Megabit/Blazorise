@@ -16,15 +16,18 @@ public static class ExtensionMethods
     /// Gets the next available direction based on the current one.
     /// </summary>
     /// <param name="direction">Current sort direction.</param>
+    /// <param name="isReverse">Reverse the next sort direction.</param>
     /// <returns>Returns the next available sort direction.</returns>
-    public static SortDirection NextDirection( this SortDirection direction )
+    public static SortDirection NextDirection( this SortDirection direction, bool isReverse = false )
     {
         switch ( direction )
         {
             case SortDirection.Default:
-                return SortDirection.Ascending;
+                return isReverse ? SortDirection.Descending : SortDirection.Ascending;
             case SortDirection.Ascending:
                 return SortDirection.Descending;
+            case SortDirection.Descending:
+                return SortDirection.Ascending;
             default:
                 return SortDirection.Default;
         }
