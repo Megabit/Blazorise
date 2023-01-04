@@ -39,23 +39,24 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         base.BuildClasses( builder );
     }
 
-    protected void OnToggleNode( TreeViewNodeState<TNode> nodeState )
+    protected async Task OnToggleNode( TreeViewNodeState<TNode> nodeState )
     {
         nodeState.Expanded = !nodeState.Expanded;
 
         if ( nodeState.Expanded )
         {
             ExpandedNodes.Add( nodeState.Node );
-            ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+            await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
         }
         else
         {
             ExpandedNodes.Remove( nodeState.Node );
-            ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+            await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
         }
 
         DirtyClasses();
-        InvokeAsync( StateHasChanged );
+
+        await InvokeAsync( StateHasChanged );
     }
 
     private Action<TNode, NodeStyling> ResolveNodeStylingAction( Action<TNode, NodeStyling> action )

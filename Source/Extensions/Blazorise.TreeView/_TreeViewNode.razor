@@ -21,7 +21,7 @@
                     </span>
                 }
 
-                <_TreeViewNodeContent TNode="TNode" Node="@nodeState.Node"
+                <_TreeViewNodeContent TNode="TNode" NodeState="@nodeState"
                                       NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
                                       SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))">
                     @NodeContent( nodeState.Node )

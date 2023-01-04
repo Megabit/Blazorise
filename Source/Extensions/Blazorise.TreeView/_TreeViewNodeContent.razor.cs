@@ -55,7 +55,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     protected Task OnClick()
     {
         DirtyClasses();
-        Parent?.SelectNode( Node );
+        ParentTreeView?.SelectNode( NodeState.Node );
 
         return Task.CompletedTask;
     }
@@ -63,9 +63,9 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     protected override Task OnParametersSetAsync()
     {
         if ( Selected )
-            SelectedNodeStyling?.Invoke( Node, selectedNodeStyling );
+            SelectedNodeStyling?.Invoke( NodeState.Node, selectedNodeStyling );
         else
-            NodeStyling?.Invoke( Node, nodeStyling );
+            NodeStyling?.Invoke( NodeState.Node, nodeStyling );
 
         return base.OnParametersSetAsync();
     }
@@ -75,14 +75,12 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     #region Properties
 
     protected bool Selected
-        => TreeViewState.SelectedNode != null && TreeViewState.SelectedNode.Equals( Node );
+        => ParentTreeViewState.SelectedNode != null && ParentTreeViewState.SelectedNode.Equals( NodeState.Node );
 
-    [Parameter] public TNode Node { get; set; }
-
-    [CascadingParameter] public TreeView<TNode> Parent { get; set; }
+    [Parameter] public TreeViewNodeState<TNode> NodeState { get; set; }
 
     [CascadingParameter]
-    protected TreeViewState<TNode> TreeViewState
+    protected TreeViewState<TNode> ParentTreeViewState
     {
         get => treeViewState;
         set
@@ -96,7 +94,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         }
     }
 
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [CascadingParameter] public TreeView<TNode> ParentTreeView { get; set; }
 
     /// <summary>
     /// Gets or sets selected node styling.
@@ -107,6 +105,11 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     /// Gets or sets node styling.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="_TreeViewNodeContent{TNode}"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }
