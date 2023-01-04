@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Models;
@@ -513,7 +514,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( Data == null )
             return;
-
+        
         var editedCellValues = EditableColumns
             .Where( x => !string.IsNullOrEmpty( x.Field ) )
             .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
@@ -1711,6 +1712,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether users can filter rows by its cell values.
     /// </summary>
     [Parameter] public bool Filterable { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the data will be grouped. Column groups need to be configured.
+    /// </summary>
+    [Parameter] public bool Groupable { get; set; }
 
     /// <summary>
     /// Gets or sets whether user can see a column captions.

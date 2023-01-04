@@ -408,6 +408,16 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public bool Filterable { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets whether the column should be used as a Group Field. A custom <see cref="GroupBy"/> function can however be provided.
+    /// </summary>
+    [Parameter] public bool Groupable { get; set; } 
+
+    /// <summary>
+    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active.
+    /// </summary>
+    [Parameter] public Func<TItem, object> GroupBy { get; set; }
+
+    /// <summary>
     /// The width of the column.
     /// </summary>
     [Parameter] public string Width { get; set; }
