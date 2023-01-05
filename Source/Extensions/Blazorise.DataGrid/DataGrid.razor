@@ -264,7 +264,7 @@
     {
         @foreach ( var group in x.groupedData )
         {
-            <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+            <_DataGridFullColumnSpanRow @key="group.Key.ToString()" TItem="TItem" Columns="@Columns">
                 @group.Key.ToString()
             </_DataGridFullColumnSpanRow>
 
