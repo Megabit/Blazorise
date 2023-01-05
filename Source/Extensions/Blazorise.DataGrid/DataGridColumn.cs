@@ -159,7 +159,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <returns></returns>
     internal Func<TItem, object> GetGroupByFunc()
-        => GroupBy is not null ? GroupBy : GroupBy;
+        => GroupBy is not null ? GroupBy : valueGetter.Value;
 
     public string FormatDisplayValue( TItem item )
     {
