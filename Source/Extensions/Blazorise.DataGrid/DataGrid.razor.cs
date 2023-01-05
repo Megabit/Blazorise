@@ -62,11 +62,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private List<TItem> filteredData = new();
 
     /// <summary>
-    /// Holds the grouped data based on the filter & grouping.
-    /// </summary>
-    private IEnumerable<IGrouping<object, TItem>> groupedData;
-
-    /// <summary>
     /// Holds the filtered data to display based on the current page.
     /// </summary>
     private IEnumerable<TItem> viewData;
@@ -1333,20 +1328,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 skipElements = ( CurrentPage - 1 ) * PageSize;
             }
 
-            var pagedData = filteredData.Skip( skipElements ).Take( PageSize );
-
-            foreach ( var column in Columns )
-            {
-                if ( column.Groupable )
-                {
-                    //TODO : Need to think about this? Can we really have multiple GroupBy Funcs? Does that make sense at all? There should only be a single Func?
-                    groupedData = pagedData.GroupBy( x => column.GetGroupByFunc().Invoke( x ) );
-                }
-
-            }
-            return pagedData;
+            return filteredData.Skip( skipElements ).Take( PageSize );
         }
-
 
         return filteredData;
     }
@@ -1689,22 +1672,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             dirtyView = false;
 
             return viewData ?? Enumerable.Empty<TItem>();
-        }
-    }
-
-    /// <summary>
-    /// Gets the data to show on grid based on the filter and current page.
-    /// </summary>
-    public IEnumerable<IGrouping<object, TItem>> DisplayGroupData
-    {
-        get
-        {
-            if ( dirtyView )
-                viewData = FilterViewData();
-
-            dirtyView = false;
-
-            return groupedData ?? Enumerable.Empty<IGrouping<object,TItem>>();
         }
     }
 
