@@ -9,7 +9,12 @@
                 <CardText>Treeview allows the display of hierarchical information in a tree-like structure.</CardText>
             </CardBody>
             <CardBody>
-                <TreeView Nodes="Nodes"
+                <Button Color="Color.Primary" Clicked="@(()=>treeViewRef.ExpandAll())">Expand all</Button>
+                <Button Color="Color.Secondary" Clicked="@(()=>treeViewRef.CollapseAll())">Collapse all</Button>
+            </CardBody>
+            <CardBody>
+                <TreeView @ref="@treeViewRef"
+                          Nodes="Nodes"
                           @bind-SelectedNode="selectedNode"
                           @bind-ExpandedNodes="ExpandedNodes"
                           GetChildNodes="@(item => item.Children)"
@@ -23,11 +28,17 @@
                 </TreeView>
             </CardBody>
             <CardBody>
-                @foreach ( var node in ExpandedNodes ?? Enumerable.Empty<NodeInfo>() )
-                {
-                    <Badge Color="Color.Info">@node.Text</Badge>
-                }
+                <CardText>Expanded nodes.</CardText>
+                <Paragraph>
+                    @foreach ( var node in ExpandedNodes ?? Enumerable.Empty<NodeInfo>() )
+                    {
+                        <Badge Color="Color.Info" Margin="Margin.Is2.FromEnd">@node.Text</Badge>
+                    }
+                </Paragraph>
             </CardBody>
         </Card>
     </Column>
 </Row>
+@code {
+    TreeView<NodeInfo> treeViewRef;
+}

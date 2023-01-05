@@ -13,11 +13,11 @@ public partial class TreeView<TNode> : BaseComponent
 {
     #region Members
 
-    private TreeViewState<TNode> state = new()
-    {
-    };
+    private _TreeViewNode<TNode> treeViewNodeRef;
 
-    private IEnumerable<TreeViewNodeState<TNode>> nodeStates;
+    private TreeViewState<TNode> treeViewState = new();
+
+    private IEnumerable<TreeViewNodeState<TNode>> treeViewNodeStates;
 
     #endregion
 
@@ -27,17 +27,45 @@ public partial class TreeView<TNode> : BaseComponent
     {
         if ( parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes ) )
         {
-            nodeStates = paramNodes?.Select( x => new TreeViewNodeState<TNode>( x, true ) )?.ToList();
+            treeViewNodeStates = paramNodes?.Select( x => new TreeViewNodeState<TNode>( x, true ) )?.ToList();
         }
 
         return base.SetParametersAsync( parameters );
     }
 
+    /// <summary>
+    /// Selects the node.
+    /// </summary>
+    /// <param name="node">Node to select.</param>
     public void SelectNode( TNode node )
     {
         SelectedNode = node;
 
         InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Expands all the collapsed TreeView nodes.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ExpandAll()
+    {
+        if ( treeViewNodeRef is not null )
+            return treeViewNodeRef.ExpandAll();
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Collapses all the expanded TreeView nodes.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task CollapseAll()
+    {
+        if ( treeViewNodeRef is not null )
+            return treeViewNodeRef.CollapseAll();
+
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -90,15 +118,15 @@ public partial class TreeView<TNode> : BaseComponent
     [Parameter]
     public TNode SelectedNode
     {
-        get => state.SelectedNode;
+        get => treeViewState.SelectedNode;
         set
         {
-            if ( state.SelectedNode.IsEqual( value ) )
+            if ( treeViewState.SelectedNode.IsEqual( value ) )
                 return;
 
-            state = state with { SelectedNode = value };
+            treeViewState = treeViewState with { SelectedNode = value };
 
-            SelectedNodeChanged.InvokeAsync( state.SelectedNode );
+            SelectedNodeChanged.InvokeAsync( treeViewState.SelectedNode );
 
             DirtyClasses();
         }
@@ -129,8 +157,6 @@ public partial class TreeView<TNode> : BaseComponent
     /// </summary>
     [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
 
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
     /// <summary>
     /// Gets or sets selected node styling.
     /// </summary>
@@ -140,6 +166,8 @@ public partial class TreeView<TNode> : BaseComponent
     /// Gets or sets node styling.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

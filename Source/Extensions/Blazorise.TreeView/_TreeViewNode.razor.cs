@@ -39,7 +39,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         base.BuildClasses( builder );
     }
 
-    protected async Task OnToggleNode( TreeViewNodeState<TNode> nodeState )
+    protected async Task ToggleNode( TreeViewNodeState<TNode> nodeState, bool refresh = true )
     {
         nodeState.Expanded = !nodeState.Expanded;
 
@@ -52,6 +52,53 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         {
             ExpandedNodes.Remove( nodeState.Node );
             await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+        }
+
+        if ( refresh )
+        {
+            DirtyClasses();
+
+            await InvokeAsync( StateHasChanged );
+        }
+    }
+
+    public async Task ExpandAll()
+    {
+        foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+        {
+            if ( HasChildNodes( nodeState.Node ) )
+            {
+                if ( !nodeState.Expanded )
+                    await ToggleNode( nodeState, false );
+
+                ExecuteAfterRender( async () =>
+                {
+                    if ( nodeState.ViewRef is not null )
+                        await nodeState.ViewRef.ExpandAll();
+                } );
+            }
+        }
+
+        DirtyClasses();
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    public async Task CollapseAll()
+    {
+        foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+        {
+            if ( HasChildNodes( nodeState.Node ) )
+            {
+                if ( nodeState.Expanded )
+                    await ToggleNode( nodeState, false );
+
+                ExecuteAfterRender( async () =>
+                {
+                    if ( nodeState.ViewRef is not null )
+                        await nodeState.ViewRef.CollapseAll();
+                } );
+            }
         }
 
         DirtyClasses();

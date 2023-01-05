@@ -6,10 +6,10 @@
         {
             bool hasChildren = HasChildNodes( nodeState.Node );
 
-            <div>
+            <div @key="@nodeState.Key">
                 @if ( hasChildren )
                 {
-                    <span class="tree-view-icon" @onclick="@(() => OnToggleNode(nodeState))">
+                    <span class="tree-view-icon" @onclick="@(() => ToggleNode(nodeState))">
                         @if ( nodeState.Expanded )
                         {
                             <Icon Name="@CollapseIconName" IconStyle="@CollapseIconStyle" IconSize="@CollapseIconSize" />
@@ -29,7 +29,8 @@
 
                 @if ( nodeState.Expanded && hasChildren )
                 {
-                    <_TreeViewNode Nodes="@GetChildNodes(nodeState.Node)"
+                    <_TreeViewNode @ref="@nodeState.ViewRef"
+                                   Nodes="@GetChildNodes(nodeState.Node)"
                                    NodeContent="NodeContent"
                                    GetChildNodes="GetChildNodes"
                                    ExpandedNodes="ExpandedNodes"

@@ -1,4 +1,6 @@
-﻿namespace Blazorise.TreeView;
+﻿using System;
+
+namespace Blazorise.TreeView;
 
 /// <summary>
 /// Holds the state of the node.
@@ -13,11 +15,28 @@ public record TreeViewNodeState<TNode>
     /// <param name="expanded">True if the node should be expanded.</param>
     public TreeViewNodeState( TNode node, bool expanded )
     {
+        Key = Guid.NewGuid().ToString();
         Node = node;
         Expanded = expanded;
     }
 
+    /// <summary>
+    /// Unique key of each node state, used for rendering optimization.
+    /// </summary>
+    internal string Key { get; private set; }
+
+    /// <summary>
+    /// Reference to the component that is rendering current node.
+    /// </summary>
+    public _TreeViewNode<TNode> ViewRef { get; internal set; }
+
+    /// <summary>
+    /// Gets the node attached to the state.
+    /// </summary>
     public TNode Node { get; set; }
 
+    /// <summary>
+    /// Indicates if the node is expanded.
+    /// </summary>
     public bool Expanded { get; set; }
 }
