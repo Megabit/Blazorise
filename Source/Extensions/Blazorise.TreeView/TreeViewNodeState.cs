@@ -12,11 +12,13 @@ public record TreeViewNodeState<TNode>
     /// Default state constructor.
     /// </summary>
     /// <param name="node">Node that is being referenced.</param>
+    /// <param name="hasChildren">Indicates if the node has any child node.</param>
     /// <param name="expanded">True if the node should be expanded.</param>
-    public TreeViewNodeState( TNode node, bool expanded )
+    public TreeViewNodeState( TNode node, bool hasChildren, bool expanded )
     {
         Key = Guid.NewGuid().ToString();
         Node = node;
+        HasChildren = hasChildren;
         Expanded = expanded;
     }
 
@@ -39,4 +41,9 @@ public record TreeViewNodeState<TNode>
     /// Indicates if the node is expanded.
     /// </summary>
     public bool Expanded { get; set; }
+
+    /// <summary>
+    /// Indicates if the node has any child node.
+    /// </summary>
+    public bool HasChildren { get; }
 }

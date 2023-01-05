@@ -17,20 +17,42 @@ public partial class TreeView<TNode> : BaseComponent
 
     private TreeViewState<TNode> treeViewState = new();
 
-    private IEnumerable<TreeViewNodeState<TNode>> treeViewNodeStates;
+    private List<TreeViewNodeState<TNode>> treeViewNodeStates;
 
     #endregion
 
     #region Methods
 
-    public override Task SetParametersAsync( ParameterView parameters )
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes ) )
-        {
-            treeViewNodeStates = paramNodes?.Select( x => new TreeViewNodeState<TNode>( x, true ) )?.ToList();
-        }
+        bool nodesChanged = parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes );
 
-        return base.SetParametersAsync( parameters );
+        await base.SetParametersAsync( parameters );
+
+        if ( nodesChanged )
+        {
+            treeViewNodeStates = new();
+
+            await foreach ( var nodeState in ConvertNodesToStates( paramNodes ?? Enumerable.Empty<TNode>(), HasChildNodesAsync, HasChildNodes, true ) )
+            {
+                treeViewNodeStates.Add( nodeState );
+            }
+        }
+    }
+
+    private async IAsyncEnumerable<TreeViewNodeState<TNode>> ConvertNodesToStates( IEnumerable<TNode> nodes,
+        Func<TNode, Task<bool>> hasChildNodesAsync,
+        Func<TNode, bool> hasChildNodes,
+        bool expanded )
+    {
+        foreach ( var node in nodes )
+        {
+            var hasChildren = hasChildNodesAsync is not null
+                ? await hasChildNodesAsync( node )
+                : hasChildNodes( node );
+
+            yield return new TreeViewNodeState<TNode>( node, hasChildren, expanded );
+        }
     }
 
     /// <summary>
@@ -156,6 +178,16 @@ public partial class TreeView<TNode> : BaseComponent
     /// Indicates if the node has child elements.
     /// </summary>
     [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
+
+    /// <summary>
+    /// Gets the list of child nodes for each node.
+    /// </summary>
+    [Parameter] public Func<TNode, IAsyncEnumerable<TNode>> GetChildNodesAsync { get; set; }
+
+    /// <summary>
+    /// Indicates if the node has child elements.
+    /// </summary>
+    [Parameter] public Func<TNode, Task<bool>> HasChildNodesAsync { get; set; }
 
     /// <summary>
     /// Gets or sets selected node styling.

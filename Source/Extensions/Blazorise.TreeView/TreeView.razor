@@ -3,13 +3,15 @@
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@treeViewState">
         <_TreeViewNode @ref="@treeViewNodeRef"
-                       Nodes="Nodes"
-                       NodeContent="NodeContent"
-                       GetChildNodes="GetChildNodes"
-                       ExpandedNodes="ExpandedNodes"
-                       ExpandedNodesChanged="ExpandedNodesChanged"
+                       Nodes="@Nodes"
+                       NodeContent="@NodeContent"
+                       GetChildNodes="@GetChildNodes"
+                       GetChildNodesAsync="@GetChildNodesAsync"
+                       ExpandedNodes="@ExpandedNodes"
+                       ExpandedNodesChanged="@ExpandedNodesChanged"
                        Expanded
-                       HasChildNodes="HasChildNodes"
+                       HasChildNodes="@HasChildNodes"
+                       HasChildNodesAsync="@HasChildNodesAsync"
                        NodeStyling="@NodeStyling"
                        SelectedNodeStyling="@SelectedNodeStyling"
                        Class="@Class"

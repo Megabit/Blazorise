@@ -15,20 +15,42 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 {
     #region Members
 
-    private IEnumerable<TreeViewNodeState<TNode>> NodeStates;
+    private List<TreeViewNodeState<TNode>> treeViewNodeStates;
 
     #endregion
 
     #region Methods
 
-    public override Task SetParametersAsync( ParameterView parameters )
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes ) )
-        {
-            NodeStates = paramNodes?.Select( x => new TreeViewNodeState<TNode>( x, Expanded ) )?.ToList();
-        }
+        var nodesChanged = parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes );
 
-        return base.SetParametersAsync( parameters );
+        await base.SetParametersAsync( parameters );
+
+        if ( nodesChanged )
+        {
+            treeViewNodeStates = new();
+
+            await foreach ( var nodeState in ConvertNodesToStates( paramNodes ?? Enumerable.Empty<TNode>(), HasChildNodesAsync, HasChildNodes, false ) )
+            {
+                treeViewNodeStates.Add( nodeState );
+            }
+        }
+    }
+
+    private async IAsyncEnumerable<TreeViewNodeState<TNode>> ConvertNodesToStates( IEnumerable<TNode> nodes,
+       Func<TNode, Task<bool>> hasChildNodesAsync,
+       Func<TNode, bool> hasChildNodes,
+       bool expanded )
+    {
+        foreach ( var node in nodes )
+        {
+            var hasChildren = hasChildNodesAsync is not null
+                ? await hasChildNodesAsync( node )
+                : hasChildNodes( node );
+
+            yield return new TreeViewNodeState<TNode>( node, hasChildren, expanded );
+        }
     }
 
     protected override void BuildClasses( ClassBuilder builder )
@@ -64,7 +86,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     public async Task ExpandAll()
     {
-        foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+        foreach ( var nodeState in treeViewNodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
         {
             if ( HasChildNodes( nodeState.Node ) )
             {
@@ -86,7 +108,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     public async Task CollapseAll()
     {
-        foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+        foreach ( var nodeState in treeViewNodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
         {
             if ( HasChildNodes( nodeState.Node ) )
             {
@@ -126,6 +148,10 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     [Parameter] public Func<TNode, IEnumerable<TNode>> GetChildNodes { get; set; }
 
     [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
+
+    [Parameter] public Func<TNode, IAsyncEnumerable<TNode>> GetChildNodesAsync { get; set; }
+
+    [Parameter] public Func<TNode, Task<bool>> HasChildNodesAsync { get; set; }
 
     /// <summary>
     /// Defines if the treenode should be expanded.
