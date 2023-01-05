@@ -28,7 +28,7 @@
                 @if ( nodeState.Expanded && nodeState.HasChildren )
                 {
                     <_TreeViewNode @ref="@nodeState.ViewRef"
-                                   Nodes="@GetChildNodes(nodeState.Node)"
+                                   Nodes="@nodeState.Childred"
                                    NodeContent="@NodeContent"
                                    GetChildNodes="@GetChildNodes"
                                    GetChildNodesAsync="@GetChildNodesAsync"

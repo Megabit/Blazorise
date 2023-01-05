@@ -67,6 +67,13 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
         if ( nodeState.Expanded )
         {
+            if ( nodeState.HasChildren )
+            {
+                nodeState.Childred = GetChildNodesAsync is not null
+                    ? await GetChildNodesAsync( nodeState.Node )
+                    : GetChildNodes( nodeState.Node );
+            }
+
             ExpandedNodes.Add( nodeState.Node );
             await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
         }
@@ -149,7 +156,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
 
-    [Parameter] public Func<TNode, IAsyncEnumerable<TNode>> GetChildNodesAsync { get; set; }
+    [Parameter] public Func<TNode, Task<IEnumerable<TNode>>> GetChildNodesAsync { get; set; }
 
     [Parameter] public Func<TNode, Task<bool>> HasChildNodesAsync { get; set; }
 

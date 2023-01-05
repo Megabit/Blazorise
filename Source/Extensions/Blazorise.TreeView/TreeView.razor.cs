@@ -182,7 +182,7 @@ public partial class TreeView<TNode> : BaseComponent
     /// <summary>
     /// Gets the list of child nodes for each node.
     /// </summary>
-    [Parameter] public Func<TNode, IAsyncEnumerable<TNode>> GetChildNodesAsync { get; set; }
+    [Parameter] public Func<TNode, Task<IEnumerable<TNode>>> GetChildNodesAsync { get; set; }
 
     /// <summary>
     /// Indicates if the node has child elements.

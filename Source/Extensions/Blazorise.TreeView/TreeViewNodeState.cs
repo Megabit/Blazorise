@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Blazorise.TreeView;
 
@@ -46,4 +47,6 @@ public record TreeViewNodeState<TNode>
     /// Indicates if the node has any child node.
     /// </summary>
     public bool HasChildren { get; }
+
+    public IEnumerable<TNode> Childred { get; set; }
 }
