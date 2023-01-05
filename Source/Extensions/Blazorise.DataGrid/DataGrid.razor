@@ -177,7 +177,7 @@
                             else
                             {
                                 var groupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) ).OrderBy( x => x.Key );
-                                @groupFragment((0, null, groupedData))
+                                @groupFragment((default, null, groupedData))
                             }
                         }
                         else
