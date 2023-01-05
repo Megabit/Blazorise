@@ -164,18 +164,14 @@
                     }
                     else
                     {
-                        @if ( Groupable && !DisplayGroupData.IsNullOrEmpty() )
+                        @if ( IsGroupable() )
                         {
-                            @foreach ( var group in DisplayGroupData )
-                            {
-                                <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                    @group.Key.ToString()
-                                </_DataGridFullColumnSpanRow>
-                                @foreach ( var item in group )
-                                {
-                                    @rowFragment( item )
-                                }
-                            }
+                            var groupableColumns = GetGroupableColumns();
+                            var firstGroupableColumn = groupableColumns.First();
+                            var groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) );
+                            var iteration = 1;
+
+                            @groupFragment((iteration, groupableColumns, groupedData))
                         }
                         else
                         {
@@ -262,6 +258,31 @@
                 </_DataGridDetailRow>
             }
         }
+    };
+
+    protected RenderFragment groupFragment( (int iteration, IEnumerable<DataGridColumn<TItem>> groupableColumns, IEnumerable<IGrouping<object, TItem>> groupedData) x ) => __builder =>
+    {
+        @foreach ( var group in x.groupedData )
+        {
+            <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                @group.Key.ToString()
+            </_DataGridFullColumnSpanRow>
+
+            var nextGroupableColumn = x.groupableColumns.ElementAtOrDefault( x.iteration );
+            if ( nextGroupableColumn is null )
+            {
+                @foreach ( var item in group )
+                {
+                    @rowFragment( item )
+                }
+            }
+            else
+            {
+                var groupedData = group.GroupBy(x => nextGroupableColumn.GetGroupByFunc().Invoke(x));
+                @groupFragment((x.iteration + 1, x.groupableColumns, groupedData))
+            }
+        }
+
     };
 
     protected RenderFragment aggregateRowFragment => __builder =>

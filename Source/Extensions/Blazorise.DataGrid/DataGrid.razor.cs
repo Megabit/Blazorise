@@ -161,6 +161,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #region Setup
 
     /// <summary>
+    /// Makes sure the DataGrid has enough defined conditions to group data.
+    /// </summary>
+    /// <returns></returns>
+    private bool IsGroupable()
+        => Groupable && Columns.Any( x => x.Groupable );
+
+    /// <summary>
+    /// Gets the DataGrid columns that are marked as Groupable.
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerable<DataGridColumn<TItem>> GetGroupableColumns()
+        => Columns.Where( x => x.Groupable );
+
+    /// <summary>
     /// Inspects User Agent for a client using a Macintosh Operating System.
     /// </summary>
     /// <returns></returns>
