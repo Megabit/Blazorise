@@ -160,7 +160,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <returns></returns>
     private bool IsGroupable()
-        => Groupable && Columns.Any( x => x.Groupable );
+        => Groupable && (GroupBy is not null || Columns.Any( x => x.Groupable ));
 
     /// <summary>
     /// Gets the DataGrid columns that are marked as Groupable.
@@ -1732,6 +1732,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether the data will be grouped. Column groups need to be configured.
     /// </summary>
     [Parameter] public bool Groupable { get; set; }
+
+    /// <summary>
+    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active. 
+    /// If this is defined at the DataGrid level, column grouping will not be considered.
+    /// </summary>
+    [Parameter] public Func<TItem, object> GroupBy { get; set; }
 
     /// <summary>
     /// Gets or sets whether user can see a column captions.

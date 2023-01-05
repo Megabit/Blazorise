@@ -166,12 +166,19 @@
                     {
                         @if ( IsGroupable() )
                         {
-                            var groupableColumns = GetGroupableColumns();
-                            var firstGroupableColumn = groupableColumns.First();
-                            var groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) );
-                            var iteration = 1;
+                            if ( GroupBy is null )
+                            {
+                                var groupableColumns = GetGroupableColumns();
+                                var firstGroupableColumn = groupableColumns.First();
+                                var groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) ).OrderBy( x => x.Key );
 
-                            @groupFragment((iteration, groupableColumns, groupedData))
+                                @groupFragment((1, groupableColumns, groupedData))
+                            }
+                            else
+                            {
+                                var groupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) ).OrderBy( x => x.Key );
+                                @groupFragment((0, null, groupedData))
+                            }
                         }
                         else
                         {
@@ -268,7 +275,7 @@
                 <Strong>@group.Key.ToString()</Strong>
             </_DataGridFullColumnSpanRow>
 
-            var nextGroupableColumn = x.groupableColumns.ElementAtOrDefault( x.iteration );
+            var nextGroupableColumn = x.groupableColumns?.ElementAtOrDefault( x.iteration );
             if ( nextGroupableColumn is null )
             {
                 @foreach ( var item in group )
@@ -278,11 +285,10 @@
             }
             else
             {
-                var groupedData = group.GroupBy(x => nextGroupableColumn.GetGroupByFunc().Invoke(x));
+                var groupedData = group.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) ).OrderBy(x=> x.Key);
                 @groupFragment((x.iteration + 1, x.groupableColumns, groupedData))
             }
         }
-
     };
 
     protected RenderFragment aggregateRowFragment => __builder =>

@@ -1,4 +1,4 @@
-﻿@page "/tests/datagrid/group/multiple"
+﻿@page "/tests/datagrid/group/single"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -10,7 +10,7 @@
                     The <code>Groupable</code> feature, allows you to display your data in groups.
                 </Paragraph>
                 <Paragraph>
-                    In this example, we group the data by multiple columns, <code>Gender</code> & <code>Active</code>.
+                    In this example, we group the data by a single column, <code>Gender</code>.
                 </Paragraph>
             </CardBody>
             <CardBody>
@@ -57,7 +57,7 @@
                         </DataGridSelectColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
                         </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false" Groupable>
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
                             <DisplayTemplate>
                                 <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>

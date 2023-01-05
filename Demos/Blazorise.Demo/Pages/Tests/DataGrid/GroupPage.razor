@@ -1,4 +1,4 @@
-﻿@page "/tests/datagrid/group/single"
+﻿@page "/tests/datagrid/group"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -10,7 +10,7 @@
                     The <code>Groupable</code> feature, allows you to display your data in groups.
                 </Paragraph>
                 <Paragraph>
-                    In this example, we group the data by a single column, <code>Gender</code>.
+                    In this example, we group the data by a <Code>Datagrid</Code> provided <Code>GroupBy</Code> Function that groups by <Code>Children</Code>.
                 </Paragraph>
             </CardBody>
             <CardBody>
@@ -18,7 +18,8 @@
                           Data="inMemoryData"
                           ShowPager
                           ShowPageSizes
-                          Groupable>
+                          Groupable
+                          GroupBy="(x=> x.Childrens)">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
@@ -35,7 +36,7 @@
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false"
                                                SortField="@nameof( Employee.ChildrensPerSalary )" SortDirection="SortDirection.Descending" />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Groupable>
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable>
                             <DisplayTemplate>
                                 @{
                                     var gender = ( context as Employee )?.Gender;
