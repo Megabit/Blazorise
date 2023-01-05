@@ -1,4 +1,4 @@
-﻿namespace Blazorise.TreeView;
+﻿namespace Blazorise.TreeView.Internal;
 
 /// <summary>
 /// Holds the state of the treeview.
