@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -59,6 +60,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Holds the filtered data based on the filter.
     /// </summary>
     private List<TItem> filteredData = new();
+
+    /// <summary>
+    /// Holds the grouped data based on the filter & grouping.
+    /// </summary>
+    private IEnumerable<IGrouping<object, TItem>> groupedData;
 
     /// <summary>
     /// Holds the filtered data to display based on the current page.
@@ -514,7 +520,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( Data == null )
             return;
-        
+
         var editedCellValues = EditableColumns
             .Where( x => !string.IsNullOrEmpty( x.Field ) )
             .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
@@ -1192,7 +1198,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         dirtyFilter = false;
 
-        if ( query == null )
+        if ( query is null )
         {
             filteredData.Clear();
             FilteredDataChanged?.Invoke( new( filteredData, 0, 0 ) );
@@ -1200,7 +1206,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
         }
 
-        // only use internal filtering if we're not using custom data loading
         if ( !ManualReadMode )
         {
             var firstSort = true;
@@ -1240,7 +1245,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 if ( column.ExcludeFromFilter )
                     continue;
 
-                if ( column.CustomFilter != null )
+                if ( column.CustomFilter is not null )
                 {
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
@@ -1313,8 +1318,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 CurrentPage = paginationContext.LastPage;
                 skipElements = ( CurrentPage - 1 ) * PageSize;
             }
-            return filteredData.Skip( skipElements ).Take( PageSize );
+
+            var pagedData = filteredData.Skip( skipElements ).Take( PageSize );
+
+            foreach ( var column in Columns )
+            {
+                if ( column.Groupable )
+                {
+                    //TODO : Need to think about this? Can we really have multiple GroupBy Funcs? Does that make sense at all? There should only be a single Func?
+                    groupedData = pagedData.GroupBy( x => column.GetGroupByFunc().Invoke( x ) );
+                }
+
+            }
+            return pagedData;
         }
+
 
         return filteredData;
     }

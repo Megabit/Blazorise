@@ -154,6 +154,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     internal string GetFieldToSort()
         => string.IsNullOrEmpty( SortField ) ? Field : SortField;
 
+    /// <summary>
+    /// Gets the GroupBy Func to be applied.
+    /// </summary>
+    /// <returns></returns>
+    internal Func<TItem, object> GetGroupByFunc()
+        => GroupBy is not null ? GroupBy : GroupBy;
+
     public string FormatDisplayValue( TItem item )
     {
         return FormatDisplayValue( GetValue( item ) );
