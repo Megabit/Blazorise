@@ -164,9 +164,9 @@
                     }
                     else
                     {
-                        @if ( Groupable && !groupedData.IsNullOrEmpty() )
+                        @if ( Groupable && !DisplayGroupData.IsNullOrEmpty() )
                         {
-                            @foreach ( var group in groupedData )
+                            @foreach ( var group in DisplayGroupData )
                             {
                                 <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
                                     @group.Key.ToString()

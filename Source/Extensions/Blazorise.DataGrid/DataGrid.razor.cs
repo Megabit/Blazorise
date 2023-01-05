@@ -1679,6 +1679,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Gets the data to show on grid based on the filter and current page.
+    /// </summary>
+    public IEnumerable<IGrouping<object, TItem>> DisplayGroupData
+    {
+        get
+        {
+            if ( dirtyView )
+                viewData = FilterViewData();
+
+            dirtyView = false;
+
+            return groupedData ?? Enumerable.Empty<IGrouping<object,TItem>>();
+        }
+    }
+
+    /// <summary>
     /// Specifies the behaviour of datagrid editing.
     /// </summary>
     /// <remarks>
