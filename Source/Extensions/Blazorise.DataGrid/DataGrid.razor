@@ -170,13 +170,13 @@
                             {
                                 var groupableColumns = GetGroupableColumns();
                                 var firstGroupableColumn = groupableColumns.First();
-                                var groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) ).OrderBy( x => x.Key );
+                                var groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) );
 
                                 @groupFragment((1, groupableColumns, groupedData))
                             }
                             else
                             {
-                                var groupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) ).OrderBy( x => x.Key );
+                                var groupedData = DisplayData.GroupBy(x => GroupBy.Invoke(x));
                                 @groupFragment((default, null, groupedData))
                             }
                         }
@@ -285,7 +285,7 @@
             }
             else
             {
-                var groupedData = group.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) ).OrderBy(x=> x.Key);
+                var groupedData = group.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) );
                 @groupFragment((x.iteration + 1, x.groupableColumns, groupedData))
             }
         }

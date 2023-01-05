@@ -10,7 +10,7 @@
                     The <code>Groupable</code> feature, allows you to display your data in groups.
                 </Paragraph>
                 <Paragraph>
-                    In this example, we group the data by a <Code>Datagrid</Code> provided <Code>GroupBy</Code> Function that groups by <Code>Children</Code>.
+                    In this example, we group the data by a <Code>Datagrid</Code> provided <Code>GroupBy</Code> that groups by a composite function based on <Code>Gender</Code> & <Code>Children</Code>.
                 </Paragraph>
             </CardBody>
             <CardBody>
@@ -19,7 +19,7 @@
                           ShowPager
                           ShowPageSizes
                           Groupable
-                          GroupBy="(x=> x.Childrens)">
+                          GroupBy="(x=> new { x.Childrens, x.Gender} )">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
