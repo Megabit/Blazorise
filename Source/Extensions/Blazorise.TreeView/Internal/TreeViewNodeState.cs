@@ -48,5 +48,5 @@ public record TreeViewNodeState<TNode>
     /// </summary>
     public bool HasChildren { get; }
 
-    public IEnumerable<TNode> Childred { get; set; }
+    public List<TreeViewNodeState<TNode>> Children { get; set; } = new();
 }

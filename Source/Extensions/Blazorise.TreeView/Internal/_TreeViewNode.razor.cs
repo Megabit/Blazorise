@@ -14,30 +14,7 @@ namespace Blazorise.TreeView.Internal;
 
 public partial class _TreeViewNode<TNode> : BaseComponent
 {
-    #region Members
-
-    private List<TreeViewNodeState<TNode>> treeViewNodeStates;
-
-    #endregion
-
     #region Methods
-
-    public override async Task SetParametersAsync( ParameterView parameters )
-    {
-        var nodesChanged = parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes );
-
-        await base.SetParametersAsync( parameters );
-
-        if ( nodesChanged )
-        {
-            treeViewNodeStates = new();
-
-            await foreach ( var nodeState in paramNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, false ) )
-            {
-                treeViewNodeStates.Add( nodeState );
-            }
-        }
-    }
 
     protected override void BuildClasses( ClassBuilder builder )
     {
@@ -53,19 +30,29 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
         if ( nodeState.Expanded )
         {
-            if ( nodeState.HasChildren )
-            {
-                nodeState.Childred = GetChildNodesAsync is not null
-                    ? await GetChildNodesAsync( nodeState.Node )
-                    : GetChildNodes( nodeState.Node );
-            }
-
             if ( !ExpandedNodes.Contains( nodeState.Node ) )
             {
                 ExpandedNodes.Add( nodeState.Node );
             }
 
             await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+
+            if ( nodeState.HasChildren )
+            {
+                var childNodes = GetChildNodesAsync is not null
+                    ? await GetChildNodesAsync( nodeState.Node )
+                    : GetChildNodes( nodeState.Node );
+
+                if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
+                {
+                    nodeState.Children = new();
+
+                    await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ExpandedNodes.Intersect( childNodes ?? Enumerable.Empty<TNode>() ).Any() ) )
+                    {
+                        nodeState.Children.Add( childNodeState );
+                    }
+                }
+            }
         }
         else
         {
@@ -83,7 +70,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     public async Task ExpandAll()
     {
-        foreach ( var nodeState in treeViewNodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+        foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
         {
             if ( HasChildNodes( nodeState.Node ) )
             {
@@ -105,7 +92,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     public async Task CollapseAll()
     {
-        foreach ( var nodeState in treeViewNodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+        foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
         {
             if ( HasChildNodes( nodeState.Node ) )
             {
@@ -134,7 +121,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     #region Properties
 
-    [Parameter] public IEnumerable<TNode> Nodes { get; set; }
+    [Parameter] public IEnumerable<TreeViewNodeState<TNode>> NodeStates { get; set; }
 
     [Parameter] public RenderFragment<TNode> NodeContent { get; set; }
 

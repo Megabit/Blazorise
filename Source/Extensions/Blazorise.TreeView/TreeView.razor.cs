@@ -35,14 +35,12 @@ public partial class TreeView<TNode> : BaseComponent
         {
             treeViewNodeStates = new();
 
-            await foreach ( var nodeState in paramNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, true ) )
+            await foreach ( var nodeState in paramNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ExpandedNodes.Intersect( paramNodes ?? Enumerable.Empty<TNode>() ).Any() ) )
             {
                 treeViewNodeStates.Add( nodeState );
             }
         }
     }
-
-
 
     /// <summary>
     /// Selects the node.
