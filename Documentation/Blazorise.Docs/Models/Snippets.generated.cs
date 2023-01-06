@@ -7072,7 +7072,10 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
           HasChildNodes=""@(item => item.Children?.Any() == true)""
           @bind-SelectedNode=""selectedNode""
           @bind-ExpandedNodes=""ExpandedNodes"">
-    <NodeContent>@context.Text</NodeContent>
+    <NodeContent>
+        <Icon Name=""IconName.Folder"" />
+        @context.Text
+    </NodeContent>
 </TreeView>
 
 @code{
@@ -7085,21 +7088,25 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     IEnumerable<Item> Items = new[]
     {
         new Item { Text = ""Item 1"" },
-        new Item {
+        new Item
+        {
             Text = ""Item 2"",
             Children = new []
-    {
+            {
                 new Item { Text = ""Item 2.1"" },
-                new Item { Text = ""Item 2.2"", Children = new []
-        {
-                    new Item { Text = ""Item 2.2.1"" },
-                    new Item { Text = ""Item 2.2.2"" },
-                    new Item { Text = ""Item 2.2.3"" },
-                    new Item { Text = ""Item 2.2.4"" }
-                }
-            },
-            new Item { Text = ""Item 2.3"" },
-            new Item { Text = ""Item 2.4"" }
+                new Item
+                {
+                    Text = ""Item 2.2"",
+                    Children = new []
+                    {
+                        new Item { Text = ""Item 2.2.1"" },
+                        new Item { Text = ""Item 2.2.2"" },
+                        new Item { Text = ""Item 2.2.3"" },
+                        new Item { Text = ""Item 2.2.4"" }
+                    }
+                },
+                new Item { Text = ""Item 2.3"" },
+                new Item { Text = ""Item 2.4"" }
             }
         },
         new Item { Text = ""Item 3"" },
