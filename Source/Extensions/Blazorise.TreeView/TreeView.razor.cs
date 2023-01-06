@@ -147,6 +147,11 @@ public partial class TreeView<TNode> : BaseComponent
     [Parameter] public EventCallback<TNode> SelectedNodeChanged { get; set; }
 
     /// <summary>
+    /// Defines if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.
+    /// </summary>
+    [Parameter] public bool AutoExpandAll { get; set; }
+
+    /// <summary>
     /// List of currently expanded TreeView items (child nodes).
     /// </summary>
     [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
@@ -186,6 +191,9 @@ public partial class TreeView<TNode> : BaseComponent
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
 
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="TreeView{TNode}"/>.
+    /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion

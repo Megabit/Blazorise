@@ -7,6 +7,13 @@
             <div @key="@nodeState.Key">
                 @if ( nodeState.HasChildren )
                 {
+                    @if ( AutoExpandAll && !nodeState.Expanded && !nodeState.AutoExpanded )
+                    {
+                        nodeState.AutoExpanded = true;
+
+                        InvokeAsync( () => ToggleNode( nodeState ) );
+                    }
+
                     <span class="tree-view-icon" @onclick="@(() => ToggleNode(nodeState))">
                         @if ( nodeState.Expanded )
                         {
@@ -35,6 +42,7 @@
                                    ExpandedNodes="@ExpandedNodes"
                                    ExpandedNodesChanged="@ExpandedNodesChanged"
                                    Expanded="@nodeState.Expanded"
+                                   AutoExpandAll="@AutoExpandAll"
                                    HasChildNodes="@HasChildNodes"
                                    HasChildNodesAsync="@HasChildNodesAsync"
                                    NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"

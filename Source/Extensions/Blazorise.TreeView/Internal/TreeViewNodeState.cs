@@ -44,6 +44,11 @@ public record TreeViewNodeState<TNode>
     public bool Expanded { get; set; }
 
     /// <summary>
+    /// Indicates if the node was auto expanded. Can happen only once when node is first loaded.
+    /// </summary>
+    public bool AutoExpanded { get; set; }
+
+    /// <summary>
     /// Indicates if the node has any child node.
     /// </summary>
     public bool HasChildren { get; }

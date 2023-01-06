@@ -66,17 +66,26 @@
     <DocsAttributesItem Name="SelectedNodeChanged" Type="EventCallback<TNode>">
         Occurs when the selected TreeView node has changed.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="AutoExpandAll" Type="bool" Default="false">
+        Defines if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="ExpandedNodes" Type="List<TNode>">
         List of currently expanded TreeView items (child nodes).
     </DocsAttributesItem>
     <DocsAttributesItem Name="ExpandedNodeChanged" Type="EventCallback<TNode>">
         Occurs when the collection of expanded nodes has changed.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="GetChildNodes" Type="expression">
-        Expression that allows the child nodes to be identifies for a particular node
+    <DocsAttributesItem Name="GetChildNodes" Type="Func<TNode, IEnumerable<TNode>>">
+        Expression that allows the child nodes to be identifies for a particular node.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="HasChildNodes" Type="expression" Default="true">
+    <DocsAttributesItem Name="HasChildNodes" Type="Func<TNode, bool>" Default="true">
         Expression that indicates whether the current node has any children nodes?
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GetChildNodesAsync" Type="Func<TNode, Task<IEnumerable<TNode>>>">
+        Asynchronous expression that allows the child nodes to be identifies for a particular node.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HasChildNodesAsync" Type="Func<TNode, Task<bool>>" Default="null">
+        Asynchronous expression that indicates whether the current node has any children nodes?
     </DocsAttributesItem>
     <DocsAttributesItem Name="ExpandIconName" Type="IconName" Default="ChevronRight">
         Defines the name of the treenode expand icon.

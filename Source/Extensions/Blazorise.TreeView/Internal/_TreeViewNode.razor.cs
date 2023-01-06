@@ -2,12 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using Blazorise.Extensions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
+using Blazorise.TreeView.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Blazorise.TreeView.Extensions;
 #endregion
 
 namespace Blazorise.TreeView.Internal;
@@ -143,6 +142,11 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     [Parameter] public bool Expanded { get; set; }
 
     /// <summary>
+    /// Defines if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.
+    /// </summary>
+    [Parameter] public bool AutoExpandAll { get; set; }
+
+    /// <summary>
     /// Defines the name of the treenode expand icon.
     /// </summary>
     [Parameter] public IconName ExpandIconName { get; set; }
@@ -172,10 +176,6 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     /// </summary>
     [Parameter] public IconSize? CollapseIconSize { get; set; }
 
-    [CascadingParameter] public _TreeViewNode<TNode> ParentNode { get; set; }
-
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
     /// <summary>
     /// Gets or sets selected node styling.
     /// </summary>
@@ -185,6 +185,16 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     /// Gets or sets node styling.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="_TreeViewNode{TNode}"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// A reference to the parent node component.
+    /// </summary>
+    [CascadingParameter] public _TreeViewNode<TNode> ParentNode { get; set; }
 
     #endregion
 }
