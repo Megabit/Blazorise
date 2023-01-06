@@ -74,7 +74,11 @@ public partial class _TreeViewNode<TNode> : BaseComponent
                     : GetChildNodes( nodeState.Node );
             }
 
-            ExpandedNodes.Add( nodeState.Node );
+            if ( !ExpandedNodes.Contains( nodeState.Node ) )
+            {
+                ExpandedNodes.Add( nodeState.Node );
+            }
+
             await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
         }
         else
