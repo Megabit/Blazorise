@@ -923,6 +923,10 @@ class EmptyClassProvider : IClassProvider
 
     public string TableRowCellColor( Color color ) => null;
 
+    public string TableRowGroup( bool expanded ) => null;
+
+    public string TableRowGroupCell() => null;
+
     public string TableResponsive() => null;
 
     public string TableFixedHeader() => null;

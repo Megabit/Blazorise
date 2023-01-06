@@ -2710,6 +2710,11 @@ li.ant-list-item-actionable {
 .ant-table.ant-table-hover tbody > tr.ant-table-row:hover > td {
   background: #f5f5f5;
 }
+.ant-table tbody tr.ant-table-group {
+  cursor: pointer;
+  background-color: var(--b-theme-light, #f5f5f5);
+  font-weight: 600;
+}
 
 .ant-table .ant-table-thead-dark th {
   color: var(--b-table-thead-dark-color, #fff);
