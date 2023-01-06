@@ -48,5 +48,8 @@ public record TreeViewNodeState<TNode>
     /// </summary>
     public bool HasChildren { get; }
 
+    /// <summary>
+    /// List of all child node that belongs to this node.
+    /// </summary>
     public List<TreeViewNodeState<TNode>> Children { get; set; } = new();
 }
