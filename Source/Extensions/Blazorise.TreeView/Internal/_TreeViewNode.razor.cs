@@ -7,6 +7,7 @@ using Blazorise.Extensions;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Blazorise.TreeView.Extensions;
 #endregion
 
 namespace Blazorise.TreeView.Internal;
@@ -31,25 +32,10 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         {
             treeViewNodeStates = new();
 
-            await foreach ( var nodeState in ConvertNodesToStates( paramNodes ?? Enumerable.Empty<TNode>(), HasChildNodesAsync, HasChildNodes, false ) )
+            await foreach ( var nodeState in paramNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, false ) )
             {
                 treeViewNodeStates.Add( nodeState );
             }
-        }
-    }
-
-    private async IAsyncEnumerable<TreeViewNodeState<TNode>> ConvertNodesToStates( IEnumerable<TNode> nodes,
-       Func<TNode, Task<bool>> hasChildNodesAsync,
-       Func<TNode, bool> hasChildNodes,
-       bool expanded )
-    {
-        foreach ( var node in nodes )
-        {
-            var hasChildren = hasChildNodesAsync is not null
-                ? await hasChildNodesAsync( node )
-                : hasChildNodes( node );
-
-            yield return new TreeViewNodeState<TNode>( node, hasChildren, expanded );
         }
     }
 
