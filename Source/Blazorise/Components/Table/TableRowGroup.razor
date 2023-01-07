@@ -20,13 +20,16 @@
     @oncontextmenu:preventDefault="@ContextMenuPreventDefault"
     @attributes="@Attributes">
     <td class="@RowCellClassBuilder.Class" colspan="@GetColumnSpan()">
-        @if ( Expanded )
+        @if ( Toggleable )
         {
-            <Icon Name="IconName.ChevronUp" Padding="Blazorise.Padding.Is3.FromEnd" />
-        }
-        else
-        {
-            <Icon Name="IconName.ChevronDown" Padding="Blazorise.Padding.Is3.FromEnd" />
+            @if ( Expanded )
+            {
+                <Icon Name="IconName.ChevronUp" Padding="Blazorise.Padding.Is3.FromEnd" />
+            }
+            else
+            {
+                <Icon Name="IconName.ChevronDown" Padding="Blazorise.Padding.Is3.FromEnd" />
+            }
         }
         <span>
             @if ( TitleTemplate is not null )
