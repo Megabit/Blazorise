@@ -154,6 +154,19 @@
             The <Code>Resizable</Code> property of the Blazorise <Code>Table</Code> component determines whether the columns of the table can be resized by the user. When <Code>Resizable</Code> is set to <Code>true</Code>, the user can click and drag the edges of the column headers to adjust the width of the columns. When <Code>Resizable</Code> is set to <Code>false</Code>, the columns are fixed in size and cannot be resized by the user.
         </Paragraph>
         <Paragraph>
+            The <Code>ResizeMode</Code> property of the Table component in Blazorise can have two modes: <Code>Header</Code> and <Code>Columns</Code>.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    <Code>Header</Code>: When <Code>ResizeMode</Code> is set to <Code>Header</Code>, the user can resize the columns by dragging the edges of the column headers. This means that the user can only adjust the width of the columns by interacting with the header row of the table.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Code>Columns</Code>: When <Code>ResizeMode</Code> is set to <Code>Columns</Code>, the user can resize the columns by dragging the edges of the entire column, including the header and the body cells. This means that the user can adjust the width of the columns by interacting with any part of the column, not just the header.
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
             To set the <Code>Resizable</Code> property of a <Code>Table</Code> component in Blazorise, you can use the following syntax:
         </Paragraph>
     </DocsPageSectionHeader>
