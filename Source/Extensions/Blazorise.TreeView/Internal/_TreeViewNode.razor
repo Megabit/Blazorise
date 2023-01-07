@@ -14,7 +14,7 @@
                         InvokeAsync( () => ToggleNode( nodeState ) );
                     }
 
-                    <span class="tree-view-icon" @onclick="@(() => ToggleNode(nodeState))">
+                    <span class="b-tree-view-node-icon" @onclick="@(() => ToggleNode(nodeState))">
                         @if ( nodeState.Expanded )
                         {
                             <Icon Name="@CollapseIconName" IconStyle="@CollapseIconStyle" IconSize="@CollapseIconSize" />
@@ -28,7 +28,8 @@
 
                 <_TreeViewNodeContent TNode="TNode" NodeState="@nodeState"
                                       NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
-                                      SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))">
+                                      SelectionMode="@SelectionMode"
+                                      SelectedNodeStyling="@(ResolveSelectedNodeStylingAction(SelectedNodeStyling))">
                     @NodeContent( nodeState.Node )
                 </_TreeViewNodeContent>
 
@@ -46,11 +47,12 @@
                                    HasChildNodes="@HasChildNodes"
                                    HasChildNodesAsync="@HasChildNodesAsync"
                                    NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
-                                   SelectedNodeStyling="@(ResolveNodeStylingAction(SelectedNodeStyling))"
+                                   SelectedNodeStyling="@(ResolveSelectedNodeStylingAction(SelectedNodeStyling))"
                                    ExpandIconName="@ExpandIconName"
                                    ExpandIconStyle="@ExpandIconStyle"
                                    CollapseIconName="@CollapseIconName"
-                                   CollapseIconStyle="@CollapseIconStyle" />
+                                   CollapseIconStyle="@CollapseIconStyle"
+                                   SelectionMode="@SelectionMode" />
                 }
             </div>
         }

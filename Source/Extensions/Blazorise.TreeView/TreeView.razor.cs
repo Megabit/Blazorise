@@ -3,9 +3,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using Blazorise.Extensions;
 using Blazorise.TreeView.Extensions;
 using Blazorise.TreeView.Internal;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -17,7 +19,11 @@ public partial class TreeView<TNode> : BaseComponent
 
     private _TreeViewNode<TNode> treeViewNodeRef;
 
-    private TreeViewState<TNode> treeViewState = new();
+    private TreeViewState<TNode> treeViewState = new()
+    {
+        SelectedNodes = new List<TNode>(),
+        SelectionMode = TreeViewSelectionMode.Single,
+    };
 
     private List<TreeViewNodeState<TNode>> treeViewNodeStates;
 
@@ -28,6 +34,18 @@ public partial class TreeView<TNode> : BaseComponent
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         bool nodesChanged = parameters.TryGetValue<IEnumerable<TNode>>( nameof( Nodes ), out var paramNodes ) && !paramNodes.AreEqual( Nodes );
+        bool selectedNodeChanged = parameters.TryGetValue<TNode>( nameof( SelectedNode ), out var paramSelectedNode ) && !paramSelectedNode.IsEqual( SelectedNode );
+        bool selectedNodesChanged = parameters.TryGetValue<IList<TNode>>( nameof( SelectedNodes ), out var paramSelectedNodes ) && !paramSelectedNodes.AreEqual( SelectedNodes );
+
+        if ( selectedNodeChanged )
+        {
+            treeViewState = treeViewState with { SelectedNode = paramSelectedNode };
+        }
+
+        if ( selectedNodesChanged )
+        {
+            treeViewState = treeViewState with { SelectedNodes = paramSelectedNodes };
+        }
 
         await base.SetParametersAsync( parameters );
 
@@ -40,16 +58,62 @@ public partial class TreeView<TNode> : BaseComponent
                 treeViewNodeStates.Add( nodeState );
             }
         }
+
+        if ( selectedNodeChanged )
+        {
+            await SelectedNodeChanged.InvokeAsync( treeViewState.SelectedNode );
+        }
+
+        if ( selectedNodesChanged )
+        {
+            await SelectedNodesChanged.InvokeAsync( treeViewState.SelectedNodes );
+        }
+    }
+
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( "b-tree-view" );
+
+        base.BuildClasses( builder );
     }
 
     /// <summary>
-    /// Selects the node.
+    /// Selects the node when in single selection mode.
     /// </summary>
     /// <param name="node">Node to select.</param>
     public void SelectNode( TNode node )
     {
-        SelectedNode = node;
+        if ( treeViewState.SelectionMode == TreeViewSelectionMode.Multiple )
+            return;
 
+        if ( treeViewState.SelectedNode.IsEqual( node ) )
+            return;
+
+        treeViewState = treeViewState with { SelectedNode = node };
+
+        SelectedNodeChanged.InvokeAsync( treeViewState.SelectedNode );
+
+        DirtyClasses();
+        InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Toggles the checked state of the node when in multiple selection mode.
+    /// </summary>
+    /// <param name="node">Node to toggle.</param>
+    public void ToggleCheckNode( TNode node )
+    {
+        if ( treeViewState.SelectionMode == TreeViewSelectionMode.Single )
+            return;
+
+        if ( treeViewState.SelectedNodes.Contains( node ) )
+            treeViewState.SelectedNodes.Remove( node );
+        else
+            treeViewState.SelectedNodes.Add( node );
+
+        SelectedNodesChanged.InvokeAsync( treeViewState.SelectedNodes );
+
+        DirtyClasses();
         InvokeAsync( StateHasChanged );
     }
 
@@ -125,26 +189,39 @@ public partial class TreeView<TNode> : BaseComponent
     /// Currently selected TreeView item/node.
     /// </summary>
     [Parameter]
-    public TNode SelectedNode
-    {
-        get => treeViewState.SelectedNode;
-        set
-        {
-            if ( treeViewState.SelectedNode.IsEqual( value ) )
-                return;
-
-            treeViewState = treeViewState with { SelectedNode = value };
-
-            SelectedNodeChanged.InvokeAsync( treeViewState.SelectedNode );
-
-            DirtyClasses();
-        }
-    }
+    public TNode SelectedNode { get; set; }
 
     /// <summary>
     /// Occurs when the selected TreeView node has changed.
     /// </summary>
     [Parameter] public EventCallback<TNode> SelectedNodeChanged { get; set; }
+
+    /// <summary>
+    /// Currently selected TreeView items/nodes.
+    /// </summary>
+    [Parameter]
+    public IList<TNode> SelectedNodes { get; set; }
+
+    /// <summary>
+    /// Occurs when the selected TreeView nodes has changed.
+    /// </summary>
+    [Parameter] public EventCallback<IList<TNode>> SelectedNodesChanged { get; set; }
+
+    /// <summary>
+    /// Defines the selection mode of the treeview.
+    /// </summary>
+    [Parameter]
+    public TreeViewSelectionMode SelectionMode
+    {
+        get => treeViewState.SelectionMode;
+        set
+        {
+            if ( treeViewState.SelectionMode == value )
+                return;
+
+            treeViewState.SelectionMode = value;
+        }
+    }
 
     /// <summary>
     /// Defines if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.

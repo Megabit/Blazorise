@@ -43,6 +43,11 @@ public record TreeViewNodeState<TNode>
     /// </summary>
     public bool Expanded { get; set; }
 
+    ///// <summary>
+    ///// Indicates if the node is checked when in multiple selection mode.
+    ///// </summary>
+    //public bool Checked { get; set; }
+
     /// <summary>
     /// Indicates if the node was auto expanded. Can happen only once when node is first loaded.
     /// </summary>

@@ -17,8 +17,8 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( "tree-view" );
-        builder.Append( "tree-view-collapsed", !Expanded );
+        builder.Append( "b-tree-view-node" );
+        builder.Append( "b-tree-view-node-collapsed", !Expanded );
 
         base.BuildClasses( builder );
     }
@@ -116,6 +116,11 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         return action ?? new Action<TNode, NodeStyling>( ( item, style ) => { return; } );
     }
 
+    private Action<TNode, NodeStyling> ResolveSelectedNodeStylingAction( Action<TNode, NodeStyling> action )
+    {
+        return action ?? new Action<TNode, NodeStyling>( ( item, style ) => { return; } );
+    }
+
     #endregion
 
     #region Properties
@@ -135,6 +140,8 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     [Parameter] public Func<TNode, Task<IEnumerable<TNode>>> GetChildNodesAsync { get; set; }
 
     [Parameter] public Func<TNode, Task<bool>> HasChildNodesAsync { get; set; }
+
+    [Parameter] public TreeViewSelectionMode SelectionMode { get; set; }
 
     /// <summary>
     /// Defines if the treenode should be expanded.

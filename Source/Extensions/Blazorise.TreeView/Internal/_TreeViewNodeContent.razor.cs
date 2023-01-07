@@ -9,6 +9,18 @@ namespace Blazorise.TreeView.Internal;
 
 public partial class _TreeViewNodeContent<TNode> : BaseComponent
 {
+    #region Members
+
+    private TreeViewState<TNode> treeViewState;
+
+    private NodeStyling selectedNodeStyling;
+
+    private NodeStyling nodeStyling;
+
+    private TreeViewSelectionMode selectionMode;
+
+    #endregion
+
     #region Constructors
 
     public _TreeViewNodeContent()
@@ -28,16 +40,6 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     #endregion
 
-    #region Members
-
-    private TreeViewState<TNode> treeViewState;
-
-    private NodeStyling selectedNodeStyling;
-
-    private NodeStyling nodeStyling;
-
-    #endregion
-
     #region Methods
 
     protected override void BuildClasses( ClassBuilder builder )
@@ -54,8 +56,18 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected Task OnClick()
     {
+        if ( SelectionMode != TreeViewSelectionMode.Single )
+            return Task.CompletedTask;
+
         DirtyClasses();
         ParentTreeView?.SelectNode( NodeState.Node );
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnCheckedChanged( bool value )
+    {
+        ParentTreeView?.ToggleCheckNode( NodeState.Node );
 
         return Task.CompletedTask;
     }
@@ -75,7 +87,10 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     #region Properties
 
     protected bool Selected
-        => ParentTreeViewState.SelectedNode != null && ParentTreeViewState.SelectedNode.Equals( NodeState.Node );
+        => SelectionMode == TreeViewSelectionMode.Single && ParentTreeViewState.SelectedNode != null && ParentTreeViewState.SelectedNode.Equals( NodeState.Node );
+
+    protected bool Checked
+        => SelectionMode == TreeViewSelectionMode.Multiple && ParentTreeViewState.SelectedNodes != null && ParentTreeViewState.SelectedNodes.Contains( NodeState.Node );
 
     [Parameter] public TreeViewNodeState<TNode> NodeState { get; set; }
 
@@ -95,6 +110,22 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     }
 
     [CascadingParameter] public TreeView<TNode> ParentTreeView { get; set; }
+
+    [Parameter]
+    public TreeViewSelectionMode SelectionMode
+    {
+        get => selectionMode;
+        set
+        {
+            if ( selectionMode == value )
+                return;
+
+            selectionMode = value;
+
+            DirtyClasses();
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Gets or sets selected node styling.
