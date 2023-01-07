@@ -7169,6 +7169,11 @@ li.list-group-item-action {
 table.is-borderless td, table.is-borderless th, table.is-borderless tr {
   border: 0 !important;
 }
+table tbody tr.table-group {
+  cursor: pointer;
+  background-color: var(--b-theme-light, var(--bs-light, #f5f5f5));
+  font-weight: 700;
+}
 
 tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
   cursor: pointer;

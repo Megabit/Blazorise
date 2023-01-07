@@ -1455,6 +1455,10 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
 
+    public override string TableRowGroup( bool expanded ) => "b-table-group bg-gray-50 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700 font-bold cursor-pointer";
+
+    public override string TableRowGroupCell() => "b-table-group-cell group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4";
+
     public override string TableResponsive() => "b-table-responsive overflow-x-auto relative shadow-md sm:rounded-lg";
 
     public override string TableFixedHeader() => "b-table-fixed-header";

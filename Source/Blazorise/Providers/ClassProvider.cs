@@ -920,6 +920,10 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableRowCellColor( Color color );
 
+    public abstract string TableRowGroup( bool expanded );
+
+    public abstract string TableRowGroupCell();
+
     public abstract string TableResponsive();
 
     public abstract string TableFixedHeader();

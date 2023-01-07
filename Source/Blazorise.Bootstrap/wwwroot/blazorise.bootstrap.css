@@ -1564,8 +1564,13 @@ li.list-group-item-action {
   transform: translateX(calc(4rem - (2.5rem / 2)));
 }
 
-table.table tbody tr.selected {
+table.table tbody tr:not(.table-group).selected {
   background-color: var(--primary);
+}
+table.table tbody tr.table-group {
+  cursor: pointer;
+  background-color: var(--b-theme-light, var(--light, #f5f5f5));
+  font-weight: 700;
 }
 
 tr.table-row-selectable:hover {

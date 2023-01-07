@@ -3310,6 +3310,37 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </TableBody>
 </Table>";
 
+        public const string TableGroupingExample = @"<Table>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Color</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRowGroup Title=""Fruits"">
+            <TableRow>
+                <TableRowCell>Apple</TableRowCell>
+                <TableRowCell>Red</TableRowCell>
+            </TableRow>
+            <TableRow>
+                <TableRowCell>Banana</TableRowCell>
+                <TableRowCell>Yellow</TableRowCell>
+            </TableRow>
+        </TableRowGroup>
+        <TableRowGroup Title=""Vegetables"">
+            <TableRow>
+                <TableRowCell>Carrot</TableRowCell>
+                <TableRowCell>Orange</TableRowCell>
+            </TableRow>
+            <TableRow>
+                <TableRowCell>Pepper</TableRowCell>
+                <TableRowCell>Green</TableRowCell>
+            </TableRow>
+        </TableRowGroup>
+    </TableBody>
+</Table>";
+
         public const string TableHoverableExample = @"<Table Hoverable>
     <TableHeader>
         <TableRow>
