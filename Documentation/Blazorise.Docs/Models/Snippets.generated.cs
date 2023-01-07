@@ -7071,7 +7071,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
           GetChildNodes=""@(item => item.Children)""
           HasChildNodes=""@(item => item.Children?.Any() == true)""
           @bind-SelectedNode=""selectedNode""
-          @bind-ExpandedNodes=""ExpandedNodes"">
+          @bind-ExpandedNodes=""expandedNodes"">
     <NodeContent>
         <Icon Name=""IconName.Folder"" />
         @context.Text
@@ -7112,11 +7112,108 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         new Item { Text = ""Item 3"" },
     };
 
-    IList<Item> ExpandedNodes = new List<Item>();
+    IList<Item> expandedNodes = new List<Item>();
     Item selectedNode;
 }";
 
+        public const string TreeViewExpandExample = @"<Button Color=""Color.Primary"" Clicked=""@(()=>treeViewRef.ExpandAll())"">Expand all</Button>
+<Button Color=""Color.Secondary"" Clicked=""@(()=>treeViewRef.CollapseAll())"">Collapse all</Button>
+
+<TreeView @ref=""@treeViewRef"" Nodes=""Items"" GetChildNodes=""@(item => item.Children)"" HasChildNodes=""@(item => item.Children?.Any() == true)"">
+    <NodeContent>
+        <Icon Name=""IconName.Folder"" />
+        @context.Text
+    </NodeContent>
+</TreeView>
+
+@code {
+    TreeView<Item> treeViewRef;
+
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    IEnumerable<Item> Items = new[]
+    {
+        new Item { Text = ""Item 1"" },
+        new Item
+        {
+            Text = ""Item 2"",
+            Children = new []
+            {
+                new Item { Text = ""Item 2.1"" },
+                new Item
+                {
+                    Text = ""Item 2.2"",
+                    Children = new []
+                    {
+                        new Item { Text = ""Item 2.2.1"" },
+                        new Item { Text = ""Item 2.2.2"" },
+                        new Item { Text = ""Item 2.2.3"" },
+                        new Item { Text = ""Item 2.2.4"" }
+                    }
+                },
+                new Item { Text = ""Item 2.3"" },
+                new Item { Text = ""Item 2.4"" }
+            }
+        },
+        new Item { Text = ""Item 3"" },
+    };
+}";
+
         public const string TreeViewImportsExample = @"@using Blazorise.TreeView";
+
+        public const string TreeViewMultiSelectExample = @"<TreeView Nodes=""Items""
+          GetChildNodes=""@(item => item.Children)""
+          HasChildNodes=""@(item => item.Children?.Any() == true)""
+          SelectionMode=""TreeViewSelectionMode.Multiple""
+          @bind-SelectedNodes=""selectedNodes"">
+    <NodeContent>
+        <Icon Name=""IconName.Folder"" />
+        @context.Text
+    </NodeContent>
+</TreeView>
+
+@code {
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    IEnumerable<Item> Items = new[]
+    {
+        new Item { Text = ""Item 1"" },
+        new Item
+        {
+            Text = ""Item 2"",
+            Children = new []
+            {
+                new Item { Text = ""Item 2.1"" },
+                new Item
+                {
+                    Text = ""Item 2.2"",
+                    Children = new []
+                    {
+                        new Item { Text = ""Item 2.2.1"" },
+                        new Item { Text = ""Item 2.2.2"" },
+                        new Item { Text = ""Item 2.2.3"" },
+                        new Item { Text = ""Item 2.2.4"" }
+                    }
+                },
+                new Item { Text = ""Item 2.3"" },
+                new Item { Text = ""Item 2.4"" }
+            }
+        },
+        new Item { Text = ""Item 3"" },
+    };
+
+    IList<Item> selectedNodes = new List<Item>();
+}";
+
+        public const string TreeViewNugetInstall2Example = @"dotnet add package Blazorise.TreeView";
 
         public const string TreeViewNugetInstallExample = @"Install-Package Blazorise.TreeView";
 

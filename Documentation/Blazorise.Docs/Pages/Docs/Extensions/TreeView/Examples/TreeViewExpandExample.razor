@@ -1,17 +1,18 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<TreeView Nodes="Items"
-          GetChildNodes="@(item => item.Children)"
-          HasChildNodes="@(item => item.Children?.Any() == true)"
-          @bind-SelectedNode="selectedNode"
-          @bind-ExpandedNodes="expandedNodes">
+<Button Color="Color.Primary" Clicked="@(()=>treeViewRef.ExpandAll())">Expand all</Button>
+<Button Color="Color.Secondary" Clicked="@(()=>treeViewRef.CollapseAll())">Collapse all</Button>
+
+<TreeView @ref="@treeViewRef" Nodes="Items" GetChildNodes="@(item => item.Children)" HasChildNodes="@(item => item.Children?.Any() == true)">
     <NodeContent>
         <Icon Name="IconName.Folder" />
         @context.Text
     </NodeContent>
 </TreeView>
 
-@code{
+@code {
+    TreeView<Item> treeViewRef;
+
     public class Item
     {
         public string Text { get; set; }
@@ -44,7 +45,4 @@
         },
         new Item { Text = "Item 3" },
     };
-
-    IList<Item> expandedNodes = new List<Item>();
-    Item selectedNode;
 }
