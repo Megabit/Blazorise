@@ -220,3 +220,27 @@
         Defines the resize mode of the Table’s columns.
     </DocsAttributesItem>
 </DocsAttributes>
+
+<DocsAttributes Title="TableRowGroup">
+    <DocsAttributesItem Name="Expanded" Type="bool" Default="false">
+        Defines if the group is expanded.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Toggleable" Type="bool" Default="true">
+        Defines if the group <Code>Expanded</Code> property can be toggled by clicking. It is still possible to toggle it programatically.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ColumnSpan" Type="int" Default="1000">
+        Determines the column span for the inner table cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Clicked" Type="EventCallback<BLMouseEventArgs>">
+        Occurs when the row is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DoubleClicked" Type="EventCallback<BLMouseEventArgs>">
+        Occurs when the row is double clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Title" Type="string" Default="null">
+        Specifies the title to be rendered inside the <Code>TableRowGroup</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TitleTemplate" Type="RenderFragment" Default="null">
+        Specifies the custom title content to be rendered inside the <Code>TableRowGroup</Code>. It has higher priority over the <Code>Title</Code> parameter.
+    </DocsAttributesItem>
+</DocsAttributes>

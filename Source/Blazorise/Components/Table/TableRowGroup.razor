@@ -19,7 +19,7 @@
     @oncontextmenu="@OnContextMenuHandler"
     @oncontextmenu:preventDefault="@ContextMenuPreventDefault"
     @attributes="@Attributes">
-    <td class="@RowCellClassBuilder.Class" colspan="@GetColumnSpan()">
+    <td class="@RowCellClassBuilder.Class" colspan="@ColumnSpan">
         @if ( Toggleable )
         {
             @if ( Expanded )
