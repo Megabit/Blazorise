@@ -1,0 +1,17 @@
+version: 2
+registries:
+  nuget-feed-default:
+    type: nuget-feed
+    url: https://api.nuget.org/v3/index.json
+    
+updates:
+- package-ecosystem: github-actions
+  directory: "/"
+  schedule:
+    interval: weekly
+
+- package-ecosystem: npm
+  directory: "/Source/Blazorise"
+  schedule:
+    interval: daily
+  

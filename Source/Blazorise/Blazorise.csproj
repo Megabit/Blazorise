@@ -13,11 +13,13 @@
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
+    <Content Remove="package.json" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="package.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,4 +41,33 @@
     <CompilerGeneratedFilesOutputPath>__SOURCEGENERATED__</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
 
+  <!-- Note: only copy files in debug mode, we don't want automatic actions in release mode / during publishing -->
+
+  <Target Name="PreBuild - Copy javascript dependencies" 
+		  AfterTargets="NpmInstall" 
+		  Condition="'$(Configuration)'=='Debug'">
+    <Exec Command="xcopy /y &quot;$(ProjectDir)node_modules\autonumeric\dist\autoNumeric.min.js&quot; &quot;$(ProjectDir)wwwroot\vendors\autoNumeric.js&quot;" />
+	<Exec Command="xcopy /y &quot;$(ProjectDir)node_modules\flatpickr\dist\flatpickr.min.js&quot; &quot;$(ProjectDir)wwwroot\vendors\flatpickr.js&quot;" />
+	<Exec Command="xcopy /y &quot;$(ProjectDir)node_modules\inputmask\dist\inputmask.min.js&quot; &quot;$(ProjectDir)wwwroot\vendors\inputmask.js&quot;" />
+  </Target>
+
+  <Target Name="NpmInstall" Inputs="package.json" 
+		  Outputs="node_modules/.install-stamp" 
+		  BeforeTargets="BeforeBuild" 
+		  Condition="'$(Configuration)'=='Debug'">
+    <!--
+      Use npm install or npm ci depending on RestorePackagesWithLockFile value.
+      Uncomment the following lines if you want to use this feature:
+
+      <PropertyGroup>
+          <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+      </PropertyGroup>
+      -->
+    <Exec Command="npm ci" Condition="'$(RestorePackagesWithLockFile)' == 'true'" />
+    <Exec Command="npm install" Condition="'$(RestorePackagesWithLockFile)' != 'true'" />
+
+    <!-- Write the stamp file, so incremental builds work -->
+    <Touch Files="node_modules/.install-stamp" AlwaysCreate="true" />
+  </Target>
+	
 </Project>
