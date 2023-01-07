@@ -1,0 +1,49 @@
+﻿@namespace Blazorise
+@inherits BaseDraggableComponent
+<tr id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler"
+    draggable="@DraggableString"
+    @ondrag="@OnDragHandler"
+    @ondrag:preventDefault="@DragPreventDefault"
+    @ondragend="@OnDragEndHandler"
+    @ondragend:preventDefault="@DragEndPreventDefault"
+    @ondragenter="@OnDragEnterHandler"
+    @ondragenter:preventDefault="@DragEnterPreventDefault"
+    @ondragleave="@OnDragLeaveHandler"
+    @ondragleave:preventDefault="@DragLeavePreventDefault"
+    @ondragover="@OnDragOverHandler"
+    @ondragover:preventDefault="@DragOverPreventDefault"
+    @ondragstart="@OnDragStartHandler"
+    @ondragstart:preventDefault="@DragStartPreventDefault"
+    @ondrop="@OnDropHandler"
+    @ondrop:preventDefault="@DropPreventDefault"
+    @oncontextmenu="@OnContextMenuHandler"
+    @oncontextmenu:preventDefault="@ContextMenuPreventDefault"
+    @attributes="@Attributes">
+    <td class="@RowCellClassBuilder.Class" colspan="@ColumnSpan">
+        @if ( Toggleable )
+        {
+            @if ( Expanded )
+            {
+                <Icon Name="IconName.ChevronUp" Padding="Blazorise.Padding.Is3.FromEnd" />
+            }
+            else
+            {
+                <Icon Name="IconName.ChevronDown" Padding="Blazorise.Padding.Is3.FromEnd" />
+            }
+        }
+        <span>
+            @if ( TitleTemplate is not null )
+            {
+                @TitleTemplate
+            }
+            else
+            {
+                @Title
+            }
+        </span>
+    </td>
+</tr>
+@if ( Expanded )
+{
+    @ChildContent
+}

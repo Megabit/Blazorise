@@ -916,6 +916,10 @@ public interface IClassProvider
 
     string TableRowCellColor( Color color );
 
+    string TableRowGroup( bool expanded );
+
+    string TableRowGroupCell();
+
     string TableResponsive();
 
     string TableFixedHeader();
