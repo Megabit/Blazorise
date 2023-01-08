@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "name": "Blazorise.AntDesign",
+  "private": true,
+  "devDependencies": {
+  },
+  "dependencies": {
+    "antd": "4.0.0"
+  }
+}

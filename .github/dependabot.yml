@@ -14,4 +14,23 @@ updates:
   directory: "/Source/Blazorise"
   schedule:
     interval: daily
-  
+
+- package-ecosystem: npm
+  directory: "/Source/Blazorise.AntDesign"
+  schedule:
+    interval: daily
+   
+- package-ecosystem: npm
+  directory: "/Source/Extensions/Blazorise.Charts"
+  schedule:
+    interval: daily
+
+- package-ecosystem: npm
+  directory: "/Source/Extensions/Blazorise.Charts.DataLabels"
+  schedule:
+    interval: daily
+    
+- package-ecosystem: npm
+  directory: "/Source/Extensions/Blazorise.Charts.Streaming"
+  schedule:
+    interval: daily

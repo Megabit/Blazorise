@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "name": "Blazorise.Charts.DataLabels",
+  "private": true,
+  "devDependencies": {
+  },
+  "dependencies": {
+    "chartjs-plugin-datalabels": "2.0.0"
+  }
+}

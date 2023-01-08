@@ -7,6 +7,7 @@
   "dependencies": {
     "autonumeric": "4.6.0",
     "flatpickr": "4.6.9",
-    "inputmask": "5.0.7"
+    "inputmask": "5.0.7",
+    "@popperjs/core": "2.11.0"
   }
 }

@@ -13,13 +13,11 @@
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
-    <Content Remove="package.json" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
     <None Include="..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
-    <None Include="package.json" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,7 +50,8 @@
 	<Exec Command="xcopy /y &quot;$(ProjectDir)node_modules\inputmask\dist\inputmask.min.js&quot; &quot;$(ProjectDir)wwwroot\vendors\inputmask.js&quot;" />-->
   </Target>
 
-  <Target Name="NpmInstall" Inputs="package.json" 
+  <Target Name="NpmInstall" 
+		  Inputs="package.json" 
 		  Outputs="node_modules/.install-stamp" 
 		  BeforeTargets="BeforeBuild" 
 		  Condition="'$(Configuration)'=='Debug'">
