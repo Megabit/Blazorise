@@ -46,9 +46,10 @@
   <Target Name="PreBuild - Copy javascript dependencies" 
 		  AfterTargets="NpmInstall" 
 		  Condition="'$(Configuration)'=='Debug'">
-    <Exec Command="xcopy /y &quot;$(ProjectDir)node_modules\autonumeric\dist\autoNumeric.min.js&quot; &quot;$(ProjectDir)wwwroot\vendors\autoNumeric.js&quot;" />
+    <!-- In case original, non-modified libraries are used, it's recommended to always overwrite with the correct version -->
+    <!--<Exec Command="xcopy /y &quot;$(ProjectDir)node_modules\autonumeric\dist\autoNumeric.min.js&quot; &quot;$(ProjectDir)wwwroot\vendors\autoNumeric.js&quot;" />
 	<Exec Command="xcopy /y &quot;$(ProjectDir)node_modules\flatpickr\dist\flatpickr.min.js&quot; &quot;$(ProjectDir)wwwroot\vendors\flatpickr.js&quot;" />
-	<Exec Command="xcopy /y &quot;$(ProjectDir)node_modules\inputmask\dist\inputmask.min.js&quot; &quot;$(ProjectDir)wwwroot\vendors\inputmask.js&quot;" />
+	<Exec Command="xcopy /y &quot;$(ProjectDir)node_modules\inputmask\dist\inputmask.min.js&quot; &quot;$(ProjectDir)wwwroot\vendors\inputmask.js&quot;" />-->
   </Target>
 
   <Target Name="NpmInstall" Inputs="package.json" 
