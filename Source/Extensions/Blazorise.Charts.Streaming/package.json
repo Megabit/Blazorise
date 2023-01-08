@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "Blazorise.Charts.Streaming",
+  "name": "blazorise.charts.streaming",
   "private": true,
   "devDependencies": {
   },

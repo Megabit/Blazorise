@@ -41,8 +41,8 @@
 
   <!-- Note: only copy files in debug mode, we don't want automatic actions in release mode / during publishing -->
 
-  <Target Name="PreBuild - Copy javascript dependencies" 
-		  AfterTargets="NpmInstall" 
+  <Target Name="PreBuild - Copy javascript dependencies"
+		  AfterTargets="NpmInstall"
 		  Condition="'$(Configuration)'=='Debug'">
     <!-- In case original, non-modified libraries are used, it's recommended to always overwrite with the correct version -->
     <!--<Exec Command="xcopy /y &quot;$(ProjectDir)node_modules\autonumeric\dist\autoNumeric.min.js&quot; &quot;$(ProjectDir)wwwroot\vendors\autoNumeric.js&quot;" />
@@ -50,10 +50,10 @@
 	<Exec Command="xcopy /y &quot;$(ProjectDir)node_modules\inputmask\dist\inputmask.min.js&quot; &quot;$(ProjectDir)wwwroot\vendors\inputmask.js&quot;" />-->
   </Target>
 
-  <Target Name="NpmInstall" 
-		  Inputs="package.json" 
-		  Outputs="node_modules/.install-stamp" 
-		  BeforeTargets="BeforeBuild" 
+  <Target Name="NpmInstall"
+		  Inputs="package.json"
+		  Outputs="node_modules/.install-stamp"
+		  BeforeTargets="BeforeBuild"
 		  Condition="'$(Configuration)'=='Debug'">
     <!--
       Use npm install or npm ci depending on RestorePackagesWithLockFile value.
@@ -69,5 +69,5 @@
     <!-- Write the stamp file, so incremental builds work -->
     <Touch Files="node_modules/.install-stamp" AlwaysCreate="true" />
   </Target>
-	
+
 </Project>

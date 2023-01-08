@@ -1,9 +1,8 @@
 {
   "version": "1.0.0",
-  "name": "Blazorise",
+  "name": "blazorise",
   "private": true,
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "autonumeric": "4.6.0",
     "flatpickr": "4.6.9",

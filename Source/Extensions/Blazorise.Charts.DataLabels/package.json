@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "Blazorise.Charts.DataLabels",
+  "name": "blazorise.charts.datalabels",
   "private": true,
   "devDependencies": {
   },
