@@ -1243,6 +1243,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public EventCallback<string> SearchChanged { get; set; }
 
     /// <summary>
+    /// If true, the searched text will be highlighted in the dropdown list items based on <see cref="Search"/> value.
+    /// </summary>
+    [Parameter] public bool HighlightSearch { get; set; }
+
+    /// <summary>
     /// Currently selected items values.
     /// Used when multiple selection is set.
     /// </summary>
