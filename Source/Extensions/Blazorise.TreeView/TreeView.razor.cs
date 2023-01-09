@@ -58,6 +58,16 @@ public partial class TreeView<TNode> : BaseComponent
                 treeViewNodeStates.Add( nodeState );
             }
         }
+
+        if ( selectedNodeChanged )
+        {
+            await SelectedNodeChanged.InvokeAsync( treeViewState.SelectedNode );
+        }
+
+        if ( selectedNodesChanged )
+        {
+            await SelectedNodesChanged.InvokeAsync( treeViewState.SelectedNodes );
+        }
     }
 
     protected override void BuildClasses( ClassBuilder builder )
