@@ -29,12 +29,18 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
         if ( nodeState.Expanded )
         {
+            var nodeAdded = false;
+
             if ( !ExpandedNodes.Contains( nodeState.Node ) )
             {
+                nodeAdded = true;
                 ExpandedNodes.Add( nodeState.Node );
             }
 
-            await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+            if ( nodeAdded )
+            {
+                await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+            }
 
             if ( nodeState.HasChildren )
             {
@@ -55,8 +61,11 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         }
         else
         {
-            ExpandedNodes.Remove( nodeState.Node );
-            await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+            if ( ExpandedNodes.Contains( nodeState.Node ) )
+            {
+                ExpandedNodes.Remove( nodeState.Node );
+                await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
+            }
         }
 
         if ( refresh )
