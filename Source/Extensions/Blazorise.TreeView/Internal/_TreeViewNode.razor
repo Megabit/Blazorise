@@ -27,9 +27,9 @@
                 }
 
                 <_TreeViewNodeContent TNode="TNode" NodeState="@nodeState"
-                                      NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
+                                      NodeStyling="@NodeStyling"
                                       SelectionMode="@SelectionMode"
-                                      SelectedNodeStyling="@(ResolveSelectedNodeStylingAction(SelectedNodeStyling))">
+                                      SelectedNodeStyling="@SelectedNodeStyling">
                     @NodeContent( nodeState.Node )
                 </_TreeViewNodeContent>
 
@@ -46,8 +46,8 @@
                                    AutoExpandAll="@AutoExpandAll"
                                    HasChildNodes="@HasChildNodes"
                                    HasChildNodesAsync="@HasChildNodesAsync"
-                                   NodeStyling="@(ResolveNodeStylingAction(NodeStyling))"
-                                   SelectedNodeStyling="@(ResolveSelectedNodeStylingAction(SelectedNodeStyling))"
+                                   NodeStyling="@NodeStyling"
+                                   SelectedNodeStyling="@SelectedNodeStyling"
                                    ExpandIconName="@ExpandIconName"
                                    ExpandIconStyle="@ExpandIconStyle"
                                    CollapseIconName="@CollapseIconName"

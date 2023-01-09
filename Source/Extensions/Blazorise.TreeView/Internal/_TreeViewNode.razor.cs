@@ -120,16 +120,6 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         await InvokeAsync( StateHasChanged );
     }
 
-    private Action<TNode, NodeStyling> ResolveNodeStylingAction( Action<TNode, NodeStyling> action )
-    {
-        return action ?? new Action<TNode, NodeStyling>( ( item, style ) => { return; } );
-    }
-
-    private Action<TNode, NodeStyling> ResolveSelectedNodeStylingAction( Action<TNode, NodeStyling> action )
-    {
-        return action ?? new Action<TNode, NodeStyling>( ( item, style ) => { return; } );
-    }
-
     #endregion
 
     #region Properties
