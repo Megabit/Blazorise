@@ -15,6 +15,21 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 {
     #region Methods
 
+    protected override async Task OnInitializedAsync()
+    {
+        foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+        {
+            if ( nodeState.HasChildren && AutoExpandAll && !nodeState.Expanded && !nodeState.AutoExpanded )
+            {
+                nodeState.AutoExpanded = true;
+
+                await ToggleNode( nodeState );
+            }
+        }
+
+        await base.OnInitializedAsync();
+    }
+
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-tree-view-node" );

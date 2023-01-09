@@ -7,13 +7,6 @@
             <div @key="@nodeState.Key">
                 @if ( nodeState.HasChildren )
                 {
-                    @if ( AutoExpandAll && !nodeState.Expanded && !nodeState.AutoExpanded )
-                    {
-                        nodeState.AutoExpanded = true;
-
-                        InvokeAsync( () => ToggleNode( nodeState ) );
-                    }
-
                     <span class="b-tree-view-node-icon" @onclick="@(() => ToggleNode(nodeState))">
                         @if ( nodeState.Expanded )
                         {
