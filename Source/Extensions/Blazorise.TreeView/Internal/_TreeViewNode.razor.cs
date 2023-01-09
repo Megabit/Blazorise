@@ -44,7 +44,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
                 if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
                 {
-                    nodeState.Children = new();
+                    nodeState.Children.Clear();
 
                     await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ExpandedNodes.Intersect( childNodes ?? Enumerable.Empty<TNode>() ).Any() ) )
                     {
