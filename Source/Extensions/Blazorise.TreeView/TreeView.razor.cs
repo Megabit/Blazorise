@@ -101,10 +101,10 @@ public partial class TreeView<TNode> : BaseComponent
     /// Toggles the checked state of the node when in multiple selection mode.
     /// </summary>
     /// <param name="node">Node to toggle.</param>
-    public void ToggleCheckNode( TNode node )
+    public Task ToggleCheckNode( TNode node )
     {
         if ( treeViewState.SelectionMode == TreeViewSelectionMode.Single )
-            return;
+            return Task.CompletedTask;
 
         if ( treeViewState.SelectedNodes.Contains( node ) )
             treeViewState.SelectedNodes.Remove( node );
@@ -114,7 +114,7 @@ public partial class TreeView<TNode> : BaseComponent
         SelectedNodesChanged.InvokeAsync( treeViewState.SelectedNodes );
 
         DirtyClasses();
-        InvokeAsync( StateHasChanged );
+        return InvokeAsync( StateHasChanged );
     }
 
     /// <summary>

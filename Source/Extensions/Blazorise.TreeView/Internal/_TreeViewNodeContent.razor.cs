@@ -67,7 +67,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected Task OnCheckedChanged( bool value )
     {
-        ParentTreeView?.ToggleCheckNode( NodeState.Node );
+        if ( ParentTreeView is not null )
+            ParentTreeView.ToggleCheckNode( NodeState.Node );
 
         return Task.CompletedTask;
     }
