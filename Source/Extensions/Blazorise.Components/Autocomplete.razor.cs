@@ -1248,6 +1248,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public bool HighlightSearch { get; set; }
 
     /// <summary>
+    /// Defines the background color of the search field.
+    /// </summary>
+    [Parameter] public Background SearchBackground { get; set; }
+
+    /// <summary>
+    /// Defines the text color of the search field.
+    /// </summary>
+    [Parameter] public TextColor SearchTextColor { get; set; }
+
+    /// <summary>
     /// Currently selected items values.
     /// Used when multiple selection is set.
     /// </summary>
