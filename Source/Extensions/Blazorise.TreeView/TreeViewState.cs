@@ -3,7 +3,7 @@
 namespace Blazorise.TreeView;
 
 /// <summary>
-/// Holds the state of the treeview.
+/// Holds the state of the <see cref="TreeView{TNode}"/>.
 /// </summary>
 /// <typeparam name="TNode">Type of the node.</typeparam>
 public record struct TreeViewState<TNode>
@@ -21,7 +21,7 @@ public record struct TreeViewState<TNode>
     public IList<TNode> SelectedNodes { get; init; }
 
     /// <summary>
-    /// Defines the selection mode of the treeview.
+    /// Defines the selection mode of the <see cref="TreeView{TNode}"/>.
     /// </summary>
     public TreeViewSelectionMode SelectionMode { get; set; }
 

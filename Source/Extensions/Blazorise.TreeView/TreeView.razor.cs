@@ -208,7 +208,7 @@ public partial class TreeView<TNode> : BaseComponent
     [Parameter] public EventCallback<IList<TNode>> SelectedNodesChanged { get; set; }
 
     /// <summary>
-    /// Defines the selection mode of the treeview.
+    /// Defines the selection mode of the <see cref="TreeView{TNode}"/>.
     /// </summary>
     [Parameter]
     public TreeViewSelectionMode SelectionMode
