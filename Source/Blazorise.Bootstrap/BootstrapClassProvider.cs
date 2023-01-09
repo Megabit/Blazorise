@@ -421,9 +421,9 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Dropdown
 
-    public override string Dropdown( bool isDropdownSubmenu ) => "dropdown btn-group";
+    public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
 
-    public override string DropdownGroup() => null;
+    public override string DropdownGroup() => "btn-group";
 
     public override string DropdownObserverShow() => DropdownShow();
 
