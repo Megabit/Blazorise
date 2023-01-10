@@ -17,14 +17,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     protected override async Task OnInitializedAsync()
     {
-        foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+        if ( AutoExpandAll )
         {
-            if ( nodeState.HasChildren && AutoExpandAll && !nodeState.Expanded && !nodeState.AutoExpanded )
-            {
-                nodeState.AutoExpanded = true;
-
-                await ToggleNode( nodeState );
-            }
+            await AutoExpandNodes();
         }
 
         await base.OnInitializedAsync();
@@ -36,6 +31,19 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         builder.Append( "b-tree-view-node-collapsed", !Expanded );
 
         base.BuildClasses( builder );
+    }
+
+    private async Task AutoExpandNodes()
+    {
+        foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+        {
+            if ( nodeState.HasChildren && !nodeState.Expanded && !nodeState.AutoExpanded )
+            {
+                nodeState.AutoExpanded = true;
+
+                await ToggleNode( nodeState );
+            }
+        }
     }
 
     private async Task ToggleNode( TreeViewNodeState<TNode> nodeState, bool refresh = true )
