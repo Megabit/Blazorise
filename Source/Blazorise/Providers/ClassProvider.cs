@@ -1236,12 +1236,12 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string ToBackground( Background background )
     {
-        return background.Name;
+        return background?.Name;
     }
 
     public virtual string ToTextColor( TextColor textColor )
     {
-        return textColor.Name;
+        return textColor?.Name;
     }
 
     public virtual string ToThemeContrast( ThemeContrast themeContrast )

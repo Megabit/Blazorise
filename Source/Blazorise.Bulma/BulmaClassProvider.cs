@@ -1452,7 +1452,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ToBackground( Background background )
     {
-        var name = background.Name;
+        var name = background?.Name;
 
         if ( name == "secondary" )
             return "light";
@@ -1462,7 +1462,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ToTextColor( TextColor textColor )
     {
-        var name = textColor.Name;
+        var name = textColor?.Name;
 
         if ( name == "secondary" )
             return "light";

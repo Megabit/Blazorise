@@ -29,7 +29,9 @@
                   Immediate="@Immediate"
                   Debounce="@Debounce"
                   DebounceInterval="@DebounceInterval"
-                  CustomValidationValue="@GetValidationValue">
+                  CustomValidationValue="@GetValidationValue"
+                  Background="@SearchBackground"
+                  TextColor="@SearchTextColor">
             <Feedback>
                 <ValidationError />
                 <ValidationSuccess />
@@ -41,7 +43,7 @@
         @if ( NotFoundVisible )
         {
             <DropdownItem Disabled>
-                @NotFoundContent( CurrentSearch )
+                @NotFoundContent( Search )
             </DropdownItem>
         }
 
@@ -77,7 +79,14 @@
                                 }
                                 else
                                 {
-                                    @text
+                                    @if ( HighlightSearch && Search?.Length > 0 )
+                                    {
+                                        <Highlighter Text="@text" HighlightedText="@Search" />
+                                    }
+                                    else
+                                    {
+                                        @text
+                                    }
                                 }
                             </Div>
                         </Div>
@@ -90,7 +99,14 @@
                         }
                         else
                         {
-                            @text
+                            @if ( HighlightSearch && Search?.Length > 0 )
+                            {
+                                <Highlighter Text="@text" HighlightedText="@Search" />
+                            }
+                            else
+                            {
+                                @text
+                            }
                         }
                     }
                 </DropdownItem>
