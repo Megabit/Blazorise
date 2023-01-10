@@ -22,7 +22,7 @@ public class GroupContext<TItem>
     public GroupContext( IGrouping<object, TItem> group )
     {
         Key = group.Key;
-        Values = group.AsEnumerable();
+        Items = group.AsEnumerable();
     }
 
     #endregion
@@ -37,7 +37,7 @@ public class GroupContext<TItem>
     /// <summary>
     /// Gets the group values.
     /// </summary>
-    public IEnumerable<TItem> Values { get; }
+    public IEnumerable<TItem> Items { get; }
 
     #endregion
 }
