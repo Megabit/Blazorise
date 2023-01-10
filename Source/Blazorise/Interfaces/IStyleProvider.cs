@@ -4,7 +4,15 @@ public interface IStyleProvider
 {
     #region Modal
 
+    int DefaultModalZIndex { get; }
+
+    int DefaultModalBackdropZIndex { get; }
+
     string ModalShow();
+
+    string ModalZIndex( int modalOpenIndex );
+
+    string ModalBackdropZIndex( int modalOpenIndex );
 
     #endregion
 
