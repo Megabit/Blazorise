@@ -100,6 +100,19 @@ else if ( EditMode == DataGridEditMode.Inline )
             </TableRow>
         }
         <TableRow>
+            @if ( ParentDataGrid.IsGroupable() )
+            {
+                var count = ParentDataGrid.GroupableColumnsCount();
+                if ( count > 1 )
+                {
+                    for ( int i = 0; i < count; i++ )
+                    {
+                        <TableRowCell Style="width:25px;" />
+                    }
+
+                }
+            }
+
             @foreach ( var column in DisplayableColumns )
             {
                 @if ( column.IsCommandColumn )

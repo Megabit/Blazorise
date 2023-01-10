@@ -22,6 +22,20 @@
               Class="@GetClass(styling, selectedStyling)"
               Style="@GetStyle(styling, selectedStyling)"
               HoverCursor="@GetHoverCursor()">
+
+        @if ( ParentDataGrid.IsGroupable() )
+        {
+            var count = ParentDataGrid.GroupableColumnsCount();
+            if ( count > 1 )
+            {
+                for ( int i = 0; i < count; i++ )
+                {
+                    <TableRowCell Style="width:25px;" />
+                }
+
+            }
+        }
+
         @foreach ( var column in Columns )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )

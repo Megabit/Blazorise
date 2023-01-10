@@ -16,6 +16,20 @@
                 @if ( ShowCaptions )
                 {
                     <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.Default)" Color="@(HeaderRowStyling?.Color ?? Color.Default)">
+
+                        @if ( IsGroupable() )
+                        {
+                            var count = GroupableColumnsCount();
+                            if ( count > 1 )
+                            {
+                                for ( int i = 0; i < count; i++ )
+                                {
+                                    <TableHeaderCell Style="width:25px;" />
+                                }
+
+                            }
+                        }
+
                         @foreach ( var column in DisplayableColumns )
                         {
                             @if ( column.ColumnType == DataGridColumnType.Command )
@@ -79,6 +93,20 @@
                 @if ( Filterable )
                 {
                     <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.Default)" Color="@(FilterRowStyling?.Color ?? Color.Default)">
+
+                        @if ( IsGroupable() )
+                        {
+                            var count = GroupableColumnsCount();
+                            if ( count > 1 )
+                            {
+                                for ( int i = 0; i < count; i++ )
+                                {
+                                    <TableHeaderCell Style="width:25px;" />
+                                }
+
+                            }
+                        }
+
                         @foreach ( var column in DisplayableColumns )
                         {
                             if ( column.ColumnType == DataGridColumnType.MultiSelect )
@@ -271,16 +299,18 @@
     {
         @foreach ( var group in x.groupedData )
         {
+            var padding = ( x.iteration - 1 ) * 25;
+
             <TableRowGroup @key="group.Key.ToString()">
                 <TitleTemplate>
-                    @if ( x.groupableColumn?.GroupTemplate is null )
-                    {
-                        @group.Key.ToString()
-                    }
-                    else
-                    {
-                        @x.groupableColumn.GroupTemplate(new(group))
-                    }
+                        @if ( x.groupableColumn?.GroupTemplate is null )
+                        {
+                            @group.Key.ToString()
+                        }
+                        else
+                        {
+                            @x.groupableColumn.GroupTemplate(new(group))
+                        }
                 </TitleTemplate>
                 <ChildContent>
                     @{
