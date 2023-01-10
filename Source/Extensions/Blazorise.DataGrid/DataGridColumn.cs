@@ -529,5 +529,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     [Parameter] public EventCallback<int> SortOrderChanged { get; set; }
 
+    /// <summary>
+    /// Template for custom group.
+    /// </summary>
+    [Parameter] public RenderFragment<GroupContext<TItem>> GroupTemplate { get; set; }
+
     #endregion
 }

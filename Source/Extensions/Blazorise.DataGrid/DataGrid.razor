@@ -172,12 +172,12 @@
                                 var firstGroupableColumn = groupableColumns.First();
                                 var groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) );
 
-                                @groupFragment((1, groupableColumns, groupedData))
+                                @groupFragment((1, groupableColumns, firstGroupableColumn, groupedData))
                             }
                             else
                             {
                                 var groupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) );
-                                @groupFragment((default, null, groupedData))
+                                @groupFragment((default, null, null, groupedData))
                             }
                         }
                         else
@@ -267,13 +267,20 @@
         }
     };
 
-    protected RenderFragment groupFragment( (int iteration, IEnumerable<DataGridColumn<TItem>> groupableColumns, IEnumerable<IGrouping<object, TItem>> groupedData) x ) => __builder =>
+    protected RenderFragment groupFragment( (int iteration, IEnumerable<DataGridColumn<TItem>> groupableColumns, DataGridColumn<TItem> groupableColumn, IEnumerable<IGrouping<object, TItem>> groupedData) x ) => __builder =>
     {
         @foreach ( var group in x.groupedData )
         {
             <TableRowGroup @key="group.Key.ToString()">
                 <TitleTemplate>
-                    @group.Key.ToString()
+                    @if ( x.groupableColumn?.GroupTemplate is null )
+                    {
+                        @group.Key.ToString()
+                    }
+                    else
+                    {
+                        @x.groupableColumn.GroupTemplate(new(group))
+                    }
                 </TitleTemplate>
                 <ChildContent>
                     @{
@@ -288,7 +295,7 @@
                         else
                         {
                             var groupedData = group.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) );
-                            @groupFragment((x.iteration + 1, x.groupableColumns, groupedData))
+                            @groupFragment((x.iteration + 1, x.groupableColumns, nextGroupableColumn, groupedData))
                         }
                     }
                 </ChildContent>
