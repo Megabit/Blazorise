@@ -176,7 +176,7 @@
                             }
                             else
                             {
-                                var groupedData = DisplayData.GroupBy(x => GroupBy.Invoke(x));
+                                var groupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) );
                                 @groupFragment((default, null, groupedData))
                             }
                         }
@@ -271,23 +271,28 @@
     {
         @foreach ( var group in x.groupedData )
         {
-            <_DataGridFullColumnSpanRow @key="group.Key.ToString()" TItem="TItem" Columns="@Columns">
-                <Strong>@group.Key.ToString()</Strong>
-            </_DataGridFullColumnSpanRow>
-
-            var nextGroupableColumn = x.groupableColumns?.ElementAtOrDefault( x.iteration );
-            if ( nextGroupableColumn is null )
-            {
-                @foreach ( var item in group )
-                {
-                    @rowFragment( item )
-                }
-            }
-            else
-            {
-                var groupedData = group.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) );
-                @groupFragment((x.iteration + 1, x.groupableColumns, groupedData))
-            }
+            <TableRowGroup @key="group.Key.ToString()">
+                <TitleTemplate>
+                    @group.Key.ToString()
+                </TitleTemplate>
+                <ChildContent>
+                    @{
+                        var nextGroupableColumn = x.groupableColumns?.ElementAtOrDefault( x.iteration );
+                        if ( nextGroupableColumn is null )
+                        {
+                            @foreach ( var item in group )
+                            {
+                                @rowFragment( item )
+                            }
+                        }
+                        else
+                        {
+                            var groupedData = group.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) );
+                            @groupFragment((x.iteration + 1, x.groupableColumns, groupedData))
+                        }
+                    }
+                </ChildContent>
+            </TableRowGroup>
         }
     };
 
