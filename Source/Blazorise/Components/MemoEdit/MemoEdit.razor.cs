@@ -46,6 +46,14 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
             } ) );
         }
 
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && !paramText.IsEqual( Text ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation != null )

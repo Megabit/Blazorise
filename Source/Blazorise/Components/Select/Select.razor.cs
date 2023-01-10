@@ -35,6 +35,24 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        if ( Rendered )
+        {
+            if ( Multiple )
+            {
+                if ( parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !paramSelectedValues.AreEqual( SelectedValues ) )
+                {
+                    ExecuteAfterRender( Revalidate );
+                }
+            }
+            else
+            {
+                if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !paramSelectedValue.IsEqual( SelectedValue ) )
+                {
+                    ExecuteAfterRender( Revalidate );
+                }
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation != null )
