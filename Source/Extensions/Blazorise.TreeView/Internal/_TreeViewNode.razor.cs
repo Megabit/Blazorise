@@ -69,9 +69,8 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         }
         else
         {
-            if ( ExpandedNodes.Contains( nodeState.Node ) )
+            if ( ExpandedNodes.Remove( nodeState.Node ) )
             {
-                ExpandedNodes.Remove( nodeState.Node );
                 await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
             }
         }
