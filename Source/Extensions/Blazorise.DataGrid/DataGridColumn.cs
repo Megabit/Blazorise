@@ -470,7 +470,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Defines the size of field for popup modal.
     /// </summary>
-    [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; } = ColumnSize.IsHalf.OnDesktop;
+    [Obsolete( "DataGridColumn: PopupFieldColumnSize is deprecated and will be removed in the future version. Please use the EditFieldColumnSize instead." )]
+    [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; }
+
+    /// <summary>
+    /// Defines the size of an edit field for popup modal and edit form.
+    /// </summary>
+    [Parameter] public IFluentColumn EditFieldColumnSize { get; set; }
 
     /// <summary>
     /// Template for custom cell editing.
