@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Components.Web.Virtualization;
 namespace Blazorise.DataGrid;
 
 /// <summary>
-/// The DataGrid component llows you to display and manage data in a tabular (rows/columns) format.
+/// The DataGrid component allows you to display and manage data in a tabular (rows/columns) format.
 /// </summary>
 /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
 [CascadingTypeParameter( nameof( TItem ) )]
