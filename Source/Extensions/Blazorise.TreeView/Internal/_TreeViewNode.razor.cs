@@ -44,16 +44,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
         if ( nodeState.Expanded )
         {
-            var nodeAdded = false;
-
             if ( !ExpandedNodes.Contains( nodeState.Node ) )
             {
-                nodeAdded = true;
                 ExpandedNodes.Add( nodeState.Node );
-            }
-
-            if ( nodeAdded )
-            {
                 await ExpandedNodesChanged.InvokeAsync( ExpandedNodes );
             }
 
