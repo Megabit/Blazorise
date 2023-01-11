@@ -294,6 +294,8 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     public bool IsCommandColumn => ColumnType == DataGridColumnType.Command;
 
+    public bool IsGroupEnabled => Groupable && Grouping;
+
     /// <summary>
     /// Gets or sets the column's display caption.
     /// </summary>
@@ -420,9 +422,14 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public bool Filterable { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets whether the column should be used as a Group Field. A custom <see cref="GroupBy"/> function can however be provided.
+    /// Gets or sets whether the column is eligible to be used as a Group Field. A custom <see cref="GroupBy"/> function can however be provided.
     /// </summary>
-    [Parameter] public bool Groupable { get; set; } 
+    [Parameter] public bool Groupable { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the column should be grouped.
+    /// </summary>
+    [Parameter] public bool Grouping { get; set; }
 
     /// <summary>
     /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active.

@@ -100,7 +100,7 @@ else if ( EditMode == DataGridEditMode.Inline )
             </TableRow>
         }
         <TableRow>
-            @if ( ParentDataGrid.IsGroupable() )
+            @if ( ParentDataGrid.IsGroupEnabled() )
             {
                 var count = ParentDataGrid.GroupableColumnsCount();
                 if ( count > 1 )

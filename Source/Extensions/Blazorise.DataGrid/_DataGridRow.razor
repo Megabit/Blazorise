@@ -23,7 +23,7 @@
               Style="@GetStyle(styling, selectedStyling)"
               HoverCursor="@GetHoverCursor()">
 
-        @if ( ParentDataGrid.IsGroupable() )
+        @if ( ParentDataGrid.IsGroupEnabled() )
         {
             var count = ParentDataGrid.GroupableColumnsCount();
             if ( count > 1 )

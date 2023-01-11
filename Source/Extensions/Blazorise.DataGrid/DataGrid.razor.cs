@@ -164,15 +164,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Makes sure the DataGrid has enough defined conditions to group data.
     /// </summary>
     /// <returns></returns>
-    internal bool IsGroupable()
-        => Groupable && ( GroupBy is not null || Columns.Any( x => x.Groupable ) );
+    internal bool IsGroupEnabled()
+        => Groupable && ( GroupBy is not null || Columns.Any( x => x.IsGroupEnabled ) );
 
     /// <summary>
     /// Gets the DataGrid columns that are marked as Groupable.
     /// </summary>
     /// <returns></returns>
     internal IEnumerable<DataGridColumn<TItem>> GetGroupableColumns()
-        => Columns.Where( x => x.Groupable );
+        => Columns.Where( x => x.IsGroupEnabled );
 
     /// <summary>
     /// Gets the DataGrid columns that are marked as Groupable Count.
@@ -186,7 +186,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private void GroupDisplayData()
     {
-        if ( !IsGroupable() )
+        if ( !IsGroupEnabled() )
         {
             groupedData = null;
             return;

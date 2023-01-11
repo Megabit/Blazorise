@@ -17,7 +17,7 @@
                 {
                     <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.Default)" Color="@(HeaderRowStyling?.Color ?? Color.Default)">
 
-                        @if ( IsGroupable() )
+                        @if ( IsGroupEnabled() )
                         {
                             var count = GroupableColumnsCount();
                             if ( count > 1 )
@@ -94,7 +94,7 @@
                 {
                     <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.Default)" Color="@(FilterRowStyling?.Color ?? Color.Default)">
 
-                        @if ( IsGroupable() )
+                        @if ( IsGroupEnabled() )
                         {
                             var count = GroupableColumnsCount();
                             if ( count > 1 )
@@ -192,7 +192,7 @@
                     }
                     else
                     {
-                        @if ( IsGroupable() )
+                        @if ( IsGroupEnabled() )
                         {
                             @groupFragment( DisplayGroupedData )
                         }
