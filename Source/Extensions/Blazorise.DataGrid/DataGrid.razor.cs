@@ -67,6 +67,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private IEnumerable<TItem> viewData;
 
     /// <summary>
+    /// Holds the grouped data to display based on the current page.
+    /// </summary>
+    private List<GroupContext<TItem>> groupedData;
+
+    /// <summary>
     /// Marks the grid to reload entire data source based on the current filter settings.
     /// </summary>
     private bool dirtyFilter;
@@ -175,6 +180,64 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     internal int GroupableColumnsCount()
         => GetGroupableColumns().Count();
+
+    /// <summary>
+    /// If IsGroupable feature is active. Groups the data for Display.
+    /// </summary>
+    private void GroupDisplayData()
+    {
+        if ( !IsGroupable() )
+        {
+            groupedData = null;
+            return;
+        }
+
+
+        if ( GroupBy is null )
+        {
+            var groupableColumns = GetGroupableColumns();
+            var firstGroupableColumn = groupableColumns.First();
+            groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                                                                             .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
+                                                                             .ToList();
+            RecursiveGroup( 1, groupableColumns, groupedData );
+
+        }
+        else
+        {
+            groupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
+                                     .Select( x => new GroupContext<TItem>( x ) )
+                                     .ToList();
+        }
+        return;
+    }
+
+    /// <summary>
+    /// Recursively nests groups of data according to the configured group columns.
+    /// </summary>
+    /// <param name="iteration"></param>
+    /// <param name="groupableColumns"></param>
+    /// <param name="groupData"></param>
+    private void RecursiveGroup( int iteration, IEnumerable<DataGridColumn<TItem>> groupableColumns, List<GroupContext<TItem>> groupData )
+    {
+        if ( groupData.IsNullOrEmpty() )
+            return;
+
+        foreach ( var group in groupData )
+        {
+
+            var nextGroupableColumn = groupableColumns?.ElementAtOrDefault( iteration );
+            if ( nextGroupableColumn is not null )
+            {
+                var nestedGroup = group.Items.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                                                                          .Select( x => new GroupContext<TItem>( x, nextGroupableColumn.GroupTemplate ) )
+                                                                           .ToList();
+                group.SetNestedGroup( nestedGroup );
+
+                RecursiveGroup( iteration + 1, groupableColumns, nestedGroup );
+            }
+        }
+    }
 
     /// <summary>
     /// Inspects User Agent for a client using a Macintosh Operating System.
@@ -1697,57 +1760,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return groupedData ?? Enumerable.Empty<GroupContext<TItem>>();
         }
     }
-
-    private void GroupDisplayData()
-    {
-        if ( !IsGroupable() )
-        {
-            groupedData = null;
-            return;
-        }
-
-
-        if ( GroupBy is null )
-        {
-            var groupableColumns = GetGroupableColumns();
-            var firstGroupableColumn = groupableColumns.First();
-            groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
-                                                                             .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
-                                                                             .ToList();
-            RecursiveGroup( 1, groupableColumns, groupedData );
-
-        }
-        else
-        {
-            groupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
-                                     .Select( x => new GroupContext<TItem>( x ) )
-                                     .ToList();
-        }
-        return;
-    }
-
-    private void RecursiveGroup( int iteration, IEnumerable<DataGridColumn<TItem>> groupableColumns, List<GroupContext<TItem>> groupData )
-    {
-        if ( groupData.IsNullOrEmpty() )
-            return;
-
-        foreach ( var group in groupData )
-        {
-
-            var nextGroupableColumn = groupableColumns?.ElementAtOrDefault( iteration );
-            if ( nextGroupableColumn is not null )
-            {
-                var nestedGroup = group.Items.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) )
-                                                                          .Select( x => new GroupContext<TItem>( x, nextGroupableColumn.GroupTemplate ) )
-                                                                           .ToList();
-                group.SetNestedGroup( nestedGroup );
-
-                RecursiveGroup( iteration + 1, groupableColumns, nestedGroup );
-            }
-        }
-    }
-
-    private List<GroupContext<TItem>> groupedData;
 
     /// <summary>
     /// Specifies the behaviour of datagrid editing.
