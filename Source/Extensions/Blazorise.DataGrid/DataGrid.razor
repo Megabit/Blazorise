@@ -22,7 +22,7 @@
                             {
                                 @if ( IsCommandVisible )
                                 {
-                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
+                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                         @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                         {
                                             <_DataGridNewCommand TItem="TItem" New="@New" />
@@ -34,14 +34,14 @@
                             {
                                 @if ( MultiSelect )
                                 {
-                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
+                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                         <_DataGridMultiSelectAll TItem="TItem" IsIndeterminate="@IsMultiSelectAllIndeterminate" IsChecked="@IsMultiSelectAllChecked"></_DataGridMultiSelectAll>
                                     </TableHeaderCell>
                                 }
                             }
                             else
                             {
-                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
+                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                     @if ( column.ShowCaption )
                                     {
                                         @if ( column.CaptionTemplate != null )
@@ -85,7 +85,7 @@
                             {
                                 @if ( MultiSelect )
                                 {
-                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()">
+                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap">
                                         @if ( column.FilterTemplate != null && column.Filterable )
                                         {
                                             @(column.FilterTemplate( column.Filter ))
@@ -95,7 +95,7 @@
                             }
                             else if ( !column.Filterable )
                             {
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()"></TableHeaderCell>
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap"></TableHeaderCell>
                                 continue;
                             }
                             else if ( column.ColumnType == DataGridColumnType.Command )
@@ -103,14 +103,14 @@
                                 @if ( IsCommandVisible )
                                 {
                                     // since Clear Filter is located in the command column it can be visible only when Edit is enabled
-                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()">
+                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap">
                                         <_DataGridClearFilterCommand TItem="TItem" />
                                     </TableHeaderCell>
                                 }
                             }
                             else
                             {
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()">
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap">
                                     @if ( column.FilterTemplate != null )
                                     {
                                         @(column.FilterTemplate( column.Filter ))

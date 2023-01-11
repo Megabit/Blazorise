@@ -234,20 +234,127 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     #region Properties
 
     /// <summary>
+    /// Determines the text alignment for the filter cell.
+    /// </summary>
+    /// <returns>Text alignment value.</returns>
+    internal TextAlignment FilterCellTextAlignment
+       => FilterTextAlignment ?? TextAlignment;
+
+    /// <summary>
+    /// Determines the vertical alignment for the filter cell.
+    /// </summary>
+    /// <returns>Vertical alignment value.</returns>
+    internal VerticalAlignment FilterCellVerticalAlignment
+      => FilterVerticalAlignment ?? VerticalAlignment;
+
+    /// <summary>
+    /// Determines the display for the filter cell.
+    /// </summary>
+    /// <returns>Display value.</returns>
+    internal IFluentDisplay FilterCellDisplay
+        => FilterDisplay ?? Display;
+
+    /// <summary>
+    /// Determines the flex for the filter cell.
+    /// </summary>
+    /// <returns>Flex value.</returns>
+    internal IFluentFlex FilterCellFlex
+        => FilterFlex ?? Flex;
+
+    /// <summary>
+    /// Determines the gap for the filter cell.
+    /// </summary>
+    /// <returns>Gap value.</returns>
+    internal IFluentGap FilterCellGap
+        => FilterGap ?? Gap;
+
+    /// <summary>
     /// Builds the Filter cell background.
     /// IsFixedHeader feature needs to apply background color to columns. This makes sure to syncronize with the DataGrid header styling helpers.
     /// </summary>
     /// <returns></returns>
-    internal Background FilterCellBackground()
+    internal Background FilterCellBackground
         => ParentDataGrid.IsFixedHeader ? ( ParentDataGrid.FilterRowStyling?.Background ?? Background.Default ) : Background.Default;
 
     /// <summary>
-    /// Builds the Header cell background.
-    /// IsFixedHeader feature needs to apply background color to columns. This makes sure to syncronize with the DataGrid header styling helpers.
+    /// Determines the text alignment for the header cell.
     /// </summary>
-    /// <returns></returns>
-    internal Background HeaderCellBackground()
+    /// <returns>Text alignment value.</returns>
+    internal TextAlignment HeaderCellTextAlignment
+       => HeaderTextAlignment ?? TextAlignment;
+
+    /// <summary>
+    /// Determines the vertical alignment for the header cell.
+    /// </summary>
+    /// <returns>Vertical alignment value.</returns>
+    internal VerticalAlignment HeaderCellVerticalAlignment
+      => HeaderVerticalAlignment ?? VerticalAlignment;
+
+    /// <summary>
+    /// Determines the display for the header cell.
+    /// </summary>
+    /// <returns>Display value.</returns>
+    internal IFluentDisplay HeaderCellDisplay
+        => HeaderDisplay ?? Display;
+
+    /// <summary>
+    /// Determines the flex for the header cell.
+    /// </summary>
+    /// <returns>Flex value.</returns>
+    internal IFluentFlex HeaderCellFlex
+        => HeaderFlex ?? Flex;
+
+    /// <summary>
+    /// Determines the gap for the header cell.
+    /// </summary>
+    /// <returns>Gap value.</returns>
+    internal IFluentGap HeaderCellGap
+        => HeaderGap ?? Gap;
+
+    /// <summary>
+    /// Builds the Header cell background.
+    /// </summary>
+    /// <remarks>
+    /// IsFixedHeader feature needs to apply background color to columns. This makes sure to syncronize with the DataGrid header styling helpers.
+    /// </remarks>
+    /// <returns>Background color.</returns>
+    internal Background HeaderCellBackground
         => ParentDataGrid.IsFixedHeader ? ( ParentDataGrid.HeaderRowStyling?.Background ?? Background.Default ) : Background.Default;
+
+    /// <summary>
+    /// Determines the text alignment for the group cell.
+    /// </summary>
+    /// <returns>Text alignment value.</returns>
+    internal TextAlignment GroupCellTextAlignment
+       => GroupTextAlignment ?? TextAlignment;
+
+    /// <summary>
+    /// Determines the vertical alignment for the group cell.
+    /// </summary>
+    /// <returns>Vertical alignment value.</returns>
+    internal VerticalAlignment GroupCellVerticalAlignment
+      => GroupVerticalAlignment ?? VerticalAlignment;
+
+    /// <summary>
+    /// Determines the display for the group cell.
+    /// </summary>
+    /// <returns>Display value.</returns>
+    internal IFluentDisplay GroupCellDisplay
+        => GroupDisplay ?? Display;
+
+    /// <summary>
+    /// Determines the flex for the group cell.
+    /// </summary>
+    /// <returns>Flex value.</returns>
+    internal IFluentFlex GroupCellFlex
+        => GroupFlex ?? Flex;
+
+    /// <summary>
+    /// Determines the gap for the group cell.
+    /// </summary>
+    /// <returns>Gap value.</returns>
+    internal IFluentGap GroupCellGap
+        => GroupGap ?? Gap;
 
     internal bool IsDisplayable => ( ColumnType == DataGridColumnType.Command && ParentDataGrid.EditMode == DataGridEditMode.Inline );
 
@@ -308,6 +415,31 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public DataGridColumnCustomFilter CustomFilter { get; set; }
 
     /// <summary>
+    /// Defines the alignment for column filter cell.
+    /// </summary>
+    [Parameter] public TextAlignment? FilterTextAlignment { get; set; }
+
+    /// <summary>
+    /// Defines the vertical alignment for column filter cell.
+    /// </summary>
+    [Parameter] public VerticalAlignment? FilterVerticalAlignment { get; set; }
+
+    /// <summary>
+    /// Specifies the display behavior of a filter cell.
+    /// </summary>
+    [Parameter] public IFluentDisplay FilterDisplay { get; set; }
+
+    /// <summary>
+    /// Specifies the flex utility of a filter cell.
+    /// </summary>
+    [Parameter] public IFluentFlex FilterFlex { get; set; }
+
+    /// <summary>
+    /// Specifies the gap utility of a filter cell.
+    /// </summary>
+    [Parameter] public IFluentGap FilterGap { get; set; }
+
+    /// <summary>
     /// Gets or sets the column initial sort direction.
     /// </summary>
     [Parameter] public SortDirection SortDirection { get; set; }
@@ -350,17 +482,27 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Defines the alignment for column header cell.
     /// </summary>
-    [Parameter] public TextAlignment HeaderTextAlignment { get; set; }
+    [Parameter] public TextAlignment? HeaderTextAlignment { get; set; }
 
     /// <summary>
     /// Defines the vertical alignment for column header cell.
     /// </summary>
-    [Parameter] public VerticalAlignment HeaderVerticalAlignment { get; set; }
+    [Parameter] public VerticalAlignment? HeaderVerticalAlignment { get; set; }
 
     /// <summary>
     /// Specifies the display behavior of a header cell.
     /// </summary>
     [Parameter] public IFluentDisplay HeaderDisplay { get; set; }
+
+    /// <summary>
+    /// Specifies the flex utility of a header cell.
+    /// </summary>
+    [Parameter] public IFluentFlex HeaderFlex { get; set; }
+
+    /// <summary>
+    /// Specifies the gap utility of a header cell.
+    /// </summary>
+    [Parameter] public IFluentGap HeaderGap { get; set; }
 
     /// <summary>
     /// Gets or sets whether users can edit cell values under this column.
@@ -456,6 +598,31 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Custom style for group cell.
     /// </summary>
     [Parameter] public string GroupCellStyle { get; set; }
+
+    /// <summary>
+    /// Defines the alignment for column group cell.
+    /// </summary>
+    [Parameter] public TextAlignment? GroupTextAlignment { get; set; }
+
+    /// <summary>
+    /// Defines the vertical alignment for column group cell.
+    /// </summary>
+    [Parameter] public VerticalAlignment? GroupVerticalAlignment { get; set; }
+
+    /// <summary>
+    /// Specifies the display behavior of a group cell.
+    /// </summary>
+    [Parameter] public IFluentDisplay GroupDisplay { get; set; }
+
+    /// <summary>
+    /// Specifies the flex utility of a group cell.
+    /// </summary>
+    [Parameter] public IFluentFlex GroupFlex { get; set; }
+
+    /// <summary>
+    /// Specifies the gap utility of a group cell.
+    /// </summary>
+    [Parameter] public IFluentGap GroupGap { get; set; }
 
     /// <summary>
     /// Template for custom cell display formatting.

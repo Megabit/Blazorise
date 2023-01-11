@@ -396,11 +396,17 @@
     <DocsAttributesItem Name="ReverseSorting" Type="bool" Default="false">
         Whether the sort direction will be reversed.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="TextAlignment" Type="TextAlignment" Default="Default">
+    <DocsAttributesItem Name="TextAlignment" Type="TextAlignment?" Default="Default">
         Defines the alignment for display cell.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="HeaderTextAlignment" Type="TextAlignment" Default="Default">
+    <DocsAttributesItem Name="HeaderTextAlignment" Type="TextAlignment?" Default="null">
         Defines the alignment for column header cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterTextAlignment" Type="TextAlignment?" Default="null">
+        Defines the alignment for column filter cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupTextAlignment" Type="TextAlignment?" Default="null">
+        Defines the alignment for column group cell.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Editable" Type="bool" Default="false">
         Whether users can edit cell values under this column.
@@ -483,11 +489,41 @@
     <DocsAttributesItem Name="CustomFilter" Type="DataGridColumnCustomFilter">
         Custom filter function used to override internal filtering.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Display" Type="IFluentDisplay">
+    <DocsAttributesItem Name="Display" Type="IFluentDisplay" Default="null">
         Specifies the display behavior of a cell.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="HeaderDisplay" Type="IFluentDisplay">
+    <DocsAttributesItem Name="HeaderDisplay" Type="IFluentDisplay" Default="null">
         Specifies the display behavior of a header cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterDisplay" Type="IFluentDisplay" Default="null">
+        Specifies the display behavior of a filter cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupDisplay" Type="IFluentDisplay" Default="null">
+        Specifies the display behavior of a group cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Flex" Type="IFluentFlex" Default="null">
+        Specifies the flex utility of a cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderFlex" Type="IFluentFlex" Default="null">
+        Specifies the flex utility of a header cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterFlex" Type="IFluentFlex" Default="null">
+        Specifies the flex utility of a filter cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupFlex" Type="IFluentFlex" Default="null">
+        Specifies the flex utility of a group cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Gap" Type="IFluentGap" Default="null">
+        Specifies the gap utility of a cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderGap" Type="IFluentGap" Default="null">
+        Specifies the gap utility of a header cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterGap" Type="IFluentGap" Default="null">
+        Specifies the gap utility of a filter cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupGap" Type="IFluentGap" Default="null">
+        Specifies the gap utility of a group cell.
     </DocsAttributesItem>
     <DocsAttributesItem Name="PreventRowClick" Type="bool">
         Will set @@onclick:StopProgration to true, stopping the RowClick and consequent events from triggering.

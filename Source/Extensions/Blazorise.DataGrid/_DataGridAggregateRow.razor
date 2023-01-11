@@ -20,7 +20,7 @@
         }
         else
         {
-            <TableRowCell Class="@column.GroupCellClass" Style="@column.BuildGroupCellStyle()" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
+            <TableRowCell Class="@column.GroupCellClass" Style="@column.BuildGroupCellStyle()" TextAlignment="@column.GroupCellTextAlignment" VerticalAlignment="@column.GroupCellVerticalAlignment" Display="@column.GroupCellDisplay" Flex="@column.GroupCellFlex" Gap="@column.GroupCellGap">
                 @{
                     var aggregateColumn = Aggregates.FirstOrDefault( x => x.Field == column.Field );
 
