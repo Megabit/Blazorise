@@ -271,6 +271,37 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Recursively sets the grouped data and any nested grouped data Expanded property.
+    /// </summary>
+    /// <param name="groupedData"></param>
+    /// <param name="expanded"></param>
+    private void SetGroupExpanded( List<GroupContext<TItem>> groupedData, bool expanded )
+    {
+        foreach ( var group in groupedData )
+        {
+            group.SetExpanded( expanded );
+            if ( group.NestedGroup is not null )
+                SetGroupExpanded( (List<GroupContext<TItem>>)group.NestedGroup, expanded );
+        }
+    }
+
+    /// <summary>
+    /// Expands all groups.
+    /// </summary>
+    public void ExpandAllGroups()
+    {
+        SetGroupExpanded( groupedData, true );
+    }
+
+    /// <summary>
+    /// Collapses all groups.
+    /// </summary>
+    public void CollapseAllGroups()
+    {
+        SetGroupExpanded( groupedData, expanded: false );
+    }
+
+    /// <summary>
     /// Links the child column with this datagrid.
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>

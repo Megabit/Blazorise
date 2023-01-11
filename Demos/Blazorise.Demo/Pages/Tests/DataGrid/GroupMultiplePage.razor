@@ -9,12 +9,21 @@
                 <Paragraph>
                     The <code>Groupable</code> feature, allows you to display your data in groups.
                 </Paragraph>
+
                 <Paragraph>
                     In this example, we group the data by multiple columns, <code>Gender</code> & <code>Active</code>.
                 </Paragraph>
+
+                <Paragraph>
+                    <Button Color="Color.Success" Clicked="() => dataGridRef.ExpandAllGroups()">Expand All</Button>
+                    <Button Color="Color.Warning" Clicked="() => dataGridRef.CollapseAllGroups()">Collapse All</Button>
+                </Paragraph>
+
             </CardBody>
             <CardBody>
-                <DataGrid TItem="Employee"
+                <DataGrid 
+                          @ref="dataGridRef"
+                          TItem="Employee"
                           Data="inMemoryData"
                           ShowPager
                           ShowPageSizes
@@ -72,6 +81,7 @@
 @code {
     [Inject] EmployeeData EmployeeData { get; set; }
 
+    private DataGrid<Employee> dataGridRef;
     private IEnumerable<Employee> inMemoryData;
 
     protected override async Task OnInitializedAsync()
