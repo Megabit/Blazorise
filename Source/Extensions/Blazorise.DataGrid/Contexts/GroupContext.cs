@@ -13,6 +13,7 @@ namespace Blazorise.DataGrid;
 /// <typeparam name="TItem"></typeparam>
 public class GroupContext<TItem>
 {
+
     #region Constructors
 
     /// <summary>
@@ -21,23 +22,50 @@ public class GroupContext<TItem>
 
     public GroupContext( IGrouping<object, TItem> group )
     {
-        Key = group.Key;
+        Key = group.Key.ToString();
         Items = group.AsEnumerable();
     }
+
+    #endregion
+
+    #region Methods
+
+    internal void SetExpanded( bool expanded )
+    {
+        Expanded = expanded;
+    }
+
+    internal void SetNestedGroup( List<GroupContext<TItem>> nestedGroup )
+        => NestedGroup = nestedGroup.AsEnumerable();
 
     #endregion
 
     #region Properties
 
     /// <summary>
+    /// Gets the next nested group collection if it exists.
+    /// </summary>
+    public IEnumerable<GroupContext<TItem>> NestedGroup { get; private set; }
+
+    /// <summary>
     /// Gets the group key.
     /// </summary>
-    public object Key { get; }
+    public string Key { get; }
 
     /// <summary>
     /// Gets the group values.
     /// </summary>
     public IEnumerable<TItem> Items { get; }
+
+    /// <summary>
+    /// Gets whether the group is expanded.
+    /// </summary>
+    public bool Expanded { get; private set; }
+
+    /// <summary>
+    /// Gets the Template for this group.
+    /// </summary>
+    public RenderFragment<GroupContext<TItem>> GroupTemplate { get; private set; }
 
     #endregion
 }

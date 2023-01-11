@@ -194,19 +194,7 @@
                     {
                         @if ( IsGroupable() )
                         {
-                            if ( GroupBy is null )
-                            {
-                                var groupableColumns = GetGroupableColumns();
-                                var firstGroupableColumn = groupableColumns.First();
-                                var groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) );
-
-                                @groupFragment((1, groupableColumns, firstGroupableColumn, groupedData))
-                            }
-                            else
-                            {
-                                var groupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) );
-                                @groupFragment((default, null, null, groupedData))
-                            }
+                            @groupFragment( DisplayGroupedData )
                         }
                         else
                         {
@@ -295,37 +283,36 @@
         }
     };
 
-    protected RenderFragment groupFragment( (int iteration, IEnumerable<DataGridColumn<TItem>> groupableColumns, DataGridColumn<TItem> groupableColumn, IEnumerable<IGrouping<object, TItem>> groupedData) x ) => __builder =>
+    protected RenderFragment groupFragment( IEnumerable<GroupContext<TItem>> groupedData ) => __builder =>
     {
-        @foreach ( var group in x.groupedData )
+        @foreach ( var group in groupedData )
         {
-            var padding = ( x.iteration - 1 ) * 25;
+            //var padding = ( x.iteration - 1 ) * 25;
 
-            <TableRowGroup @key="group.Key.ToString()">
+            <TableRowGroup @key="group.Key">
                 <TitleTemplate>
-                        @if ( x.groupableColumn?.GroupTemplate is null )
-                        {
-                            @group.Key.ToString()
-                        }
-                        else
-                        {
-                            @x.groupableColumn.GroupTemplate(new(group))
-                        }
+                    @if ( group.GroupTemplate is null )
+                    {
+                        @group.Key
+                    }
+                    else
+                    {
+                        @group.GroupTemplate( group )
+                    }
                 </TitleTemplate>
                 <ChildContent>
                     @{
-                        var nextGroupableColumn = x.groupableColumns?.ElementAtOrDefault( x.iteration );
-                        if ( nextGroupableColumn is null )
+
+                        if ( group.NestedGroup is null )
                         {
-                            @foreach ( var item in group )
+                            @foreach ( var item in group.Items )
                             {
                                 @rowFragment( item )
                             }
                         }
                         else
                         {
-                            var groupedData = group.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) );
-                            @groupFragment((x.iteration + 1, x.groupableColumns, nextGroupableColumn, groupedData))
+                            @groupFragment( group.NestedGroup )
                         }
                     }
                 </ChildContent>
