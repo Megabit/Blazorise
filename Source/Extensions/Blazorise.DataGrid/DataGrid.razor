@@ -17,7 +17,7 @@
                 {
                     <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.Default)" Color="@(HeaderRowStyling?.Color ?? Color.Default)">
 
-                        @if ( IsGroupEnabled() )
+                        @if ( IsGroupEnabled )
                         {
                             var count = GroupableColumnsCount();
                             if ( count > 1 )
@@ -85,6 +85,10 @@
                                             }
                                         }
                                     }
+                                    @if ( Groupable && column.IsGroupEnabled )
+                                    {
+                                        <Icon Name="@IconName.LayerGroup" />
+                                    }
                                 </TableHeaderCell>
                             }
                         }
@@ -94,7 +98,7 @@
                 {
                     <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.Default)" Color="@(FilterRowStyling?.Color ?? Color.Default)">
 
-                        @if ( IsGroupEnabled() )
+                        @if ( IsGroupEnabled )
                         {
                             var count = GroupableColumnsCount();
                             if ( count > 1 )
@@ -192,7 +196,7 @@
                     }
                     else
                     {
-                        @if ( IsGroupEnabled() )
+                        @if ( IsGroupEnabled )
                         {
                             @groupFragment( DisplayGroupedData )
                         }
@@ -289,7 +293,7 @@
         {
             //var padding = ( x.iteration - 1 ) * 25;
 
-            <TableRowGroup @key="group.Key" Expanded="@group.Expanded" ExpandedChanged="@group.SetExpanded" >
+            <TableRowGroup @key="group.Key" Expanded="@group.Expanded" ExpandedChanged="@group.SetExpanded">
                 <TitleTemplate>
                     @if ( group.GroupTemplate is null )
                     {
