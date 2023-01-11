@@ -1712,7 +1712,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             var groupableColumns = GetGroupableColumns();
             var firstGroupableColumn = groupableColumns.First();
             groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
-                                                                             .Select( x => new GroupContext<TItem>( x ) )
+                                                                             .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
                                                                              .ToList();
             RecursiveGroup( 1, groupableColumns, groupedData );
 
@@ -1738,7 +1738,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             if ( nextGroupableColumn is not null )
             {
                 var nestedGroup = group.Items.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) )
-                                                                          .Select( x => new GroupContext<TItem>( x ) )
+                                                                          .Select( x => new GroupContext<TItem>( x, nextGroupableColumn.GroupTemplate ) )
                                                                            .ToList();
                 group.SetNestedGroup( nestedGroup );
 

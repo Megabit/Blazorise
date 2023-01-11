@@ -19,11 +19,18 @@ public class GroupContext<TItem>
     /// <summary>
     /// Constructor for event handler.
     /// </summary>
-
     public GroupContext( IGrouping<object, TItem> group )
     {
         Key = group.Key.ToString();
         Items = group.AsEnumerable();
+    }
+
+    /// <summary>
+    /// Constructor for event handler.
+    /// </summary>
+    public GroupContext( IGrouping<object, TItem> group, RenderFragment<GroupContext<TItem>> groupTemplate ) : this( group )
+    {
+        GroupTemplate = groupTemplate;
     }
 
     #endregion
