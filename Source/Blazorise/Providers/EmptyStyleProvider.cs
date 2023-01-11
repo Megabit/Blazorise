@@ -7,7 +7,15 @@ class EmptyStyleProvider : IStyleProvider
 {
     #region Modal
 
+    public int DefaultModalZIndex => 0;
+
+    public int DefaultModalBackdropZIndex => 0;
+
     public string ModalShow() => null;
+
+    public string ModalZIndex( int modalOpenIndex ) => null;
+
+    public string ModalBackdropZIndex( int modalOpenIndex ) => null;
 
     #endregion
 
