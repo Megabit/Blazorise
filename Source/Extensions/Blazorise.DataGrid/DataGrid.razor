@@ -289,7 +289,7 @@
         {
             //var padding = ( x.iteration - 1 ) * 25;
 
-            <TableRowGroup @key="group.Key">
+            <TableRowGroup @key="group.Key" Expanded="@group.Expanded" ExpandedChanged="@group.SetExpanded" >
                 <TitleTemplate>
                     @if ( group.GroupTemplate is null )
                     {

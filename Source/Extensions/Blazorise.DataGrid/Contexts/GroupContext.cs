@@ -67,7 +67,7 @@ public class GroupContext<TItem>
     /// <summary>
     /// Gets whether the group is expanded.
     /// </summary>
-    public bool Expanded { get; private set; }
+    public bool Expanded { get; private set; } = true;
 
     /// <summary>
     /// Gets the Template for this group.
