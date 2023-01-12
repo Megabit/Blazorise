@@ -194,7 +194,7 @@
                     {
                         @if ( IsGroupEnabled )
                         {
-                            @groupFragment( DisplayGroupedData )
+                            @groupFragment( (1, DisplayGroupedData) )
                         }
                         else
                         {
@@ -283,12 +283,15 @@
         }
     };
 
-    protected RenderFragment groupFragment( IEnumerable<GroupContext<TItem>> groupedData ) => __builder =>
+    protected RenderFragment groupFragment( (int iteration, IEnumerable<GroupContext<TItem>> groupedData) x ) => __builder =>
     {
-        @foreach ( var group in groupedData )
+        @foreach ( var group in x.groupedData )
         {
-            //var padding = ( x.iteration - 1 ) * 25;
+            //@for ( int i = 1; i < x.iteration; i++ )
+            //{
+            //    <TableHeaderCell Style="width:25px;" />
 
+            //}
             <TableRowGroup @key="group.Key" Expanded="@group.Expanded" ExpandedChanged="@group.SetExpanded">
                 <TitleTemplate>
                     @if ( group.GroupTemplate is null )
@@ -302,7 +305,6 @@
                 </TitleTemplate>
                 <ChildContent>
                     @{
-
                         if ( group.NestedGroup is null )
                         {
                             @foreach ( var item in group.Items )
@@ -312,7 +314,7 @@
                         }
                         else
                         {
-                            @groupFragment( group.NestedGroup )
+                            @groupFragment( (x.iteration + 1, group.NestedGroup) )
                         }
                     }
                 </ChildContent>
