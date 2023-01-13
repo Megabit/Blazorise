@@ -2,23 +2,22 @@
 using Blazorise.Utilities;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Divider that can be placed between <see cref="DropdownItem"/>'s.
+/// </summary>
+public partial class DropdownDivider : BaseComponent
 {
-    /// <summary>
-    /// Divider that can be placed between <see cref="DropdownItem"/>'s.
-    /// </summary>
-    public partial class DropdownDivider : BaseComponent
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        #region Methods
+        builder.Append( ClassProvider.DropdownDivider() );
 
-        /// <inheritdoc/>
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.DropdownDivider() );
-
-            base.BuildClasses( builder );
-        }
-
-        #endregion
+        base.BuildClasses( builder );
     }
+
+    #endregion
 }

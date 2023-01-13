@@ -47,6 +47,11 @@
                                 <BarIcon IconName="IconName.BookReader" /> Usage
                             </BarLink>
                         </BarItem>
+                         <BarItem>
+                            <BarLink To="docs/templates">
+                                <BarIcon IconName="IconName.FileAlt" /> Templates
+                            </BarLink>
+                        </BarItem>
                         <BarItem>
                             <BarLink To="docs/theming">
                                 <BarIcon IconName="IconName.Brush" /> Theming
@@ -124,6 +129,7 @@
                                         <BarDropdownToggle>Chart</BarDropdownToggle>
                                         <BarDropdownMenu>
                                             <BarDropdownItem To="docs/extensions/chart">Start Here</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-datalabels">DataLabels</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-live">Live Chart</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-trendline">Trendline</BarDropdownItem>
                                         </BarDropdownMenu>
@@ -148,18 +154,20 @@
                                             <BarDropdownItem To="docs/extensions/icons-available">Available Icons</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
+                                    <BarDropdownItem To="docs/extensions/fluent-validation">FluentValidation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/list-view">ListView</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/lottie-animation">LottieAnimation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/richtextedit">RichTextEdit</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/selectlist">SelectList</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/sidebar">Sidebar</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/snackbar">Snackbar</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/spinkit">SpinKit</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/loadingindicator">LoadingIndicator</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/qrcode">QRCode</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/treeview">TreeView</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/video">Video</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/qrcode">QRCode</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/fluent-validation">FluentValidation</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -210,6 +218,17 @@
                                     <BarDropdownItem To="docs/helpers/utilities/position">Position</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/sizes">Sizes</BarDropdownItem>
                                     <BarDropdownItem To="docs/helpers/utilities">Utilities</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
+                        </BarItem>
+                        <BarItem>
+                            <BarDropdown @bind-Visible="@sideBarSpecificationsMenuVisible">
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.Book" /> Specifications
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/specifications">Introduction</BarDropdownItem>
+                                    <BarDropdownItem To="docs/specifications/autocomplete">Autocomplete</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>

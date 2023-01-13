@@ -1,0 +1,48 @@
+﻿.b-card-group {
+    > .b-card {
+        flex: 1 0 0%;
+
+        + .b-card {
+            margin-left: 0;
+            border-left: 0;
+        }
+
+        &:not(:last-child) {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+
+            .b-card-image,
+            .b-card-image > img,
+            .b-card-header {
+                border-top-right-radius: 0;
+            }
+
+            .b-card-image,
+            .b-card-image > img,
+            .b-card-footer {
+                border-bottom-right-radius: 0;
+            }
+        }
+
+        &:not(:first-child) {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+
+            .b-card-image, .b-card-image > img,
+            .b-card-header {
+                border-top-left-radius: 0;
+            }
+
+            .b-card-image, .b-card-image > img,
+            .b-card-footer {
+                border-bottom-left-radius: 0;
+            }
+        }
+    }
+}
+
+.b-card-deck {
+    > .b-card {
+        flex: 1 0 0%;
+    }
+}

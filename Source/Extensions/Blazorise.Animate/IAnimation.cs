@@ -1,13 +1,12 @@
-﻿namespace Blazorise.Animate
+﻿namespace Blazorise.Animate;
+
+/// <summary>
+/// Defines the animation.
+/// </summary>
+public interface IAnimation
 {
     /// <summary>
-    /// Defines the animation.
+    /// Gets the animation name.
     /// </summary>
-    public interface IAnimation
-    {
-        /// <summary>
-        /// Gets the animation name.
-        /// </summary>
-        string Name { get; }
-    }
+    string Name { get; }
 }

@@ -1,43 +1,54 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.AntDesign
+namespace Blazorise.AntDesign;
+
+public class AntDesignStyleProvider : StyleProvider
 {
-    public class AntDesignStyleProvider : StyleProvider
-    {
-        #region Modal
+    #region Modal
 
-        public override string ModalShow() => "display: block;";
+    public override int DefaultModalZIndex => 1000;
 
-        #endregion
+    public override int DefaultModalBackdropZIndex => 1000;
 
-        #region ModalBody
+    public override string ModalShow() => "display: block;";
 
-        public override string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto;";
+    int ModalZIndexDiff => DefaultModalZIndex - DefaultModalBackdropZIndex;
 
-        #endregion
+    public override string ModalZIndex( int modalOpenIndex )
+        => modalOpenIndex > 1 ? $"z-index: {DefaultModalZIndex + ( ModalZIndexDiff * ( modalOpenIndex - 1 ) ) + ModalZIndexDiff}" : null;
 
-        #region ProgressBar
+    public override string ModalBackdropZIndex( int modalOpenIndex )
+        => modalOpenIndex > 1 ? $"z-index: {DefaultModalZIndex + ( ModalZIndexDiff * ( modalOpenIndex - 1 ) )}" : null;
 
-        public override string ProgressBarValue( int value ) => $"width: {value}%";
+    #endregion
 
-        public override string ProgressBarSize( Size size ) => null;
-        //{
-        //    return size switch
-        //    {
-        //        Size.ExtraSmall => $"height: .25rem",
-        //        Size.Small => $"height: .5rem",
-        //        Size.Medium => $"height: 1.25rem",
-        //        Size.Large => $"height: 1.5rem",
-        //        Size.ExtraLarge => $"height: 2rem",
-        //        _ => $"height: 1rem",
-        //    };
-        //}
+    #region ModalBody
 
-        #endregion
+    public override string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto";
 
-        #region Layout
+    #endregion
 
-        #endregion
-    }
+    #region ProgressBar
+
+    public override string ProgressBarValue( int value ) => $"width: {value}%";
+
+    public override string ProgressBarSize( Size size ) => null;
+    //{
+    //    return size switch
+    //    {
+    //        Size.ExtraSmall => $"height: .25rem",
+    //        Size.Small => $"height: .5rem",
+    //        Size.Medium => $"height: 1.25rem",
+    //        Size.Large => $"height: 1.5rem",
+    //        Size.ExtraLarge => $"height: 2rem",
+    //        _ => $"height: 1rem",
+    //    };
+    //}
+
+    #endregion
+
+    #region Layout
+
+    #endregion
 }

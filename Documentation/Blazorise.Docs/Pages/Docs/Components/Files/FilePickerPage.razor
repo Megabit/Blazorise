@@ -34,6 +34,16 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Upload Folders with List view mode">
+        An example using the FilePicker's list show mode and <Code>OpenReadStreamAsync</Code> upload method.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FilePickerDirectoryExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FilePickerDirectoryExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Upload Files with Dropdown view mode">
         An example using the FilePicker's dropdown show mode and <Code>WriteToStreamAsync</Code> upload method.
     </DocsPageSectionHeader>
@@ -53,10 +63,13 @@
     <DocsPageSectionSource Code="FilePickerCustomExample" />
 </DocsPageSection>
 
-
 <DocsPageSubtitle>
-    Attributes
+    API Reference
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="ChildTemplate" Type="RenderFragment">
@@ -65,7 +78,7 @@
     <DocsAttributesItem Name="Feedback" Type="RenderFragment">
         Placeholder for validation messages.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="AutoReset" Type="bool" Default="true">
+    <DocsAttributesItem Name="AutoReset" Type="bool" Default="false">
         If true file input will be automatically reset after it has being uploaded.
     </DocsAttributesItem>
     <DocsAttributesItem Name="BrowseButtonLocalizer" Type="TextLocalizerHandler" Default="null">
@@ -88,6 +101,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
         Specifies that multiple files can be selected.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Directory" Type="bool" Default="false">
+        Specifies that directories can be selected.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
         Sets the placeholder for the empty file input.
@@ -119,5 +135,11 @@
     <DocsAttributesItem Name="DisableProgressReport" Type="bool" Default="false">
         Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
         This setting can speed up file transfer considerably.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadOnly" Type="bool" Default="false">
+        Add the readonly boolean attribute on an input to prevent modification of the input’s value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Add the disabled boolean attribute on an input to prevent user interactions and make it appear lighter.
     </DocsAttributesItem>
 </DocsAttributes>

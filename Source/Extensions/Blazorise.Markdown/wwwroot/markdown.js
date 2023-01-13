@@ -1,7 +1,7 @@
-import "./vendors/easymde.js?v=1.1.2.0";
-import "./vendors/highlight.js?v=1.1.2.0";
+import "./vendors/easymde.js?v=1.1.5.0";
+import "./vendors/highlight.js?v=1.1.5.0";
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/vendors/easymde.css?v=1.1.2.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Markdown/vendors/easymde.css?v=1.1.5.0\" />");
 
 const _instances = [];
 
@@ -116,6 +116,13 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
         nativeSpellcheck: options.nativeSpellcheck,
         parsingConfig: options.parsingConfig,
         previewClass: options.previewClass,
+        previewRender: options.usePreviewRender ? (plainText, preview) => {
+            dotNetObjectRef.invokeMethodAsync("NotifyPreviewRender", plainText).then((htmlText) => {
+                preview.innerHTML = htmlText;
+            }).catch((error) => {
+                console.error(error);
+            });
+        } : null,
         previewImagesInEditor: options.previewImagesInEditor,
         promptTexts: options.promptTexts,
         promptURLs: options.promptURLs,

@@ -3,32 +3,31 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Snackbar
+namespace Blazorise.Snackbar;
+
+public partial class SnackbarFooter : BaseComponent
 {
-    public partial class SnackbarFooter : BaseComponent
+    #region Members
+
+    #endregion
+
+    #region Methods
+
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        #region Members
+        builder.Append( "snackbar-footer" );
 
-        #endregion
-
-        #region Methods
-
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( "snackbar-footer" );
-
-            base.BuildClasses( builder );
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="SnackbarFooter"/>.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        #endregion
+        base.BuildClasses( builder );
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="SnackbarFooter"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

@@ -31,6 +31,11 @@
                 <UnorderedList>
                     <UnorderedListItem>
                         <Code Tag>CollapseHeader</Code> the header that will always be shown - this is where you would put a toggle element (such as a <Code>Button</Code>).
+                        <UnorderedList>
+                            <UnorderedListItem>
+                                <Code Tag>AccordionToggle</Code> The specialized button used to toggle the state of accordion and the collapse components.
+                            </UnorderedListItem>
+                        </UnorderedList>
                     </UnorderedListItem>
                     <UnorderedListItem>
                         <Code Tag>CollapseBody</Code> the main content that will be toggled.
@@ -47,7 +52,20 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        Here is an example of how to use the Accordion with the Collapse components.
+        <Paragraph>
+            Here is an example of how to use the Accordion with the Collapse components.
+        </Paragraph>
+
+        <Paragraph>
+            <Alert Color="Color.Warning" Visible>
+                <AlertMessage>
+                    Button is obsolete:
+                </AlertMessage>
+                <AlertDescription>
+                    <Link To="docs/components/button">Button</Link> component placed inside of Accordion is no longer recommended and should be replaced with new <Code Tag>AccordionToggle</Code> component.
+                </AlertDescription>
+            </Alert>
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicAccordionExample />

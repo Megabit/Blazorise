@@ -1,7 +1,6 @@
-﻿namespace Blazorise.Animate
+﻿namespace Blazorise.Animate;
+
+public class SlideRightAnimation : IAnimation
 {
-    public class SlideRightAnimation : IAnimation
-    {
-        public string Name => "slide-right";
-    }
+    public string Name => "slide-right";
 }

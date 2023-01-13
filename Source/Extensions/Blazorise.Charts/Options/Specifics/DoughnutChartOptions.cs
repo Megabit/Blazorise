@@ -2,14 +2,13 @@
 using System.Text.Json.Serialization;
 #endregion
 
-namespace Blazorise.Charts
+namespace Blazorise.Charts;
+
+public class DoughnutChartOptions : PieChartOptions
 {
-    public class DoughnutChartOptions : PieChartOptions
-    {
-        /// <summary>
-        /// The percentage of the chart that is cut out of the middle.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public new int? CutoutPercentage { get; set; }
-    }
+    /// <summary>
+    /// The percentage of the chart that is cut out of the middle.
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public new int? CutoutPercentage { get; set; }
 }

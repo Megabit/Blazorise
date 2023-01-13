@@ -3,68 +3,67 @@ using System.Collections.Generic;
 using System.Linq;
 #endregion
 
-namespace Blazorise.Animate
+namespace Blazorise.Animate;
+
+/// <summary>
+/// Holds the list of all supported animations.
+/// </summary>
+public static class Animations
 {
-    /// <summary>
-    /// Holds the list of all supported animations.
-    /// </summary>
-    public static class Animations
+    public static IAnimation Fade => new FadeAnimation();
+    public static IAnimation FadeIn => new FadeAnimation();
+    public static IAnimation FadeUp => new FadeUpAnimation();
+    public static IAnimation FadeDown => new FadeDownAnimation();
+    public static IAnimation FadeLeft => new FadeLeftAnimation();
+    public static IAnimation FadeRight => new FadeRightAnimation();
+    public static IAnimation FadeUpRight => new FadeUpRightAnimation();
+    public static IAnimation FadeUpLeft => new FadeUpLeftAnimation();
+    public static IAnimation FadeDownRight => new FadeDownRightAnimation();
+    public static IAnimation FadeDownLeft => new FadeDownLeftAnimation();
+    public static IAnimation FlipUp => new FlipUpAnimation();
+    public static IAnimation FlipDown => new FlipDownAnimation();
+    public static IAnimation FlipLeft => new FlipLeftAnimation();
+    public static IAnimation FlipRight => new FlipRightAnimation();
+    public static IAnimation SlideUp => new SlideUpAnimation();
+    public static IAnimation SlideDown => new SlideDownAnimation();
+    public static IAnimation SlideLeft => new SlideLeftAnimation();
+    public static IAnimation SlideRight => new SlideRightAnimation();
+    public static IAnimation ZoomIn => new ZoomInAnimation();
+    public static IAnimation ZoomInUp => new ZoomInUpAnimation();
+    public static IAnimation ZoomInDown => new ZoomInDownAnimation();
+    public static IAnimation ZoomInLeft => new ZoomInLeftAnimation();
+    public static IAnimation ZoomInRight => new ZoomInRightAnimation();
+    public static IAnimation ZoomOut => new ZoomOutAnimation();
+    public static IAnimation ZoomOutUp => new ZoomOutUpAnimation();
+    public static IAnimation ZoomOutDown => new ZoomOutDownAnimation();
+    public static IAnimation ZoomOutLeft => new ZoomOutLeftAnimation();
+    public static IAnimation ZoomOutRight => new ZoomOutRightAnimation();
+
+    private static IEnumerable<string> availableAnimationNames = null;
+
+    public static bool TryParse( string value, out IAnimation result )
     {
-        public static IAnimation Fade => new FadeAnimation();
-        public static IAnimation FadeIn => new FadeAnimation();
-        public static IAnimation FadeUp => new FadeUpAnimation();
-        public static IAnimation FadeDown => new FadeDownAnimation();
-        public static IAnimation FadeLeft => new FadeLeftAnimation();
-        public static IAnimation FadeRight => new FadeRightAnimation();
-        public static IAnimation FadeUpRight => new FadeUpRightAnimation();
-        public static IAnimation FadeUpLeft => new FadeUpLeftAnimation();
-        public static IAnimation FadeDownRight => new FadeDownRightAnimation();
-        public static IAnimation FadeDownLeft => new FadeDownLeftAnimation();
-        public static IAnimation FlipUp => new FlipUpAnimation();
-        public static IAnimation FlipDown => new FlipDownAnimation();
-        public static IAnimation FlipLeft => new FlipLeftAnimation();
-        public static IAnimation FlipRight => new FlipRightAnimation();
-        public static IAnimation SlideUp => new SlideUpAnimation();
-        public static IAnimation SlideDown => new SlideDownAnimation();
-        public static IAnimation SlideLeft => new SlideLeftAnimation();
-        public static IAnimation SlideRight => new SlideRightAnimation();
-        public static IAnimation ZoomIn => new ZoomInAnimation();
-        public static IAnimation ZoomInUp => new ZoomInUpAnimation();
-        public static IAnimation ZoomInDown => new ZoomInDownAnimation();
-        public static IAnimation ZoomInLeft => new ZoomInLeftAnimation();
-        public static IAnimation ZoomInRight => new ZoomInRightAnimation();
-        public static IAnimation ZoomOut => new ZoomOutAnimation();
-        public static IAnimation ZoomOutUp => new ZoomOutUpAnimation();
-        public static IAnimation ZoomOutDown => new ZoomOutDownAnimation();
-        public static IAnimation ZoomOutLeft => new ZoomOutLeftAnimation();
-        public static IAnimation ZoomOutRight => new ZoomOutRightAnimation();
-
-        private static IEnumerable<string> availableAnimationNames = null;
-
-        public static bool TryParse( string value, out IAnimation result )
+        try
         {
-            try
-            {
-                var animationProp = typeof( Animations ).GetProperty( value, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static );
+            var animationProp = typeof( Animations ).GetProperty( value, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static );
 
-                result = (IAnimation)animationProp.GetValue( null, null );
+            result = (IAnimation)animationProp.GetValue( null, null );
 
-                return true;
-            }
-            catch
-            {
-                result = default;
-
-                return false;
-            }
+            return true;
         }
-
-        public static IEnumerable<string> GetNames()
+        catch
         {
-            if ( availableAnimationNames == null )
-                availableAnimationNames = typeof( Animations ).GetProperties( System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static ).Select( x => x.Name );
+            result = default;
 
-            return availableAnimationNames;
+            return false;
         }
+    }
+
+    public static IEnumerable<string> GetNames()
+    {
+        if ( availableAnimationNames == null )
+            availableAnimationNames = typeof( Animations ).GetProperties( System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static ).Select( x => x.Name );
+
+        return availableAnimationNames;
     }
 }

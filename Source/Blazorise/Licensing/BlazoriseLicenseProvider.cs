@@ -48,7 +48,7 @@ namespace Blazorise
             {
                 if ( IsWebAssembly )
                 {
-                    Result = await LicenceVerifier.Create()
+                    Result = await LicenseVerifier.Create()
                         .WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, PublicKey )
                         .LoadAndVerify( options.LicenseKey, true, new Assembly[] { CurrentAssembly } )
                         ? BlazoriseLicenseResult.Licensed
@@ -56,7 +56,7 @@ namespace Blazorise
                 }
                 else
                 {
-                    Result = await LicenceVerifier.Create()
+                    Result = await LicenseVerifier.Create()
                         .WithRsaPublicKey( PublicKey )
                         .LoadAndVerify( options.LicenseKey, true, new Assembly[] { CurrentAssembly } )
                         ? BlazoriseLicenseResult.Licensed

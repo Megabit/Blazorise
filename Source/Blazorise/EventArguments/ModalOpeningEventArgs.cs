@@ -2,20 +2,19 @@
 using System.ComponentModel;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Provides data for the <see cref="Modal.Opening"/> event.
+/// </summary>
+public class ModalOpeningEventArgs : CancelEventArgs
 {
     /// <summary>
-    /// Provides data for the <see cref="Modal.Opening"/> event.
+    /// A default <see cref="ModalOpeningEventArgs"/> constructor.
     /// </summary>
-    public class ModalOpeningEventArgs : CancelEventArgs
+    /// <param name="cancel">True if close event should be cancelled.</param>
+    public ModalOpeningEventArgs( bool cancel )
+        : base( cancel )
     {
-        /// <summary>
-        /// A default <see cref="ModalOpeningEventArgs"/> constructor.
-        /// </summary>
-        /// <param name="cancel">True if close event should be cancelled.</param>
-        public ModalOpeningEventArgs( bool cancel )
-            : base( cancel )
-        {
-        }
     }
 }

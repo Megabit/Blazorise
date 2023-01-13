@@ -1,7 +1,6 @@
-﻿namespace Blazorise.Animate
+﻿namespace Blazorise.Animate;
+
+public class FadeLeftAnimation : IAnimation
 {
-    public class FadeLeftAnimation : IAnimation
-    {
-        public string Name => "fade-left";
-    }
+    public string Name => "fade-left";
 }

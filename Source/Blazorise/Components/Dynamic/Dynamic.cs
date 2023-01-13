@@ -6,74 +6,73 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Component used to dynamically build a DOM element based on its name.
+/// </summary>
+public class Dynamic : ComponentBase
 {
-    /// <summary>
-    /// Component used to dynamically build a DOM element based on its name.
-    /// </summary>
-    public class Dynamic : ComponentBase
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override void BuildRenderTree( RenderTreeBuilder builder )
     {
-        #region Methods
+        base.BuildRenderTree( builder );
+        builder?.OpenElement( 0, TagName );
 
-        /// <inheritdoc/>
-        protected override void BuildRenderTree( RenderTreeBuilder builder )
+        builder.AddMultipleAttributes( 1, Attributes );
+        builder.AddEventPreventDefaultAttribute( 2, "onclick", ClickPreventDefault );
+        builder.AddEventStopPropagationAttribute( 3, "onclick", ClickStopPropagation );
+        builder.AddContent( 4, ChildContent );
+        builder.AddElementReferenceCapture( 2, capturedRef =>
         {
-            base.BuildRenderTree( builder );
-            builder?.OpenElement( 0, TagName );
+            ElementRef = capturedRef;
+            ElementRefChanged?.Invoke( ElementRef ); // Invoke the callback for the binding to work.
+        } );
 
-            builder.AddMultipleAttributes( 1, Attributes );
-            builder.AddEventPreventDefaultAttribute( 2, "onclick", ClickPreventDefault );
-            builder.AddEventStopPropagationAttribute( 3, "onclick", ClickStopPropagation );
-            builder.AddContent( 4, ChildContent );
-            builder.AddElementReferenceCapture( 2, capturedRef =>
-            {
-                ElementRef = capturedRef;
-                ElementRefChanged?.Invoke( ElementRef ); // Invoke the callback for the binding to work.
-            } );
-
-            builder.CloseElement();
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the name of the element to render.
-        /// </summary>
-        [Parameter] public string TagName { get; set; }
-
-        /// <summary>
-        /// Gets or sets the element reference.
-        /// </summary>
-        [Parameter] public ElementReference ElementRef { get; set; }
-
-        /// <summary>
-        /// Notifies us that the element reference has changed.
-        /// </summary>
-        [Parameter] public Action<ElementReference> ElementRefChanged { get; set; }
-
-        /// <summary>
-        /// Set to true if click event need to be prevented.
-        /// </summary>
-        [Parameter] public bool ClickPreventDefault { get; set; }
-
-        /// <summary>
-        /// Set to true if click event need to be prevented from propagation.
-        /// </summary>
-        [Parameter] public bool ClickStopPropagation { get; set; }
-
-        /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="Dynamic"/>.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        /// <summary>
-        /// Captures all the custom attribute that are not part of Blazorise component.
-        /// </summary>
-        [Parameter( CaptureUnmatchedValues = true )]
-        public IDictionary<string, object> Attributes { get; set; }
-
-        #endregion
+        builder.CloseElement();
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets or sets the name of the element to render.
+    /// </summary>
+    [Parameter] public string TagName { get; set; }
+
+    /// <summary>
+    /// Gets or sets the element reference.
+    /// </summary>
+    [Parameter] public ElementReference ElementRef { get; set; }
+
+    /// <summary>
+    /// Notifies us that the element reference has changed.
+    /// </summary>
+    [Parameter] public Action<ElementReference> ElementRefChanged { get; set; }
+
+    /// <summary>
+    /// Set to true if click event need to be prevented.
+    /// </summary>
+    [Parameter] public bool ClickPreventDefault { get; set; }
+
+    /// <summary>
+    /// Set to true if click event need to be prevented from propagation.
+    /// </summary>
+    [Parameter] public bool ClickStopPropagation { get; set; }
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="Dynamic"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Captures all the custom attribute that are not part of Blazorise component.
+    /// </summary>
+    [Parameter( CaptureUnmatchedValues = true )]
+    public IDictionary<string, object> Attributes { get; set; }
+
+    #endregion
 }

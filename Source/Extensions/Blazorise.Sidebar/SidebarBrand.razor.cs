@@ -3,29 +3,28 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Sidebar
+namespace Blazorise.Sidebar;
+
+public partial class SidebarBrand : BaseComponent
 {
-    public partial class SidebarBrand : BaseComponent
+    #region Members
+
+    #endregion
+
+    #region Methods
+
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        #region Members
+        builder.Append( "sidebar-brand" );
 
-        #endregion
-
-        #region Methods
-
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( "sidebar-brand" );
-
-            base.BuildClasses( builder );
-        }
-
-        #endregion
-
-        #region Properties
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        #endregion
+        base.BuildClasses( builder );
     }
+
+    #endregion
+
+    #region Properties
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

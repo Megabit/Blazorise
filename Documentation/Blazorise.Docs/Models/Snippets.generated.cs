@@ -503,7 +503,7 @@ public class Gender
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse1Visible = !collapse1Visible)"">Switch 1</Button>
+                <AccordionToggle>Switch 1</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -513,7 +513,7 @@ public class Gender
     <Collapse Visible=""@collapse2Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse2Visible = !collapse2Visible)"">Switch 2</Button>
+                <AccordionToggle>Switch 2</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -523,7 +523,7 @@ public class Gender
     <Collapse Visible=""@collapse3Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse3Visible = !collapse3Visible)"">Switch 3</Button>
+                <AccordionToggle>Switch 3</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -531,7 +531,7 @@ public class Gender
         </CollapseBody>
     </Collapse>
 </Accordion>
-@code{
+@code {
     bool collapse1Visible = true;
     bool collapse2Visible = false;
     bool collapse3Visible = false;
@@ -1086,6 +1086,34 @@ public class Gender
     </Buttons>
 </Buttons>";
 
+        public const string CardBackgroundExample = @"<Card Background=""Background.Success"" WhiteText>
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            With supporting text below as a natural lead-in to additional content.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
+    </CardBody>
+</Card>";
+
+        public const string CardButtonExample = @"<Card>
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
+    </CardBody>
+</Card>";
+
         public const string CardDeckExample = @"<CardDeck>
     <Card>
         <CardImage Source=""/img/gallery/2.jpg"" Alt=""Card image cap 3""></CardImage>
@@ -1119,15 +1147,29 @@ public class Gender
     </Card>
 </CardDeck>";
 
-        public const string CardExample = @"<Card Margin=""Margin.Is4.OnY"">
-    <CardImage Source=""img/gallery/7.jpg"" Alt=""Placeholder image"">
-    </CardImage>
+        public const string CardExample = @"<Card>
     <CardBody>
-        <CardTitle Size=""5"">Card title</CardTitle>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
         <CardText>
-            Some quick example text to build on the card title and make up the bulk of the card's content.
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
         </CardText>
-        <Button Color=""Color.Primary"">Button</Button>
+    </CardBody>
+</Card>";
+
+        public const string CardImageExample = @"<Card>
+    <CardImage Source=""/img/gallery/2.jpg"" Alt=""Placeholder image"" />
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
     </CardBody>
 </Card>";
 
@@ -1228,6 +1270,19 @@ public class Gender
         public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" />";
 
         public const string DateEditDateTimeExample = @"<DateEdit TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
+
+        public const string DateEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>dateEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <DateEdit @ref=""@dateEditRef"" TValue=""DateTime"" />
+</Field>
+
+@code {
+    DateEdit<DateTime> dateEditRef;
+}";
 
         public const string DateEditWithBindExample = @"<DateEdit TValue=""DateTime?"" @bind-Date=""@selectedDate"" />
 
@@ -1367,9 +1422,10 @@ public class Gender
         new DropItem() { Name = ""Cabbage"", Group = ""Vegetable"", Image = ""img/fruit/cabbage.png"" },
     };
 
-    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
     {
         dropItem.Item.Group = dropItem.DropZoneName;
+        return Task.CompletedTask;
     }
 }";
 
@@ -1432,9 +1488,10 @@ public class Gender
         new DropItem() { Name = ""Item 5"", Group = ""2"" },
     };
 
-    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
     {
         dropItem.Item.Group = dropItem.DropZoneName;
+        return Task.CompletedTask;
     }
 }";
 
@@ -1623,6 +1680,17 @@ public class Gender
     <FigureCaption>A caption for the above image.</FigureCaption>
 </Figure>";
 
+        public const string DirectoryFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Directory />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
         public const string ExtensionsLimitFileEditExample = @"<!-- Accept all image formats by IANA media type wildcard-->
 <Field>
     <FileEdit Filter=""image/*"" />
@@ -1637,6 +1705,19 @@ public class Gender
 <Field>
     <FileEdit Filter="".jpg, .png, .gif"" />
 </Field>";
+
+        public const string FileEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>fileEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <FileEdit @ref=""@fileEditRef"" />
+</Field>
+
+@code {
+    FileEdit fileEditRef;
+}";
 
         public const string FilePickerCustomExample = @"@using System.IO
 
@@ -1692,6 +1773,33 @@ public class Gender
             using ( MemoryStream result = new MemoryStream() )
             {
                 await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result ) ;
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
+        public const string FilePickerDirectoryExample = @"@using System.IO
+
+<Field>
+    <FilePicker Directory Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.List"" />
+</Field>
+
+@code {
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
             }
         }
         catch ( Exception exc )
@@ -1773,6 +1881,17 @@ public class Gender
         {
             this.StateHasChanged();
         }
+    }
+}";
+
+        public const string MultipleDirectoryFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Directory Multiple />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
     }
 }";
 
@@ -2933,9 +3052,9 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicStepExample = @"<Steps SelectedStep=""@selectedStep"" SelectedStepChanged=""@OnSelectedStepChanged"">
     <Items>
-        <Step Name=""step1"">Step 1</Step>
-        <Step Name=""step2"">Step 2</Step>
-        <Step Name=""step3"">Step 3</Step>
+        <Step Name=""step1"">Create campaign settings</Step>
+        <Step Name=""step2"">Create an ad group</Step>
+        <Step Name=""step3"">Create an add</Step>
         <Step Name=""step4"">
             <Marker>
                 <Icon Name=""IconName.Flag"" />
@@ -3188,6 +3307,37 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
                 <TableRowCell>Column content</TableRowCell>
             </TableRow>
         }
+    </TableBody>
+</Table>";
+
+        public const string TableGroupingExample = @"<Table>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Color</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRowGroup Title=""Fruits"">
+            <TableRow>
+                <TableRowCell>Apple</TableRowCell>
+                <TableRowCell>Red</TableRowCell>
+            </TableRow>
+            <TableRow>
+                <TableRowCell>Banana</TableRowCell>
+                <TableRowCell>Yellow</TableRowCell>
+            </TableRow>
+        </TableRowGroup>
+        <TableRowGroup Title=""Vegetables"">
+            <TableRow>
+                <TableRowCell>Carrot</TableRowCell>
+                <TableRowCell>Orange</TableRowCell>
+            </TableRow>
+            <TableRow>
+                <TableRowCell>Pepper</TableRowCell>
+                <TableRowCell>Green</TableRowCell>
+            </TableRow>
+        </TableRowGroup>
     </TableBody>
 </Table>";
 
@@ -3600,6 +3750,19 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" Inline />";
 
+        public const string TimeEditShowPickerExample = @"<Field>
+    <Button Color=""Color.Primary"" Clicked=""@(()=>timeEditRef.ShowPicker())"">
+        Show Picker
+    </Button>
+</Field>
+<Field>
+    <TimeEdit @ref=""@timeEditRef"" TValue=""DateTime"" />
+</Field>
+
+@code {
+    TimeEdit<DateTime> timeEditRef;
+}";
+
         public const string TimeEditWithBindExample = @"<TimeEdit TValue=""TimeSpan?"" @bind-Time=""@selectedTime"" />
 
 @code{
@@ -3669,11 +3832,18 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <Heading Size=""HeadingSize.Is5"">h5. Blazorise heading</Heading>
 <Heading Size=""HeadingSize.Is6"">h6. Blazorise heading</Heading>";
 
+        public const string TypographyLeadExample = @"<Lead>
+    Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work and deploy.
+</Lead>
+<Paragraph>
+    Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
+</Paragraph>";
+
         public const string TypographyParagraphExample = @"<Paragraph>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras fermentum odio eu feugiat pretium nibh ipsum consequat. Pulvinar etiam non quam lacus suspendisse faucibus interdum posuere. Nunc sed velit dignissim sodales ut. Mi bibendum neque egestas congue quisque egestas diam in arcu. Quis vel eros donec ac odio tempor. Fermentum posuere urna nec tincidunt praesent. Eget velit aliquet sagittis id consectetur. Molestie at elementum eu facilisis sed odio morbi quis commodo. Ut consequat semper viverra nam libero justo laoreet sit.
+    Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work and deploy.
 </Paragraph>
 <Paragraph>
-    Cursus euismod quis viverra nibh cras. Fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Varius quam quisque id diam vel quam. Eget sit amet tellus cras adipiscing enim eu turpis. In est ante in nibh mauris cursus mattis. Interdum velit laoreet id donec ultrices tincidunt. Sollicitudin aliquam ultrices sagittis orci a. Turpis egestas sed tempus urna et pharetra pharetra. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Ipsum dolor sit amet consectetur adipiscing elit ut. Enim eu turpis egestas pretium aenean pharetra. Diam sit amet nisl suscipit adipiscing bibendum est. Turpis massa sed elementum tempus egestas. Accumsan in nisl nisi scelerisque eu ultrices vitae. Purus ut faucibus pulvinar elementum integer. Id interdum velit laoreet id donec ultrices tincidunt arcu. Aliquam vestibulum morbi blandit cursus risus at ultrices.
+    Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
 </Paragraph>";
 
         public const string TypographyTextExample = @"<Text TextColor=""TextColor.Primary"">
@@ -3899,46 +4069,49 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     @*other validation fields*@
 </Validations>";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.1.5.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.1.5.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.1.5.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.1.5.0"" type=""module""></script>";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.1.5.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.1.5.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.1.5.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js"" type=""module""></script>
-<script src=""_content/Blazorise/button.js"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/fileEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js"" type=""module""></script>
-<script src=""_content/Blazorise/io.js"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/numericEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/select.js"" type=""module""></script>
-<script src=""_content/Blazorise/table.js"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileEdit.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoEdit.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/popper.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/textEdit.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=1.1.5.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.1.5.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -3946,21 +4119,32 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.1.5.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=1.1.5.0"" type=""module""></script>";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.1.5.0"" type=""module""></script>";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js"" type=""module""></script>";
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.1.5.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.1.5.0"" type=""module""></script>";
 
-        public const string AnimateExample = @"<Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
-    @foreach ( var availableAnimation in Animations.GetNames() )
-    {
-        <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
-    }
-</Select>
+        public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
+
+        public const string TemplatesInstallExample = @"dotnet new install Blazorise.Templates";
+
+        public const string TemplatesVersionInstallExample = @"dotnet new install Blazorise.Templates::1.1.0";
+
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.1.5.0"" type=""module""></script>";
+
+        public const string AnimateExample = @"<Field>
+    <Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
+        @foreach ( var availableAnimation in Animations.GetNames() )
+        {
+            <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
+        }
+    </Select>
+</Field>
 
 @if ( showAnimate )
 {
@@ -4015,7 +4199,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.1.2.0""></script>";
+        public const string AnimateImportsExample = @"@using Blazorise.Animate";
+
+        public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
+
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.1.5.0""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -4053,6 +4241,28 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     public string selectedSearchValue { get; set; }
     public string selectedAutoCompleteText { get; set; }
+}";
+
+        public const string AutocompleteHighlightExample = @"<Autocomplete TItem=""Country""
+              TValue=""string""
+              Data=""@Countries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
+              Placeholder=""Search...""
+              HighlightSearch>
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
         public const string AutocompleteItemContentExample = @"<Autocomplete TItem=""Country""
@@ -4404,6 +4614,172 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string ChartResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>";
 
+        public const string ChartDataLabelsExample = @"<LineChart @ref=""@lineChart"" TItem=""int"" Options=""@lineChartOptions"">
+    <ChartDataLabels TItem=""int"" Datasets=""@lineDataLabelsDatasets"" Options=""@lineDataLabelsOptions"" />
+</LineChart>
+
+@code {
+    private LineChart<int> lineChart;
+
+    // define regular chart options
+    LineChartOptions lineChartOptions = new()
+    {
+        AspectRatio = 5d / 3d,
+        Layout = new()
+        {
+            Padding = new()
+            {
+                Top = 32,
+                Right = 16,
+                Bottom = 16,
+                Left = 8
+            }
+        },
+        Elements = new()
+        {
+            Line = new()
+            {
+                Fill = false,
+                Tension = 0.4,
+            }
+        },
+        Scales = new()
+        {
+            Y = new()
+            {
+                Stacked = true,
+            }
+        },
+        Plugins = new()
+        {
+            Legend = new()
+            {
+                Display = false
+            }
+        }
+    };
+
+    // define specific dataset styles by targeting them with the DatasetIndex
+    List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
+    {
+        new()
+        {
+            DatasetIndex = 0,
+            Options = new()
+            {
+                BackgroundColor = BackgroundColors[0],
+                BorderColor = BorderColors[0],
+                Align = ""start"",
+                Anchor = ""start""
+            }
+        },
+        new()
+        {
+            DatasetIndex = 1,
+            Options = new ()
+            {
+                BackgroundColor = BackgroundColors[1],
+                BorderColor = BorderColors[1],
+            }
+        },
+        new()
+        {
+            DatasetIndex = 2,
+            Options = new ()
+            {
+                BackgroundColor = BackgroundColors[2],
+                BorderColor = BorderColors[2],
+                Align = ""end"",
+                Anchor = ""end""
+            }
+        },
+    };
+
+    // some shared options for all data-labels
+    ChartDataLabelsOptions lineDataLabelsOptions = new()
+    {
+        BorderRadius = 4,
+        Color = ""#ffffff"",
+        Font = new()
+        {
+            Weight = ""bold""
+        },
+        Formatter = ChartMathFormatter.Round,
+        Padding = new( 6 )
+    };
+
+    private static string[] Labels = new string[] { ""1"", ""2"", ""3"", ""4"", ""5"", ""6"" };
+    private static string[] BackgroundColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private static string[] BorderColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private Random random = new( DateTime.Now.Millisecond );
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw( lineChart, GetLineChartDataset );
+
+            await lineChart.Clear();
+
+            await lineChart.AddLabelsDatasetsAndUpdate( Labels,
+                GetLineChartDataset( 0 ),
+                GetLineChartDataset( 1 ),
+                GetLineChartDataset( 2 ) );
+        }
+    }
+
+    private async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<int, TDataSet> getDataSet )
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
+        where TModel : ChartModel
+    {
+        await chart.Clear();
+
+        await chart.AddLabelsDatasetsAndUpdate( Labels,
+            getDataSet( 0 ),
+            getDataSet( 1 ),
+            getDataSet( 2 ) );
+    }
+
+    private LineChartDataset<int> GetLineChartDataset( int colorIndex )
+    {
+        return new()
+        {
+            Label = ""# of randoms"",
+            Data = RandomizeData( 2, 9 ),
+            BackgroundColor = BackgroundColors[colorIndex],
+            BorderColor = BorderColors[colorIndex],
+        };
+    }
+
+    List<int> RandomizeData( int min, int max )
+    {
+        return Enumerable.Range( 0, Labels.Count() ).Select( x => random.Next( min, max ) ).ToList();
+    }
+}";
+
+        public const string ChartDataLabelsNugetInstallExample = @"Install-Package Blazorise.Charts.DataLabels";
+
+        public const string ChartDataLabelsResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0""></script>";
+
+        public const string ChartDataLabelsScriptableExample = @"static Expression<Func<ScriptableOptionsContext, string>> TestScriptableColor = ( context ) => context.Active ? ""#ff0000"" : ""#4bc0c0"";
+
+List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
+{
+    new()
+    {
+        DatasetIndex = 0,
+        Options = new()
+        {
+            BackgroundColor = TestScriptableColor,
+            BorderColor = TestScriptableColor,
+            Align = ""start"",
+            Anchor = ""start""
+        }
+    },
+    ...
+};";
+
         public const string ChartStreamingExample = @"<LineChart @ref=""horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
     <ChartStreaming TItem=""LiveDataPoint""
                     Options=""new ChartStreamingOptions { Delay = 2000 }""
@@ -4495,6 +4871,105 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ChartStreamingNugetInstallExample = @"Install-Package Blazorise.Charts.Streaming";
+
+        public const string ChartStreamingPauseExample = @"<LineChart @ref=""@horizontalLineChart"" TItem=""LiveDataPoint"" OptionsObject=""@horizontalLineChartOptions"">
+    <ChartStreaming @ref=""@chartStreaming""
+                    TItem=""LiveDataPoint""
+                    Options=""new ChartStreamingOptions { Delay = 2000 }""
+                    Refreshed=""@OnHorizontalLineRefreshed"" />
+</LineChart>
+
+<Row>
+    <Column>
+        <Button Color=""Color.Primary"" Clicked=""@(()=>chartStreaming.Pause())"">Pause</Button>
+        <Button Color=""Color.Primary"" Clicked=""@(()=>chartStreaming.Play())"">Play</Button>
+    </Column>
+</Row>
+
+@code{
+    LineChart<LiveDataPoint> horizontalLineChart;
+    ChartStreaming<LiveDataPoint>  chartStreaming;
+    Random random = new Random( DateTime.Now.Millisecond );
+
+    string[] Labels = { ""Red"", ""Blue"", ""Yellow"", ""Green"", ""Purple"", ""Orange"" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
+    public struct LiveDataPoint
+    {
+        public object X { get; set; }
+
+        public object Y { get; set; }
+    }
+
+    object horizontalLineChartOptions = new
+    {
+        Scales = new
+        {
+            Y = new
+            {
+                Title = new
+                {
+                    Display = true,
+                    Text = ""Value""
+                }
+            }
+        },
+        Interaction = new
+        {
+            intersect = false
+        }
+    };
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await Task.WhenAll(
+                HandleRedraw( horizontalLineChart, GetLineChartDataset1 ) );
+        }
+    }
+
+    async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( BaseChart<TDataSet, TItem, TOptions, TModel> chart, params Func<TDataSet>[] getDataSets )
+        where TDataSet : ChartDataset<TItem>
+        where TOptions : ChartOptions
+        where TModel : ChartModel
+    {
+        await chart.Clear();
+
+        await chart.AddLabelsDatasetsAndUpdate( Labels, getDataSets.Select( x => x.Invoke() ).ToArray() );
+    }
+
+    LineChartDataset<LiveDataPoint> GetLineChartDataset1()
+    {
+        return new LineChartDataset<LiveDataPoint>
+        {
+            Data = new List<LiveDataPoint>(),
+            Label = ""Dataset 1 (linear interpolation)"",
+            BackgroundColor = backgroundColors[0],
+            BorderColor = borderColors[0],
+            Fill = false,
+            Tension = 0,
+            BorderDash = new List<int> { 8, 4 },
+        };
+    }
+
+    Task OnHorizontalLineRefreshed( ChartStreamingData<LiveDataPoint> data )
+    {
+        data.Value = new LiveDataPoint
+        {
+            X = DateTime.Now,
+            Y = RandomScalingFactor(),
+        };
+
+        return Task.CompletedTask;
+    }
+
+    double RandomScalingFactor()
+    {
+        return ( random.NextDouble() > 0.5 ? 1.0 : -1.0 ) * Math.Round( random.NextDouble() * 100 );
+    }
+}";
 
         public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/luxon@1.27.0""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0""></script>
@@ -4588,6 +5063,83 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string ChartTrendlineResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline""></script>";
+
+        public const string BasicCropperExample = @"<Row>
+    <Column>
+        <FieldLabel>
+            Image Cropper
+        </FieldLabel>
+        <FieldBody>
+            <Cropper @ref=""cropper"" Source=""img/gallery/6.jpg"" SelectionChanged=""@OnSelectionChanged"" Style=""aspect-ratio: 16 / 9; height: 100%;"" />
+        </FieldBody>
+    </Column>
+    <Column>
+        <Div Margin=""Margin.Is2.FromBottom"">
+            <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"" Disabled=""@cropButtonDisabled"">Get Cropped Image</Button>
+            <Button Color=""Color.Secondary"" Clicked=""@ResetSelection"" Disabled=""@cropButtonDisabled"">Reset Selection</Button>
+        </Div>
+        <Image Source=""@result"" Border=""Border.Is1"" Style=""width: 250px; height: 250px;"" />
+    </Column>
+</Row>
+
+@code {
+    private Cropper cropper;
+    private string result;
+    private bool cropButtonDisabled = true;
+
+    private Task OnSelectionChanged( CropperSelectionChangedEventArgs eventArgs )
+    {
+        if ( eventArgs.Width != 0 )
+        {
+            cropButtonDisabled = false;
+
+            return InvokeAsync( StateHasChanged );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task GetCroppedImage()
+    {
+        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
+    }
+
+    private async Task ResetSelection()
+    {
+        cropButtonDisabled = true;
+
+        await cropper.ResetSelection();
+    }
+}";
+
+        public const string CropperNugetInstallExample = @"Install-Package Blazorise.Cropper";
+
+        public const string CropperViewerExample = @"<Row>
+    <Column>
+        <FieldLabel>
+            Image Cropper
+        </FieldLabel>
+        <FieldBody>
+            <Cropper Source=""img/gallery/3.jpg"" CropperState=""@cropperState"" />
+        </FieldBody>
+    </Column>
+    <Column>
+        <FieldLabel>
+            Preview
+        </FieldLabel>
+        <FieldBody>
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 150px; height: 150px;"" />
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 100px; height: 100px;"" />
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 50px; height: 50px;"" />
+        </FieldBody>
+    </Column>
+</Row>
+
+@code {
+    private CropperState cropperState = new();
+}";
+
+        public const string ImportCropperExample = @"@using Blazorise.Cropper";
 
         public const string DataGridAggregatesExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
@@ -6137,12 +6689,18 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     };
 }";
 
+        public const string BasicLottieAnimationExample = @"<LottieAnimation Path=""https://assets2.lottiefiles.com/datafiles/WFKIUGAVvLl1azi/data.json"" />";
+
+        public const string ImportLottieAnimationExample = @"@using Blazorise.LottieAnimation";
+
+        public const string LottieAnimationNugetInstallExample = @"Install-Package Blazorise.LottieAnimation";
+
         public const string ImportMarkdownExample = @"@using Blazorise.Markdown";
 
         public const string MarkdownCustomButtonsExample = @"<Markdown @bind-Value=""@markdownValue"" CustomButtonClicked=""@OnCustomButtonClicked"">
     <Toolbar>
         <MarkdownToolbarButton Action=""MarkdownAction.Bold"" Icon=""fa fa-bolt"" Title=""Bold"" />
-        <MarkdownToolbarButton Separator Name=""Custom button"" Value=""@(""hello"")"" Icon=""fa fa-star"" Title=""A Custom Button"" />
+        <MarkdownToolbarButton Separator Name=""Custom button"" Value=""@(""hello"")"" Icon=""fa fa-star"" Title=""A Custom Button"" Text=""My Custom Button"" />
         <MarkdownToolbarButton Separator Name=""https://github.com/Ionaru/easy-markdown-editor"" Icon=""fa fab fa-github"" Title=""A Custom Link"" />
     </Toolbar>
 </Markdown>
@@ -6185,6 +6743,24 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 }";
 
         public const string MarkdownNugetInstallExample = @"Install-Package Blazorise.Markdown";
+
+        public const string MarkdownPreviewRenderExample = @"<Markdown Value=""@markdownValue"" ValueChanged=""@OnMarkdownValueChanged"" PreviewRender=""@PreviewRender"" />
+
+@code {
+    string markdownValue = ""# EasyMDE \n Go ahead, play around with the editor! Be sure to check out **bold**, *italic*, [links](https://google.com) and all the other features. You can type the Markdown syntax, use the toolbar, or use shortcuts like `ctrl-b` or `cmd-b`."";
+
+    Task OnMarkdownValueChanged( string value )
+    {
+        markdownValue = value;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task<string> PreviewRender( string plainText )
+    {
+        return Task.FromResult( Markdig.Markdown.ToHtml( markdownValue ?? string.Empty ) );
+    }
+}";
 
         public const string MarkdownShortcutsExample = @"<Markdown Shortcuts=""@(new MarkdownShortcuts{ CleanBlock = null, ToggleCodeBlock = ""Cmd+E"" })"" />";
 
@@ -6254,6 +6830,12 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.M"" PixelsPerModule=""4"" />
 <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.Q"" PixelsPerModule=""4"" />
 <QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.H"" PixelsPerModule=""4"" />";
+
+        public const string QRCodeIconExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" EccLevel=""EccLevel.H"" Icon=""@base64PngIcon"" />
+
+@code {
+    string base64PngIcon = ""data:image/png;base64, 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"";
+}";
 
         public const string QRCodeNugetInstallExample = @"Install-Package Blazorise.QRCode";
 
@@ -6766,6 +7348,33 @@ builder.Services
 <script src=""_content/Blazorise.Material/blazorise.material.js""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
+
+        public const string TailwindGuideNuget1Example = @"Install-Package Blazorise.Tailwind";
+
+        public const string TailwindGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+
+        public const string TailwindGuideRegistrationExample = @"using Blazorise;
+using Blazorise.Tailwind;
+using Blazorise.Icons.FontAwesome;
+
+builder.Services
+    .AddBlazorise()
+    .AddTailwindProviders()
+    .AddFontAwesomeIcons();";
+
+        public const string TailwindGuideSourceFiles1Example = @"<link href=""https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"" rel=""stylesheet"">
+<link rel=""stylesheet"" href=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css"" />
+<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />
+
+<script src=""https://cdn.tailwindcss.com""></script>
+<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.1.4.1""></script>
+
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css"" rel=""stylesheet"" />";
+
+        public const string TailwindGuideSourceFiles2Example = @"<script src=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.js""></script>";
+
+        public const string TailwindGuideUsingExample = @"@using Blazorise";
 
         public const string CustomLanguageExample = @"<Field>
     <FileEdit Multiple=""false"" />
@@ -7384,12 +7993,12 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.2.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.2.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.5.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.5.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.1.2.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.2.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.2.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.1.5.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.5.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.5.0""></script>";
 
     }
 }

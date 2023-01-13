@@ -1,0 +1,27 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.IO
+
+<Field>
+    <FilePicker Directory Multiple Upload="OnFileUpload" ShowMode="FilePickerShowMode.List" />
+</Field>
+
+@code {
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}

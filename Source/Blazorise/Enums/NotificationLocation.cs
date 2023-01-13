@@ -1,23 +1,22 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Defines the notification location.
+/// </summary>
+public enum NotificationLocation
 {
     /// <summary>
-    /// Defines the notification location.
+    /// Default behavior, shows the notification on the center.
     /// </summary>
-    public enum NotificationLocation
-    {
-        /// <summary>
-        /// Default behavior, shows the notification on the center.
-        /// </summary>
-        Center,
+    Center,
 
-        /// <summary>
-        /// Show the notification on the left side of the screen.
-        /// </summary>
-        Start,
+    /// <summary>
+    /// Show the notification on the left side of the screen.
+    /// </summary>
+    Start,
 
-        /// <summary>
-        /// Show the notification on the right side of the screen.
-        /// </summary>
-        End,
-    }
+    /// <summary>
+    /// Show the notification on the right side of the screen.
+    /// </summary>
+    End,
 }

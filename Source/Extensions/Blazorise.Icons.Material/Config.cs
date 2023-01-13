@@ -2,17 +2,16 @@
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
-namespace Blazorise.Icons.Material
+namespace Blazorise.Icons.Material;
+
+public static class Config
 {
-    public static class Config
+    public static IServiceCollection AddMaterialIcons( this IServiceCollection serviceCollection )
     {
-        public static IServiceCollection AddMaterialIcons( this IServiceCollection serviceCollection )
-        {
-            serviceCollection.AddSingleton<IIconProvider, MaterialIconProvider>();
+        serviceCollection.AddSingleton<IIconProvider, MaterialIconProvider>();
 
-            serviceCollection.AddTransient<Blazorise.Icon, Material.Icon>();
+        serviceCollection.AddTransient<Blazorise.Icon, Material.Icon>();
 
-            return serviceCollection;
-        }
+        return serviceCollection;
     }
 }

@@ -3,38 +3,37 @@ using Microsoft.AspNetCore.Components;
 using System.Text;
 #endregion
 
-namespace Blazorise.Docs.Components
+namespace Blazorise.Docs.Components;
+
+public partial class DocsPageSectionContent
 {
-    public partial class DocsPageSectionContent
+    #region Methods
+
+    #endregion
+
+    #region Properties
+
+    private string ClassNames
     {
-        #region Methods
-
-        #endregion
-
-        #region Properties
-
-        private string ClassNames
+        get
         {
-            get
-            {
-                var sb = new StringBuilder( "b-docs-page-section-content" );
+            var sb = new StringBuilder( "b-docs-page-section-content" );
 
-                if ( Outlined )
-                    sb.Append( " b-docs-page-section-content-outlined" );
+            if ( Outlined )
+                sb.Append( " b-docs-page-section-content-outlined" );
 
-                if ( FullWidth )
-                    sb.Append( " b-docs-page-section-content-fullwidth" );
+            if ( FullWidth )
+                sb.Append( " b-docs-page-section-content-fullwidth" );
 
-                return sb.ToString();
-            }
+            return sb.ToString();
         }
-
-        [Parameter] public bool Outlined { get; set; }
-
-        [Parameter] public bool FullWidth { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        #endregion
     }
+
+    [Parameter] public bool Outlined { get; set; }
+
+    [Parameter] public bool FullWidth { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

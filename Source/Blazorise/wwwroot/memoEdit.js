@@ -1,5 +1,5 @@
-﻿import { Behave } from "./vendors/Behave.js?v=1.1.2.0";
-import { getRequiredElement } from "./utilities.js?v=1.1.2.0";
+﻿import { Behave } from "./vendors/Behave.js?v=1.1.5.0";
+import { getRequiredElement } from "./utilities.js?v=1.1.5.0";
 
 const _instances = [];
 

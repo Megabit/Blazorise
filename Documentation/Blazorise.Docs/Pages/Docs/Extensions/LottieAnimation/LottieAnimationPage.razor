@@ -1,0 +1,95 @@
+﻿@page "/docs/extensions/lottie-animation"
+
+<Seo Canonical="/docs/extensions/lottie-animation" Title="Blazorise Lottie Animation Component" Description="Learn to use and work with the Blazorise Lottie Animation component, a component used to embed JSON-based Lottie animations." />
+
+<DocsPageTitle Path="Extensions/LottieAnimation">
+    Blazorise Lottie Animation Component
+</DocsPageTitle>
+
+<DocsPageLead>
+    A <Code>LottieAnimation</Code> component used to embed JSON-based <Anchor To="https://airbnb.io/lottie/" Title="Link to lottie documentation" Target="Target.Blank">Lottie</Anchor> animations.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="LottieAnimationNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ImportLottieAnimationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        To embed an animation you just need to define the <Code>Path</Code> of the animation.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicLottieAnimationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicLottieAnimationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Fixed Height
+</Heading>
+
+<DocsPageParagraph>
+    While the animation will work fine without it, it is advised to define a fixed height, eg. <Code Tag>LottieAnimation Style="height: 250px;"</Code>. That way, the user can see the loading animation until the component is fully loaded.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is2">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Completed" Type="EventCallback">
+        Occurs once the animation completes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrentFrame" Type="double" Default="0">
+        Gets or sets the current playback frame.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CurrentFrameChanged" Type="EventCallback<double>">
+        Occurs whenever the current frame changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Direction" Type="LottieAnimationDirection" Default="Forward">
+        Controls the animation playback direction.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Loaded" Type="EventCallback<LottieAnimationLoadedEventArgs>">
+        Occurs once the data for the animation has loaded.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Loop" Type="LoopConfiguration" Default="true">
+        True to loop the animation. If a number is provided then it specifies the number of times to loop.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LoopCompleted" Type="EventCallback">
+        Occurs whenever a loop of the animation completes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Path" Type="string" Default="null">
+        Gets or sets the source path for the animation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Paused" Type="bool" Default="false">
+        Controls whether or not the animation is paused.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Renderer" Type="LottieAnimationRenderer" Default="Svg">
+        Gets or sets the renderer to use for the animation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Speed" Type="double" Default="1.0">
+        Controls the playback speed.
+    </DocsAttributesItem>
+</DocsAttributes>

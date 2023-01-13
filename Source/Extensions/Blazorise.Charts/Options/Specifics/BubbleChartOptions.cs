@@ -2,9 +2,8 @@
 using System.Text.Json.Serialization;
 #endregion
 
-namespace Blazorise.Charts
+namespace Blazorise.Charts;
+
+public class BubbleChartOptions : ChartOptions
 {
-    public class BubbleChartOptions : ChartOptions
-    {
-    }
 }

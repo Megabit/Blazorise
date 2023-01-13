@@ -9,23 +9,27 @@
                 <CardBody Padding="Padding.Is0.FromBottom">
                     <Fields>
                         <Column ColumnSize="ColumnSize.Is1">
-                            <Check TValue="bool" Checked="@Todos.All(x=>x.Completed)" CheckedChanged="@OnCheckAll">All</Check>
+                            <Field>
+                                <Check TValue="bool" Checked="@Todos.All(x=>x.Completed)" CheckedChanged="@OnCheckAll">All</Check>
+                            </Field>
                         </Column>
                         <Column ColumnSize="ColumnSize.Is11">
-                            <Addons>
-                                <Addon AddonType="AddonType.Body">
-                                    <Validations @ref="validations" Mode="ValidationMode.Manual">
-                                        <Validation Validator="@ValidationRule.IsNotEmpty">
-                                            <TextEdit @bind-Text="@description" Placeholder="What needs to be done?"></TextEdit>
-                                        </Validation>
-                                    </Validations>
-                                </Addon>
-                                <Addon AddonType="AddonType.End">
-                                    <Button Color="Color.Primary" Clicked="@OnAddTodo">
-                                        <Icon Name="IconName.Add" />Add
-                                    </Button>
-                                </Addon>
-                            </Addons>
+                            <Field>
+                                <Addons>
+                                    <Addon AddonType="AddonType.Body">
+                                        <Validations @ref="validations" Mode="ValidationMode.Manual">
+                                            <Validation Validator="@ValidationRule.IsNotEmpty">
+                                                <TextEdit @bind-Text="@description" Placeholder="What needs to be done?"></TextEdit>
+                                            </Validation>
+                                        </Validations>
+                                    </Addon>
+                                    <Addon AddonType="AddonType.End">
+                                        <Button Color="Color.Primary" Clicked="@OnAddTodo">
+                                            <Icon Name="IconName.Add" />Add
+                                        </Button>
+                                    </Addon>
+                                </Addons>
+                            </Field>
                         </Column>
                     </Fields>
                 </CardBody>

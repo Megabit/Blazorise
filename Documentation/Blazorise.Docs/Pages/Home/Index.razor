@@ -1,10 +1,10 @@
 ﻿@page "/"
 
-<Seo Canonical="/" Title="Blazorise Component Library" Description="Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Bulma, AntDesign and Material." />
+<Seo Canonical="/" Title="Blazorise Component Library" Description="Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Tailwind, Bulma, AntDesign and Material." />
 
 <Div Class="home-banner" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
     <Container>
-        <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is4.FromTop.Is4.FromBottom" Source="/img/logos/blazorise-small.svg" Text="Blazorise logo" Style="width: 120px; height: 120px;" />
+        <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is4.FromTop.Is4.FromBottom" Source="@BlazoriseLogo" Text="Blazorise logo" Style="width: 120px; height: 120px;" />
         <DisplayHeading Size="DisplayHeadingSize.Is4" TextWeight="TextWeight.Bold" Padding="Padding.Is3.OnY">
             The modern UI components for Blazor
         </DisplayHeading>
@@ -12,7 +12,7 @@
             A set of <Strong>80+</Strong> free and open source native Blazor UI controls.
         </Heading>
         <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
-            Blazorise is a <Strong>component library</Strong> built on top of Blazor with support for <Strong>multiple CSS frameworks</Strong> like Bootstrap, Bulma, AntDesign and Material.
+            Blazorise is a <Strong>component library</Strong> built on top of Blazor with support for <Strong>multiple CSS frameworks</Strong> like Bootstrap, Tailwind, Bulma, AntDesign and Material.
         </Heading>
         <Div>
             <Button Type="ButtonType.Link" To="docs" Color="Color.Primary" Size="Size.Large" Margin="Margin.Is2.OnY">
@@ -92,7 +92,7 @@
                     Blazorise is built from the ground up to support any favorite CSS framework without sacrificing speed or features.
                 </TextContent>
                 <BoldContent>
-                    Have a try at <Anchor To="https://bootstrapdemo.blazorise.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://bulmademo.blazorise.com/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://materialdemo.blazorise.com/" Target="Target.Blank">Material</Anchor>, or <Anchor To="https://antdesigndemo.blazorise.com/" Target="Target.Blank">AntDesign</Anchor>.
+                    Have a try at <Anchor To="https://bootstrapdemo.blazorise.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://tailwinddemo.blazorise.com/" Target="Target.Blank">Tailwind</Anchor>, <Anchor To="https://bulmademo.blazorise.com/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://materialdemo.blazorise.com/" Target="Target.Blank">Material</Anchor>, or <Anchor To="https://antdesigndemo.blazorise.com/" Target="Target.Blank">AntDesign</Anchor>.
                 </BoldContent>
             </HomeFeatureInfo>
 
@@ -460,4 +460,20 @@
 </Div>
 @code {
     string selectedPopularComponentsTab = "DataGrid";
+
+    private bool IsChristmasHolidays
+    {
+        get
+        {
+            var d1 = new DateTime( DateTime.Today.Year, 12, 15 );
+            var d2 = d1.AddDays( 20 );
+            var now = DateTime.Now;
+
+            return now >= d1 && now <= d2;
+        }
+    }
+
+    string BlazoriseLogo => IsChristmasHolidays
+        ? "/img/logos/blazorise-small-santa-hat.svg"
+        : "/img/logos/blazorise-small.svg";
 }

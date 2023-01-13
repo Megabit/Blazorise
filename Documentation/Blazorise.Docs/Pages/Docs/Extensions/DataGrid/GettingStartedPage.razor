@@ -381,6 +381,9 @@
     <DocsAttributesItem Name="Field" Type="string">
         TItem data field name.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SortField" Type="string">
+        The name of the field that will be used to sort data, overriding the <Code>Field</Code> name.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="Caption" Type="string">
         Column’s display caption. It will be displayed, if ColumnTemplate is not set.
     </DocsAttributesItem>
@@ -389,6 +392,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SortDirection" Type="SortDirection" Default="Default">
         Column initial sort direction.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReverseSorting" Type="bool" Default="false">
+        Whether the sort direction will be reversed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="TextAlignment" Type="TextAlignment" Default="Default">
         Defines the alignment for display cell.
@@ -459,8 +465,8 @@
     <DocsAttributesItem Name="FilterTemplate" Type="RenderFragment<FilterContext>">
         Template for custom column filter rendering.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="PopupFieldColumnSize" Type="IFluentColumn" Default="IsHalf.OnDesktop">
-        Defines the size of field for popup modal.
+    <DocsAttributesItem Name="EditFieldColumnSize" Type="IFluentColumn" Default="IsHalf.OnDesktop">
+        Defines the size of an edit field for popup modal and edit form.
     </DocsAttributesItem>
     <DocsAttributesItem Name="CaptionTemplate" Type="RenderFragment<DataGridColumn<TItem>>">
         Template for custom caption. CaptionTemplate will block caption template.

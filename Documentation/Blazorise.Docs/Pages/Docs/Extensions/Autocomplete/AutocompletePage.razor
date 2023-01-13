@@ -99,9 +99,23 @@
     <DocsPageSectionSource Code="AutocompleteSuggestMultipleCheckboxExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Highlight search text">
+        Autocomplete <Code>HighlightSearch</Code> is a feature that allows you to highlight the search text that you have entered in a dropdown list of items. When you start typing in the search field, the dropdown list of items will automatically be filtered to show only the items that match the search text. The search text will also be highlighted in the dropdown list of items, so that you can easily see which items match your search. This can be a useful feature when you are trying to find a specific item in a long list of items, as it allows you to quickly locate the item you are looking for.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteHighlightExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteHighlightExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
-    Attributes
+    API Reference
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="TItem" Type="generic">
@@ -227,12 +241,21 @@
     <DocsAttributesItem Name="SelectionMode" Type="AutocompleteSelectionMode" Default="AutocompleteSelectionMode.Default">
         Gets or sets the Autocomplete Selection Mode.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="HighlightSearch" Type="bool" Default="false">
+        If true, the searched text will be highlighted in the dropdown list items based on <Code>Search</Code> value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchBackground" Type="Background" Default="null">
+        Defines the background color of the search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchTextColor" Type="TextColor" Default="null">
+        Defines the text color of the search field.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 
-<DocsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
     Methods
-</DocsPageSubtitle>
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="ScrollItemIntoView">
@@ -274,5 +297,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="IsSafeToClose">
         IsSafeToClose is deprecated. This API now always returns true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxEntryLength">
+        Specifies the maximum number of characters allowed in the input element.
     </DocsAttributesItem>
 </DocsAttributes>

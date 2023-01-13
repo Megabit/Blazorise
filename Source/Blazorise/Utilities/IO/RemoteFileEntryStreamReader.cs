@@ -8,176 +8,177 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+internal class RemoteFileEntryStreamReader : FileEntryStreamReader, IDisposable, IAsyncDisposable
 {
-    internal class RemoteFileEntryStreamReader : FileEntryStreamReader, IDisposable, IAsyncDisposable
+    #region Members
+
+    private bool disposed;
+
+    private readonly int maxMessageSize;
+    private readonly long maxFileSize;
+
+    private readonly CancellationTokenSource fillBufferCts;
+    private CancellationTokenSource copyFileDataCts;
+    private IJSStreamReference jsStreamReference;
+    private readonly Task<Stream> OpenReadStreamTask;
+
+    #endregion
+
+    #region Constructors
+
+    public RemoteFileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, FileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, long maxFileSize )
+        : base( jsModule, elementRef, fileEntry, fileEntryNotifier )
     {
-        #region Members
+        this.maxMessageSize = maxMessageSize;
+        this.maxFileSize = maxFileSize;
 
-        private bool disposed;
+        fillBufferCts = new CancellationTokenSource();
+        OpenReadStreamTask = OpenReadStreamAsync( fillBufferCts.Token );
+    }
 
-        private readonly int maxMessageSize;
-        private readonly long maxFileSize;
+    #endregion
 
-        private readonly CancellationTokenSource fillBufferCts;
-        private CancellationTokenSource copyFileDataCts;
-        private IJSStreamReference jsStreamReference;
-        private readonly Task<Stream> OpenReadStreamTask;
+    #region Methods
 
-        #endregion
+    private async Task<Stream> OpenReadStreamAsync( CancellationToken cancellationToken )
+    {
+        // This method only gets called once, from the constructor, so we're never overwriting an
+        // existing _jsStreamReference value
+        jsStreamReference = await JSModule.ReadDataAsync( ElementRef, FileEntry.Id, cancellationToken );
 
-        #region Constructors
+        return await jsStreamReference.OpenReadStreamAsync(
+            this.maxFileSize,
+            cancellationToken: cancellationToken );
+    }
 
-        public RemoteFileEntryStreamReader( IJSFileModule jsModule, ElementReference elementRef, FileEntry fileEntry, IFileEntryNotifier fileEntryNotifier, int maxMessageSize, long maxFileSize )
-          : base( jsModule, elementRef, fileEntry, fileEntryNotifier )
+    protected async ValueTask<int> CopyFileDataIntoBuffer( Memory<byte> destination, CancellationToken cancellationToken )
+    {
+
+        var stream = await OpenReadStreamTask;
+        copyFileDataCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+        return await stream.ReadAsync( destination, copyFileDataCts.Token );
+    }
+
+    public async Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken )
+    {
+        await FileEntryNotifier.UpdateFileStartedAsync( FileEntry );
+
+        if ( maxFileSize < FileEntry.Size )
         {
-            this.maxMessageSize = maxMessageSize;
-            this.maxFileSize = maxFileSize;
-
-            fillBufferCts = new CancellationTokenSource();
-            OpenReadStreamTask = OpenReadStreamAsync( fillBufferCts.Token );
+            await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, false, FileInvalidReason.MaxLengthExceeded );
+            return;
         }
 
-        #endregion
+        long position = 0;
 
-        #region Methods
-
-        private async Task<Stream> OpenReadStreamAsync( CancellationToken cancellationToken )
+        try
         {
-            // This method only gets called once, from the constructor, so we're never overwriting an
-            // existing _jsStreamReference value
-            jsStreamReference = await JSModule.ReadDataAsync( ElementRef, FileEntry.Id, cancellationToken );
-
-            return await jsStreamReference.OpenReadStreamAsync(
-                this.maxFileSize,
-                cancellationToken: cancellationToken );
-        }
-
-        protected async ValueTask<int> CopyFileDataIntoBuffer( Memory<byte> destination, CancellationToken cancellationToken )
-        {
-
-            var stream = await OpenReadStreamTask;
-            copyFileDataCts = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
-            return await stream.ReadAsync( destination, copyFileDataCts.Token );
-        }
-
-        public async Task WriteToStreamAsync( Stream stream, CancellationToken cancellationToken )
-        {
-            await FileEntryNotifier.UpdateFileStartedAsync( FileEntry );
-
-            if ( maxFileSize < FileEntry.Size )
+            while ( position < FileEntry.Size )
             {
-                await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, false, FileInvalidReason.MaxLengthExceeded );
-                return;
-            }
+                cancellationToken.ThrowIfCancellationRequested();
 
-            long position = 0;
+                var length = (int)Math.Min( maxMessageSize, FileEntry.Size - position );
 
-            try
-            {
-                while ( position < FileEntry.Size )
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
+                var buffer = new Memory<byte>( new byte[length], 0, length );
+                var bytesRead = await CopyFileDataIntoBuffer( buffer, cancellationToken );
 
-                    var length = (int)Math.Min( maxMessageSize, FileEntry.Size - position );
+                var bufferToWrite = buffer.Slice( 0, bytesRead );
+                await stream.WriteAsync( bufferToWrite, cancellationToken );
 
-                    var buffer = new Memory<byte>( new byte[length], 0, length );
-                    await CopyFileDataIntoBuffer( buffer, cancellationToken );
-                    await stream.WriteAsync( buffer, cancellationToken );
+                cancellationToken.ThrowIfCancellationRequested();
 
-                    cancellationToken.ThrowIfCancellationRequested();
+                position += bytesRead;
+                await Task.WhenAll(
+                    FileEntryNotifier.UpdateFileWrittenAsync( FileEntry, position, bufferToWrite.ToArray() ),
+                    FileEntryNotifier.UpdateFileProgressAsync( FileEntry, bytesRead ) );
 
-                    position += length;
-                    await Task.WhenAll(
-                        FileEntryNotifier.UpdateFileWrittenAsync( FileEntry, position, buffer.ToArray() ),
-                        FileEntryNotifier.UpdateFileProgressAsync( FileEntry, buffer.Length ) );
-
-                    await RefreshUI();
-                }
-            }
-            catch ( OperationCanceledException )
-            {
-                await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, false, FileInvalidReason.TaskCancelled );
-                throw;
-            }
-            finally
-            {
-                Reset();
-
-                if ( !cancellationToken.IsCancellationRequested )
-                {
-                    var success = position == FileEntry.Size;
-                    var overMaxBufferChunkLength = position > FileEntry.Size;
-                    var fileInvalidReason = success
-                        ? FileInvalidReason.None
-                        : overMaxBufferChunkLength
-                            ? FileInvalidReason.UnexpectedBufferChunkLength
-                            : FileInvalidReason.UnexpectedError;
-
-                    await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, success, fileInvalidReason );
-                }
-
+                await RefreshUI();
             }
         }
-
-        /// <summary>
-        /// If we're running on WebAssembly, then we should give time for the single thread to catch up and refresh the UI.
-        /// </summary>
-        /// <returns></returns>
-        private Task RefreshUI()
+        catch ( OperationCanceledException )
         {
-            if ( OperatingSystem.IsBrowser() )
-                return Task.Delay( 1 );
-            return Task.CompletedTask;
+            await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, false, FileInvalidReason.TaskCancelled );
+            throw;
         }
-
-        private void Reset()
+        finally
         {
-            fillBufferCts.Cancel();
-            copyFileDataCts?.Cancel();
-            // If the browser connection is still live, notify the JS side that it's free to release the Blob
-            // and reclaim the memory. If the browser connection is already gone, there's no way for the
-            // notification to get through, but we don't want to fail the .NET-side disposal process for this.
-            try
-            {
-                _ = jsStreamReference?.DisposeAsync().Preserve();
-            }
-            catch
-            {
-            }
-        }
-
-        public virtual void Dispose()
-        {
-            Dispose( true );
-            GC.SuppressFinalize( this );
-        }
-
-        protected void Dispose( bool disposing )
-        {
-            if ( disposed )
-            {
-                return;
-            }
-
             Reset();
 
-            disposed = true;
-        }
-
-        public virtual ValueTask DisposeAsync()
-        {
-            try
+            if ( !cancellationToken.IsCancellationRequested )
             {
-                Dispose();
-                return default;
-            }
-            catch ( Exception exc )
-            {
-                return ValueTask.FromException( exc );
-            }
-        }
+                var success = position == FileEntry.Size;
+                var overMaxBufferChunkLength = position > FileEntry.Size;
+                var fileInvalidReason = success
+                    ? FileInvalidReason.None
+                    : overMaxBufferChunkLength
+                        ? FileInvalidReason.UnexpectedBufferChunkLength
+                        : FileInvalidReason.UnexpectedError;
 
-        #endregion
+                await FileEntryNotifier.UpdateFileEndedAsync( FileEntry, success, fileInvalidReason );
+            }
+
+        }
     }
+
+    /// <summary>
+    /// If we're running on WebAssembly, then we should give time for the single thread to catch up and refresh the UI.
+    /// </summary>
+    /// <returns></returns>
+    private Task RefreshUI()
+    {
+        if ( OperatingSystem.IsBrowser() )
+            return Task.Delay( 1 );
+        return Task.CompletedTask;
+    }
+
+    private void Reset()
+    {
+        fillBufferCts.Cancel();
+        copyFileDataCts?.Cancel();
+        // If the browser connection is still live, notify the JS side that it's free to release the Blob
+        // and reclaim the memory. If the browser connection is already gone, there's no way for the
+        // notification to get through, but we don't want to fail the .NET-side disposal process for this.
+        try
+        {
+            _ = jsStreamReference?.DisposeAsync().Preserve();
+        }
+        catch
+        {
+        }
+    }
+
+    public virtual void Dispose()
+    {
+        Dispose( true );
+        GC.SuppressFinalize( this );
+    }
+
+    protected void Dispose( bool disposing )
+    {
+        if ( disposed )
+        {
+            return;
+        }
+
+        Reset();
+
+        disposed = true;
+    }
+
+    public virtual ValueTask DisposeAsync()
+    {
+        try
+        {
+            Dispose();
+            return default;
+        }
+        catch ( Exception exc )
+        {
+            return ValueTask.FromException( exc );
+        }
+    }
+
+    #endregion
 }

@@ -640,7 +640,7 @@ select[readonly] optgroup {
   z-index: 161;
 }
 
-.b-list-view {
+.list-group-scrollable {
   overflow-y: scroll;
 }
 
@@ -753,6 +753,78 @@ select[readonly] optgroup {
 }
 .rating .rating-item.rating-item-hover {
   opacity: 0.7;
+}
+
+.gap-0 {
+  gap: 0 !important;
+}
+
+.gap-y-0 {
+  row-gap: 0 !important;
+}
+
+.gap-x-0 {
+  column-gap: 0 !important;
+}
+
+.gap-1 {
+  gap: 0.25rem !important;
+}
+
+.gap-y-1 {
+  row-gap: 0.25rem !important;
+}
+
+.gap-x-1 {
+  column-gap: 0.25rem !important;
+}
+
+.gap-2 {
+  gap: 0.5rem !important;
+}
+
+.gap-y-2 {
+  row-gap: 0.5rem !important;
+}
+
+.gap-x-2 {
+  column-gap: 0.5rem !important;
+}
+
+.gap-3 {
+  gap: 1rem !important;
+}
+
+.gap-y-3 {
+  row-gap: 1rem !important;
+}
+
+.gap-x-3 {
+  column-gap: 1rem !important;
+}
+
+.gap-4 {
+  gap: 1.5rem !important;
+}
+
+.gap-y-4 {
+  row-gap: 1.5rem !important;
+}
+
+.gap-x-4 {
+  column-gap: 1.5rem !important;
+}
+
+.gap-5 {
+  gap: 3rem !important;
+}
+
+.gap-y-5 {
+  row-gap: 3rem !important;
+}
+
+.gap-x-5 {
+  column-gap: 3rem !important;
 }
 
 @-webkit-keyframes spinner-border {
@@ -2563,6 +2635,10 @@ ol.ordered-list-upper-roman {
 
 .border-link-left-5 {
   border-left: 5px solid #3273dc !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .flatpickr-months {

@@ -1,33 +1,32 @@
-﻿namespace Blazorise.LoadingIndicator
+﻿namespace Blazorise.LoadingIndicator;
+
+/// <summary>
+/// Defines the placement of the loading indicator.
+/// </summary>
+public enum LoadingIndicatorPlacement
 {
     /// <summary>
-    /// Defines the placement of the loading indicator.
+    /// Top side.
     /// </summary>
-    public enum LoadingIndicatorPlacement
-    {
-        /// <summary>
-        /// Top side.
-        /// </summary>
-        Top,
+    Top,
 
-        /// <summary>
-        /// Bottom side.
-        /// </summary>
-        Bottom,
+    /// <summary>
+    /// Bottom side.
+    /// </summary>
+    Bottom,
 
-        /// <summary>
-        /// Start side.
-        /// </summary>
-        Start,
+    /// <summary>
+    /// Start side.
+    /// </summary>
+    Start,
 
-        /// <summary>
-        /// End side.
-        /// </summary>
-        End,
+    /// <summary>
+    /// End side.
+    /// </summary>
+    End,
 
-        /// <summary>
-        /// Middle.
-        /// </summary>
-        Middle,
-    }
+    /// <summary>
+    /// Middle.
+    /// </summary>
+    Middle,
 }

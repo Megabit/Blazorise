@@ -1,18 +1,17 @@
-﻿namespace Blazorise.DataGrid
+﻿namespace Blazorise.DataGrid;
+
+/// <summary>
+/// Defines the DetailRowTriggerType of the DataGrid's DetailRow.
+/// </summary>
+public enum DetailRowTriggerType
 {
     /// <summary>
-    /// Defines the DetailRowTriggerType of the DataGrid's DetailRow.
+    /// Trigger is manually controlled by invoking the Datagrid's ToggleDetailRow.
     /// </summary>
-    public enum DetailRowTriggerType
-    {
-        /// <summary>
-        /// Trigger is manually controlled by invoking the Datagrid's ToggleDetailRow.
-        /// </summary>
-        Manual,
+    Manual,
 
-        /// <summary>
-        /// Triggers on row click.
-        /// </summary>
-        RowClick,
-    }
+    /// <summary>
+    /// Triggers on row click.
+    /// </summary>
+    RowClick,
 }

@@ -93,8 +93,8 @@
     {
         @if ( !ParentDataGrid.Virtualize )
         {
-            <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart" Display="Blazorise.Display.None.InlineBlock.OnDesktop">
-                @if ( TotalItemsTemplate != null )
+            <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart" Display="Blazorise.Display.None.OnMobile.InlineBlock.OnDesktop">
+                @if ( TotalItemsTemplate is not null )
                 {
                     @TotalItemsTemplate( PaginationContext )
                 }
@@ -115,9 +115,9 @@
                 }
             </Field>
             <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart" Display="Blazorise.Display.InlineBlock.None.OnDesktop">
-                @if ( TotalItemsTemplate != null )
+                @if ( TotalItemsShortTemplate is not null )
                 {
-                    @TotalItemsTemplate( PaginationContext )
+                    @TotalItemsShortTemplate( PaginationContext )
                 }
                 else
                 {
@@ -135,7 +135,7 @@
             <Pagination Size="@GetSize()">
                 <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
                     <PaginationLink Page="first" Clicked="@OnPaginationItemClick">
-                        @if ( FirstPageButtonTemplate != null )
+                        @if ( FirstPageButtonTemplate is not null )
                         {
                             @FirstPageButtonTemplate
                         }
@@ -147,7 +147,7 @@
                 </PaginationItem>
                 <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
                     <PaginationLink Page="prev" Clicked="@OnPaginationItemClick">
-                        @if ( PreviousPageButtonTemplate != null )
+                        @if ( PreviousPageButtonTemplate is not null )
                         {
                             @PreviousPageButtonTemplate
                         }
@@ -163,9 +163,9 @@
                     var pageNumberString = i.ToString();
                     var pageActive = pageNumber == PaginationContext.CurrentPage;
 
-                    <PaginationItem Display="Blazorise.Display.None.InlineBlock.OnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
+                    <PaginationItem Display="Blazorise.Display.None.OnMobile.InlineBlock.OnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
                         <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
-                            @if ( PageButtonTemplate != null )
+                            @if ( PageButtonTemplate is not null )
                             {
                                 @PageButtonTemplate( new( pageNumber, pageActive ) )
                             }
@@ -177,7 +177,7 @@
                     </PaginationItem>
                 }
                 <PaginationItem Display="Blazorise.Display.InlineBlock.None.OnTablet">
-                    <Select @bind-SelectedValue="@PaginationContext.CurrentPage">
+                    <Select @bind-SelectedValue="@PaginationContext.CurrentPage" Size="GetSize()">
                         @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
                         {
                             var pageNumber = i;
@@ -187,7 +187,7 @@
                 </PaginationItem>
                 <PaginationItem Disabled="@(PaginationContext.CurrentPage >= PaginationContext.LastPage)">
                     <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
-                        @if ( NextPageButtonTemplate != null )
+                        @if ( NextPageButtonTemplate is not null )
                         {
                             @NextPageButtonTemplate
                         }
@@ -199,7 +199,7 @@
                 </PaginationItem>
                 <PaginationItem Disabled="@(PaginationContext.CurrentPage >= PaginationContext.LastPage)">
                     <PaginationLink Page="last" Clicked="@OnPaginationItemClick">
-                        @if ( LastPageButtonTemplate != null )
+                        @if ( LastPageButtonTemplate is not null )
                         {
                             @LastPageButtonTemplate
                         }
@@ -219,8 +219,8 @@
                             }
                         </Select>
                     </PaginationItem>
-                    <Field Margin="Blazorise.Margin.IsAuto.OnY.Is0.FromBottom.Is2.FromStart" Display="Blazorise.Display.None.InlineBlock.OnDesktop">
-                        @if ( ItemsPerPageTemplate != null )
+                    <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart" Display="Blazorise.Display.None.OnMobile.InlineBlock.OnDesktop">
+                        @if ( ItemsPerPageTemplate is not null )
                         {
                             @ItemsPerPageTemplate
                         }

@@ -55,6 +55,15 @@ export function select(element, elementId, focus) {
     }
 }
 
+// show a browser picker for the supplied input element
+export function showPicker(element, elementId) {
+    element = getRequiredElement(element, elementId);
+
+    if (element && 'showPicker' in HTMLInputElement.prototype) {
+        element.showPicker();
+    }
+}
+
 export function setCaret(element, caret) {
     if (hasSelectionCapabilities(element)) {
         window.requestAnimationFrame(() => {
@@ -193,7 +202,7 @@ function isExponential(num) {
 
 export function fromExponential(num) {
     if (!num)
-        return null;
+        return num;
 
     const eParts = getExponentialParts(num);
     if (!isExponential(eParts)) {

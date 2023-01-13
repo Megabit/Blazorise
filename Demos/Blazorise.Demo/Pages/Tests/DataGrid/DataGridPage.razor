@@ -215,13 +215,14 @@
                           @bind-SelectedRow="@selectedEmployee"
                           @bind-SelectedRows="@selectedEmployees"
                           NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
-                          DetailRowTrigger="@((e)=> e.Item.Salaries?.Count > 0 && e.Item.Id == selectedEmployee?.Id)"                          
+                          DetailRowTrigger="@((e)=> e.Item.Salaries?.Count > 0 && e.Item.Id == selectedEmployee?.Id)"
                           Striped
                           Bordered
                           Hoverable
                           Responsive
                           ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter"
+                          PageSize="5"
                           CurrentPage="currentPage"
                           PageChanged="(e) => currentPage = e.Page"
                           FilteredDataChanged="@OnFilteredDataChanged"
@@ -263,7 +264,7 @@
                                 <Check TValue="bool" Checked="@context.IsSelected" CheckedExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged"></Check>
                             </MultiSelectTemplate>
                         </DataGridMultiSelectColumn>
-                        <DataGridCommandColumn Width="170px" PreventRowClick>
+                        <DataGridCommandColumn PreventRowClick>
                             <NewCommandTemplate>
                                 <Button Color="Color.Success" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </NewCommandTemplate>
@@ -290,7 +291,7 @@
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable ValidationPattern="[A-Za-z]{3}" />
-                        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
+                        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable EditFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn Field="@nameof( Employee.City )" Caption="City" Editable>
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption

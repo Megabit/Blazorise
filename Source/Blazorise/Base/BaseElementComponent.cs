@@ -2,20 +2,19 @@
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Base class for all basic html elements.
+/// </summary>
+public class BaseElementComponent : BaseComponent
 {
+    #region Properties
+
     /// <summary>
-    /// Base class for all basic html elements.
+    /// Specifies the content to be rendered inside this component.
     /// </summary>
-    public class BaseElementComponent : BaseComponent
-    {
-        #region Properties
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
-        /// <summary>
-        /// Specifies the content to be rendered inside this component.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        #endregion
-    }
+    #endregion
 }

@@ -1,23 +1,22 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Specifies the direction of a sort operation.
+/// </summary>
+public enum SortDirection
 {
     /// <summary>
-    /// Specifies the direction of a sort operation.
+    /// No sorting will be applied.
     /// </summary>
-    public enum SortDirection
-    {
-        /// <summary>
-        /// No sorting will be applied.
-        /// </summary>
-        Default = 0,
+    Default = 0,
 
-        /// <summary>
-        /// Sorts in ascending order.
-        /// </summary>
-        Ascending = 1,
+    /// <summary>
+    /// Sorts in ascending order.
+    /// </summary>
+    Ascending = 1,
 
-        /// <summary>
-        /// Sorts in descending order.
-        /// </summary>
-        Descending = 2,
-    }
+    /// <summary>
+    /// Sorts in descending order.
+    /// </summary>
+    Descending = 2,
 }

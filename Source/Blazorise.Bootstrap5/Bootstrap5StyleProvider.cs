@@ -1,33 +1,44 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Bootstrap5
+namespace Blazorise.Bootstrap5;
+
+public class Bootstrap5StyleProvider
+    : StyleProvider
 {
-    public class Bootstrap5StyleProvider
-        : StyleProvider
-    {
-        #region Modal
+    #region Modal
 
-        public override string ModalShow() => "display: block;";
+    public override int DefaultModalZIndex => 1055;
 
-        #endregion
+    public override int DefaultModalBackdropZIndex => 1050;
 
-        #region ModalBody
+    public override string ModalShow() => "display: block;";
 
-        public override string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto;";
+    int ModalZIndexDiff => DefaultModalZIndex - DefaultModalBackdropZIndex;
 
-        #endregion
+    public override string ModalZIndex( int modalOpenIndex )
+        => modalOpenIndex > 1 ? $"z-index: {DefaultModalZIndex + ( ModalZIndexDiff * ( modalOpenIndex - 1 ) ) + ModalZIndexDiff}" : null;
 
-        #region ProgressBar
+    public override string ModalBackdropZIndex( int modalOpenIndex )
+        => modalOpenIndex > 1 ? $"z-index: {DefaultModalZIndex + ( ModalZIndexDiff * ( modalOpenIndex - 1 ) )}" : null;
 
-        public override string ProgressBarValue( int value ) => $"width: {value}%";
+    #endregion
 
-        public override string ProgressBarSize( Size size ) => null;
+    #region ModalBody
 
-        #endregion
+    public override string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto";
 
-        #region Layout
+    #endregion
 
-        #endregion
-    }
+    #region ProgressBar
+
+    public override string ProgressBarValue( int value ) => $"width: {value}%";
+
+    public override string ProgressBarSize( Size size ) => null;
+
+    #endregion
+
+    #region Layout
+
+    #endregion
 }

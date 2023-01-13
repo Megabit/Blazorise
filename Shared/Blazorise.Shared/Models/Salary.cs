@@ -1,10 +1,9 @@
 ﻿using System;
 
-namespace Blazorise.Shared.Models
+namespace Blazorise.Shared.Models;
+
+public class Salary
 {
-    public class Salary
-    {
-        public DateTime Date { get; set; }
-        public decimal Total { get; set; }
-    }
+    public DateTime Date { get; set; }
+    public decimal Total { get; set; }
 }

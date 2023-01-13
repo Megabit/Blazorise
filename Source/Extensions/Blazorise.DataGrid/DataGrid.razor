@@ -41,7 +41,7 @@
                             }
                             else
                             {
-                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable && column.Sortable ? "; cursor: pointer" : "")}{(column.Width != null ? $"; width: {column.Width}" : "")}".TrimStart( ' ', ';' ))" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
+                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
                                     @if ( column.ShowCaption )
                                     {
                                         @if ( column.CaptionTemplate != null )
@@ -59,7 +59,7 @@
                                         {
                                             @column.SortDirectionTemplate( column.CurrentSortDirection )
                                         }
-                                        else 
+                                        else
                                         {
                                             if ( column.CurrentSortDirection == SortDirection.Default && ShowDefaultSortIcon )
                                             {
@@ -144,7 +144,7 @@
                             </ChildContent>
                             <Placeholder>
                                 <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                    @LoadingTemplate
+                                    &nbsp;@LoadingTemplate
                                 </_DataGridFullColumnSpanRow>
                             </Placeholder>
                         </Virtualize>
@@ -157,7 +157,7 @@
                             </ChildContent>
                             <Placeholder>
                                 <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
-                                    @LoadingTemplate
+                                    &nbsp;@LoadingTemplate
                                 </_DataGridFullColumnSpanRow>
                             </Placeholder>
                         </Virtualize>

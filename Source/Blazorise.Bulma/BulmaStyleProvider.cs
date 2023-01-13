@@ -1,32 +1,43 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Bulma
+namespace Blazorise.Bulma;
+
+public class BulmaStyleProvider : StyleProvider
 {
-    public class BulmaStyleProvider : StyleProvider
-    {
-        #region Modal
+    #region Modal
 
-        public override string ModalShow() => null;
+    public override int DefaultModalZIndex => 40;
 
-        #endregion
+    public override int DefaultModalBackdropZIndex => 0;
 
-        #region ModalBody
+    public override string ModalShow() => null;
 
-        public override string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto;";
+    int ModalZIndexDiff => DefaultModalZIndex - DefaultModalBackdropZIndex;
 
-        #endregion
+    public override string ModalZIndex( int modalOpenIndex )
+        => modalOpenIndex > 1 ? $"z-index: {DefaultModalZIndex + ModalZIndexDiff}" : null;
 
-        #region ProgressBar
+    public override string ModalBackdropZIndex( int modalOpenIndex )
+        => null;
 
-        public override string ProgressBarValue( int value ) => $"width: {value}%;";
+    #endregion
 
-        public override string ProgressBarSize( Size size ) => null;
+    #region ModalBody
 
-        #endregion
+    public override string ModalBodyMaxHeight( int maxHeight ) => $"max-height: {maxHeight}vh; overflow-y: auto";
 
-        #region Layout
+    #endregion
 
-        #endregion
-    }
+    #region ProgressBar
+
+    public override string ProgressBarValue( int value ) => $"width: {value}%";
+
+    public override string ProgressBarSize( Size size ) => null;
+
+    #endregion
+
+    #region Layout
+
+    #endregion
 }

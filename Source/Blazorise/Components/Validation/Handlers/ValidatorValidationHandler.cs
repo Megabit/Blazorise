@@ -3,52 +3,51 @@ using System.Threading;
 using System.Threading.Tasks;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Default handler implementation to validate <see cref="IValidation"/> using the <see cref="ValidationRule"/> methods.
+/// </summary>
+public class ValidatorValidationHandler : IValidationHandler
 {
-    /// <summary>
-    /// Default handler implementation to validate <see cref="IValidation"/> using the <see cref="ValidationRule"/> methods.
-    /// </summary>
-    public class ValidatorValidationHandler : IValidationHandler
+    /// <inheritdoc/>
+    public void Validate( IValidation validation, object newValidationValue )
     {
-        /// <inheritdoc/>
-        public void Validate( IValidation validation, object newValidationValue )
-        {
-            validation.NotifyValidationStarted();
+        validation.NotifyValidationStarted();
 
-            var validatorEventArgs = new ValidatorEventArgs( newValidationValue );
+        var validatorEventArgs = new ValidatorEventArgs( newValidationValue );
 
+        validation.Validator?.Invoke( validatorEventArgs );
+
+        var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
+            ? new string[] { validatorEventArgs.ErrorText }
+            : null;
+
+        validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
+    }
+
+    /// <inheritdoc/>
+    public async Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default )
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+
+        validation.NotifyValidationStarted();
+
+        var validatorEventArgs = new ValidatorEventArgs( newValidationValue );
+
+        cancellationToken.ThrowIfCancellationRequested();
+
+        if ( validation.AsyncValidator != null )
+            await validation.AsyncValidator( validatorEventArgs, cancellationToken );
+        else
             validation.Validator?.Invoke( validatorEventArgs );
 
-            var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
-                ? new string[] { validatorEventArgs.ErrorText }
-                : null;
+        var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
+            ? new string[] { validatorEventArgs.ErrorText }
+            : null;
 
-            validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
-        }
+        cancellationToken.ThrowIfCancellationRequested();
 
-        /// <inheritdoc/>
-        public async Task ValidateAsync( IValidation validation, object newValidationValue, CancellationToken cancellationToken = default )
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-
-            validation.NotifyValidationStarted();
-
-            var validatorEventArgs = new ValidatorEventArgs( newValidationValue );
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            if ( validation.AsyncValidator != null )
-                await validation.AsyncValidator( validatorEventArgs, cancellationToken );
-            else
-                validation.Validator?.Invoke( validatorEventArgs );
-
-            var matchMessages = validatorEventArgs.Status == ValidationStatus.Error && !string.IsNullOrEmpty( validatorEventArgs.ErrorText )
-                ? new string[] { validatorEventArgs.ErrorText }
-                : null;
-
-            cancellationToken.ThrowIfCancellationRequested();
-
-            validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
-        }
+        validation.NotifyValidationStatusChanged( validatorEventArgs.Status, matchMessages );
     }
 }

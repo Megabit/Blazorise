@@ -1,0 +1,194 @@
+﻿@page "/news/release-notes/120"
+
+<Seo Canonical="news/release-notes/120" Title="Blazorise v1.2" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.2 release." ImageUrl="img/news/120/v120.png" />
+
+<NewsPageImage Source="img/news/120/v120.png" Text="Blazorise v1.2" />
+
+<NewsPageTitle>
+    Announcing Blazorise 1.2
+</NewsPageTitle>
+
+<Paragraph>
+    We are excited to announce the release of Blazorise v1.2, which brings a number of new features, improvements, and bug fixes to the framework. This release marks a significant milestone for Blazorise and we are confident that it will provide an even better experience for our users.
+</Paragraph>
+
+<Paragraph>
+    Some of the highlights of this release include the addition of a new Tailwind CSS provider, improved DataGrid UI, and an introduction of several new extension components. We have also made a number of other updates and enhancements to the framework to improve stability and reliability.
+</Paragraph>
+
+<Paragraph>
+    We hope you enjoy this new release and we can't wait to see what you build with it!
+</Paragraph>
+
+<NewsPageSubtitle>
+    Blazorise 1.2 Highlights 💡
+</NewsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        New <Strong>Tailwind CSS</Strong> provider.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>Chart DataLabels</Strong> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>LottieAnimation</Strong> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>Cropper</Strong> component.
+    </UnorderedListItem>
+</UnorderedList>
+
+<NewsPageSubtitle>
+    Upgrade an existing project 👨‍🔧
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    1. Packages
+</Heading>
+
+<Paragraph>
+    To upgrade an existing Blazorise applications from <Strong>1.1.x</Strong> to <Strong>1.2</Strong>:
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.2</Strong>.
+    </UnorderedListItem>
+</UnorderedList>
+
+<NewsPageSubtitle>
+    New Features 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Tailwind CSS Provider
+</Heading>
+
+<Paragraph>
+    As part of our ongoing efforts to improve and enhance the functionality of Blazorise, we are excited to announce the release of a new <Link To="https://tailwindcss.com/" Title="Tailwind CSS">Tailwind CSS</Link> provider for Blazorise, which was created on top of <Link To="https://flowbite.com/" Title="Link to Flowbite">Flowbite</Link> with the courtesy of their creators.
+</Paragraph>
+
+<Paragraph>
+    For those unfamiliar with Tailwind CSS, it is a utility-first CSS framework that allows developers to easily style their applications by providing a wide range of pre-designed classes that can be applied directly to HTML elements. It is a popular choice for many developers because of its simplicity and flexibility.
+</Paragraph>
+
+<Paragraph>
+    With the new Tailwind CSS provider for Blazorise, you can easily apply Tailwind styles to your Blazor components and take advantage of all the benefits that Tailwind has to offer. This provider is fully integrated with Blazorise and allows you to use all the features of Blazorise while still benefiting from the power of Tailwind.
+</Paragraph>
+
+<Paragraph>
+    To get started with the new Tailwind CSS provider, simply install the latest version of Blazorise and add the Tailwind CSS provider to your project by following our <Link To="docs/usage/tailwind" Title="Link to Tailwind Guide">startup guide</Link>.
+</Paragraph>
+
+<Paragraph>
+    We would like to extend a special thank you to the creators of <Link To="https://flowbite.com/" Title="Link to Flowbite">Flowbite</Link> for their contribution in making this provider possible.
+</Paragraph>
+
+<Paragraph>
+    We hope you enjoy this new feature and we can't wait to see what you build with it!
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Chart DataLabels
+</Heading>
+
+<Paragraph>
+    With the new DataLabels component it is possible to add and control the look of each chart data label and data point. The new DataLabels component is made possible with the help of <Anchor To="https://chartjs-plugin-datalabels.netlify.app/" Title="Link to chart DataLabels plugin" Target="Target.Blank">chartjs-plugin-datalabels</Anchor>.
+</Paragraph>
+
+<Paragraph>
+    The usage of new DataLabels component with examples can be see at <Anchor To="docs/extensions/chart-datalabels">DataLabels page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    LottieAnimation extension
+</Heading>
+
+<Paragraph>
+    The LottieAnimation component allows you to easily incorporate beautiful, customizable animations into your Blazor applications using the <Link To="https://github.com/airbnb/lottie-web">Lottie</Link> Javascript library. The library's purpose is to allow applications to directly render animations exported from Adobe After Effects without needing to recreate the animation by hand in the HTML. It is simple to use and provides a seamless integration with Blazorise.
+</Paragraph>
+
+<Paragraph>
+    We are grateful to <Link To="https://github.com/smfields">smfields</Link> for their contribution to the Blazorise community and for bringing this exciting new feature to our users.
+</Paragraph>
+
+<Paragraph>
+    To get started with the LottieAnimation component simply folllow the guide on our <Anchor To="docs/extensions/lottie-animation">LottieAnimation page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    QRCode Icon
+</Heading>
+
+<Paragraph>
+    It is now possible to add custom icons within the QRCode.
+</Paragraph>
+
+<Paragraph>
+    The usage of new icon can be see on <Anchor To="docs/extensions/qrcode">QRCode page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Cropper Component
+</Heading>
+
+<Paragraph>
+    When building an application, best practice requires reducing an image's surrounding noise and directing a user's attention to a specific part of the image. Image cropping is a method for manipulating images to remove any unwanted elements. By changing the aspect ratio or orientation, we can draw viewers' eyes to the photograph's primary subject and improve the overall composition. This applies to profile pictures or uploading images with specific dimensions.
+</Paragraph>
+
+<Paragraph>
+    The new <Code>Cropper</Code> component handles all of that. You can now upload an image and then select part of it, rotate, scale, and crop it. You can also add a preview by adding a <Code>CropperViewer</Code> whenever on a page, and it will automatically synchronize with the latest selection.
+</Paragraph>
+
+<Paragraph>
+    As with many other components, the Cropper component is also created with the help of our community member <Link To="https://github.com/njannink">njannink</Link>. We will need to send him a larger MVC award gift next year 😊.
+</Paragraph>
+
+<Paragraph>
+    The usage of new cropper component can be see on <Anchor To="docs/extensions/cropper">Cropper page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Gap Utility
+</Heading>
+
+<Paragraph>
+    TODO
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Lead component
+</Heading>
+
+<Paragraph>
+    This component allows users to easily apply a larger, bolder font style to important text on their web pages, making it stand out and draw the reader's attention.
+</Paragraph>
+
+<Paragraph>
+    This new component can be used to wrap any text element, and includes customization options for font size, font weight, and text color.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    AccordionToggle component
+</Heading>
+
+<Paragraph>
+    We have introduced a new AccordionToggle component that should be used instead of the Button component when building an Accordion.
+</Paragraph>
+
+<Paragraph>
+    The Button component is no longer reccomended for use inside an Accordion and may cause unexpected behavior. Using the AccordionToggle component will ensure that your Accordion functions as intended.
+</Paragraph>
+
+<Paragraph>
+    To update your code, simply replace any instances of <Code Tag>Button</Code> inside your Accordion with <Code Tag>AccordionToggle</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Autocomplete improvements
+</Heading>
+
+<Paragraph>
+    Blazorise Autocomplete now includes a search highlight feature that allows users to easily locate items in the dropdown list. When a search value is entered, the matching items in the dropdown will be highlighted, making it easier to find and select the desired item. This feature is particularly useful when working with large lists of items and helps improve the overall user experience.
+</Paragraph>
