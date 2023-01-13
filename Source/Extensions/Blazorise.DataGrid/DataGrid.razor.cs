@@ -155,7 +155,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <returns></returns>
     internal int GroupableColumnsCount()
-        => GroupableColumns.Count;
+        => GroupableColumns?.Count ?? 0;
 
     /// <summary>
     /// Tracks the column currently being Dragged.

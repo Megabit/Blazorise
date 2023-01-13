@@ -6,7 +6,7 @@
     {
         @foreach ( var column in ( Columns ) )
         {
-            <Badge @key="column.ElementId" Color="Color.Primary" Margin="Margin.Is2.FromStart" CloseClicked="() => RemoveColumn(column)">@column.Caption</Badge>
+            <Badge @key="column.ElementId" Color="Color.Secondary" Padding="Padding.Is2" Margin="Margin.Is2.FromStart" CloseClicked="() => RemoveColumn(column)">@column.Caption</Badge>
         }
     }
 </Div>
