@@ -322,35 +322,35 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         => ParentDataGrid.IsFixedHeader ? ( ParentDataGrid.HeaderRowStyling?.Background ?? Background.Default ) : Background.Default;
 
     /// <summary>
-    /// Determines the text alignment for the group cell.
+    /// Determines the text alignment for the aggregate cell.
     /// </summary>
     /// <returns>Text alignment value.</returns>
     internal TextAlignment AggregateCellTextAlignment
        => AggregateTextAlignment ?? TextAlignment;
 
     /// <summary>
-    /// Determines the vertical alignment for the group cell.
+    /// Determines the vertical alignment for the aggregate cell.
     /// </summary>
     /// <returns>Vertical alignment value.</returns>
     internal VerticalAlignment AggregateCellVerticalAlignment
       => AggregateVerticalAlignment ?? VerticalAlignment;
 
     /// <summary>
-    /// Determines the display for the group cell.
+    /// Determines the display for the aggregate cell.
     /// </summary>
     /// <returns>Display value.</returns>
     internal IFluentDisplay AggregateCellDisplay
         => AggregateDisplay ?? Display;
 
     /// <summary>
-    /// Determines the flex for the group cell.
+    /// Determines the flex for the aggregate cell.
     /// </summary>
     /// <returns>Flex value.</returns>
     internal IFluentFlex AggregateCellFlex
         => AggregateFlex ?? Flex;
 
     /// <summary>
-    /// Determines the gap for the group cell.
+    /// Determines the gap for the aggregate cell.
     /// </summary>
     /// <returns>Gap value.</returns>
     internal IFluentGap AggregateCellGap
@@ -590,49 +590,49 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public string FilterCellStyle { get; set; }
 
     /// <summary>
-    /// Custom classname for group cell.
+    /// Custom classname for the aggregate cell.
     /// </summary>
     [Obsolete( "DataGridColumn: The GroupCellClass parameter is deprecated, please use the AggregateCellClass parameter instead." )]
     [Parameter] public string GroupCellClass { get => AggregateCellClass; set => AggregateCellClass = value; }
 
     /// <summary>
-    /// Custom style for group cell.
+    /// Custom style for the aggregate cell.
     /// </summary>
     [Obsolete( "DataGridColumn: The GroupCellStyle parameter is deprecated, please use the AggregateCellStyle parameter instead." )]
     [Parameter] public string GroupCellStyle { get => AggregateCellStyle; set => AggregateCellStyle = value; }
 
     /// <summary>
-    /// Custom classname for group cell.
+    /// Custom classname for the aggregate cell.
     /// </summary>
     [Parameter] public string AggregateCellClass { get; set; }
 
     /// <summary>
-    /// Custom style for group cell.
+    /// Custom style for the aggregate cell.
     /// </summary>
     [Parameter] public string AggregateCellStyle { get; set; }
 
     /// <summary>
-    /// Defines the alignment for column group cell.
+    /// Defines the alignment for column the aggregate cell.
     /// </summary>
     [Parameter] public TextAlignment? AggregateTextAlignment { get; set; }
 
     /// <summary>
-    /// Defines the vertical alignment for column group cell.
+    /// Defines the vertical alignment for column the aggregate cell.
     /// </summary>
     [Parameter] public VerticalAlignment? AggregateVerticalAlignment { get; set; }
 
     /// <summary>
-    /// Specifies the display behavior of a group cell.
+    /// Specifies the display behavior of a the aggregate cell.
     /// </summary>
     [Parameter] public IFluentDisplay AggregateDisplay { get; set; }
 
     /// <summary>
-    /// Specifies the flex utility of a group cell.
+    /// Specifies the flex utility of a the aggregate cell.
     /// </summary>
     [Parameter] public IFluentFlex AggregateFlex { get; set; }
 
     /// <summary>
-    /// Specifies the gap utility of a group cell.
+    /// Specifies the gap utility of a the aggregate cell.
     /// </summary>
     [Parameter] public IFluentGap AggregateGap { get; set; }
 
