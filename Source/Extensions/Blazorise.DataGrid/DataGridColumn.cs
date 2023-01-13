@@ -192,12 +192,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         return sb.ToString().TrimStart( ' ', ';' );
     }
 
-    internal string BuildGroupCellStyle()
+    internal string BuildAggregateCellStyle()
     {
         var sb = new StringBuilder();
 
-        if ( !string.IsNullOrEmpty( GroupCellStyle ) )
-            sb.Append( GroupCellStyle );
+        if ( !string.IsNullOrEmpty( AggregateCellStyle ) )
+            sb.Append( AggregateCellStyle );
 
         if ( Width != null )
             sb.Append( $"; width: {Width};" );
@@ -325,36 +325,36 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Determines the text alignment for the group cell.
     /// </summary>
     /// <returns>Text alignment value.</returns>
-    internal TextAlignment GroupCellTextAlignment
-       => GroupTextAlignment ?? TextAlignment;
+    internal TextAlignment AggregateCellTextAlignment
+       => AggregateTextAlignment ?? TextAlignment;
 
     /// <summary>
     /// Determines the vertical alignment for the group cell.
     /// </summary>
     /// <returns>Vertical alignment value.</returns>
-    internal VerticalAlignment GroupCellVerticalAlignment
-      => GroupVerticalAlignment ?? VerticalAlignment;
+    internal VerticalAlignment AggregateCellVerticalAlignment
+      => AggregateVerticalAlignment ?? VerticalAlignment;
 
     /// <summary>
     /// Determines the display for the group cell.
     /// </summary>
     /// <returns>Display value.</returns>
-    internal IFluentDisplay GroupCellDisplay
-        => GroupDisplay ?? Display;
+    internal IFluentDisplay AggregateCellDisplay
+        => AggregateDisplay ?? Display;
 
     /// <summary>
     /// Determines the flex for the group cell.
     /// </summary>
     /// <returns>Flex value.</returns>
-    internal IFluentFlex GroupCellFlex
-        => GroupFlex ?? Flex;
+    internal IFluentFlex AggregateCellFlex
+        => AggregateFlex ?? Flex;
 
     /// <summary>
     /// Determines the gap for the group cell.
     /// </summary>
     /// <returns>Gap value.</returns>
-    internal IFluentGap GroupCellGap
-        => GroupGap ?? Gap;
+    internal IFluentGap AggregateCellGap
+        => AggregateGap ?? Gap;
 
     internal bool IsDisplayable => ( ColumnType == DataGridColumnType.Command && ParentDataGrid.EditMode == DataGridEditMode.Inline );
 
@@ -592,37 +592,49 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Custom classname for group cell.
     /// </summary>
-    [Parameter] public string GroupCellClass { get; set; }
+    [Obsolete( "DataGridColumn: The GroupCellClass parameter is deprecated, please use the AggregateCellClass parameter instead." )]
+    [Parameter] public string GroupCellClass { get => AggregateCellClass; set => AggregateCellClass = value; }
 
     /// <summary>
     /// Custom style for group cell.
     /// </summary>
-    [Parameter] public string GroupCellStyle { get; set; }
+    [Obsolete( "DataGridColumn: The GroupCellStyle parameter is deprecated, please use the AggregateCellStyle parameter instead." )]
+    [Parameter] public string GroupCellStyle { get => AggregateCellStyle; set => AggregateCellStyle = value; }
+
+    /// <summary>
+    /// Custom classname for group cell.
+    /// </summary>
+    [Parameter] public string AggregateCellClass { get; set; }
+
+    /// <summary>
+    /// Custom style for group cell.
+    /// </summary>
+    [Parameter] public string AggregateCellStyle { get; set; }
 
     /// <summary>
     /// Defines the alignment for column group cell.
     /// </summary>
-    [Parameter] public TextAlignment? GroupTextAlignment { get; set; }
+    [Parameter] public TextAlignment? AggregateTextAlignment { get; set; }
 
     /// <summary>
     /// Defines the vertical alignment for column group cell.
     /// </summary>
-    [Parameter] public VerticalAlignment? GroupVerticalAlignment { get; set; }
+    [Parameter] public VerticalAlignment? AggregateVerticalAlignment { get; set; }
 
     /// <summary>
     /// Specifies the display behavior of a group cell.
     /// </summary>
-    [Parameter] public IFluentDisplay GroupDisplay { get; set; }
+    [Parameter] public IFluentDisplay AggregateDisplay { get; set; }
 
     /// <summary>
     /// Specifies the flex utility of a group cell.
     /// </summary>
-    [Parameter] public IFluentFlex GroupFlex { get; set; }
+    [Parameter] public IFluentFlex AggregateFlex { get; set; }
 
     /// <summary>
     /// Specifies the gap utility of a group cell.
     /// </summary>
-    [Parameter] public IFluentGap GroupGap { get; set; }
+    [Parameter] public IFluentGap AggregateGap { get; set; }
 
     /// <summary>
     /// Template for custom cell display formatting.
