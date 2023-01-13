@@ -40,6 +40,10 @@
     <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Blazorise.Licensing" Version="1.1.0-preview4" />
+  </ItemGroup>
+
   <PropertyGroup>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>__SOURCEGENERATED__</CompilerGeneratedFilesOutputPath>
