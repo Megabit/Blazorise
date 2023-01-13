@@ -25,9 +25,9 @@ public static class ExtensionMethods
             case SortDirection.Default:
                 return isReverse ? SortDirection.Descending : SortDirection.Ascending;
             case SortDirection.Ascending:
-                return SortDirection.Descending;
+                return isReverse ? SortDirection.Default : SortDirection.Descending;
             case SortDirection.Descending:
-                return SortDirection.Ascending;
+                return isReverse ? SortDirection.Ascending : SortDirection.Default;
             default:
                 return SortDirection.Default;
         }
