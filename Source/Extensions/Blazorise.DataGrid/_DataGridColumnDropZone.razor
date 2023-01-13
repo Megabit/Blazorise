@@ -1,6 +1,6 @@
 @using Blazorise.Extensions;
 @typeparam TItem
-<Div Class="b-datagrid-drop-zone" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Margin="Margin.Is3" Flex="Flex.Grow.Is1"
+<Div Class="b-datagrid-drop-zone" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Flex="Flex.Grow.Is1"
      ondragover="event.preventDefault();" @ondrop="OnDrop">
     @if ( !Columns.IsNullOrEmpty() )
     {
