@@ -217,100 +217,229 @@
 .ant-menu.ant-menu-root.ant-menu-inline .ant-menu-toggler-inline > *, .ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-toggler-inline > * {
   margin: auto;
 }
-.ant-menu.ant-menu-root.ant-menu-inline {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline {
   min-width: var(--b-sidebar-width, 230px);
   max-width: var(--b-sidebar-width, 230px);
   width: var(--b-sidebar-width, 230px);
 }
-.ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline > .ant-menu-item {
   min-height: 40px;
 }
-.ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item > a {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline > .ant-menu-item > a {
   margin: 0px -16px;
   color: inherit;
   padding-right: 16px;
   padding-left: 24px;
 }
-.ant-menu.ant-menu-root.ant-menu-inline > .ant-menu-item > a.active {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline > .ant-menu-item > a.active {
   color: var(--b-bar-item-dark-active-color, #fff);
   background: var(--b-bar-item-dark-active-background, #0288D1);
 }
-.ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline > .ant-menu-item > a:hover {
+  color: var(--b-bar-item-dark-hover-color, #fff);
+  background: var(--b-bar-item-dark-hover-background, rgba(255, 255, 255, 0.3));
+}
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
   padding-left: 24px;
 }
-.ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a {
   margin: 0px -16px;
   color: inherit;
   padding-right: 16px;
   padding-left: 48px;
 }
-.ant-menu.ant-menu-root.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
   color: var(--b-bar-item-dark-active-color, #fff);
   background: var(--b-bar-item-dark-active-background, #0288D1);
 }
-.ant-menu.ant-menu-root.ant-menu-vertical.ant-menu-inline-collapsed:not(.ant-menu-vertical-collapsed) {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a:hover {
+  color: var(--b-bar-item-dark-hover-color, #fff);
+  background: var(--b-bar-item-dark-hover-background, rgba(255, 255, 255, 0.3));
+}
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical.ant-menu-inline-collapsed:not(.ant-menu-vertical-collapsed) {
   min-width: var(--b-sidebar-small-width, 80px);
   max-width: var(--b-sidebar-small-width, 80px);
   width: var(--b-sidebar-small-width, 80px);
 }
-.ant-menu.ant-menu-root.ant-menu-vertical > .ant-menu-item {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-item {
   min-height: 40px;
 }
-.ant-menu.ant-menu-root.ant-menu-vertical > .ant-menu-item > a {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-item > a {
   margin: 0px -16px;
   color: inherit;
   padding-right: 16px;
   padding: 0px 32px;
   margin: 0px -32px;
 }
-.ant-menu.ant-menu-root.ant-menu-vertical > .ant-menu-item > a.active {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-item > a.active {
   color: var(--b-bar-item-dark-active-color, #fff);
   background: var(--b-bar-item-dark-active-background, #0288D1);
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-item > a > span {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical > .ant-menu-item > a:hover {
+  color: var(--b-bar-item-dark-hover-color, #fff);
+  background: var(--b-bar-item-dark-hover-background, rgba(255, 255, 255, 0.3));
+}
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-item > a > span {
   font-size: 0px;
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-title > span {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-title > span {
   font-size: 0px;
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup {
   margin: -45px 5px 0px 5px;
   width: var(--b-vertical-bar-popout-menu-width, auto);
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a {
   margin: 0px -16px;
   color: inherit;
   padding-right: 16px;
   padding-left: 16px;
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
   color: var(--b-bar-item-dark-active-color, #fff);
   background: var(--b-bar-item-dark-active-background, #0288D1);
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a:hover {
+  color: var(--b-bar-item-dark-hover-color, #fff);
+  background: var(--b-bar-item-dark-hover-background, rgba(255, 255, 255, 0.3));
+}
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop {
   left: var(--b-sidebar-small-width, 80px);
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop::before {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop::before {
   top: 0;
   left: -7px;
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop {
   right: var(--b-sidebar-small-width, 80px);
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop::before {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop::before {
   top: 0;
   right: -7px;
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-title > span {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-title > span {
   font-size: inherit;
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop {
   left: var(--b-vertical-bar-popout-menu-width, 180px);
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop {
   right: var(--b-vertical-bar-popout-menu-width, 180px);
 }
-.ant-menu.ant-menu-root.ant-menu-vertical .ant-menu-toggler-inline {
+.ant-menu.ant-menu-root.ant-menu-dark.ant-menu-vertical .ant-menu-toggler-inline {
+  position: relative;
+  width: 100%;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline {
+  min-width: var(--b-sidebar-width, 230px);
+  max-width: var(--b-sidebar-width, 230px);
+  width: var(--b-sidebar-width, 230px);
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline > .ant-menu-item {
+  min-height: 40px;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline > .ant-menu-item > a {
+  margin: 0px -16px;
+  color: inherit;
+  padding-right: 16px;
+  padding-left: 24px;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline > .ant-menu-item > a.active {
+  color: var(--b-bar-item-light-active-color, #fff);
+  background: var(--b-bar-item-light-active-background, #0288D1);
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline > .ant-menu-item > a:hover {
+  color: var(--b-bar-item-light-hover-color, #fff);
+  background: var(--b-bar-item-light-hover-background, rgba(255, 255, 255, 0.3));
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu-submenu-title {
+  padding-left: 24px;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a {
+  margin: 0px -16px;
+  color: inherit;
+  padding-right: 16px;
+  padding-left: 48px;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
+  color: var(--b-bar-item-light-active-color, #fff);
+  background: var(--b-bar-item-light-active-background, #0288D1);
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-inline .ant-menu-submenu.ant-menu-submenu-inline > .ant-menu.ant-menu-sub > .ant-menu-item > a:hover {
+  color: var(--b-bar-item-light-hover-color, #fff);
+  background: var(--b-bar-item-light-hover-background, rgba(255, 255, 255, 0.3));
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical.ant-menu-inline-collapsed:not(.ant-menu-vertical-collapsed) {
+  min-width: var(--b-sidebar-small-width, 80px);
+  max-width: var(--b-sidebar-small-width, 80px);
+  width: var(--b-sidebar-small-width, 80px);
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item {
+  min-height: 40px;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item > a {
+  margin: 0px -16px;
+  color: inherit;
+  padding-right: 16px;
+  padding: 0px 32px;
+  margin: 0px -32px;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item > a.active {
+  color: var(--b-bar-item-light-active-color, #fff);
+  background: var(--b-bar-item-light-active-background, #0288D1);
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical > .ant-menu-item > a:hover {
+  color: var(--b-bar-item-light-hover-color, #fff);
+  background: var(--b-bar-item-light-hover-background, rgba(255, 255, 255, 0.3));
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-item > a > span {
+  font-size: 0px;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-title > span {
+  font-size: 0px;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup {
+  margin: -45px 5px 0px 5px;
+  width: var(--b-vertical-bar-popout-menu-width, auto);
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a {
+  margin: 0px -16px;
+  color: inherit;
+  padding-right: 16px;
+  padding-left: 16px;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a.active {
+  color: var(--b-bar-item-light-active-color, #fff);
+  background: var(--b-bar-item-light-active-background, #0288D1);
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup > .ant-menu.ant-menu-sub > .ant-menu-item > a:hover {
+  color: var(--b-bar-item-light-hover-color, #fff);
+  background: var(--b-bar-item-light-hover-background, rgba(255, 255, 255, 0.3));
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop {
+  left: var(--b-sidebar-small-width, 80px);
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop::before {
+  top: 0;
+  left: -7px;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop {
+  right: var(--b-sidebar-small-width, 80px);
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop::before {
+  top: 0;
+  right: -7px;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu-title > span {
+  font-size: inherit;
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-rightTop {
+  left: var(--b-vertical-bar-popout-menu-width, 180px);
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup .ant-menu-submenu.ant-menu-submenu-vertical > .ant-menu-submenu.ant-menu-submenu-popup.ant-menu-submenu-placement-leftTop {
+  right: var(--b-vertical-bar-popout-menu-width, 180px);
+}
+.ant-menu.ant-menu-root.ant-menu-light.ant-menu-vertical .ant-menu-toggler-inline {
   position: relative;
   width: 100%;
 }
