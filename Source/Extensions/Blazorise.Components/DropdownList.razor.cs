@@ -123,6 +123,11 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     [Parameter] public string MaxMenuHeight { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the dropdown will use the Virtualize functionality.
+    /// </summary>
+    [Parameter] public bool Virtualize { get; set; }
+
+    /// <summary>
     /// Captures all the custom attribute that are not part of Blazorise component.
     /// </summary>
     [Parameter( CaptureUnmatchedValues = true )]
