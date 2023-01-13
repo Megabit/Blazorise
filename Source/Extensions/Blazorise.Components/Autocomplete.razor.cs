@@ -1154,7 +1154,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Gets the data after all of the filters have being applied.
     /// </summary>
-    protected IReadOnlyList<TItem> FilteredData
+    protected IList<TItem> FilteredData
     {
         get
         {
@@ -1414,6 +1414,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets or sets the whether first item in the list should be selected
     /// </summary>
     [Parameter] public bool AutoSelectFirstItem { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the autocomplete will use the Virtualize functionality.
+    /// </summary>
+    [Parameter] public bool Virtualize { get; set; }
 
     #endregion
 }
