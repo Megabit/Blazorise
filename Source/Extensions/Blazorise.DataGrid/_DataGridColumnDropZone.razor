@@ -1,4 +1,5 @@
 @using Blazorise.Extensions;
+@using Blazorise.Localization;
 @typeparam TItem
 <Div Class="b-datagrid-drop-zone" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Flex="Flex.Grow.Is1"
      ondragover="event.preventDefault();" @ondrop="OnDrop">
@@ -8,10 +9,20 @@
         {
             <Badge @key="column.ElementId" Color="Color.Secondary" Padding="Padding.Is2" Margin="Margin.Is2.FromStart" CloseClicked="() => RemoveColumn(column)">@column.Caption</Badge>
         }
+
+    }
+    else
+    {
+        <span>@Localizer.GetString("Drag a column header here to group by that column")</span>
     }
 </Div>
 
 @code {
+    /// <summary>
+    /// Gets or sets the DI registered <see cref="ITextLocalizer{_DataGridColumnDropZone}"/>.
+    /// </summary>
+    [Inject] protected ITextLocalizer<_DataGridColumnDropZone<TItem>> Localizer { get; set; }
+
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
     [Parameter] public EventCallback<DataGridColumn<TItem>> ColumnRemoved { get; set; }

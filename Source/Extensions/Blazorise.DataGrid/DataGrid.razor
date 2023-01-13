@@ -63,8 +63,13 @@
                             }
                             else
                             {
-                                <TableHeaderCell Draggable="@column.Groupable" DragStart="() => ColumnDragStart(column)" DragEnd="ColumnDragEnd"
+                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="() => ColumnDragStart(column)" DragEnd="ColumnDragEnd"
                                                  Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
+                                    
+                                    @if ( IsGroupableByColumn && column.Groupable )
+                                    {
+                                        <Icon Name='("fas fa-grip-vertical")' Margin="@Blazorise.Margin.Is1.FromEnd" Style="cursor:move" />
+                                    }
                                     @if ( column.ShowCaption )
                                     {
                                         @if ( column.CaptionTemplate != null )
