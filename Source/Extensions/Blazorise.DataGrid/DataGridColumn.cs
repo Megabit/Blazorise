@@ -49,7 +49,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         currentSortDirection[DataGridSortMode.Single] = SortDirection;
         currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
 
-        if ( ParentDataGrid != null )
+        if ( ParentDataGrid is not null )
         {
             ParentDataGrid.AddColumn( this );
 
@@ -294,8 +294,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     public bool IsCommandColumn => ColumnType == DataGridColumnType.Command;
 
-    public bool IsGroupEnabled => Groupable && Grouping;
-
     /// <summary>
     /// Gets or sets the column's display caption.
     /// </summary>
@@ -427,7 +425,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public bool Groupable { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the column should be grouped.
+    /// Gets or sets whether the column should start grouped.
     /// </summary>
     [Parameter] public bool Grouping { get; set; }
 

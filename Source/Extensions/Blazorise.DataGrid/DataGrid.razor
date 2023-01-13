@@ -5,12 +5,20 @@
 @using Blazorise.DataGrid.Models
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
+
 <CascadingValue Value="@this" IsFixed>
     @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
         @paginationFragment
     }
     <Form>
+        @if ( IsGroupableByColumn )
+        {
+            <_DataGridColumnDropZone TItem="TItem"
+                                     Columns="@GroupableColumns"
+                                     ColumnRemoved="RemoveGroupColumn"
+                                     ColumnAdded="AddGroupColumn" />
+        }
         <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@(Virtualize || FixedHeader)" FixedHeaderTableHeight="@GetFixedTableHeaderHeight()" FixedHeaderTableMaxHeight="@GetFixedTableHeaderMaxHeight()" @attributes="@Attributes">
             <TableHeader ThemeContrast="HeaderThemeContrast">
                 @if ( ShowCaptions )
@@ -55,7 +63,8 @@
                             }
                             else
                             {
-                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
+                                <TableHeaderCell Draggable="@column.Groupable" DragStart="() => ColumnDragStart(column)" DragEnd="ColumnDragEnd"
+                                                 Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
                                     @if ( column.ShowCaption )
                                     {
                                         @if ( column.CaptionTemplate != null )

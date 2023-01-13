@@ -12,6 +12,7 @@ using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 #endregion
 
@@ -142,6 +143,25 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     protected internal int lastSelectedRowIndex;
 
+    /// <summary>
+    /// Gets the DataGrid columns that are currently marked for Grouping.
+    /// </summary>
+    /// <returns></returns>
+    protected List<DataGridColumn<TItem>> GroupableColumns;
+
+
+    /// <summary>
+    /// Gets the DataGrid columns that are currently marked for Grouping Count.
+    /// </summary>
+    /// <returns></returns>
+    internal int GroupableColumnsCount()
+        => GroupableColumns.Count;
+
+    /// <summary>
+    /// Tracks the column currently being Dragged.
+    /// </summary>
+    internal DataGridColumn<TItem> columnBeingDragged;
+
     #endregion
 
     #region Constructors
@@ -161,25 +181,56 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #region Setup
 
     /// <summary>
-    /// Makes sure the DataGrid has enough defined conditions to group data.
+    /// Column Drag Started
     /// </summary>
+    /// <param name="col"></param>
     /// <returns></returns>
-    internal bool IsGroupEnabled
-        => Groupable && ( GroupBy is not null || Columns.Any( x => x.IsGroupEnabled ) );
+    private Task ColumnDragStart( DataGridColumn<TItem> col )
+    {
+        columnBeingDragged = col;
+        return Task.CompletedTask;
+    }
 
     /// <summary>
-    /// Gets the DataGrid columns that are marked as Groupable.
+    /// Column Drag Ended
     /// </summary>
+    /// <param name="e"></param>
     /// <returns></returns>
-    internal IEnumerable<DataGridColumn<TItem>> GetGroupableColumns()
-        => Columns.Where( x => x.IsGroupEnabled );
+    private Task ColumnDragEnd( DragEventArgs e )
+    {
+        columnBeingDragged = null;
+        return Task.CompletedTask;
+    }
 
     /// <summary>
-    /// Gets the DataGrid columns that are marked as Groupable Count.
+    /// Adds a new column to grouping.
     /// </summary>
-    /// <returns></returns>
-    internal int GroupableColumnsCount()
-        => GetGroupableColumns().Count();
+    /// <param name="column"></param>
+    public void AddGroupColumn( DataGridColumn<TItem> column )
+    {
+        if ( column.Groupable )
+        {
+            GroupableColumns ??= new();
+            if ( !GroupableColumns.Contains( column ) )
+            {
+                GroupableColumns.Add( column );
+                SetDirty();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Removes a column from grouping.
+    /// </summary>
+    /// <param name="column"></param>
+    public void RemoveGroupColumn( DataGridColumn<TItem> column )
+    {
+        if ( column.Groupable )
+        {
+            if ( GroupableColumns.Remove( column ) )
+                SetDirty();
+        }
+    }
 
     /// <summary>
     /// If IsGroupable feature is active. Groups the data for Display.
@@ -195,12 +246,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( GroupBy is null )
         {
-            var groupableColumns = GetGroupableColumns();
-            var firstGroupableColumn = groupableColumns.First();
+            var firstGroupableColumn = GroupableColumns.First();
             groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
                                                                              .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
                                                                              .ToList();
-            RecursiveGroup( 1, groupableColumns, groupedData );
+            RecursiveGroup( 1, groupedData );
 
         }
         else
@@ -218,7 +268,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <param name="iteration"></param>
     /// <param name="groupableColumns"></param>
     /// <param name="groupData"></param>
-    private void RecursiveGroup( int iteration, IEnumerable<DataGridColumn<TItem>> groupableColumns, List<GroupContext<TItem>> groupData )
+    private void RecursiveGroup( int iteration, List<GroupContext<TItem>> groupData )
     {
         if ( groupData.IsNullOrEmpty() )
             return;
@@ -226,7 +276,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         foreach ( var group in groupData )
         {
 
-            var nextGroupableColumn = groupableColumns?.ElementAtOrDefault( iteration );
+            var nextGroupableColumn = GroupableColumns?.ElementAtOrDefault( iteration );
             if ( nextGroupableColumn is not null )
             {
                 var nestedGroup = group.Items.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) )
@@ -234,7 +284,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                                                                            .ToList();
                 group.SetNestedGroup( nestedGroup );
 
-                RecursiveGroup( iteration + 1, groupableColumns, nestedGroup );
+                RecursiveGroup( iteration + 1, nestedGroup );
             }
         }
     }
@@ -308,6 +358,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public void AddColumn( DataGridColumn<TItem> column )
     {
         Columns.Add( column );
+
+        if ( column.Grouping )
+            AddGroupColumn( column );
 
         if ( column.CurrentSortDirection != SortDirection.Default )
             HandleSortColumn( column, false );
@@ -1466,6 +1519,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    /// <summary>
+    /// Makes sure the DataGrid has columns defined as groupable.
+    /// </summary>
+    /// <returns></returns>
+    internal bool IsGroupableByColumn
+        => Groupable && ( Columns.Any( x => x.Groupable ) );
+
+    /// <summary>
+    /// Makes sure the DataGrid has enough defined conditions to group data.
+    /// </summary>
+    /// <returns></returns>
+    internal bool IsGroupEnabled
+        => Groupable && ( GroupBy is not null || !GroupableColumns.IsNullOrEmpty() );
 
     internal bool IsFixedHeader
         => Virtualize || FixedHeader;
