@@ -42,8 +42,8 @@ public class GroupContext<TItem>
         Expanded = expanded;
     }
 
-    internal void SetNestedGroup( List<GroupContext<TItem>> nestedGroup )
-        => NestedGroup = nestedGroup.AsEnumerable();
+    internal void SetNestedGroup( IEnumerable<GroupContext<TItem>> nestedGroup )
+        => NestedGroup = nestedGroup;
 
     #endregion
 
