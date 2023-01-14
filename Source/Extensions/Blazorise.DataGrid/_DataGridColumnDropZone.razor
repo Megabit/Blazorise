@@ -1,7 +1,5 @@
 @using Blazorise.Extensions;
-@using Blazorise.Localization;
 @typeparam TItem
-@implements IDisposable
 
 <Div Class="b-datagrid-drop-zone" Border="Border.Rounded" Background="Background.Light" Padding="Padding.Is3" Flex="Flex.Grow.Is1"
      ondragover="event.preventDefault();" @ondrop="OnDrop">
@@ -18,54 +16,3 @@
         <span>@Localizer.Localize( ParentDataGrid.Localizers?.DragAndDropGroupLocalizer, "Drag a column header here to group by that column" )</span>
     }
 </Div>
-
-@code {
-    /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizer{DataGrid{TItem}}"/> />.
-    /// </summary>
-    [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
-
-    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
-
-    [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
-
-    [Parameter] public EventCallback<DataGridColumn<TItem>> ColumnRemoved { get; set; }
-
-    [Parameter] public EventCallback<DataGridColumn<TItem>> ColumnAdded { get; set; }
-
-    [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
-
-    private Task OnDrop( DragEventArgs e )
-    {
-        if ( ParentDataGrid.columnBeingDragged is not null )
-        {
-            return ColumnAdded.InvokeAsync( ParentDataGrid.columnBeingDragged );
-        }
-
-        return Task.CompletedTask;
-    }
-
-    private Task RemoveColumn( DataGridColumn<TItem> column )
-    {
-        return ColumnRemoved.InvokeAsync( column );
-    }
-
-    /// <inheritdoc/>
-    protected override void OnInitialized()
-    {
-        LocalizerService.LocalizationChanged += OnLocalizationChanged;
-
-        base.OnInitialized();
-    }
-
-    /// <inheritdoc/>
-    public void Dispose()
-    {
-        LocalizerService.LocalizationChanged -= OnLocalizationChanged;
-    }
-
-    private async void OnLocalizationChanged( object sender, EventArgs e )
-    {
-        await InvokeAsync( StateHasChanged );
-    }
-}
