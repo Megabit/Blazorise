@@ -30,6 +30,9 @@ public static class Config
         serviceCollection.AddScoped<IComponentActivator, ComponentActivator>();
         serviceCollection.AddScoped<IComponentDisposer, ComponentDisposer>();
 
+        // Shared component context. Must be defined as scoped as we want to make it available for the user session.
+        serviceCollection.AddScoped<ModalSharedContext>();
+
         // If options handler is not defined we will get an exception so
         // we need to initialize an empty action.
         configureOptions ??= _ => { };

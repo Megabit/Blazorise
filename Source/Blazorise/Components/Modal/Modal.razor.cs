@@ -123,7 +123,8 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     protected override void BuildStyles( StyleBuilder builder )
     {
         builder.Append( StyleProvider.ModalShow(), IsVisible );
-        builder.Append( $"--modal-animation-duration: {AnimationDuration}ms;" );
+        builder.Append( StyleProvider.ModalZIndex( OpenIndex ) );
+        builder.Append( $"--modal-animation-duration: {AnimationDuration}ms" );
 
         base.BuildStyles( builder );
     }
@@ -298,6 +299,12 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     {
         if ( visible )
         {
+            if ( ModalContext is not null )
+            {
+                // save the state of the modal index
+                state = state with { OpenIndex = ModalContext.RaiseModalOpenIndex() };
+            }
+
             jsRegistered = true;
 
             ExecuteAfterRender( async () =>
@@ -309,6 +316,12 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
         }
         else
         {
+            if ( ModalContext is not null )
+            {
+                // save the state of the modal index
+                state = state with { OpenIndex = ModalContext.DecreaseModalOpenIndex() };
+            }
+
             jsRegistered = false;
 
             ExecuteAfterRender( async () =>
@@ -428,6 +441,11 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     protected internal bool IsVisible => State.Visible == true;
 
     /// <summary>
+    /// Returns the opened index of modal.
+    /// </summary>
+    protected internal int OpenIndex => State.OpenIndex;
+
+    /// <summary>
     /// Returns true if the modal backdrop should be visible.
     /// </summary>
     protected internal bool BackdropVisible = false;
@@ -460,6 +478,11 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.
     /// </summary>
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
+
+    /// <summary>
+    /// Gets or sets the modal shared context.
+    /// </summary>
+    [Inject] private ModalSharedContext ModalContext { get; set; }
 
     /// <summary>
     /// Defines the visibility of modal dialog.

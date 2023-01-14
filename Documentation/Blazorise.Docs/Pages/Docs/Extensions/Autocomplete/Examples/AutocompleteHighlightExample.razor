@@ -1,0 +1,23 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Autocomplete TItem="Country"
+              TValue="string"
+              Data="@Countries"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@(( item ) => item.Iso)"
+              Placeholder="Search..."
+              HighlightSearch>
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}
