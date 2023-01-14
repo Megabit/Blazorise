@@ -1,2 +1,0 @@
-C:\Users\david\source\repos\_Work\Blazorise\Documentation\Blazorise.Docs\Pages\Docs\Extensions\DataGrid\Code\DataGridMultipleGroupingExampleCode.html
-C:\Users\david\source\repos\_Work\Blazorise\Documentation\Blazorise.Docs\Pages\Docs\Extensions\DataGrid\Code\DataGridShowGroupingExampleCode.html
