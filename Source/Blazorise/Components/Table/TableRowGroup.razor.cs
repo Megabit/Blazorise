@@ -56,7 +56,6 @@ public partial class TableRowGroup : BaseDraggableComponent
     /// <param name="builder">Class builder used to append the classnames.</param>
     private void BuildRowIndentCellClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.TableRowGroupCell() );
         builder.Append( ClassProvider.TableRowGroupIndentCell() );
     }
 
