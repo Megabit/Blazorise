@@ -927,6 +927,8 @@ class EmptyClassProvider : IClassProvider
 
     public string TableRowGroupCell() => null;
 
+    public string TableRowGroupIndentCell() => null;
+
     public string TableResponsive() => null;
 
     public string TableFixedHeader() => null;

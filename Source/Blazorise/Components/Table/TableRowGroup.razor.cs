@@ -26,6 +26,7 @@ public partial class TableRowGroup : BaseDraggableComponent
     public TableRowGroup()
     {
         RowCellClassBuilder = new( BuildRowCellClasses );
+        RowIndentCellClassBuilder = new( BuildRowIndentCellClasses );
     }
 
     #endregion
@@ -49,10 +50,21 @@ public partial class TableRowGroup : BaseDraggableComponent
         builder.Append( ClassProvider.TableRowGroupCell() );
     }
 
+    /// <summary>
+    /// Builds the classnames for an indent cell.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    private void BuildRowIndentCellClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.TableRowGroupCell() );
+        builder.Append( ClassProvider.TableRowGroupIndentCell() );
+    }
+
     /// <inheritdoc/>
     protected internal override void DirtyClasses()
     {
         RowCellClassBuilder.Dirty();
+        RowIndentCellClassBuilder.Dirty();
 
         base.DirtyClasses();
     }
@@ -86,9 +98,14 @@ public partial class TableRowGroup : BaseDraggableComponent
     #region Properties
 
     /// <summary>
-    /// Row class builder.
+    /// Row cell class builder.
     /// </summary>
     protected ClassBuilder RowCellClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Row indent cell class builder.
+    /// </summary>
+    protected ClassBuilder RowIndentCellClassBuilder { get; private set; }
 
     /// <summary>
     /// Gets or sets the cascaded parent table component.

@@ -21,7 +21,7 @@
     @attributes="@Attributes">
     @for ( int i = 0; i < IndentTableCells; i++ )
     {
-        <td>
+        <td class="@RowIndentCellClassBuilder.Class">
             @if ( IndentTableCellTemplate is not null )
             {
                 @IndentTableCellTemplate(i)

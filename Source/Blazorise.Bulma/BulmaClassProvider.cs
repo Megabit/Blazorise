@@ -996,6 +996,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRowGroupCell() => "table-group-cell";
 
+    public override string TableRowGroupIndentCell() => "table-group-indentcell";
+
     public override string TableResponsive() => "table-container";
 
     public override string TableFixedHeader() => "table-container-fixed-header";
