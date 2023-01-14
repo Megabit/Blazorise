@@ -33,8 +33,7 @@
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
-                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false"
-                                               SortField="@nameof( Employee.ChildrensPerSalary )" SortDirection="SortDirection.Descending" />
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Groupable Grouping>
                             <DisplayTemplate>
                                 @{
