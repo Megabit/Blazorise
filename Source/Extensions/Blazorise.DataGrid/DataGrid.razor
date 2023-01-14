@@ -25,18 +25,7 @@
                 {
                     <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.Default)" Color="@(HeaderRowStyling?.Color ?? Color.Default)">
 
-                        @if ( IsGroupEnabled )
-                        {
-                            var count = GroupableColumnsCount();
-                            if ( count > 1 )
-                            {
-                                for ( int i = 0; i < count; i++ )
-                                {
-                                    <TableHeaderCell Style="width:25px;" />
-                                }
-
-                            }
-                        }
+                        @groupIndentationFragment
 
                         @foreach ( var column in DisplayableColumns )
                         {
@@ -65,7 +54,7 @@
                             {
                                 <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="() => ColumnDragStart(column)" DragEnd="ColumnDragEnd"
                                                  Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
-                                    
+
                                     @if ( IsGroupableByColumn && column.Groupable )
                                     {
                                         <Icon Name='("fas fa-grip-vertical")' Margin="@Blazorise.Margin.Is1.FromEnd" Style="cursor:move" />
@@ -108,18 +97,7 @@
                 {
                     <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.Default)" Color="@(FilterRowStyling?.Color ?? Color.Default)">
 
-                        @if ( IsGroupEnabled )
-                        {
-                            var count = GroupableColumnsCount();
-                            if ( count > 1 )
-                            {
-                                for ( int i = 0; i < count; i++ )
-                                {
-                                    <TableHeaderCell Style="width:25px;" />
-                                }
-
-                            }
-                        }
+                        @groupIndentationFragment
 
                         @foreach ( var column in DisplayableColumns )
                         {
@@ -208,7 +186,7 @@
                     {
                         @if ( IsGroupEnabled )
                         {
-                            @groupFragment( (1, DisplayGroupedData) )
+                            @groupFragment( (0, DisplayGroupedData) )
                         }
                         else
                         {
@@ -301,12 +279,7 @@
     {
         @foreach ( var group in x.groupedData )
         {
-            //@for ( int i = 1; i < x.iteration; i++ )
-            //{
-            //    <TableHeaderCell Style="width:25px;" />
-
-            //}
-            <TableRowGroup @key="group.Key" Expanded="@group.Expanded" ExpandedChanged="@group.SetExpanded">
+            <TableRowGroup @key="group.Key" Expanded="@group.Expanded" ExpandedChanged="@group.SetExpanded" IndentTableCells="x.iteration">
                 <TitleTemplate>
                     @if ( group.GroupTemplate is null )
                     {
@@ -336,8 +309,26 @@
         }
     };
 
+    protected internal RenderFragment groupIndentationFragment => __builder =>
+    {
+        @if ( IsGroupEnabled )
+        {
+            var count = GroupableColumnsCount();
+            if ( count > 1 )
+            {
+                for ( int i = 0; i < count; i++ )
+                {
+                    <TableHeaderCell />
+                }
+            }
+        }
+    };
+
     protected RenderFragment aggregateRowFragment => __builder =>
     {
         <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.Default)" Color="@(GroupRowStyling?.Color ?? Color.Default)" />
     };
+
+
+
 }

@@ -19,6 +19,15 @@
     @oncontextmenu="@OnContextMenuHandler"
     @oncontextmenu:preventDefault="@ContextMenuPreventDefault"
     @attributes="@Attributes">
+    @for ( int i = 0; i < IndentTableCells; i++ )
+    {
+        <td>
+            @if ( IndentTableCellTemplate is not null )
+            {
+                @IndentTableCellTemplate(i)
+            }
+        </td>
+    }
     <td class="@RowCellClassBuilder.Class" colspan="@ColumnSpan">
         @if ( Toggleable )
         {

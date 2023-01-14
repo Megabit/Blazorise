@@ -154,5 +154,15 @@ public partial class TableRowGroup : BaseDraggableComponent
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// Specifies a number of Table Cells to Indent on the Group Row.
+    /// </summary>
+    [Parameter] public int IndentTableCells { get; set; }
+
+    /// <summary>
+    /// Specifies the custom content inside an Indented Table Cell on the Group Row. A contextual index is provided according to the Indentation.
+    /// </summary>
+    [Parameter] public RenderFragment<int> IndentTableCellTemplate { get; set; }
+
     #endregion
 }

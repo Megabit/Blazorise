@@ -23,18 +23,7 @@
               Style="@GetStyle(styling, selectedStyling)"
               HoverCursor="@GetHoverCursor()">
 
-        @if ( ParentDataGrid.IsGroupEnabled )
-        {
-            var count = ParentDataGrid.GroupableColumnsCount();
-            if ( count > 1 )
-            {
-                for ( int i = 0; i < count; i++ )
-                {
-                    <TableRowCell Style="width:25px;" />
-                }
-
-            }
-        }
+        @ParentDataGrid.groupIndentationFragment
 
         @foreach ( var column in Columns )
         {
