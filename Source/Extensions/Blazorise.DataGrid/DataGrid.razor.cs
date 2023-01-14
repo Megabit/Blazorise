@@ -1,4 +1,5 @@
-﻿#region Using directives
+﻿
+#region Using directives
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -1551,7 +1552,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <returns></returns>
     internal bool IsGroupableByColumn
-        => Groupable && ( Columns.Any( x => x.Groupable ) );
+        => Groupable && ShowGrouping && ( Columns.Any( x => x.Groupable ) );
 
     /// <summary>
     /// Makes sure the DataGrid has enough defined conditions to group data.
@@ -1948,6 +1949,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// If this is defined at the DataGrid level, column grouping will not be considered.
     /// </summary>
     [Parameter] public Func<TItem, object> GroupBy { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether user can see and edit column grouping.
+    /// </summary>
+    [Parameter] public bool ShowGrouping { get; set; }
 
     /// <summary>
     /// Gets or sets whether user can see a column captions.
