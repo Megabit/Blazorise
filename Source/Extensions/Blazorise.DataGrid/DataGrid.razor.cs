@@ -247,34 +247,60 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( GroupBy is null )
         {
             var firstGroupableColumn = GroupableColumns.First();
-            groupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
+            var newGroupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
                                                                              .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
                                                                              .ToList();
-            RecursiveGroup( 1, groupedData );
+            RecursiveGroup( 1, groupedData, newGroupedData );
+            groupedData = newGroupedData;
 
         }
         else
         {
-            groupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
+            var newGroupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
                                      .Select( x => new GroupContext<TItem>( x ) )
                                      .ToList();
+            GroupSyncState( groupedData, newGroupedData );
+            groupedData = newGroupedData;
         }
         return;
+    }
+
+    /// <summary>
+    /// Syncs a new group state with the previous group state if the group key matches.
+    /// </summary>
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroupedData"></param>
+    private void GroupSyncState( List<GroupContext<TItem>> oldGroupedData, List<GroupContext<TItem>> newGroupedData )
+        => newGroupedData.ForEach( x => GroupSyncState( oldGroupedData, x ) );
+
+    /// <summary>
+    /// Syncs a new group state with the previous group state if the group key matches.
+    /// </summary>
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroup"></param>
+    /// <returns></returns>
+    private GroupContext<TItem> GroupSyncState( List<GroupContext<TItem>> oldGroupedData, GroupContext<TItem> newGroup )
+    {
+        var oldGroup = oldGroupedData?.FirstOrDefault( x => x.Key == newGroup.Key );
+        if ( oldGroup is not null )
+            newGroup.SetExpanded( oldGroup.Expanded );
+        return oldGroup;
     }
 
     /// <summary>
     /// Recursively nests groups of data according to the configured group columns.
     /// </summary>
     /// <param name="iteration"></param>
-    /// <param name="groupableColumns"></param>
-    /// <param name="groupData"></param>
-    private void RecursiveGroup( int iteration, List<GroupContext<TItem>> groupData )
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroupedData"></param>
+    private void RecursiveGroup( int iteration, List<GroupContext<TItem>> oldGroupedData, List<GroupContext<TItem>> newGroupedData )
     {
-        if ( groupData.IsNullOrEmpty() )
+        if ( newGroupedData.IsNullOrEmpty() )
             return;
 
-        foreach ( var group in groupData )
+        foreach ( var group in newGroupedData )
         {
+            var oldGroup = GroupSyncState( oldGroupedData, group );
 
             var nextGroupableColumn = GroupableColumns?.ElementAtOrDefault( iteration );
             if ( nextGroupableColumn is not null )
@@ -284,7 +310,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                                                                            .ToList();
                 group.SetNestedGroup( nestedGroup );
 
-                RecursiveGroup( iteration + 1, nestedGroup );
+                RecursiveGroup( iteration + 1, (List<GroupContext<TItem>>)oldGroup?.NestedGroup, nestedGroup );
             }
         }
     }
