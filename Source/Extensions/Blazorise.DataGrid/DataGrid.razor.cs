@@ -1953,7 +1953,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets whether user can see and edit column grouping.
     /// </summary>
-    [Parameter] public bool ShowGrouping { get; set; }
+    [Parameter] public bool ShowGrouping { get; set; } = true;
 
     /// <summary>
     /// Gets or sets whether user can see a column captions.
