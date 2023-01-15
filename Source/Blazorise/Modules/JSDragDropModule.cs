@@ -33,7 +33,7 @@ public class JSDragDropModule : BaseJSModule, IJSDragDropModule
 
     /// <inheritdoc/>
     public virtual ValueTask InitializeThrottledDragEvents<T>( ElementReference elementRef, string elementId, DotNetObjectReference<T> dotNetObjectReference ) where T : class
-        => InvokeSafeVoidAsync( "InitializeThrottledDragEvents", elementRef, elementId, dotNetObjectReference );
+        => InvokeSafeVoidAsync( "initializeThrottledDragEvents", elementRef, elementId, dotNetObjectReference );
 
     /// <inheritdoc/>
     public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
