@@ -1479,6 +1479,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     public bool ManualReadMode => ReadData.HasDelegate && !Virtualize;
 
+    /// <summary>
+    /// True if user is using <see cref="ReadData"/> and <see cref="Virtualize"/> for loading the data.
+    /// </summary>
     public bool VirtualizeManualReadMode => ReadData.HasDelegate && Virtualize;
 
     /// <summary>

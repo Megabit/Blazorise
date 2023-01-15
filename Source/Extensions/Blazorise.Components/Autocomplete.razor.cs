@@ -11,6 +11,7 @@ using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.JSInterop;
 #endregion
 
@@ -31,6 +32,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     }
 
     #region Members
+
+    /// <summary>
+    /// Element reference to the Autocomplete's inner virtualize.
+    /// </summary>
+    private Virtualize<TItem> virtualizeRef;
 
     /// <summary>
     /// Gets the CancellationTokenSource which could be used to issue a cancellation.
@@ -105,6 +111,26 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged );
         await SynchronizeMultiple( selectedValuesParamChanged, selectedTextsParamChanged );
     }
+
+    protected async ValueTask<ItemsProviderResult<TItem>> VirtualizeItemsProviderHandler( ItemsProviderRequest request )
+    {
+        // Credit to Steve Sanderson's Quickgrid implementation
+        // Debounce the requests. This eliminates a lot of redundant queries at the cost of slight lag after interactions.
+        // TODO: Consider making this configurable, or smarter (e.g., doesn't delay on first call in a batch, then the amount
+        // of delay increases if you rapidly issue repeated requests, such as when scrolling a long way)
+        await Task.Delay( 100 );
+
+        if ( request.CancellationToken.IsCancellationRequested )
+            return default;
+
+        await HandleVirtualizeReadData( request.StartIndex, request.Count, request.CancellationToken );
+
+        if ( request.CancellationToken.IsCancellationRequested )
+            return default;
+        else
+            return new( Data.ToList(), TotalItems.HasValue ? TotalItems.Value : default );
+    }
+
 
     private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
     {
@@ -254,14 +280,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             await ResetCurrentSearch();
 
             if ( ManualReadMode )
-                await InvokeReadData();
+                await Reload();
         }
         else
         {
             await SetCurrentSearch( text );
 
             if ( ManualReadMode )
-                await InvokeReadData();
+                await Reload();
 
             if ( HasFilteredData && GetItemText( FilteredData.First() ) == CurrentSearch )
             {
@@ -392,7 +418,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         TextFocused = true;
         if ( ManualReadMode )
-            await InvokeReadData();
+            await Reload();
 
         await OpenDropdown();
     }
@@ -489,7 +515,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         await Revalidate();
     }
 
-    protected async Task InvokeReadData( CancellationToken cancellationToken = default )
+    protected async Task HandleReadData( CancellationToken cancellationToken = default )
     {
         try
         {
@@ -500,7 +526,28 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
             if ( !cancellationTokenSource.Token.IsCancellationRequested && IsTextSearchable )
             {
-                await ReadData.InvokeAsync( new( CurrentSearch, cancellationTokenSource.Token ) );
+                await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken: cancellationTokenSource.Token ) );
+                await Task.Yield(); // rebind Data after ReadData
+            }
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+
+    protected async Task HandleVirtualizeReadData( int startIdx, int count, CancellationToken cancellationToken )
+    {
+        try
+        {
+            cancellationTokenSource?.Cancel();
+            cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+
+            Loading = true;
+
+            if ( !cancellationToken.IsCancellationRequested )
+            {
+                await ReadData.InvokeAsync( new( CurrentSearch, startIdx, count, cancellationToken ) );
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
@@ -520,9 +567,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         if ( Loading )
             return;
 
-        if ( ManualReadMode )
+        if ( VirtualizeManualReadMode )
         {
-            await InvokeReadData( cancellationToken );
+            if ( virtualizeRef is null )
+                await InvokeAsync( () => HandleVirtualizeReadData( 0, 10, cancellationToken ) );
+            else
+                await virtualizeRef.RefreshDataAsync();
+        }
+        else if ( ManualReadMode )
+        {
+            await HandleReadData( cancellationToken );
         }
 
         DirtyFilter();
@@ -986,6 +1040,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     public bool ManualReadMode => ReadData.HasDelegate;
 
     /// <summary>
+    /// True if user is using <see cref="ReadData"/> and <see cref="Virtualize"/> for loading the data.
+    /// </summary>
+    public bool VirtualizeManualReadMode => ReadData.HasDelegate && Virtualize;
+
+    /// <summary>
     /// Returns true if ReadData will be invoked.
     /// </summary>
     protected bool Loading { get; set; }
@@ -1150,6 +1209,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Event handler used to load data manually based on the current search value.
     /// </summary>
     [Parameter] public EventCallback<AutocompleteReadDataEventArgs> ReadData { get; set; }
+
 
     /// <summary>
     /// Gets the data after all of the filters have being applied.
@@ -1419,6 +1479,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets or sets whether the autocomplete will use the Virtualize functionality.
     /// </summary>
     [Parameter] public bool Virtualize { get; set; }
+
+    /// <summary>
+    /// Gets or sets the total number of items. Used only when <see cref="ReadData"/> and <see cref="Virtualize"/> is used to load the data.
+    /// </summary>
+    /// <remarks>
+    /// This field must be set only when <see cref="ReadData"/> and <see cref="Virtualize"/> is used to load the data.
+    /// </remarks>
+    [Parameter] public int? TotalItems { get; set; }
 
     #endregion
 }

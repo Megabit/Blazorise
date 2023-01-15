@@ -48,11 +48,17 @@
             </DropdownItem>
         }
 
-        @if ( DropdownVisible )
+        @if ( true || DropdownVisible )
         {
-            @if ( Virtualize )
+            @if ( VirtualizeManualReadMode )
             {
-                <Virtualize TItem="TItem" Context="item" Items="@FilteredData">
+                <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="VirtualizeItemsProviderHandler">
+                    @itemFragment(item)
+                </Virtualize>
+            }
+            else if ( Virtualize )
+            {
+                <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" Items="@FilteredData">
                     @itemFragment(item)
                 </Virtualize>
             }
