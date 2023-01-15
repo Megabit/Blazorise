@@ -15,19 +15,18 @@
                 </Paragraph>
 
                 <Paragraph>
-                    <Button Color="Color.Success" Clicked="() => dataGridRef.ExpandAllGroups()">Expand All</Button>
-                    <Button Color="Color.Warning" Clicked="() => dataGridRef.CollapseAllGroups()">Collapse All</Button>
+                    <Button Color="Color.Primary" Clicked="() => dataGridRef.ExpandAllGroups()">Expand All</Button>
+                    <Button Color="Color.Secondary" Clicked="() => dataGridRef.CollapseAllGroups()">Collapse All</Button>
                 </Paragraph>
-
             </CardBody>
             <CardBody>
-                <DataGrid 
-                          @ref="dataGridRef"
+                <DataGrid @ref="dataGridRef"
                           TItem="Employee"
                           Data="inMemoryData"
                           ShowPager
                           ShowPageSizes
-                          Groupable>
+                          Groupable
+                          ShowGrouping>
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
