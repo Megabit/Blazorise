@@ -1476,7 +1476,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public bool AutoSelectFirstItem { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the autocomplete will use the Virtualize functionality.
+    /// Gets or sets whether the Autocomplete will use the Virtualize functionality.
     /// </summary>
     [Parameter] public bool Virtualize { get; set; }
 
