@@ -52,7 +52,7 @@ public partial class _DataGridColumnDropZone<TItem> : ComponentBase, IDisposable
     #region Properties
 
     /// <summary>
-    /// Gets or sets the DI registered <see cref="ITextLocalizer{DataGrid{TItem}}"/> />.
+    /// Gets or sets the DI registered <see cref="ITextLocalizer"/> for <see cref="DataGrid{TItem}"/> />.
     /// </summary>
     [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }
 

@@ -1665,7 +1665,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         => !IsLoading && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !Data.IsNullOrEmpty() && FilteredData.IsNullOrEmpty() ) && VirtualizeRendered;
 
     /// <summary>
-    /// Returns true if Virtualize is false or if Virtualize is true && Rendered
+    /// Returns true if Virtualize is false or if Virtualize is true &amp; Rendered
     /// This flag is to make sure Templates don't 'fight' for control over the Virtualize Initial Render.
     /// </summary>
     protected bool VirtualizeRendered => !Virtualize || ( Virtualize && Rendered );
@@ -1875,7 +1875,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
-    /// Gets the grouped data to show on grid based on the filter, current page & grouping.
+    /// Gets the grouped data to show on grid based on the filter, current page &amp; grouping.
     /// </summary>
     public IEnumerable<GroupContext<TItem>> DisplayGroupedData
     {
