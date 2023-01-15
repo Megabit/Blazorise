@@ -49,9 +49,7 @@
                             }
                             else
                             {
-                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="() => ColumnDragStart(column)" DragEnd="ColumnDragEnd"
-                                                 Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
-
+                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="@(() => OnColumnDragStarted(column))" DragEnd="@OnColumnDragEnded" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
                                     @if ( IsGroupableByColumn && column.Groupable )
                                     {
                                         <Icon Name="@IconName.GripVertical" Margin="@Blazorise.Margin.Is1.FromEnd" Style="cursor:move" />

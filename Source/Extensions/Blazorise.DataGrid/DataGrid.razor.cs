@@ -1,11 +1,8 @@
-﻿
-#region Using directives
+﻿#region Using directives
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Models;
@@ -174,144 +171,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #region Setup
 
     /// <summary>
-    /// Column Drag Started
-    /// </summary>
-    /// <param name="col"></param>
-    /// <returns></returns>
-    private Task ColumnDragStart( DataGridColumn<TItem> col )
-    {
-        columnBeingDragged = col;
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
-    /// Column Drag Ended
-    /// </summary>
-    /// <param name="e"></param>
-    /// <returns></returns>
-    private Task ColumnDragEnd( DragEventArgs e )
-    {
-        columnBeingDragged = null;
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
-    /// Adds a new column to grouping.
-    /// </summary>
-    /// <param name="column"></param>
-    public void AddGroupColumn( DataGridColumn<TItem> column )
-    {
-        if ( column.Groupable )
-        {
-            groupableColumns ??= new();
-            if ( !groupableColumns.Contains( column ) )
-            {
-                groupableColumns.Add( column );
-                SetDirty();
-            }
-        }
-    }
-
-    /// <summary>
-    /// Removes a column from grouping.
-    /// </summary>
-    /// <param name="column"></param>
-    public void RemoveGroupColumn( DataGridColumn<TItem> column )
-    {
-        if ( column.Groupable )
-        {
-            if ( groupableColumns.Remove( column ) )
-                SetDirty();
-        }
-    }
-
-    /// <summary>
-    /// If IsGroupable feature is active. Groups the data for Display.
-    /// </summary>
-    private void GroupDisplayData()
-    {
-        if ( !IsGroupEnabled )
-        {
-            groupedData = null;
-            return;
-        }
-
-
-        if ( GroupBy is null )
-        {
-            var firstGroupableColumn = groupableColumns.First();
-            var newGroupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
-                                                                             .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
-                                                                             .OrderBy( x => x.Key )
-                                                                             .ToList();
-            RecursiveGroup( 1, groupedData, newGroupedData );
-            groupedData = newGroupedData;
-
-        }
-        else
-        {
-            var newGroupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
-                                     .Select( x => new GroupContext<TItem>( x ) )
-                                     .OrderBy( x => x.Key )
-                                     .ToList();
-            GroupSyncState( groupedData, newGroupedData );
-            groupedData = newGroupedData;
-        }
-        return;
-    }
-
-    /// <summary>
-    /// Syncs a new group state with the previous group state if the group key matches.
-    /// </summary>
-    /// <param name="oldGroupedData"></param>
-    /// <param name="newGroupedData"></param>
-    private void GroupSyncState( List<GroupContext<TItem>> oldGroupedData, List<GroupContext<TItem>> newGroupedData )
-        => newGroupedData.ForEach( x => GroupSyncState( oldGroupedData, x ) );
-
-    /// <summary>
-    /// Syncs a new group state with the previous group state if the group key matches.
-    /// </summary>
-    /// <param name="oldGroupedData"></param>
-    /// <param name="newGroup"></param>
-    /// <returns></returns>
-    private GroupContext<TItem> GroupSyncState( List<GroupContext<TItem>> oldGroupedData, GroupContext<TItem> newGroup )
-    {
-        var oldGroup = oldGroupedData?.FirstOrDefault( x => x.Key == newGroup.Key );
-        if ( oldGroup is not null )
-            newGroup.SetExpanded( oldGroup.Expanded );
-        return oldGroup;
-    }
-
-    /// <summary>
-    /// Recursively nests groups of data according to the configured group columns.
-    /// </summary>
-    /// <param name="iteration"></param>
-    /// <param name="oldGroupedData"></param>
-    /// <param name="newGroupedData"></param>
-    private void RecursiveGroup( int iteration, List<GroupContext<TItem>> oldGroupedData, List<GroupContext<TItem>> newGroupedData )
-    {
-        if ( newGroupedData.IsNullOrEmpty() )
-            return;
-
-        foreach ( var group in newGroupedData )
-        {
-            var oldGroup = GroupSyncState( oldGroupedData, group );
-
-            var nextGroupableColumn = groupableColumns?.ElementAtOrDefault( iteration );
-            if ( nextGroupableColumn is not null )
-            {
-                var nestedGroup = group.Items.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) )
-                                                                          .Select( x => new GroupContext<TItem>( x, nextGroupableColumn.GroupTemplate ) )
-                                                                          .OrderBy( x => x.Key )
-                                                                          .ToList();
-                group.SetNestedGroup( nestedGroup );
-
-                RecursiveGroup( iteration + 1, (List<GroupContext<TItem>>)oldGroup?.NestedGroup, nestedGroup );
-            }
-        }
-    }
-
-    /// <summary>
     /// Inspects User Agent for a client using a Macintosh Operating System.
     /// </summary>
     /// <returns></returns>
@@ -340,37 +199,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return VirtualizeOptions?.DataGridMaxHeight ?? "500px";
         else
             return FixedHeaderDataGridMaxHeight;
-    }
-
-    /// <summary>
-    /// Recursively sets the grouped data and any nested grouped data Expanded property.
-    /// </summary>
-    /// <param name="groupedData"></param>
-    /// <param name="expanded"></param>
-    private void SetGroupExpanded( List<GroupContext<TItem>> groupedData, bool expanded )
-    {
-        foreach ( var group in groupedData )
-        {
-            group.SetExpanded( expanded );
-            if ( group.NestedGroup is not null )
-                SetGroupExpanded( (List<GroupContext<TItem>>)group.NestedGroup, expanded );
-        }
-    }
-
-    /// <summary>
-    /// Expands all groups.
-    /// </summary>
-    public void ExpandAllGroups()
-    {
-        SetGroupExpanded( groupedData, true );
-    }
-
-    /// <summary>
-    /// Collapses all groups.
-    /// </summary>
-    public void CollapseAllGroups()
-    {
-        SetGroupExpanded( groupedData, expanded: false );
     }
 
     /// <summary>
@@ -432,6 +260,38 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public void AddAggregate( DataGridAggregate<TItem> aggregate )
     {
         Aggregates.Add( aggregate );
+    }
+
+    /// <summary>
+    /// Adds a new column to grouping.
+    /// </summary>
+    /// <param name="column">Column to be grouped by.</param>
+    public void AddGroupColumn( DataGridColumn<TItem> column )
+    {
+        if ( column.Groupable )
+        {
+            groupableColumns ??= new();
+
+            if ( !groupableColumns.Contains( column ) )
+            {
+                groupableColumns.Add( column );
+
+                SetDirty();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Removes a column from grouping.
+    /// </summary>
+    /// <param name="column">Column that is used for grouping.</param>
+    public void RemoveGroupColumn( DataGridColumn<TItem> column )
+    {
+        if ( column.Groupable )
+        {
+            if ( groupableColumns.Remove( column ) )
+                SetDirty();
+        }
     }
 
     public override async Task SetParametersAsync( ParameterView parameters )
@@ -576,6 +436,147 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await tableRef.ScrollToPixels( virtualizeState.EditLastKnownScroll.Value );
             virtualizeState.EditLastKnownScroll = null;
         }
+    }
+
+    /// <summary>
+    /// Column Drag Started
+    /// </summary>
+    /// <param name="col"></param>
+    /// <returns></returns>
+    private Task OnColumnDragStarted( DataGridColumn<TItem> col )
+    {
+        columnBeingDragged = col;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Column Drag Ended
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    private Task OnColumnDragEnded( DragEventArgs e )
+    {
+        columnBeingDragged = null;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// If IsGroupable feature is active. Groups the data for Display.
+    /// </summary>
+    private void GroupDisplayData()
+    {
+        if ( !IsGroupEnabled )
+        {
+            groupedData = null;
+            return;
+        }
+
+
+        if ( GroupBy is null )
+        {
+            var firstGroupableColumn = groupableColumns.First();
+            var newGroupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                                                                             .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
+                                                                             .OrderBy( x => x.Key )
+                                                                             .ToList();
+            RecursiveGroup( 1, groupedData, newGroupedData );
+            groupedData = newGroupedData;
+
+        }
+        else
+        {
+            var newGroupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
+                                     .Select( x => new GroupContext<TItem>( x ) )
+                                     .OrderBy( x => x.Key )
+                                     .ToList();
+            GroupSyncState( groupedData, newGroupedData );
+            groupedData = newGroupedData;
+        }
+        return;
+    }
+
+    /// <summary>
+    /// Syncs a new group state with the previous group state if the group key matches.
+    /// </summary>
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroupedData"></param>
+    private void GroupSyncState( List<GroupContext<TItem>> oldGroupedData, List<GroupContext<TItem>> newGroupedData )
+        => newGroupedData.ForEach( x => GroupSyncState( oldGroupedData, x ) );
+
+    /// <summary>
+    /// Syncs a new group state with the previous group state if the group key matches.
+    /// </summary>
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroup"></param>
+    /// <returns></returns>
+    private GroupContext<TItem> GroupSyncState( List<GroupContext<TItem>> oldGroupedData, GroupContext<TItem> newGroup )
+    {
+        var oldGroup = oldGroupedData?.FirstOrDefault( x => x.Key == newGroup.Key );
+        if ( oldGroup is not null )
+            newGroup.SetExpanded( oldGroup.Expanded );
+        return oldGroup;
+    }
+
+    /// <summary>
+    /// Recursively nests groups of data according to the configured group columns.
+    /// </summary>
+    /// <param name="iteration"></param>
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroupedData"></param>
+    private void RecursiveGroup( int iteration, List<GroupContext<TItem>> oldGroupedData, List<GroupContext<TItem>> newGroupedData )
+    {
+        if ( newGroupedData.IsNullOrEmpty() )
+            return;
+
+        foreach ( var group in newGroupedData )
+        {
+            var oldGroup = GroupSyncState( oldGroupedData, group );
+
+            var nextGroupableColumn = groupableColumns?.ElementAtOrDefault( iteration );
+            if ( nextGroupableColumn is not null )
+            {
+                var nestedGroup = group.Items.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                                                                          .Select( x => new GroupContext<TItem>( x, nextGroupableColumn.GroupTemplate ) )
+                                                                          .OrderBy( x => x.Key )
+                                                                          .ToList();
+                group.SetNestedGroup( nestedGroup );
+
+                RecursiveGroup( iteration + 1, (List<GroupContext<TItem>>)oldGroup?.NestedGroup, nestedGroup );
+            }
+        }
+    }
+
+    /// <summary>
+    /// Recursively sets the grouped data and any nested grouped data Expanded property.
+    /// </summary>
+    /// <param name="groupedData"></param>
+    /// <param name="expanded"></param>
+    private void SetGroupExpanded( List<GroupContext<TItem>> groupedData, bool expanded )
+    {
+        foreach ( var group in groupedData )
+        {
+            group.SetExpanded( expanded );
+            if ( group.NestedGroup is not null )
+                SetGroupExpanded( (List<GroupContext<TItem>>)group.NestedGroup, expanded );
+        }
+    }
+
+    /// <summary>
+    /// Expands all groups.
+    /// </summary>
+    public void ExpandAllGroups()
+    {
+        SetGroupExpanded( groupedData, true );
+    }
+
+    /// <summary>
+    /// Collapses all groups.
+    /// </summary>
+    public void CollapseAllGroups()
+    {
+        SetGroupExpanded( groupedData, expanded: false );
     }
 
     #endregion
