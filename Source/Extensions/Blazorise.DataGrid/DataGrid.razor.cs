@@ -150,14 +150,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     protected List<DataGridColumn<TItem>> GroupableColumns;
 
-
-    /// <summary>
-    /// Gets the DataGrid columns that are currently marked for Grouping Count.
-    /// </summary>
-    /// <returns></returns>
-    internal int GroupableColumnsCount()
-        => GroupableColumns?.Count ?? 0;
-
     /// <summary>
     /// Tracks the column currently being Dragged.
     /// </summary>
@@ -250,7 +242,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             var firstGroupableColumn = GroupableColumns.First();
             var newGroupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
                                                                              .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
-                                                                             .OrderBy(x=> x.Key)
+                                                                             .OrderBy( x => x.Key )
                                                                              .ToList();
             RecursiveGroup( 1, groupedData, newGroupedData );
             groupedData = newGroupedData;
@@ -1563,6 +1555,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     internal bool IsGroupEnabled
         => Groupable && ( GroupBy is not null || !GroupableColumns.IsNullOrEmpty() );
+
+    /// <summary>
+    /// Gets the DataGrid columns that are currently marked for Grouping Count.
+    /// </summary>
+    internal int GroupableColumnsCount
+        => GroupableColumns?.Count ?? 0;
 
     internal bool IsFixedHeader
         => Virtualize || FixedHeader;

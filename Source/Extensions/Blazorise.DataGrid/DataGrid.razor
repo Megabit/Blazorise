@@ -313,7 +313,7 @@
     {
         @if ( IsGroupEnabled )
         {
-            var count = GroupableColumnsCount();
+            var count = GroupableColumnsCount;
             if ( count > 1 )
             {
                 for ( int i = 1; i < count; i++ )
@@ -328,7 +328,4 @@
     {
         <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.Default)" Color="@(GroupRowStyling?.Color ?? Color.Default)" />
     };
-
-
-
 }
