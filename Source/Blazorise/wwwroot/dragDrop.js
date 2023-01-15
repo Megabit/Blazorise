@@ -1,6 +1,4 @@
 ﻿import { getRequiredElement } from "./utilities.js?v=1.1.5.0";
-let throttledDragHandler;
-let throttledDragOverHandler;
 
 export function initialize(element, elementId) {
     element = getRequiredElement(element, elementId);
@@ -24,31 +22,13 @@ export function destroy(element, elementId) {
 
 export function initializeThrottledDragEvents(element, elementId, dotnetAdapter) {
     element = getRequiredElement(element, elementId);
+
     if (!element)
         return;
 
-    let timeOutForDrag = null;
-    let timeOutForDragOver = null;
-
-    throttledDragHandler = function (e) {
-        e.preventDefault();
-        if (!timeOutForDrag) {
-            timeOutForDrag = setTimeout(function () {
-                timeOutForDrag = null;
-                dotnetAdapter.invokeMethodAsync("OnDragHandler", e)
-            }.bind(this), 250);
-        }
-    }
-
-    throttledDragOverHandler = function (e) {
-        e.preventDefault();
-        if (!timeOutForDragOver) {
-            timeOutForDragOver = setTimeout(function () {
-                timeOutForDragOver = null;
-                dotnetAdapter.invokeMethodAsync("OnDragOverHandler", e)
-            }.bind(this), 250);
-        }
-    }
+    element.dotnetAdapter = dotnetAdapter;
+    element.timeOutForDrag = null;
+    element.timeOutForDragOver = null;
 
     element.addEventListener('drag', throttledDragHandler);
     element.addEventListener('dragover', throttledDragOverHandler);
@@ -75,4 +55,29 @@ function dragOverHandler(e) {
 
 function dragStartHandler(e) {
     e.dataTransfer.setData('', e.target.id);
+}
+
+function throttledDragHandler(e) {
+    e.preventDefault();
+
+    if (e.target && !e.target.timeOutForDrag) {
+        e.target.timeOutForDrag = setTimeout(function () {
+            e.target.timeOutForDrag = null;
+            if (e.target.dotnetAdapter) {
+                e.target.dotnetAdapter.invokeMethodAsync("OnDragHandler", e);
+            }
+        }.bind(this), 250);
+    }
+}
+
+function throttledDragOverHandler(e) {
+    e.preventDefault();
+    if (e.target && !e.target.timeOutForDragOver) {
+        e.target.timeOutForDragOver = setTimeout(function () {
+            e.target.timeOutForDragOver = null;
+            if (e.target.dotnetAdapter) {
+                e.target.dotnetAdapter.invokeMethodAsync("OnDragOverHandler", e);
+            }
+        }.bind(this), 250);
+    }
 }
