@@ -3,18 +3,14 @@
 {
     <div class="ant-table-body" style="@($"overflow-y: scroll; max-height: {(ParentTable?.FixedHeaderTableHeight ?? "300px")};")">
         <table style="table-layout: fixed;">
-            <tbody id="@ElementId" class="@ClassNames" style="@StyleNames"
+            <tbody @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
                    draggable="@DraggableString"
-                   @ondrag="@OnDragHandler"
-                   @ondrag:preventDefault="@DragPreventDefault"
                    @ondragend="@OnDragEndHandler"
                    @ondragend:preventDefault="@DragEndPreventDefault"
                    @ondragenter="@OnDragEnterHandler"
                    @ondragenter:preventDefault="@DragEnterPreventDefault"
                    @ondragleave="@OnDragLeaveHandler"
                    @ondragleave:preventDefault="@DragLeavePreventDefault"
-                   @ondragover="@OnDragOverHandler"
-                   @ondragover:preventDefault="@DragOverPreventDefault"
                    @ondragstart="@OnDragStartHandler"
                    @ondragstart:preventDefault="@DragStartPreventDefault"
                    @ondrop="@OnDropHandler"
@@ -27,18 +23,14 @@
 }
 else
 {
-    <tbody id="@ElementId" class="@ClassNames" style="@StyleNames"
+    <tbody @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
            draggable="@DraggableString"
-           @ondrag="@OnDragHandler"
-           @ondrag:preventDefault="@DragPreventDefault"
            @ondragend="@OnDragEndHandler"
            @ondragend:preventDefault="@DragEndPreventDefault"
            @ondragenter="@OnDragEnterHandler"
            @ondragenter:preventDefault="@DragEnterPreventDefault"
            @ondragleave="@OnDragLeaveHandler"
            @ondragleave:preventDefault="@DragLeavePreventDefault"
-           @ondragover="@OnDragOverHandler"
-           @ondragover:preventDefault="@DragOverPreventDefault"
            @ondragstart="@OnDragStartHandler"
            @ondragstart:preventDefault="@DragStartPreventDefault"
            @ondrop="@OnDropHandler"
