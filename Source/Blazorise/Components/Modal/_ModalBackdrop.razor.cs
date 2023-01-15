@@ -37,6 +37,14 @@ public partial class _ModalBackdrop : BaseComponent
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.ModalBackdropZIndex( parentModalState.OpenIndex ) );
+
+        base.BuildStyles( builder );
+    }
+
     #endregion
 
     #region Properties
@@ -64,6 +72,7 @@ public partial class _ModalBackdrop : BaseComponent
             parentModalState = value;
 
             DirtyClasses();
+            DirtyStyles();
         }
     }
 

@@ -4243,6 +4243,28 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     public string selectedAutoCompleteText { get; set; }
 }";
 
+        public const string AutocompleteHighlightExample = @"<Autocomplete TItem=""Country""
+              TValue=""string""
+              Data=""@Countries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
+              Placeholder=""Search...""
+              HighlightSearch>
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string AutocompleteItemContentExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
               Data=""@Countries""

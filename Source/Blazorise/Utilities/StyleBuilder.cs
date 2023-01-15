@@ -46,7 +46,7 @@ public class StyleBuilder
     /// <param name="value">The string to append.</param>
     public void Append( string value )
     {
-        if ( value != null )
+        if ( value is not null )
             builder.Append( value ).Append( Delimiter );
     }
 
@@ -57,7 +57,7 @@ public class StyleBuilder
     /// <param name="condition">Condition that must be true.</param>
     public void Append( string value, bool condition )
     {
-        if ( condition )
+        if ( value is not null && condition )
             builder.Append( value ).Append( Delimiter );
     }
 
