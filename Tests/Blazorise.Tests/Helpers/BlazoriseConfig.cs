@@ -195,7 +195,7 @@ public static class BlazoriseConfig
 
             var module = jsInterop.SetupModule( new JSDragDropModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
             module.SetupVoid( "initialize", _ => true ).SetVoidResult();
-            module.SetupVoid( "InitializeThrottledDragEvents", _ => true ).SetVoidResult();
+            module.SetupVoid( "initializeThrottledDragEvents", _ => true ).SetVoidResult();
             module.SetupVoid( "destroy", _ => true ).SetVoidResult();
         }
     }
