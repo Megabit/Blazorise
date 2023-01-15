@@ -186,6 +186,43 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    TreeView improvements
+</Heading>
+
+<Paragraph>
+    The TreeView component now supports a multiple selection mode, which allows users to select multiple nodes at the same time. To enable this mode, set the <Code>SelectionMode</Code> property to <Code>Multiple</Code>. When this mode is enabled, each node in the TreeView will display a checkbox next to its label. Users can then select or deselect nodes by clicking on the checkboxes. The selected nodes can be accessed through the <Code>SelectedNodes</Code> property, which returns a list of the selected nodes. You can also use the <Code>SelectedNodesChanged</Code> event to be notified when the selection changes.
+</Paragraph>
+
+<Paragraph>
+    Several new APIs for the Blazorise TreeView component have also included in this release! These APIs include:
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Code>GetChildNodesAsync</Code>: allows you to retrieve the child nodes of a specific node asynchronously.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>HasChildNodesAsync</Code>: allows you to check if a specific node has child nodes asynchronously.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>ExpandAll</Code>: expands all nodes in the tree.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>CollapseAll</Code>: collapses all nodes in the tree.
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    In addition to these new APIs, we've also added a new feature called <Code>AutoExpandAll</Code>. This feature will automatically expand all nodes in the tree on the first load only.
+</Paragraph>
+
+<Paragraph>
+    We hope this new features will make it easier for users to work with the TreeView component.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Autocomplete improvements
 </Heading>
 

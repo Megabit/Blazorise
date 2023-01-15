@@ -3,15 +3,15 @@
 <TreeView Nodes="Items"
           GetChildNodes="@(item => item.Children)"
           HasChildNodes="@(item => item.Children?.Any() == true)"
-          @bind-SelectedNode="selectedNode"
-          @bind-ExpandedNodes="expandedNodes">
+          SelectionMode="TreeViewSelectionMode.Multiple"
+          @bind-SelectedNodes="selectedNodes">
     <NodeContent>
         <Icon Name="IconName.Folder" />
         @context.Text
     </NodeContent>
 </TreeView>
 
-@code{
+@code {
     public class Item
     {
         public string Text { get; set; }
@@ -45,6 +45,5 @@
         new Item { Text = "Item 3" },
     };
 
-    IList<Item> expandedNodes = new List<Item>();
-    Item selectedNode;
+    IList<Item> selectedNodes = new List<Item>();
 }
