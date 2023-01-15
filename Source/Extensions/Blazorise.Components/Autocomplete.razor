@@ -58,7 +58,7 @@
             }
             else
             {
-                @foreach ( var item in FilteredData )
+                @foreach ( var item in FilteredData ?? Enumerable.Empty<TItem>() )
                 {
                     @itemFragment(item)
                 }

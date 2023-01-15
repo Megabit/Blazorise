@@ -14,7 +14,7 @@
             }
             else
             {
-                @foreach ( var item in Data )
+                @foreach ( var item in Data ?? Enumerable.Empty<TItem>() )
                 {
                     @itemFragment(item)
                 }
