@@ -148,7 +148,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets the DataGrid columns that are currently marked for Grouping.
     /// </summary>
     /// <returns></returns>
-    protected List<DataGridColumn<TItem>> GroupableColumns;
+    protected List<DataGridColumn<TItem>> groupableColumns;
 
     /// <summary>
     /// Tracks the column currently being Dragged.
@@ -203,10 +203,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( column.Groupable )
         {
-            GroupableColumns ??= new();
-            if ( !GroupableColumns.Contains( column ) )
+            groupableColumns ??= new();
+            if ( !groupableColumns.Contains( column ) )
             {
-                GroupableColumns.Add( column );
+                groupableColumns.Add( column );
                 SetDirty();
             }
         }
@@ -220,7 +220,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( column.Groupable )
         {
-            if ( GroupableColumns.Remove( column ) )
+            if ( groupableColumns.Remove( column ) )
                 SetDirty();
         }
     }
@@ -239,7 +239,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( GroupBy is null )
         {
-            var firstGroupableColumn = GroupableColumns.First();
+            var firstGroupableColumn = groupableColumns.First();
             var newGroupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
                                                                              .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
                                                                              .OrderBy( x => x.Key )
@@ -297,7 +297,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             var oldGroup = GroupSyncState( oldGroupedData, group );
 
-            var nextGroupableColumn = GroupableColumns?.ElementAtOrDefault( iteration );
+            var nextGroupableColumn = groupableColumns?.ElementAtOrDefault( iteration );
             if ( nextGroupableColumn is not null )
             {
                 var nestedGroup = group.Items.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) )
@@ -1554,13 +1554,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <returns></returns>
     internal bool IsGroupEnabled
-        => Groupable && ( GroupBy is not null || !GroupableColumns.IsNullOrEmpty() );
+        => Groupable && ( GroupBy is not null || !groupableColumns.IsNullOrEmpty() );
 
     /// <summary>
     /// Gets the DataGrid columns that are currently marked for Grouping Count.
     /// </summary>
     internal int GroupableColumnsCount
-        => GroupableColumns?.Count ?? 0;
+        => groupableColumns?.Count ?? 0;
 
     internal bool IsFixedHeader
         => Virtualize || FixedHeader;
