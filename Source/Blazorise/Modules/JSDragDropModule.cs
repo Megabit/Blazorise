@@ -38,12 +38,10 @@ public class JSDragDropModule : BaseJSModule, IJSDragDropModule
     /// <inheritdoc/>
     public virtual async ValueTask DestroyThrottledDragEvents( ElementReference elementRef, string elementId )
     {
-        {
-            if ( IsUnsafe )
-                return;
+        if ( IsUnsafe )
+            return;
 
-            await InvokeSafeVoidAsync( "destroyThrottledDragEvents", elementRef, elementId );
-        }
+        await InvokeSafeVoidAsync( "destroyThrottledDragEvents", elementRef, elementId );
     }
 
     /// <inheritdoc/>

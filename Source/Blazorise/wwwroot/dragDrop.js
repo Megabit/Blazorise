@@ -22,8 +22,7 @@ export function destroy(element, elementId) {
     element.removeEventListener('dragstart', dragStartHandler);
 }
 
-export function initializeThrottledDragEvents(element, elementId, dotnetAdapter)
-{
+export function initializeThrottledDragEvents(element, elementId, dotnetAdapter) {
     element = getRequiredElement(element, elementId);
     if (!element)
         return;
@@ -41,7 +40,7 @@ export function initializeThrottledDragEvents(element, elementId, dotnetAdapter)
         }
     }
 
-    throttledDragOverHandler = function(e) {
+    throttledDragOverHandler = function (e) {
         e.preventDefault();
         if (!timeOutForDragOver) {
             timeOutForDragOver = setTimeout(function () {
