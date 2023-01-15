@@ -30,20 +30,20 @@ export function initializeThrottledDragDropEvents(element, elementId, dotnetAdap
     let timeOutForDragOver = null;
 
     function throttledDragHandler(e) {
+        e.preventDefault();
         if (!timeOutForDrag) {
             timeOutForDrag = setTimeout(function () {
                 timeOutForDrag = null;
-                e.preventDefault();
                 dotnetAdapter.invokeMethodAsync("OnDragHandler", e)
             }.bind(this), 250);
         }
     }
 
     function throttledDragOverHandler(e) {
+        e.preventDefault();
         if (!timeOutForDragOver) {
             timeOutForDragOver = setTimeout(function () {
                 timeOutForDragOver = null;
-                e.preventDefault();
                 dotnetAdapter.invokeMethodAsync("OnDragOverHandler", e)
             }.bind(this), 250);
         }
