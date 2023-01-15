@@ -171,6 +171,7 @@ public static class BlazoriseConfig
             AddTable( jsInterop );
             AddClosable( jsInterop );
             AddDropdown( jsInterop );
+            AddDragDrop( jsInterop );
 
             var module = jsInterop.SetupModule( new JSDataGridModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
             module.SetupVoid( "initialize", _ => true ).SetVoidResult();
@@ -194,6 +195,7 @@ public static class BlazoriseConfig
 
             var module = jsInterop.SetupModule( new JSDragDropModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
             module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+            module.SetupVoid( "InitializeThrottledDragEvents", _ => true ).SetVoidResult();
             module.SetupVoid( "destroy", _ => true ).SetVoidResult();
         }
     }

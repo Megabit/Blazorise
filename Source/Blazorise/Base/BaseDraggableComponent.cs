@@ -20,7 +20,7 @@ public abstract class BaseDraggableComponent : BaseComponent
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
-        await JSDragDropModule.InitializeThrottledDragDropEvents( ElementRef, ElementId, CreateDotNetObjectRef( this ) );
+        await JSDragDropModule.InitializeThrottledDragEvents( ElementRef, ElementId, CreateDotNetObjectRef( this ) );
         await base.OnFirstAfterRenderAsync();
     }
 

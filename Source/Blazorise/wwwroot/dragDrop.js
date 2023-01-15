@@ -20,7 +20,7 @@ export function destroy(element, elementId) {
     element.removeEventListener('dragstart', dragStartHandler);
 }
 
-export function initializeThrottledDragDropEvents(element, elementId, dotnetAdapter)
+export function InitializeThrottledDragEvents(element, elementId, dotnetAdapter)
 {
     element = getRequiredElement(element, elementId);
     if (!element)
