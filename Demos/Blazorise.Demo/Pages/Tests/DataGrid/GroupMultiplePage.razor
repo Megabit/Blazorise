@@ -15,8 +15,8 @@
                 </Paragraph>
 
                 <Paragraph>
-                    <Button Color="Color.Primary" Clicked="() => dataGridRef.ExpandAllGroups()">Expand All</Button>
-                    <Button Color="Color.Secondary" Clicked="() => dataGridRef.CollapseAllGroups()">Collapse All</Button>
+                    <Button Color="Color.Primary" Clicked="@(() => dataGridRef.ExpandAllGroups())">Expand All</Button>
+                    <Button Color="Color.Secondary" Clicked="@(() => dataGridRef.CollapseAllGroups())">Collapse All</Button>
                 </Paragraph>
             </CardBody>
             <CardBody>

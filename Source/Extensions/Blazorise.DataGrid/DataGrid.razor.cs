@@ -566,17 +566,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Expands all groups.
     /// </summary>
-    public void ExpandAllGroups()
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ExpandAllGroups()
     {
         SetGroupExpanded( groupedData, true );
+
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// Collapses all groups.
     /// </summary>
-    public void CollapseAllGroups()
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task CollapseAllGroups()
     {
         SetGroupExpanded( groupedData, expanded: false );
+
+        return Task.CompletedTask;
     }
 
     #endregion
