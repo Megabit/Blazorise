@@ -5946,8 +5946,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         public const string DataGridMultipleGroupingExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive
-          Groupable
-          ShowGrouping=""false"">
+          Groupable>
     <DataGridCommandColumn />
     <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
     <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
