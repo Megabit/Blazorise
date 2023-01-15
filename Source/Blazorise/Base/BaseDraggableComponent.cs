@@ -13,8 +13,17 @@ namespace Blazorise;
 /// <summary>
 /// Base component for all the components that needs to have drag and drop support.
 /// </summary>
-public abstract class BaseDraggableComponent : BaseComponent
+public abstract class BaseDraggableComponent : BaseComponent, IDisposable, IAsyncDisposable
 {
+    #region Members
+
+    /// <summary>
+    /// Object reference that can be accessed through the JSInterop.
+    /// </summary>
+    private DotNetObjectReference<BaseDraggableComponent> dotNetObjectRef;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -22,9 +31,34 @@ public abstract class BaseDraggableComponent : BaseComponent
     {
         if ( Draggable && ( Drag.HasDelegate || DragOver.HasDelegate ) )
         {
-            await JSDragDropModule.InitializeThrottledDragEvents( ElementRef, ElementId, CreateDotNetObjectRef( this ) );
+            dotNetObjectRef = CreateDotNetObjectRef( this );
+            await JSDragDropModule.InitializeThrottledDragEvents( ElementRef, ElementId, dotNetObjectRef );
         }
         await base.OnFirstAfterRenderAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            JSDragDropModule.DestroyThrottledDragEvents( ElementRef, ElementId );
+            DisposeDotNetObjectRef( dotNetObjectRef );
+        }
+
+        base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            await JSDragDropModule.DestroyThrottledDragEvents( ElementRef, ElementId );
+            DisposeDotNetObjectRef( dotNetObjectRef );
+        }
+
+        await base.DisposeAsync( disposing );
     }
 
     /// <summary>

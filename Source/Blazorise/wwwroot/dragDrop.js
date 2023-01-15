@@ -1,4 +1,6 @@
 ﻿import { getRequiredElement } from "./utilities.js?v=1.1.5.0";
+let throttledDragHandler;
+let throttledDragOverHandler;
 
 export function initialize(element, elementId) {
     element = getRequiredElement(element, elementId);
@@ -29,7 +31,7 @@ export function initializeThrottledDragEvents(element, elementId, dotnetAdapter)
     let timeOutForDrag = null;
     let timeOutForDragOver = null;
 
-    function throttledDragHandler(e) {
+    throttledDragHandler = function (e) {
         e.preventDefault();
         if (!timeOutForDrag) {
             timeOutForDrag = setTimeout(function () {
@@ -39,7 +41,7 @@ export function initializeThrottledDragEvents(element, elementId, dotnetAdapter)
         }
     }
 
-    function throttledDragOverHandler(e) {
+    throttledDragOverHandler = function(e) {
         e.preventDefault();
         if (!timeOutForDragOver) {
             timeOutForDragOver = setTimeout(function () {
@@ -48,8 +50,24 @@ export function initializeThrottledDragEvents(element, elementId, dotnetAdapter)
             }.bind(this), 250);
         }
     }
+
     element.addEventListener('drag', throttledDragHandler);
     element.addEventListener('dragover', throttledDragOverHandler);
+}
+
+export function destroyThrottledDragEvents(element, elementId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
+    if (typeof throttledDragHandler === "function") {
+        element.removeEventListener("drag", throttledDragHandler);
+    }
+
+    if (typeof throttledDragOverHandler === "function") {
+        element.removeEventListener("dragover", throttledDragOverHandler);
+    }
 }
 
 function dragOverHandler(e) {

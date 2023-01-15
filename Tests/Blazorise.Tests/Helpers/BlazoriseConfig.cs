@@ -197,6 +197,7 @@ public static class BlazoriseConfig
             module.SetupVoid( "initialize", _ => true ).SetVoidResult();
             module.SetupVoid( "initializeThrottledDragEvents", _ => true ).SetVoidResult();
             module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+            module.SetupVoid( "destroyThrottledDragEvents", _ => true ).SetVoidResult();
         }
     }
 
