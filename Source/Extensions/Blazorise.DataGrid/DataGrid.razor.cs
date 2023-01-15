@@ -250,6 +250,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             var firstGroupableColumn = GroupableColumns.First();
             var newGroupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
                                                                              .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
+                                                                             .OrderBy(x=> x.Key)
                                                                              .ToList();
             RecursiveGroup( 1, groupedData, newGroupedData );
             groupedData = newGroupedData;
@@ -259,6 +260,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             var newGroupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
                                      .Select( x => new GroupContext<TItem>( x ) )
+                                     .OrderBy( x => x.Key )
                                      .ToList();
             GroupSyncState( groupedData, newGroupedData );
             groupedData = newGroupedData;
@@ -308,7 +310,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 var nestedGroup = group.Items.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) )
                                                                           .Select( x => new GroupContext<TItem>( x, nextGroupableColumn.GroupTemplate ) )
-                                                                           .ToList();
+                                                                          .OrderBy( x => x.Key )
+                                                                          .ToList();
                 group.SetNestedGroup( nestedGroup );
 
                 RecursiveGroup( iteration + 1, (List<GroupContext<TItem>>)oldGroup?.NestedGroup, nestedGroup );
