@@ -76,7 +76,7 @@
         var text = GetItemText( item );
         var value = GetItemValue( item );
 
-        <DropdownItem ElementId="@DropdownItemId(itemIndex)" @key="@item" Active="@isActiveItem" Class="@DropdownItemClassNames(itemIndex)" Value="@value" Clicked="() => OnDropdownItemSelected(value)">
+        <DropdownItem @key="@item" ElementId="@DropdownItemId(itemIndex)" Active="@isActiveItem" Class="@DropdownItemClassNames(itemIndex)" Value="@value" Clicked="() => OnDropdownItemSelected(value)">
             @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
             {
                 <Div Flex="Flex.JustifyContent.Start" Margin="Margin.Is1.OnY" Class="@DropdownCheckboxItemClassNames">
