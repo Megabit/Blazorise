@@ -49,7 +49,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         currentSortDirection[DataGridSortMode.Single] = SortDirection;
         currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
 
-        if ( ParentDataGrid != null )
+        if ( ParentDataGrid is not null )
         {
             ParentDataGrid.AddColumn( this );
 
@@ -153,6 +153,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <returns></returns>
     internal string GetFieldToSort()
         => string.IsNullOrEmpty( SortField ) ? Field : SortField;
+
+    /// <summary>
+    /// Gets the GroupBy Func to be applied.
+    /// </summary>
+    /// <returns></returns>
+    internal Func<TItem, object> GetGroupByFunc()
+        => GroupBy is not null ? GroupBy : valueGetter.Value;
 
     public string FormatDisplayValue( TItem item )
     {
@@ -555,6 +562,21 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public bool Filterable { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets whether the column is eligible to be used as a Group Field. A custom <see cref="GroupBy"/> function can however be provided.
+    /// </summary>
+    [Parameter] public bool Groupable { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the column should start grouped.
+    /// </summary>
+    [Parameter] public bool Grouping { get; set; }
+
+    /// <summary>
+    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active.
+    /// </summary>
+    [Parameter] public Func<TItem, object> GroupBy { get; set; }
+
+    /// <summary>
     /// The width of the column.
     /// </summary>
     [Parameter] public string Width { get; set; }
@@ -696,6 +718,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Raises an event every time that <see cref="SortOrder"/> is changed.
     /// </summary>
     [Parameter] public EventCallback<int> SortOrderChanged { get; set; }
+
+    /// <summary>
+    /// Template for custom group.
+    /// </summary>
+    [Parameter] public RenderFragment<GroupContext<TItem>> GroupTemplate { get; set; }
 
     #endregion
 }

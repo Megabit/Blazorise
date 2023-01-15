@@ -1459,6 +1459,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowGroupCell() => "b-table-group-cell group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4";
 
+    public override string TableRowGroupIndentCell() => "b-table-group-indentcell";
+
     public override string TableResponsive() => "b-table-responsive overflow-x-auto relative shadow-md sm:rounded-lg";
 
     public override string TableFixedHeader() => "b-table-fixed-header";

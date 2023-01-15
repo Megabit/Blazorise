@@ -540,6 +540,16 @@
     <DocsAttributesItem Name="SortOrderChanged" Type="EventCallback<int>">
         Raises an event every time that SortOrder is changed.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="Groupable" Type="bool" Default="false">
+        Gets or sets whether the data will be grouped. Column groups need to be configured.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupBy" Type="Func<TItem, object>">
+        Gets or sets a custom GroupBy function. Groupable needs to be active.
+        If this is defined at the DataGrid level, column grouping will not be considered.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowGrouping" Type="bool" Default="false">
+        Gets or sets whether user can see and edit column grouping.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsPageSubtitle>
@@ -593,5 +603,11 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ScrollToRow">
         If <Code>FixedHeader</Code> or <Code>Virtualize</Code> is enabled, it will scroll position to the provided row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ExpandAllGroups">
+        Expands all groups.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CollapseAllGroups">
+        Collapses all groups.
     </DocsAttributesItem>
 </DocsAttributes>

@@ -972,6 +972,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRowGroupCell() => "ant-table-group-cell";
 
+    public override string TableRowGroupIndentCell() => "ant-table-group-indentcell";
+
     public override string TableResponsive() => "ant-table-responsive";
 
     public override string TableFixedHeader() => "ant-table-fixed-header";

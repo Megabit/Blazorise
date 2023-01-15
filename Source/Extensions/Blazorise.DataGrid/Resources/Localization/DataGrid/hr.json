@@ -16,6 +16,7 @@
     "{0} - {1} of {2} items": "{0} - {1} od {2} stavki",
     "Row Edit": "Editiranje stavke",
     "Row Create": "Kreiranje stavke",
-    "Create": "Kreiraj"
+    "Create": "Kreiraj",
+    "Drag a column header here to group by that column": "Povucite zaglavlje stupca ovdje za grupiranje prema tom stupcu"
   }
 }

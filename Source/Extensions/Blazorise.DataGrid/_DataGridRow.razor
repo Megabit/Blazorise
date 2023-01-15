@@ -22,6 +22,9 @@
               Class="@GetClass(styling, selectedStyling)"
               Style="@GetStyle(styling, selectedStyling)"
               HoverCursor="@GetHoverCursor()">
+
+        @ParentDataGrid.groupIndentationFragment
+
         @foreach ( var column in Columns )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )
