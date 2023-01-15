@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Modules;
@@ -18,4 +19,12 @@ public interface IJSDragDropModule : IBaseJSModule,
     /// <param name="elementId">ID of the rendered element.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask Initialize( ElementReference elementRef, string elementId );
+
+    /// <summary>
+    /// Initializes throttled events for drag & drop events.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <param name="elementId">ID of the rendered element.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask InitializeThrottledDragDropEvents<T>( ElementReference elementRef, string elementId, DotNetObjectReference<T> dotNetObjectReference ) where T : class;
 }

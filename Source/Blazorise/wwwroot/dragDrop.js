@@ -20,6 +20,38 @@ export function destroy(element, elementId) {
     element.removeEventListener('dragstart', dragStartHandler);
 }
 
+export function initializeThrottledDragDropEvents(element, elementId, dotnetAdapter)
+{
+    element = getRequiredElement(element, elementId);
+    if (!element)
+        return;
+
+    let timeOutForDrag = null;
+    let timeOutForDragOver = null;
+
+    function throttledDragHandler(e) {
+        if (!timeOutForDrag) {
+            timeOutForDrag = setTimeout(function () {
+                timeOutForDrag = null;
+                e.preventDefault();
+                dotnetAdapter.invokeMethodAsync("OnDragHandler", e)
+            }.bind(this), 250);
+        }
+    }
+
+    function throttledDragOverHandler(e) {
+        if (!timeOutForDragOver) {
+            timeOutForDragOver = setTimeout(function () {
+                timeOutForDragOver = null;
+                e.preventDefault();
+                dotnetAdapter.invokeMethodAsync("OnDragOverHandler", e)
+            }.bind(this), 250);
+        }
+    }
+    element.addEventListener('drag', throttledDragHandler);
+    element.addEventListener('dragover', throttledDragOverHandler);
+}
+
 function dragOverHandler(e) {
     e.preventDefault();
 }
