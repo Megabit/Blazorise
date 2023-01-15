@@ -10,13 +10,14 @@ using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 #endregion
 
 namespace Blazorise.DataGrid;
 
 /// <summary>
-/// The DataGrid component llows you to display and manage data in a tabular (rows/columns) format.
+/// The DataGrid component allows you to display and manage data in a tabular (rows/columns) format.
 /// </summary>
 /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
 [CascadingTypeParameter( nameof( TItem ) )]
@@ -63,6 +64,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Holds the filtered data to display based on the current page.
     /// </summary>
     private IEnumerable<TItem> viewData;
+
+    /// <summary>
+    /// Holds the grouped data to display based on the current page.
+    /// </summary>
+    private List<GroupContext<TItem>> groupedData;
 
     /// <summary>
     /// Marks the grid to reload entire data source based on the current filter settings.
@@ -135,6 +141,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     protected internal int lastSelectedRowIndex;
 
+    /// <summary>
+    /// Gets the DataGrid columns that are currently marked for Grouping.
+    /// </summary>
+    /// <returns></returns>
+    protected List<DataGridColumn<TItem>> groupableColumns;
+
+    /// <summary>
+    /// Tracks the column currently being Dragged.
+    /// </summary>
+    internal DataGridColumn<TItem> columnBeingDragged;
+
     #endregion
 
     #region Constructors
@@ -192,6 +209,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         Columns.Add( column );
 
+        if ( column.Grouping )
+            AddGroupColumn( column );
+
         if ( column.CurrentSortDirection != SortDirection.Default )
             HandleSortColumn( column, false );
 
@@ -240,6 +260,38 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public void AddAggregate( DataGridAggregate<TItem> aggregate )
     {
         Aggregates.Add( aggregate );
+    }
+
+    /// <summary>
+    /// Adds a new column to grouping.
+    /// </summary>
+    /// <param name="column">Column to be grouped by.</param>
+    public void AddGroupColumn( DataGridColumn<TItem> column )
+    {
+        if ( column.Groupable )
+        {
+            groupableColumns ??= new();
+
+            if ( !groupableColumns.Contains( column ) )
+            {
+                groupableColumns.Add( column );
+
+                SetDirty();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Removes a column from grouping.
+    /// </summary>
+    /// <param name="column">Column that is used for grouping.</param>
+    public void RemoveGroupColumn( DataGridColumn<TItem> column )
+    {
+        if ( column.Groupable )
+        {
+            if ( groupableColumns.Remove( column ) )
+                SetDirty();
+        }
     }
 
     public override async Task SetParametersAsync( ParameterView parameters )
@@ -384,6 +436,153 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await tableRef.ScrollToPixels( virtualizeState.EditLastKnownScroll.Value );
             virtualizeState.EditLastKnownScroll = null;
         }
+    }
+
+    /// <summary>
+    /// Column Drag Started
+    /// </summary>
+    /// <param name="col"></param>
+    /// <returns></returns>
+    private Task OnColumnDragStarted( DataGridColumn<TItem> col )
+    {
+        columnBeingDragged = col;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Column Drag Ended
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    private Task OnColumnDragEnded( DragEventArgs e )
+    {
+        columnBeingDragged = null;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// If IsGroupable feature is active. Groups the data for Display.
+    /// </summary>
+    private void GroupDisplayData()
+    {
+        if ( !IsGroupEnabled )
+        {
+            groupedData = null;
+            return;
+        }
+
+
+        if ( GroupBy is null )
+        {
+            var firstGroupableColumn = groupableColumns.First();
+            var newGroupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                                                                             .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
+                                                                             .OrderBy( x => x.Key )
+                                                                             .ToList();
+            RecursiveGroup( 1, groupedData, newGroupedData );
+            groupedData = newGroupedData;
+
+        }
+        else
+        {
+            var newGroupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
+                                     .Select( x => new GroupContext<TItem>( x ) )
+                                     .OrderBy( x => x.Key )
+                                     .ToList();
+            GroupSyncState( groupedData, newGroupedData );
+            groupedData = newGroupedData;
+        }
+        return;
+    }
+
+    /// <summary>
+    /// Syncs a new group state with the previous group state if the group key matches.
+    /// </summary>
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroupedData"></param>
+    private void GroupSyncState( List<GroupContext<TItem>> oldGroupedData, List<GroupContext<TItem>> newGroupedData )
+        => newGroupedData.ForEach( x => GroupSyncState( oldGroupedData, x ) );
+
+    /// <summary>
+    /// Syncs a new group state with the previous group state if the group key matches.
+    /// </summary>
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroup"></param>
+    /// <returns></returns>
+    private GroupContext<TItem> GroupSyncState( List<GroupContext<TItem>> oldGroupedData, GroupContext<TItem> newGroup )
+    {
+        var oldGroup = oldGroupedData?.FirstOrDefault( x => x.Key == newGroup.Key );
+        if ( oldGroup is not null )
+            newGroup.SetExpanded( oldGroup.Expanded );
+        return oldGroup;
+    }
+
+    /// <summary>
+    /// Recursively nests groups of data according to the configured group columns.
+    /// </summary>
+    /// <param name="iteration"></param>
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroupedData"></param>
+    private void RecursiveGroup( int iteration, List<GroupContext<TItem>> oldGroupedData, List<GroupContext<TItem>> newGroupedData )
+    {
+        if ( newGroupedData.IsNullOrEmpty() )
+            return;
+
+        foreach ( var group in newGroupedData )
+        {
+            var oldGroup = GroupSyncState( oldGroupedData, group );
+
+            var nextGroupableColumn = groupableColumns?.ElementAtOrDefault( iteration );
+            if ( nextGroupableColumn is not null )
+            {
+                var nestedGroup = group.Items.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                                                                          .Select( x => new GroupContext<TItem>( x, nextGroupableColumn.GroupTemplate ) )
+                                                                          .OrderBy( x => x.Key )
+                                                                          .ToList();
+                group.SetNestedGroup( nestedGroup );
+
+                RecursiveGroup( iteration + 1, (List<GroupContext<TItem>>)oldGroup?.NestedGroup, nestedGroup );
+            }
+        }
+    }
+
+    /// <summary>
+    /// Recursively sets the grouped data and any nested grouped data Expanded property.
+    /// </summary>
+    /// <param name="groupedData"></param>
+    /// <param name="expanded"></param>
+    private void SetGroupExpanded( List<GroupContext<TItem>> groupedData, bool expanded )
+    {
+        foreach ( var group in groupedData )
+        {
+            group.SetExpanded( expanded );
+            if ( group.NestedGroup is not null )
+                SetGroupExpanded( (List<GroupContext<TItem>>)group.NestedGroup, expanded );
+        }
+    }
+
+    /// <summary>
+    /// Expands all groups.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ExpandAllGroups()
+    {
+        SetGroupExpanded( groupedData, true );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Collapses all groups.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task CollapseAllGroups()
+    {
+        SetGroupExpanded( groupedData, expanded: false );
+
+        return Task.CompletedTask;
     }
 
     #endregion
@@ -1193,7 +1392,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         dirtyFilter = false;
 
-        if ( query == null )
+        if ( query is null )
         {
             filteredData.Clear();
             FilteredDataChanged?.Invoke( new( filteredData, 0, 0 ) );
@@ -1201,7 +1400,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
         }
 
-        // only use internal filtering if we're not using custom data loading
         if ( !ManualReadMode )
         {
             var firstSort = true;
@@ -1241,7 +1439,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 if ( column.ExcludeFromFilter )
                     continue;
 
-                if ( column.CustomFilter != null )
+                if ( column.CustomFilter is not null )
                 {
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
@@ -1314,6 +1512,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 CurrentPage = paginationContext.LastPage;
                 skipElements = ( CurrentPage - 1 ) * PageSize;
             }
+
             return filteredData.Skip( skipElements ).Take( PageSize );
         }
 
@@ -1349,6 +1548,26 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    /// <summary>
+    /// Makes sure the DataGrid has columns defined as groupable.
+    /// </summary>
+    /// <returns></returns>
+    internal bool IsGroupableByColumn
+        => Groupable && ShowGrouping && ( Columns.Any( x => x.Groupable ) );
+
+    /// <summary>
+    /// Makes sure the DataGrid has enough defined conditions to group data.
+    /// </summary>
+    /// <returns></returns>
+    internal bool IsGroupEnabled
+        => Groupable && ( GroupBy is not null || !groupableColumns.IsNullOrEmpty() );
+
+    /// <summary>
+    /// Gets the DataGrid columns that are currently marked for Grouping Count.
+    /// </summary>
+    internal int GroupableColumnsCount
+        => groupableColumns?.Count ?? 0;
 
     internal bool IsFixedHeader
         => Virtualize || FixedHeader;
@@ -1452,7 +1671,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         => !IsLoading && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !Data.IsNullOrEmpty() && FilteredData.IsNullOrEmpty() ) && VirtualizeRendered;
 
     /// <summary>
-    /// Returns true if Virtualize is false or if Virtualize is true && Rendered
+    /// Returns true if Virtualize is false or if Virtualize is true &amp; Rendered
     /// This flag is to make sure Templates don't 'fight' for control over the Virtualize Initial Render.
     /// </summary>
     protected bool VirtualizeRendered => !Virtualize || ( Virtualize && Rendered );
@@ -1665,6 +1884,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Gets the grouped data to show on grid based on the filter, current page &amp; grouping.
+    /// </summary>
+    public IEnumerable<GroupContext<TItem>> DisplayGroupedData
+    {
+        get
+        {
+            if ( dirtyView )
+                GroupDisplayData();
+
+            return groupedData ?? Enumerable.Empty<GroupContext<TItem>>();
+        }
+    }
+
+    /// <summary>
     /// Specifies the behaviour of datagrid editing.
     /// </summary>
     /// <remarks>
@@ -1716,6 +1949,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether users can filter rows by its cell values.
     /// </summary>
     [Parameter] public bool Filterable { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the data will be grouped. Column groups need to be configured.
+    /// </summary>
+    [Parameter] public bool Groupable { get; set; }
+
+    /// <summary>
+    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active. 
+    /// If this is defined at the DataGrid level, column grouping will not be considered.
+    /// </summary>
+    [Parameter] public Func<TItem, object> GroupBy { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether user can see and edit column grouping.
+    /// </summary>
+    [Parameter] public bool ShowGrouping { get; set; }
 
     /// <summary>
     /// Gets or sets whether user can see a column captions.

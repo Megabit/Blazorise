@@ -976,6 +976,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableRowGroupCell() => "table-group-cell";
 
+    public override string TableRowGroupIndentCell() => "table-group-indentcell";
+
     public override string TableResponsive() => "table-responsive";
 
     public override string TableFixedHeader() => "table-fixed-header";

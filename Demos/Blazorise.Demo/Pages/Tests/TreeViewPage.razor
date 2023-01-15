@@ -9,9 +9,41 @@
                 <CardText>Treeview allows the display of hierarchical information in a tree-like structure.</CardText>
             </CardBody>
             <CardBody>
-                <TreeView Nodes="Nodes"
+                <Row>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Button Color="Color.Primary" Clicked="@(()=>treeViewRef.ExpandAll())">Expand all</Button>
+                        <Button Color="Color.Secondary" Clicked="@(()=>treeViewRef.CollapseAll())">Collapse all</Button>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field Horizontal>
+                            <FieldLabel Margin="Margin.Is3.FromEnd">Selection mode</FieldLabel>
+                            <FieldBody>
+                                <Select @bind-SelectedValue="@selectionMode">
+                                    <SelectItem Value="TreeViewSelectionMode.Single">Single</SelectItem>
+                                    <SelectItem Value="TreeViewSelectionMode.Multiple">Multiple</SelectItem>
+                                </Select>
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        @if ( selectionMode == TreeViewSelectionMode.Single )
+                        {
+                            <Button Color="Color.Secondary" Clicked="@(()=>selectedNode = Nodes.ElementAt(2))">Select single node</Button>
+                        }
+                        else
+                        {
+                            <Button Color="Color.Secondary" Clicked="@(()=>selectedNodes = Nodes.Take(3).ToList())">Select multiple nodes</Button>
+                        }
+                    </Column>
+                </Row>
+            </CardBody>
+            <CardBody>
+                <TreeView @ref="@treeViewRef"
+                          Nodes="Nodes"
+                          SelectionMode="@selectionMode"
                           @bind-SelectedNode="selectedNode"
-                          @bind-ExpandedNodes="ExpandedNodes"
+                          @bind-ExpandedNodes="expandedNodes"
+                          @bind-SelectedNodes="selectedNodes"
                           GetChildNodes="@(item => item.Children)"
                           HasChildNodes="@(item => item.Children?.Any() == true)"
                           NodeStyling="@((item, style) => { style.TextColor = (item.Children?.Any() == true) ? TextColor.Primary : TextColor.Dark; style.Style = "font-weight:bold"; })"
@@ -21,6 +53,31 @@
                         @context.Text
                     </NodeContent>
                 </TreeView>
+            </CardBody>
+            <CardBody>
+                <CardText>Selected nodes.</CardText>
+                <Paragraph>
+                    @if ( selectionMode == TreeViewSelectionMode.Single )
+                    {
+                        <Badge Color="Color.Primary" Margin="Margin.Is2.FromEnd">@selectedNode?.Text</Badge>
+                    }
+                    else
+                    {
+                        @foreach ( var node in selectedNodes ?? Enumerable.Empty<NodeInfo>() )
+                        {
+                            <Badge Color="Color.Primary" Margin="Margin.Is2.FromEnd">@node.Text</Badge>
+                        }
+                    }
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <CardText>Expanded nodes.</CardText>
+                <Paragraph>
+                    @foreach ( var node in expandedNodes ?? Enumerable.Empty<NodeInfo>() )
+                    {
+                        <Badge Color="Color.Info" Margin="Margin.Is2.FromEnd">@node.Text</Badge>
+                    }
+                </Paragraph>
             </CardBody>
         </Card>
     </Column>

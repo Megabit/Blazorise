@@ -131,6 +131,7 @@ public enum IconName
     Gift,
     Grin,
     GripLines,
+    GripVertical,
     HandPaper,
     HandsHelping,
     Headphones,
