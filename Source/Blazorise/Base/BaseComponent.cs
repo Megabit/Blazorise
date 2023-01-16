@@ -133,7 +133,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         {
             if ( LicenseChecker.ShouldPrint() )
             {
-                ExecuteAfterRender( async () => await JSRuntime.InvokeVoidAsync( "console.warn", "You are using a free version of the Blazorise component library. Blazorise library is free of charge for personal use. To hide this message, please purchase a commercial license from https://commercial.blazorise.com/. We thank you for playing fair!" ) );
+                ExecuteAfterRender( async () => await JSRuntime.InvokeVoidAsync( "console.log", "%cThank you for using the free version of the Blazorise component library! We're happy to offer it to you for personal use. If you'd like to remove this message, consider purchasing a commercial license from https://blazorise.com/commercial. We appreciate your support!", "color: #3B82F6; background-color: #F8FAFC; border: 1px solid #3B82F6; padding: 10px;" ) );
             }
 
             await OnFirstAfterRenderAsync();
