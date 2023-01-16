@@ -378,3 +378,33 @@ p {
   padding-right: 0;
   padding-left: 0;
 }
+
+.h-modal {
+  display: none;
+}
+.h-modal.fade {
+  transition: opacity var(--modal-animation-duration, 300ms) linear;
+}
+.h-modal.fade.flex {
+  opacity: 1;
+}
+.h-modal.fade:not(.flex) {
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

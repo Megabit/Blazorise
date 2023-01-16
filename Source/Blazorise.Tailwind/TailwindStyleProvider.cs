@@ -11,7 +11,7 @@ public class TailwindStyleProvider : StyleProvider
 
     public override int DefaultModalBackdropZIndex => 40;
 
-    public override string ModalShow() => null;
+    public override string ModalShow() => "display:flex;";
 
     int ModalZIndexDiff => DefaultModalZIndex - DefaultModalBackdropZIndex;
 
