@@ -247,16 +247,16 @@
   outline-offset: 2px;
 }
 
-.h-modal {
+.b-modal {
   display: none;
 }
-.h-modal.fade {
+.b-modal.b-modal-fade {
   transition: opacity var(--modal-animation-duration, 300ms) linear;
 }
-.h-modal.fade.flex {
+.b-modal.b-modal-fade.flex {
   opacity: 1;
 }
-.h-modal.fade:not(.flex) {
+.b-modal.b-modal-fade:not(.flex) {
   opacity: 0;
 }
 

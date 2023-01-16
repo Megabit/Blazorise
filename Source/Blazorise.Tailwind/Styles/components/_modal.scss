@@ -1,7 +1,7 @@
-﻿.h-modal {
+﻿.b-modal {
     display: none;
 
-    &.fade {
+    &.b-modal-fade {
         transition: opacity var(--modal-animation-duration, 300ms) linear;
 
         &.flex {
