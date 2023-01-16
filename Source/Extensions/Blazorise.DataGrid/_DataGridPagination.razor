@@ -47,43 +47,44 @@
     </Column>
 </Row>
 
-@code{
+@code {
     private RenderFragment buttonRowFragment => __builder =>
     {
         @if ( ShowButtonRow() )
         {
             <Field Display="Blazorise.Display.InlineBlock">
                 @{
-                    var newButtonString = Localizer.Localize(ParentDataGrid.Localizers?.NewButtonLocalizer, "New");
-                    var editButtonString = Localizer.Localize(ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit");
-                    var deleteButtonString = Localizer.Localize(ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete");
-                    var clearFilterButtonString = Localizer.Localize(ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter");
+                    var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
+                    var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
+                    var deleteButtonString = Localizer.Localize( ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete" );
+                    var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
 
                     @ButtonRowTemplate( new()
-                    {
-                        NewCommand = new()
-                        {
-                            Clicked = NewClick,
-                            LocalizationString = newButtonString,
-                        },
-                        EditCommand = new()
-                        {
-                            Clicked = EditClick,
-                            LocalizationString = editButtonString,
-                            Item = SelectedRow
-                        },
-                        DeleteCommand = new()
-                        {
-                            Clicked = DeleteClick,
-                            LocalizationString = deleteButtonString,
-                            Item = SelectedRow
-                        },
-                        ClearFilterCommand = new()
-                        {
-                            Clicked = ClearFilterClick,
-                            LocalizationString = clearFilterButtonString,
-                        }
-                    } );
+    {
+    NewCommand = new()
+    {
+    Clicked = NewClick,
+    LocalizationString = newButtonString,
+    },
+    EditCommand = new()
+    {
+    Clicked = EditClick,
+    LocalizationString = editButtonString,
+    Item = SelectedRow
+    },
+    DeleteCommand = new()
+    {
+    Clicked = DeleteClick,
+    LocalizationString = deleteButtonString,
+    Item = SelectedRow
+    },
+    ClearFilterCommand = new()
+    {
+    Clicked = ClearFilterClick,
+    LocalizationString = clearFilterButtonString,
+    }
+    } )
+                    ;
                 }
             </Field>
         }
@@ -177,13 +178,20 @@
                     </PaginationItem>
                 }
                 <PaginationItem Display="Blazorise.Display.InlineBlock.None.OnTablet">
-                    <Select @bind-SelectedValue="@PaginationContext.CurrentPage" Size="GetSize()">
-                        @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
-                        {
-                            var pageNumber = i;
-                            <SelectItem Value="@pageNumber">@pageNumber</SelectItem>
-                        }
-                    </Select>
+                    @if ( PageSelectorTemplate is not null )
+                    {
+                        @PageSelectorTemplate( PaginationContext )
+                    }
+                    else
+                    {
+                        <Select @bind-SelectedValue="@PaginationContext.CurrentPage" Size="GetSize()">
+                            @for ( int i = PaginationContext.FirstVisiblePage; i <= PaginationContext.LastVisiblePage; ++i )
+                            {
+                                var pageNumber = i;
+                                <SelectItem Value="@pageNumber">@pageNumber</SelectItem>
+                            }
+                        </Select>
+                    }
                 </PaginationItem>
                 <PaginationItem Disabled="@(PaginationContext.CurrentPage >= PaginationContext.LastPage)">
                     <PaginationLink Page="next" Clicked="@OnPaginationItemClick">
@@ -212,12 +220,19 @@
                 @if ( PaginationContext.ShowPageSizes )
                 {
                     <PaginationItem Margin="Blazorise.Margin.Is0.FromBottom.Is3.FromStart">
-                        <Select Size="@GetSize()" @bind-SelectedValue="@PaginationContext.CurrentPageSize">
-                            @foreach ( var curPageSize in PaginationContext.PageSizes )
-                            {
-                                <SelectItem Value="@curPageSize">@curPageSize</SelectItem>
-                            }
-                        </Select>
+                        @if ( PageSizesTemplate is not null )
+                        {
+                            @PageSizesTemplate( PaginationContext )
+                        }
+                        else
+                        {
+                            <Select Size="@GetSize()" @bind-SelectedValue="@PaginationContext.CurrentPageSize">
+                                @foreach ( var curPageSize in PaginationContext.PageSizes )
+                                {
+                                    <SelectItem Value="@curPageSize">@curPageSize</SelectItem>
+                                }
+                            </Select>
+                        }
                     </PaginationItem>
                     <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart" Display="Blazorise.Display.None.OnMobile.InlineBlock.OnDesktop">
                         @if ( ItemsPerPageTemplate is not null )
