@@ -96,5 +96,8 @@ public class FileEntry : IFileEntry
     /// <inheritdoc/>
     public FileEntryStatus Status { get; set; }
 
+    /// <inheritdoc/>
+    public TaskCompletionSource<string> UploadUrlCallback { get; set; }
+
     #endregion
 }

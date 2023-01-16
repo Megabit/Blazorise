@@ -299,10 +299,27 @@ public partial class Markdown : BaseComponent,
         if ( ImageUploadEnded is not null )
             await ImageUploadEnded.Invoke( new( fileEntry, success, fileInvalidReason ) );
 
-        if ( success )
-            await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty );
-        else
+        if ( !success )
+        {
             await JSModule.NotifyImageUploadError( ElementId, fileEntry.ErrorMessage );
+            return;
+        }
+
+
+        if ( fileEntry.UploadUrlCallback is null )
+        {
+            await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty );
+        }
+        else
+        {
+#pragma warning disable CS4014 // We want to let execution complete but wait for TaskCompletionSource on the background.
+            Task.Run( async () =>
+            {
+                var uploadUrl = await fileEntry.UploadUrlCallback.Task;
+                await InvokeAsync( async () => await JSModule.NotifyImageUploadSuccess( ElementId, uploadUrl ?? string.Empty ) );
+            } );
+#pragma warning restore CS4014 
+        }
     }
 
     /// <inheritdoc/>
