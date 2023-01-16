@@ -2076,7 +2076,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment<PaginationContext<TItem>> PageSelectorTemplate { get => paginationTemplates.PageSelectorTemplate; set => paginationTemplates.PageSelectorTemplate = value; }
 
     /// <summary>
-    /// Gets or sets content of the page sizes selector.You will have to construct it using the provided pagination context.
+    /// Gets or sets content of the page sizes selector. You will have to construct it using the provided pagination context.
     /// </summary>
     [Parameter] public RenderFragment<PaginationContext<TItem>> PageSizesTemplate { get => paginationTemplates.PageSizesTemplate; set => paginationTemplates.PageSizesTemplate = value; }
 

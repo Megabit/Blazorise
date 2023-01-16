@@ -345,6 +345,12 @@
     <DocsAttributesItem Name="PopupTitleTemplate" Type="RenderFragment<PopupTitleContext<TItem>>">
         Template for custom title of edit popup dialog
     </DocsAttributesItem>
+    <DocsAttributesItem Name="PageSelectorTemplate" Type="RenderFragment<PaginationContext<TItem>>">
+        Gets or sets content of the page selector. The selector is only displayed under the tablets breakpoint. You will have to construct it using the provided pagination context.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PageSizesTemplate" Type="RenderFragment<PaginationContext<TItem>>">
+        Gets or sets content of the page sizes selector. You will have to construct it using the provided pagination context.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="VirtualizeOptions">
