@@ -247,6 +247,19 @@
   outline-offset: 2px;
 }
 
+.b-modal {
+  display: none;
+}
+.b-modal.b-modal-fade {
+  transition: opacity var(--modal-animation-duration, 300ms) linear;
+}
+.b-modal.b-modal-fade.flex {
+  opacity: 1;
+}
+.b-modal.b-modal-fade:not(.flex) {
+  opacity: 0;
+}
+
 .pagination > li.pagination-item:first-child > * {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
