@@ -8,13 +8,9 @@
         }
         @if ( Data != null )
         {
-            @foreach ( var item in Data )
+            @foreach ( var item in Data ?? Enumerable.Empty<TItem>() )
             {
-                var text = TextField?.Invoke( item );
-                var value = ValueField != null ? ValueField.Invoke( item ) : default;
-                var disabled = ItemDisabled != null ? ItemDisabled.Invoke( item ) : false;
-
-                <SelectItem @key="@value" Value="@value" Disabled="@disabled">@text</SelectItem>
+                @itemFragment(item)
             }
         }
         @ChildContent
@@ -23,3 +19,13 @@
         @Feedback
     </Feedback>
 </Select>
+@code {
+    protected RenderFragment<TItem> itemFragment => item => __builder =>
+    {
+        var text = TextField?.Invoke( item );
+        var value = ValueField != null ? ValueField.Invoke( item ) : default;
+        var disabled = ItemDisabled != null ? ItemDisabled.Invoke( item ) : false;
+
+        <SelectItem @key="@value" Value="@value" Disabled="@disabled">@text</SelectItem>
+    };
+}

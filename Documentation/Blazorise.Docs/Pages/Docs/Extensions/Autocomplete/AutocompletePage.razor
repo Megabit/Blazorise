@@ -109,6 +109,21 @@
     <DocsPageSectionSource Code="AutocompleteHighlightExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Virtualize">
+        <Paragraph>
+            Blazorise Autocomplete's Virtualize feature allows for loading data on demand while scrolling, which improves the performance of the component when working with large datasets. With Virtualize, the Autocomplete component only loads the items that are currently visible in the list, and as the user scrolls, more items are loaded in the background. This allows for a much faster and smoother user experience, especially when working with large lists of items.
+        </Paragraph>
+        <Paragraph>
+            This feature can be easily enabled by setting the <Code>Virtualize</Code> property to <Code>"true"</Code> on the Autocomplete component.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteVirtualizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteVirtualizeExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API Reference
 </DocsPageSubtitle>
@@ -300,5 +315,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="MaxEntryLength">
         Specifies the maximum number of characters allowed in the input element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Virtualize" Type="bool" Default="false">
+        Gets or sets whether the Autocomplete will use the <Code>Virtualize</Code> functionality.
     </DocsAttributesItem>
 </DocsAttributes>

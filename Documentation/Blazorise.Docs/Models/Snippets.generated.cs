@@ -4435,6 +4435,30 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     List<string> multipleSelectionTexts;
 }";
 
+        public const string AutocompleteVirtualizeExample = @"<Autocomplete TItem=""Country""
+              TValue=""string""
+              Data=""@Countries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@((item) => item.Iso)""
+              @bind-SelectedValue=""selectedSearchValue""
+              Placeholder=""Search...""
+              Virtualize>
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    public string selectedSearchValue { get; set; }
+}";
+
         public const string ChartComplexDataExample = @"<LineChart @ref=""lineChart"" TItem=""WatcherEvent"" Options=""@lineChartOptions"" />
 
 @code {
