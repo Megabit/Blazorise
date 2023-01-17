@@ -22,7 +22,7 @@ public static class MauiProgram
 #endif
 
         builder.Services
-            .SetupDemoServices()
+            .SetupDemoServices( builder.Configuration["Licensing:LicenseKey"] )
             .AddBootstrap5Providers()
             .AddFontAwesomeIcons();
 

@@ -41,6 +41,7 @@ public class Startup
         services
             .AddBlazorise( options =>
             {
+                options.LicenseKey = Configuration["Licensing:LicenseKey"];
                 options.Immediate = true; // optional
             } )
             .AddBootstrap5Providers()
