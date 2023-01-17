@@ -270,15 +270,18 @@ public partial class Markdown : BaseComponent,
     [JSInvokable]
     public async Task NotifyImageUpload( FileEntry file )
     {
+        file.FileUploadEndedCallback = new();
+
         // So that method invocations on the file can be dispatched back here
         file.Owner = (IFileEntryOwner)(object)this;
 
         if ( ImageUploadChanged is not null )
             await ImageUploadChanged.Invoke( new( file ) );
 
+        file.FileUploadEndedCallback.SetResult();
         await InvokeAsync( StateHasChanged );
     }
-
+    private TaskCompletionSource taskCompletionSource;
     /// <inheritdoc/>
     public Task UpdateFileStartedAsync( IFileEntry fileEntry )
     {
@@ -306,7 +309,7 @@ public partial class Markdown : BaseComponent,
         }
 
 
-        if ( fileEntry.UploadUrlCallback is null )
+        if ( fileEntry.FileUploadEndedCallback is null )
         {
             await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty );
         }
@@ -315,8 +318,8 @@ public partial class Markdown : BaseComponent,
 #pragma warning disable CS4014 // We want to let execution complete but wait for TaskCompletionSource on the background.
             Task.Run( async () =>
             {
-                var uploadUrl = await fileEntry.UploadUrlCallback.Task;
-                await InvokeAsync( async () => await JSModule.NotifyImageUploadSuccess( ElementId, uploadUrl ?? string.Empty ) );
+                await fileEntry.FileUploadEndedCallback.Task;
+                await InvokeAsync( async () => await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty ) );
             } );
 #pragma warning restore CS4014 
         }

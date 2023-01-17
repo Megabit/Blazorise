@@ -96,8 +96,10 @@ public class FileEntry : IFileEntry
     /// <inheritdoc/>
     public FileEntryStatus Status { get; set; }
 
-    /// <inheritdoc/>
-    public TaskCompletionSource<string> UploadUrlCallback { get; set; }
+    /// <summary>
+    /// Provides a completion source to delay completion until after the file operation has been fully completed.
+    /// </summary>
+    public TaskCompletionSource FileUploadEndedCallback { get; set; }
 
     #endregion
 }

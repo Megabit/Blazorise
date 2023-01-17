@@ -95,8 +95,7 @@ public interface IFileEntry
     public Task Cancel();
 
     /// <summary>
-    /// Provides a completion source to return an UploadUrl after a file operation has been fully completed.
-    /// If this is set, the underlying component will be using this over <see cref="UploadUrl"/>.
+    /// Provides a completion source to delay completion until after the file operation has been fully completed.
     /// </summary>
-    public TaskCompletionSource<string> UploadUrlCallback { get; set; }
+    TaskCompletionSource FileUploadEndedCallback { get; set; }
 }
