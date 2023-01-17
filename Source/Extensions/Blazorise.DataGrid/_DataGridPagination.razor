@@ -60,31 +60,30 @@
                     var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
 
                     @ButtonRowTemplate( new()
-    {
-    NewCommand = new()
-    {
-    Clicked = NewClick,
-    LocalizationString = newButtonString,
-    },
-    EditCommand = new()
-    {
-    Clicked = EditClick,
-    LocalizationString = editButtonString,
-    Item = SelectedRow
-    },
-    DeleteCommand = new()
-    {
-    Clicked = DeleteClick,
-    LocalizationString = deleteButtonString,
-    Item = SelectedRow
-    },
-    ClearFilterCommand = new()
-    {
-    Clicked = ClearFilterClick,
-    LocalizationString = clearFilterButtonString,
-    }
-    } )
-                    ;
+                    {
+                        NewCommand = new()
+                        {
+                            Clicked = NewClick,
+                            LocalizationString = newButtonString,
+                        },
+                        EditCommand = new()
+                        {
+                            Clicked = EditClick,
+                            LocalizationString = editButtonString,
+                            Item = SelectedRow
+                        },
+                        DeleteCommand = new()
+                        {
+                            Clicked = DeleteClick,
+                            LocalizationString = deleteButtonString,
+                            Item = SelectedRow
+                        },
+                        ClearFilterCommand = new()
+                        {
+                            Clicked = ClearFilterClick,
+                            LocalizationString = clearFilterButtonString,
+                        }
+                    } );
                 }
             </Field>
         }
