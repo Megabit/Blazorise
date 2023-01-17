@@ -2067,8 +2067,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// Gets or sets content of total items grid.
-    /// </summary>
+    /// </summary>In
     [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get => paginationTemplates.TotalItemsTemplate; set => paginationTemplates.TotalItemsTemplate = value; }
+
+    /// <summary>
+    /// Gets or sets content of the page selector. The selector is only displayed under the tablets breakpoint. You will have to construct it using the provided pagination context.
+    /// </summary>
+    [Parameter] public RenderFragment<PaginationContext<TItem>> PageSelectorTemplate { get => paginationTemplates.PageSelectorTemplate; set => paginationTemplates.PageSelectorTemplate = value; }
+
+    /// <summary>
+    /// Gets or sets content of the page sizes selector. You will have to construct it using the provided pagination context.
+    /// </summary>
+    [Parameter] public RenderFragment<PaginationContext<TItem>> PageSizesTemplate { get => paginationTemplates.PageSizesTemplate; set => paginationTemplates.PageSizesTemplate = value; }
 
     /// <summary>
     /// Gets or sets the maximum number of items for each page.
