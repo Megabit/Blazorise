@@ -17,7 +17,7 @@ Blazorise is a component library built on top of [Blazor](https://blazor.net/) a
 
 ## Commercial support
 
-[Support](https://support.blazorise.com/) for the Blazorise Components is available as part of the [Blazorise Commercial](https://commercial.blazorise.com/) subscription.
+[Support](https://blazorise.com/support) for the Blazorise Components is available as part of the [Blazorise Commercial](https://blazorise.com/commercial) subscription.
 
 With the commercial license you get:
 
