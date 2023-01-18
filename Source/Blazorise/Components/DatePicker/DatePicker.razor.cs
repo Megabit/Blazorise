@@ -39,6 +39,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> paramDisabledDates ) && !DisabledDates.AreEqual( paramDisabledDates );
             var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
             var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
+            var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
 
             if ( dateChanged || datesChanged )
             {
@@ -63,7 +64,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                  || readOnlyChanged
                  || disabledDatesChanged
                  || selectionModeChanged
-                 || inlineChanged )
+                 || inlineChanged
+                 || disableMobileChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
@@ -77,6 +79,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     DisabledDates = new { Changed = disabledDatesChanged, Value = paramDisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ) },
                     SelectionMode = new { Changed = selectionModeChanged, Value = paramSelectionMode },
                     Inline = new { Changed = inlineChanged, Value = paramInline },
+                    DisableMobile = new { Changed = disableMobileChanged, Value = paramDisableMobile },
                 } ) );
             }
         }
@@ -137,6 +140,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             DisabledDates = DisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ),
             Localization = GetLocalizationObject(),
             Inline,
+            DisableMobile
         } );
 
         await base.OnFirstAfterRenderAsync();
@@ -525,6 +529,11 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// Display the calendar in an always-open state with the inline option.
     /// </summary>
     [Parameter] public bool Inline { get; set; }
+
+    /// <summary>
+    /// If enabled, it disables the native input on mobile devices.
+    /// </summary>
+    [Parameter] public bool DisableMobile { get; set; } = true;
 
     #endregion
 }
