@@ -4,6 +4,6 @@
   "private": true,
   "devDependencies": {},
   "dependencies": {
-
+    "chartjs-plugin-trendline": "2.0.0"
   }
 }

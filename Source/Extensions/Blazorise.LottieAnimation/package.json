@@ -4,6 +4,6 @@
   "private": true,
   "devDependencies": {},
   "dependencies": {
-
+    "lottie-web": "5.10.0"
   }
 }
