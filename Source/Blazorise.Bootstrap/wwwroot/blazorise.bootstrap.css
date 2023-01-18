@@ -1576,6 +1576,9 @@ table.table tbody tr.table-group {
 tr.table-row-selectable:hover {
   cursor: pointer;
 }
+tr.table-row-selectable:focus[tabindex="0"] {
+  outline: none;
+}
 
 .table-fixed-header {
   overflow-y: auto;

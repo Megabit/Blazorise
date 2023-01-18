@@ -12,8 +12,16 @@
     }
 }
 
-tr.table-row-selectable:hover {
-    cursor: pointer;
+tr {
+    &.table-row-selectable {
+        &:hover {
+            cursor: pointer;
+        }
+
+        &:focus[tabindex="0"] {
+            outline: none;
+        }
+    }
 }
 
 .table-fixed-header {
