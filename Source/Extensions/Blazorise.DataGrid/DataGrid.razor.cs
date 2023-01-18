@@ -2423,6 +2423,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public Dictionary<string, object> Attributes { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
+    /// </summary>
+    [Parameter] public bool Navigable { get; set; }
+
+    /// <summary>
     /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.
     /// </summary>
     public int SelectedRowIndex
