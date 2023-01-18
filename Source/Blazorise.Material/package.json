@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {},
   "dependencies": {
-
+    "djibe-material": "4.6.0",
+    "jquery": "3.3.1"
   }
 }

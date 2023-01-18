@@ -4,6 +4,6 @@
   "private": true,
   "devDependencies": {},
   "dependencies": {
-
+    "bulma": "0.9.1"
   }
 }
