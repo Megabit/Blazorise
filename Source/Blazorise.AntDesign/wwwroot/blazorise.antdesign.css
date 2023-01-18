@@ -2890,6 +2890,10 @@ li.ant-list-item-actionable {
   top: 0;
 }
 
+tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
+  outline: none;
+}
+
 .ant-tabs.ant-tabs-fill .ant-tabs-tab {
   flex-grow: 1;
   margin-right: 0px;
