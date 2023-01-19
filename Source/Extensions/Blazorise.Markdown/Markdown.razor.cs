@@ -281,7 +281,7 @@ public partial class Markdown : BaseComponent,
         file.FileUploadEndedCallback.SetResult();
         await InvokeAsync( StateHasChanged );
     }
-    private TaskCompletionSource taskCompletionSource;
+
     /// <inheritdoc/>
     public Task UpdateFileStartedAsync( IFileEntry fileEntry )
     {
