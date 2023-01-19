@@ -52,7 +52,7 @@ export function initialize(element, elementId, options) {
         clickOpens: !(options.readOnly || false),
         disable: options.disabledDates || [],
         inline: options.inline || false,
-        disableMobile: true
+        disableMobile: options.disableMobile || true
     };
 
     if (options.selectionMode)
@@ -139,6 +139,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.inline.changed) {
             picker.set("inline", options.inline.value || false);
+        }
+
+        if (options.disableMobile.changed) {
+            picker.set("disableMobile", options.disableMobile.value || true);
         }
     }
 }
