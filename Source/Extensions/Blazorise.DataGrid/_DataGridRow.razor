@@ -24,7 +24,7 @@
               Style="@GetStyle(styling, selectedStyling)"
               HoverCursor="@GetHoverCursor()"
               @onkeydown="@(ParentDataGrid.Navigable ? HandleKeyDown : null)"
-              tabindex="@(ParentDataGrid.Navigable ? 0 : -1)">
+              tabindex="@(ParentDataGrid.Navigable ? 0 : null)">
 
         @ParentDataGrid.groupIndentationFragment
 
