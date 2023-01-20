@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "name": "blazorise.tailwind",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {
+    "tailwindcss": "3.2.4"
+  }
+}
