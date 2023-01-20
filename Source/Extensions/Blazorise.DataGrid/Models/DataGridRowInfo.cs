@@ -26,6 +26,11 @@ public class DataGridRowInfo<TItem>
     /// Gets the list of columns.
     /// </summary>
     public IEnumerable<DataGridColumn<TItem>> Columns { get; }
+    
+    /// <summary>
+    /// The Table Row
+    /// </summary>
+    public TableRow TableRow { get; private set; }
 
     /// <summary>
     /// Holds the Row's Item
@@ -50,4 +55,10 @@ public class DataGridRowInfo<TItem>
     /// </summary>
     public void ToggleDetailRow()
         => hasDetailRow = !hasDetailRow;
+
+    /// <summary>
+    /// Sets the Table Row Reference
+    /// </summary>
+    internal void SetTableRow( TableRow tableRow )
+        => TableRow = tableRow;
 }

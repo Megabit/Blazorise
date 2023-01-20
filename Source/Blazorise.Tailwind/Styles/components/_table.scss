@@ -8,6 +8,14 @@
     z-index: 1;
 }
 
+tr.b-table-row {
+    &.b-table-row-selectable {
+        &:focus[tabindex="0"] {
+            outline: none;
+        }
+    }
+}
+
 .b-table-fixed-header {
     overflow-y: auto;
 

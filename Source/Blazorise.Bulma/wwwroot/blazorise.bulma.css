@@ -7178,6 +7178,9 @@ table tbody tr.table-group {
 tr.table-row-selectable:hover, tr.table-row-selectable.is-hovered {
   cursor: pointer;
 }
+tr.table-row-selectable:focus[tabindex="0"] {
+  outline: none;
+}
 
 .table-container-fixed-header {
   overflow-y: auto;

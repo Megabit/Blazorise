@@ -13,7 +13,8 @@
         ParentDataGrid.RowStyling?.Invoke( Item, styling );
     }
 
-    <TableRow Clicked="@HandleClick"
+    <TableRow @ref="TableRowRef"
+              Clicked="@HandleClick"
               DoubleClicked="@HandleDoubleClick"
               ContextMenu="@HandleContextMenu"
               ContextMenuPreventDefault="@ParentDataGrid.RowContextMenuPreventDefault"
@@ -21,7 +22,9 @@
               Color="@GetColor(styling, selectedStyling)"
               Class="@GetClass(styling, selectedStyling)"
               Style="@GetStyle(styling, selectedStyling)"
-              HoverCursor="@GetHoverCursor()">
+              HoverCursor="@GetHoverCursor()"
+              @onkeydown="@(ParentDataGrid.Navigable ? HandleKeyDown : null)"
+              tabindex="@(ParentDataGrid.Navigable ? 0 : null)">
 
         @ParentDataGrid.groupIndentationFragment
 

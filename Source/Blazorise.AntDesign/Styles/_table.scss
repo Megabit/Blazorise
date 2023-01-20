@@ -120,3 +120,11 @@
         top: 0;
     }
 }
+
+tr.ant-table-row {
+    &.ant-table-row-selectable {
+        &:focus[tabindex="0"] {
+            outline: none;
+        }
+    }
+}
