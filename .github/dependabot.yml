@@ -159,3 +159,11 @@ updates:
   directory: "/Source/Extensions/Blazorise.Video"
   schedule:
     interval: daily
+
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  registries:
+  - nuget-feed-default
