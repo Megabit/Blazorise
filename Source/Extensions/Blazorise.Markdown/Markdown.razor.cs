@@ -297,32 +297,28 @@ public partial class Markdown : BaseComponent,
     }
 
     /// <inheritdoc/>
-    public async Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
+    public Task UpdateFileEndedAsync( IFileEntry fileEntry, bool success, FileInvalidReason fileInvalidReason )
     {
-        if ( ImageUploadEnded is not null )
-            await ImageUploadEnded.Invoke( new( fileEntry, success, fileInvalidReason ) );
-
-        if ( !success )
-        {
-            await JSModule.NotifyImageUploadError( ElementId, fileEntry.ErrorMessage );
-            return;
-        }
-
-
-        if ( fileEntry.FileUploadEndedCallback is null )
-        {
-            await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty );
-        }
-        else
-        {
 #pragma warning disable CS4014 // We want to let execution complete but wait for TaskCompletionSource on the background.
-            Task.Run( async () =>
-            {
+        InvokeAsync( async () =>
+        {
+            if ( fileEntry.FileUploadEndedCallback is not null )
                 await fileEntry.FileUploadEndedCallback.Task;
-                await InvokeAsync( async () => await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty ) );
-            } );
-#pragma warning restore CS4014 
-        }
+
+            if ( ImageUploadEnded is not null )
+                await ImageUploadEnded.Invoke( new( fileEntry, success, fileInvalidReason ) );
+
+            if ( !success )
+            {
+                await JSModule.NotifyImageUploadError( ElementId, fileEntry.ErrorMessage );
+                return;
+            }
+
+            await JSModule.NotifyImageUploadSuccess( ElementId, fileEntry.UploadUrl ?? string.Empty );
+        } );
+#pragma warning restore CS4014
+
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>
