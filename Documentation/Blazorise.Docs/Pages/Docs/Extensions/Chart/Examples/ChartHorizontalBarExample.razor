@@ -1,0 +1,78 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Clicked="@(async () => await HandleRedraw())">Redraw</Button>
+
+<BarChart @ref="barChart" TItem="double" Options="@options" />
+
+@code {
+    BarChart<double> barChart;
+
+    BarChartOptions options = new()
+    {
+        IndexAxis = "y",
+        Elements = new()
+        {
+            Bar = new()
+            {
+                BorderWidth = 2,
+            }
+        },
+        Responsive = true,
+        Plugins = new()
+        {
+            Legend = new()
+            {
+                Position = "right"
+            },
+            Title = new()
+            {
+                Display = true,
+                    Text = "Chart.js Horizontal Bar Chart"
+            }
+        }
+    };
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
+    }
+
+    async Task HandleRedraw()
+    {
+        await barChart.Clear();
+
+        await barChart.AddLabelsDatasetsAndUpdate( Labels,
+            GetBarChartDataset( "Dataset 1" ),
+            GetBarChartDataset( "Dataset 2" ) );
+    }
+
+    BarChartDataset<double> GetBarChartDataset( string label )
+    {
+        return new BarChartDataset<double>
+        {
+            Label = label,
+            Data = RandomizeData(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+        };
+    }
+
+    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    Random random = new Random( DateTime.Now.Millisecond );
+
+    List<double> RandomizeData()
+    {
+        return new List<double> {
+            random.Next( -50, 50 ) * random.NextDouble(),
+            random.Next( -50, 50 ) * random.NextDouble(),
+            random.Next( -50, 50 ) * random.NextDouble(),
+            random.Next( -50, 50 ) * random.NextDouble(),
+            random.Next( -50, 50 ) * random.NextDouble(),
+            random.Next( -50, 50 ) * random.NextDouble() };
+    }
+}
