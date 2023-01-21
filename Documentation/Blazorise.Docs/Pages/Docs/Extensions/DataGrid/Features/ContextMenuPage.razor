@@ -1,0 +1,46 @@
+﻿@page "/docs/extensions/datagrid/features/context-menu"
+
+<Seo Canonical="/docs/extensions/datagrid/features/context-menu" Title="Blazorise DataGrid features" Description="Learn to use and work with the Blazorise Blazorise DataGrid features, ranging from paginations, sorting, editing, filtering, resizing, and many more." />
+
+<DocsPageTitle>
+    DataGrid: Features : Context Menu
+</DocsPageTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Row Context Menu">
+        <Paragraph>
+            You may need to know which element the user clicked in some cases so that you can use it in command handling. You might also want to change the menu's contents depending on which element the user clicked (e.g., disable or entirely remove some items from the menu based on a condition).
+        </Paragraph>
+        <Paragraph>
+            To integrate the context menu with the DataGrid, you need to:
+        </Paragraph>
+        <OrderedList>
+            <OrderedListItem>
+                Use the grid's <Code>RowContextMenu</Code> event to get the current row model and show the menu.
+            </OrderedListItem>
+            <OrderedListItem>
+                Use the context menu's <Code>MouseEventArgs</Code> parameter to handle the desired operation.
+            </OrderedListItem>
+        </OrderedList>
+        <Paragraph>
+            In this example, the context menu is used to show the menu items, put an item in edit mode and delete items.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridContextMenuExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridContextMenuExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Scroll To">
+        Scroll to API is available when the <Code>DataGrid</Code> <Code>FixedHeader</Code> or <Code>Virtualize</Code> is set.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridScrollToExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridScrollToExample" />
+</DocsPageSection>
+
+
+
