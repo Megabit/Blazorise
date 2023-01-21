@@ -71,10 +71,18 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Columns">
         Next you must set the Columns that you want to see in the grid. When defining the columns the required fields are:
-
-        <Code>TItem</Code> this is always the same model as on <Code>DataGrid</Code>.
-        <Code>Field</Code> name of the field in the supplied model.
-        <Code>Caption</Code> the column caption text.
+        <UnorderedList>
+            <UnorderedListItem><Code>TItem</Code> this is always the same model as on <Code>DataGrid</Code>. And you should be able to omit this on recent versions of Blazorise</UnorderedListItem>
+            <Code>Field</Code> name of the field in the supplied model.
+            <Code>Caption</Code> the column caption text.
+        </UnorderedList>
+        <Alert Color="Color.Warning" Visible>
+            <AlertDescription>
+                Throughout our examples you may see the usage of <Blazorise.Link To="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/nameof" Target="Target.Blank"><Code>nameof</Code></Blazorise.Link> when defining the <Code>Field</Code> Parameter. 
+                Note that <Code>nameof</Code> produces only the name of the variable, type or member as the string constant. It is used as a way to strongly type the string that represents our field.
+                Please note, that this is not mandatory. And you may provide a regular string that represents the path to the field you want to be binding.
+            </AlertDescription>
+        </Alert>
     </DocsPageSectionHeader>
 </DocsPageSection>
 
