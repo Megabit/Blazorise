@@ -1,0 +1,29 @@
+﻿@page "/docs/extensions/datagrid/templates/detail-row"
+
+<Seo Canonical="/docs/extensions/datagrid/templates/detail-row" Title="Blazorise DataGrid templates" Description="Learn to use and work with the Blazorise DataGrid templates to customize the appearance and behavior of the DataGrid fully." />
+
+<DocsPageTitle>
+    DataGrid: Templates : Detail Row
+</DocsPageTitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DetailRowTemplate">
+        <Paragraph>
+            <Code>DetailRowTemplate</Code> allows you to display nested structure bellow each row in the grid. One of the examples is “master-detail” relationship between two data-source inside the <Code>DataGrid</Code>.
+        </Paragraph>
+        <Paragraph>
+            For this template the <Code>context</Code> value is the item from the parent grid.
+        </Paragraph>
+        <Paragraph>
+            Once it’s defined a detail-row will be visible for every row in the grid by default. You may change this behaviour by setting <Code>DetailRowStartsVisible</Code> to false.
+        </Paragraph>
+        <Paragraph>
+            If you want to control the visibility of detail-row you can use <Code>DetailRowTrigger</Code> attribute that can be defined in it’s parent grid.
+            Once defined, whenever a user clicks a row, the <Code>DetailRowTrigger</Code> will be evaluated. You may also use the DataGrid API, <Code>ToggleDetailRow</Code> to programatically trigger the detail-row.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent>
+        <DataGridDetailRowTemplateExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridDetailRowTemplateExample" />
+</DocsPageSection>
