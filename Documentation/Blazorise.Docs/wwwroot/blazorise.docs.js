@@ -14,6 +14,48 @@
                     behavior: 'auto'
                 });
             }
+        },
+
+        generateToc: (targetElement, options) => {
+            document.querySelectorAll('.b-docs-page>h2, .b-docs-page>h3, .b-docs-page>h4, .b-docs-page-section-header>h3').forEach(function (el) {
+                if (el && !el.id && el.textContent) {
+                    const textContent = el.textContent.trim();
+                    el.id = 'toc_' + textContent.replace(/[^A-Za-z0-9]/g, '-');
+                }
+            });
+
+            tocbot.destroy()
+            tocbot.init({
+                basePath: options.basePath,
+                tocSelector: '#TableOfContents',
+                contentSelector: '.b-docs-page',
+                headingSelector: '.b-docs-page>h2, .b-docs-page>h3, .b-docs-page>h4, .b-docs-page-section-header>h3',
+                hasInnerContainers: false,
+                orderedList: false,
+                activeLinkClass: 'active',
+                scrollSmooth: true,
+                // Smooth scroll duration.
+                scrollSmoothDuration: 420,
+                // Smooth scroll offset.
+                scrollSmoothOffset: 0,
+                // Callback for scroll end.
+                scrollEndCallback: function (e) { },
+                disableTocScrollSync: false,
+                //activeLinkClass: 'is-active-link',
+                //activeListItemClass: 'is-active-li',
+                onClick: function (e) {
+                    e.preventDefault();
+
+
+                },
+                headingObjectCallback: function (object, element) {
+                    if (object && object.textContent && !object.id && !element.id) {
+                        object.id = 'toc_' + object.textContent.replace(/[^A-Za-z0-9]/g, '-');
+                    }
+
+                    return object;
+                }
+            });
         }
     }
 }

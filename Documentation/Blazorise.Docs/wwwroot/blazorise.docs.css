@@ -757,3 +757,49 @@ code {
 .blog-page-section-source .btn {
   color: #576b85;
 }
+
+a.toc-link {
+  text-decoration: none;
+}
+
+.toc {
+  position: sticky;
+  top: 5rem;
+  right: 0;
+  overflow-y: hidden;
+}
+.toc > .toc-list {
+  overflow: hidden;
+  position: relative;
+}
+.toc > .toc-list li {
+  list-style: none;
+}
+.toc .toc-list {
+  margin: 0;
+  padding-left: 10px;
+}
+.toc .toc-list .toc-list-item {
+  padding: 0.25rem 0;
+}
+.toc .toc-list .toc-link::before {
+  background-color: #EEE;
+  content: " ";
+  display: inline-block;
+  height: inherit;
+  left: 0;
+  margin-top: -1px;
+  position: absolute;
+  width: 2px;
+}
+.toc a.toc-link {
+  color: currentColor;
+  height: 100%;
+  cursor: pointer;
+}
+.toc a.toc-link.is-active-link {
+  font-weight: 700;
+}
+.toc a.toc-link.is-active-link::before {
+  background-color: var(--b-theme-primary, #8950FC);
+}
