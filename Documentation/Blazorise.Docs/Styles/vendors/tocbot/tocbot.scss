@@ -2,51 +2,54 @@ a.toc-link {
     text-decoration: none;
 }
 
-.toc {
+.b-docs-toc {
     position: sticky;
-    top: 5rem;
+    /*top: 4rem;*/
     right: 0;
     overflow-y: hidden;
 
-    > .toc-list {
-        overflow: hidden;
-        position: relative;
+    .toc {
+        > .toc-list {
+            overflow: hidden;
+            position: relative;
 
-        li {
-            list-style: none;
-        }
-    }
-
-    .toc-list {
-        margin: 0;
-        padding-left: 10px;
-
-        .toc-list-item {
-            padding: .25rem 0;
+            li {
+                margin-bottom: 0.25rem;
+                list-style: none;
+            }
         }
 
-        .toc-link::before {
-            background-color: #EEE;
-            content: ' ';
-            display: inline-block;
-            height: inherit;
-            left: 0;
-            margin-top: -1px;
-            position: absolute;
-            width: 2px;
+        .toc-list {
+            margin: 0;
+            padding-left: 10px;
+            /*
+            .toc-link::before {
+                background-color: #EEE;
+                content: ' ';
+                display: inline-block;
+                height: inherit;
+                left: 0;
+                margin-top: -1px;
+                position: absolute;
+                width: 2px;
+            }*/
         }
-    }
 
-    a.toc-link {
-        color: currentColor;
-        height: 100%;
-        cursor: pointer;
+        a.toc-link {
+            color: currentColor;
+            height: 100%;
+            cursor: pointer;
+            font-size: .875rem;
 
-        &.is-active-link {
-            font-weight: 700;
+            &.is-active-link {
+                font-weight: 700;
+                /*&::before {
+                    background-color: var(--b-theme-primary, #8950FC);
+                }*/
+            }
 
-            &::before {
-                background-color: var(--b-theme-primary, #8950FC);
+            &:hover {
+                text-decoration: underline;
             }
         }
     }

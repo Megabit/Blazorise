@@ -762,44 +762,47 @@ a.toc-link {
   text-decoration: none;
 }
 
-.toc {
+.b-docs-toc {
   position: sticky;
-  top: 5rem;
+  /*top: 4rem;*/
   right: 0;
   overflow-y: hidden;
 }
-.toc > .toc-list {
+.b-docs-toc .toc > .toc-list {
   overflow: hidden;
   position: relative;
 }
-.toc > .toc-list li {
+.b-docs-toc .toc > .toc-list li {
+  margin-bottom: 0.25rem;
   list-style: none;
 }
-.toc .toc-list {
+.b-docs-toc .toc .toc-list {
   margin: 0;
   padding-left: 10px;
+  /*
+  .toc-link::before {
+      background-color: #EEE;
+      content: ' ';
+      display: inline-block;
+      height: inherit;
+      left: 0;
+      margin-top: -1px;
+      position: absolute;
+      width: 2px;
+  }*/
 }
-.toc .toc-list .toc-list-item {
-  padding: 0.25rem 0;
-}
-.toc .toc-list .toc-link::before {
-  background-color: #EEE;
-  content: " ";
-  display: inline-block;
-  height: inherit;
-  left: 0;
-  margin-top: -1px;
-  position: absolute;
-  width: 2px;
-}
-.toc a.toc-link {
+.b-docs-toc .toc a.toc-link {
   color: currentColor;
   height: 100%;
   cursor: pointer;
+  font-size: 0.875rem;
 }
-.toc a.toc-link.is-active-link {
+.b-docs-toc .toc a.toc-link.is-active-link {
   font-weight: 700;
+  /*&::before {
+      background-color: var(--b-theme-primary, #8950FC);
+  }*/
 }
-.toc a.toc-link.is-active-link::before {
-  background-color: var(--b-theme-primary, #8950FC);
+.b-docs-toc .toc a.toc-link:hover {
+  text-decoration: underline;
 }
