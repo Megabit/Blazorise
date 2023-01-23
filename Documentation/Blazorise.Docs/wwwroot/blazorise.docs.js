@@ -45,8 +45,24 @@
                 //activeListItemClass: 'is-active-li',
                 onClick: function (e) {
                     e.preventDefault();
+                    e.stopPropagation();
 
+                    const element = e.target;
 
+                    if (element && element.href) {
+                        const url = new URL(element.href);
+
+                        if (url) {
+                            const hash = url.hash;
+                            if (hash && hash.length > 0) {
+                                const section = document.getElementById(hash.substring(1));
+
+                                if (section) {
+                                    section.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'start' });
+                                }
+                            }
+                        }
+                    }
                 },
                 headingObjectCallback: function (object, element) {
                     if (object && object.textContent && !object.id && !element.id) {
