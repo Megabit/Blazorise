@@ -89,11 +89,37 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/chart-live", "Chart Streaming", "Chart plugin for live streaming data." ),
                 new PageEntry( "docs/extensions/chart-trendline", "Chart Trendline", "This plugin draws an linear trendline in your Chart." ),
                 new PageEntry( "docs/extensions/datagrid/aggregates", "DataGrid Aggregates" ),
+
                 new PageEntry( "docs/extensions/datagrid/binding-data", "DataGrid Binding Data" ),
-                new PageEntry( "docs/extensions/datagrid/binding-data", "DataGrid Features" ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/in-memory", "DataGrid Binding Data : In Memory" ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/large-data", "DataGrid Binding Data : Large Data" ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/virtualize", "DataGrid Binding Data : Virtualize" ),
+
+                new PageEntry( "docs/extensions/datagrid/features", "DataGrid Features" ),
+                new PageEntry( "docs/extensions/datagrid/features/context-menu", "DataGrid Features : Context Menu" ),
+                new PageEntry( "docs/extensions/datagrid/features/editing", "DataGrid Features : Editing" ),
+                new PageEntry( "docs/extensions/datagrid/features/filtering", "DataGrid Features : Filtering" ),
+                new PageEntry( "docs/extensions/datagrid/features/fixed-header", "DataGrid Features : Fixed Header" ),
+                new PageEntry( "docs/extensions/datagrid/features/grouping", "DataGrid Features : Grouping" ),
+                new PageEntry( "docs/extensions/datagrid/features/paging", "DataGrid Features : Paging" ),
+                new PageEntry( "docs/extensions/datagrid/features/resizing", "DataGrid Features : Resizing" ),
+                new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Features : Sorting" ),
+
                 new PageEntry( "docs/extensions/datagrid/getting-started", "DataGrid", "The DataGrid component is used for displaying tabular data. Features include sorting, searching, pagination, content-editing, and row selection." ),
+                
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
+                new PageEntry( "docs/extensions/datagrid/selection/single", "DataGrid Selection : Single" ),
+                new PageEntry( "docs/extensions/datagrid/selection/multiple", "DataGrid Selection : Multiple" ),
+                new PageEntry( "docs/extensions/datagrid/selection/custom-row-colors", "DataGrid Selection : Custom Row Colors" ),
+
                 new PageEntry( "docs/extensions/datagrid/templates", "DataGrid Templates" ),
+                new PageEntry( "docs/extensions/datagrid/templates/button-row", "DataGrid Templates : Button Row" ),
+                new PageEntry( "docs/extensions/datagrid/templates/commands", "DataGrid Templates : Commands" ),
+                new PageEntry( "docs/extensions/datagrid/templates/detail-row", "DataGrid Templates : Detail Row" ),
+                new PageEntry( "docs/extensions/datagrid/templates/display", "DataGrid Templates : Display" ),
+                new PageEntry( "docs/extensions/datagrid/templates/edit", "DataGrid Templates : Edit" ),
+                new PageEntry( "docs/extensions/datagrid/templates/loading", "DataGrid Templates : Loading" ),
+
                 new PageEntry( "docs/extensions/datagrid/validations", "DataGrid Validations" ),
                 new PageEntry( "docs/extensions/dropdownlist", "DropdownList", "The DropdownList component allows you to select a value from a list of predefined items." ),
                 new PageEntry( "docs/extensions/icons", "Icons", "Icons are symbols that can be used to represent various options within an application." ),
