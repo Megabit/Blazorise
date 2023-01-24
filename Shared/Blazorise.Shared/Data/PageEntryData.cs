@@ -100,14 +100,14 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/binding-data/virtualize", "DataGrid Binding Data : Virtualize", "The DataGrid Virtualize feature allows you to handle large data by limiting the data that's queried to what needs to be rendered in the UI." ),
 
                 new PageEntry( "docs/extensions/datagrid/features", "DataGrid Features" ),
-                new PageEntry( "docs/extensions/datagrid/features/context-menu", "DataGrid Features : Context Menu", "Row Context Menu" ),
-                new PageEntry( "docs/extensions/datagrid/features/editing", "DataGrid Features : Editing", "The grid can perform some basic CRUD operations on the supplied Data collection." ),
-                new PageEntry( "docs/extensions/datagrid/features/filtering", "DataGrid Features : Filtering", "Use an attribute Filterable to enable or disable automatic filtering in grid component." ),
-                new PageEntry( "docs/extensions/datagrid/features/fixed-header", "DataGrid Features : Fixed Header", "Enable Fixed Header" ),
+                new PageEntry( "docs/extensions/datagrid/features/context-menu", "DataGrid Features : Context Menu", "Right-click on any row to access options such as editing, deleting, and custom actions." ),
+                new PageEntry( "docs/extensions/datagrid/features/editing", "DataGrid Features : Editing", "The DataGrid can perform some basic CRUD operations on the supplied Data collection." ),
+                new PageEntry( "docs/extensions/datagrid/features/filtering", "DataGrid Features : Filtering", "Quickly search and filter by any column, or customize filter options to fit your needs." ),
+                new PageEntry( "docs/extensions/datagrid/features/fixed-header", "DataGrid Features : Fixed Header", "The table header remains visible as you scroll, making it easy to identify and reference the data in your grid." ),
                 new PageEntry( "docs/extensions/datagrid/features/grouping", "DataGrid Features : Grouping", "Grouping feature for Blazorise DataGrid allows you to easily group and organize your data by specific columns." ),
-                new PageEntry( "docs/extensions/datagrid/features/paging", "DataGrid Features : Paging", "Paging is handled automatically by the DataGrid and configurable." ),
-                new PageEntry( "docs/extensions/datagrid/features/resizing", "DataGrid Features : Resizing", "Enable Resizing" ),
-                new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Features : Sorting", "All columns can be sorted automatically if the option Sortable is enabled on the column." ),
+                new PageEntry( "docs/extensions/datagrid/features/paging", "DataGrid Features : Paging", "Paginate your data with customizable page size options and intuitive navigation controls." ),
+                new PageEntry( "docs/extensions/datagrid/features/resizing", "DataGrid Features : Resizing", "Easily adjust the size of your columns with the Blazorise DataGrid's resizing feature. Drag and drop column edges to resize, or use customized options to fit your needs." ),
+                new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Features : Sorting", "Blazorise DataGrid offers efficient data sorting with customizable options." ),
 
                 
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
