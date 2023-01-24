@@ -12,3 +12,40 @@
         <Paragraph>Use <Code>SortField</Code> if you would like to set a different field or property to be considered by the sorting mechanism on a certain column.</Paragraph>
     </DocsPageSectionHeader>
 </DocsPageSection>
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Single">
+        By default the DataGrid sorting mode is single column based.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridSortSingleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridSortSingleExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple">
+        You may also change the DataGrid sorting mode to multiple, to allow sorting on multiple columns.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridSortMultipleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridSortMultipleExample" />
+</DocsPageSection>
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SortField">
+        <Paragraph>
+            The <code>SortField</code> feature, allows you to define a different Property or Field of the Item to be considered by the sorting mechanism.
+        </Paragraph>
+        <Paragraph>
+            In this example, we define the Sort Field of the <code>Childrens</code> Column to be the calculated property <code>ChildrensPerSalary</code>.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridSortFieldExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridSortFieldExample" />
+</DocsPageSection>
