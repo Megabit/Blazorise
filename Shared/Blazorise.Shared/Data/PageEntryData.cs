@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Blazorise.Shared.Models;
 using Microsoft.Extensions.Caching.Memory;
@@ -90,35 +92,36 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/chart-trendline", "Chart Trendline", "This plugin draws an linear trendline in your Chart." ),
                 new PageEntry( "docs/extensions/datagrid/aggregates", "DataGrid Aggregates" ),
 
+                new PageEntry( "docs/extensions/datagrid/getting-started", "DataGrid", "The DataGrid component is used for displaying tabular data. Features include sorting, searching, pagination, content-editing, and row selection." ),
+
                 new PageEntry( "docs/extensions/datagrid/binding-data", "DataGrid Binding Data" ),
-                new PageEntry( "docs/extensions/datagrid/binding-data/in-memory", "DataGrid Binding Data : In Memory" ),
-                new PageEntry( "docs/extensions/datagrid/binding-data/large-data", "DataGrid Binding Data : Large Data" ),
-                new PageEntry( "docs/extensions/datagrid/binding-data/virtualize", "DataGrid Binding Data : Virtualize" ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/in-memory", "DataGrid Binding Data : In Memory", "The DataGrid In Memory feature allows you to quickly bind an in memory data collection." ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/large-data", "DataGrid Binding Data : Large Data", "The DataGrid Read Data feature allows you to handle Large Data by providing you with a centralized ReadData Method that allows you to query your data by pages." ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/virtualize", "DataGrid Binding Data : Virtualize", "The DataGrid Virtualize feature allows you to handle large data by limiting the data that's queried to what needs to be rendered in the UI." ),
 
                 new PageEntry( "docs/extensions/datagrid/features", "DataGrid Features" ),
-                new PageEntry( "docs/extensions/datagrid/features/context-menu", "DataGrid Features : Context Menu" ),
-                new PageEntry( "docs/extensions/datagrid/features/editing", "DataGrid Features : Editing" ),
-                new PageEntry( "docs/extensions/datagrid/features/filtering", "DataGrid Features : Filtering" ),
-                new PageEntry( "docs/extensions/datagrid/features/fixed-header", "DataGrid Features : Fixed Header" ),
-                new PageEntry( "docs/extensions/datagrid/features/grouping", "DataGrid Features : Grouping" ),
-                new PageEntry( "docs/extensions/datagrid/features/paging", "DataGrid Features : Paging" ),
-                new PageEntry( "docs/extensions/datagrid/features/resizing", "DataGrid Features : Resizing" ),
-                new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Features : Sorting" ),
+                new PageEntry( "docs/extensions/datagrid/features/context-menu", "DataGrid Features : Context Menu", "Row Context Menu" ),
+                new PageEntry( "docs/extensions/datagrid/features/editing", "DataGrid Features : Editing", "The grid can perform some basic CRUD operations on the supplied Data collection." ),
+                new PageEntry( "docs/extensions/datagrid/features/filtering", "DataGrid Features : Filtering", "Use an attribute Filterable to enable or disable automatic filtering in grid component." ),
+                new PageEntry( "docs/extensions/datagrid/features/fixed-header", "DataGrid Features : Fixed Header", "Enable Fixed Header" ),
+                new PageEntry( "docs/extensions/datagrid/features/grouping", "DataGrid Features : Grouping", "Grouping feature for Blazorise DataGrid allows you to easily group and organize your data by specific columns." ),
+                new PageEntry( "docs/extensions/datagrid/features/paging", "DataGrid Features : Paging", "Paging is handled automatically by the DataGrid and configurable." ),
+                new PageEntry( "docs/extensions/datagrid/features/resizing", "DataGrid Features : Resizing", "Enable Resizing" ),
+                new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Features : Sorting", "All columns can be sorted automatically if the option Sortable is enabled on the column." ),
 
-                new PageEntry( "docs/extensions/datagrid/getting-started", "DataGrid", "The DataGrid component is used for displaying tabular data. Features include sorting, searching, pagination, content-editing, and row selection." ),
                 
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
-                new PageEntry( "docs/extensions/datagrid/selection/single", "DataGrid Selection : Single" ),
-                new PageEntry( "docs/extensions/datagrid/selection/multiple", "DataGrid Selection : Multiple" ),
-                new PageEntry( "docs/extensions/datagrid/selection/custom-row-colors", "DataGrid Selection : Custom Row Colors" ),
+                new PageEntry( "docs/extensions/datagrid/selection/single", "DataGrid Selection : Single", "How to handle single selection." ),
+            new PageEntry( "docs/extensions/datagrid/selection/multiple", "DataGrid Selection : Multiple", "How to handle multiple selection." ),
+                new PageEntry( "docs/extensions/datagrid/selection/custom-row-colors", "DataGrid Selection : Custom Row Colors", "How to customize Row Colors." ),
 
                 new PageEntry( "docs/extensions/datagrid/templates", "DataGrid Templates" ),
-                new PageEntry( "docs/extensions/datagrid/templates/button-row", "DataGrid Templates : Button Row" ),
-                new PageEntry( "docs/extensions/datagrid/templates/commands", "DataGrid Templates : Commands" ),
-                new PageEntry( "docs/extensions/datagrid/templates/detail-row", "DataGrid Templates : Detail Row" ),
-                new PageEntry( "docs/extensions/datagrid/templates/display", "DataGrid Templates : Display" ),
-                new PageEntry( "docs/extensions/datagrid/templates/edit", "DataGrid Templates : Edit" ),
-                new PageEntry( "docs/extensions/datagrid/templates/loading", "DataGrid Templates : Loading" ),
+                new PageEntry( "docs/extensions/datagrid/templates/button-row", "DataGrid Templates : Button Row", "A ButtonRow Template." ),
+                new PageEntry( "docs/extensions/datagrid/templates/commands", "DataGrid Templates : Commands", "A Commands Template." ),
+                new PageEntry( "docs/extensions/datagrid/templates/detail-row", "DataGrid Templates : Detail Row", "A Detail Row Template." ),
+                new PageEntry( "docs/extensions/datagrid/templates/display", "DataGrid Templates : Display", "A Display Template." ),
+                new PageEntry( "docs/extensions/datagrid/templates/edit", "DataGrid Templates : Edit", "An Edit Template." ),
+                new PageEntry( "docs/extensions/datagrid/templates/loading", "DataGrid Templates : Loading", "A Loading Template." ),
 
                 new PageEntry( "docs/extensions/datagrid/validations", "DataGrid Validations" ),
                 new PageEntry( "docs/extensions/dropdownlist", "DropdownList", "The DropdownList component allows you to select a value from a list of predefined items." ),
