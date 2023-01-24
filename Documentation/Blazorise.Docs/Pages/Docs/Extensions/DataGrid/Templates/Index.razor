@@ -10,7 +10,7 @@
     Learn to use and work with the Blazorise DataGrid templates to customize the appearance and behavior of the DataGrid fully.
 </DocsPageLead>
 
-<Row RowColumns="RowColumns.Are4">
+<Row RowColumns="RowColumns.Are4.OnTablet.Are2.OnMobile">
     @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/extensions/datagrid/templates" ) && !string.IsNullOrEmpty( x.Description ) ) )
     {
         <Column Margin="Margin.Is3.FromBottom">
