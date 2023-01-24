@@ -95,9 +95,9 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/getting-started", "DataGrid", "The DataGrid component is used for displaying tabular data. Features include sorting, searching, pagination, content-editing, and row selection." ),
 
                 new PageEntry( "docs/extensions/datagrid/binding-data", "DataGrid Binding Data" ),
-                new PageEntry( "docs/extensions/datagrid/binding-data/in-memory", "DataGrid Binding Data : In Memory", "The DataGrid In Memory feature allows you to quickly bind an in memory data collection." ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/in-memory", "DataGrid Binding Data : In Memory", "The DataGrid can bind to your data in memory, allowing for quick and efficient display of your data sets." ),
                 new PageEntry( "docs/extensions/datagrid/binding-data/large-data", "DataGrid Binding Data : Large Data", "The DataGrid Read Data feature allows you to handle Large Data by providing you with a centralized ReadData Method that allows you to query your data by pages." ),
-                new PageEntry( "docs/extensions/datagrid/binding-data/virtualize", "DataGrid Binding Data : Virtualize", "The DataGrid Virtualize feature allows you to handle large data by limiting the data that's queried to what needs to be rendered in the UI." ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/virtualize", "DataGrid Binding Data : Virtualize", "Optimize performance for large data sets with the Blazorise DataGrid's virtualization feature. By only rendering the data currently visible on the screen, virtualization reduces the amount of DOM elements, resulting in improved performance and load times." ),
 
                 new PageEntry( "docs/extensions/datagrid/features", "DataGrid Features" ),
                 new PageEntry( "docs/extensions/datagrid/features/context-menu", "DataGrid Features : Context Menu", "Right-click on any row to access options such as editing, deleting, and custom actions." ),
