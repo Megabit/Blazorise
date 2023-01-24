@@ -116,12 +116,12 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/selection/custom-row-colors", "DataGrid Selection : Custom Row Colors", "Easily color code your data with the Blazorise DataGrid's custom row color feature." ),
 
                 new PageEntry( "docs/extensions/datagrid/templates", "DataGrid Templates" ),
-                new PageEntry( "docs/extensions/datagrid/templates/button-row", "DataGrid Templates : Button Row", "A ButtonRow Template." ),
-                new PageEntry( "docs/extensions/datagrid/templates/commands", "DataGrid Templates : Commands", "A Commands Template." ),
-                new PageEntry( "docs/extensions/datagrid/templates/detail-row", "DataGrid Templates : Detail Row", "A Detail Row Template." ),
-                new PageEntry( "docs/extensions/datagrid/templates/display", "DataGrid Templates : Display", "A Display Template." ),
-                new PageEntry( "docs/extensions/datagrid/templates/edit", "DataGrid Templates : Edit", "An Edit Template." ),
-                new PageEntry( "docs/extensions/datagrid/templates/loading", "DataGrid Templates : Loading", "A Loading Template." ),
+                new PageEntry( "docs/extensions/datagrid/templates/button-row", "DataGrid Templates : Button Row", "Easily customize the action buttons shown with the Blazorise DataGrid's button row template feature." ),
+                new PageEntry( "docs/extensions/datagrid/templates/commands", "DataGrid Templates : Commands", "Customize your action commands with the Blazorise DataGrid's commands template feature. Assign custom templates to the command column, such as editing and deleting, or add your own custom actions." ),
+                new PageEntry( "docs/extensions/datagrid/templates/detail-row", "DataGrid Templates : Detail Row", "Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature." ),
+                new PageEntry( "docs/extensions/datagrid/templates/display", "DataGrid Templates : Display", "Customize how your data is displayed in each cell using the Blazorise DataGrid's display template feature. Assign custom templates to individual columns, allowing for more control over how your data is displayed. " ),
+                new PageEntry( "docs/extensions/datagrid/templates/edit", "DataGrid Templates : Edit", "Assign custom edit templates to individual columns, allowing for more control over how data is edited." ),
+                new PageEntry( "docs/extensions/datagrid/templates/loading", "DataGrid Templates : Loading", "Customize the loading look of the Blazorise DataGrid with the loading template feature." ),
 
                 new PageEntry( "docs/extensions/datagrid/validations", "DataGrid Validations" ),
                 new PageEntry( "docs/extensions/dropdownlist", "DropdownList", "The DropdownList component allows you to select a value from a list of predefined items." ),
