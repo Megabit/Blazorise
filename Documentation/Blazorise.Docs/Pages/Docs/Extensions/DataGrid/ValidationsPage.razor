@@ -21,7 +21,9 @@
         </UnorderedList>
         By default, <Code>DataGrid</Code> will use data-annotation to validate editing fields. You only need to define them on your model and they will automatically be picked up by the grid.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="DataGridAnnotationExample" />
+    <DocsPageSectionContent FullWidth>
+        <DocsPageSectionSource Code="DataGridAnnotationExample" />
+    </DocsPageSectionContent>
     <DocsPageSectionContent>
         <Alert Visible Color="Color.Warning">
             <AlertDescription>
@@ -29,7 +31,7 @@
             </AlertDescription>
         </Alert>
     </DocsPageSectionContent>
-    <DocsPageSectionContent>
+        <DocsPageSectionContent FullWidth>
         To override data-annotation you only need to define a <Code>Validator</Code> attribute and assign it to your validation method.
         <DataGridValidatorExample />
     </DocsPageSectionContent>
