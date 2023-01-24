@@ -1,0 +1,65 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          @bind-SelectedRow="@selectedEmployee"
+          Responsive
+          ShowPager
+          ShowPageSizes
+          PagerPosition="DataGridPagerPosition.TopAndBottom"
+          PagerOptions="new(){ ButtonSize=Size.Small }">
+    <DataGridColumns>
+        <DataGridCommandColumn />
+        <DataGridColumn Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
+        <DataGridColumn Field="@nameof(Employee.FirstName)" Caption="First Name" Editable />
+        <DataGridColumn Field="@nameof(Employee.LastName)" Caption="Last Name" Editable />
+        <DataGridColumn Field="@nameof(Employee.Email)" Caption="Email" Editable />
+        <DataGridColumn Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable>
+            <EditTemplate>
+                <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+            </EditTemplate>
+        </DataGridColumn>
+    </DataGridColumns>
+    <PageButtonTemplate>
+        <Span TextColor="TextColor.Success">
+            @context.PageNumber
+        </Span>
+    </PageButtonTemplate>
+    <NextPageButtonTemplate><Icon Name="IconName.StepForward" TextColor="TextColor.Success" /></NextPageButtonTemplate>
+    <PreviousPageButtonTemplate><Icon Name="IconName.StepBackward" TextColor="TextColor.Success" /></PreviousPageButtonTemplate>
+    <LastPageButtonTemplate><Icon Name="IconName.Forward" TextColor="TextColor.Success" /></LastPageButtonTemplate>
+    <FirstPageButtonTemplate><Icon Name="IconName.Backward" TextColor="TextColor.Success" /></FirstPageButtonTemplate>
+    <TotalItemsTemplate><Badge Color="Color.Success">@context.TotalItems total items</Badge></TotalItemsTemplate>
+    <TotalItemsShortTemplate><Badge Color="Color.Success">@context.TotalItems</Badge></TotalItemsShortTemplate>
+    <ItemsPerPageTemplate></ItemsPerPageTemplate>
+    <PageSelectorTemplate>
+        <Select TextColor="TextColor.Success" @bind-SelectedValue="@context.CurrentPage" Size="Size.Small">
+            @for ( int i = context.FirstVisiblePage; i <= context.LastVisiblePage; ++i )
+            {
+                var pageNumber = i;
+                <SelectItem Value="@pageNumber">@pageNumber</SelectItem>
+            }
+        </Select>
+    </PageSelectorTemplate>
+    <PageSizesTemplate>
+        <Select TextColor="TextColor.Success" @bind-SelectedValue="@context.CurrentPageSize" Size="Size.Small">
+            @foreach ( var curPageSize in context.PageSizes )
+            {
+                <SelectItem Value="@curPageSize">@curPageSize</SelectItem>
+            }
+        </Select>
+    </PageSizesTemplate>
+</DataGrid>
+
+@code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}
