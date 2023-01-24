@@ -77,12 +77,12 @@ public partial class AccordionToggle : BaseComponent
     }
 
     /// <summary>
-    /// Occurs when the button is clicked.
+    /// Occurs when the toggle button is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="Accordion"/>.
+    /// Specifies the content to be rendered inside this <see cref="AccordionToggle"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
