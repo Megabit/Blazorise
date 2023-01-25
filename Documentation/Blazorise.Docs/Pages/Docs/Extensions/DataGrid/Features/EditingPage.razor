@@ -1,25 +1,42 @@
 ﻿@page "/docs/extensions/datagrid/features/editing"
 
-<Seo Canonical="/docs/extensions/datagrid/features/editing" Title="Blazorise DataGrid Editing" Description="The DataGrid can perform some basic CRUD operations on the supplied Data collection." />
+<Seo Canonical="/docs/extensions/datagrid/features/editing" Title="Blazorise DataGrid Editing" Description="Learn Blazorise by the example. The DataGrid can perform some basic CRUD operations on the supplied Data collection." />
 
 <DocsPageTitle Path="Extensions/DataGrid/Features/Editing">
-    DataGrid: Features : Editing
+    Blazorise DataGrid: Editing
 </DocsPageTitle>
 
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Editing">
-        <Paragraph>
-            The grid can perform some basic CRUD operations on the supplied <Code>Data</Code> collection. To enable editing on data-grid, set the <Code>Editable</Code> attribute to true on the DataGrid, and then set <Code>Editable</Code> to true on each column you wish to be editable.
-        </Paragraph>
+<DocsPageLead>
+    The DataGrid component allows you to dynamically insert, delete, and update records.
+</DocsPageLead>
 
-        <Paragraph>By default every time the <Code>Item</Code> is saved it will be automatically handled by the data-grid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the <Code>UseInternalEditing</Code> to false.</Paragraph>
-        <Paragraph>The grid can work in two different editing modes that can provide different user experiences.</Paragraph>
-        <Code>EditMode</Code>:
-        <UnorderedList>
-            <UnorderedListItem><Code>Form</Code> editing is done in the internal DataGrid form</UnorderedListItem>
-            <UnorderedListItem><Code>Inline</Code> editing is done in the current row</UnorderedListItem>
-            <UnorderedListItem><Code>Popup</Code> editing is done in the the modal dialog</UnorderedListItem>
-        </UnorderedList>
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The grid can perform some basic CRUD operations on the supplied <Code>Data</Code> collection. To enable editing on data-grid, set the <Code>Editable</Code> attribute to true on the DataGrid, and then set <Code>Editable</Code> to true on each column you wish to be editable.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    By default every time the <Code>Item</Code> is saved it will be automatically handled by the data-grid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the <Code>UseInternalEditing</Code> to false.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Edit Modes">
+        <Paragraph>
+            The grid can work in several different editing modes that can provide different user experiences.
+        </Paragraph>
+        <Paragraph>
+            <Code>EditMode</Code>:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem><Code>Form</Code> editing is done in the internal DataGrid form</UnorderedListItem>
+                <UnorderedListItem><Code>Inline</Code> editing is done in the current row</UnorderedListItem>
+                <UnorderedListItem><Code>Popup</Code> editing is done in the the modal dialog</UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth Outlined>
         <DataGridEditModeExample />
