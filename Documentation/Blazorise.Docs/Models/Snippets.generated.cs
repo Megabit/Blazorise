@@ -5536,9 +5536,10 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
 }";
 
-        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextEdit @bind-Text=""@customFilterValue"" ></TextEdit>
+        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextEdit Text=""@customFilterValue"" TextChanged=""@OnCustomFilterValueChanged""></TextEdit>
 
-<DataGrid TItem=""Employee""
+<DataGrid @ref=""dataGrid""
+          TItem=""Employee""
           Data=""@employeeList""
           CustomFilter=""@OnCustomFilter""
           Responsive>
@@ -5546,9 +5547,16 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 </DataGrid>
 
 @code{
+    private DataGrid<Employee> dataGrid;
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""MLaden"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
 
     private string customFilterValue;
+
+    private Task OnCustomFilterValueChanged( string e )
+    {
+        customFilterValue = e;
+        return dataGrid.Reload();
+    }
 
     private bool OnCustomFilter( Employee model )
     {
