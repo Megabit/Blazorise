@@ -5,6 +5,6 @@
   "devDependencies": {
   },
   "dependencies": {
-    "chartjs-plugin-datalabels": "2.0.0"
+    "chartjs-plugin-datalabels": "2.2.0"
   }
 }
