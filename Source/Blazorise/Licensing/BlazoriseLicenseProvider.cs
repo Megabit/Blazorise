@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System;
 using System.ComponentModel;
 using System.Reflection;
 using Blazorise.Licensing;
@@ -12,6 +11,8 @@ namespace Blazorise;
 
 internal class BlazoriseLicenseProvider
 {
+    #region Members
+
     private static readonly Assembly CurrentAssembly = typeof( BlazoriseLicenseProvider ).Assembly;
 
     private readonly BlazoriseOptions options;
@@ -26,6 +27,10 @@ internal class BlazoriseLicenseProvider
 
     private static bool initialized = false;
 
+    #endregion
+
+    #region Constructors
+
     public BlazoriseLicenseProvider( BlazoriseOptions options, IJSRuntime jsRuntime, IVersionProvider versionProvider )
     {
         this.options = options;
@@ -37,6 +42,10 @@ internal class BlazoriseLicenseProvider
 
         backgroundWorker.RunWorkerAsync();
     }
+
+    #endregion
+
+    #region Methods
 
     private async void BackgroundWorker_DoWork( object sender, DoWorkEventArgs e )
     {
@@ -78,9 +87,11 @@ internal class BlazoriseLicenseProvider
         }
     }
 
-    public BlazoriseLicenseResult Result { get; private set; } = BlazoriseLicenseResult.Initializing;
+    #endregion
 
     #region Properties
+
+    public BlazoriseLicenseResult Result { get; private set; } = BlazoriseLicenseResult.Initializing;
 
     /// <summary>
     /// Indicates if the current app is running in webassembly mode.
