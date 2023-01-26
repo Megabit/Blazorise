@@ -1,10 +1,9 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+internal enum BlazoriseLicenseResult
 {
-    internal enum BlazoriseLicenseResult
-    {
-        Initializing,
-        Community,
-        Licensed,
-        Trial,
-    }
+    Initializing,
+    Community,
+    Licensed,
+    Trial,
 }

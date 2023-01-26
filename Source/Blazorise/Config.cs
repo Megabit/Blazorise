@@ -9,7 +9,6 @@ using Blazorise.Themes;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 #endregion
 
 namespace Blazorise;
@@ -50,13 +49,11 @@ public static class Config
                      .Concat( ServiceMap )
                      .Concat( JSModuleMap ) )
         {
-
             serviceCollection.AddScoped( mapping.Key, mapping.Value );
         }
 
-        // TODO need to be Scoped for WASM and Singleton for  server-side
-        serviceCollection.AddScoped<BlazoriseLicenseProvider>(); // registered as singleton so that runs once per application instance
-        serviceCollection.AddScoped<BlazoriseLicenseChecker>();     // registered as scoped so that it runs once per user session
+        serviceCollection.AddScoped<BlazoriseLicenseProvider>();
+        serviceCollection.AddScoped<BlazoriseLicenseChecker>();
 
         return serviceCollection;
     }

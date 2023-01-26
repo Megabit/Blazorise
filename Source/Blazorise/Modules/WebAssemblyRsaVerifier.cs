@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System.Text;
 using System;
 using System.Threading.Tasks;
 using Blazorise.Licensing.Signing;
