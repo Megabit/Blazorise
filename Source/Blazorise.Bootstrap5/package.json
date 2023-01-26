@@ -4,6 +4,6 @@
   "private": true,
   "devDependencies": {},
   "dependencies": {
-    "bootstrap": "5.1.1"
+    "bootstrap": "5.2.3"
   }
 }
