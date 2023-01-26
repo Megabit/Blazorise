@@ -63,6 +63,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
                 var childNodes = GetChildNodesAsync is not null
                     ? await GetChildNodesAsync( nodeState.Node )
                     : GetChildNodes( nodeState.Node );
+                    : GetChildNodes is not null
 
                 if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
                 {
