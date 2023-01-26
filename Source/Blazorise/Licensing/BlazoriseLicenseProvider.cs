@@ -63,7 +63,7 @@ namespace Blazorise
                         : BlazoriseLicenseResult.Trial;
                 }
             }
-            catch ( Exception exc )
+            catch
             {
                 Result = BlazoriseLicenseResult.Trial;
             }
