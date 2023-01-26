@@ -21,4 +21,8 @@ public class PaginationTemplates<TItem>
     public RenderFragment<PaginationContext<TItem>> TotalItemsShortTemplate { get; set; }
 
     public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get; set; }
+
+    public RenderFragment<PaginationContext<TItem>> PageSelectorTemplate { get; set; }
+
+    public RenderFragment<PaginationContext<TItem>> PageSizesTemplate { get; set; }
 }

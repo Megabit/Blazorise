@@ -26,6 +26,7 @@ public partial class TableRowGroup : BaseDraggableComponent
     public TableRowGroup()
     {
         RowCellClassBuilder = new( BuildRowCellClasses );
+        RowIndentCellClassBuilder = new( BuildRowIndentCellClasses );
     }
 
     #endregion
@@ -49,10 +50,20 @@ public partial class TableRowGroup : BaseDraggableComponent
         builder.Append( ClassProvider.TableRowGroupCell() );
     }
 
+    /// <summary>
+    /// Builds the classnames for an indent cell.
+    /// </summary>
+    /// <param name="builder">Class builder used to append the classnames.</param>
+    private void BuildRowIndentCellClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.TableRowGroupIndentCell() );
+    }
+
     /// <inheritdoc/>
     protected internal override void DirtyClasses()
     {
         RowCellClassBuilder.Dirty();
+        RowIndentCellClassBuilder.Dirty();
 
         base.DirtyClasses();
     }
@@ -86,9 +97,14 @@ public partial class TableRowGroup : BaseDraggableComponent
     #region Properties
 
     /// <summary>
-    /// Row class builder.
+    /// Row cell class builder.
     /// </summary>
     protected ClassBuilder RowCellClassBuilder { get; private set; }
+
+    /// <summary>
+    /// Row indent cell class builder.
+    /// </summary>
+    protected ClassBuilder RowIndentCellClassBuilder { get; private set; }
 
     /// <summary>
     /// Gets or sets the cascaded parent table component.
@@ -153,6 +169,16 @@ public partial class TableRowGroup : BaseDraggableComponent
     /// Specifies the content to be rendered inside this <see cref="TableRow"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Specifies a number of Table Cells to Indent on the Group Row.
+    /// </summary>
+    [Parameter] public int IndentTableCells { get; set; }
+
+    /// <summary>
+    /// Specifies the custom content inside an Indented Table Cell on the Group Row. A contextual index is provided according to the Indentation.
+    /// </summary>
+    [Parameter] public RenderFragment<int> IndentTableCellTemplate { get; set; }
 
     #endregion
 }

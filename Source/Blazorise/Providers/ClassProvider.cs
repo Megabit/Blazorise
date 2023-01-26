@@ -924,6 +924,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableRowGroupCell();
 
+    public abstract string TableRowGroupIndentCell();
+
     public abstract string TableResponsive();
 
     public abstract string TableFixedHeader();

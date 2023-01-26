@@ -1,0 +1,37 @@
+﻿@page "/docs/extensions/datagrid/binding-data/large-data"
+
+<Seo Canonical="/docs/extensions/datagrid/binding-data/large-data" Title="Blazorise DataGrid Binding Large Data" Description="The DataGrid Read Data feature allows you to handle Large Data by providing you with a centralized ReadData Method that allows you to query your data by pages." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Binding-Data/Large Data">
+    Blazorise DataGrid: Large Data
+</DocsPageTitle>
+
+<DocsPageLead>
+    The <Code>DataGrid</Code> Read Data feature allows you to handle Large Data by providing you with a centralized <code>ReadData</code> Method that allows you to query your data by pages.
+</DocsPageLead>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Large Data">
+        <Paragraph>
+            By default, <Code>DataGrid</Code> will load everything in memory and it will perform the necessary operations like paging, sorting and filtering. For large datasets this is impractical and so for these scenarios it is advised to load data page-by-page.
+        </Paragraph>
+        <Paragraph>
+            This is accomplished with the use of <Code>ReadData</Code> event handler and <Code>TotalItems</Code> attribute. When you define the usage of <Code>ReadData</Code> the <Code>DataGrid</Code> will automatically switch to manual mode and every interaction with the grid will be proxied through the <Code>ReadData</Code>. This means that you as a developer will be responsible for all the loading, filtering and sorting of the data.
+        </Paragraph>
+
+        <UnorderedList>
+            <UnorderedListItem><Code>ReadData</Code> event handler used to handle the loading of data</UnorderedListItem>
+            <UnorderedListItem><Code>TotalItems</Code> total number of items in the source data-set</UnorderedListItem>
+        </UnorderedList>
+
+        <Paragraph>
+            Bellow you can find a basic example of how to load large data and apply it to the <Code>DataGrid</Code>.
+
+            Just as in the previous example everything is the same except that now we must define the attribute <Code>ReadData</Code> and <Code>TotalItems</Code>. They’re used to handle all of the loading, filtering and sorting of an actual data.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridLargeDataExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridLargeDataExample" />
+</DocsPageSection>

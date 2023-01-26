@@ -16,6 +16,7 @@
     "{0} - {1} of {2} items": "{0} - {1} z {2} wierszy",
     "Row Edit": "Edytuj wiersz",
     "Row Create": "Utwórz wiersz",
-    "Create": "Utwórz"
+    "Create": "Utwórz",
+    "Drag a column header here to group by that column": "Przeciągnij tutaj nagłówek kolumny, aby pogrupować według tej kolumny"
   }
 }

@@ -49,8 +49,12 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes Title="ListView">
     <DocsAttributesItem Name="Data" Type="IEnumerable<TItem>">
@@ -97,5 +101,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ItemTemplate" Type="RenderFragment<ItemContext<TItem>>">
         Specifies the content to be rendered inside each item of the ListView.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Virtualize" Type="bool" Default="false">
+        Gets or sets whether the listview will use the <Code>Virtualize</Code> functionality.
     </DocsAttributesItem>
 </DocsAttributes>

@@ -37,6 +37,9 @@
     <UnorderedListItem>
         New <Strong>Cropper</Strong> component.
     </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>Groupable</Strong> feature in <Strong>DataGrid</Strong>.
+    </UnorderedListItem>
 </UnorderedList>
 
 <NewsPageSubtitle>
@@ -178,7 +181,7 @@
 </Paragraph>
 
 <Paragraph>
-    The Button component is no longer reccomended for use inside an Accordion and may cause unexpected behavior. Using the AccordionToggle component will ensure that your Accordion functions as intended.
+    The Button component is no longer recommended for use inside an Accordion and may cause unexpected behavior. Using the AccordionToggle component will ensure that your Accordion functions as intended.
 </Paragraph>
 
 <Paragraph>
@@ -186,9 +189,117 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    TreeView improvements
+</Heading>
+
+<Paragraph>
+    The TreeView component now supports a multiple selection mode, which allows users to select multiple nodes at the same time. To enable this mode, set the <Code>SelectionMode</Code> property to <Code>Multiple</Code>. When this mode is enabled, each node in the TreeView will display a checkbox next to its label. Users can then select or deselect nodes by clicking on the checkboxes. The selected nodes can be accessed through the <Code>SelectedNodes</Code> property, which returns a list of the selected nodes. You can also use the <Code>SelectedNodesChanged</Code> event to be notified when the selection changes.
+</Paragraph>
+
+<Paragraph>
+    Several new APIs for the Blazorise TreeView component have also included in this release! These APIs include:
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Code>GetChildNodesAsync</Code>: allows you to retrieve the child nodes of a specific node asynchronously.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>HasChildNodesAsync</Code>: allows you to check if a specific node has child nodes asynchronously.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>ExpandAll</Code>: expands all nodes in the tree.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>CollapseAll</Code>: collapses all nodes in the tree.
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    In addition to these new APIs, we've also added a new feature called <Code>AutoExpandAll</Code>. This feature will automatically expand all nodes in the tree on the first load only.
+</Paragraph>
+
+<Paragraph>
+    We hope this new features will make it easier for users to work with the TreeView component.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Autocomplete improvements
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Highlight search
 </Heading>
 
 <Paragraph>
     Blazorise Autocomplete now includes a search highlight feature that allows users to easily locate items in the dropdown list. When a search value is entered, the matching items in the dropdown will be highlighted, making it easier to find and select the desired item. This feature is particularly useful when working with large lists of items and helps improve the overall user experience.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Virtualize mode
+</Heading>
+
+<Paragraph>
+    The Virtualize feature allows for loading data on demand while scrolling, which greatly improves the performance of the component when working with large datasets.
+</Paragraph>
+
+<Paragraph>
+    With Virtualize, the Autocomplete component only loads the items that are currently visible in the list, and as the user scrolls, more items are loaded in the background. This allows for a much faster and smoother user experience, especially when working with large lists of items.
+</Paragraph>
+
+<Paragraph>
+    To use the Virtualize feature, simply set the <Code>Virtualize</Code> property to <Code>"true"</Code> on the Autocomplete component.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Grouping
+</Heading>
+
+<Paragraph>
+    The new grouping feature for <Link To="docs/extensions/datagrid">Blazorise DataGrid</Link> allows you to easily group and organize your data by specific columns. This can be useful for analyzing large sets of data and finding patterns or trends.
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            The <Code>Groupable</Code> and <Code>Grouping</Code> parameters allow you to specify which columns can be grouped and which should be used for grouping. You can also provide a custom <Code>GroupBy</Code> function to define how the data should be grouped.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            The <Code>ShowGrouping</Code> on DataGrid feature allows you to drag and drop groupable columns onto a designated group area, making it easy to rearrange and experiment with different groupings. This feature is helpful for creating ad-hoc analysis and reporting.
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    Overall, this new grouping feature provides more flexibility and control over how you organize and analyze your data within the Blazorise DataGrid.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    New PageSelectorTemplate & PageSizesTemplate
+</Heading>
+
+<Paragraph>
+    The new Blazorise DataGrid features include a PageSelectorTemplate and PageSizesTemplate. The PageSelectorTemplate allows users to customize the look and feel of the page selector, while the PageSizesTemplate allows users to customize the options for the number of items per page. These new templates provide increased flexibility and customization for the DataGrid, allowing developers to tailor the user experience to their specific needs.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Navigable
+</Heading>
+
+<Paragraph>
+    The new <code>Navigable</code> feature for <Link To="docs/extensions/datagrid">Blazorise DataGrid</Link> allows you to navigate the grid by using the Arrow Up and Arrow Down Keys on your keyboard.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Utilities
+</Heading>
+
+<Paragraph>
+    Introduced new APIs for controlling the text alignment, vertical alignment, flex, and gap utilities of DataGrid header, filter, and group cells.
 </Paragraph>

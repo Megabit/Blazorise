@@ -920,6 +920,8 @@ public interface IClassProvider
 
     string TableRowGroupCell();
 
+    string TableRowGroupIndentCell();
+
     string TableResponsive();
 
     string TableFixedHeader();

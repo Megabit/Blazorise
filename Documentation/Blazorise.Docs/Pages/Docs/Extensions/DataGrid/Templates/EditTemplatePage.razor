@@ -1,0 +1,21 @@
+﻿@page "/docs/extensions/datagrid/templates/edit"
+
+<Seo Canonical="/docs/extensions/datagrid/templates/edit" Title="Blazorise DataGrid Edit Template" Description="Learn Blazorise by the example. Assign custom edit templates to individual columns, allowing for more control over how data is edited." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Templates/Edit">
+    Blazorise DataGrid: Edit Template
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Blazor includes templated components that can accept one or more UI segments as input and render them as part of the component during component rendering. DataGrid is a templated Blazor component that lets you customize various parts of the user interface with template parameters. It enables you to generate custom components or content using your own logic.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="EditTemplate">
+        Edit template will give you a way to handle the editing of grid cell values. For this template <Code>CellEditContext</Code> is used as a <Code>context</Code> value. Use it to get or set the cell values.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridEditTemplateExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridEditTemplateExample" />
+</DocsPageSection>

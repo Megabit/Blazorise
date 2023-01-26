@@ -93,4 +93,9 @@ public interface IFileEntry
     /// Cancels any ongoing FileEntry operation.
     /// </summary>
     public Task Cancel();
+
+    /// <summary>
+    /// Provides a completion source to delay completion until after the file operation has been fully completed.
+    /// </summary>
+    TaskCompletionSource FileUploadEndedCallback { get; set; }
 }

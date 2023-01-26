@@ -1,0 +1,53 @@
+﻿@typeparam TNode
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed>
+    <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+        {
+            <div @key="@nodeState.Key">
+                @if ( nodeState.HasChildren )
+                {
+                    <span class="b-tree-view-node-icon" @onclick="@(() => ToggleNode(nodeState))">
+                        @if ( nodeState.Expanded )
+                        {
+                            <Icon Name="@CollapseIconName" IconStyle="@CollapseIconStyle" IconSize="@CollapseIconSize" />
+                        }
+                        else
+                        {
+                            <Icon Name="@ExpandIconName" IconStyle="@ExpandIconStyle" IconSize="@ExpandIconSize" />
+                        }
+                    </span>
+                }
+
+                <_TreeViewNodeContent TNode="TNode" NodeState="@nodeState"
+                                      NodeStyling="@NodeStyling"
+                                      SelectionMode="@SelectionMode"
+                                      SelectedNodeStyling="@SelectedNodeStyling">
+                    @NodeContent( nodeState.Node )
+                </_TreeViewNodeContent>
+
+                @if ( nodeState.Expanded && nodeState.HasChildren )
+                {
+                    <_TreeViewNode @ref="@nodeState.ViewRef"
+                                   NodeStates="@nodeState.Children"
+                                   NodeContent="@NodeContent"
+                                   GetChildNodes="@GetChildNodes"
+                                   GetChildNodesAsync="@GetChildNodesAsync"
+                                   ExpandedNodes="@ExpandedNodes"
+                                   ExpandedNodesChanged="@ExpandedNodesChanged"
+                                   Expanded="@nodeState.Expanded"
+                                   AutoExpandAll="@AutoExpandAll"
+                                   HasChildNodes="@HasChildNodes"
+                                   HasChildNodesAsync="@HasChildNodesAsync"
+                                   NodeStyling="@NodeStyling"
+                                   SelectedNodeStyling="@SelectedNodeStyling"
+                                   ExpandIconName="@ExpandIconName"
+                                   ExpandIconStyle="@ExpandIconStyle"
+                                   CollapseIconName="@CollapseIconName"
+                                   CollapseIconStyle="@CollapseIconStyle"
+                                   SelectionMode="@SelectionMode" />
+                }
+            </div>
+        }
+    </div>
+</CascadingValue>

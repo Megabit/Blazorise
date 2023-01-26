@@ -1,12 +1,16 @@
 ﻿using System.Collections.Generic;
+using Blazorise.TreeView;
 using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Demo.Pages.Tests;
 
 public partial class TreeViewPage : ComponentBase
 {
-    private IList<NodeInfo> ExpandedNodes = new List<NodeInfo>();
+    TreeView<NodeInfo> treeViewRef;
+    private IList<NodeInfo> expandedNodes = new List<NodeInfo>();
+    private IList<NodeInfo> selectedNodes = new List<NodeInfo>();
     private NodeInfo selectedNode;
+    private TreeViewSelectionMode selectionMode;
 
     public class NodeInfo
     {

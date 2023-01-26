@@ -144,6 +144,16 @@ public partial class ListView<TItem> : ComponentBase
     [Parameter] public string MaxHeight { get; set; } = "250px";
 
     /// <summary>
+    /// Specifies the content to be rendered inside each item of the <see cref="ListView{TItem}"/>.
+    /// </summary>
+    [Parameter] public RenderFragment<ItemContext<TItem>> ItemTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the listview will use the Virtualize functionality.
+    /// </summary>
+    [Parameter] public bool Virtualize { get; set; }
+
+    /// <summary>
     /// Captures all the custom attribute that are not part of Blazorise component.
     /// </summary>
     [Parameter( CaptureUnmatchedValues = true )]
@@ -153,11 +163,6 @@ public partial class ListView<TItem> : ComponentBase
     /// Specifies the content to be rendered inside this <see cref="ListView{TItem}"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
-
-    /// <summary>
-    /// Specifies the content to be rendered inside each item of the <see cref="ListView{TItem}"/>.
-    /// </summary>
-    [Parameter] public RenderFragment<ItemContext<TItem>> ItemTemplate { get; set; }
 
     #endregion
 }

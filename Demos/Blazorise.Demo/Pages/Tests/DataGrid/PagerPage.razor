@@ -11,8 +11,6 @@
                           ShowPager
                           ShowPageSizes
                           PagerPosition="DataGridPagerPosition.TopAndBottom"
-                          CurrentPage="2"
-                          PageSize="10"
                           PagerOptions="new(){ ButtonSize=Size.Small }">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" SortDirection="SortDirection.Descending" />
@@ -69,6 +67,23 @@
                     <TotalItemsTemplate><Badge Color="Color.Success">@context.TotalItems total items</Badge></TotalItemsTemplate>
                     <TotalItemsShortTemplate><Badge Color="Color.Success">@context.TotalItems</Badge></TotalItemsShortTemplate>
                     <ItemsPerPageTemplate></ItemsPerPageTemplate>
+                    <PageSelectorTemplate>
+                        <Select TextColor="TextColor.Success" @bind-SelectedValue="@context.CurrentPage" Size="Size.Small">
+                            @for ( int i = context.FirstVisiblePage; i <= context.LastVisiblePage; ++i )
+                            {
+                                var pageNumber = i;
+                                <SelectItem Value="@pageNumber">@pageNumber</SelectItem>
+                            }
+                        </Select>
+                    </PageSelectorTemplate>
+                    <PageSizesTemplate>
+                        <Select TextColor="TextColor.Success" @bind-SelectedValue="@context.CurrentPageSize" Size="Size.Small">
+                            @foreach ( var curPageSize in context.PageSizes )
+                            {
+                                <SelectItem Value="@curPageSize">@curPageSize</SelectItem>
+                            }
+                        </Select>
+                    </PageSizesTemplate>
                 </DataGrid>
             </CardBody>
         </Card>

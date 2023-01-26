@@ -100,6 +100,8 @@ else if ( EditMode == DataGridEditMode.Inline )
             </TableRow>
         }
         <TableRow>
+            @ParentDataGrid.groupIndentationFragment
+
             @foreach ( var column in DisplayableColumns )
             {
                 @if ( column.IsCommandColumn )

@@ -1217,17 +1217,17 @@ public class TailwindClassProvider : ClassProvider
 
     #region Modal
 
-    public override string Modal() => "fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full justify-center items-center";
+    public override string Modal() => "b-modal fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full justify-center items-center";
 
-    public override string ModalFade() => null;
+    public override string ModalFade() => "b-modal-fade";
 
-    public override string ModalFade( bool animation ) => null;
+    public override string ModalFade( bool animation ) => animation ? "b-modal-fade" : null;
 
-    public override string ModalVisible( bool visible ) => visible ? "flex" : "hidden";
+    public override string ModalVisible( bool visible ) => visible ? "flex" : null;
 
     public override string ModalBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40";
 
-    public override string ModalBackdropFade() => null;
+    public override string ModalBackdropFade() => "b-modal-fade";
 
     public override string ModalBackdropVisible( bool visible ) => null;
 
@@ -1445,7 +1445,7 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string TableRowHoverCursor() => "cursor-pointer";
+    public override string TableRowHoverCursor() => "b-table-row-selectable cursor-pointer";
 
     public override string TableRowIsSelected() => "b-table-row-selected !text-primary-800 !bg-primary-300 !dark:bg-primary-500 !dark:text-primary-800";
 
@@ -1458,6 +1458,8 @@ public class TailwindClassProvider : ClassProvider
     public override string TableRowGroup( bool expanded ) => "b-table-group bg-gray-50 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700 font-bold cursor-pointer";
 
     public override string TableRowGroupCell() => "b-table-group-cell group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4";
+
+    public override string TableRowGroupIndentCell() => "b-table-group-indentcell";
 
     public override string TableResponsive() => "b-table-responsive overflow-x-auto relative shadow-md sm:rounded-lg";
 

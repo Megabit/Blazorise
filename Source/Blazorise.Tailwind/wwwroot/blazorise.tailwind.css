@@ -247,6 +247,19 @@
   outline-offset: 2px;
 }
 
+.b-modal {
+  display: none;
+}
+.b-modal.b-modal-fade {
+  transition: opacity var(--modal-animation-duration, 300ms) linear;
+}
+.b-modal.b-modal-fade.flex {
+  opacity: 1;
+}
+.b-modal.b-modal-fade:not(.flex) {
+  opacity: 0;
+}
+
 .pagination > li.pagination-item:first-child > * {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -298,6 +311,10 @@
   cursor: col-resize;
   user-select: none;
   z-index: 1;
+}
+
+tr.b-table-row.b-table-row-selectable:focus[tabindex="0"] {
+  outline: none;
 }
 
 .b-table-fixed-header {

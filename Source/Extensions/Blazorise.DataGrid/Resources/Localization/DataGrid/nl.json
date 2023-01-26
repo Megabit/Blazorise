@@ -16,6 +16,7 @@
     "{0} - {1} of {2} items": "{0} - {1} van de {2} items",
     "Row Edit": "Rij bewerken",
     "Row Create": "Rij Creëren",
-    "Create": "Creëer"
+    "Create": "Creëer",
+    "Drag a column header here to group by that column": "Sleep een kolomkop hierheen om op die kolom te groeperen"
   }
 }
