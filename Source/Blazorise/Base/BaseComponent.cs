@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Licensing;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -368,7 +369,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
-    /// Custom css classname.
+    /// Custom css class name.
     /// </summary>
     [Parameter]
     public string Class

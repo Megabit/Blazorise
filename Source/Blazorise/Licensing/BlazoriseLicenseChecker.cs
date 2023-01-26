@@ -1,16 +1,37 @@
-﻿namespace Blazorise;
+﻿namespace Blazorise.Licensing;
 
-internal class BlazoriseLicenseChecker
+/// <summary>
+/// Checks the validation for the current user session.
+/// </summary>
+public sealed class BlazoriseLicenseChecker
 {
+    #region Members
+
     private readonly BlazoriseLicenseProvider blazoriseLicenseProvider;
 
     private bool rendered;
 
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="blazoriseLicenseProvider"></param>
     public BlazoriseLicenseChecker( BlazoriseLicenseProvider blazoriseLicenseProvider )
     {
         this.blazoriseLicenseProvider = blazoriseLicenseProvider;
     }
 
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Indicates if the license warning should be displayed.
+    /// </summary>
+    /// <returns>True if the license warning should be displayed.</returns>
     public bool ShouldPrint()
     {
         if ( blazoriseLicenseProvider.Result == BlazoriseLicenseResult.Initializing )
@@ -25,4 +46,6 @@ internal class BlazoriseLicenseChecker
 
         return false;
     }
+
+    #endregion
 }

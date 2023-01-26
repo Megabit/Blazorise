@@ -1,15 +1,17 @@
 ﻿#region Using directives
 using System.ComponentModel;
 using System.Reflection;
-using Blazorise.Licensing;
 using Blazorise.Licensing.Signing;
 using Blazorise.Modules;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise;
+namespace Blazorise.Licensing;
 
-internal class BlazoriseLicenseProvider
+/// <summary>
+/// Runs the license validation process.
+/// </summary>
+public sealed class BlazoriseLicenseProvider
 {
     #region Members
 
@@ -31,6 +33,12 @@ internal class BlazoriseLicenseProvider
 
     #region Constructors
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="options"></param>
+    /// <param name="jsRuntime"></param>
+    /// <param name="versionProvider"></param>
     public BlazoriseLicenseProvider( BlazoriseOptions options, IJSRuntime jsRuntime, IVersionProvider versionProvider )
     {
         this.options = options;
@@ -91,12 +99,15 @@ internal class BlazoriseLicenseProvider
 
     #region Properties
 
+    /// <summary>
+    /// Gets the result of the license validation.
+    /// </summary>
     public BlazoriseLicenseResult Result { get; private set; } = BlazoriseLicenseResult.Initializing;
 
     /// <summary>
-    /// Indicates if the current app is running in webassembly mode.
+    /// Indicates if the current app is running in WebAssembly mode.
     /// </summary>
-    protected bool IsWebAssembly => jsRuntime is IJSInProcessRuntime;
+    private bool IsWebAssembly => jsRuntime is IJSInProcessRuntime;
 
     #endregion
 }

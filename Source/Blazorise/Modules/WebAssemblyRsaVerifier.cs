@@ -10,7 +10,7 @@ namespace Blazorise.Modules
     /// <summary>
     /// Default implementation of the RSA JS module.
     /// </summary>
-    internal class WebAssemblyRsaVerifier : BaseJSModule, /*IJSRsa,*/ IVerifier
+    internal class WebAssemblyRsaVerifier : BaseJSModule, IVerifier
     {
         #region Members
 
@@ -27,6 +27,7 @@ namespace Blazorise.Modules
         /// </summary>
         /// <param name="jsRuntime">JavaScript runtime instance.</param>
         /// <param name="versionProvider">Version provider.</param>
+        /// <param name="publicKey">Public RSA key used to generate the license.</param>
         public WebAssemblyRsaVerifier( IJSRuntime jsRuntime, IVersionProvider versionProvider, string publicKey )
             : base( jsRuntime, versionProvider )
         {

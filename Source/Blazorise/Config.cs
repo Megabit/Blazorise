@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Blazorise.Licensing;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Providers;
