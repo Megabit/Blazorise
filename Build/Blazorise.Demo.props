@@ -19,7 +19,7 @@
 		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.*" />
 		<PackageReference Include="FluentValidation" Version="11.2.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.0" />
-		<PackageReference Include="Flurl.Http" Version="4.0.0-pre2" />
+		<PackageReference Include="Flurl.Http" Version="4.0.0-pre3" />
 	</ItemGroup>
 	
 </Project>
