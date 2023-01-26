@@ -62,7 +62,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Basic">
+    <DocsPageSectionHeader Title="Close button">
         You can also add a <Code>CloseButton</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -72,7 +72,7 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="With content">
+    <DocsPageSectionHeader Title="Extra content">
         <Code Tag>Alert</Code> can also contain additional HTML elements like headings and paragraphs, which will be styled with the appropriate color matching the variant.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -105,35 +105,28 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Functions
+    API
 </DocsPageSubtitle>
 
-<Table>
-    <TableHeader ThemeContrast="ThemeContrast.Light">
-        <TableRow>
-            <TableHeaderCell>Name</TableHeaderCell>
-            <TableHeaderCell>Description</TableHeaderCell>
-        </TableRow>
-    </TableHeader>
-    <TableBody>
-        <TableRow>
-            <TableRowCell><Code>Show()</Code></TableRowCell>
-            <TableRowCell>Makes the alert visible.</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell><Code>Hide()</Code></TableRowCell>
-            <TableRowCell>Hides the alert.</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell><Code>Toggle()</Code></TableRowCell>
-            <TableRowCell>Switches the alert visibility.</TableRowCell>
-        </TableRow>
-    </TableBody>
-</Table>
+<Heading Size="HeadingSize.Is3">
+    Methods
+</Heading>
 
-<DocsPageSubtitle>
+<DocsMethods>
+    <DocsMethodsItem Name="Show()" ReturnType="Task">
+        Makes the alert visible.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Hide()" ReturnType="Task">
+        Hides the alert.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Toggle()" ReturnType="Task">
+        Switches the alert visibility.
+    </DocsMethodsItem>
+</DocsMethods>
+
+<Heading Size="HeadingSize.Is3">
     Attributes
-</DocsPageSubtitle>
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="Dismisable" Type="bool" Default="false">

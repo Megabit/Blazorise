@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
@@ -54,7 +55,7 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     {
         base.BuildStyles( builder );
 
-        builder.Append( $"padding-left: {Indentation * ParentBarDropdownState.NestedIndex}rem", ParentBarDropdownState.IsInlineDisplay );
+        builder.Append( $"padding-left: {( Indentation * ParentBarDropdownState.NestedIndex ).ToString( CultureInfo.InvariantCulture )}rem", ParentBarDropdownState.IsInlineDisplay );
     }
 
     /// <inheritdoc/>
