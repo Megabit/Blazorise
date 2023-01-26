@@ -50,7 +50,6 @@ namespace Blazorise.Modules
             return result;
         }
 
-        //The UnConfuse should be centralized? I have seen it in 3 separate places, Im CONFUSED!!
         private static void UnConfuse( byte[] bytes )
         {
             for ( int i = 0; i < bytes.Length; i++ )
