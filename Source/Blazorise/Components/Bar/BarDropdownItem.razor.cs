@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -35,7 +36,7 @@ public partial class BarDropdownItem : BaseComponent
     {
         base.BuildStyles( builder );
 
-        builder.Append( FormattableString.Invariant( $"padding-left: {Indentation * ( ParentDropdownState.NestedIndex + 1d )}rem" ), ParentDropdownState.IsInlineDisplay );
+        builder.Append( FormattableString.Invariant( $"padding-left: {(Indentation * ( ParentDropdownState.NestedIndex + 1d )).ToString( CultureInfo.InvariantCulture )}rem" ), ParentDropdownState.IsInlineDisplay );
     }
 
     /// <summary>

@@ -1,0 +1,49 @@
+﻿@page "/docs/extensions/datagrid/features/context-menu"
+
+<Seo Canonical="/docs/extensions/datagrid/features/context-menu" Title="Blazorise DataGrid Context Menu" Description="Learn Blazorise by the example. Right-click on any row to access options such as editing, deleting, and custom actions." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Features/Context Menu">
+    Blazorise DataGrid: Show Context Menu
+</DocsPageTitle>
+
+<DocsPageLead>
+    Show context menu by right clicking on a <Code>DataGrid</Code>.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    You may need to know which element the user clicked in some cases so that you can use it in command handling. You might also want to change the menu's contents depending on which element the user clicked (e.g., disable or entirely remove some items from the menu based on a condition).
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Example
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Row Context Menu">
+        <Paragraph>
+            To integrate the context menu with the DataGrid, you need to:
+        </Paragraph>
+        <OrderedList>
+            <OrderedListItem>
+                Use the grid's <Code>RowContextMenu</Code> event to get the current row model and show the menu.
+            </OrderedListItem>
+            <OrderedListItem>
+                Use the context menu's <Code>MouseEventArgs</Code> parameter to handle the desired operation.
+            </OrderedListItem>
+        </OrderedList>
+        <Paragraph>
+            In this example, the context menu is used to show the menu items, put an item in edit mode and delete items.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridContextMenuExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridContextMenuExample" />
+</DocsPageSection>
+
+
+
