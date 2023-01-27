@@ -12,7 +12,7 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.*" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.*" />
 		<PackageReference Include="FluentValidation" Version="11.2.0" />
-		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.0" />
+		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.4.0" />
 	</ItemGroup>
 	
 </Project>
