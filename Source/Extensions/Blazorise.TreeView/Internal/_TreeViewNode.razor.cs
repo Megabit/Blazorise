@@ -62,7 +62,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent
             {
                 var childNodes = GetChildNodesAsync is not null
                     ? await GetChildNodesAsync( nodeState.Node )
-                    : GetChildNodes( nodeState.Node );
+                    : GetChildNodes is not null
+                        ? GetChildNodes( nodeState.Node )
+                        : null;
 
                 if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
                 {
@@ -149,7 +151,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     [Parameter] public Func<TNode, IEnumerable<TNode>> GetChildNodes { get; set; }
 
-    [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
+    [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => false;
 
     [Parameter] public Func<TNode, Task<IEnumerable<TNode>>> GetChildNodesAsync { get; set; }
 

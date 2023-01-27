@@ -236,7 +236,7 @@ public partial class TreeView<TNode> : BaseComponent
     /// <summary>
     /// Indicates if the node has child elements.
     /// </summary>
-    [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => true;
+    [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => false;
 
     /// <summary>
     /// Gets the list of child nodes for each node.

@@ -1,0 +1,33 @@
+﻿@page "/docs/extensions/datagrid/templates/detail-row"
+
+<Seo Canonical="/docs/extensions/datagrid/templates/detail-row" Title="Blazorise DataGrid Detail Row Template" Description="Learn Blazorise by the example. Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Templates/Detail Row">
+    Blazorise DataGrid: Detail Row Template
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Blazor includes templated components that can accept one or more UI segments as input and render them as part of the component during component rendering. DataGrid is a templated Blazor component that lets you customize various parts of the user interface with template parameters. It enables you to generate custom components or content using your own logic.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DetailRowTemplate">
+        <Paragraph>
+            <Code>DetailRowTemplate</Code> allows you to display nested structure below each row in the grid. One of the examples is “master-detail” relationship between two data-source inside the <Code>DataGrid</Code>.
+        </Paragraph>
+        <Paragraph>
+            For this template the <Code>context</Code> value is the item from the parent grid.
+        </Paragraph>
+        <Paragraph>
+            Once it’s defined a detail-row will be visible for every row in the grid by default. You may change this behaviour by setting <Code>DetailRowStartsVisible</Code> to false.
+        </Paragraph>
+        <Paragraph>
+            If you want to control the visibility of detail-row you can use <Code>DetailRowTrigger</Code> attribute that can be defined in it’s parent grid.
+            Once defined, whenever a user clicks a row, the <Code>DetailRowTrigger</Code> will be evaluated. You may also use the DataGrid API, <Code>ToggleDetailRow</Code> to programatically trigger the detail-row.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridDetailRowTemplateExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridDetailRowTemplateExample" />
+</DocsPageSection>

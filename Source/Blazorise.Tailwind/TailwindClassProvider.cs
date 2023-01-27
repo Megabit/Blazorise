@@ -1445,7 +1445,7 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string TableRowHoverCursor() => "cursor-pointer";
+    public override string TableRowHoverCursor() => "b-table-row-selectable cursor-pointer";
 
     public override string TableRowIsSelected() => "b-table-row-selected !text-primary-800 !bg-primary-300 !dark:bg-primary-500 !dark:text-primary-800";
 

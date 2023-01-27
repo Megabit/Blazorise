@@ -1,30 +1,14 @@
-﻿@page "/docs/extensions/datagrid/selection"
+﻿@page "/docs/extensions/datagrid/selection/multiple"
 
-<Seo Canonical="/docs/extensions/datagrid/selection" Title="Blazorise DataGrid selection" Description="Learn to use and control selections with the Blazorise DataGrid APIs, to control how and when the grid row will be selected." />
+<Seo Canonical="/docs/extensions/datagrid/selection/multiple" Title="Blazorise DataGrid Multiple Selection" Description="Learn Blazorise by the example. Select and manage multiple rows of data with ease using the Blazorise DataGrid's multiple selection feature. Select rows by clicking on them or programmatically, and access the selected data for further use." />
 
-<DocsPageTitle>
-    DataGrid: Selection
+<DocsPageTitle Path="Extensions/DataGrid/Selection/Multiple">
+    Blazorise DataGrid: Multiple Selection
 </DocsPageTitle>
 
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Selecting">
-        If you need to control how and when the grid row will be selected you can use a <Code>RowSelectable</Code> event handler. Here's a simple example where John's row is not selectable:
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent>
-        <DataGridSelectingExample />
-    </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridSelectingExample" />
-</DocsPageSection>
-
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Custom Row Colors">
-        You have full control over appearance of each row, including the selected rows.
-    </DocsPageSectionHeader>
-    <DocsPageSectionContent>
-        <DataGridCustomRowColorsExample />
-    </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridCustomRowColorsExample" />
-</DocsPageSection>
+<DocsPageLead>
+    The <Code>DataGrid</Code> allows you to select rows with the click of a mouse.
+</DocsPageLead>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Multiple Selection">
@@ -39,7 +23,7 @@
             Shift-clicking will also select multiple rows starting from the last selected row.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth>
         <DataGridMultipleSelectionExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridMultipleSelectionExample" />
@@ -49,7 +33,7 @@
     <DocsPageSectionHeader Title="RowSelectable & Multiple Selection">
         Here's an example of combining both RowSelectable and Multiple Selection. We've disabled regular selection through row click, and only enabled selection through clicking the provided multi select checkboxes.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth>
         <DataGridRowSelectableMultipleSelectionExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridRowSelectableMultipleSelectionExample" />

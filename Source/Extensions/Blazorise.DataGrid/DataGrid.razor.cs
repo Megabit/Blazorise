@@ -298,9 +298,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await CheckMultipleSelectionSetEmpty( parameters );
 
-        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
-            SetDirty();
-
         if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
             ExecuteAfterRender( HandleSelectionModeChanged );
 
@@ -777,6 +774,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public async Task Select( TItem item )
     {
         await SelectRow( item );
+
+        var selectedTableRow = GetRowInfo( item )?.TableRow;
+        if ( selectedTableRow is not null )
+            await selectedTableRow.ElementRef.FocusAsync();
 
         await Refresh();
     }
@@ -1825,7 +1826,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the datagrid data-source.
     /// </summary>
     [Parameter]
-    public IEnumerable<TItem> Data { get; set; }
+    public IEnumerable<TItem> Data
+    {
+        get { return data; }
+        set
+        {
+            SetDirty();
+            data = value;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the calculated aggregate data.
@@ -2417,6 +2426,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter( CaptureUnmatchedValues = true )]
     public Dictionary<string, object> Attributes { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
+    /// </summary>
+    [Parameter] public bool Navigable { get; set; }
 
     /// <summary>
     /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.
