@@ -612,7 +612,7 @@ namespace Blazorise.Components
         {
             SelectedTexts ??= new();
 
-            if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
+            if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( FreeTyping ? text.Trim() : text ) )
             {
                 SelectedTexts.Add( text );
                 return SelectedTextsChanged.InvokeAsync( SelectedTexts );
