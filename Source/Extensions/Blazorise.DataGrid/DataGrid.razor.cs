@@ -298,9 +298,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await CheckMultipleSelectionSetEmpty( parameters );
 
-        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
-            SetDirty();
-
         if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
             ExecuteAfterRender( HandleSelectionModeChanged );
 
@@ -1829,7 +1826,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the datagrid data-source.
     /// </summary>
     [Parameter]
-    public IEnumerable<TItem> Data { get; set; }
+    public IEnumerable<TItem> Data
+    {
+        get { return data; }
+        set
+        {
+            SetDirty();
+            data = value;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the calculated aggregate data.

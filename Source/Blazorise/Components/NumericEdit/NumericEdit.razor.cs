@@ -4,11 +4,9 @@ using System.Globalization;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
-using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -30,6 +28,16 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// Contains the correct inputmode for the input element, based in the TValue.
     /// </summary>
     private string inputMode;
+
+    /// <summary>
+    /// Indicates if <see cref="Min"/> parameter is defined.
+    /// </summary>
+    private bool minDefined = false;
+
+    /// <summary>
+    /// Indicates if <see cref="Max"/> parameter is defined.
+    /// </summary>
+    private bool maxDefined = false;
 
     #endregion
 
@@ -58,6 +66,13 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
                 ExecuteAfterRender( Revalidate );
             }
         }
+
+        // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
+        // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
+        minDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
+        maxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
+
+
 
         await base.SetParametersAsync( parameters );
 
@@ -129,6 +144,47 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
             ulong @ulong => Converters.FormatValue( @ulong, CurrentCultureInfo ),
             _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
         };
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnBlurHandler( FocusEventArgs eventArgs )
+    {
+        await base.OnBlurHandler( eventArgs );
+
+        if ( !string.IsNullOrEmpty( CurrentValueAsString ) )
+        {
+            await ProcessNumber( CurrentValue );
+        }
+    }
+
+    /// <summary>
+    /// Process the newly changed number and adjust it if needed.
+    /// </summary>
+    /// <param name="number">New number value.</param>
+    /// <returns>Returns the awaitable task.</returns>
+    protected virtual Task ProcessNumber( TValue number )
+    {
+        if ( number is IComparable comparableNumber && comparableNumber != null )
+        {
+            if ( maxDefined && Max is IComparable comparableMax && comparableNumber.CompareTo( comparableMax ) >= 0 )
+            {
+                comparableNumber = comparableMax;
+            }
+            else if ( minDefined && Min is IComparable comparableMin && comparableNumber.CompareTo( comparableMin ) <= 0 )
+            {
+                comparableNumber = comparableMin;
+            }
+
+            // cast back to TValue and check if number has changed
+            if ( Converters.TryChangeType<TValue>( comparableNumber, out var currentValue, CurrentCultureInfo )
+                && !CurrentValue.IsEqual( currentValue ) )
+            {
+                // number has changed so we need to re-set the CurrentValue and re-run any validation
+                return CurrentValueHandler( FormatValueAsString( currentValue ) );
+            }
+        }
+
+        return Task.CompletedTask;
     }
 
     #endregion
