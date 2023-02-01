@@ -378,7 +378,7 @@ The full source code of the sample from the [ValidationWithDataAnnotations](http
 
 Thank you for your time! In this blog, we saw how to use Blazorise UI components to create an edit form and easily apply complex validation using data annotations. Try out the steps in this blog post and leave your comments on our Discord community channel.
 
-Download our [Blazorise NuGet](https://www.nuget.org/profiles/Megabit) to try our Blazor components or purchase our [commercial Blazorise web](https://commercial.blazorise.com/) license to gain access to our support forum. To learn more about other available features, please see our online examples and [documentation](docs).
+Download our [Blazorise NuGet](https://www.nuget.org/profiles/Megabit) to try our Blazor components or purchase our [commercial Blazorise web](commercial/) license to gain access to our support forum. To learn more about other available features, please see our online examples and [documentation](docs).
 
 ## Related blogs
 
