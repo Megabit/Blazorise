@@ -7753,6 +7753,12 @@ builder.Services
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
+        public const string LicensingGuideAddKeyExample = @"services
+    .AddBlazorise( options =>
+    {
+        options.LicenseKey = ""<your-product-token>"";
+    } )";
+
         public const string MaterialGuideFileStructureExample = @"blazorproject.client/
 └── wwwroot/
     ├── css/
