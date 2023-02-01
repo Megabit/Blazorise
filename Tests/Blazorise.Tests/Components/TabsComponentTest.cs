@@ -10,6 +10,7 @@ public class TabsComponentTest : TestContext
     public TabsComponentTest()
     {
         BlazoriseConfig.AddBootstrapProviders( Services );
+        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
     }
 
     [Fact]

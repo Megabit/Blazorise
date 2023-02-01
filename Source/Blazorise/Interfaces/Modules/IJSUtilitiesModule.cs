@@ -150,4 +150,12 @@ public interface IJSUtilitiesModule : IBaseJSModule
     /// <param name="elementId">ID of the rendered element.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask CopyToClipboard( ElementReference elementRef, string elementId );
+
+    /// <summary>
+    /// Writes a log message to the browser console.
+    /// </summary>
+    /// <param name="message">Message to write.</param>
+    /// <param name="args">Optional parameters.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask Log( string message, params string[] args );
 }

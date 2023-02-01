@@ -45,7 +45,7 @@ namespace Blazorise.Modules
             UnConfuse( bytesSignature );
             signature = Convert.ToBase64String( bytesSignature );
 
-            var result = await InvokeSafeAsync<bool>( "verify", publicKey, content, signature );
+            var result = await InvokeSafeAsync<bool>( "verifyRsa", publicKey, content, signature );
 
             return result;
         }
@@ -63,7 +63,7 @@ namespace Blazorise.Modules
         #region Properties
 
         /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise/rsa.js?v={VersionProvider.Version}";
+        public override string ModuleFileName => $"./_content/Blazorise/utilities.js?v={VersionProvider.Version}";
 
         #endregion        
     }

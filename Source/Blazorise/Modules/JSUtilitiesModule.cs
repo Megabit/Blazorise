@@ -99,6 +99,10 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
     public ValueTask CopyToClipboard( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "copyToClipboard", elementRef, elementId );
 
+    /// <inheritdoc/>
+    public ValueTask Log( string message, params string[] args )
+        => InvokeSafeVoidAsync( "log", message, args );
+
     #endregion
 
     #region Properties

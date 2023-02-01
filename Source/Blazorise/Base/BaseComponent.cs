@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Licensing;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -134,7 +135,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         {
             if ( LicenseChecker.ShouldPrint() )
             {
-                ExecuteAfterRender( async () => await JSRuntime.InvokeVoidAsync( "console.log", "%cThank you for using the free version of the Blazorise component library! We're happy to offer it to you for personal use. If you'd like to remove this message, consider purchasing a commercial license from https://blazorise.com/commercial. We appreciate your support!", "color: #3B82F6; background-color: #F8FAFC; border: 1px solid #3B82F6; padding: 10px;" ) );
+                ExecuteAfterRender( async () => await JSUtilitiesModule.Log( "%cThank you for using the free version of the Blazorise component library! We're happy to offer it to you for personal use. If you'd like to remove this message, consider purchasing a commercial license from https://blazorise.com/commercial. We appreciate your support!", "color: #3B82F6; padding: 0;" ) );
             }
 
             await OnFirstAfterRenderAsync();
@@ -359,9 +360,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     protected IStyleProvider StyleProvider { get; set; }
 
     /// <summary>
-    /// Gets or sets the jsRuntime reference.
+    /// Gets or sets the IJSUtilitiesModule reference.
     /// </summary>
-    [Inject] private IJSRuntime JSRuntime { get; set; }
+    [Inject] private IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
     /// Gets or sets the license checker for the user session.

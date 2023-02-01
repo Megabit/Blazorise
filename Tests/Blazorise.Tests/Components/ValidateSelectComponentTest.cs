@@ -10,6 +10,7 @@ public class ValidateSelectComponentTest : TestContext
     public ValidateSelectComponentTest()
     {
         BlazoriseConfig.AddBootstrapProviders( Services );
+        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
     }
 
     [Fact]

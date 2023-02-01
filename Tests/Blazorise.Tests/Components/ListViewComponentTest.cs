@@ -15,6 +15,7 @@ public class ListViewComponentTest : TestContext
     public ListViewComponentTest()
     {
         BlazoriseConfig.AddBootstrapProviders( Services );
+        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
     }
 
     [Fact]
