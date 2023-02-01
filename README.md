@@ -51,6 +51,7 @@ Blazorise is an Apache 2.0-licensed open source project with its ongoing develop
 
 ### Blazor WebAssembly
 
+- [Tailwind Demo](https://tailwinddemo.blazorise.com)
 - [Bootstrap 4 Demo](https://bootstrapdemo.blazorise.com)
 - [Bootstrap 5 Demo](https://bootstrap5demo.blazorise.com)
 - [Material Demo](https://materialdemo.blazorise.com/)
@@ -76,6 +77,7 @@ Before you continue, please make sure you have the latest version of Visual Stud
 There are currently 5 different NuGet packages for each of the supported CSS frameworks. Available packages are:
 
 ```
+- Blazorise.Tailwind
 - Blazorise.Bootstrap
 - Blazorise.Bootstrap5
 - Blazorise.Bulma
