@@ -2,6 +2,7 @@
 using System;
 using Blazorise.Bootstrap;
 using Blazorise.DataGrid;
+using Blazorise.Licensing;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Providers;
@@ -64,6 +65,9 @@ public static class BlazoriseConfig
 
         services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
         services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
+
+        services.AddScoped<BlazoriseLicenseProvider>();
+        services.AddScoped<BlazoriseLicenseChecker>();
 
         services.AddMemoryCache();
         services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
@@ -137,6 +141,7 @@ public static class BlazoriseConfig
             module.Setup<string>( "getUserAgent", _ => true ).SetResult( String.Empty );
             module.SetupVoid( "scrollElementIntoView", _ => true ).SetVoidResult();
             module.SetupVoid( "focus", _ => true ).SetVoidResult();
+            module.SetupVoid( "log", _ => true ).SetVoidResult();
         }
 
         public static void AddModal( BunitJSInterop jsInterop )

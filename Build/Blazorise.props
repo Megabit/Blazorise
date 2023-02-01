@@ -51,5 +51,4 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.*" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.*" />
 	</ItemGroup>
-
 </Project>

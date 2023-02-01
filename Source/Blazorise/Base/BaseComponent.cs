@@ -1,7 +1,8 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Licensing;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -125,6 +126,20 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         }
 
         base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            if ( LicenseChecker.ShouldPrint() )
+            {
+                await JSUtilitiesModule.Log( "%cThank you for using the free version of the Blazorise component library! We're happy to offer it to you for personal use. If you'd like to remove this message, consider purchasing a commercial license from https://blazorise.com/commercial. We appreciate your support!", "color: #3B82F6; padding: 0;" );
+            }
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
     }
 
     /// <inheritdoc/>
@@ -321,6 +336,11 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     public string StyleNames => StyleBuilder.Styles;
 
     /// <summary>
+    /// Holds the information about the Blazorise global options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions Options { get; set; }
+
+    /// <summary>
     /// Gets or set the javascript runner.
     /// </summary>
     [Inject] protected IIdGenerator IdGenerator { get; set; }
@@ -338,7 +358,17 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     protected IStyleProvider StyleProvider { get; set; }
 
     /// <summary>
-    /// Custom css classname.
+    /// Gets or sets the IJSUtilitiesModule reference.
+    /// </summary>
+    [Inject] private IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
+    /// Custom css class name.
     /// </summary>
     [Parameter]
     public string Class

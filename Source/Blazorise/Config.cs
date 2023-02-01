@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Blazorise.Licensing;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Providers;
@@ -9,7 +10,6 @@ using Blazorise.Themes;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 #endregion
 
 namespace Blazorise;
@@ -50,9 +50,11 @@ public static class Config
                      .Concat( ServiceMap )
                      .Concat( JSModuleMap ) )
         {
-
             serviceCollection.AddScoped( mapping.Key, mapping.Value );
         }
+
+        serviceCollection.AddScoped<BlazoriseLicenseProvider>();
+        serviceCollection.AddScoped<BlazoriseLicenseChecker>();
 
         return serviceCollection;
     }

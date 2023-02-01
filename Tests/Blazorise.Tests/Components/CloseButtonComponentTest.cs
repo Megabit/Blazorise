@@ -12,6 +12,7 @@ public class CloseButtonComponentTest : TestContext
     public CloseButtonComponentTest()
     {
         BlazoriseConfig.AddBootstrapProviders( Services );
+        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
     }
 
     [Fact]

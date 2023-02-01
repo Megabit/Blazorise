@@ -1,0 +1,71 @@
+﻿@page "/docs/usage/licensing/register-product-token"
+
+<Seo Canonical="/docs/usage/licensing/register-product-token" Title="Register Blazorise Product Token in Blazor Application" Description="Learn here about how to register Blazorise blazor product token for blazor application for license validation." />
+
+<DocsPageTitle Path="Usage/Licensing/Register Product Token">
+    Register Blazorise Product Token in Blazor Application
+</DocsPageTitle>
+
+<DocsPageLead>
+    Quickly setup Blazorise Product Token
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    All evaluators and paid customers who use NuGet packages from NuGet.org are eligible for the Blazorise products token. As a result, if you use the evaluation installer or the NuGet feed to reference Blazorise assemblies, you must also include the platform and version product tokens in your projects.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Setup
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Log in to your Blazorise account
+</Heading>
+
+<DocsPageParagraph>
+    Go to the Blazorise website and log in to your account using your username and password.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Generate your unique Product Token
+</Heading>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            Once you are logged in, navigate to the "License" section of your account.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            Click the "Generate" button to create your unique product token.
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Add the Product Token">
+        <Paragraph>
+            Open the solution containing your Blazor application in Visual Studio or another development environment.
+        </Paragraph>
+        <Paragraph>
+            In the Startup class, find the <Strong>ConfigureServices</Strong> method. This method is used to configure the services used in your Blazor application.
+        </Paragraph>
+        <Paragraph>
+            In the <Strong>ConfigureServices</Strong> method, add the following code snippet.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="LicensingGuideAddKeyExample" />
+</DocsPageSection>
+
+<DocsPageParagraph>
+    Save the changes you made to the Startup class. Run your Blazor application and your product token will now be registered.
+</DocsPageParagraph>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Note:</Strong> If you encounter any issues or need assistance, please don't hesitate to contact the Blazorise team.
+    </AlertDescription>
+</Alert>
