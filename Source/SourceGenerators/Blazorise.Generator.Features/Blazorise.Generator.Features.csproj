@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.1.6</Version>
-    <PackageVersion>1.1.6</PackageVersion>
+    <Version>1.1.7</Version>
+    <PackageVersion>1.1.7</PackageVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
