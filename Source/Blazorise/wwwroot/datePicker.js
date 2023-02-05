@@ -52,7 +52,8 @@ export function initialize(element, elementId, options) {
         clickOpens: !(options.readOnly || false),
         disable: options.disabledDates || [],
         inline: options.inline || false,
-        disableMobile: options.disableMobile || true
+        disableMobile: options.disableMobile || true,
+        static: true
     };
 
     if (options.selectionMode)

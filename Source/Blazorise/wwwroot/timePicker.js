@@ -49,7 +49,8 @@ export function initialize(element, elementId, options) {
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
         clickOpens: !(options.readOnly || false),
         locale: options.localization || {},
-        inline: options.inline || false
+        inline: options.inline || false,
+        static: true
     });
 
     if (options) {
