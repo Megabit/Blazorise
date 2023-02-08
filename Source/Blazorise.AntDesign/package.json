@@ -5,6 +5,6 @@
   "devDependencies": {
   },
   "dependencies": {
-    "antd": "4.0.0"
+    "antd": "5.2.0"
   }
 }
