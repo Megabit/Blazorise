@@ -17,4 +17,19 @@
 
         DirtyClasses();
     }
+
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        bool checkedChanged = false;
+        if ( parameters.TryGetValue(nameof( Checked ), out TValue value) )
+        {
+            checkedChanged = Checked?.Equals( value ) != true;
+        }
+        await base.SetParametersAsync( parameters );
+
+        if ( checkedChanged )
+        {
+            DirtyClasses();
+        }
+    }
 }
