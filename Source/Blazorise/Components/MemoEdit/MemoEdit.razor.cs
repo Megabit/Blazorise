@@ -50,7 +50,15 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
         {
             if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && !paramText.IsEqual( Text ) )
             {
-                ExecuteAfterRender( Revalidate );
+                ExecuteAfterRender( async () =>
+                {
+                    await Revalidate();
+
+                    if ( AutoSize )
+                    {
+                        await JSModule.RecalculateAutoHeight( ElementRef, ElementId );
+                    }
+                } );
             }
         }
 
