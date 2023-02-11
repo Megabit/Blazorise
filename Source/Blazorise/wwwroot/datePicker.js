@@ -39,8 +39,8 @@ export function initialize(element, elementId, options) {
     const defaultOptions = {
         enableTime: options.inputMode === 1,
         dateFormat: options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d',
-        allowInput: !(options.disableMobile || false),
-        altInput: !(options.disableMobile || false),
+        allowInput: !(isMobile() && (options.disableMobile || false)),
+        altInput: !(isMobile() && (options.disableMobile || false)),
         altFormat: options.displayFormat ? options.displayFormat : (options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d'),
         defaultDate: options.defaultDate,
         minDate: options.min,
@@ -218,4 +218,10 @@ export function select(element, elementId, focus) {
     if (picker && picker.altInput) {
         utilities.select(picker.altInput, null, focus);
     }
+}
+
+function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+    );
 }
