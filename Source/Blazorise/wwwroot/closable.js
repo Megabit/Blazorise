@@ -134,7 +134,6 @@ document.addEventListener('mouseup', function handler(evt) {
     if (evt.button === 0 && evt.target === lastClickedDocumentElement && closableComponents && closableComponents.length > 0) {
         const lastClosable = closableComponents[closableComponents.length - 1];
         const scrollClicked = scrollClick(evt);
-        console.log(scrollClicked);
         if (lastClosable && !scrollClicked) {
             tryClose(lastClosable, evt.target.id, false, hasParentInTree(evt.target, lastClosable.elementId));
         }
