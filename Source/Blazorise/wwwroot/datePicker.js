@@ -94,6 +94,11 @@ export function updateValue(element, elementId, value) {
 
     if (picker) {
         picker.setDate(value);
+
+        if (picker.nextMonthNav) {
+            picker.nextMonthNav.click();
+            picker.jumpToDate(value, false);
+        }
     }
 }
 
