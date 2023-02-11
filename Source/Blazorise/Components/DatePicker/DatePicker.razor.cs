@@ -533,7 +533,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <summary>
     /// If enabled, it disables the native input on mobile devices.
     /// </summary>
-    [Parameter] public bool DisableMobile { get; set; } = true;
+    [Parameter] public bool DisableMobile { get; set; }
 
     #endregion
 }

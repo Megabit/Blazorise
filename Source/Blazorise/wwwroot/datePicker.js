@@ -39,8 +39,8 @@ export function initialize(element, elementId, options) {
     const defaultOptions = {
         enableTime: options.inputMode === 1,
         dateFormat: options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d',
-        allowInput: true,
-        altInput: true,
+        allowInput: !(options.disableMobile || false),
+        altInput: !(options.disableMobile || false),
         altFormat: options.displayFormat ? options.displayFormat : (options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d'),
         defaultDate: options.defaultDate,
         minDate: options.min,
@@ -52,7 +52,7 @@ export function initialize(element, elementId, options) {
         clickOpens: !(options.readOnly || false),
         disable: options.disabledDates || [],
         inline: options.inline || false,
-        disableMobile: options.disableMobile || true,
+        disableMobile: options.disableMobile || false,
         static: true
     };
 
