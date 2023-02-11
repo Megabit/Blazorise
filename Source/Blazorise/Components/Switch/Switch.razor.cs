@@ -30,7 +30,14 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
         {
             if ( parameters.TryGetValue<TValue>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( Checked ) )
             {
-                ExecuteAfterRender( Revalidate );
+                ExecuteAfterRender( async () =>
+                {
+                    await Revalidate();
+
+                    // Some providers may require that we define classname based on a switch state so we need to reset classes.
+                    DirtyClasses();
+                    await InvokeAsync( StateHasChanged );
+                } );
             }
         }
 
