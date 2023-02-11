@@ -1,4 +1,5 @@
-﻿@typeparam TValue
+﻿@using Blazorise.Extensions;
+@typeparam TValue
 @inherits Blazorise.Switch<TValue>
 <button @ref="@ElementRef" id="@ElementId" type="button" role="switch" class="@ClassNames" style="@StyleNames" disabled="@Disabled" aria-checked="@CurrentValueAsString?.ToLowerInvariant()" ant-click-animating="true" tabindex="@TabIndex" @onclick="@HandleButtonClick" @attributes="@Attributes">
     <span class="ant-switch-inner">@ChildContent</span>
@@ -18,18 +19,18 @@
         DirtyClasses();
     }
 
-    public override async Task SetParametersAsync( ParameterView parameters )
+    public override Task SetParametersAsync( ParameterView parameters )
     {
-        bool checkedChanged = false;
-        if ( parameters.TryGetValue(nameof( Checked ), out TValue value) )
+        if ( parameters.TryGetValue( nameof( Checked ), out TValue paramChecked ) && !paramChecked.IsEqual( Checked ) )
         {
-            checkedChanged = Checked?.Equals( value ) != true;
-        }
-        await base.SetParametersAsync( parameters );
+            ExecuteAfterRender( () =>
+            {
+                DirtyClasses();
 
-        if ( checkedChanged )
-        {
-            DirtyClasses();
+                return InvokeAsync( StateHasChanged );
+            } );
         }
+
+        return base.SetParametersAsync( parameters );
     }
 }
