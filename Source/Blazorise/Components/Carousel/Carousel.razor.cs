@@ -8,7 +8,6 @@ using Blazorise.Localization;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using static System.TimeZoneInfo;
 #endregion
 
 namespace Blazorise;
@@ -215,6 +214,24 @@ public partial class Carousel : BaseComponent, IDisposable
                 SelectedSlide = carouselSlides.Single().Name
             };
         }
+    }
+
+    /// <summary>
+    /// Removes the slide from the list of running slides.
+    /// </summary>
+    /// <param name="slide">Slide to remove.</param>
+    internal void RemoveSlide( CarouselSlide slide )
+    {
+        carouselSlides.Remove( slide );
+
+        Reset();
+    }
+
+    private void Reset()
+    {
+        AnimationRunning = false;
+        ResetTimer();
+        ResetTransitionTimer();
     }
 
     /// <summary>
