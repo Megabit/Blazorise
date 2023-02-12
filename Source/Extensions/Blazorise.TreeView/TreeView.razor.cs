@@ -53,7 +53,7 @@ public partial class TreeView<TNode> : BaseComponent
         {
             treeViewNodeStates = new();
 
-            await foreach ( var nodeState in paramNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ExpandedNodes.Intersect( paramNodes ?? Enumerable.Empty<TNode>() ).Any() ) )
+            await foreach ( var nodeState in paramNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
             {
                 treeViewNodeStates.Add( nodeState );
             }
