@@ -336,11 +336,6 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     public string StyleNames => StyleBuilder.Styles;
 
     /// <summary>
-    /// Holds the information about the Blazorise global options.
-    /// </summary>
-    [Inject] protected BlazoriseOptions Options { get; set; }
-
-    /// <summary>
     /// Gets or set the javascript runner.
     /// </summary>
     [Inject] protected IIdGenerator IdGenerator { get; set; }
