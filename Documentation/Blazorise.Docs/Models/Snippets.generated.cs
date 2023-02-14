@@ -7876,6 +7876,17 @@ builder.Services
     }
 }";
 
+        public const string GlobalLocalizerExample = @"services
+    .AddBlazorise( options =>
+    {
+        // other settings
+
+        options.ValidationMessageLocalizer = ( message, arguments ) =>
+        {
+            return string.Format( applicationLocalizerDictionary[message], arguments );
+        };
+    } );";
+
         public const string ITextLocalizerServiceExample = @"@using System.Globalization
 
 <Field>
