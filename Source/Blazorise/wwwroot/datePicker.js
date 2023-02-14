@@ -74,6 +74,10 @@ export function initialize(element, elementId, options) {
         picker.altInput.readOnly = options.readOnly || false;
     }
 
+    picker.customOptions = {
+        inputMode: options.inputMode
+    };
+
     _pickers[elementId] = picker;
 }
 
@@ -95,7 +99,8 @@ export function updateValue(element, elementId, value) {
     if (picker) {
         picker.setDate(value);
 
-        if (picker.nextMonthNav) {
+        // workaround for https://github.com/flatpickr/flatpickr/issues/2861
+        if (picker.customOptions && picker.customOptions.inputMode === 2 && picker.nextMonthNav) {
             picker.nextMonthNav.click();
             picker.jumpToDate(value, false);
         }
