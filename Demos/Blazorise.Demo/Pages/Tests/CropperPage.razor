@@ -1,5 +1,9 @@
 ﻿@page "/tests/cropper"
-@using System.Security.Cryptography.X509Certificates
+
+@inject IJSRuntime JSRuntime
+
+@using Blazorise.Utilities
+@implements IAsyncDisposable
 
 <Row>
     <Column>
@@ -14,9 +18,10 @@
                             Update Image
                         </FieldLabel>
                         <FieldBody>
-                            <Button Color="Color.Primary" Clicked="@(()=>{source = "_content/Blazorise.Demo/img/gallery/5.jpg"; return Task.CompletedTask;})">
+                            <Button Color="Color.Primary" Clicked="@(() =>{source = "_content/Blazorise.Demo/img/gallery/5.jpg"; return Task.CompletedTask;})">
                                 Update
                             </Button>
+                            <FileEdit @ref="file" Filter="image/*" Changed="OnFileChanged" Placeholder="Select a file" />
                         </FieldBody>
                     </Field>
                     <Field>
@@ -130,12 +135,14 @@
 
 @code {
     private Cropper cropper;
+    private FileEdit file;
     private CropperState cropperState = new CropperState();
     private string source = "_content/Blazorise.Demo/img/gallery/3.jpg";
     private string result;
     private double? ratio = 1.0;
     private bool enabled = true;
     private bool flipX, flipY;
+    private IAsyncDisposable m_urlCleanup;
 
     private async Task GetCroppedImage()
     {
@@ -157,5 +164,29 @@
     {
         flipY = !flipY;
         await cropper.Scale( flipX ? -1 : 1, flipY ? -1 : 1 );
+    }
+
+    private async Task OnFileChanged(FileChangedEventArgs e)
+    {
+        if ( e.Files.Length == 0 )
+        {
+            return;
+        }
+
+        await CleanupObjectUrl();
+
+        source = await JSRuntime.InvokeAsync<string>("blazoriseDemo.getInputFileUrl", file.ElementRef);
+        m_urlCleanup = AsyncDisposable.Create(() => JSRuntime.InvokeVoidAsync("URL.revokeObjectURL", source));
+        StateHasChanged();
+    }
+
+    public ValueTask DisposeAsync() => CleanupObjectUrl();
+
+    private async ValueTask CleanupObjectUrl()
+    {
+        if (m_urlCleanup != null)
+        {
+            await m_urlCleanup.DisposeAsync();
+        }
     }
 }
