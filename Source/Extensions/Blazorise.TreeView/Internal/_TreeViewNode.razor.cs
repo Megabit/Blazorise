@@ -25,7 +25,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         {
             foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
             {
-                if ( nodeState.HasChildren && ExpandedNodes?.Contains( nodeState.Node ) == true )
+                if ( nodeState.HasChildren && ExpandedNodes.Contains( nodeState.Node ) == true )
                 {
                     await LoadChildNodes( nodeState );
                 }
