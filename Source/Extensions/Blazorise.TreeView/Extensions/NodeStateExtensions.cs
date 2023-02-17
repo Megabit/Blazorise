@@ -13,7 +13,7 @@ namespace Blazorise.TreeView.Extensions
         public static async IAsyncEnumerable<TreeViewNodeState<TNode>> ToNodeStates<TNode>( this IEnumerable<TNode> nodes,
             Func<TNode, Task<bool>> hasChildNodesAsync,
             Func<TNode, bool> hasChildNodes,
-            bool expanded )
+            Func<TNode, bool> expanded )
         {
             foreach ( var node in nodes ?? Enumerable.Empty<TNode>() )
             {
@@ -21,7 +21,7 @@ namespace Blazorise.TreeView.Extensions
                     ? await hasChildNodesAsync( node )
                     : hasChildNodes( node );
 
-                yield return new TreeViewNodeState<TNode>( node, hasChildren, expanded );
+                yield return new TreeViewNodeState<TNode>( node, hasChildren, expanded( node ) );
             }
         }
     }
