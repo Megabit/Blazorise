@@ -80,7 +80,7 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
         {
             null => null,
             TimeSpan timeSpan => timeSpan.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
-            TimeOnly timeOnly => timeOnly.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
+            TimeOnly timeOnly => timeOnly.ToString( Parsers.InternalTimeFormat ),
             DateTime datetime => datetime.ToString( Parsers.InternalTimeFormat ),
             _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
         };
