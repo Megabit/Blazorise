@@ -168,7 +168,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         {
             null => null,
             TimeSpan timeSpan => timeSpan.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
-            TimeOnly timeOnly => timeOnly.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
+            TimeOnly timeOnly => timeOnly.ToString( Parsers.InternalTimeFormat ),
             DateTime datetime => datetime.ToString( Parsers.InternalTimeFormat ),
             _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
         };

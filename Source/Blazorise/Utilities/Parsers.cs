@@ -87,7 +87,30 @@ public static class Parsers
     /// <summary>
     /// Possible time formats.
     /// </summary>
-    public static readonly string[] SupportedParseTimeFormats = new string[]
+    public static readonly string[] SupportedParseTimeSpanTimeFormats = new string[]
+    {
+        InternalTimeFormat,
+        InternalTimeFormat.ToLowerInvariant(), // TimeSpan has a slightly diferent format for hours part
+        "hh\\:mm",
+        CultureInfo.InvariantCulture.DateTimeFormat.LongTimePattern,
+        CultureInfo.InvariantCulture.DateTimeFormat.ShortTimePattern,
+    };
+
+    /// <summary>
+    /// Possible time formats.
+    /// </summary>
+    public static readonly string[] SupportedParseTimeOnlyTimeFormats = new string[]
+    {
+        InternalTimeFormat,
+        "HH\\:mm",
+        CultureInfo.InvariantCulture.DateTimeFormat.LongTimePattern,
+        CultureInfo.InvariantCulture.DateTimeFormat.ShortTimePattern,
+    };
+
+    /// <summary>
+    /// Possible time formats.
+    /// </summary>
+    public static readonly string[] SupportedParseDateTimeTimeFormats = new string[]
     {
         InternalTimeFormat,
         InternalTimeFormat.ToLowerInvariant(), // TimeSpan has a slightly diferent format for hours part
@@ -187,19 +210,19 @@ public static class Parsers
 
         var type = Nullable.GetUnderlyingType( typeof( TValue ) ) ?? typeof( TValue );
 
-        if ( type == typeof( TimeSpan ) && TimeSpan.TryParseExact( value, SupportedParseTimeFormats, CultureInfo.InvariantCulture, TimeSpanStyles.None, out var timeSpan ) )
+        if ( type == typeof( TimeSpan ) && TimeSpan.TryParseExact( value, SupportedParseTimeSpanTimeFormats, CultureInfo.InvariantCulture, TimeSpanStyles.None, out var timeSpan ) )
         {
             result = (TValue)(object)timeSpan;
             return true;
         }
 
-        if ( type == typeof( TimeOnly ) && TimeOnly.TryParseExact( value, SupportedParseTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var timeOnly ) )
+        if ( type == typeof( TimeOnly ) && TimeOnly.TryParseExact( value, SupportedParseTimeOnlyTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var timeOnly ) )
         {
             result = (TValue)(object)timeOnly;
             return true;
         }
 
-        if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, SupportedParseTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime ) )
+        if ( type == typeof( DateTime ) && DateTime.TryParseExact( value, SupportedParseDateTimeTimeFormats, CultureInfo.InvariantCulture, DateTimeStyles.None, out var dateTime ) )
         {
             result = (TValue)(object)dateTime;
             return true;
