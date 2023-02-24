@@ -1,5 +1,5 @@
-﻿import "./vendors/flatpickr.js?v=1.2.0.0";
-import * as utilities from "./utilities.js?v=1.2.0.0";
+﻿import "./vendors/flatpickr.js?v=1.2.1.0";
+import * as utilities from "./utilities.js?v=1.2.1.0";
 
 const _pickers = [];
 
@@ -52,7 +52,8 @@ export function initialize(element, elementId, options) {
         clickOpens: !(options.readOnly || false),
         disable: options.disabledDates || [],
         inline: options.inline || false,
-        disableMobile: options.disableMobile || true
+        disableMobile: options.disableMobile || true,
+        static: true
     };
 
     if (options.selectionMode)
@@ -72,6 +73,10 @@ export function initialize(element, elementId, options) {
         picker.altInput.disabled = options.disabled || false;
         picker.altInput.readOnly = options.readOnly || false;
     }
+
+    picker.customOptions = {
+        inputMode: options.inputMode
+    };
 
     _pickers[elementId] = picker;
 }
@@ -93,6 +98,12 @@ export function updateValue(element, elementId, value) {
 
     if (picker) {
         picker.setDate(value);
+
+        // workaround for https://github.com/flatpickr/flatpickr/issues/2861
+        if (picker.customOptions && picker.customOptions.inputMode === 2 && picker.nextMonthNav) {
+            picker.nextMonthNav.click();
+            picker.jumpToDate(value, false);
+        }
     }
 }
 

@@ -19,5 +19,13 @@
 
         // See https://github.com/quilljs/awesome-quill for various modules
         // options.modules.myCustomModule = ...;
+    },
+
+    getInputFileUrl: (input, index = 0) => {
+        if (!input || input.files.length <= index) {
+            return undefined;
+        }
+
+        return URL.createObjectURL(input.files[index]);
     }
 }

@@ -1,5 +1,5 @@
-﻿import "./vendors/flatpickr.js?v=1.2.0.0";
-import * as utilities from "./utilities.js?v=1.2.0.0";
+﻿import "./vendors/flatpickr.js?v=1.2.1.0";
+import * as utilities from "./utilities.js?v=1.2.1.0";
 
 const _pickers = [];
 
@@ -49,7 +49,8 @@ export function initialize(element, elementId, options) {
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
         clickOpens: !(options.readOnly || false),
         locale: options.localization || {},
-        inline: options.inline || false
+        inline: options.inline || false,
+        static: true
     });
 
     if (options) {
@@ -62,6 +63,13 @@ export function initialize(element, elementId, options) {
 
 export function destroy(element, elementId) {
     const instances = _pickers || {};
+
+    const instance = instances[elementId];
+
+    if (instance) {
+        instance.destroy();
+    }
+
     delete instances[elementId];
 }
 
