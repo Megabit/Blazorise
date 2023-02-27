@@ -22,6 +22,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
 
     image.src = options.source;
     image.alt = options.alt;
+    image.crossOrigin = options.crossorigin;
 
     const template = (
         `<cropper-canvas background="${options.showBackground}" disabled="${!options.enabled}">
