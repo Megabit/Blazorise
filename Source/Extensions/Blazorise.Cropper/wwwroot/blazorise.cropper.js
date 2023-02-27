@@ -22,7 +22,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
 
     image.src = options.source;
     image.alt = options.alt;
-    image.crossOrigin = options.crossorigin;
+    image.crossOrigin = options.crossOrigin;
 
     const template = (
         `<cropper-canvas background="${options.showBackground}" disabled="${!options.enabled}">
@@ -115,8 +115,8 @@ export function updateOptions(element, elementId, options) {
                 cropperImage.alt = options.alt.value;
             }
 
-            if (options.crossorigin.changed) {
-                cropperImage.crossorigin = options.crossorigin.value;
+            if (options.crossOrigin.changed) {
+                cropperImage.crossOrigin = options.crossOrigin.value;
             }
 
             if (options.image.changed) {
