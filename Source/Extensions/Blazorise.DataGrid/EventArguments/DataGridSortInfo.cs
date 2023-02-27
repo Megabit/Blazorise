@@ -1,4 +1,4 @@
-﻿namespace Blazorise.DataGrid.Models;
+﻿namespace Blazorise.DataGrid;
 
 /// <summary>
 /// Holds the sort order information of a specific column

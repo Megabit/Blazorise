@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.DataGrid;
-using Blazorise.DataGrid.Models;
 using Blazorise.Tests.Extensions;
 using Blazorise.Tests.Helpers;
 using Blazorise.Tests.TestServices;
