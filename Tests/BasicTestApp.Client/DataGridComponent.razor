@@ -5,6 +5,7 @@
           Sortable
           SortMode="DataGridSortMode.Single"
           SortChanged="OnSortChanged"
+          SortOrderChanged="SortOrderChanged"
           Editable
           EditMode="@DataGridEditMode">
     <DataGridColumns>
@@ -58,8 +59,11 @@
             new() { Name = "Ana", Fraction = "3/4" }
         };
 
-    [Parameter] 
+    [Parameter]
     public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
+
+    [Parameter]
+    public EventCallback<DataGridSortOrderChangedEventArgs> SortOrderChanged { get; set; }
 
     public class Employee
     {
@@ -88,4 +92,6 @@
     }
 
     private Task OnSortChanged(DataGridSortChangedEventArgs args) => SortChanged.InvokeAsync(args);
+
+    private Task OnSortOrderChanged(DataGridSortOrderChangedEventArgs args) => SortOrderChanged.InvokeAsync(args);
 }
