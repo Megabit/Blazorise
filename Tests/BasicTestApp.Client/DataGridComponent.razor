@@ -4,6 +4,7 @@
           ShowPageSizes
           Sortable
           SortMode="DataGridSortMode.Single"
+          SortChanged="OnSortChanged"
           Editable
           EditMode="@DataGridEditMode">
     <DataGridColumns>
@@ -57,6 +58,9 @@
             new() { Name = "Ana", Fraction = "3/4" }
         };
 
+    [Parameter] 
+    public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
+
     public class Employee
     {
         public string Name { get; set; }
@@ -82,4 +86,6 @@
         }
 
     }
+
+    private Task OnSortChanged(DataGridSortChangedEventArgs args) => SortChanged.InvokeAsync(args);
 }

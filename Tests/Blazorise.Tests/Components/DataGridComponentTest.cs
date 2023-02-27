@@ -1,11 +1,13 @@
 ﻿#region Using directives
+
+using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using BasicTestApp.Client;
 using Blazorise.DataGrid;
 using Blazorise.Tests.Extensions;
 using Blazorise.Tests.Helpers;
 using Bunit;
+using FluentAssertions;
 using Xunit;
 #endregion
 
@@ -43,15 +45,55 @@ public class DataGridComponentTest : TestContext
 
         // test
         var comp = RenderComponent<DataGridComponent>();
-        var rows = comp.FindAll( "tbody tr td:nth-child(2)" );
 
         // validate
-        var count = 0;
-        foreach ( var item in rows )
+        comp.FindAll( "tbody tr td:nth-child(2)" )
+            .Select( x => x.TextContent )
+            .Should()
+            .ContainInOrder( expectedOrderedValues );
+    }
+
+    [Fact]
+    public void SortByField_Should_CorrectlyReorderRows()
+    {
+        // setup
+        var expectedOrderedValues = new[] { "3/4", "1/2", "1/4", "1/8"  };
+        var comp = RenderComponent<DataGridComponent>();
+
+        // test
+        comp.Find( "thead tr th:nth-child(2)" )
+            .Click(); // change sort order to descending
+        
+        // validate
+        comp.FindAll( "tbody tr td:nth-child(2)" )
+            .Select( x => x.TextContent )
+            .Should()
+            .ContainInOrder( expectedOrderedValues );
+    }
+
+    [Fact]
+    public void SortByField_Should_RaiseSortChangedEvent()
+    {
+        // setup
+        var sortChangedEventArgs = new List<DataGridSortChangedEventArgs>();
+        var comp = RenderComponent<DataGridComponent>( parameters =>
         {
-            Assert.Equal( item.TextContent, expectedOrderedValues[count] );
-            count++;
-        }
+            parameters.Add( 
+                parameterSelector: x => x.SortChanged, 
+                callback: e => sortChangedEventArgs.Add( e ) );
+        } );
+
+        // test
+        comp.Find( "thead tr th:nth-child(2)" )
+            .Click(); // change sort order to descending
+        
+        // validate
+        sortChangedEventArgs
+            .Should().HaveCount( 1 )
+            .And
+            .OnlyContain( e => e.ColumnFieldName == "Fraction" &&
+                               e.FieldName == "FractionValue" &&
+                               e.SortDirection == SortDirection.Descending );
     }
 
     [Theory]

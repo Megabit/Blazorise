@@ -247,7 +247,10 @@ public partial class DataGridPage
 
     private void OnSortChanged( DataGridSortChangedEventArgs eventArgs )
     {
-        Console.WriteLine( $"Sort changed > Field: {eventArgs.FieldName}; Direction: {eventArgs.SortDirection};" );
+        var sort = string.Equals(eventArgs.ColumnFieldName, eventArgs.FieldName, StringComparison.Ordinal)
+            ? string.Empty
+            : $" (SortField: {eventArgs.FieldName})";
+        Console.WriteLine( $"Sort changed > Field: {eventArgs.ColumnFieldName}{sort}; Direction: {eventArgs.SortDirection};" );
     }
 
     private string TitleFromGender( string gender )

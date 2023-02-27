@@ -1341,7 +1341,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
 
             if ( changeSortDirection )
-                InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.CurrentSortDirection ) ) );
+            {
+                InvokeAsync( () =>
+                    SortChanged.InvokeAsync( new DataGridSortChangedEventArgs(
+                        column.GetFieldToSort(),
+                        column.Field,
+                        column.CurrentSortDirection ) ) );
+            }
         }
     }
 
