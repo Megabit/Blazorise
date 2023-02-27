@@ -849,6 +849,78 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return Task.CompletedTask;
     }
 
+
+    /// <summary>
+    /// Replaces the current sorting with the given sort order
+    /// </summary>
+    /// <param name="columns">Columns used for sorting</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> and <see cref="Sortable"/> must be enabled to be able to sort!
+    /// If more than one column is specified, <see cref="SortMode"/> must be <see cref="DataGridSortMode.Multiple"/>
+    /// </remarks>
+    public async Task ApplySorting(params DataGridSortColumn[] columns ) {
+        if ( columns.Length > 1 && SortMode == DataGridSortMode.Single )
+        {
+            throw new ArgumentException(
+                $"Cannot sort on multiple columns when {nameof(SortMode)} is {nameof(DataGridSortMode.Single)}." );
+        }
+
+        if ( SortMode == DataGridSortMode.Single )
+        {
+            if ( columns.Length == 1 )
+            {
+                await Sort( columns[0].Field, columns[0].SortDirection );
+            }
+            else if ( SortByColumns.Count == 1 )
+            {
+                await Sort( SortByColumns[0].Field, SortDirection.Default );
+            }
+
+            return;
+        }
+
+        // reset sorting
+        foreach ( var column in SortByColumns )
+        {
+            await column.ResetSortOrder();
+        }
+
+        SortByColumns.Clear();
+
+        // apply new sorting
+        var columnTuples = columns
+            .Select( ( x, idx ) => (
+                Column: Columns.SingleOrDefault( c => c.Field == x.Field ),
+                Direction: x.SortDirection,
+                SortOrder: idx ) )
+            .Where( x => x.Column is { Sortable: true } &&
+                         x.Direction != SortDirection.Default );
+
+        foreach ( var (column, direction, sortOrder) in columnTuples )
+        {
+            if ( SortByColumns.All( x => x.GetFieldToSort() != column.GetFieldToSort() ) )
+            {
+                column.CurrentSortDirection = direction;
+                await column.SetSortOrder( sortOrder );
+                SortByColumns.Add( column );
+            }
+        }
+
+        await SortOrderChanged.InvokeAsync(
+            new DataGridSortOrderChangedEventArgs(
+                SortMode,
+                SortByColumns.Select( c => new DataGridSortInfo(
+                        c.Field,
+                        c.GetFieldToSort(),
+                        c.CurrentSortDirection,
+                        c.SortOrder ) )
+                    .OrderBy( c => c.SortOrder )
+                    .ToList() ) );
+
+        await Reload();
+    }
+
     /// <summary>
     /// Triggers the DataGrid to change data source page.
     /// </summary>

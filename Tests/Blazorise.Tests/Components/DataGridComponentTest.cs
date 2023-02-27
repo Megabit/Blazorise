@@ -45,7 +45,7 @@ public class DataGridComponentTest : TestContext
     public void SortByField_Should_CorrectlySortRows()
     {
         // setup
-        var expectedOrderedValues = new[] { "1/8", "1/4", "1/2", "3/4" };
+        var expectedOrderedValues = new[] { "1/8", "1/4", "1/3", "1/2", "3/4" };
 
         // test
         var comp = RenderComponent<DataGridComponent>();
@@ -54,14 +54,14 @@ public class DataGridComponentTest : TestContext
         comp.FindAll( "tbody tr td:nth-child(2)" )
             .Select( x => x.TextContent )
             .Should()
-            .ContainInOrder( expectedOrderedValues );
+            .BeEquivalentTo( expectedOrderedValues );
     }
 
     [Fact]
     public void SortByField_Should_CorrectlyReorderRows()
     {
         // setup
-        var expectedOrderedValues = new[] { "3/4", "1/2", "1/4", "1/8"  };
+        var expectedOrderedValues = new[] { "3/4", "1/2", "1/3", "1/4", "1/8"  };
         var comp = RenderComponent<DataGridComponent>();
 
         // test
@@ -72,7 +72,7 @@ public class DataGridComponentTest : TestContext
         comp.FindAll( "tbody tr td:nth-child(2)" )
             .Select( x => x.TextContent )
             .Should()
-            .ContainInOrder( expectedOrderedValues );
+            .BeEquivalentTo( expectedOrderedValues );
     }
 
     [Fact]
@@ -131,7 +131,7 @@ public class DataGridComponentTest : TestContext
             .Should().HaveCount( 1 )
             .And
             .ContainEquivalentOf( new DataGridSortOrderChangedEventArgs(
-                sortMode: DataGridSortMode.Single,
+                sortMode: DataGridSortMode.Multiple,
                 sortOrder: new[]
                 {
                     new DataGridSortInfo(
@@ -147,7 +147,7 @@ public class DataGridComponentTest : TestContext
     public async Task Sort_Should_CorrectlyReorderWhenUsingFieldName()
     {
         // setup
-        var expectedOrderedValues = new[] { "3/4", "1/2", "1/4", "1/8" };
+        var expectedOrderedValues = new[] { "3/4", "1/2", "1/3", "1/4", "1/8" };
         var comp = RenderComponent<DataGridComponent>();
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
 
@@ -165,7 +165,175 @@ public class DataGridComponentTest : TestContext
         comp.FindAll( "tbody tr td:nth-child(2)" )
             .Select( x => x.TextContent )
             .Should()
-            .ContainInOrder( expectedOrderedValues );
+            .BeEquivalentTo( expectedOrderedValues );
+    }
+
+    [Fact]
+    public async Task ApplySorting_Multiple_Should_ReorderCorrectlyWhenSortingWithMultipleColumns()
+    {
+        // setup
+        var expectedOrderedValues = new[] { "3/4", "1/3", "1/2", "1/8", "1/4" };
+        var comp = RenderComponent<DataGridComponent>();
+        var dataGrid = comp.FindComponent<DataGrid<Employee>>();
+
+        // test
+        await dataGrid.Instance.ApplySorting(
+            new DataGridSortColumn(
+                field: nameof(Employee.Name),
+                sortDirection: SortDirection.Ascending ),
+            new DataGridSortColumn(
+                field: nameof(Employee.Fraction),
+                sortDirection: SortDirection.Ascending )
+        );
+
+        // validate
+        comp.FindAll( "tbody tr td:nth-child(2)" )
+            .Select( x => x.TextContent )
+            .Should()
+            .BeEquivalentTo( expectedOrderedValues );
+    }
+
+    [Fact]
+    public async Task ApplySorting_Multiple_Should_RaiseSortOrderChangedEvent()
+    {
+        // setup
+        var sortOrderChanged = new List<DataGridSortOrderChangedEventArgs>();
+        var comp = RenderComponent<DataGridComponent>( parameters =>
+        {
+            parameters.Add(
+                parameterSelector: x => x.SortOrderChanged,
+                callback: e => sortOrderChanged.Add( e ) );
+        } );
+
+        var dataGrid = comp.FindComponent<DataGrid<Employee>>();
+
+        // test
+        await dataGrid.Instance.ApplySorting(
+            new DataGridSortColumn(
+                field: nameof(Employee.Name),
+                sortDirection: SortDirection.Ascending ),
+            new DataGridSortColumn(
+                field: nameof(Employee.Fraction),
+                sortDirection: SortDirection.Descending )
+        );
+
+        // validate
+        sortOrderChanged
+            .Should().HaveCount( 1 )
+            .And
+            .ContainEquivalentOf( new DataGridSortOrderChangedEventArgs(
+                sortMode: DataGridSortMode.Multiple,
+                sortOrder: new[]
+                {
+                    new DataGridSortInfo(
+                        field: nameof(Employee.Name),
+                        sortField: nameof(Employee.Name),
+                        sortDirection: SortDirection.Ascending,
+                        sortOrder: 0 ),
+                    new DataGridSortInfo(
+                        field: nameof(Employee.Fraction),
+                        sortField: nameof(Employee.FractionValue),
+                        sortDirection: SortDirection.Descending,
+                        sortOrder: 1 )
+                } )
+            );
+    }
+
+    [Fact]
+    public async Task ApplySorting_Multiple_Should_RestoreTheDefaultOrderIfNoSortColumnsAreSpecified()
+    {
+        // setup
+        var expectedOrderedValues = new[] { "1/2", "1/4", "1/8", "3/4", "1/3" };
+        var comp = RenderComponent<DataGridComponent>();
+        var dataGrid = comp.FindComponent<DataGrid<Employee>>();
+
+        // test
+        await dataGrid.Instance.ApplySorting(Array.Empty<DataGridSortColumn>());
+
+        // validate
+        comp.FindAll( "tbody tr td:nth-child(2)" )
+            .Select( x => x.TextContent )
+            .Should()
+            .BeEquivalentTo( expectedOrderedValues );
+    }
+
+    [Fact]
+    public async Task ApplySorting_Single_Should_ReorderCorrectlyWhenSortingASingleColumn()
+    {
+        // setup
+        var expectedOrderedValues = new[] { "3/4", "1/2", "1/3", "1/8", "1/4" };
+        var comp = RenderComponent<DataGridComponent>( p => p.Add( x => x.SortMode, DataGridSortMode.Single ) );
+        var dataGrid = comp.FindComponent<DataGrid<Employee>>();
+
+        // test
+        await dataGrid.Instance.ApplySorting(
+            new DataGridSortColumn(
+                field: nameof(Employee.Name),
+                sortDirection: SortDirection.Ascending )
+        );
+
+        // validate
+        comp.FindAll( "tbody tr td:nth-child(2)" )
+            .Select( x => x.TextContent )
+            .Should()
+            .BeEquivalentTo( expectedOrderedValues );
+    }
+
+    [Fact]
+    public async Task ApplySorting_Single_Should_RestoreTheDefaultOrderIfNoSortColumnIsSpecified()
+    {
+        // setup
+        var expectedOrderedValues = new[] { "1/2", "1/4", "1/8", "3/4", "1/3" };
+        var comp = RenderComponent<DataGridComponent>( p => p.Add( x => x.SortMode, DataGridSortMode.Single ) );
+        var dataGrid = comp.FindComponent<DataGrid<Employee>>();
+
+        // test
+        await dataGrid.Instance.ApplySorting( Array.Empty<DataGridSortColumn>() );
+
+        // validate
+        comp.FindAll( "tbody tr td:nth-child(2)" )
+            .Select( x => x.TextContent )
+            .Should()
+            .BeEquivalentTo( expectedOrderedValues );
+    }
+
+    [Fact]
+    public async Task ApplySorting_Single_Should_RaiseSortOrderChangedEvent()
+    {
+        // setup
+        var sortOrderChanged = new List<DataGridSortOrderChangedEventArgs>();
+        var comp = RenderComponent<DataGridComponent>( parameters =>
+        {
+            parameters.Add( x => x.SortMode, DataGridSortMode.Single );
+            parameters.Add(
+                parameterSelector: x => x.SortOrderChanged,
+                callback: e => sortOrderChanged.Add( e ) );
+        } );
+
+        var dataGrid = comp.FindComponent<DataGrid<Employee>>();
+
+        // test
+        await dataGrid.Instance.ApplySorting(
+            new DataGridSortColumn(
+                field: nameof(Employee.Name),
+                sortDirection: SortDirection.Descending )
+        );
+
+        // validate
+        sortOrderChanged
+            .Should().HaveCount( 1 )
+            .And
+            .ContainEquivalentOf( new DataGridSortOrderChangedEventArgs(
+                sortMode: DataGridSortMode.Single,
+                sortOrder: new[]
+                {
+                    new DataGridSortInfo(
+                        field: nameof(Employee.Name),
+                        sortField: nameof(Employee.Name),
+                        sortDirection: SortDirection.Descending,
+                        sortOrder: 0 )
+                } )
+            );
     }
 
     [Fact]
@@ -198,7 +366,7 @@ public class DataGridComponentTest : TestContext
             .Should().HaveCount( 1 )
             .And
             .ContainEquivalentOf( new DataGridSortOrderChangedEventArgs(
-                sortMode: DataGridSortMode.Single,
+                sortMode: DataGridSortMode.Multiple,
                 sortOrder: Array.Empty<DataGridSortInfo>() )
             );
     }
