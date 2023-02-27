@@ -1,13 +1,10 @@
-﻿using System.Threading.Tasks;
-using Microsoft.JSInterop;
-
-namespace Blazorise.Cropper;
+﻿namespace Blazorise.Cropper;
 
 internal class CropperAdapter
 {
     private readonly Cropper cropper;
 
-    public CropperAdapter( Cropper cropper )
+    public CropperAdapter(Cropper cropper)
     {
         this.cropper = cropper;
     }
@@ -22,11 +19,14 @@ internal class CropperAdapter
     public async ValueTask CropEnd() => await cropper.NotifyCropEnd();
 
     [JSInvokable]
-    public async ValueTask Crop( int startX, int startY, int endX, int endY ) => await cropper.NotifyCrop( startX, startY, endX, endY );
+    public async ValueTask Crop(int startX, int startY, int endX, int endY) => await cropper.NotifyCrop(startX, startY, endX, endY);
 
     [JSInvokable]
-    public async ValueTask Zoom( double scale ) => await cropper.NotifyZoom( scale );
+    public async ValueTask Zoom(double scale) => await cropper.NotifyZoom(scale);
 
     [JSInvokable]
-    public async ValueTask SelectionChanged( int x, int y, int width, int height ) => await cropper.NotifySelectionChanged( x, y, width, height );
+    public async ValueTask SelectionChanged(int x, int y, int width, int height) => await cropper.NotifySelectionChanged(x, y, width, height);
+
+    [JSInvokable]
+    public async ValueTask ImageReady() => await cropper.NotifyImageReady();
 }
