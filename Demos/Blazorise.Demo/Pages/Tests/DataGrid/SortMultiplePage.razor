@@ -6,7 +6,10 @@
                 <CardTitle>Datagrid: Multiple Sorting</CardTitle>
             </CardHeader>
             <CardBody>
-                <DataGrid TItem="Employee"
+                <Button Color="Color.Secondary" Clicked="OnResetClicked">Reset sorting</Button>
+                <Button Color="Color.Primary" Clicked="OnPredefinedClicked">Apply predefined sorting</Button>
+                <DataGrid @ref="dataGrid"
+                          TItem="Employee"
                           Data="inMemoryData"
                           ShowPager
                           ShowPageSizes
@@ -66,10 +69,19 @@
     [Inject] EmployeeData EmployeeData { get; set; }
 
     private IEnumerable<Employee> inMemoryData;
+    private DataGrid<Employee> dataGrid;
 
     protected override async Task OnInitializedAsync()
     {
         inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
         await base.OnInitializedAsync();
     }
+
+    private Task OnResetClicked() => dataGrid.ApplySorting(Array.Empty<DataGridSortColumn>());
+
+    private Task OnPredefinedClicked() => dataGrid.ApplySorting(
+        new DataGridSortColumn(nameof(Employee.Childrens), SortDirection.Descending),
+        new DataGridSortColumn(nameof(Employee.Gender), SortDirection.Ascending)
+        );
+
 }
