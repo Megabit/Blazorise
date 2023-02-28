@@ -249,8 +249,14 @@
     <DocsAttributesItem Name="ValidationsHandlerType" Type="Type" Default="null">
         Defines the default handler type that will be used by the validation, unless it is overriden by <Code>Validation.HandlerType</Code> property.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SortChanged" Type="EventCallback<DataGridSortChangedEventArgs>" Default="null">
+        Occurs after the sort direction of a single column has changed.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="SortMode" Type="DataGridSortMode" Default="Multiple">
         Defines whether the user can sort only by one column or by multiple.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SortOrderChanged" Type="EventCallback<DataGridSortOrderChangedEventArgs>" Default="null">
+        Occurs after the column sorting has changed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectionMode" Type="DataGridSelectionMode" Default="Single">
         Defines whether the datagrid is set to single or multiple selection mode
@@ -600,6 +606,10 @@
         Sorts the Data for the specified column.
         Note that <Code>Sortable</Code> must be enabled to be able to sort!
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ApplySorting">
+        Allows the user to select any columns for sorting and programmatically change their sort order.
+        Note that <Code>Sortable</Code> must be enabled to be able to sort!
+    </DocsAttributesItem>
     <DocsAttributesItem Name="Paginate">
         Triggers the DataGrid to change data source page.
     </DocsAttributesItem>
@@ -630,5 +640,11 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="CollapseAllGroups">
         Collapses all groups.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GetColumns">
+        Creates and returns a read-only list of all the columns that are currently associated with this datagrid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GetSortColumns">
+        Creates and returns a read-only list of all columns currently used to sort this datagrid's data.
     </DocsAttributesItem>
 </DocsAttributes>
