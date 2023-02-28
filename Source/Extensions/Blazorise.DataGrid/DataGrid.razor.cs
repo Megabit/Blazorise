@@ -895,6 +895,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         // reset sorting
         foreach ( var column in SortByColumns )
         {
+            column.CurrentSortDirection = SortDirection.Default;
             await column.ResetSortOrder();
         }
 
