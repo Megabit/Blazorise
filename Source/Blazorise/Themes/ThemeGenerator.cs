@@ -1249,6 +1249,9 @@ public abstract class ThemeGenerator : IThemeGenerator
     {
         var hc = ExtractHexDigits( hexColor );
 
+        if ( hc.Length == 3 )
+            hc = string.Format( "{0}{0}{1}{1}{2}{2}", hc[0], hc[1], hc[2] );
+
         if ( hc.Length < 6 )
             return System.Drawing.Color.Empty;
 
@@ -1400,15 +1403,15 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <returns>A new hex string.</returns>
     protected static string ExtractHexDigits( string input )
     {
-        var newnum = string.Empty;
+        var sb = new StringBuilder();
         var result = IsHexDigit.Matches( input );
 
         foreach ( System.Text.RegularExpressions.Match item in result )
         {
-            newnum += item.Value;
+            sb.Append( item.Value );
         }
 
-        return newnum;
+        return sb.ToString();
     }
 
     /// <summary>
