@@ -202,6 +202,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Creates a list of all the columns that are currently associated with this datagrid.
+    /// </summary>
+    /// <returns>A read-only list of all columns</returns>
+    public IReadOnlyList<DataGridColumn<TItem>> GetColumns() => Columns.ToList();
+
+    /// <summary>
+    /// Creates a list of all columns currently used to sort this datagrid's data.
+    /// </summary>
+    /// <returns>A read-only list of all sort columns, or an empty list.</returns>
+    public IReadOnlyList<DataGridColumn<TItem>> GetSortColumns() => SortByColumns.ToList();
+
+    /// <summary>
     /// Links the child column with this datagrid.
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
