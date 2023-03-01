@@ -1257,6 +1257,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             IsLoading = true;
             await InvokeAsync( StateHasChanged );
+            await Task.Yield();
 
             if ( !cancellationToken.IsCancellationRequested )
                 await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, CurrentPage, PageSize, 0, 0, cancellationToken ) );
@@ -1274,7 +1275,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         try
         {
             IsLoading = true;
-            await InvokeAsync( StateHasChanged );
 
             if ( !cancellationToken.IsCancellationRequested )
                 await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Virtualize, Columns, SortByColumns, 0, 0, virtualizeOffset: startIdx, virtualizeCount: count, cancellationToken ) );
