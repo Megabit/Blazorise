@@ -215,6 +215,14 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
         => JSModule.Scale( ElementRef, ElementId, x, y );
 
     /// <summary>
+    /// Center the image.
+    /// </summary>
+    /// <param name="size">The size factor: null, contain or cover.</param>
+    /// <returns></returns>
+    public ValueTask Center( string size )
+        => JSModule.Center( ElementRef, ElementId, size );
+
+    /// <summary>
     /// Resets the selection to its initial position and size.
     /// </summary>
     /// <returns></returns>

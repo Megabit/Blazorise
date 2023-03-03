@@ -22,9 +22,9 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     protected EventCallback Cancel
         => EventCallback.Factory.Create( this, ParentDataGrid.Cancel );
 
-    private static readonly IFluentFlex DefaultFlex = Flex._;
+    protected static readonly IFluentFlex DefaultFlex = Flex.InlineFlex;
 
-    private static readonly IFluentGap DefaultGap = Gap.Is2;
+    protected static readonly IFluentGap DefaultGap = Gap.Is2;
 
     #endregion
 
@@ -61,12 +61,6 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
             await ParentDataGrid.Save();
         }
     }
-
-    protected IFluentFlex GetCommandFlex()
-        => ParentDataGrid.CommandColumn?.Flex ?? DefaultFlex;
-
-    protected IFluentGap GetCommandGap()
-        => ParentDataGrid.CommandColumn?.Gap ?? DefaultGap;
 
     #endregion
 
