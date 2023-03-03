@@ -239,7 +239,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
             await CropEnded.Invoke();
     }
 
-    internal async Task NotifyCrop( int startX, int startY, int endX, int endY )
+    internal async Task NotifyCrop( double startX, double startY, double endX, double endY )
     {
         if ( Cropped is not null )
             await Cropped.Invoke( new CropperCroppedEventArgs( startX, startY, endX, endY ) );
@@ -251,7 +251,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
             await Zoomed.Invoke( new CropperZoomedEventArgs( scale ) );
     }
 
-    internal async Task NotifySelectionChanged( int x, int y, int width, int height )
+    internal async Task NotifySelectionChanged( double x, double y, double width, double height )
     {
         if ( SelectionChanged is not null )
             await SelectionChanged.Invoke( new CropperSelectionChangedEventArgs( x, y, width, height ) );

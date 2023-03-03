@@ -12,7 +12,7 @@ public class CropperSelectionChangedEventArgs
     /// <param name="y">The y-axis coordinate of the selection.</param>
     /// <param name="width">The width of the selection.</param>
     /// <param name="height">The height of the selection.</param>
-    public CropperSelectionChangedEventArgs( int x, int y, int width, int height )
+    public CropperSelectionChangedEventArgs( double x, double y, double width, double height )
     {
         X = x;
         Y = y;
@@ -23,20 +23,20 @@ public class CropperSelectionChangedEventArgs
     /// <summary>
     /// Gets the x-axis coordinate of the selection.
     /// </summary>
-    public int X { get; }
+    public double X { get; }
 
     /// <summary>
     /// Gets the y-axis coordinate of the selection.
     /// </summary>
-    public int Y { get; }
+    public double Y { get; }
 
     /// <summary>
     /// Gets the width of the selection.
     /// </summary>
-    public int Width { get; }
+    public double Width { get; }
 
     /// <summary>
     /// Gets the height of the selection.
     /// </summary>
-    public int Height { get; }
+    public double Height { get; }
 }
