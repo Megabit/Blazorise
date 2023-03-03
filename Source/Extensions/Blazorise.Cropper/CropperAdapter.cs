@@ -28,5 +28,11 @@ internal class CropperAdapter
     public async ValueTask Zoom( double scale ) => await cropper.NotifyZoom( scale );
 
     [JSInvokable]
+    public async ValueTask SelectionChanged( int x, int y, int width, int height ) => await cropper.NotifySelectionChanged( x, y, width, height );
+
+    [JSInvokable]
     public async ValueTask SelectionChanged( double x, double y, double width, double height ) => await cropper.NotifySelectionChanged( x, y, width, height );
+
+    [JSInvokable]
+    public async ValueTask ImageReady() => await cropper.NotifyImageReady();
 }
