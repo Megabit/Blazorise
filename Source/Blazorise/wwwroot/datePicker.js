@@ -39,8 +39,8 @@ export function initialize(element, elementId, options) {
     const defaultOptions = {
         enableTime: options.inputMode === 1,
         dateFormat: options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d',
-        allowInput: true,
-        altInput: true,
+        allowInput: !(isMobile() && (options.disableMobile || false)),
+        altInput: !(isMobile() && (options.disableMobile || false)),
         altFormat: options.displayFormat ? options.displayFormat : (options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d'),
         defaultDate: options.defaultDate,
         minDate: options.min,
@@ -52,7 +52,7 @@ export function initialize(element, elementId, options) {
         clickOpens: !(options.readOnly || false),
         disable: options.disabledDates || [],
         inline: options.inline || false,
-        disableMobile: options.disableMobile || true,
+        disableMobile: options.disableMobile || false,
         static: true
     };
 
@@ -69,7 +69,7 @@ export function initialize(element, elementId, options) {
 
     const picker = flatpickr(element, Object.assign({}, defaultOptions, pluginOptions));
 
-    if (options) {
+    if (options && picker.altInput) {
         picker.altInput.disabled = options.disabled || false;
         picker.altInput.readOnly = options.readOnly || false;
     }
@@ -228,4 +228,10 @@ export function select(element, elementId, focus) {
     if (picker && picker.altInput) {
         utilities.select(picker.altInput, null, focus);
     }
+}
+
+function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+    );
 }
