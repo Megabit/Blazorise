@@ -218,6 +218,14 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
         => JSModule.Scale( ElementRef, ElementId, x, y );
 
     /// <summary>
+    /// Center the image.
+    /// </summary>
+    /// <param name="size">The size factor: null, contain or cover.</param>
+    /// <returns></returns>
+    public ValueTask Center( string size )
+        => JSModule.Center( ElementRef, ElementId, size );
+
+    /// <summary>
     /// Resets the selection to its initial position and size.
     /// </summary>
     /// <returns></returns>
@@ -242,7 +250,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
             await CropEnded.Invoke();
     }
 
-    internal async Task NotifyCrop( int startX, int startY, int endX, int endY )
+    internal async Task NotifyCrop( double startX, double startY, double endX, double endY )
     {
         if ( Cropped is not null )
             await Cropped.Invoke( new CropperCroppedEventArgs( startX, startY, endX, endY ) );
@@ -254,7 +262,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
             await Zoomed.Invoke( new CropperZoomedEventArgs( scale ) );
     }
 
-    internal async Task NotifySelectionChanged( int x, int y, int width, int height )
+    internal async Task NotifySelectionChanged( double x, double y, double width, double height )
     {
         if ( SelectionChanged is not null )
             await SelectionChanged.Invoke( new CropperSelectionChangedEventArgs( x, y, width, height ) );

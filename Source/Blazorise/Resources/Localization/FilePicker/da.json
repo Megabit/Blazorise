@@ -1,0 +1,19 @@
+{
+  "culture": "da",
+  "translations": {
+    "Ready to upload": "Klar til at uploade",
+    "Uploaded successfully": "Uploadet med succes",
+    "File size is too large": "Filstørrelsen er for stor",
+    "Error uploading": "Fejl ved upload",
+    "Or drop files here": "Eller slip filer her",
+    "Or drop files or folders here": "Eller slip filer eller mapper her",
+    "Clear": "Ryd",
+    "Upload": "Upload",
+    "Cancel": "Annuller",
+    "Confirm": "Bekræft",
+    "Remove": "Fjern",
+    "Are you sure you want to remove the file?": "Er du sikker på, at du vil fjerne filen?",
+    "Are you sure you want to clear all files?": "Er du sikker på, at du vil rydde alle filer?",
+    "Are you sure you want to cancel the upload?": "Er du sikker på, at du vil annullere upload?"
+  }
+}

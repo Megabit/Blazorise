@@ -251,6 +251,27 @@ export function scale(element, elementId, x, y) {
     }
 }
 
+export function center(element, elementId, size) {
+    const instance = _instances[elementId];
+
+    if (!instance)
+        return;
+
+    if (instance.cropper) {
+        const cropper = instance.cropper;
+        const cropperImage = cropper.getCropperImage();
+
+        if (cropperImage) {
+            if (size) {
+                cropperImage.$center(size);
+            }
+            else {
+                cropperImage.$center();
+            }
+        }
+    }
+}
+
 export function resetSelection(element, elementId) {
     const instance = _instances[elementId];
 

@@ -11,7 +11,7 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
     #region Properties
 
     protected override bool ShouldRender()
-        => false;
+        => RenderUpdates;
 
     protected bool HasCommandColumn
         => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
@@ -35,6 +35,8 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
     [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public bool RenderUpdates { get; set; }
 
     #endregion
 }

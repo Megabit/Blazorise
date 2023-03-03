@@ -96,6 +96,24 @@
                             </Buttons>
                         </FieldBody>
                     </Field>
+                    <Field>
+                        <FieldLabel>
+                            Center
+                        </FieldLabel>
+                        <FieldBody>
+                            <Buttons>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Center(default))">
+                                    Default
+                                </Button>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Center("contain"))">
+                                    Contain
+                                </Button>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Center("cover"))">
+                                    Cover
+                                </Button>
+                            </Buttons>
+                        </FieldBody>
+                    </Field>
                 </Fields>
             </CardBody>
             <CardBody>
