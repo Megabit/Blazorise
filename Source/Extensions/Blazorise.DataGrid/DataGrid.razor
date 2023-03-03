@@ -207,7 +207,7 @@
                 }
                 @if ( IsLoadingTemplateVisible )
                 {
-                    <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                    <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" RenderUpdates>
                         @LoadingTemplate
                     </_DataGridFullColumnSpanRow>
                 }
