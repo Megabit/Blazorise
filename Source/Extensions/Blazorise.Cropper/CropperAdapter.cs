@@ -1,4 +1,7 @@
-﻿namespace Blazorise.Cropper;
+﻿using System.Threading.Tasks;
+using Microsoft.JSInterop;
+
+namespace Blazorise.Cropper;
 
 internal class CropperAdapter
 {
