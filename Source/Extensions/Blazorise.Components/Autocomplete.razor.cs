@@ -376,7 +376,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 return;
             }
 
-            if ( ActiveItemIndex >= 0 )
+            if ( ActiveItemIndex >= 0 && DropdownVisible )
             {
                 if ( FilteredData?.Count > 0 )
                 {
