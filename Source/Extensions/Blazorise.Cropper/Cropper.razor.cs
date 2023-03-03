@@ -298,7 +298,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     [Parameter] public string Alt { get; set; }
 
     /// <summary>
-    /// The crossorigin attribute of the image.
+    /// The cross-origin attribute of the image.
     /// </summary>
     [Parameter] public string CrossOrigin { get; set; }
 
