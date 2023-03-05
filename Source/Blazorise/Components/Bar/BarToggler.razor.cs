@@ -21,9 +21,27 @@ public partial class BarToggler : BaseComponent
 
     private Bar bar;
 
+    /// <summary>
+    /// Holds the state for this bar component.
+    /// </summary>
+    private BarTogglerState state = new();
+
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override Task OnInitializedAsync()
+    {
+        if ( parentBarState is not null )
+        {
+            if ( parentBarState.BarTogglerState is null )
+                parentBarState.BarTogglerState = this.state;
+        }
+
+        return base.OnInitializedAsync();
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -73,10 +91,27 @@ public partial class BarToggler : BaseComponent
 
     #region Properties
 
+
+    /// <summary>
+    /// Gets the reference to the state object for this <see cref="BarToggler"/> component.
+    /// </summary>
+    protected BarTogglerState State => state;
+
     /// <summary>
     /// Occurs when the button is clicked.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter]
+    public EventCallback<MouseEventArgs> Clicked
+    {
+        get => state.Clicked;
+        set
+        {
+            if ( state.Clicked.Equals(value) )
+                return;
+
+            state.Clicked = value;
+        }
+    }
 
     /// <summary>
     /// Provides options for inline or popout styles. Only supported by Vertical Bar. Uses inline by default.
@@ -84,13 +119,13 @@ public partial class BarToggler : BaseComponent
     [Parameter]
     public BarTogglerMode Mode
     {
-        get => mode;
+        get => state.Mode;
         set
         {
-            if ( mode == value )
+            if ( state.Mode == value )
                 return;
 
-            mode = value;
+            state.Mode = value;
 
             DirtyClasses();
         }
@@ -102,13 +137,13 @@ public partial class BarToggler : BaseComponent
     [Parameter]
     public Bar Bar
     {
-        get => bar;
+        get => state.Bar;
         set
         {
-            if ( bar == value )
+            if ( state.Bar == value )
                 return;
 
-            bar = value;
+            state.Bar = value;
 
             DirtyClasses();
         }

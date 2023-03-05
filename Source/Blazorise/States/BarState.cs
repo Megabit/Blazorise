@@ -1,4 +1,7 @@
-﻿namespace Blazorise.States;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+
+namespace Blazorise.States;
 
 /// <summary>
 /// Holds the information about the current state of the <see cref="Bar"/> component.
@@ -39,4 +42,9 @@ public record BarState
     /// Defines the alignment within bar.
     /// </summary>
     public Alignment Alignment { get; init; }
+
+    /// <summary>
+    /// Tracks the Bar Toggler State.
+    /// </summary>
+    public BarTogglerState BarTogglerState { get; set; }
 }
