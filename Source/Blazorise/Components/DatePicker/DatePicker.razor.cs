@@ -10,6 +10,7 @@ using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -20,6 +21,12 @@ namespace Blazorise;
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="DatePicker{TValue}"/> property.</typeparam>
 public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, IAsyncDisposable
 {
+    #region Members
+
+    private DotNetObjectReference<DatePicker<TValue>> dotNetObjectRef;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -117,6 +124,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
+        dotNetObjectRef ??= CreateDotNetObjectRef( this );
         object defaultDate = null;
 
         // for multiple mode default dates must be set as array
@@ -141,7 +149,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             Localization = GetLocalizationObject(),
             Inline,
             DisableMobile
-        } );
+        }, dotNetObjectRef );
 
         await base.OnFirstAfterRenderAsync();
     }
@@ -177,6 +185,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     }
 
     /// <inheritdoc/>
+    [JSInvokable]
     protected async Task OnClickHandler( MouseEventArgs e )
     {
         if ( Disabled || ReadOnly )
@@ -256,16 +265,48 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             }
         }
     }
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        return KeyDown.InvokeAsync( eventArgs );
+    }
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new Task OnKeyUpHandler( KeyboardEventArgs eventArgs )
+    {
+        return KeyUp.InvokeAsync( eventArgs );
+    }
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new Task OnFocusHandler( FocusEventArgs eventArgs )
+    {
+        return OnFocus.InvokeAsync( eventArgs );
+    }
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new Task OnFocusInHandler( FocusEventArgs eventArgs )
+    {
+        return FocusIn.InvokeAsync( eventArgs );
+    }
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new Task OnFocusOutHandler( FocusEventArgs eventArgs )
+    {
+        return FocusOut.InvokeAsync( eventArgs );
+    }
 
     /// <inheritdoc/>
-    protected override Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
+    [JSInvokable]
+    public new Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
     {
         // just call eventcallback without using debouncer in BaseTextInput
         return KeyPress.InvokeAsync( eventArgs );
     }
 
     /// <inheritdoc/>
-    protected override Task OnBlurHandler( FocusEventArgs eventArgs )
+    [JSInvokable]
+    public new Task OnBlurHandler( FocusEventArgs eventArgs )
     {
         // just call eventcallback without using debouncer in BaseTextInput
         return Blur.InvokeAsync( eventArgs );
