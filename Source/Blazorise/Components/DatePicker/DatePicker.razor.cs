@@ -267,38 +267,38 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     }
     /// <inheritdoc/>
     [JSInvokable]
-    public new Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
+    public new virtual Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
     {
         return KeyDown.InvokeAsync( eventArgs );
     }
     /// <inheritdoc/>
     [JSInvokable]
-    public new Task OnKeyUpHandler( KeyboardEventArgs eventArgs )
+    public new virtual Task OnKeyUpHandler( KeyboardEventArgs eventArgs )
     {
         return KeyUp.InvokeAsync( eventArgs );
     }
     /// <inheritdoc/>
     [JSInvokable]
-    public new Task OnFocusHandler( FocusEventArgs eventArgs )
+    public new virtual Task OnFocusHandler( FocusEventArgs eventArgs )
     {
         return OnFocus.InvokeAsync( eventArgs );
     }
     /// <inheritdoc/>
     [JSInvokable]
-    public new Task OnFocusInHandler( FocusEventArgs eventArgs )
+    public new virtual Task OnFocusInHandler( FocusEventArgs eventArgs )
     {
         return FocusIn.InvokeAsync( eventArgs );
     }
     /// <inheritdoc/>
     [JSInvokable]
-    public new Task OnFocusOutHandler( FocusEventArgs eventArgs )
+    public new virtual Task OnFocusOutHandler( FocusEventArgs eventArgs )
     {
         return FocusOut.InvokeAsync( eventArgs );
     }
 
     /// <inheritdoc/>
     [JSInvokable]
-    public new Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
+    public new virtual Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
     {
         // just call eventcallback without using debouncer in BaseTextInput
         return KeyPress.InvokeAsync( eventArgs );
