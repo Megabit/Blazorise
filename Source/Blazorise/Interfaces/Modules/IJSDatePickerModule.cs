@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Modules;
@@ -14,11 +15,12 @@ public interface IJSDatePickerModule : IBaseJSModule,
     /// <summary>
     /// Initializes the new <see cref="DatePicker{TValue}"/> within the JS module.
     /// </summary>
+    /// <param name="dotNetObjectReference">Reference to the date adapter.</param>
     /// <param name="elementRef">Reference to the rendered element.</param>
     /// <param name="elementId">ID of the rendered element.</param>
     /// <param name="options">Additional options for the tooltip initialization.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    ValueTask Initialize( ElementReference elementRef, string elementId, object options );
+    ValueTask Initialize( DotNetObjectReference<DatePickerAdapter> dotNetObjectReference, ElementReference elementRef, string elementId, object options );
 
     /// <summary>
     /// Activates the <see cref="DatePicker{TValue}"/>.
