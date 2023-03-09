@@ -147,7 +147,6 @@ function blurHandler(e) {
     }
 }
 
-
 export function destroy(element, elementId) {
     const instances = _pickers || {};
 
