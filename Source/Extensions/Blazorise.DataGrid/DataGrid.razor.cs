@@ -891,16 +891,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
         }
 
-        // reset sorting
-        foreach ( var column in SortByColumns )
-        {
-            column.CurrentSortDirection = SortDirection.Default;
-            await column.ResetSortOrder();
-        }
+        await ResetSorting();
 
-        SortByColumns.Clear();
-
-        // apply new sorting
         var columnTuples = columns
             .Select( ( x, idx ) => (
                 Column: Columns.FirstOrDefault( c => c.Field == x.Field ),
@@ -931,6 +923,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     .ToList() ) );
 
         await Reload();
+    }
+
+    private async Task ResetSorting()
+    {
+        foreach (var column in SortByColumns)
+        {
+            column.CurrentSortDirection = SortDirection.Default;
+            await column.ResetSortOrder();
+        }
+
+        SortByColumns.Clear();
     }
 
     /// <summary>
