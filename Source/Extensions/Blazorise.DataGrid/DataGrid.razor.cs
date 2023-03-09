@@ -899,16 +899,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 Direction: x.SortDirection,
                 SortOrder: idx ) )
             .Where( x => x.Column is { Sortable: true } &&
-                         x.Direction != SortDirection.Default );
+                         x.Direction != SortDirection.Default )
+            .DistinctBy(x => x.Column.GetFieldToSort());
 
         foreach ( var (column, direction, sortOrder) in columnTuples )
         {
-            if ( SortByColumns.All( x => x.GetFieldToSort() != column.GetFieldToSort() ) )
-            {
-                column.CurrentSortDirection = direction;
-                await column.SetSortOrder( sortOrder );
-                SortByColumns.Add( column );
-            }
+            column.CurrentSortDirection = direction;
+            await column.SetSortOrder( sortOrder );
+            SortByColumns.Add( column );
         }
 
         await SortOrderChanged.InvokeAsync(
