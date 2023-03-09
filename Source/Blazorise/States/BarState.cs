@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-
-namespace Blazorise.States;
+﻿namespace Blazorise.States;
 
 /// <summary>
 /// Holds the information about the current state of the <see cref="Bar"/> component.
