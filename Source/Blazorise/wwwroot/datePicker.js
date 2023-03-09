@@ -3,7 +3,7 @@ import * as utilities from "./utilities.js?v=1.2.1.0";
 
 const _pickers = [];
 
-export function initialize(element, elementId, options, dotnetAdapter) {
+export function initialize(dotnetAdapter, element, elementId, options) {
     element = utilities.getRequiredElement(element, elementId);
 
     if (!element)
@@ -85,8 +85,7 @@ export function initialize(element, elementId, options, dotnetAdapter) {
     _pickers[elementId] = picker;
 }
 
-function attachEventHandlers(picker)
-{
+function attachEventHandlers(picker) {
     picker.addEventListener("keydown", keyDownHandler);
     picker.addEventListener("keyup", keyUpHandler);
     picker.addEventListener("focus", focusHandler);
@@ -96,8 +95,7 @@ function attachEventHandlers(picker)
     picker.addEventListener("blur", blurHandler);
 }
 
-function removeEventHandlers(picker)
-{
+function removeEventHandlers(picker) {
     picker.removeEventListener("keydown", keyDownHandler);
     picker.removeEventListener("keyup", keyUpHandler);
     picker.removeEventListener("focus", focusHandler);
@@ -107,8 +105,7 @@ function removeEventHandlers(picker)
     picker.removeEventListener("blur", blurHandler);
 }
 
-function keyDownHandler(e)
-{
+function keyDownHandler(e) {
     if (e.target.dotnetAdapter) {
         e.target.dotnetAdapter.invokeMethodAsync("OnKeyDownHandler", e);
     }

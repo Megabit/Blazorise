@@ -19,11 +19,11 @@ namespace Blazorise;
 /// An editor that displays a date value and allows a user to edit the value.
 /// </summary>
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="DatePicker{TValue}"/> property.</typeparam>
-public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, IAsyncDisposable
+public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, IAsyncDisposable, IDatePicker
 {
     #region Members
 
-    private DotNetObjectReference<DatePicker<TValue>> dotNetObjectRef;
+    private DotNetObjectReference<DatePickerAdapter> dotNetObjectRef;
 
     #endregion
 
@@ -124,7 +124,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
-        dotNetObjectRef ??= CreateDotNetObjectRef( this );
+        dotNetObjectRef ??= CreateDotNetObjectRef( new DatePickerAdapter( this ) );
         object defaultDate = null;
 
         // for multiple mode default dates must be set as array
@@ -133,7 +133,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         else
             defaultDate = FormatValueAsString( new TValue[] { Date } );
 
-        await JSModule.Initialize( ElementRef, ElementId, new
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
         {
             InputMode,
             SelectionMode = SelectionMode.ToDateInputSelectionMode(),
@@ -149,7 +149,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             Localization = GetLocalizationObject(),
             Inline,
             DisableMobile
-        }, dotNetObjectRef );
+        } );
 
         await base.OnFirstAfterRenderAsync();
     }
@@ -160,6 +160,9 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         if ( disposing && Rendered )
         {
             await JSModule.SafeDestroy( ElementRef, ElementId );
+
+            DisposeDotNetObjectRef( dotNetObjectRef );
+            dotNetObjectRef = null;
 
             LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
@@ -271,24 +274,28 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     {
         return KeyDown.InvokeAsync( eventArgs );
     }
+
     /// <inheritdoc/>
     [JSInvokable]
     public new virtual Task OnKeyUpHandler( KeyboardEventArgs eventArgs )
     {
         return KeyUp.InvokeAsync( eventArgs );
     }
+
     /// <inheritdoc/>
     [JSInvokable]
     public new virtual Task OnFocusHandler( FocusEventArgs eventArgs )
     {
         return OnFocus.InvokeAsync( eventArgs );
     }
+
     /// <inheritdoc/>
     [JSInvokable]
     public new virtual Task OnFocusInHandler( FocusEventArgs eventArgs )
     {
         return FocusIn.InvokeAsync( eventArgs );
     }
+
     /// <inheritdoc/>
     [JSInvokable]
     public new virtual Task OnFocusOutHandler( FocusEventArgs eventArgs )
@@ -306,7 +313,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
 
     /// <inheritdoc/>
     [JSInvokable]
-    public new Task OnBlurHandler( FocusEventArgs eventArgs )
+    public new virtual Task OnBlurHandler( FocusEventArgs eventArgs )
     {
         // just call eventcallback without using debouncer in BaseTextInput
         return Blur.InvokeAsync( eventArgs );
