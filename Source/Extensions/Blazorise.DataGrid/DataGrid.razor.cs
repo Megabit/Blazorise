@@ -863,7 +863,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
 
     /// <summary>
-    /// Replaces the current sorting with the given sort order
+    /// Applies a new sorting definition to the Datagrid. Replaces the current sorting.
     /// </summary>
     /// <param name="columns">Columns used for sorting</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
