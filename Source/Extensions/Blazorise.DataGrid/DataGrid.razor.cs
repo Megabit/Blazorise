@@ -903,7 +903,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         // apply new sorting
         var columnTuples = columns
             .Select( ( x, idx ) => (
-                Column: Columns.SingleOrDefault( c => c.Field == x.Field ),
+                Column: Columns.FirstOrDefault( c => c.Field == x.Field ),
                 Direction: x.SortDirection,
                 SortOrder: idx ) )
             .Where( x => x.Column is { Sortable: true } &&
