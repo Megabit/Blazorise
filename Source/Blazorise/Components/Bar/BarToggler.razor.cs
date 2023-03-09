@@ -26,7 +26,6 @@ public partial class BarToggler : BaseComponent
     /// </summary>
     private BarTogglerState state = new();
 
-
     #endregion
 
     #region Methods
@@ -91,7 +90,6 @@ public partial class BarToggler : BaseComponent
 
     #region Properties
 
-
     /// <summary>
     /// Gets the reference to the state object for this <see cref="BarToggler"/> component.
     /// </summary>
@@ -106,7 +104,7 @@ public partial class BarToggler : BaseComponent
         get => state.Clicked;
         set
         {
-            if ( state.Clicked.Equals(value) )
+            if ( state.Clicked.Equals( value ) )
                 return;
 
             state.Clicked = value;

@@ -8,7 +8,6 @@ namespace Blazorise.States;
 /// </summary>
 public record BarTogglerState
 {
-
     /// <summary>
     /// Occurs when the button is clicked.
     /// </summary>
@@ -22,7 +21,5 @@ public record BarTogglerState
     /// <summary>
     /// Controls which <see cref="Bar"/> will be toggled. Uses parent <see cref="Bar"/> by default. 
     /// </summary>
-    
     public Bar Bar { get; set; }
-    
 }

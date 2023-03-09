@@ -44,7 +44,7 @@ public record BarState
     public Alignment Alignment { get; init; }
 
     /// <summary>
-    /// Tracks the Bar Toggler State.
+    /// Tracks the <see cref="BarToggler"/> State.
     /// </summary>
     public BarTogglerState BarTogglerState { get; set; }
 }
