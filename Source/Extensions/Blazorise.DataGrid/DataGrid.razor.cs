@@ -1459,17 +1459,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             column.ResetSortOrder();
         }
 
-        Task RaiseSortChanged() =>
-            SortChanged.InvokeAsync( new DataGridSortChangedEventArgs(
-                column.GetFieldToSort(),
-                column.Field,
-                column.CurrentSortDirection ) );
+        static Task RaiseSortChanged(DataGrid<TItem> dataGrid, DataGridColumn<TItem> c) =>
+            dataGrid.SortChanged.InvokeAsync( new DataGridSortChangedEventArgs(
+                c.GetFieldToSort(),
+                c.Field,
+                c.CurrentSortDirection ) );
 
-        Task RaiseSortOrderChanged() =>
-            SortOrderChanged.InvokeAsync(
+        static Task RaiseSortOrderChanged(DataGrid<TItem> dataGrid) =>
+            dataGrid.SortOrderChanged.InvokeAsync(
                 new DataGridSortOrderChangedEventArgs(
-                    SortMode,
-                    SortByColumns.Select( c => new DataGridSortInfo(
+                    dataGrid.SortMode,
+                    dataGrid.SortByColumns.Select( c => new DataGridSortInfo(
                             c.Field,
                             c.GetFieldToSort(),
                             c.CurrentSortDirection,
@@ -1481,13 +1481,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             _ = InvokeAsync( async () =>
             {
-                await RaiseSortChanged();
-                await RaiseSortOrderChanged();
+                await RaiseSortChanged(this, column);
+                await RaiseSortOrderChanged(this);
             } );
         }
         else if ( !suppressSortOrderChangedEvent )
         {
-            _ = InvokeAsync( RaiseSortOrderChanged );
+            _ = InvokeAsync( () => RaiseSortOrderChanged(this) );
         }
     }
 
