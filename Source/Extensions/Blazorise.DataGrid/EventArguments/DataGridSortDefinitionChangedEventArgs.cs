@@ -7,25 +7,25 @@ namespace Blazorise.DataGrid;
 /// <summary>
 /// Provides information about the DataGrid's sort order
 /// </summary>
-public class DataGridSortOrderChangedEventArgs
+public class DataGridSortDefinitionChangedEventArgs
 {
     /// <inheritdoc cref="DataGrid{TItem}.SortMode"/>
     public DataGridSortMode SortMode { get; init; }
 
     /// <summary>
-    /// A collection of <see cref="SortOrder"/> items. Contains all columns by which to sort.
+    /// A collection of <see cref="SortDefinition"/> items. Contains all columns by which to sort.
     /// </summary>
     /// <remarks>Returns an empty list if no sorting is applied.</remarks>
-    public IReadOnlyCollection<DataGridSortInfo> SortOrder { get; init; }
+    public IReadOnlyCollection<DataGridSortDefinition> SortDefinition { get; init; }
 
     /// <summary>
     /// Creates a new instance
     /// </summary>
     /// <param name="sortMode"><inheritdoc cref="SortMode"/></param>
-    /// <param name="sortOrder"><inheritdoc cref="SortOrder"/></param>
-    public DataGridSortOrderChangedEventArgs( DataGridSortMode sortMode, IReadOnlyCollection<DataGridSortInfo> sortOrder )
+    /// <param name="sortDefinition"><inheritdoc cref="SortDefinition"/></param>
+    public DataGridSortDefinitionChangedEventArgs( DataGridSortMode sortMode, IReadOnlyCollection<DataGridSortDefinition> sortDefinition )
     {
         SortMode = sortMode;
-        SortOrder = sortOrder;
+        SortDefinition = sortDefinition;
     }
 }

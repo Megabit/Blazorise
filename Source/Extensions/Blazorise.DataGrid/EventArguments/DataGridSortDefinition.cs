@@ -1,9 +1,9 @@
 ﻿namespace Blazorise.DataGrid;
 
 /// <summary>
-/// Holds the sort order information of a specific column
+/// Holds the sort order and sort direction information of a specific column
 /// </summary>
-public class DataGridSortInfo
+public class DataGridSortDefinition
 {
     /// <summary>
     /// Initializes a new instance
@@ -12,7 +12,7 @@ public class DataGridSortInfo
     /// <param name="sortField">Sort field name of the column.</param>
     /// <param name="sortDirection"><inheritdoc cref="SortDirection"/></param>
     /// <param name="sortOrder">Sort index of the column.</param>
-    public DataGridSortInfo( string field, string sortField, SortDirection sortDirection, int sortOrder )
+    public DataGridSortDefinition( string field, string sortField, SortDirection sortDirection, int sortOrder )
     {
         Field = field;
         SortField = sortField;

@@ -4,8 +4,8 @@
           ShowPageSizes
           Sortable
           SortMode="@SortMode"
-          SortChanged="OnSortChanged"
-          SortOrderChanged="SortOrderChanged"
+          SortChanged="SortChanged"
+          SortDefinitionChanged="SortDefinitionChanged"
           Editable
           EditMode="@DataGridEditMode">
     <DataGridColumns>
@@ -64,7 +64,7 @@
     public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
 
     [Parameter]
-    public EventCallback<DataGridSortOrderChangedEventArgs> SortOrderChanged { get; set; }
+    public EventCallback<DataGridSortDefinitionChangedEventArgs> SortDefinitionChanged { get; set; }
 
     [Parameter]
     public DataGridSortMode SortMode { get; set; } = DataGridSortMode.Multiple;
@@ -94,8 +94,4 @@
         }
 
     }
-
-    private Task OnSortChanged(DataGridSortChangedEventArgs args) => SortChanged.InvokeAsync(args);
-
-    private Task OnSortOrderChanged(DataGridSortOrderChangedEventArgs args) => SortOrderChanged.InvokeAsync(args);
 }

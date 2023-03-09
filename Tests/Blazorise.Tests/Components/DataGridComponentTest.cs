@@ -106,15 +106,15 @@ public class DataGridComponentTest : TestContext
     }
 
     [Fact]
-    public async Task SortByField_Should_RaiseSortOrderChangedEvent()
+    public async Task SortByField_Should_RaiseSortDefinitionChangedEvent()
     {
         // setup
-        var sortOrderChanged = new List<DataGridSortOrderChangedEventArgs>();
+        var sortDefinitionChanged = new List<DataGridSortDefinitionChangedEventArgs>();
         var comp = RenderComponent<DataGridComponent>( parameters =>
         {
             parameters.Add(
-                parameterSelector: x => x.SortOrderChanged,
-                callback: e => sortOrderChanged.Add( e ) );
+                parameterSelector: x => x.SortDefinitionChanged,
+                callback: e => sortDefinitionChanged.Add( e ) );
         } );
 
         // test
@@ -127,14 +127,14 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        sortOrderChanged
+        sortDefinitionChanged
             .Should().HaveCount( 1 )
             .And
-            .ContainEquivalentOf( new DataGridSortOrderChangedEventArgs(
+            .ContainEquivalentOf( new DataGridSortDefinitionChangedEventArgs(
                 sortMode: DataGridSortMode.Multiple,
-                sortOrder: new[]
+                sortDefinition: new[]
                 {
-                    new DataGridSortInfo(
+                    new DataGridSortDefinition(
                         field: nameof(Employee.Fraction),
                         sortField: nameof(Employee.FractionValue),
                         sortDirection: SortDirection.Descending,
@@ -194,15 +194,15 @@ public class DataGridComponentTest : TestContext
     }
 
     [Fact]
-    public async Task ApplySorting_Multiple_Should_RaiseSortOrderChangedEvent()
+    public async Task ApplySorting_Multiple_Should_RaiseSortDefinitionChangedEvent()
     {
         // setup
-        var sortOrderChanged = new List<DataGridSortOrderChangedEventArgs>();
+        var sortDefinitionChanged = new List<DataGridSortDefinitionChangedEventArgs>();
         var comp = RenderComponent<DataGridComponent>( parameters =>
         {
             parameters.Add(
-                parameterSelector: x => x.SortOrderChanged,
-                callback: e => sortOrderChanged.Add( e ) );
+                parameterSelector: x => x.SortDefinitionChanged,
+                callback: e => sortDefinitionChanged.Add( e ) );
         } );
 
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
@@ -218,19 +218,19 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        sortOrderChanged
+        sortDefinitionChanged
             .Should().HaveCount( 1 )
             .And
-            .ContainEquivalentOf( new DataGridSortOrderChangedEventArgs(
+            .ContainEquivalentOf( new DataGridSortDefinitionChangedEventArgs(
                 sortMode: DataGridSortMode.Multiple,
-                sortOrder: new[]
+                sortDefinition: new[]
                 {
-                    new DataGridSortInfo(
+                    new DataGridSortDefinition(
                         field: nameof(Employee.Name),
                         sortField: nameof(Employee.Name),
                         sortDirection: SortDirection.Ascending,
                         sortOrder: 0 ),
-                    new DataGridSortInfo(
+                    new DataGridSortDefinition(
                         field: nameof(Employee.Fraction),
                         sortField: nameof(Employee.FractionValue),
                         sortDirection: SortDirection.Descending,
@@ -298,16 +298,16 @@ public class DataGridComponentTest : TestContext
     }
 
     [Fact]
-    public async Task ApplySorting_Single_Should_RaiseSortOrderChangedEvent()
+    public async Task ApplySorting_Single_Should_RaiseSortDefinitionChangedEvent()
     {
         // setup
-        var sortOrderChanged = new List<DataGridSortOrderChangedEventArgs>();
+        var sortDefinitionChanged = new List<DataGridSortDefinitionChangedEventArgs>();
         var comp = RenderComponent<DataGridComponent>( parameters =>
         {
             parameters.Add( x => x.SortMode, DataGridSortMode.Single );
             parameters.Add(
-                parameterSelector: x => x.SortOrderChanged,
-                callback: e => sortOrderChanged.Add( e ) );
+                parameterSelector: x => x.SortDefinitionChanged,
+                callback: e => sortDefinitionChanged.Add( e ) );
         } );
 
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
@@ -320,14 +320,14 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        sortOrderChanged
+        sortDefinitionChanged
             .Should().HaveCount( 1 )
             .And
-            .ContainEquivalentOf( new DataGridSortOrderChangedEventArgs(
+            .ContainEquivalentOf( new DataGridSortDefinitionChangedEventArgs(
                 sortMode: DataGridSortMode.Single,
-                sortOrder: new[]
+                sortDefinition: new[]
                 {
-                    new DataGridSortInfo(
+                    new DataGridSortDefinition(
                         field: nameof(Employee.Name),
                         sortField: nameof(Employee.Name),
                         sortDirection: SortDirection.Descending,
@@ -337,15 +337,15 @@ public class DataGridComponentTest : TestContext
     }
 
     [Fact]
-    public async Task RemoveColumn_Should_RaiseSortOrderChanged()
+    public async Task RemoveColumn_Should_RaiseSortDefinitionChanged()
     {
         // setup
-        var sortOrderChanged = new List<DataGridSortOrderChangedEventArgs>();
+        var sortDefinitionChanged = new List<DataGridSortDefinitionChangedEventArgs>();
         var comp = RenderComponent<DataGridComponent>( parameters =>
         {
             parameters.Add(
-                parameterSelector: x => x.SortOrderChanged,
-                callback: e => sortOrderChanged.Add( e ) );
+                parameterSelector: x => x.SortDefinitionChanged,
+                callback: e => sortDefinitionChanged.Add( e ) );
         } );
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
         var column = dataGrid
@@ -362,12 +362,12 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        sortOrderChanged
+        sortDefinitionChanged
             .Should().HaveCount( 1 )
             .And
-            .ContainEquivalentOf( new DataGridSortOrderChangedEventArgs(
+            .ContainEquivalentOf( new DataGridSortDefinitionChangedEventArgs(
                 sortMode: DataGridSortMode.Multiple,
-                sortOrder: Array.Empty<DataGridSortInfo>() )
+                sortDefinition: Array.Empty<DataGridSortDefinition>() )
             );
     }
 
