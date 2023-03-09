@@ -872,20 +872,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// If more than one column is specified, <see cref="SortMode"/> must be <see cref="DataGridSortMode.Multiple"/>
     /// </remarks>
     public async Task ApplySorting(params DataGridSortColumn[] columns ) {
-        if ( columns.Length > 1 && SortMode == DataGridSortMode.Single )
-        {
-            throw new ArgumentException(
-                $"Cannot sort on multiple columns when {nameof(SortMode)} is {nameof(DataGridSortMode.Single)}." );
-        }
+        if ( !Sortable ) return;
 
         if ( SortMode == DataGridSortMode.Single )
         {
-            if ( columns.Length == 1 )
+            if ( columns.Length >= 1 )
             {
+                // Sort the DataGrid based on the first column passed
                 await Sort( columns[0].Field, columns[0].SortDirection );
             }
             else if ( SortByColumns.Count == 1 )
             {
+                // If the user has not passed any columns and the DataGrid is currently sorted
+                // by a column, use the data-source's default sort order.
                 await Sort( SortByColumns[0].Field, SortDirection.Default );
             }
 
