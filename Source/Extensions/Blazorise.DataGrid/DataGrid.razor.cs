@@ -2346,7 +2346,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
 
     /// <summary>
-    /// Occurs after the column sorting has changed.
+    /// Occurs when the sort order, sort direction, or number of columns to sort changes.
     /// </summary>
     [Parameter] public EventCallback<DataGridSortOrderChangedEventArgs> SortOrderChanged { get; set; }
 
