@@ -18,12 +18,6 @@ public class DataGridSortColumn
     /// <summary>
     /// Creates a new instance
     /// </summary>
-    public DataGridSortColumn()
-    { }
-
-    /// <summary>
-    /// Creates a new instance
-    /// </summary>
     /// <param name="field"><inheritdoc cref="Field"/></param>
     /// <param name="sortDirection"><inheritdoc cref="SortDirection"/></param>
     public DataGridSortColumn( string field, SortDirection sortDirection )
