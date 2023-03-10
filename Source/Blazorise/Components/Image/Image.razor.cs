@@ -46,7 +46,7 @@ public partial class Image : BaseComponent
     [Parameter] public bool Fluid { get; set; }
 
     /// <summary>
-    /// Loading makes image to load.
+    /// Defers loading the image until it reaches a calculated distance from the viewport.
     /// </summary>
     [Parameter] public bool Loading { get; set; }
 
