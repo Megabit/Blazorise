@@ -1,6 +1,3 @@
-﻿#region Using directives
-#endregion
-
 namespace Blazorise.Components;
 
 /// <summary>
