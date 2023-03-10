@@ -346,6 +346,17 @@ input.form-control[type=color] {
   padding: calc(1.1875rem - 1px) 1.15rem;
 }
 
+.input-group > .b-numeric:not(:last-child) > input,
+.input-group > .flatpickr-wrapper:not(:last-child) > input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.input-group > .b-numeric:not(:first-child) > input,
+.input-group > .flatpickr-wrapper:not(:first-child) > input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .input-group-xs > .form-control,
 .input-group-xs > .custom-select,
 .input-group-xs > .b-numeric > .form-control {
@@ -412,6 +423,15 @@ input.form-control[type=color] {
 .input-group-xl > .input-group-prepend > .input-group-text {
   font-size: 1.75rem;
   line-height: 1.5;
+}
+
+.input-group > div.flatpickr-wrapper > .form-control,
+.input-group > div.flatpickr-wrapper > .form-control-plaintext {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+  margin-bottom: 0;
 }
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label::before {
