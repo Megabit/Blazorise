@@ -2220,6 +2220,14 @@ public class Gender
     string sentence = ""\""There will be no foolish wand-waving or silly incantations in this class. As such, I don't expect many of you to appreciate the subtle science and exact art that is potion-making. However, for those select few who possess the predisposition, I can teach you how to bewitch the mind and ensnare the senses. I can tell you how to bottle fame, brew glory, and even put a stopper in death. Then again, maybe some of you have come to Hogwarts in possession of abilities so formidable that you feel confident enough to not pay attention!\"" — Severus Snape"";
 }";
 
+        public const string BasicImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/placeholders/image-1@2x.jpg"" Height=""Height.Is50""/>";
+
+        public const string FluidImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/placeholders/image-1@2x.jpg"" Height=""Height.Is75"" Fluid />";
+
+        public const string LoadingImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/placeholders/image-4@2x.jpg"" Height=""Height.Is75"" Loading=true />";
+
+        public const string TextImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/placeholders/image-1@2x.jpg"" Height=""Height.Is50"" Text=""Alternative text..."" />";
+
         public const string AliasInputMaskExample = @"<InputMask Alias=""datetime"" InputFormat=""dd/mm/yyyy"" OutputFormat=""ddmmyyyy"" />";
 
         public const string BasicInputMaskExample = @"<InputMask Mask=""99-9999999"" />";

@@ -1,0 +1,82 @@
+﻿@page "/docs/components/image"
+
+<Seo Canonical="/docs/components/image" Title="Blazorise Image component" Description="Learn to use and work with the Blazorise Image component." />
+
+<DocsPageTitle Path="Components/Image">
+    Blazorise Image component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Images are a binary representation of visual data.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    An <Code Tag>Image</Code> component is a visual representation of something, while a digital image is a binary representation of visual data. For this purpose, an image is a picture that was created or copied and stored in electronic form. 
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Source">
+        Simply set the <Code>Source</Code> attribute and you’re good to go.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicImageExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicImageExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Loading">
+        Add parameter <Code>Loading</Code> to enable image to dinamicaly load when you scroll to that <Code>Image</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LoadingImageExample></LoadingImageExample>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LoadingImageExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fluid">
+        The <Code>Fluid</Code> Forces an image to take up the whole width.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <FluidImageExample></FluidImageExample>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="FluidImageExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Text">
+        The parameter <Code>Text</Code> gives alternate text for an image.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+       <TextImageExample></TextImageExample>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TextImageExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Source" Type="string" Default="null">
+        Source atribute sis used to fing image that we want to show up.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Loading" Type="bool" Default="false">
+        Simply load the image after moving it to it's position
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Fluid" Type="bool" Default="false">
+        Forces an image to take up the whole width of parent component.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Text" Type="string" Default="null">
+        Alternative text for image.
+    </DocsAttributesItem>
+</DocsAttributes>

@@ -26,6 +26,11 @@ public partial class Image : BaseComponent
     #region Properties
 
     /// <summary>
+    /// Give the string representing lazy loading.
+    /// </summary>
+    protected string LoadingString => Loading ? "lazy" : null;
+
+    /// <summary>
     /// The absolute or relative URL of the image.
     /// </summary>
     [Parameter] public string Source { get; set; }
@@ -39,6 +44,11 @@ public partial class Image : BaseComponent
     /// Forces an image to take up the whole width.
     /// </summary>
     [Parameter] public bool Fluid { get; set; }
+
+    /// <summary>
+    /// Loading makes image to load.
+    /// </summary>
+    [Parameter] public bool Loading { get; set; }
 
     #endregion
 }
