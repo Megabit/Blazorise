@@ -871,6 +871,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         canShowDropDown = false;
         await ResetActiveItemIndex();
+
+        await Closed.InvokeAsync( new AutocompleteCloseEventArgs(closeReason) );
     }
 
     /// <summary>
@@ -888,10 +890,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Opens the <see cref="Autocomplete{TItem, TValue}"/> Dropdown.
     /// </summary>
     /// <returns></returns>
-    private Task Open()
+    private async Task Open()
     {
         canShowDropDown = true;
-        return Task.CompletedTask;
+
+        await Opened.InvokeAsync();
     }
 
     /// <summary>
@@ -1209,6 +1212,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Event handler used to load data manually based on the current search value.
     /// </summary>
     [Parameter] public EventCallback<AutocompleteReadDataEventArgs> ReadData { get; set; }
+
+    /// <summary>
+    /// Event handler used to detect when the autocomplete is closed.
+    /// </summary>
+    [Parameter] public EventCallback<AutocompleteCloseEventArgs> Closed { get; set; }
+
+    /// <summary>
+    /// Event handler used to detect when the autocomplete is opened.
+    /// </summary>
+    [Parameter] public EventCallback Opened { get; set; }
 
 
     /// <summary>
