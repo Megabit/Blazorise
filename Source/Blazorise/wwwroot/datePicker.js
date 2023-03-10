@@ -53,7 +53,7 @@ export function initialize(element, elementId, options) {
         disable: options.disabledDates || [],
         inline: options.inline || false,
         disableMobile: options.disableMobile || true,
-        static: true
+        static: options.staticPicker 
     };
 
     if (options.selectionMode)
@@ -154,6 +154,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.disableMobile.changed) {
             picker.set("disableMobile", options.disableMobile.value || true);
+        }
+
+        if (options.staticPicker.changed) {
+            picker.set("staticPicker", options.staticPicker.value);
         }
     }
 }

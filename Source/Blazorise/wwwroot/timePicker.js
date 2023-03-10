@@ -50,7 +50,7 @@ export function initialize(element, elementId, options) {
         clickOpens: !(options.readOnly || false),
         locale: options.localization || {},
         inline: options.inline || false,
-        static: true
+        static: options.staticPicker
     });
 
     if (options) {
@@ -112,6 +112,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.inline.changed) {
             picker.set("inline", options.inline.value || false);
+        }
+
+        if (options.staticPicker.changed) {
+            picker.set("staticPicker", options.staticPicker.value);
         }
     }
 }

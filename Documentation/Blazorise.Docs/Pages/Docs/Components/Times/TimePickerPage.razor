@@ -53,6 +53,16 @@
     <DocsPageSectionSource Code="InlineTimePickerExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Non Static example">
+        The static parameter allows the position of the TimeInput to always be static, and in case you want to disable it, you should assign the value false to the <code>StaticPicker</code> parameter
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimePickerNonStaticExample/>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimePickerNonStaticExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
@@ -88,5 +98,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Inline" Type="bool" Default="false">
         Display the time menu in an always-open state with the inline option.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="StaticPicker" Type="bool" Default="true">
+        StaticPicker is a parameter that enables the TimeInput to have it's position static.
     </DocsAttributesItem>
 </DocsAttributes>

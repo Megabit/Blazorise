@@ -40,6 +40,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
             var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
             var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
+            var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
 
             if ( dateChanged || datesChanged )
             {
@@ -65,7 +66,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                  || disabledDatesChanged
                  || selectionModeChanged
                  || inlineChanged
-                 || disableMobileChanged )
+                 || disableMobileChanged
+                 || staticPickerChanged)
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
@@ -80,6 +82,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     SelectionMode = new { Changed = selectionModeChanged, Value = paramSelectionMode },
                     Inline = new { Changed = inlineChanged, Value = paramInline },
                     DisableMobile = new { Changed = disableMobileChanged, Value = paramDisableMobile },
+                    StaticPicker = new { Changed = staticPickerChanged, Value = paramSaticPicker },
                 } ) );
             }
         }
@@ -140,7 +143,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             DisabledDates = DisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ),
             Localization = GetLocalizationObject(),
             Inline,
-            DisableMobile
+            DisableMobile,
+            StaticPicker
         } );
 
         await base.OnFirstAfterRenderAsync();
@@ -534,6 +538,11 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// If enabled, it disables the native input on mobile devices.
     /// </summary>
     [Parameter] public bool DisableMobile { get; set; } = true;
+
+    /// <summary>
+    /// Makes calendar menu to be static positioned.
+    /// </summary>
+    [Parameter] public bool StaticPicker { get; set; } = true;
 
     #endregion
 }
