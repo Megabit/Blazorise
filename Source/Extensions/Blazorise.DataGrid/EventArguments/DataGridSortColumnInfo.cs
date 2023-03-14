@@ -3,7 +3,7 @@
 /// <summary>
 /// Holds the sort order and sort direction information of a specific column
 /// </summary>
-public class DataGridSortDefinition
+public class DataGridSortColumnInfo
 {
     /// <summary>
     /// Initializes a new instance
@@ -12,7 +12,7 @@ public class DataGridSortDefinition
     /// <param name="sortField">Sort field name of the column.</param>
     /// <param name="sortDirection"><inheritdoc cref="SortDirection"/></param>
     /// <param name="sortOrder">Sort index of the column.</param>
-    public DataGridSortDefinition( string field, string sortField, SortDirection sortDirection, int sortOrder )
+    public DataGridSortColumnInfo( string field, string sortField, SortDirection sortDirection, int sortOrder )
     {
         Field = field;
         SortField = sortField;

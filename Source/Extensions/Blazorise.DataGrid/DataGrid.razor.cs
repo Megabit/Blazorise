@@ -224,8 +224,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Links the child column with this datagrid.
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
-    /// <param name="suppressSortDefinitionChangedEvent">If <c>true</c> method will suppress the <see cref="SortDefinitionChanged"/> event.</param>  
-    internal void AddColumn( DataGridColumn<TItem> column, bool suppressSortDefinitionChangedEvent )
+    /// <param name="suppressSortingChangedEvent">If <c>true</c> method will suppress the <see cref="SortingChanged"/> event.</param>  
+    internal void AddColumn( DataGridColumn<TItem> column, bool suppressSortingChangedEvent )
     {
         Columns.Add( column );
 
@@ -233,7 +233,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             AddGroupColumn( column );
 
         if ( column.CurrentSortDirection != SortDirection.Default )
-            HandleSortColumn( column, false, null, suppressSortDefinitionChangedEvent );
+            HandleSortColumn( column, false, null, suppressSortingChangedEvent );
 
         // save command column reference for later
         if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
@@ -272,10 +272,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             SortByColumns.Remove( column );
 
             _ = InvokeAsync( () =>
-                SortDefinitionChanged.InvokeAsync(
-                    new DataGridSortDefinitionChangedEventArgs(
+                SortingChanged.InvokeAsync(
+                    new DataGridSortingChangedEventArgs(
                         SortMode,
-                        SortByColumns.Select( c => new DataGridSortDefinition(
+                        SortByColumns.Select( c => new DataGridSortColumnInfo(
                                 c.Field,
                                 c.GetFieldToSort(),
                                 c.CurrentSortDirection,
@@ -863,7 +863,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
 
     /// <summary>
-    /// Applies a new sorting definition to the Datagrid. Replaces the current sorting.
+    /// Applies a new sort to the datagrid using the provided columns, sort order, and sort direction. Replaces the current sorting.
     /// </summary>
     /// <param name="columns">Columns used for sorting</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -909,10 +909,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             SortByColumns.Add( column );
         }
 
-        await SortDefinitionChanged.InvokeAsync(
-            new DataGridSortDefinitionChangedEventArgs(
+        await SortingChanged.InvokeAsync(
+            new DataGridSortingChangedEventArgs(
                 SortMode,
-                SortByColumns.Select( c => new DataGridSortDefinition(
+                SortByColumns.Select( c => new DataGridSortColumnInfo(
                         c.Field,
                         c.GetFieldToSort(),
                         c.CurrentSortDirection,
@@ -1425,7 +1425,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         HandleSortColumn( column, changeSortDirection, sortDirection, false );
 
     private void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection,
-        bool suppressSortDefinitionChangedEvent )
+        bool suppressSortingChangedEvent )
     {
         if ( !Sortable || !column.CanSort() ) return;
 
@@ -1465,11 +1465,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 c.Field,
                 c.CurrentSortDirection ) );
 
-        static Task RaiseSortDefinitionChanged(DataGrid<TItem> dataGrid) =>
-            dataGrid.SortDefinitionChanged.InvokeAsync(
-                new DataGridSortDefinitionChangedEventArgs(
+        static Task RaiseSortingChanged(DataGrid<TItem> dataGrid) =>
+            dataGrid.SortingChanged.InvokeAsync(
+                new DataGridSortingChangedEventArgs(
                     dataGrid.SortMode,
-                    dataGrid.SortByColumns.Select( c => new DataGridSortDefinition(
+                    dataGrid.SortByColumns.Select( c => new DataGridSortColumnInfo(
                             c.Field,
                             c.GetFieldToSort(),
                             c.CurrentSortDirection,
@@ -1477,17 +1477,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                         .OrderBy( c => c.SortOrder )
                         .ToList() ) );
 
-        if ( changeSortDirection && !suppressSortDefinitionChangedEvent )
+        if ( changeSortDirection && !suppressSortingChangedEvent )
         {
             _ = InvokeAsync( async () =>
             {
                 await RaiseSortChanged(this, column);
-                await RaiseSortDefinitionChanged(this);
+                await RaiseSortingChanged(this);
             } );
         }
-        else if ( !suppressSortDefinitionChangedEvent )
+        else if ( !suppressSortingChangedEvent )
         {
-            _ = InvokeAsync( () => RaiseSortDefinitionChanged(this) );
+            _ = InvokeAsync( () => RaiseSortingChanged(this) );
         }
     }
 
@@ -2348,7 +2348,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Occurs when the sort order, sort direction, or number of columns to sort changes.
     /// </summary>
-    [Parameter] public EventCallback<DataGridSortDefinitionChangedEventArgs> SortDefinitionChanged { get; set; }
+    [Parameter] public EventCallback<DataGridSortingChangedEventArgs> SortingChanged { get; set; }
 
     /// <summary>
     /// Specifies the grid editing modes.
