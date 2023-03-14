@@ -1334,9 +1334,17 @@ public class Gender
 
         public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" Inline />";
 
-        public const string MultipleDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />";
+        public const string MultipleDatePickerExample = @"<DatePicker @bind-Dates=""selectedDates"" TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />
 
-        public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />";
+@code{
+    IReadOnlyList<DateTime?> selectedDates;
+}";
+
+        public const string RangeDatePickerExample = @"<DatePicker @bind-Dates=""selectedDates"" TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />
+
+@code {
+    IReadOnlyList<DateTime?> selectedDates;
+}";
 
         public const string DashedDividerExample = @"<Paragraph>
     What language is thine, O sea?
