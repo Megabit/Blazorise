@@ -7678,7 +7678,7 @@ builder.Services
 	<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"">
 
 	<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
-	<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.min.css"" rel=""stylesheet"" />
+	<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css"" rel=""stylesheet"" />
 </head>
 <body>
 	<div id=""app""></div>
