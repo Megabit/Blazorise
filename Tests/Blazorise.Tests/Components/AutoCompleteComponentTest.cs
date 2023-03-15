@@ -111,7 +111,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
 
         await Input( autoComplete, input );
 
-        Assert.Equal( 8, changedCount );
+        Assert.Equal( 9, changedCount );
     }
 
     [Fact]
