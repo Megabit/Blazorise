@@ -80,9 +80,7 @@ public class AutocompleteBaseComponentTest : TestContext
             await autoComplete.InputAsync( new() { Value = inputValue } );
         }
 
-
-
-
+        await autoComplete.KeyDownAsync( new() { Code = "Enter" } );
     }
 
     public void TestSelectValue<TComponent>( string expectedText, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
