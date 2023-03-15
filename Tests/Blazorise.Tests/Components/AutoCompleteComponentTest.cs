@@ -31,7 +31,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "Portugal";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 1, changedCount );
     }
@@ -51,7 +51,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "100";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 1, changedCount );
     }
@@ -72,7 +72,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "A Random Value!";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 1, changedCount );
         Assert.Equal( default, selectedValue );
@@ -91,7 +91,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "Portugal";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 1, changedCount );
     }
@@ -109,7 +109,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "Portugal";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 9, changedCount );
     }
@@ -131,7 +131,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "A Random Value!";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 1, changedCount );
         Assert.Equal( default, selectedText );
