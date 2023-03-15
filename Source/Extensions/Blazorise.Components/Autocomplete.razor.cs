@@ -289,34 +289,22 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             if ( ManualReadMode )
                 await Reload();
 
-            if ( HasFilteredData && GetItemText( FilteredData.First() ) == CurrentSearch )
+
+            if ( !HasFilteredData )
             {
-                ActiveItemIndex = 0;
-                selectedValue = new( GetItemValue( FilteredData.First() ) );
-                SelectedText = GetItemText( FilteredData.First() );
-                await Task.WhenAll(
-                    SelectedValueChanged.InvokeAsync( selectedValue ),
-                    SelectedTextChanged.InvokeAsync( SelectedText )
-                    );
+                await ResetActiveItemIndex();
+            }
+
+            await ResetSelectedValue();
+
+            if ( FreeTyping )
+            {
+                SelectedText = CurrentSearch;
+                await SelectedTextChanged.InvokeAsync( SelectedText );
             }
             else
             {
-                if ( !HasFilteredData )
-                {
-                    await ResetActiveItemIndex();
-                }
-
-                await ResetSelectedValue();
-
-                if ( FreeTyping )
-                {
-                    SelectedText = CurrentSearch;
-                    await SelectedTextChanged.InvokeAsync( SelectedText );
-                }
-                else
-                {
-                    await ResetSelectedText();
-                }
+                await ResetSelectedText();
             }
         }
 
