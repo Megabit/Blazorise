@@ -75,6 +75,24 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
+    public async Task SelectedTextChanged_FreeTyping_ShouldOnlyTrigger_OnEveryKeyStroke()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+        {
+            p.Add( x => x.SelectedTextChanged, ( x ) => changedCount++ );
+            p.Add( x => x.FreeTyping, true );
+        } );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "Portugal";
+
+        await Input( autoComplete, input );
+
+        Assert.Equal( 8, changedCount );
+    }
+
+    [Fact]
     public async Task SelectedTextChanged_NoFreeTyping_ShouldOnlyTrigger_IfValueIsAlreadySet_But_TextHasNotBeenFound()
     {
         var changedCount = 0;
