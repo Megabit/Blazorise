@@ -4,7 +4,6 @@ using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
-using static System.Net.Mime.MediaTypeNames;
 #endregion
 
 namespace Blazorise.Tests.Components;
@@ -62,7 +61,10 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
         var changedCount = 0;
         var comp = RenderComponent<AutocompleteComponent>( p =>
-            p.Add( x => x.SelectedTextChanged, ( x ) => changedCount++ ) );
+        {
+            p.Add( x => x.SelectedTextChanged, ( x ) => changedCount++ );
+            p.Add( x => x.FreeTyping, false );
+        } );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "Portugal";
