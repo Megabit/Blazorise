@@ -1,22 +1,20 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.AspNetCore.Builder;
 
-namespace BasicTestApp.Server;
+var builder = WebApplication.CreateBuilder( args );
 
-public class Program
-{
-    public static void Main( string[] args )
-    {
-        BuildWebHost( args ).Run();
-    }
+var app = builder.Build();
 
-    public static IWebHost BuildWebHost( string[] args ) =>
-        WebHost.CreateDefaultBuilder( args )
-            .UseConfiguration( new ConfigurationBuilder()
-                .AddCommandLine( args )
-                .Build() )
-            .UseStartup<Startup>()
-            .UseStaticWebAssets()
-            .Build();
-}
+app.UseWebAssemblyDebugging();
+
+app.UseHttpsRedirection();
+
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.MapFallbackToFile( "index.html" );
+
+app.Run();
+
+public partial class Program { }
