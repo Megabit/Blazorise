@@ -1,11 +1,10 @@
-﻿using System.Text.RegularExpressions;
-
+﻿
 namespace Blazorise.E2E.Tests;
 
 
 [Parallelizable( ParallelScope.Self )]
 [TestFixture]
-public class Tests : PageTest
+public class DefaultExampleTests : PageTest
 {
     /// <summary>
     /// This test serves as simple example of how to use Playwright. This was taken off playwright .NET docs.
