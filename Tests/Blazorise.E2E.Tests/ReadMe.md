@@ -3,12 +3,23 @@
 This test project uses Playwright with NUnit.
 NUnit was chosen since there is already an helpful playwright helper package for NUnit.
 
+Below you will find instructions on how to use Playwright. This assumes you will be using the command line and that you will be positioned in the root of the E2E tests project.
+
 ## Install
-- Build the project
-- Execute the playwright powershell script to install necessary dependencies (browser dependencies), i.e: `powershell .\bin\Debug\net7.0\playwright.ps1 install`
+- Build the project, either by using the dotnet build command or Visual Studio.
+- Execute the playwright powershell script to install necessary dependencies (browser dependencies, etc...), i.e: `powershell .\bin\Debug\net7.0\playwright.ps1 install`
 
 ## Record / Implement new tests
-- To start a record session to generate c# test code (A browser session & Playwright Inspector should be opened automatically) : `powershell .\bin\Debug\net7.0\playwright.ps1 install`
+To start a record session to generate c# test code (A browser session & Playwright Inspector should be opened automatically) :
+- `powershell .\bin\Debug\net7.0\playwright.ps1 codegen http://localhost:14696`
+- In the Playwright Inspector, please select .NET C# NUnit as the target library to generate the appropriate code.
+
+
+Please note that:
+- the testing demo is **BasicTestApp.Client** and you should run it in order to generate tests.
+- you should make it so your new PageTest inherits from **BlazorPageTest**.
+- you should navigate by using the provided **RootUri**, `await Page.GotoAsync( RootUri.AbsoluteUri );`
+
 
 ## Debugging
 

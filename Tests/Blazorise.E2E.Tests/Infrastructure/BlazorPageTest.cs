@@ -10,7 +10,7 @@ namespace Blazorise.E2E.Tests.Infrastructure
 
         protected static readonly Uri RootUri = new( "https://localhost" );
 
-        private readonly WebApplicationFactory<Program> _webApplicationFactory = new();
+        private readonly WebApplicationFactory<BasicTestApp.Client.Program> _webApplicationFactory = new();
         private HttpClient _httpClient;
 
         [SetUp]
