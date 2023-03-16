@@ -49,6 +49,19 @@ public class AsyncValidateTextEditTests : BlazorisePageTest
     }
 
     [Test]
+    public async Task CanValidateTextWithBind_InitiallyPopulated()
+    {
+
+        await SelectTestComponent<AsyncValidateTextEditComponent>();
+
+        var sut = Page.Locator( "#validate-text-with-bind-initially-populated" );
+        var textBox = sut.GetByRole( AriaRole.Textbox );
+        var validationFeedback = sut.GetByText( "error" );
+
+        await ExpectTo_StartValid_InvalidUponClear_ValidUponFill( textBox, validationFeedback );
+    }
+
+    [Test]
     public async Task CanValidateTextWithEvent_InitiallyBlank()
     {
         await SelectTestComponent<AsyncValidateTextEditComponent>();
