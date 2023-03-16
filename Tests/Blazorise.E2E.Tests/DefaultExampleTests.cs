@@ -31,6 +31,6 @@ public class DefaultExampleTests : PageTest
         await getStarted.ClickAsync();
 
         // Expects the URL to contain intro.
-        await Expect( Page ).ToHaveURLAsync( new Regex( ".*intro" ) );
+        await Expect( Page ).ToHaveURLAsync( new Regex( ".*random error" ) );
     }
 }
