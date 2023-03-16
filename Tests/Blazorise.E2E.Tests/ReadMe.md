@@ -24,13 +24,13 @@ Please note that:
 ## Debugging
 
 You can just debug the test as you normally would by using the debugger in Visual Studio. 
-You can also disable headless mode and use the Playwright Inspector to debug the test.
+You can also disable headless mode so you can visually see the steps the test is taking on the test application.
 
-### Ways to disable headless mode
+You can also use the Playwright Inspector to debug the test it will come up if you set `await Page.PauseAsync();` and are running in headed mode.
 
 https://playwright.dev/dotnet/docs/debug#headed-mode
 
-Pause the execution of the test you'd like to debug with `await Page.PauseAsync();` and then use the Playwright Inspector to debug the test.
+### Ways to disable headless mode
 
 To remove the headless mode, you can either:
 - dotnet test -- Playwright.LaunchOptions.Headless=false
