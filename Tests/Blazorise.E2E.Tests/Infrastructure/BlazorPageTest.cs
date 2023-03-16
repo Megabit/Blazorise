@@ -8,9 +8,9 @@ namespace Blazorise.E2E.Tests.Infrastructure
     public class BlazorPageTest : PageTest
     {
 
-        protected static readonly Uri RootUri = new( "https://localhost" );
+        protected static readonly Uri RootUri = new( "http://localhost" );
 
-        private readonly WebApplicationFactory<BasicTestApp.Client.Program> _webApplicationFactory = new();
+        private readonly WebApplicationFactory<Program> _webApplicationFactory = new() { };
         private HttpClient _httpClient;
 
         [SetUp]
@@ -18,7 +18,7 @@ namespace Blazorise.E2E.Tests.Infrastructure
         {
             _httpClient = _webApplicationFactory.CreateClient( new()
             {
-                BaseAddress = RootUri
+                BaseAddress = RootUri,
             } );
 
             await Context.RouteAsync( $"{RootUri.AbsoluteUri}**", async route =>
