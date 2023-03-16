@@ -1,30 +1,28 @@
 ﻿using BasicTestApp.Client;
 using Blazorise.E2E.Tests.Infrastructure;
 
-namespace Blazorise.E2E.Tests.Tests.Components.Button
+namespace Blazorise.E2E.Tests.Tests.Components.Button;
+
+[Parallelizable( ParallelScope.Self )]
+[TestFixture]
+public class ButtonTests : BlazorisePageTest
 {
-
-    [Parallelizable( ParallelScope.Self )]
-    [TestFixture]
-    public class ButtonTests : BlazorisePageTest
+    [Test]
+    public async Task CanRaiseCallback()
     {
-        [Test]
-        public async Task CanRaiseCallback()
-        {
-            await SelectTestComponent<ButtonComponent>();
+        await SelectTestComponent<ButtonComponent>();
 
-            var buttonResult = Page.Locator( "#basic-button-event-result" );
-            await Page.GetByRole( AriaRole.Button, new() { Name = "Count" } ).ClickAsync();
-            await Expect( buttonResult ).ToHaveTextAsync( "1" );
+        var buttonResult = Page.Locator( "#basic-button-event-result" );
+        await Page.GetByRole( AriaRole.Button, new() { Name = "Count" } ).ClickAsync();
+        await Expect( buttonResult ).ToHaveTextAsync( "1" );
 
 
-            await Page.GetByRole( AriaRole.Button, new() { Name = "Count" } ).ClickAsync();
-            await Expect( buttonResult ).ToHaveTextAsync( "2" );
+        await Page.GetByRole( AriaRole.Button, new() { Name = "Count" } ).ClickAsync();
+        await Expect( buttonResult ).ToHaveTextAsync( "2" );
 
 
-            await Page.GetByRole( AriaRole.Button, new() { Name = "Count" } ).ClickAsync();
-            await Expect( buttonResult ).ToHaveTextAsync( "3" );
-        }
+        await Page.GetByRole( AriaRole.Button, new() { Name = "Count" } ).ClickAsync();
+        await Expect( buttonResult ).ToHaveTextAsync( "3" );
     }
-
 }
+
