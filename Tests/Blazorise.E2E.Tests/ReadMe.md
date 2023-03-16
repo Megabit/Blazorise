@@ -8,7 +8,7 @@ NUnit was chosen since there is already an helpful playwright helper package for
 - Execute the playwright powershell script to install necessary dependencies (browser dependencies), i.e: `powershell .\bin\Debug\net7.0\playwright.ps1 install`
 
 # Record / Implement new tests
-- To start a record session to generate c# test code (A browser session & Playwright Inspector should be opened) : `powershell .\bin\Debug\net7.0\playwright.ps1 install`
+- To start a record session to generate c# test code (A browser session & Playwright Inspector should be opened automatically) : `powershell .\bin\Debug\net7.0\playwright.ps1 install`
 
 # Debugging
 
