@@ -22,10 +22,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Source\Blazorise.Bootstrap5\Blazorise.Bootstrap5.csproj" />
+    <ProjectReference Include="..\BasicTestApp.Client\BasicTestApp.Client.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Tests\Components\" />
     <Folder Include="Tests\Extensions\DataGrid\" />
     <Folder Include="Tests\Extensions\Autocomplete\" />
   </ItemGroup>
