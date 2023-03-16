@@ -3,16 +3,16 @@
 This test project uses Playwright with NUnit.
 NUnit was chosen since there is already an helpful playwright helper package for NUnit.
 
-# Install
+## Install
 - Build the project
 - Execute the playwright powershell script to install necessary dependencies (browser dependencies), i.e: `powershell .\bin\Debug\net7.0\playwright.ps1 install`
 
-# Record / Implement new tests
+## Record / Implement new tests
 - To start a record session to generate c# test code (A browser session & Playwright Inspector should be opened automatically) : `powershell .\bin\Debug\net7.0\playwright.ps1 install`
 
-# Debugging
+## Debugging
 
-## Ways to disable headless mode
+### Ways to disable headless mode
 
 https://playwright.dev/dotnet/docs/debug#headed-mode
 
