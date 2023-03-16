@@ -1,17 +1,17 @@
-﻿using Blazorise.E2E.Tests.Infrastructure;
+﻿using BasicTestApp.Client;
+using Blazorise.E2E.Tests.Infrastructure;
 
 namespace Blazorise.E2E.Tests.Tests.Components.TextEdit
 {
 
     [Parallelizable( ParallelScope.Self )]
     [TestFixture]
-    public class AsyncValidateTextEditTests : BlazorPageTest
+    public class AsyncValidateTextEditTests : BlazorisePageTest
     {
         [Test]
         public async Task CanValidateText_InitiallyBlank()
         {
-            await Page.GotoAsync( RootUri.AbsoluteUri );
-            await Page.GetByRole( AriaRole.Combobox ).SelectOptionAsync( new[] { "BasicTestApp.Client.AsyncValidateTextEditComponent" } );
+            await SelectTestComponent<AsyncValidateTextEditComponent>();
 
             var sut = Page.Locator( "#validate-text-initially-blank" );
             var textBox = sut.GetByRole( AriaRole.Textbox );
@@ -25,8 +25,7 @@ namespace Blazorise.E2E.Tests.Tests.Components.TextEdit
         [Test]
         public async Task CanValidateText_InitiallyPopulated()
         {
-            await Page.GotoAsync( RootUri.AbsoluteUri );
-            await Page.GetByRole( AriaRole.Combobox ).SelectOptionAsync( new[] { "BasicTestApp.Client.AsyncValidateTextEditComponent" } );
+            await SelectTestComponent<AsyncValidateTextEditComponent>();
 
             var sut = Page.Locator( "#validate-text-initially-populated" );
             var textBox = sut.GetByRole( AriaRole.Textbox );
@@ -40,8 +39,7 @@ namespace Blazorise.E2E.Tests.Tests.Components.TextEdit
         [Test]
         public async Task CanValidateTextWithBind_InitiallyBlank()
         {
-            await Page.GotoAsync( RootUri.AbsoluteUri );
-            await Page.GetByRole( AriaRole.Combobox ).SelectOptionAsync( new[] { "BasicTestApp.Client.AsyncValidateTextEditComponent" } );
+            await SelectTestComponent<AsyncValidateTextEditComponent>();
 
             var sut = Page.Locator( "#validate-text-with-bind-initially-blank" );
             var textBox = sut.GetByRole( AriaRole.Textbox );
@@ -53,8 +51,7 @@ namespace Blazorise.E2E.Tests.Tests.Components.TextEdit
         [Test]
         public async Task CanValidateTextWithEvent_InitiallyBlank()
         {
-            await Page.GotoAsync( RootUri.AbsoluteUri );
-            await Page.GetByRole( AriaRole.Combobox ).SelectOptionAsync( new[] { "BasicTestApp.Client.AsyncValidateTextEditComponent" } );
+            await SelectTestComponent<AsyncValidateTextEditComponent>();
 
             var sut = Page.Locator( "#validate-text-with-event-initially-blank" );
             var textBox = sut.GetByRole( AriaRole.Textbox );
@@ -66,8 +63,7 @@ namespace Blazorise.E2E.Tests.Tests.Components.TextEdit
         [Test]
         public async Task CanValidateTextWithEvent_InitiallyPopulated()
         {
-            await Page.GotoAsync( RootUri.AbsoluteUri );
-            await Page.GetByRole( AriaRole.Combobox ).SelectOptionAsync( new[] { "BasicTestApp.Client.AsyncValidateTextEditComponent" } );
+            await SelectTestComponent<AsyncValidateTextEditComponent>();
 
             var sut = Page.Locator( "#validate-text-with-event-initially-populated" );
             var textBox = sut.GetByRole( AriaRole.Textbox );

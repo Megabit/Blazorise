@@ -17,7 +17,7 @@ To start a record session to generate c# test code (A browser session & Playwrig
 
 Please note that:
 - the testing demo is **BasicTestApp.Client** and you should run it in order to interact with the test application and generate tests.
-- you should make it so your new PageTest inherits from **BlazorPageTest**.
+- you should make it so your new PageTest inherits from **BlazorisePageTest** as that setups the test application, and provides helpers.
 - in your test, you should navigate by using the provided **RootUri**, `await Page.GotoAsync( RootUri.AbsoluteUri );`
 
 

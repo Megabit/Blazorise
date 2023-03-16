@@ -1,18 +1,17 @@
-﻿using Blazorise.E2E.Tests.Infrastructure;
+﻿using BasicTestApp.Client;
+using Blazorise.E2E.Tests.Infrastructure;
 
 namespace Blazorise.E2E.Tests.Tests.Components.Button
 {
 
     [Parallelizable( ParallelScope.Self )]
     [TestFixture]
-    public class CloseButtonTests : BlazorPageTest
+    public class CloseButtonTests : BlazorisePageTest
     {
         [Test]
         public async Task CanRaiseCallback()
         {
-            await Page.GotoAsync( RootUri.AbsoluteUri );
-
-            await Page.GetByRole( AriaRole.Combobox ).SelectOptionAsync( new[] { "BasicTestApp.Client.CloseButtonComponent" } );
+            await SelectTestComponent<CloseButtonComponent>();
 
             var closeButtonResult = Page.Locator( "#close-button-event-result" );
             await Page.GetByText( "× Count" ).ClickAsync();
@@ -28,9 +27,7 @@ namespace Blazorise.E2E.Tests.Tests.Components.Button
         [Test]
         public async Task CanAutoClose()
         {
-            await Page.GotoAsync( RootUri.AbsoluteUri );
-
-            await Page.GetByRole( AriaRole.Combobox ).SelectOptionAsync( new[] { "BasicTestApp.Client.CloseButtonComponent" } );
+            await SelectTestComponent<CloseButtonComponent>();
 
             var autoCloseButtonResult = Page.Locator( "#autoclose-button-event-result" );
             await Page.Locator( "#autoclose-button" ).ClickAsync();
