@@ -21,7 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BasicTestApp.Client\BasicTestApp.Client.csproj" />
     <ProjectReference Include="..\BasicTestApp.Server\BasicTestApp.Server.csproj" />
   </ItemGroup>
 

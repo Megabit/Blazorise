@@ -130,7 +130,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Tailwind", "Sourc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Tailwind", "Demos\Blazorise.Demo.Tailwind\Blazorise.Demo.Tailwind.csproj", "{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.E2E.Tests", "Tests\Blazorise.E2E.Tests\Blazorise.E2E.Tests.csproj", "{69490576-EE88-4D7C-9C07-F6DA48CEF885}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.E2E.Tests", "Tests\Blazorise.E2E.Tests\Blazorise.E2E.Tests.csproj", "{69490576-EE88-4D7C-9C07-F6DA48CEF885}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -227,9 +227,7 @@ Global
 		{FD072A38-6D23-49C1-93F9-4D7584A8A4A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD072A38-6D23-49C1-93F9-4D7584A8A4A7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A4218BB6-81C3-47A6-80F2-6FF6E227D142}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4218BB6-81C3-47A6-80F2-6FF6E227D142}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4218BB6-81C3-47A6-80F2-6FF6E227D142}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4218BB6-81C3-47A6-80F2-6FF6E227D142}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8D91050E-1ACF-40C5-9DA4-5F94AB149A5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
