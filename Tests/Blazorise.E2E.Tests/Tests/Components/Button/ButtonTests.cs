@@ -14,16 +14,17 @@ namespace Blazorise.E2E.Tests.Tests.Components.Button
 
             await Page.GetByRole( AriaRole.Combobox ).SelectOptionAsync( new[] { "BasicTestApp.Client.ButtonComponent" } );
 
+            var buttonResult = Page.Locator( "#basic-button-event-result" );
             await Page.GetByRole( AriaRole.Button, new() { Name = "Count" } ).ClickAsync();
-            await Expect( Page.Locator( "#basic-button-event-result" ) ).ToHaveTextAsync( "1" );
-
-
-            await Page.GetByRole( AriaRole.Button, new() { Name = "Count" } ).ClickAsync();
-            await Expect( Page.Locator( "#basic-button-event-result" ) ).ToHaveTextAsync( "2" );
+            await Expect( buttonResult ).ToHaveTextAsync( "1" );
 
 
             await Page.GetByRole( AriaRole.Button, new() { Name = "Count" } ).ClickAsync();
-            await Expect( Page.Locator( "#basic-button-event-result" ) ).ToHaveTextAsync( "3" );
+            await Expect( buttonResult ).ToHaveTextAsync( "2" );
+
+
+            await Page.GetByRole( AriaRole.Button, new() { Name = "Count" } ).ClickAsync();
+            await Expect( buttonResult ).ToHaveTextAsync( "3" );
         }
     }
 
