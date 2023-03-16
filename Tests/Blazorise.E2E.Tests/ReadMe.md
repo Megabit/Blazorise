@@ -1,7 +1,7 @@
 # Playwright E2E Test Project
 
 This test project uses Playwright with NUnit.
-NUnit was chosen since there are already is a helpfull playwright helper package for NUnit.
+NUnit was chosen since there is already an helpful playwright helper package for NUnit.
 
 # Install
 - Build the project
