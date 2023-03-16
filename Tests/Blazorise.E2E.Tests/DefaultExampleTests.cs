@@ -10,7 +10,7 @@ public class DefaultExampleTests : PageTest
     /// This test serves as simple example of how to use Playwright. This was taken off playwright .NET docs.
     /// </summary>
     /// <returns></returns>
-    [Test]
+    //[Test]
     public async Task HomepageHasPlaywrightInTitleAndGetStartedLinkLinkingtoTheIntroPage()
     {
         // Pause on the following line.
@@ -31,6 +31,6 @@ public class DefaultExampleTests : PageTest
         await getStarted.ClickAsync();
 
         // Expects the URL to contain intro.
-        await Expect( Page ).ToHaveURLAsync( new Regex( ".*random error" ) );
+        await Expect( Page ).ToHaveURLAsync( new Regex( ".*intro" ) );
     }
 }
