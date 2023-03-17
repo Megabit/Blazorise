@@ -5,6 +5,14 @@ namespace Blazorise.E2E.Tests.Infrastructure;
 
 public class BlazorisePageTest : BlazorPageTest
 {
+    /// <summary>
+    /// Override browser context options if needed.
+    /// </summary>
+    /// <returns></returns>
+    public override BrowserNewContextOptions ContextOptions()
+    {
+        return null;
+    }
 
     /// <summary>
     /// This is an helper specific to our test project, where we have a dropdown selection with the full name of the components.
