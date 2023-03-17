@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder( args );
+builder.Logging.ClearProviders();
 
 var app = builder.Build();
 
