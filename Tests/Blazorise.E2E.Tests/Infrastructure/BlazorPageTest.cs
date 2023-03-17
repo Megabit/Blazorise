@@ -8,7 +8,7 @@ namespace Blazorise.E2E.Tests.Infrastructure;
 public class BlazorPageTest : PageTest
 {
 
-    protected static readonly Uri RootUri = new( "http://localhost" );
+    protected static readonly Uri RootUri = new( "http://localhost:14695" );
 
     private readonly WebApplicationFactory<Program> _webApplicationFactory = new() { };
     private HttpClient _httpClient;
