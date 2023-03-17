@@ -1,13 +1,17 @@
 # Playwright E2E Test Project
 
 This test project uses Playwright with NUnit.
-NUnit was chosen since there is already an helpful playwright helper package for NUnit.
+NUnit was chosen since there is already an helpful playwright helper package for NUnit and parallelism is better supported.
+
+The API Docs are really good, recommended pages for implementing tests:
+- https://playwright.dev/dotnet/docs/input
+- https://playwright.dev/dotnet/docs/test-assertions
 
 Below you will find instructions on how to use Playwright. This assumes you will be using the command line and that you will be positioned in the root of the E2E tests project.
 
 ## Install
 - Build the project, either by using the dotnet build command or Visual Studio.
-- Execute the playwright powershell script to install necessary dependencies (browser dependencies, etc...), i.e: `powershell .\bin\Debug\net7.0\playwright.ps1 install`
+- Execute the playwright powershell script to install necessary dependencies (browser dependencies, etc...), i.e: `powershell .\bin\Debug\net7.0\playwright.ps1 install --with-deps`
 
 ## Record / Implement new tests
 To start a record session to generate c# test code (A browser session & Playwright Inspector should be opened automatically) :
@@ -37,3 +41,6 @@ To remove the headless mode, you can either:
 - `dotnet test -- Playwright.LaunchOptions.Headless=false`
 - `dotnet test --filter "MyTest" -- Playwright.LaunchOptions.Headless=false` (run a single test)
 - Set Headless to false in the .runsettings file that's located in the solution root folder
+
+- `set HEADED=1
+dotnet test`
