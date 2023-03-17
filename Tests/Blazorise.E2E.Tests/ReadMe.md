@@ -46,7 +46,7 @@ To remove the headless mode, you can either:
 dotnet test`
 
 ### Tracing will gather screenshots and other useful information about your test run.
-
+This will work even in headless mode.
 
 Insert at the beggining of the test:
 
