@@ -151,16 +151,18 @@ public class ValidateSelectTests : BlazorisePageTest
         var select = sut.GetByRole( AriaRole.Listbox );
         var validationFeedback = sut.GetByText( "error" );
 
+        var options = await select.Locator( "option" ).AllAsync();
+
+
         await Expect( validationFeedback ).ToHaveClassAsync( "invalid-feedback" );
         await select.SelectOptionAsync( new SelectOptionValue[] { new() { Index = 1 }, new() { Index = 2 } } );
         await Expect( validationFeedback ).ToBeHiddenAsync();
 
-        await select.SelectOptionAsync( new SelectOptionValue() { Index = 1 } );
+        await options[1].ClickAsync( new() { Modifiers = new KeyboardModifier[] { KeyboardModifier.Control } } );
         await Expect( validationFeedback ).ToBeHiddenAsync();
 
-        //TODO: How to test deselect with playwright
-        //await select.SelectOptionAsync( new SelectOptionValue() { Index = 2 } );
-        //await Expect( validationFeedback ).ToHaveClassAsync( "invalid-feedback" );
+        await options[2].ClickAsync( new() { Modifiers = new KeyboardModifier[] { KeyboardModifier.Control } } );
+        await Expect( validationFeedback ).ToHaveClassAsync( "invalid-feedback" );
 
         await select.SelectOptionAsync( new SelectOptionValue() { Index = 0 } );
         await Expect( validationFeedback ).ToBeHiddenAsync();
