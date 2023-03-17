@@ -1,4 +1,7 @@
 ﻿
+using BasicTestApp.Client;
+using Blazorise.E2E.Tests.Infrastructure;
+
 namespace Blazorise.E2E.Tests;
 
 
@@ -32,5 +35,16 @@ public class DefaultExampleTests : PageTest
 
         // Expects the URL to contain intro.
         await Expect( Page ).ToHaveURLAsync( new Regex( ".*intro" ) );
+    }
+}
+
+[Parallelizable( ParallelScope.Self )]
+[TestFixture]
+public class CopyMeTests : BlazorisePageTest
+{
+    [Test]
+    public async Task CopyMe()
+    {
+        await SelectTestComponent<ButtonComponent>();
     }
 }

@@ -34,5 +34,6 @@ https://playwright.dev/dotnet/docs/debug#headed-mode
 ### Ways to disable headless mode
 
 To remove the headless mode, you can either:
-- dotnet test -- Playwright.LaunchOptions.Headless=false
+- `dotnet test -- Playwright.LaunchOptions.Headless=false`
+- `dotnet test --filter "MyTest" -- Playwright.LaunchOptions.Headless=false` (run a single test)
 - Set Headless to false in the .runsettings file that's located in the solution root folder
