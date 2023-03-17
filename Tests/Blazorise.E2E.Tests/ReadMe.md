@@ -44,3 +44,27 @@ To remove the headless mode, you can either:
 
 - `set HEADED=1
 dotnet test`
+
+### Tracing will gather screenshots and other useful information about your test run.
+
+
+Insert at the beggining of the test:
+
+        // Start tracing before creating / navigating a page.
+        await Context.Tracing.StartAsync( new()
+        {
+            Screenshots = true,
+            Snapshots = true,
+            Sources = true
+        } );
+
+Insert at the end of the test: (You might want to wrap the test in a try/catch if the test is failing/throwing)
+        
+        // Stop tracing and export it into a zip archive.
+        await Context.Tracing.StopAsync( new()
+        {
+            Path = "trace.zip"
+        } );
+
+You can then upload the zip file to https://trace.playwright.dev/ and see the screenshots and other relevant information.
+
