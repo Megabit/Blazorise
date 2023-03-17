@@ -18,26 +18,22 @@ public class RadioGroupTests : BlazorisePageTest
         var radioBlue = sut.Locator( ".radioB" );
         var result = sut.Locator( "#radiogroup-event-initially-selected-result" );
 
-        //TODO : FAILING; NO CHECKED Attribute
-        //Assert.NotNull( await radioGreen.GetAttributeAsync( "checked" ) );
+        await Expect( radioGreen ).ToBeCheckedAsync();
+        await Expect( radioRed ).Not.ToBeCheckedAsync();
+        await Expect( radioBlue ).Not.ToBeCheckedAsync();
         await Expect( result ).ToHaveTextAsync( "green" );
 
-        Assert.Null( await radioRed.GetAttributeAsync( "checked" ) );
-        Assert.Null( await radioBlue.GetAttributeAsync( "checked" ) );
-
         await radioRed.ClickAsync();
-        //TODO : FAILING; NO CHECKED Attribute
-        //Assert.NotNull( await radioRed.GetAttributeAsync( "checked" ) );
-        Assert.Null( await radioGreen.GetAttributeAsync( "checked" ) );
-        Assert.Null( await radioBlue.GetAttributeAsync( "checked" ) );
+        await Expect( radioRed ).ToBeCheckedAsync();
+        await Expect( radioGreen ).Not.ToBeCheckedAsync();
+        await Expect( radioBlue ).Not.ToBeCheckedAsync();
         await Expect( result ).ToHaveTextAsync( "red" );
 
 
         await radioBlue.ClickAsync();
-        //TODO : FAILING; NO CHECKED Attribute
-        //Assert.NotNull( await radioBlue.GetAttributeAsync( "checked" ) );
-        Assert.Null( await radioRed.GetAttributeAsync( "checked" ) );
-        Assert.Null( await radioGreen.GetAttributeAsync( "checked" ) );
+        await Expect( radioBlue ).ToBeCheckedAsync();
+        await Expect( radioRed ).Not.ToBeCheckedAsync();
+        await Expect( radioGreen ).Not.ToBeCheckedAsync();
         await Expect( result ).ToHaveTextAsync( "blue" );
     }
 }
