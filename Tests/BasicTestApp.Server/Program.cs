@@ -6,9 +6,8 @@ builder.Logging.ClearProviders();
 
 var app = builder.Build();
 
-app.UseWebAssemblyDebugging();
-
-app.UseHttpsRedirection();
+//app.UseWebAssemblyDebugging();
+//app.UseHttpsRedirection();
 
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
