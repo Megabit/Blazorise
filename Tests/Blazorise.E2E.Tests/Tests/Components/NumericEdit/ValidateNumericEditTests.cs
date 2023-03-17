@@ -63,12 +63,11 @@ public class ValidateNumericEditTests : BlazorisePageTest
 
         await SelectTestComponent<ValidateNumericEditComponent>();
 
-        var sut = Page.Locator( "#alidate-numeric-with-event-initially-blank" );
+        var sut = Page.Locator( "#validate-numeric-with-event-initially-blank" );
         var textBox = sut.Locator( "input[type=number]" );
         var validationFeedback = sut.GetByText( "error" );
 
-        //TODO : WHy does this one fail? Original has a backspace key press? Is that the reason?
-        //await ExpectTo_StartInvalid_ValidUponFill_InvalidUponClear( textBox, validationFeedback );
+        await ExpectTo_StartInvalid_ValidUponFill_InvalidUponClear( textBox, validationFeedback );
     }
 
     [Test]
