@@ -67,7 +67,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                  || selectionModeChanged
                  || inlineChanged
                  || disableMobileChanged
-                 || staticPickerChanged)
+                 || staticPickerChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {

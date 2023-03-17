@@ -52,7 +52,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                            || disabledChanged
                            || readOnlyChanged
                            || inlineChanged
-                           || staticPickerChanged) )
+                           || staticPickerChanged ) )
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
             {
