@@ -147,8 +147,6 @@ public class ValidateSelectTests : BlazorisePageTest
     {
         await SelectTestComponent<ValidateSelectComponent>();
 
-        await Page.PauseAsync();
-
         var sut = Page.Locator( "#validate-multi-string-initially-blank" );
         var select = sut.GetByRole( AriaRole.Listbox );
         var validationFeedback = sut.GetByText( "error" );
