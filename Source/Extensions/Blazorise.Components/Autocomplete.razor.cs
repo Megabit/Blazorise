@@ -1157,7 +1157,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public AutocompleteFilter Filter { get; set; } = AutocompleteFilter.StartsWith;
 
     /// <summary>
-    /// The minimum number of characters a user must type before a search is performed.
+    /// The minimum number of characters a user must type before a search is performed. Set this to 0 to make the Autocomplete function like a dropdown.
     /// </summary>
     [Parameter] public int MinLength { get; set; } = 1;
 
