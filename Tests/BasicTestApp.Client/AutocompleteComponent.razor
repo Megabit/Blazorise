@@ -20,13 +20,14 @@
 @code {
     [Inject] public CountryData CountryData { get; set; }
 
-    public IEnumerable<Country> Countries;
+    [Parameter] public IEnumerable<Country> Countries { get; set; }
 
     public Autocomplete<Country, string> AutoCompleteRef { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Countries = await CountryData.GetDataAsync();
+        if (Countries is null)
+            Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
 

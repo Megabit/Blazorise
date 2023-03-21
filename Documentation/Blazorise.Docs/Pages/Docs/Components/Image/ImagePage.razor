@@ -1,0 +1,91 @@
+﻿@page "/docs/components/image"
+
+<Seo Canonical="/docs/components/image" Title="Blazorise Image component" Description="Learn to use and work with the Blazorise Image component, its features, as well as simple image placement and responsive delayed loading behavior." />
+
+<DocsPageTitle Path="Components/Image">
+    Blazorise Image component
+</DocsPageTitle>
+
+<DocsPageLead>
+    A powerful tool for displaying images on the web.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The Blazorise <Code Tag>Image</Code> component is a flexible and customizable component that can be used to display various types of images, including local images and remote images from external sources. The component allows you to set various attributes such as the image source, alt text, width, and height, and also provides a number of CSS classes to customize the appearance of the image.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    One of the key features of the Blazorise image component is its ability to handle different image formats, including JPEG, PNG, SVG, and GIF. Additionally, the component supports lazy loading of images, which improves the performance of the web page by loading images only when they are needed.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic example">
+        Simply set the <Code>Source</Code> attribute and you’re good to go.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicImageExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicImageExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Deferred Loading">
+        Add <Code>Loading</Code> parameter to enable image to dynamically load when you scroll into view.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ImageLoadingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ImageLoadingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fluid image">
+        By enabling <Code>Fluid</Code> parameter, it forces an image to take up the whole width of its container.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ImageFluidExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ImageFluidExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SEO friendly">
+        <Paragraph>
+            The parameter <Code>Text</Code> gives alternate (<Code>alt</Code>) text for an image, which is good for SEO optimizations.
+        </Paragraph>
+        <Paragraph>
+            If you inspect the image with devtools you will be able to see <Code>alt</Code> assigned.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ImageTextExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ImageTextExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Source" Type="string" Default="null">
+        Source attribute is used to find an image that we want to show up.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Loading" Type="bool" Default="false">
+        Deffers loading the image until it reaches a calculated distance from the viewport.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Fluid" Type="bool" Default="false">
+        Forces an image to take up the whole width of parent component.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Text" Type="string" Default="null">
+        Alternative text for image.
+    </DocsAttributesItem>
+</DocsAttributes>

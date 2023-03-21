@@ -392,11 +392,13 @@
   font-size: 1.5rem;
 }
 
-.input-group > .b-numeric:not(:last-child) > input {
+.input-group > .b-numeric:not(:last-child) > input,
+.input-group > .flatpickr-wrapper:not(:last-child) > input {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.input-group > .b-numeric:not(:first-child) > input {
+.input-group > .b-numeric:not(:first-child) > input,
+.input-group > .flatpickr-wrapper:not(:first-child) > input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -507,6 +509,15 @@
 .input-group > .input-group-prepend:first-child > .input-group-text:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.input-group > div.flatpickr-wrapper > .form-control,
+.input-group > div.flatpickr-wrapper > .form-control-plaintext {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+  margin-bottom: 0;
 }
 
 .custom-control.custom-checkbox > .custom-control-input.custom-control-input-xs + .custom-control-label::before,

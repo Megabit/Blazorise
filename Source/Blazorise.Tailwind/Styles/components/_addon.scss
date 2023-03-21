@@ -1,6 +1,7 @@
 ﻿.b-addons {
     > .b-addon-body:not(:last-child) {
-        > input {
+        > input,
+        > div.flatpickr-wrapper > input {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
         }
@@ -12,7 +13,8 @@
     }
 
     > .b-addon-body:not(:first-child):not(.b-dropdown-menu) {
-        > input {
+        > input,
+        > div.flatpickr-wrapper > input {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
         }
@@ -40,7 +42,8 @@
     }
 
     > .b-addon-body {
-        > input {
+        > input,
+        > div.flatpickr-wrapper {
             position: relative;
             flex: 1 1 auto;
             width: 1%;
@@ -49,7 +52,8 @@
     }
 
     > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) {
-        > input {
+        > input,
+        > div.flatpickr-wrapper > input {
             border-left: 0;
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
