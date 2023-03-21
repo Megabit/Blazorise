@@ -12,7 +12,6 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Components;
@@ -872,7 +871,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         canShowDropDown = false;
         await ResetActiveItemIndex();
 
-        await Closed.InvokeAsync( new AutocompleteCloseEventArgs(closeReason) );
+        await Closed.InvokeAsync( new AutocompleteClosedEventArgs( closeReason ) );
     }
 
     /// <summary>
@@ -1216,7 +1215,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Event handler used to detect when the autocomplete is closed.
     /// </summary>
-    [Parameter] public EventCallback<AutocompleteCloseEventArgs> Closed { get; set; }
+    [Parameter] public EventCallback<AutocompleteClosedEventArgs> Closed { get; set; }
 
     /// <summary>
     /// Event handler used to detect when the autocomplete is opened.
