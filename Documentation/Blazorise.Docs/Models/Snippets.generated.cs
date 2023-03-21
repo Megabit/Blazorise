@@ -1318,6 +1318,8 @@ public class Gender
     <FieldHelp>Format: DD/MM/YYYY</FieldHelp>
 </Field>";
 
+        public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" StaticPicker=""false"" />";
+
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
         <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" />
@@ -3789,6 +3791,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         return Task.CompletedTask;
     }
 }";
+
+        public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" StaticPicker=""false"" />";
 
         public const string TimePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
