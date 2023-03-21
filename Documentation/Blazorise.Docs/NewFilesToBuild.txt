@@ -1,2 +1,0 @@
-D:\Projects\Megabit\Blazorise\Documentation\Blazorise.Docs\Pages\Docs\Components\Dates\Code\DatePickerNonStaticExampleCode.html
-D:\Projects\Megabit\Blazorise\Documentation\Blazorise.Docs\Pages\Docs\Components\Times\Code\TimePickerNonStaticExampleCode.html

@@ -588,7 +588,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     [Parameter] public bool DisableMobile { get; set; } = true;
 
     /// <summary>
-    /// Makes calendar menu to be static positioned.
+    /// If enabled, the calendar menu will be positioned as static.
     /// </summary>
     [Parameter] public bool StaticPicker { get; set; } = true;
 
