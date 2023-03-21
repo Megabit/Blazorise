@@ -137,7 +137,7 @@ public class NumericEditTests : BlazorisePageTest
         await Expect( result ).ToHaveTextAsync( "42" );
 
         await Page.Keyboard.PressAsync( "." );
-        await Page.Keyboard.PressAsync( ".3" );
+        await Page.Keyboard.PressAsync( "3" );
         await Expect( result ).ToHaveTextAsync( "42.3" );
     }
 
