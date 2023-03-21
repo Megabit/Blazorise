@@ -4,7 +4,6 @@ using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
-using static System.Net.Mime.MediaTypeNames;
 #endregion
 
 namespace Blazorise.Tests.Components;
@@ -18,6 +17,36 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
         BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
         BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
+    }
+
+    [Fact]
+    public async Task Opened_ShouldTrigger_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.Opened, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "Portugal";
+
+        await Input( autoComplete, input );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task Closed_ShouldTrigger_OnAutocompleteClosed_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.Closed, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "Portugal";
+
+        await Input( autoComplete, input );
+
+        Assert.Equal( 1, changedCount );
     }
 
     [Fact]
