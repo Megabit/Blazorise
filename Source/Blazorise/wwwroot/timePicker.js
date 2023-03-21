@@ -115,7 +115,7 @@ export function updateOptions(element, elementId, options) {
         }
 
         if (options.staticPicker.changed) {
-            picker.set("staticPicker", options.staticPicker.value);
+            picker.set("static", options.staticPicker.value);
         }
     }
 }

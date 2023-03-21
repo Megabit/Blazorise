@@ -53,7 +53,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         disable: options.disabledDates || [],
         inline: options.inline || false,
         disableMobile: options.disableMobile || true,
-        static: options.staticPicker 
+        static: options.staticPicker
     };
 
     if (options.selectionMode)
@@ -227,7 +227,7 @@ export function updateOptions(element, elementId, options) {
         }
 
         if (options.staticPicker.changed) {
-            picker.set("staticPicker", options.staticPicker.value);
+            picker.set("static", options.staticPicker.value);
         }
     }
 }
