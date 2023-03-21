@@ -31,7 +31,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "Portugal";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 1, changedCount );
     }
@@ -46,7 +46,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "Portugal";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 1, changedCount );
     }
