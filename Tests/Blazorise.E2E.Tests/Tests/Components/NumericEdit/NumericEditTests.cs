@@ -1,7 +1,4 @@
-﻿using BasicTestApp.Client;
-using Blazorise.E2E.Tests.Infrastructure;
-
-namespace Blazorise.E2E.Tests.Tests.Components.NumericEdit;
+﻿namespace Blazorise.E2E.Tests.Tests.Components.NumericEdit;
 
 [Parallelizable( ParallelScope.Self )]
 [TestFixture]
@@ -139,7 +136,7 @@ public class NumericEditTests : BlazorisePageTest
 
         await Expect( result ).ToHaveTextAsync( "42" );
 
-        await Page.Keyboard.TypeAsync( ".3" );
+        await Page.Keyboard.PressAsync( ".3" );
         await Expect( result ).ToHaveTextAsync( "42.3" );
     }
 
