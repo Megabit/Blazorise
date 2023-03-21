@@ -1,10 +1,11 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BasicTestApp.Client;
+using Blazorise.Shared.Models;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
-using static System.Net.Mime.MediaTypeNames;
 #endregion
 
 namespace Blazorise.Tests.Components;
@@ -30,7 +31,27 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "Portugal";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task SelectedValueChanged_ShouldOnlyTrigger_WhenValueHasBeenFoundAndCommitted()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+        {
+            p.Add( x => x.SelectedValueChanged, ( x ) => changedCount++ );
+            p.Add( x => x.Countries,
+                new List<Country>()
+                { new( "1", "test", "test" ), new( "10", "test", "test" ), new( "100", "test", "test" )} );
+        } );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "100";
+
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 1, changedCount );
     }
@@ -51,7 +72,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "A Random Value!";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 1, changedCount );
         Assert.Equal( default, selectedValue );
@@ -62,14 +83,35 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     {
         var changedCount = 0;
         var comp = RenderComponent<AutocompleteComponent>( p =>
-            p.Add( x => x.SelectedTextChanged, ( x ) => changedCount++ ) );
+        {
+            p.Add( x => x.SelectedTextChanged, ( x ) => changedCount++ );
+            p.Add( x => x.FreeTyping, false );
+        } );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "Portugal";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task SelectedTextChanged_FreeTyping_ShouldOnlyTrigger_OnEveryKeyStroke()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+        {
+            p.Add( x => x.SelectedTextChanged, ( x ) => changedCount++ );
+            p.Add( x => x.FreeTyping, true );
+        } );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "Portugal";
+
+        await Input( autoComplete, input, true );
+
+        Assert.Equal( 9, changedCount );
     }
 
     [Fact]
@@ -89,7 +131,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "A Random Value!";
 
-        await Input( autoComplete, input );
+        await Input( autoComplete, input, true );
 
         Assert.Equal( 1, changedCount );
         Assert.Equal( default, selectedText );

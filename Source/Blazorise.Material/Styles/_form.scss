@@ -143,6 +143,20 @@ input.form-control[type=color] {
     }
 }
 
+.input-group {
+    > .b-numeric:not(:last-child) > input,
+    > .flatpickr-wrapper:not(:last-child) > input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    > .b-numeric:not(:first-child) > input,
+    > .flatpickr-wrapper:not(:first-child) > input {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
+
 .input-group-xs {
     > .form-control,
     > .custom-select,
@@ -227,6 +241,19 @@ input.form-control[type=color] {
         > .input-group-text {
             font-size: $textfield-font-size-xl;
             line-height: $textfield-line-height-xl;
+        }
+    }
+}
+
+.input-group {
+    > div.flatpickr-wrapper {
+        > .form-control,
+        > .form-control-plaintext {
+            position: relative;
+            flex: 1 1 auto;
+            width: 1%;
+            min-width: 0;
+            margin-bottom: 0;
         }
     }
 }
