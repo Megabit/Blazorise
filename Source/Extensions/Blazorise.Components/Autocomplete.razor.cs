@@ -289,34 +289,22 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             if ( ManualReadMode )
                 await Reload();
 
-            if ( HasFilteredData && GetItemText( FilteredData.First() ) == CurrentSearch )
+
+            if ( !HasFilteredData )
             {
-                ActiveItemIndex = 0;
-                selectedValue = new( GetItemValue( FilteredData.First() ) );
-                SelectedText = GetItemText( FilteredData.First() );
-                await Task.WhenAll(
-                    SelectedValueChanged.InvokeAsync( selectedValue ),
-                    SelectedTextChanged.InvokeAsync( SelectedText )
-                    );
+                await ResetActiveItemIndex();
+            }
+
+            await ResetSelectedValue();
+
+            if ( FreeTyping )
+            {
+                SelectedText = CurrentSearch;
+                await SelectedTextChanged.InvokeAsync( SelectedText );
             }
             else
             {
-                if ( !HasFilteredData )
-                {
-                    await ResetActiveItemIndex();
-                }
-
-                await ResetSelectedValue();
-
-                if ( FreeTyping )
-                {
-                    SelectedText = CurrentSearch;
-                    await SelectedTextChanged.InvokeAsync( SelectedText );
-                }
-                else
-                {
-                    await ResetSelectedText();
-                }
+                await ResetSelectedText();
             }
         }
 
@@ -376,7 +364,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 return;
             }
 
-            if ( ActiveItemIndex >= 0 )
+            if ( ActiveItemIndex >= 0 && DropdownVisible )
             {
                 if ( FilteredData?.Count > 0 )
                 {
@@ -1157,7 +1145,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public AutocompleteFilter Filter { get; set; } = AutocompleteFilter.StartsWith;
 
     /// <summary>
-    /// The minimum number of characters a user must type before a search is performed.
+    /// The minimum number of characters a user must type before a search is performed. Set this to 0 to make the Autocomplete function like a dropdown.
     /// </summary>
     [Parameter] public int MinLength { get; set; } = 1;
 

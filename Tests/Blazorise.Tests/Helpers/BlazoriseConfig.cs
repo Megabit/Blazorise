@@ -37,7 +37,7 @@ public static class BlazoriseConfig
         services.AddScoped( typeof( ITextLocalizer<> ), typeof( TextLocalizer<> ) );
 
         // Shared component context. Must be defined as scoped as we want to make it available for the user session.
-        services.AddScoped<ModalSharedContext>();
+        services.AddScoped<IModalSharedContext, ModalSharedContext>();
 
         Action<BlazoriseOptions> configureOptions = ( options ) =>
         {
