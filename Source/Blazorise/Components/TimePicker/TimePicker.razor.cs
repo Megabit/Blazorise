@@ -335,8 +335,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// Display the time menu in an always-open state with the inline option.
     /// </summary>
     [Parameter] public bool Inline { get; set; }
+
     /// <summary>
-    /// Makes TimeInput menu to be static positioned.
+    /// If enabled, the calendar menu will be positioned as static.
     /// </summary>
     [Parameter] public bool StaticPicker { get; set; } = true;
 

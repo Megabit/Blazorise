@@ -55,10 +55,15 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Non Static example">
-        The static parameter allows the position of the TimeInput to always be static, and in case you want to disable it, you should assign the value false to the <code>StaticPicker</code> parameter
+        <Paragraph>
+            By default, the time menu will position statically. This means that it will also keep its position relative to the page when you scroll.
+        </Paragraph>
+        <Paragraph>
+            If you want to disable this behavior, you should assign the value false to the <Code>StaticPicker</Code> parameter.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <TimePickerNonStaticExample/>
+        <TimePickerNonStaticExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="TimePickerNonStaticExample" />
 </DocsPageSection>
@@ -100,6 +105,6 @@
         Display the time menu in an always-open state with the inline option.
     </DocsAttributesItem>
     <DocsAttributesItem Name="StaticPicker" Type="bool" Default="true">
-        StaticPicker is a parameter that enables the dropdown menu to have it's position static.
+        If enabled, the time menu will be positioned as static.
     </DocsAttributesItem>
 </DocsAttributes>
