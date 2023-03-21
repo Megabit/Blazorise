@@ -879,9 +879,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns></returns>
     private async Task Open()
     {
+        var triggerOpened = !canShowDropDown;
         canShowDropDown = true;
-
-        await Opened.InvokeAsync();
+        if ( triggerOpened )
+            await Opened.InvokeAsync();
     }
 
     /// <summary>
