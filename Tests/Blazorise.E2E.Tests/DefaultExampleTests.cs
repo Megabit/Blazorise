@@ -1,8 +1,4 @@
-﻿
-using BasicTestApp.Client;
-using Blazorise.E2E.Tests.Infrastructure;
-
-namespace Blazorise.E2E.Tests;
+﻿namespace Blazorise.E2E.Tests;
 
 
 [Parallelizable( ParallelScope.Self )]

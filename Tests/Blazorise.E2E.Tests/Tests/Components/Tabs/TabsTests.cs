@@ -1,7 +1,4 @@
-﻿using BasicTestApp.Client;
-using Blazorise.E2E.Tests.Infrastructure;
-
-namespace Blazorise.E2E.Tests.Tests.Components.Tabs;
+﻿namespace Blazorise.E2E.Tests.Tests.Components.Tabs;
 
 [Parallelizable( ParallelScope.Self )]
 [TestFixture]
