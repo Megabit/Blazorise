@@ -17,5 +17,5 @@ public class AutocompleteCloseEventArgs
     /// <summary>
     /// Gets the reason why the <see cref="Autocomplete{TItem, TValue}"/> closed.
     /// </summary>
-    public CloseReason CloseReason { get; set; }
+    public CloseReason CloseReason { get; }
 }
