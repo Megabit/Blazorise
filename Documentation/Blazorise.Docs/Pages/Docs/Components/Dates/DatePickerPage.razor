@@ -261,6 +261,9 @@
     <DocsAttributesItem Name="DateChanged" Type="@("EventCallback<TValue>")">
         Occurs when the date has changed.
     </DocsAttributesItem>
+        <DocsAttributesItem Name="DateExpression" Type="@("Expression<Func<TValue>>")">
+        Gets or sets an expression that identifies the date value.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="InputMode" Type="DateInputMode" Default="Date">
         Hints at the type of data that might be entered by the user while editing the element or its contents.
     </DocsAttributesItem>
@@ -299,6 +302,18 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="DisableMobile" Type="bool" Default="true">
         If enabled, it disables the native input on mobile devices.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Dates" Type="@("IReadOnlyList<TValue>")">
+        Gets or sets the input date value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DatesChanged" Type="@("EventCallback<IReadOnlyList<TValue>>")">
+        Occurs when the date has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DatesExpression" Type="@("Expression<Func<IReadOnlyList<TValue>>>")">
+        Gets or sets an expression that identifies the date value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RangeSeparator" Type="string">
+        Overrides the range separator that is used to separate date values when <Code>SelectionMode</Code> is set to <Code>DateInputSelectionMode.Range</Code>.
     </DocsAttributesItem>
     <DocsAttributesItem Name="StaticPicker" Type="bool" Default="true">
         StaticPicker is a parameter that enables the dropdown menu to have it's position static.

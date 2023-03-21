@@ -4,12 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BasicTestApp.Client;
-using Blazorise.Components;
 using Blazorise.Tests.Extensions;
 using Bunit;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Xunit;
 #endregion
 
@@ -49,7 +46,7 @@ public class AutocompleteBaseComponentTest : TestContext
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
 
-        Input( autoComplete, freeTypedValue );
+        Input( autoComplete, freeTypedValue, true );
 
         autoComplete.KeyDown( Key.Enter );
 
@@ -64,7 +61,7 @@ public class AutocompleteBaseComponentTest : TestContext
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
 
-        Input( autoComplete, freeTypedValue );
+        Input( autoComplete, freeTypedValue, false );
 
         WaitAndEnterFirstOption( comp, expectedValue, false );
 
@@ -72,15 +69,19 @@ public class AutocompleteBaseComponentTest : TestContext
         comp.WaitForAssertion( () => Assert.Equal( expectedValue, getSelectedText( comp ) ), TestExtensions.WaitTime );
     }
 
-    protected static async Task Input( AngleSharp.Dom.IElement autoComplete, string freeTypedValue )
+    protected static async Task Input( AngleSharp.Dom.IElement autoComplete, string freeTypedValue, bool confirmKey )
     {
         await autoComplete.FocusAsync( new() );
-        await autoComplete.InputAsync( new() { Value = freeTypedValue } );
-
+        string inputValue = string.Empty;
         foreach ( var item in freeTypedValue )
         {
+            inputValue += item;
             await autoComplete.KeyDownAsync( new() { Key = item.ToString() } );
+            await autoComplete.InputAsync( new() { Value = inputValue } );
         }
+
+        if ( confirmKey )
+            await autoComplete.KeyDownAsync( new() { Code = "Enter" } );
     }
 
     public void TestSelectValue<TComponent>( string expectedText, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent

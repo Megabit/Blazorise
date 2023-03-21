@@ -500,11 +500,13 @@ hr.divider.divider-text::before {
   font-size: 1.5rem;
 }
 
-.input-group > .b-numeric:not(:last-child) > input {
+.input-group > .b-numeric:not(:last-child) > input,
+.input-group > div.flatpickr-wrapper:not(:last-child) > input {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.input-group > .b-numeric:not(:first-child) > input {
+.input-group > .b-numeric:not(:first-child) > input,
+.input-group > div.flatpickr-wrapper:not(:first-child) > input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -597,6 +599,13 @@ hr.divider.divider-text::before {
 .input-group.has-validation > .dropdown > .btn:not(:last-child):not(.dropdown-toggle) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.input-group > div.flatpickr-wrapper > .form-control {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
 }
 
 .form-check > .form-check-input.form-check-input-xs {

@@ -1,9 +1,9 @@
-﻿import "./vendors/flatpickr.js?v=1.2.1.0";
-import * as utilities from "./utilities.js?v=1.2.1.0";
+﻿import "./vendors/flatpickr.js?v=1.2.2.0";
+import * as utilities from "./utilities.js?v=1.2.2.0";
 
 const _pickers = [];
 
-export function initialize(element, elementId, options) {
+export function initialize(dotnetAdapter, element, elementId, options) {
     element = utilities.getRequiredElement(element, elementId);
 
     if (!element)
@@ -69,6 +69,8 @@ export function initialize(element, elementId, options) {
 
     const picker = flatpickr(element, Object.assign({}, defaultOptions, pluginOptions));
 
+    picker.altInput.dotnetAdapter = dotnetAdapter;
+
     if (options) {
         picker.altInput.disabled = options.disabled || false;
         picker.altInput.readOnly = options.readOnly || false;
@@ -78,13 +80,81 @@ export function initialize(element, elementId, options) {
         inputMode: options.inputMode
     };
 
+    attachEventHandlers(picker.altInput);
+
     _pickers[elementId] = picker;
+}
+
+function attachEventHandlers(picker) {
+    picker.addEventListener("keydown", keyDownHandler);
+    picker.addEventListener("keyup", keyUpHandler);
+    picker.addEventListener("focus", focusHandler);
+    picker.addEventListener("focusin", focusInHandler);
+    picker.addEventListener("focusout", focusOutHandler);
+    picker.addEventListener("keypress", keyPressHandler);
+    picker.addEventListener("blur", blurHandler);
+}
+
+function removeEventHandlers(picker) {
+    picker.removeEventListener("keydown", keyDownHandler);
+    picker.removeEventListener("keyup", keyUpHandler);
+    picker.removeEventListener("focus", focusHandler);
+    picker.removeEventListener("focusin", focusInHandler);
+    picker.removeEventListener("focusout", focusOutHandler);
+    picker.removeEventListener("keypress", keyPressHandler);
+    picker.removeEventListener("blur", blurHandler);
+}
+
+function keyDownHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnKeyDownHandler", e);
+    }
+}
+
+function keyUpHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnKeyUpHandler", e);
+    }
+}
+
+function focusHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnFocusHandler", e);
+    }
+}
+
+function focusInHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnFocusInHandler", e);
+    }
+}
+
+function focusOutHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnFocusOutHandler", e);
+    }
+}
+
+function keyPressHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnKeyPressHandler", e);
+    }
+}
+
+function blurHandler(e) {
+    if (e.target.dotnetAdapter) {
+        e.target.dotnetAdapter.invokeMethodAsync("OnBlurHandler", e);
+    }
 }
 
 export function destroy(element, elementId) {
     const instances = _pickers || {};
 
     const instance = instances[elementId];
+
+    if (instance && instance.altInput) {
+        removeEventHandlers(instance.altInput);
+    }
 
     if (instance) {
         instance.destroy();
