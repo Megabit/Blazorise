@@ -11,7 +11,7 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    An <Code Tag>Image</Code> component is a visual representation of something, while a digital image is a binary representation of visual data. For this purpose, an image is a picture that was created or copied and stored in electronic form. 
+    An <Code Tag>Image</Code> component is a visual representation of something, while a digital image is a binary representation of visual data. For this purpose, an image is a picture that was created or copied and stored in electronic form.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -19,7 +19,7 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Source">
+    <DocsPageSectionHeader Title="Basic example">
         Simply set the <Code>Source</Code> attribute and you’re good to go.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -29,13 +29,13 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Loading">
+    <DocsPageSectionHeader Title="Deferred Loading">
         Add parameter <Code>Loading</Code> to enable image to dinamicaly load when you scroll to that <Code>Image</Code>.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <LoadingImageExample></LoadingImageExample>
+        <ImageLoadingExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="LoadingImageExample" />
+    <DocsPageSectionSource Code="ImageLoadingExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -43,19 +43,19 @@
         The <Code>Fluid</Code> Forces an image to take up the whole width.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <FluidImageExample></FluidImageExample>
+        <ImageFluidExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="FluidImageExample" />
+    <DocsPageSectionSource Code="ImageFluidExample" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Text">
-        The parameter <Code>Text</Code> gives alternate text for an image.
+        The parameter <Code>Text</Code> gives alternate (<code>alt</code>) text for an image, which is good for SEO optimizations.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-       <TextImageExample></TextImageExample>
+        <ImageTextExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="TextImageExample" />
+    <DocsPageSectionSource Code="ImageTextExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -71,7 +71,7 @@
         Source attribute is used to find an image that we want to show up.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Loading" Type="bool" Default="false">
-        Defers loading the image until it reaches a calculated distance from the viewport.
+        Deffers loading the image until it reaches a calculated distance from the viewport.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Fluid" Type="bool" Default="false">
         Forces an image to take up the whole width of parent component.

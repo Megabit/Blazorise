@@ -2232,11 +2232,11 @@ public class Gender
 
         public const string BasicImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/placeholders/image-1@2x.jpg"" Height=""Height.Is50""/>";
 
-        public const string FluidImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/placeholders/image-1@2x.jpg"" Height=""Height.Is75"" Fluid />";
+        public const string ImageFluidExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/placeholders/image-1@2x.jpg"" Fluid />";
 
-        public const string LoadingImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/placeholders/image-4@2x.jpg"" Height=""Height.Is75"" Loading=true />";
+        public const string ImageLoadingExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/placeholders/image-4@2x.jpg"" Height=""Height.Is75"" Loading=true />";
 
-        public const string TextImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/placeholders/image-1@2x.jpg"" Height=""Height.Is50"" Text=""Alternative text..."" />";
+        public const string ImageTextExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/placeholders/image-1@2x.jpg"" Height=""Height.Is50"" Text=""Alternative text..."" />";
 
         public const string AliasInputMaskExample = @"<InputMask Alias=""datetime"" InputFormat=""dd/mm/yyyy"" OutputFormat=""ddmmyyyy"" />";
 

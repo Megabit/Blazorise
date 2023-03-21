@@ -26,7 +26,7 @@ public partial class Image : BaseComponent
     #region Properties
 
     /// <summary>
-    /// Give the string representing lazy loading.
+    /// Gets the string representing the img loading attribute.
     /// </summary>
     protected string LoadingString => Loading ? "lazy" : null;
 
@@ -46,7 +46,7 @@ public partial class Image : BaseComponent
     [Parameter] public bool Fluid { get; set; }
 
     /// <summary>
-    /// Defers loading the image until it reaches a calculated distance from the viewport.
+    /// Deffers loading the image until it reaches a calculated distance from the viewport.
     /// </summary>
     [Parameter] public bool Loading { get; set; }
 
