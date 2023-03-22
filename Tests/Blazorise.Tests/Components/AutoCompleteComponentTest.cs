@@ -167,9 +167,9 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
 
     [Theory]
     [InlineData( "MyCustomValue" )]
-    public void FreeTypedValue_ShouldSet( string freeTyped )
+    public async Task FreeTypedValue_ShouldSet( string freeTyped )
     {
-        TestFreeTypedValue<AutocompleteComponent>( freeTyped, ( comp ) => comp.Instance.SelectedText );
+        await TestFreeTypedValue<AutocompleteComponent>( freeTyped, ( comp ) => comp.Instance.SelectedText );
     }
 
     [Theory]
@@ -179,9 +179,9 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     [InlineData( false, "Portuga", "Portuga" )]
     [InlineData( false, "Chin", "Chin" )]
     [InlineData( false, "United King", "United King" )]
-    public void FreeTypedValue_AutoPreSelect_ShouldSet( bool autoPreSelect, string freeTyped, string expectedText )
+    public async Task FreeTypedValue_AutoPreSelect_ShouldSet( bool autoPreSelect, string freeTyped, string expectedText )
     {
-        TestFreeTypedValue_AutoPreSelect<AutocompleteComponent>( autoPreSelect, freeTyped, expectedText, ( comp ) => comp.Instance.SelectedText );
+        await TestFreeTypedValue_AutoPreSelect<AutocompleteComponent>( autoPreSelect, freeTyped, expectedText, ( comp ) => comp.Instance.SelectedText );
     }
 
     [Fact]

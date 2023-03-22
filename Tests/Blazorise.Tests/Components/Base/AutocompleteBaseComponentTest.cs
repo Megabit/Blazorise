@@ -40,13 +40,13 @@ public class AutocompleteBaseComponentTest : TestContext
         comp.WaitForAssertion( () => Assert.Null( getSelectedText( comp ) ), TestExtensions.WaitTime );
     }
 
-    public void TestFreeTypedValue<TComponent>( string freeTypedValue, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
+    public async Task TestFreeTypedValue<TComponent>( string freeTypedValue, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>();
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
 
-        Input( autoComplete, freeTypedValue, true );
+        await Input( autoComplete, freeTypedValue, true );
 
         autoComplete.KeyDown( Key.Enter );
 
@@ -54,14 +54,14 @@ public class AutocompleteBaseComponentTest : TestContext
         comp.WaitForAssertion( () => Assert.Equal( freeTypedValue, getSelectedText( comp ) ), TestExtensions.WaitTime );
     }
 
-    public void TestFreeTypedValue_AutoPreSelect<TComponent>( bool autoPreSelect, string freeTypedValue, string expectedValue, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
+    public async Task TestFreeTypedValue_AutoPreSelect<TComponent>( bool autoPreSelect, string freeTypedValue, string expectedValue, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>( parameters =>
             parameters.TryAdd( "AutoPreSelect", autoPreSelect ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
 
-        Input( autoComplete, freeTypedValue, false );
+        await Input( autoComplete, freeTypedValue, false );
 
         WaitAndEnterFirstOption( comp, expectedValue, false );
 
