@@ -16,6 +16,7 @@
 		<BrowserName>chromium</BrowserName>
 		<LaunchOptions>
 			<Headless>true</Headless>
+			<Args>--disable-gpu --no-sandbox</Args>
 			<Channel>chrome</Channel>
 		</LaunchOptions>
 	</Playwright>
