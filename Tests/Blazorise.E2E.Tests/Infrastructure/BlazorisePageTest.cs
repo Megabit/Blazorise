@@ -11,7 +11,10 @@ public class BlazorisePageTest : BlazorPageTest
     /// <returns></returns>
     public override BrowserNewContextOptions ContextOptions()
     {
-        return null;
+        return new BrowserNewContextOptions()
+        {
+            Locale = "en-US"
+        };
     }
 
     /// <summary>
