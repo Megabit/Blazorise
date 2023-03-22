@@ -22,6 +22,36 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
+    public async Task Opened_ShouldTrigger_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.Opened, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "Portugal";
+
+        await Input( autoComplete, input, true );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task Closed_ShouldTrigger_OnAutocompleteClosed_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.Closed, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "Portugal";
+
+        await Input( autoComplete, input, true );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
     public async Task SelectedValueChanged_ShouldOnlyTrigger_WhenValueHasBeenFound()
     {
         var changedCount = 0;
