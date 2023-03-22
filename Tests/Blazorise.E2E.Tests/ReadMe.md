@@ -45,6 +45,9 @@ To remove the headless mode, you can either:
 - `set HEADED=1
 dotnet test`
 
+- `set PWDEBUG=1
+dotnet test`
+
 ### Tracing will gather screenshots and other useful information about your test run.
 This will work even in headless mode.
 
