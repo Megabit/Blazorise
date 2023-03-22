@@ -77,7 +77,7 @@ public class AutocompleteBaseComponentTest : TestContext
         {
             inputValue += item;
             await autoComplete.KeyDownAsync( new() { Key = item.ToString() } );
-            await autoComplete.InputAsync( new() { Value = inputValue } );
+            await autoComplete.InputAsync( inputValue );
         }
 
         if ( confirmKey )
