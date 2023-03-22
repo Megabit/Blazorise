@@ -16,7 +16,7 @@
 		<BrowserName>chromium</BrowserName>
 		<LaunchOptions>
 			<Headless>true</Headless>
-			<Channel>msedge</Channel>
+			<Channel>chrome</Channel>
 		</LaunchOptions>
 	</Playwright>
 </RunSettings>
