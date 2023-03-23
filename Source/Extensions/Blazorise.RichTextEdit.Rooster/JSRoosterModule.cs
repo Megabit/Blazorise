@@ -15,9 +15,9 @@ internal class JSRoosterModule : BaseJSModule, IJSDestroyableModule
     /// <inheritdoc/>
     public override string ModuleFileName => $"./_content/Blazorise.RichTextEdit.Rooster/blazorise.rooster.js?v={VersionProvider.Version}";
 
-    public ValueTask Initialize( DotNetObjectReference<RichTextEdit> adapterReference, ElementReference elementRef, string elementId, object options )
+    public ValueTask Initialize( DotNetObjectReference<RoosterAdapter> adapterReference, ElementReference elementRef, string elementId, object options )
         => InvokeSafeVoidAsync( "initialize", adapterReference, elementRef, elementId, options );
 
     public ValueTask Destroy( ElementReference elementRef, string elementId )
-        => ValueTask.CompletedTask;
+        => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
 }
