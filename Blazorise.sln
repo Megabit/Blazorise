@@ -153,6 +153,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Captcha", "Source
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Captcha.ReCaptcha", "Source\Extensions\Blazorise.Captcha.ReCaptcha\Blazorise.Captcha.ReCaptcha.csproj", "{2B4FD79A-42E2-4B81-828B-0799E4744ADA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.RichTextEdit.Rooster", "Source\Extensions\Blazorise.RichTextEdit.Rooster\Blazorise.RichTextEdit.Rooster.csproj", "{D03708E9-0E38-4AD1-87DF-DA349E7DC271}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
