@@ -1,9 +1,8 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Blazorise.Extensions;
 using Blazorise.TreeView.Extensions;
 using Blazorise.TreeView.Internal;
@@ -13,7 +12,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.TreeView;
 
-public partial class TreeView<TNode> : BaseComponent
+public partial class TreeView<TNode> : BaseComponent, IDisposable
 {
     #region Members
 
@@ -58,6 +57,39 @@ public partial class TreeView<TNode> : BaseComponent
                 treeViewNodeStates.Add( nodeState );
             }
         }
+
+        if ( paramNodes is INotifyCollectionChanged observableCollection )
+        {
+            observableCollection.CollectionChanged -= OnCollectionChanged;
+            observableCollection.CollectionChanged += OnCollectionChanged;
+        }
+    }
+
+    private void OnCollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
+    {
+        if ( e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset )
+        {
+            InvokeAsync( async () =>
+            {
+                await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+                {
+                    treeViewNodeStates.Add( nodeState );
+                }
+            } );
+        }
+    }
+
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( Nodes is INotifyCollectionChanged observableCollection )
+            {
+                observableCollection.CollectionChanged -= OnCollectionChanged;
+            }
+        }
+
+        base.Dispose( disposing );
     }
 
     protected override void BuildClasses( ClassBuilder builder )
