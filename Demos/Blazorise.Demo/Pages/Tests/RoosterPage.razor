@@ -1,4 +1,5 @@
 ﻿@page "/tests/rooster"
+@using RichTextEditAction = Blazorise.RichTextEdit.Rooster.RichTextEditAction
 
 <Row>
     <Column>
@@ -7,12 +8,23 @@
                 <CardTitle>RichTextEdit based on rooster.js</CardTitle>
             </CardHeader>
             <CardBody>
-                <Blazorise.RichTextEdit.Rooster.RichTextEdit />
+                <Buttons Role="ButtonsRole.Toolbar">
+                    <Buttons Margin="Margin.Is2.FromEnd">
+                        <Button Clicked="() => editor.Format(RichTextEditAction.Bold)" Style="font-weight: bold">B</Button>
+                        <Button Clicked="() => editor.Format(RichTextEditAction.Italic)" Style="font-style: initial">I</Button>
+                        <Button Clicked="() => editor.Format(RichTextEditAction.Underline)" Style="text-decoration: underline">U</Button>
+                    </Buttons>
+                    <Buttons Margin="Margin.Is2.FromEnd">
+                        <Button Clicked="() => editor.Format(RichTextEditAction.Header, 1)">H1</Button>
+                        <Button Clicked="() => editor.Format(RichTextEditAction.Header, 2)">H2</Button>
+                    </Buttons>
+                </Buttons>
+                <Blazorise.RichTextEdit.Rooster.RichTextEdit @ref="editor"/>
             </CardBody>
         </Card>
     </Column>
 </Row>
 
 @code {
-
+    private Blazorise.RichTextEdit.Rooster.RichTextEdit editor;
 }

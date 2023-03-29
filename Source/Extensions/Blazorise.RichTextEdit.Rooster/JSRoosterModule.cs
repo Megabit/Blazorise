@@ -18,6 +18,9 @@ internal class JSRoosterModule : BaseJSModule, IJSDestroyableModule
     public ValueTask Initialize( DotNetObjectReference<RoosterAdapter> adapterReference, ElementReference elementRef, string elementId, object options )
         => InvokeSafeVoidAsync( "initialize", adapterReference, elementRef, elementId, options );
 
+    public ValueTask Format( ElementReference elementRef, string elementId, string action, object options = null )
+        => InvokeSafeVoidAsync( "format", elementRef, elementId, action, options );
+
     public ValueTask Destroy( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
 }

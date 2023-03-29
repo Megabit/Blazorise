@@ -17,12 +17,12 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     const instance = {
         options: options,
         adapter: dotNetAdapter,
-        rooster: null,
+        editor: null,
     };
 
-    instance.rooster = roosterjs.createEditor(element);
+    instance.editor = roosterjs.createEditor(element);
 
-    instance.rooster.setContent('Welcome to <b>RoosterJs</b>!');
+    instance.editor.setContent('Welcome to <b>RoosterJs</b>!');
 
     _instances[elementId] = instance;
 }
@@ -34,7 +34,17 @@ export function destroy(element, elementId) {
     if (!instance)
         return;
 
-    instance.rooster.dispose();
+    instance.editor.dispose();
     delete instances[elementId];
+}
+
+export function format(element, elementId, action, args) {
+    const instances = _instances || {};
+    const instance = instances[elementId];
+
+    if (!instance)
+        return;
+
+    roosterjs[action](instance.editor, args);
 }
 
