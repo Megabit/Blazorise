@@ -15,22 +15,22 @@ namespace Blazorise.Tests.Components;
 public class AutocompleteBaseComponentTest : TestContext
 {
 
-    public void TestFocus<TComponent>( Func<IRenderedComponent<TComponent>, Task> focus ) where TComponent : IComponent
+    public async Task TestFocus<TComponent>( Func<IRenderedComponent<TComponent>, Task> focus ) where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>();
 
-        comp.InvokeAsync( async () => await focus( comp ) );
+        await comp.InvokeAsync( async () => await focus( comp ) );
 
         comp.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "focus" ), TestExtensions.WaitTime );
     }
 
-    public void TestClear<TComponent>( Func<IRenderedComponent<TComponent>, Task> clear, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
+    public async Task TestClear<TComponent>( Func<IRenderedComponent<TComponent>, Task> clear, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>( parameters =>
             parameters.TryAdd( "SelectedValue", "CN" )
         );
 
-        comp.InvokeAsync( async () => await clear( comp ) );
+        await comp.InvokeAsync( async () => await clear( comp ) );
         comp.Render();
 
         var input = comp.Find( ".b-is-autocomplete input" );
@@ -84,14 +84,14 @@ public class AutocompleteBaseComponentTest : TestContext
             await autoComplete.KeyDownAsync( new() { Code = "Enter" } );
     }
 
-    public void TestSelectValue<TComponent>( string expectedText, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
+    public async Task TestSelectValue<TComponent>( string expectedText, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>();
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
 
-        autoComplete.Focus();
-        autoComplete.Input( expectedText );
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.InputAsync( expectedText );
 
         WaitAndClickfirstOption( comp, expectedText, true );
 
@@ -148,7 +148,7 @@ public class AutocompleteBaseComponentTest : TestContext
         autoComplete.KeyDown( Key.Enter );
     }
 
-    public void TestInitialSelectedValue<TComponent>( Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
+    public Task TestInitialSelectedValue<TComponent>( Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
     {
         // setup
         var comp = RenderComponent<TComponent>( parameters =>
@@ -167,9 +167,10 @@ public class AutocompleteBaseComponentTest : TestContext
         this.JSInterop.VerifyInvoke( "initialize", 2 );
         Assert.Equal( expectedSelectedText, selectedText );
         Assert.Equal( expectedSelectedText, inputText );
+        return Task.CompletedTask;
     }
 
-    public void TestHasPreselection<TComponent>() where TComponent : IComponent
+    public async Task TestHasPreselection<TComponent>() where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>( parameters =>
         {
@@ -179,14 +180,14 @@ public class AutocompleteBaseComponentTest : TestContext
 
         // test
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
-        autoComplete.KeyDown( "A" );
-        autoComplete.Input( "A" );
-        autoComplete.Focus();
+        await autoComplete.KeyDownAsync( new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs() { Key = "A" } );
+        autoComplete.InputAsync( "A" );
+        await autoComplete.FocusAsync( new() );
 
         comp.WaitForAssertion( () => comp.Find( ".b-is-autocomplete-suggestion.focus" ), TestExtensions.WaitTime );
     }
 
-    public void TestHasNotPreselection<TComponent>() where TComponent : IComponent
+    public async Task TestHasNotPreselection<TComponent>() where TComponent : IComponent
     {
         // setup
         var comp = RenderComponent<TComponent>( parameters =>
@@ -197,16 +198,16 @@ public class AutocompleteBaseComponentTest : TestContext
 
         // test
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
-        autoComplete.KeyDown( "A" );
-        autoComplete.Input( "A" );
-        autoComplete.Focus();
+        await autoComplete.KeyDownAsync( new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs() { Key = "A" } );
+        await autoComplete.InputAsync( "A" );
+        await autoComplete.FocusAsync( new() );
 
         var preSelected = comp.FindAll( ".b-is-autocomplete-suggestion.focus" );
 
         Assert.Empty( preSelected );
     }
 
-    public void TestMinLen0ShowsOptions<TComponent>() where TComponent : IComponent
+    public async Task TestMinLen0ShowsOptions<TComponent>() where TComponent : IComponent
     {
         // setup
         var comp = RenderComponent<TComponent>( parameters =>
@@ -214,13 +215,13 @@ public class AutocompleteBaseComponentTest : TestContext
 
         // test
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
-        autoComplete.Input( "" );
+        await autoComplete.InputAsync( "" );
         autoComplete.Focus();
 
         comp.WaitForAssertion( () => Assert.NotEmpty( comp.FindAll( ".b-is-autocomplete-suggestion" ) ), TestExtensions.WaitTime );
     }
 
-    public void TestMinLenBiggerThen0DoesNotShowOptions<TComponent>() where TComponent : IComponent
+    public async Task TestMinLenBiggerThen0DoesNotShowOptions<TComponent>() where TComponent : IComponent
     {
         // setup
         var comp = RenderComponent<TComponent>( parameters =>
@@ -228,7 +229,7 @@ public class AutocompleteBaseComponentTest : TestContext
 
         // test
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
-        autoComplete.Input( "" );
+        await autoComplete.InputAsync( "" );
         autoComplete.Focus();
 
         var options = comp.FindAll( ".b-is-autocomplete-suggestion" );
@@ -236,7 +237,7 @@ public class AutocompleteBaseComponentTest : TestContext
         Assert.Empty( options );
     }
 
-    public void TestProgramaticallySetSelectedValue<TComponent>( Func<IRenderedComponent<TComponent>, string> getSelectedText, string selectedValue, string expectedSelectedText ) where TComponent : IComponent
+    public Task TestProgramaticallySetSelectedValue<TComponent>( Func<IRenderedComponent<TComponent>, string> getSelectedText, string selectedValue, string expectedSelectedText ) where TComponent : IComponent
     {
         // setup
         var comp = RenderComponent<TComponent>(
@@ -254,16 +255,18 @@ public class AutocompleteBaseComponentTest : TestContext
         this.JSInterop.VerifyInvoke( "initialize", 2 );
         Assert.Equal( expectedSelectedText, selectedText );
         Assert.Equal( expectedSelectedText, inputText );
+
+        return Task.CompletedTask;
     }
 }
 
 public class AutocompleteMultipleBaseComponentTest : TestContext
 {
-    public void TestFocus<TComponent>( Func<IRenderedComponent<TComponent>, Task> focus ) where TComponent : IComponent
+    public async Task TestFocus<TComponent>( Func<IRenderedComponent<TComponent>, Task> focus ) where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>();
 
-        comp.InvokeAsync( async () => await focus( comp ) );
+        await comp.InvokeAsync( async () => await focus( comp ) );
 
         comp.WaitForAssertion( () => this.JSInterop.VerifyInvoke( "focus" ), TestExtensions.WaitTime );
     }
@@ -288,7 +291,7 @@ public class AutocompleteMultipleBaseComponentTest : TestContext
         comp.WaitForAssertion( () => Assert.Empty( getSelectedTexts( comp ) ), TestExtensions.WaitTime );
     }
 
-    public void TestInitialSelectedValues<TComponent>( Func<IRenderedComponent<TComponent>, string[]> getSelectedTexts ) where TComponent : IComponent
+    public Task TestInitialSelectedValues<TComponent>( Func<IRenderedComponent<TComponent>, string[]> getSelectedTexts ) where TComponent : IComponent
     {
         // setup
         var comp = RenderComponent<TComponent>( parameters =>
@@ -312,9 +315,10 @@ public class AutocompleteMultipleBaseComponentTest : TestContext
         }
 
         AssertExpectedTextsWithBadges( comp, expectedSelectedTexts );
+        return Task.CompletedTask;
     }
 
-    public void TestProgramaticallySetSelectedValues<TComponent>( Func<IRenderedComponent<TComponent>, string[]> getSelectedTexts, string[] selectedValues, string[] expectedSelectedTexts ) where TComponent : IComponent
+    public Task TestProgramaticallySetSelectedValues<TComponent>( Func<IRenderedComponent<TComponent>, string[]> getSelectedTexts, string[] selectedValues, string[] expectedSelectedTexts ) where TComponent : IComponent
     {
         // setup
         var comp = RenderComponent<TComponent>(
@@ -338,9 +342,10 @@ public class AutocompleteMultipleBaseComponentTest : TestContext
         }
 
         AssertExpectedTextsWithBadges( comp, expectedSelectedTexts );
+        return Task.CompletedTask;
     }
 
-    public void TestSelectValues<TComponent>( string[] expectedTexts ) where TComponent : IComponent
+    public async Task TestSelectValues<TComponent>( string[] expectedTexts ) where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>(
             parameters =>
@@ -350,7 +355,7 @@ public class AutocompleteMultipleBaseComponentTest : TestContext
         foreach ( var expectedText in expectedTexts )
         {
             autoComplete.Focus();
-            autoComplete.Input( expectedText );
+            await autoComplete.InputAsync( expectedText );
 
             AutocompleteBaseComponentTest.WaitAndClickfirstOption( comp, expectedText, true );
         }
@@ -358,7 +363,7 @@ public class AutocompleteMultipleBaseComponentTest : TestContext
         AssertExpectedTextsWithBadges( comp, expectedTexts );
     }
 
-    public void TestFreeTypedValue<TComponent>( string[] startTexts, string[] addTexts, string[] expectedTexts ) where TComponent : IComponent
+    public async Task TestFreeTypedValue<TComponent>( string[] startTexts, string[] addTexts, string[] expectedTexts ) where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>(
             parameters =>
@@ -368,14 +373,14 @@ public class AutocompleteMultipleBaseComponentTest : TestContext
         foreach ( var addText in addTexts )
         {
             autoComplete.Focus();
-            autoComplete.Input( addText );
-            autoComplete.KeyDown( Key.Enter );
+            await autoComplete.InputAsync( addText );
+            await autoComplete.KeyDownAsync( Key.Enter );
         }
 
         AssertExpectedTextsWithBadges( comp, expectedTexts );
     }
 
-    public void TestRemoveValues<TComponent>( string[] startTexts, string[] removeTexts, string[] expectedTexts ) where TComponent : IComponent
+    public async Task TestRemoveValues<TComponent>( string[] startTexts, string[] removeTexts, string[] expectedTexts ) where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>(
             parameters =>
@@ -387,7 +392,7 @@ public class AutocompleteMultipleBaseComponentTest : TestContext
         {
             var badgeToRemove = badges.Single( x => x.TextContent.Replace( "×", "" ) == removeText );
             var removeButton = badgeToRemove.GetElementsByTagName( "span" )[0];
-            removeButton.Click();
+            await removeButton.ClickAsync( new() );
             badges.Refresh();
         }
 
