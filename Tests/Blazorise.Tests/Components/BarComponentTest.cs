@@ -1,11 +1,10 @@
 ﻿#region Using directives
-#endregion
-
 using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
+#endregion
 
 namespace Blazorise.Tests.Components;
 public class BarComponentTest : TestContext
