@@ -3042,6 +3042,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string BasicSignaturePadExample = @"";
+
         public const string BasicSliderExample = @"<Slider TValue=""decimal"" Value=""25m"" Max=""100m"" />";
 
         public const string SliderMinMaxExample = @"<Paragraph>
