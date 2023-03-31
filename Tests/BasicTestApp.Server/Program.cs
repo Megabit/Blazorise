@@ -1,21 +1,30 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;
 
-var builder = WebApplication.CreateBuilder( args );
-builder.Logging.ClearProviders();
+namespace BasicTestApp.Server;
+public partial class Program
+{
+    public static void Main( string[] args )
+    {
+        var builder = WebApplication.CreateBuilder( args );
+        builder.Logging.ClearProviders();
 
-var app = builder.Build();
+        WebApplication app = builder.Build();
 
-//app.UseWebAssemblyDebugging();
-//app.UseHttpsRedirection();
+        //app.UseWebAssemblyDebugging();
+        //app.UseHttpsRedirection();
 
-app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
+        app.UseBlazorFrameworkFiles();
+        app.UseStaticFiles();
 
-app.UseRouting();
+        app.UseRouting();
 
-app.MapFallbackToFile( "index.html" );
+        app.MapFallbackToFile( "index.html" );
 
-app.Run();
+        app.Run();
+    }
+}
 
 public partial class Program { }
+

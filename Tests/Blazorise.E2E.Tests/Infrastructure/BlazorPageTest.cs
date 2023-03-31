@@ -10,7 +10,7 @@ public class BlazorPageTest : PageTest
 
     protected static readonly Uri RootUri = new( "http://localhost:14695" );
 
-    private readonly WebApplicationFactory<Program> _webApplicationFactory = new() { };
+    private readonly WebApplicationFactory<BasicTestApp.Server.Program> _webApplicationFactory = new() { };
     private HttpClient _httpClient;
 
     [SetUp]
