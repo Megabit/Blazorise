@@ -13,6 +13,8 @@ public class BarComponentTest : TestContext
     public BarComponentTest()
     {
         BlazoriseConfig.AddBootstrapProviders( Services );
+        BlazoriseConfig.JSInterop.AddBreakpoint( this.JSInterop );
+        BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
     }
 
     [Fact]
@@ -26,7 +28,7 @@ public class BarComponentTest : TestContext
         await barToggler.ClickAsync( new() );
 
         // validate
-        var barItem = comp.Find( ".dropdown-toggle .nav-item" );
+        var barItem = comp.Find( ".dropdown-menu .nav-item" );
         Assert.Equal( "1", barItem.TextContent );
     }
 }
