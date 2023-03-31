@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <OutputType>Exe</OutputType>
-    <LangVersion>10.0</LangVersion>
+	<GenerateBlazorWebAssemblyDepsFile>true</GenerateBlazorWebAssemblyDepsFile>
   </PropertyGroup>
 
   <ItemGroup>

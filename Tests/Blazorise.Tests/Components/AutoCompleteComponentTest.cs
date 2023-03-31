@@ -138,15 +138,15 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
-    public void Focus_ShouldFocus()
+    public Task Focus_ShouldFocus()
     {
-        TestFocus<AutocompleteComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
+        return TestFocus<AutocompleteComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
     }
 
     [Fact]
-    public void Clear_ShouldReset()
+    public Task Clear_ShouldReset()
     {
-        TestClear<AutocompleteComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedText );
+        return TestClear<AutocompleteComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedText );
     }
 
     [Fact]
@@ -160,16 +160,16 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     [InlineData( "Antarctica" )]
     [InlineData( "United Kingdom" )]
     [InlineData( "China" )]
-    public void SelectValue_ShouldSet( string expectedText )
+    public Task SelectValue_ShouldSet( string expectedText )
     {
-        TestSelectValue<AutocompleteComponent>( expectedText, ( comp ) => comp.Instance.SelectedText );
+        return TestSelectValue<AutocompleteComponent>( expectedText, ( comp ) => comp.Instance.SelectedText );
     }
 
     [Theory]
     [InlineData( "MyCustomValue" )]
-    public void FreeTypedValue_ShouldSet( string freeTyped )
+    public async Task FreeTypedValue_ShouldSet( string freeTyped )
     {
-        TestFreeTypedValue<AutocompleteComponent>( freeTyped, ( comp ) => comp.Instance.SelectedText );
+        await TestFreeTypedValue<AutocompleteComponent>( freeTyped, ( comp ) => comp.Instance.SelectedText );
     }
 
     [Theory]
@@ -179,41 +179,41 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     [InlineData( false, "Portuga", "Portuga" )]
     [InlineData( false, "Chin", "Chin" )]
     [InlineData( false, "United King", "United King" )]
-    public void FreeTypedValue_AutoPreSelect_ShouldSet( bool autoPreSelect, string freeTyped, string expectedText )
+    public async Task FreeTypedValue_AutoPreSelect_ShouldSet( bool autoPreSelect, string freeTyped, string expectedText )
     {
-        TestFreeTypedValue_AutoPreSelect<AutocompleteComponent>( autoPreSelect, freeTyped, expectedText, ( comp ) => comp.Instance.SelectedText );
+        await TestFreeTypedValue_AutoPreSelect<AutocompleteComponent>( autoPreSelect, freeTyped, expectedText, ( comp ) => comp.Instance.SelectedText );
     }
 
     [Fact]
-    public void AutoPreSelect_True_Should_AutoPreSelectFirstItem()
+    public Task AutoPreSelect_True_Should_AutoPreSelectFirstItem()
     {
-        TestHasPreselection<AutocompleteComponent>();
+        return TestHasPreselection<AutocompleteComponent>();
     }
 
     [Fact]
-    public void AutoPreSelect_False_ShouldNot_AutoPreSelectFirstItem()
+    public Task AutoPreSelect_False_ShouldNot_AutoPreSelectFirstItem()
     {
-        TestHasNotPreselection<AutocompleteComponent>();
+        return TestHasNotPreselection<AutocompleteComponent>();
     }
 
     [Fact]
-    public void MinLength_0_ShouldShowOptions_OnFocus()
+    public Task MinLength_0_ShouldShowOptions_OnFocus()
     {
-        TestMinLen0ShowsOptions<AutocompleteComponent>();
+        return TestMinLen0ShowsOptions<AutocompleteComponent>();
     }
 
     [Fact]
-    public void MinLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
+    public Task MinLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
     {
-        TestMinLenBiggerThen0DoesNotShowOptions<AutocompleteComponent>();
+        return TestMinLenBiggerThen0DoesNotShowOptions<AutocompleteComponent>();
     }
 
     [Theory]
     [InlineData( "CN", "China" )]
     [InlineData( "PT", "Portugal" )]
     [InlineData( "GB", "United Kingdom" )]
-    public void ProgramaticallySetSelectedValue_ShouldSet_SelectedText( string selectedValue, string expectedSelectedText )
+    public Task ProgramaticallySetSelectedValue_ShouldSet_SelectedText( string selectedValue, string expectedSelectedText )
     {
-        TestProgramaticallySetSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText, selectedValue, expectedSelectedText );
+        return TestProgramaticallySetSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText, selectedValue, expectedSelectedText );
     }
 }
