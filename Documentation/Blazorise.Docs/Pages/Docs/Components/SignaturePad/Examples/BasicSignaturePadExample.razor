@@ -1,1 +1,21 @@
-﻿
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<SignaturePad @bind-Value="@dino" DotSize="0.5" MinWidth="0.5" MaxWidth="2.5" Throttle="16" MinDistance="5" BackgroundColor="rgba(40, 67, 135);, 1" PenColor="#ff0000" VelocityFilterWeight="0.7"></SignaturePad>
+
+<div>
+    <img src="@imgSrc" />
+</div>
+
+@code {
+    private byte[] dino;
+    private string imgSrc;
+
+    private async Task OnValueChanged(byte[] value)
+    {
+        // convert byte array to base64 string
+        var base64String = Convert.ToBase64String(value);
+
+        // set the image source
+        imgSrc = $"data:image/png;base64,{base64String}";
+    }
+}

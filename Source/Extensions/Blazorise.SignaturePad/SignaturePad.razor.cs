@@ -11,22 +11,26 @@ using Blazorise.Extensions;
 
 namespace Blazorise.SignaturePad;
 
+/// <summary>
+/// The SignaturePad component allows for the creation of a digital signature pad, which allows users to draw signatures using a mouse, touchpad, or stylus. This component can be used in various applications such as electronic forms, contracts, and agreements.
+/// </summary>
 public partial class SignaturePad : BaseComponent, IAsyncDisposable
 {
     #region Methods
 
+    /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         if ( Rendered )
         {
-            var dotSizeChanged = parameters.TryGetValue<float>( nameof( DotSize ), out var paramDotSize ) && !DotSize.IsEqual( paramDotSize );
-            var minWidthChanged = parameters.TryGetValue<float>( nameof( MinWidth ), out var paramMinWidth ) && MinWidth != paramMinWidth;
-            var maxWidthChanged = parameters.TryGetValue<float>( nameof( MaxWidth ), out var paramMaxWidth ) && MaxWidth != paramMaxWidth;
+            var dotSizeChanged = parameters.TryGetValue<double>( nameof( DotSize ), out var paramDotSize ) && !DotSize.IsEqual( paramDotSize );
+            var minWidthChanged = parameters.TryGetValue<double>( nameof( MinWidth ), out var paramMinWidth ) && MinWidth != paramMinWidth;
+            var maxWidthChanged = parameters.TryGetValue<double>( nameof( MaxWidth ), out var paramMaxWidth ) && MaxWidth != paramMaxWidth;
             var throttleChanged = parameters.TryGetValue<int>( nameof( Throttle ), out var paramThrottle ) && Throttle != paramThrottle;
             var minDistanceChanged = parameters.TryGetValue<int>( nameof( MinDistance ), out var paramMinDistance ) && MinDistance != paramMinDistance;
             var backgroundColorChanged = parameters.TryGetValue<string>( nameof( BackgroundColor ), out var paramBgColor ) && !BackgroundColor.IsEqual( paramBgColor );
             var penColorChanged = parameters.TryGetValue<string>( nameof( PenColor ), out var paramPenColor ) && !PenColor.IsEqual( paramPenColor );
-            var velocityFilterWeightChanged = parameters.TryGetValue<float>( nameof( VelocityFilterWeight ), out var paramVelocityFilterWeight ) && VelocityFilterWeight != paramVelocityFilterWeight;
+            var velocityFilterWeightChanged = parameters.TryGetValue<double>( nameof( VelocityFilterWeight ), out var paramVelocityFilterWeight ) && VelocityFilterWeight != paramVelocityFilterWeight;
 
             if ( dotSizeChanged || minWidthChanged || maxWidthChanged || throttleChanged || minDistanceChanged || backgroundColorChanged || penColorChanged || velocityFilterWeightChanged )
             {
@@ -46,6 +50,8 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
         await base.SetParametersAsync( parameters );
     }
+
+    /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender )
@@ -73,6 +79,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         await base.OnAfterRenderAsync( firstRender );
     }
 
+    /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
         if ( disposing && Rendered )
@@ -91,13 +98,31 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         await base.DisposeAsync( disposing );
     }
 
+    /// <inheritdoc/>
+    /// /// <summary>
+    /// This method is called by JavaScript when a stroke has ended in the signature pad. It takes the encoded image
+    /// from the signature pad, converts it to bytes and sets the Value property of the component to the image data.
+    /// It then invokes the ValueChanged and EndStroke events asynchronously to notify any subscribers of the change.
+    /// </summary>
     [JSInvokable]
-    public Task NotifyValue( string value )
+    public async Task NotifyEndStroke( string value )
     {
         var encodedImage = value.Split( ',' )[1];
         Value = Convert.FromBase64String( encodedImage );
 
-        return ValueChanged.InvokeAsync( Value );
+        await ValueChanged.InvokeAsync( Value );
+        await EndStroke.InvokeAsync( Value );
+    }
+
+    /// <inheritdoc/>
+    /// <summary>
+    /// This method is called by JavaScript when a new stroke has begun in the signature pad. It invokes the BeginStroke
+    /// event asynchronously to notify any subscribers of the event.
+    /// </summary>
+    [JSInvokable]
+    public async Task NotifyBeginStroke( string value )
+    {
+        await BeginStroke.InvokeAsync( Value );
     }
 
     #endregion
@@ -129,25 +154,37 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     public EventCallback<byte[]> ValueChanged { get; set; }
 
     /// <summary>
+    /// Gets or sets the event that is triggered when a stroke ends on the signature pad. The event provides the signature pad's current image data as a PNG-encoded Data URL.
+    /// </summary>
+    [Parameter]
+    public EventCallback EndStroke { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event that is triggered when a new stroke begins on the signature pad. The event provides information about the starting point of the stroke.
+    /// </summary>
+    [Parameter]
+    public EventCallback BeginStroke { get; set; }
+
+    /// <summary>
     /// The radius of a single dot. Also the width of the start of a mark.
     /// </summary>
     /// <value>The dot size.</value>
     [Parameter]
-    public float DotSize { get; set; }
+    public double DotSize { get; set; }
 
     /// <summary>
     /// The minimum width of a line.
     /// </summary>
     /// <value>The minimum width.</value>
     [Parameter]
-    public float MinWidth { get; set; }
+    public double MinWidth { get; set; }
 
     /// <summary>
     /// The maximum width of a line.
     /// </summary>
     /// <value>The maximum width.</value>
     [Parameter]
-    public float MaxWidth { get; set; }
+    public double MaxWidth { get; set; }
 
     /// <summary>
     /// The time in milliseconds to throttle drawing. Set to 0 to turn off throttling.
@@ -182,7 +219,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <value>The velocity filter weight.</value>
     [Parameter]
-    public float VelocityFilterWeight { get; set; }
+    public double VelocityFilterWeight { get; set; }
 
     /// <summary>
     /// Reference to the object that should be accessed through JSInterop.
@@ -190,7 +227,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     protected DotNetObjectReference<SignaturePad> DotNetObjectRef { get; private set; }
 
     /// <summary>
-    /// Gets or sets the <see cref="JSVideoModule"/> instance.
+    /// Gets or sets the <see cref="JSSignaturePadModule"/> instance.
     /// </summary>
     protected JSSignaturePadModule JSModule { get; private set; }
 

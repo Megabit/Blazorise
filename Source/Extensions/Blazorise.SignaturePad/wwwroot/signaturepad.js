@@ -10,20 +10,18 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         return;
 
     const sigpad = new SignaturePad(element, {
-        minWidth: 5,
-        maxWidth: 10,
-        penColor: "rgb(66, 133, 244)"
+        minWidth: options.minWidth || 0.5,
+        maxWidth: options.maxWidth || 2.5,
+        backgroundColor: options.backgroundColor || "rgba(0,0,0,0)",
+        penColor: options.penColor || "black",
+        velocityFilterWeight: options.velocityFilterWeight || 0.7,
+        dotSize: options.dotSize,
+        throttle: options.throttle || 16,
+        minPointDistance: options.minPointDistance || 0.5,
     });
 
-    //sigpad.fromData(options.value, { clear: false });
 
-    sigpad.addEventListener("endStroke", (e) => {
-        dotNetAdapter.invokeMethodAsync("NotifyValue", sigpad.toDataURL("image/png"))
-            .catch((reason) => {
-                console.error(reason);
-            });
-       // console.log(sigpad.toDataURL("image/png"));
-    });
+    sigpad.fromData(options.value, { clear: false });
 
     const instance = {
         options: options,
@@ -48,11 +46,30 @@ export function destroy(element, elementId) {
 export function updateOptions(element, elementId, options) {
     const instance = _instances[elementId];
     if (instance && instance.sigpad && options) {
-        if (options.source.changed) {
+        if (options.source && options.source.changed) {
             updateSource(element, elementId, options.source.value);
+        }
+        if (options.penColor) {
+            instance.sigpad.penColor = options.penColor;
+        }
+        if (options.minWidth) {
+            instance.sigpad.minWidth = options.minWidth;
+        }
+        if (options.maxWidth) {
+            instance.sigpad.maxWidth = options.maxWidth;
+        }
+        if (options.backgroundColor) {
+            instance.sigpad.backgroundColor = options.backgroundColor;
+        }
+        if (options.velocityFilterWeight) {
+            instance.sigpad.velocityFilterWeight = options.velocityFilterWeight;
+        }
+        if (options.dotSize) {
+            instance.sigpad.dotSize = options.dotSize;
         }
     }
 }
+
 
 export function setData(element, elementId, data) {
     const instance = _instances[elementId];
@@ -63,22 +80,30 @@ export function setData(element, elementId, data) {
 
 
 function registerToEvents(dotNetAdapter, sigpad) {
-    sigpad.onEnd = () => {
-        const data = sigpad.toDataURL();
-        dotNetAdapter.invokeMethodAsync("OnEnd", data);
-    };
-    sigpad.onBegin = () => {
-        dotNetAdapter.invokeMethodAsync("OnBegin");
-    };
-    sigpad.onClear = () => {
-        dotNetAdapter.invokeMethodAsync("OnClear");
-    };
+
+    sigpad.addEventListener("endStroke", (e) => {
+        dotNetAdapter.invokeMethodAsync("NotifyEndStroke", sigpad.toDataURL("image/png"))
+            .catch((reason) => {
+                console.error(reason);
+            });
+    });
+
+    sigpad.addEventListener("beginStroke", (e) => {
+        dotNetAdapter.invokeMethodAsync("NotifyBeginStroke")
+    });
+    
 }
 
-function updateSource(element, elementId, source) {
+function updateSource(element, elementId, source, protection) {
     const instance = _instances[elementId];
-    if (instance && instance.sigpad) {
-        instance.sigpad.clear();
+
+    if (instance) {
+        if (instance.sigpad) {
+            instance.sigpad.clear();
+        }
+    }
+
+    if (protection) {
+        updateProtection(element, elementId, protection);
     }
 }
-
