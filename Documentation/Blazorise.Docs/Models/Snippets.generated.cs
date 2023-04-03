@@ -3042,7 +3042,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string BasicSignaturePadExample = @"";
+        public const string BasicSignaturePadExample = @"<SignaturePad @bind-Value=""@data"" DotSize=""0.5"" MinWidth=""0.5"" MaxWidth=""2.5"" Throttle=""16"" MinDistance=""5"" BackgroundColor=""rgba(40, 67, 135);, 1"" PenColor=""#ff0000"" VelocityFilterWeight=""0.7""></SignaturePad>
+
+@code {
+    private byte[] data;
+}";
 
         public const string BasicSliderExample = @"<Slider TValue=""decimal"" Value=""25m"" Max=""100m"" />";
 
