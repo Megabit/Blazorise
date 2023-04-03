@@ -1,0 +1,21 @@
+﻿@page "/tests/signaturepad"
+<SignaturePad @bind-Value="@data"></SignaturePad>
+
+<Image Source="@Image64" />
+
+@code {
+    byte[] data = null;
+
+    string Image64 => data != null
+    ? $"data:image/png;base64,{Convert.ToBase64String( data )}"
+    : null;
+
+
+    bool dismisableAlert1 = true;
+    bool dismisableAlert2 = true;
+    bool dismisableAlert3 = true;
+    bool dismisableAlert4 = true;
+    bool dismisableAlert5 = true;
+    bool dismisableAlert6 = true;
+    bool dismisableAlert7 = true;
+}
