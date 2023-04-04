@@ -11,7 +11,9 @@
               Placeholder="Search..."
               FreeTyping="@FreeTyping"
               MinLength="@MinLength"
-              AutoPreSelect="@AutoPreSelect">
+              AutoPreSelect="@AutoPreSelect"
+              Closed="Closed"
+              Opened="Opened">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
@@ -61,4 +63,10 @@
 
     [Parameter]
     public bool AutoPreSelect { get; set; } = true;
+    
+    [Parameter]
+    public EventCallback<AutocompleteClosedEventArgs> Closed { get; set; }
+    
+    [Parameter]
+    public EventCallback Opened { get; set; }
 }

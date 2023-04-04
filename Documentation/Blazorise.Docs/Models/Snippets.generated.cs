@@ -7782,7 +7782,7 @@ builder.Services
         public const string LicensingGuideAddKeyExample = @"services
     .AddBlazorise( options =>
     {
-        options.LicenseKey = ""<your-product-token>"";
+        options.ProductToken = ""<your-product-token>"";
     } )";
 
         public const string MaterialGuideFileStructureExample = @"blazorproject.client/
