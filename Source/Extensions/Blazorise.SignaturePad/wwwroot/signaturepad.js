@@ -60,7 +60,7 @@ export function updateOptions(element, elementId, options) {
             instance.sigpad.maxWidth = options.maxWidth.value;
         }
         if (options.backgroundColor.changed) {
-            instance.sigpad.backgroundColor = options.backgroundColor.value;
+            instance.sigpad.backgroundColor = options.backgroundColor.value || "rgba(0,0,0,0)";
             const data = instance.sigpad.toData();
             instance.sigpad.clear();
             instance.sigpad.fromData(data);
