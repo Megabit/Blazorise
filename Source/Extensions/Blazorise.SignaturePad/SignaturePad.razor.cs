@@ -98,7 +98,6 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         await base.DisposeAsync( disposing );
     }
 
-    /// <inheritdoc/>
     /// /// <summary>
     /// This method is called by JavaScript when a stroke has ended in the signature pad. It takes the encoded image
     /// from the signature pad, converts it to bytes and sets the Value property of the component to the image data.
@@ -114,7 +113,6 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         await EndStroke.InvokeAsync( Value );
     }
 
-    /// <inheritdoc/>
     /// <summary>
     /// This method is called by JavaScript when a new stroke has begun in the signature pad. It invokes the BeginStroke
     /// event asynchronously to notify any subscribers of the event.
@@ -129,62 +127,57 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
     #region Properties
 
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+
+    [Inject] private IVersionProvider VersionProvider { get; set; }
+
     /// <summary>
     /// Gets or sets the data URL for the signature pad image.
     /// </summary>
-    [Parameter]
-    public string DataUrl { get; set; }
+    [Parameter] public string DataUrl { get; set; }
 
     /// <summary>
     /// Gets or sets the options for the signature pad.
     /// </summary>
-    [Parameter]
-    public object Options { get; set; }
+    [Parameter] public object Options { get; set; }
 
     ///<summary>
     /// Gets or sets value for the signature pad.
     /// </summary>
-    [Parameter]
-    public byte[] Value { get; set; }
+    [Parameter] public byte[] Value { get; set; }
 
     /// <summary>
     /// Gets or sets the event that is triggered when the signature pad value changes. The event provides the new signature as a byte array.
     /// </summary>
-    [Parameter]
-    public EventCallback<byte[]> ValueChanged { get; set; }
+    [Parameter] public EventCallback<byte[]> ValueChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the event that is triggered when a stroke ends on the signature pad. The event provides the signature pad's current image data as a PNG-encoded Data URL.
     /// </summary>
-    [Parameter]
-    public EventCallback EndStroke { get; set; }
+    [Parameter] public EventCallback EndStroke { get; set; }
 
     /// <summary>
     /// Gets or sets the event that is triggered when a new stroke begins on the signature pad. The event provides information about the starting point of the stroke.
     /// </summary>
-    [Parameter]
-    public EventCallback BeginStroke { get; set; }
+    [Parameter] public EventCallback BeginStroke { get; set; }
 
     /// <summary>
     /// The radius of a single dot. Also the width of the start of a mark.
     /// </summary>
     /// <value>The dot size.</value>
-    [Parameter]
-    public double DotSize { get; set; }
+    [Parameter] public double DotSize { get; set; }
 
     /// <summary>
     /// The minimum width of a line.
     /// </summary>
     /// <value>The minimum width.</value>
-    [Parameter]
-    public double MinWidth { get; set; }
+    [Parameter] public double MinWidth { get; set; }
 
     /// <summary>
     /// The maximum width of a line.
     /// </summary>
     /// <value>The maximum width.</value>
-    [Parameter]
-    public double MaxWidth { get; set; }
+    [Parameter] public double MaxWidth { get; set; }
 
     /// <summary>
     /// The time in milliseconds to throttle drawing. Set to 0 to turn off throttling.
@@ -197,29 +190,25 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// The minimum distance between two points to add a new point to the signature.
     /// </summary>
     /// <value>The minimum distance.</value>
-    [Parameter]
-    public int MinDistance { get; set; }
+    [Parameter] public int MinDistance { get; set; }
 
     /// <summary>
     /// The color used to clear the background. Can be any color format accepted by context.fillStyle.
     /// </summary>
     /// <value>The background color.</value>
-    [Parameter]
-    public string BackgroundColor { get; set; }
+    [Parameter] public string BackgroundColor { get; set; }
 
     /// <summary>
     /// The color used to draw the lines. Can be any color format accepted by context.fillStyle.
     /// </summary>
     /// <value>The pen color.</value>
-    [Parameter]
-    public string PenColor { get; set; }
+    [Parameter] public string PenColor { get; set; }
 
     /// <summary>
     /// The weight used to modify new velocity based on the previous velocity.
     /// </summary>
     /// <value>The velocity filter weight.</value>
-    [Parameter]
-    public double VelocityFilterWeight { get; set; }
+    [Parameter] public double VelocityFilterWeight { get; set; }
 
     /// <summary>
     /// Reference to the object that should be accessed through JSInterop.
@@ -231,8 +220,5 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// </summary>
     protected JSSignaturePadModule JSModule { get; private set; }
 
-    [Inject] private IJSRuntime JSRuntime { get; set; }
-
-    [Inject] private IVersionProvider VersionProvider { get; set; }
     #endregion
 }

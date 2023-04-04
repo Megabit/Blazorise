@@ -20,8 +20,9 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         minPointDistance: options.minPointDistance || 0.5,
     });
 
-
-    sigpad.fromData(options.value, { clear: false });
+    if (options.value) {
+        sigpad.fromData(options.value, { clear: false });
+    }
 
     const instance = {
         options: options,
@@ -70,14 +71,12 @@ export function updateOptions(element, elementId, options) {
     }
 }
 
-
 export function setData(element, elementId, data) {
     const instance = _instances[elementId];
     if (instance && instance.sigpad) {
         instance.sigpad.fromData(data);
     }
 }
-
 
 function registerToEvents(dotNetAdapter, sigpad) {
 
