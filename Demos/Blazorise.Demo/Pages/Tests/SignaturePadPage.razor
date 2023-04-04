@@ -1,21 +1,63 @@
 ﻿@page "/tests/signaturepad"
-<SignaturePad @bind-Value="@data"></SignaturePad>
 
-<Image Source="@Image64" />
+<Row>
+      <Column ColumnSize="ColumnSize.Is12">
+        <Card Margin="Margin.Is4.FromTop">
+               <CardHeader>
+                 <CardTitle>Settings</CardTitle>
+               </CardHeader>
+               <CardBody>
+         <Field Horizontal>
+            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop"> BackgroundColor</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">
+                <ColorPicker @bind-Color="@backgroundColor"/>
+            </FieldBody>
+            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop"> PenColor</FieldLabel>
+            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is3.OnDesktop">
+                <ColorPicker @bind-Color="@penColor" />
+            </FieldBody>
+          </Field>
+         </CardBody>
+       </Card>
+     </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Signature pad</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SignaturePad @bind-Value="@data" BackgroundColor="@backgroundColor" PenColor="@penColor" DotSize="0.5" MinWidth="0.5" MaxWidth="2.5" Throttle="16" MinDistance="5" VelocityFilterWeight="0.7"></SignaturePad>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Image</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Image Source="@Image64" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+
 
 @code {
+
     byte[] data = null;
 
     string Image64 => data != null
     ? $"data:image/png;base64,{Convert.ToBase64String( data )}"
     : null;
 
+    string backgroundColor = "rgba(158, 121, 121, 1)";
+    string penColor = "#ff0000";
 
-    bool dismisableAlert1 = true;
-    bool dismisableAlert2 = true;
-    bool dismisableAlert3 = true;
-    bool dismisableAlert4 = true;
-    bool dismisableAlert5 = true;
-    bool dismisableAlert6 = true;
-    bool dismisableAlert7 = true;
+
 }
