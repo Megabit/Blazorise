@@ -51,7 +51,7 @@ export function updateOptions(element, elementId, options) {
             updateSource(element, elementId, options.source.value);
         }
         if (options.penColor.changed) {
-            instance.sigpad.penColor = options.penColor.value;
+            instance.sigpad.penColor = options.penColor.value || "black";
         }
         if (options.minWidth.changed) {
             instance.sigpad.minWidth = options.minWidth.value;
