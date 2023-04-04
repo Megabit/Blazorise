@@ -61,6 +61,9 @@ export function updateOptions(element, elementId, options) {
         }
         if (options.backgroundColor.changed) {
             instance.sigpad.backgroundColor = options.backgroundColor.value;
+            const data = instance.sigpad.toData();
+            instance.sigpad.clear();
+            instance.sigpad.fromData(data);
         }
         if (options.velocityFilterWeight.changed) {
             instance.sigpad.velocityFilterWeight = options.velocityFilterWeight.value;
@@ -90,7 +93,6 @@ function registerToEvents(dotNetAdapter, sigpad) {
     sigpad.addEventListener("beginStroke", (e) => {
         dotNetAdapter.invokeMethodAsync("NotifyBeginStroke")
     });
-    
 }
 
 function updateSource(element, elementId, source, protection) {
