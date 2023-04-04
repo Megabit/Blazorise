@@ -118,9 +118,9 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// event asynchronously to notify any subscribers of the event.
     /// </summary>
     [JSInvokable]
-    public async Task NotifyBeginStroke( string value )
+    public async Task NotifyBeginStroke()
     {
-        await BeginStroke.InvokeAsync( Value );
+        await BeginStroke.InvokeAsync();
     }
 
     #endregion
