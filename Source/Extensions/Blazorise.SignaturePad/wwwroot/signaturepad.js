@@ -50,23 +50,23 @@ export function updateOptions(element, elementId, options) {
         if (options.source && options.source.changed) {
             updateSource(element, elementId, options.source.value);
         }
-        if (options.penColor) {
-            instance.sigpad.penColor = options.penColor;
+        if (options.penColor.changed) {
+            instance.sigpad.penColor = options.penColor.value;
         }
-        if (options.minWidth) {
-            instance.sigpad.minWidth = options.minWidth;
+        if (options.minWidth.changed) {
+            instance.sigpad.minWidth = options.minWidth.value;
         }
-        if (options.maxWidth) {
-            instance.sigpad.maxWidth = options.maxWidth;
+        if (options.maxWidth.changed) {
+            instance.sigpad.maxWidth = options.maxWidth.value;
         }
-        if (options.backgroundColor) {
-            instance.sigpad.backgroundColor = options.backgroundColor;
+        if (options.backgroundColor.changed) {
+            instance.sigpad.backgroundColor = options.backgroundColor.value;
         }
-        if (options.velocityFilterWeight) {
-            instance.sigpad.velocityFilterWeight = options.velocityFilterWeight;
+        if (options.velocityFilterWeight.changed) {
+            instance.sigpad.velocityFilterWeight = options.velocityFilterWeight.value;
         }
-        if (options.dotSize) {
-            instance.sigpad.dotSize = options.dotSize;
+        if (options.dotSize.changed) {
+            instance.sigpad.dotSize = options.dotSize.value;
         }
     }
 }
