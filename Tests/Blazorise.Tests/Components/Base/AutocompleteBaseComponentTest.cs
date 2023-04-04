@@ -170,6 +170,36 @@ public class AutocompleteBaseComponentTest : TestContext
         return Task.CompletedTask;
     }
 
+    public Task TestInitialSelectedValueAndText<TComponent>( Func<IRenderedComponent<TComponent>, string> getSelectedValue, Func<IRenderedComponent<TComponent>, string> getSelectedText ) where TComponent : IComponent
+    {
+        // setup
+        var comp = RenderComponent<TComponent>( parameters =>
+        {
+            parameters.TryAdd( "SelectedValue", "CN" );
+            parameters.TryAdd( "SelectedText", "China" );
+        }
+        );
+
+        var selectedText = getSelectedText( comp );
+        string expectedSelectedText = "China";
+
+        var selectedValue = getSelectedValue( comp );
+        string expectedSelectedValue = "CN";
+
+        // test
+        var input = comp.Find( ".b-is-autocomplete input" );
+        var inputText = input.GetAttribute( "value" );
+
+        // validate
+        // validate Dropdown initialize / textfield initialize
+        this.JSInterop.VerifyInvoke( "initialize", 2 );
+        Assert.Equal( expectedSelectedText, selectedText );
+        Assert.Equal( expectedSelectedText, inputText );
+
+        Assert.Equal( expectedSelectedValue, selectedValue );
+        return Task.CompletedTask;
+    }
+
     public async Task TestHasPreselection<TComponent>() where TComponent : IComponent
     {
         var comp = RenderComponent<TComponent>( parameters =>

@@ -12,7 +12,6 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.Components;
@@ -181,12 +180,13 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             else
             {
                 string text = GetItemText( item );
-                if ( text != SelectedText )
+                var textAlsoChangedAndMatchesSelection = ( selectedTextParamChanged && text == SelectedText );
+                if ( text != SelectedText || textAlsoChangedAndMatchesSelection )
                 {
                     SelectedText = text;
                     await SelectedTextChanged.InvokeAsync( SelectedText );
 
-                    if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
+                    if ( !IsMultiple && CurrentSearch != SelectedText )
                     {
                         currentSearch = SelectedText;
 

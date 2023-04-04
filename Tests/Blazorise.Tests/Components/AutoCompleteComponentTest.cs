@@ -155,6 +155,12 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         TestInitialSelectedValue<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedText );
     }
 
+    [Fact]
+    public void InitialSelectedValueAndText_ShouldSet_SelectedValueAndText()
+    {
+        TestInitialSelectedValueAndText<AutocompleteComponent>( ( comp ) => comp.Instance.SelectedValue, ( comp ) => comp.Instance.SelectedText );
+    }
+
     [Theory]
     [InlineData( "Portugal" )]
     [InlineData( "Antarctica" )]
