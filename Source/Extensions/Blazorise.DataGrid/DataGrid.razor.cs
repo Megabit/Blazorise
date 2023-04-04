@@ -2334,9 +2334,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public DataGridRowStyling FilterRowStyling { get; set; }
 
     /// <summary>
-    /// Custom styles for group row.
+    /// Custom styles for aggregate row.
     /// </summary>
-    [Parameter] public DataGridRowStyling GroupRowStyling { get; set; }
+    [Obsolete( "DataGrid: The GroupRowStyling parameter is deprecated, please use the AggregateRowStyling parameter instead." )]
+    [Parameter] public DataGridRowStyling GroupRowStyling { get => AggregateRowStyling; set => AggregateRowStyling = value; }
+
+    /// <summary>
+    /// Custom styles for aggregate row.
+    /// </summary>
+    [Parameter] public DataGridRowStyling AggregateRowStyling { get; set; }
 
     /// <summary>
     /// Template for holding the datagrid columns.
