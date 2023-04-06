@@ -410,6 +410,7 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
 
     #region Properties
 
+    /// <inheritdoc/>
     protected override bool ShouldRender()
     {
         if ( shouldRerender )
