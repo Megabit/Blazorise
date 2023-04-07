@@ -63,7 +63,6 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
             await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
             {
                 Options,
-                DataUrl,
                 Value = Value,// != null ? Convert.ToBase64String( Value ) : null
                 DotSize,
                 MinWidth,
@@ -130,11 +129,6 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
-
-    /// <summary>
-    /// Gets or sets the data URL for the signature pad image.
-    /// </summary>
-    [Parameter] public string DataUrl { get; set; }
 
     /// <summary>
     /// Gets or sets the options for the signature pad.
