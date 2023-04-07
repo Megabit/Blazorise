@@ -3042,12 +3042,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string BasicSignaturePadExample = @"<SignaturePad @bind-Value=""@data"" DotSize=""0.5"" MinWidth=""0.5"" MaxWidth=""2.5"" Throttle=""16"" MinDistance=""5"" BackgroundColor=""rgba(40, 67, 135);, 1"" PenColor=""#ff0000"" VelocityFilterWeight=""0.7""></SignaturePad>
-
-@code {
-    private byte[] data;
-}";
-
         public const string BasicSliderExample = @"<Slider TValue=""decimal"" Value=""25m"" Max=""100m"" />";
 
         public const string SliderMinMaxExample = @"<Paragraph>
@@ -7427,6 +7421,56 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         public const string SidebarNugetInstallExample = @"Install-Package Blazorise.Sidebar";
 
         public const string SidebarResourcesExample = @"<link href=""_content/Blazorise.Sidebar/blazorise.sidebar.css"" rel=""stylesheet"" />";
+
+        public const string BasicSignaturePadExample = @"<SignaturePad />";
+
+        public const string SignaturePadBackgroundColorExample = @"<SignaturePad BackgroundColor=""rgba(255, 0, 0, 1)"" />";
+
+        public const string SignaturePadBindValueExample = @"<Row>
+    <Column>
+        <Card Margin=""Margin.Is4.OnY"">
+            <CardHeader>
+                <CardTitle>Signature pad</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SignaturePad @bind-Value=""@data""></SignaturePad>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column>
+        <Card Margin=""Margin.Is4.OnY"">
+            <CardHeader>
+                <CardTitle>Image</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Image Source=""@Image64"" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code{
+     byte[] data = null;
+
+    string Image64 => data != null
+    ? $""data:image/png;base64,{Convert.ToBase64String( data )}""
+    : null;
+}";
+
+        public const string SignaturePadDotSizeExample = @"<SignaturePad DotSize=""5"" />";
+
+        public const string SignaturePadMaxWidthExample = @"<SignaturePad MaxWidth=""10""/>";
+
+        public const string SignaturePadMinDistanceExample = @"<SignaturePad MinDistance=""100"" />";
+
+        public const string SignaturePadMinWidthExample = @"<SignaturePad MinWidth=""5"" />";
+
+        public const string SignaturePadPenColorExample = @"<SignaturePad PenColor=""red"" />";
+
+        public const string SignaturePadThrottleExample = @"<SignaturePad Throttle=""20"" />";
+
+        public const string SignaturePadVelocityFilterWeightExample = @"<SignaturePad VelocityFilterWeight=""20"" />";
 
         public const string SnackbarExample = @"<Button Clicked=""@(()=>snackbar.Show())"">Snackbar</Button>
 
