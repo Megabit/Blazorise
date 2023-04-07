@@ -96,6 +96,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         await base.DisposeAsync( disposing );
     }
 
+    /// <inheritdoc/>
     public async Task Clear()
     {
         if ( JSModule != null )
