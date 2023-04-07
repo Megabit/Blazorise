@@ -1,0 +1,33 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Signature pad</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SignaturePad @bind-Value="@data"></SignaturePad>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Image</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Image Source="@Image64" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code{
+     byte[] data = null;
+
+    string Image64 => data != null
+    ? $"data:image/png;base64,{Convert.ToBase64String( data )}"
+    : null;
+}

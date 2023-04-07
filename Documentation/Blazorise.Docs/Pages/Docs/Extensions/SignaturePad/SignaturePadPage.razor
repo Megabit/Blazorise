@@ -1,0 +1,154 @@
+﻿@page "/docs/extensions/signaturepad"
+
+<Seo Canonical="/docs/extensions/signature-pad" Title="Blazorise Signature Pad component" Description="Learn to use and work with the Blazorise Signature Pad component, its features, as well as capturing and displaying user signatures." />
+<DocsPageTitle Path="Extensions/SignaturePad">
+    Blazorise Signature Pad component
+</DocsPageTitle>
+<DocsPageLead>
+    A powerful tool for capturing and displaying user signatures on the web.
+</DocsPageLead>
+<DocsPageParagraph>
+    The Blazorise <Code Tag>SignaturePad</Code> extension is a customizable and easy-to-use component that allows users to capture and display their signatures. The component provides a range of options to customize the appearance of the signature pad, such as the color and width of the signature stroke, and also allows you to save and load the signature data as an image file or a JSON object.
+</DocsPageParagraph>
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic example">
+        Simply place the <Code>SignaturePad</Code> extension and you're ready to capture signatures.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <BasicSignaturePadExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="BasicSignaturePadExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SignaturePad bind-Value example">
+        Simply place the <Code>SignaturePad</Code> extension and you're ready to capture signatures.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+       <SignaturePadBindValueExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadBindValueExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SignaturePad BackgroundColor example">
+        Add parameter BackgroundColor to your <Code>SignaturePad</Code> extension to change color of the background.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SignaturePadBackgroundColorExample/>
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadBackgroundColorExample" />
+</DocsPageSection>
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SignaturePad PenColor example">
+        Add parameter PenColor to your <Code>SignaturePad</Code> extension to change the color of the signature stroke.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SignaturePadPenColorExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadPenColorExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SignaturePad DotSize example">
+        Add parameter DotSize to your <Code>SignaturePad</Code> extension to change the size of the signature stroke.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SignaturePadDotSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadDotSizeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SignaturePad MinWidth example">
+        Add parameter MinWidth to your <Code>SignaturePad</Code> extension to set the minimum width of the signature stroke.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SignaturePadMinWidthExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadMinWidthExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SignaturePad MaxWidth example">
+        Add parameter MaxWidth to your <Code>SignaturePad</Code> extension to set the maximum width of the signature stroke.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SignaturePadMinWidthExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadMaxWidthExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SignaturePad MinDistance example">
+        Add parameter MinDistance to your <Code>SignaturePad</Code> extension to set the minimum distance between two points on the signature pad before a new point is added to the stroke.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SignaturePadMinWidthExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadMinDistanceExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SignaturePad Throttle example">
+        Add parameter Throttle to your <Code>SignaturePad</Code> extension to set the delay time in milliseconds between each point capture in the signature drawing process.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SignaturePadMinWidthExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadThrottleExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SignaturePad Velocity Filter Weight example">
+        Add parameter VelocityFilterWeight to your <Code>SignaturePad</Code> extension to set the smoothness of the signature pad by adjusting the line thickness based on the velocity of the drawing.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SignaturePadMinWidthExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadVelocityFilterWeightExample" />
+</DocsPageSection>
+
+
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+<DocsAttributes>
+    <DocsAttributesItem Name="BackgroundColor" Type="string" Default="white">
+        Sets the color of the signature pad's background.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PenColor" Type="string" Default="#000000">
+        Sets the color of the pen used to draw the signature.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Bind-Value" Type="object" Default="null">
+        Binds the value of the signature pad to a specified variable.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DotSize" Type="int" Default="2">
+        Sets the size of the dots used in drawing the signature.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxWidth" Type="int" Default="4">
+        Sets the maximum width of the signature stroke.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MinWidth" Type="int" Default="1">
+        Sets the minimum width of the signature stroke.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MinDistance" Type="int" Default="5">
+        Sets the minimum distance between two points.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Throttle" Type="int" Default="16">
+        Sets the delay time in milliseconds between each point of signature pad.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="VelocityFilterWeight" Type="float" Default="0.7">
+        Sets the smoothness of the signature pad by adjusting the line thickness.
+    </DocsAttributesItem>
+</DocsAttributes>
