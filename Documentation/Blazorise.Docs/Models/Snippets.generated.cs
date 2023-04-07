@@ -7441,7 +7441,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     <Column>
         <Card Margin=""Margin.Is4.OnY"">
             <CardHeader>
-                <CardTitle>Image</CardTitle>
+                <CardTitle>Preview</CardTitle>
             </CardHeader>
             <CardBody>
                 <Image Source=""@Image64"" />

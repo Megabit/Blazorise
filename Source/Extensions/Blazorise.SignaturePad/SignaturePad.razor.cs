@@ -62,8 +62,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
             await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
             {
-                Options,
-                Value = Value,// != null ? Convert.ToBase64String( Value ) : null
+                Value = Value,
                 DotSize,
                 MinWidth,
                 MaxWidth,
@@ -95,6 +94,14 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         }
 
         await base.DisposeAsync( disposing );
+    }
+
+    public async Task Clear()
+    {
+        if ( JSModule != null )
+        {
+            await JSModule.Clear( ElementRef, ElementId );
+        }
     }
 
     /// /// <summary>
@@ -129,11 +136,6 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
-
-    /// <summary>
-    /// Gets or sets the options for the signature pad.
-    /// </summary>
-    [Parameter] public object Options { get; set; }
 
     ///<summary>
     /// Gets or sets value for the signature pad.
@@ -177,8 +179,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// The time in milliseconds to throttle drawing. Set to 0 to turn off throttling.
     /// </summary>
     /// <value>The throttle time in milliseconds.</value>
-    [Parameter]
-    public int Throttle { get; set; }
+    [Parameter] public int Throttle { get; set; }
 
     /// <summary>
     /// The minimum distance between two points to add a new point to the signature.

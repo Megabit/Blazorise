@@ -33,6 +33,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
 
     _instances[elementId] = instance;
 }
+
 export function destroy(element, elementId) {
     const instances = _instances || {};
     const instance = instances[elementId];
@@ -44,12 +45,10 @@ export function destroy(element, elementId) {
         delete instances[elementId];
     }
 }
+
 export function updateOptions(element, elementId, options) {
     const instance = _instances[elementId];
     if (instance && instance.sigpad && options) {
-        if (options.source && options.source.changed) {
-            updateSource(element, elementId, options.source.value);
-        }
         if (options.penColor.changed) {
             instance.sigpad.penColor = options.penColor.value || "black";
         }
@@ -81,6 +80,13 @@ export function setData(element, elementId, data) {
     }
 }
 
+export function clear(element, elementId) {
+    const instance = _instances[elementId];
+    if (instance && instance.sigpad) {
+        instance.sigpad.clear();
+    }
+}
+
 function registerToEvents(dotNetAdapter, sigpad) {
 
     sigpad.addEventListener("endStroke", (e) => {
@@ -93,18 +99,4 @@ function registerToEvents(dotNetAdapter, sigpad) {
     sigpad.addEventListener("beginStroke", (e) => {
         dotNetAdapter.invokeMethodAsync("NotifyBeginStroke")
     });
-}
-
-function updateSource(element, elementId, source, protection) {
-    const instance = _instances[elementId];
-
-    if (instance) {
-        if (instance.sigpad) {
-            instance.sigpad.clear();
-        }
-    }
-
-    if (protection) {
-        updateProtection(element, elementId, protection);
-    }
 }

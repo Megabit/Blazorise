@@ -50,7 +50,7 @@ namespace Blazorise.SignaturePad
             await moduleInstance.InvokeVoidAsync( "updateOptions", elementRef, elementId, options );
         }
 
-        public virtual async ValueTask Clear( ElementReference canvasRef )
+        public virtual async ValueTask Clear( ElementReference canvasRef, string elementId )
         {
             var moduleInstance = await Module;
 
