@@ -48,9 +48,9 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
 
         // We don't want to have memory leak so we need to unsubscribe any previous event if it exist.
         // The unsubscribe must happen before SetParametersAsync.
-        if ( Nodes is INotifyCollectionChanged observableCollection1 )
+        if ( Nodes is INotifyCollectionChanged obseravableCollectionBeforeChange )
         {
-            observableCollection1.CollectionChanged -= OnCollectionChanged;
+            obseravableCollectionBeforeChange.CollectionChanged -= OnCollectionChanged;
         }
 
         await base.SetParametersAsync( parameters );
@@ -66,9 +66,9 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
         }
 
         // Now we can safely subscribe to the changes.
-        if ( Nodes is INotifyCollectionChanged observableCollection2 )
+        if ( Nodes is INotifyCollectionChanged observableColleftionAfterChange )
         {
-            observableCollection2.CollectionChanged += OnCollectionChanged;
+            observableColleftionAfterChange.CollectionChanged += OnCollectionChanged;
         }
     }
 
