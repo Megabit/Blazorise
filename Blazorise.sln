@@ -129,6 +129,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Tailwind", "Sourc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Tailwind", "Demos\Blazorise.Demo.Tailwind\Blazorise.Demo.Tailwind.csproj", "{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts.Annotation", "Source\Extensions\Blazorise.Charts.Annotation\Blazorise.Charts.Annotation.csproj", "{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -339,6 +341,10 @@ Global
 		{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -397,6 +403,7 @@ Global
 		{F9515890-3956-47A7-A8BB-B27333F4FC57} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
 		{452E1C4E-F81A-46EC-AA86-7CC53FB1BCB3} = {73CD9574-5204-442D-A67C-CA7B038057C2}
 		{47EEB5B2-3CA1-436C-8317-E69F611FA1E3} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
+		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
