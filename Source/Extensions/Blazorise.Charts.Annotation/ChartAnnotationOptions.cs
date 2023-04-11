@@ -8,7 +8,7 @@ using System.Text.Json.Serialization;
 namespace Blazorise.Charts.Annotation;
 
 [JsonConverter( typeof( ChartAnnotationOptionsConverter ) )]
-public class ChartAnnotationOptions
+public abstract class ChartAnnotationOptions
 {
     [JsonPropertyName( "type" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
