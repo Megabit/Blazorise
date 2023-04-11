@@ -295,16 +295,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await ResetActiveItemIndex();
             }
 
-            await ResetSelectedValue();
-
             if ( FreeTyping )
             {
                 SelectedText = CurrentSearch;
                 await SelectedTextChanged.InvokeAsync( SelectedText );
-            }
-            else
-            {
-                await ResetSelectedText();
             }
         }
 

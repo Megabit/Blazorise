@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Shared.Models;
+using Blazorise.Tests.Extensions;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
@@ -48,8 +49,10 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
 
         await Input( autoComplete, input, true );
 
-        await autoComplete.KeyDownAsync( new() { Key = "Backspace" } );
-        await autoComplete.KeyDownAsync( new() { Key = "Backspace" } );
+        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.InputAsync( "Portuga" );
+        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.InputAsync( "Portug" );
 
         Assert.Equal( 1, changedCount );
     }
