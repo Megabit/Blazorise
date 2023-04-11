@@ -319,6 +319,21 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         => HeaderGap ?? Gap;
 
     /// <summary>
+    /// Determines the display for the aggregate cell.
+    /// </summary>
+    /// <returns>Display value.</returns>
+    internal IFluentDisplay AggregateCellDisplay
+        => AggregateDisplay ?? Display;
+
+    /// <summary>
+    /// Determines the column span for the aggregate cell.
+    /// </summary>
+    /// <returns>Column span value.</returns>
+    internal int? AggregateColumnSpan
+    => AggregateSpan ?? ColumnSpan;
+
+
+    /// <summary>
     /// Builds the Header cell background.
     /// </summary>
     /// <remarks>
@@ -341,13 +356,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <returns>Vertical alignment value.</returns>
     internal VerticalAlignment AggregateCellVerticalAlignment
       => AggregateVerticalAlignment ?? VerticalAlignment;
-
-    /// <summary>
-    /// Determines the display for the aggregate cell.
-    /// </summary>
-    /// <returns>Display value.</returns>
-    internal IFluentDisplay AggregateCellDisplay
-        => AggregateDisplay ?? Display;
 
     /// <summary>
     /// Determines the flex for the aggregate cell.
@@ -634,6 +642,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public string AggregateCellStyle { get; set; }
 
     /// <summary>
+    /// Gets or sets the number of columns the aggregate cell should span.
+    /// </summary>
+    [Parameter] public int? AggregateSpan { get; set; }
+
+    /// <summary>
     /// Defines the alignment for column the aggregate cell.
     /// </summary>
     [Parameter] public TextAlignment? AggregateTextAlignment { get; set; }
@@ -713,6 +726,16 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Gets or sets the order for sorting when Sorting is set to multiple. 
     /// </summary>
     [Parameter] public int SortOrder { get; set; }
+
+    /// <summary>
+    /// Defines the number of rows this cell should span.
+    /// </summary>
+    [Parameter] public int? RowSpan { get; set; }
+
+    /// <summary>
+    /// Defines the number of columns this cell should span.
+    /// </summary>
+    [Parameter] public int? ColumnSpan { get; set; }
 
     /// <summary>
     /// Raises an event every time that <see cref="SortOrder"/> is changed.

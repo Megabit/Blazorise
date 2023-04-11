@@ -46,7 +46,7 @@
             }
             else
             {
-                <TableRowCell @onclick:stopPropagation="column.PreventRowClick" Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
+                <TableRowCell @onclick:stopPropagation="column.PreventRowClick" Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" RowSpan="@column.RowSpan" ColumnSpan="@column.ColumnSpan">
                     @if ( column.DisplayTemplate != null )
                     {
                         @column.DisplayTemplate( Item )

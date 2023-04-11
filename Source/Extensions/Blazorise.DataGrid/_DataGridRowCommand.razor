@@ -2,7 +2,7 @@
 @inherits _BaseDataGridRowCommand<TItem>
 @if ( EditState == DataGridEditState.Edit )
 {
-    <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap">
+    <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" RowSpan="@Column.RowSpan" ColumnSpan="@Column.ColumnSpan">
         <Div Flex="@DefaultFlex" Gap="@DefaultGap">
             @if ( ParentDataGrid.CommandColumn?.SaveCommandAllowed == true )
             {
@@ -58,7 +58,7 @@
 }
 else if ( EditState == DataGridEditState.None && ParentDataGrid.IsCommandVisible )
 {
-    <TableRowCell @onclick:stopPropagation="@(ParentDataGrid.CommandColumn?.PreventRowClick ?? false)" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap">
+    <TableRowCell @onclick:stopPropagation="@(ParentDataGrid.CommandColumn?.PreventRowClick ?? false)" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap" >
         <Div Flex="@DefaultFlex" Gap="@DefaultGap">
             @if ( ParentDataGrid.CommandColumn?.EditCommandAllowed == true )
             {
