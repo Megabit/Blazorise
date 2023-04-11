@@ -1,0 +1,27 @@
+﻿@page "/tests/charts/annotations"
+<Row>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Line</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <LineChart @ref="lineChart" TItem="int" Options="@lineChartOptions">
+                    <ChartAnnotation TItem="int" Options="@lineAnnotationOptions" />
+                </LineChart>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Bar</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <BarChart @ref="barChart" TItem="int" Options="@barChartOptions">
+                    <ChartAnnotation TItem="int" Options="boxAnnotationOptions" />
+                </BarChart>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
