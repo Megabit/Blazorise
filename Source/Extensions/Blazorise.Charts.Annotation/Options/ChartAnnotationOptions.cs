@@ -1,12 +1,13 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Text.Json.Serialization;
 #endregion
 
 namespace Blazorise.Charts.Annotation;
 
+/// <summary>
+/// Common options to all annotations.
+/// </summary>
 [JsonConverter( typeof( ChartAnnotationOptionsConverter ) )]
 public abstract class ChartAnnotationOptions
 {
@@ -96,39 +97,4 @@ public abstract class ChartAnnotationOptions
     [JsonPropertyName( "z" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? Z { get; set; }
-}
-
-public class LineChartAnnotationOptions : ChartAnnotationOptions
-{
-    [JsonPropertyName( "borderWidth" )]
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public int? BorderWidth { get; set; }
-
-    [JsonPropertyName( "controlPoint" )]
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public string ControlPoint { get; set; }
-
-    [JsonPropertyName( "curve" )]
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public bool? Curve { get; set; }
-
-    [JsonPropertyName( "endValue" )]
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public double? EndValue { get; set; }
-
-    [JsonPropertyName( "label" )]
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public object Label { get; set; }
-
-    [JsonPropertyName( "scaleID" )]
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public string? ScaleID { get; set; }
-
-    [JsonPropertyName( "value" )]
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public double? Value { get; set; }
-}
-
-public class BoxChartAnnotationOptions : ChartAnnotationOptions
-{
 }
