@@ -37,6 +37,41 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
+    public async Task SelectedValueChanged_OnBackspace_ShouldOnlyTrigger_OnCommit()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SelectedValueChanged, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "Portugal";
+
+        await Input( autoComplete, input, true );
+
+        await autoComplete.KeyDownAsync( new() { Key = "Backspace" } );
+        await autoComplete.KeyDownAsync( new() { Key = "Backspace" } );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task SelectedValueChanged_OnAnyEntry_ShouldOnlyTrigger_OnCommit()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SelectedValueChanged, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "Portugal";
+
+        await Input( autoComplete, input, true );
+
+        await Input( autoComplete, "China", true );
+
+        Assert.Equal( 2, changedCount );
+    }
+
+    [Fact]
     public async Task SelectedValueChanged_ShouldOnlyTrigger_WhenValueHasBeenFoundAndCommitted()
     {
         var changedCount = 0;
