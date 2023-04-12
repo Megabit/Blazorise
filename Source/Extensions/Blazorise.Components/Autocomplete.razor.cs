@@ -276,11 +276,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         //If input field is empty, clear current SelectedValue.
         if ( string.IsNullOrEmpty( text ) )
         {
-            await ResetSelected();
             await ResetCurrentSearch();
+            await ResetSelected();
 
             if ( ManualReadMode )
                 await Reload();
+
         }
         else
         {
@@ -307,6 +308,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await ResetSelectedText();
             }
         }
+
 
         await OpenDropdown();
 
