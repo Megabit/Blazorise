@@ -358,23 +358,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 return;
             }
 
-            if ( ActiveItemIndex >= 0 && DropdownVisible )
-            {
-                if ( FilteredData?.Count > 0 )
-                {
-                    var item = FilteredData[ActiveItemIndex];
-                    if ( item != null && ValueField != null )
-                    {
-                        await OnDropdownItemSelected( ValueField.Invoke( item ) );
-                    }
-                }
-            }
-            else
-            {
-                if ( !FreeTyping )
-                    await ResetSelectedText();
-                await ResetSelectedValue();
-            }
+            await SelectedOrResetOnCommit();
 
             return;
         }
@@ -420,21 +404,51 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         await Close();
 
-        if ( !IsMultiple )
+        if ( IsMultiple )
+        {
+            await ResetSelected();
+            await ResetCurrentSearch();
+        }
+        else
         {
             if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
             {
                 await ResetSelected();
                 await ResetCurrentSearch();
+                return;
+            }
+
+            await SelectedOrResetOnCommit();
+        }
+
+        TextFocused = false;
+    }
+
+    private async Task SelectedOrResetOnCommit()
+    {
+        if ( ActiveItemIndex >= 0 && DropdownVisible )
+        {
+            if ( FilteredData?.Count > 0 )
+            {
+                var item = FilteredData[ActiveItemIndex];
+                if ( item != null && ValueField != null )
+                {
+                    await OnDropdownItemSelected( ValueField.Invoke( item ) );
+                }
             }
         }
         else
         {
-            await ResetSelected();
-            await ResetCurrentSearch();
+            if ( !IsSelectedvalue( GetItemValue( CurrentSearch ) ) )
+            {
+                if ( !FreeTyping )
+                {
+                    await ResetCurrentSearch();
+                    await ResetSelectedText();
+                }
+                await ResetSelectedValue();
+            }
         }
-
-        TextFocused = false;
     }
 
     private async Task OnDropdownItemSelected( object value )
