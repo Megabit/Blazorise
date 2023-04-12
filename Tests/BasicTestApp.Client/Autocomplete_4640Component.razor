@@ -1,0 +1,44 @@
+﻿<Autocomplete @ref="autocompleteRef"
+              TItem="MyClass"
+              TValue="MyClass"
+              Data="_data"
+              ValueField="@((item) => item)"
+              TextField="@((item) => item?.Name)"
+              SelectedValue="@_selectedValue"
+              SelectedValueChanged="OnSelectedValueChanged"
+              AutoPreSelect="true"
+              AutoSelectFirstItem="false"
+              ConfirmKey="_confirmKeys" />
+
+@code {
+    private Autocomplete<MyClass, MyClass> autocompleteRef;
+    private readonly string[] _confirmKeys = new string[]
+    {
+            "Enter", "NumpadEnter", "Tab"
+    };
+
+    public class MyClass
+    {
+        public MyClass( int id, string name )
+        {
+            Id = id;
+            Name = name;
+        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
+    private readonly List<MyClass> _data = new()
+    {
+        new MyClass(1, "Hello"), new MyClass(2, "World")
+    };
+
+    private MyClass _selectedValue { get; set; }
+    private string _selectedText { get; set; }
+
+    private void OnSelectedValueChanged( MyClass value )
+    {
+        _selectedValue = value;
+        Console.WriteLine( $"{DateTime.Now}: Selected Value = '{value?.Name}'" );
+    }
+}
