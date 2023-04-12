@@ -369,6 +369,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                     }
                 }
             }
+            else
+            {
+                if ( !FreeTyping )
+                    await ResetSelectedText();
+                await ResetSelectedValue();
+            }
 
             return;
         }
@@ -773,6 +779,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         await ResetSelectedText();
         await ResetSelectedValue();
     }
+
 
     /// <summary>
     /// Clears the selected value and the search field.
