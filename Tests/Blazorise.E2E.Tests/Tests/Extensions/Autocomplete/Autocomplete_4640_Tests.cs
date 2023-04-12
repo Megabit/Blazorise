@@ -14,12 +14,9 @@ public class Autocomplete_4640_Tests : BlazorisePageTest
     [Test]
     public async Task Test()
     {
-
-        await Page.GetByRole( AriaRole.Combobox ).SelectOptionAsync( new[] { "BasicTestApp.Client.Autocomplete_4640Component" } );
-
         var sut = Page.Locator( ".b-is-autocomplete input[type=search]" );
-        await sut.ClickAsync();
 
+        await sut.ClickAsync();
         await sut.FillAsync( "Hello" );
         await sut.PressAsync( "Enter" );
 
@@ -31,7 +28,6 @@ public class Autocomplete_4640_Tests : BlazorisePageTest
         await sut.PressAsync( "Backspace" );
         await sut.PressAsync( "Enter" );
         await Expect( sut ).ToHaveValueAsync( "Hello" );
-
 
         await sut.FocusAsync();
         await sut.PressAsync( "Backspace" );
