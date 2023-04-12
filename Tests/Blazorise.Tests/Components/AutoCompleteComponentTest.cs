@@ -38,11 +38,16 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
-    public async Task SelectedValueChanged_OnBackspace_ShouldOnlyTrigger_OnCommit()
+    public async Task SelectedValueChanged_OnBackspace_ShouldNotTrigger_IfSameValue_OnCommit()
     {
         var changedCount = 0;
+        var selectedValue = string.Empty;
         var comp = RenderComponent<AutocompleteComponent>( p =>
-            p.Add( x => x.SelectedValueChanged, ( x ) => changedCount++ ) );
+            p.Add( x => x.SelectedValueChanged, ( x ) =>
+            {
+                selectedValue = x;
+                changedCount++;
+            } ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "Portugal";
@@ -55,23 +60,132 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         await autoComplete.InputAsync( "Portug" );
 
         Assert.Equal( 1, changedCount );
+        Assert.Equal( "PT", selectedValue );
+
+        //Selects first item in dropdown, shouldn't retrigger ValueChanged
+        await autoComplete.KeyDownAsync( new() { Code = "Enter" } );
+        Assert.Equal( 1, changedCount );
+        Assert.Equal( "PT", selectedValue );
     }
 
     [Fact]
-    public async Task SelectedValueChanged_OnAnyEntry_ShouldOnlyTrigger_OnCommit()
+    public async Task SelectedValueChanged_OnBackspace_ShouldTriggerNull_OnBlur()
     {
         var changedCount = 0;
+        var selectedValue = string.Empty;
         var comp = RenderComponent<AutocompleteComponent>( p =>
-            p.Add( x => x.SelectedValueChanged, ( x ) => changedCount++ ) );
+            p.Add( x => x.SelectedValueChanged, ( x ) =>
+            {
+                selectedValue = x;
+                changedCount++;
+            } ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         var input = "Portugal";
 
         await Input( autoComplete, input, true );
 
+        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.InputAsync( "Portuga" );
+        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.InputAsync( "Portug" );
+
+        Assert.Equal( 1, changedCount );
+        Assert.Equal( "PT", selectedValue );
+
+        await autoComplete.BlurAsync( new() );
+        Assert.Equal( 2, changedCount );
+        Assert.Null( selectedValue );
+    }
+
+    [Fact]
+    public async Task SelectedValueChanged_OnBackspace_ShouldTriggerNull_IfNoValue_OnCommit()
+    {
+        var changedCount = 0;
+        var selectedValue = string.Empty;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SelectedValueChanged, ( x ) =>
+            {
+                selectedValue = x;
+                changedCount++;
+            } ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "Portugal";
+
+        await Input( autoComplete, input, true );
+
+        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.InputAsync( "Portuga" );
+        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.InputAsync( "Portug" );
+        await autoComplete.InputAsync( "Portugl" );
+
+        Assert.Equal( 1, changedCount );
+        Assert.Equal( "PT", selectedValue );
+
+        //Selects first item in dropdown, shouldn't retrigger ValueChanged
+        await autoComplete.KeyDownAsync( new() { Code = "Enter" } );
+        Assert.Equal( 2, changedCount );
+        Assert.Null( selectedValue );
+    }
+
+    [Fact]
+    public async Task SelectedValueChanged_OnBackspace_ShouldTriggerNull_IfNoValue_OnBlur()
+    {
+        var changedCount = 0;
+        var selectedValue = string.Empty;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SelectedValueChanged, ( x ) =>
+            {
+                selectedValue = x;
+                changedCount++;
+            } ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "Portugal";
+
+        await Input( autoComplete, input, true );
+
+        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.InputAsync( "Portuga" );
+        await autoComplete.KeyDownAsync( new() { Code = "Backspace" } );
+        await autoComplete.InputAsync( "Portug" );
+        await autoComplete.InputAsync( "Portugl" );
+
+        Assert.Equal( 1, changedCount );
+        Assert.Equal( "PT", selectedValue );
+
+        await autoComplete.BlurAsync( new() );
+        Assert.Equal( 2, changedCount );
+        Assert.Null( selectedValue );
+    }
+
+    [Fact]
+    public async Task SelectedValueChanged_OnAnyEntry_ShouldOnlyTrigger_OnCommit()
+    {
+        var changedCount = 0;
+        var selectedValue = string.Empty;
+
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SelectedValueChanged, ( x ) =>
+            {
+                selectedValue = x;
+                changedCount++;
+            } ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "Portugal";
+
+        await Input( autoComplete, input, true );
+
+        Assert.Equal( 1, changedCount );
+        Assert.Equal( "PT", selectedValue );
+
         await Input( autoComplete, "China", true );
 
         Assert.Equal( 2, changedCount );
+        Assert.Equal( "CN", selectedValue );
     }
 
     [Fact]
