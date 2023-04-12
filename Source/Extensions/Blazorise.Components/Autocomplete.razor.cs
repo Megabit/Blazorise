@@ -486,6 +486,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await Revalidate();
             }
 
+            await ResyncText();
+
             return;
         }
 
@@ -501,8 +503,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         else
         {
             selectedValue = new( selectedTValue );
-            var item = GetItemByValue( selectedValue );
-            currentSearch = SelectedText = GetItemText( item );
+            currentSearch = SelectedText = GetItemText( selectedValue );
             DirtyFilter();
 
             await Task.WhenAll(
@@ -515,6 +516,22 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, ActiveItemIndex ) );
         await Revalidate();
+    }
+
+    private async Task ResyncText()
+    {
+        var itemText = GetItemText( SelectedValue );
+        if ( CurrentSearch != itemText )
+        {
+            currentSearch = itemText;
+            await CurrentSearchChanged.InvokeAsync( currentSearch );
+
+            if ( SelectedText != itemText )
+            {
+                SelectedText = itemText;
+                await SelectedTextChanged.InvokeAsync( SelectedText );
+            }
+        }
     }
 
     protected async Task HandleReadData( CancellationToken cancellationToken = default )
