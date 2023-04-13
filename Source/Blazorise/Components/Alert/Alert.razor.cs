@@ -146,6 +146,11 @@ public partial class Alert : BaseComponent
     #region Properties
 
     /// <summary>
+    /// Gets the reference to state object for this alert.
+    /// </summary>
+    protected internal AlertState State => state;
+
+    /// <summary>
     /// Enables the alert to be closed by placing the padding for close button.
     /// </summary>
     [Parameter]
