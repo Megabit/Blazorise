@@ -7,7 +7,7 @@ image-url: /img/blog/2023-04-12/what-is-blazorise-all-about.png
 image-text: What is Blazorise all About
 author-name: Tihana Jukić
 author-image: tihana
-posted-on: April 12th, 2023
+posted-on: April 14th, 2023
 read-time: 8 min
 ---
 
@@ -25,7 +25,7 @@ Blazorise’s development process is efficient and effective, saving you time an
 
 ### Multiple CSS framework
 
-Blazorise provides developers with a comprehensive set of UI components, styles, and utilities that help them create modern, responsive, and highly customizable web applications. Blazorise is highly flexible and extensible. It works with different CSS frameworks, like Bootstrap, Tailwind, Bulma, Material, and AntDesign, making it an excellent choice for developers looking to build web applications quickly and efficiently.
+Blazorise provides developers with a comprehensive set of UI components, styles, and utilities that help them create modern, responsive, and highly customizable web applications. Blazorise is highly flexible and extensible. It works with different CSS frameworks, like [Bootstrap](https://getbootstrap.com/), [Tailwind](https://tailwindcss.com/), or [Bulma](https://bulma.io/), making it an excellent choice for developers looking to build web applications quickly and efficiently.
 
 With the multitude of CSS frameworks available, developers are often faced with choosing the right one for their projects. To make things easier, some projects allow developers to select multiple CSS frameworks.
 
@@ -35,7 +35,7 @@ This approach can be beneficial for several reasons. First, developers can choos
 
 ### Simple Syntax
 
-In the context of Blazorise, simple syntax without prefixes means that the framework's syntax does not require a prefix before each element, such as LibButton, commonly used in other frameworks.
+In the context of Blazorise, simple syntax without prefixes means that the framework's syntax does not require a prefix before each element, such as `LibButton`, commonly used in other frameworks.
 
 This syntax approach makes the code more concise, clean, and easy to understand by avoiding unnecessary characters. The Blazorise syntax also allows for easy extension, meaning developers can customize and add their syntax and components to the framework.
 
@@ -51,7 +51,7 @@ Overall, the simplicity of the Blazorise syntax makes it an ideal choice for dev
 
 Traditionally, CSS class names are used to style and customize HTML elements. Developers assign classes to elements, then use CSS rules to style them based on their assigned classes. However, this approach can be error-prone, relying on developers correctly typing the class names and remembering which classes are available for which elements.
 
-Blazorise addresses this issue using strongly typed utilities instead of CSS class names. Instead of assigning a class name to an element, developers use a strongly typed utility to set the element's attributes. For example, instead of using the CSS class name "btn" to style a button element, developers can use the Blazorise Button component and set its Color attribute to a strongly typed value like Color.Primary or Color.Secondary.
+Blazorise addresses this issue using strongly typed utilities instead of CSS class names. Instead of assigning a class name to an element, developers use a strongly typed utility to set the element's attributes. For example, instead of using the CSS class name `"btn"` to style a button element, developers can use the Blazorise Button component and set its Color attribute to a strongly typed value like `Color.Primary` or `Color.Secondary`.
 
 ```html|ButtonExample
 <Button Color="Color.Primary">
@@ -63,9 +63,9 @@ This approach has several advantages. Firstly, it is less error-prone, as develo
 
 ### Fluent Syntax for Chaining Rules
 
-In addition to the strongly typed utility classes, Blazorise provides a fluent syntax for chaining multiple rules together. This allows developers to create more complex rules for their components in a more concise and readable manner.
+In addition to the strongly typed utility classes, Blazorise provides a **fluent syntax** for chaining multiple rules together. This allows developers to create more complex rules for their components in a more concise and readable manner.
 
-For example, to define different margins for a component based on screen size, developers can use the Margin utility class and chain multiple rules together using fluent syntax. Here's an example:
+For example, to define different margins for a component based on screen size, developers can use the `Margin` utility class and chain multiple rules together using fluent syntax. Here's an example:
 
 ```html|FluentSyntaxExample
 <Button Margin="Margin.Is2.OnDesktop.Is4.OnMobile">
@@ -73,7 +73,7 @@ For example, to define different margins for a component based on screen size, d
 </Button>
 ```
 
-In this example, the Margin utility class is used to set the margin of the Button component. The Is2 rule sets the margin to 2 on all sides by default, while the OnDesktop the rule modifies the margin to 4 on desktop-sized screens and the OnMobile the rule modifies the margin to 4 on mobile-sized screens.
+In this example, the `Margin` utility class is used to set the margin of the `<Button>` component. The `Is2` rule sets the margin to 2 on all sides by default, while the `OnDesktop` the rule modifies the margin to 4 on desktop-sized screens and the `OnMobile` the rule modifies the margin to 4 on mobile-sized screens.
 
 Developers can use fluent syntax and strongly typed utility classes to create more flexible and expressive components that adapt to different screen sizes and device types. This approach makes it easier to maintain and scale applications over time.
 
@@ -83,23 +83,23 @@ Blazorise offers many premium web components that meet various web development n
 
 Blazorise components are tailored to ensure users enjoy an optimal experience while reducing usage costs. Its focus on performance and design sets us apart from our competition and ensures that our components always deliver exceptional results. Choose Blazorise for your next web development project and discover the difference for yourself.
 
-**Among the many components that Blazorise provides, some stand out in terms of their ease of use and flexibility.**
-
 ![Ease of Use](img/blog/2023-04-12/ease-of-use.png)
 
-The DataGrid component is powerful and flexible, allowing developers to display and manipulate tabular data. It supports advanced features such as sorting, filtering, paging, and virtual scrolling, which makes it easy to handle large datasets.
+**Among the many components that Blazorise provides, some stand out in terms of their ease of use and flexibility.**
 
-The DatePicker component is another valuable UI component that allows users to select a date from a calendar control. It supports different date formats and localization, which makes it easy to handle other date formats across different cultures.
+The [DataGrid component](docs/extensions/datagrid/getting-started) is powerful and flexible, allowing developers to display and manipulate tabular data. It supports advanced features such as sorting, filtering, paging, and virtual scrolling, which makes it easy to handle large datasets.
 
-The Validation components provide simple form validation for Blazorise input components. This system is built from the ground up to support various validation scenarios, such as data annotation, validation handler methods, and regex patterns. It also promotes async validation, which can validate a field by calling an external API.
+The [DatePicker component](docs/components/date-picker) is another valuable UI component that allows users to select a date from a calendar control. It supports different date formats and localization, which makes it easy to handle other date formats across different cultures.
 
-The Autocomplete component is designed to efficiently manage the loading and querying of extensive datasets. It takes on the appearance of a textbox and offers users suggestions as they input their queries. It also includes various features, such as data binding, filtering, customizable UI, accessibility, validation options, and localization customization.
+The [Validation components](docs/components/validation) provide simple form validation for Blazorise input components. This system is built from the ground up to support various validation scenarios, such as data annotation, validation handler methods, and regex patterns. It also promotes async validation, which can validate a field by calling an external API.
 
-The Button component is essential for developers to create buttons with various styles, shapes, and sizes. It is a simple yet important component widely used in many web applications.
+The [Autocomplete component](docs/extensions/autocomplete) is designed to efficiently manage the loading and querying of extensive datasets. It takes on the appearance of a textbox and offers users suggestions as they input their queries. It also includes various features, such as data binding, filtering, customizable UI, accessibility, validation options, and localization customization.
 
-The Modal component is a highly customizable UI component that displays content in a pop-up window that overlays the current page. Developers can control its appearance and behavior to create a unique user experience.
+The [Button component](docs/components/button) is essential for developers to create buttons with various styles, shapes, and sizes. It is a simple yet important component widely used in many web applications.
 
-Finally, the Chart component is an advanced component that provides a powerful way to visualize data using different chart types such as bar, line, pie, and doughnut. It supports other data sources and various customization options, making building interactive and engaging data visualizations easy.
+The [Modal component](docs/components/modal) is a highly customizable UI component that displays content in a pop-up window that overlays the current page. Developers can control its appearance and behavior to create a unique user experience.
+
+Finally, the [Chart component](docs/extensions/chart) is an advanced component that provides a powerful way to visualize data using different chart types such as bar, line, pie, and doughnut. It supports other data sources and various customization options, making building interactive and engaging data visualizations easy.
 
 ## Why would a library of UI components matter to me?
 
