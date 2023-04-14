@@ -499,6 +499,14 @@ public class Gender
     </Column>
 </Row>";
 
+        public const string WhatIsBlazoriseAllAbout_ButtonExample = @"<Button Color=""Color.Primary"">
+    Click Me!
+</Button>";
+
+        public const string WhatIsBlazoriseAllAbout_FluentSyntaxExample = @"<Button Margin=""Margin.Is2.OnDesktop.Is4.OnMobile"">
+    Click me!
+</Button>";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
@@ -7622,6 +7630,71 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         public const string TreeViewNugetInstall2Example = @"dotnet add package Blazorise.TreeView";
 
         public const string TreeViewNugetInstallExample = @"Install-Package Blazorise.TreeView";
+
+        public const string TreeViewObservableExample = @"@using System.Collections.ObjectModel;
+
+<Row>
+    <Column>
+        <Button Clicked=""@OnAddNodeClick"" Color=""Color.Primary"">Add node</Button>
+    </Column>
+    <Column>
+        <TreeView Nodes=""Items""
+                  GetChildNodes=""@(item => item.Children)""
+                  HasChildNodes=""@(item => item.Children?.Any() == true)""
+                  @bind-SelectedNode=""selectedNode""
+                  @bind-ExpandedNodes=""expandedNodes"">
+            <NodeContent>
+                <Icon Name=""IconName.Folder"" />
+                @context.Text
+            </NodeContent>
+        </TreeView>
+    </Column>
+</Row>
+
+@code {
+    private Task OnAddNodeClick()
+    {
+        Items.Add( new Item { Text = $""Item {Items.Count + 1}"" } );
+
+        return Task.CompletedTask;
+    }
+
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    ObservableCollection<Item> Items = new()
+    {
+        new Item { Text = ""Item 1"" },
+        new Item
+        {
+            Text = ""Item 2"",
+            Children = new []
+            {
+                new Item { Text = ""Item 2.1"" },
+                new Item
+                {
+                    Text = ""Item 2.2"",
+                    Children = new []
+                    {
+                        new Item { Text = ""Item 2.2.1"" },
+                        new Item { Text = ""Item 2.2.2"" },
+                        new Item { Text = ""Item 2.2.3"" },
+                        new Item { Text = ""Item 2.2.4"" }
+                    }
+                },
+                new Item { Text = ""Item 2.3"" },
+                new Item { Text = ""Item 2.4"" }
+            }
+        },
+        new Item { Text = ""Item 3"" },
+    };
+
+    IList<Item> expandedNodes = new List<Item>();
+    Item selectedNode;
+}";
 
         public const string TreeViewResourcesExample = @"<link href=""_content/Blazorise.TreeView/blazorise.treeview.css"" rel=""stylesheet"" />";
 
