@@ -22,6 +22,11 @@ public abstract class BaseDraggableComponent : BaseComponent, IDisposable, IAsyn
     /// </summary>
     private DotNetObjectReference<BaseDraggableComponent> dotNetObjectRef;
 
+    /// <summary>
+    /// Is <c>true</c> if the component needs to clean up the JS ThrottleDragEvent handler on <see cref="Dispose"/> or <see cref="DisposeAsync"/>.
+    /// </summary>
+    private bool jsEventsInitialized;
+
     #endregion
 
     #region Methods
@@ -33,6 +38,7 @@ public abstract class BaseDraggableComponent : BaseComponent, IDisposable, IAsyn
         {
             dotNetObjectRef = CreateDotNetObjectRef( this );
             await JSDragDropModule.InitializeThrottledDragEvents( ElementRef, ElementId, dotNetObjectRef );
+            jsEventsInitialized = true;
         }
         await base.OnFirstAfterRenderAsync();
     }
@@ -42,7 +48,11 @@ public abstract class BaseDraggableComponent : BaseComponent, IDisposable, IAsyn
     {
         if ( disposing )
         {
-            JSDragDropModule.DestroyThrottledDragEvents( ElementRef, ElementId );
+            if ( jsEventsInitialized )
+            {
+                JSDragDropModule.DestroyThrottledDragEvents( ElementRef, ElementId );
+            }
+
             DisposeDotNetObjectRef( dotNetObjectRef );
         }
 
@@ -54,7 +64,11 @@ public abstract class BaseDraggableComponent : BaseComponent, IDisposable, IAsyn
     {
         if ( disposing )
         {
-            await JSDragDropModule.DestroyThrottledDragEvents( ElementRef, ElementId );
+            if ( jsEventsInitialized )
+            {
+                await JSDragDropModule.DestroyThrottledDragEvents( ElementRef, ElementId );
+            }
+
             DisposeDotNetObjectRef( dotNetObjectRef );
         }
 
