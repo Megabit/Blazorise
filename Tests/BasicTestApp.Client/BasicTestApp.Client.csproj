@@ -20,4 +20,10 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Autocomplete_4640Component.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+  </ItemGroup>
+
 </Project>
