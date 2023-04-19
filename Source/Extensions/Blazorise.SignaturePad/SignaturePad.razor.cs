@@ -62,7 +62,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
             await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
             {
-                Value = Value,
+                Value,
                 DotSize,
                 MinWidth,
                 MaxWidth,
@@ -96,7 +96,10 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         await base.DisposeAsync( disposing );
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Clears the content of a signature canvas.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Clear()
     {
         if ( JSModule != null )
