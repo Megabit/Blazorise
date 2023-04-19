@@ -161,6 +161,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             if ( !IsMultiple && CurrentSearch != SelectedText )
             {
                 currentSearch = SelectedText;
+                DirtyFilter();
 
                 await Task.WhenAll(
                     ResetSelectedValue(),
@@ -189,6 +190,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                     if ( !IsMultiple && CurrentSearch != SelectedText )
                     {
                         currentSearch = SelectedText;
+                        DirtyFilter();
 
                         await Task.WhenAll(
                             CurrentSearchChanged.InvokeAsync( currentSearch ),
