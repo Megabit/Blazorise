@@ -137,6 +137,16 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
     #region Properties
 
+    /// <summary>
+    /// Reference to the object that should be accessed through JSInterop.
+    /// </summary>
+    protected DotNetObjectReference<SignaturePad> DotNetObjectRef { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="JSSignaturePadModule"/> instance.
+    /// </summary>
+    protected JSSignaturePadModule JSModule { get; private set; }
+
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
@@ -208,16 +218,6 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <value>The velocity filter weight.</value>
     [Parameter] public double VelocityFilterWeight { get; set; }
-
-    /// <summary>
-    /// Reference to the object that should be accessed through JSInterop.
-    /// </summary>
-    protected DotNetObjectReference<SignaturePad> DotNetObjectRef { get; private set; }
-
-    /// <summary>
-    /// Gets or sets the <see cref="JSSignaturePadModule"/> instance.
-    /// </summary>
-    protected JSSignaturePadModule JSModule { get; private set; }
 
     #endregion
 }
