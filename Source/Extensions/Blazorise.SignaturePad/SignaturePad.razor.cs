@@ -174,49 +174,41 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <summary>
     /// The radius of a single dot. Also the width of the start of a mark.
     /// </summary>
-    /// <value>The dot size.</value>
     [Parameter] public double DotSize { get; set; }
 
     /// <summary>
     /// The minimum width of a line.
     /// </summary>
-    /// <value>The minimum width.</value>
     [Parameter] public double MinWidth { get; set; }
 
     /// <summary>
     /// The maximum width of a line.
     /// </summary>
-    /// <value>The maximum width.</value>
     [Parameter] public double MaxWidth { get; set; }
 
     /// <summary>
     /// The time in milliseconds to throttle drawing. Set to 0 to turn off throttling.
     /// </summary>
-    /// <value>The throttle time in milliseconds.</value>
     [Parameter] public int Throttle { get; set; }
 
     /// <summary>
     /// The minimum distance between two points to add a new point to the signature.
     /// </summary>
-    /// <value>The minimum distance.</value>
     [Parameter] public int MinDistance { get; set; }
 
     /// <summary>
     /// The color used to clear the background. Can be any color format accepted by context.fillStyle.
     /// </summary>
-    /// <value>The background color.</value>
     [Parameter] public string BackgroundColor { get; set; }
 
     /// <summary>
     /// The color used to draw the lines. Can be any color format accepted by context.fillStyle.
     /// </summary>
-    /// <value>The pen color.</value>
     [Parameter] public string PenColor { get; set; }
 
     /// <summary>
     /// The weight used to modify new velocity based on the previous velocity.
     /// </summary>
-    /// <value>The velocity filter weight.</value>
     [Parameter] public double VelocityFilterWeight { get; set; }
 
     #endregion
