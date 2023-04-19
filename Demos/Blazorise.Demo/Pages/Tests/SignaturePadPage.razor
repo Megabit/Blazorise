@@ -1,49 +1,65 @@
 ﻿@page "/tests/signaturepad"
 
 <Row>
-      <Column ColumnSize="ColumnSize.Is12">
+    <Column ColumnSize="ColumnSize.Is12">
         <Card Margin="Margin.Is4.FromTop">
-               <CardHeader>
-                 <CardTitle>Settings</CardTitle>
-               </CardHeader>
-               <CardBody>
-         <Field Horizontal>
-            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">BackgroundColor</FieldLabel>
-            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">
-                <ColorPicker @bind-Color="@backgroundColor"/>
-            </FieldBody>
-            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">PenColor</FieldLabel>
-            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">
-                <ColorPicker @bind-Color="@penColor" />
-            </FieldBody>
-            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">DotSize</FieldLabel>
-            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">
-               <NumericPicker @bind-Value="@dotSize" />
-            </FieldBody>
-            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">MinWidth</FieldLabel>
-            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">
-               <NumericPicker @bind-Value="@minWidth" />
-            </FieldBody>
-            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">MaxWidth</FieldLabel>
-            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">
-               <NumericPicker @bind-Value="@maxWidth" />
-            </FieldBody>
-            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Throttle</FieldLabel>
-            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">
-               <NumericPicker @bind-Value="@throttle" />
-            </FieldBody>
-            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">MinDistance</FieldLabel>
-            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">
-               <NumericPicker @bind-Value="@minDistance" />
-            </FieldBody>
-            <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">VelocityFilterWeight</FieldLabel>
-            <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">
-               <NumericPicker @bind-Value="@velocityFilterWeight" />
-            </FieldBody>
-         </Field>
-         </CardBody>
-       </Card>
-     </Column>
+            <CardHeader>
+                <CardTitle>Settings</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    <Field>
+                        <FieldLabel>Background Color</FieldLabel>
+                        <FieldBody>
+                            <ColorPicker @bind-Color="@backgroundColor" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Pen Color</FieldLabel>
+                        <FieldBody>
+                            <ColorPicker @bind-Color="@penColor" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Dot Size</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@dotSize" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Min Width</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@minWidth" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Max Width</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@maxWidth" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Throttle</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@throttle" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Min Distance</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@minDistance" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Velocity Filter Weight</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@velocityFilterWeight" />
+                        </FieldBody>
+                    </Field>
+                </Fields>
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
 
 <Row>
@@ -61,7 +77,7 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Image</CardTitle>
+                <CardTitle>Preview</CardTitle>
             </CardHeader>
             <CardBody>
                 <Image Source="@Image64" />
@@ -75,12 +91,10 @@
 @code {
     byte[] data = null;
 
-    string Image64 => data != null
-    ? $"data:image/png;base64,{Convert.ToBase64String( data )}"
-    : null;
+    string Image64 => data != null ? $"data:image/png;base64,{Convert.ToBase64String( data )}" : null;
 
-    string backgroundColor = "rgba(158, 121, 121, 1)";
-    string penColor = "#ff0000";
+    string backgroundColor = "rgba(255, 255, 255, 1)";
+    string penColor = "#000000";
     double dotSize = 0.7;
     double minWidth = 0.5;
     double maxWidth = 1;
