@@ -545,6 +545,20 @@ public class Gender
     bool collapse3Visible = false;
 }";
 
+        public const string AddonWithValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">
+    <Addons>
+        <Addon AddonType=""AddonType.Body"">
+            <TextEdit Placeholder=""Enter name"" />
+        </Addon>
+        <Addon AddonType=""AddonType.End"">
+            <AddonLabel>This is a label</AddonLabel>
+        </Addon>
+    </Addons>
+    <ValidationNone></ValidationNone>
+    <ValidationSuccess></ValidationSuccess>
+    <ValidationError>Enter valid name!</ValidationError>
+</Validation>";
+
         public const string ButtonAddonExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
         <TextEdit Placeholder=""Recipient's username"" />
