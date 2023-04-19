@@ -281,7 +281,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
             if ( ManualReadMode )
                 await Reload();
-
         }
         else
         {
@@ -289,7 +288,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
             if ( ManualReadMode )
                 await Reload();
-
 
             if ( !HasFilteredData )
             {
@@ -302,7 +300,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
         }
-
 
         await OpenDropdown();
 
