@@ -108,7 +108,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         }
     }
 
-    /// /// <summary>
+    /// <summary>
     /// This method is called by JavaScript when a stroke has ended in the signature pad. It takes the encoded image
     /// from the signature pad, converts it to bytes and sets the Value property of the component to the image data.
     /// It then invokes the ValueChanged and EndStroke events asynchronously to notify any subscribers of the change.
