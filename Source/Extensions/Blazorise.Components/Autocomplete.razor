@@ -7,18 +7,18 @@
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)">
     <Validation Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
 
-        @if (IsMultiple && !SelectedTexts.IsNullOrEmpty())
+        @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
         {
             @if ( Disabled )
             {
-                @foreach (var selectedText in SelectedTexts)
+                @foreach ( var selectedText in SelectedTexts )
                 {
                     <Badge Color="@Color.Light" Margin="Margin.Is2.FromStart">@selectedText</Badge>
                 }
             }
             else
             {
-                @foreach (var selectedText in SelectedTexts)
+                @foreach ( var selectedText in SelectedTexts )
                 {
                     <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
                 }
