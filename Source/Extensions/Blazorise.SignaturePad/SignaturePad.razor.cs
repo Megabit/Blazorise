@@ -179,22 +179,14 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <summary>
     /// The minimum width of a line.
     /// </summary>
-<<<<<<< HEAD
     /// <value>The minimum width.</value>
     [Parameter] public double MinLineWidth { get; set; }
-=======
-    [Parameter] public double MinWidth { get; set; }
->>>>>>> c79e406489e5b09f547a9edb7ae657f42e5a0801
 
     /// <summary>
     /// The maximum width of a line.
     /// </summary>
-<<<<<<< HEAD
     /// <value>The maximum width.</value>
     [Parameter] public double MaxLineWidth { get; set; }
-=======
-    [Parameter] public double MaxWidth { get; set; }
->>>>>>> c79e406489e5b09f547a9edb7ae657f42e5a0801
 
     /// <summary>
     /// The time in milliseconds to throttle drawing. Set to 0 to turn off throttling.
