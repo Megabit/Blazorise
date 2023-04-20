@@ -24,21 +24,21 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         if ( Rendered )
         {
             var dotSizeChanged = parameters.TryGetValue<double>( nameof( DotSize ), out var paramDotSize ) && !DotSize.IsEqual( paramDotSize );
-            var minWidthChanged = parameters.TryGetValue<double>( nameof( MinWidth ), out var paramMinWidth ) && MinWidth != paramMinWidth;
-            var maxWidthChanged = parameters.TryGetValue<double>( nameof( MaxWidth ), out var paramMaxWidth ) && MaxWidth != paramMaxWidth;
+            var minLineWidthChanged = parameters.TryGetValue<double>( nameof( MinLineWidth ), out var paramMinWidth ) && MinLineWidth != paramMinWidth;
+            var maxLineWidthChanged = parameters.TryGetValue<double>( nameof( MaxLineWidth ), out var paramMaxWidth ) && MaxLineWidth != paramMaxWidth;
             var throttleChanged = parameters.TryGetValue<int>( nameof( Throttle ), out var paramThrottle ) && Throttle != paramThrottle;
             var minDistanceChanged = parameters.TryGetValue<int>( nameof( MinDistance ), out var paramMinDistance ) && MinDistance != paramMinDistance;
             var backgroundColorChanged = parameters.TryGetValue<string>( nameof( BackgroundColor ), out var paramBgColor ) && !BackgroundColor.IsEqual( paramBgColor );
             var penColorChanged = parameters.TryGetValue<string>( nameof( PenColor ), out var paramPenColor ) && !PenColor.IsEqual( paramPenColor );
             var velocityFilterWeightChanged = parameters.TryGetValue<double>( nameof( VelocityFilterWeight ), out var paramVelocityFilterWeight ) && VelocityFilterWeight != paramVelocityFilterWeight;
 
-            if ( dotSizeChanged || minWidthChanged || maxWidthChanged || throttleChanged || minDistanceChanged || backgroundColorChanged || penColorChanged || velocityFilterWeightChanged )
+            if ( dotSizeChanged || minLineWidthChanged || maxLineWidthChanged || throttleChanged || minDistanceChanged || backgroundColorChanged || penColorChanged || velocityFilterWeightChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
                     DotSize = new { Changed = dotSizeChanged, Value = paramDotSize },
-                    MinWidth = new { Changed = minWidthChanged, Value = paramMinWidth },
-                    MaxWidth = new { Changed = maxWidthChanged, Value = paramMaxWidth },
+                    MinLineWidth = new { Changed = minLineWidthChanged, Value = paramMinWidth },
+                    MaxLineWidth = new { Changed = maxLineWidthChanged, Value = paramMaxWidth },
                     Throttle = new { Changed = throttleChanged, Value = paramThrottle },
                     MinDistance = new { Changed = minDistanceChanged, Value = paramMinDistance },
                     BackgroundColor = new { Changed = backgroundColorChanged, Value = paramBgColor },
@@ -64,8 +64,8 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
             {
                 Value = Value,
                 DotSize,
-                MinWidth,
-                MaxWidth,
+                MinLineWidth,
+                MaxLineWidth,
                 Throttle,
                 MinDistance,
                 BackgroundColor,
@@ -168,13 +168,13 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// The minimum width of a line.
     /// </summary>
     /// <value>The minimum width.</value>
-    [Parameter] public double MinWidth { get; set; }
+    [Parameter] public double MinLineWidth { get; set; }
 
     /// <summary>
     /// The maximum width of a line.
     /// </summary>
     /// <value>The maximum width.</value>
-    [Parameter] public double MaxWidth { get; set; }
+    [Parameter] public double MaxLineWidth { get; set; }
 
     /// <summary>
     /// The time in milliseconds to throttle drawing. Set to 0 to turn off throttling.
