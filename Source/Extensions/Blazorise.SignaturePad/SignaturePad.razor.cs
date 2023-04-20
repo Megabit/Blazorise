@@ -62,7 +62,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
             await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
             {
-                Value = Value,
+                Value,
                 DotSize,
                 MinLineWidth,
                 MaxLineWidth,
@@ -96,7 +96,10 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         await base.DisposeAsync( disposing );
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Clears the content of a signature canvas.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Clear()
     {
         if ( JSModule != null )
@@ -105,7 +108,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         }
     }
 
-    /// /// <summary>
+    /// <summary>
     /// This method is called by JavaScript when a stroke has ended in the signature pad. It takes the encoded image
     /// from the signature pad, converts it to bytes and sets the Value property of the component to the image data.
     /// It then invokes the ValueChanged and EndStroke events asynchronously to notify any subscribers of the change.
@@ -134,6 +137,16 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
     #region Properties
 
+    /// <summary>
+    /// Reference to the object that should be accessed through JSInterop.
+    /// </summary>
+    protected DotNetObjectReference<SignaturePad> DotNetObjectRef { get; private set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="JSSignaturePadModule"/> instance.
+    /// </summary>
+    protected JSSignaturePadModule JSModule { get; private set; }
+
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
@@ -161,60 +174,52 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <summary>
     /// The radius of a single dot. Also the width of the start of a mark.
     /// </summary>
-    /// <value>The dot size.</value>
     [Parameter] public double DotSize { get; set; }
 
     /// <summary>
     /// The minimum width of a line.
     /// </summary>
+<<<<<<< HEAD
     /// <value>The minimum width.</value>
     [Parameter] public double MinLineWidth { get; set; }
+=======
+    [Parameter] public double MinWidth { get; set; }
+>>>>>>> c79e406489e5b09f547a9edb7ae657f42e5a0801
 
     /// <summary>
     /// The maximum width of a line.
     /// </summary>
+<<<<<<< HEAD
     /// <value>The maximum width.</value>
     [Parameter] public double MaxLineWidth { get; set; }
+=======
+    [Parameter] public double MaxWidth { get; set; }
+>>>>>>> c79e406489e5b09f547a9edb7ae657f42e5a0801
 
     /// <summary>
     /// The time in milliseconds to throttle drawing. Set to 0 to turn off throttling.
     /// </summary>
-    /// <value>The throttle time in milliseconds.</value>
     [Parameter] public int Throttle { get; set; }
 
     /// <summary>
     /// The minimum distance between two points to add a new point to the signature.
     /// </summary>
-    /// <value>The minimum distance.</value>
     [Parameter] public int MinDistance { get; set; }
 
     /// <summary>
     /// The color used to clear the background. Can be any color format accepted by context.fillStyle.
     /// </summary>
-    /// <value>The background color.</value>
     [Parameter] public string BackgroundColor { get; set; }
 
     /// <summary>
     /// The color used to draw the lines. Can be any color format accepted by context.fillStyle.
     /// </summary>
-    /// <value>The pen color.</value>
     [Parameter] public string PenColor { get; set; }
 
     /// <summary>
     /// The weight used to modify new velocity based on the previous velocity.
     /// </summary>
-    /// <value>The velocity filter weight.</value>
     [Parameter] public double VelocityFilterWeight { get; set; }
-
-    /// <summary>
-    /// Reference to the object that should be accessed through JSInterop.
-    /// </summary>
-    protected DotNetObjectReference<SignaturePad> DotNetObjectRef { get; private set; }
-
-    /// <summary>
-    /// Gets or sets the <see cref="JSSignaturePadModule"/> instance.
-    /// </summary>
-    protected JSSignaturePadModule JSModule { get; private set; }
 
     #endregion
 }
