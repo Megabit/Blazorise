@@ -74,6 +74,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     if (options) {
         picker.altInput.disabled = options.disabled || false;
         picker.altInput.readOnly = options.readOnly || false;
+        picker.altInput.placeholder = options.placeholder;
     }
 
     picker.customOptions = {
@@ -224,6 +225,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.disableMobile.changed) {
             picker.set("disableMobile", options.disableMobile.value || true);
+        }
+
+        if (options.placeholder.changed) {
+            picker.altInput.placeholder = options.placeholder.value;
         }
     }
 }
