@@ -278,8 +278,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         //If input field is empty, clear current SelectedValue.
         if ( string.IsNullOrEmpty( text ) )
         {
-            await ResetSelected();
             await ResetCurrentSearch();
+            await ResetSelected();
 
             if ( ManualReadMode )
                 await Reload();
@@ -290,7 +290,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
             if ( ManualReadMode )
                 await Reload();
-
 
             if ( !HasFilteredData )
             {
