@@ -56,6 +56,7 @@ export function initialize(element, elementId, options) {
     if (options) {
         picker.altInput.disabled = options.disabled || false;
         picker.altInput.readOnly = options.readOnly || false;
+        picker.altInput.placeholder = options.placeholder;
     }
 
     _pickers[elementId] = picker;
@@ -112,6 +113,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.inline.changed) {
             picker.set("inline", options.inline.value || false);
+        }
+
+        if (options.placeholder.changed) {
+            picker.altInput.placeholder = options.placeholder.value;
         }
     }
 }

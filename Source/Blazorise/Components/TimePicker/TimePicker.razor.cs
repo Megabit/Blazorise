@@ -31,6 +31,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
         var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
         var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
+        var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
 
         if ( timeChanged )
         {
@@ -50,7 +51,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                            || timeAs24hrChanged
                            || disabledChanged
                            || readOnlyChanged
-                           || inlineChanged ) )
+                           || inlineChanged
+                           || placeholderChanged ) )
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
             {
@@ -61,6 +63,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                 Disabled = new { Changed = disabledChanged, Value = disabled },
                 ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
                 Inline = new { Changed = inlineChanged, Value = paramInline },
+                Placeholder = new { Changed = placeholderChanged, Value = paramPlaceholder },
             } ) );
         }
 
@@ -108,6 +111,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             ReadOnly,
             Localization = GetLocalizationObject(),
             Inline,
+            Placeholder,
         } );
 
         await base.OnFirstAfterRenderAsync();
