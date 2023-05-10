@@ -131,6 +131,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Tailwind", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Framework7", "Source\Blazorise.Framework7\Blazorise.Framework7.csproj", "{BB0306AA-BF38-4AF8-9B81-A86FD2F97533}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Demo.Framework7", "Demos\Blazorise.Demo.Framework7\Blazorise.Demo.Framework7.csproj", "{A59F0D68-06F7-43A1-8ED9-F09A6074A09A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -345,6 +347,10 @@ Global
 		{BB0306AA-BF38-4AF8-9B81-A86FD2F97533}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB0306AA-BF38-4AF8-9B81-A86FD2F97533}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB0306AA-BF38-4AF8-9B81-A86FD2F97533}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A59F0D68-06F7-43A1-8ED9-F09A6074A09A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A59F0D68-06F7-43A1-8ED9-F09A6074A09A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A59F0D68-06F7-43A1-8ED9-F09A6074A09A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A59F0D68-06F7-43A1-8ED9-F09A6074A09A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -404,6 +410,7 @@ Global
 		{452E1C4E-F81A-46EC-AA86-7CC53FB1BCB3} = {73CD9574-5204-442D-A67C-CA7B038057C2}
 		{47EEB5B2-3CA1-436C-8317-E69F611FA1E3} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
 		{BB0306AA-BF38-4AF8-9B81-A86FD2F97533} = {73CD9574-5204-442D-A67C-CA7B038057C2}
+		{A59F0D68-06F7-43A1-8ED9-F09A6074A09A} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
