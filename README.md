@@ -12,8 +12,6 @@
 
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
-> Note: Old documentation can be found at http://v094.blazorise.com/
-
 ## Commercial support
 
 [Support](https://blazorise.com/support) for the Blazorise Components is available as part of the [Blazorise Commercial](https://blazorise.com/commercial) subscription.
