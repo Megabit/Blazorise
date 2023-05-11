@@ -122,7 +122,7 @@ Please note, that these are the Blazorise explicit dependencies, you still need 
 
 #### 2.1 JavaScript resources
 
-Blazorise loads any additional JavaScript it needs dynamically once a component needs it. This means that Blazorise expects that the resources are available and placed relative to the app root. You can configure this by using the `app.UseStaticFiles();` and it does not need any other additional configuration from your part. If you're having any difficulties, please refer to the following issues:
+Blazorise loads any additional JavaScript it needs dynamically once a component needs it. This means that Blazorise expects that the resources are available and placed relative to the app root. You can configure this by using the `app.UseStaticFiles();` and it does not need any other additional configuration from your part.
 
 If you're having any difficulties, please refer to the following issues:
 
