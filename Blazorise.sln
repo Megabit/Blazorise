@@ -129,9 +129,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Tailwind", "Sourc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Tailwind", "Demos\Blazorise.Demo.Tailwind\Blazorise.Demo.Tailwind.csproj", "{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Framework7", "Source\Blazorise.Framework7\Blazorise.Framework7.csproj", "{BB0306AA-BF38-4AF8-9B81-A86FD2F97533}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Framework7", "Source\Blazorise.Framework7\Blazorise.Framework7.csproj", "{BB0306AA-BF38-4AF8-9B81-A86FD2F97533}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Demo.Framework7", "Demos\Blazorise.Demo.Framework7\Blazorise.Demo.Framework7.csproj", "{A59F0D68-06F7-43A1-8ED9-F09A6074A09A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Framework7", "Demos\Blazorise.Demo.Framework7\Blazorise.Demo.Framework7.csproj", "{A59F0D68-06F7-43A1-8ED9-F09A6074A09A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

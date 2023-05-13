@@ -370,11 +370,41 @@ public class Framework7ClassProvider : ClassProvider
 
     #region Button
 
-    public override string Button( bool outline ) => "btn";
+    public override string Button( bool outline ) => "button";
 
-    public override string ButtonColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
-        : color != Color.Default ? $"{Button( outline )}-{ToColor( color )}" : null;
+    public override string ButtonColor( Color color, bool outline )
+    {
+        if ( outline)
+        {
+            return color?.Name switch
+            {
+                "primary" => "button-outline color-blue",
+                "secondary" => "button-outline color-gray",
+                "success" => "button-outline color-green",
+                "danger" => "button-outline color-red",
+                "warning" => "button-outline color-orange",
+                "info" => "button-outline color-blue",
+                "light" => "button-outline color-white",
+                "dark" => "button-outline color-black",
+                "link" => "button-outline color-blue",
+                _ => null,
+            };
+        }
+
+        return color?.Name switch
+        {
+            "primary" => "button-fill color-blue",
+            "secondary" => "button-fill color-gray",
+            "success" => "button-fill color-green",
+            "danger" => "button-fill color-red",
+            "warning" => "button-fill color-orange",
+            "info" => "button-fill color-blue",
+            "light" => "button-fill color-white",
+            "dark" => "button-fill color-black",
+            "link" => "button-fill color-blue",
+            _ => null,
+        };
+    }
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"{Button( outline )}-{ToSize( size )}";
 
