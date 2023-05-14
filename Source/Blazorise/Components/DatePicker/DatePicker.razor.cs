@@ -47,6 +47,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
             var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
             var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
+            var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
             var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
 
             if ( dateChanged || datesChanged )
@@ -74,6 +75,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                  || selectionModeChanged
                  || inlineChanged
                  || disableMobileChanged
+                 || placeholderChanged
                  || staticPickerChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
@@ -89,6 +91,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     SelectionMode = new { Changed = selectionModeChanged, Value = paramSelectionMode },
                     Inline = new { Changed = inlineChanged, Value = paramInline },
                     DisableMobile = new { Changed = disableMobileChanged, Value = paramDisableMobile },
+                    Placeholder = new { Changed = placeholderChanged, Value = paramPlaceholder },
                     StaticPicker = new { Changed = staticPickerChanged, Value = paramSaticPicker },
                 } ) );
             }
@@ -152,7 +155,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             Localization = GetLocalizationObject(),
             Inline,
             DisableMobile,
-            StaticPicker
+            Placeholder,
+            StaticPicker,
         } );
 
         await base.OnFirstAfterRenderAsync();

@@ -1,5 +1,5 @@
-﻿import "./vendors/flatpickr.js?v=1.2.2.0";
-import * as utilities from "./utilities.js?v=1.2.2.0";
+﻿import "./vendors/flatpickr.js?v=1.2.3.0";
+import * as utilities from "./utilities.js?v=1.2.3.0";
 
 const _pickers = [];
 
@@ -56,6 +56,7 @@ export function initialize(element, elementId, options) {
     if (options) {
         picker.altInput.disabled = options.disabled || false;
         picker.altInput.readOnly = options.readOnly || false;
+        picker.altInput.placeholder = options.placeholder;
     }
 
     _pickers[elementId] = picker;
@@ -112,6 +113,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.inline.changed) {
             picker.set("inline", options.inline.value || false);
+        }
+
+        if (options.placeholder.changed) {
+            picker.altInput.placeholder = options.placeholder.value;
         }
 
         if (options.staticPicker.changed) {
