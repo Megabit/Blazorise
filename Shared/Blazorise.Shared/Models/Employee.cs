@@ -38,7 +38,10 @@ public class Employee
 
     public List<Salary> Salaries { get; set; } = new();
 
-    public decimal ChildrensPerSalary => ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
+    public decimal ChildrensPerSalary
+        => Salary == 0m
+        ? 0m
+        : ( Childrens is null || Childrens == 0 ? 1 : Childrens.Value ) / Salary;
 
     public decimal TaxPercentage = 0.25m;
 

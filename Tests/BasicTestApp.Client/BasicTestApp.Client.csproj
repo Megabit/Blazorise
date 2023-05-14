@@ -2,8 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <OutputType>Exe</OutputType>
-    <LangVersion>10.0</LangVersion>
+	<GenerateBlazorWebAssemblyDepsFile>true</GenerateBlazorWebAssemblyDepsFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +18,12 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Components\Blazorise.Components.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Autocomplete_4640Component.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
   </ItemGroup>
 
 </Project>

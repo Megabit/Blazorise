@@ -161,6 +161,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             if ( !IsMultiple && CurrentSearch != SelectedText )
             {
                 currentSearch = SelectedText;
+                DirtyFilter();
 
                 await Task.WhenAll(
                     ResetSelectedValue(),
@@ -180,14 +181,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             else
             {
                 string text = GetItemText( item );
-                if ( text != SelectedText )
+                var textAlsoChangedAndMatchesSelection = ( selectedTextParamChanged && text == SelectedText );
+                if ( text != SelectedText || textAlsoChangedAndMatchesSelection )
                 {
                     SelectedText = text;
                     await SelectedTextChanged.InvokeAsync( SelectedText );
 
-                    if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
+                    if ( !IsMultiple && CurrentSearch != SelectedText )
                     {
                         currentSearch = SelectedText;
+                        DirtyFilter();
 
                         await Task.WhenAll(
                             CurrentSearchChanged.InvokeAsync( currentSearch ),
@@ -275,8 +278,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         //If input field is empty, clear current SelectedValue.
         if ( string.IsNullOrEmpty( text ) )
         {
-            await ResetSelected();
             await ResetCurrentSearch();
+            await ResetSelected();
 
             if ( ManualReadMode )
                 await Reload();
@@ -288,22 +291,15 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             if ( ManualReadMode )
                 await Reload();
 
-
             if ( !HasFilteredData )
             {
                 await ResetActiveItemIndex();
             }
 
-            await ResetSelectedValue();
-
             if ( FreeTyping )
             {
                 SelectedText = CurrentSearch;
                 await SelectedTextChanged.InvokeAsync( SelectedText );
-            }
-            else
-            {
-                await ResetSelectedText();
             }
         }
 
@@ -363,17 +359,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 return;
             }
 
-            if ( ActiveItemIndex >= 0 && DropdownVisible )
-            {
-                if ( FilteredData?.Count > 0 )
-                {
-                    var item = FilteredData[ActiveItemIndex];
-                    if ( item != null && ValueField != null )
-                    {
-                        await OnDropdownItemSelected( ValueField.Invoke( item ) );
-                    }
-                }
-            }
+            await SelectedOrResetOnCommit();
 
             return;
         }
@@ -419,21 +405,51 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         await Close();
 
-        if ( !IsMultiple )
+        if ( IsMultiple )
+        {
+            await ResetSelected();
+            await ResetCurrentSearch();
+        }
+        else
         {
             if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
             {
                 await ResetSelected();
                 await ResetCurrentSearch();
+                return;
+            }
+
+            await SelectedOrResetOnCommit();
+        }
+
+        TextFocused = false;
+    }
+
+    private async Task SelectedOrResetOnCommit()
+    {
+        if ( ActiveItemIndex >= 0 && DropdownVisible )
+        {
+            if ( FilteredData?.Count > 0 )
+            {
+                var item = FilteredData[ActiveItemIndex];
+                if ( item != null && ValueField != null )
+                {
+                    await OnDropdownItemSelected( ValueField.Invoke( item ) );
+                }
             }
         }
         else
         {
-            await ResetSelected();
-            await ResetCurrentSearch();
+            if ( !IsSelectedvalue( GetItemValue( CurrentSearch ) ) )
+            {
+                if ( !FreeTyping )
+                {
+                    await ResetCurrentSearch();
+                    await ResetSelectedText();
+                }
+                await ResetSelectedValue();
+            }
         }
-
-        TextFocused = false;
     }
 
     private async Task OnDropdownItemSelected( object value )
@@ -471,6 +487,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await Revalidate();
             }
 
+            await ResyncText();
+
             return;
         }
 
@@ -486,8 +504,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         else
         {
             selectedValue = new( selectedTValue );
-            var item = GetItemByValue( selectedValue );
-            currentSearch = SelectedText = GetItemText( item );
+            currentSearch = SelectedText = GetItemText( selectedValue );
             DirtyFilter();
 
             await Task.WhenAll(
@@ -500,6 +517,22 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, ActiveItemIndex ) );
         await Revalidate();
+    }
+
+    private async Task ResyncText()
+    {
+        var itemText = GetItemText( SelectedValue );
+        if ( CurrentSearch != itemText )
+        {
+            currentSearch = itemText;
+            await CurrentSearchChanged.InvokeAsync( currentSearch );
+
+            if ( SelectedText != itemText )
+            {
+                SelectedText = itemText;
+                await SelectedTextChanged.InvokeAsync( SelectedText );
+            }
+        }
     }
 
     protected async Task HandleReadData( CancellationToken cancellationToken = default )
@@ -778,6 +811,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         await ResetSelectedText();
         await ResetSelectedValue();
     }
+
 
     /// <summary>
     /// Clears the selected value and the search field.
