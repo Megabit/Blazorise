@@ -129,6 +129,7 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Tailwind", "Demos\Blazorise.Demo.Tailwind\Blazorise.Demo.Tailwind.csproj", "{47EEB5B2-3CA1-436C-8317-E69F611FA1E3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.E2E.Tests", "Tests\Blazorise.E2E.Tests\Blazorise.E2E.Tests.csproj", "{FA75DC9B-32F0-41DC-A51D-F851E79D62DB}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Framework7", "Source\Blazorise.Framework7\Blazorise.Framework7.csproj", "{BB0306AA-BF38-4AF8-9B81-A86FD2F97533}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.Framework7", "Demos\Blazorise.Demo.Framework7\Blazorise.Demo.Framework7.csproj", "{A59F0D68-06F7-43A1-8ED9-F09A6074A09A}"
