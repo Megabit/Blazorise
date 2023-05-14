@@ -229,6 +229,8 @@ export function updateOptions(element, elementId, options) {
 
         if (options.placeholder.changed) {
             picker.altInput.placeholder = options.placeholder.value;
+        }
+
         if (options.staticPicker.changed) {
             picker.set("static", options.staticPicker.value);
         }
