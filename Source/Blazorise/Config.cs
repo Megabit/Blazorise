@@ -56,6 +56,8 @@ public static class Config
         serviceCollection.AddScoped<BlazoriseLicenseProvider>();
         serviceCollection.AddScoped<BlazoriseLicenseChecker>();
 
+        serviceCollection.AddScoped<IRouteTransitionInvoker, DefaultRouteTransitionInvoker>();
+
         return serviceCollection;
     }
 
@@ -113,6 +115,7 @@ public static class Config
         { typeof( IJSInputMaskModule ), typeof( JSInputMaskModule ) },
         { typeof( IJSDragDropModule ), typeof( JSDragDropModule ) },
         { typeof( IJSDropdownModule ), typeof( JSDropdownModule ) },
+        { typeof( IJSTransitionableRouteModule ), typeof( JSTransitionableRouteModule ) },
     };
 
     /// <summary>
