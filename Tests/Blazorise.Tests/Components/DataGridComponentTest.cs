@@ -1,6 +1,5 @@
 ﻿#region Using directives
-using System.Linq;
-using System.Threading;
+using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.DataGrid;
 using Blazorise.Tests.Extensions;
@@ -17,6 +16,27 @@ public class DataGridComponentTest : TestContext
     {
         BlazoriseConfig.AddBootstrapProviders( Services );
         BlazoriseConfig.JSInterop.AddDataGrid( this.JSInterop );
+    }
+
+
+    [Fact]
+    public async Task OnSelection_Should_Render_EmptyTemplate()
+    {
+        //Arrange
+        var numRenders = 0;
+
+        //Act
+        var comp = RenderComponent<DataGridComponent>();
+
+        comp.OnAfterRender += ( sender, args ) =>
+        {
+            numRenders++;
+        };
+
+        var rowsFraction = comp.FindAll( "tbody tr.table-row-selectable" );
+        await rowsFraction[0].ClickAsync( new() { Detail = 1 } );
+        //Assert
+        Assert.Equal( 1, numRenders );
     }
 
     [Fact]

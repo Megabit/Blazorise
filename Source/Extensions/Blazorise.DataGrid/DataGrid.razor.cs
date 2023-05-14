@@ -775,9 +775,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await SelectRow( item );
 
-        var selectedTableRow = GetRowInfo( item )?.TableRow;
-        if ( selectedTableRow is not null )
-            await selectedTableRow.ElementRef.FocusAsync();
+        if ( Navigable )
+        {
+            var selectedTableRow = GetRowInfo( item )?.TableRow;
+            if ( selectedTableRow is not null )
+                await selectedTableRow.ElementRef.FocusAsync();
+        }
 
         await Refresh();
     }
