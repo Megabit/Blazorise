@@ -5,14 +5,7 @@
 <Blazorise.ThemeProvider Theme="@theme">
     <Router AppAssembly="typeof(App).Assembly">
         <Found Context="routeData">
-            <LayoutView Layout="@typeof(MainLayout)">
-                <TransitionableRoute RouteData="@routeData" ForgetStateOnTransition="true">
-                    <TransitionableRouteView DefaultLayout="@typeof(AnimatedLayout)" />
-                </TransitionableRoute>
-                <TransitionableRouteSecondary RouteData="@routeData" ForgetStateOnTransition="true">
-                    <TransitionableRouteView DefaultLayout="@typeof(AnimatedLayout)" />
-                </TransitionableRouteSecondary>
-            </LayoutView>
+            <TransitionableRouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" AnimatedLayout="@typeof(AnimatedLayout)" />
         </Found>
         <NotFound>
             <p>Sorry, there's nothing at this address.</p>

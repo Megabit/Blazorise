@@ -9,7 +9,7 @@ using Microsoft.JSInterop;
 
 namespace Blazorise;
 
-public partial class TransitionableRoute : ComponentBase
+public partial class _TransitionableRoute : ComponentBase
 {
     #region Members
 

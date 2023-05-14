@@ -1,0 +1,12 @@
+﻿@namespace Blazorise
+
+@if ( Transition?.RouteData != null )
+{
+    <RouteView RouteData="@Transition.RouteData" DefaultLayout="@DefaultLayout" />
+}
+
+@code {
+    [CascadingParameter] public RouteTransition Transition { get; set; }
+
+    [Parameter] public Type DefaultLayout { get; set; }
+}

@@ -6,7 +6,7 @@ using Microsoft.JSInterop;
 namespace Blazorise.Modules;
 
 /// <summary>
-/// Default implementation of the <see cref="TransitionableRoute"/> JS module.
+/// Default implementation of the <see cref="_TransitionableRoute"/> JS module.
 /// </summary>
 public class JSTransitionableRouteModule : BaseJSModule, IJSTransitionableRouteModule
 {
@@ -27,7 +27,7 @@ public class JSTransitionableRouteModule : BaseJSModule, IJSTransitionableRouteM
     #region Methods
 
     /// <inheritdoc/>
-    public virtual ValueTask Initialize( DotNetObjectReference<TransitionableRoute> dotNetObjectReference, object options )
+    public virtual ValueTask Initialize( DotNetObjectReference<_TransitionableRoute> dotNetObjectReference, object options )
         => InvokeSafeVoidAsync( "initialize", dotNetObjectReference, options );
 
     #endregion

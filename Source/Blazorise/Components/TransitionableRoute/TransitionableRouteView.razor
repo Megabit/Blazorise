@@ -1,14 +1,20 @@
 ﻿@namespace Blazorise
 
-@if ( Transition?.RouteData != null )
-{
-    <CascadingValue Value="@Transition">
-        <RouteView RouteData="@Transition.RouteData" DefaultLayout="@DefaultLayout" />
-    </CascadingValue>
-}
+<LayoutView Layout="@DefaultLayout">
+    <_TransitionableRoute RouteData="@RouteData" ForgetStateOnTransition="true">
+        <_TransitionableRouteView DefaultLayout="@AnimatedLayout" />
+    </_TransitionableRoute>
+    <_TransitionableRouteSecondary RouteData="@RouteData" ForgetStateOnTransition="true">
+        <_TransitionableRouteView DefaultLayout="@AnimatedLayout" />
+    </_TransitionableRouteSecondary>
+</LayoutView>
 
 @code {
     [CascadingParameter] public RouteTransition Transition { get; set; }
 
+    [Parameter] public RouteData RouteData { get; set; }
+
     [Parameter] public Type DefaultLayout { get; set; }
+
+    [Parameter] public Type AnimatedLayout { get; set; }
 }
