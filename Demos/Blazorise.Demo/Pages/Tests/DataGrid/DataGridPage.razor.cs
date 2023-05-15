@@ -146,25 +146,25 @@ public partial class DataGridPage
 
     private void OnRowInserted( SavedRowItem<Employee, Dictionary<string, object>> e )
     {
-        var employee = e.NewItem;
+        //var employee = e.NewItem;
 
-        employee.Id = dataModels?.Max( x => x.Id ) + 1 ?? 1;
+        //employee.Id = dataModels?.Max( x => x.Id ) + 1 ?? 1;
 
-        dataModels.Add( employee );
+        //dataModels.Add( employee );
     }
 
     private void OnRowUpdated( SavedRowItem<Employee, Dictionary<string, object>> e )
     {
-        var idx = dataModels.FindIndex( x => x == e.OldItem );
-        dataModels[idx] = e.NewItem;
+        //var idx = dataModels.FindIndex( x => x == e.OldItem );
+        //dataModels[idx] = e.NewItem;
     }
 
     private void OnRowRemoved( Employee model )
     {
-        if ( dataModels.Contains( model ) )
-        {
-            dataModels.Remove( model );
-        }
+        //if ( dataModels.Contains( model ) )
+        //{
+        //    dataModels.Remove( model );
+        //}
     }
 
     private string customFilterValue;
