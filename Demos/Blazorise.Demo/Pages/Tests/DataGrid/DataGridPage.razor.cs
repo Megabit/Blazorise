@@ -100,6 +100,50 @@ public partial class DataGridPage
         employee.IsActive = true;
     }
 
+    private void OnRowInserting( CancellableRowChange<Employee, Dictionary<string, object>> e )
+    {
+        try
+        {
+            var employee = e.NewItem;
+
+            employee.Id = dataModels?.Max( x => x.Id ) + 1 ?? 1;
+
+            dataModels.Add( employee );
+        }
+        catch ( Exception )
+        {
+            e.Cancel = true;
+        }
+    }
+
+    private void OnRowUpdating( CancellableRowChange<Employee, Dictionary<string, object>> e )
+    {
+        try
+        {
+            var idx = dataModels.FindIndex( x => x == e.OldItem );
+            dataModels[idx] = e.NewItem;
+        }
+        catch ( Exception )
+        {
+            e.Cancel = true;
+        }
+    }
+
+    private void OnRowRemoving( CancellableRowChange<Employee, Dictionary<string, object>> e )
+    {
+        try
+        {
+            if ( dataModels.Contains( e.NewItem ) )
+            {
+                dataModels.Remove( e.NewItem );
+            }
+        }
+        catch ( Exception )
+        {
+            e.Cancel = true;
+        }
+    }
+
     private void OnRowInserted( SavedRowItem<Employee, Dictionary<string, object>> e )
     {
         var employee = e.NewItem;
