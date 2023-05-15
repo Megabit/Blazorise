@@ -6200,7 +6200,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
 </DataGrid>
 
-<Button Clicked=""OnAddItemClick"">Add New Item</Button>
+<Button Clicked=""OnAddItemClick"">Add Item</Button>
 <Button Clicked=""OnRemoveItemClick"">Remove Item</Button>
 @code {
     private ObservableCollection<Employee> items = new() {
