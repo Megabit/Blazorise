@@ -32,7 +32,7 @@ public class BoxChartAnnotationOptions : ChartAnnotationOptions
 
     [JsonPropertyName( "label" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public object Label { get; set; }
+    public ChartAnnotationLabelOptions Label { get; set; }
 
     [JsonPropertyName( "rotation" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]

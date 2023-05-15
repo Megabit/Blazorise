@@ -27,7 +27,7 @@ public class LineChartAnnotationOptions : ChartAnnotationOptions
 
     [JsonPropertyName( "label" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public object Label { get; set; }
+    public ChartAnnotationLabelOptions Label { get; set; }
 
     [JsonPropertyName( "scaleID" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]

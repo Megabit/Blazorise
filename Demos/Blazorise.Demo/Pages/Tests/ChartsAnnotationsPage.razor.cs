@@ -11,7 +11,7 @@ namespace Blazorise.Demo.Pages.Tests;
 public partial class ChartsAnnotationsPage
 {
     private LineChart<int> lineChart;
-    private BarChart<int> barChart;
+    private LineChart<int> lineChartWithBoxes;
 
     #region Line
 
@@ -57,8 +57,14 @@ public partial class ChartsAnnotationsPage
         { "line1", new LineChartAnnotationOptions
             {
                 Type = "line",
-                YMin = 10,
-                YMax = 10,
+                Label = new()
+                {
+                    BackgroundColor = "#ff0000",
+                    Content = "Test Label",
+                    Display = true
+                },
+                YMin = 60,
+                YMax = 60,
                 BorderColor = new( 255, 99, 132 ),
                 BorderWidth = 5,
             }
@@ -67,18 +73,18 @@ public partial class ChartsAnnotationsPage
 
     #endregion
 
-    #region Bar
+    #region Box
 
-    BarChartOptions barChartOptions = new()
+    LineChartOptions lineChartWithBoxesOptions = new()
     {
         AspectRatio = 5d / 3d,
         Layout = new()
         {
             Padding = new()
             {
-                Top = 24,
+                Top = 32,
                 Right = 16,
-                Bottom = 0,
+                Bottom = 16,
                 Left = 8
             }
         },
@@ -87,22 +93,16 @@ public partial class ChartsAnnotationsPage
             Line = new()
             {
                 Fill = false,
-            },
-            Point = new()
-            {
-                HoverRadius = 7,
-                Radius = 5
+                Tension = 0.4,
             }
         },
         Scales = new()
         {
-            X = new()
-            {
-                Stacked = true,
-            },
             Y = new()
             {
-                Stacked = true,
+                BeginAtZero = true,
+                Min = 0,
+                Max = 120,
             }
         },
         Plugins = new()
@@ -121,11 +121,64 @@ public partial class ChartsAnnotationsPage
         { "box1", new BoxChartAnnotationOptions
             {
                 Type = "box",
-                XMin = 1,
-                XMax = 2,
-                YMin = 50,
-                YMax = 70,
-                BackgroundColor = new( 255, 99, 132, 0.5f ),
+                BackgroundColor = "rgba(255, 245, 157, 0.2)",
+                BorderWidth = 0,
+                XMax = 2.5,
+                XMin = -0.5,
+                Label = new()
+                {
+                    DrawTime = "afterDraw",
+                    Display = true,
+                    Content = "First quarter",
+                    Position = new { x = "center", y = "start" }
+                },
+            }
+        },
+        { "box2", new BoxChartAnnotationOptions
+            {
+                Type = "box",
+                BackgroundColor = "rgba(188, 170, 164, 0.2)",
+                BorderWidth = 0,
+                XMax = 5.5,
+                XMin = 2.5,
+                Label = new()
+                {
+                    DrawTime = "afterDraw",
+                    Display = true,
+                    Content = "Second quarter",
+                    Position = new { x = "center", y = "start" }
+                },
+            }
+        },
+        { "box3", new BoxChartAnnotationOptions
+            {
+                Type = "box",
+                BackgroundColor = "rgba(165, 214, 167, 0.2)",
+                BorderWidth = 0,
+                XMax = 8.5,
+                XMin = 5.5,
+                Label = new()
+                {
+                    DrawTime = "afterDraw",
+                    Display = true,
+                    Content = "Third quarter",
+                    Position = new { x = "center", y = "start" }
+                },
+            }
+        },
+        { "box4", new BoxChartAnnotationOptions
+            {
+                Type = "box",
+                BackgroundColor = "rgba(159, 168, 218, 0.2)",
+                BorderWidth = 0,
+                XMin = 8.5,
+                Label = new()
+                {
+                    DrawTime = "afterDraw",
+                    Display = true,
+                    Content = "Fourth quarter",
+                    Position = new { x = "center", y = "start" }
+                },
             }
         }
     };
@@ -141,30 +194,19 @@ public partial class ChartsAnnotationsPage
     {
         if ( firstRender )
         {
-            await Task.WhenAll(
-                HandleRedraw( lineChart, GetLineChartDataset ),
-                HandleRedraw( barChart, GetBarChartDataset ) );
-
             await lineChart.Clear();
+            await lineChart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset( 0 ), GetLineChartDataset( 1 ), GetLineChartDataset( 2 ) );
 
-            await lineChart.AddLabelsDatasetsAndUpdate( Labels,
-                GetLineChartDataset( 0 ),
-                GetLineChartDataset( 1 ),
-                GetLineChartDataset( 2 ) );
+            await lineChartWithBoxes.Clear();
+            await lineChartWithBoxes.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset( 1 ) );
+
+            //await lineChart.Clear();
+
+            //await lineChart.AddLabelsDatasetsAndUpdate( Labels,
+            //    GetLineChartDataset( 0 ),
+            //    GetLineChartDataset( 1 ),
+            //    GetLineChartDataset( 2 ) );
         }
-    }
-
-    private async Task HandleRedraw<TDataSet, TItem, TOptions, TModel>( Blazorise.Charts.BaseChart<TDataSet, TItem, TOptions, TModel> chart, Func<int, TDataSet> getDataSet )
-        where TDataSet : ChartDataset<TItem>
-        where TOptions : ChartOptions
-        where TModel : ChartModel
-    {
-        await chart.Clear();
-
-        await chart.AddLabelsDatasetsAndUpdate( Labels,
-            getDataSet( 0 ),
-            getDataSet( 1 ),
-            getDataSet( 2 ) );
     }
 
     private LineChartDataset<int> GetLineChartDataset( int colorIndex )
@@ -172,21 +214,9 @@ public partial class ChartsAnnotationsPage
         return new()
         {
             Label = "# of randoms",
-            Data = RandomizeData( 2, 9 ),
+            Data = RandomizeData( 2, 110 ),
             BackgroundColor = BackgroundColors[colorIndex],
             BorderColor = BorderColors[colorIndex],
-        };
-    }
-
-    private BarChartDataset<int> GetBarChartDataset( int colorIndex )
-    {
-        return new()
-        {
-            Label = "# of randoms",
-            Data = RandomizeData( 2, 9 ),
-            BackgroundColor = BackgroundColors[colorIndex],
-            BorderColor = BorderColors[colorIndex],
-            BorderWidth = 1
         };
     }
 

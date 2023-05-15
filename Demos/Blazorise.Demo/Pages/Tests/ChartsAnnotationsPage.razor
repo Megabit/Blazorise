@@ -3,7 +3,7 @@
     <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Line</CardTitle>
+                <CardTitle>Line Annotation</CardTitle>
             </CardHeader>
             <CardBody>
                 <LineChart @ref="lineChart" TItem="int" Options="@lineChartOptions">
@@ -15,12 +15,12 @@
     <Column ColumnSize="ColumnSize.IsHalf.OnWidescreen">
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Bar</CardTitle>
+                <CardTitle>Box Annotation</CardTitle>
             </CardHeader>
             <CardBody>
-                <BarChart @ref="barChart" TItem="int" Options="@barChartOptions">
+                <LineChart @ref="lineChartWithBoxes" TItem="int" Options="@lineChartWithBoxesOptions">
                     <ChartAnnotation TItem="int" Options="boxAnnotationOptions" />
-                </BarChart>
+                </LineChart>
             </CardBody>
         </Card>
     </Column>
