@@ -6192,6 +6192,38 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
         public const string DataGridNugetInstallExample = @"Install-Package Blazorise.DataGrid";
 
+        public const string DataGridObservableCollectionExample = @"@using System.Collections.ObjectModel;
+
+<DataGrid TItem=""Employee""
+          Data=""@items""
+          Responsive>
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
+</DataGrid>
+
+<Button Clicked=""OnAddItemClick"">Add New Item</Button>
+<Button Clicked=""OnRemoveItemClick"">Remove Item</Button>
+@code {
+    private ObservableCollection<Employee> items = new() {
+        new() { FirstName = ""Name 1"" },
+        new() { FirstName = ""Name 2"" }
+    };
+
+    private Task OnAddItemClick()
+    {
+        items.Add( new Employee { FirstName = $""Name {items.Count + 1}"" } );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnRemoveItemClick()
+    {
+        if ( items.Count > 0 )
+            items.RemoveAt( 0 );
+
+        return Task.CompletedTask;
+    }
+}";
+
         public const string DataGridPagerExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""

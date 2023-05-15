@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -296,6 +297,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+
+
         await CheckMultipleSelectionSetEmpty( parameters );
 
         if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
@@ -304,7 +307,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
             ExecuteAfterRender( HandleSelectionModeChanged );
 
+
+        if ( Data is INotifyCollectionChanged observableCollectionBeforeParamSet )
+            observableCollectionBeforeParamSet.CollectionChanged -= OnCollectionChanged;
+
         await base.SetParametersAsync( parameters );
+
+        if ( Data is INotifyCollectionChanged observableCollectionAfterParamSet )
+            observableCollectionAfterParamSet.CollectionChanged += OnCollectionChanged;
     }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -337,6 +347,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( disposing )
         {
+            if ( Data is INotifyCollectionChanged observableCollection )
+            {
+                observableCollection.CollectionChanged -= OnCollectionChanged;
+            }
+
             if ( paginationContext is not null )
             {
                 paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
@@ -589,6 +604,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     #region Events
 
+    private async void OnCollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
+    {
+        if ( e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset )
+        {
+            await InvokeAsync( async () => await Reload() );
+        }
+    }
+
     /// <summary>
     /// An event raised when theme settings changes.
     /// </summary>
@@ -622,6 +645,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #endregion
 
     #region Commands
+
+
 
     /// <summary>
     /// Sets the DataGrid into the New state mode.
