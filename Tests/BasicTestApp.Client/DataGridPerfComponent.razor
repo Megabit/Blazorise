@@ -1,5 +1,10 @@
 ﻿@using BasicTestApp.Client.PerfComponents;
 
+<Select ElementId="dataGridSelectionMode" @bind-SelectedValue="@dataGridSelectionMode">
+    <SelectItem Value="DataGridSelectionMode.Single">Single</SelectItem>
+    <SelectItem Value="DataGridSelectionMode.Multiple">Multiple</SelectItem>
+</Select>
+
 <DataGridPerf @ref="PerfRef"
               TItem="Employee"
               Data="@Data"
@@ -8,7 +13,7 @@
               Sortable
               SortMode="DataGridSortMode.Single"
               Editable
-              EditMode="@DataGridEditMode">
+              SelectionMode="@dataGridSelectionMode">
     <DataGridColumns>
         <DataGridCommandColumn TItem="Employee">
             <NewCommandTemplate>
@@ -51,7 +56,7 @@
 @code {
     public DataGridPerf<Employee> PerfRef;
 
-    public DataGridEditMode DataGridEditMode { get; set; }
+    private DataGridSelectionMode dataGridSelectionMode;
 
     public List<Employee> Data { get; set; } = new()
         {
