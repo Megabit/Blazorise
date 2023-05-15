@@ -14,7 +14,8 @@ public class CancellableRowChange<TItem> : CancelEventArgs
     /// <summary>
     /// Initializes a new instance of the cancelable event argument.
     /// </summary>
-    /// <param name="item">Saved item.</param>
+    /// <param name="oldItem">Old Saved item.</param>
+    /// <param name="newItem">New Saved item.</param>
     public CancellableRowChange( TItem oldItem, TItem newItem )
     {
         Item = oldItem;

@@ -718,7 +718,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
 
         var editItemClone = editItem.DeepClone();
-        SetEditedValues( editItemClone );
+        SetItemEditedValues( editItemClone );
 
         if ( await IsSafeToProceed( rowSavingHandler, editItem, editItemClone, editedCellValues ) )
         {
@@ -731,12 +731,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 // apply edited cell values to the item
                 // for new items it must be always be set, while for editing items it can be set only if it's enabled
-                SetEditedValues( editItem );
+                SetItemEditedValues( editItem );
             }
 
             if ( editState == DataGridEditState.New )
             {
-                await RowInserted.InvokeAsync( new( editItem, editedCellValues ) );
+                await RowInserted.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
                 SetDirty();
 
                 // If a new item is added, the data should be refreshed
@@ -745,7 +745,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     await HandleReadData( CancellationToken.None );
             }
             else
-                await RowUpdated.InvokeAsync( new( editItem, editedCellValues ) );
+                await RowUpdated.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
 
             editState = DataGridEditState.None;
             await VirtualizeOnEditCompleteScroll().AsTask();
@@ -754,7 +754,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await InvokeAsync( StateHasChanged );
     }
 
-    private void SetEditedValues( TItem item )
+    private void SetItemEditedValues( TItem item )
     {
         foreach ( var column in EditableColumns )
         {
