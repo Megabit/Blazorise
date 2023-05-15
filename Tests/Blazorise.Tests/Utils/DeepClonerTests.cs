@@ -8,7 +8,7 @@ public class DeepClonerTests
     [Fact]
     public void DeepCloner_Should_Return_NewClonedReference()
     {
-        // Act
+        // Arrange
         var obj = new Test()
         {
             Integer = 1,
@@ -23,6 +23,8 @@ public class DeepClonerTests
                 String = "def",
             }
         };
+
+        // Act
         var clonedObj = obj.DeepClone();
 
         // Assert
@@ -38,7 +40,7 @@ public class DeepClonerTests
     [Fact]
     public void DeepCloner_Should_NotThrowOrHang_When_CircularReference()
     {
-        // Act
+        // Arrange
         var obj = new Test()
         {
             Integer = 1,
@@ -55,6 +57,7 @@ public class DeepClonerTests
         };
         obj.TestCircular = obj;
 
+        // Act
         var clonedObj = obj.DeepClone();
 
         // Assert
