@@ -1,67 +1,51 @@
-﻿<div id="test-selector">
-    Select test:
-    <select @bind=@SelectedComponentTypeName>
-        <option value="none">Choose...</option>
-        @foreach ( var component in components.OrderBy( x => x ) )
+﻿@using System.Reflection;
+@if ( components is not null )
+{
+    <div id="test-selector">
+        Select test:
+        <select @bind=@SelectedComponentTypeName>
+            <option value="none">Choose...</option>
+            @foreach ( var component in components )
+            {
+                <option value='@component.FullName'>@component.Name</option>
+            }
+
+        </select>
+
+        @if ( SelectedComponentType is not null )
         {
-            <option value='@($"BasicTestApp.Client.{component}")'>@component</option>
+            <span id="source-info"><code><tt>@(SelectedComponentType.FullName.Replace( ".", "/" )).cshtml</tt></code></span>
         }
-
-    </select>
-
-    @if ( SelectedComponentType != null )
-    {
-        <span id="source-info"><code><tt>@(SelectedComponentType.Name.Replace( ".", "/" )).cshtml</tt></code></span>
-    }
-    <hr />
-</div>
+        <hr />
+    </div>
+}
 
 <app>
     @((RenderFragment)RenderSelectedComponent)
 </app>
 
 @code {
-    string[] components =
-    {
-        "ElementIdComponent",
-        "TextOnlyComponent",
-        "ButtonComponent",
-        "ButtonOnlyComponent",
-        "DropdownComponent",
-        "NumericEditComponent",
-        "TextEditComponent",
-        "SelectComponent",
-        "SelectNavigationsComponent",
-        "ValidateNumericEditComponent",
-        "ValidateTextEditComponent",
-        "ValidateSelectComponent",
-        "ValidateAnnotationsComponent",
-        "AsyncValidateTextEditComponent",
-        "ButtonComponent",
-        "CloseButtonComponent",
-        "TabsComponent",
-        "RadioGroupComponent",
-        "DateEditComponent",
-        "DatePickerComponent",
-        "DateEditComponent",
-        "DataGridComponent",
-        "DataGridMultiSelectComponent",
-        "DataGridDetailRowComponent",
-        "DataGridAggregateRowComponent",
-        "AutocompleteComponent",
-        "AutocompleteMultipleComponent",
-        "AutocompleteReadDataComponent",
-        "AutocompleteMultipleReadDataComponent",
-        "AutocompleteCheckboxComponent"
-    };
+    Type[] components;
+
     string SelectedComponentTypeName { get; set; } = "none";
 
     Type SelectedComponentType
         => SelectedComponentTypeName == "none" ? null : Type.GetType( SelectedComponentTypeName );
 
+    protected override Task OnInitializedAsync()
+    {
+        components = Assembly.GetExecutingAssembly().GetTypes()
+            .Where( type => typeof( ComponentBase ).IsAssignableFrom( type ) && type != typeof( Index ) && type != typeof( _Imports ) )
+            .OrderBy( x => x.FullName )
+            .ToArray();
+
+        return base.OnInitializedAsync();
+    }
+
+
     void RenderSelectedComponent( RenderTreeBuilder builder )
     {
-        if ( SelectedComponentType != null )
+        if ( SelectedComponentType is not null )
         {
             builder.OpenComponent( 0, SelectedComponentType );
             builder.CloseComponent();

@@ -346,7 +346,6 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
         return Task.CompletedTask;
     }
 
-    private int count;
     private IEnumerable<TItem> GetItems()
     {
         if ( recalculateItems )
@@ -411,6 +410,7 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
 
     #region Properties
 
+    /// <inheritdoc/>
     protected override bool ShouldRender()
     {
         if ( shouldRerender )
