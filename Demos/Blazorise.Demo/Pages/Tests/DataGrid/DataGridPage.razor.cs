@@ -129,7 +129,7 @@ public partial class DataGridPage
         }
     }
 
-    private void OnRowRemoving( CancellableRowChange<Employee, Dictionary<string, object>> e )
+    private void OnRowRemoving( CancellableRowChange<Employee> e )
     {
         try
         {
