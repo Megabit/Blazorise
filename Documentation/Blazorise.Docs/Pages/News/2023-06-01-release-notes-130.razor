@@ -5,7 +5,7 @@
 <NewsPageImage Source="img/news/empty.png" Text="Blazorise v1.3" />
 
 <NewsPageTitle>
-    Announcing Blazorise 1.2
+    Announcing Blazorise 1.3
 </NewsPageTitle>
 
 <Paragraph>
@@ -40,6 +40,30 @@
     You should now be able to use Blazorise without any breaking changes.
 </Paragraph>
 
+<NewsPageSubtitle>
+    Breaking Changes
+</NewsPageSubtitle>
+
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code>DataGrid</Code> : The data collection no longer automatically updates upon mutating the collection, for example, by using methods like <Code>Add</Code> or <Code>Remove</Code>.
+        <Paragraph>
+            While this feature was good to have by default, the way it was implemented, was a general performance hit on <Code>DataGrid</Code> usage, even if it wasn't in the interest of the consumer to use it.
+        </Paragraph>
+        <Paragraph>
+            As such we now recommended the following, either:
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>Invoke <Code>gridRef.Reload();</Code> when you're done mutating your collection;</UnorderedListItem>
+            <UnorderedListItem>Have your data be observable by using any implementation of the <Code>INotifyCollectionChanged</Code>, like the <Code>ObservableCollection</Code>. The example below ilustrates this.</UnorderedListItem>
+        </UnorderedList>
+
+        <Paragraph>
+            Please visit, <Anchor To="https://blazorise.com/docs/extensions/datagrid/binding-data/observable">observable data docs</Anchor> for more information.
+        </Paragraph>
+    </UnorderedListItem>
+</UnorderedList>
 <NewsPageSubtitle>
     New Features 🚀
 </NewsPageSubtitle>
