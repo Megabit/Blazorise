@@ -8,7 +8,8 @@
               Sortable
               SortMode="DataGridSortMode.Single"
               Editable
-              EditMode="@DataGridEditMode">
+              EditMode="@DataGridEditMode"
+              @bind-SelectedRow="selectedEmployee">
     <DataGridColumns>
         <DataGridCommandColumn TItem="Employee">
             <NewCommandTemplate>
@@ -49,6 +50,7 @@
 
 
 @code {
+    private Employee selectedEmployee;
     public DataGridPerf<Employee> PerfRef;
 
     public DataGridEditMode DataGridEditMode { get; set; }
