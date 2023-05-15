@@ -1533,6 +1533,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( editState != DataGridEditState.None )
             return Task.CompletedTask;
 
+        SelectedRow = item;
         return SelectedRowChanged.InvokeAsync( item );
     }
 
