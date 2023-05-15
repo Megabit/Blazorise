@@ -9,6 +9,7 @@ using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Blazorise.Modules;
+using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
@@ -667,7 +668,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( Data is ICollection<TItem> data )
         {
-            if ( await IsSafeToProceed( RowRemoving, item ) )
+            if ( await IsSafeToProceed( RowRemoving, item, item ) )
             {
                 var itemIsSelected = SelectedRow.IsEqual( item );
                 if ( UseInternalEditing )
@@ -716,7 +717,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
 
-        if ( await IsSafeToProceed( rowSavingHandler, editItem, editedCellValues ) )
+        var editItemClone = editItem.DeepClone();
+        SetEditedValues( editItemClone );
+
+        if ( await IsSafeToProceed( rowSavingHandler, editItem, editItemClone, editedCellValues ) )
         {
             if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem && Data is ICollection<TItem> data )
             {
@@ -727,10 +731,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 // apply edited cell values to the item
                 // for new items it must be always be set, while for editing items it can be set only if it's enabled
-                foreach ( var column in EditableColumns )
-                {
-                    column.SetValue( editItem, editItemCellValues[column.ElementId].CellValue );
-                }
+                SetEditedValues( editItem );
             }
 
             if ( editState == DataGridEditState.New )
@@ -751,6 +752,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    private void SetEditedValues( TItem item )
+    {
+        foreach ( var column in EditableColumns )
+        {
+            column.SetValue( item, editItemCellValues[column.ElementId].CellValue );
+        }
     }
 
     /// <summary>
@@ -1165,11 +1174,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     // this is to give user a way to stop save if necessary
-    internal async Task<bool> IsSafeToProceed<TValues>( EventCallback<CancellableRowChange<TItem, TValues>> handler, TItem item, TValues editedCellValues )
+    internal async Task<bool> IsSafeToProceed<TValues>( EventCallback<CancellableRowChange<TItem, TValues>> handler, TItem item, TItem newItem, TValues editedCellValues )
     {
         if ( handler.HasDelegate )
         {
-            var args = new CancellableRowChange<TItem, TValues>( item, editedCellValues );
+            var args = new CancellableRowChange<TItem, TValues>( item, newItem, editedCellValues );
 
             await handler.InvokeAsync( args );
 
@@ -1182,11 +1191,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return true;
     }
 
-    internal async Task<bool> IsSafeToProceed( EventCallback<CancellableRowChange<TItem>> handler, TItem item )
+    internal async Task<bool> IsSafeToProceed( EventCallback<CancellableRowChange<TItem>> handler, TItem item, TItem newItem )
     {
         if ( handler.HasDelegate )
         {
-            var args = new CancellableRowChange<TItem>( item );
+            var args = new CancellableRowChange<TItem>( item, newItem );
 
             await handler.InvokeAsync( args );
 

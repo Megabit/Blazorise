@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.ComponentModel;
 #endregion
 
@@ -14,13 +15,25 @@ public class CancellableRowChange<TItem> : CancelEventArgs
     /// Initializes a new instance of the cancelable event argument.
     /// </summary>
     /// <param name="item">Saved item.</param>
-    public CancellableRowChange( TItem item )
+    public CancellableRowChange( TItem oldItem, TItem newItem )
     {
-        Item = item;
+        Item = oldItem;
+        OldItem = oldItem;
+        NewItem = newItem;
     }
 
     /// <summary>
     /// Gets the model that was saved.
     /// </summary>
+    [Obsolete( "CancellableRowChange: The Item is deprecated, please use the OldItem instead." )]
+    [EditorBrowsable( EditorBrowsableState.Never )]
     public TItem Item { get; }
+
+    /// <summary>
+    /// Gets the model with the values before being edited.
+    /// </summary>
+    public TItem OldItem { get; }
+
+    /// Gets the model with the edited values.
+    public TItem NewItem { get; }
 }
