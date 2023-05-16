@@ -125,7 +125,7 @@ public class DataGridComponentTest : TestContext
         Assert.False( object.ReferenceEquals( EmployeeInsertingOld, EmployeeInsertingNew ) );
         Assert.False( object.ReferenceEquals( EmployeeInsertedOld, EmployeeInsertedNew ) );
 
-        Assert.Equal( newName, EmployeeInsertingOld.Name );
+        Assert.Equal( default( string ), EmployeeInsertingOld.Name );
         Assert.Equal( newName, EmployeeInsertingNew.Name );
 
         Assert.Equal( newName, EmployeeInsertedOld.Name );
@@ -187,7 +187,7 @@ public class DataGridComponentTest : TestContext
         Assert.False( object.ReferenceEquals( EmployeeUpdatingOld, EmployeeUpdatingNew ) );
         Assert.False( object.ReferenceEquals( EmployeeUpdatedOld, EmployeeUpdatedNew ) );
 
-        Assert.Equal( currentName, EmployeeUpdatingOld.Name );
+        Assert.Equal( "Paul", EmployeeUpdatingOld.Name );
         Assert.Equal( updatedName, EmployeeUpdatingNew.Name );
 
         Assert.Equal( currentName, EmployeeUpdatedOld.Name );
