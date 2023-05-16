@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using BasicTestApp.Client;
 using Blazorise.DataGrid;
 using Blazorise.Tests.Extensions;
@@ -82,7 +83,7 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var newName = "RaulFromNew";
-
+        var data = new List<Employee>();
         var rowInsertingCount = 0;
         var rowInsertedCount = 0;
 
@@ -93,18 +94,26 @@ public class DataGridComponentTest : TestContext
 
         var comp = RenderComponent<DataGridComponent>( parameters =>
         {
+            //Avoid mutating the original Item
+            parameters.Add( x => x.UseInternalEditing, false );
+            parameters.Add( x => x.Data, data );
             parameters.Add( x => x.DataGridEditMode, editMode );
             parameters.Add( x => x.RowInserted, ( e ) =>
             {
                 rowInsertedCount++;
                 EmployeeInsertedOld = e.OldItem;
                 EmployeeInsertedNew = e.NewItem;
+
+                data.Add( e.NewItem );
             } );
             parameters.Add( x => x.RowInserting, ( e ) =>
             {
                 rowInsertingCount++;
                 EmployeeInsertingOld = e.OldItem;
                 EmployeeInsertingNew = e.NewItem;
+
+                //We are asserting here, because the reference will be mutated with the newName value when inserted.
+                Assert.Equal( default, EmployeeInsertingOld.Name );
             } );
         } );
 
@@ -125,7 +134,7 @@ public class DataGridComponentTest : TestContext
         Assert.False( object.ReferenceEquals( EmployeeInsertingOld, EmployeeInsertingNew ) );
         Assert.False( object.ReferenceEquals( EmployeeInsertedOld, EmployeeInsertedNew ) );
 
-        Assert.Equal( default( string ), EmployeeInsertingOld.Name );
+
         Assert.Equal( newName, EmployeeInsertingNew.Name );
 
         Assert.Equal( newName, EmployeeInsertedOld.Name );
@@ -143,6 +152,16 @@ public class DataGridComponentTest : TestContext
     {
         // setup
         var updatedName = "RaulFromEdit";
+        var data = new List<Employee>() {
+            new Employee()
+            {
+                Name = "Paul"
+            },
+            new Employee()
+            {
+                Name = "John"
+            },
+        };
 
         var rowUpdatingCount = 0;
         var rowUpdatedCount = 0;
@@ -154,12 +173,18 @@ public class DataGridComponentTest : TestContext
 
         var comp = RenderComponent<DataGridComponent>( parameters =>
         {
+            //Avoid mutating the original Item
+            parameters.Add( x => x.UseInternalEditing, false );
+            parameters.Add( x => x.Data, data );
             parameters.Add( x => x.DataGridEditMode, editMode );
             parameters.Add( x => x.RowUpdated, ( e ) =>
             {
                 rowUpdatedCount++;
                 EmployeeUpdatedOld = e.OldItem;
                 EmployeeUpdatedNew = e.NewItem;
+
+                var idx = data.FindIndex( x => x == e.OldItem );
+                data[idx] = e.NewItem;
             } );
             parameters.Add( x => x.RowUpdating, ( e ) =>
             {
@@ -176,13 +201,13 @@ public class DataGridComponentTest : TestContext
             ( firstInput ) => firstInput.SetAttribute( "value", updatedName ) );
 
         comp.Click( "#btnSave" );
+        comp.SetParametersAndRender( x => x.Add( param => param.Data, data ) );
 
         var currentName = comp.Find( "tbody tr.table-row-selectable:first-child td:nth-child(3)" ).TextContent;
 
         // validate
         comp.WaitForAssertion( () => Assert.Contains( comp.Instance.Data, x => x.Name == updatedName ), System.TimeSpan.FromSeconds( 3 ) );
-
-        Assert.Equal( updatedName, currentName );
+        comp.WaitForAssertion( () => Assert.Equal( updatedName, currentName ), System.TimeSpan.FromSeconds( 3 ) );
 
         Assert.False( object.ReferenceEquals( EmployeeUpdatingOld, EmployeeUpdatingNew ) );
         Assert.False( object.ReferenceEquals( EmployeeUpdatedOld, EmployeeUpdatedNew ) );
@@ -190,7 +215,7 @@ public class DataGridComponentTest : TestContext
         Assert.Equal( "Paul", EmployeeUpdatingOld.Name );
         Assert.Equal( updatedName, EmployeeUpdatingNew.Name );
 
-        Assert.Equal( currentName, EmployeeUpdatedOld.Name );
+        Assert.Equal( "Paul", EmployeeUpdatedOld.Name );
         Assert.Equal( updatedName, EmployeeUpdatedNew.Name );
 
         Assert.Equal( 1, rowUpdatingCount );

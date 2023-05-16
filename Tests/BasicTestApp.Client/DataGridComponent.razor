@@ -6,7 +6,7 @@
           SortMode="DataGridSortMode.Single"
           Editable
           EditMode="@DataGridEditMode"
-          UseInternalEditing
+          UseInternalEditing="UseInternalEditing"
           RowInserting="RowInserting"
           RowUpdating="RowUpdating"
           RowRemoving="RowRemoving"
@@ -59,6 +59,8 @@
     [Parameter] public EventCallback<SavedRowItem<Employee, Dictionary<string, object>>> RowInserted { get; set; }
     [Parameter] public EventCallback<SavedRowItem<Employee, Dictionary<string, object>>> RowUpdated { get; set; }
     [Parameter] public EventCallback<Employee> RowRemoved { get; set; }
+
+    [Parameter] public bool UseInternalEditing { get; set; } = true;
 
     [Parameter]
     public DataGridEditMode DataGridEditMode { get; set; }
