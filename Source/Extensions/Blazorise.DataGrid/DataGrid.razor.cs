@@ -668,8 +668,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( Data is ICollection<TItem> data )
         {
-            var clonedItem = item.DeepClone();
-            if ( await IsSafeToProceed( RowRemoving, clonedItem, clonedItem ) )
+            if ( await IsSafeToProceed( RowRemoving, item, item ) )
             {
                 var itemIsSelected = SelectedRow.IsEqual( item );
                 if ( UseInternalEditing )
@@ -687,7 +686,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 if ( editState == DataGridEditState.Edit && itemIsSelected )
                     editState = DataGridEditState.None;
 
-                await RowRemoved.InvokeAsync( clonedItem );
+                await RowRemoved.InvokeAsync( item );
 
                 SetDirty();
             }
@@ -721,7 +720,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         var editItemClone = editItem.DeepClone();
         SetItemEditedValues( editItemClone );
 
-        if ( await IsSafeToProceed( rowSavingHandler, editItem.DeepClone(), editItemClone, editedCellValues ) )
+        if ( await IsSafeToProceed( rowSavingHandler, editItem, editItemClone, editedCellValues ) )
         {
             if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem && Data is ICollection<TItem> data )
             {
@@ -737,7 +736,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             if ( editState == DataGridEditState.New )
             {
-                await RowInserted.InvokeAsync( new( editItem.DeepClone(), editItemClone, editedCellValues ) );
+                await RowInserted.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
                 SetDirty();
 
                 // If a new item is added, the data should be refreshed
@@ -746,7 +745,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     await HandleReadData( CancellationToken.None );
             }
             else
-                await RowUpdated.InvokeAsync( new( editItem.DeepClone(), editItemClone, editedCellValues ) );
+                await RowUpdated.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
 
             editState = DataGridEditState.None;
             await VirtualizeOnEditCompleteScroll().AsTask();
