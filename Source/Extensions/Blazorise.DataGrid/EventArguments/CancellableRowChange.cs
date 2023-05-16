@@ -18,7 +18,6 @@ public class CancellableRowChange<TItem> : CancelEventArgs
     /// <param name="newItem">New Saved item.</param>
     public CancellableRowChange( TItem oldItem, TItem newItem )
     {
-        Item = oldItem;
         OldItem = oldItem;
         NewItem = newItem;
     }
@@ -28,7 +27,7 @@ public class CancellableRowChange<TItem> : CancelEventArgs
     /// </summary>
     [Obsolete( "CancellableRowChange: The Item is deprecated, please use the OldItem instead." )]
     [EditorBrowsable( EditorBrowsableState.Never )]
-    public TItem Item { get; }
+    public TItem Item => OldItem;
 
     /// <summary>
     /// Gets the model with the values before being edited.

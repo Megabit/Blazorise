@@ -20,7 +20,6 @@ public class SavedRowItem<TItem, TValues> : EventArgs
     /// <param name="values">Edited values.</param>
     public SavedRowItem( TItem oldItem, TItem newItem, TValues values )
     {
-        Item = oldItem;
         OldItem = oldItem;
         NewItem = newItem;
         Values = values;
@@ -31,7 +30,7 @@ public class SavedRowItem<TItem, TValues> : EventArgs
     /// </summary>
     [Obsolete( "CancellableRowChange: The Item is deprecated, please use the OldItem instead." )]
     [EditorBrowsable( EditorBrowsableState.Never )]
-    public TItem Item { get; }
+    public TItem Item => OldItem;
 
     /// <summary>
     /// Gets the model with the values before being edited.
