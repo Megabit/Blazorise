@@ -1041,7 +1041,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                : default;
 
     /// <summary>
-    /// Gets a <typeparamref name="TValue"/> from <see cref="SelectedValues"/> by using the provided <see cref="TextField"/> && <see cref="ValueField"/>.
+    /// Gets a <typeparamref name="TValue"/> from <see cref="SelectedValues"/> by using the provided <see cref="TextField"/> and <see cref="ValueField"/>.
     /// </summary>
     /// <param name="text"></param>
     /// <returns></returns>
