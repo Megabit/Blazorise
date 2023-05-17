@@ -390,7 +390,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
     {
         TextFocused = true;
-        if ( ManualReadMode )
+        if ( ManualReadMode || MinLength <= 0 )
             await Reload();
 
         await OpenDropdown();
