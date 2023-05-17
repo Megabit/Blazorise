@@ -165,8 +165,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
                 await Task.WhenAll(
                     ResetSelectedValue(),
-                    CurrentSearchChanged.InvokeAsync( currentSearch ),
-                    SearchChanged.InvokeAsync( currentSearch )
+                    InvokeSearchChanged( currentSearch )
                 );
             }
         }
@@ -192,10 +191,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                         currentSearch = SelectedText;
                         DirtyFilter();
 
-                        await Task.WhenAll(
-                            CurrentSearchChanged.InvokeAsync( currentSearch ),
-                            SearchChanged.InvokeAsync( currentSearch )
-                        );
+                        await InvokeSearchChanged( currentSearch );
                     }
                 }
             }
@@ -255,8 +251,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 selectedValue = new( GetItemValue( FilteredData.First() ) );
 
                 await Task.WhenAll(
-                    CurrentSearchChanged.InvokeAsync( currentSearch ),
-                    SearchChanged.InvokeAsync( currentSearch ),
+                    InvokeSearchChanged( currentSearch ),
                     SelectedTextChanged.InvokeAsync( SelectedText ),
                     SelectedValueChanged.InvokeAsync( selectedValue )
                 );
@@ -265,6 +260,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         await base.OnInitializedAsync();
     }
+
+
 
     /// <summary>
     /// Handles the search field onchange or oninput event.
@@ -425,6 +422,15 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         TextFocused = false;
     }
 
+    private async Task InvokeSearchChanged( string searchValue )
+    {
+#pragma warning disable CS0618 // Type or member is obsolete
+        await Task.WhenAll(
+        CurrentSearchChanged.InvokeAsync( currentSearch ),
+        SearchChanged.InvokeAsync( currentSearch ) );
+#pragma warning restore CS0618 // Type or member is obsolete
+    }
+
     private async Task SelectedOrResetOnCommit()
     {
         if ( ActiveItemIndex >= 0 && DropdownVisible )
@@ -509,8 +515,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
             await Task.WhenAll(
                 SelectedValueChanged.InvokeAsync( selectedValue ),
-                CurrentSearchChanged.InvokeAsync( currentSearch ),
-                SearchChanged.InvokeAsync( currentSearch ),
+                InvokeSearchChanged( currentSearch ),
                 SelectedTextChanged.InvokeAsync( SelectedText )
             );
         }
@@ -525,8 +530,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         if ( Search != itemText )
         {
             currentSearch = itemText;
-            await CurrentSearchChanged.InvokeAsync( currentSearch );
-            await SearchChanged.InvokeAsync( currentSearch );
+            await InvokeSearchChanged( currentSearch );
 
             if ( SelectedText != itemText )
             {
@@ -635,10 +639,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         currentSearch = string.Empty;
 
-        await Task.WhenAll(
-            CurrentSearchChanged.InvokeAsync( currentSearch ),
-            SearchChanged.InvokeAsync( currentSearch )
-        );
+        await InvokeSearchChanged( currentSearch );
     }
 
     private async Task ResetSelectedValues()
@@ -657,10 +658,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         currentSearch = searchValue;
 
-        await Task.WhenAll(
-            CurrentSearchChanged.InvokeAsync( currentSearch ),
-            SearchChanged.InvokeAsync( currentSearch )
-        );
+        await InvokeSearchChanged( currentSearch );
     }
 
     private Task ResetActiveItemIndex()
@@ -1160,7 +1158,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Tracks whether the Autocomplete is in a multiple selection state.
     /// </summary>
+#pragma warning disable CS0618 // Type or member is obsolete
     protected bool IsMultiple => Multiple || SelectionMode == AutocompleteSelectionMode.Multiple || SelectionMode == AutocompleteSelectionMode.Checkbox;
+#pragma warning restore CS0618 // Type or member is obsolete
 
     /// <summary>
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.

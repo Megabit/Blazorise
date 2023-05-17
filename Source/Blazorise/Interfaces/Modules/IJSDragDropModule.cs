@@ -32,7 +32,6 @@ public interface IJSDragDropModule : IBaseJSModule,
     /// <summary>
     /// Destroys throttled events for drag and drop events.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     /// <param name="elementRef"></param>
     /// <param name="elementId"></param>
     /// <returns></returns>
