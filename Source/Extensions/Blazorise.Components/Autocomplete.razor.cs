@@ -83,7 +83,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<string>( nameof( CurrentSearch ), out var paramCurrentSearch ) && currentSearchParam != paramCurrentSearch )
+        if ( parameters.TryGetValue<string>( nameof( Search ), out var paramCurrentSearch ) && currentSearchParam != paramCurrentSearch )
         {
             currentSearch = null;
         }
@@ -158,7 +158,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 }
             }
 
-            if ( !IsMultiple && CurrentSearch != SelectedText )
+            if ( !IsMultiple && Search != SelectedText )
             {
                 currentSearch = SelectedText;
                 DirtyFilter();
@@ -187,7 +187,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                     SelectedText = text;
                     await SelectedTextChanged.InvokeAsync( SelectedText );
 
-                    if ( !IsMultiple && CurrentSearch != SelectedText )
+                    if ( !IsMultiple && Search != SelectedText )
                     {
                         currentSearch = SelectedText;
                         DirtyFilter();
@@ -298,7 +298,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
             if ( FreeTyping )
             {
-                SelectedText = CurrentSearch;
+                SelectedText = Search;
                 await SelectedTextChanged.InvokeAsync( SelectedText );
             }
         }
@@ -307,9 +307,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         if ( !HasFilteredData )
         {
-            if ( !string.IsNullOrEmpty( CurrentSearch ) )
+            if ( !string.IsNullOrEmpty( Search ) )
             {
-                await NotFound.InvokeAsync( CurrentSearch );
+                await NotFound.InvokeAsync( Search );
             }
         }
     }
@@ -340,7 +340,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             return;
         }
 
-        if ( IsMultiple && string.IsNullOrEmpty( CurrentSearch ) && eventArgs.Code == "Backspace" )
+        if ( IsMultiple && string.IsNullOrEmpty( Search ) && eventArgs.Code == "Backspace" )
         {
             await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
             return;
@@ -348,9 +348,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         if ( IsConfirmKey( eventArgs ) )
         {
-            if ( IsMultiple && FreeTyping && !string.IsNullOrEmpty( CurrentSearch ) && ActiveItemIndex < 0 )
+            if ( IsMultiple && FreeTyping && !string.IsNullOrEmpty( Search ) && ActiveItemIndex < 0 )
             {
-                await AddMultipleText( CurrentSearch );
+                await AddMultipleText( Search );
                 if ( CloseOnSelection )
                 {
                     await ResetCurrentSearch();
@@ -440,7 +440,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
         else
         {
-            if ( !IsSelectedvalue( GetItemValue( CurrentSearch ) ) )
+            if ( !IsSelectedvalue( GetItemValue( Search ) ) )
             {
                 if ( !FreeTyping )
                 {
@@ -522,10 +522,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     private async Task ResyncText()
     {
         var itemText = GetItemText( SelectedValue );
-        if ( CurrentSearch != itemText )
+        if ( Search != itemText )
         {
             currentSearch = itemText;
             await CurrentSearchChanged.InvokeAsync( currentSearch );
+            await SearchChanged.InvokeAsync( currentSearch );
 
             if ( SelectedText != itemText )
             {
@@ -546,7 +547,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
             if ( !cancellationTokenSource.Token.IsCancellationRequested && IsTextSearchable )
             {
-                await ReadData.InvokeAsync( new( CurrentSearch, cancellationToken: cancellationTokenSource.Token ) );
+                await ReadData.InvokeAsync( new( Search, cancellationToken: cancellationTokenSource.Token ) );
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
@@ -567,7 +568,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
             if ( !cancellationToken.IsCancellationRequested )
             {
-                await ReadData.InvokeAsync( new( CurrentSearch, startIdx, count, cancellationToken ) );
+                await ReadData.InvokeAsync( new( Search, startIdx, count, cancellationToken ) );
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
@@ -658,7 +659,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         await Task.WhenAll(
             CurrentSearchChanged.InvokeAsync( currentSearch ),
-            SearchChanged.InvokeAsync( CurrentSearch )
+            SearchChanged.InvokeAsync( currentSearch )
         );
     }
 
@@ -778,21 +779,21 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             {
                 query = from q in query
                         where q != null
-                        where CustomFilter( q, CurrentSearch )
+                        where CustomFilter( q, Search )
                         select q;
             }
             else if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.IndexOf( CurrentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
+                        where text.IndexOf( Search, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.StartsWith( CurrentSearch, StringComparison.OrdinalIgnoreCase )
+                        where text.StartsWith( Search, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
         }
@@ -982,7 +983,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         return FreeTyping
                 ? IsMultiple
                     ? SelectedTexts.IsNullOrEmpty() ? string.Empty : string.Join( ';', SelectedTexts )
-                    : CurrentSearch?.ToString()
+                    : Search?.ToString()
                 : SelectedValue?.ToString();
     }
 
@@ -1125,7 +1126,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// True if the text complies to the search requirements
     /// </summary>
     protected bool IsTextSearchable
-        => CurrentSearch?.Length >= MinLength;
+        => Search?.Length >= MinLength;
 
     /// <summary>
     /// True if the filtered data exists
@@ -1262,7 +1263,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     /// <summary>
     /// Allows the value to not be on the data source.
-    /// The value will be bound to the <see cref="CurrentSearch"/>
+    /// The value will be bound to the <see cref="SelectedText"/>
     /// </summary>
     [Parameter] public bool FreeTyping { get; set; }
 
@@ -1312,8 +1313,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Obsolete( "CurrentSearch is deprecated and will be removed in a future version, please use Search instead." )]
     public string CurrentSearch
     {
-        get => currentSearch ?? currentSearchParam ?? string.Empty;
-        set => currentSearchParam = value;
+        get => Search;
+        set => Search = value;
     }
 
     /// <summary>
@@ -1328,8 +1329,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter]
     public string Search
     {
-        get => CurrentSearch;
-        set => CurrentSearch = value;
+        get => currentSearch ?? currentSearchParam ?? string.Empty;
+        set => currentSearchParam = value;
     }
 
     /// <summary>
