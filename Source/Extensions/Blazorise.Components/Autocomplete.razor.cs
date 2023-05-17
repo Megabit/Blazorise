@@ -426,8 +426,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
 #pragma warning disable CS0618 // Type or member is obsolete
         await Task.WhenAll(
-        CurrentSearchChanged.InvokeAsync( currentSearch ),
-        SearchChanged.InvokeAsync( currentSearch ) );
+        CurrentSearchChanged.InvokeAsync( searchValue ),
+        SearchChanged.InvokeAsync( searchValue ) );
 #pragma warning restore CS0618 // Type or member is obsolete
     }
 
