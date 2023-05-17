@@ -30,7 +30,7 @@
                     }
                     <Fields>
                         @{
-#pragma warning disable
+#pragma warning disable CS0618 // Type or member is obsolete
                         }
                         @foreach ( var column in OrderedEditableColumns )
                         {
@@ -44,7 +44,7 @@
                             </Field>
                         }
                         @{
-#pragma warning disable
+#pragma warning restore CS0618 // Type or member is obsolete
                         }
                     </Fields>
                 </Validations>
