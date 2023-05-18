@@ -34,6 +34,8 @@ public class CancellableRowChange<TItem> : CancelEventArgs
     /// </summary>
     public TItem OldItem { get; }
 
+    /// <summary>
     /// Gets the model with the edited values.
+    /// </summary>
     public TItem NewItem { get; }
 }
