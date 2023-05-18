@@ -211,7 +211,10 @@
                           RowInserted="@OnRowInserted"
                           RowUpdated="@OnRowUpdated"
                           RowRemoved="@OnRowRemoved"
-                          UseInternalEditing
+                          RowInserting="@OnRowInserting"
+                          RowUpdating="@OnRowUpdating"
+                          RowRemoving="@OnRowRemoving"
+                          UseInternalEditing="false"
                           @bind-SelectedRow="@selectedEmployee"
                           @bind-SelectedRows="@selectedEmployees"
                           NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"

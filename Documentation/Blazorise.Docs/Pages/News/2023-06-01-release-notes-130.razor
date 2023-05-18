@@ -84,4 +84,26 @@
     This update will make it easier for developers to create applications that can cater to a global audience. We hope this update will be beneficial to our users and help them create more accessible and user-friendly applications.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Paragraph>
+    We've changed the <Code>CancellableRowChange</Code> argument that's provided in the RowInserting, RowUpdating and RowRemoving callbacks and the <Code>SavedRowItem</Code> that's provided in the RowInserted, RowUpdated callbacks to now provide both an <Code>OldItem</Code> and <Code>NewItem</Code>.
+</Paragraph>
+
+<Paragraph>
+    <Code>OldItem</Code> will replace the regular existing <Code>Item</Code> as it's easier to understand what it represents.
+    <Code>Item</Code> is now marked as obsolete and will be removed in a future release.
+</Paragraph>
+
+<Paragraph>
+    <Code>NewItem</Code> is a deep clone of the item that's being inserted or updated with the updated edit values.
+</Paragraph>
+
+<Paragraph>
+    The existing <Code>Values</Code> Dictionary will still exist, but this allows you to promptly get a mapped <Code>TItem</Code> without having to write your own mapping code from the <Code>Dictionary</Code>.
+</Paragraph>
+
+
 <NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="June 1st, 2023" Read="7 min" />
