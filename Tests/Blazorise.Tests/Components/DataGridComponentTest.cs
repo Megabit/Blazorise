@@ -1,6 +1,6 @@
 ﻿#region Using directives
-using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.DataGrid;
 using Blazorise.Tests.Extensions;
@@ -170,7 +170,7 @@ public class DataGridComponentTest : TestContext
     [InlineData( DataGridEditMode.Form )]
     [InlineData( DataGridEditMode.Inline )]
     [InlineData( DataGridEditMode.Popup )]
-    public void Edit_Should_Invoke_RowUpdate_Callbacks( DataGridEditMode editMode )
+    public async Task Edit_Should_Invoke_RowUpdate_Callbacks( DataGridEditMode editMode )
     {
         // setup
         var updatedName = "RaulFromEdit";
@@ -223,13 +223,16 @@ public class DataGridComponentTest : TestContext
             ( firstInput ) => firstInput.SetAttribute( "value", updatedName ) );
 
         comp.Click( "#btnSave" );
-        comp.SetParametersAndRender( x => x.Add( param => param.Data, data ) );
+
+        var dataGridRef = comp.FindComponent<DataGrid<Employee>>();
+        await dataGridRef.Instance.Reload();
 
         var currentName = comp.Find( "tbody tr.table-row-selectable:first-child td:nth-child(3)" ).TextContent;
 
         // validate
         comp.WaitForAssertion( () => Assert.Contains( comp.Instance.Data, x => x.Name == updatedName ), System.TimeSpan.FromSeconds( 3 ) );
-        comp.WaitForAssertion( () => Assert.Equal( updatedName, currentName ), System.TimeSpan.FromSeconds( 3 ) );
+
+        Assert.Equal( updatedName, currentName );
 
         Assert.False( object.ReferenceEquals( EmployeeUpdatingOld, EmployeeUpdatingNew ) );
         Assert.False( object.ReferenceEquals( EmployeeUpdatedOld, EmployeeUpdatedNew ) );
