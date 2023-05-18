@@ -1,7 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Blazorise;
 
@@ -20,8 +17,21 @@ public class RouteTransition
         => new RouteTransition( routeData, switchedRouteData, intoView, backwards, firstRender );
 
     public RouteData RouteData { get; }
+
     public RouteData SwitchedRouteData { get; }
+
+    /// <summary>
+    /// If true, the route should be made visible.
+    /// </summary>
     public bool IntoView { get; }
+
+    /// <summary>
+    /// If true, the reverse animations will be applied.
+    /// </summary>
     public bool Backwards { get; }
+
+    /// <summary>
+    ///  Stops transitioning on first load.
+    /// </summary>
     public bool FirstRender { get; }
 }
