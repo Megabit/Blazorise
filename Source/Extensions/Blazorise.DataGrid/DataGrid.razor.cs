@@ -37,11 +37,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private Virtualize<TItem> virtualizeRef;
 
     /// <summary>
-    /// Gets or sets current selection mode.
-    /// </summary>
-    private DataGridSelectionMode selectionMode;
-
-    /// <summary>
     /// Element reference to the DataGrid's inner table.
     /// </summary>
     private Table tableRef;

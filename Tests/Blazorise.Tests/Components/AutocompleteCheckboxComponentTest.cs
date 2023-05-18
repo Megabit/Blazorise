@@ -1,12 +1,9 @@
 ﻿#region Using directives
-using System.Linq;
-using AngleSharp.Dom;
+using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
-using Castle.DynamicProxy.Generators.Emitters;
 using Xunit;
-using static System.Net.Mime.MediaTypeNames;
 #endregion
 
 namespace Blazorise.Tests.Components;
@@ -60,16 +57,16 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
     [Theory]
     [InlineData( new[] { "Portugal", "Croatia" }, "" )]
     [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }, "" )]
-    public void SelectValues_ShouldSet( string[] expectedTexts, string dummy )
+    public Task SelectValues_ShouldSet( string[] expectedTexts, string dummy )
     {
-        TestSelectValues<AutocompleteCheckboxComponent>( expectedTexts );
+        return TestSelectValues<AutocompleteCheckboxComponent>( expectedTexts );
     }
 
     [Theory]
     [InlineData( new[] { "Portugal", "Croatia" }, new[] { "MyCustomValue", "YetAnotherCustomValue" }, new[] { "Portugal", "Croatia", "MyCustomValue", "YetAnotherCustomValue" } )]
-    public void FreeTypedValue_ShouldSet( string[] startTexts, string[] addTexts, string[] expectedTexts )
+    public Task FreeTypedValue_ShouldSet( string[] startTexts, string[] addTexts, string[] expectedTexts )
     {
-        TestFreeTypedValue<AutocompleteCheckboxComponent>( startTexts, addTexts, expectedTexts );
+        return TestFreeTypedValue<AutocompleteCheckboxComponent>( startTexts, addTexts, expectedTexts );
     }
 
     [Theory]
@@ -78,8 +75,8 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
     [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }
         , new[] { "Antarctica", "Argentina", "United Kingdom", "Canada" }
         , new[] { "United Arab Emirates", "Afghanistan", "Angola", "Switzerland", "China", "Portugal", "Croatia" } )]
-    public void RemoveValues_ShouldRemove( string[] startTexts, string[] removeTexts, string[] expectedTexts )
+    public Task RemoveValues_ShouldRemove( string[] startTexts, string[] removeTexts, string[] expectedTexts )
     {
-        TestRemoveValues<AutocompleteCheckboxComponent>( startTexts, removeTexts, expectedTexts );
+        return TestRemoveValues<AutocompleteCheckboxComponent>( startTexts, removeTexts, expectedTexts );
     }
 }

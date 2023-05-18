@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <Import Project="..\..\..\Build\Blazorise.props" />
 
@@ -8,6 +8,10 @@
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <NoWarn>1701;1702;SYSLIB0013;CS1591;CS0612</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
