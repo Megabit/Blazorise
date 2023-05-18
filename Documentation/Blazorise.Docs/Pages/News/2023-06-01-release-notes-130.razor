@@ -44,25 +44,28 @@
     Breaking Behaviour
 </NewsPageSubtitle>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Code>DataGrid</Code> : The data collection no longer automatically updates upon mutating the collection, for example, by using methods like <Code>Add</Code> or <Code>Remove</Code>.
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            <Code>DataGrid</Code> : The data collection no longer automatically updates upon mutating the collection, for example, by using methods like <Code>Add</Code> or <Code>Remove</Code>.
+        </Paragraph>
         <Paragraph>
             While this feature was good to have by default, the way it was implemented, was a general performance hit on <Code>DataGrid</Code> usage, even if it wasn't in the interest of the consumer to use it.
         </Paragraph>
         <Paragraph>
             As such we now recommended the following, either:
         </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem>Invoke <Code>gridRef.Reload();</Code> when you're done mutating your collection;</UnorderedListItem>
-            <UnorderedListItem>Have your data be observable by using any implementation of the <Code>INotifyCollectionChanged</Code>, like the <Code>ObservableCollection</Code>. The example below ilustrates this.</UnorderedListItem>
-        </UnorderedList>
-
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>Invoke <Code>gridRef.Reload();</Code> when you're done mutating your collection;</UnorderedListItem>
+                <UnorderedListItem>Have your data be observable by using any implementation of the <Code>INotifyCollectionChanged</Code>, like the <Code>ObservableCollection</Code>. The example below ilustrates this.</UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
         <Paragraph>
             Please visit, <Anchor To="docs/extensions/datagrid/binding-data/observable">observable data docs</Anchor> for more information.
         </Paragraph>
-    </UnorderedListItem>
-</UnorderedList>
+    </OrderedListItem>
+</OrderedList>
 <NewsPageSubtitle>
     New Features 🚀
 </NewsPageSubtitle>
