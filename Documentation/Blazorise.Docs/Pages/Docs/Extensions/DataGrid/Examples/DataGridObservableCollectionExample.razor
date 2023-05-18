@@ -1,14 +1,14 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 @using System.Collections.ObjectModel;
 
+<Button Clicked="OnAddItemClick" Color="Color.Primary">Add Item</Button>
+<Button Clicked="OnRemoveItemClick" Color="Color.Danger">Remove Item</Button>
+
 <DataGrid TItem="Employee"
           Data="@items"
           Responsive>
     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
 </DataGrid>
-
-<Button Clicked="OnAddItemClick">Add Item</Button>
-<Button Clicked="OnRemoveItemClick">Remove Item</Button>
 @code {
     private ObservableCollection<Employee> items = new() {
         new() { FirstName = "Name 1" },
