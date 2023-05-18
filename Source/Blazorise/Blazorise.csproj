@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <PackageReference Include="Blazorise.Licensing" Version="1.1.0" />
+    <PackageReference Include="DeepCloner" Version="0.10.4" />
   </ItemGroup>
 
   <PropertyGroup>
