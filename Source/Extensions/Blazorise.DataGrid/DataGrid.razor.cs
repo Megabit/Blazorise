@@ -293,8 +293,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-
-
         await CheckMultipleSelectionSetEmpty( parameters );
 
         if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
@@ -302,7 +300,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
             ExecuteAfterRender( HandleSelectionModeChanged );
-
 
         if ( Data is INotifyCollectionChanged observableCollectionBeforeParamSet )
             observableCollectionBeforeParamSet.CollectionChanged -= OnCollectionChanged;
@@ -641,8 +638,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #endregion
 
     #region Commands
-
-
 
     /// <summary>
     /// Sets the DataGrid into the New state mode.
