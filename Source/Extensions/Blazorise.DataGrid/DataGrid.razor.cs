@@ -43,11 +43,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private Table tableRef;
 
     /// <summary>
-    /// Original data-source.
-    /// </summary>
-    private IEnumerable<TItem> data;
-
-    /// <summary>
     /// Optional aggregate data.
     /// </summary>
     private IEnumerable<TItem> aggregateData;
