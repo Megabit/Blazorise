@@ -125,3 +125,8 @@ select[readonly] {
 .focus-trap {
     display: contents;
 }
+
+.b-required:before {
+    content: "* ";
+    color: $danger;
+}

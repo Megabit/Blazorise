@@ -399,3 +399,8 @@ p {
   padding-right: 0;
   padding-left: 0;
 }
+
+.b-required:before {
+  content: "* ";
+  color: var(--btw-color-danger-500);
+}

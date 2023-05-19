@@ -313,3 +313,8 @@ textarea.ant-input.ant-input-static {
 .ant-focus-trap {
     display: contents;
 }
+
+.b-required:before {
+    content: "* ";
+    color: $danger;
+}

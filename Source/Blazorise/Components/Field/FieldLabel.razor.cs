@@ -22,6 +22,7 @@ public partial class FieldLabel : BaseSizableFieldComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.FieldLabel( IsHorizontal ) );
+        builder.Append( ClassProvider.ValidationIndicator( ValidationIndicator ) );
         builder.Append( ClassProvider.ToScreenreader( Screenreader ), Screenreader != Screenreader.Always );
 
         base.BuildClasses( builder );
@@ -35,6 +36,11 @@ public partial class FieldLabel : BaseSizableFieldComponent
     /// Gets or sets the ID of an element that this label belongs to.
     /// </summary>
     [Parameter] public string For { get; set; }
+
+    /// <summary>
+    /// Whether to provide a Validation Indicator.
+    /// </summary>
+    [Parameter] public bool ValidationIndicator { get; set; }
 
     /// <summary>
     /// Defines the visibility for screen readers.

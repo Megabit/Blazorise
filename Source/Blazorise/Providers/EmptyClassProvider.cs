@@ -297,6 +297,8 @@ class EmptyClassProvider : IClassProvider
 
     public string FieldLabel( bool horizontal ) => null;
 
+    public string ValidationIndicator( bool validationIndicator ) => null;
+
     #endregion
 
     #region FieldBody

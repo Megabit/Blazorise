@@ -400,3 +400,8 @@ input[readonly="readonly"][type=range] {
 .focus-trap {
     display: contents;
 }
+
+.b-required:before {
+    content: "* ";
+    color: $danger;
+}
