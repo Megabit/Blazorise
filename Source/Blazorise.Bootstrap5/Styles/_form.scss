@@ -444,6 +444,6 @@ input[readonly="readonly"][type=range] {
 }
 
 .b-required:before {
-    content: "*";
+    content: "* ";
     color: $danger;
 }

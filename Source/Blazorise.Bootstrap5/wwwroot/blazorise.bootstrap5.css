@@ -866,7 +866,7 @@ input[readonly=readonly][type=range]::-ms-thumb {
 }
 
 .b-required:before {
-  content: "*";
+  content: "* ";
   color: #dc3545;
 }
 
