@@ -601,6 +601,11 @@ select[readonly] optgroup {
   display: contents;
 }
 
+.b-required:before {
+  content: "* ";
+  color: #f44336;
+}
+
 .no-gutters {
   margin-right: 0;
   margin-left: 0;

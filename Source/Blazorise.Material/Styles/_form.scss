@@ -331,6 +331,6 @@ select[readonly] {
 }
 
 .b-required:before {
-    content: "*";
+    content: "* ";
     color: $danger;
 }
