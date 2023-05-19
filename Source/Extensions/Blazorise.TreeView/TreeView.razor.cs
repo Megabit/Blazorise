@@ -57,12 +57,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
 
         if ( nodesChanged )
         {
-            treeViewNodeStates = new();
-
-            await foreach ( var nodeState in paramNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
-            {
-                treeViewNodeStates.Add( nodeState );
-            }
+            await Reload();
         }
 
         // Now we can safely subscribe to the changes.
@@ -74,7 +69,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
 
     private void OnCollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
     {
-        if ( e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset )
+        if ( e.Action == NotifyCollectionChangedAction.Add )
         {
             InvokeAsync( async () =>
             {
@@ -84,6 +79,26 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
                 }
             } );
         }
+
+        if ( e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset || e.Action == NotifyCollectionChangedAction.Replace || e.Action == NotifyCollectionChangedAction.Move )
+        {
+            InvokeAsync( Reload );
+        }
+    }
+
+    /// <summary>
+    /// Triggers the reload of the <see cref="TreeView{TNode}.Nodes"/>.
+    /// </summary>
+    /// <returns>Returns the awaitable task.</returns>
+    public async Task Reload()
+    {
+        treeViewNodeStates = new();
+
+        await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+        {
+            treeViewNodeStates.Add( nodeState );
+        }
+        await InvokeAsync( StateHasChanged );
     }
 
     protected override void Dispose( bool disposing )
