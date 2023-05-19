@@ -38,7 +38,7 @@
     }
 
     [Parameter]
-    public IList<Item> Items { get; set; } = new List<Item>()
+    public IList<Item> Items { get; set; } = new ObservableCollection<Item>()
     {
         new Item { Text = "Item 1" },
         new Item { Text = "Item 2" },
