@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -40,11 +41,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Element reference to the DataGrid's inner table.
     /// </summary>
     private Table tableRef;
-
-    /// <summary>
-    /// Original data-source.
-    /// </summary>
-    private IEnumerable<TItem> data;
 
     /// <summary>
     /// Optional aggregate data.
@@ -294,10 +290,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await CheckMultipleSelectionSetEmpty( parameters );
 
+        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
+            SetDirty();
+
         if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
             ExecuteAfterRender( HandleSelectionModeChanged );
 
+        if ( Data is INotifyCollectionChanged observableCollectionBeforeParamSet )
+            observableCollectionBeforeParamSet.CollectionChanged -= OnCollectionChanged;
+
         await base.SetParametersAsync( parameters );
+
+        if ( Data is INotifyCollectionChanged observableCollectionAfterParamSet )
+            observableCollectionAfterParamSet.CollectionChanged += OnCollectionChanged;
     }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -330,6 +335,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( disposing )
         {
+            if ( Data is INotifyCollectionChanged observableCollection )
+            {
+                observableCollection.CollectionChanged -= OnCollectionChanged;
+            }
+
             if ( paginationContext is not null )
             {
                 paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
@@ -582,6 +592,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     #region Events
 
+    private async void OnCollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
+    {
+        if ( e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset || e.Action == NotifyCollectionChangedAction.Move || e.Action == NotifyCollectionChangedAction.Replace )
+        {
+            await InvokeAsync( async () => await Reload() );
+        }
+    }
+
     /// <summary>
     /// An event raised when theme settings changes.
     /// </summary>
@@ -779,9 +797,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await SelectRow( item );
 
-        var selectedTableRow = GetRowInfo( item )?.TableRow;
-        if ( selectedTableRow is not null )
-            await selectedTableRow.ElementRef.FocusAsync();
+        if ( Navigable )
+        {
+            var selectedTableRow = GetRowInfo( item )?.TableRow;
+            if ( selectedTableRow is not null )
+                await selectedTableRow.ElementRef.FocusAsync();
+        }
 
         await Refresh();
     }
@@ -1532,8 +1553,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return Task.CompletedTask;
 
         SelectedRow = item;
-
-        return SelectedRowChanged.InvokeAsync( SelectedRow );
+        return SelectedRowChanged.InvokeAsync( item );
     }
 
     private DataGridRowInfo<TItem> GetRowInfo( TItem item )
@@ -1832,15 +1852,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the datagrid data-source.
     /// </summary>
     [Parameter]
-    public IEnumerable<TItem> Data
-    {
-        get { return data; }
-        set
-        {
-            SetDirty();
-            data = value;
-        }
-    }
+    public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
     /// Gets or sets the calculated aggregate data.

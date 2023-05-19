@@ -1,18 +1,21 @@
-﻿<DataGrid TItem="Employee"
-          Data="@Data"
-          ShowPager
-          ShowPageSizes
-          Sortable
-          SortMode="DataGridSortMode.Single"
-          Editable
-          EditMode="@DataGridEditMode"
-          UseInternalEditing="UseInternalEditing"
-          RowInserting="RowInserting"
-          RowUpdating="RowUpdating"
-          RowRemoving="RowRemoving"
-          RowInserted="RowInserted"
-          RowUpdated="RowUpdated"
-          RowRemoved="RowRemoved">
+﻿@using BasicTestApp.Client.PerfComponents;
+
+<Select ElementId="dataGridSelectionMode" @bind-SelectedValue="@dataGridSelectionMode">
+    <SelectItem Value="DataGridSelectionMode.Single">Single</SelectItem>
+    <SelectItem Value="DataGridSelectionMode.Multiple">Multiple</SelectItem>
+</Select>
+
+<DataGridPerf @ref="PerfRef"
+              TItem="Employee"
+              Data="@Data"
+              ShowPager
+              ShowPageSizes
+              Sortable
+              SortMode="DataGridSortMode.Single"
+              Editable
+              SelectionMode="@dataGridSelectionMode"
+              @bind-SelectedRow="selectedEmployee"
+              @bind-SelectedRows="selectedEmployees">
     <DataGridColumns>
         <DataGridCommandColumn TItem="Employee">
             <NewCommandTemplate>
@@ -49,24 +52,17 @@
     <EmptyTemplate>
         No Records...
     </EmptyTemplate>
-</DataGrid>
+</DataGridPerf>
+
 
 @code {
+    private Employee selectedEmployee;
+    private List<Employee> selectedEmployees;
+    public DataGridPerf<Employee> PerfRef;
 
-    [Parameter] public EventCallback<CancellableRowChange<Employee, Dictionary<string, object>>> RowInserting { get; set; }
-    [Parameter] public EventCallback<CancellableRowChange<Employee, Dictionary<string, object>>> RowUpdating { get; set; }
-    [Parameter] public EventCallback<CancellableRowChange<Employee>> RowRemoving { get; set; }
-    [Parameter] public EventCallback<SavedRowItem<Employee, Dictionary<string, object>>> RowInserted { get; set; }
-    [Parameter] public EventCallback<SavedRowItem<Employee, Dictionary<string, object>>> RowUpdated { get; set; }
-    [Parameter] public EventCallback<Employee> RowRemoved { get; set; }
+    private DataGridSelectionMode dataGridSelectionMode;
 
-    [Parameter] public bool UseInternalEditing { get; set; } = true;
-
-    [Parameter]
-    public DataGridEditMode DataGridEditMode { get; set; }
-
-    [Parameter]
-    public IEnumerable<Employee> Data { get; set; } = new List<Employee>()
+    public List<Employee> Data { get; set; } = new()
         {
             new() { Name = "John", Fraction = "1/2" },
             new() { Name = "Sarah", Fraction = "1/4" },

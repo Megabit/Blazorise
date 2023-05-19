@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection.Metadata;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Shared.Models;
 using Microsoft.Extensions.Caching.Memory;
@@ -98,6 +96,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/binding-data/in-memory", "DataGrid Binding Data : In Memory", "The DataGrid can bind to your data in memory, allowing for quick and efficient display of your data sets." ),
                 new PageEntry( "docs/extensions/datagrid/binding-data/large-data", "DataGrid Binding Data : Large Data", "The DataGrid Read Data feature allows you to handle Large Data by providing you with a centralized ReadData Method that allows you to query your data by pages." ),
                 new PageEntry( "docs/extensions/datagrid/binding-data/virtualize", "DataGrid Binding Data : Virtualize", "Optimize performance for large data sets with the Blazorise DataGrid's virtualization feature. By only rendering the data currently visible on the screen, virtualization reduces the amount of DOM elements, resulting in improved performance and load times." ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/observable", "DataGrid Binding Data : Observable Data", "The DataGrid can bind observable data, so whenever the underlying collection is changed the DataGrid is automatically updated." ),
 
                 new PageEntry( "docs/extensions/datagrid/features", "DataGrid Features" ),
                 new PageEntry( "docs/extensions/datagrid/features/context-menu", "DataGrid Context Menu", "Right-click on any row to access options such as editing, deleting, and custom actions." ),
@@ -109,7 +108,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/features/resizing", "DataGrid Resizing", "Easily adjust the size of your columns with the Blazorise DataGrid's resizing feature. Drag and drop column edges to resize, or use customized options to fit your needs." ),
                 new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Sorting", "Blazorise DataGrid offers efficient data sorting with customizable options." ),
 
-                
+
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
                 new PageEntry( "docs/extensions/datagrid/selection/single", "DataGrid Single Selection", "Easily select and manage a single row of data with the Blazorise DataGrid's single selection feature. Select a row by clicking on it or programmatically, and access the selected data for further use." ),
             new PageEntry( "docs/extensions/datagrid/selection/multiple", "DataGrid Multiple Selection", "Select and manage multiple rows of data with ease using the Blazorise DataGrid's multiple selection feature. Select rows by clicking on them or programmatically, and access the selected data for further use." ),

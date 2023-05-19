@@ -100,7 +100,7 @@ public partial class DataGridPage
         employee.IsActive = true;
     }
 
-    private void OnRowInserting( CancellableRowChange<Employee, Dictionary<string, object>> e )
+    private async Task OnRowInserting( CancellableRowChange<Employee, Dictionary<string, object>> e )
     {
         try
         {
@@ -109,6 +109,7 @@ public partial class DataGridPage
             employee.Id = dataModels?.Max( x => x.Id ) + 1 ?? 1;
 
             dataModels.Add( employee );
+            await dataGrid.Reload();
         }
         catch ( Exception )
         {
@@ -116,12 +117,13 @@ public partial class DataGridPage
         }
     }
 
-    private void OnRowUpdating( CancellableRowChange<Employee, Dictionary<string, object>> e )
+    private async Task OnRowUpdating( CancellableRowChange<Employee, Dictionary<string, object>> e )
     {
         try
         {
             var idx = dataModels.FindIndex( x => x == e.OldItem );
             dataModels[idx] = e.NewItem;
+            await dataGrid.Reload();
         }
         catch ( Exception )
         {
@@ -129,13 +131,14 @@ public partial class DataGridPage
         }
     }
 
-    private void OnRowRemoving( CancellableRowChange<Employee> e )
+    private async Task OnRowRemoving( CancellableRowChange<Employee> e )
     {
         try
         {
             if ( dataModels.Contains( e.NewItem ) )
             {
                 dataModels.Remove( e.NewItem );
+                await dataGrid.Reload();
             }
         }
         catch ( Exception )
