@@ -5741,6 +5741,11 @@ select[readonly] optgroup {
   display: contents;
 }
 
+.b-required:before {
+  content: "* ";
+  color: #ef2e55;
+}
+
 .hero.is-primary {
   background-color: #00d1b2;
   color: #fff;
