@@ -28,7 +28,7 @@ public class FieldLabelComponentTest : TestContext
         } );
 
         // validate
-        var requiredLabel = cut.WaitForElement( ".b-required" );
+        var requiredLabel = cut.WaitForElement( ".b-field-label-required" );
         requiredLabel.Should().NotBeNull();
     }
 
