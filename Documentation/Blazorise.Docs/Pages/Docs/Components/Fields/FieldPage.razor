@@ -132,6 +132,16 @@
     <DocsPageSectionSource Code="BasicFieldsExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation Indicator">
+        Use <Code>ValidationIndicator</Code> to automatically display a required validation indicator by the label.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ValidationIndicatorExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ValidationIndicatorExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
@@ -167,5 +177,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ColumnSize" Type="ColumnSize" Default="null">
         Determines how much space will be used by the field inside of the grid row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValidationIndicator" Type="bool" Default="false">
+        Whether to provide a Validation Indicator.
     </DocsAttributesItem>
 </DocsAttributes>
