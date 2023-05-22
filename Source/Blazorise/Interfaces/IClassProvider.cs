@@ -294,7 +294,7 @@ public interface IClassProvider
 
     string FieldLabel( bool horizontal );
 
-    string ValidationIndicator( bool validationIndicator );
+    string FieldLabelValidationIndicator( bool validationIndicator );
 
     #endregion
 

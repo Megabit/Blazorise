@@ -22,7 +22,7 @@ public partial class FieldLabel : BaseSizableFieldComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.FieldLabel( IsHorizontal ) );
-        builder.Append( ClassProvider.ValidationIndicator( ValidationIndicator ) );
+        builder.Append( ClassProvider.FieldLabelValidationIndicator( ValidationIndicator ) );
         builder.Append( ClassProvider.ToScreenreader( Screenreader ), Screenreader != Screenreader.Always );
 
         base.BuildClasses( builder );

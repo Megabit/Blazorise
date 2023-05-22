@@ -312,7 +312,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string FieldLabel( bool horizontal ) => horizontal ? "field-label is-normal" : "field-label";
 
-    public override string ValidationIndicator( bool validationIndicator )
+    public override string FieldLabelValidationIndicator( bool validationIndicator )
         => validationIndicator
             ? "b-required"
             : null;

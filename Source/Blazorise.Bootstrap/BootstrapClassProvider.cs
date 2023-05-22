@@ -310,7 +310,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string FieldLabel( bool horizontal ) => horizontal ? "col-form-label" : null;
 
-    public override string ValidationIndicator( bool validationIndicator )
+    public override string FieldLabelValidationIndicator( bool validationIndicator )
         => validationIndicator
             ? "b-required"
             : null;
