@@ -867,7 +867,7 @@ input[readonly=readonly][type=range]::-ms-thumb {
 
 .b-required:before {
   content: "* ";
-  color: #dc3545;
+  color: var(--b-theme-danger, #dc3545);
 }
 
 .jumbotron {

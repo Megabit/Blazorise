@@ -1,4 +1,4 @@
 ﻿.b-required:before {
     content: "* ";
-    color: var(--btw-color-danger-500);
+    color: var(--b-theme-danger, --btw-color-danger-500);
 }

@@ -603,7 +603,7 @@ select[readonly] optgroup {
 
 .b-required:before {
   content: "* ";
-  color: #f44336;
+  color: var(--b-theme-danger, #f44336);
 }
 
 .no-gutters {

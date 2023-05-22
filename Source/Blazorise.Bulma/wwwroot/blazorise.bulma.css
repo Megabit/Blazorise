@@ -5743,7 +5743,7 @@ select[readonly] optgroup {
 
 .b-required:before {
   content: "* ";
-  color: #ef2e55;
+  color: var(--b-theme-danger, #ef2e55);
 }
 
 .hero.is-primary {

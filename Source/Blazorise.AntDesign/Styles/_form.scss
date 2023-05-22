@@ -316,5 +316,5 @@ textarea.ant-input.ant-input-static {
 
 .b-required:before {
     content: "* ";
-    color: $danger;
+    color: var(--b-theme-danger, $danger);
 }
