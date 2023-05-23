@@ -312,7 +312,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string FieldLabelRequiredIndicator( bool validationIndicator )
         => validationIndicator
-            ? "b-field-label-required"
+            ? "form-label-required"
             : null;
 
     #endregion

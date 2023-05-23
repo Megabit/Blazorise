@@ -762,7 +762,7 @@ input[readonly=readonly][type=range]::-ms-thumb {
   display: contents;
 }
 
-.col-form-label-required:before {
+.form-label-required:before {
   content: "* ";
   color: var(--b-theme-danger, #dc3545);
 }

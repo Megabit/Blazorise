@@ -443,7 +443,7 @@ input[readonly="readonly"][type=range] {
     display: none;
 }
 
-.b-field-label-required:before {
+.form-label-required:before {
     content: "* ";
     color: var(--b-theme-danger, $danger);
 }
