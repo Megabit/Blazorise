@@ -16,7 +16,7 @@ public class FieldLabelComponentTest : TestContext
     }
 
     [Fact]
-    public void ValidationIndicator_Should_RenderIndicator()
+    public void RequiredIndicator_Should_RenderIndicator()
     {
         // setup
 
@@ -28,7 +28,7 @@ public class FieldLabelComponentTest : TestContext
         } );
 
         // validate
-        var requiredLabel = cut.WaitForElement( ".b-field-label-required" );
+        var requiredLabel = cut.WaitForElement( ".form-label-required" );
         requiredLabel.Should().NotBeNull();
     }
 
