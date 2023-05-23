@@ -6,7 +6,7 @@
 public class DataGridSortColumn
 {
     /// <summary>
-    /// Gets or sets the field name of the column used for sorting (see <see cref="DataGridColumn{TItem}.Field"/>).
+    /// Gets or sets the field name of the column used for sorting (see <see cref="BaseDataGridColumn{TItem}.Field"/>).
     /// </summary>
     public string Field { get; init; }
 
