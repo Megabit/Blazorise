@@ -31,7 +31,7 @@
         await base.OnInitializedAsync();
     }
 
-    private Task OnResetClicked() => dataGrid.ApplySorting(Array.Empty<DataGridSortColumn>());
+    private Task OnResetClicked() => dataGrid.ApplySorting(null);
 
     private Task OnPredefinedClicked() => dataGrid.ApplySorting(
         new DataGridSortColumn(nameof(Employee.Childrens), SortDirection.Descending),
