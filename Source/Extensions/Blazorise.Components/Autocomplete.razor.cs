@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -309,6 +310,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await NotFound.InvokeAsync( Search );
             }
         }
+        await TextChanged.InvokeAsync( text );
     }
 
     /// <summary>
@@ -331,15 +333,18 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
     {
+
         if ( eventArgs.Code == "Escape" )
         {
             await Close();
+            await KeyDown.InvokeAsync( eventArgs );
             return;
         }
 
         if ( IsMultiple && string.IsNullOrEmpty( Search ) && eventArgs.Code == "Backspace" )
         {
             await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
+            await KeyDown.InvokeAsync( eventArgs );
             return;
         }
 
@@ -353,17 +358,19 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                     await ResetCurrentSearch();
                     await Close();
                 }
+                await KeyDown.InvokeAsync( eventArgs );
                 return;
             }
 
             await SelectedOrResetOnCommit();
-
+            await KeyDown.InvokeAsync( eventArgs );
             return;
         }
 
         if ( !DropdownVisible )
         {
             await OpenDropdown();
+            await KeyDown.InvokeAsync( eventArgs );
             return;
         }
 
@@ -377,6 +384,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
 
         await ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) );
+        await KeyDown.InvokeAsync( eventArgs );
     }
 
     /// <summary>
@@ -391,6 +399,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             await Reload();
 
         await OpenDropdown();
+        await OnFocus.InvokeAsync( eventArgs );
     }
 
     /// <summary>
@@ -420,6 +429,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
 
         TextFocused = false;
+        await Blur.InvokeAsync( eventArgs );
     }
 
     private async Task InvokeSearchChanged( string searchValue )
@@ -1523,6 +1533,23 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// This field must be set only when <see cref="ReadData"/> and <see cref="Virtualize"/> is used to load the data.
     /// </remarks>
     [Parameter] public int? TotalItems { get; set; }
+
+    /// <summary>
+    /// Occurs after text has changed.
+    /// </summary>
+    [Parameter] public EventCallback<string> TextChanged { get; set; }
+    /// <summary>
+    /// Occurs when a key is pressed down while the control has focus.
+    /// </summary>
+    [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
+    /// <summary>
+    /// Occurs when the input box gains or loses focus.
+    /// </summary>
+    [Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; }
+    /// <summary>
+    /// The blur event fires when an element has lost focus.
+    /// </summary>
+    [Parameter] public EventCallback<FocusEventArgs> Blur { get; set; }
 
     #endregion
 }
