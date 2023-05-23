@@ -399,8 +399,3 @@ p {
   padding-right: 0;
   padding-left: 0;
 }
-
-.label-required:before {
-  content: "* ";
-  color: var(--b-theme-danger, --btw-color-danger-500);
-}

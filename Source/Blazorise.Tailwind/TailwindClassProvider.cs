@@ -379,7 +379,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string FieldLabelRequiredIndicator( bool validationIndicator )
         => validationIndicator
-            ? "label-required"
+            ? "before:content-['*'] before:[color:var(--b-theme-danger, --btw-color-danger-500)]"
             : null;
 
     #endregion
