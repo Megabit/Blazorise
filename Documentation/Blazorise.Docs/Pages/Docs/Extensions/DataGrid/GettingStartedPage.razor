@@ -255,7 +255,7 @@
     <DocsAttributesItem Name="SortMode" Type="DataGridSortMode" Default="Multiple">
         Defines whether the user can sort only by one column or by multiple.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="SortDefinitionChanged" Type="EventCallback<DataGridSortDefinitionChangedEventArgs>" Default="null">
+    <DocsAttributesItem Name="SortingChanged" Type="EventCallback<DataGridSortingChangedEventArgs>" Default="null">
         Occurs when the sort order, sort direction, or number of columns to sort changes.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectionMode" Type="DataGridSelectionMode" Default="Single">
@@ -607,7 +607,7 @@
         Note that <Code>Sortable</Code> must be enabled to be able to sort!
     </DocsAttributesItem>
     <DocsAttributesItem Name="ApplySorting">
-        Applies a new sorting definition to the Datagrid. Replaces the current sorting.
+        Applies a new sort to the datagrid using the provided columns, sort order, and sort direction. Replaces the current sorting.
         Note that <Code>Sortable</Code> must be enabled to be able to sort!
     </DocsAttributesItem>
     <DocsAttributesItem Name="Paginate">
