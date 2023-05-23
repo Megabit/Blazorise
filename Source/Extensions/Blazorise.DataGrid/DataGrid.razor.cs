@@ -266,7 +266,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public bool RemoveColumn( DataGridColumn<TItem> column )
     {
         var removed = Columns.Remove( column );
-        
+
         if ( column.SortDirection != SortDirection.Default )
         {
             SortByColumns.Remove( column );
@@ -871,8 +871,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> and <see cref="Sortable"/> must be enabled to be able to sort!
     /// If more than one column is specified, <see cref="SortMode"/> must be <see cref="DataGridSortMode.Multiple"/>
     /// </remarks>
-    public async Task ApplySorting(params DataGridSortColumn[] columns ) {
-        if ( !Sortable ) return;
+    public async Task ApplySorting( params DataGridSortColumn[] columns )
+    {
+        if ( !Sortable )
+            return;
 
         if ( SortMode == DataGridSortMode.Single )
         {
@@ -897,10 +899,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             .Select( ( x, idx ) => (
                 Column: Columns.FirstOrDefault( c => c.Field == x.Field ),
                 Direction: x.SortDirection,
-                SortOrder: idx ) )
+                SortOrder: idx) )
             .Where( x => x.Column is { Sortable: true } &&
                          x.Direction != SortDirection.Default )
-            .DistinctBy(x => x.Column.GetFieldToSort());
+            .DistinctBy( x => x.Column.GetFieldToSort() );
 
         foreach ( var (column, direction, sortOrder) in columnTuples )
         {
@@ -925,7 +927,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     private async Task ResetSorting()
     {
-        foreach (var column in SortByColumns)
+        foreach ( var column in SortByColumns )
         {
             column.CurrentSortDirection = SortDirection.Default;
             await column.ResetSortOrder();
@@ -1427,7 +1429,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection,
         bool suppressSortingChangedEvent )
     {
-        if ( !Sortable || !column.CanSort() ) return;
+        if ( !Sortable || !column.CanSort() )
+            return;
 
         if ( SortMode == DataGridSortMode.Single )
         {
@@ -1459,13 +1462,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             column.ResetSortOrder();
         }
 
-        static Task RaiseSortChanged(DataGrid<TItem> dataGrid, DataGridColumn<TItem> c) =>
+        static Task RaiseSortChanged( DataGrid<TItem> dataGrid, DataGridColumn<TItem> c ) =>
             dataGrid.SortChanged.InvokeAsync( new DataGridSortChangedEventArgs(
                 c.GetFieldToSort(),
                 c.Field,
                 c.CurrentSortDirection ) );
 
-        static Task RaiseSortingChanged(DataGrid<TItem> dataGrid) =>
+        static Task RaiseSortingChanged( DataGrid<TItem> dataGrid ) =>
             dataGrid.SortingChanged.InvokeAsync(
                 new DataGridSortingChangedEventArgs(
                     dataGrid.SortMode,
@@ -1481,13 +1484,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             _ = InvokeAsync( async () =>
             {
-                await RaiseSortChanged(this, column);
-                await RaiseSortingChanged(this);
+                await RaiseSortChanged( this, column );
+                await RaiseSortingChanged( this );
             } );
         }
         else if ( !suppressSortingChangedEvent )
         {
-            _ = InvokeAsync( () => RaiseSortingChanged(this) );
+            _ = InvokeAsync( () => RaiseSortingChanged( this ) );
         }
     }
 
