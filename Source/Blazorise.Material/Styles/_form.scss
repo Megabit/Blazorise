@@ -330,7 +330,7 @@ select[readonly] {
     display: contents;
 }
 
-.b-field-label-required:before {
+.form-label-required:before {
     content: "* ";
     color: var(--b-theme-danger, $danger);
 }
