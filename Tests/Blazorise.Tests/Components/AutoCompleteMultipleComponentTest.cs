@@ -1,7 +1,11 @@
 ﻿#region Using directives
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
+using Bunit;
+using FluentAssertions;
 using Xunit;
 #endregion
 
@@ -16,6 +20,54 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
         BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
         BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
         BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
+    }
+
+    [Fact]
+    public Task BadgeTemplate_Should_BeAbleTo_Remove()
+    {
+        var comp = RenderComponent<AutocompleteMultipleComponent>( parameters =>
+        {
+            parameters.Add( x => x.UseBadgeTemplate, true );
+            parameters.Add( x => x.SelectedTexts, new List<string>() { "Portugal", "Croatia" } );
+        } );
+
+        var badges = comp.FindAll( ".badge" );
+        comp.WaitForAssertion( () =>
+        {
+            badges.Refresh();
+            badges.Count.Should().Be( 2 );
+        } );
+
+        comp.Find( ".badge .badge-close" ).Click();
+
+        comp.WaitForAssertion( () =>
+        {
+            badges.Refresh();
+            badges.Count.Should().Be( 1 );
+        } );
+
+        return Task.CompletedTask;
+    }
+
+    [Fact]
+    public Task BadgeTemplate_Should_Render()
+    {
+        var comp = RenderComponent<AutocompleteMultipleComponent>( parameters =>
+        {
+            parameters.Add( x => x.UseBadgeTemplate, true );
+            parameters.Add( x => x.SelectedTexts, new List<string>() { "Portugal", "Croatia" } );
+        } );
+
+        var badges = comp.FindAll( ".badge" );
+        comp.WaitForAssertion( () =>
+        {
+            badges.Refresh();
+            badges.Count.Should().Be( 2 );
+            //The x represents the close button.
+            badges.Select( x => x.TextContent ).Should().BeEquivalentTo( new[] { "Portugal×", "Croatia×" } );
+        } );
+
+        return Task.CompletedTask;
     }
 
     [Fact]
