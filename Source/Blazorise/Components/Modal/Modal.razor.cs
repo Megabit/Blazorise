@@ -482,7 +482,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// <summary>
     /// Gets or sets the modal shared context.
     /// </summary>
-    [Inject] private ModalSharedContext ModalContext { get; set; }
+    [Inject] private IModalSharedContext ModalContext { get; set; }
 
     /// <summary>
     /// Defines the visibility of modal dialog.

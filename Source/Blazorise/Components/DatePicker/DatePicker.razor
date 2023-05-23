@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @typeparam TValue
 @inherits BaseTextInput<IReadOnlyList<TValue>>
-<input @ref="@ElementRef" id="@ElementId" type="text" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" min="@Min?.ToString(Utilities.Parsers.InternalDateFormat)" max="@Max?.ToString(Utilities.Parsers.InternalDateFormat)" tabindex="@TabIndex" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+<input @ref="@ElementRef" id="@ElementId" type="text" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" min="@Min?.ToString(Utilities.Parsers.InternalDateFormat)" max="@Max?.ToString(Utilities.Parsers.InternalDateFormat)" tabindex="@TabIndex" @attributes="@Attributes" />
 @ChildContent
 @Feedback

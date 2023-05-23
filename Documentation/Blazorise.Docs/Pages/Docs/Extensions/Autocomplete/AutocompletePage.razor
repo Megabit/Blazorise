@@ -173,7 +173,7 @@
         Placeholder for the empty search field.
     </DocsAttributesItem>
     <DocsAttributesItem Name="MinLength" Type="int" Default="1">
-        Minimum number of character needed to start search.
+        Minimum number of character needed to start search. Set this to 0 to make the Autocomplete function like a dropdown.
     </DocsAttributesItem>
     <DocsAttributesItem Name="MaxMenuHeight" Type="string" Default="200px">
         Sets the maximum height of the dropdown menu.
@@ -264,6 +264,12 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SearchTextColor" Type="TextColor" Default="null">
         Defines the text color of the search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closed" Type="EventCallback<AutocompleteClosedEventArgs>">
+        Event handler used to detect when the autocomplete is closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opened" Type="EventCallback">
+        Event handler used to detect when the autocomplete is opened.
     </DocsAttributesItem>
 </DocsAttributes>
 

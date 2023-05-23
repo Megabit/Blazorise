@@ -10,7 +10,8 @@
   border-bottom-width: 0;
 }
 
-.b-addons > .b-addon-body:not(:last-child) > input {
+.b-addons > .b-addon-body:not(:last-child) > input,
+.b-addons > .b-addon-body:not(:last-child) > div.flatpickr-wrapper > input {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -18,7 +19,8 @@
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.flatpickr-wrapper > input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -36,13 +38,15 @@
   border-bottom-left-radius: 0;
   height: 100%;
 }
-.b-addons > .b-addon-body > input {
+.b-addons > .b-addon-body > input,
+.b-addons > .b-addon-body > div.flatpickr-wrapper {
   position: relative;
   flex: 1 1 auto;
   width: 1%;
   min-width: 0;
 }
-.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input {
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > input,
+.b-addons > .b-addon-body:not(:first-child):not(.b-dropdown-menu) + .b-addon-body:not(:first-child):not(.b-dropdown-menu) > div.flatpickr-wrapper > input {
   border-left: 0;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;

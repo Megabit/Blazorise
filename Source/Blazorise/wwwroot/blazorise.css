@@ -123,7 +123,7 @@ hr.divider.divider-text::before {
 .b-file-picker .b-file-picker-file span {
   display: block;
 }
-.b-file-picker .b-file-picker-file .b-file-picker-file-size, .b-file-picker .b-file-picker-file .b-file-picker-file-status {
+.b-file-picker .b-file-picker-file .b-file-picker-file-size, .b-file-picker .b-file-picker-file .b-file-picker-file-status, .b-file-picker .b-file-picker-file .b-file-picker-file-relativepath {
   font-size: 0.75rem;
 }
 
@@ -1221,7 +1221,7 @@ thead tr th {
 
 .flatpickr-wrapper {
   position: relative;
-  display: inline-block;
+  display: contents;
 }
 
 .flatpickr-months {

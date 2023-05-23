@@ -10,6 +10,7 @@ using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -18,8 +19,14 @@ namespace Blazorise;
 /// An editor that displays a date value and allows a user to edit the value.
 /// </summary>
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="DatePicker{TValue}"/> property.</typeparam>
-public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, IAsyncDisposable
+public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, IAsyncDisposable, IDatePicker
 {
+    #region Members
+
+    private DotNetObjectReference<DatePickerAdapter> dotNetObjectRef;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -40,6 +47,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
             var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
             var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
+            var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
+            var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
 
             if ( dateChanged || datesChanged )
             {
@@ -65,7 +74,9 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                  || disabledDatesChanged
                  || selectionModeChanged
                  || inlineChanged
-                 || disableMobileChanged )
+                 || disableMobileChanged
+                 || placeholderChanged
+                 || staticPickerChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
@@ -80,6 +91,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     SelectionMode = new { Changed = selectionModeChanged, Value = paramSelectionMode },
                     Inline = new { Changed = inlineChanged, Value = paramInline },
                     DisableMobile = new { Changed = disableMobileChanged, Value = paramDisableMobile },
+                    Placeholder = new { Changed = placeholderChanged, Value = paramPlaceholder },
+                    StaticPicker = new { Changed = staticPickerChanged, Value = paramSaticPicker },
                 } ) );
             }
         }
@@ -117,6 +130,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
+        dotNetObjectRef ??= CreateDotNetObjectRef( new DatePickerAdapter( this ) );
         object defaultDate = null;
 
         // for multiple mode default dates must be set as array
@@ -125,7 +139,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         else
             defaultDate = FormatValueAsString( new TValue[] { Date } );
 
-        await JSModule.Initialize( ElementRef, ElementId, new
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
         {
             InputMode,
             SelectionMode = SelectionMode.ToDateInputSelectionMode(),
@@ -140,7 +154,9 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             DisabledDates = DisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ),
             Localization = GetLocalizationObject(),
             Inline,
-            DisableMobile
+            DisableMobile,
+            Placeholder,
+            StaticPicker,
         } );
 
         await base.OnFirstAfterRenderAsync();
@@ -152,6 +168,9 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         if ( disposing && Rendered )
         {
             await JSModule.SafeDestroy( ElementRef, ElementId );
+
+            DisposeDotNetObjectRef( dotNetObjectRef );
+            dotNetObjectRef = null;
 
             LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
@@ -177,6 +196,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     }
 
     /// <inheritdoc/>
+    [JSInvokable]
     protected async Task OnClickHandler( MouseEventArgs e )
     {
         if ( Disabled || ReadOnly )
@@ -256,16 +276,52 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             }
         }
     }
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        return KeyDown.InvokeAsync( eventArgs );
+    }
 
     /// <inheritdoc/>
-    protected override Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
+    [JSInvokable]
+    public new virtual Task OnKeyUpHandler( KeyboardEventArgs eventArgs )
+    {
+        return KeyUp.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnFocusHandler( FocusEventArgs eventArgs )
+    {
+        return OnFocus.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnFocusInHandler( FocusEventArgs eventArgs )
+    {
+        return FocusIn.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnFocusOutHandler( FocusEventArgs eventArgs )
+    {
+        return FocusOut.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
     {
         // just call eventcallback without using debouncer in BaseTextInput
         return KeyPress.InvokeAsync( eventArgs );
     }
 
     /// <inheritdoc/>
-    protected override Task OnBlurHandler( FocusEventArgs eventArgs )
+    [JSInvokable]
+    public new virtual Task OnBlurHandler( FocusEventArgs eventArgs )
     {
         // just call eventcallback without using debouncer in BaseTextInput
         return Blur.InvokeAsync( eventArgs );
@@ -534,6 +590,11 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// If enabled, it disables the native input on mobile devices.
     /// </summary>
     [Parameter] public bool DisableMobile { get; set; } = true;
+
+    /// <summary>
+    /// If enabled, the calendar menu will be positioned as static.
+    /// </summary>
+    [Parameter] public bool StaticPicker { get; set; } = true;
 
     #endregion
 }

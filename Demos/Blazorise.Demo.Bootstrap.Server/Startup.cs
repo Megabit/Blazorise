@@ -26,7 +26,7 @@ public class Startup
     public void ConfigureServices( IServiceCollection services )
     {
         services
-            .SetupDemoServices( Configuration["Licensing:LicenseKey"] )
+            .SetupDemoServices( Configuration["Licensing:ProductToken"] )
             .AddBootstrapProviders()
             .AddFontAwesomeIcons();
 

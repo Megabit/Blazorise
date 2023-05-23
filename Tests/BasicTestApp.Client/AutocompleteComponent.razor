@@ -11,20 +11,23 @@
               Placeholder="Search..."
               FreeTyping="@FreeTyping"
               MinLength="@MinLength"
-              AutoPreSelect="@AutoPreSelect">
+              AutoPreSelect="@AutoPreSelect"
+              Closed="Closed"
+              Opened="Opened">
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
 @code {
     [Inject] public CountryData CountryData { get; set; }
 
-    public IEnumerable<Country> Countries;
+    [Parameter] public IEnumerable<Country> Countries { get; set; }
 
     public Autocomplete<Country, string> AutoCompleteRef { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Countries = await CountryData.GetDataAsync();
+        if (Countries is null)
+            Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
 
@@ -60,4 +63,10 @@
 
     [Parameter]
     public bool AutoPreSelect { get; set; } = true;
+    
+    [Parameter]
+    public EventCallback<AutocompleteClosedEventArgs> Closed { get; set; }
+    
+    [Parameter]
+    public EventCallback Opened { get; set; }
 }

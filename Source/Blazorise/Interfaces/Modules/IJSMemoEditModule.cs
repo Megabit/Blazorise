@@ -28,4 +28,12 @@ public interface IJSMemoEditModule : IBaseJSModule,
     /// <param name="options">New options to initialize the memoedit.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options );
+
+    /// <summary>
+    /// Recalculates the textarea height.
+    /// </summary>
+    /// <param name="elementRef">Reference to the rendered element.</param>
+    /// <param name="elementId">ID of the rendered element.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    ValueTask RecalculateAutoHeight( ElementReference elementRef, string elementId );
 }

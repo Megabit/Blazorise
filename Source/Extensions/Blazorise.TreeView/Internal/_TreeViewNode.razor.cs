@@ -21,6 +21,16 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         {
             await AutoExpandNodes();
         }
+        else if ( ExpandedNodes?.Count > 0 )
+        {
+            foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
+            {
+                if ( nodeState.HasChildren && ExpandedNodes.Contains( nodeState.Node ) == true )
+                {
+                    await LoadChildNodes( nodeState );
+                }
+            }
+        }
 
         await base.OnInitializedAsync();
     }
@@ -60,21 +70,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
             if ( nodeState.HasChildren )
             {
-                var childNodes = GetChildNodesAsync is not null
-                    ? await GetChildNodesAsync( nodeState.Node )
-                    : GetChildNodes is not null
-                        ? GetChildNodes( nodeState.Node )
-                        : null;
-
-                if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
-                {
-                    nodeState.Children.Clear();
-
-                    await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ExpandedNodes.Intersect( childNodes ?? Enumerable.Empty<TNode>() ).Any() ) )
-                    {
-                        nodeState.Children.Add( childNodeState );
-                    }
-                }
+                await LoadChildNodes( nodeState );
             }
         }
         else
@@ -90,6 +86,25 @@ public partial class _TreeViewNode<TNode> : BaseComponent
             DirtyClasses();
 
             await InvokeAsync( StateHasChanged );
+        }
+    }
+
+    private async Task LoadChildNodes( TreeViewNodeState<TNode> nodeState )
+    {
+        var childNodes = GetChildNodesAsync is not null
+            ? await GetChildNodesAsync( nodeState.Node )
+            : GetChildNodes is not null
+                ? GetChildNodes( nodeState.Node )
+                : null;
+
+        if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
+        {
+            nodeState.Children.Clear();
+
+            await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+            {
+                nodeState.Children.Add( childNodeState );
+            }
         }
     }
 
