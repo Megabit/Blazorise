@@ -314,7 +314,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string FieldLabelRequiredIndicator( bool validationIndicator )
         => validationIndicator
-            ? "b-field-label-required"
+            ? "field-label-required"
             : null;
 
     #endregion

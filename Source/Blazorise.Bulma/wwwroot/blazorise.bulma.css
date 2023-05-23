@@ -5741,7 +5741,7 @@ select[readonly] optgroup {
   display: contents;
 }
 
-.b-field-label-required:before {
+.field-label-required:before {
   content: "* ";
   color: var(--b-theme-danger, #ef2e55);
 }
