@@ -295,7 +295,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string FieldLabel( bool horizontal );
 
-    public abstract string FieldLabelValidationIndicator( bool validationIndicator );
+    public abstract string FieldLabelRequiredIndicator( bool validationIndicator );
 
     #endregion
 

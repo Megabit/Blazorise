@@ -308,7 +308,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string FieldLabel( bool horizontal ) => horizontal ? "ant-form-item-label" : null;
 
-    public override string FieldLabelValidationIndicator( bool validationIndicator )
+    public override string FieldLabelRequiredIndicator( bool validationIndicator )
         => validationIndicator
             ? "b-field-label-required"
             : null;

@@ -22,7 +22,7 @@ public partial class FieldLabel : BaseSizableFieldComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.FieldLabel( IsHorizontal ) );
-        builder.Append( ClassProvider.FieldLabelValidationIndicator( ValidationIndicator ) );
+        builder.Append( ClassProvider.FieldLabelRequiredIndicator( RequiredIndicator ) );
         builder.Append( ClassProvider.ToScreenreader( Screenreader ), Screenreader != Screenreader.Always );
 
         base.BuildClasses( builder );
@@ -38,9 +38,9 @@ public partial class FieldLabel : BaseSizableFieldComponent
     [Parameter] public string For { get; set; }
 
     /// <summary>
-    /// Whether to provide a Validation Indicator.
+    /// Whether to provide a Required Indicator.
     /// </summary>
-    [Parameter] public bool ValidationIndicator { get; set; }
+    [Parameter] public bool RequiredIndicator { get; set; }
 
     /// <summary>
     /// Defines the visibility for screen readers.

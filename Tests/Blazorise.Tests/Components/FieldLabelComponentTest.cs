@@ -23,7 +23,7 @@ public class FieldLabelComponentTest : TestContext
         // test
         var cut = RenderComponent<FieldLabel>( parameters =>
         {
-            parameters.Add( x => x.ValidationIndicator, true );
+            parameters.Add( x => x.RequiredIndicator, true );
             parameters.AddChildContent( "Required Field" );
         } );
 

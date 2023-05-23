@@ -1702,8 +1702,8 @@ public class Gender
     </FieldBody>
 </Field>";
 
-        public const string ValidationIndicatorExample = @"<Field>
-    <FieldLabel ValidationIndicator>
+        public const string RequiredIndicatorExample = @"<Field>
+    <FieldLabel RequiredIndicator>
         Name
     </FieldLabel>
     <FieldBody>

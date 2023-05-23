@@ -14,7 +14,7 @@
                 <Validations Mode="ValidationMode.Auto" ValidateOnLoad="false">
                     <Validation AsyncValidator="@ValidateNameAsync">
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Autofocus Placeholder="First and last name">
                                     <Feedback>
@@ -26,7 +26,7 @@
                     </Validation>
                     <Validation Validator="@ValidationRule.IsEmail">
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email address</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email address</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="Enter email">
                                     <Feedback>
@@ -39,7 +39,7 @@
                     </Validation>
                     <Validation Validator="@ValidatePassword">
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@passwordAuto">
                                     <Feedback>
@@ -51,7 +51,7 @@
                     </Validation>
                     <Validation Validator="@ValidatePassword2Auto">
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
 
                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password">
@@ -64,7 +64,7 @@
                     </Validation>
                     <Validation Validator="@ValidationRule.IsSelected">
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <Select TValue="int?">
                                     <ChildContent>
@@ -83,7 +83,7 @@
                     </Validation>
                     <Validation Validator="@ValidateDateOfBirth">
                         <Field Horizontal JustifyContent="JustifyContent.End">
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <DateEdit TValue="DateOnly?">
                                     <Feedback>
@@ -95,7 +95,7 @@
                     </Validation>
                     <Validation UsePattern>
                         <Field Horizontal JustifyContent="JustifyContent.End">
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Pattern</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Pattern</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Pattern="[A-Za-z]{3}">
                                     <Feedback>
@@ -140,7 +140,7 @@
                 <Validations @ref="validations" Mode="ValidationMode.Manual">
                     <Validation AsyncValidator="@ValidateNameAsync">
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="First and last name">
                                     <Feedback>
@@ -152,7 +152,7 @@
                     </Validation>
                     <Validation Validator="@ValidationRule.IsEmail">
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email address</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email address</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="Enter email">
                                     <Feedback>
@@ -165,7 +165,7 @@
                     </Validation>
                     <Validation Validator="@ValidatePassword">
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@passwordManual">
                                     <Feedback>
@@ -177,7 +177,7 @@
                     </Validation>
                     <Validation Validator="@ValidatePassword2Manual">
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password">
                                     <Feedback>
@@ -189,7 +189,7 @@
                     </Validation>
                     <Validation Validator="@ValidationRule.IsSelected">
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Input Select</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <Select TValue="int?">
                                     <ChildContent>
@@ -208,7 +208,7 @@
                     </Validation>
                     <Validation Validator="@ValidateDateOfBirth">
                         <Field Horizontal JustifyContent="JustifyContent.End">
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Date</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <DateEdit TValue="DateOnly?">
                                     <Feedback>
@@ -220,7 +220,7 @@
                     </Validation>
                     <Validation UsePattern>
                         <Field Horizontal JustifyContent="JustifyContent.End">
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Pattern</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Pattern</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Pattern="[A-Za-z]{3}">
                                     <Feedback>
@@ -267,7 +267,7 @@
                 <Validations Mode="ValidationMode.Auto" Model="@user">
                     <Validation>
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="First and last name" @bind-Text="@user.Name">
                                     <Feedback>
@@ -279,7 +279,7 @@
                     </Validation>
                     <Validation>
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="Enter email" @bind-Text="@user.Email">
                                     <Feedback>
@@ -291,7 +291,7 @@
                     </Validation>
                     <Validation>
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@user.Password">
                                     <Feedback>
@@ -303,7 +303,7 @@
                     </Validation>
                     <Validation>
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@user.ConfirmPassword">
                                     <Feedback>
@@ -315,7 +315,7 @@
                     </Validation>
                     <Validation>
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Title</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Title</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <Select TValue="string" @bind-SelectedValue="@user.Title">
                                     <ChildContent>
@@ -365,7 +365,7 @@
                 <Validations @ref="annotationsValidations" Mode="ValidationMode.Manual" Model="@manualUser">
                     <Validation>
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="First and last name" @bind-Text="@manualUser.Name">
                                     <Feedback>
@@ -377,7 +377,7 @@
                     </Validation>
                     <Validation>
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Placeholder="Enter email" @bind-Text="@manualUser.Email">
                                     <Feedback>
@@ -389,7 +389,7 @@
                     </Validation>
                     <Validation>
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Password" @bind-Text="@manualUser.Password">
                                     <Feedback>
@@ -401,7 +401,7 @@
                     </Validation>
                     <Validation>
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Re Password</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <TextEdit Role="TextRole.Password" Placeholder="Retype password" @bind-Text="@manualUser.ConfirmPassword">
                                     <Feedback>
@@ -413,7 +413,7 @@
                     </Validation>
                     <Validation>
                         <Field Horizontal>
-                            <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Title</FieldLabel>
+                            <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Title</FieldLabel>
                             <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                 <Select TValue="string" @bind-SelectedValue="@manualUser.Title">
                                     <ChildContent>
@@ -478,7 +478,7 @@
                     <Validations @ref="modalValidations" Model="@modalUser" ValidateOnLoad="false">
                         <Validation>
                             <Field Horizontal>
-                                <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
+                                <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Full Name</FieldLabel>
                                 <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                     <TextEdit Placeholder="First and last name" @bind-Text="@modalUser.Name">
                                         <Feedback>
@@ -490,7 +490,7 @@
                         </Validation>
                         <Validation>
                             <Field Horizontal>
-                                <FieldLabel ValidationIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email</FieldLabel>
+                                <FieldLabel RequiredIndicator ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Email</FieldLabel>
                                 <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
                                     <TextEdit Placeholder="Enter email" @bind-Text="@modalUser.Email">
                                         <Feedback>
@@ -520,7 +520,7 @@
                 <Validations @ref="@fluentValidations" Mode="ValidationMode.Manual" Model="@person" HandlerType="typeof(FluentValidationHandler)">
                     <Validation>
                         <Field>
-                                <FieldLabel ValidationIndicator>First name</FieldLabel>
+                                <FieldLabel RequiredIndicator>First name</FieldLabel>
                             <TextEdit Placeholder="Enter first name..." @bind-Text="@person.FirstName">
                                 <Feedback>
                                     <ValidationError />
@@ -530,7 +530,7 @@
                     </Validation>
                     <Validation>
                         <Field>
-                                <FieldLabel ValidationIndicator>Last name</FieldLabel>
+                                <FieldLabel RequiredIndicator>Last name</FieldLabel>
                             <TextEdit Placeholder="Enter last name..." @bind-Text="@person.LastName">
                                 <Feedback>
                                     <ValidationError />
@@ -540,7 +540,7 @@
                     </Validation>
                     <Validation>
                         <Field>
-                                <FieldLabel ValidationIndicator>Age</FieldLabel>
+                                <FieldLabel RequiredIndicator>Age</FieldLabel>
                             <NumericEdit Placeholder="Enter age..." @bind-Value="@person.Age">
                                 <Feedback>
                                     <ValidationError />
