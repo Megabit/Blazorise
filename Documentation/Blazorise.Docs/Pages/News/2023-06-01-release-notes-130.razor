@@ -107,5 +107,19 @@
     The existing <Code>Values</Code> Dictionary will still exist, but this allows you to promptly get a mapped <Code>TItem</Code> without having to write your own mapping code from the <Code>Dictionary</Code>.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is3">
+    Autocomplete
+</Heading>
+
+<Paragraph>
+    We've added Eventcallbacks for the events that we currently listen to in the <Code>Autocomplete</Code>, these are called when the <Code>Autocomplete</Code> finishes handling the corresponding event.
+    <UnorderedList>
+        <UnorderedListItem><Code>TextChanged</Code></UnorderedListItem>
+        <UnorderedListItem><Code>KeyDown</Code></UnorderedListItem>
+        <UnorderedListItem><Code>OnFocus</Code></UnorderedListItem>
+        <UnorderedListItem><Code>Blur</Code></UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
 
 <NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="June 1st, 2023" Read="7 min" />
