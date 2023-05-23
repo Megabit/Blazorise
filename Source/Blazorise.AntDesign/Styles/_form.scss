@@ -314,7 +314,7 @@ textarea.ant-input.ant-input-static {
     display: contents;
 }
 
-.b-field-label-required:before {
+.ant-form-item-label-required:before {
     content: "* ";
     color: var(--b-theme-danger, $danger);
 }

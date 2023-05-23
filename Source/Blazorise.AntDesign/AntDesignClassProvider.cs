@@ -310,7 +310,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string FieldLabelRequiredIndicator( bool validationIndicator )
         => validationIndicator
-            ? "b-field-label-required"
+            ? "ant-form-item-label-required"
             : null;
 
     #endregion
