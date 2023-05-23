@@ -1524,5 +1524,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// </remarks>
     [Parameter] public int? TotalItems { get; set; }
 
+    /// <summary>
+    /// Specifies the badge content to be rendered for each selected item.
+    /// </summary>
+    [Parameter] public RenderFragment<BadgeContext<TItem, TValue>> BadgeTemplate { get; set; }
+
     #endregion
 }

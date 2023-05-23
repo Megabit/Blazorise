@@ -11,7 +11,17 @@
         {
             @foreach ( var selectedText in SelectedTexts )
             {
-                <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
+                @if ( BadgeTemplate is null )
+                {
+                    <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
+                }
+                else
+                {
+                    var item = GetItemByText( selectedText );
+                    var value = GetItemValue( selectedText );
+                    var removeCallback = EventCallback.Factory.Create( this, async () => await RemoveMultipleTextAndValue( selectedText ) );
+                    @BadgeTemplate(new (item, value, selectedText, removeCallback))
+                }
             }
         }
 
@@ -44,8 +54,8 @@
         @if ( NotFoundVisible )
         {
             <DropdownItem Disabled>
-                @NotFoundContent( Search )
-            </DropdownItem>
+            @NotFoundContent( Search )
+        </DropdownItem>
         }
 
         @if ( DropdownVisible )
