@@ -13,7 +13,12 @@
               MinLength="@MinLength"
               AutoPreSelect="@AutoPreSelect"
               Closed="Closed"
-              Opened="Opened">
+              Opened="Opened"
+              OnFocus="OnFocus"
+              Blur="Blur"
+              TextChanged="TextChanged"
+              KeyDown="KeyDown"
+              >
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
 </Autocomplete>
 
@@ -69,4 +74,9 @@
     
     [Parameter]
     public EventCallback Opened { get; set; }
+
+    [Parameter] public EventCallback<string> TextChanged { get; set; }
+    [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
+    [Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; }
+    [Parameter] public EventCallback<FocusEventArgs> Blur { get; set; }
 }
