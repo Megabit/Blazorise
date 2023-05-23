@@ -921,20 +921,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await ResetSorting();
 
-        var columnTuples = columns
-            .Select( ( x, idx ) => (
-                Column: Columns.FirstOrDefault( c => c.Field == x.Field ),
-                Direction: x.SortDirection,
-                SortOrder: idx) )
-            .Where( x => x.Column is { Sortable: true } &&
-                         x.Direction != SortDirection.Default )
-            .DistinctBy( x => x.Column.GetFieldToSort() );
-
-        foreach ( var (column, direction, sortOrder) in columnTuples )
+        if ( !columns.IsNullOrEmpty() )
         {
-            column.CurrentSortDirection = direction;
-            await column.SetSortOrder( sortOrder );
-            SortByColumns.Add( column );
+            var columnTuples = columns
+                .Select( ( x, idx ) => (
+                    Column: Columns.FirstOrDefault( c => c.Field == x.Field ),
+                    Direction: x.SortDirection,
+                    SortOrder: idx) )
+                .Where( x => x.Column is { Sortable: true } &&
+                             x.Direction != SortDirection.Default )
+                .DistinctBy( x => x.Column.GetFieldToSort() );
+
+            foreach ( var (column, direction, sortOrder) in columnTuples )
+            {
+                column.CurrentSortDirection = direction;
+                await column.SetSortOrder( sortOrder );
+                SortByColumns.Add( column );
+            }
         }
 
         await SortingChanged.InvokeAsync(
