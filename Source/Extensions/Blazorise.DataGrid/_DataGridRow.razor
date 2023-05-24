@@ -87,7 +87,7 @@
                                         Padding="Padding.Is0"
                                         RenderUpdates
                                         Background="@ParentDataGrid.RowOverlayBackground">
-                @ParentDataGrid.RowOverlayTemplate(Item)
+                @ParentDataGrid.RowOverlayTemplate(new (Item))
             </_DataGridFullColumnSpanRow>
         }
     </TableRow>

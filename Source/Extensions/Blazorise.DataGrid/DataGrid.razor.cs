@@ -2495,7 +2495,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Template for mouse hover overlay display formatting.
     /// </summary>
-    [Parameter] public RenderFragment<TItem> RowOverlayTemplate { get; set; }
+    [Parameter] public RenderFragment<RowOverlayContext<TItem>> RowOverlayTemplate { get; set; }
 
     /// <summary>
     /// Defines the position of the row overlay.
