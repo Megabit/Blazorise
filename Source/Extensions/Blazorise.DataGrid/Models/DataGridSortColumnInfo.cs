@@ -4,9 +4,6 @@
 /// A column sort definition
 /// </summary>
 public class DataGridSortColumnInfo
-
-
-
 {
     /// <summary>
     /// Gets or sets the field name of the column used for sorting (see <see cref="BaseDataGridColumn{TItem}.Field"/>).
