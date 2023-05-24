@@ -2,8 +2,8 @@
 @inherits BaseDraggableComponent
 <tr @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler"
     draggable="@DraggableString"
-    @onmouseover="@OnMouseOverHandler"
-    @onmouseleave="@OnMouseLeaveHandler"
+    @onmouseover="@(MouseOver.HasDelegate ? OnMouseOverHandler : null)"
+    @onmouseleave="@(MouseLeave.HasDelegate ? OnMouseLeaveHandler : null)"
     @ondragend="@OnDragEndHandler"
     @ondragend:preventDefault="@DragEndPreventDefault"
     @ondragenter="@OnDragEnterHandler"

@@ -15,8 +15,8 @@
 
     <TableRow @ref="TableRowRef"
               Clicked="@HandleClick"
-              MouseOver="HandleMouseOver"
-              MouseLeave="HandleMouseLeave"
+              MouseOver="BindMouseOver() ? HandleMouseOver : null"
+              MouseLeave="BindMouseLeave() ? HandleMouseLeave : null"
               DoubleClicked="@HandleDoubleClick"
               ContextMenu="@HandleContextMenu"
               ContextMenuPreventDefault="@ParentDataGrid.RowContextMenuPreventDefault"
@@ -25,7 +25,7 @@
               Class="@GetClass(styling, selectedStyling)"
               Style="@GetStyle(styling, selectedStyling)"
               HoverCursor="@GetHoverCursor()"
-    @onkeydown="@(ParentDataGrid.Navigable ? HandleKeyDown : null)"
+              @onkeydown="@(ParentDataGrid.Navigable ? HandleKeyDown : null)"
               tabindex="@(ParentDataGrid.Navigable ? 0 : null)">
 
         @ParentDataGrid.groupIndentationFragment

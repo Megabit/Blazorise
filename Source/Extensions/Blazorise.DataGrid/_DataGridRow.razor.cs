@@ -146,6 +146,12 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         }
     }
 
+    protected bool BindMouseLeave()
+        => ParentDataGrid.RowLeave.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
+
+    protected bool BindMouseOver()
+        => ParentDataGrid.RowOver.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
+
     protected internal async Task HandleMouseLeave( BLMouseEventArgs eventArgs )
     {
         mouseIsOver = false;
