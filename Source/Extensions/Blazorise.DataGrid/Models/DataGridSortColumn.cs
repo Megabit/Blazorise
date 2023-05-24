@@ -3,7 +3,10 @@
 /// <summary>
 /// A column sort definition
 /// </summary>
-public class DataGridSortColumn
+public class DataGridSortColumnInfo
+
+
+
 {
     /// <summary>
     /// Gets or sets the field name of the column used for sorting (see <see cref="BaseDataGridColumn{TItem}.Field"/>).
@@ -20,7 +23,7 @@ public class DataGridSortColumn
     /// </summary>
     /// <param name="field"><inheritdoc cref="Field"/></param>
     /// <param name="sortDirection"><inheritdoc cref="SortDirection"/></param>
-    public DataGridSortColumn( string field, SortDirection sortDirection )
+    public DataGridSortColumnInfo( string field, SortDirection sortDirection )
     {
         Field = field;
         SortDirection = sortDirection;

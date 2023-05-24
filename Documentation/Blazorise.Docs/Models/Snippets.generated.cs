@@ -5432,8 +5432,8 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     private Task OnResetClicked() => dataGrid.ApplySorting(null);
 
     private Task OnPredefinedClicked() => dataGrid.ApplySorting(
-        new DataGridSortColumn(nameof(Employee.Childrens), SortDirection.Descending),
-        new DataGridSortColumn(nameof(Employee.Gender), SortDirection.Ascending)
+        new DataGridSortColumnInfo(nameof(Employee.Childrens), SortDirection.Descending),
+        new DataGridSortColumnInfo(nameof(Employee.Gender), SortDirection.Ascending)
         );
 }";
 

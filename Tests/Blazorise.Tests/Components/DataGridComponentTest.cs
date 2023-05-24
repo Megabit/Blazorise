@@ -194,10 +194,10 @@ public class DataGridComponentTest : TestContext
 
         // test
         await dataGrid.Instance.ApplySorting(
-            new DataGridSortColumn(
+            new DataGridSortColumnInfo(
                 field: nameof( Employee.Name ),
                 sortDirection: SortDirection.Ascending ),
-            new DataGridSortColumn(
+            new DataGridSortColumnInfo(
                 field: nameof( Employee.Fraction ),
                 sortDirection: SortDirection.Ascending )
         );
@@ -225,10 +225,10 @@ public class DataGridComponentTest : TestContext
 
         // test
         await dataGrid.Instance.ApplySorting(
-            new DataGridSortColumn(
+            new DataGridSortColumnInfo(
                 field: nameof( Employee.Name ),
                 sortDirection: SortDirection.Ascending ),
-            new DataGridSortColumn(
+            new DataGridSortColumnInfo(
                 field: nameof( Employee.Fraction ),
                 sortDirection: SortDirection.Descending )
         );
@@ -259,7 +259,7 @@ public class DataGridComponentTest : TestContext
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
 
         // test
-        await dataGrid.Instance.ApplySorting( Array.Empty<DataGridSortColumn>() );
+        await dataGrid.Instance.ApplySorting( Array.Empty<DataGridSortColumnInfo>() );
 
         // validate
         comp.FindAll( "tbody tr td:nth-child(2)" )
@@ -278,7 +278,7 @@ public class DataGridComponentTest : TestContext
 
         // test
         await dataGrid.Instance.ApplySorting(
-            new DataGridSortColumn(
+            new DataGridSortColumnInfo(
                 field: nameof( Employee.Name ),
                 sortDirection: SortDirection.Ascending )
         );
@@ -299,7 +299,7 @@ public class DataGridComponentTest : TestContext
         var dataGrid = comp.FindComponent<DataGrid<Employee>>();
 
         // test
-        await dataGrid.Instance.ApplySorting( Array.Empty<DataGridSortColumn>() );
+        await dataGrid.Instance.ApplySorting( Array.Empty<DataGridSortColumnInfo>() );
 
         // validate
         comp.FindAll( "tbody tr td:nth-child(2)" )
@@ -325,7 +325,7 @@ public class DataGridComponentTest : TestContext
 
         // test
         await dataGrid.Instance.ApplySorting(
-            new DataGridSortColumn(
+            new DataGridSortColumnInfo(
                 field: nameof( Employee.Name ),
                 sortDirection: SortDirection.Descending )
         );

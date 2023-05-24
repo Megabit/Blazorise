@@ -887,7 +887,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> and <see cref="Sortable"/> must be enabled to be able to sort!
     /// If more than one column is specified, <see cref="SortMode"/> must be <see cref="DataGridSortMode.Multiple"/>
     /// </remarks>
-    public async Task ApplySorting( params DataGridSortColumn[] columns )
+    public async Task ApplySorting( params DataGridSortColumnInfo[] columns )
     {
         if ( !Sortable )
             return;
