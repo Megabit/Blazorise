@@ -147,20 +147,20 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     }
 
     protected bool BindMouseLeave()
-        => ParentDataGrid.RowLeave.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
+        => ParentDataGrid.RowMouseLeave.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
 
     protected bool BindMouseOver()
-        => ParentDataGrid.RowOver.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
+        => ParentDataGrid.RowMouseOver.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
 
     protected internal async Task HandleMouseLeave( BLMouseEventArgs eventArgs )
     {
         mouseIsOver = false;
-        await ParentDataGrid.OnRowLeaveCommand( new( Item, eventArgs ) );
+        await ParentDataGrid.OnRowMouseLeaveCommand( new( Item, eventArgs ) );
     }
     protected internal async Task HandleMouseOver( BLMouseEventArgs eventArgs )
     {
         mouseIsOver = true;
-        await ParentDataGrid.OnRowOverCommand( new( Item, eventArgs ) );
+        await ParentDataGrid.OnRowMouseOverCommand( new( Item, eventArgs ) );
     }
 
     protected internal async Task HandleClick( BLMouseEventArgs eventArgs )

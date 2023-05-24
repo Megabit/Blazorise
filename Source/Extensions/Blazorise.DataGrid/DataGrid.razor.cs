@@ -1063,13 +1063,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
-    internal Task OnRowOverCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+    internal Task OnRowMouseOverCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
     {
-        return RowOver.InvokeAsync( eventArgs );
+        return RowMouseOver.InvokeAsync( eventArgs );
     }
-    internal Task OnRowLeaveCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+    internal Task OnRowMouseLeaveCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
     {
-        return RowLeave.InvokeAsync( eventArgs );
+        return RowMouseLeave.InvokeAsync( eventArgs );
     }
 
     internal Task OnRowClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
@@ -2195,12 +2195,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Event called after the mouse leaves the row.
     /// </summary>
-    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowLeave { get; set; }
+    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowMouseLeave { get; set; }
 
     /// <summary>
     /// Event called after the mouse is over the row.
     /// </summary>
-    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowOver { get; set; }
+    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowMouseOver { get; set; }
     /// <summary>
     /// Event called after the row is clicked.
     /// </summary>
