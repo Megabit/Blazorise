@@ -12,7 +12,7 @@
                           ShowPageSizes
                 @bind-SelectedRow="@selectedEmployee"
                           RowSelectable="@((x) => !x.Item.FirstName.StartsWith("A"))"
-                          RowOverlayPosition="DataGridRowOverlayPosition.Start">
+                          RowOverlayPosition="DataGridRowOverlayPosition.End">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
@@ -57,7 +57,10 @@
                         </DataGridCheckColumn>
                     </DataGridColumns>
                     <RowOverlayTemplate>
-                        <Paragraph><Label>Childrens Per Salary :</Label> <Span>@context.ChildrensPerSalary</Span></Paragraph>
+                        <Div Margin="Margin.Is2.FromStart.OnY">
+                            <Button Color="Color.Primary" Size="Size.Small"> <Icon Name="IconName.User" /> User Details > </Button>
+                            <Button Color="Color.Secondary" Size="Size.Small"> <Icon Name="IconName.Building" /> Company Details > </Button>
+                        </Div>
                     </RowOverlayTemplate>
                 </DataGrid>
             </CardBody>

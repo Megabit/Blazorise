@@ -51,5 +51,8 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
     [Parameter]
     public IFluentPosition Position { get; set; }
 
+    [Parameter]
+    public Background Background { get; set; }
+
     #endregion
 }

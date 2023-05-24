@@ -79,7 +79,12 @@
             ? Position.Absolute.Start
             : Position.Absolute.End;
 
-            <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" Position="@position">
+            <_DataGridFullColumnSpanRow TItem="TItem" 
+                                        Columns="@Columns" 
+                                        Position="@position" 
+                                        Style="z-index:1;"
+                                        RenderUpdates
+                                        Background="@ParentDataGrid.RowOverlayBackground">
                 @ParentDataGrid.RowOverlayTemplate(Item)
             </_DataGridFullColumnSpanRow>
         }

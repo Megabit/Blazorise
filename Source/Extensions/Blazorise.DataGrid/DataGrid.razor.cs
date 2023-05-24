@@ -2500,7 +2500,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Defines the position of the row overlay.
     /// </summary>
-    [Parameter] public DataGridRowOverlayPosition RowOverlayPosition { get; set; } = DataGridRowOverlayPosition.Start;
+    [Parameter] public DataGridRowOverlayPosition RowOverlayPosition { get; set; } = DataGridRowOverlayPosition.End;
+
+    /// <summary>
+    /// Defines the background of the row overlay.
+    /// </summary>
+    [Parameter] public Background RowOverlayBackground { get; set; } = Background.Light;
 
     #endregion
 }
