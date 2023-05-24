@@ -601,8 +601,8 @@ select[readonly] optgroup {
   display: contents;
 }
 
-.form-label-required:before {
-  content: "* ";
+.form-label-required:after {
+  content: " *";
   color: var(--b-theme-danger, #f44336);
 }
 

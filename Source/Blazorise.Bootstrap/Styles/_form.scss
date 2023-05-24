@@ -401,7 +401,7 @@ input[readonly="readonly"][type=range] {
     display: contents;
 }
 
-.form-label-required:before {
-    content: "* ";
+.form-label-required:after {
+    content: " * ";
     color: var(--b-theme-danger, $danger);
 }

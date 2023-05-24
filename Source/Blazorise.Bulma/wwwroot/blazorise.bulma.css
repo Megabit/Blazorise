@@ -5741,8 +5741,8 @@ select[readonly] optgroup {
   display: contents;
 }
 
-.field-label-required:before {
-  content: "* ";
+.field-label-required:after {
+  content: " *";
   color: var(--b-theme-danger, #ef2e55);
 }
 

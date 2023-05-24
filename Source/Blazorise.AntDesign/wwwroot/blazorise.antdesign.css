@@ -1978,8 +1978,8 @@ textarea.ant-input.ant-input-static {
   display: contents;
 }
 
-.ant-form-item-label-required:before {
-  content: "* ";
+.ant-form-item-label-required:after {
+  content: " *";
   color: var(--b-theme-danger, #ff4d4f);
 }
 

@@ -762,8 +762,8 @@ input[readonly=readonly][type=range]::-ms-thumb {
   display: contents;
 }
 
-.form-label-required:before {
-  content: "* ";
+.form-label-required:after {
+  content: " * ";
   color: var(--b-theme-danger, #dc3545);
 }
 
