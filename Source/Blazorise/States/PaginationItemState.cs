@@ -1,18 +1,17 @@
-﻿namespace Blazorise.States
+﻿namespace Blazorise.States;
+
+/// <summary>
+/// Holds the information about the current state of the <see cref="PaginationItem"/> component.
+/// </summary>
+public record PaginationItemState
 {
     /// <summary>
-    /// Holds the information about the current state of the <see cref="PaginationItem"/> component.
+    /// Indicate the currently active page.
     /// </summary>
-    public record PaginationItemState
-    {
-        /// <summary>
-        /// Indicate the currently active page.
-        /// </summary>
-        public bool Active { get; init; }
+    public bool Active { get; init; }
 
-        /// <summary>
-        /// Used for links that appear un-clickable.
-        /// </summary>
-        public bool Disabled { get; init; }
-    }
+    /// <summary>
+    /// Used for links that appear un-clickable.
+    /// </summary>
+    public bool Disabled { get; init; }
 }

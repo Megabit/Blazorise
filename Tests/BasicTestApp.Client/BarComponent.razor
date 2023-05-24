@@ -1,0 +1,31 @@
+﻿<h2>Bar</h2>
+<Bar Background="Background.Primary"
+     Breakpoint="Breakpoint.Desktop"
+     ThemeContrast="ThemeContrast.Light">
+    <BarToggler />
+    <BarMenu>
+        <BarStart>
+            <BarItem>
+                <BarDropdown>
+                    <BarDropdownToggle Clicked="OnClicked">
+                    </BarDropdownToggle>
+                    <BarDropdownMenu>
+                        <BarItem>
+                            @_counter
+                        </BarItem>
+                    </BarDropdownMenu>
+                </BarDropdown>
+            </BarItem>
+        </BarStart>
+    </BarMenu>
+</Bar>
+
+@code {
+    private int _counter = 0;
+
+    private Task OnClicked()
+    {
+        _counter++;
+        return Task.CompletedTask;
+    }
+}

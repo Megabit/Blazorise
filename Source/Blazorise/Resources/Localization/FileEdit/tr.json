@@ -2,6 +2,8 @@
   "culture": "tr",
   "translations": {
     "Choose file": "Dosya seçin",
-    "Choose files": "Dosyaları seçin"
+    "Choose files": "Dosyaları seçin",
+    "Choose folder": "Dosya Seç",
+    "Choose folders": "Klasörleri seçin"
   }
 }

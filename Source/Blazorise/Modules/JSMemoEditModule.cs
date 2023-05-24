@@ -4,58 +4,61 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise.Modules
+namespace Blazorise.Modules;
+
+/// <summary>
+/// Default implementation of the <see cref="MemoEdit"/> JS module.
+/// </summary>
+public class JSMemoEditModule : BaseJSModule, IJSMemoEditModule
 {
+    #region Constructors
+
     /// <summary>
-    /// Default implementation of the <see cref="MemoEdit"/> JS module.
+    /// Default module constructor.
     /// </summary>
-    public class JSMemoEditModule : BaseJSModule, IJSMemoEditModule
+    /// <param name="jsRuntime">JavaScript runtime instance.</param>
+    /// <param name="versionProvider">Version provider.</param>
+    public JSMemoEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
+        : base( jsRuntime, versionProvider )
     {
-        #region Constructors
-
-        /// <summary>
-        /// Default module constructor.
-        /// </summary>
-        /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        /// <param name="versionProvider">Version provider.</param>
-        public JSMemoEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-            : base( jsRuntime, versionProvider )
-        {
-        }
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc/>
-        public virtual ValueTask Initialize( ElementReference elementRef, string elementId, object options )
-            => InvokeSafeVoidAsync( "initialize", elementRef, elementId, options );
-
-        /// <inheritdoc/>
-        public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
-        {
-            if ( IsUnsafe )
-                return;
-
-            await InvokeSafeVoidAsync( "destroy", elementRef, elementId );
-        }
-
-        /// <inheritdoc/>
-        public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
-        {
-            if ( IsUnsafe )
-                return;
-
-            await InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise/memoEdit.js?v={VersionProvider.Version}";
-
-        #endregion
     }
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    public virtual ValueTask Initialize( ElementReference elementRef, string elementId, object options )
+        => InvokeSafeVoidAsync( "initialize", elementRef, elementId, options );
+
+    /// <inheritdoc/>
+    public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
+    {
+        if ( IsUnsafe )
+            return;
+
+        await InvokeSafeVoidAsync( "destroy", elementRef, elementId );
+    }
+
+    /// <inheritdoc/>
+    public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+    {
+        if ( IsUnsafe )
+            return;
+
+        await InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
+    }
+
+    /// <inheritdoc/>
+    public virtual ValueTask RecalculateAutoHeight( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "recalculateAutoHeight", elementRef, elementId );
+
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc/>
+    public override string ModuleFileName => $"./_content/Blazorise/memoEdit.js?v={VersionProvider.Version}";
+
+    #endregion
 }

@@ -1,0 +1,64 @@
+﻿@using System.Text;
+@inherits Blazorise.Progress
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        @if ( HasProgressBar )
+        {
+            <div class="@HasProgressBarClassNames">
+                @ChildContent
+            </div>
+        }
+        else
+        {
+            <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                <div class="@InnerClassNames" style="@($"width: {Percentage}%;")">@ChildContent</div>
+            </div>
+        }
+    </CascadingValue>
+</CascadingValue>
+@code {
+    string HasProgressBarClassNames
+    {
+        get
+        {
+            var sb = new StringBuilder( "w-full bg-gray-200 rounded-full dark:bg-gray-700 mb-3 flex overflow-hidden" );
+
+            if ( ChildContent == null )
+            {
+                sb.Append( " " ).Append( ClassProvider.ProgressSize( ThemeSize ) );
+            }
+
+            return sb.ToString();
+        }
+    }
+
+    string InnerClassNames
+    {
+        get
+        {
+            var sb = new StringBuilder( "text-xs font-medium text-center p-0.5 leading-none rounded-full" );
+
+            if ( Color != Color.Default )
+            {
+                sb.Append( " " ).Append( ClassProvider.ProgressBarColor( Color ) );
+            }
+
+            if ( ChildContent == null )
+            {
+                sb.Append( " " ).Append( ClassProvider.ProgressSize( ThemeSize ) );
+            }
+
+            if ( Striped )
+            {
+                sb.Append( " bg-striped" );
+            }
+
+            if ( Animated )
+            {
+                sb.Append( " bg-striped-animated" );
+            }
+
+            return sb.ToString();
+        }
+    }
+}

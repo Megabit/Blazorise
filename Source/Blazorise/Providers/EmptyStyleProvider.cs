@@ -1,44 +1,51 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Providers
+namespace Blazorise.Providers;
+
+class EmptyStyleProvider : IStyleProvider
 {
-    class EmptyStyleProvider : IStyleProvider
-    {
-        #region Modal
+    #region Modal
 
-        public string ModalShow() => null;
+    public int DefaultModalZIndex => 0;
 
-        #endregion
+    public int DefaultModalBackdropZIndex => 0;
 
-        #region ModalBody
+    public string ModalShow() => null;
 
-        public string ModalBodyMaxHeight( int maxHeight ) => null;
+    public string ModalZIndex( int modalOpenIndex ) => null;
 
-        #endregion
+    public string ModalBackdropZIndex( int modalOpenIndex ) => null;
 
-        #region ProgressBar
+    #endregion
 
-        public string ProgressBarValue( int value ) => null;
+    #region ModalBody
 
-        public string ProgressBarSize( Size size ) => null;
+    public string ModalBodyMaxHeight( int maxHeight ) => null;
 
-        #endregion
+    #endregion
 
-        #region Layout
+    #region ProgressBar
 
-        #endregion
+    public string ProgressBarValue( int value ) => null;
 
-        #region Row
+    public string ProgressBarSize( Size size ) => null;
 
-        public string RowGutter( (int Horizontal, int Vertical) gutter ) => null;
+    #endregion
 
-        #endregion
+    #region Layout
 
-        #region Column
+    #endregion
 
-        public string ColumnGutter( (int Horizontal, int Vertical) gutter ) => null;
+    #region Row
 
-        #endregion
-    }
+    public string RowGutter( (int Horizontal, int Vertical) gutter ) => null;
+
+    #endregion
+
+    #region Column
+
+    public string ColumnGutter( (int Horizontal, int Vertical) gutter ) => null;
+
+    #endregion
 }

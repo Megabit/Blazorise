@@ -1,22 +1,21 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Bulma
+namespace Blazorise.Bulma;
+
+public partial class FieldBody : Blazorise.FieldBody
 {
-    public partial class FieldBody : Blazorise.FieldBody
-    {
-        #region Members
+    #region Members
 
-        #endregion
+    #endregion
 
-        #region Methods
+    #region Methods
 
-        #endregion
+    #endregion
 
-        #region Properties
+    #region Properties
 
-        protected override bool ColumnSizeSupported => false; // Bulma does not support column sizes on fields.
+    protected override bool PreventColumnSize => true; // Bulma does not support column sizes on fields.
 
-        #endregion
-    }
+    #endregion
 }

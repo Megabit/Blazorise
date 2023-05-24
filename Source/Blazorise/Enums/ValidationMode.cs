@@ -1,18 +1,17 @@
-﻿namespace Blazorise
+﻿namespace Blazorise;
+
+/// <summary>
+/// Defines the validation execution mode.
+/// </summary>
+public enum ValidationMode
 {
     /// <summary>
-    /// Defines the validation execution mode.
+    /// Validation will execute on every input change.
     /// </summary>
-    public enum ValidationMode
-    {
-        /// <summary>
-        /// Validation will execute on every input change.
-        /// </summary>
-        Auto,
+    Auto,
 
-        /// <summary>
-        /// Validation will run only when explicitly called. 
-        /// </summary>
-        Manual,
-    }
+    /// <summary>
+    /// Validation will run only when explicitly called. 
+    /// </summary>
+    Manual,
 }

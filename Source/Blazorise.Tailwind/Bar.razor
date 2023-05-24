@@ -1,0 +1,17 @@
+﻿@inherits Blazorise.Bar
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        <nav @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-collapse="@CollapseModeString" data-broken="@BrokenStateString" @attributes="@Attributes">
+            @if ( Mode == BarMode.Horizontal )
+            {
+                <div class="flex flex-wrap items-center justify-between mx-auto">
+                    @ChildContent
+                </div>
+            }
+            else
+            {
+                @ChildContent
+            }
+        </nav>
+    </CascadingValue>
+</CascadingValue>

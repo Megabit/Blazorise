@@ -3,14 +3,13 @@ using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 #endregion
 
-namespace Blazorise.Charts
+namespace Blazorise.Charts;
+
+public class DoughnutChartDataset<T> : PieChartDataset<T>
 {
-    public class DoughnutChartDataset<T> : PieChartDataset<T>
+    public DoughnutChartDataset()
+        : base()
     {
-        public DoughnutChartDataset()
-            : base()
-        {
-            Type = "doughnut";
-        }
+        Type = "doughnut";
     }
 }

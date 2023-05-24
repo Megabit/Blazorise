@@ -2,39 +2,29 @@
 using Blazorise.Utilities;
 #endregion
 
-namespace Blazorise.Bulma
+namespace Blazorise.Bulma;
+
+public partial class Field : Blazorise.Field
 {
-    public partial class Field : Blazorise.Field
+    #region Members
+
+    #endregion
+
+    #region Constructors
+
+    #endregion
+
+    #region Methods
+
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        #region Members
-
-        #endregion
-
-        #region Constructors
-
-        #endregion
-
-        #region Methods
-
-        protected override void BuildClasses( ClassBuilder builder )
+        if ( IsFields && ColumnSize == null )
         {
-            if ( IsFields && ColumnSize == null )
-            {
-                builder.Append( ClassProvider.FieldColumn() );
-            }
-
-            if ( ColumnSize != null )
-            {
-                builder.Append( ColumnSize.Class( ClassProvider ) );
-            }
-
-            base.BuildClasses( builder );
+            builder.Append( ClassProvider.FieldColumn() );
         }
 
-        #endregion
-
-        #region Properties
-
-        #endregion
+        base.BuildClasses( builder );
     }
+
+    #endregion
 }

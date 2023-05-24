@@ -2,25 +2,24 @@
 
 #endregion
 
-namespace Blazorise.Bulma
+namespace Blazorise.Bulma;
+
+public partial class Dropdown : Blazorise.Dropdown
 {
-    public partial class Dropdown : Blazorise.Dropdown
-    {
-        #region Members
+    #region Members
 
-        #endregion
+    #endregion
 
-        #region Methods
+    #region Methods
 
-        //inheritdoc
-        protected override string GetShowElementId()
-             => ElementId;
+    //inheritdoc
+    protected override string GetShowElementId()
+        => ElementId;
 
-        #endregion
+    #endregion
 
-        #region Properties
+    #region Properties
 
 
-        #endregion
-    }
+    #endregion
 }

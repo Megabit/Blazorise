@@ -1,0 +1,10 @@
+﻿services
+    .AddBlazorise( options =>
+    {
+        // other settings
+
+        options.ValidationMessageLocalizer = ( message, arguments ) =>
+        {
+            return string.Format( applicationLocalizerDictionary[message], arguments );
+        };
+    } );

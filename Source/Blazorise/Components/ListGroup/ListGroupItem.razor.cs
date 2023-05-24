@@ -6,144 +6,143 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// A container component that is placed inside of an <see cref="ListGroup"/>.
+/// </summary>
+public partial class ListGroupItem : BaseComponent
 {
+    #region Members
+
     /// <summary>
-    /// A container component that is placed inside of an <see cref="ListGroup"/>.
+    /// Holds the reference to the parent group state object.
     /// </summary>
-    public partial class ListGroupItem : BaseComponent
+    private ListGroupState parentListGroupState;
+
+    /// <summary>
+    /// Flag to indicate item disabled state.
+    /// </summary>
+    private bool disabled;
+
+    /// <summary>
+    /// The list-group-item color.
+    /// </summary>
+    private Color color = Color.Default;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        #region Members
+        builder.Append( ClassProvider.ListGroupItem() );
+        builder.Append( ClassProvider.ListGroupItemSelectable(), ParentListGroupState?.Mode == ListGroupMode.Selectable );
+        builder.Append( ClassProvider.ListGroupItemActive(), Active );
+        builder.Append( ClassProvider.ListGroupItemDisabled(), Disabled );
+        builder.Append( ClassProvider.ListGroupItemColor( Color, ParentListGroupState?.Mode == ListGroupMode.Selectable, Active ) );
 
-        /// <summary>
-        /// Holds the reference to the parent group state object.
-        /// </summary>
-        private ListGroupState parentListGroupState;
+        base.BuildClasses( builder );
+    }
 
-        /// <summary>
-        /// Flag to indicate item disabled state.
-        /// </summary>
-        private bool disabled;
+    /// <summary>
+    /// Handles the item onclick event.
+    /// </summary>
+    /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected async Task ClickHandler( MouseEventArgs eventArgs )
+    {
+        if ( Disabled )
+            return;
 
-        /// <summary>
-        /// The list-group-item color.
-        /// </summary>
-        private Color color = Color.Default;
+        if ( ParentListGroup != null )
+            await ParentListGroup.SelectItem( Name );
 
-        #endregion
+        await Clicked.InvokeAsync( eventArgs );
+    }
 
-        #region Methods
+    #endregion
 
-        /// <inheritdoc/>
-        protected override void BuildClasses( ClassBuilder builder )
+    #region Properties
+
+    /// <summary>
+    /// Gets the string representing the disabled state.
+    /// </summary>
+    protected string DisabledString => Disabled.ToString().ToLowerInvariant();
+
+    /// <summary>
+    /// Gets the flag indicating the item is selected.
+    /// </summary>
+    protected bool Active => parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItem == Name;
+
+    /// <summary>
+    /// Defines the item name.
+    /// </summary>
+    [Parameter] public string Name { get; set; }
+
+    /// <summary>
+    /// Makes the item to make it appear disabled.
+    /// </summary>
+    [Parameter]
+    public bool Disabled
+    {
+        get => disabled;
+        set
         {
-            builder.Append( ClassProvider.ListGroupItem() );
-            builder.Append( ClassProvider.ListGroupItemSelectable(), ParentListGroupState?.Mode == ListGroupMode.Selectable );
-            builder.Append( ClassProvider.ListGroupItemActive(), Active );
-            builder.Append( ClassProvider.ListGroupItemDisabled(), Disabled );
-            builder.Append( ClassProvider.ListGroupItemColor( Color ), Color != Color.Default );
+            disabled = value;
 
-            base.BuildClasses( builder );
+            DirtyClasses();
         }
+    }
 
-        /// <summary>
-        /// Handles the item onclick event.
-        /// </summary>
-        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        protected async Task ClickHandler( MouseEventArgs eventArgs )
+    /// <summary>
+    /// Occurs when the item is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+
+    /// <summary>
+    /// Cascaded <see cref="ListGroup"/> component state object.
+    /// </summary>
+    [CascadingParameter]
+    protected ListGroupState ParentListGroupState
+    {
+        get => parentListGroupState;
+        set
         {
-            if ( Disabled )
+            if ( parentListGroupState == value )
                 return;
 
-            if ( ParentListGroup != null )
-                await ParentListGroup.SelectItem( Name );
+            parentListGroupState = value;
 
-            await Clicked.InvokeAsync( eventArgs );
+            DirtyClasses();
         }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets the string representing the disabled state.
-        /// </summary>
-        protected string DisabledString => Disabled.ToString().ToLowerInvariant();
-
-        /// <summary>
-        /// Gets the flag indicating the item is selected.
-        /// </summary>
-        protected bool Active => parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItem == Name;
-
-        /// <summary>
-        /// Defines the item name.
-        /// </summary>
-        [Parameter] public string Name { get; set; }
-
-        /// <summary>
-        /// Makes the item to make it appear disabled.
-        /// </summary>
-        [Parameter]
-        public bool Disabled
-        {
-            get => disabled;
-            set
-            {
-                disabled = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Occurs when the item is clicked.
-        /// </summary>
-        [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
-
-        /// <summary>
-        /// Cascaded <see cref="ListGroup"/> component state object.
-        /// </summary>
-        [CascadingParameter]
-        protected ListGroupState ParentListGroupState
-        {
-            get => parentListGroupState;
-            set
-            {
-                if ( parentListGroupState == value )
-                    return;
-
-                parentListGroupState = value;
-
-                DirtyClasses();
-            }
-        }
-
-        /// <summary>
-        /// Cascaded parent <see cref="ListGroup"/>.
-        /// </summary>
-        [CascadingParameter] protected ListGroup ParentListGroup { get; set; }
-
-        /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="ListGroupItem"/>.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list-group-item color.
-        /// </summary>
-        [Parameter]
-        public Color Color
-        {
-            get => color;
-            set
-            {
-                color = value;
-
-                DirtyClasses();
-            }
-        }
-
-        #endregion
     }
+
+    /// <summary>
+    /// Cascaded parent <see cref="ListGroup"/>.
+    /// </summary>
+    [CascadingParameter] protected ListGroup ParentListGroup { get; set; }
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="ListGroupItem"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the list-group-item color.
+    /// </summary>
+    [Parameter]
+    public Color Color
+    {
+        get => color;
+        set
+        {
+            color = value;
+
+            DirtyClasses();
+        }
+    }
+
+    #endregion
 }

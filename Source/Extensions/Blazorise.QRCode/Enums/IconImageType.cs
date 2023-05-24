@@ -1,23 +1,22 @@
-﻿namespace Blazorise.QRCode.Enums
+﻿namespace Blazorise.QRCode.Enums;
+
+/// <summary>
+/// Defines the icon image file format.
+/// </summary>
+public enum IconImageType
 {
     /// <summary>
-    /// Defines the icon image file format.
+    /// Image is based on a GIF file format.
     /// </summary>
-    public enum IconImageType
-    {
-        /// <summary>
-        /// Image is based on a GIF file format.
-        /// </summary>
-        Gif,
+    Gif,
 
-        /// <summary>
-        /// Image is based on a JPEG file format.
-        /// </summary>
-        Jpeg,
+    /// <summary>
+    /// Image is based on a JPEG file format.
+    /// </summary>
+    Jpeg,
 
-        /// <summary>
-        /// Image is based on a PNG file format.
-        /// </summary>
-        Png
-    }
+    /// <summary>
+    /// Image is based on a PNG file format.
+    /// </summary>
+    Png
 }

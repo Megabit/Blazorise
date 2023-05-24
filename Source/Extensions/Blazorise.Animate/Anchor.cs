@@ -1,18 +1,17 @@
-﻿namespace Blazorise.Animate
+﻿namespace Blazorise.Animate;
+
+/// <summary>
+/// Static names of all supported anchor points.
+/// </summary>
+public static class AnchorSide
 {
-    /// <summary>
-    /// Static names of all supported anchor points.
-    /// </summary>
-    public static class AnchorSide
-    {
-        public static string TopBottom => "top-bottom";
-        public static string TopCenter => "top-center";
-        public static string TopTop => "top-top";
-        public static string CenterBottom => "center-bottom";
-        public static string CenterCenter => "center-center";
-        public static string CenterTop => "center-top";
-        public static string BottomBottom => "bottom-bottom";
-        public static string BottomCenter => "bottom-center";
-        public static string BottomTop => "bottom-top";
-    }
+    public static string TopBottom => "top-bottom";
+    public static string TopCenter => "top-center";
+    public static string TopTop => "top-top";
+    public static string CenterBottom => "center-bottom";
+    public static string CenterCenter => "center-center";
+    public static string CenterTop => "center-top";
+    public static string BottomBottom => "bottom-bottom";
+    public static string BottomCenter => "bottom-center";
+    public static string BottomTop => "bottom-top";
 }

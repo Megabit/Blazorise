@@ -1,16 +1,15 @@
 ﻿using System.Threading.Tasks;
 using Blazorise.Utilities;
 
-namespace Blazorise.AntDesign
+namespace Blazorise.AntDesign;
+
+public partial class Table
 {
-    public partial class Table
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            base.BuildClasses( builder );
+        base.BuildClasses( builder );
 
-            builder.Append( ClassProvider.TableFixedHeader(), FixedHeader );
-        }
-
+        builder.Append( ClassProvider.TableFixedHeader(), FixedHeader );
     }
+
 }

@@ -3,64 +3,63 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Sidebar
+namespace Blazorise.Sidebar;
+
+public partial class SidebarSubItem : BaseComponent
 {
-    public partial class SidebarSubItem : BaseComponent
+    #region Members
+
+    private bool visible;
+
+    #endregion
+
+    #region Methods
+
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        #region Members
+        builder.Append( "sidebar-subitem" );
+        builder.Append( "show", Visible );
 
-        private bool visible;
-
-        #endregion
-
-        #region Methods
-
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( "sidebar-subitem" );
-            builder.Append( "show", Visible );
-
-            base.BuildClasses( builder );
-        }
-
-        protected override void OnInitialized()
-        {
-            ParentSidebarItem?.NotifyHasSidebarSubItem();
-
-            base.OnInitialized();
-        }
-
-        /// <summary>
-        /// Toggles the visibility of subitem.
-        /// </summary>
-        /// <param name="visible">Used to override default behaviour.</param>
-        public void Toggle( bool? visible = null )
-        {
-            Visible = visible ?? !Visible;
-
-            InvokeAsync( StateHasChanged );
-        }
-
-        #endregion
-
-        #region Properties
-
-        [Parameter]
-        public bool Visible
-        {
-            get => visible;
-            set
-            {
-                visible = value;
-
-                DirtyClasses();
-            }
-        }
-
-        [CascadingParameter] public SidebarItem ParentSidebarItem { get; set; }
-
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        #endregion
+        base.BuildClasses( builder );
     }
+
+    protected override void OnInitialized()
+    {
+        ParentSidebarItem?.NotifyHasSidebarSubItem();
+
+        base.OnInitialized();
+    }
+
+    /// <summary>
+    /// Toggles the visibility of subitem.
+    /// </summary>
+    /// <param name="visible">Used to override default behaviour.</param>
+    public void Toggle( bool? visible = null )
+    {
+        Visible = visible ?? !Visible;
+
+        InvokeAsync( StateHasChanged );
+    }
+
+    #endregion
+
+    #region Properties
+
+    [Parameter]
+    public bool Visible
+    {
+        get => visible;
+        set
+        {
+            visible = value;
+
+            DirtyClasses();
+        }
+    }
+
+    [CascadingParameter] public SidebarItem ParentSidebarItem { get; set; }
+
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

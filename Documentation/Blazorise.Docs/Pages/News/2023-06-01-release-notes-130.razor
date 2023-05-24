@@ -1,0 +1,111 @@
+﻿@page "/news/release-notes/130"
+
+<Seo Canonical="news/release-notes/130" Title="Blazorise v1.3" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.3 release." ImageUrl="img/news/empty.png" />
+
+<NewsPageImage Source="img/news/empty.png" Text="Blazorise v1.3" />
+
+<NewsPageTitle>
+    Announcing Blazorise 1.3
+</NewsPageTitle>
+
+<Paragraph>
+    TODO
+</Paragraph>
+
+<NewsPageSubtitle>
+    Blazorise 1.3 Highlights 💡
+</NewsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        TODO
+    </UnorderedListItem>
+</UnorderedList>
+
+<NewsPageSubtitle>
+    Upgrade an existing Blazorise project 👨‍🔧
+</NewsPageSubtitle>
+
+<Paragraph>
+    To upgrade an existing Blazorise applications from <Strong>1.1.x</Strong> to <Strong>1.3</Strong>:
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.3</Strong>.
+    </UnorderedListItem>
+</UnorderedList>
+
+<Paragraph>
+    You should now be able to use Blazorise without any breaking changes.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Breaking Behaviour
+</NewsPageSubtitle>
+
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            <Code>DataGrid</Code> : The data collection no longer automatically updates upon mutating the collection, for example, by using methods like <Code>Add</Code> or <Code>Remove</Code>.
+        </Paragraph>
+        <Paragraph>
+            While this feature was good to have by default, the way it was implemented, was a general performance hit on <Code>DataGrid</Code> usage, even if it wasn't in the interest of the consumer to use it.
+        </Paragraph>
+        <Paragraph>
+            As such we now recommended the following, either:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>Invoke <Code>gridRef.Reload();</Code> when you're done mutating your collection;</UnorderedListItem>
+                <UnorderedListItem>Have your data be observable by using any implementation of the <Code>INotifyCollectionChanged</Code>, like the <Code>ObservableCollection</Code>. The example below ilustrates this.</UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
+            Please visit, <Anchor To="docs/extensions/datagrid/binding-data/observable">observable data docs</Anchor> for more information.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+<NewsPageSubtitle>
+    New Features 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Message Provider
+</Heading>
+
+<Paragraph>
+    We have added localization support to the MessageProvider. This update will allow developers to create applications that can support multiple languages and locales.
+</Paragraph>
+
+<Paragraph>
+    The MessageProvider is a vital component in Blazorise that enables the display of notifications, alerts, and other messages to users. With the added localization support, developers can now customize the messages displayed to users based on their preferred language and locale.
+</Paragraph>
+
+<Paragraph>
+    This update will make it easier for developers to create applications that can cater to a global audience. We hope this update will be beneficial to our users and help them create more accessible and user-friendly applications.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Paragraph>
+    We've changed the <Code>CancellableRowChange</Code> argument that's provided in the RowInserting, RowUpdating and RowRemoving callbacks and the <Code>SavedRowItem</Code> that's provided in the RowInserted, RowUpdated callbacks to now provide both an <Code>OldItem</Code> and <Code>NewItem</Code>.
+</Paragraph>
+
+<Paragraph>
+    <Code>OldItem</Code> will replace the regular existing <Code>Item</Code> as it's easier to understand what it represents.
+    <Code>Item</Code> is now marked as obsolete and will be removed in a future release.
+</Paragraph>
+
+<Paragraph>
+    <Code>NewItem</Code> is a deep clone of the item that's being inserted or updated with the updated edit values.
+</Paragraph>
+
+<Paragraph>
+    The existing <Code>Values</Code> Dictionary will still exist, but this allows you to promptly get a mapped <Code>TItem</Code> without having to write your own mapping code from the <Code>Dictionary</Code>.
+</Paragraph>
+
+
+<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="June 1st, 2023" Read="7 min" />

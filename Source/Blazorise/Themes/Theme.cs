@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Blazorise.Extensions;
 using Blazorise.Generator.Features;
 #endregion
 

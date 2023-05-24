@@ -1,0 +1,96 @@
+﻿@page "/docs/usage/tailwind"
+
+<Seo Canonical="/docs/usage/tailwind" Title="Blazorise Tailwind Usage" Description="Learn all the steps on how to quickly install and setup Blazorise for Tailwind CSS framework and FontAwesome icons." />
+
+<DocsPageTitle Path="Usage/Tailwind">
+    Blazorise Tailwind Usage
+</DocsPageTitle>
+
+<DocsPageLead>
+    Quickly install Blazorise with Tailwind, one of the world's most popular Blazor UI framework.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Blazorise Tailwind provider is made possible with the help of <Anchor To="https://flowbite.com/" Title="Link to Flowbite" Target="Target.Blank">Flowbite</Anchor>, an open-source Tailwind CSS Components.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Alert Color="Color.Info" Visible>
+        <AlertDescription>
+            <Strong>Note:</Strong> Before continuing please make sure that you already have a Blazor project created.
+            If not please go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor" Target="Target.Blank">official Blazor website</Blazorise.Link> and learn how to create one.
+        </AlertDescription>
+    </Alert>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Install Packages
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        First step is to install a Tailwind provider for Blazorise:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TailwindGuideNuget1Example" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        You also need to install the icon package:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TailwindGuideNuget2Example" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Add Static Files
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Add the following to your HTML head section. Depending on whether you're running WebAssembly or Server, it's either <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TailwindGuideSourceFiles1Example" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        In the same file add the following. It should be placed just before the default blazor script.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TailwindGuideSourceFiles2Example" />
+</DocsPageSection>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Note:</Strong> Don't forget to remove Bootstrap JS and CSS files that comes with the default Blazor project template.
+    </AlertDescription>
+</Alert>
+
+<DocsPageSubtitle>
+    Add Imports
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TailwindGuideUsingExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Register Services
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Add the following lines to the relevant sections of <Code>Program.cs</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TailwindGuideRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    PWA & Offline Support (optional)
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    For information about PWAs & offline support, please take a look at our <Blazorise.Link To="docs/pwa">PWA docs.</Blazorise.Link>
+</DocsPageParagraph>

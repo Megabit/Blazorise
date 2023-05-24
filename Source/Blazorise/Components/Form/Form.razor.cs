@@ -2,20 +2,19 @@
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Wrapper for a regular html form element.
+/// </summary>
+public partial class Form : BaseComponent
 {
+    #region Properties
+
     /// <summary>
-    /// Wrapper for a regular html form element.
+    /// Gets or sets the reference to the parent <see cref="Form"/> component.
     /// </summary>
-    public partial class Form : BaseComponent
-    {
-        #region Properties
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
-        /// <summary>
-        /// Gets or sets the reference to the parent <see cref="Form"/> component.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        #endregion
-    }
+    #endregion
 }

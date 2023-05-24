@@ -1,5 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
+  <PropertyGroup>
+    <UserSecretsId>80fc69f0-69e8-46a0-acf0-fe1a2bd88e6d</UserSecretsId>
+  </PropertyGroup>
+
   <Import Project="..\..\Build\Blazorise.Client.props" />
 
   <ItemGroup>

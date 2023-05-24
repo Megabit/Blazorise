@@ -5,45 +5,44 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise.Modules
+namespace Blazorise.Modules;
+
+/// <summary>
+/// Default implementation of the file JS module.
+/// </summary>
+public class JSFileModule : BaseJSModule, IJSFileModule
 {
+    #region Constructors
+
     /// <summary>
-    /// Default implementation of the file JS module.
+    /// Default module constructor.
     /// </summary>
-    public class JSFileModule : BaseJSModule, IJSFileModule
+    /// <param name="jsRuntime">JavaScript runtime instance.</param>
+    /// <param name="versionProvider">Version provider.</param>
+    public JSFileModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
+        : base( jsRuntime, versionProvider )
     {
-        #region Constructors
-
-        /// <summary>
-        /// Default module constructor.
-        /// </summary>
-        /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        /// <param name="versionProvider">Version provider.</param>
-        public JSFileModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-            : base( jsRuntime, versionProvider )
-        {
-        }
-
-        #endregion
-
-        #region Methods       
-
-        /// <inheritdoc/>
-        public virtual ValueTask<byte[]> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken = default )
-            => InvokeSafeAsync<byte[]>( "readFileData", elementRef, fileEntryId, position, length );
-
-        /// <inheritdoc/>
-        public virtual ValueTask<IJSStreamReference> ReadDataAsync( ElementReference elementRef, int fileEntryId, CancellationToken cancellationToken = default )
-            => InvokeSafeAsync<IJSStreamReference>( "readFileDataStream", elementRef, fileEntryId );
-
-        #endregion
-
-        #region Properties
-
-        /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise/io.js?v={VersionProvider.Version}";
-
-
-        #endregion
     }
+
+    #endregion
+
+    #region Methods       
+
+    /// <inheritdoc/>
+    public virtual ValueTask<byte[]> ReadDataAsync( ElementReference elementRef, int fileEntryId, long position, long length, CancellationToken cancellationToken = default )
+        => InvokeSafeAsync<byte[]>( "readFileData", elementRef, fileEntryId, position, length );
+
+    /// <inheritdoc/>
+    public virtual ValueTask<IJSStreamReference> ReadDataAsync( ElementReference elementRef, int fileEntryId, CancellationToken cancellationToken = default )
+        => InvokeSafeAsync<IJSStreamReference>( "readFileDataStream", elementRef, fileEntryId );
+
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc/>
+    public override string ModuleFileName => $"./_content/Blazorise/io.js?v={VersionProvider.Version}";
+
+
+    #endregion
 }

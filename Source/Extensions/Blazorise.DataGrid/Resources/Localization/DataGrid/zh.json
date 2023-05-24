@@ -16,6 +16,7 @@
     "{0} - {1} of {2} items": "{0} - {1} 条，共 {2} 条",
     "Row Edit": "编辑行",
     "Row Create": "创建行",
-    "Create": "创建"
+    "Create": "创建",
+    "Drag a column header here to group by that column": "将列标题拖到此处以按该列分组"
   }
 }

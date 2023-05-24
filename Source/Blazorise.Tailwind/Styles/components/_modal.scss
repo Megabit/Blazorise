@@ -1,0 +1,15 @@
+﻿.b-modal {
+    display: none;
+
+    &.b-modal-fade {
+        transition: opacity var(--modal-animation-duration, 300ms) linear;
+
+        &.flex {
+            opacity: 1;
+        }
+
+        &:not(.flex) {
+            opacity: 0;
+        }
+    }
+}

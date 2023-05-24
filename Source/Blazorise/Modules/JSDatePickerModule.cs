@@ -4,80 +4,79 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise.Modules
+namespace Blazorise.Modules;
+
+/// <summary>
+/// Default implementation of the <see cref="DatePicker{TValue}"/> JS module.
+/// </summary>
+public class JSDatePickerModule : BaseJSModule, IJSDatePickerModule
 {
+    #region Constructors
+
     /// <summary>
-    /// Default implementation of the <see cref="DatePicker{TValue}"/> JS module.
+    /// Default module constructor.
     /// </summary>
-    public class JSDatePickerModule : BaseJSModule, IJSDatePickerModule
+    /// <param name="jsRuntime">JavaScript runtime instance.</param>
+    /// <param name="versionProvider">Version provider.</param>
+    public JSDatePickerModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
+        : base( jsRuntime, versionProvider )
     {
-        #region Constructors
+    }
 
-        /// <summary>
-        /// Default module constructor.
-        /// </summary>
-        /// <param name="jsRuntime">JavaScript runtime instance.</param>
-        /// <param name="versionProvider">Version provider.</param>
-        public JSDatePickerModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-            : base( jsRuntime, versionProvider )
-        {
-        }
+    #endregion
 
-        #endregion
+    #region Methods
 
-        #region Methods
+    /// <inheritdoc/>
+    public virtual ValueTask Initialize( DotNetObjectReference<DatePickerAdapter> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
+        => InvokeSafeVoidAsync( "initialize", dotNetObjectReference, elementRef, elementId, options );
 
-        /// <inheritdoc/>
-        public virtual ValueTask Initialize( ElementReference elementRef, string elementId, object options )
-            => InvokeSafeVoidAsync( "initialize", elementRef, elementId, options );
+    /// <inheritdoc/>
+    public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
 
-        /// <inheritdoc/>
-        public virtual ValueTask Destroy( ElementReference elementRef, string elementId )
-            => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
+    /// <inheritdoc/>
+    public virtual ValueTask Activate( ElementReference elementRef, string elementId, object options )
+        => ValueTask.CompletedTask;
 
-        /// <inheritdoc/>
-        public virtual ValueTask Activate( ElementReference elementRef, string elementId, object options )
-            => ValueTask.CompletedTask;
-
-        /// <inheritdoc/>
-        public virtual ValueTask UpdateValue( ElementReference elementRef, string elementId, object value )
+    /// <inheritdoc/>
+    public virtual ValueTask UpdateValue( ElementReference elementRef, string elementId, object value )
         => InvokeSafeVoidAsync( "updateValue", elementRef, elementId, value );
 
-        /// <inheritdoc/>
-        public virtual ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
-            => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
+    /// <inheritdoc/>
+    public virtual ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+        => InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
 
-        /// <inheritdoc/>
-        public virtual ValueTask Open( ElementReference elementRef, string elementId )
-            => InvokeSafeVoidAsync( "open", elementRef, elementId );
+    /// <inheritdoc/>
+    public virtual ValueTask Open( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "open", elementRef, elementId );
 
-        /// <inheritdoc/>
-        public virtual ValueTask Close( ElementReference elementRef, string elementId )
-            => InvokeSafeVoidAsync( "close", elementRef, elementId );
+    /// <inheritdoc/>
+    public virtual ValueTask Close( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "close", elementRef, elementId );
 
-        /// <inheritdoc/>
-        public virtual ValueTask Toggle( ElementReference elementRef, string elementId )
-            => InvokeSafeVoidAsync( "toggle", elementRef, elementId );
+    /// <inheritdoc/>
+    public virtual ValueTask Toggle( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "toggle", elementRef, elementId );
 
-        /// <inheritdoc/>
-        public virtual ValueTask UpdateLocalization( ElementReference elementRef, string elementId, object localization )
-            => InvokeSafeVoidAsync( "updateLocalization", elementRef, elementId, localization );
+    /// <inheritdoc/>
+    public virtual ValueTask UpdateLocalization( ElementReference elementRef, string elementId, object localization )
+        => InvokeSafeVoidAsync( "updateLocalization", elementRef, elementId, localization );
 
-        /// <inheritdoc/>
-        public virtual ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
-            => InvokeSafeVoidAsync( "focus", elementRef, elementId, scrollToElement );
+    /// <inheritdoc/>
+    public virtual ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
+        => InvokeSafeVoidAsync( "focus", elementRef, elementId, scrollToElement );
 
-        /// <inheritdoc/>
-        public virtual ValueTask Select( ElementReference elementRef, string elementId, bool focus )
-            => InvokeSafeVoidAsync( "select", elementRef, elementId, focus );
+    /// <inheritdoc/>
+    public virtual ValueTask Select( ElementReference elementRef, string elementId, bool focus )
+        => InvokeSafeVoidAsync( "select", elementRef, elementId, focus );
 
-        #endregion
+    #endregion
 
-        #region Properties
+    #region Properties
 
-        /// <inheritdoc/>
-        public override string ModuleFileName => $"./_content/Blazorise/datePicker.js?v={VersionProvider.Version}";
+    /// <inheritdoc/>
+    public override string ModuleFileName => $"./_content/Blazorise/datePicker.js?v={VersionProvider.Version}";
 
-        #endregion
-    }
+    #endregion
 }

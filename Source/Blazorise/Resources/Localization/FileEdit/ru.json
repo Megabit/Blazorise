@@ -2,6 +2,8 @@
   "culture": "ru",
   "translations": {
     "Choose file": "Выбрать файл",
-    "Choose files": "Выбрать файлы"
+    "Choose files": "Выбрать файлы",
+    "Choose folder": "Выберите папку",
+    "Choose folders": "Выбрать папки"
   }
 }

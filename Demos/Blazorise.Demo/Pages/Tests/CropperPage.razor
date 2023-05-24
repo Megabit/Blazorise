@@ -1,0 +1,219 @@
+﻿@page "/tests/cropper"
+@using System.Security.Cryptography.X509Certificates
+@using Blazorise.Utilities
+@inject IJSRuntime JSRuntime
+@implements IAsyncDisposable
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Image Cropper Component (based on <Anchor To="https://fengyuanchen.github.io/cropperjs/">Cropper.js</Anchor>)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field>
+                    <FieldLabel>
+                        Upload Image
+                    </FieldLabel>
+                    <FieldBody>
+                        <FileEdit @ref="fileRef" Filter="image/*" Changed="@OnFileChanged" Placeholder="Select a file" />
+                    </FieldBody>
+                </Field>
+            </CardBody>
+            <CardBody>
+                <Fields>
+                    <Field>
+                        <FieldLabel>
+                            Update Image
+                        </FieldLabel>
+                        <FieldBody>
+                            <Button Color="Color.Primary" Clicked="@(() =>{source = "_content/Blazorise.Demo/img/gallery/5.jpg"; return Task.CompletedTask;})">
+                                Update
+                            </Button>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
+                            Aspect Ratio
+                        </FieldLabel>
+                        <FieldBody>
+                            <Select @bind-SelectedValue="@ratio">
+                                <SelectItem Value="@CropperAspectRatio.Is16x9.Value">16:9</SelectItem>
+                                <SelectItem Value="@CropperAspectRatio.Is4x3.Value">4:3</SelectItem>
+                                <SelectItem Value="@CropperAspectRatio.Is1x1.Value">1:1</SelectItem>
+                                <SelectItem Value="@CropperAspectRatio.Is2x3.Value">2:3</SelectItem>
+                                <SelectItem Value="@CropperAspectRatio.IsFree.Value"></SelectItem>
+                            </Select>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldBody>
+                            <Check @bind-Checked="@enabled">Enabled</Check>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
+                            Flip
+                        </FieldLabel>
+                        <FieldBody>
+                            <Buttons>
+                                <Button Color="Color.Primary" Clicked="@FlipX">
+                                    <Icon Name="IconName.MoreHorizontal" />
+                                </Button>
+                                <Button Color="Color.Primary" Clicked="@FlipY">
+                                    <Icon Name="IconName.MoreVertical" />
+                                </Button>
+                            </Buttons>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
+                            Rotation
+                        </FieldLabel>
+                        <FieldBody>
+                            <Buttons>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Rotate(-30))">
+                                    <Icon Name="IconName.AngleLeft" />
+                                </Button>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Rotate(30))">
+                                    <Icon Name="IconName.AngleRight" />
+                                </Button>
+                            </Buttons>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
+                            Zoom
+                        </FieldLabel>
+                        <FieldBody>
+                            <Buttons>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Zoom(-0.10d))">
+                                    <Icon Name="IconName.SearchMinus" />
+                                </Button>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Zoom(0.10d))">
+                                    <Icon Name="IconName.SearchPlus" />
+                                </Button>
+                            </Buttons>
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>
+                            Center
+                        </FieldLabel>
+                        <FieldBody>
+                            <Buttons>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Center(default))">
+                                    Default
+                                </Button>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Center("contain"))">
+                                    Contain
+                                </Button>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Center("cover"))">
+                                    Cover
+                                </Button>
+                            </Buttons>
+                        </FieldBody>
+                    </Field>
+                </Fields>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column>
+                        <FieldLabel>
+                            Image Cropper
+                        </FieldLabel>
+                        <FieldBody>
+                            <Cropper @ref="cropper"
+                                     Source="@source"
+                                     SelectionOptions="@(new CropperSelectionOptions { AspectRatio = new(ratio) })"
+                                     Enabled="@enabled"
+                                     CropStarted="@(()=>{Console.WriteLine("CropStarted"); return Task.CompletedTask; })"
+                                     CropEnded="@(()=>{Console.WriteLine("CropEnded"); return Task.CompletedTask; })"
+                                     CropMoved="@(()=>{Console.WriteLine("CropMoved"); return Task.CompletedTask; })"
+                                     Cropped="@((e)=>{Console.WriteLine($"Cropped StartX: {e.StartX}, StartY: {e.StartY}, EndX: {e.EndX}, EndY: {e.EndY}"); return Task.CompletedTask; })"
+                                     Zoomed="@((e)=>{Console.WriteLine($"Zoomed Scale: {e.Scale}"); return Task.CompletedTask; })"
+                                     ImageReady="@(()=>{Console.WriteLine("ImageReady"); return Task.CompletedTask; })"
+                                     CropperState="@cropperState" />
+                        </FieldBody>
+                    </Column>
+                    <Column>
+                        <Row Margin="Margin.Is3">
+                            <Column>
+                                <Button Color="Color.Primary" Clicked="GetCroppedImage">Get Cropped Image</Button>
+                                <Button Color="Color.Secondary" Clicked="ResetSelection">Reset Selection</Button>
+                            </Column>
+                            <Column>
+                                <img src="@result" width="250" height="250" />
+                            </Column>
+                        </Row>
+                        <Row>
+                            <Column>
+                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 150px; height: 150px;" />
+                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 100px; height: 100px;" />
+                                <CropperViewer CropperState="@cropperState" Style="margin: 10px; width: 50px; height: 50px;" />
+                            </Column>
+                        </Row>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private Cropper cropper;
+    private FileEdit fileRef;
+    private CropperState cropperState = new CropperState();
+    private string source = "_content/Blazorise.Demo/img/gallery/3.jpg";
+    private string result;
+    private double? ratio = 1.0;
+    private bool enabled = true;
+    private bool flipX, flipY;
+    private IAsyncDisposable urlCleanup;
+
+    private async Task GetCroppedImage()
+    {
+        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
+    }
+
+    private async Task ResetSelection()
+    {
+        await cropper.ResetSelection();
+    }
+
+    private async Task FlipX()
+    {
+        flipX = !flipX;
+        await cropper.Scale( flipX ? -1 : 1, flipY ? -1 : 1 );
+    }
+
+    private async Task FlipY()
+    {
+        flipY = !flipY;
+        await cropper.Scale( flipX ? -1 : 1, flipY ? -1 : 1 );
+    }
+
+    private async Task OnFileChanged( FileChangedEventArgs e )
+    {
+        if ( e.Files.Length == 0 )
+        {
+            return;
+        }
+
+        await CleanupObjectUrl();
+
+        source = await JSRuntime.InvokeAsync<string>( "blazoriseDemo.getInputFileUrl", fileRef.ElementRef );
+        urlCleanup = AsyncDisposable.Create( () => JSRuntime.InvokeVoidAsync( "URL.revokeObjectURL", source ) );
+        StateHasChanged();
+    }
+
+    public ValueTask DisposeAsync() => CleanupObjectUrl();
+
+    private async ValueTask CleanupObjectUrl()
+    {
+        if ( urlCleanup is not null )
+        {
+            await urlCleanup.DisposeAsync();
+        }
+    }
+}

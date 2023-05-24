@@ -4,35 +4,39 @@ using System.Linq;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.DataGrid
+namespace Blazorise.DataGrid;
+
+public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridComponent
 {
-    public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridComponent
-    {
-        #region Properties
+    #region Properties
 
-        protected bool HasCommandColumn
-            => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
+    protected override bool ShouldRender()
+        => RenderUpdates;
 
-        protected int ColumnSpan
-            => Columns.Count - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
+    protected bool HasCommandColumn
+        => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
 
-        /// <summary>
-        /// Item associated with the data set.
-        /// </summary>
-        [Parameter] public TItem Item { get; set; }
+    protected int ColumnSpan
+        => Columns.Count - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
 
-        /// <summary>
-        /// List of columns used to build this row.
-        /// </summary>
-        [Parameter] public IReadOnlyList<DataGridColumn<TItem>> Columns { get; set; }
+    /// <summary>
+    /// Item associated with the data set.
+    /// </summary>
+    [Parameter] public TItem Item { get; set; }
 
-        /// <summary>
-        /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
-        /// </summary>
-        [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
+    /// <summary>
+    /// List of columns used to build this row.
+    /// </summary>
+    [Parameter] public IReadOnlyList<DataGridColumn<TItem>> Columns { get; set; }
 
-        [Parameter] public RenderFragment ChildContent { get; set; }
+    /// <summary>
+    /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
+    /// </summary>
+    [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
 
-        #endregion
-    }
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public bool RenderUpdates { get; set; }
+
+    #endregion
 }

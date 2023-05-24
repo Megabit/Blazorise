@@ -499,11 +499,19 @@ public class Gender
     </Column>
 </Row>";
 
+        public const string WhatIsBlazoriseAllAbout_ButtonExample = @"<Button Color=""Color.Primary"">
+    Click Me!
+</Button>";
+
+        public const string WhatIsBlazoriseAllAbout_FluentSyntaxExample = @"<Button Margin=""Margin.Is2.OnDesktop.Is4.OnMobile"">
+    Click me!
+</Button>";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse1Visible = !collapse1Visible)"">Switch 1</Button>
+                <AccordionToggle>Switch 1</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -513,7 +521,7 @@ public class Gender
     <Collapse Visible=""@collapse2Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse2Visible = !collapse2Visible)"">Switch 2</Button>
+                <AccordionToggle>Switch 2</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -523,7 +531,7 @@ public class Gender
     <Collapse Visible=""@collapse3Visible"">
         <CollapseHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <Button Clicked=""@(()=>collapse3Visible = !collapse3Visible)"">Switch 3</Button>
+                <AccordionToggle>Switch 3</AccordionToggle>
             </Heading>
         </CollapseHeader>
         <CollapseBody>
@@ -531,11 +539,25 @@ public class Gender
         </CollapseBody>
     </Collapse>
 </Accordion>
-@code{
+@code {
     bool collapse1Visible = true;
     bool collapse2Visible = false;
     bool collapse3Visible = false;
 }";
+
+        public const string AddonWithValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">
+    <Addons>
+        <Addon AddonType=""AddonType.Body"">
+            <TextEdit Placeholder=""Enter name"" />
+        </Addon>
+        <Addon AddonType=""AddonType.End"">
+            <AddonLabel>This is a label</AddonLabel>
+        </Addon>
+    </Addons>
+    <ValidationNone></ValidationNone>
+    <ValidationSuccess></ValidationSuccess>
+    <ValidationError>Enter valid name!</ValidationError>
+</Validation>";
 
         public const string ButtonAddonExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
@@ -1086,6 +1108,34 @@ public class Gender
     </Buttons>
 </Buttons>";
 
+        public const string CardBackgroundExample = @"<Card Background=""Background.Success"" WhiteText>
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            With supporting text below as a natural lead-in to additional content.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
+    </CardBody>
+</Card>";
+
+        public const string CardButtonExample = @"<Card>
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
+    </CardBody>
+</Card>";
+
         public const string CardDeckExample = @"<CardDeck>
     <Card>
         <CardImage Source=""/img/gallery/2.jpg"" Alt=""Card image cap 3""></CardImage>
@@ -1119,15 +1169,29 @@ public class Gender
     </Card>
 </CardDeck>";
 
-        public const string CardExample = @"<Card Margin=""Margin.Is4.OnY"">
-    <CardImage Source=""img/gallery/7.jpg"" Alt=""Placeholder image"">
-    </CardImage>
+        public const string CardExample = @"<Card>
     <CardBody>
-        <CardTitle Size=""5"">Card title</CardTitle>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
         <CardText>
-            Some quick example text to build on the card title and make up the bulk of the card's content.
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
         </CardText>
-        <Button Color=""Color.Primary"">Button</Button>
+    </CardBody>
+</Card>";
+
+        public const string CardImageExample = @"<Card>
+    <CardImage Source=""/img/gallery/2.jpg"" Alt=""Placeholder image"" />
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card title
+        </CardTitle>
+        <CardText>
+            This is some text within a card body. Jelly lemon drops tiramisu chocolate cake cotton candy soufflé oat cake sweet roll. Sugar plum marzipan dragée topping cheesecake chocolate bar. Danish muffin icing donut.
+        </CardText>
+        <Button Color=""Color.Primary"" Margin=""Margin.Is2.FromTop"">
+            Read more <Icon Name=""IconName.ArrowRight"" />
+        </Button>
     </CardBody>
 </Card>";
 
@@ -1276,6 +1340,8 @@ public class Gender
     <FieldHelp>Format: DD/MM/YYYY</FieldHelp>
 </Field>";
 
+        public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" StaticPicker=""false"" />";
+
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
         <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" />
@@ -1292,9 +1358,17 @@ public class Gender
 
         public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" Inline />";
 
-        public const string MultipleDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />";
+        public const string MultipleDatePickerExample = @"<DatePicker @bind-Dates=""selectedDates"" TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />
 
-        public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />";
+@code{
+    IReadOnlyList<DateTime?> selectedDates;
+}";
+
+        public const string RangeDatePickerExample = @"<DatePicker @bind-Dates=""selectedDates"" TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />
+
+@code {
+    IReadOnlyList<DateTime?> selectedDates;
+}";
 
         public const string DashedDividerExample = @"<Paragraph>
     What language is thine, O sea?
@@ -1380,9 +1454,10 @@ public class Gender
         new DropItem() { Name = ""Cabbage"", Group = ""Vegetable"", Image = ""img/fruit/cabbage.png"" },
     };
 
-    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
     {
         dropItem.Item.Group = dropItem.DropZoneName;
+        return Task.CompletedTask;
     }
 }";
 
@@ -1445,9 +1520,10 @@ public class Gender
         new DropItem() { Name = ""Item 5"", Group = ""2"" },
     };
 
-    private void ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
+    private Task ItemDropped( DraggableDroppedEventArgs<DropItem> dropItem )
     {
         dropItem.Item.Group = dropItem.DropZoneName;
+        return Task.CompletedTask;
     }
 }";
 
@@ -1636,6 +1712,17 @@ public class Gender
     <FigureCaption>A caption for the above image.</FigureCaption>
 </Figure>";
 
+        public const string DirectoryFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Directory />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
+    }
+}";
+
         public const string ExtensionsLimitFileEditExample = @"<!-- Accept all image formats by IANA media type wildcard-->
 <Field>
     <FileEdit Filter=""image/*"" />
@@ -1731,6 +1818,33 @@ public class Gender
     }
 }";
 
+        public const string FilePickerDirectoryExample = @"@using System.IO
+
+<Field>
+    <FilePicker Directory Multiple Upload=""OnFileUpload"" ShowMode=""FilePickerShowMode.List"" />
+</Field>
+
+@code {
+    async Task OnFileUpload( FileUploadEventArgs e )
+    {
+        try
+        {
+            using ( MemoryStream result = new MemoryStream() )
+            {
+                await e.File.OpenReadStream( long.MaxValue ).CopyToAsync( result );
+            }
+        }
+        catch ( Exception exc )
+        {
+            Console.WriteLine( exc.Message );
+        }
+        finally
+        {
+            this.StateHasChanged();
+        }
+    }
+}";
+
         public const string FilePickerDropdownExample = @"@using System.IO
 
 <Field>
@@ -1799,6 +1913,17 @@ public class Gender
         {
             this.StateHasChanged();
         }
+    }
+}";
+
+        public const string MultipleDirectoryFileEditExample = @"<Field>
+    <FileEdit Changed=""@OnChanged"" Directory Multiple />
+</Field>
+
+@code {
+    Task OnChanged( FileChangedEventArgs e )
+    {
+        return Task.CompletedTask;
     }
 }";
 
@@ -2126,6 +2251,14 @@ public class Gender
 
     string sentence = ""\""There will be no foolish wand-waving or silly incantations in this class. As such, I don't expect many of you to appreciate the subtle science and exact art that is potion-making. However, for those select few who possess the predisposition, I can teach you how to bewitch the mind and ensnare the senses. I can tell you how to bottle fame, brew glory, and even put a stopper in death. Then again, maybe some of you have come to Hogwarts in possession of abilities so formidable that you feel confident enough to not pay attention!\"" — Severus Snape"";
 }";
+
+        public const string BasicImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-01.jpg"" />";
+
+        public const string ImageFluidExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-02-large.jpg"" Fluid />";
+
+        public const string ImageLoadingExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-06.jpg"" Loading />";
+
+        public const string ImageTextExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-05.jpg"" Text=""A lovely animal..."" />";
 
         public const string AliasInputMaskExample = @"<InputMask Alias=""datetime"" InputFormat=""dd/mm/yyyy"" OutputFormat=""ddmmyyyy"" />";
 
@@ -3217,6 +3350,37 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </TableBody>
 </Table>";
 
+        public const string TableGroupingExample = @"<Table>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Color</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRowGroup Title=""Fruits"">
+            <TableRow>
+                <TableRowCell>Apple</TableRowCell>
+                <TableRowCell>Red</TableRowCell>
+            </TableRow>
+            <TableRow>
+                <TableRowCell>Banana</TableRowCell>
+                <TableRowCell>Yellow</TableRowCell>
+            </TableRow>
+        </TableRowGroup>
+        <TableRowGroup Title=""Vegetables"">
+            <TableRow>
+                <TableRowCell>Carrot</TableRowCell>
+                <TableRowCell>Orange</TableRowCell>
+            </TableRow>
+            <TableRow>
+                <TableRowCell>Pepper</TableRowCell>
+                <TableRowCell>Green</TableRowCell>
+            </TableRow>
+        </TableRowGroup>
+    </TableBody>
+</Table>";
+
         public const string TableHoverableExample = @"<Table Hoverable>
     <TableHeader>
         <TableRow>
@@ -3658,6 +3822,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" StaticPicker=""false"" />";
+
         public const string TimePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
         <TimePicker @ref=""@timePicker"" TValue=""TimeSpan?"" />
@@ -3708,11 +3874,18 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <Heading Size=""HeadingSize.Is5"">h5. Blazorise heading</Heading>
 <Heading Size=""HeadingSize.Is6"">h6. Blazorise heading</Heading>";
 
+        public const string TypographyLeadExample = @"<Lead>
+    Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work and deploy.
+</Lead>
+<Paragraph>
+    Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
+</Paragraph>";
+
         public const string TypographyParagraphExample = @"<Paragraph>
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Cras fermentum odio eu feugiat pretium nibh ipsum consequat. Pulvinar etiam non quam lacus suspendisse faucibus interdum posuere. Nunc sed velit dignissim sodales ut. Mi bibendum neque egestas congue quisque egestas diam in arcu. Quis vel eros donec ac odio tempor. Fermentum posuere urna nec tincidunt praesent. Eget velit aliquet sagittis id consectetur. Molestie at elementum eu facilisis sed odio morbi quis commodo. Ut consequat semper viverra nam libero justo laoreet sit.
+    Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work and deploy.
 </Paragraph>
 <Paragraph>
-    Cursus euismod quis viverra nibh cras. Fermentum posuere urna nec tincidunt praesent semper feugiat nibh. Varius quam quisque id diam vel quam. Eget sit amet tellus cras adipiscing enim eu turpis. In est ante in nibh mauris cursus mattis. Interdum velit laoreet id donec ultrices tincidunt. Sollicitudin aliquam ultrices sagittis orci a. Turpis egestas sed tempus urna et pharetra pharetra. Felis bibendum ut tristique et egestas quis ipsum suspendisse. Ipsum dolor sit amet consectetur adipiscing elit ut. Enim eu turpis egestas pretium aenean pharetra. Diam sit amet nisl suscipit adipiscing bibendum est. Turpis massa sed elementum tempus egestas. Accumsan in nisl nisi scelerisque eu ultrices vitae. Purus ut faucibus pulvinar elementum integer. Id interdum velit laoreet id donec ultrices tincidunt arcu. Aliquam vestibulum morbi blandit cursus risus at ultrices.
+    Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
 </Paragraph>";
 
         public const string TypographyTextExample = @"<Text TextColor=""TextColor.Primary"">
@@ -3938,46 +4111,49 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     @*other validation fields*@
 </Validations>";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.2.3.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.2.3.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.2.3.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.2.3.0"" type=""module""></script>";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.2.3.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.2.3.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.2.3.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js"" type=""module""></script>
-<script src=""_content/Blazorise/button.js"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/fileEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js"" type=""module""></script>
-<script src=""_content/Blazorise/io.js"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/numericEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/select.js"" type=""module""></script>
-<script src=""_content/Blazorise/table.js"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileEdit.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoEdit.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/popper.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/textEdit.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=1.2.3.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.2.3.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -3985,12 +4161,15 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.2.3.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=1.2.3.0"" type=""module""></script>";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.2.3.0"" type=""module""></script>";
+
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.2.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.2.3.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
 
@@ -3998,14 +4177,16 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TemplatesVersionInstallExample = @"dotnet new install Blazorise.Templates::1.1.0";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.2.3.0"" type=""module""></script>";
 
-        public const string AnimateExample = @"<Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
-    @foreach ( var availableAnimation in Animations.GetNames() )
-    {
-        <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
-    }
-</Select>
+        public const string AnimateExample = @"<Field>
+    <Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
+        @foreach ( var availableAnimation in Animations.GetNames() )
+        {
+            <SelectItem Value=""@availableAnimation"">@availableAnimation</SelectItem>
+        }
+    </Select>
+</Field>
 
 @if ( showAnimate )
 {
@@ -4060,7 +4241,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.1.3.0""></script>";
+        public const string AnimateImportsExample = @"@using Blazorise.Animate";
+
+        public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
+
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.2.3.0""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -4098,6 +4283,28 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
     public string selectedSearchValue { get; set; }
     public string selectedAutoCompleteText { get; set; }
+}";
+
+        public const string AutocompleteHighlightExample = @"<Autocomplete TItem=""Country""
+              TValue=""string""
+              Data=""@Countries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@(( item ) => item.Iso)""
+              Placeholder=""Search...""
+              HighlightSearch>
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
         public const string AutocompleteItemContentExample = @"<Autocomplete TItem=""Country""
@@ -4270,6 +4477,30 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     List<string> multipleSelectionTexts;
 }";
 
+        public const string AutocompleteVirtualizeExample = @"<Autocomplete TItem=""Country""
+              TValue=""string""
+              Data=""@Countries""
+              TextField=""@(( item ) => item.Name)""
+              ValueField=""@((item) => item.Iso)""
+              @bind-SelectedValue=""selectedSearchValue""
+              Placeholder=""Search...""
+              Virtualize>
+    <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+</Autocomplete>
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    public string selectedSearchValue { get; set; }
+}";
+
         public const string ChartComplexDataExample = @"<LineChart @ref=""lineChart"" TItem=""WatcherEvent"" Options=""@lineChartOptions"" />
 
 @code {
@@ -4440,6 +4671,83 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             r.Next( 3, 50 ) * r.NextDouble(),
             r.Next( 3, 50 ) * r.NextDouble(),
             r.Next( 3, 50 ) * r.NextDouble() };
+    }
+}";
+
+        public const string ChartHorizontalBarExample = @"<Button Color=""Color.Primary"" Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
+
+<BarChart @ref=""barChart"" TItem=""double"" Options=""@options"" />
+
+@code {
+    BarChart<double> barChart;
+
+    BarChartOptions options = new()
+    {
+        IndexAxis = ""y"",
+        Elements = new()
+        {
+            Bar = new()
+            {
+                BorderWidth = 2,
+            }
+        },
+        Responsive = true,
+        Plugins = new()
+        {
+            Legend = new()
+            {
+                Position = ""right""
+            },
+            Title = new()
+            {
+                Display = true,
+                    Text = ""Chart.js Horizontal Bar Chart""
+            }
+        }
+    };
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
+    }
+
+    async Task HandleRedraw()
+    {
+        await barChart.Clear();
+
+        await barChart.AddLabelsDatasetsAndUpdate( Labels,
+            GetBarChartDataset( ""Dataset 1"" ),
+            GetBarChartDataset( ""Dataset 2"" ) );
+    }
+
+    BarChartDataset<double> GetBarChartDataset( string label )
+    {
+        return new BarChartDataset<double>
+        {
+            Label = label,
+            Data = RandomizeData(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+        };
+    }
+
+    string[] Labels = { ""Red"", ""Blue"", ""Yellow"", ""Green"", ""Purple"", ""Orange"" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+    Random random = new Random( DateTime.Now.Millisecond );
+
+    List<double> RandomizeData()
+    {
+        return new List<double> {
+            random.Next( -50, 50 ) * random.NextDouble(),
+            random.Next( -50, 50 ) * random.NextDouble(),
+            random.Next( -50, 50 ) * random.NextDouble(),
+            random.Next( -50, 50 ) * random.NextDouble(),
+            random.Next( -50, 50 ) * random.NextDouble(),
+            random.Next( -50, 50 ) * random.NextDouble() };
     }
 }";
 
@@ -4806,7 +5114,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
-        public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/luxon@1.27.0""></script>
+        public const string ChartStreamingResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/luxon@1.28.1""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-adapter-luxon@1.0.0""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-streaming@2.0.0""></script>";
 
@@ -4898,6 +5206,83 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
         public const string ChartTrendlineResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline""></script>";
+
+        public const string BasicCropperExample = @"<Row>
+    <Column>
+        <FieldLabel>
+            Image Cropper
+        </FieldLabel>
+        <FieldBody>
+            <Cropper @ref=""cropper"" Source=""img/gallery/6.jpg"" SelectionChanged=""@OnSelectionChanged"" Style=""aspect-ratio: 16 / 9; height: 100%;"" />
+        </FieldBody>
+    </Column>
+    <Column>
+        <Div Margin=""Margin.Is2.FromBottom"">
+            <Button Color=""Color.Primary"" Clicked=""@GetCroppedImage"" Disabled=""@cropButtonDisabled"">Get Cropped Image</Button>
+            <Button Color=""Color.Secondary"" Clicked=""@ResetSelection"" Disabled=""@cropButtonDisabled"">Reset Selection</Button>
+        </Div>
+        <Image Source=""@result"" Border=""Border.Is1"" Style=""width: 250px; height: 250px;"" />
+    </Column>
+</Row>
+
+@code {
+    private Cropper cropper;
+    private string result;
+    private bool cropButtonDisabled = true;
+
+    private Task OnSelectionChanged( CropperSelectionChangedEventArgs eventArgs )
+    {
+        if ( eventArgs.Width != 0 )
+        {
+            cropButtonDisabled = false;
+
+            return InvokeAsync( StateHasChanged );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private async Task GetCroppedImage()
+    {
+        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
+    }
+
+    private async Task ResetSelection()
+    {
+        cropButtonDisabled = true;
+
+        await cropper.ResetSelection();
+    }
+}";
+
+        public const string CropperNugetInstallExample = @"Install-Package Blazorise.Cropper";
+
+        public const string CropperViewerExample = @"<Row>
+    <Column>
+        <FieldLabel>
+            Image Cropper
+        </FieldLabel>
+        <FieldBody>
+            <Cropper Source=""img/gallery/3.jpg"" CropperState=""@cropperState"" />
+        </FieldBody>
+    </Column>
+    <Column>
+        <FieldLabel>
+            Preview
+        </FieldLabel>
+        <FieldBody>
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 150px; height: 150px;"" />
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 100px; height: 100px;"" />
+            <CropperViewer CropperState=""@cropperState"" Margin=""Margin.Is2.FromBottom"" Style=""width: 50px; height: 50px;"" />
+        </FieldBody>
+    </Column>
+</Row>
+
+@code {
+    private CropperState cropperState = new();
+}";
+
+        public const string ImportCropperExample = @"@using Blazorise.Cropper";
 
         public const string DataGridAggregatesExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" Responsive>
     <DataGridAggregates>
@@ -5193,9 +5578,10 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
 }";
 
-        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextEdit @bind-Text=""@customFilterValue"" ></TextEdit>
+        public const string DataGridCustomFilteringExample = @"Custom Filter: <TextEdit Text=""@customFilterValue"" TextChanged=""@OnCustomFilterValueChanged""></TextEdit>
 
-<DataGrid TItem=""Employee""
+<DataGrid @ref=""dataGrid""
+          TItem=""Employee""
           Data=""@employeeList""
           CustomFilter=""@OnCustomFilter""
           Responsive>
@@ -5203,9 +5589,16 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 </DataGrid>
 
 @code{
+    private DataGrid<Employee> dataGrid;
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""MLaden"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
 
     private string customFilterValue;
+
+    private Task OnCustomFilterValueChanged( string e )
+    {
+        customFilterValue = e;
+        return dataGrid.Reload();
+    }
 
     private bool OnCustomFilter( Employee model )
     {
@@ -5549,6 +5942,32 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
+        public const string DataGridGroupingExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          Responsive
+          Groupable
+          GroupBy=""(x=> new { x.Childrens, x.Gender} )"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Gender)"" Caption=""Gender"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Childrens)"" Caption=""Children"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable />
+</DataGrid>
+
+@code{
+    [Inject] public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string DataGridImportsExample = @"@using Blazorise.DataGrid";
 
         public const string DataGridLargeDataExample = @"<DataGrid TItem=""Employee""
@@ -5675,6 +6094,31 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
+        public const string DataGridMultipleGroupingExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          Responsive
+          Groupable>
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Gender)"" Caption=""Gender"" Editable Groupable Grouping/>
+    <DataGridColumn Field=""@nameof(Employee.Childrens)"" Caption=""Children"" Editable  />
+    <DataGridColumn Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable  />
+</DataGrid>
+
+@code{
+    [Inject] public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string DataGridMultipleSelectionExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
@@ -5747,6 +6191,102 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 }";
 
         public const string DataGridNugetInstallExample = @"Install-Package Blazorise.DataGrid";
+
+        public const string DataGridObservableCollectionExample = @"@using System.Collections.ObjectModel;
+
+<Button Clicked=""OnAddItemClick"" Color=""Color.Primary"">Add Item</Button>
+<Button Clicked=""OnRemoveItemClick"" Color=""Color.Danger"">Remove Item</Button>
+
+<DataGrid TItem=""Employee""
+          Data=""@items""
+          Responsive>
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
+</DataGrid>
+@code {
+    private ObservableCollection<Employee> items = new() {
+        new() { FirstName = ""Name 1"" },
+        new() { FirstName = ""Name 2"" }
+    };
+
+    private Task OnAddItemClick()
+    {
+        items.Add( new Employee { FirstName = $""Name {items.Count + 1}"" } );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnRemoveItemClick()
+    {
+        if ( items.Count > 0 )
+            items.RemoveAt( 0 );
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string DataGridPagerExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          ShowPager
+          ShowPageSizes
+          PagerPosition=""DataGridPagerPosition.TopAndBottom""
+          PagerOptions=""new(){ ButtonSize=Size.Small }"">
+    <DataGridColumns>
+        <DataGridCommandColumn />
+        <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+        <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+        <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+        <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+        <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+            <EditTemplate>
+                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+            </EditTemplate>
+        </DataGridColumn>
+    </DataGridColumns>
+    <PageButtonTemplate>
+        <Span TextColor=""TextColor.Success"">
+            @context.PageNumber
+        </Span>
+    </PageButtonTemplate>
+    <NextPageButtonTemplate><Icon Name=""IconName.StepForward"" TextColor=""TextColor.Success"" /></NextPageButtonTemplate>
+    <PreviousPageButtonTemplate><Icon Name=""IconName.StepBackward"" TextColor=""TextColor.Success"" /></PreviousPageButtonTemplate>
+    <LastPageButtonTemplate><Icon Name=""IconName.Forward"" TextColor=""TextColor.Success"" /></LastPageButtonTemplate>
+    <FirstPageButtonTemplate><Icon Name=""IconName.Backward"" TextColor=""TextColor.Success"" /></FirstPageButtonTemplate>
+    <TotalItemsTemplate><Badge Color=""Color.Success"">@context.TotalItems total items</Badge></TotalItemsTemplate>
+    <TotalItemsShortTemplate><Badge Color=""Color.Success"">@context.TotalItems</Badge></TotalItemsShortTemplate>
+    <ItemsPerPageTemplate></ItemsPerPageTemplate>
+    <PageSelectorTemplate>
+        <Select TextColor=""TextColor.Success"" @bind-SelectedValue=""@context.CurrentPage"" Size=""Size.Small"">
+            @for ( int i = context.FirstVisiblePage; i <= context.LastVisiblePage; ++i )
+            {
+                var pageNumber = i;
+                <SelectItem Value=""@pageNumber"">@pageNumber</SelectItem>
+            }
+        </Select>
+    </PageSelectorTemplate>
+    <PageSizesTemplate>
+        <Select TextColor=""TextColor.Success"" @bind-SelectedValue=""@context.CurrentPageSize"" Size=""Size.Small"">
+            @foreach ( var curPageSize in context.PageSizes )
+            {
+                <SelectItem Value=""@curPageSize"">@curPageSize</SelectItem>
+            }
+        </Select>
+    </PageSizesTemplate>
+</DataGrid>
+
+@code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
 
         public const string DataGridResizableExample = @"<Field>
     <FieldLabel>
@@ -5882,6 +6422,127 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
 @code{
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""MLaden"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
+}";
+
+        public const string DataGridShowGroupingExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          Responsive
+          Groupable
+          ShowGrouping>
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Gender)"" Caption=""Gender"" Editable Groupable Grouping />
+    <DataGridColumn Field=""@nameof(Employee.Childrens)"" Caption=""Children"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable Groupable Grouping />
+</DataGrid>
+
+@code{
+    [Inject] public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridSortFieldExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          Sortable
+          SortMode=""DataGridSortMode.Single"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+    <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Editable Filterable=""false""
+                           SortField=""@nameof( Employee.ChildrensPerSalary )"" SortDirection=""SortDirection.Descending"" />
+</DataGrid>
+
+@code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridSortMultipleExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          Sortable
+          SortMode=""DataGridSortMode.Multiple"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridSortSingleExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          Sortable
+          SortMode=""DataGridSortMode.Single"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
         public const string DataGridUpdateCellExample = @"<DataGrid TItem=""Employee""
@@ -6882,8 +7543,11 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
           GetChildNodes=""@(item => item.Children)""
           HasChildNodes=""@(item => item.Children?.Any() == true)""
           @bind-SelectedNode=""selectedNode""
-          @bind-ExpandedNodes=""ExpandedNodes"">
-    <NodeContent>@context.Text</NodeContent>
+          @bind-ExpandedNodes=""expandedNodes"">
+    <NodeContent>
+        <Icon Name=""IconName.Folder"" />
+        @context.Text
+    </NodeContent>
 </TreeView>
 
 @code{
@@ -6896,33 +7560,199 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     IEnumerable<Item> Items = new[]
     {
         new Item { Text = ""Item 1"" },
-        new Item {
+        new Item
+        {
             Text = ""Item 2"",
             Children = new []
-    {
+            {
                 new Item { Text = ""Item 2.1"" },
-                new Item { Text = ""Item 2.2"", Children = new []
-        {
-                    new Item { Text = ""Item 2.2.1"" },
-                    new Item { Text = ""Item 2.2.2"" },
-                    new Item { Text = ""Item 2.2.3"" },
-                    new Item { Text = ""Item 2.2.4"" }
-                }
-            },
-            new Item { Text = ""Item 2.3"" },
-            new Item { Text = ""Item 2.4"" }
+                new Item
+                {
+                    Text = ""Item 2.2"",
+                    Children = new []
+                    {
+                        new Item { Text = ""Item 2.2.1"" },
+                        new Item { Text = ""Item 2.2.2"" },
+                        new Item { Text = ""Item 2.2.3"" },
+                        new Item { Text = ""Item 2.2.4"" }
+                    }
+                },
+                new Item { Text = ""Item 2.3"" },
+                new Item { Text = ""Item 2.4"" }
             }
         },
         new Item { Text = ""Item 3"" },
     };
 
-    IList<Item> ExpandedNodes = new List<Item>();
+    IList<Item> expandedNodes = new List<Item>();
     Item selectedNode;
+}";
+
+        public const string TreeViewExpandExample = @"<Button Color=""Color.Primary"" Clicked=""@(()=>treeViewRef.ExpandAll())"">Expand all</Button>
+<Button Color=""Color.Secondary"" Clicked=""@(()=>treeViewRef.CollapseAll())"">Collapse all</Button>
+
+<TreeView @ref=""@treeViewRef"" Nodes=""Items"" GetChildNodes=""@(item => item.Children)"" HasChildNodes=""@(item => item.Children?.Any() == true)"">
+    <NodeContent>
+        <Icon Name=""IconName.Folder"" />
+        @context.Text
+    </NodeContent>
+</TreeView>
+
+@code {
+    TreeView<Item> treeViewRef;
+
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    IEnumerable<Item> Items = new[]
+    {
+        new Item { Text = ""Item 1"" },
+        new Item
+        {
+            Text = ""Item 2"",
+            Children = new []
+            {
+                new Item { Text = ""Item 2.1"" },
+                new Item
+                {
+                    Text = ""Item 2.2"",
+                    Children = new []
+                    {
+                        new Item { Text = ""Item 2.2.1"" },
+                        new Item { Text = ""Item 2.2.2"" },
+                        new Item { Text = ""Item 2.2.3"" },
+                        new Item { Text = ""Item 2.2.4"" }
+                    }
+                },
+                new Item { Text = ""Item 2.3"" },
+                new Item { Text = ""Item 2.4"" }
+            }
+        },
+        new Item { Text = ""Item 3"" },
+    };
 }";
 
         public const string TreeViewImportsExample = @"@using Blazorise.TreeView";
 
+        public const string TreeViewMultiSelectExample = @"<TreeView Nodes=""Items""
+          GetChildNodes=""@(item => item.Children)""
+          HasChildNodes=""@(item => item.Children?.Any() == true)""
+          SelectionMode=""TreeViewSelectionMode.Multiple""
+          @bind-SelectedNodes=""selectedNodes"">
+    <NodeContent>
+        <Icon Name=""IconName.Folder"" />
+        @context.Text
+    </NodeContent>
+</TreeView>
+
+@code {
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    IEnumerable<Item> Items = new[]
+    {
+        new Item { Text = ""Item 1"" },
+        new Item
+        {
+            Text = ""Item 2"",
+            Children = new []
+            {
+                new Item { Text = ""Item 2.1"" },
+                new Item
+                {
+                    Text = ""Item 2.2"",
+                    Children = new []
+                    {
+                        new Item { Text = ""Item 2.2.1"" },
+                        new Item { Text = ""Item 2.2.2"" },
+                        new Item { Text = ""Item 2.2.3"" },
+                        new Item { Text = ""Item 2.2.4"" }
+                    }
+                },
+                new Item { Text = ""Item 2.3"" },
+                new Item { Text = ""Item 2.4"" }
+            }
+        },
+        new Item { Text = ""Item 3"" },
+    };
+
+    IList<Item> selectedNodes = new List<Item>();
+}";
+
+        public const string TreeViewNugetInstall2Example = @"dotnet add package Blazorise.TreeView";
+
         public const string TreeViewNugetInstallExample = @"Install-Package Blazorise.TreeView";
+
+        public const string TreeViewObservableExample = @"@using System.Collections.ObjectModel;
+
+<Row>
+    <Column>
+        <Button Clicked=""@OnAddNodeClick"" Color=""Color.Primary"">Add node</Button>
+    </Column>
+    <Column>
+        <TreeView Nodes=""Items""
+                  GetChildNodes=""@(item => item.Children)""
+                  HasChildNodes=""@(item => item.Children?.Any() == true)""
+                  @bind-SelectedNode=""selectedNode""
+                  @bind-ExpandedNodes=""expandedNodes"">
+            <NodeContent>
+                <Icon Name=""IconName.Folder"" />
+                @context.Text
+            </NodeContent>
+        </TreeView>
+    </Column>
+</Row>
+
+@code {
+    private Task OnAddNodeClick()
+    {
+        Items.Add( new Item { Text = $""Item {Items.Count + 1}"" } );
+
+        return Task.CompletedTask;
+    }
+
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    ObservableCollection<Item> Items = new()
+    {
+        new Item { Text = ""Item 1"" },
+        new Item
+        {
+            Text = ""Item 2"",
+            Children = new []
+            {
+                new Item { Text = ""Item 2.1"" },
+                new Item
+                {
+                    Text = ""Item 2.2"",
+                    Children = new []
+                    {
+                        new Item { Text = ""Item 2.2.1"" },
+                        new Item { Text = ""Item 2.2.2"" },
+                        new Item { Text = ""Item 2.2.3"" },
+                        new Item { Text = ""Item 2.2.4"" }
+                    }
+                },
+                new Item { Text = ""Item 2.3"" },
+                new Item { Text = ""Item 2.4"" }
+            }
+        },
+        new Item { Text = ""Item 3"" },
+    };
+
+    IList<Item> expandedNodes = new List<Item>();
+    Item selectedNode;
+}";
 
         public const string TreeViewResourcesExample = @"<link href=""_content/Blazorise.TreeView/blazorise.treeview.css"" rel=""stylesheet"" />";
 
@@ -7021,8 +7851,8 @@ builder.Services
         public const string Bootstrap5GuideSourceFilesExample = @"<html>
 <head>
   <!-- inside of head section -->
-  <link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"" crossorigin=""anonymous"">
-  <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"">
+  <link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"" crossorigin=""anonymous"">
+  <link href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" rel=""stylesheet"">
 
   <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
   <link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css"" rel=""stylesheet"" />
@@ -7062,6 +7892,12 @@ builder.Services
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
+        public const string LicensingGuideAddKeyExample = @"services
+    .AddBlazorise( options =>
+    {
+        options.ProductToken = ""<your-product-token>"";
+    } )";
+
         public const string MaterialGuideFileStructureExample = @"blazorproject.client/
 └── wwwroot/
     ├── css/
@@ -7097,7 +7933,7 @@ builder.Services
 <!-- Optional JavaScript -->
 <!-- These are the standard js dependencies this provider tipically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
 <!-- jQuery first, then Popper.js, then Material JS -->
-<script src=""https://code.jquery.com/jquery-3.3.1.slim.min.js""></script>
+<script src=""https://code.jquery.com/jquery-3.5.0.slim.min.js""></script>
 <script src=""https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js""></script>
 <script src=""https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js""></script>
 
@@ -7106,6 +7942,33 @@ builder.Services
 <script src=""_content/Blazorise.Material/blazorise.material.js""></script>";
 
         public const string MaterialGuideUsingExample = @"@using Blazorise";
+
+        public const string TailwindGuideNuget1Example = @"Install-Package Blazorise.Tailwind";
+
+        public const string TailwindGuideNuget2Example = @"Install-Package Blazorise.Icons.FontAwesome";
+
+        public const string TailwindGuideRegistrationExample = @"using Blazorise;
+using Blazorise.Tailwind;
+using Blazorise.Icons.FontAwesome;
+
+builder.Services
+    .AddBlazorise()
+    .AddTailwindProviders()
+    .AddFontAwesomeIcons();";
+
+        public const string TailwindGuideSourceFiles1Example = @"<link href=""https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"" rel=""stylesheet"">
+<link rel=""stylesheet"" href=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css"" />
+<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />
+
+<script src=""https://cdn.tailwindcss.com""></script>
+<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.2.3.0""></script>
+
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css"" rel=""stylesheet"" />";
+
+        public const string TailwindGuideSourceFiles2Example = @"<script src=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.js""></script>";
+
+        public const string TailwindGuideUsingExample = @"@using Blazorise";
 
         public const string CustomLanguageExample = @"<Field>
     <FileEdit Multiple=""false"" />
@@ -7151,6 +8014,17 @@ builder.Services
         return Task.CompletedTask;
     }
 }";
+
+        public const string GlobalLocalizerExample = @"services
+    .AddBlazorise( options =>
+    {
+        // other settings
+
+        options.ValidationMessageLocalizer = ( message, arguments ) =>
+        {
+            return string.Format( applicationLocalizerDictionary[message], arguments );
+        };
+    } );";
 
         public const string ITextLocalizerServiceExample = @"@using System.Globalization
 
@@ -7724,12 +8598,12 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.1.3.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.3.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.2.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.2.3.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.1.3.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.3.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.1.3.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.2.3.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.2.3.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.2.3.0""></script>";
 
     }
 }

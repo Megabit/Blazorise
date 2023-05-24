@@ -3,36 +3,35 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Help text for text inside of form.
+/// </summary>
+public partial class Help : BaseComponent
 {
-    /// <summary>
-    /// Help text for text inside of form.
-    /// </summary>
-    public partial class Help : BaseComponent
+    #region Members
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        #region Members
+        builder.Append( ClassProvider.Help() );
 
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc/>
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.Help() );
-
-            base.BuildClasses( builder );
-        }
-
-        #endregion
-
-        #region Properties
-
-        /// <summary>
-        /// Gets or sets the reference to the parent <see cref="Help"/> component.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
-
-        #endregion
+        base.BuildClasses( builder );
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets or sets the reference to the parent <see cref="Help"/> component.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
+
+    #endregion
 }

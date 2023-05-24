@@ -63,3 +63,27 @@
         content: "\2014\00A0"; // em dash, nbsp
     }
 }
+
+.ant-typography {
+    &-left {
+        text-align: left !important;
+    }
+
+    &-right {
+        text-align: right !important;
+    }
+
+    &-center {
+        text-align: center !important;
+    }
+
+    &-justify {
+        text-align: justify !important;
+    }
+}
+
+.ant-lead {
+    font-size: 1.25rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+}

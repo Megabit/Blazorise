@@ -1,0 +1,32 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.Collections.ObjectModel;
+
+<Button Clicked="OnAddItemClick" Color="Color.Primary">Add Item</Button>
+<Button Clicked="OnRemoveItemClick" Color="Color.Danger">Remove Item</Button>
+
+<DataGrid TItem="Employee"
+          Data="@items"
+          Responsive>
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
+</DataGrid>
+@code {
+    private ObservableCollection<Employee> items = new() {
+        new() { FirstName = "Name 1" },
+        new() { FirstName = "Name 2" }
+    };
+
+    private Task OnAddItemClick()
+    {
+        items.Add( new Employee { FirstName = $"Name {items.Count + 1}" } );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnRemoveItemClick()
+    {
+        if ( items.Count > 0 )
+            items.RemoveAt( 0 );
+
+        return Task.CompletedTask;
+    }
+}

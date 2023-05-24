@@ -1,0 +1,182 @@
+﻿@page "/tests/snackbar";
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Snackbar</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Snackbars provide brief messages about app processes at the bottom of the screen.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>snackbar.Show())">Snackbar</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>snackbarAction.Show())">Snackbar With Action</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>snackbarMultiline.Show())">Multiline Snackbar</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>snackbarLeft.Show())">Left-Aligned Snackbar</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>snackbarRight.Show())">Right-Aligned Snackbar</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Colored Snackbar</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    You can also add additional color variants to snackbar.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>snackbarPrimary.Show())">Primary</Button>
+                <Button Color="Color.Secondary" Clicked="@(()=>snackbarSecondary.Show())">Secondary</Button>
+                <Button Color="Color.Success" Clicked="@(()=>snackbarSuccess.Show())">Success</Button>
+                <Button Color="Color.Danger" Clicked="@(()=>snackbarDanger.Show())">Danger</Button>
+                <Button Color="Color.Warning" Clicked="@(()=>snackbarWarning.Show())">Warning</Button>
+                <Button Color="Color.Info" Clicked="@(()=>snackbarInfo.Show())">Info</Button>
+                <Button Color="Color.Light" Clicked="@(()=>snackbarLight.Show())">Light</Button>
+                <Button Color="Color.Dark" Clicked="@(()=>snackbarDark.Show())">Dark</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Stacked snackbars with custom intervals</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    You can have a dynamicaly stacked snackbars with custom interval before close.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Field Horizontal>
+                    <FieldLabel ColumnSize="ColumnSize.IsFull.OnTablet.Is2.OnDesktop">Interval(ms)</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.IsFull.OnTablet.Is10.OnDesktop">
+                        <NumericEdit @bind-Value="this.intervalBeforeMsgClose" />
+                    </FieldBody>
+                </Field>
+                <Button Color="Color.Success" Clicked="@(()=>snackbarStack.PushAsync((MarkupString)("Some success message with &nbsp;<strong>some HTML markup</strong>! Timeout: " + intervalBeforeMsgClose), SnackbarColor.Success, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Success message
+                </Button>
+                <Button Color="Color.Info" Clicked="@(()=>snackbarStack.PushAsync("Some info message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Info, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Info message
+                </Button>
+                <Button Color="Color.Warning" Clicked="@(()=>snackbarStack.PushAsync("Some warning message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Warning, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Warning message
+                </Button>
+                <Button Color="Color.Danger" Clicked="@(()=>snackbarStack.PushAsync("Some danger message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Danger, options => { options.CloseButtonIcon = "Ok"; options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">
+                    Show Danger message
+                </Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Snackbar @ref="snackbar">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarAction">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarAction.Hide())">ACTION</SnackbarAction>
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarMultiline" Multiline>
+    <SnackbarBody>
+        When I was 5 years old, my mother always told me that happiness was the key to life. When I went to school, they asked me what I wanted to be when I grew up. I wrote down ‘happy’. They told me I didn’t understand the assignment, and I told them they didn’t understand life. –John Lennon
+        <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarLeft" Location="SnackbarLocation.Start">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarRight" Location="SnackbarLocation.End">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
+</Snackbar>
+
+<Snackbar @ref="snackbarPrimary" Color="SnackbarColor.Primary">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarPrimary.Hide())">ACTION</SnackbarAction>
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarSecondary" Color="SnackbarColor.Secondary">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarSecondary.Hide())">ACTION</SnackbarAction>
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarSuccess" Color="SnackbarColor.Success">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarSuccess.Hide())">ACTION</SnackbarAction>
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarDanger" Color="SnackbarColor.Danger">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarDanger.Hide())">ACTION</SnackbarAction>
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarWarning" Color="SnackbarColor.Warning">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarWarning.Hide())">ACTION</SnackbarAction>
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarInfo" Color="SnackbarColor.Info">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarInfo.Hide())">ACTION</SnackbarAction>
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarLight" Color="SnackbarColor.Light">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarLight.Hide())">ACTION</SnackbarAction>
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarDark" Color="SnackbarColor.Dark">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+        <SnackbarAction Clicked="@(()=>snackbarDark.Hide())">ACTION</SnackbarAction>
+    </SnackbarBody>
+</Snackbar>
+<SnackbarStack @ref="snackbarStack"
+               Location="SnackbarStackLocation.End"
+               DefaultInterval="3000"
+               DelayCloseOnClick />
+@code {
+    Snackbar snackbar;
+    Snackbar snackbarAction;
+    Snackbar snackbarMultiline;
+    Snackbar snackbarLeft;
+    Snackbar snackbarRight;
+
+    Snackbar snackbarPrimary;
+    Snackbar snackbarSecondary;
+    Snackbar snackbarSuccess;
+    Snackbar snackbarDanger;
+    Snackbar snackbarWarning;
+    Snackbar snackbarInfo;
+    Snackbar snackbarLight;
+    Snackbar snackbarDark;
+
+    SnackbarStack snackbarStack;
+
+    double intervalBeforeMsgClose = 2000;
+}

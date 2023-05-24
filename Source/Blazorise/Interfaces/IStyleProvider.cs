@@ -1,43 +1,49 @@
-﻿namespace Blazorise
-{
+﻿namespace Blazorise;
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
-    public interface IStyleProvider
-    {
-        #region Modal
+public interface IStyleProvider
+{
+    #region Modal
 
-        string ModalShow();
+    int DefaultModalZIndex { get; }
 
-        #endregion
+    int DefaultModalBackdropZIndex { get; }
 
-        #region ModalBody
+    string ModalShow();
 
-        string ModalBodyMaxHeight( int maxHeight );
+    string ModalZIndex( int modalOpenIndex );
 
-        #endregion
+    string ModalBackdropZIndex( int modalOpenIndex );
 
-        #region ProgressBar
+    #endregion
 
-        string ProgressBarValue( int value );
+    #region ModalBody
 
-        string ProgressBarSize( Size size );
+    string ModalBodyMaxHeight( int maxHeight );
 
-        #endregion
+    #endregion
 
-        #region Layout
+    #region ProgressBar
 
-        #endregion
+    string ProgressBarValue( int value );
 
-        #region Row
+    string ProgressBarSize( Size size );
 
-        string RowGutter( (int Horizontal, int Vertical) gutter );
+    #endregion
 
-        #endregion
+    #region Layout
 
-        #region Column
+    #endregion
 
-        string ColumnGutter( (int Horizontal, int Vertical) gutter );
+    #region Row
 
-        #endregion
-    }
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
+    string RowGutter( (int Horizontal, int Vertical) gutter );
+
+    #endregion
+
+    #region Column
+
+    string ColumnGutter( (int Horizontal, int Vertical) gutter );
+
+    #endregion
 }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

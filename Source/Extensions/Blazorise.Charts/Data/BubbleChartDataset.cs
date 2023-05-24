@@ -2,69 +2,68 @@
 using System.Text.Json.Serialization;
 #endregion
 
-namespace Blazorise.Charts
+namespace Blazorise.Charts;
+
+public class BubbleChartDataset<T> : ChartDataset<T>
 {
-    public class BubbleChartDataset<T> : ChartDataset<T>
+    public BubbleChartDataset() : base(
+        label: string.Empty,
+        backgroundColor: "rgba(0, 0, 0, 0.1)",
+        borderColor: "rgba(0, 0, 0, 0.1)",
+        borderWidth: 3
+    )
     {
-        public BubbleChartDataset() : base(
-            label: string.Empty,
-            backgroundColor: "rgba(0, 0, 0, 0.1)",
-            borderColor: "rgba(0, 0, 0, 0.1)",
-            borderWidth: 3
-        )
-        {
-            Type = "bubble";
-        }
-
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
-        public IndexableOption<object> HoverBackgroundColor { get; set; }
-
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
-        public IndexableOption<object> HoverBorderColor { get; set; }
-
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? HoverBorderWidth { get; set; }
-
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? HoverRadius { get; set; }
-
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public int? HitRadius { get; set; }
-
-        /// <summary>
-        /// Style of the point.
-        /// </summary>
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public string PointStyle { get; set; }
-
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Rotation { get; set; }
-
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Radius { get; set; }
+        Type = "bubble";
     }
 
-    public struct BubbleChartPoint
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+    public IndexableOption<object> HoverBackgroundColor { get; set; }
+
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    [JsonConverter( typeof( IndexableOptionsConverter<object> ) )]
+    public IndexableOption<object> HoverBorderColor { get; set; }
+
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public int? HoverBorderWidth { get; set; }
+
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public int? HoverRadius { get; set; }
+
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public int? HitRadius { get; set; }
+
+    /// <summary>
+    /// Style of the point.
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public string PointStyle { get; set; }
+
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public double? Rotation { get; set; }
+
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public double? Radius { get; set; }
+}
+
+public struct BubbleChartPoint
+{
+    public BubbleChartPoint( double? x, double? y, double? r )
     {
-        public BubbleChartPoint( double? x, double? y, double? r )
-        {
-            X = x;
-            Y = y;
-            R = r;
-        }
-
-        [JsonPropertyName( "x" )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? X { get; set; }
-
-        [JsonPropertyName( "y" )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? Y { get; set; }
-
-        [JsonPropertyName( "r" )]
-        [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-        public double? R { get; set; }
+        X = x;
+        Y = y;
+        R = r;
     }
+
+    [JsonPropertyName( "x" )]
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public double? X { get; set; }
+
+    [JsonPropertyName( "y" )]
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public double? Y { get; set; }
+
+    [JsonPropertyName( "r" )]
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public double? R { get; set; }
 }

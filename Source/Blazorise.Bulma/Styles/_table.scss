@@ -4,11 +4,25 @@
     &.is-borderless tr {
         border: 0 !important;
     }
+
+    tbody {
+        tr.table-group {
+            cursor: pointer;
+            background-color: var(--b-theme-light, var(--bs-light, #f5f5f5));
+            font-weight: 700;
+        }
+    }
 }
 
-tr.table-row-selectable {
-    &:hover, &.is-hovered {
-        cursor: pointer;
+tr {
+    &.table-row-selectable {
+        &:hover, &.is-hovered {
+            cursor: pointer;
+        }
+
+        &:focus[tabindex="0"] {
+            outline: none;
+        }
     }
 }
 

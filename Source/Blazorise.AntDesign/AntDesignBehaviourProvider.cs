@@ -1,11 +1,10 @@
-﻿namespace Blazorise.AntDesign
+﻿namespace Blazorise.AntDesign;
+
+public class AntDesignBehaviourProvider : BehaviourProvider
 {
-    public class AntDesignBehaviourProvider : BehaviourProvider
-    {
-        #region DataGrid
+    #region DataGrid
 
-        public override bool DataGridRowMultiSelectPreventClick => true;
+    public override bool DataGridRowMultiSelectPreventClick => true;
 
-        #endregion
-    }
+    #endregion
 }

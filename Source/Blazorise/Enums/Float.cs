@@ -1,25 +1,24 @@
 ﻿using System;
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Floats an element to the left or right, or disable floating.
+/// </summary>
+public enum Float
 {
     /// <summary>
-    /// Floats an element to the left or right, or disable floating.
+    /// Don't float on all viewport sizes.
     /// </summary>
-    public enum Float
-    {
-        /// <summary>
-        /// Don't float on all viewport sizes.
-        /// </summary>
-        Default,
+    Default,
 
-        /// <summary>
-        /// Float start on all viewport sizes.
-        /// </summary>
-        Start,
+    /// <summary>
+    /// Float start on all viewport sizes.
+    /// </summary>
+    Start,
 
-        /// <summary>
-        /// Float end on all viewport sizes.
-        /// </summary>
-        End,
-    }
+    /// <summary>
+    /// Float end on all viewport sizes.
+    /// </summary>
+    End,
 }

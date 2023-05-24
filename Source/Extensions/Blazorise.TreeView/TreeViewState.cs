@@ -1,48 +1,29 @@
-﻿#region Using directives
-using System;
-using Blazorise.Extensions;
-#endregion
+﻿using System.Collections.Generic;
 
-namespace Blazorise.TreeView
+namespace Blazorise.TreeView;
+
+/// <summary>
+/// Holds the state of the <see cref="TreeView{TNode}"/>.
+/// </summary>
+/// <typeparam name="TNode">Type of the node.</typeparam>
+public record struct TreeViewState<TNode>
 {
-    public struct TreeViewState<TNode> : IEquatable<TreeViewState<TNode>>
-    {
-        #region Methods
+    #region Properties
 
-        public override bool Equals( object obj )
-            => obj is TreeViewState<TNode> state && Equals( state );
+    /// <summary>
+    /// Defines the currently selected node.
+    /// </summary>
+    public TNode SelectedNode { get; init; }
 
-        public bool Equals( TreeViewState<TNode> other )
-        {
-            return SelectedNode.IsEqual( other.SelectedNode );
-        }
+    /// <summary>
+    /// Defines the list of currently selected nodes.
+    /// </summary>
+    public IList<TNode> SelectedNodes { get; init; }
 
-        public override int GetHashCode()
-        {
-            int result = 0;
+    /// <summary>
+    /// Defines the selection mode of the <see cref="TreeView{TNode}"/>.
+    /// </summary>
+    public TreeViewSelectionMode SelectionMode { get; set; }
 
-            if ( SelectedNode != null )
-                result ^= SelectedNode.GetHashCode();
-
-            return result;
-        }
-
-        public static bool operator ==( TreeViewState<TNode> lhs, TreeViewState<TNode> rhs )
-        {
-            return lhs.Equals( rhs );
-        }
-
-        public static bool operator !=( TreeViewState<TNode> lhs, TreeViewState<TNode> rhs )
-        {
-            return !lhs.Equals( rhs );
-        }
-
-        #endregion
-
-        #region Properties
-
-        public TNode SelectedNode { readonly get; set; }
-
-        #endregion
-    }
+    #endregion
 }

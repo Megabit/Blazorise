@@ -1,10 +1,9 @@
-﻿namespace Blazorise.Demo.MAUI
+﻿namespace Blazorise.Demo.MAUI;
+
+public partial class MainPage : ContentPage
 {
-    public partial class MainPage : ContentPage
+    public MainPage()
     {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

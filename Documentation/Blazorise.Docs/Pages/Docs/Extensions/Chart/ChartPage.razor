@@ -22,7 +22,6 @@
     <UnorderedListItem><Code>Chart</Code> default chart components, should be used only for testing(see warning)</UnorderedListItem>
     <UnorderedListItem><Code>LineChart</Code></UnorderedListItem>
     <UnorderedListItem><Code>BarChart</Code></UnorderedListItem>
-    <UnorderedListItem><Code>HorizontalBarChart</Code></UnorderedListItem>
     <UnorderedListItem><Code>PieChart</Code></UnorderedListItem>
     <UnorderedListItem><Code>PolarAreaChart</Code></UnorderedListItem>
     <UnorderedListItem><Code>DoughnutChart</Code></UnorderedListItem>
@@ -99,9 +98,23 @@
     <DocsPageSectionSource Code="ChartComplexDataExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Horizontal Bar Chart">
+        By adjusting the <Code>BarChartOptions</Code> and changing the <Code>IndexAxis</Code> you can make the horizontal Bar Chart.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ChartHorizontalBarExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ChartHorizontalBarExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="Type" Type="ChartType" Default="Line">

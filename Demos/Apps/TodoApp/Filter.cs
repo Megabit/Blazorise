@@ -1,9 +1,8 @@
-﻿namespace TodoApp
+﻿namespace TodoApp;
+
+public enum Filter
 {
-    public enum Filter
-    {
-        All,
-        Active,
-        Completed,
-    }
+    All,
+    Active,
+    Completed,
 }

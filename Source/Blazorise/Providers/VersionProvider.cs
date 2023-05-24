@@ -7,19 +7,18 @@ using System.Text;
 using System.Threading.Tasks;
 #endregion
 
-namespace Blazorise.Providers
+namespace Blazorise.Providers;
+
+internal class VersionProvider : IVersionProvider
 {
-    internal class VersionProvider : IVersionProvider
+    Lazy<Version> version;
+
+    public VersionProvider()
     {
-        Lazy<Version> version;
-
-        public VersionProvider()
-        {
-            version = new Lazy<Version>( () => Assembly.GetExecutingAssembly().GetName().Version );
-        }
-
-        public string Version => version.Value.ToString();
-
-        public string MilestoneVersion => version.Value.ToString( 3 );
+        version = new Lazy<Version>( () => Assembly.GetExecutingAssembly().GetName().Version );
     }
+
+    public string Version => version.Value.ToString();
+
+    public string MilestoneVersion => version.Value.ToString( 3 );
 }

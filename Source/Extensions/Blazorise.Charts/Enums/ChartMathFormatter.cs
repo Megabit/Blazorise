@@ -1,9 +1,8 @@
-﻿namespace Blazorise.Charts
+﻿namespace Blazorise.Charts;
+
+public enum ChartMathFormatter
 {
-    public enum ChartMathFormatter
-    {
-        Round,
-        Floor,
-        Ceil,
-    }
+    Round,
+    Floor,
+    Ceil,
 }

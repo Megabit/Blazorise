@@ -1,4 +1,5 @@
-﻿import { getRequiredElement } from "./utilities.js?v=1.1.3.0";
+import { getRequiredElement } from "./utilities.js?v=1.2.3.0";
+import { getFilesAsync } from "./fileEdit.js?v=1.2.3.0";
 
 const _instances = [];
 export function initialize(element, elementId) {
@@ -22,7 +23,7 @@ function initializeDropZone(element) {
         element.addEventListener("dragenter", onDragHover);
         element.addEventListener("dragover", onDragHover);
         element.addEventListener("dragleave", onDragLeave);
-        element.addEventListener("drop", (e) => onDrop(e, element));
+        element.addEventListener("drop", async (e) => await onDrop(e, element), false);
         element.addEventListener('paste', (e) => onPaste(e, element));
     }
 }
@@ -35,12 +36,14 @@ function onDragLeave(e) {
     e.preventDefault();
 }
 
-function onDrop(e, element) {
+async function onDrop(e, element) {
     e.preventDefault();
     console.log(element);
     let fileInput = getFileInput(element);
 
-    fileInput.files = e.dataTransfer.files;
+    let _files = await getFilesAsync(e.dataTransfer, fileInput.webkitdirectory, fileInput.multiple);
+    fileInput.files = _files;
+
     const event = new Event('change', { bubbles: true });
     fileInput.dispatchEvent(event);
 }

@@ -5,52 +5,52 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
-namespace Blazorise
+namespace Blazorise;
+
+/// <summary>
+/// Component defines a row of cells in a table. The row's cells can then be established using a mix of <see cref="TableRowCell"/> (data cell) components.
+/// </summary>
+public partial class TableRow : BaseDraggableComponent
 {
-    /// <summary>
-    /// Component defines a row of cells in a table. The row's cells can then be established using a mix of <see cref="TableRowCell"/> (data cell) components.
-    /// </summary>
-    public partial class TableRow : BaseDraggableComponent
+    #region Members
+
+    private Color color = Color.Default;
+
+    private bool selected;
+
+    private Cursor hoverCursor;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
     {
-        #region Members
+        builder.Append( ClassProvider.TableRow( ParentTable.Striped, ParentTable.Hoverable ) );
+        builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.TableRowIsSelected(), Selected );
+        builder.Append( ClassProvider.TableRowHoverCursor(), HoverCursor != Cursor.Default );
 
-        private Color color = Color.Default;
+        base.BuildClasses( builder );
+    }
 
-        private bool selected;
-
-        private Cursor hoverCursor;
-
-        #endregion
-
-        #region Methods
-
-        /// <inheritdoc/>
-        protected override void BuildClasses( ClassBuilder builder )
-        {
-            builder.Append( ClassProvider.TableRow() );
-            builder.Append( ClassProvider.TableRowColor( Color ), Color != Color.Default );
-            builder.Append( ClassProvider.TableRowIsSelected(), Selected );
-            builder.Append( ClassProvider.TableRowHoverCursor(), HoverCursor != Cursor.Default );
-
-            base.BuildClasses( builder );
-        }
-
-        /// <summary>
-        /// Handles the row clicked event.
-        /// </summary>
-        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task OnClickHandler( MouseEventArgs eventArgs )
-        {
-            // https://stackoverflow.com/questions/5497073/how-to-differentiate-single-click-event-and-double-click-event
-            // works good enough. Click is still called before the double click, but it is advise to not use both events anyway.
-            // We'll be treating any Detail higher then 2 as the user constantly clicking, therefore triggering Single Click.
-            if ( eventArgs.Detail == 1 || eventArgs.Detail > 2 )
-                return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
-            else if ( eventArgs.Detail == 2 )
-                return DoubleClicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
-            return Task.CompletedTask;
-        }
+    /// <summary>
+    /// Handles the row clicked event.
+    /// </summary>
+    /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task OnClickHandler( MouseEventArgs eventArgs )
+    {
+        // https://stackoverflow.com/questions/5497073/how-to-differentiate-single-click-event-and-double-click-event
+        // works good enough. Click is still called before the double click, but it is advise to not use both events anyway.
+        // We'll be treating any Detail higher then 2 as the user constantly clicking, therefore triggering Single Click.
+        if ( eventArgs.Detail == 1 || eventArgs.Detail > 2 )
+            return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+        else if ( eventArgs.Detail == 2 )
+            return DoubleClicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+        return Task.CompletedTask;
+    }
 
         /// <summary>
         /// Handles the row mouse leave event.
@@ -74,62 +74,67 @@ namespace Blazorise
 
         #endregion
 
-        #region Properties
+    #region Properties
 
-        /// <summary>
-        /// Gets or sets the row variant color.
-        /// </summary>
-        [Parameter]
-        public Color Color
+    /// <summary>
+    /// Gets or sets the cascaded parent table component.
+    /// </summary>
+    [CascadingParameter] protected Table ParentTable { get; set; }
+
+    /// <summary>
+    /// Gets or sets the row variant color.
+    /// </summary>
+    [Parameter]
+    public Color Color
+    {
+        get => color;
+        set
         {
-            get => color;
-            set
-            {
-                color = value;
+            color = value;
 
-                DirtyClasses();
-            }
+            DirtyClasses();
         }
+    }
 
-        /// <summary>
-        /// Sets a table row as selected by appending "selected" modifier on a tr element.
-        /// </summary>
-        [Parameter]
-        public bool Selected
+    /// <summary>
+    /// Sets a table row as selected by appending "selected" modifier on a tr element.
+    /// </summary>
+    [Parameter]
+    public bool Selected
+    {
+        get => selected;
+        set
         {
-            get => selected;
-            set
-            {
-                selected = value;
+            selected = value;
 
-                DirtyClasses();
-            }
+            DirtyClasses();
         }
+    }
 
-        /// <summary>
-        /// Gets or sets the applied cursor when the row is hovered over.
-        /// </summary>
-        [Parameter]
-        public Cursor HoverCursor
+    /// <summary>
+    /// Gets or sets the applied cursor when the row is hovered over.
+    /// </summary>
+    [Parameter]
+    public Cursor HoverCursor
+    {
+        get => hoverCursor;
+        set
         {
-            get => hoverCursor;
-            set
-            {
-                hoverCursor = value;
+            hoverCursor = value;
 
-                DirtyClasses();
-            }
+            DirtyClasses();
         }
+    }
 
-        /// <summary>
-        /// Occurs when the row is clicked.
-        /// </summary>
-        [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }
+    /// <summary>
+    /// Occurs when the row is clicked.
+    /// </summary>
+    [Parameter] public EventCallback<BLMouseEventArgs> Clicked { get; set; }
 
-        /// <summary>
-        /// Occurs when the row is double clicked.
-        /// </summary>
-        [Parameter] public EventCallback<BLMouseEventArgs> DoubleClicked { get; set; }
+    /// <summary>
+    /// Occurs when the row is double clicked.
+    /// </summary>
+    [Parameter] public EventCallback<BLMouseEventArgs> DoubleClicked { get; set; }
 
         /// <summary>
         /// Occurs when the row is mouse overed.
@@ -146,6 +151,5 @@ namespace Blazorise
         /// </summary>
         [Parameter] public RenderFragment ChildContent { get; set; }
 
-        #endregion
-    }
+    #endregion
 }

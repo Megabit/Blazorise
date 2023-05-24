@@ -1,0 +1,32 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="Employee"
+          Data="@employeeList"
+          @bind-SelectedRow="@selectedEmployee"
+          Responsive
+          Sortable
+          SortMode="DataGridSortMode.Multiple">
+    <DataGridCommandColumn />
+    <DataGridColumn Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />
+    <DataGridColumn Field="@nameof(Employee.FirstName)" Caption="First Name" Editable />
+    <DataGridColumn Field="@nameof(Employee.LastName)" Caption="Last Name" Editable />
+    <DataGridColumn Field="@nameof(Employee.Email)" Caption="Email" Editable />
+    <DataGridColumn Field="@nameof(Employee.Salary)" Caption="Salary" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" Editable>
+        <EditTemplate>
+            <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}
