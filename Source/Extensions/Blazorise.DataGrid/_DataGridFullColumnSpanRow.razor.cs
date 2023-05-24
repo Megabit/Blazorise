@@ -48,11 +48,9 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
     /// <summary>
     /// Defines the element position.
     /// </summary>
-    [Parameter]
-    public IFluentPosition Position { get; set; }
+    [Parameter] public IFluentPosition Position { get; set; }
 
-    [Parameter]
-    public Background Background { get; set; }
+    [Parameter] public Background Background { get; set; }
 
     [Parameter]
     public IFluentSpacing Padding { get; set; }

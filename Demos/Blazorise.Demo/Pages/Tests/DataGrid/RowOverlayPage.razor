@@ -10,7 +10,7 @@
                           Data="inMemoryData"
                           ShowPager
                           ShowPageSizes
-                @bind-SelectedRow="@selectedEmployee"
+                          @bind-SelectedRow="@selectedEmployee"
                           RowSelectable="@((x) => !x.Item.FirstName.StartsWith("A"))"
                           RowOverlayPosition="DataGridRowOverlayPosition.End">
                     <DataGridColumns>
@@ -27,8 +27,8 @@
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
-                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable>
+                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
+                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable>
                             <DisplayTemplate>
                                 @{
                                     var gender = ( context as Employee )?.Gender;
@@ -49,26 +49,26 @@
                             </DisplayTemplate>
                         </DataGridSelectColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
-                        </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
-                            <DisplayTemplate>
-                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
-                            </DisplayTemplate>
-                        </DataGridCheckColumn>
-                    </DataGridColumns>
-                    <RowOverlayTemplate>
-                        <Div Margin="Margin.Is2.FromStart.OnY">
-                            <Button Color="Color.Primary" Size="Size.Small"> <Icon Name="IconName.User" /> User Details > </Button>
-                            <Button Color="Color.Secondary" Size="Size.Small"> <Icon Name="IconName.Building" /> Company Details > </Button>
-                        </Div>
-                    </RowOverlayTemplate>
-                </DataGrid>
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
+                         </DataGridColumn>
+                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
+                             <DisplayTemplate>
+                                 <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                             </DisplayTemplate>
+                         </DataGridCheckColumn>
+                     </DataGridColumns>
+                     <RowOverlayTemplate>
+                         <Div Margin="Margin.Is2.FromStart.OnY">
+                             <Button Color="Color.Primary" Size="Size.Small"> <Icon Name="IconName.User" /> User Details > </Button>
+                             <Button Color="Color.Secondary" Size="Size.Small"> <Icon Name="IconName.Building" /> Company Details > </Button>
+                         </Div>
+                     </RowOverlayTemplate>
+                 </DataGrid>
+             </CardBody>
+         </Card>
+     </Column>
+ </Row>
 
-@code {
+ @code {
 
     [Inject] EmployeeData EmployeeData { get; set; }
 

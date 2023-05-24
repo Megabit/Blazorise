@@ -75,9 +75,9 @@
         }
         @if ( ParentDataGrid.RowOverlayTemplate is not null && mouseIsOver )
         {
-            IFluentPositionEdgeOffset position = ParentDataGrid.RowOverlayPosition == DataGridRowOverlayPosition.Start
-            ? Position.Absolute.Start
-            : Position.Absolute.End;
+            var rowOverlayPosition = ParentDataGrid.RowOverlayPosition == DataGridRowOverlayPosition.Start
+                ? Position.Absolute.Start
+                : Position.Absolute.End;
 
             <_DataGridFullColumnSpanRow TItem="TItem" 
                                         Columns="@Columns" 
