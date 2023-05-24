@@ -81,8 +81,10 @@
 
             <_DataGridFullColumnSpanRow TItem="TItem" 
                                         Columns="@Columns" 
-                                        Position="@position" 
                                         Style="z-index:1;"
+                                        Position="@position"
+                                        Margin="Margin.Is0"
+                                        Padding="Padding.Is0"
                                         RenderUpdates
                                         Background="@ParentDataGrid.RowOverlayBackground">
                 @ParentDataGrid.RowOverlayTemplate(Item)

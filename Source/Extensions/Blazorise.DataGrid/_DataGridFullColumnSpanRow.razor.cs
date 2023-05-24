@@ -54,5 +54,11 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
     [Parameter]
     public Background Background { get; set; }
 
+    [Parameter]
+    public IFluentSpacing Padding { get; set; }
+
+    [Parameter]
+    public IFluentSpacing Margin { get; set; }
+
     #endregion
 }
