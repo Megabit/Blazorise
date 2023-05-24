@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -1538,14 +1537,17 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Occurs after text has changed.
     /// </summary>
     [Parameter] public EventCallback<string> TextChanged { get; set; }
+
     /// <summary>
     /// Occurs when a key is pressed down while the control has focus.
     /// </summary>
     [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
+
     /// <summary>
     /// Occurs when the input box gains or loses focus.
     /// </summary>
     [Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; }
+
     /// <summary>
     /// The blur event fires when an element has lost focus.
     /// </summary>
