@@ -5,7 +5,6 @@
           Sortable
           SortMode="@SortMode"
           SortChanged="SortChanged"
-          SortingChanged="SortingChanged"
           Editable
           EditMode="@DataGridEditMode"
           UseInternalEditing="UseInternalEditing"
@@ -79,9 +78,6 @@
 
     [Parameter]
     public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
-
-    [Parameter]
-    public EventCallback<DataGridSortingChangedEventArgs> SortingChanged { get; set; }
 
     [Parameter]
     public DataGridSortMode SortMode { get; set; } = DataGridSortMode.Multiple;

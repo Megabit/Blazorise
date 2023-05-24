@@ -216,8 +216,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Links the child column with this datagrid.
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
-    /// <param name="suppressSortingChangedEvent">If <c>true</c> method will suppress the <see cref="SortingChanged"/> event.</param>  
-    internal void AddColumn( DataGridColumn<TItem> column, bool suppressSortingChangedEvent )
+    /// <param name="suppressSortChangedEvent">If <c>true</c> method will suppress the <see cref="SortChanged"/> event.</param>  
+    internal void AddColumn( DataGridColumn<TItem> column, bool suppressSortChangedEvent )
     {
         Columns.Add( column );
 
@@ -225,7 +225,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             AddGroupColumn( column );
 
         if ( column.CurrentSortDirection != SortDirection.Default )
-            HandleSortColumn( column, false, null, suppressSortingChangedEvent );
+            HandleSortColumn( column, false, null, suppressSortChangedEvent );
 
         // save command column reference for later
         if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
@@ -263,17 +263,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             SortByColumns.Remove( column );
 
-            _ = InvokeAsync( () =>
-                SortingChanged.InvokeAsync(
-                    new DataGridSortingChangedEventArgs(
-                        SortMode,
-                        SortByColumns.Select( c => new DataGridSortColumnInfo(
-                                c.Field,
-                                c.GetFieldToSort(),
-                                c.CurrentSortDirection,
-                                c.SortOrder ) )
-                            .OrderBy( c => c.SortOrder )
-                            .ToList() ) ) );
+            _ = InvokeAsync( async () => await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, SortDirection.Default ) ) );
         }
 
         return removed;
@@ -937,19 +927,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 column.CurrentSortDirection = direction;
                 await column.SetSortOrder( sortOrder );
                 SortByColumns.Add( column );
+
+                await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, column.CurrentSortDirection ) );
             }
         }
-
-        await SortingChanged.InvokeAsync(
-            new DataGridSortingChangedEventArgs(
-                SortMode,
-                SortByColumns.Select( c => new DataGridSortColumnInfo(
-                        c.Field,
-                        c.GetFieldToSort(),
-                        c.CurrentSortDirection,
-                        c.SortOrder ) )
-                    .OrderBy( c => c.SortOrder )
-                    .ToList() ) );
 
         await Reload();
     }
@@ -1458,7 +1439,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         HandleSortColumn( column, changeSortDirection, sortDirection, false );
 
     private void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection,
-        bool suppressSortingChangedEvent )
+        bool suppressSortChangedEvent )
     {
         if ( !Sortable || !column.CanSort() )
             return;
@@ -1499,29 +1480,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 c.Field,
                 c.CurrentSortDirection ) );
 
-        static Task RaiseSortingChanged( DataGrid<TItem> dataGrid ) =>
-            dataGrid.SortingChanged.InvokeAsync(
-                new DataGridSortingChangedEventArgs(
-                    dataGrid.SortMode,
-                    dataGrid.SortByColumns.Select( c => new DataGridSortColumnInfo(
-                            c.Field,
-                            c.GetFieldToSort(),
-                            c.CurrentSortDirection,
-                            c.SortOrder ) )
-                        .OrderBy( c => c.SortOrder )
-                        .ToList() ) );
 
-        if ( changeSortDirection && !suppressSortingChangedEvent )
+        if ( changeSortDirection && !suppressSortChangedEvent )
         {
             _ = InvokeAsync( async () =>
             {
                 await RaiseSortChanged( this, column );
-                await RaiseSortingChanged( this );
             } );
-        }
-        else if ( !suppressSortingChangedEvent )
-        {
-            _ = InvokeAsync( () => RaiseSortingChanged( this ) );
         }
     }
 
@@ -2369,11 +2334,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Occurs after the sort direction of a single column has changed.
     /// </summary>
     [Parameter] public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
-
-    /// <summary>
-    /// Occurs when the sort order, sort direction, or number of columns to sort changes.
-    /// </summary>
-    [Parameter] public EventCallback<DataGridSortingChangedEventArgs> SortingChanged { get; set; }
 
     /// <summary>
     /// Specifies the grid editing modes.
