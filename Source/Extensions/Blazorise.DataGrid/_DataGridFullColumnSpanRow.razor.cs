@@ -10,6 +10,9 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
 {
     #region Properties
 
+    protected string GetStyle()
+        => $"background-color: unset; {Style}";
+
     protected override bool ShouldRender()
         => RenderUpdates;
 
@@ -17,7 +20,7 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
         => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
 
     protected int ColumnSpan
-        => Columns.Count - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
+        => Columns.Count() - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
 
     /// <summary>
     /// Item associated with the data set.
@@ -27,7 +30,7 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
     /// <summary>
     /// List of columns used to build this row.
     /// </summary>
-    [Parameter] public IReadOnlyList<DataGridColumn<TItem>> Columns { get; set; }
+    [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
     /// <summary>
     /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
@@ -37,6 +40,16 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     [Parameter] public bool RenderUpdates { get; set; }
+
+    [Parameter] public string Style { get; set; }
+
+    [Parameter] public string Class { get; set; }
+
+    /// <summary>
+    /// Defines the element position.
+    /// </summary>
+    [Parameter]
+    public IFluentPosition Position { get; set; }
 
     #endregion
 }

@@ -10,7 +10,7 @@
                           Data="inMemoryData"
                           ShowPager
                           ShowPageSizes
-                          @bind-SelectedRow="@selectedEmployee"
+                @bind-SelectedRow="@selectedEmployee"
                           RowSelectable="@((x) => !x.Item.FirstName.StartsWith("A"))"
                           RowOverlayPosition="DataGridRowOverlayPosition.Start">
                     <DataGridColumns>

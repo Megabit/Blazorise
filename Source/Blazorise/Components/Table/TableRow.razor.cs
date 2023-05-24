@@ -52,27 +52,27 @@ public partial class TableRow : BaseDraggableComponent
         return Task.CompletedTask;
     }
 
-        /// <summary>
-        /// Handles the row mouse leave event.
-        /// </summary>
-        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task OnMouseLeaveHandler( MouseEventArgs eventArgs )
-        {
-            return MouseLeave.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
-        }
+    /// <summary>
+    /// Handles the row mouse leave event.
+    /// </summary>
+    /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task OnMouseLeaveHandler( MouseEventArgs eventArgs )
+    {
+        return MouseLeave.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+    }
 
-        /// <summary>
-        /// Handles the row mouseover event.
-        /// </summary>
-        /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
-        /// <returns>A task that represents the asynchronous operation.</returns>
-        protected Task OnMouseOverHandler( MouseEventArgs eventArgs )
-        {
-            return MouseOver.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
-        }
+    /// <summary>
+    /// Handles the row mouseover event.
+    /// </summary>
+    /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task OnMouseOverHandler( MouseEventArgs eventArgs )
+    {
+        return MouseOver.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+    }
 
-        #endregion
+    #endregion
 
     #region Properties
 
@@ -136,20 +136,20 @@ public partial class TableRow : BaseDraggableComponent
     /// </summary>
     [Parameter] public EventCallback<BLMouseEventArgs> DoubleClicked { get; set; }
 
-        /// <summary>
-        /// Occurs when the row is mouse overed.
-        /// </summary>
-        [Parameter] public EventCallback<BLMouseEventArgs> MouseOver { get; set; }
+    /// <summary>
+    /// Occurs when the row is mouse overed.
+    /// </summary>
+    [Parameter] public EventCallback<BLMouseEventArgs> MouseOver { get; set; }
 
-        /// <summary>
-        /// Occurs when the row is mouse leaved.
-        /// </summary>
-        [Parameter] public EventCallback<BLMouseEventArgs> MouseLeave { get; set; }
+    /// <summary>
+    /// Occurs when the row is mouse leaved.
+    /// </summary>
+    [Parameter] public EventCallback<BLMouseEventArgs> MouseLeave { get; set; }
 
-        /// <summary>
-        /// Specifies the content to be rendered inside this <see cref="TableRow"/>.
-        /// </summary>
-        [Parameter] public RenderFragment ChildContent { get; set; }
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="TableRow"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }
