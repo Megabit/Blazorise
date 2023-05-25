@@ -1,12 +1,9 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise.DataGrid;
+﻿namespace Blazorise.DataGrid;
 
 /// <summary>
 /// Context for the row overlay.
 /// </summary>
-/// <typeparam name="TItem"></typeparam>
+/// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
 public class RowOverlayContext<TItem>
 {
     #region Constructors
@@ -20,12 +17,9 @@ public class RowOverlayContext<TItem>
         Item = item;
     }
 
-
     #endregion
 
     #region Properties
-
-
 
     /// <summary>
     /// Gets the model.

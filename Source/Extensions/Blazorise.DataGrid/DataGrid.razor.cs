@@ -2201,6 +2201,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Event called after the mouse is over the row.
     /// </summary>
     [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowMouseOver { get; set; }
+
     /// <summary>
     /// Event called after the row is clicked.
     /// </summary>
