@@ -309,7 +309,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await NotFound.InvokeAsync( Search );
             }
         }
-        await TextChanged.InvokeAsync( text );
+        await SearchTextChanged.InvokeAsync( text );
     }
 
     /// <summary>
@@ -336,14 +336,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         if ( eventArgs.Code == "Escape" )
         {
             await Close();
-            await KeyDown.InvokeAsync( eventArgs );
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
         if ( IsMultiple && string.IsNullOrEmpty( Search ) && eventArgs.Code == "Backspace" )
         {
             await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
-            await KeyDown.InvokeAsync( eventArgs );
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
@@ -357,19 +357,19 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                     await ResetCurrentSearch();
                     await Close();
                 }
-                await KeyDown.InvokeAsync( eventArgs );
+                await SearchKeyDown.InvokeAsync( eventArgs );
                 return;
             }
 
             await SelectedOrResetOnCommit();
-            await KeyDown.InvokeAsync( eventArgs );
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
         if ( !DropdownVisible )
         {
             await OpenDropdown();
-            await KeyDown.InvokeAsync( eventArgs );
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
@@ -383,7 +383,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
 
         await ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) );
-        await KeyDown.InvokeAsync( eventArgs );
+        await SearchKeyDown.InvokeAsync( eventArgs );
     }
 
     /// <summary>
@@ -398,7 +398,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             await Reload();
 
         await OpenDropdown();
-        await OnFocus.InvokeAsync( eventArgs );
+        await SearchFocus.InvokeAsync( eventArgs );
     }
 
     /// <summary>
@@ -428,7 +428,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
 
         TextFocused = false;
-        await Blur.InvokeAsync( eventArgs );
+        await SearchBlur.InvokeAsync( eventArgs );
     }
 
     private async Task InvokeSearchChanged( string searchValue )
@@ -1534,24 +1534,24 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public int? TotalItems { get; set; }
 
     /// <summary>
-    /// Occurs after text has changed.
+    /// Occurs after the search box text has changed.
     /// </summary>
-    [Parameter] public EventCallback<string> TextChanged { get; set; }
+    [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
 
     /// <summary>
-    /// Occurs when a key is pressed down while the control has focus.
+    /// Occurs when a key is pressed down while the search box has focus.
     /// </summary>
-    [Parameter] public EventCallback<KeyboardEventArgs> KeyDown { get; set; }
+    [Parameter] public EventCallback<KeyboardEventArgs> SearchKeyDown { get; set; }
 
     /// <summary>
-    /// Occurs when the input box gains or loses focus.
+    /// Occurs when the search box gains or loses focus.
     /// </summary>
-    [Parameter] public EventCallback<FocusEventArgs> OnFocus { get; set; }
+    [Parameter] public EventCallback<FocusEventArgs> SearchFocus { get; set; }
 
     /// <summary>
-    /// The blur event fires when an element has lost focus.
+    /// The blur event fires when the search box has lost focus.
     /// </summary>
-    [Parameter] public EventCallback<FocusEventArgs> Blur { get; set; }
+    [Parameter] public EventCallback<FocusEventArgs> SearchBlur { get; set; }
 
     #endregion
 }

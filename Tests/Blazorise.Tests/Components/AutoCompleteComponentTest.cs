@@ -23,11 +23,11 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
-    public async Task TextChanged_ShouldTrigger_Once()
+    public async Task SearchTextChanged_ShouldTrigger_Once()
     {
         var changedCount = 0;
         var comp = RenderComponent<AutocompleteComponent>( p =>
-            p.Add( x => x.TextChanged, ( x ) => changedCount++ ) );
+            p.Add( x => x.SearchTextChanged, ( x ) => changedCount++ ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         await autoComplete.InputAsync( "S" );
@@ -36,11 +36,11 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
-    public async Task KeyDown_ShouldTrigger_Once()
+    public async Task SearchKeyDown_ShouldTrigger_Once()
     {
         var changedCount = 0;
         var comp = RenderComponent<AutocompleteComponent>( p =>
-            p.Add( x => x.KeyDown, ( x ) => changedCount++ ) );
+            p.Add( x => x.SearchKeyDown, ( x ) => changedCount++ ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         await autoComplete.KeyDownAsync( new() { Key = "S" } );
@@ -49,11 +49,11 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
-    public async Task Blur_ShouldTrigger_Once()
+    public async Task SearchBlur_ShouldTrigger_Once()
     {
         var changedCount = 0;
         var comp = RenderComponent<AutocompleteComponent>( p =>
-            p.Add( x => x.Blur, ( x ) => changedCount++ ) );
+            p.Add( x => x.SearchBlur, ( x ) => changedCount++ ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         await autoComplete.FocusAsync( new() );
@@ -63,11 +63,11 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
-    public async Task Focus_ShouldTrigger_Once()
+    public async Task SearchFocus_ShouldTrigger_Once()
     {
         var changedCount = 0;
         var comp = RenderComponent<AutocompleteComponent>( p =>
-            p.Add( x => x.OnFocus, ( x ) => changedCount++ ) );
+            p.Add( x => x.SearchFocus, ( x ) => changedCount++ ) );
 
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         await autoComplete.FocusAsync( new() );
