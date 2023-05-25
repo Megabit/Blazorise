@@ -76,19 +76,12 @@
         @if ( ParentDataGrid.RowOverlayTemplate is not null && mouseIsOver )
         {
             var rowOverlayPosition = ParentDataGrid.RowOverlayPosition == DataGridRowOverlayPosition.Start
-                ? Position.Absolute.Start
-                : Position.Absolute.End;
+            ? Position.Absolute.Start
+            : Position.Absolute.End;
 
-            <_DataGridFullColumnSpanRow TItem="TItem" 
-                                        Columns="@Columns" 
-                                        Style="z-index:1;"
-                                        Position="@rowOverlayPosition"
-                                        Margin="Margin.Is0"
-                                        Padding="Padding.Is0"
-                                        RenderUpdates
-                                        Background="@ParentDataGrid.RowOverlayBackground">
+            <Div Background="@ParentDataGrid.RowOverlayBackground" Position="@rowOverlayPosition" Style="z-index:1;" @onclick:stopPropagation>
                 @ParentDataGrid.RowOverlayTemplate(new (Item))
-            </_DataGridFullColumnSpanRow>
+            </Div>
         }
     </TableRow>
 }

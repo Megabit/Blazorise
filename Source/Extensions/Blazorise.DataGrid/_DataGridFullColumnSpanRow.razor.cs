@@ -20,7 +20,7 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
         => Columns.Any( x => x.ColumnType == DataGridColumnType.Command );
 
     protected int ColumnSpan
-        => Columns.Count() - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
+        => Columns.Count - ( HasCommandColumn && !ParentDataGrid.Editable ? 1 : 0 );
 
     /// <summary>
     /// Item associated with the data set.
@@ -30,7 +30,7 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
     /// <summary>
     /// List of columns used to build this row.
     /// </summary>
-    [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
+    [Parameter] public IReadOnlyList<DataGridColumn<TItem>> Columns { get; set; }
 
     /// <summary>
     /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.
