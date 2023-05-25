@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 #endregion
 
-namespace Blazorise.DataGrid.Models;
+namespace Blazorise.DataGrid;
 
 /// <summary>
 /// Holds the basic information about the datagrid row.
@@ -26,7 +26,7 @@ public class DataGridRowInfo<TItem>
     /// Gets the list of columns.
     /// </summary>
     public IEnumerable<DataGridColumn<TItem>> Columns { get; }
-    
+
     /// <summary>
     /// The Table Row
     /// </summary>
@@ -48,7 +48,7 @@ public class DataGridRowInfo<TItem>
     /// <param name="hasDetailRow">DetailRow evaluation result.</param>
     /// <param name="toggleable">If true toggles the detail row.</param>
     public void SetRowDetail( bool hasDetailRow, bool toggleable )
-        => this.hasDetailRow = ( toggleable && !this.hasDetailRow & hasDetailRow ) || ( !toggleable && hasDetailRow );
+        => this.hasDetailRow =  toggleable && !this.hasDetailRow & hasDetailRow  ||  !toggleable && hasDetailRow ;
 
     /// <summary>
     /// Toggles the DetailRow
