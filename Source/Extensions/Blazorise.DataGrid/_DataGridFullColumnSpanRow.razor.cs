@@ -10,9 +10,6 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
 {
     #region Properties
 
-    protected string GetStyle()
-        => $"background-color: unset; {Style}";
-
     protected override bool ShouldRender()
         => RenderUpdates;
 
@@ -40,23 +37,6 @@ public abstract class _BaseDataGridFullColumnSpanRow<TItem> : BaseDataGridCompon
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     [Parameter] public bool RenderUpdates { get; set; }
-
-    [Parameter] public string Style { get; set; }
-
-    [Parameter] public string Class { get; set; }
-
-    /// <summary>
-    /// Defines the element position.
-    /// </summary>
-    [Parameter] public IFluentPosition Position { get; set; }
-
-    [Parameter] public Background Background { get; set; }
-
-    [Parameter]
-    public IFluentSpacing Padding { get; set; }
-
-    [Parameter]
-    public IFluentSpacing Margin { get; set; }
 
     #endregion
 }
