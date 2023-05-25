@@ -5,7 +5,7 @@ namespace Blazorise.Components.Autocomplete;
 /// <summary>
 /// Holds the BadgeContext for the current Autocomplete item.
 /// </summary>
-public class BadgeContext<TItem, TValue> : BaseTemplateContext<TItem>
+public class AutocompleteBadgeContext<TItem, TValue> : BaseTemplateContext<TItem>
 {
     /// <summary>
     /// Initializes BadgeContext.
@@ -14,7 +14,7 @@ public class BadgeContext<TItem, TValue> : BaseTemplateContext<TItem>
     /// <param name="value">Holds current Autocomplete Item Value.</param>
     /// <param name="text">Holds current Autocomplete Item Text.</param>
     /// <param name="removeCallback">Removes Item from selection callback.</param>
-    public BadgeContext( TItem item, TValue value, string text, EventCallback removeCallback ) : base( item )
+    public AutocompleteBadgeContext( TItem item, TValue value, string text, EventCallback removeCallback ) : base( item )
     {
         Value = value;
         Text = text;

@@ -1527,7 +1527,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Specifies the badge content to be rendered for each selected item.
     /// </summary>
-    [Parameter] public RenderFragment<BadgeContext<TItem, TValue>> BadgeTemplate { get; set; }
+    [Parameter] public RenderFragment<AutocompleteBadgeContext<TItem, TValue>> BadgeTemplate { get; set; }
 
     #endregion
 }
