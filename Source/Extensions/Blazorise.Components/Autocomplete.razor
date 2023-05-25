@@ -11,7 +11,7 @@
         {
             @foreach ( var selectedText in SelectedTexts )
             {
-                @if ( BadgeTemplate is null )
+                @if ( TagTemplate is null )
                 {
                     <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
                 }
@@ -20,7 +20,7 @@
                     var item = GetItemByText( selectedText );
                     var value = GetItemValue( selectedText );
                     var removeCallback = EventCallback.Factory.Create( this, async () => await RemoveMultipleTextAndValue( selectedText ) );
-                    @BadgeTemplate(new (item, value, selectedText, removeCallback))
+                    @TagTemplate(new (item, value, selectedText, removeCallback))
                 }
             }
         }
