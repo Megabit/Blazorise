@@ -23,7 +23,7 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
     }
 
     [Fact]
-    public Task BadgeTemplate_Should_BeAbleTo_Remove()
+    public Task TagTemplate_Should_BeAbleTo_Remove()
     {
         var comp = RenderComponent<AutocompleteMultipleComponent>( parameters =>
         {
@@ -31,26 +31,26 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
             parameters.Add( x => x.SelectedTexts, new List<string>() { "Portugal", "Croatia" } );
         } );
 
-        var badges = comp.FindAll( ".badge" );
+        var tags = comp.FindAll( ".badge" );
         comp.WaitForAssertion( () =>
         {
-            badges.Refresh();
-            badges.Count.Should().Be( 2 );
+            tags.Refresh();
+            tags.Count.Should().Be( 2 );
         } );
 
         comp.Find( ".badge .badge-close" ).Click();
 
         comp.WaitForAssertion( () =>
         {
-            badges.Refresh();
-            badges.Count.Should().Be( 1 );
+            tags.Refresh();
+            tags.Count.Should().Be( 1 );
         } );
 
         return Task.CompletedTask;
     }
 
     [Fact]
-    public Task BadgeTemplate_Should_Render()
+    public Task TagTemplate_Should_Render()
     {
         var comp = RenderComponent<AutocompleteMultipleComponent>( parameters =>
         {
@@ -58,13 +58,13 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
             parameters.Add( x => x.SelectedTexts, new List<string>() { "Portugal", "Croatia" } );
         } );
 
-        var badges = comp.FindAll( ".badge" );
+        var tags = comp.FindAll( ".badge" );
         comp.WaitForAssertion( () =>
         {
-            badges.Refresh();
-            badges.Count.Should().Be( 2 );
+            tags.Refresh();
+            tags.Count.Should().Be( 2 );
             //The x represents the close button.
-            badges.Select( x => x.TextContent ).Should().BeEquivalentTo( new[] { "Portugal×", "Croatia×" } );
+            tags.Select( x => x.TextContent ).Should().BeEquivalentTo( new[] { "Portugal×", "Croatia×" } );
         } );
 
         return Task.CompletedTask;
@@ -77,6 +77,7 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
     }
 
     [Fact]
+
     public Task Clear_ShouldReset()
     {
         return TestClear<AutocompleteMultipleComponent>( async ( comp ) => await comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
