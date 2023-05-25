@@ -894,7 +894,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( SortMode == DataGridSortMode.Single )
         {
-            if ( columns.Length >= 1 )
+            if ( !columns.IsNullOrEmpty() )
             {
                 // Sort the DataGrid based on the first column passed
                 await Sort( columns[0].Field, columns[0].SortDirection );
