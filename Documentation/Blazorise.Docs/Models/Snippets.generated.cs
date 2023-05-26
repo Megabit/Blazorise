@@ -6341,8 +6341,8 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     </DataGridColumns>
     <RowOverlayTemplate>
         <Div>
-            <Button Color=""Color.Primary"" Size=""Size.Small""> <Icon Name=""IconName.User"" /> User Details > </Button>
-            <Button Color=""Color.Secondary"" Size=""Size.Small""> <Icon Name=""IconName.Building"" /> Company Details > </Button>
+            <Button Color=""Color.Primary"" Size=""Size.ExtraSmall""> <Icon Name=""IconName.User"" /> User Details > </Button>
+            <Button Color=""Color.Secondary"" Size=""Size.ExtraSmall""> <Icon Name=""IconName.Building"" /> Company Details > </Button>
         </Div>
     </RowOverlayTemplate>
 </DataGrid>

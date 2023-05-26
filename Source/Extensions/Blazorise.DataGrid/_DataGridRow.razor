@@ -79,7 +79,7 @@
             ? Position.Absolute.Start
             : Position.Absolute.End;
 
-            <Div Background="@ParentDataGrid.RowOverlayBackground" Position="@rowOverlayPosition" Style="z-index:1;" @onclick:stopPropagation>
+            <Div Class="b-table-row-overlay" Background="@ParentDataGrid.RowOverlayBackground" Position="@rowOverlayPosition" Style="z-index:1;" @onclick:stopPropagation>
                 @ParentDataGrid.RowOverlayTemplate(new (Item))
             </Div>
         }
