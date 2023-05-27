@@ -402,6 +402,6 @@ input[readonly="readonly"][type=range] {
 }
 
 .form-label-required:after {
-    content: " * ";
+    content: " *";
     color: var(--b-theme-danger, $danger);
 }
