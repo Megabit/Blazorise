@@ -5,7 +5,6 @@ using Blazorise.DataGrid;
 using Blazorise.Licensing;
 using Blazorise.Localization;
 using Blazorise.Modules;
-using Blazorise.Providers;
 using Blazorise.Utilities;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -91,6 +90,19 @@ public static class BlazoriseConfig
             module.SetupVoid( "import", _ => true ).SetVoidResult();
             module.SetupVoid( "initialize", _ => true ).SetVoidResult();
             module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        }
+
+        public static void AddBreakpoint( BunitJSInterop jsInterop )
+        {
+            AddUtilities( jsInterop );
+
+            var module = jsInterop.SetupModule( new JSBreakpointModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
+            module.SetupVoid( "import", _ => true ).SetVoidResult();
+            module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+            module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+            module.SetupVoid( "registerBreakpointComponent", _ => true ).SetVoidResult();
+            module.SetupVoid( "unregisterBreakpointComponent", _ => true ).SetVoidResult();
+            module.SetupVoid( "getBreakpoint", _ => true ).SetVoidResult();
         }
 
         public static void AddTextEdit( BunitJSInterop jsInterop )

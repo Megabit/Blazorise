@@ -5,7 +5,7 @@
 <NewsPageImage Source="img/news/empty.png" Text="Blazorise v1.3" />
 
 <NewsPageTitle>
-    Announcing Blazorise 1.2
+    Announcing Blazorise 1.3
 </NewsPageTitle>
 
 <Paragraph>
@@ -41,6 +41,32 @@
 </Paragraph>
 
 <NewsPageSubtitle>
+    Breaking Behaviour
+</NewsPageSubtitle>
+
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            <Code>DataGrid</Code> : The data collection no longer automatically updates upon mutating the collection, for example, by using methods like <Code>Add</Code> or <Code>Remove</Code>.
+        </Paragraph>
+        <Paragraph>
+            While this feature was good to have by default, the way it was implemented, was a general performance hit on <Code>DataGrid</Code> usage, even if it wasn't in the interest of the consumer to use it.
+        </Paragraph>
+        <Paragraph>
+            As such we now recommended the following, either:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>Invoke <Code>gridRef.Reload();</Code> when you're done mutating your collection;</UnorderedListItem>
+                <UnorderedListItem>Have your data be observable by using any implementation of the <Code>INotifyCollectionChanged</Code>, like the <Code>ObservableCollection</Code>. The example below ilustrates this.</UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
+            Please visit, <Anchor To="docs/extensions/datagrid/binding-data/observable">observable data docs</Anchor> for more information.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+<NewsPageSubtitle>
     New Features 🚀
 </NewsPageSubtitle>
 
@@ -61,14 +87,72 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Paragraph>
+    We've changed the <Code>CancellableRowChange</Code> argument that's provided in the RowInserting, RowUpdating and RowRemoving callbacks and the <Code>SavedRowItem</Code> that's provided in the RowInserted, RowUpdated callbacks to now provide both an <Code>OldItem</Code> and <Code>NewItem</Code>.
+</Paragraph>
+
+<Paragraph>
+    <Code>OldItem</Code> will replace the regular existing <Code>Item</Code> as it's easier to understand what it represents.
+    <Code>Item</Code> is now marked as obsolete and will be removed in a future release.
+</Paragraph>
+
+<Paragraph>
+    <Code>NewItem</Code> is a deep clone of the item that's being inserted or updated with the updated edit values.
+</Paragraph>
+
+<Paragraph>
+    The existing <Code>Values</Code> Dictionary will still exist, but this allows you to promptly get a mapped <Code>TItem</Code> without having to write your own mapping code from the <Code>Dictionary</Code>.
+</Paragraph>
+
+<Paragraph>
+    Introduced a new <Code>RowOverlayTemplate</Code> that allows you to render an overlay with adittional information on top of the row.
+</Paragraph>
+
+<Paragraph>
+    Please visit, <Anchor To="docs/extensions/datagrid/templates/row-overlay">row overlay docs</Anchor> for more information.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    FieldLabel
+</Heading>
+
+<Paragraph>
+    A new <Code>RequiredIndicator</Code> parameter was introduced. By enabling this parameter. The label will display a a required indicator by appending a relevant class which by default will render an asterix by the label with the theme's danger color. Which you can of course override the css class to your liking.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Autocomplete
+</Heading>
+
+<Paragraph>
+    We have added a new <Code>AutocompleteTagContext</Code> parameter so you may customize tags to your liking when using <Code>Autocomplete</Code> multiple selection mode.
+</Paragraph>
+
+<Paragraph>
+    We've added Eventcallbacks for the events that we currently listen to in the <Code>Autocomplete</Code>, these are called when the <Code>Autocomplete</Code> finishes handling the corresponding event.
+    <UnorderedList>
+        <UnorderedListItem><Code>SearchTextChanged</Code></UnorderedListItem>
+        <UnorderedListItem><Code>SearchKeyDown</Code></UnorderedListItem>
+        <UnorderedListItem><Code>SearchFocus</Code></UnorderedListItem>
+        <UnorderedListItem><Code>SearchBlur</Code></UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Signature Pad
 </Heading>
+
 <Paragraph>
     We are pleased to announce that Signature Pad now supports the capture and storage of digital signatures. This update will allow developers to create applications that require the collection of signatures from users, such as contracts, agreements, and other legal documents.
 </Paragraph>
+
 <Paragraph>
     The Signature Pad is a crucial component in Blazorise that enables users to sign and submit documents electronically. With this update, developers can now capture and store signatures in a secure and reliable manner, ensuring the authenticity and integrity of the documents.
 </Paragraph>
+
 <Paragraph>
     This update will make it easier for developers to create applications that require the collection of digital signatures, saving time and effort for both the users and the developers. We hope this update will be beneficial to our users and help them create more efficient and effective applications.
 </Paragraph>

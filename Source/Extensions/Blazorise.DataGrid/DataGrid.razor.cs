@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -9,6 +10,7 @@ using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Blazorise.Modules;
+using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
@@ -36,19 +38,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private Virtualize<TItem> virtualizeRef;
 
     /// <summary>
-    /// Gets or sets current selection mode.
-    /// </summary>
-    private DataGridSelectionMode selectionMode;
-
-    /// <summary>
     /// Element reference to the DataGrid's inner table.
     /// </summary>
     private Table tableRef;
-
-    /// <summary>
-    /// Original data-source.
-    /// </summary>
-    private IEnumerable<TItem> data;
 
     /// <summary>
     /// Optional aggregate data.
@@ -298,10 +290,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await CheckMultipleSelectionSetEmpty( parameters );
 
+        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
+            SetDirty();
+
         if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
             ExecuteAfterRender( HandleSelectionModeChanged );
 
+        if ( Data is INotifyCollectionChanged observableCollectionBeforeParamSet )
+            observableCollectionBeforeParamSet.CollectionChanged -= OnCollectionChanged;
+
         await base.SetParametersAsync( parameters );
+
+        if ( Data is INotifyCollectionChanged observableCollectionAfterParamSet )
+            observableCollectionAfterParamSet.CollectionChanged += OnCollectionChanged;
     }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -334,6 +335,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( disposing )
         {
+            if ( Data is INotifyCollectionChanged observableCollection )
+            {
+                observableCollection.CollectionChanged -= OnCollectionChanged;
+            }
+
             if ( paginationContext is not null )
             {
                 paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
@@ -586,6 +592,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     #region Events
 
+    private async void OnCollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
+    {
+        if ( e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset || e.Action == NotifyCollectionChangedAction.Move || e.Action == NotifyCollectionChangedAction.Replace )
+        {
+            await InvokeAsync( async () => await Reload() );
+        }
+    }
+
     /// <summary>
     /// An event raised when theme settings changes.
     /// </summary>
@@ -667,7 +681,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( Data is ICollection<TItem> data )
         {
-            if ( await IsSafeToProceed( RowRemoving, item ) )
+            if ( await IsSafeToProceed( RowRemoving, item, item ) )
             {
                 var itemIsSelected = SelectedRow.IsEqual( item );
                 if ( UseInternalEditing )
@@ -716,7 +730,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
 
-        if ( await IsSafeToProceed( rowSavingHandler, editItem, editedCellValues ) )
+        var editItemClone = editItem.DeepClone();
+        SetItemEditedValues( editItemClone );
+
+        if ( await IsSafeToProceed( rowSavingHandler, editItem, editItemClone, editedCellValues ) )
         {
             if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem && Data is ICollection<TItem> data )
             {
@@ -727,15 +744,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 // apply edited cell values to the item
                 // for new items it must be always be set, while for editing items it can be set only if it's enabled
-                foreach ( var column in EditableColumns )
-                {
-                    column.SetValue( editItem, editItemCellValues[column.ElementId].CellValue );
-                }
+                SetItemEditedValues( editItem );
             }
 
             if ( editState == DataGridEditState.New )
             {
-                await RowInserted.InvokeAsync( new( editItem, editedCellValues ) );
+                await RowInserted.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
                 SetDirty();
 
                 // If a new item is added, the data should be refreshed
@@ -744,13 +758,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     await HandleReadData( CancellationToken.None );
             }
             else
-                await RowUpdated.InvokeAsync( new( editItem, editedCellValues ) );
+                await RowUpdated.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
 
             editState = DataGridEditState.None;
             await VirtualizeOnEditCompleteScroll().AsTask();
         }
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    private void SetItemEditedValues( TItem item )
+    {
+        foreach ( var column in EditableColumns )
+        {
+            column.SetValue( item, editItemCellValues[column.ElementId].CellValue );
+        }
     }
 
     /// <summary>
@@ -775,9 +797,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await SelectRow( item );
 
-        var selectedTableRow = GetRowInfo( item )?.TableRow;
-        if ( selectedTableRow is not null )
-            await selectedTableRow.ElementRef.FocusAsync();
+        if ( Navigable )
+        {
+            var selectedTableRow = GetRowInfo( item )?.TableRow;
+            if ( selectedTableRow is not null )
+                await selectedTableRow.ElementRef.FocusAsync();
+        }
 
         await Refresh();
     }
@@ -1038,6 +1063,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
+    internal Task OnRowMouseOverCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+    {
+        return RowMouseOver.InvokeAsync( eventArgs );
+    }
+    internal Task OnRowMouseLeaveCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+    {
+        return RowMouseLeave.InvokeAsync( eventArgs );
+    }
+
     internal Task OnRowClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
     {
         return RowClicked.InvokeAsync( eventArgs );
@@ -1165,11 +1199,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     // this is to give user a way to stop save if necessary
-    internal async Task<bool> IsSafeToProceed<TValues>( EventCallback<CancellableRowChange<TItem, TValues>> handler, TItem item, TValues editedCellValues )
+    internal async Task<bool> IsSafeToProceed<TValues>( EventCallback<CancellableRowChange<TItem, TValues>> handler, TItem item, TItem newItem, TValues editedCellValues )
     {
         if ( handler.HasDelegate )
         {
-            var args = new CancellableRowChange<TItem, TValues>( item, editedCellValues );
+            var args = new CancellableRowChange<TItem, TValues>( item, newItem, editedCellValues );
 
             await handler.InvokeAsync( args );
 
@@ -1182,11 +1216,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return true;
     }
 
-    internal async Task<bool> IsSafeToProceed( EventCallback<CancellableRowChange<TItem>> handler, TItem item )
+    internal async Task<bool> IsSafeToProceed( EventCallback<CancellableRowChange<TItem>> handler, TItem item, TItem newItem )
     {
         if ( handler.HasDelegate )
         {
-            var args = new CancellableRowChange<TItem>( item );
+            var args = new CancellableRowChange<TItem>( item, newItem );
 
             await handler.InvokeAsync( args );
 
@@ -1528,8 +1562,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return Task.CompletedTask;
 
         SelectedRow = item;
-
-        return SelectedRowChanged.InvokeAsync( SelectedRow );
+        return SelectedRowChanged.InvokeAsync( item );
     }
 
     private DataGridRowInfo<TItem> GetRowInfo( TItem item )
@@ -1828,15 +1861,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the datagrid data-source.
     /// </summary>
     [Parameter]
-    public IEnumerable<TItem> Data
-    {
-        get { return data; }
-        set
-        {
-            SetDirty();
-            data = value;
-        }
-    }
+    public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
     /// Gets or sets the calculated aggregate data.
@@ -2166,6 +2191,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter] public EventCallback<TItem> RowRemoved { get; set; }
 
+
+    /// <summary>
+    /// Event called after the mouse leaves the row.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowMouseLeave { get; set; }
+
+    /// <summary>
+    /// Event called after the mouse is over the row.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowMouseOver { get; set; }
+
     /// <summary>
     /// Event called after the row is clicked.
     /// </summary>
@@ -2456,6 +2492,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     : selectedRowDataIdx + ( CurrentPage - 1 ) * PageSize;
         }
     }
+
+    /// <summary>
+    /// Template for mouse hover overlay display formatting.
+    /// </summary>
+    [Parameter] public RenderFragment<RowOverlayContext<TItem>> RowOverlayTemplate { get; set; }
+
+    /// <summary>
+    /// Defines the position of the row overlay.
+    /// </summary>
+    [Parameter] public DataGridRowOverlayPosition RowOverlayPosition { get; set; } = DataGridRowOverlayPosition.End;
+
+    /// <summary>
+    /// Defines the background of the row overlay.
+    /// </summary>
+    [Parameter] public Background RowOverlayBackground { get; set; } = Background.Light;
 
     #endregion
 }

@@ -442,3 +442,8 @@ input[readonly="readonly"][type=range] {
 .form-file input[type=file]::file-selector-button {
     display: none;
 }
+
+.form-label-required:after {
+    content: " *";
+    color: var(--b-theme-danger, $danger);
+}
