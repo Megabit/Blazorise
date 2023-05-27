@@ -5,17 +5,16 @@ namespace Blazorise.Components.Autocomplete;
 /// <summary>
 /// Holds the Tag Context for the current Autocomplete item.
 /// </summary>
-public class AutocompleteBadgeContext<TItem, TValue> : BaseTemplateContext<TItem>
+public class AutocompleteTagContext<TItem, TValue> : BaseTemplateContext<TItem>
 {
     /// <summary>
-    /// Initializes AutocompleteBadgeContext.
+    /// Initializes AutocompleteTagContext.
     /// </summary>
     /// <param name="item">Holds current Autocomplete Item Data.</param>
     /// <param name="value">Holds current Autocomplete Item Value.</param>
     /// <param name="text">Holds current Autocomplete Item Text.</param>
     /// <param name="removeCallback">Removes Item from selection callback.</param>
-    public AutocompleteBadgeContext
-        ( TItem item, TValue value, string text, EventCallback removeCallback ) : base( item )
+    public AutocompleteTagContext( TItem item, TValue value, string text, EventCallback removeCallback ) : base( item )
     {
         Value = value;
         Text = text;
@@ -36,5 +35,4 @@ public class AutocompleteBadgeContext<TItem, TValue> : BaseTemplateContext<TItem
     /// Removes Item from selection.
     /// </summary>
     public EventCallback Remove { get; set; }
-
 }
