@@ -110,10 +110,10 @@
 <Paragraph>
     Introduced a new <Code>RowOverlayTemplate</Code> that allows you to render an overlay with adittional information on top of the row.
 </Paragraph>
+
 <Paragraph>
     Please visit, <Anchor To="docs/extensions/datagrid/templates/row-overlay">row overlay docs</Anchor> for more information.
 </Paragraph>
-
 
 <Heading Size="HeadingSize.Is3">
     FieldLabel
@@ -129,6 +129,16 @@
 
 <Paragraph>
     We have added a new <Code>AutocompleteTagContext</Code> parameter so you may customize tags to your liking when using <Code>Autocomplete</Code> multiple selection mode.
+</Paragraph>
+
+<Paragraph>
+    We've added Eventcallbacks for the events that we currently listen to in the <Code>Autocomplete</Code>, these are called when the <Code>Autocomplete</Code> finishes handling the corresponding event.
+    <UnorderedList>
+        <UnorderedListItem><Code>SearchTextChanged</Code></UnorderedListItem>
+        <UnorderedListItem><Code>SearchKeyDown</Code></UnorderedListItem>
+        <UnorderedListItem><Code>SearchFocus</Code></UnorderedListItem>
+        <UnorderedListItem><Code>SearchBlur</Code></UnorderedListItem>
+    </UnorderedList>
 </Paragraph>
 
 <NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="June 1st, 2023" Read="7 min" />
