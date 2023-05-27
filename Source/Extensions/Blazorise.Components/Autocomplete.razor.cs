@@ -1524,5 +1524,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// </remarks>
     [Parameter] public int? TotalItems { get; set; }
 
+    /// <summary>
+    /// Specifies the content to be rendered for each tag (multiple selected item).
+    /// </summary>
+    [Parameter] public RenderFragment<AutocompleteTagContext<TItem, TValue>> TagTemplate { get; set; }
+
     #endregion
 }
