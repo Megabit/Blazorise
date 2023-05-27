@@ -1702,6 +1702,15 @@ public class Gender
     </FieldBody>
 </Field>";
 
+        public const string RequiredIndicatorExample = @"<Field>
+    <FieldLabel RequiredIndicator>
+        Name
+    </FieldLabel>
+    <FieldBody>
+        <TextEdit Placeholder=""Name"" />
+    </FieldBody>
+</Field>";
+
         public const string FigureExample = @"<Figure Size=""FigureSize.Is256x256"">
     <FigureImage Source=""img/empty-256x256.png"" AlternateText=""empty-256x256"" />
     <FigureCaption>A caption for the above image.</FigureCaption>
