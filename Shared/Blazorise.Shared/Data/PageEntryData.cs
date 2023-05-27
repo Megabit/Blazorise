@@ -111,7 +111,7 @@ public class PageEntryData
 
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
                 new PageEntry( "docs/extensions/datagrid/selection/single", "DataGrid Single Selection", "Easily select and manage a single row of data with the Blazorise DataGrid's single selection feature. Select a row by clicking on it or programmatically, and access the selected data for further use." ),
-            new PageEntry( "docs/extensions/datagrid/selection/multiple", "DataGrid Multiple Selection", "Select and manage multiple rows of data with ease using the Blazorise DataGrid's multiple selection feature. Select rows by clicking on them or programmatically, and access the selected data for further use." ),
+                new PageEntry( "docs/extensions/datagrid/selection/multiple", "DataGrid Multiple Selection", "Select and manage multiple rows of data with ease using the Blazorise DataGrid's multiple selection feature. Select rows by clicking on them or programmatically, and access the selected data for further use." ),
                 new PageEntry( "docs/extensions/datagrid/selection/custom-row-colors", "DataGrid Custom Row Colors", "Easily color code your data with the Blazorise DataGrid's custom row color feature." ),
 
                 new PageEntry( "docs/extensions/datagrid/templates", "DataGrid Templates" ),
@@ -121,6 +121,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/templates/display", "DataGrid Templates : Display", "Customize how your data is displayed in each cell using the Blazorise DataGrid's display template feature. Assign custom templates to individual columns, allowing for more control over how your data is displayed. " ),
                 new PageEntry( "docs/extensions/datagrid/templates/edit", "DataGrid Templates : Edit", "Assign custom edit templates to individual columns, allowing for more control over how data is edited." ),
                 new PageEntry( "docs/extensions/datagrid/templates/loading", "DataGrid Templates : Loading", "Customize the loading look of the Blazorise DataGrid with the loading template feature." ),
+                new PageEntry( "docs/extensions/datagrid/templates/row-overlay", "DataGrid Templates : Row Overlay", "When enabled, the Row Overlay feature allows you to display supplementary data or contextual information directly on top of specific rows within the DataGrid." ),
 
                 new PageEntry( "docs/extensions/datagrid/validations", "DataGrid Validations" ),
                 new PageEntry( "docs/extensions/dropdownlist", "DropdownList", "The DropdownList component allows you to select a value from a list of predefined items." ),
