@@ -1534,6 +1534,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public int? TotalItems { get; set; }
 
     /// <summary>
+    /// Specifies the content to be rendered for each tag (multiple selected item).
+    /// </summary>
+    [Parameter] public RenderFragment<AutocompleteTagContext<TItem, TValue>> TagTemplate { get; set; }
+
+    /// <summary>
     /// Occurs after the search box text has changed.
     /// </summary>
     [Parameter] public EventCallback<string> SearchTextChanged { get; set; }

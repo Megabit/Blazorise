@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -377,6 +376,11 @@ public class TailwindClassProvider : ClassProvider
     public override string FieldLabel( bool horizontal ) => horizontal
         ? "block my-auto text-sm font-medium text-gray-900 dark:text-white"
         : "block my-2 text-sm font-medium text-gray-900 dark:text-white";
+
+    public override string FieldLabelRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "after:content-[' *'] after:[color:var(--b-theme-danger, --btw-color-danger-500)]"
+            : null;
 
     #endregion
 

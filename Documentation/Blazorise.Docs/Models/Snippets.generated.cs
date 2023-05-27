@@ -1702,6 +1702,15 @@ public class Gender
     </FieldBody>
 </Field>";
 
+        public const string RequiredIndicatorExample = @"<Field>
+    <FieldLabel RequiredIndicator>
+        Name
+    </FieldLabel>
+    <FieldBody>
+        <TextEdit Placeholder=""Name"" />
+    </FieldBody>
+</Field>";
+
         public const string FigureExample = @"<Figure Size=""FigureSize.Is256x256"">
     <FigureImage Source=""img/empty-256x256.png"" AlternateText=""empty-256x256"" />
     <FigureCaption>A caption for the above image.</FigureCaption>
@@ -6330,6 +6339,25 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+}";
+
+        public const string DataGridRowOverlayExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          RowSelectable=@((x)=> x.Item.FirstName != ""John"")
+          Responsive>
+    <DataGridColumns>
+        <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
+    </DataGridColumns>
+    <RowOverlayTemplate>
+        <Div>
+            <Button Color=""Color.Primary"" Size=""Size.ExtraSmall""> <Icon Name=""IconName.User"" /> User Details > </Button>
+            <Button Color=""Color.Secondary"" Size=""Size.ExtraSmall""> <Icon Name=""IconName.Building"" /> Company Details > </Button>
+        </Div>
+    </RowOverlayTemplate>
+</DataGrid>
+
+@code {
+    private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""MLaden"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
 }";
 
         public const string DataGridRowSelectableMultipleSelectionExample = @"<DataGrid TItem=""Employee""

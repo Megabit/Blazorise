@@ -313,3 +313,8 @@ textarea.ant-input.ant-input-static {
 .ant-focus-trap {
     display: contents;
 }
+
+.ant-form-item-label-required:after {
+    content: " *";
+    color: var(--b-theme-danger, $danger);
+}

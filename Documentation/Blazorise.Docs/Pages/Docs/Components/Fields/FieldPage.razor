@@ -132,6 +132,16 @@
     <DocsPageSectionSource Code="BasicFieldsExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Validation Indicator">
+        In Blazorise, you can take advantage of the <Code>RequiredIndicator</Code> feature on a FieldLabel to automatically signal required input fields. By using this feature, an indicator is automatically displayed next to the label, thereby making it clear to the user that the corresponding input is required. It's a practical tool for enhancing user interface design and improving form usability. This feature enhances user understanding of the form requirements, helping to make form interactions more intuitive.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RequiredIndicatorExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RequiredIndicatorExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
@@ -156,6 +166,9 @@
     <DocsAttributesItem Name="Screenreader" Type="Screenreader" Default="Always">
         Defines the visibility for screen readers.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="RequiredIndicator" Type="bool" Default="false">
+        If defined, a required indicator will be shown next to the label.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="Fields">
@@ -167,5 +180,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ColumnSize" Type="ColumnSize" Default="null">
         Determines how much space will be used by the field inside of the grid row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RequiredIndicator" Type="bool" Default="false">
+        Whether to provide a Required Indicator.
     </DocsAttributesItem>
 </DocsAttributes>
