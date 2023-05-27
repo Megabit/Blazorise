@@ -377,9 +377,9 @@ public class TailwindClassProvider : ClassProvider
         ? "block my-auto text-sm font-medium text-gray-900 dark:text-white"
         : "block my-2 text-sm font-medium text-gray-900 dark:text-white";
 
-    public override string FieldLabelRequiredIndicator( bool validationIndicator )
-        => validationIndicator
-            ? "after:content-['*'] after:[color:var(--b-theme-danger, --btw-color-danger-500)]"
+    public override string FieldLabelRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "after:content-[' *'] after:[color:var(--b-theme-danger, --btw-color-danger-500)]"
             : null;
 
     #endregion
