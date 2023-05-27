@@ -38,7 +38,7 @@ public partial class FieldLabel : BaseSizableFieldComponent
     [Parameter] public string For { get; set; }
 
     /// <summary>
-    /// Whether to provide a Required Indicator.
+    /// If defined, a required indicator will be shown next to the label.
     /// </summary>
     [Parameter] public bool RequiredIndicator { get; set; }
 
