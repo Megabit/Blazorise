@@ -37,6 +37,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
 export function destroy(element, elementId) {
     const instances = _instances || {};
     const instance = instances[elementId];
+
     if (instance) {
         if (instance.sigpad) {
             instance.sigpad.destroy();
@@ -52,21 +53,26 @@ export function updateOptions(element, elementId, options) {
         if (options.penColor.changed) {
             instance.sigpad.penColor = options.penColor.value || "black";
         }
+
         if (options.minWidth.changed) {
             instance.sigpad.minWidth = options.minWidth.value;
         }
+
         if (options.maxWidth.changed) {
             instance.sigpad.maxWidth = options.maxWidth.value;
         }
+
         if (options.backgroundColor.changed) {
             instance.sigpad.backgroundColor = options.backgroundColor.value || "rgba(0,0,0,0)";
             const data = instance.sigpad.toData();
             instance.sigpad.clear();
             instance.sigpad.fromData(data);
         }
+
         if (options.velocityFilterWeight.changed) {
             instance.sigpad.velocityFilterWeight = options.velocityFilterWeight.value;
         }
+
         if (options.dotSize.changed) {
             instance.sigpad.dotSize = options.dotSize.value;
         }
@@ -75,6 +81,7 @@ export function updateOptions(element, elementId, options) {
 
 export function setData(element, elementId, data) {
     const instance = _instances[elementId];
+
     if (instance && instance.sigpad) {
         instance.sigpad.fromData(data);
     }
@@ -82,13 +89,13 @@ export function setData(element, elementId, data) {
 
 export function clear(element, elementId) {
     const instance = _instances[elementId];
+
     if (instance && instance.sigpad) {
         instance.sigpad.clear();
     }
 }
 
 function registerToEvents(dotNetAdapter, sigpad) {
-
     sigpad.addEventListener("endStroke", (e) => {
         dotNetAdapter.invokeMethodAsync("NotifyEndStroke", sigpad.toDataURL("image/png"))
             .catch((reason) => {

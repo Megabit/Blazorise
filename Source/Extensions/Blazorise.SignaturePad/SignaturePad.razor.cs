@@ -147,8 +147,14 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// </summary>
     protected JSSignaturePadModule JSModule { get; private set; }
 
+    /// <summary>
+    /// Gets or sets the JS runtime.
+    /// </summary>
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
+    /// <summary>
+    /// Gets or sets the version provider.
+    /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
 
     ///<summary>
