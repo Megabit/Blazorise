@@ -309,6 +309,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await NotFound.InvokeAsync( Search );
             }
         }
+
         await SearchTextChanged.InvokeAsync( text );
     }
 
@@ -428,6 +429,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
 
         TextFocused = false;
+
         await SearchBlur.InvokeAsync( eventArgs );
     }
 
