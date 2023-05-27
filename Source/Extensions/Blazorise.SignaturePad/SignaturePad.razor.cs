@@ -1,11 +1,9 @@
 ﻿#region Using directives
-using System.Reflection;
 using System;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
-using System.Linq;
-using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.SignaturePad;

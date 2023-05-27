@@ -2,7 +2,7 @@
 
 <Row>
     <Column>
-        <Card Margin="Margin.Is4.OnY">
+        <Card>
             <CardHeader>
                 <CardTitle>Signature pad</CardTitle>
             </CardHeader>
@@ -13,21 +13,21 @@
     </Column>
 
     <Column>
-        <Card Margin="Margin.Is4.OnY">
+        <Card>
             <CardHeader>
                 <CardTitle>Preview</CardTitle>
             </CardHeader>
             <CardBody>
-                <Image Source="@Image64" />
+                <Image Source="@Image64" Fluid />
             </CardBody>
         </Card>
     </Column>
 </Row>
 
-@code{
-     byte[] data = null;
+@code {
+    byte[] data = null;
 
     string Image64 => data != null
-    ? $"data:image/png;base64,{Convert.ToBase64String( data )}"
-    : null;
+        ? $"data:image/png;base64,{Convert.ToBase64String( data )}"
+        : null;
 }

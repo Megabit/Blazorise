@@ -7510,7 +7510,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SignaturePadBindValueExample = @"<Row>
     <Column>
-        <Card Margin=""Margin.Is4.OnY"">
+        <Card>
             <CardHeader>
                 <CardTitle>Signature pad</CardTitle>
             </CardHeader>
@@ -7521,34 +7521,34 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     </Column>
 
     <Column>
-        <Card Margin=""Margin.Is4.OnY"">
+        <Card>
             <CardHeader>
                 <CardTitle>Preview</CardTitle>
             </CardHeader>
             <CardBody>
-                <Image Source=""@Image64"" />
+                <Image Source=""@Image64"" Fluid />
             </CardBody>
         </Card>
     </Column>
 </Row>
 
-@code{
-     byte[] data = null;
+@code {
+    byte[] data = null;
 
     string Image64 => data != null
-    ? $""data:image/png;base64,{Convert.ToBase64String( data )}""
-    : null;
+        ? $""data:image/png;base64,{Convert.ToBase64String( data )}""
+        : null;
 }";
 
         public const string SignaturePadDotSizeExample = @"<SignaturePad DotSize=""5"" />";
 
-        public const string SignaturePadMaxWidthExample = @"<SignaturePad MaxWidth=""10""/>";
+        public const string SignaturePadMaxWidthExample = @"<SignaturePad MaxLineWidth=""10""/>";
 
         public const string SignaturePadMinDistanceExample = @"<SignaturePad MinDistance=""100"" />";
 
-        public const string SignaturePadMinWidthExample = @"<SignaturePad MinWidth=""5"" />";
+        public const string SignaturePadMinWidthExample = @"<SignaturePad MinLineWidth=""5"" />";
 
-        public const string SignaturePadPenColorExample = @"<SignaturePad PenColor=""red"" />";
+        public const string SignaturePadPenColorExample = @"<SignaturePad PenColor=""#ff0000"" />";
 
         public const string SignaturePadThrottleExample = @"<SignaturePad Throttle=""20"" />";
 

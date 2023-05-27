@@ -29,8 +29,13 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="SignaturePad bind-Value example">
-        Simply place the <Code>SignaturePad</Code> extension and you're ready to capture signatures.
+    <DocsPageSectionHeader Title="Two-way binding">
+        <Paragraph>
+            The SignaturePad <Code>@@bind-Value</Code> syntax is used in Blazor for two-way data binding. This means that when a user signs their name using the SignaturePad component, the data representing the signature is automatically updated in the <Code>@@data-Value</Code> parameter. Similarly, if the <Code>@@data-Value</Code> parameter changes elsewhere in your code, the signature displayed in the SignaturePad component will automatically update to reflect this.
+        </Paragraph>
+        <Paragraph>
+            To better understand how the SignaturePad component works with two-way data binding, consider the following example:
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SignaturePadBindValueExample />
@@ -39,8 +44,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="SignaturePad BackgroundColor example">
-        Add parameter BackgroundColor to your <Code>SignaturePad</Code> extension to change color of the background.
+    <DocsPageSectionHeader Title="BackgroundColor">
+        The <Strong>BackgroundColor</Strong> property in Blazorise's SignaturePad customizes the pad's appearance by setting its background color. Accepting a CSS color string, it allows design flexibility, improving visibility or matching aesthetic requirements. It's advisable to use colors that contrast well with the signature for clear visibility.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SignaturePadBackgroundColorExample />
@@ -49,8 +54,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="SignaturePad PenColor example">
-        Add parameter PenColor to your <Code>SignaturePad</Code> extension to change the color of the signature stroke.
+    <DocsPageSectionHeader Title="PenColor">
+        The <Strong>PenColor</Strong> parameter in Blazorise's SignaturePad adjusts the color of the pen used for signatures. Accepting a CSS color string, it enhances customization and user experience. Chosen color should contrast well with the background for optimum visibility.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SignaturePadPenColorExample />
@@ -59,8 +64,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="SignaturePad DotSize example">
-        Add parameter DotSize to your <Code>SignaturePad</Code> extension to change the size of the signature stroke.
+    <DocsPageSectionHeader Title="DotSize">
+        The <Strong>DotSize</Strong> property controls the diameter of the signature's stroke. It interprets a numerical input to define the thickness of the line, facilitating user-customizable detail and individuality in the resultant signatures.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SignaturePadDotSizeExample />
@@ -69,8 +74,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="SignaturePad MinWidth example">
-        Add parameter MinWidth to your <Code>SignaturePad</Code> extension to set the minimum width of the signature stroke.
+    <DocsPageSectionHeader Title="MinWidth">
+        The <Strong>MinWidth</Strong> property in the SignaturePad component of Blazorise sets the minimum thickness of the line drawn for a signature. It accepts a numerical input that dictates the smallest possible line width, offering users control over the finesse and precision of the signature strokes.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SignaturePadMinWidthExample />
@@ -79,8 +84,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="SignaturePad MaxWidth example">
-        Add parameter MaxWidth to your <Code>SignaturePad</Code> extension to set the maximum width of the signature stroke.
+    <DocsPageSectionHeader Title="MaxWidth">
+        The <Strong>MaxWidth</Strong> property within Blazorise's SignaturePad governs the maximum thickness of the signature stroke. By accepting a numerical input, it sets an upper limit to the line width, ensuring control over the boldness and prominence of the rendered signatures.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SignaturePadMinWidthExample />
@@ -89,8 +94,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="SignaturePad MinDistance example">
-        Add parameter MinDistance to your <Code>SignaturePad</Code> extension to set the minimum distance between two points on the signature pad before a new point is added to the stroke.
+    <DocsPageSectionHeader Title="MinDistance">
+        Blazorise's SignaturePad component includes the <Strong>MinDistance</Strong> parameter, which determines the minimum distance required for the pen to move before a new stroke is registered. By accepting numerical values, it provides control over the sensitivity of stroke detection, affecting the smoothness and precision of the resulting signatures.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SignaturePadMinWidthExample />
@@ -99,8 +104,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="SignaturePad Throttle example">
-        Add parameter Throttle to your <Code>SignaturePad</Code> extension to set the delay time in milliseconds between each point capture in the signature drawing process.
+    <DocsPageSectionHeader Title="Throttle">
+        The <Strong>Throttle</Strong> parameter of Blazorise's SignaturePad is responsible for controlling the rate of signature data collection. By accepting a numerical value, it limits how often the pad captures the signature data within a specific time frame, influencing the smoothness and responsiveness of the signature drawing process.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SignaturePadMinWidthExample />
@@ -109,8 +114,8 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="SignaturePad Velocity Filter Weight example">
-        Add parameter VelocityFilterWeight to your <Code>SignaturePad</Code> extension to set the smoothness of the signature pad by adjusting the line thickness based on the velocity of the drawing.
+    <DocsPageSectionHeader Title="Velocity Filter Weight">
+        The <Strong>VelocityFilterWeight</Strong> parameter in Blazorise's SignaturePad is employed to regulate the influence of velocity on the drawn stroke's width. It accepts a numerical value, contributing to a dynamic stroke width based on the speed of signing, which introduces a more natural and fluid appearance to the signatures.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <SignaturePadMinWidthExample />
@@ -133,8 +138,11 @@
     <DocsAttributesItem Name="PenColor" Type="string" Default="#000000">
         Defines the color of the pen used to draw the signature.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Value" Type="object" Default="null">
+    <DocsAttributesItem Name="Value" Type="byte[]" Default="null">
         Binds the value of the signature pad to a specified variable.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValueChanged" Type="EventCallback<byte[]>">
+        The event that is triggered when the signature pad value changes. The event provides the new signature as a byte array.
     </DocsAttributesItem>
     <DocsAttributesItem Name="DotSize" Type="int" Default="2">
         Defines the size of the dots used in drawing the signature.
