@@ -123,6 +123,24 @@
     <DocsPageSectionSource Code="SignaturePadVelocityFilterWeightExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Image Type">
+        <Paragraph>
+            The <Strong>ImageType</Strong> and <Strong>ImageQuality</Strong> parameters in Blazorise's SignaturePad provide control over the final output of the signature.
+        </Paragraph>
+        <Paragraph>
+            <Strong>ImageType</Strong> determines the format of the exported image and supports PNG, JPEG, and SVG. This allows users to choose the appropriate format for their needs, balancing factors like image quality and file size.
+        </Paragraph>
+        <Paragraph>
+            <Strong>ImageQuality</Strong> adjusts the quality of the generated image, specifically for JPEG and PNG formats. It accepts a numerical value between 0 and 1, with 1 being the highest quality. This enables users to fine-tune the trade-off between image fidelity and file size. SVG images do not use this parameter since they're a vector format and do not lose quality.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SignaturePadImageTypeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadImageTypeExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
