@@ -84,6 +84,10 @@ export function updateOptions(element, elementId, options) {
         if (options.imageQuality.changed) {
             instance.options.imageQuality = options.imageQuality.value;
         }
+
+        if (options.includeImageBackgroundColor.changed) {
+            instance.options.includeImageBackgroundColor = options.includeImageBackgroundColor.value;
+        }
     }
 }
 
@@ -129,7 +133,7 @@ function getImageDataURL(sigpad, options) {
         return sigpad.toDataURL("image/jpeg", options.imageQuality || 1);
     }
     else if (options.imageType === "svg") {
-        return sigpad.toDataURL("image/svg+xml");
+        return sigpad.toDataURL("image/svg+xml", { includeBackgroundColor: options.includeImageBackgroundColor || false });
     }
 
     return sigpad.toDataURL("image/png", options.imageQuality || 1);

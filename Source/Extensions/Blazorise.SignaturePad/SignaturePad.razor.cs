@@ -30,6 +30,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
             var velocityFilterWeightChanged = parameters.TryGetValue<double>( nameof( VelocityFilterWeight ), out var paramVelocityFilterWeight ) && VelocityFilterWeight != paramVelocityFilterWeight;
             var imageTypeChanged = parameters.TryGetValue<SignaturePadImageType>( nameof( ImageType ), out var paramImageType ) && ImageType != paramImageType;
             var imageQualityChanged = parameters.TryGetValue<double?>( nameof( ImageQuality ), out var paramImageQuality ) && ImageQuality != paramImageQuality;
+            var includeImageBackgroundColorChanged = parameters.TryGetValue<bool>( nameof( IncludeImageBackgroundColor ), out var paramIncludeImageBackgroundColor ) && IncludeImageBackgroundColor != paramIncludeImageBackgroundColor;
 
             if ( dotSizeChanged || minLineWidthChanged || maxLineWidthChanged || throttleChanged || minDistanceChanged || backgroundColorChanged || penColorChanged || velocityFilterWeightChanged )
             {
@@ -45,6 +46,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
                     VelocityFilterWeight = new { Changed = velocityFilterWeightChanged, Value = paramVelocityFilterWeight },
                     ImageType = new { Changed = imageTypeChanged, Value = ToImageTypeString( paramImageType ) },
                     ImageQuality = new { Changed = imageQualityChanged, Value = paramImageQuality },
+                    IncludeImageBackgroundColor = new { Changed = includeImageBackgroundColorChanged, Value = paramIncludeImageBackgroundColor },
                 } ) );
             }
         }
@@ -74,6 +76,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
                 VelocityFilterWeight,
                 ImageType = ToImageTypeString( ImageType ),
                 ImageQuality,
+                IncludeImageBackgroundColor
             } );
         }
 
@@ -251,6 +254,11 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// The encoder options for image type [png, jpeg] to get from the canvas element.
     /// </summary>
     [Parameter] public double? ImageQuality { get; set; }
+
+    /// <summary>
+    /// The encoder options for image type [svg] to get from the canvas element.
+    /// </summary>
+    [Parameter] public bool IncludeImageBackgroundColor { get; set; }
 
     #endregion
 }

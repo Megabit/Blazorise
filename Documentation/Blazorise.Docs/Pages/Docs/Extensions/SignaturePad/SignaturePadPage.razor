@@ -126,13 +126,16 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Image Type">
         <Paragraph>
-            The <Strong>ImageType</Strong> and <Strong>ImageQuality</Strong> parameters in Blazorise's SignaturePad provide control over the final output of the signature.
+            The <Strong>ImageType</Strong>, <Strong>ImageQuality</Strong>, and <Strong>IncludeImageBackgroundColor</Strong> parameters in Blazorise's SignaturePad provide control over the final output of the signature.
         </Paragraph>
         <Paragraph>
             <Strong>ImageType</Strong> determines the format of the exported image and supports PNG, JPEG, and SVG. This allows users to choose the appropriate format for their needs, balancing factors like image quality and file size.
         </Paragraph>
         <Paragraph>
             <Strong>ImageQuality</Strong> adjusts the quality of the generated image, specifically for JPEG and PNG formats. It accepts a numerical value between 0 and 1, with 1 being the highest quality. This enables users to fine-tune the trade-off between image fidelity and file size. SVG images do not use this parameter since they're a vector format and do not lose quality.
+        </Paragraph>
+        <Paragraph>
+            The <Strong>IncludeImageBackgroundColor</Strong> property is an additional parameter that's specifically applicable when <Strong>ImageType</Strong> is set to SVG in Blazorise's SignaturePad. When it's enabled (set to true), the SVG output will include the background color as specified by the <Strong>BackgroundColor</Strong> property. This offers users more control over the look of the signature pad, especially when they need to maintain the background color in the final SVG image.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -185,5 +188,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ImageQuality" Type="double?" Default="1">
         The encoder options for image type [png, jpeg] to get from the canvas element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IncludeImageBackgroundColor" Type="bool" Default="false">
+        The encoder options for image type [svg] to get from the canvas element.
     </DocsAttributesItem>
 </DocsAttributes>

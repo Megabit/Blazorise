@@ -7,7 +7,7 @@
                 <CardTitle>Signature pad</CardTitle>
             </CardHeader>
             <CardBody>
-                <SignaturePad @bind-Value="@data" ImageType="SignaturePadImageType.Png" ImageQuality="0.5" />
+                <SignaturePad @bind-Value="@data" ImageType="SignaturePadImageType.Svg" />
             </CardBody>
         </Card>
     </Column>
@@ -15,7 +15,7 @@
     <Column>
         <Card>
             <CardHeader>
-                <CardTitle>PNG Image</CardTitle>
+                <CardTitle>SVG Image</CardTitle>
             </CardHeader>
             <CardBody>
                 <Image Source="@Image64" Fluid />
@@ -28,6 +28,6 @@
     byte[] data = null;
 
     string Image64 => data != null
-        ? $"data:image/png;base64,{Convert.ToBase64String( data )}"
+        ? $"data:image/svg+xml;base64,{Convert.ToBase64String( data )}"
         : null;
 }

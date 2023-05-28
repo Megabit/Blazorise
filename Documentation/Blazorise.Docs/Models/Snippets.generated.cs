@@ -7542,6 +7542,38 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SignaturePadDotSizeExample = @"<SignaturePad DotSize=""5"" />";
 
+        public const string SignaturePadImageTypeExample = @"<Row>
+    <Column>
+        <Card>
+            <CardHeader>
+                <CardTitle>Signature pad</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SignaturePad @bind-Value=""@data"" ImageType=""SignaturePadImageType.Svg"" />
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column>
+        <Card>
+            <CardHeader>
+                <CardTitle>SVG Image</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Image Source=""@Image64"" Fluid />
+             </CardBody>
+         </Card>
+     </Column>
+ </Row>
+
+ @code {
+    byte[] data = null;
+
+    string Image64 => data != null
+        ? $""data:image/svg+xml;base64,{Convert.ToBase64String( data )}""
+        : null;
+}";
+
         public const string SignaturePadMaxWidthExample = @"<SignaturePad MaxLineWidth=""10""/>";
 
         public const string SignaturePadMinDistanceExample = @"<SignaturePad MinDistance=""100"" />";
