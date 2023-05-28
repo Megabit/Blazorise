@@ -98,9 +98,9 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     {
         if ( disposing && Rendered )
         {
-            await JSModule.Destroy( ElementRef, ElementId );
+            await JSModule.SafeDestroy( ElementRef, ElementId );
 
-            await JSModule.DisposeAsync();
+            await JSModule.SafeDisposeAsync();
 
             if ( DotNetObjectRef != null )
             {
