@@ -1978,6 +1978,11 @@ textarea.ant-input.ant-input-static {
   display: contents;
 }
 
+.ant-form-item-label-required:after {
+  content: " *";
+  color: var(--b-theme-danger, #ff4d4f);
+}
+
 .ant-row {
   margin-left: -15px;
   margin-right: -15px;

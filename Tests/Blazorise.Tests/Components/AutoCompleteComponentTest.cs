@@ -23,6 +23,60 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
     }
 
     [Fact]
+    public async Task SearchTextChanged_ShouldTrigger_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SearchTextChanged, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        await autoComplete.InputAsync( "S" );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task SearchKeyDown_ShouldTrigger_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SearchKeyDown, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        await autoComplete.KeyDownAsync( new() { Key = "S" } );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task SearchBlur_ShouldTrigger_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SearchBlur, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.BlurAsync( new() );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task SearchFocus_ShouldTrigger_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SearchFocus, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        await autoComplete.FocusAsync( new() );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+
+    [Fact]
     public async Task Opened_ShouldTrigger_Once()
     {
         var changedCount = 0;

@@ -1163,6 +1163,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
+    internal Task OnRowMouseOverCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+    {
+        return RowMouseOver.InvokeAsync( eventArgs );
+    }
+    internal Task OnRowMouseLeaveCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+    {
+        return RowMouseLeave.InvokeAsync( eventArgs );
+    }
+
     internal Task OnRowClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
     {
         return RowClicked.InvokeAsync( eventArgs );
@@ -2299,6 +2308,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter] public EventCallback<TItem> RowRemoved { get; set; }
 
+
+    /// <summary>
+    /// Event called after the mouse leaves the row.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowMouseLeave { get; set; }
+
+    /// <summary>
+    /// Event called after the mouse is over the row.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowMouseOver { get; set; }
+
     /// <summary>
     /// Event called after the row is clicked.
     /// </summary>
@@ -2589,6 +2609,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     : selectedRowDataIdx + ( CurrentPage - 1 ) * PageSize;
         }
     }
+
+    /// <summary>
+    /// Template for mouse hover overlay display formatting.
+    /// </summary>
+    [Parameter] public RenderFragment<RowOverlayContext<TItem>> RowOverlayTemplate { get; set; }
+
+    /// <summary>
+    /// Defines the position of the row overlay.
+    /// </summary>
+    [Parameter] public DataGridRowOverlayPosition RowOverlayPosition { get; set; } = DataGridRowOverlayPosition.End;
+
+    /// <summary>
+    /// Defines the background of the row overlay.
+    /// </summary>
+    [Parameter] public Background RowOverlayBackground { get; set; } = Background.Light;
 
     #endregion
 }
