@@ -40,7 +40,7 @@ export function destroy(element, elementId) {
 
     if (instance) {
         if (instance.sigpad) {
-            instance.sigpad.destroy();
+            instance.sigpad.off();
         }
 
         delete instances[elementId];
