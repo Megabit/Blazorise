@@ -32,7 +32,17 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
             var imageQualityChanged = parameters.TryGetValue<double?>( nameof( ImageQuality ), out var paramImageQuality ) && ImageQuality != paramImageQuality;
             var includeImageBackgroundColorChanged = parameters.TryGetValue<bool>( nameof( IncludeImageBackgroundColor ), out var paramIncludeImageBackgroundColor ) && IncludeImageBackgroundColor != paramIncludeImageBackgroundColor;
 
-            if ( dotSizeChanged || minLineWidthChanged || maxLineWidthChanged || throttleChanged || minDistanceChanged || backgroundColorChanged || penColorChanged || velocityFilterWeightChanged )
+            if ( dotSizeChanged
+                || minLineWidthChanged
+                || maxLineWidthChanged
+                || throttleChanged
+                || minDistanceChanged
+                || backgroundColorChanged
+                || penColorChanged
+                || velocityFilterWeightChanged
+                || imageTypeChanged
+                || imageQualityChanged
+                || includeImageBackgroundColorChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
