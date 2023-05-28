@@ -28,6 +28,8 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
             var backgroundColorChanged = parameters.TryGetValue<string>( nameof( BackgroundColor ), out var paramBgColor ) && !BackgroundColor.IsEqual( paramBgColor );
             var penColorChanged = parameters.TryGetValue<string>( nameof( PenColor ), out var paramPenColor ) && !PenColor.IsEqual( paramPenColor );
             var velocityFilterWeightChanged = parameters.TryGetValue<double>( nameof( VelocityFilterWeight ), out var paramVelocityFilterWeight ) && VelocityFilterWeight != paramVelocityFilterWeight;
+            var imageTypeChanged = parameters.TryGetValue<SignaturePadImageType>( nameof( ImageType ), out var paramImageType ) && ImageType != paramImageType;
+            var imageQualityChanged = parameters.TryGetValue<double?>( nameof( ImageQuality ), out var paramImageQuality ) && ImageQuality != paramImageQuality;
 
             if ( dotSizeChanged || minLineWidthChanged || maxLineWidthChanged || throttleChanged || minDistanceChanged || backgroundColorChanged || penColorChanged || velocityFilterWeightChanged )
             {
@@ -40,7 +42,9 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
                     MinDistance = new { Changed = minDistanceChanged, Value = paramMinDistance },
                     BackgroundColor = new { Changed = backgroundColorChanged, Value = paramBgColor },
                     PenColor = new { Changed = penColorChanged, Value = paramPenColor },
-                    VelocityFilterWeight = new { Changed = velocityFilterWeightChanged, Value = paramVelocityFilterWeight }
+                    VelocityFilterWeight = new { Changed = velocityFilterWeightChanged, Value = paramVelocityFilterWeight },
+                    ImageType = new { Changed = imageTypeChanged, Value = ToImageTypeString( paramImageType ) },
+                    ImageQuality = new { Changed = imageQualityChanged, Value = paramImageQuality },
                 } ) );
             }
         }
@@ -67,7 +71,9 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
                 MinDistance,
                 BackgroundColor,
                 PenColor,
-                VelocityFilterWeight
+                VelocityFilterWeight,
+                ImageType = ToImageTypeString( ImageType ),
+                ImageQuality,
             } );
         }
 
@@ -113,11 +119,18 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [JSInvokable]
     public async Task NotifyEndStroke( string value )
     {
-        var encodedImage = value.Split( ',' )[1];
-        Value = Convert.FromBase64String( encodedImage );
+        if ( string.IsNullOrEmpty( value ) )
+            return;
 
-        await ValueChanged.InvokeAsync( Value );
-        await EndStroke.InvokeAsync( Value );
+        var valueParts = value.Split( ',' );
+
+        if ( valueParts.Length > 1 )
+        {
+            Value = Convert.FromBase64String( valueParts[1] );
+
+            await ValueChanged.InvokeAsync( Value );
+            await EndStroke.InvokeAsync( Value );
+        }
     }
 
     /// <summary>
@@ -129,6 +142,19 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     {
         await BeginStroke.InvokeAsync();
     }
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="ImageType"/>.
+    /// </summary>
+    /// <param name="imageType">Image type value.</param>
+    /// <returns>String representation of the <see cref="ImageType"/>.</returns>
+    private static string ToImageTypeString( SignaturePadImageType imageType ) => imageType switch
+    {
+        SignaturePadImageType.Jpeg => "jpeg",
+        SignaturePadImageType.Svg => "svg",
+        SignaturePadImageType.Png => "png",
+        _ => "png",
+    };
 
     #endregion
 
@@ -215,6 +241,16 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// The weight used to modify new velocity based on the previous velocity.
     /// </summary>
     [Parameter] public double VelocityFilterWeight { get; set; }
+
+    /// <summary>
+    /// The image type [png, jpeg, svg] to get from the canvas element.
+    /// </summary>
+    [Parameter] public SignaturePadImageType ImageType { get; set; } = SignaturePadImageType.Png;
+
+    /// <summary>
+    /// The encoder options for image type [png, jpeg] to get from the canvas element.
+    /// </summary>
+    [Parameter] public double? ImageQuality { get; set; }
 
     #endregion
 }

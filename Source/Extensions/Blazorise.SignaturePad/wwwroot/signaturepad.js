@@ -29,7 +29,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         sigpad: sigpad,
     };
 
-    registerToEvents(dotNetAdapter, instance.sigpad);
+    registerToEvents(dotNetAdapter, instance);
 
     _instances[elementId] = instance;
 }
@@ -76,6 +76,14 @@ export function updateOptions(element, elementId, options) {
         if (options.dotSize.changed) {
             instance.sigpad.dotSize = options.dotSize.value;
         }
+
+        if (options.imageType.changed) {
+            instance.options.imageType = options.imageType.value;
+        }
+
+        if (options.imageQuality.changed) {
+            instance.options.imageQuality = options.imageQuality.value;
+        }
     }
 }
 
@@ -95,15 +103,34 @@ export function clear(element, elementId) {
     }
 }
 
-function registerToEvents(dotNetAdapter, sigpad) {
-    sigpad.addEventListener("endStroke", (e) => {
-        dotNetAdapter.invokeMethodAsync("NotifyEndStroke", sigpad.toDataURL("image/png"))
-            .catch((reason) => {
-                console.error(reason);
-            });
-    });
+function registerToEvents(dotNetAdapter, instance) {
+    if (instance && instance.sigpad) {
+        instance.sigpad.addEventListener("beginStroke", (e) => {
+            dotNetAdapter.invokeMethodAsync("NotifyBeginStroke")
+        });
 
-    sigpad.addEventListener("beginStroke", (e) => {
-        dotNetAdapter.invokeMethodAsync("NotifyBeginStroke")
-    });
+        instance.sigpad.addEventListener("endStroke", (e) => {
+            const dataURL = getImageDataURL(instance.sigpad, instance.options);
+
+            dotNetAdapter.invokeMethodAsync("NotifyEndStroke", dataURL)
+                .catch((reason) => {
+                    console.error(reason);
+                });
+        });
+    }
+}
+
+function getImageDataURL(sigpad, options) {
+    if (!sigpad || !options) {
+        return null;
+    }
+
+    if (options.imageType === "jpeg") {
+        return sigpad.toDataURL("image/jpeg", options.imageQuality || 1);
+    }
+    else if (options.imageType === "svg") {
+        return sigpad.toDataURL("image/svg+xml");
+    }
+
+    return sigpad.toDataURL("image/png", options.imageQuality || 1);
 }
