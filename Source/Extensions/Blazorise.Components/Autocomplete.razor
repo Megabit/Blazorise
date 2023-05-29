@@ -51,13 +51,6 @@
         </TextEdit>
     </Validation>
     <DropdownMenu>
-        @if ( NotFoundVisible )
-        {
-            <DropdownItem Disabled>
-            @NotFoundContent( Search )
-        </DropdownItem>
-        }
-
         @if ( DropdownVisible )
         {
             @if ( VirtualizeManualReadMode )
@@ -79,6 +72,18 @@
                     @itemFragment(item)
                 }
             }
+        }
+        else if ( NotFoundVisible )
+        {
+            <DropdownItem Disabled>
+                @NotFoundContent( Search )
+            </DropdownItem>
+        }
+        else if ( FreeTypingNotFoundVisible )
+        {
+            <DropdownItem Disabled>
+                @FreeTypingNotFoundContent( Search )
+            </DropdownItem>
         }
     </DropdownMenu>
 </Dropdown>

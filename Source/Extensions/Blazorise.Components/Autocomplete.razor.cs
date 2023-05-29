@@ -1458,6 +1458,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public RenderFragment<string> NotFoundContent { get; set; }
 
     /// <summary>
+    /// Specifies the not found content to be rendered inside this <see cref="Autocomplete{TItem, TValue}"/> when no data is found and FreeTyping is enabled.
+    /// </summary>
+    [Parameter] public RenderFragment<string> FreeTypingNotFoundContent { get; set; }
+
+    /// <summary>
     /// Occurs on every search text change where the data does not contain the text being searched.
     /// </summary>
     [Parameter] public EventCallback<string> NotFound { get; set; }
