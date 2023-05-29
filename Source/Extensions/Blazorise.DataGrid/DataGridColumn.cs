@@ -51,7 +51,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( ParentDataGrid is not null )
         {
-            ParentDataGrid.AddColumn( this );
+            ParentDataGrid.AddColumn( this, true );
 
             Filter?.Subscribe( OnSearchValueChanged );
         }
