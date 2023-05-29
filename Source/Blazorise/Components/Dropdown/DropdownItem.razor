@@ -1,5 +1,14 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<a id="@ElementId" class="@ClassNames" style="@StyleNames" @onmouseup="@ClickHandler" @onmousedown="() => {}" @onmousedown:preventDefault @attributes="@Attributes" >
+
+
+<a id="@ElementId" class="@ClassNames" style="@StyleNames" @onmouseup="@ClickHandler" @onmousedown="@EventCallback.Empty" @onmousedown:preventDefault @attributes="@Attributes">
+    @if ( Checkbox )
+    {
+        <Label @onclick:stopPropagation @onmouseup:stopPropagation>
+            <Check TValue="bool" Checked="Checked" CheckedExpression="() => Checked" CheckedChanged="CheckedChanged" Disabled="@Disabled" @onclick:stopPropagation></Check>
+        </Label>
+    }
+
     @ChildContent
 </a>

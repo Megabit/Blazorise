@@ -108,5 +108,20 @@ public partial class DropdownItem : BaseComponent
     /// </summary>
     [CascadingParameter] protected Dropdown ParentDropdown { get; set; }
 
+    /// <summary>
+    /// The dropdown renders a checkbox.
+    /// </summary>
+    [Parameter] public bool Checkbox { get; set; }
+
+    /// <summary>
+    /// Tracks the Checked state whenever the Dropdown is in checkbox mode.
+    /// </summary>
+    [Parameter] public bool Checked { get; set; }
+
+    /// <summary>
+    /// Occurs after the Checked state is changed, whenever the Dropdown is in checkbox mode.
+    /// </summary>
+    [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
+
     #endregion
 }
