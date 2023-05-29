@@ -76,7 +76,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Whether the value is currently selected.
     /// </summary>
     protected bool IsSelected( TValue value )
-        => SelectedValues?.Any( x => x.Equals( value ) ) ?? false;
+        => selectedValues?.Any( x => x.Equals( value ) ) ?? false;
 
     /// <summary>
     /// Gets or sets the dropdown element id.
