@@ -13,3 +13,46 @@
         <DropdownItem Checkbox>Another Action</DropdownItem>
     </DropdownMenu>
 </Dropdown>
+
+<DropdownList TItem="Country"
+              TValue="string"
+              Data="@Countries"
+              TextField="@(( item ) => item.Name)"
+              ValueField="@((item) => item.Iso)"
+              @bind-SelectedValue="@selectedDropValue"
+              @bind-SelectedValues="@selectedDropValues"
+              Color="Color.Primary"
+              MaxMenuHeight="200px"
+              SelectionMode="DropdownListSelectionMode.Checkbox">
+    Select item
+</DropdownList>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    private string selectedDropValue { get; set; } = "2";
+    private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { "AF" };
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private static string GetColor( int number )
+    {
+        const string letters = "0123456789ABCDEF";
+
+        var color = "";
+
+        for ( var i = 0; i < 6; i++ )
+        {
+            color += letters[( 3 * number + i ) % letters.Length];
+        }
+
+        return $"color: #{color}";
+    }
+}
