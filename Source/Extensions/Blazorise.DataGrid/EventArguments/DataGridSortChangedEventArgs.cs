@@ -36,12 +36,13 @@ public class DataGridSortChangedEventArgs : EventArgs
     }
 
     /// <summary>
-    /// Gets the field name of the column that is being sorted. The name is either <see cref="BaseDataGridColumn{TItem}.Field"/> or <see cref="DataGridColumn{TItem}.SortField"/> if specified.
+    /// Gets the field name used to apply sorting on this column. 
+    /// The name is either <see cref="BaseDataGridColumn{TItem}.Field"/> or <see cref="DataGridColumn{TItem}.SortField"/> if specified.
     /// </summary>
     public string FieldName { get; }
 
     /// <summary>
-    /// Gets the field name of the column that is being sorted. The name is always the same as in <see cref="BaseDataGridColumn{TItem}.Field"/>.
+    /// Gets the field name that is defined on this column. The name is always the same as in <see cref="BaseDataGridColumn{TItem}.Field"/>.
     /// </summary>
     public string ColumnFieldName { get; set; }
 
