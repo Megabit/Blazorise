@@ -1132,6 +1132,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         => !FreeTyping && canShowDropDown && NotFoundContent is not null && IsTextSearchable && !Loading && !HasFilteredData;
 
     /// <summary>
+    /// True if the free typing not found content should be visible.
+    /// </summary>
+    protected bool FreeTypingNotFoundVisible
+        => FreeTyping && canShowDropDown && FreeTypingNotFoundTemplate is not null && IsTextSearchable && !Loading && !HasFilteredData;
+
+    /// <summary>
     /// True if the text complies to the search requirements
     /// </summary>
     protected bool IsTextSearchable
@@ -1456,6 +1462,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Specifies the not found content to be rendered inside this <see cref="Autocomplete{TItem, TValue}"/> when no data is found.
     /// </summary>
     [Parameter] public RenderFragment<string> NotFoundContent { get; set; }
+
+    /// <summary>
+    /// Specifies the not found content to be rendered inside this <see cref="Autocomplete{TItem, TValue}"/> when no data is found and FreeTyping is enabled.
+    /// </summary>
+    [Parameter] public RenderFragment<string> FreeTypingNotFoundTemplate { get; set; }
 
     /// <summary>
     /// Occurs on every search text change where the data does not contain the text being searched.
