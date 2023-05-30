@@ -61,6 +61,7 @@ export function initialize(element, elementId, options) {
         picker.altInput.addEventListener("blur", (e) => {
             const isInput = e.target === picker._input;
 
+            // Workaround for: onchange does not fire when user writes the time and then click outside of the input area.
             if (isInput && picker.isOpen === false) {
                 picker.input.dispatchEvent(utilities.createEvent("change"));
                 picker.input.dispatchEvent(utilities.createEvent("input"));
