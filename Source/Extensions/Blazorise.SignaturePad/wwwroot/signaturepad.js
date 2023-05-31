@@ -24,6 +24,10 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         sigpad.fromData(options.value, { clear: false });
     }
 
+    if (options.readOnly === true) {
+        sigpad.off();
+    }
+
     const instance = {
         options: options,
         sigpad: sigpad,
@@ -75,6 +79,15 @@ export function updateOptions(element, elementId, options) {
 
         if (options.dotSize.changed) {
             instance.sigpad.dotSize = options.dotSize.value;
+        }
+
+        if (options.readOnly.changed) {
+            if (options.readOnly.value === true) {
+                instance.sigpad.off();
+            }
+            else {
+                instance.sigpad.on();
+            }
         }
 
         if (options.imageType.changed) {

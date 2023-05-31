@@ -56,6 +56,12 @@
                             <NumericPicker @bind-Value="@velocityFilterWeight" />
                         </FieldBody>
                     </Field>
+                    <Field>
+                        <FieldLabel>Read only</FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@readOnly" />
+                        </FieldBody>
+                    </Field>
                 </Fields>
             </CardBody>
         </Card>
@@ -69,7 +75,7 @@
                 <CardTitle>Signature pad</CardTitle>
             </CardHeader>
             <CardBody>
-                <SignaturePad @bind-Value="@data" BackgroundColor="@backgroundColor" PenColor="@penColor" DotSize="@dotSize" MinLineWidth="@minLineWidth" MaxLineWidth="@maxLineWidth" Throttle="@throttle" MinDistance="@minDistance" VelocityFilterWeight="@velocityFilterWeight"></SignaturePad>
+                <SignaturePad @bind-Value="@data" BackgroundColor="@backgroundColor" PenColor="@penColor" DotSize="@dotSize" MinLineWidth="@minLineWidth" MaxLineWidth="@maxLineWidth" Throttle="@throttle" MinDistance="@minDistance" VelocityFilterWeight="@velocityFilterWeight" ReadOnly="@readOnly" />
             </CardBody>
         </Card>
     </Column>
@@ -101,4 +107,5 @@
     double velocityFilterWeight = 0.7;
     int throttle = 10;
     int minDistance = 5;
+    bool readOnly;
 }

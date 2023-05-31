@@ -31,6 +31,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
             var imageTypeChanged = parameters.TryGetValue<SignaturePadImageType>( nameof( ImageType ), out var paramImageType ) && ImageType != paramImageType;
             var imageQualityChanged = parameters.TryGetValue<double?>( nameof( ImageQuality ), out var paramImageQuality ) && ImageQuality != paramImageQuality;
             var includeImageBackgroundColorChanged = parameters.TryGetValue<bool>( nameof( IncludeImageBackgroundColor ), out var paramIncludeImageBackgroundColor ) && IncludeImageBackgroundColor != paramIncludeImageBackgroundColor;
+            var readOnlyChanged = parameters.TryGetValue<bool>( nameof( ReadOnly ), out var paramReadOnly ) && ReadOnly != paramReadOnly;
 
             if ( dotSizeChanged
                 || minLineWidthChanged
@@ -42,7 +43,8 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
                 || velocityFilterWeightChanged
                 || imageTypeChanged
                 || imageQualityChanged
-                || includeImageBackgroundColorChanged )
+                || includeImageBackgroundColorChanged
+                || readOnlyChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
@@ -57,6 +59,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
                     ImageType = new { Changed = imageTypeChanged, Value = ToImageTypeString( paramImageType ) },
                     ImageQuality = new { Changed = imageQualityChanged, Value = paramImageQuality },
                     IncludeImageBackgroundColor = new { Changed = includeImageBackgroundColorChanged, Value = paramIncludeImageBackgroundColor },
+                    ReadOnly = new { Changed = readOnlyChanged, Value = paramReadOnly },
                 } ) );
             }
         }
@@ -86,7 +89,8 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
                 VelocityFilterWeight,
                 ImageType = ToImageTypeString( ImageType ),
                 ImageQuality,
-                IncludeImageBackgroundColor
+                IncludeImageBackgroundColor,
+                ReadOnly,
             } );
         }
 
@@ -269,6 +273,11 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// The encoder options for image type [svg] to get from the canvas element.
     /// </summary>
     [Parameter] public bool IncludeImageBackgroundColor { get; set; }
+
+    /// <summary>
+    /// If true, prevents the user interactions and make it appear normal.
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
 
     #endregion
 }
