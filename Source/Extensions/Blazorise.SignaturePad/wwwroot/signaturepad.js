@@ -129,10 +129,7 @@ function registerToEvents(dotNetAdapter, instance) {
         instance.sigpad.addEventListener("endStroke", (e) => {
             const dataURL = getImageDataURL(instance.sigpad, instance.options);
 
-            dotNetAdapter.invokeMethodAsync("NotifyEndStroke", dataURL)
-                .catch((reason) => {
-                    console.error(reason);
-                });
+            dotNetAdapter.invokeMethodAsync("NotifyEndStroke", dataURL);
         });
     }
 }
