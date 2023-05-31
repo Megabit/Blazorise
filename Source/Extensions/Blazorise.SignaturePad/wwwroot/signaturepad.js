@@ -10,8 +10,8 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         return;
 
     const sigpad = new SignaturePad(element, {
-        minWidth: options.minWidth || 0.5,
-        maxWidth: options.maxWidth || 2.5,
+        minWidth: options.minLineWidth || 0.5,
+        maxWidth: options.maxLineWidth || 2.5,
         backgroundColor: options.backgroundColor || "rgba(0,0,0,0)",
         penColor: options.penColor || "black",
         velocityFilterWeight: options.velocityFilterWeight || 0.7,
@@ -54,12 +54,12 @@ export function updateOptions(element, elementId, options) {
             instance.sigpad.penColor = options.penColor.value || "black";
         }
 
-        if (options.minWidth.changed) {
-            instance.sigpad.minWidth = options.minWidth.value;
+        if (options.minLineWidth.changed) {
+            instance.sigpad.minWidth = options.minLineWidth.value;
         }
 
-        if (options.maxWidth.changed) {
-            instance.sigpad.maxWidth = options.maxWidth.value;
+        if (options.maxLineWidth.changed) {
+            instance.sigpad.maxWidth = options.maxLineWidth.value;
         }
 
         if (options.backgroundColor.changed) {
