@@ -275,7 +275,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [Parameter] public bool IncludeImageBackgroundColor { get; set; }
 
     /// <summary>
-    /// If true, prevents the user interactions.
+    /// If true, prevents the user interaction.
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
 
