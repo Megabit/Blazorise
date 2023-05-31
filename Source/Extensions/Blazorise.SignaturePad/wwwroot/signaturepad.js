@@ -15,7 +15,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         backgroundColor: options.backgroundColor || "rgba(0,0,0,0)",
         penColor: options.penColor || "black",
         velocityFilterWeight: options.velocityFilterWeight || 0.7,
-        dotSize: options.dotSize,
+        dotSize: options.dotSize || 0,
         throttle: options.throttle || 16,
         minPointDistance: options.minPointDistance || 0.5,
     });
