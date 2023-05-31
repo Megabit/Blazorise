@@ -823,13 +823,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardGroup() => "b-card-group flex flex-row gap-x-0";
 
-    public override string Card() => "b-card max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700";
+    public override string Card() => "b-card max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ";
 
     public override string CardWhiteText() => "text-white";
 
     public override string CardActions() => "b-card-actions";
 
-    public override string CardBody() => "b-card-body p-5 text-inherit";
+    public override string CardBody() => "b-card-body p-5 text-inherit text-gray-700 dark:text-gray-400";
 
     public override string CardFooter() => "b-card-footer px-5 py-4 text-inherit";
 
@@ -837,7 +837,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardImage() => "b-card-image rounded-t-lg text-inherit";
 
-    public override string CardTitle( bool insideHeader ) => "b-card-title mb-2 text-2xl font-bold tracking-tight text-inherit";
+    public override string CardTitle( bool insideHeader ) => "b-card-title mb-2 text-2xl font-bold tracking-tight text-inherit text-gray-900 dark:text-white";
 
     public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
