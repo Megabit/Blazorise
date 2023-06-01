@@ -20,8 +20,8 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         minPointDistance: options.minPointDistance || 0.5,
     });
 
-    if (options.value) {
-        sigpad.fromData(options.value, { clear: false });
+    if (options.dataUrl) {
+        sigpad.fromDataURL(options.dataUrl);
     }
 
     if (options.readOnly === true) {
@@ -54,6 +54,14 @@ export function destroy(element, elementId) {
 export function updateOptions(element, elementId, options) {
     const instance = _instances[elementId];
     if (instance && instance.sigpad && options) {
+        if (options.dataUrl.changed) {
+            if (options.dataUrl.value) {
+                instance.sigpad.fromDataURL(options.dataUrl.value);
+            } else {
+                instance.sigpad.clear();
+            }
+        }
+
         if (options.penColor.changed) {
             instance.sigpad.penColor = options.penColor.value || "black";
         }

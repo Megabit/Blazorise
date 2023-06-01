@@ -20,6 +20,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     {
         if ( Rendered )
         {
+            var valueChanged = parameters.TryGetValue<byte[]>( nameof( Value ), out var paramValue ) && !Value.AreEqual( paramValue );
             var dotSizeChanged = parameters.TryGetValue<double>( nameof( DotSize ), out var paramDotSize ) && !DotSize.IsEqual( paramDotSize );
             var minLineWidthChanged = parameters.TryGetValue<double>( nameof( MinLineWidth ), out var paramMinWidth ) && MinLineWidth != paramMinWidth;
             var maxLineWidthChanged = parameters.TryGetValue<double>( nameof( MaxLineWidth ), out var paramMaxWidth ) && MaxLineWidth != paramMaxWidth;
@@ -33,7 +34,8 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
             var includeImageBackgroundColorChanged = parameters.TryGetValue<bool>( nameof( IncludeImageBackgroundColor ), out var paramIncludeImageBackgroundColor ) && IncludeImageBackgroundColor != paramIncludeImageBackgroundColor;
             var readOnlyChanged = parameters.TryGetValue<bool>( nameof( ReadOnly ), out var paramReadOnly ) && ReadOnly != paramReadOnly;
 
-            if ( dotSizeChanged
+            if ( valueChanged
+                || dotSizeChanged
                 || minLineWidthChanged
                 || maxLineWidthChanged
                 || throttleChanged
@@ -48,6 +50,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
+                    DataUrl = new { Changed = valueChanged, Value = GetDataUrl( paramValue, paramImageType ) },
                     DotSize = new { Changed = dotSizeChanged, Value = paramDotSize },
                     MinLineWidth = new { Changed = minLineWidthChanged, Value = paramMinWidth },
                     MaxLineWidth = new { Changed = maxLineWidthChanged, Value = paramMaxWidth },
@@ -56,7 +59,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
                     BackgroundColor = new { Changed = backgroundColorChanged, Value = paramBgColor },
                     PenColor = new { Changed = penColorChanged, Value = paramPenColor },
                     VelocityFilterWeight = new { Changed = velocityFilterWeightChanged, Value = paramVelocityFilterWeight },
-                    ImageType = new { Changed = imageTypeChanged, Value = ToImageTypeString( paramImageType ) },
+                    ImageType = new { Changed = imageTypeChanged, Value = GetImageTypeString( paramImageType ) },
                     ImageQuality = new { Changed = imageQualityChanged, Value = paramImageQuality },
                     IncludeImageBackgroundColor = new { Changed = includeImageBackgroundColorChanged, Value = paramIncludeImageBackgroundColor },
                     ReadOnly = new { Changed = readOnlyChanged, Value = paramReadOnly },
@@ -78,7 +81,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
             await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
             {
-                Value,
+                DataUrl = GetDataUrl( Value, ImageType ),
                 DotSize,
                 MinLineWidth,
                 MaxLineWidth,
@@ -87,7 +90,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
                 BackgroundColor,
                 PenColor,
                 VelocityFilterWeight,
-                ImageType = ToImageTypeString( ImageType ),
+                ImageType = GetImageTypeString( ImageType ),
                 ImageQuality,
                 IncludeImageBackgroundColor,
                 ReadOnly,
@@ -166,13 +169,43 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="imageType">Image type value.</param>
     /// <returns>String representation of the <see cref="ImageType"/>.</returns>
-    private static string ToImageTypeString( SignaturePadImageType imageType ) => imageType switch
+    private static string GetImageTypeString( SignaturePadImageType imageType ) => imageType switch
     {
         SignaturePadImageType.Jpeg => "jpeg",
         SignaturePadImageType.Svg => "svg",
         SignaturePadImageType.Png => "png",
         _ => "png",
     };
+
+    /// <summary>
+    /// Gets the mime type of the <see cref="ImageType"/>.
+    /// </summary>
+    /// <param name="imageType">Image type value.</param>
+    /// <returns>Mime type of the <see cref="ImageType"/>.</returns>
+    private static string GetImageMimeType( SignaturePadImageType imageType ) => imageType switch
+    {
+        SignaturePadImageType.Jpeg => "image/jpeg",
+        SignaturePadImageType.Svg => "image/svg+xml",
+        SignaturePadImageType.Png => "image/png",
+        _ => "image/png",
+    };
+
+    /// <summary>
+    /// Gets the data url based on the image type and the data array.
+    /// </summary>
+    /// <param name="data">Byte array that holds the image data.</param>
+    /// <param name="imageType">Image type.</param>
+    /// <returns>Data url.</returns>
+    private static string GetDataUrl( byte[] data, SignaturePadImageType imageType )
+    {
+        if ( data is null )
+            return null;
+
+        var mimeType = GetImageMimeType( imageType );
+        var base64 = Convert.ToBase64String( data );
+
+        return $"data:{mimeType};base64,{base64}";
+    }
 
     #endregion
 
