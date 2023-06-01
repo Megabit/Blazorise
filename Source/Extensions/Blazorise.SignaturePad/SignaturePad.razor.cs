@@ -247,12 +247,12 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [Parameter] public int MinDistance { get; set; }
 
     /// <summary>
-    /// The color used to clear the background. Can be any color format accepted by context.fillStyle.
+    /// The color used to define the background color of the signature pad. Can be any color format; including HEX, or rgb.
     /// </summary>
     [Parameter] public string BackgroundColor { get; set; }
 
     /// <summary>
-    /// The color used to draw the lines. Can be any color format accepted by context.fillStyle.
+    /// The color used to define the lines color of the signature pad. Can be any color format; including HEX, or rgb.
     /// </summary>
     [Parameter] public string PenColor { get; set; }
 
