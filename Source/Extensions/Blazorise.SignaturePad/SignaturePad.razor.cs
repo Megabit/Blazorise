@@ -154,11 +154,10 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         if ( valueParts.Length > 1 )
         {
             var base64 = valueParts[1].Trim();
+            var data = Convert.FromBase64String( base64 );
 
-            Value = Convert.FromBase64String( base64 );
-
-            await ValueChanged.InvokeAsync( Value );
-            await EndStroke.InvokeAsync( new SignaturePadEndStrokeEventArgs( Value, dataUrl, offsetX, offsetY ) );
+            await ValueChanged.InvokeAsync( data );
+            await EndStroke.InvokeAsync( new SignaturePadEndStrokeEventArgs( data, dataUrl, offsetX, offsetY ) );
         }
     }
 
