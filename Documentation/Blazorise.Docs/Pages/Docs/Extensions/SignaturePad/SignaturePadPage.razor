@@ -195,4 +195,10 @@
     <DocsAttributesItem Name="ReadOnly" Type="bool" Default="false">
         If true, prevents the user interaction.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="BeginStroke" Type="EventCallback<SignaturePadBeginStrokeEventArgs>">
+        Gets or sets the event that is triggered when a new stroke begins on the signature pad. The event provides information about the starting point of the stroke.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EndStroke" Type="EventCallback<SignaturePadEndStrokeEventArgs>">
+        Gets or sets the event that is triggered when a stroke ends on the signature pad. The event provides the signature pad's current image data as a Data URL.
+    </DocsAttributesItem>
 </DocsAttributes>

@@ -129,35 +129,37 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// This method is called by JavaScript when a new stroke has begun in the signature pad. It invokes the BeginStroke
+    /// event asynchronously to notify any subscribers of the event.
+    /// </summary>
+    [JSInvokable]
+    public async Task NotifyBeginStroke( int offsetX, int offsetY )
+    {
+        await BeginStroke.InvokeAsync( new SignaturePadBeginStrokeEventArgs( offsetX, offsetY ) );
+    }
+
+    /// <summary>
     /// This method is called by JavaScript when a stroke has ended in the signature pad. It takes the encoded image
     /// from the signature pad, converts it to bytes and sets the Value property of the component to the image data.
     /// It then invokes the ValueChanged and EndStroke events asynchronously to notify any subscribers of the change.
     /// </summary>
     [JSInvokable]
-    public async Task NotifyEndStroke( string value )
+    public async Task NotifyEndStroke( string dataUrl, int offsetX, int offsetY )
     {
-        if ( string.IsNullOrEmpty( value ) )
+        if ( string.IsNullOrEmpty( dataUrl ) )
             return;
 
-        var valueParts = value.Split( ',' );
+        var valueParts = dataUrl.Split( ";base64," );
 
         if ( valueParts.Length > 1 )
         {
-            Value = Convert.FromBase64String( valueParts[1] );
+            var base64 = valueParts[1].Trim();
+
+            Value = Convert.FromBase64String( base64 );
 
             await ValueChanged.InvokeAsync( Value );
-            await EndStroke.InvokeAsync( Value );
+            await EndStroke.InvokeAsync( new SignaturePadEndStrokeEventArgs( Value, dataUrl, offsetX, offsetY ) );
         }
-    }
-
-    /// <summary>
-    /// This method is called by JavaScript when a new stroke has begun in the signature pad. It invokes the BeginStroke
-    /// event asynchronously to notify any subscribers of the event.
-    /// </summary>
-    [JSInvokable]
-    public async Task NotifyBeginStroke()
-    {
-        await BeginStroke.InvokeAsync();
     }
 
     /// <summary>
@@ -208,14 +210,14 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [Parameter] public EventCallback<byte[]> ValueChanged { get; set; }
 
     /// <summary>
-    /// Gets or sets the event that is triggered when a stroke ends on the signature pad. The event provides the signature pad's current image data as a PNG-encoded Data URL.
-    /// </summary>
-    [Parameter] public EventCallback EndStroke { get; set; }
-
-    /// <summary>
     /// Gets or sets the event that is triggered when a new stroke begins on the signature pad. The event provides information about the starting point of the stroke.
     /// </summary>
-    [Parameter] public EventCallback BeginStroke { get; set; }
+    [Parameter] public EventCallback<SignaturePadBeginStrokeEventArgs> BeginStroke { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event that is triggered when a stroke ends on the signature pad. The event provides the signature pad's current image data as a Data URL.
+    /// </summary>
+    [Parameter] public EventCallback<SignaturePadEndStrokeEventArgs> EndStroke { get; set; }
 
     /// <summary>
     /// The radius of a single dot. Also the width of the start of a mark.

@@ -122,13 +122,17 @@ export function clear(element, elementId) {
 function registerToEvents(dotNetAdapter, instance) {
     if (instance && instance.sigpad) {
         instance.sigpad.addEventListener("beginStroke", (e) => {
-            dotNetAdapter.invokeMethodAsync("NotifyBeginStroke")
+            if (e && e.detail) {
+                dotNetAdapter.invokeMethodAsync("NotifyBeginStroke", e.detail.offsetX, e.detail.offsetY)
+            }
         });
 
         instance.sigpad.addEventListener("endStroke", (e) => {
-            const dataURL = getImageDataURL(instance.sigpad, instance.options);
+            if (e && e.detail) {
+                const dataURL = getImageDataURL(instance.sigpad, instance.options);
 
-            dotNetAdapter.invokeMethodAsync("NotifyEndStroke", dataURL);
+                dotNetAdapter.invokeMethodAsync("NotifyEndStroke", dataURL, e.detail.offsetX, e.detail.offsetY);
+            }
         });
     }
 }

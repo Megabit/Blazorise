@@ -75,7 +75,7 @@
                 <CardTitle>Signature pad</CardTitle>
             </CardHeader>
             <CardBody>
-                <SignaturePad @bind-Value="@data" BackgroundColor="@backgroundColor" PenColor="@penColor" DotSize="@dotSize" MinLineWidth="@minLineWidth" MaxLineWidth="@maxLineWidth" Throttle="@throttle" MinDistance="@minDistance" VelocityFilterWeight="@velocityFilterWeight" ReadOnly="@readOnly" />
+                <SignaturePad @bind-Value="@data" BackgroundColor="@backgroundColor" PenColor="@penColor" DotSize="@dotSize" MinLineWidth="@minLineWidth" MaxLineWidth="@maxLineWidth" Throttle="@throttle" MinDistance="@minDistance" VelocityFilterWeight="@velocityFilterWeight" ReadOnly="@readOnly" BeginStroke="@OnBegin" EndStroke="@OnEnd" />
             </CardBody>
         </Card>
     </Column>
@@ -108,4 +108,18 @@
     int throttle = 10;
     int minDistance = 5;
     bool readOnly;
+
+    Task OnBegin( SignaturePadBeginStrokeEventArgs eventArgs )
+    {
+        Console.WriteLine( $"Begin >> x: {eventArgs.OffsetX} y: {eventArgs.OffsetY}" );
+
+        return Task.CompletedTask;
+    }
+
+    Task OnEnd( SignaturePadEndStrokeEventArgs eventArgs )
+    {
+        Console.WriteLine( $"End >> x: {eventArgs.OffsetX} y: {eventArgs.OffsetY}" );
+
+        return Task.CompletedTask;
+    }
 }
