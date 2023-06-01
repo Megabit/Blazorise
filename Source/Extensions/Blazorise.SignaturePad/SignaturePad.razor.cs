@@ -242,7 +242,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [Parameter] public int Throttle { get; set; }
 
     /// <summary>
-    /// The minimum distance between two points to add a new point to the signature.
+    /// Add the next point only if the previous one is farther than 'n' pixels. Defaults to 5.
     /// </summary>
     [Parameter] public int MinDistance { get; set; }
 
