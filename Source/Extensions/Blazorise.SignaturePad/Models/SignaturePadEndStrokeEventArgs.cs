@@ -12,7 +12,7 @@ public class SignaturePadEndStrokeEventArgs
     /// <param name="dataUrl">The data URL of the stroke.</param>
     /// <param name="offsetX">The X-axis offset of the stroke.</param>
     /// <param name="offsetY">The Y-axis offset of the stroke.</param>
-    public SignaturePadEndStrokeEventArgs( byte[] data, string dataUrl, int offsetX, int offsetY )
+    public SignaturePadEndStrokeEventArgs( byte[] data, string dataUrl, double offsetX, double offsetY )
     {
         Data = data;
         DataUrl = dataUrl;
@@ -33,10 +33,10 @@ public class SignaturePadEndStrokeEventArgs
     /// <summary>
     /// Gets the X-axis offset of the stroke.
     /// </summary>
-    public int OffsetX { get; }
+    public double OffsetX { get; }
 
     /// <summary>
     /// Gets the Y-axis offset of the stroke.
     /// </summary>
-    public int OffsetY { get; }
+    public double OffsetY { get; }
 }

@@ -133,7 +133,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// event asynchronously to notify any subscribers of the event.
     /// </summary>
     [JSInvokable]
-    public async Task NotifyBeginStroke( int offsetX, int offsetY )
+    public async Task NotifyBeginStroke( double offsetX, double offsetY )
     {
         await BeginStroke.InvokeAsync( new SignaturePadBeginStrokeEventArgs( offsetX, offsetY ) );
     }
@@ -144,7 +144,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// It then invokes the ValueChanged and EndStroke events asynchronously to notify any subscribers of the change.
     /// </summary>
     [JSInvokable]
-    public async Task NotifyEndStroke( string dataUrl, int offsetX, int offsetY )
+    public async Task NotifyEndStroke( string dataUrl, double offsetX, double offsetY )
     {
         if ( string.IsNullOrEmpty( dataUrl ) )
             return;
