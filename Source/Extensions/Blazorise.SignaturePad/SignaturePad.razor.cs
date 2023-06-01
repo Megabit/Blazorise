@@ -267,7 +267,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [Parameter] public SignaturePadImageType ImageType { get; set; } = SignaturePadImageType.Png;
 
     /// <summary>
-    /// The encoder options for image type [png, jpeg] to get from the canvas element.
+    /// The encoder options for image type [png, jpeg] to get from the canvas element. Accepted range is from 0 to 1, where 1 means best quality.
     /// </summary>
     [Parameter] public double? ImageQuality { get; set; }
 
