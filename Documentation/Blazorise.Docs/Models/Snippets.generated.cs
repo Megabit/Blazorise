@@ -7506,7 +7506,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string BasicSignaturePadExample = @"<SignaturePad />";
 
-        public const string SignaturePadBackgroundColorExample = @"<SignaturePad BackgroundColor=""rgba(255, 0, 0, 1)"" />";
+        public const string SignaturePadBackgroundColorExample = @"<SignaturePad BackgroundColor=""rgba(232, 222, 252, 1)"" />";
 
         public const string SignaturePadBindValueExample = @"<Row>
     <Column>
