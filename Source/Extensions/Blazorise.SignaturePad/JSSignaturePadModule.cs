@@ -54,7 +54,7 @@ namespace Blazorise.SignaturePad
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "clear", canvasRef );
+            await moduleInstance.InvokeVoidAsync( "clear", canvasRef, elementId );
         }
 
         public virtual async ValueTask<SignaturePad> GetData( ElementReference canvasRef )

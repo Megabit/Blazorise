@@ -188,6 +188,9 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// </summary>
     protected JSSignaturePadModule JSModule { get; private set; }
 
+    /// <inheritdoc/>
+    protected override bool ShouldAutoGenerateId => true;
+
     /// <summary>
     /// Gets or sets the JS runtime.
     /// </summary>
