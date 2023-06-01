@@ -272,7 +272,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [Parameter] public double? ImageQuality { get; set; }
 
     /// <summary>
-    /// The encoder options for image type [svg] to get from the canvas element.
+    /// If true, the [svg] image returned from the canvas will include background color defined by the BackgroundColor parameter.
     /// </summary>
     [Parameter] public bool IncludeImageBackgroundColor { get; set; }
 
