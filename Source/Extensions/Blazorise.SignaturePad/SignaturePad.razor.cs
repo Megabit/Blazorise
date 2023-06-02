@@ -177,6 +177,28 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Notifies the pad that the value has changed.
+    /// </summary>
+    /// <param name="dataUrl">New data url.</param>
+    /// <returns></returns>
+    [JSInvokable]
+    public async Task NotifyValue( string dataUrl )
+    {
+        if ( string.IsNullOrEmpty( dataUrl ) )
+            return;
+
+        var valueParts = dataUrl.Split( ";base64," );
+
+        if ( valueParts.Length > 1 )
+        {
+            var base64 = valueParts[1].Trim();
+            var data = Convert.FromBase64String( base64 );
+
+            await ValueChanged.InvokeAsync( data );
+        }
+    }
+
+    /// <summary>
     /// Gets the string representation of the <see cref="ImageType"/>.
     /// </summary>
     /// <param name="imageType">Image type value.</param>

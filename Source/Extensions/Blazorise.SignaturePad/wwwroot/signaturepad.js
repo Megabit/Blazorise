@@ -31,6 +31,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     const instance = {
         options: options,
         sigpad: sigpad,
+        dotNetAdapter: dotNetAdapter
     };
 
     registerToEvents(dotNetAdapter, instance);
@@ -136,6 +137,9 @@ export function undo(element, elementId) {
         if (data) {
             data.pop();
             instance.sigpad.fromData(data);
+
+            const dataURL = getImageDataURL(instance.sigpad, instance.options);
+            instance.dotNetAdapter.invokeMethodAsync("NotifyValue", dataURL);
         }
     }
 }
