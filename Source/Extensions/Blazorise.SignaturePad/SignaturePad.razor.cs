@@ -109,7 +109,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
 
             await JSModule.SafeDisposeAsync();
 
-            if ( DotNetObjectRef != null )
+            if ( DotNetObjectRef is not null )
             {
                 DotNetObjectRef.Dispose();
                 DotNetObjectRef = null;
@@ -125,7 +125,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Clear()
     {
-        if ( JSModule != null )
+        if ( JSModule is not null )
         {
             await JSModule.Clear( ElementRef, ElementId );
         }
