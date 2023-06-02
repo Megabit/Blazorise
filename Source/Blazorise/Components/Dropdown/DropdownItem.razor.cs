@@ -17,6 +17,8 @@ public partial class DropdownItem : BaseComponent
 
     private bool disabled;
 
+    private bool check;
+
     #endregion
 
     #region Methods
@@ -41,10 +43,30 @@ public partial class DropdownItem : BaseComponent
         {
             if ( ParentDropdown is not null )
             {
-                if ( !ParentDropdown.WasJustToggled )
+                if ( !ParentDropdown.WasJustToggled && !Checkbox )
                     await ParentDropdown.Hide( true );
             }
+
+            if ( Checkbox )
+            {
+                await CheckedChangedHandler( !check );
+            }
+
             await Clicked.InvokeAsync( Value );
+        }
+    }
+
+    /// <summary>
+    /// Handles the oncheck event, if not disabled.
+    /// </summary>
+    /// <param name="isChecked"></param>
+    /// <returns></returns>
+    protected async Task CheckedChangedHandler( bool isChecked )
+    {
+        if ( !Disabled )
+        {
+            check = isChecked;
+            await CheckedChanged.InvokeAsync( isChecked );
         }
     }
 
