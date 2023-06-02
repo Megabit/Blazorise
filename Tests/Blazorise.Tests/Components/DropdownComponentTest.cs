@@ -45,7 +45,7 @@ public class DropdownComponentTest : TestContext
     {
         // setup
         var comp = RenderComponent<DropdownComponent>(
-            p => p.Add( x => x.Checkbox, true ) );
+            p => p.Add( x => x.ShowCheckbox, true ) );
         var drpElement = comp.Find( "#dropdown" );
         var btnElement = comp.Find( "button" );
         var mnuElement = comp.Find( "#dropdown-menu" );
@@ -66,7 +66,7 @@ public class DropdownComponentTest : TestContext
     {
         // setup
         var comp = RenderComponent<DropdownComponent>(
-            p => p.Add( x => x.Checkbox, true ) );
+            p => p.Add( x => x.ShowCheckbox, true ) );
         var drpElement = comp.Find( "#dropdown" );
         var btnElement = comp.Find( "button" );
         var mnuElement = comp.Find( "#dropdown-menu" );

@@ -65,11 +65,11 @@ public partial class DropdownItem : BaseComponent
         {
             if ( ParentDropdown is not null )
             {
-                if ( !ParentDropdown.WasJustToggled && !Checkbox )
+                if ( !ParentDropdown.WasJustToggled && !ShowCheckbox )
                     await ParentDropdown.Hide( true );
             }
 
-            if ( Checkbox )
+            if ( ShowCheckbox )
             {
                 await CheckedChangedHandler( !@checked );
             }
@@ -155,7 +155,7 @@ public partial class DropdownItem : BaseComponent
     /// <summary>
     /// The dropdown renders a checkbox.
     /// </summary>
-    [Parameter] public bool Checkbox { get; set; }
+    [Parameter] public bool ShowCheckbox { get; set; }
 
     /// <summary>
     /// Tracks the Checked state whenever the DropdownItem is in checkbox mode.

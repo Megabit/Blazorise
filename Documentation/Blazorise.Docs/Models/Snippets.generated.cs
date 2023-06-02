@@ -1532,10 +1532,10 @@ public class Gender
         Dropdown With Checkboxes
     </DropdownToggle>
     <DropdownMenu>
-        <DropdownItem Checkbox>Checkbox</DropdownItem>
+        <DropdownItem ShowCheckbox>Checkbox</DropdownItem>
         <DropdownDivider />
-        <DropdownItem Checkbox>Another Checkbox</DropdownItem>
-        <DropdownItem Checkbox Disabled>Checkbox Disabled</DropdownItem>
+        <DropdownItem ShowCheckbox>Another Checkbox</DropdownItem>
+        <DropdownItem ShowCheckbox Disabled>Checkbox Disabled</DropdownItem>
         <DropdownItem>Action</DropdownItem>
     </DropdownMenu>
 </Dropdown>";

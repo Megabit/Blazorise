@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.DropdownItem
 <li>
     <a id="@ElementId" class="@ClassNames" style="@StyleNames" @onmouseup="@ClickHandler" @onmousedown="() => {}" @onmousedown:preventDefault @attributes="@Attributes">
-        @if ( Checkbox )
+        @if ( ShowCheckbox )
         {
             <Label @onclick:stopPropagation @onmouseup:stopPropagation>
                 <Blazorise.Check TValue="bool" Checked="@(@checked)" CheckedExpression="@checkedExpression" CheckedChanged="CheckedChangedHandler" Disabled="@Disabled" @onclick:stopPropagation></Blazorise.Check>
