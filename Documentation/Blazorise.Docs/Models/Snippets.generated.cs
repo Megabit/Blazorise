@@ -7578,6 +7578,8 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SignaturePadPenColorExample = @"<SignaturePad PenColor=""#ff0000"" />";
 
+        public const string SignaturePadSizeExample = @"<SignaturePad CanvasWidth=""600"" CanvasHeight=""400"" Shadow=""Shadow.Small"" />";
+
         public const string SignaturePadThrottleExample = @"<SignaturePad Throttle=""20"" />";
 
         public const string SignaturePadUndoExample = @"<Row>

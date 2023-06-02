@@ -124,6 +124,35 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Custom Size">
+        <Paragraph>
+            The <Strong>CanvasWidth</Strong> and <Strong>CanvasHeight</Strong> properties of the SignaturePad component in Blazorise are used to set the dimensions of the drawing area, or the "canvas", of the SignaturePad.
+        </Paragraph>
+        <Paragraph>
+            <OrderedList>
+                <OrderedListItem>
+                    <Paragraph>
+                        <Strong>CanvasWidth</Strong>: This property sets the width of the SignaturePad. The value is usually defined in pixels. By adjusting this value, you can control how wide the signature pad will appear in your application, thus influencing how much horizontal space a user has to create their signature.
+                    </Paragraph>
+                </OrderedListItem>
+                <OrderedListItem>
+                    <Paragraph>
+                        <Strong>CanvasHeight</Strong>: Similarly, this property sets the height of the SignaturePad. Also typically defined in pixels, adjusting this value will control how tall the signature pad is, effectively controlling the vertical space available for the signature.
+                    </Paragraph>
+                </OrderedListItem>
+            </OrderedList>
+        </Paragraph>
+        <Paragraph>
+            The use case for these properties generally involves tailoring the size of the SignaturePad to fit a specific design or layout in your application. For instance, you may want a wider SignaturePad for a desktop application where screen real estate is plentiful, while a narrower SignaturePad might be more suitable for a mobile application or a form with a vertical layout.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SignaturePadSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadSizeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Image Type">
         <Paragraph>
             The <Strong>ImageType</Strong>, <Strong>ImageQuality</Strong>, and <Strong>IncludeImageBackgroundColor</Strong> parameters in Blazorise's SignaturePad provide control over the final output of the signature.
@@ -210,5 +239,14 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="EndStroke" Type="EventCallback<SignaturePadEndStrokeEventArgs>">
         Gets or sets the event that is triggered when a stroke ends on the signature pad. The event provides the signature pad's current image data as a Data URL.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CanvasWidth" Type="int?" Default="null">
+        Defines the width, in pixels, of the underline canvas element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CanvasHeight" Type="int?" Default="null">
+        Defines the height, in pixels, of the underline canvas element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TabIndex" Type="int?" Default="null">
+        If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
     </DocsAttributesItem>
 </DocsAttributes>

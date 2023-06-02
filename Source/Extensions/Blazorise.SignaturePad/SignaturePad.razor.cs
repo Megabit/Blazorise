@@ -343,5 +343,20 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter] public bool ReadOnly { get; set; }
 
+    /// <summary>
+    /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
+    /// </summary>
+    [Parameter] public int? TabIndex { get; set; }
+
+    /// <summary>
+    /// Defines the width, in pixels, of the underline canvas element.
+    /// </summary>
+    [Parameter] public int? CanvasWidth { get; set; }
+
+    /// <summary>
+    /// Defines the height, in pixels, of the underline canvas element.
+    /// </summary>
+    [Parameter] public int? CanvasHeight { get; set; }
+
     #endregion
 }
