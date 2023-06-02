@@ -7527,17 +7527,15 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
             </CardHeader>
             <CardBody>
                 <Image Source=""@Image64"" Fluid />
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
+             </CardBody>
+         </Card>
+     </Column>
+ </Row>
 
-@code {
+ @code {
     byte[] data = null;
 
-    string Image64 => data != null
-        ? $""data:image/png;base64,{Convert.ToBase64String( data )}""
-        : null;
+    string Image64 => SignaturePad.GetDataUrl( data );
 }";
 
         public const string SignaturePadDotSizeExample = @"<SignaturePad DotSize=""5"" />";
@@ -7569,9 +7567,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
  @code {
     byte[] data = null;
 
-    string Image64 => data != null
-        ? $""data:image/svg+xml;base64,{Convert.ToBase64String( data )}""
-        : null;
+    string Image64 => SignaturePad.GetDataUrl( data, SignaturePadImageType.Svg );
 }";
 
         public const string SignaturePadMaxWidthExample = @"<SignaturePad MaxLineWidth=""10""/>";

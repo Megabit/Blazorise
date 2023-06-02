@@ -27,7 +27,5 @@
  @code {
     byte[] data = null;
 
-    string Image64 => data != null
-        ? $"data:image/svg+xml;base64,{Convert.ToBase64String( data )}"
-        : null;
+    string Image64 => SignaturePad.GetDataUrl( data, SignaturePadImageType.Svg );
 }

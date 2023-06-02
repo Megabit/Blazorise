@@ -208,7 +208,7 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     /// <param name="data">Byte array that holds the image data.</param>
     /// <param name="imageType">Image type.</param>
     /// <returns>Data url.</returns>
-    public static string GetDataUrl( byte[] data, SignaturePadImageType imageType )
+    public static string GetDataUrl( byte[] data, SignaturePadImageType imageType = SignaturePadImageType.Png )
     {
         if ( data is null )
             return null;

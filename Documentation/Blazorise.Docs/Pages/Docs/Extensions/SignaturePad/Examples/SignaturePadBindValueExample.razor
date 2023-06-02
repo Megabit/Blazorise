@@ -19,15 +19,13 @@
             </CardHeader>
             <CardBody>
                 <Image Source="@Image64" Fluid />
-            </CardBody>
-        </Card>
-    </Column>
-</Row>
+             </CardBody>
+         </Card>
+     </Column>
+ </Row>
 
-@code {
+ @code {
     byte[] data = null;
 
-    string Image64 => data != null
-        ? $"data:image/png;base64,{Convert.ToBase64String( data )}"
-        : null;
+    string Image64 => SignaturePad.GetDataUrl( data );
 }

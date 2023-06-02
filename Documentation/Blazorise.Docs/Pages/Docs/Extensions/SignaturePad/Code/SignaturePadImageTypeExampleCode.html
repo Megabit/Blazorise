@@ -28,9 +28,7 @@
 <span class="atSign">&#64;</span>code {
     <span class="keyword">byte</span>[] data = <span class="keyword">null</span>;
 
-    <span class="keyword">string</span> Image64 =&gt; data != <span class="keyword">null</span>
-        ? $<span class="string">&quot;data:image/svg+xml;base64,{Convert.ToBase64String( data )}&quot;</span>
-        : <span class="keyword">null</span>;
+    <span class="keyword">string</span> Image64 =&gt; SignaturePad.GetDataUrl( data, SignaturePadImageType.Svg );
 }
 </pre></div>
 </div>

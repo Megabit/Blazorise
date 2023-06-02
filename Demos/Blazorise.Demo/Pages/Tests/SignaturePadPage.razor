@@ -97,7 +97,7 @@
 @code {
     byte[] data = null;
 
-    string Image64 => data != null ? $"data:image/png;base64,{Convert.ToBase64String( data )}" : null;
+    string Image64 => SignaturePad.GetDataUrl( data );
 
     string backgroundColor = "rgba(255, 255, 255, 1)";
     string penColor = "#000000";
