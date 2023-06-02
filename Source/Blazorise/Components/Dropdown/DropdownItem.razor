@@ -6,7 +6,7 @@
     @if ( Checkbox )
     {
         <Label @onclick:stopPropagation @onmouseup:stopPropagation>
-            <Check TValue="bool" Checked="check" CheckedExpression="() => check" CheckedChanged="CheckedChangedHandler" Disabled="@Disabled" @onclick:stopPropagation></Check>
+            <Check TValue="bool" Checked="@(@checked)" CheckedExpression="@checkedExpression" CheckedChanged="CheckedChangedHandler" Disabled="@Disabled" @onclick:stopPropagation></Check>
         </Label>
     }
 

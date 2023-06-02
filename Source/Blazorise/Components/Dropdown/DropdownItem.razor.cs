@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Utilities;
@@ -18,7 +20,15 @@ public partial class DropdownItem : BaseComponent
 
     private bool disabled;
 
-    private bool check;
+    /// <summary>
+    /// Internal Checked Value
+    /// </summary>
+    protected bool @checked;
+
+    /// <summary>
+    /// Internal Checked Expression
+    /// </summary>
+    protected Expression<Func<bool>> checkedExpression => () => @checked;
 
     #endregion
 
@@ -27,9 +37,9 @@ public partial class DropdownItem : BaseComponent
     /// <inheritdoc/>
     public override Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<bool>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( check ) )
+        if ( parameters.TryGetValue<bool>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( @checked ) )
         {
-            check = paramChecked;
+            @checked = paramChecked;
         }
 
         return base.SetParametersAsync( parameters );
@@ -61,7 +71,7 @@ public partial class DropdownItem : BaseComponent
 
             if ( Checkbox )
             {
-                await CheckedChangedHandler( !check );
+                await CheckedChangedHandler( !@checked );
             }
 
             await Clicked.InvokeAsync( Value );
@@ -77,7 +87,7 @@ public partial class DropdownItem : BaseComponent
     {
         if ( !Disabled )
         {
-            check = isChecked;
+            @checked = isChecked;
             await CheckedChanged.InvokeAsync( isChecked );
         }
     }
