@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -22,6 +23,17 @@ public partial class DropdownItem : BaseComponent
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( parameters.TryGetValue<bool>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( check ) )
+        {
+            check = paramChecked;
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )

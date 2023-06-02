@@ -6,7 +6,7 @@
     </DropdownToggle>
     <DropdownMenu>
         <DropdownHeader>Dropdown header</DropdownHeader>
-        <DropdownItem Checkbox>Action</DropdownItem>
+        <DropdownItem Checkbox @bind-Checked="dropdownChecked">Action</DropdownItem>
         <DropdownItem Active>Active item</DropdownItem>
         <DropdownItem Disabled Checkbox>Disabled item</DropdownItem>
         <DropdownDivider />
@@ -32,6 +32,7 @@
     public CountryData CountryData { get; set; }
     public IEnumerable<Country> Countries;
 
+    public bool dropdownChecked { get; set; } = true;
     private string selectedDropValue { get; set; } = "2";
     private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { "AM", "AF" };
 
