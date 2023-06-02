@@ -175,7 +175,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     [Parameter] public IReadOnlyList<TValue> SelectedValues { get; set; }
 
     /// <summary>
-    /// Occurs after the selected values have changed.
+    /// Occurs after the selected item values have changed.
     /// </summary>
     [Parameter] public EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
 
