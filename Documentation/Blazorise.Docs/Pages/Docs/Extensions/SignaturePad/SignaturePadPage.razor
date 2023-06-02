@@ -144,6 +144,16 @@
     <DocsPageSectionSource Code="SignaturePadImageTypeExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Undo">
+        The <Code>Undo()</Code> method in the SignaturePad component removes the last stroke drawn on the signature pad. Each action, or stroke, is independent, and calling <Code>Undo()</Code> will only affect the most recent one. It's an effective way to correct errors without clearing the entire pad. This function doesn't revert changes to SignaturePad's configuration, such as pen color or width, and has no effect if no strokes have been made.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SignaturePadUndoExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SignaturePadUndoExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>

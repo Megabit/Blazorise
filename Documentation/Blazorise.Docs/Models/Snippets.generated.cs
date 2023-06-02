@@ -7584,6 +7584,30 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SignaturePadThrottleExample = @"<SignaturePad Throttle=""20"" />";
 
+        public const string SignaturePadUndoExample = @"<Row>
+    <Column>
+        <Button Color=""Color.Primary"" Clicked=""@OnUndoClicked"">
+            Undo
+        </Button>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <SignaturePad @ref=""@signaturePadRef"" @bind-Value=""@data"" />
+    </Column>
+</Row>
+
+@code {
+    SignaturePad signaturePadRef;
+
+    byte[] data;
+
+    async Task OnUndoClicked()
+    {
+        await signaturePadRef.Undo();
+    }
+}";
+
         public const string SignaturePadVelocityFilterWeightExample = @"<SignaturePad VelocityFilterWeight=""20"" />";
 
         public const string SnackbarExample = @"<Button Clicked=""@(()=>snackbar.Show())"">Snackbar</Button>
