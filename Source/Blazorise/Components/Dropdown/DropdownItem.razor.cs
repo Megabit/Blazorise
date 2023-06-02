@@ -148,12 +148,12 @@ public partial class DropdownItem : BaseComponent
     [Parameter] public bool Checkbox { get; set; }
 
     /// <summary>
-    /// Tracks the Checked state whenever the Dropdown is in checkbox mode.
+    /// Tracks the Checked state whenever the DropdownItem is in checkbox mode.
     /// </summary>
     [Parameter] public bool Checked { get; set; }
 
     /// <summary>
-    /// Occurs after the Checked state is changed, whenever the Dropdown is in checkbox mode.
+    /// Occurs after the Checked state is changed, whenever the DropdownItem is in checkbox mode.
     /// </summary>
     [Parameter] public EventCallback<bool> CheckedChanged { get; set; }
 

@@ -1527,6 +1527,19 @@ public class Gender
     }
 }";
 
+        public const string DropdownCheckboxExample = @"<Dropdown>
+    <DropdownToggle Color=""Color.Primary"">
+        Dropdown With Checkboxes
+    </DropdownToggle>
+    <DropdownMenu>
+        <DropdownItem Checkbox>Checkbox</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem Checkbox>Another Checkbox</DropdownItem>
+        <DropdownItem Checkbox Disabled>Checkbox Disabled</DropdownItem>
+        <DropdownItem>Action</DropdownItem>
+    </DropdownMenu>
+</Dropdown>";
+
         public const string DropdownExample = @"<Dropdown>
     <DropdownToggle Color=""Color.Primary"">
         Dropdown
@@ -6704,6 +6717,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
               TextField=""@((item)=>item.Name)""
               ValueField=""@((item)=>item.Iso)""
               @bind-SelectedValues=""@selectedDropValues""
+              SelectionMode=""DropdownListSelectionMode.Checkbox""
               Color=""Color.Primary""
               MaxMenuHeight=""200px"">
     Select item
