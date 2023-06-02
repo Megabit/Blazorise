@@ -132,6 +132,18 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     }
 
     /// <summary>
+    /// Undos the last stroke if there is any.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task Undo()
+    {
+        if ( JSModule is not null )
+        {
+            await JSModule.Undo( ElementRef, ElementId );
+        }
+    }
+
+    /// <summary>
     /// This method is called by JavaScript when a new stroke has begun in the signature pad. It invokes the BeginStroke
     /// event asynchronously to notify any subscribers of the event.
     /// </summary>

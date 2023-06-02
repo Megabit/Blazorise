@@ -127,6 +127,19 @@ export function clear(element, elementId) {
     }
 }
 
+export function undo(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.sigpad) {
+        const data = instance.sigpad.toData();
+
+        if (data) {
+            data.pop();
+            instance.sigpad.fromData(data);
+        }
+    }
+}
+
 function registerToEvents(dotNetAdapter, instance) {
     if (instance && instance.sigpad) {
         instance.sigpad.addEventListener("beginStroke", (e) => {
