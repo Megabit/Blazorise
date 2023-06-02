@@ -139,7 +139,10 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     {
         if ( JSModule is not null )
         {
-            await JSModule.Undo( ElementRef, ElementId );
+            var dataUrl = await JSModule.Undo( ElementRef, ElementId );
+            var data = ParseDataFromDataUrl( dataUrl );
+
+            await ValueChanged.InvokeAsync( data );
         }
     }
 
@@ -161,41 +164,10 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
     [JSInvokable]
     public async Task NotifyEndStroke( string dataUrl, double offsetX, double offsetY )
     {
-        if ( string.IsNullOrEmpty( dataUrl ) )
-            return;
+        var data = ParseDataFromDataUrl( dataUrl );
 
-        var valueParts = dataUrl.Split( ";base64," );
-
-        if ( valueParts.Length > 1 )
-        {
-            var base64 = valueParts[1].Trim();
-            var data = Convert.FromBase64String( base64 );
-
-            await ValueChanged.InvokeAsync( data );
-            await EndStroke.InvokeAsync( new SignaturePadEndStrokeEventArgs( data, dataUrl, offsetX, offsetY ) );
-        }
-    }
-
-    /// <summary>
-    /// Notifies the pad that the value has changed.
-    /// </summary>
-    /// <param name="dataUrl">New data url.</param>
-    /// <returns></returns>
-    [JSInvokable]
-    public async Task NotifyValue( string dataUrl )
-    {
-        if ( string.IsNullOrEmpty( dataUrl ) )
-            return;
-
-        var valueParts = dataUrl.Split( ";base64," );
-
-        if ( valueParts.Length > 1 )
-        {
-            var base64 = valueParts[1].Trim();
-            var data = Convert.FromBase64String( base64 );
-
-            await ValueChanged.InvokeAsync( data );
-        }
+        await ValueChanged.InvokeAsync( data );
+        await EndStroke.InvokeAsync( new SignaturePadEndStrokeEventArgs( data, dataUrl, offsetX, offsetY ) );
     }
 
     /// <summary>
@@ -239,6 +211,27 @@ public partial class SignaturePad : BaseComponent, IAsyncDisposable
         var base64 = Convert.ToBase64String( data );
 
         return $"data:{mimeType};base64,{base64}";
+    }
+
+    /// <summary>
+    /// Parses image data from the encoded data URL.
+    /// </summary>
+    /// <param name="dataUrl">Data URL containing the encoded data.</param>
+    /// <returns>Byte array containing the image data.</returns>
+    private static byte[] ParseDataFromDataUrl( string dataUrl )
+    {
+        if ( string.IsNullOrEmpty( dataUrl ) )
+            return null;
+
+        var valueParts = dataUrl.Split( ";base64," );
+
+        if ( valueParts.Length > 1 )
+        {
+            var base64 = valueParts[1].Trim();
+            return Convert.FromBase64String( base64 );
+        }
+
+        return null;
     }
 
     #endregion

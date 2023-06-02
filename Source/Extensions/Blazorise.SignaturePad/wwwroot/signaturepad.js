@@ -134,14 +134,15 @@ export function undo(element, elementId) {
     if (instance && instance.sigpad) {
         const data = instance.sigpad.toData();
 
-        if (data) {
+        if (data && data.length > 0) {
             data.pop();
             instance.sigpad.fromData(data);
 
-            const dataURL = getImageDataURL(instance.sigpad, instance.options);
-            instance.dotNetAdapter.invokeMethodAsync("NotifyValue", dataURL);
+            return getImageDataURL(instance.sigpad, instance.options);
         }
     }
+
+    return null;
 }
 
 function registerToEvents(dotNetAdapter, instance) {

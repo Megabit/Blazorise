@@ -73,9 +73,12 @@
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Signature pad</CardTitle>
+                <Button Color="Color.Primary" Clicked="@(() => signaturePadRef.Undo())" Size="Size.Small" Margin="Margin.Is3.FromStart">
+                    <Icon Name="IconName.Undo" />
+                </Button>
             </CardHeader>
             <CardBody>
-                <SignaturePad @bind-Value="@data" BackgroundColor="@backgroundColor" PenColor="@penColor" DotSize="@dotSize" MinLineWidth="@minLineWidth" MaxLineWidth="@maxLineWidth" Throttle="@throttle" MinDistance="@minDistance" VelocityFilterWeight="@velocityFilterWeight" ReadOnly="@readOnly" BeginStroke="@OnBegin" EndStroke="@OnEnd" />
+                <SignaturePad @ref="@signaturePadRef" @bind-Value="@data" BackgroundColor="@backgroundColor" PenColor="@penColor" DotSize="@dotSize" MinLineWidth="@minLineWidth" MaxLineWidth="@maxLineWidth" Throttle="@throttle" MinDistance="@minDistance" VelocityFilterWeight="@velocityFilterWeight" ReadOnly="@readOnly" BeginStroke="@OnBegin" EndStroke="@OnEnd" />
             </CardBody>
         </Card>
     </Column>
@@ -95,6 +98,7 @@
 
 
 @code {
+    SignaturePad signaturePadRef;
     byte[] data = null;
 
     string Image64 => SignaturePad.GetDataUrl( data );

@@ -57,11 +57,11 @@ namespace Blazorise.SignaturePad
             await moduleInstance.InvokeVoidAsync( "clear", canvasRef, elementId );
         }
 
-        public virtual async ValueTask Undo( ElementReference canvasRef, string elementId )
+        public virtual async ValueTask<string> Undo( ElementReference canvasRef, string elementId )
         {
             var moduleInstance = await Module;
 
-            await moduleInstance.InvokeVoidAsync( "undo", canvasRef, elementId );
+            return await moduleInstance.InvokeAsync<string>( "undo", canvasRef, elementId );
         }
 
         public virtual async ValueTask<SignaturePad> GetData( ElementReference canvasRef )
