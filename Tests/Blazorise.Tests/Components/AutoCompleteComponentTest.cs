@@ -6,6 +6,7 @@ using Blazorise.Shared.Models;
 using Blazorise.Tests.Extensions;
 using Blazorise.Tests.Helpers;
 using Bunit;
+using FluentAssertions;
 using Xunit;
 #endregion
 
@@ -21,6 +22,94 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
         BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
     }
+
+    [Fact]
+    public async Task FreeTypingNotFoundTemplate_Should_DisplayDefinedContent_WhenFreeTypingIsTrue()
+    {
+        var comp = RenderComponent<AutocompleteComponent>(
+            p => p.Add( x => x.FreeTyping, true ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "My Very Own Country";
+
+        await Input( autoComplete, input, false );
+
+        comp.WaitForAssertion( () =>
+        {
+            comp.Markup.Should().Contain( @"Add ""My Very Own Country""" );
+        } );
+    }
+
+    [Fact]
+    public async Task NotfoundContent_Should_DisplayDefinedContent_When_FreeTypingIsFalse()
+    {
+        var comp = RenderComponent<AutocompleteComponent>(
+            p => p.Add( x => x.FreeTyping, false ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "My Very Own Country";
+
+        await Input( autoComplete, input, false );
+
+        comp.WaitForAssertion( () =>
+        {
+            comp.Markup.Should().Contain( @" Sorry... My Very Own Country was not found! :(" );
+        } );
+    }
+
+    [Fact]
+    public async Task SearchTextChanged_ShouldTrigger_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SearchTextChanged, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        await autoComplete.InputAsync( "S" );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task SearchKeyDown_ShouldTrigger_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SearchKeyDown, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        await autoComplete.KeyDownAsync( new() { Key = "S" } );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task SearchBlur_ShouldTrigger_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SearchBlur, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        await autoComplete.FocusAsync( new() );
+        await autoComplete.BlurAsync( new() );
+
+        Assert.Equal( 1, changedCount );
+    }
+
+    [Fact]
+    public async Task SearchFocus_ShouldTrigger_Once()
+    {
+        var changedCount = 0;
+        var comp = RenderComponent<AutocompleteComponent>( p =>
+            p.Add( x => x.SearchFocus, ( x ) => changedCount++ ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        await autoComplete.FocusAsync( new() );
+
+        Assert.Equal( 1, changedCount );
+    }
+
 
     [Fact]
     public async Task Opened_ShouldTrigger_Once()

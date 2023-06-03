@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AngleSharp.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Tests.Extensions;
 
@@ -24,5 +22,11 @@ internal static class TestExtensions
         if ( action is not null )
             action( element );
         element.Input( value );
+    }
+
+    public static Task ClickOnAsync<T>( this IRenderedComponent<T> cut, string selector, MouseEventArgs mouseEventArgs = null ) where T : IComponent
+    {
+        var element = cut.WaitForElement( selector, WaitTime );
+        return element.ClickAsync( mouseEventArgs ?? new() );
     }
 }

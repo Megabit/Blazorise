@@ -271,6 +271,9 @@
     <DocsAttributesItem Name="Opened" Type="EventCallback">
         Event handler used to detect when the autocomplete is opened.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="FreeTypingNotFoundTemplate" Type="RenderFragment<string>">
+        Specifies the not found content to be rendered when no data is found and FreeTyping is enabled.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 
@@ -324,5 +327,20 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Virtualize" Type="bool" Default="false">
         Gets or sets whether the Autocomplete will use the <Code>Virtualize</Code> functionality.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TagTemplate" Type="RenderFragment<AutocompleteTagContext<TItem, TValue>>">
+        Specifies the badge content to be rendered for each tag (multiple selected item).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchTextChanged" Type="EventCallback<string>">
+        Occurs after the search box text has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchKeyDown" Type="EventCallback<KeyboardEventArgs>">
+        Occurs when a key is pressed down while the search box has focus.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchFocus" Type="EventCallback<FocusEventArgs>">
+        Occurs when the search box gains or loses focus.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchBlur" Type="EventCallback<FocusEventArgs>">
+        The blur event fires when the search box has lost focus.
     </DocsAttributesItem>
 </DocsAttributes>

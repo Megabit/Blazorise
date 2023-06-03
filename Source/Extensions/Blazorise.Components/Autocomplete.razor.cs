@@ -309,6 +309,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await NotFound.InvokeAsync( Search );
             }
         }
+
+        await SearchTextChanged.InvokeAsync( text );
     }
 
     /// <summary>
@@ -331,15 +333,18 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
     {
+
         if ( eventArgs.Code == "Escape" )
         {
             await Close();
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
         if ( IsMultiple && string.IsNullOrEmpty( Search ) && eventArgs.Code == "Backspace" )
         {
             await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
@@ -353,17 +358,19 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                     await ResetCurrentSearch();
                     await Close();
                 }
+                await SearchKeyDown.InvokeAsync( eventArgs );
                 return;
             }
 
             await SelectedOrResetOnCommit();
-
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
         if ( !DropdownVisible )
         {
             await OpenDropdown();
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
@@ -377,6 +384,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
 
         await ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) );
+        await SearchKeyDown.InvokeAsync( eventArgs );
     }
 
     /// <summary>
@@ -387,10 +395,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
     {
         TextFocused = true;
-        if ( ManualReadMode )
+        if ( ManualReadMode || MinLength <= 0 )
             await Reload();
 
         await OpenDropdown();
+        await SearchFocus.InvokeAsync( eventArgs );
     }
 
     /// <summary>
@@ -420,6 +429,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
 
         TextFocused = false;
+
+        await SearchBlur.InvokeAsync( eventArgs );
     }
 
     private async Task InvokeSearchChanged( string searchValue )
@@ -1121,6 +1132,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         => !FreeTyping && canShowDropDown && NotFoundContent is not null && IsTextSearchable && !Loading && !HasFilteredData;
 
     /// <summary>
+    /// True if the free typing not found content should be visible.
+    /// </summary>
+    protected bool FreeTypingNotFoundVisible
+        => FreeTyping && canShowDropDown && FreeTypingNotFoundTemplate is not null && IsTextSearchable && !Loading && !HasFilteredData;
+
+    /// <summary>
     /// True if the text complies to the search requirements
     /// </summary>
     protected bool IsTextSearchable
@@ -1447,6 +1464,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public RenderFragment<string> NotFoundContent { get; set; }
 
     /// <summary>
+    /// Specifies the not found content to be rendered inside this <see cref="Autocomplete{TItem, TValue}"/> when no data is found and FreeTyping is enabled.
+    /// </summary>
+    [Parameter] public RenderFragment<string> FreeTypingNotFoundTemplate { get; set; }
+
+    /// <summary>
     /// Occurs on every search text change where the data does not contain the text being searched.
     /// </summary>
     [Parameter] public EventCallback<string> NotFound { get; set; }
@@ -1523,6 +1545,31 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// This field must be set only when <see cref="ReadData"/> and <see cref="Virtualize"/> is used to load the data.
     /// </remarks>
     [Parameter] public int? TotalItems { get; set; }
+
+    /// <summary>
+    /// Specifies the content to be rendered for each tag (multiple selected item).
+    /// </summary>
+    [Parameter] public RenderFragment<AutocompleteTagContext<TItem, TValue>> TagTemplate { get; set; }
+
+    /// <summary>
+    /// Occurs after the search box text has changed.
+    /// </summary>
+    [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
+
+    /// <summary>
+    /// Occurs when a key is pressed down while the search box has focus.
+    /// </summary>
+    [Parameter] public EventCallback<KeyboardEventArgs> SearchKeyDown { get; set; }
+
+    /// <summary>
+    /// Occurs when the search box gains or loses focus.
+    /// </summary>
+    [Parameter] public EventCallback<FocusEventArgs> SearchFocus { get; set; }
+
+    /// <summary>
+    /// The blur event fires when the search box has lost focus.
+    /// </summary>
+    [Parameter] public EventCallback<FocusEventArgs> SearchBlur { get; set; }
 
     #endregion
 }

@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.DataGrid.Models;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -14,6 +13,8 @@ namespace Blazorise.DataGrid;
 public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 {
     #region Members
+
+    protected bool mouseIsOver = false;
 
     /// <summary>
     /// List of columns used to build this row.
@@ -142,6 +143,23 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                 return;
             }
         }
+    }
+
+    protected bool BindMouseLeave()
+        => ParentDataGrid.RowMouseLeave.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
+
+    protected bool BindMouseOver()
+        => ParentDataGrid.RowMouseOver.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
+
+    protected internal async Task HandleMouseLeave( BLMouseEventArgs eventArgs )
+    {
+        mouseIsOver = false;
+        await ParentDataGrid.OnRowMouseLeaveCommand( new( Item, eventArgs ) );
+    }
+    protected internal async Task HandleMouseOver( BLMouseEventArgs eventArgs )
+    {
+        mouseIsOver = true;
+        await ParentDataGrid.OnRowMouseOverCommand( new( Item, eventArgs ) );
     }
 
     protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
