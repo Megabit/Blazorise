@@ -2,9 +2,14 @@
 <li id="@ElementId" role="menuitem" class="@ClassNames" style="@StyleNames" aria-disabled="@(Disabled.ToString().ToLowerInvariant())" @onmouseup="@ClickHandler" @onmousedown="() => {}" @onmousedown:preventDefault @attributes="@Attributes">
     @if ( ShowCheckbox )
     {
-        <Label @onclick:stopPropagation @onmouseup:stopPropagation>
-            <Blazorise.Check TValue="bool" Checked="@(@checked)" CheckedExpression="@checkedExpression" CheckedChanged="CheckedChangedHandler" Disabled="@Disabled" @onclick:stopPropagation></Blazorise.Check>
-        </Label>
+        <Div Display="Blazorise.Display.InlineBlock" @onclick:stopPropagation @onmouseup:stopPropagation>
+            <Blazorise.Check TValue="bool" Checked="@(@checked)" CheckedExpression="@checkedExpression" CheckedChanged="CheckedChangedHandler" Disabled="@Disabled" @onclick:stopPropagation>
+                @ChildContent
+            </Blazorise.Check>
+        </Div>
     }
-    @ChildContent
+    else
+    {
+        @ChildContent
+    }
 </li>
