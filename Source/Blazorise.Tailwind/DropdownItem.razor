@@ -3,11 +3,11 @@
     <a id="@ElementId" class="@ClassNames" style="@StyleNames" @onmouseup="@ClickHandler" @onmousedown="() => {}" @onmousedown:preventDefault @attributes="@Attributes">
         @if ( ShowCheckbox )
         {
-            <div @onclick:stopPropagation @onmouseup:stopPropagation>
+            <Div Display="Blazorise.Display.InlineBlock" @onclick:stopPropagation @onmouseup:stopPropagation>
                 <Blazorise.Check TValue="bool" Checked="@(@checked)" CheckedExpression="@checkedExpression" CheckedChanged="CheckedChangedHandler" Disabled="@Disabled" @onclick:stopPropagation>
                     @ChildContent
                 </Blazorise.Check>
-            </div>
+            </Div>
         }
         else
         {
