@@ -5741,6 +5741,11 @@ select[readonly] optgroup {
   display: contents;
 }
 
+.field-label-required:after {
+  content: " *";
+  color: var(--b-theme-danger, #ef2e55);
+}
+
 .hero.is-primary {
   background-color: #00d1b2;
   color: #fff;

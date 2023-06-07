@@ -44,6 +44,9 @@ public abstract class _BaseDataGridCell<TItem> : ComponentBase
             else if ( HasValidator )
                 return typeof( ValidatorValidationHandler );
 
+            if ( ParentDataGrid?.ValidationsHandlerType is not null )
+                return ParentDataGrid.ValidationsHandlerType;
+
             // default is always data-annotations
             return typeof( DataAnnotationValidationHandler );
         }

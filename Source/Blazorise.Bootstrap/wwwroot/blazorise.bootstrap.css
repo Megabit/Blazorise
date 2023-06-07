@@ -762,6 +762,11 @@ input[readonly=readonly][type=range]::-ms-thumb {
   display: contents;
 }
 
+.form-label-required:after {
+  content: " *";
+  color: var(--b-theme-danger, #dc3545);
+}
+
 .jumbotron.jumbotron-primary {
   background-color: #007bff;
   color: #fff;

@@ -1,4 +1,6 @@
-﻿using BasicTestApp.Client;
+﻿using System.Threading.Tasks;
+using BasicTestApp.Client;
+using Blazorise.Tests.Extensions;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
@@ -14,7 +16,7 @@ public class ValidateTextEditComponentTest : TestContext
     }
 
     [Fact]
-    public void CanValidateText_InitiallyBlank()
+    public async Task CanValidateText_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateTextEditComponent>();
@@ -24,16 +26,16 @@ public class ValidateTextEditComponentTest : TestContext
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( "a" );
+        await edit.InputAsync( "a" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateText_InitiallyPopulated()
+    public async Task CanValidateText_InitiallyPopulated()
     {
         // setup
         var comp = RenderComponent<ValidateTextEditComponent>();
@@ -43,16 +45,16 @@ public class ValidateTextEditComponentTest : TestContext
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( "b" );
+        await edit.InputAsync( "b" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateTextWithBind_InitiallyBlank()
+    public async Task CanValidateTextWithBind_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateTextEditComponent>();
@@ -62,16 +64,16 @@ public class ValidateTextEditComponentTest : TestContext
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( "a" );
+        await edit.InputAsync( "a" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateTextWithBind_InitiallyPopulated()
+    public async Task CanValidateTextWithBind_InitiallyPopulated()
     {
         // setup
         var comp = RenderComponent<ValidateTextEditComponent>();
@@ -81,16 +83,16 @@ public class ValidateTextEditComponentTest : TestContext
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( "b" );
+        await edit.InputAsync( "b" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateTextWithEvent_InitiallyBlank()
+    public async Task CanValidateTextWithEvent_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateTextEditComponent>();
@@ -100,16 +102,16 @@ public class ValidateTextEditComponentTest : TestContext
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( "a" );
+        await edit.InputAsync( "a" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateTextWithEvent_InitiallyPopulated()
+    public async Task CanValidateTextWithEvent_InitiallyPopulated()
     {
         // setup
         var comp = RenderComponent<ValidateTextEditComponent>();
@@ -119,16 +121,16 @@ public class ValidateTextEditComponentTest : TestContext
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( "b" );
+        await edit.InputAsync( "b" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidatePattern_InitiallyBlank()
+    public async Task CanValidatePattern_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateTextEditComponent>();
@@ -138,20 +140,20 @@ public class ValidateTextEditComponentTest : TestContext
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( "a" );
+        await edit.InputAsync( "a" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( "1" );
+        await edit.InputAsync( "1" );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 3
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidatePattern_InitiallyPopulated()
+    public async Task CanValidatePattern_InitiallyPopulated()
     {
         // setup
         var comp = RenderComponent<ValidateTextEditComponent>();
@@ -161,15 +163,15 @@ public class ValidateTextEditComponentTest : TestContext
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( "b" );
+        await edit.InputAsync( "b" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 3
-        edit.Input( "2" );
+        await edit.InputAsync( "2" );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
     }
 }

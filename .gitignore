@@ -243,6 +243,9 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 
+# CodeRush personal settings
+.cr/personal
+
 # jekyll
 _site
 Gemfile.lock

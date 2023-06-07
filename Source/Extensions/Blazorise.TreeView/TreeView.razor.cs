@@ -1,9 +1,8 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Collections.Specialized;
 using System.Threading.Tasks;
-using System.Xml.Linq;
 using Blazorise.Extensions;
 using Blazorise.TreeView.Extensions;
 using Blazorise.TreeView.Internal;
@@ -13,7 +12,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.TreeView;
 
-public partial class TreeView<TNode> : BaseComponent
+public partial class TreeView<TNode> : BaseComponent, IDisposable
 {
     #region Members
 
@@ -47,17 +46,72 @@ public partial class TreeView<TNode> : BaseComponent
             treeViewState = treeViewState with { SelectedNodes = paramSelectedNodes };
         }
 
+        // We don't want to have memory leak so we need to unsubscribe any previous event if it exist.
+        // The unsubscribe must happen before SetParametersAsync.
+        if ( Nodes is INotifyCollectionChanged obseravableCollectionBeforeChange )
+        {
+            obseravableCollectionBeforeChange.CollectionChanged -= OnCollectionChanged;
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( nodesChanged )
         {
-            treeViewNodeStates = new();
+            await Reload();
+        }
 
-            await foreach ( var nodeState in paramNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+        // Now we can safely subscribe to the changes.
+        if ( Nodes is INotifyCollectionChanged observableColleftionAfterChange )
+        {
+            observableColleftionAfterChange.CollectionChanged += OnCollectionChanged;
+        }
+    }
+
+    private void OnCollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
+    {
+        if ( e.Action == NotifyCollectionChangedAction.Add )
+        {
+            InvokeAsync( async () =>
             {
-                treeViewNodeStates.Add( nodeState );
+                await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+                {
+                    treeViewNodeStates.Add( nodeState );
+                }
+            } );
+        }
+
+        if ( e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset || e.Action == NotifyCollectionChangedAction.Replace || e.Action == NotifyCollectionChangedAction.Move )
+        {
+            InvokeAsync( Reload );
+        }
+    }
+
+    /// <summary>
+    /// Triggers the reload of the <see cref="TreeView{TNode}.Nodes"/>.
+    /// </summary>
+    /// <returns>Returns the awaitable task.</returns>
+    public async Task Reload()
+    {
+        treeViewNodeStates = new();
+
+        await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+        {
+            treeViewNodeStates.Add( nodeState );
+        }
+        await InvokeAsync( StateHasChanged );
+    }
+
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( Nodes is INotifyCollectionChanged observableCollection )
+            {
+                observableCollection.CollectionChanged -= OnCollectionChanged;
             }
         }
+
+        base.Dispose( disposing );
     }
 
     protected override void BuildClasses( ClassBuilder builder )

@@ -1,14 +1,15 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Blazorise.Modules;
+using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
@@ -36,19 +37,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private Virtualize<TItem> virtualizeRef;
 
     /// <summary>
-    /// Gets or sets current selection mode.
-    /// </summary>
-    private DataGridSelectionMode selectionMode;
-
-    /// <summary>
     /// Element reference to the DataGrid's inner table.
     /// </summary>
     private Table tableRef;
-
-    /// <summary>
-    /// Original data-source.
-    /// </summary>
-    private IEnumerable<TItem> data;
 
     /// <summary>
     /// Optional aggregate data.
@@ -202,10 +193,30 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Returns a list of all the columns that are currently associated with this datagrid.
+    /// </summary>
+    /// <returns>A read-only list of all columns</returns>
+    public IReadOnlyList<DataGridColumn<TItem>> GetColumns() => Columns.AsReadOnly();
+
+    /// <summary>
+    /// Returns a list of all columns currently used to sort this datagrid's data.
+    /// </summary>
+    /// <returns>A read-only list of all sort columns, or an empty list.</returns>
+    public IReadOnlyList<DataGridColumn<TItem>> GetSortByColumns() => SortByColumns.AsReadOnly();
+
+    /// <summary>
     /// Links the child column with this datagrid.
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
-    public void AddColumn( DataGridColumn<TItem> column )
+    public void AddColumn( DataGridColumn<TItem> column ) =>
+        AddColumn( column, false );
+
+    /// <summary>
+    /// Links the child column with this datagrid.
+    /// </summary>
+    /// <param name="column">Column to link with this datagrid.</param>
+    /// <param name="suppressSortChangedEvent">If <c>true</c> method will suppress the <see cref="SortChanged"/> event.</param>  
+    internal void AddColumn( DataGridColumn<TItem> column, bool suppressSortChangedEvent )
     {
         Columns.Add( column );
 
@@ -213,7 +224,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             AddGroupColumn( column );
 
         if ( column.CurrentSortDirection != SortDirection.Default )
-            HandleSortColumn( column, false );
+            HandleSortColumn( column, false, null, suppressSortChangedEvent );
 
         // save command column reference for later
         if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
@@ -244,7 +255,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
     public bool RemoveColumn( DataGridColumn<TItem> column )
-        => Columns.Remove( column );
+    {
+        var removed = Columns.Remove( column );
+
+        if ( column.SortDirection != SortDirection.Default )
+        {
+            SortByColumns.Remove( column );
+
+            _ = InvokeAsync( async () => await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, SortDirection.Default ) ) );
+        }
+
+        return removed;
+    }
 
     /// <summary>
     /// Links the child row with this datagrid.
@@ -298,10 +320,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await CheckMultipleSelectionSetEmpty( parameters );
 
+        if ( parameters.TryGetValue<IEnumerable<TItem>>( nameof( Data ), out var paramData ) && !Data.AreEqual( paramData ) )
+            SetDirty();
+
         if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
             ExecuteAfterRender( HandleSelectionModeChanged );
 
+        if ( Data is INotifyCollectionChanged observableCollectionBeforeParamSet )
+            observableCollectionBeforeParamSet.CollectionChanged -= OnCollectionChanged;
+
         await base.SetParametersAsync( parameters );
+
+        if ( Data is INotifyCollectionChanged observableCollectionAfterParamSet )
+            observableCollectionAfterParamSet.CollectionChanged += OnCollectionChanged;
     }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -334,6 +365,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( disposing )
         {
+            if ( Data is INotifyCollectionChanged observableCollection )
+            {
+                observableCollection.CollectionChanged -= OnCollectionChanged;
+            }
+
+
             if ( paginationContext is not null )
             {
                 paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
@@ -586,6 +623,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     #region Events
 
+    private async void OnCollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
+    {
+        if ( e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset || e.Action == NotifyCollectionChangedAction.Move || e.Action == NotifyCollectionChangedAction.Replace )
+        {
+            await InvokeAsync( async () => await Reload() );
+        }
+    }
+
     /// <summary>
     /// An event raised when theme settings changes.
     /// </summary>
@@ -667,7 +712,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( Data is ICollection<TItem> data )
         {
-            if ( await IsSafeToProceed( RowRemoving, item ) )
+            if ( await IsSafeToProceed( RowRemoving, item, item ) )
             {
                 var itemIsSelected = SelectedRow.IsEqual( item );
                 if ( UseInternalEditing )
@@ -716,7 +761,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
 
-        if ( await IsSafeToProceed( rowSavingHandler, editItem, editedCellValues ) )
+        var editItemClone = editItem.DeepClone();
+        SetItemEditedValues( editItemClone );
+
+        if ( await IsSafeToProceed( rowSavingHandler, editItem, editItemClone, editedCellValues ) )
         {
             if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem && Data is ICollection<TItem> data )
             {
@@ -727,15 +775,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 // apply edited cell values to the item
                 // for new items it must be always be set, while for editing items it can be set only if it's enabled
-                foreach ( var column in EditableColumns )
-                {
-                    column.SetValue( editItem, editItemCellValues[column.ElementId].CellValue );
-                }
+                SetItemEditedValues( editItem );
             }
 
             if ( editState == DataGridEditState.New )
             {
-                await RowInserted.InvokeAsync( new( editItem, editedCellValues ) );
+                await RowInserted.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
                 SetDirty();
 
                 // If a new item is added, the data should be refreshed
@@ -744,13 +789,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     await HandleReadData( CancellationToken.None );
             }
             else
-                await RowUpdated.InvokeAsync( new( editItem, editedCellValues ) );
+                await RowUpdated.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
 
             editState = DataGridEditState.None;
             await VirtualizeOnEditCompleteScroll().AsTask();
         }
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    private void SetItemEditedValues( TItem item )
+    {
+        foreach ( var column in EditableColumns )
+        {
+            column.SetValue( item, editItemCellValues[column.ElementId].CellValue );
+        }
     }
 
     /// <summary>
@@ -775,9 +828,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await SelectRow( item );
 
-        var selectedTableRow = GetRowInfo( item )?.TableRow;
-        if ( selectedTableRow is not null )
-            await selectedTableRow.ElementRef.FocusAsync();
+        if ( Navigable )
+        {
+            var selectedTableRow = GetRowInfo( item )?.TableRow;
+            if ( selectedTableRow is not null )
+                await selectedTableRow.ElementRef.FocusAsync();
+        }
 
         await Refresh();
     }
@@ -818,6 +874,75 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         return Task.CompletedTask;
+    }
+
+
+    /// <summary>
+    /// Applies a new sort to the datagrid using the provided columns, sort order, and sort direction. Replaces the current sorting.
+    /// </summary>
+    /// <param name="columns">Columns used for sorting</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> and <see cref="Sortable"/> must be enabled to be able to sort!
+    /// If more than one column is specified, <see cref="SortMode"/> must be <see cref="DataGridSortMode.Multiple"/>
+    /// </remarks>
+    public async Task ApplySorting( params DataGridSortColumnInfo[] columns )
+    {
+        if ( !Sortable )
+            return;
+
+        if ( SortMode == DataGridSortMode.Single )
+        {
+            if ( !columns.IsNullOrEmpty() )
+            {
+                // Sort the DataGrid based on the first column passed
+                await Sort( columns[0].Field, columns[0].SortDirection );
+            }
+            else if ( SortByColumns.Count == 1 )
+            {
+                // If the user has not passed any columns and the DataGrid is currently sorted
+                // by a column, use the data-source's default sort order.
+                await Sort( SortByColumns[0].Field, SortDirection.Default );
+            }
+
+            return;
+        }
+
+        await ResetSorting();
+
+        if ( !columns.IsNullOrEmpty() )
+        {
+            var columnTuples = columns
+                .Select( ( x, idx ) => (
+                    Column: Columns.FirstOrDefault( c => c.Field == x.Field ),
+                    Direction: x.SortDirection,
+                    SortOrder: idx) )
+                .Where( x => x.Column is { Sortable: true } &&
+                             x.Direction != SortDirection.Default )
+                .DistinctBy( x => x.Column.GetFieldToSort() );
+
+            foreach ( var (column, direction, sortOrder) in columnTuples )
+            {
+                column.CurrentSortDirection = direction;
+                await column.SetSortOrder( sortOrder );
+                SortByColumns.Add( column );
+
+                await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, column.CurrentSortDirection ) );
+            }
+        }
+
+        await Reload();
+    }
+
+    private async Task ResetSorting()
+    {
+        foreach ( var column in SortByColumns )
+        {
+            column.CurrentSortDirection = SortDirection.Default;
+            await column.ResetSortOrder();
+        }
+
+        SortByColumns.Clear();
     }
 
     /// <summary>
@@ -1038,6 +1163,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
+    internal Task OnRowMouseOverCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+    {
+        return RowMouseOver.InvokeAsync( eventArgs );
+    }
+    internal Task OnRowMouseLeaveCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+    {
+        return RowMouseLeave.InvokeAsync( eventArgs );
+    }
+
     internal Task OnRowClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
     {
         return RowClicked.InvokeAsync( eventArgs );
@@ -1165,11 +1299,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     // this is to give user a way to stop save if necessary
-    internal async Task<bool> IsSafeToProceed<TValues>( EventCallback<CancellableRowChange<TItem, TValues>> handler, TItem item, TValues editedCellValues )
+    internal async Task<bool> IsSafeToProceed<TValues>( EventCallback<CancellableRowChange<TItem, TValues>> handler, TItem item, TItem newItem, TValues editedCellValues )
     {
         if ( handler.HasDelegate )
         {
-            var args = new CancellableRowChange<TItem, TValues>( item, editedCellValues );
+            var args = new CancellableRowChange<TItem, TValues>( item, newItem, editedCellValues );
 
             await handler.InvokeAsync( args );
 
@@ -1182,11 +1316,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return true;
     }
 
-    internal async Task<bool> IsSafeToProceed( EventCallback<CancellableRowChange<TItem>> handler, TItem item )
+    internal async Task<bool> IsSafeToProceed( EventCallback<CancellableRowChange<TItem>> handler, TItem item, TItem newItem )
     {
         if ( handler.HasDelegate )
         {
-            var args = new CancellableRowChange<TItem>( item );
+            var args = new CancellableRowChange<TItem>( item, newItem );
 
             await handler.InvokeAsync( args );
 
@@ -1309,41 +1443,58 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return new( Data.ToList(), TotalItems.Value );
     }
 
-    protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null )
+    protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null ) =>
+        HandleSortColumn( column, changeSortDirection, sortDirection, false );
+
+    private void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection,
+        bool suppressSortChangedEvent )
     {
-        if ( Sortable && column.CanSort() )
+        if ( !Sortable || !column.CanSort() )
+            return;
+
+        if ( SortMode == DataGridSortMode.Single )
         {
-            if ( SortMode == DataGridSortMode.Single )
+            // in single-mode we need to reset all other columns to default state
+            foreach ( var c in Columns.Where( x => x.GetFieldToSort() != column.GetFieldToSort() ) )
             {
-                // in single-mode we need to reset all other columns to default state
-                foreach ( var c in Columns.Where( x => x.GetFieldToSort() != column.GetFieldToSort() ) )
-                {
-                    c.CurrentSortDirection = SortDirection.Default;
-                }
-
-                // and also remove any column sort info except for current one
-                SortByColumns.RemoveAll( x => x.GetFieldToSort() != column.GetFieldToSort() );
+                c.CurrentSortDirection = SortDirection.Default;
             }
 
-            if ( changeSortDirection )
-            {
-                column.CurrentSortDirection = sortDirection ?? column.CurrentSortDirection.NextDirection( column.ReverseSorting );
-            }
+            // and also remove any column sort info except for current one
+            SortByColumns.RemoveAll( x => x.GetFieldToSort() != column.GetFieldToSort() );
+        }
 
-            if ( !SortByColumns.Any( c => c.GetFieldToSort() == column.GetFieldToSort() ) )
-            {
-                var nextOrderToSort = SortByColumns.Count == 0 ? 0 : SortByColumns.Max( x => x.SortOrder ) + 1;
-                column.SetSortOrder( nextOrderToSort );
-                SortByColumns.Add( column );
-            }
-            else if ( column.CurrentSortDirection == SortDirection.Default )
-            {
-                SortByColumns.Remove( column );
-                column.ResetSortOrder();
-            }
+        if ( changeSortDirection )
+        {
+            column.CurrentSortDirection =
+                sortDirection ?? column.CurrentSortDirection.NextDirection( column.ReverseSorting );
+        }
 
-            if ( changeSortDirection )
-                InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.CurrentSortDirection ) ) );
+        if ( SortByColumns.All( c => c.GetFieldToSort() != column.GetFieldToSort() ) )
+        {
+            var nextOrderToSort = SortByColumns.Count == 0 ? 0 : SortByColumns.Max( x => x.SortOrder ) + 1;
+            column.SetSortOrder( nextOrderToSort );
+            SortByColumns.Add( column );
+        }
+        else if ( column.CurrentSortDirection == SortDirection.Default )
+        {
+            SortByColumns.Remove( column );
+            column.ResetSortOrder();
+        }
+
+        static Task RaiseSortChanged( DataGrid<TItem> dataGrid, DataGridColumn<TItem> c ) =>
+            dataGrid.SortChanged.InvokeAsync( new DataGridSortChangedEventArgs(
+                c.GetFieldToSort(),
+                c.Field,
+                c.CurrentSortDirection ) );
+
+
+        if ( changeSortDirection && !suppressSortChangedEvent )
+        {
+            _ = InvokeAsync( async () =>
+            {
+                await RaiseSortChanged( this, column );
+            } );
         }
     }
 
@@ -1528,8 +1679,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return Task.CompletedTask;
 
         SelectedRow = item;
-
-        return SelectedRowChanged.InvokeAsync( SelectedRow );
+        return SelectedRowChanged.InvokeAsync( item );
     }
 
     private DataGridRowInfo<TItem> GetRowInfo( TItem item )
@@ -1828,15 +1978,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the datagrid data-source.
     /// </summary>
     [Parameter]
-    public IEnumerable<TItem> Data
-    {
-        get { return data; }
-        set
-        {
-            SetDirty();
-            data = value;
-        }
-    }
+    public IEnumerable<TItem> Data { get; set; }
 
     /// <summary>
     /// Gets or sets the calculated aggregate data.
@@ -2166,6 +2308,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter] public EventCallback<TItem> RowRemoved { get; set; }
 
+
+    /// <summary>
+    /// Event called after the mouse leaves the row.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowMouseLeave { get; set; }
+
+    /// <summary>
+    /// Event called after the mouse is over the row.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowMouseOver { get; set; }
+
     /// <summary>
     /// Event called after the row is clicked.
     /// </summary>
@@ -2197,7 +2350,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public EventCallback<DataGridReadDataEventArgs<TItem>> ReadData { get; set; }
 
     /// <summary>
-    /// Occurs after the column sort direction has changed.
+    /// Occurs after the sort direction of a single column has changed.
     /// </summary>
     [Parameter] public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
 
@@ -2456,6 +2609,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     : selectedRowDataIdx + ( CurrentPage - 1 ) * PageSize;
         }
     }
+
+    /// <summary>
+    /// Template for mouse hover overlay display formatting.
+    /// </summary>
+    [Parameter] public RenderFragment<RowOverlayContext<TItem>> RowOverlayTemplate { get; set; }
+
+    /// <summary>
+    /// Defines the position of the row overlay.
+    /// </summary>
+    [Parameter] public DataGridRowOverlayPosition RowOverlayPosition { get; set; } = DataGridRowOverlayPosition.End;
+
+    /// <summary>
+    /// Defines the background of the row overlay.
+    /// </summary>
+    [Parameter] public Background RowOverlayBackground { get; set; } = Background.Light;
 
     #endregion
 }

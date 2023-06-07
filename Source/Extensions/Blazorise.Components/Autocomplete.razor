@@ -11,13 +11,23 @@
         {
             @foreach ( var selectedText in SelectedTexts )
             {
-                <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
+                @if ( TagTemplate is null )
+                {
+                    <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
+                }
+                else
+                {
+                    var item = GetItemByText( selectedText );
+                    var value = GetItemValue( selectedText );
+                    var removeCallback = EventCallback.Factory.Create( this, async () => await RemoveMultipleTextAndValue( selectedText ) );
+                    @TagTemplate(new (item, value, selectedText, removeCallback))
+                }
             }
         }
 
         <TextEdit @ref="@textEditRef"
                   Role="TextRole.Search"
-                  Text="@CurrentSearch"
+                  Text="@Search"
                   TextChanged="@OnTextChangedHandler"
                   Placeholder="@Placeholder"
                   Size="@Size"
@@ -41,13 +51,6 @@
         </TextEdit>
     </Validation>
     <DropdownMenu>
-        @if ( NotFoundVisible )
-        {
-            <DropdownItem Disabled>
-                @NotFoundContent( Search )
-            </DropdownItem>
-        }
-
         @if ( DropdownVisible )
         {
             @if ( VirtualizeManualReadMode )
@@ -69,6 +72,18 @@
                     @itemFragment(item)
                 }
             }
+        }
+        else if ( NotFoundVisible )
+        {
+            <DropdownItem Disabled>
+                @NotFoundContent( Search )
+            </DropdownItem>
+        }
+        else if ( FreeTypingNotFoundVisible )
+        {
+            <DropdownItem Disabled>
+                @FreeTypingNotFoundTemplate( Search )
+            </DropdownItem>
         }
     </DropdownMenu>
 </Dropdown>

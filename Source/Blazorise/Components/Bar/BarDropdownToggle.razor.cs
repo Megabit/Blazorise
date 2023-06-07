@@ -94,15 +94,15 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// </summary>
     /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
     /// <returns>Returns the awaitable task.</returns>
-    protected Task ClickHandler( MouseEventArgs eventArgs )
+    protected async Task ClickHandler( MouseEventArgs eventArgs )
     {
         if ( IsDisabled )
-            return Task.CompletedTask;
+            return;
 
         if ( ParentBarDropdown != null )
-            return ParentBarDropdown.Toggle( ElementId );
+            await ParentBarDropdown.Toggle( ElementId );
 
-        return Clicked.InvokeAsync( eventArgs );
+        await Clicked.InvokeAsync( eventArgs );
     }
 
     /// <summary>

@@ -1,5 +1,7 @@
 ﻿#region Using directives
+
 using System;
+
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -12,18 +14,37 @@ public class DataGridSortChangedEventArgs : EventArgs
     /// <summary>
     /// Default constructors.
     /// </summary>
-    /// <param name="fieldName">Column field name.</param>
+    /// <param name="fieldName">The column's sort field name.</param>
     /// <param name="sortDirection">Column sort direction.</param>
+    [Obsolete( message: "Please use the new constructor DataGridSortChangedEventArgs( string fieldName, string columnFieldName, SortDirection sortDirection ).", error: false )]
     public DataGridSortChangedEventArgs( string fieldName, SortDirection sortDirection )
+        : this( fieldName, fieldName, sortDirection )
+    {
+    }
+
+    /// <summary>
+    /// Default constructors.
+    /// </summary>
+    /// <param name="fieldName">The column's sort field name.</param>
+    /// <param name="columnFieldName">The column's field name.</param>
+    /// <param name="sortDirection">Column sort direction.</param>
+    public DataGridSortChangedEventArgs( string fieldName, string columnFieldName, SortDirection sortDirection )
     {
         FieldName = fieldName;
+        ColumnFieldName = columnFieldName;
         SortDirection = sortDirection;
     }
 
     /// <summary>
-    /// Gets the field name of the column that is being sorted.
+    /// Gets the field name used to apply sorting on this column. 
+    /// The name is either <see cref="BaseDataGridColumn{TItem}.Field"/> or <see cref="DataGridColumn{TItem}.SortField"/> if specified.
     /// </summary>
     public string FieldName { get; }
+
+    /// <summary>
+    /// Gets the field name that is defined on this column. The name is always the same as in <see cref="BaseDataGridColumn{TItem}.Field"/>.
+    /// </summary>
+    public string ColumnFieldName { get; set; }
 
     /// <summary>
     /// Gets the new sort direction of the specified field name.

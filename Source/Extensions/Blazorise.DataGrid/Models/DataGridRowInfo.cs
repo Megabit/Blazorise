@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 #endregion
 
-namespace Blazorise.DataGrid.Models;
+namespace Blazorise.DataGrid;
 
 /// <summary>
 /// Holds the basic information about the datagrid row.
@@ -26,7 +26,7 @@ public class DataGridRowInfo<TItem>
     /// Gets the list of columns.
     /// </summary>
     public IEnumerable<DataGridColumn<TItem>> Columns { get; }
-    
+
     /// <summary>
     /// The Table Row
     /// </summary>
