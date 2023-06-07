@@ -84,6 +84,11 @@ public partial class TabPanel : BaseComponent, IDisposable
     protected bool Active => ParentTabsState?.SelectedTab == Name || ParentTabsContentState?.SelectedPanel == Name;
 
     /// <summary>
+    /// Tracks whether the component fulfills the requirements to be lazy loaded and then kept rendered to the DOM.
+    /// </summary>
+    protected bool LazyLoaded => lazyLoaded;
+
+    /// <summary>
     /// Gets the current render mode.
     /// </summary>
     protected TabsRenderMode RenderMode => ParentTabsState?.RenderMode ?? TabsRenderMode.Default;
