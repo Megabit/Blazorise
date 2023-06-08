@@ -28,6 +28,9 @@
         var text = TextField?.Invoke( item );
         var value = ValueField != null ? ValueField.Invoke( item ) : default;
 
-        <DropdownItem @key="@item" Clicked="@HandleDropdownItemClicked" Value="@value">@text</DropdownItem>
+        <DropdownItem @key="@item" Clicked="@HandleDropdownItemClicked" Value="@value"
+                        ShowCheckbox="@(SelectionMode == DropdownListSelectionMode.Checkbox)"
+                        Checked="IsSelected(value)"
+                        CheckedChanged="@((isChecked) => HandleDropdownItemChecked(isChecked, value))">@text</DropdownItem>
     };
 }

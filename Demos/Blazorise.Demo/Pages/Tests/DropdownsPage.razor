@@ -183,4 +183,28 @@
             </CardBody>
         </Card>
     </Column>
+
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Checkbox</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Able to set dropdown items to have a checkbox.</CardText>
+            </CardBody>
+            <CardBody>
+                <Buttons>
+                    <Dropdown>
+                        <DropdownToggle Color="Color.Secondary">Dropdown</DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem ShowCheckbox>Item 1</DropdownItem>
+                            <DropdownItem>Item 2</DropdownItem>
+                            <DropdownItem ShowCheckbox Disabled>Item 3 Disabled</DropdownItem>
+                            <DropdownItem ShowCheckbox>Item 4</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </Buttons>
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
