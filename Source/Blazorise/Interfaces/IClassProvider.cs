@@ -280,7 +280,7 @@ public interface IClassProvider
 
     string Field();
 
-    string FieldHorizontal();
+    string FieldHorizontal( bool horizontal );
 
     string FieldColumn();
 

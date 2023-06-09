@@ -281,7 +281,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Field();
 
-    public abstract string FieldHorizontal();
+    public abstract string FieldHorizontal( bool horizontal );
 
     public abstract string FieldColumn();
 

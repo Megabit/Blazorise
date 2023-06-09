@@ -296,7 +296,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Field() => "form-group";
 
-    public override string FieldHorizontal() => "row";
+    public override string FieldHorizontal( bool horizontal ) => horizontal ? "row" : null;
 
     public override string FieldColumn() => "col";
 

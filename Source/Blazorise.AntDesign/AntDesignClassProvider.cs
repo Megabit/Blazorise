@@ -283,7 +283,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Field() => "ant-form-item";
 
-    public override string FieldHorizontal() => "ant-row";
+    public override string FieldHorizontal( bool horizontal ) => horizontal ? "ant-row" : null;
 
     public override string FieldColumn() => "ant-col";
 

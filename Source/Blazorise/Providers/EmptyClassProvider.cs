@@ -283,7 +283,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Field() => null;
 
-    public string FieldHorizontal() => null;
+    public string FieldHorizontal( bool horizontal ) => null;
 
     public string FieldColumn() => null;
 
