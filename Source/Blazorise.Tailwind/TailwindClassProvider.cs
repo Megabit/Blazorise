@@ -571,7 +571,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownHeader() => "b-dropdown-header py-3 px-4 text-sm text-gray-900 dark:text-white";
 
-    public override string DropdownMenu() => "b-dropdown-menu z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700";
+    public override string DropdownMenu() => "b-dropdown-menu z-10 w-max bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700";
 
     public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
@@ -1060,7 +1060,7 @@ public class TailwindClassProvider : ClassProvider
     public override string BarDropdownDivider( BarMode mode ) => "b-bar-dropdown-divider";
 
     public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "b-bar-dropdown-menu absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+        ? "b-bar-dropdown-menu absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-max dark:bg-gray-700 dark:divide-gray-600"
         : "b-bar-dropdown-menu";
 
     public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible
