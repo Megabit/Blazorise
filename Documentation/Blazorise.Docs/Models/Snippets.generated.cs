@@ -1527,6 +1527,19 @@ public class Gender
     }
 }";
 
+        public const string DropdownCheckboxExample = @"<Dropdown>
+    <DropdownToggle Color=""Color.Primary"">
+        Dropdown With Checkboxes
+    </DropdownToggle>
+    <DropdownMenu>
+        <DropdownItem ShowCheckbox>Checkbox</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem ShowCheckbox>Another Checkbox</DropdownItem>
+        <DropdownItem ShowCheckbox Disabled>Checkbox Disabled</DropdownItem>
+        <DropdownItem>Action</DropdownItem>
+    </DropdownMenu>
+</Dropdown>";
+
         public const string DropdownExample = @"<Dropdown>
     <DropdownToggle Color=""Color.Primary"">
         Dropdown
@@ -5407,6 +5420,45 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 	public string LastName { get; set; }
 }";
 
+        public const string DataGridApplySortingExample = @"<Button Color=""Color.Secondary"" Clicked=""OnResetClicked"">Reset sorting</Button>
+<Button Color=""Color.Primary"" Clicked=""OnPredefinedClicked"">Apply predefined sorting</Button>
+
+<DataGrid @ref=""dataGrid""
+          TItem=""Employee""
+          Data=""@employeeList""
+          Responsive
+          Sortable
+          SortMode=""DataGridSortMode.Multiple""
+          ShowPager=""true"" >
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name""  />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name""  />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email""  />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" />
+    <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens""/>
+    <DataGridColumn Field=""@nameof(Employee.Gender)"" Caption=""Gender"" />
+</DataGrid>
+
+@code{
+    [Inject] public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private DataGrid<Employee> dataGrid;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private Task OnResetClicked() => dataGrid.ApplySorting(Array.Empty<DataGridSortColumnInfo>());
+
+    private Task OnPredefinedClicked() => dataGrid.ApplySorting(
+        new DataGridSortColumnInfo(nameof(Employee.Childrens), SortDirection.Descending),
+        new DataGridSortColumnInfo(nameof(Employee.Gender), SortDirection.Ascending)
+        );
+}";
+
         public const string DataGridButtonRowExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
@@ -6697,6 +6749,43 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
     }
+}";
+
+        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""string""
+              Data=""@Countries""
+              TextField=""@((item)=>item.Name)""
+              ValueField=""@((item)=>item.Iso)""
+              @bind-SelectedValues=""@selectedDropValues""
+              SelectionMode=""DropdownListSelectionMode.Checkbox""
+              Color=""Color.Primary""
+              MaxMenuHeight=""200px"">
+    Select item
+</DropdownList>
+
+<Field Horizontal>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected values: @(selectedDropValues is not null ? string.Join( ',', selectedDropValues ) : """");
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected texts: @(selectedDropValues is not null 
+                        ? string.Join( ',', selectedDropValues.Select( x => Countries.FirstOrDefault( country => country.Iso == x )?.Name ?? string.Empty )) 
+                        : string.Empty )
+    </FieldBody>
+</Field>
+
+@code{
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { ""AM"", ""AF"" };
+
 }";
 
         public const string DropdownListExample = @"<DropdownList TItem=""Country"" TValue=""string""

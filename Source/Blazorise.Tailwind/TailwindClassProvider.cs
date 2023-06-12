@@ -571,7 +571,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownHeader() => "b-dropdown-header py-3 px-4 text-sm text-gray-900 dark:text-white";
 
-    public override string DropdownMenu() => "b-dropdown-menu z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700";
+    public override string DropdownMenu() => "b-dropdown-menu z-10 w-max bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700";
 
     public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
@@ -1007,7 +1007,7 @@ public class TailwindClassProvider : ClassProvider
     public override string BarItemHasDropdownShow( BarMode mode ) => null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "b-bar-link block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+        ? "b-bar-link block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 md:dark:hover:text-primary-600 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
         : "b-bar-link";
 
     public override string BarLinkDisabled( BarMode mode ) => Disabled();
@@ -1043,8 +1043,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu
-            ? "b-bar-dropdown-toggle flex items-center justify-between w-full px-4 py-2 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 dark:hover:text-white dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-            : "b-bar-dropdown-toggle flex items-center justify-between w-full px-4 py-2 font-medium text-gray-700 md:hover:text-primary-700 md:w-auto dark:text-gray-400 dark:hover:text-white dark:focus:text-white"
+            ? "b-bar-dropdown-toggle flex items-center justify-between w-full px-4 py-2 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+            : "b-bar-dropdown-toggle flex items-center justify-between w-full px-4 py-2 font-medium text-gray-700 md:hover:text-primary-700 md:w-auto dark:text-gray-400 dark:focus:text-white"
         : "b-bar-link b-bar-dropdown-toggle";
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => mode == Blazorise.BarMode.Horizontal && disabled
@@ -1060,7 +1060,7 @@ public class TailwindClassProvider : ClassProvider
     public override string BarDropdownDivider( BarMode mode ) => "b-bar-dropdown-divider";
 
     public override string BarDropdownMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "b-bar-dropdown-menu absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+        ? "b-bar-dropdown-menu absolute z-10 font-normal bg-white divide-y divide-gray-100 rounded shadow w-max dark:bg-gray-700 dark:divide-gray-600"
         : "b-bar-dropdown-menu";
 
     public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible

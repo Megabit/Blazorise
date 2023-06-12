@@ -108,6 +108,22 @@
 </Paragraph>
 
 <Paragraph>
+    Introduced a new <Code>ApplySorting</Code> method that allows you to programatically define the columns that you'd like the grid to be sorted on.
+</Paragraph>
+
+<Paragraph>
+    Please visit, <Anchor To="docs/extensions/datagrid/features/sorting">datagrid sorting docs</Anchor> for more information.
+</Paragraph>
+
+
+<Heading Size="HeadingSize.Is3">
+    Contributions
+</Heading>
+
+<Paragraph>
+    DataGrid : ApplySorting was contributed by <Anchor To="https://github.com/danm-de">danm-de</Anchor>
+</Paragraph>
+<Paragraph>
     Introduced a new <Code>RowOverlayTemplate</Code> that allows you to render an overlay with adittional information on top of the row.
 </Paragraph>
 
@@ -124,15 +140,39 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    Dropdown
+</Heading>
+
+<Paragraph>
+    We have added a new <Code>Checkbox</Code> parameter to the <Code>DropdownItem</Code> so you may now render dropdown items with checkboxes. You can also track the state of each one by binding to the new <Code>Checked</Code> and <Code>CheckedChanged</Code> parameters.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DropdownList
+</Heading>
+
+<Paragraph>
+    Introduced a new <Code>SelectionMode</Code> parameter, which allows the selection of a new Checkbox mode, that will set the <Code>DropdownList</Code> into a multiple selection mode. You can track the state of the selection by binding to the new <Code>SelectedValues</Code> and <Code>SelectedValuesChanged</Code> parameters.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Autocomplete
 </Heading>
 
 <Paragraph>
-    We have added a new <Code>AutocompleteTagContext</Code> parameter so you may customize tags to your liking when using <Code>Autocomplete</Code> multiple selection mode.
+    1. We have added a new <Code>FreeTypingNotFoundTemplate</Code> parameter so you may provide a custom template when the user types in a value that is not found in the data source and <Code>FreeTyping</Code> is enabled.
 </Paragraph>
 
 <Paragraph>
-    We've added Eventcallbacks for the events that we currently listen to in the <Code>Autocomplete</Code>, these are called when the <Code>Autocomplete</Code> finishes handling the corresponding event.
+    This is useful when you want to provide a message for the user related to an item that's not in the data source. For example, presenting the following message for the Singapore text that's not in the data source: Add "Singapore"?
+</Paragraph>
+
+<Paragraph>
+    2. We have added a new <Code>AutocompleteTagContext</Code> parameter so you may customize tags to your liking when using <Code>Autocomplete</Code> multiple selection mode.
+</Paragraph>
+
+<Paragraph>
+    3. We've added EventCallbacks for the events that we currently listen to in the <Code>Autocomplete</Code>, these are called when the <Code>Autocomplete</Code> finishes handling the corresponding event.
     <UnorderedList>
         <UnorderedListItem><Code>SearchTextChanged</Code></UnorderedListItem>
         <UnorderedListItem><Code>SearchKeyDown</Code></UnorderedListItem>

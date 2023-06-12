@@ -302,3 +302,9 @@ export function verifyRsa(publicKey, content, signature) {
 export function log(message, args) {
     console.log(message, args);
 }
+
+export function createEvent(name) {
+    const e = document.createEvent("Event");
+    e.initEvent(name, true, true);
+    return e;
+}

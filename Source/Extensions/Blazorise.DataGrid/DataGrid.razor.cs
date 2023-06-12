@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Blazorise.Modules;
@@ -194,10 +193,30 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Returns a list of all the columns that are currently associated with this datagrid.
+    /// </summary>
+    /// <returns>A read-only list of all columns</returns>
+    public IReadOnlyList<DataGridColumn<TItem>> GetColumns() => Columns.AsReadOnly();
+
+    /// <summary>
+    /// Returns a list of all columns currently used to sort this datagrid's data.
+    /// </summary>
+    /// <returns>A read-only list of all sort columns, or an empty list.</returns>
+    public IReadOnlyList<DataGridColumn<TItem>> GetSortByColumns() => SortByColumns.AsReadOnly();
+
+    /// <summary>
     /// Links the child column with this datagrid.
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
-    public void AddColumn( DataGridColumn<TItem> column )
+    public void AddColumn( DataGridColumn<TItem> column ) =>
+        AddColumn( column, false );
+
+    /// <summary>
+    /// Links the child column with this datagrid.
+    /// </summary>
+    /// <param name="column">Column to link with this datagrid.</param>
+    /// <param name="suppressSortChangedEvent">If <c>true</c> method will suppress the <see cref="SortChanged"/> event.</param>  
+    internal void AddColumn( DataGridColumn<TItem> column, bool suppressSortChangedEvent )
     {
         Columns.Add( column );
 
@@ -205,7 +224,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             AddGroupColumn( column );
 
         if ( column.CurrentSortDirection != SortDirection.Default )
-            HandleSortColumn( column, false );
+            HandleSortColumn( column, false, null, suppressSortChangedEvent );
 
         // save command column reference for later
         if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
@@ -236,7 +255,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
     public bool RemoveColumn( DataGridColumn<TItem> column )
-        => Columns.Remove( column );
+    {
+        var removed = Columns.Remove( column );
+
+        if ( column.SortDirection != SortDirection.Default )
+        {
+            SortByColumns.Remove( column );
+
+            _ = InvokeAsync( async () => await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, SortDirection.Default ) ) );
+        }
+
+        return removed;
+    }
 
     /// <summary>
     /// Links the child row with this datagrid.
@@ -339,6 +369,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 observableCollection.CollectionChanged -= OnCollectionChanged;
             }
+
 
             if ( paginationContext is not null )
             {
@@ -845,6 +876,75 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return Task.CompletedTask;
     }
 
+
+    /// <summary>
+    /// Applies a new sort to the datagrid using the provided columns, sort order, and sort direction. Replaces the current sorting.
+    /// </summary>
+    /// <param name="columns">Columns used for sorting</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> and <see cref="Sortable"/> must be enabled to be able to sort!
+    /// If more than one column is specified, <see cref="SortMode"/> must be <see cref="DataGridSortMode.Multiple"/>
+    /// </remarks>
+    public async Task ApplySorting( params DataGridSortColumnInfo[] columns )
+    {
+        if ( !Sortable )
+            return;
+
+        if ( SortMode == DataGridSortMode.Single )
+        {
+            if ( !columns.IsNullOrEmpty() )
+            {
+                // Sort the DataGrid based on the first column passed
+                await Sort( columns[0].Field, columns[0].SortDirection );
+            }
+            else if ( SortByColumns.Count == 1 )
+            {
+                // If the user has not passed any columns and the DataGrid is currently sorted
+                // by a column, use the data-source's default sort order.
+                await Sort( SortByColumns[0].Field, SortDirection.Default );
+            }
+
+            return;
+        }
+
+        await ResetSorting();
+
+        if ( !columns.IsNullOrEmpty() )
+        {
+            var columnTuples = columns
+                .Select( ( x, idx ) => (
+                    Column: Columns.FirstOrDefault( c => c.Field == x.Field ),
+                    Direction: x.SortDirection,
+                    SortOrder: idx) )
+                .Where( x => x.Column is { Sortable: true } &&
+                             x.Direction != SortDirection.Default )
+                .DistinctBy( x => x.Column.GetFieldToSort() );
+
+            foreach ( var (column, direction, sortOrder) in columnTuples )
+            {
+                column.CurrentSortDirection = direction;
+                await column.SetSortOrder( sortOrder );
+                SortByColumns.Add( column );
+
+                await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, column.CurrentSortDirection ) );
+            }
+        }
+
+        await Reload();
+    }
+
+    private async Task ResetSorting()
+    {
+        foreach ( var column in SortByColumns )
+        {
+            column.CurrentSortDirection = SortDirection.Default;
+            await column.ResetSortOrder();
+        }
+
+        SortByColumns.Clear();
+    }
+
     /// <summary>
     /// Triggers the DataGrid to change data source page.
     /// </summary>
@@ -1343,41 +1443,58 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return new( Data.ToList(), TotalItems.Value );
     }
 
-    protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null )
+    protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null ) =>
+        HandleSortColumn( column, changeSortDirection, sortDirection, false );
+
+    private void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection,
+        bool suppressSortChangedEvent )
     {
-        if ( Sortable && column.CanSort() )
+        if ( !Sortable || !column.CanSort() )
+            return;
+
+        if ( SortMode == DataGridSortMode.Single )
         {
-            if ( SortMode == DataGridSortMode.Single )
+            // in single-mode we need to reset all other columns to default state
+            foreach ( var c in Columns.Where( x => x.GetFieldToSort() != column.GetFieldToSort() ) )
             {
-                // in single-mode we need to reset all other columns to default state
-                foreach ( var c in Columns.Where( x => x.GetFieldToSort() != column.GetFieldToSort() ) )
-                {
-                    c.CurrentSortDirection = SortDirection.Default;
-                }
-
-                // and also remove any column sort info except for current one
-                SortByColumns.RemoveAll( x => x.GetFieldToSort() != column.GetFieldToSort() );
+                c.CurrentSortDirection = SortDirection.Default;
             }
 
-            if ( changeSortDirection )
-            {
-                column.CurrentSortDirection = sortDirection ?? column.CurrentSortDirection.NextDirection( column.ReverseSorting );
-            }
+            // and also remove any column sort info except for current one
+            SortByColumns.RemoveAll( x => x.GetFieldToSort() != column.GetFieldToSort() );
+        }
 
-            if ( !SortByColumns.Any( c => c.GetFieldToSort() == column.GetFieldToSort() ) )
-            {
-                var nextOrderToSort = SortByColumns.Count == 0 ? 0 : SortByColumns.Max( x => x.SortOrder ) + 1;
-                column.SetSortOrder( nextOrderToSort );
-                SortByColumns.Add( column );
-            }
-            else if ( column.CurrentSortDirection == SortDirection.Default )
-            {
-                SortByColumns.Remove( column );
-                column.ResetSortOrder();
-            }
+        if ( changeSortDirection )
+        {
+            column.CurrentSortDirection =
+                sortDirection ?? column.CurrentSortDirection.NextDirection( column.ReverseSorting );
+        }
 
-            if ( changeSortDirection )
-                InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.CurrentSortDirection ) ) );
+        if ( SortByColumns.All( c => c.GetFieldToSort() != column.GetFieldToSort() ) )
+        {
+            var nextOrderToSort = SortByColumns.Count == 0 ? 0 : SortByColumns.Max( x => x.SortOrder ) + 1;
+            column.SetSortOrder( nextOrderToSort );
+            SortByColumns.Add( column );
+        }
+        else if ( column.CurrentSortDirection == SortDirection.Default )
+        {
+            SortByColumns.Remove( column );
+            column.ResetSortOrder();
+        }
+
+        static Task RaiseSortChanged( DataGrid<TItem> dataGrid, DataGridColumn<TItem> c ) =>
+            dataGrid.SortChanged.InvokeAsync( new DataGridSortChangedEventArgs(
+                c.GetFieldToSort(),
+                c.Field,
+                c.CurrentSortDirection ) );
+
+
+        if ( changeSortDirection && !suppressSortChangedEvent )
+        {
+            _ = InvokeAsync( async () =>
+            {
+                await RaiseSortChanged( this, column );
+            } );
         }
     }
 
@@ -2233,7 +2350,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public EventCallback<DataGridReadDataEventArgs<TItem>> ReadData { get; set; }
 
     /// <summary>
-    /// Occurs after the column sort direction has changed.
+    /// Occurs after the sort direction of a single column has changed.
     /// </summary>
     [Parameter] public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
 

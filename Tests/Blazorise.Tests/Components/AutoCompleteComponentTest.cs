@@ -6,6 +6,7 @@ using Blazorise.Shared.Models;
 using Blazorise.Tests.Extensions;
 using Blazorise.Tests.Helpers;
 using Bunit;
+using FluentAssertions;
 using Xunit;
 #endregion
 
@@ -20,6 +21,40 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
         BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
         BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
         BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
+    }
+
+    [Fact]
+    public async Task FreeTypingNotFoundTemplate_Should_DisplayDefinedContent_WhenFreeTypingIsTrue()
+    {
+        var comp = RenderComponent<AutocompleteComponent>(
+            p => p.Add( x => x.FreeTyping, true ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "My Very Own Country";
+
+        await Input( autoComplete, input, false );
+
+        comp.WaitForAssertion( () =>
+        {
+            comp.Markup.Should().Contain( @"Add ""My Very Own Country""" );
+        } );
+    }
+
+    [Fact]
+    public async Task NotfoundContent_Should_DisplayDefinedContent_When_FreeTypingIsFalse()
+    {
+        var comp = RenderComponent<AutocompleteComponent>(
+            p => p.Add( x => x.FreeTyping, false ) );
+
+        var autoComplete = comp.Find( ".b-is-autocomplete input" );
+        var input = "My Very Own Country";
+
+        await Input( autoComplete, input, false );
+
+        comp.WaitForAssertion( () =>
+        {
+            comp.Markup.Should().Contain( @" Sorry... My Very Own Country was not found! :(" );
+        } );
     }
 
     [Fact]

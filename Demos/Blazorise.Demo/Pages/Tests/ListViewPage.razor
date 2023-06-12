@@ -1,0 +1,37 @@
+﻿@page "/tests/listview"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>ListView</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <ListView TItem="Country"
+                          Data="@Countries"
+                          @bind-SelectedItem="@selectedListViewItem"
+                          TextField="@((item) => item.Name)"
+                          ValueField="@((item) => item.Iso)"
+                          Mode="ListGroupMode.Selectable">
+                </ListView>
+                <Paragraph Margin="Margin.Is3.FromTop">
+                    Selected Item: @selectedListViewItem?.Name
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    private Country selectedListViewItem { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}
