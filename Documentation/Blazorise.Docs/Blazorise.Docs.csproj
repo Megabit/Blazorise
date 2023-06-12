@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.FluentValidation\Blazorise.FluentValidation.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.LottieAnimation\Blazorise.LottieAnimation.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Cropper\Blazorise.Cropper.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
   </ItemGroup>
 
   <!--Binary path for the code generator-->

@@ -1527,6 +1527,19 @@ public class Gender
     }
 }";
 
+        public const string DropdownCheckboxExample = @"<Dropdown>
+    <DropdownToggle Color=""Color.Primary"">
+        Dropdown With Checkboxes
+    </DropdownToggle>
+    <DropdownMenu>
+        <DropdownItem ShowCheckbox>Checkbox</DropdownItem>
+        <DropdownDivider />
+        <DropdownItem ShowCheckbox>Another Checkbox</DropdownItem>
+        <DropdownItem ShowCheckbox Disabled>Checkbox Disabled</DropdownItem>
+        <DropdownItem>Action</DropdownItem>
+    </DropdownMenu>
+</Dropdown>";
+
         public const string DropdownExample = @"<Dropdown>
     <DropdownToggle Color=""Color.Primary"">
         Dropdown
@@ -6738,6 +6751,43 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
+        public const string DropdownListCheckboxExample = @"<DropdownList TItem=""Country"" TValue=""string""
+              Data=""@Countries""
+              TextField=""@((item)=>item.Name)""
+              ValueField=""@((item)=>item.Iso)""
+              @bind-SelectedValues=""@selectedDropValues""
+              SelectionMode=""DropdownListSelectionMode.Checkbox""
+              Color=""Color.Primary""
+              MaxMenuHeight=""200px"">
+    Select item
+</DropdownList>
+
+<Field Horizontal>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected values: @(selectedDropValues is not null ? string.Join( ',', selectedDropValues ) : """");
+    </FieldBody>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected texts: @(selectedDropValues is not null 
+                        ? string.Join( ',', selectedDropValues.Select( x => Countries.FirstOrDefault( country => country.Iso == x )?.Name ?? string.Empty )) 
+                        : string.Empty )
+    </FieldBody>
+</Field>
+
+@code{
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+
+    private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { ""AM"", ""AF"" };
+
+}";
+
         public const string DropdownListExample = @"<DropdownList TItem=""Country"" TValue=""string""
               Data=""@Countries""
               TextField=""@((item)=>item.Name)""
@@ -7542,6 +7592,110 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         public const string SidebarNugetInstallExample = @"Install-Package Blazorise.Sidebar";
 
         public const string SidebarResourcesExample = @"<link href=""_content/Blazorise.Sidebar/blazorise.sidebar.css"" rel=""stylesheet"" />";
+
+        public const string BasicSignaturePadExample = @"<SignaturePad />";
+
+        public const string SignaturePadBackgroundColorExample = @"<SignaturePad BackgroundColor=""rgba(232, 222, 252, 1)"" />";
+
+        public const string SignaturePadBindValueExample = @"<Row>
+    <Column>
+        <Card>
+            <CardHeader>
+                <CardTitle>Signature pad</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SignaturePad @bind-Value=""@data""></SignaturePad>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column>
+        <Card>
+            <CardHeader>
+                <CardTitle>Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Image Source=""@Image64"" Fluid />
+             </CardBody>
+         </Card>
+     </Column>
+ </Row>
+
+ @code {
+    byte[] data = null;
+
+    string Image64 => SignaturePad.GetDataUrl( data );
+}";
+
+        public const string SignaturePadDotSizeExample = @"<SignaturePad DotSize=""5"" />";
+
+        public const string SignaturePadImageTypeExample = @"<Row>
+    <Column>
+        <Card>
+            <CardHeader>
+                <CardTitle>Signature pad</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <SignaturePad @bind-Value=""@data"" ImageType=""SignaturePadImageType.Svg"" />
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column>
+        <Card>
+            <CardHeader>
+                <CardTitle>SVG Image</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Image Source=""@Image64"" Fluid />
+             </CardBody>
+         </Card>
+     </Column>
+ </Row>
+
+ @code {
+    byte[] data = null;
+
+    string Image64 => SignaturePad.GetDataUrl( data, SignaturePadImageType.Svg );
+}";
+
+        public const string SignaturePadMaxWidthExample = @"<SignaturePad MaxLineWidth=""10""/>";
+
+        public const string SignaturePadMinDistanceExample = @"<SignaturePad MinDistance=""100"" />";
+
+        public const string SignaturePadMinWidthExample = @"<SignaturePad MinLineWidth=""5"" />";
+
+        public const string SignaturePadPenColorExample = @"<SignaturePad PenColor=""#ff0000"" />";
+
+        public const string SignaturePadSizeExample = @"<SignaturePad CanvasWidth=""600"" CanvasHeight=""400"" Shadow=""Shadow.Small"" />";
+
+        public const string SignaturePadThrottleExample = @"<SignaturePad Throttle=""20"" />";
+
+        public const string SignaturePadUndoExample = @"<Row>
+    <Column>
+        <Button Color=""Color.Primary"" Clicked=""@OnUndoClicked"">
+            Undo
+        </Button>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <SignaturePad @ref=""@signaturePadRef"" @bind-Value=""@data"" />
+    </Column>
+</Row>
+
+@code {
+    SignaturePad signaturePadRef;
+
+    byte[] data;
+
+    async Task OnUndoClicked()
+    {
+        await signaturePadRef.Undo();
+    }
+}";
+
+        public const string SignaturePadVelocityFilterWeightExample = @"<SignaturePad VelocityFilterWeight=""20"" />";
 
         public const string SnackbarExample = @"<Button Clicked=""@(()=>snackbar.Show())"">Snackbar</Button>
 
