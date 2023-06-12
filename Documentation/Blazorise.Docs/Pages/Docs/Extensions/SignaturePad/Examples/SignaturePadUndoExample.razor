@@ -1,0 +1,25 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Row>
+    <Column>
+        <Button Color="Color.Primary" Clicked="@OnUndoClicked">
+            Undo
+        </Button>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <SignaturePad @ref="@signaturePadRef" @bind-Value="@data" />
+    </Column>
+</Row>
+
+@code {
+    SignaturePad signaturePadRef;
+
+    byte[] data;
+
+    async Task OnUndoClicked()
+    {
+        await signaturePadRef.Undo();
+    }
+}
