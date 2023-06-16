@@ -11,8 +11,6 @@
 @code{
     private List<Employee> employeeList = new() { new() { FirstName = "David", Gender = "M" }, new() { FirstName = "Mladen", Gender = "M" }, new() { FirstName = "John", Gender = "M" }, new() { FirstName = "Ana", Gender = "F" }, new() { FirstName = "Jessica", Gender = "F" } };
 
-    string selectedGenderFilter;
-
     private bool OnGenderCustomFilter( object itemValue, object searchValue )
     {
         if ( searchValue is string genderFilter )
