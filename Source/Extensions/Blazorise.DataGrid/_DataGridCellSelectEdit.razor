@@ -2,7 +2,7 @@
 @inherits ComponentBase
 
 
-<Select TValue="object" SelectedValue="@CellEditContext.CellValue" SelectedValueChanged="@OnEditValueChanged" SelectedValueExpression="@(() => CellEditContext.CellValue )"
+<Select TValue="object" SelectedValue="@CellValue" SelectedValueChanged="@CellValueChanged" SelectedValueExpression="@(() => CellValue )"
         Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Attributes="@Column.Attributes">
     <ChildContent>
         @if ( Column.DefaultItemText is not null )

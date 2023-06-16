@@ -8,10 +8,6 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
 {
     public override DataGridColumnType ColumnType => DataGridColumnType.Select;
 
-
-    //TODO : Introduce TSelectItem and TValue instead of boxing?
-
-
     /// <summary>
     /// Gets or sets the select data-source.
     /// </summary>
@@ -19,16 +15,19 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
 
     /// <summary>
     /// Method used to get the display field from the supplied data source.
+    /// You can unbox the object by using the following example: TextField="(x) => ((Model)x).Text"
     /// </summary>
     [Parameter] public Func<object, string> TextField { get; set; }
 
     /// <summary>
     /// Method used to get the value field from the supplied data source.
+    /// You can unbox the object by using the following example: ValueField="(x) => ((Model)x).Value"
     /// </summary>
     [Parameter] public Func<object, object> ValueField { get; set; }
 
     /// <summary>
     /// Method used to determine if an item should be disabled.
+    /// You can unbox the object by using the following example: ItemDisabled="(x) => !((Model)x).Enabled"
     /// </summary>
     [Parameter] public Func<object, bool> ItemDisabled { get; set; }
 

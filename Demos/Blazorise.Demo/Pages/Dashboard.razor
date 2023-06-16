@@ -1,10 +1,11 @@
 ﻿@page "/"
 @inject IVersionProvider VersionProvider
-<DataGrid TItem="Employee" Data="@employees" Editable ShowPager>
+<DataGrid TItem="Employee" Data="@employees" Editable ShowPager Filterable>
     <DataGridColumns>
         <DataGridCommandColumn TItem="Employee"></DataGridCommandColumn>
         <DataGridColumn Editable Field="@nameof(Employee.FirstName)"></DataGridColumn>
-        <DataGridSelectColumn Field="@nameof(Employee.Gender)"
+        <DataGridSelectColumn 
+            Field="@nameof(Employee.Gender)"
                               Data="genders"
                               ValueField="(x) => ((Gender)x).Code"
                               TextField="(x) => ((Gender)x).Description"

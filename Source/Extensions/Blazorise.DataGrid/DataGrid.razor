@@ -124,6 +124,7 @@
                             }
                             else
                             {
+
                                 <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap">
                                     @if ( column.FilterTemplate != null )
                                     {
@@ -131,7 +132,15 @@
                                     }
                                     else
                                     {
-                                        <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@(async (newValue) => await OnFilterChanged(column, newValue))" />
+                                        //If this grows, move to a seperate component.
+                                        if ( column is DataGridSelectColumn<TItem> selectColumn )
+                                        {
+                                            <_DataGridCellSelectEdit Column=selectColumn CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@(async (newValue) => await OnFilterChanged(column, newValue))"></_DataGridCellSelectEdit>
+                                        }
+                                        else
+                                        {
+                                            <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@(async (newValue) => await OnFilterChanged(column, newValue))" />
+                                        }
                                     }
                                 </TableHeaderCell>
                             }

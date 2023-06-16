@@ -38,7 +38,7 @@ else
             }
             else if ( Column is DataGridSelectColumn<TItem> selectColumn )
             {
-                <_DataGridCellSelectEdit Column="@selectColumn" Item="@Item" ValidationItem="@ValidationItem" ValueType="@valueType" CellEditContext="CellEditContext" CellValueChanged="@CellValueChanged" />
+                <_DataGridCellSelectEdit Column="@selectColumn" CellValue="CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
             }
             else
             {
