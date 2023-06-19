@@ -15,19 +15,19 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
 
     /// <summary>
     /// Method used to get the display field from the supplied data source.
-    /// You can unbox the object by using the following example: TextField="(x) => ((Model)x).Text"
+    /// <para>You can unbox the object by using the following example: TextField="(x) => ((Model)x).Text"</para>
     /// </summary>
     [Parameter] public Func<object, string> TextField { get; set; }
 
     /// <summary>
     /// Method used to get the value field from the supplied data source.
-    /// You can unbox the object by using the following example: ValueField="(x) => ((Model)x).Value"
+    ///<para> You can unbox the object by using the following example: ValueField="(x) => ((Model)x).Value"</para>
     /// </summary>
     [Parameter] public Func<object, object> ValueField { get; set; }
 
     /// <summary>
     /// Method used to determine if an item should be disabled.
-    /// You can unbox the object by using the following example: ItemDisabled="(x) => !((Model)x).Enabled"
+    /// <para>You can unbox the object by using the following example: ItemDisabled="(x) => !((Model)x).Enabled"</para>
     /// </summary>
     [Parameter] public Func<object, bool> ItemDisabled { get; set; }
 
