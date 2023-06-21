@@ -135,7 +135,8 @@
                                         //If this grows, move to a seperate component.
                                         if ( column is DataGridSelectColumn<TItem> selectColumn )
                                         {
-                                            <_DataGridCellSelectEdit Column=selectColumn CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@(async (newValue) => await OnFilterChanged(column, newValue))"></_DataGridCellSelectEdit>
+                                            <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@(async (newValue) => await OnFilterChanged(column, newValue))"></_DataGridCellSelectEdit>
+
                                         }
                                         else
                                         {
