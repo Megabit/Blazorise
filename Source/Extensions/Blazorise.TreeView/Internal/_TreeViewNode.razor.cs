@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -97,14 +98,39 @@ public partial class _TreeViewNode<TNode> : BaseComponent
                 ? GetChildNodes( nodeState.Node )
                 : null;
 
+        NotifyCollectionChangedEventHandler childrenChangedHandler = ( ( sender, e ) =>
+        {
+            OnChildrenChanged( sender, e, nodeState, childNodes );
+        } );
+
+        if ( childNodes is INotifyCollectionChanged observableCollection )
+        {
+            observableCollection.CollectionChanged += childrenChangedHandler;
+        }
+
         if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
         {
-            nodeState.Children.Clear();
+            await ReloadChildren( nodeState, childNodes );
+        }
 
-            await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
-            {
-                nodeState.Children.Add( childNodeState );
-            }
+    }
+
+    private async Task ReloadChildren( TreeViewNodeState<TNode> nodeState, IEnumerable<TNode> childNodes )
+    {
+        nodeState.Children.Clear();
+
+        await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+        {
+            nodeState.Children.Add( childNodeState );
+        }
+    }
+
+    private async void OnChildrenChanged( object sender, NotifyCollectionChangedEventArgs e, TreeViewNodeState<TNode> nodeState, IEnumerable<TNode> childNodes )
+    {
+
+        if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
+        {
+            await ReloadChildren( nodeState, childNodes );
         }
     }
 
