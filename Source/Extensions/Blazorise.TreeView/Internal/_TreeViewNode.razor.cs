@@ -127,11 +127,26 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     private async void OnChildrenChanged( object sender, NotifyCollectionChangedEventArgs e, TreeViewNodeState<TNode> nodeState, IEnumerable<TNode> childNodes )
     {
-
-        if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
+        if ( e.Action == NotifyCollectionChangedAction.Add )
         {
-            await ReloadChildren( nodeState, childNodes );
+            await foreach ( var childNodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+            {
+                nodeState.Children.Add( childNodeState );
+            }
         }
+        else if ( e.Action == NotifyCollectionChangedAction.Remove )
+        {
+            nodeState.Children.RemoveAll( x => e.OldItems.Contains( x.Node ) );
+        }
+        else
+        {
+            if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
+            {
+                await ReloadChildren( nodeState, childNodes );
+            }
+        }
+
+        StateHasChanged();
     }
 
     public async Task ExpandAll()
