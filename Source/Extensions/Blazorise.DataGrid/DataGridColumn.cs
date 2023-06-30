@@ -724,5 +724,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     [Parameter] public RenderFragment<GroupContext<TItem>> GroupTemplate { get; set; }
 
+
+    /// <summary>
+    /// Sets the filter method to be used for filtering the column.
+    /// <para>If null, uses the <see cref="DataGrid{TItem}.FilterMethod" /> </para>
+    /// </summary>
+    [Parameter] public DataGridFilterMethod? FilterMethod { get; set; }
+
     #endregion
 }
