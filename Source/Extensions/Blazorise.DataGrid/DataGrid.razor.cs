@@ -649,6 +649,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Collapses the specified groups.
     /// <para>For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"</para>
     /// <para>For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }" </para>
+    /// <para>GroupedData : <see cref="DataGrid{TItem}.DisplayGroupedData"/> | GroupKey: <see cref="GroupContext{TItem}.Key"/></para>
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task CollapseGroups( params string[] groupKeys )
