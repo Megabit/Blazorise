@@ -1008,6 +1008,24 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Clears the corresponding column filters.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ClearFilter( params string[] fieldNames )
+    {
+        if ( fieldNames.IsNullOrEmpty() )
+            return Task.CompletedTask;
+
+        foreach ( var column in Columns )
+        {
+            if ( fieldNames.Contains( column.Field ) )
+                column.Filter.SearchValue = null;
+        }
+
+        return Reload();
+    }
+
+    /// <summary>
     /// Forces the internal DataGrid data to be filtered.
     /// </summary>
     /// <remarks>
