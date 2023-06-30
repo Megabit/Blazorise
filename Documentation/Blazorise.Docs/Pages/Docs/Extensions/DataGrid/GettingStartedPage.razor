@@ -78,7 +78,7 @@
         </UnorderedList>
         <Alert Color="Color.Warning" Visible>
             <AlertDescription>
-                Throughout our examples you may see the usage of <Blazorise.Link To="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/nameof" Target="Target.Blank"><Code>nameof</Code></Blazorise.Link> when defining the <Code>Field</Code> Parameter. 
+                Throughout our examples you may see the usage of <Blazorise.Link To="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/nameof" Target="Target.Blank"><Code>nameof</Code></Blazorise.Link> when defining the <Code>Field</Code> Parameter.
                 Note that <Code>nameof</Code> produces only the name of the variable, type or member as the string constant. It is used as a way to strongly type the string that represents our field.
                 Please note, that this is not mandatory. And you may provide a regular string that represents the path to the field you want to be binding.
             </AlertDescription>
@@ -368,6 +368,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Navigable" Type="bool" Default="false">
         Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod" Default="DataGridFilterMethod.Contains">
+        Defines the filter method when searching the cell values.
     </DocsAttributesItem>
 </DocsAttributes>
 
