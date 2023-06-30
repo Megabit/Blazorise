@@ -598,12 +598,62 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Recursively sets the grouped data and any nested grouped data Expanded property.
+    /// </summary>
+    /// <param name="groupedData"></param>
+    /// <param name="groupKeys"></param>
+    /// <param name="expanded"></param>
+    private void SetGroupByKeysExpanded( List<GroupContext<TItem>> groupedData, string[] groupKeys, bool expanded )
+    {
+        if ( groupKeys.IsNullOrEmpty() )
+            return;
+
+        foreach ( var group in groupedData )
+        {
+            if ( groupKeys.Contains( group.Key ) )
+            {
+                group.SetExpanded( expanded );
+            }
+
+            if ( group.NestedGroup is not null )
+                SetGroupByKeysExpanded( (List<GroupContext<TItem>>)group.NestedGroup, groupKeys, expanded );
+        }
+    }
+
+    /// <summary>
     /// Expands all groups.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ExpandAllGroups()
     {
         SetGroupExpanded( groupedData, true );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Expands the specified groups.
+    /// <para>For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"</para>
+    /// <para>For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }" </para>
+    /// <para>GroupedData : <see cref="DataGrid{TItem}.DisplayGroupedData"/> | GroupKey: <see cref="GroupContext{TItem}.Key"/></para>
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ExpandGroups( params string[] groupKeys )
+    {
+        SetGroupByKeysExpanded( groupedData, groupKeys, true );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Collapses the specified groups.
+    /// <para>For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"</para>
+    /// <para>For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }" </para>
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task CollapseGroups( params string[] groupKeys )
+    {
+        SetGroupByKeysExpanded( groupedData, groupKeys, false );
 
         return Task.CompletedTask;
     }
