@@ -5497,6 +5497,19 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
+        public const string DataGridColumnFilteringExample = @"<DataGrid @ref=""dataGrid""
+          TItem=""Employee""
+          Data=""@employeeList""
+          Responsive
+          Filterable>
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
+</DataGrid>
+
+@code{
+    private DataGrid<Employee> dataGrid;
+    private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""MLaden"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
+}";
+
         public const string DataGridCommandTemplatesExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
