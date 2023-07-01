@@ -369,6 +369,9 @@
     <DocsAttributesItem Name="Navigable" Type="bool" Default="false">
         Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod" Default="DataGridFilterMethod.Contains">
+        Defines the filter method when searching the cell values.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="VirtualizeOptions">
@@ -573,6 +576,10 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ShowGrouping" Type="bool" Default="false">
         Gets or sets whether user can see and edit column grouping.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod?" Default="null">
+        Sets the filter method to be used for filtering the column.
+        If null, uses the DataGrid's FilterMethod.
     </DocsAttributesItem>
 </DocsAttributes>
 

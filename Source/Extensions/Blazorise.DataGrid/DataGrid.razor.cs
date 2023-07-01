@@ -1628,7 +1628,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue )
+                            where CompareFilterValues( cellStringValue, stringSearchValue, column.FilterMethod )
                             select item;
                 }
             }
@@ -1652,9 +1652,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return Reload( filterCancellationTokenSource.Token );
     }
 
-    private bool CompareFilterValues( string searchValue, string compareTo )
+    private bool CompareFilterValues( string searchValue, string compareTo, DataGridFilterMethod? columnFilterMethod )
     {
-        switch ( FilterMethod )
+        var filterMethod = columnFilterMethod ?? FilterMethod;
+        switch ( filterMethod )
         {
             case DataGridFilterMethod.StartsWith:
                 return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
@@ -1708,7 +1709,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #endregion
 
     #region Properties
-
 
     /// <summary>
     /// Cascaded theme settings.
