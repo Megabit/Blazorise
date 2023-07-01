@@ -1692,7 +1692,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     #region Properties
 
-
     /// <summary>
     /// Cascaded theme settings.
     /// </summary>
