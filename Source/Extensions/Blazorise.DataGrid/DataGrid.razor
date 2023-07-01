@@ -48,7 +48,7 @@
                             }
                             else
                             {
-                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="@(() => OnColumnDragStarted(column))" DragEnd="@OnColumnDragEnded" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">                                
+                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="@(() => OnColumnDragStarted(column))" DragEnd="@OnColumnDragEnded" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                     @if ( IsGroupableByColumn && column.Groupable )
                                     {
                                         <Icon Name="@IconName.GripVertical" Margin="@Blazorise.Margin.Is1.FromEnd" Style="cursor:move" />
@@ -135,12 +135,12 @@
                                         //If this grows, move to a seperate component.
                                         if ( column is DataGridSelectColumn<TItem> selectColumn )
                                         {
-                                            <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@(async (newValue) => await OnFilterChanged(column, newValue))"></_DataGridCellSelectEdit>
+                                            <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@((newValue) => OnFilterChanged(column, newValue))"></_DataGridCellSelectEdit>
 
                                         }
                                         else
                                         {
-                                            <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@(async (newValue) => await OnFilterChanged(column, newValue))" />
+                                            <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => OnFilterChanged(column, newValue))" />
                                         }
                                     }
                                 </TableHeaderCell>
