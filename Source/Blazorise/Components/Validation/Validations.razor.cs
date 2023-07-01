@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
@@ -126,6 +127,11 @@ public partial class Validations : ComponentBase
         // NOTE: there is risk of calling RaiseStatusChanged multiple times for every field error.
         // Try to come up with solution that StatusChanged will be called only once while it will
         // still provide all of the failed messages.
+
+        if ( Model is IValidatableObject validatableObject )
+        {
+            var result = validatableObject.Validate( new ValidationContext( Model ) );
+        }
 
         if ( AllValidationsSuccessful )
         {

@@ -141,6 +141,18 @@ public class EditContextValidator : IEditContextValidator
                 Validator.TryValidateProperty( propertyValue, validationContext, results );
 
                 messages.Add( fieldIdentifier, results.Select( x => x.ErrorMessage ) );
+
+                // We don't know what fields user can validate in the Model. So we need to run the IValidatableObject.Validate every time
+                // and then check if any of the validated fields matches the current field name.
+                if ( editContext.Model is IValidatableObject validatableObject )
+                {
+                    var validateResult = validatableObject.Validate( validationContext );
+
+                    if ( validateResult is not null && validateResult.Any( x => x.MemberNames.Contains( validationContext.MemberName ) ) )
+                    {
+                        messages.Add( fieldIdentifier, validateResult.Where( x => x.MemberNames.Contains( validationContext.MemberName ) ).Select( x => x.ErrorMessage ) );
+                    }
+                }
             }
 
             // We have to notify even if there were no messages before and are still no messages now,
