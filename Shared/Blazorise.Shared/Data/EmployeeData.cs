@@ -10,6 +10,12 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace Blazorise.Shared.Data;
 
+public class Gender
+{
+    public string Code { get; set; }
+    public string Description { get; set; }
+}
+
 public class EmployeeData
 {
     private readonly IMemoryCache cache;
@@ -22,6 +28,30 @@ public class EmployeeData
     {
         cache = memoryCache;
     }
+
+    public static IEnumerable<Gender> Genders = new List<Gender>()
+    {
+        new()
+        {
+            Code = null,
+            Description = string.Empty
+        },
+        new()
+        {
+            Code = "M",
+            Description = "Male"
+        },
+        new()
+        {
+            Code = "F",
+            Description = "Female"
+        },
+        new()
+        {
+            Code = "D",
+            Description = "Diverse"
+        }
+    };
 
     public Task<List<Employee>> GetDataAsync()
         => cache.GetOrCreateAsync( employeesCacheKey, LoadData );

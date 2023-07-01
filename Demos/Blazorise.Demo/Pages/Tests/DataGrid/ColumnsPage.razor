@@ -1,0 +1,63 @@
+﻿@page "/tests/datagrid/columns"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Datagrid: Columns</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    DataGrid provides many types of columns.
+                    You can use built-in columns such as text, numeric, date, checkbox, select, etc to automatically create specialized content.
+                    <UnorderedList>
+                        <UnorderedListItem>
+                            <Strong>DataGridColumn</Strong>: column template for text editor
+                        </UnorderedListItem>
+                        <UnorderedListItem>
+                            <Strong>DataGridNumericColumn</Strong>: column template for numeric values
+                        </UnorderedListItem>
+                        <UnorderedListItem>
+                            <Strong>DataGridDateColumn</Strong>: column template for datetime values
+                        </UnorderedListItem>
+                        <UnorderedListItem>
+                            <Strong>DataGridCheckColumn</Strong>: column template for boolean values
+                        </UnorderedListItem>
+                        <UnorderedListItem>
+                            <Strong>DataGridSelectColumn</Strong>: column template for selectable values
+                        </UnorderedListItem>
+                        <UnorderedListItem>
+                            <Strong>DataGridCommandColumn</Strong>: column template for editing commands like Edit, Save, Cancel, etc.
+                        </UnorderedListItem>
+                    </UnorderedList>
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+
+                <DataGrid TItem="Employee" Data="@inMemoryData" Editable ShowPager Filterable>
+                    <DataGridColumns>
+                        <DataGridCommandColumn TItem="Employee"></DataGridCommandColumn>
+                        <DataGridColumn Editable Field="@nameof(Employee.FirstName)" Caption="First Name"></DataGridColumn>
+                        <DataGridNumericColumn Editable Field="@nameof(Employee.Salary)" Caption="Salary"></DataGridNumericColumn>
+                        <DataGridDateColumn Editable Field="@nameof(Employee.DateOfBirth)" Caption="Date Of Birth"></DataGridDateColumn>
+                        <DataGridCheckColumn Editable Field="@nameof(Employee.IsActive)" Caption="Active"></DataGridCheckColumn>
+                        <DataGridSelectColumn Caption="Gender" Field="@nameof(Employee.Gender)" Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" Editable />
+                    </DataGridColumns>
+                </DataGrid>
+
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private List<Employee> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
+        await base.OnInitializedAsync();
+    }
+}
