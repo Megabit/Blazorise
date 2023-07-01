@@ -1,6 +1,7 @@
 ﻿@page "/tests/validations"
 @using System.Threading
 @using Blazorise.FluentValidation
+@using System.ComponentModel.DataAnnotations;
 <Row>
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.OnY">
@@ -554,6 +555,70 @@
             </CardBody>
         </Card>
     </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card>
+            <CardHeader>
+                <CardTitle>Validation with <Code>IValidatableObject</Code></CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Validations Model="@Company" Mode="ValidationMode.Auto">
+                    <Validation>
+                        <Field>
+                            <FieldLabel>Name</FieldLabel>
+                            <FieldBody>
+                                <TextEdit @bind-Text="@Company.Name">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Validation>
+                        <Field>
+                            <FieldLabel>Description</FieldLabel>
+                            <FieldBody>
+                                <TextEdit @bind-Text="@Company.Description">
+                                    <Feedback>
+                                        <ValidationError />
+                                    </Feedback>
+                                </TextEdit>
+                            </FieldBody>
+                        </Field>
+                    </Validation>
+                    <Field>
+                        <Switch @bind-Checked="@Company.UseAlphaCode">Use AlphaCode</Switch>
+                    </Field>
+                    <Fields>
+                        <Validation>
+                            <Field>
+                                <FieldLabel>AlphaCode</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit @bind-Text="@Company.AlphaCode">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </TextEdit>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                        <Validation>
+                            <Field>
+                                <FieldLabel>BetaCode</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit @bind-Text="@Company.BetaCode">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </TextEdit>
+                                </FieldBody>
+                            </Field>
+                        </Validation>
+                    </Fields>
+                </Validations>
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
 @code {
     Validations validations;
@@ -689,5 +754,46 @@
 
         if ( !await fluentValidations.ValidateAll() )
             return;
+    }
+
+    CompanyInfo Company = new CompanyInfo()
+        {
+            UseAlphaCode = true,
+        };
+
+    public class CompanyInfo : IValidatableObject
+    {
+        [Required( ErrorMessage = "Name is required" )]
+        public string Name { get; set; }
+
+        [Required( ErrorMessage = "Description is required" )]
+        public string Description { get; set; }
+
+        public bool UseAlphaCode { get; set; }
+
+        public string AlphaCode { get; set; }
+
+        public string BetaCode { get; set; }
+
+        [Range( 0, 999.99 )]
+        public decimal Price { get; set; }
+
+        public IEnumerable<ValidationResult> Validate( ValidationContext validationContext )
+        {
+            if ( UseAlphaCode )
+            {
+                if ( String.IsNullOrWhiteSpace( AlphaCode ) )
+                {
+                    yield return new ValidationResult( "AlphaCode is required", new[] { "AlphaCode" } );
+                }
+            }
+            else
+            {
+                if ( String.IsNullOrWhiteSpace( BetaCode ) )
+                {
+                    yield return new ValidationResult( "BetaCode is required", new[] { "BetaCode" } );
+                }
+            }
+        }
     }
 }
