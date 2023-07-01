@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,7 +10,6 @@ namespace Blazorise.DataGrid;
 /// <typeparam name="TItem"></typeparam>
 public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
 {
-
     /// <summary>
     /// Column that this cell belongs to.
     /// </summary>

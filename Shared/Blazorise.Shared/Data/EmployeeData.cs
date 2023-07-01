@@ -15,6 +15,7 @@ public class Gender
     public string Code { get; set; }
     public string Description { get; set; }
 }
+
 public class EmployeeData
 {
     private readonly IMemoryCache cache;
@@ -27,7 +28,6 @@ public class EmployeeData
     {
         cache = memoryCache;
     }
-
 
     public static IEnumerable<Gender> Genders = new List<Gender>()
     {

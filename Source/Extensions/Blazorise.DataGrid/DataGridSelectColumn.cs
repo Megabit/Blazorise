@@ -86,5 +86,4 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     /// </summary>
     [Parameter( CaptureUnmatchedValues = true )]
     public Dictionary<string, object> Attributes { get; set; }
-
 }

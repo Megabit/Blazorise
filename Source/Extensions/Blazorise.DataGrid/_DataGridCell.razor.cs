@@ -15,8 +15,7 @@ public abstract class _BaseDataGridCell<TItem> : ComponentBase
 
     #endregion
 
-
-    #region 
+    #region Methods
 
     /// <summary>
     /// Updated the internal cell values.
@@ -34,6 +33,7 @@ public abstract class _BaseDataGridCell<TItem> : ComponentBase
     }
 
     #endregion
+
     #region Properties
 
     protected bool UseValidation
