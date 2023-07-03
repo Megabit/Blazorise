@@ -53,3 +53,27 @@
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridShowGroupingExample" />
 </DocsPageSection>
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Grouping Methods">
+        <Paragraph>
+            You can programatically control whether a group is expanded or collapsed by utilizing the provided
+
+            <UnorderedList>
+                <UnorderedListItem><Code>ExpandAllGroups</Code></UnorderedListItem>
+                <UnorderedListItem><Code>CollapseAllGroups</Code></UnorderedListItem>
+                <UnorderedListItem><Code>ExpandGroups</Code></UnorderedListItem>
+                <UnorderedListItem><Code>CollapseGroups</Code></UnorderedListItem>
+                <UnorderedListItem><Code>ToggleGroups</Code></UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
+            Please note, that these methods may require you to know the produced group keys beforehand. Either you are intimate with the data and know the possible produced keys beforehand, or you may access the <Code>DisplayGroupedData</Code> in order to obtain these from the Data that has been grouped.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DataGridGroupingMethodsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridGroupingMethodsExample" />
+</DocsPageSection>
