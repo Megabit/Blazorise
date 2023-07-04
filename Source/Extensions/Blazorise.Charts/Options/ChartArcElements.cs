@@ -13,7 +13,7 @@ public class ChartArcElements
     /// Arc angle to cover. Polar only.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public double Angle { get; set; }
+    public double? Angle { get; set; }
 
     /// <summary>
     /// Arc fill color.
