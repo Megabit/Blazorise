@@ -460,6 +460,12 @@ public class Bootstrap5ThemeGenerator : ThemeGenerator
             .Append( $"border-color: {background};" )
             .AppendLine( "}" );
 
+        sb
+            .Append( $".form-check.form-switch .form-check-input.form-check-input-{variant}:focus" ).Append( "{" )
+            .Append( $"border-color: {background};" )
+            .Append( $"box-shadow: 0 0 0 0.25rem rgba({backgroundColor.R},{backgroundColor.G},{backgroundColor.B},.25);" )
+            .AppendLine( "}" );
+
         //sb
         //    .Append( $".custom-switch .custom-control-input.custom-control-input-{variant}:focus ~ .custom-control-label::before" ).Append( "{" )
         //    .Append( $"box-shadow: {boxShadow};" )
