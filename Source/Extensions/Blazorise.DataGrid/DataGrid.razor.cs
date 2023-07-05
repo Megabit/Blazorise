@@ -1865,7 +1865,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether user can see group header column captions.
     /// </summary>
     internal bool IsGroupHeaderCaptionsEnabled
-        => ShowCaptions && DisplayableColumns.Any( x => string.IsNullOrWhiteSpace( x.HeaderGroupCaption ) );
+        => ShowCaptions && Columns.Any( x => !string.IsNullOrWhiteSpace( x.HeaderGroupCaption ) );
 
     /// <summary>
     /// Returns true if <see cref="Data"/> is safe to modify.
