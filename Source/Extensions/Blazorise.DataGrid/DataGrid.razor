@@ -17,6 +17,29 @@
         }
         <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@(Virtualize || FixedHeader)" FixedHeaderTableHeight="@GetFixedTableHeaderHeight()" FixedHeaderTableMaxHeight="@GetFixedTableHeaderMaxHeight()" @attributes="@Attributes">
             <TableHeader ThemeContrast="HeaderThemeContrast">
+                @if ( IsGroupHeaderCaptionsEnabled )
+                {
+                    <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.Default)" Color="@(HeaderRowStyling?.Color ?? Color.Default)">
+
+                        @groupIndentationFragment
+
+                            
+                        @foreach ( var headerGroup in DisplayableHeaderGroupColumns )
+                        {
+                            var column = headerGroup.col;
+                            @if ( string.IsNullOrWhiteSpace( column.HeaderGroupCaption ) )
+                            {
+                                    <TableRowHeader />
+                            }
+                            else
+                            {
+                                <TableHeaderCell ColumnSpan="headerGroup.colSpan" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                    @column.HeaderGroupCaption
+                                </TableHeaderCell>
+                            }
+                        }
+                    </TableRow>
+                }
                 @if ( ShowCaptions )
                 {
                     <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.Default)" Color="@(HeaderRowStyling?.Color ?? Color.Default)">
@@ -217,8 +240,8 @@
                 @if ( IsLoadingTemplateVisible )
                 {
                     <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" RenderUpdates>
-                        @LoadingTemplate
-                    </_DataGridFullColumnSpanRow>
+                    @LoadingTemplate
+                </_DataGridFullColumnSpanRow>
                 }
             </TableBody>
             @if ( HasAggregates && !Virtualize && ShowAggregatesOnBottom )

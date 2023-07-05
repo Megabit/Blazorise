@@ -1822,6 +1822,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         => Groupable && ( GroupBy is not null || !groupableColumns.IsNullOrEmpty() );
 
     /// <summary>
+    /// Gets or sets whether user can see group header column captions.
+    /// </summary>
+    internal bool IsGroupHeaderCaptionsEnabled
+        => ShowCaptions && DisplayableColumns.Any( x => string.IsNullOrWhiteSpace( x.HeaderGroupCaption ) );
+
+    /// <summary>
     /// Gets the DataGrid columns that are currently marked for Grouping Count.
     /// </summary>
     internal int GroupableColumnsCount
@@ -1875,11 +1881,92 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         get
         {
-            return Columns
+            var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displayable )
-                .OrderBy( x => x.DisplayOrder );
+                .OrderBy( x => x.DisplayOrder )
+                .ToList();
+
+            var newOrderedDisplayColumns = new List<DataGridColumn<TItem>>();
+
+            for ( int i = 0; i < orderedDisplayColumns.Count; i++ )
+            {
+                var displayColumn = orderedDisplayColumns[i];
+                newOrderedDisplayColumns.Add( displayColumn );
+
+                if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumns.Count > i + 1 )
+                {
+                    var toRemove = new List<DataGridColumn<TItem>>();
+                    foreach ( var remainingDisplayColumn in orderedDisplayColumns.Skip( i + 1 ) )
+                    {
+                        if ( remainingDisplayColumn.HeaderGroupCaption == displayColumn.HeaderGroupCaption )
+                        {
+                            newOrderedDisplayColumns.Add( remainingDisplayColumn );
+                            toRemove.Add( remainingDisplayColumn );
+                        }
+                    }
+                    orderedDisplayColumns.RemoveAll( x => toRemove.Contains( x ) );
+                }
+            }
+
+            return newOrderedDisplayColumns;
+
         }
     }
+
+    /// <summary>
+    /// Gets only columns that are available for display in the grid group header.
+    /// </summary>
+    internal IEnumerable<(DataGridColumn<TItem> col, int colSpan)> DisplayableHeaderGroupColumns
+    {
+        get
+        {
+            var orderedDisplayColumns = Columns
+                .Where( x => x.IsDisplayable || x.Displayable )
+                .OrderBy( x => x.DisplayOrder )
+                .ToList();
+
+            var newOrderedDisplayColumns = new List<(DataGridColumn<TItem> col, int colSpan)>();
+
+            for ( int i = 0; i < orderedDisplayColumns.Count; i++ )
+            {
+                var displayColumn = orderedDisplayColumns[i];
+                var colSpan = 1;
+
+                if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumns.Count > i + 1 )
+                {
+                    var toRemove = new List<DataGridColumn<TItem>>();
+                    foreach ( var remainingDisplayColumn in orderedDisplayColumns.Skip( i + 1 ) )
+                    {
+                        if ( remainingDisplayColumn.HeaderGroupCaption == displayColumn.HeaderGroupCaption )
+                        {
+                            colSpan++;
+                            toRemove.Add( remainingDisplayColumn );
+                        }
+                    }
+                    orderedDisplayColumns.RemoveAll( x => toRemove.Contains( x ) );
+                }
+
+                newOrderedDisplayColumns.Add( (displayColumn, colSpan) );
+            }
+
+            return newOrderedDisplayColumns;
+
+        }
+    }
+
+    ///// <summary>
+    ///// Gets only columns that are available for display in the grid.
+    ///// </summary>
+    //internal IEnumerable<DataGridColumn<TItem>> DisplayableHeaderGroupColumns
+    //{
+    //    get
+    //    {
+    //        return DisplayableColumns
+    //            .Where( x => !string.IsNullOrWhiteSpace( x.HeaderGroupCaption ) )
+    //            .GroupBy( x => x.HeaderGroupCaption )
+    //            .SelectMany( x => x );
+    //    }
+    //}
 
     /// <summary>
     /// Returns true if <see cref="Data"/> is safe to modify.
