@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -429,7 +429,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     Localizer["February"],
                     Localizer["March"],
                     Localizer["April"],
-                    Localizer["May"],
+                    Localizer["May!"],
                     Localizer["June"],
                     Localizer["July"],
                     Localizer["August"],
