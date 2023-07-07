@@ -64,6 +64,7 @@
                                             @column.Caption
                                         }
                                     }
+
                                     @if ( Sortable && column.Sortable )
                                     {
                                         @if ( column.SortDirectionTemplate != null )
@@ -81,6 +82,36 @@
                                                 <Icon Name="@(column.CurrentSortDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
                                             }
                                         }
+                                    }
+
+                                    @if ( Filterable && column.Filterable )
+                                    {
+                                        <Dropdown RightAligned>
+                                            <DropdownToggle @onclick:stopPropagation>
+                                                <Icon Name="@IconName.Filter" Margin="@Blazorise.Margin.Is1.FromStart" Clicked="() => {}" />
+                                            </DropdownToggle>
+                                        <DropdownMenu>
+                                                <DropdownItem>
+                                                <Row @onclick:stopPropagation @onmouseup:stopPropagation>
+                                                        <Column>
+                                                            @*TODO : TRANSLATE*@
+                                                        <Select @bind-SelectedValue="FilterMethod">
+                                                                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Contains">Contains</SelectItem>
+                                                                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.StartsWith">Starts With</SelectItem>
+                                                                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.EndsWith">Ends With</SelectItem>
+                                                                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Equals">Equals</SelectItem>
+                                                                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.NotEquals">Not Equals</SelectItem>
+                                                            </Select>
+
+                                                            <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => OnFilterChanged(column, newValue))" />
+
+                                                            @*                                                  <Button Color="Color.Primary">Filter</Button>
+                                                            <Button Color="Color.Light">Clear</Button>*@
+                                                        </Column>
+                                                    </Row>
+                                                </DropdownItem>
+                                            </DropdownMenu>
+                                        </Dropdown>
                                     }
                                 </TableHeaderCell>
                             }
@@ -217,8 +248,8 @@
                 @if ( IsLoadingTemplateVisible )
                 {
                     <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" RenderUpdates>
-                        @LoadingTemplate
-                    </_DataGridFullColumnSpanRow>
+                    @LoadingTemplate
+                </_DataGridFullColumnSpanRow>
                 }
             </TableBody>
             @if ( HasAggregates && !Virtualize && ShowAggregatesOnBottom )
