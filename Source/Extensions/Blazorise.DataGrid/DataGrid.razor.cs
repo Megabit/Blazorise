@@ -2724,5 +2724,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter] public bool ShowHeaderGroupCaptions { get; set; }
 
+    /// <summary>
+    /// Template for header group caption.
+    /// <para>Suggested usage: rendering content conditionally according to the defined <see cref="HeaderGroupContext.HeaderGroupCaption"/></para>
+    /// </summary>
+    [Parameter] public RenderFragment<HeaderGroupContext> HeaderGroupCaptionTemplate { get; set; }
+
     #endregion
 }
