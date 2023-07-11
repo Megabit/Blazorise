@@ -6135,11 +6135,11 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     <HeaderGroupCaptionTemplate>
         @if ( context.HeaderGroupCaption == ""PersonalInfo"" )
         {
-            <Strong>Personal Information</Strong>
+            <Strong TextColor=""TextColor.Primary"">Personal Information</Strong>
         }
         else if ( context.HeaderGroupCaption == ""Address"" )
         {
-            <Strong>Address</Strong>
+            <Strong TextColor=""TextColor.Success"">Address</Strong>
         }
     </HeaderGroupCaptionTemplate>
 </DataGrid>
