@@ -33,16 +33,16 @@
                             }
                             else
                             {
-                                @if ( HeaderGroupCaptionTemplate is null )
-                                {
-                                    <TableHeaderCell ColumnSpan="headerGroup.colSpan" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                <TableHeaderCell ColumnSpan="headerGroup.colSpan" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                    @if ( HeaderGroupCaptionTemplate is null )
+                                    {
                                         @column.HeaderGroupCaption
-                                    </TableHeaderCell>
-                                }
-                                else
-                                {
-                                    @HeaderGroupCaptionTemplate( new HeaderGroupContext( column.HeaderGroupCaption) )
-                                }
+                                    }
+                                    else
+                                    {
+                                        @HeaderGroupCaptionTemplate( new HeaderGroupContext( column.HeaderGroupCaption) )
+                                    }
+                                </TableHeaderCell>
                             }
                         }
                     </TableRow>
