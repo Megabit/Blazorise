@@ -27,7 +27,7 @@
                         @foreach ( var headerGroup in DisplayableHeaderGroupColumns )
                         {
                             var column = headerGroup.col;
-                            @if ( string.IsNullOrWhiteSpace( column.HeaderGroupCaption ) )
+                            @if ( string.IsNullOrWhiteSpace( column.HeaderGroupCaption ) || ( column.ColumnType == DataGridColumnType.Command && IsCommandVisible ) )
                             {
                                 <TableRowHeader />
                             }
