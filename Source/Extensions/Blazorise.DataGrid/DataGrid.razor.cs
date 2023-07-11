@@ -1790,17 +1790,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displayable )
-                .OrderBy( x => x.DisplayOrder )
-                .ToList();
+                .OrderBy( x => x.DisplayOrder );
 
+            if ( !IsGroupHeaderCaptionsEnabled )
+                return orderedDisplayColumns;
+
+            var orderedDisplayColumnsAsList = orderedDisplayColumns.ToList();
             var newOrderedDisplayColumns = new List<DataGridColumn<TItem>>();
 
-            for ( int i = 0; i < orderedDisplayColumns.Count; i++ )
+            for ( int i = 0; i < orderedDisplayColumnsAsList.Count; i++ )
             {
-                var displayColumn = orderedDisplayColumns[i];
+                var displayColumn = orderedDisplayColumnsAsList[i];
                 newOrderedDisplayColumns.Add( displayColumn );
 
-                if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumns.Count > i + 1 )
+                if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumnsAsList.Count > i + 1 )
                 {
                     var toRemove = new List<DataGridColumn<TItem>>();
                     foreach ( var remainingDisplayColumn in orderedDisplayColumns.Skip( i + 1 ) )
@@ -1811,7 +1814,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             toRemove.Add( remainingDisplayColumn );
                         }
                     }
-                    orderedDisplayColumns.RemoveAll( x => toRemove.Contains( x ) );
+                    orderedDisplayColumnsAsList.RemoveAll( x => toRemove.Contains( x ) );
                 }
             }
 
@@ -1865,7 +1868,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether user can see group header column captions.
     /// </summary>
     internal bool IsGroupHeaderCaptionsEnabled
-        => ShowCaptions && Columns.Any( x => !string.IsNullOrWhiteSpace( x.HeaderGroupCaption ) );
+        => ShowHeaderGroupCaptions && Columns.Any( x => !string.IsNullOrWhiteSpace( x.HeaderGroupCaption ) );
 
     /// <summary>
     /// Returns true if <see cref="Data"/> is safe to modify.
@@ -2715,6 +2718,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Defines the background of the row overlay.
     /// </summary>
     [Parameter] public Background RowOverlayBackground { get; set; } = Background.Light;
+
+    /// <summary>
+    /// Gets or sets whether user can see defined header group captions.
+    /// </summary>
+    [Parameter] public bool ShowHeaderGroupCaptions { get; set; }
 
     #endregion
 }
