@@ -101,7 +101,7 @@ public partial class Validations : ComponentBase
         return validated;
     }
 
-    internal void NotifyValidationInitialized( IValidation validation )
+    public void NotifyValidationInitialized( IValidation validation )
     {
         if ( !validations.Contains( validation ) )
         {
@@ -109,7 +109,7 @@ public partial class Validations : ComponentBase
         }
     }
 
-    internal void NotifyValidationRemoved( IValidation validation )
+    public void NotifyValidationRemoved( IValidation validation )
     {
         if ( validations.Contains( validation ) )
         {
@@ -117,7 +117,7 @@ public partial class Validations : ComponentBase
         }
     }
 
-    internal void NotifyValidationStatusChanged( IValidation validation )
+    public void NotifyValidationStatusChanged( IValidation validation )
     {
         // Here we need to call ValidatedAll only when in Auto mode. Manual call is already called through ValidateAll()
         if ( Mode == ValidationMode.Manual )
