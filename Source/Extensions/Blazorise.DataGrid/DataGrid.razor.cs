@@ -1628,7 +1628,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue, column.FilterMethod )
+                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod() )
                             select item;
                 }
             }
@@ -2120,6 +2120,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether users can filter rows by its cell values.
     /// </summary>
     [Parameter] public bool Filterable { get; set; }
+
+    /// <summary>
+    /// Gets or sets the filter mode.
+    /// </summary>
+    [Parameter] public DataGridFilterMode FilterMode { get; set; }
 
     /// <summary>
     /// Gets or sets whether the data will be grouped. Column groups need to be configured.

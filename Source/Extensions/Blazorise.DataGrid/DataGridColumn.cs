@@ -1,12 +1,10 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
-using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -24,6 +22,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new();
 
+    /// <summary>
+    /// FilterMethod can come from programatically defined Parameter or explicitly by the user through the interface.
+    /// </summary>
+    private DataGridFilterMethod? currentFilterMethod;
     #endregion
 
     #region Constructors
@@ -48,6 +50,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         currentSortDirection[DataGridSortMode.Single] = SortDirection;
         currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
+        currentFilterMethod = FilterMethod;
 
         if ( ParentDataGrid is not null )
         {
@@ -234,6 +237,16 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     {
         SortOrder = sortOrder;
         return SortOrderChanged.InvokeAsync( sortOrder );
+    }
+
+    internal void SetFilterMethod( DataGridFilterMethod? filterMethod )
+    {
+        currentFilterMethod = filterMethod;
+    }
+
+    internal DataGridFilterMethod? GetFilterMethod()
+    {
+        return currentFilterMethod;
     }
 
     #endregion

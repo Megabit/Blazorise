@@ -84,32 +84,31 @@
                                         }
                                     }
 
-                                    @if ( Filterable && column.Filterable )
+                                    @if ( Filterable && column.Filterable && FilterMode == DataGridFilterMode.Column )
                                     {
-                                        <Dropdown RightAligned>
+                                        <Dropdown>
                                             <DropdownToggle @onclick:stopPropagation>
                                                 <Icon Name="@IconName.Filter" Margin="@Blazorise.Margin.Is1.FromStart" Clicked="() => {}" />
                                             </DropdownToggle>
-                                        <DropdownMenu>
-                                                <DropdownItem>
-                                                <Row @onclick:stopPropagation @onmouseup:stopPropagation>
-                                                        <Column>
-                                                            @*TODO : TRANSLATE*@
-                                                        <Select @bind-SelectedValue="FilterMethod">
-                                                                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Contains">Contains</SelectItem>
-                                                                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.StartsWith">Starts With</SelectItem>
-                                                                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.EndsWith">Ends With</SelectItem>
-                                                                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Equals">Equals</SelectItem>
-                                                                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.NotEquals">Not Equals</SelectItem>
-                                                            </Select>
+                                            <DropdownMenu Padding="@Blazorise.Padding.Is3" @onclick:stopPropagation @onmouseup:stopPropagation>
 
-                                                            <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => OnFilterChanged(column, newValue))" />
+                                                @*TODO : TRANSLATE*@
+                                                <Select TValue="DataGridFilterMethod" SelectedValue="column.GetFilterMethod() ?? FilterMethod" SelectedValueChanged="e => { column.SetFilterMethod(e); OnFilterChanged(column, column.Filter.SearchValue); }">
+                                                    <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Contains">Contains</SelectItem>
+                                                    <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.StartsWith">Starts With</SelectItem>
+                                                    <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.EndsWith">Ends With</SelectItem>
+                                                    <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Equals">Equals</SelectItem>
+                                                    <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.NotEquals">Not Equals</SelectItem>
+                                                </Select>
 
-                                                            @*                                                  <Button Color="Color.Primary">Filter</Button>
-                                                            <Button Color="Color.Light">Clear</Button>*@
-                                                        </Column>
-                                                    </Row>
-                                                </DropdownItem>
+                                                <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => OnFilterChanged(column, newValue))" />
+
+                                                @* Buttons are currently bugged inside Dropdown it seems. Let's fake with divs or anchors for now' *@
+                                                @*Do we even need these?*@
+@*                                                <Div Margin="@Blazorise.Margin.Is2.FromTop">
+                                                    <Div Class="btn btn-primary">Filter</Div>
+                                                    <Div Class="btn btn-light">Clear</Div>
+                                                </Div>*@
                                             </DropdownMenu>
                                         </Dropdown>
                                     }
@@ -118,7 +117,7 @@
                         }
                     </TableRow>
                 }
-                @if ( Filterable )
+                @if ( Filterable && FilterMode == DataGridFilterMode.Row )
                 {
                     <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.Default)" Color="@(FilterRowStyling?.Color ?? Color.Default)">
 
