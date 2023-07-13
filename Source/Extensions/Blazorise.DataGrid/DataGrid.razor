@@ -20,13 +20,12 @@
                 @if ( IsGroupHeaderCaptionsEnabled )
                 {
                     <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.Default)" Color="@(HeaderRowStyling?.Color ?? Color.Default)">
-
                         @groupIndentationFragment
-
 
                         @foreach ( var headerGroup in DisplayableHeaderGroupColumns )
                         {
                             var column = headerGroup.col;
+
                             @if ( string.IsNullOrWhiteSpace( column.HeaderGroupCaption ) || ( column.ColumnType == DataGridColumnType.Command && IsCommandVisible ) )
                             {
                                 <TableRowHeader />
@@ -125,7 +124,7 @@
 
                         @foreach ( var column in DisplayableColumns )
                         {
-                            if ( column.ColumnType == DataGridColumnType.MultiSelect )
+                            @if ( column.ColumnType == DataGridColumnType.MultiSelect )
                             {
                                 @if ( MultiSelect )
                                 {
@@ -247,8 +246,8 @@
                 @if ( IsLoadingTemplateVisible )
                 {
                     <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" RenderUpdates>
-                    @LoadingTemplate
-                </_DataGridFullColumnSpanRow>
+                        @LoadingTemplate
+                    </_DataGridFullColumnSpanRow>
                 }
             </TableBody>
             @if ( HasAggregates && !Virtualize && ShowAggregatesOnBottom )

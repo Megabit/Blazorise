@@ -6103,7 +6103,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 </DataGrid>
 
 @code {
-
     [Inject] EmployeeData EmployeeData { get; set; }
 
     private List<Employee> inMemoryData;
@@ -6145,7 +6144,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 </DataGrid>
 
 @code {
-
     [Inject] EmployeeData EmployeeData { get; set; }
 
     private List<Employee> inMemoryData;

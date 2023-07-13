@@ -730,13 +730,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     [Parameter] public DataGridFilterMethod? FilterMethod { get; set; }
 
-
     /// <summary>
-    /// Defines the caption to be displayed for a group header.
+    /// <para>Defines the caption to be displayed for a group header.</para>
     /// <para>If set, all the column headers that are part of the group will be grouped under this caption.</para>
     /// </summary>
     [Parameter] public string HeaderGroupCaption { get; set; }
-
 
     #endregion
 }

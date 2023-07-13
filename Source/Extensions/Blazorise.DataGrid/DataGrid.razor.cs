@@ -1806,6 +1806,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumnsAsList.Count > i + 1 )
                 {
                     var toRemove = new List<DataGridColumn<TItem>>();
+
                     foreach ( var remainingDisplayColumn in orderedDisplayColumns.Skip( i + 1 ) )
                     {
                         if ( remainingDisplayColumn.HeaderGroupCaption == displayColumn.HeaderGroupCaption )
@@ -1814,12 +1815,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             toRemove.Add( remainingDisplayColumn );
                         }
                     }
+
                     orderedDisplayColumnsAsList.RemoveAll( x => toRemove.Contains( x ) );
                 }
             }
 
             return newOrderedDisplayColumns;
-
         }
     }
 
@@ -1845,6 +1846,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumns.Count > i + 1 )
                 {
                     var toRemove = new List<DataGridColumn<TItem>>();
+
                     foreach ( var remainingDisplayColumn in orderedDisplayColumns.Skip( i + 1 ) )
                     {
                         if ( remainingDisplayColumn.HeaderGroupCaption == displayColumn.HeaderGroupCaption )
@@ -1853,6 +1855,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             toRemove.Add( remainingDisplayColumn );
                         }
                     }
+
                     orderedDisplayColumns.RemoveAll( x => toRemove.Contains( x ) );
                 }
 
@@ -1860,7 +1863,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
 
             return newOrderedDisplayColumns;
-
         }
     }
 
