@@ -54,13 +54,31 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Widevine DRM instantiation example">
+    <DocsPageSectionHeader Title="Widevine DRM instantiation">
         This example shows how to use <Code>Video</Code> to play streams with Widevine DRM protection.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <DRMVideoExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DRMVideoExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple files">
+        <Paragraph>
+            The <Strong>VideoSource</Strong> object contains a list of <Strong>VideoMedia</Strong> instances, each representing a different quality of the same video. Each <Strong>VideoMedia</Strong> is initialized with a unique URL that points to the video source, a media type, and a quality represented as resolution (in pixels).
+        </Paragraph>
+        <Paragraph>
+            Here, three versions of the same video are provided: a 576p, a 720p, and a 1080p. These different versions give users the ability to choose the video quality according to their network conditions or preferences.
+        </Paragraph>
+        <Paragraph>
+            The <Strong>DefaultQuality</Strong> property set on the <Strong>Video</Strong> component dictates which version of the video is loaded by default when the component is rendered. In this case, it is set to "720", meaning the 720p version of the video will be the default.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <VideoMultipleSourcesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="VideoMultipleSourcesExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -75,7 +93,7 @@
     <DocsAttributesItem Name="Controls" Type="bool" Default="true">
         Gets or sets the controls visibility of the player.
     </DocsAttributesItem>
-	<DocsAttributesItem Name="ControlsList" Type="string[]" Default="null">
+    <DocsAttributesItem Name="ControlsList" Type="string[]" Default="null">
         Gets or sets the list of controls that are rendered by the player. Possible list of values are contained in <Code>VideoControlsType</Code>.
     </DocsAttributesItem>
     <DocsAttributesItem Name="AutomaticallyHideControls" Type="bool" Default="false">
@@ -131,5 +149,11 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ProtectionHttpRequestHeaders" Type="string" Default="null">
         Defines the protection token for the http header that is sent to the server.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DefaultQuality" Type="int?" Default="null">
+        Gets or sets the default quality for the player. Defaults to <Code>576</Code> if unspecified.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AvailableQualities" Type="string" Default="null">
+        Defines the list of available quality options. Defaults to <Code>[4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]</Code> if unspecified.
     </DocsAttributesItem>
 </DocsAttributes>

@@ -8078,6 +8078,20 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string StreamingVideoExample = @"<Video Source=""@(""https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"")"" StreamingLibrary=""StreamingLibrary.Dash"" />";
 
+        public const string VideoMultipleSourcesExample = @"<Video Source=""@videoSource"" DefaultQuality=""720"" />
+
+@code {
+    VideoSource videoSource = new VideoSource()
+    {
+        Medias = new ValueEqualityList<VideoMedia>
+        {
+            new VideoMedia(""https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"", ""video/mp4"", 576),
+            new VideoMedia(""https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4"", ""video/mp4"", 720),
+            new VideoMedia(""https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4"", ""video/mp4"", 1080),
+        }
+    };
+}";
+
         public const string VideoNugetInstallExample = @"Install-Package Blazorise.Video";
 
         public const string AntDesignGuideNuget1Example = @"Install-Package Blazorise.AntDesign";
