@@ -372,6 +372,13 @@
     <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod" Default="DataGridFilterMethod.Contains">
         Defines the filter method when searching the cell values.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowHeaderGroupCaptions" Type="bool" Default="false">
+        Gets or sets whether user can see defined header group captions.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderGroupCaptionTemplate" Type="RenderFragment<HeaderGroupContext>">
+        Template for header group caption.
+        Suggested usage: rendering content conditionally according to the defined HeaderGroupCaption.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="VirtualizeOptions">
@@ -580,6 +587,10 @@
     <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod?" Default="null">
         Sets the filter method to be used for filtering the column.
         If null, uses the DataGrid's FilterMethod.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderGroupCaption" Type="string">
+        Defines the caption to be displayed for a group header.
+        If set, all the column headers that are part of the group will be grouped under this caption.
     </DocsAttributesItem>
 </DocsAttributes>
 
