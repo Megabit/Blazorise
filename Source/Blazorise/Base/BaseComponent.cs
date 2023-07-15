@@ -1,7 +1,8 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Licensing;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -33,6 +34,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     private IFluentSpacing margin;
 
     private IFluentSpacing padding;
+
+    private IFluentGap gap;
 
     private IFluentDisplay display;
 
@@ -126,6 +129,20 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            if ( LicenseChecker.ShouldPrint() )
+            {
+                await JSUtilitiesModule.Log( "%cThank you for using the free version of the Blazorise component library! We're happy to offer it to you for personal use. If you'd like to remove this message, consider purchasing a commercial license from https://blazorise.com/commercial. We appreciate your support!", "color: #3B82F6; padding: 0;" );
+            }
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
+    /// <inheritdoc/>
     protected override void Dispose( bool disposing )
     {
         if ( disposing )
@@ -163,6 +180,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
         if ( Padding != null )
             builder.Append( Padding.Class( ClassProvider ) );
+
+        if ( Gap != null )
+            builder.Append( Gap.Class( ClassProvider ) );
 
         if ( Display != null )
             builder.Append( Display.Class( ClassProvider ) );
@@ -333,7 +353,17 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     protected IStyleProvider StyleProvider { get; set; }
 
     /// <summary>
-    /// Custom css classname.
+    /// Gets or sets the IJSUtilitiesModule reference.
+    /// </summary>
+    [Inject] private IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
+    /// Custom css class name.
     /// </summary>
     [Parameter]
     public string Class
@@ -401,6 +431,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => visibility;
         set
         {
+            if ( visibility == value )
+                return;
+
             visibility = value;
 
             DirtyClasses();
@@ -416,6 +449,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => width;
         set
         {
+            if ( width == value )
+                return;
+
             width = value;
 
             DirtyClasses();
@@ -431,6 +467,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => height;
         set
         {
+            if ( height == value )
+                return;
+
             height = value;
 
             DirtyClasses();
@@ -446,6 +485,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => margin;
         set
         {
+            if ( margin == value )
+                return;
+
             margin = value;
 
             DirtyClasses();
@@ -461,7 +503,28 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => padding;
         set
         {
+            if ( padding == value )
+                return;
+
             padding = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Defines the element gap spacing.
+    /// </summary>
+    [Parameter]
+    public IFluentGap Gap
+    {
+        get => gap;
+        set
+        {
+            if ( gap == value )
+                return;
+
+            gap = value;
 
             DirtyClasses();
         }
@@ -476,6 +539,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => display;
         set
         {
+            if ( display == value )
+                return;
+
             display = value;
 
             DirtyClasses();
@@ -491,6 +557,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => border;
         set
         {
+            if ( border == value )
+                return;
+
             border = value;
 
             DirtyClasses();
@@ -506,6 +575,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => flex;
         set
         {
+            if ( flex == value )
+                return;
+
             flex = value;
 
             DirtyClasses();
@@ -521,6 +593,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => position;
         set
         {
+            if ( position == value )
+                return;
+
             position = value;
 
             DirtyClasses();
@@ -536,6 +611,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => overflow;
         set
         {
+            if ( overflow == value )
+                return;
+
             overflow = value;
 
             DirtyClasses();

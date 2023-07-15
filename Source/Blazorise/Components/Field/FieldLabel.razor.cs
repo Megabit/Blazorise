@@ -22,6 +22,7 @@ public partial class FieldLabel : BaseSizableFieldComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.FieldLabel( IsHorizontal ) );
+        builder.Append( ClassProvider.FieldLabelRequiredIndicator( RequiredIndicator ) );
         builder.Append( ClassProvider.ToScreenreader( Screenreader ), Screenreader != Screenreader.Always );
 
         base.BuildClasses( builder );
@@ -37,6 +38,11 @@ public partial class FieldLabel : BaseSizableFieldComponent
     [Parameter] public string For { get; set; }
 
     /// <summary>
+    /// If defined, a required indicator will be shown next to the label.
+    /// </summary>
+    [Parameter] public bool RequiredIndicator { get; set; }
+
+    /// <summary>
     /// Defines the visibility for screen readers.
     /// </summary>
     [Parameter]
@@ -50,11 +56,6 @@ public partial class FieldLabel : BaseSizableFieldComponent
             DirtyClasses();
         }
     }
-
-    /// <summary>
-    /// Gets or sets the reference to the parent <see cref="FieldLabel"/> component.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

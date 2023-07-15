@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Element which specify a term.
 /// </summary>
-public partial class DescriptionListTerm : BaseTypographyComponent
+public partial class DescriptionListTerm : BaseTypographyComponent, IColumnComponent
 {
     #region Members
 

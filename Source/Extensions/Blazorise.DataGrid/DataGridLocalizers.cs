@@ -93,4 +93,9 @@ public class DataGridLocalizers
     /// Custom localization handler for 'create' text.
     /// </summary>
     public TextLocalizerHandler CreateLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for 'Drag a column header here to group by that column' text.
+    /// </summary>
+    public TextLocalizerHandler DragAndDropGroupLocalizer { get; set; }
 }

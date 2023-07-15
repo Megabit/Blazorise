@@ -5,7 +5,6 @@
 [![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/Megabit)
 [![MyGet](https://img.shields.io/myget/blazorise/vpre/blazorise.svg?label=myget)](https://www.myget.org/gallery/blazorise)
 ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
-[![Join the chat at https://gitter.im/stsrki/Blazorise](https://badges.gitter.im/stsrki/Blazorise.svg)](https://gitter.im/stsrki/Blazorise?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Discord](https://img.shields.io/discord/761589226965696552?color=%237289da&label=Discord&logo=discord&logoColor=%237289da&style=flat-square)](https://discord.io/blazorise)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE.md)
 [![Tip Me via PayPal](https://img.shields.io/badge/PayPal-tip%20me-green.svg?logo=paypal)](https://www.paypal.me/mladenmacanovic)
@@ -13,11 +12,9 @@
 
 Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
 
-> Note: Old documentation can be found at http://v094.blazorise.com/
-
 ## Commercial support
 
-[Support](https://support.blazorise.com/) for the Blazorise Components is available as part of the [Blazorise Commercial](https://commercial.blazorise.com/) subscription.
+[Support](https://blazorise.com/support) for the Blazorise Components is available as part of the [Blazorise Commercial](https://blazorise.com/commercial) subscription.
 
 With the commercial license you get:
 
@@ -51,6 +48,7 @@ Blazorise is an Apache 2.0-licensed open source project with its ongoing develop
 
 ### Blazor WebAssembly
 
+- [Tailwind Demo](https://tailwinddemo.blazorise.com)
 - [Bootstrap 4 Demo](https://bootstrapdemo.blazorise.com)
 - [Bootstrap 5 Demo](https://bootstrap5demo.blazorise.com)
 - [Material Demo](https://materialdemo.blazorise.com/)
@@ -76,6 +74,7 @@ Before you continue, please make sure you have the latest version of Visual Stud
 There are currently 5 different NuGet packages for each of the supported CSS frameworks. Available packages are:
 
 ```
+- Blazorise.Tailwind
 - Blazorise.Bootstrap
 - Blazorise.Bootstrap5
 - Blazorise.Bulma
@@ -123,7 +122,7 @@ Please note, that these are the Blazorise explicit dependencies, you still need 
 
 #### 2.1 JavaScript resources
 
-Blazorise loads any additional JavaScript it needs dynamically once a component needs it. This means that Blazorise expects that the resources are available and placed relative to the app root. You can configure this by using the `app.UseStaticFiles();` and it does not need any other additional configuration from your part. If you're having any difficulties, please refer to the following issues:
+Blazorise loads any additional JavaScript it needs dynamically once a component needs it. This means that Blazorise expects that the resources are available and placed relative to the app root. You can configure this by using the `app.UseStaticFiles();` and it does not need any other additional configuration from your part.
 
 If you're having any difficulties, please refer to the following issues:
 

@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "name": "blazorise.bootstrap5",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {
+    "bootstrap": "5.1.1"
+  }
+}

@@ -17,7 +17,7 @@ public class ChartTrendlineData
     /// The colour of the trendline
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartColor Color { get; set; } = ChartColor.FromRgba( 100, 0, 0, 1 );
+    public ChartColor? Color { get; set; } = ChartColor.FromRgba( 100, 0, 0, 1 );
 
     /// <summary>
     /// Can be "solid" or "dotted"

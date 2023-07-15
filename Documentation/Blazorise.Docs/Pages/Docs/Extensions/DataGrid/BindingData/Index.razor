@@ -1,0 +1,32 @@
+﻿@page "/docs/extensions/datagrid/binding-data"
+
+<Seo Canonical="/docs/extensions/datagrid/binding-data" Title="Blazorise DataGrid Binding Data" Description="Learn to use and work with the Blazorise DataGrid Binding system, from in-memory data or by connecting to an external API." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Binding Data">
+    Blazorise DataGrid Binding Data
+</DocsPageTitle>
+
+<DocsPageLead>
+    Learn to use and work with the Blazorise DataGrid Binding system, from in-memory data or by connecting to an external API.
+</DocsPageLead>
+
+<Row RowColumns="RowColumns.Are4.OnTablet.Are2.OnMobile">
+    @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/extensions/datagrid/binding-data" ) && !string.IsNullOrEmpty( x.Description ) ) )
+    {
+        <Column Margin="Margin.Is3.FromBottom">
+            <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.Url" />
+        </Column>
+    }
+</Row>
+@code {
+    public IEnumerable<PageEntry> PageEntries;
+
+    [Inject] public PageEntryData PageEntriesData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        PageEntries = await PageEntriesData.GetDataAsync();
+
+        await base.OnInitializedAsync();
+    }
+}

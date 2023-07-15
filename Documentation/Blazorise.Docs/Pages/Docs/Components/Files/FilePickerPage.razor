@@ -63,10 +63,13 @@
     <DocsPageSectionSource Code="FilePickerCustomExample" />
 </DocsPageSection>
 
-
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="ChildTemplate" Type="RenderFragment">
@@ -132,5 +135,11 @@
     <DocsAttributesItem Name="DisableProgressReport" Type="bool" Default="false">
         Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
         This setting can speed up file transfer considerably.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadOnly" Type="bool" Default="false">
+        Add the readonly boolean attribute on an input to prevent modification of the input’s value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Add the disabled boolean attribute on an input to prevent user interactions and make it appear lighter.
     </DocsAttributesItem>
 </DocsAttributes>

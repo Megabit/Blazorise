@@ -18,6 +18,7 @@
         <Paragraph>List of predefined language that comes with Blazorise is:</Paragraph>
 
         <UnorderedList>
+            <UnorderedListItem><Code>da</Code> Danish</UnorderedListItem>
             <UnorderedListItem><Code>de</Code> German</UnorderedListItem>
             <UnorderedListItem><Code>en</Code> English</UnorderedListItem>
             <UnorderedListItem><Code>es</Code> Spanish</UnorderedListItem>
@@ -49,7 +50,9 @@
     <DocsPageSectionHeader Title="ITextLocalizerService">
         This is the preferred way and the easiest way of changing the components display text. To change a language you just need to inject <Code>ITextLocalizerService</Code> into your component or page and then call the <Code>ChangeLanguage</Code> method.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent><ITextLocalizerServiceExample /></DocsPageSectionContent>
+    <DocsPageSectionContent>
+        <ITextLocalizerServiceExample />
+    </DocsPageSectionContent>
     <DocsPageSectionSource Code="ITextLocalizerServiceExample"></DocsPageSectionSource>
 </DocsPageSection>
 
@@ -60,7 +63,9 @@
             While this is the good approach to handle localization, it is not very flexible since you need to do it on every component. But, for a quick override it is fairly easy. Just need to remember that.
         </Paragraph>
     </DocsPageSectionHeader>
-    <DocsPageSectionContent><TextLocalizerHandlerExample /></DocsPageSectionContent>
+    <DocsPageSectionContent>
+        <TextLocalizerHandlerExample />
+    </DocsPageSectionContent>
     <DocsPageSectionSource Code="TextLocalizerHandlerExample"></DocsPageSectionSource>
 </DocsPageSection>
 
@@ -68,6 +73,15 @@
     <DocsPageSectionHeader Title="Custom languages">
         While Blazorise will have all standard languages built-in it cannot have every one out there. So, if you want to have your own language injected into the component you can add it with <Code>AddLanguageResource</Code> method, found on <a href="#">ITextLocalizer</a>.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent><CustomLanguageExample /></DocsPageSectionContent>
+    <DocsPageSectionContent>
+        <CustomLanguageExample />
+    </DocsPageSectionContent>
     <DocsPageSectionSource Code="CustomLanguageExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Global localization">
+        To control the localization from a single place on an application level, you can use the <Code>ValidationMessageLocalizer</Code> found in the <Code>BlazoriseOptions</Code>. The <Code>ValidationMessageLocalizer</Code> will provide you with two parameters, a <Code>message</Code> and an optional <Code>arguments</Code> that you can use to format the message if needed.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="GlobalLocalizerExample"></DocsPageSectionSource>
 </DocsPageSection>

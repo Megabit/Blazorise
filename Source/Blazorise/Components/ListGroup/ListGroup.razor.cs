@@ -30,7 +30,8 @@ public partial class ListGroup : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ListGroup() );
-        builder.Append( ClassProvider.ListGroupFlush(), Flush );
+        builder.Append( ClassProvider.ListGroupFlush( Flush ) );
+        builder.Append( ClassProvider.ListGroupScrollable( Scrollable ) );
 
         base.BuildClasses( builder );
     }
@@ -66,6 +67,21 @@ public partial class ListGroup : BaseComponent
         set
         {
             state = state with { Flush = value };
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Makes the list group scrollable by adding a vertical scrollbar.
+    /// </summary>
+    [Parameter]
+    public bool Scrollable
+    {
+        get => state.Scrollable;
+        set
+        {
+            state = state with { Scrollable = value };
 
             DirtyClasses();
         }

@@ -272,6 +272,7 @@ public static class MaterialIcons
     public static readonly string DonutSmall = "donut_small";
     public static readonly string Drafts = "drafts";
     public static readonly string DragHandle = "drag_handle";
+    public static readonly string DragIndicator = "drag_indicator";
     public static readonly string DriveEta = "drive_eta";
     public static readonly string Dvr = "dvr";
     public static readonly string Edit = "edit";

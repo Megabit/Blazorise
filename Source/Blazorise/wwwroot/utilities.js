@@ -1,4 +1,7 @@
-﻿// adds a classname to the specified element
+﻿import "./vendors/jsencrypt.js?v=1.2.4.0";
+import "./vendors/sha512.js?v=1.2.4.0";
+
+// adds a classname to the specified element
 export function addClass(element, classname) {
     element.classList.add(classname);
 }
@@ -277,4 +280,31 @@ export function firstNonNull(value, fallbackValue) {
         return fallbackValue;
 
     return value;
+}
+
+export function verifyRsa(publicKey, content, signature) {
+    try {
+        const jsEncrypt = new JSEncrypt();
+        jsEncrypt.setPublicKey(publicKey);
+
+        const verified = jsEncrypt.verify(content, signature, sha512);
+
+        if (verified) {
+            return true;
+        }
+    } catch (error) {
+        console.error(error);
+    }
+
+    return false;
+}
+
+export function log(message, args) {
+    console.log(message, args);
+}
+
+export function createEvent(name) {
+    const e = document.createEvent("Event");
+    e.initEvent(name, true, true);
+    return e;
 }

@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
@@ -54,7 +55,7 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     {
         base.BuildStyles( builder );
 
-        builder.Append( $"padding-left: {Indentation * ParentBarDropdownState.NestedIndex}rem", ParentBarDropdownState.IsInlineDisplay );
+        builder.Append( $"padding-left: {( Indentation * ParentBarDropdownState.NestedIndex ).ToString( CultureInfo.InvariantCulture )}rem", ParentBarDropdownState.IsInlineDisplay );
     }
 
     /// <inheritdoc/>
@@ -93,15 +94,31 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// </summary>
     /// <param name="eventArgs">Supplies information about a mouse event that is being raised.</param>
     /// <returns>Returns the awaitable task.</returns>
-    protected Task ClickHandler( MouseEventArgs eventArgs )
+    protected async Task ClickHandler( MouseEventArgs eventArgs )
+    {
+        if ( IsDisabled )
+            return;
+
+        if ( ParentBarDropdown != null )
+            await ParentBarDropdown.Toggle( ElementId );
+
+        await Clicked.InvokeAsync( eventArgs );
+    }
+
+    /// <summary>
+    /// Handler for @onkeydown event.
+    /// </summary>
+    /// <param name="eventArgs">Information about the keyboard down event.</param>
+    /// <returns>Returns awaitable task</returns>
+    protected Task KeyDownHandler( KeyboardEventArgs eventArgs )
     {
         if ( IsDisabled )
             return Task.CompletedTask;
 
-        if ( ParentBarDropdown != null )
+        if ( ParentBarDropdown != null && eventArgs.Key == "Enter" )
             return ParentBarDropdown.Toggle( ElementId );
 
-        return Clicked.InvokeAsync( eventArgs );
+        return Task.CompletedTask;
     }
 
     /// <inheritdoc/>

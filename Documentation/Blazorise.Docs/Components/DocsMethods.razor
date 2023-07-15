@@ -1,0 +1,48 @@
+﻿<CascadingValue Value="this" IsFixed>
+    @ChildContent
+</CascadingValue>
+
+@if ( Title != null )
+{
+    <Heading Class="b-docs-page-methods-title" Size="HeadingSize.Is4">
+        @Title
+    </Heading>
+}
+
+<Table Class="b-docs-methods" Responsive Margin="Margin.Is4.FromBottom">
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell>Name</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+            <TableHeaderCell>Return</TableHeaderCell>
+            <TableHeaderCell>Parameters</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @foreach ( var docsMethodsItem in DocsMethodsItems )
+        {
+            <TableRow>
+                <TableRowCell>
+                    <Code>@docsMethodsItem.Name</Code>
+                </TableRowCell>
+                <TableRowCell>
+                    @docsMethodsItem.ChildContent
+                </TableRowCell>
+                <TableRowCell>
+                    @if ( !string.IsNullOrWhiteSpace( docsMethodsItem.ReturnType ) )
+                    {
+                        <Code Tag="@docsMethodsItem.ReturnTypeTag">@docsMethodsItem.ReturnType</Code>
+                    }
+                </TableRowCell>
+                <TableRowCell Class="@docsMethodsItem.DefaultClassNames">
+                    @if ( @docsMethodsItem.Parameters != null )
+                    {
+                        <Code>@docsMethodsItem.Parameters</Code>
+                    }
+                </TableRowCell>
+            </TableRow>
+        }
+    </TableBody>
+</Table>
+
+

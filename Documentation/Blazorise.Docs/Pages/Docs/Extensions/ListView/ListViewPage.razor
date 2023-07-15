@@ -49,8 +49,12 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes Title="ListView">
     <DocsAttributesItem Name="Data" Type="IEnumerable<TItem>">
@@ -83,6 +87,9 @@
     <DocsAttributesItem Name="Flush" Type="bool" Default="false">
         Remove some borders and rounded corners to render list group items edge-to-edge in a parent container (e.g., cards).
     </DocsAttributesItem>
+    <DocsAttributesItem Name="Scrollable" Type="bool" Default="true">
+        Makes the list group scrollable by adding a vertical scrollbar.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="Mode" Type="ListGroupMode" Default="Static">
         Defines the list-group behavior mode.
     </DocsAttributesItem>
@@ -94,5 +101,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ItemTemplate" Type="RenderFragment<ItemContext<TItem>>">
         Specifies the content to be rendered inside each item of the ListView.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Virtualize" Type="bool" Default="false">
+        Gets or sets whether the listview will use the <Code>Virtualize</Code> functionality.
     </DocsAttributesItem>
 </DocsAttributes>

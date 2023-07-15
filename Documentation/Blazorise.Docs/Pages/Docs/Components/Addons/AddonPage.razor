@@ -10,11 +10,19 @@
     Easily extend form controls by adding text, or buttons on either side of textual inputs, custom selects, and custom file inputs.
 </DocsPageLead>
 
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
 <DocsPageParagraph>
     The <Code Tag>Addon</Code> component is the easiest way to add some structure to forms. Its purpose is to pair
     form controls with a legend or label, and to provide help text and invalid/valid feedback text, as well as
     visual (color) contextual state feedback.
 </DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Structure
+</DocsPageSubtitle>
 
 <UnorderedList>
     <UnorderedListItem>
@@ -37,8 +45,15 @@
     <UnorderedListItem><Code>.End</Code> will place it at the right side.</UnorderedListItem>
 </UnorderedList>
 
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Static addon">
+    <DocsPageSectionHeader Title="Static label">
+        <Paragraph>
+            By incorporating this static label, users are given a precise indication of the expected input, ensuring they enter a suitable username for their account. This Addon design results in a more intuitive and user-friendly interface, making the registration process seamless and efficient.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <StaticAddonExample />
@@ -47,8 +62,10 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="With multiple addons">
-        Addons are used to attach controls together.
+    <DocsPageSectionHeader Title="Multiple addons">
+        <Paragraph>
+            In this example, an Addon component is used to incorporate multiple labels alongside an input field, enhancing user experience by providing clear guidance and structure.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <MultipleAddonsExample />
@@ -58,6 +75,12 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Button addon">
+        <Paragraph>
+            In this example, we have an Addon component that features a simple button alongside an input field.
+        </Paragraph>
+        <Paragraph>
+            Imagine a scenario where users need to enter a numerical value into the input field, such as a quantity for a shopping cart. The Addon component integrates a button labeled "Add" next to the input field. When users enter a quantity and click the "Add" button, the desired item and its corresponding quantity are added to the shopping cart. This Addon design provides a user-friendly interface, allowing for seamless interaction with the input field and button.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <ButtonAddonExample />
@@ -67,6 +90,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Dropdown addon">
+        Consider a scenario where you have a search input field, and you want to give users the option to select a search category from a Dropdown button before executing the search. This Addon component combines the input field with the Dropdown button for a seamless user experience.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <DropdownAddonExample />
@@ -74,9 +98,28 @@
     <DocsPageSectionSource Code="DropdownAddonExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Addon with validation">
+        <Paragraph>
+            When incorporating input validation within an Addon component, the user interface may become disrupted. This issue arises due to the Addon's distinct HTML and CSS structure, which is designed to accommodate specific elements. Displaying validation error messages within an Addon is one such instance that can cause complications.
+        </Paragraph>
+        <Paragraph>
+            In the following example, we will demonstrate a solution to this issue, ensuring that the input validation process within an Addon component functions smoothly without disrupting the user interface. This example will provide a better understanding of how to effectively handle validation errors inside of an Addon.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AddonWithValidationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AddonWithValidationExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes Title="Addons">
     <DocsAttributesItem Name="Size" Type="Size" Default="Default">

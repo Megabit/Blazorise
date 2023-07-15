@@ -89,11 +89,43 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/chart-live", "Chart Streaming", "Chart plugin for live streaming data." ),
                 new PageEntry( "docs/extensions/chart-trendline", "Chart Trendline", "This plugin draws an linear trendline in your Chart." ),
                 new PageEntry( "docs/extensions/datagrid/aggregates", "DataGrid Aggregates" ),
-                new PageEntry( "docs/extensions/datagrid/binding-data", "DataGrid Binding Data" ),
-                new PageEntry( "docs/extensions/datagrid/binding-data", "DataGrid Features" ),
+
                 new PageEntry( "docs/extensions/datagrid/getting-started", "DataGrid", "The DataGrid component is used for displaying tabular data. Features include sorting, searching, pagination, content-editing, and row selection." ),
+
+                new PageEntry( "docs/extensions/datagrid/binding-data", "DataGrid Binding Data" ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/in-memory", "DataGrid Binding Data : In Memory", "The DataGrid can bind to your data in memory, allowing for quick and efficient display of your data sets." ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/large-data", "DataGrid Binding Data : Large Data", "The DataGrid Read Data feature allows you to handle Large Data by providing you with a centralized ReadData Method that allows you to query your data by pages." ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/virtualize", "DataGrid Binding Data : Virtualize", "Optimize performance for large data sets with the Blazorise DataGrid's virtualization feature. By only rendering the data currently visible on the screen, virtualization reduces the amount of DOM elements, resulting in improved performance and load times." ),
+                new PageEntry( "docs/extensions/datagrid/binding-data/observable", "DataGrid Binding Data : Observable Data", "The DataGrid can bind observable data, so whenever the underlying collection is changed the DataGrid is automatically updated." ),
+
+                new PageEntry( "docs/extensions/datagrid/columns", "DataGrid Columns", "Learn to use and work with the Blazorise DataGrid Columns to customize and configure the columns in a data grid. Explore various column types, such as text, numeric, date, and boolean, to display and manipulate data effectively. Utilize column-specific features like sorting, filtering, and formatting to enhance the presentation and functionality of your data grid. Gain expertise in creating custom columns to meet specific requirements and provide tailored data visualization options." ),
+
+                new PageEntry( "docs/extensions/datagrid/features", "DataGrid Features" ),
+                new PageEntry( "docs/extensions/datagrid/features/context-menu", "DataGrid Context Menu", "Right-click on any row to access options such as editing, deleting, and custom actions." ),
+                new PageEntry( "docs/extensions/datagrid/features/editing", "DataGrid Editing", "The DataGrid can perform some basic CRUD operations on the supplied Data collection." ),
+                new PageEntry( "docs/extensions/datagrid/features/filtering", "DataGrid Filtering", "Quickly search and filter by any column, or customize filter options to fit your needs." ),
+                new PageEntry( "docs/extensions/datagrid/features/fixed-header", "DataGrid Fixed Header", "The table header remains visible as you scroll, making it easy to identify and reference the data in your grid." ),
+                new PageEntry( "docs/extensions/datagrid/features/grouping", "DataGrid Grouping", "Grouping feature for Blazorise DataGrid allows you to easily group and organize your data by specific columns." ),
+                new PageEntry( "docs/extensions/datagrid/features/paging", "DataGrid Paging", "Paginate your data with customizable page size options and intuitive navigation controls." ),
+                new PageEntry( "docs/extensions/datagrid/features/resizing", "DataGrid Resizing", "Easily adjust the size of your columns with the Blazorise DataGrid's resizing feature. Drag and drop column edges to resize, or use customized options to fit your needs." ),
+                new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Sorting", "Blazorise DataGrid offers efficient data sorting with customizable options." ),
+                new PageEntry( "docs/extensions/datagrid/features/header-group", "DataGrid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),
+
+
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
+                new PageEntry( "docs/extensions/datagrid/selection/single", "DataGrid Single Selection", "Easily select and manage a single row of data with the Blazorise DataGrid's single selection feature. Select a row by clicking on it or programmatically, and access the selected data for further use." ),
+                new PageEntry( "docs/extensions/datagrid/selection/multiple", "DataGrid Multiple Selection", "Select and manage multiple rows of data with ease using the Blazorise DataGrid's multiple selection feature. Select rows by clicking on them or programmatically, and access the selected data for further use." ),
+                new PageEntry( "docs/extensions/datagrid/selection/custom-row-colors", "DataGrid Custom Row Colors", "Easily color code your data with the Blazorise DataGrid's custom row color feature." ),
+
                 new PageEntry( "docs/extensions/datagrid/templates", "DataGrid Templates" ),
+                new PageEntry( "docs/extensions/datagrid/templates/button-row", "DataGrid Templates : Button Row", "Easily customize the action buttons shown with the Blazorise DataGrid's button row template feature." ),
+                new PageEntry( "docs/extensions/datagrid/templates/commands", "DataGrid Templates : Commands", "Customize your action commands with the Blazorise DataGrid's commands template feature. Assign custom templates to the command column, such as editing and deleting, or add your own custom actions." ),
+                new PageEntry( "docs/extensions/datagrid/templates/detail-row", "DataGrid Templates : Detail Row", "Easily expand and display additional information for each row using the Blazorise DataGrid's detail row template feature." ),
+                new PageEntry( "docs/extensions/datagrid/templates/display", "DataGrid Templates : Display", "Customize how your data is displayed in each cell using the Blazorise DataGrid's display template feature. Assign custom templates to individual columns, allowing for more control over how your data is displayed. " ),
+                new PageEntry( "docs/extensions/datagrid/templates/edit", "DataGrid Templates : Edit", "Assign custom edit templates to individual columns, allowing for more control over how data is edited." ),
+                new PageEntry( "docs/extensions/datagrid/templates/loading", "DataGrid Templates : Loading", "Customize the loading look of the Blazorise DataGrid with the loading template feature." ),
+                new PageEntry( "docs/extensions/datagrid/templates/row-overlay", "DataGrid Templates : Row Overlay", "When enabled, the Row Overlay feature allows you to display supplementary data or contextual information directly on top of specific rows within the DataGrid." ),
+
                 new PageEntry( "docs/extensions/datagrid/validations", "DataGrid Validations" ),
                 new PageEntry( "docs/extensions/dropdownlist", "DropdownList", "The DropdownList component allows you to select a value from a list of predefined items." ),
                 new PageEntry( "docs/extensions/icons", "Icons", "Icons are symbols that can be used to represent various options within an application." ),
@@ -147,7 +179,7 @@ public class PageEntryData
             new PageEntry( "docs/services/notification-provider", "Notification Provider", "Notification service is used to provide feedback to the user." ),
             new PageEntry( "docs/services/page-progress-provider", "Page Progress Provider", "Page Progress service is used to provide a page loading indicator to the user." ),
             new PageEntry( "docs/faq", "FAQ" ),
-            new PageEntry( "https://commercial.blazorise.com/license", "License" ),
+            new PageEntry( "commercial/license", "License" ),
         }.ToArray() );
     }
 }

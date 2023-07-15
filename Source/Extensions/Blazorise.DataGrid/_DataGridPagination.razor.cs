@@ -103,7 +103,9 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
                 NextPageButtonTemplate = NextPageButtonTemplate,
                 ItemsPerPageTemplate = ItemsPerPageTemplate,
                 TotalItemsShortTemplate = TotalItemsShortTemplate,
-                TotalItemsTemplate = TotalItemsTemplate
+                TotalItemsTemplate = TotalItemsTemplate,
+                PageSelectorTemplate = PageSelectorTemplate,
+                PageSizesTemplate = PageSizesTemplate
             };
         }
         set
@@ -116,6 +118,8 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
             ItemsPerPageTemplate = value.ItemsPerPageTemplate;
             TotalItemsShortTemplate = value.TotalItemsShortTemplate;
             TotalItemsTemplate = value.TotalItemsTemplate;
+            PageSelectorTemplate = value.PageSelectorTemplate;
+            PageSizesTemplate = value.PageSizesTemplate;
         }
     }
 
@@ -153,6 +157,16 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     /// Gets or sets content of items per page of grid.
     /// </summary>
     [Parameter] public RenderFragment ItemsPerPageTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets content of the page selector. The selector is only displayed under the tablets breakpoint. You will have to construct it using the provided pagination context.
+    /// </summary>
+    [Parameter] public RenderFragment<PaginationContext<TItem>> PageSelectorTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets content of the page sizes selector. You will have to construct it using the provided pagination context.
+    /// </summary>
+    [Parameter] public RenderFragment<PaginationContext<TItem>> PageSizesTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets content of total items grid for small devices.

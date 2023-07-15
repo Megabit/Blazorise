@@ -141,6 +141,7 @@ class MaterialIconProvider : BaseIconProvider
         { IconName.Gift, "card_giftcard" },
         { IconName.Grin, "face" },
         { IconName.GripLines, "drag_handle" },
+        { IconName.GripVertical, MaterialIcons.DragIndicator },
         { IconName.HandPaper, "pan_tool" },
         { IconName.HandsHelping, "live_help" },
         { IconName.Headphones, "headset" },

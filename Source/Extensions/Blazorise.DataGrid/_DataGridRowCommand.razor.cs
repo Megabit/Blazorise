@@ -10,6 +10,10 @@ namespace Blazorise.DataGrid;
 
 public abstract class _BaseDataGridRowCommand<TItem> : ComponentBase, IDisposable
 {
+    protected static readonly IFluentFlex DefaultFlex = Flex.InlineFlex;
+
+    protected static readonly IFluentGap DefaultGap = Gap.Is2;
+
     public override Task SetParametersAsync( ParameterView parameters )
     {
         foreach ( var parameter in parameters )

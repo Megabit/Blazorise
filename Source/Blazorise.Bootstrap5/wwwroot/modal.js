@@ -1,8 +1,7 @@
-import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=1.1.5.0";
+import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=1.2.4.0";
 
 export function open(element, scrollToTop) {
-    // adjust modal and page padding BEFORE modal is shown
-    adjustDialog(element);
+    adjustDialogDimensionsBeforeShow(element);
 
     var modals = Number(document.body.getAttribute("data-modals") || "0");
 
@@ -41,7 +40,7 @@ export function close(element) {
     resetAdjustments(element);
 }
 
-export function adjustDialog(element) {
+export function adjustDialogDimensionsBeforeShow(element) {
     if (element) {
         const rect = document.body.getBoundingClientRect();
         const isBodyOverflowing = Math.round(rect.left + rect.right) < window.innerWidth;

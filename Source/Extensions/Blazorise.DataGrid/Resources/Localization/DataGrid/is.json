@@ -16,6 +16,7 @@
     "{0} - {1} of {2} items": "{0} - {1} af {2}",
     "Row Edit": "Breyta röð",
     "Row Create": "Ný röð",
-    "Create": "Búa til"
+    "Create": "Búa til",
+    "Drag a column header here to group by that column": "Dragðu dálkhaus hingað til að flokka eftir þeim dálki"
   }
 }

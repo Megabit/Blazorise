@@ -9,8 +9,13 @@
                 <CardTitle>Icons</CardTitle>
             </CardHeader>
             <CardBody>
+                <Field>
+                    <TextEdit @bind-Text="@search" Placeholder="Search by name..." />
+                </Field>
+            </CardBody>
+            <CardBody>
                 <Div Flex="Flex.Row.Wrap.JustifyContent.Start.AlignItems.Start">
-                    @foreach ( var icon in Enum.GetValues<IconName>() )
+                    @foreach ( var icon in IconNames.Where( x => x.ToString().Contains( search ?? "", StringComparison.OrdinalIgnoreCase ) ) )
                     {
                         <Tooltip Text="@IconProvider.GetIconName(icon, IconStyle.Regular)">
                             <Div Flex="Flex.Column.JustifyContent.Center" Class="b-example-blazorise-icon">
@@ -56,3 +61,8 @@
         </Card>
     </Column>
 </Row>
+@code {
+    string search;
+
+    IEnumerable<IconName> IconNames = Enum.GetValues<IconName>();
+}

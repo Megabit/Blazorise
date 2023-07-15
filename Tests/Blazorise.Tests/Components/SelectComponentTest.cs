@@ -1,4 +1,6 @@
-﻿using BasicTestApp.Client;
+﻿using System.Threading.Tasks;
+using BasicTestApp.Client;
+using Blazorise.Tests.Extensions;
 using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
@@ -14,7 +16,7 @@ public class SelectComponentTest : TestContext
     }
 
     [Fact]
-    public void CanSelectString_InitiallyBlank()
+    public async Task CanSelectString_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -26,23 +28,23 @@ public class SelectComponentTest : TestContext
         Assert.Equal( string.Empty, result.InnerHtml );
 
         // test 1
-        select.Change( "Oliver" );
+        await select.ChangeAsync( "Oliver" );
         Assert.Equal( "Oliver", select.GetAttribute( "value" ) );
         Assert.Equal( "Oliver", result.InnerHtml );
 
         // test 2
-        select.Change( "Harry" );
+        await select.ChangeAsync( "Harry" );
         Assert.Equal( "Harry", select.GetAttribute( "value" ) );
         Assert.Equal( "Harry", result.InnerHtml );
 
         // test 3
-        select.Change( string.Empty );
+        await select.ChangeAsync( string.Empty );
         Assert.Equal( string.Empty, select.GetAttribute( "value" ) );
         Assert.Equal( string.Empty, result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectString_InitiallySelected()
+    public async Task CanSelectString_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -54,18 +56,18 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "Oliver", result.InnerHtml );
 
         // test 1
-        select.Change( string.Empty );
+        await select.ChangeAsync( string.Empty );
         Assert.Equal( string.Empty, select.GetAttribute( "value" ) );
         Assert.Equal( string.Empty, result.InnerHtml );
 
         // test 2
-        select.Change( "Harry" );
+        await select.ChangeAsync( "Harry" );
         Assert.Equal( "Harry", select.GetAttribute( "value" ) );
         Assert.Equal( "Harry", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectInt_InitiallyBlank()
+    public async Task CanSelectInt_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -77,23 +79,23 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "0", result.InnerHtml );
 
         // test 1
-        select.Change( "1" );
+        await select.ChangeAsync( "1" );
         Assert.Equal( "1", select.GetAttribute( "value" ) );
         Assert.Equal( "1", result.InnerHtml );
 
         // test 2
-        select.Change( "2" );
+        await select.ChangeAsync( "2" );
         Assert.Equal( "2", select.GetAttribute( "value" ) );
         Assert.Equal( "2", result.InnerHtml );
 
         // test 3
-        select.Change( "0" );
+        await select.ChangeAsync( "0" );
         Assert.Equal( "0", select.GetAttribute( "value" ) );
         Assert.Equal( "0", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectInt_InitiallySelected()
+    public async Task CanSelectInt_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -105,18 +107,18 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "1", result.InnerHtml );
 
         // test 1
-        select.Change( "2" );
+        await select.ChangeAsync( "2" );
         Assert.Equal( "2", select.GetAttribute( "value" ) );
         Assert.Equal( "2", result.InnerHtml );
 
         // test 2
-        select.Change( "0" );
+        await select.ChangeAsync( "0" );
         Assert.Equal( "0", select.GetAttribute( "value" ) );
         Assert.Equal( "0", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectNullableInt_InitiallyBlank()
+    public async Task CanSelectNullableInt_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -128,23 +130,23 @@ public class SelectComponentTest : TestContext
         Assert.Equal( string.Empty, result.InnerHtml );
 
         // test 1
-        select.Change( "1" );
+        await select.ChangeAsync( "1" );
         Assert.Equal( "1", select.GetAttribute( "value" ) );
         Assert.Equal( "1", result.InnerHtml );
 
         // test 2
-        select.Change( "2" );
+        await select.ChangeAsync( "2" );
         Assert.Equal( "2", select.GetAttribute( "value" ) );
         Assert.Equal( "2", result.InnerHtml );
 
         // test 3
-        select.Change( "0" );
+        await select.ChangeAsync( "0" );
         Assert.Equal( "0", select.GetAttribute( "value" ) );
         Assert.Equal( "0", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectNullableInt_InitiallySelected()
+    public async Task CanSelectNullableInt_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -156,18 +158,18 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "1", result.InnerHtml );
 
         // test 1
-        select.Change( "2" );
+        await select.ChangeAsync( "2" );
         Assert.Equal( "2", select.GetAttribute( "value" ) );
         Assert.Equal( "2", result.InnerHtml );
 
         // test 2
-        select.Change( "3" );
+        await select.ChangeAsync( "3" );
         Assert.Equal( "3", select.GetAttribute( "value" ) );
         Assert.Equal( "3", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectGuid_InitiallyBlank()
+    public async Task CanSelectGuid_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -179,23 +181,23 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "00000000-0000-0000-0000-000000000000", result.InnerHtml );
 
         // test 1
-        select.Change( "413a7c18-b190-4f58-a967-338cd1566e97" );
+        await select.ChangeAsync( "413a7c18-b190-4f58-a967-338cd1566e97" );
         Assert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", select.GetAttribute( "value" ) );
         Assert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", result.InnerHtml );
 
         // test 2
-        select.Change( "00cd0391-5e22-4729-855a-fec86267722c" );
+        await select.ChangeAsync( "00cd0391-5e22-4729-855a-fec86267722c" );
         Assert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", select.GetAttribute( "value" ) );
         Assert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", result.InnerHtml );
 
         // test 3
-        select.Change( "00000000-0000-0000-0000-000000000000" );
+        await select.ChangeAsync( "00000000-0000-0000-0000-000000000000" );
         Assert.Equal( "00000000-0000-0000-0000-000000000000", select.GetAttribute( "value" ) );
         Assert.Equal( "00000000-0000-0000-0000-000000000000", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectGuid_InitiallySelected()
+    public async Task CanSelectGuid_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -207,18 +209,18 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", result.InnerHtml );
 
         // test 2
-        select.Change( "00cd0391-5e22-4729-855a-fec86267722c" );
+        await select.ChangeAsync( "00cd0391-5e22-4729-855a-fec86267722c" );
         Assert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", select.GetAttribute( "value" ) );
         Assert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", result.InnerHtml );
 
         // test 3
-        select.Change( "00000000-0000-0000-0000-000000000000" );
+        await select.ChangeAsync( "00000000-0000-0000-0000-000000000000" );
         Assert.Equal( "00000000-0000-0000-0000-000000000000", select.GetAttribute( "value" ) );
         Assert.Equal( "00000000-0000-0000-0000-000000000000", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectNullableGuid_InitiallyBlank()
+    public async Task CanSelectNullableGuid_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -230,23 +232,23 @@ public class SelectComponentTest : TestContext
         Assert.Equal( string.Empty, result.InnerHtml );
 
         // test 1
-        select.Change( "413a7c18-b190-4f58-a967-338cd1566e97" );
+        await select.ChangeAsync( "413a7c18-b190-4f58-a967-338cd1566e97" );
         Assert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", select.GetAttribute( "value" ) );
         Assert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", result.InnerHtml );
 
         // test 2
-        select.Change( "00cd0391-5e22-4729-855a-fec86267722c" );
+        await select.ChangeAsync( "00cd0391-5e22-4729-855a-fec86267722c" );
         Assert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", select.GetAttribute( "value" ) );
         Assert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", result.InnerHtml );
 
         // test 3
-        select.Change( null );
+        await select.ChangeAsync( (string)null );
         Assert.Equal( string.Empty, select.GetAttribute( "value" ) );
         Assert.Equal( string.Empty, result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectNullableGuid_InitiallySelected()
+    public async Task CanSelectNullableGuid_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -258,23 +260,23 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "413a7c18-b190-4f58-a967-338cd1566e97", result.InnerHtml );
 
         // test 1
-        select.Change( "00cd0391-5e22-4729-855a-fec86267722c" );
+        await select.ChangeAsync( "00cd0391-5e22-4729-855a-fec86267722c" );
         Assert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", select.GetAttribute( "value" ) );
         Assert.Equal( "00cd0391-5e22-4729-855a-fec86267722c", result.InnerHtml );
 
         // test 2
-        select.Change( "bca8ef46-abb7-4aec-b700-90b2b730a382" );
+        await select.ChangeAsync( "bca8ef46-abb7-4aec-b700-90b2b730a382" );
         Assert.Equal( "bca8ef46-abb7-4aec-b700-90b2b730a382", select.GetAttribute( "value" ) );
         Assert.Equal( "bca8ef46-abb7-4aec-b700-90b2b730a382", result.InnerHtml );
 
         // test 3
-        select.Change( null );
+        await select.ChangeAsync( (string)null );
         Assert.Equal( string.Empty, select.GetAttribute( "value" ) );
         Assert.Equal( string.Empty, result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectBool_InitiallyBlank()
+    public async Task CanSelectBool_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -286,18 +288,18 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "False", result.InnerHtml );
 
         // test 1
-        select.Change( "False" );
+        await select.ChangeAsync( "False" );
         Assert.Equal( "False", select.GetAttribute( "value" ) );
         Assert.Equal( "False", result.InnerHtml );
 
         // test 2
-        select.Change( "True" );
+        await select.ChangeAsync( "True" );
         Assert.Equal( "True", select.GetAttribute( "value" ) );
         Assert.Equal( "True", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectBool_InitiallySelected()
+    public async Task CanSelectBool_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -309,18 +311,18 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "True", result.InnerHtml );
 
         // test 1
-        select.Change( "False" );
+        await select.ChangeAsync( "False" );
         Assert.Equal( "False", select.GetAttribute( "value" ) );
         Assert.Equal( "False", result.InnerHtml );
 
         // test 2
-        select.Change( "True" );
+        await select.ChangeAsync( "True" );
         Assert.Equal( "True", select.GetAttribute( "value" ) );
         Assert.Equal( "True", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectNullableBool_InitiallyBlank()
+    public async Task CanSelectNullableBool_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -332,18 +334,18 @@ public class SelectComponentTest : TestContext
         Assert.Equal( string.Empty, result.InnerHtml );
 
         // test 1
-        select.Change( "True" );
+        await select.ChangeAsync( "True" );
         Assert.Equal( "True", select.GetAttribute( "value" ) );
         Assert.Equal( "True", result.InnerHtml );
 
         // test 2
-        select.Change( "False" );
+        await select.ChangeAsync( "False" );
         Assert.Equal( "False", select.GetAttribute( "value" ) );
         Assert.Equal( "False", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectNullableBool_InitiallySelected()
+    public async Task CanSelectNullableBool_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -355,18 +357,18 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "True", result.InnerHtml );
 
         // test 1
-        select.Change( "False" );
+        await select.ChangeAsync( "False" );
         Assert.Equal( "False", select.GetAttribute( "value" ) );
         Assert.Equal( "False", result.InnerHtml );
 
         // test 2
-        select.Change( "True" );
+        await select.ChangeAsync( "True" );
         Assert.Equal( "True", select.GetAttribute( "value" ) );
         Assert.Equal( "True", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectEnum_InitiallySelected()
+    public async Task CanSelectEnum_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -378,23 +380,23 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "Mon", result.InnerHtml );
 
         // test 1
-        select.Change( "Tue" );
+        await select.ChangeAsync( "Tue" );
         Assert.Equal( "Tue", select.GetAttribute( "value" ) );
         Assert.Equal( "Tue", result.InnerHtml );
 
         // test 2
-        select.Change( "Wen" );
+        await select.ChangeAsync( "Wen" );
         Assert.Equal( "Wen", select.GetAttribute( "value" ) );
         Assert.Equal( "Wen", result.InnerHtml );
 
         // test 2
-        select.Change( "Mon" );
+        await select.ChangeAsync( "Mon" );
         Assert.Equal( "Mon", select.GetAttribute( "value" ) );
         Assert.Equal( "Mon", result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectNullableEnum_InitiallyBlank()
+    public async Task CanSelectNullableEnum_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -406,23 +408,23 @@ public class SelectComponentTest : TestContext
         Assert.Equal( string.Empty, result.InnerHtml );
 
         // test 1
-        select.Change( "Mon" );
+        await select.ChangeAsync( "Mon" );
         Assert.Equal( "Mon", select.GetAttribute( "value" ) );
         Assert.Equal( "Mon", result.InnerHtml );
 
         // test 2
-        select.Change( "Fri" );
+        await select.ChangeAsync( "Fri" );
         Assert.Equal( "Fri", select.GetAttribute( "value" ) );
         Assert.Equal( "Fri", result.InnerHtml );
 
         // test 3
-        select.Change( null );
+        await select.ChangeAsync( (string)null );
         Assert.Equal( string.Empty, select.GetAttribute( "value" ) );
         Assert.Equal( string.Empty, result.InnerHtml );
     }
 
     [Fact]
-    public void CanSelectNullableEnum_InitiallySelected()
+    public async Task CanSelectNullableEnum_InitiallySelected()
     {
         // setup
         var comp = RenderComponent<SelectComponent>();
@@ -434,17 +436,17 @@ public class SelectComponentTest : TestContext
         Assert.Equal( "Wen", result.InnerHtml );
 
         // test 1
-        select.Change( "Mon" );
+        await select.ChangeAsync( "Mon" );
         Assert.Equal( "Mon", select.GetAttribute( "value" ) );
         Assert.Equal( "Mon", result.InnerHtml );
 
         // test 2
-        select.Change( null );
+        await select.ChangeAsync( (string)null );
         Assert.Equal( string.Empty, select.GetAttribute( "value" ) );
         Assert.Equal( string.Empty, result.InnerHtml );
 
         // test 3
-        select.Change( "Fri" );
+        await select.ChangeAsync( "Fri" );
         Assert.Equal( "Fri", select.GetAttribute( "value" ) );
         Assert.Equal( "Fri", result.InnerHtml );
     }

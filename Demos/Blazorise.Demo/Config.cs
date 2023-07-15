@@ -10,11 +10,12 @@ namespace Blazorise.Demo;
 
 public static class Config
 {
-    public static IServiceCollection SetupDemoServices( this IServiceCollection services )
+    public static IServiceCollection SetupDemoServices( this IServiceCollection services, string licenseKey )
     {
         services
             .AddBlazorise( options =>
             {
+                options.ProductToken = licenseKey;
                 options.Immediate = true;
             } )
             .AddBlazoriseRichTextEdit( options =>

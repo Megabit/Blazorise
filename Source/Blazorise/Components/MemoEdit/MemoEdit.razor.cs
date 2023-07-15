@@ -46,6 +46,22 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
             } ) );
         }
 
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && !paramText.IsEqual( Text ) )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    await Revalidate();
+
+                    if ( AutoSize )
+                    {
+                        await JSModule.RecalculateAutoHeight( ElementRef, ElementId );
+                    }
+                } );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation != null )
@@ -113,7 +129,7 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.MemoEdit( Plaintext ) );
-        builder.Append( ClassProvider.MemoEditSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.MemoEditSize( ThemeSize ) );
         builder.Append( ClassProvider.MemoEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );

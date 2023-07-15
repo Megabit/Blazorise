@@ -2,6 +2,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -25,6 +26,21 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<TValue>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( Checked ) )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    await Revalidate();
+
+                    // Some providers may require that we define classname based on a switch state so we need to reset classes.
+                    DirtyClasses();
+                    await InvokeAsync( StateHasChanged );
+                } );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation != null )

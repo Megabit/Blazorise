@@ -10,23 +10,34 @@
     Loop a series of images or texts in a limited space.
 </DocsPageLead>
 
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
 <DocsPageParagraph>
-    The <Code>Carousel</Code> component is used to display large numbers of visual content on a rotating timer. It also includes support for previous/next controls and indicators.
+    The <Code>Carousel</Code> component in Blazorise is a versatile and dynamic user interface element that facilitates the display of sequential content. This could include images, text, or any other HTML elements arranged in individual <Code>CarouselSlide</Code> components. The Carousel seamlessly transitions from one slide to another, either through user interaction or automatically over time, providing an interactive and engaging method of content presentation. It's highly customizable, fitting various use cases from image galleries to text-based slideshows, making it a valuable component in any modern web application.
 </DocsPageParagraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Code Tag>Carousel</Code> main container
-        <UnorderedList>
-            <UnorderedListItem>
-                <Code Tag>CarouselSlide</Code> wrapper for slide content
-            </UnorderedListItem>
-        </UnorderedList>
-    </UnorderedListItem>
-</UnorderedList>
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Code Tag>Carousel</Code> main container
+            <UnorderedList>
+                <UnorderedListItem>
+                    <Code Tag>CarouselSlide</Code> wrapper for slide content
+                </UnorderedListItem>
+            </UnorderedList>
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Basic Example">
+    <DocsPageSectionHeader Title="Basic">
+        A basic example of a Blazorise <Code>Carousel</Code> component includes multiple <Code>CarouselSlide</Code> components, each containing individual content. This Carousel displays one slide at a time, allowing users to navigate between the slides manually or automatically. Despite its simplicity, CarouselSlide components can house a variety of content, such as images, videos, or complex HTML structures.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
         <CarouselExample />
@@ -35,8 +46,24 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Attributes
+    Best Practices
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Uniform Sizes
+</Heading>
+
+<DocsPageParagraph>
+    For optimal Carousel functionality in Blazorise, maintain uniform dimensions across all slides. Inconsistent sizes can cause disruptive resizing during transitions. This can be prevented by defining consistent widths and heights through additional CSS styles. Uniform slide dimensions provide a smoother user experience and a more visually appealing Carousel component.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="Autoplay" Type="bool" Default="true">

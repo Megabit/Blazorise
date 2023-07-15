@@ -1,0 +1,32 @@
+﻿@page "/docs/extensions/datagrid/features"
+
+<Seo Canonical="/docs/extensions/datagrid/features" Title="Blazorise DataGrid Features" Description="Learn to use and work with the Blazorise Blazorise DataGrid features, ranging from paginations, sorting, editing, filtering, resizing, and many more." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Features">
+    Blazorise DataGrid Features
+</DocsPageTitle>
+
+<DocsPageLead>
+    Learn to use and work with the Blazorise Blazorise DataGrid features, ranging from paginations, sorting, editing, filtering, resizing, and many more.
+</DocsPageLead>
+
+<Row RowColumns="RowColumns.Are4.OnTablet.Are2.OnMobile">
+    @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/extensions/datagrid/features" ) && !string.IsNullOrEmpty( x.Description ) ) )
+    {
+        <Column Margin="Margin.Is3.FromBottom">
+            <DocsPageComponentInfo @key="@info" Name="@info.Name" Description="@info.Description" To="@info.Url" />
+        </Column>
+    }
+</Row>
+@code {
+    public IEnumerable<PageEntry> PageEntries;
+
+    [Inject] public PageEntryData PageEntriesData { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        PageEntries = await PageEntriesData.GetDataAsync();
+
+        await base.OnInitializedAsync();
+    }
+}

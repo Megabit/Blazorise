@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// A wrapper that represents a column in a flexbox grid.
 /// </summary>
-public partial class Column : BaseContainerComponent
+public partial class Column : BaseColumnComponent, IDisposable
 {
     #region Methods
 

@@ -452,5 +452,15 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter] public bool Directory { get; set; }
 
+    /// <summary>
+    /// Add the readonly boolean attribute on an input to prevent modification of the input’s value.
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// Add the disabled boolean attribute on an input to prevent user interactions and make it appear lighter.
+    /// </summary>
+    [Parameter] public bool Disabled { get; set; }
+
     #endregion
 }

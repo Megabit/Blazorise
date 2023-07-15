@@ -1,0 +1,9 @@
+{
+  "version": "1.0.0",
+  "name": "blazorise.bulma",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {
+    "bulma": "0.9.1"
+  }
+}

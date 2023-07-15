@@ -4,6 +4,7 @@ using Blazorise.AntDesign;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
@@ -16,7 +17,7 @@ public class Program
         var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
         builder.Services
-            .SetupDemoServices()
+            .SetupDemoServices( builder.Configuration["Licensing:ProductToken"] )
             .AddAntDesignProviders()
             .AddFontAwesomeIcons();
 

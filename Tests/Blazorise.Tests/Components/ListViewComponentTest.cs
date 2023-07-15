@@ -15,6 +15,7 @@ public class ListViewComponentTest : TestContext
     public ListViewComponentTest()
     {
         BlazoriseConfig.AddBootstrapProviders( Services );
+        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
     }
 
     [Fact]
@@ -25,7 +26,7 @@ public class ListViewComponentTest : TestContext
         var liClose = "</li>";
         var ulOpen = "<ul";
         var ulClose = "</ul>";
-        var listViewClass = "b-list-view";
+        var listViewClass = "list-group-scrollable";
 
         // test
         var comp = RenderComponent<ListViewComponent>();

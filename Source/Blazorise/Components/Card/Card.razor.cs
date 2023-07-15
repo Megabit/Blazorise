@@ -9,7 +9,7 @@ namespace Blazorise;
 /// A card is a flexible and extensible content container. It includes options for headers and footers,
 /// a wide variety of content, contextual background colors, and powerful display options.
 /// </summary>
-public partial class Card : BaseContainerComponent
+public partial class Card : BaseComponent
 {
     #region Members
 
@@ -51,6 +51,11 @@ public partial class Card : BaseContainerComponent
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="Card"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
     /// Gets or sets the reference to the parent deck component.

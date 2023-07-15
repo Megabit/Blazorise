@@ -1,0 +1,38 @@
+﻿@page "/docs/extensions/datagrid/binding-data/virtualize"
+
+<Seo Canonical="/docs/extensions/datagrid/binding-data/virtualize" Title="Blazorise DataGrid Virtualize" Description="Optimize performance for large data sets with the Blazorise DataGrid's virtualization feature. By only rendering the data currently visible on the screen, virtualization reduces the amount of DOM elements, resulting in improved performance and load times." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Binding-Data/Virtualize">
+    Blazorise DataGrid: Virtualize
+</DocsPageTitle>
+
+
+<DocsPageLead>
+    The <Code>DataGrid</Code> Virtualize feature allows you to handle large data by limiting the data that's queried to what needs to be rendered in the UI.
+</DocsPageLead>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Virtualization">
+        By setting <Code>Virtualize</Code>, you will enable virtualize capabilities on the <Code>DataGrid</Code>, meaning that instead of having pagination, you’ll be able to scroll across the data with perceived improved performance.
+
+        Virtualization is a technique for limiting UI rendering to just the parts that are currently visible. For example, virtualization is helpful when the app must render a long list of items and only a subset of items is required to be visible at any given time.
+
+        You will still have access to every available <Code>DataGrid</Code> feature. <Code>VirtualizeOptions</Code> allows to further customize the <Code>Virtualize</Code> feature.
+        <Alert Margin="Margin.Is4.FromTop" Color="Color.Info" Visible>
+            <AlertDescription>
+                Note that this mode requires that all rows have the same height.
+            </AlertDescription>
+        </Alert>
+
+        <Alert Margin="Margin.Is4.FromTop" Color="Color.Info" Visible>
+            <AlertDescription>
+                Note that there is a known bug in .NET5 where Virtualize throws a <Code>TaskCanceledException</Code> on the background, this does not seem to crash your application.
+                <Blazorise.Link To="https://github.com/dotnet/aspnetcore/issues/28280">TaskCanceledException when scrolling Virtualized component #28280</Blazorise.Link>
+            </AlertDescription>
+        </Alert>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridVirtualizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridVirtualizeExample" />
+</DocsPageSection>

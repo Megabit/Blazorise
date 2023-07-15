@@ -16,6 +16,7 @@
     "{0} - {1} of {2} items": "{0} - {1} arası, {2} kayıt",
     "Row Edit": "Satır Düzenle",
     "Row Create": "Satır Oluştur",
-    "Create": "Oluştur"
+    "Create": "Oluştur",
+    "Drag a column header here to group by that column": "Bu sütuna göre gruplamak için bir sütun başlığını buraya sürükleyin"
   }
 }

@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -12,12 +13,19 @@ namespace Blazorise;
 /// </summary>
 public partial class TableHeaderCell : BaseDraggableComponent
 {
+    #region Members
+
+    private Cursor cursor;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TableHeaderCell() );
+        builder.Append( ClassProvider.TableHeaderCellCursor( Cursor ) );
 
         base.BuildClasses( builder );
     }
@@ -45,6 +53,24 @@ public partial class TableHeaderCell : BaseDraggableComponent
     /// Number of columns a cell should span.
     /// </summary>
     [Parameter] public int? ColumnSpan { get; set; }
+
+    /// <summary>
+    /// Defines the mouse cursor based on the behaviour by the current css framework.
+    /// </summary>
+    [Parameter]
+    public Cursor Cursor
+    {
+        get => cursor;
+        set
+        {
+            if ( cursor == value )
+                return;
+
+            cursor = value;
+
+            DirtyClasses();
+        }
+    }
 
     /// <summary>
     /// Occurs when the header cell is clicked.

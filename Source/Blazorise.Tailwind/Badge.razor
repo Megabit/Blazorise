@@ -1,0 +1,23 @@
+﻿@inherits Blazorise.Badge
+<CascadingValue Value="@this" IsFixed>
+    @if ( Link != null )
+    {
+        <a id="@ElementId" href="@Link" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+            @if ( Closable )
+            {
+                <Blazorise.CloseButton tabindex="0" Clicked="@OnCloseClickedHandler" @onclick:preventDefault @onkeydown="@OnCloseKeyDownHandler" />
+            }
+        </a>
+    }
+    else
+    {
+        <span id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+            @if ( Closable )
+            {
+                <Blazorise.CloseButton tabindex="0" Clicked="@OnCloseClickedHandler" @onclick:preventDefault @onkeydown="@OnCloseKeyDownHandler" />
+            }
+        </span>
+    }
+</CascadingValue>

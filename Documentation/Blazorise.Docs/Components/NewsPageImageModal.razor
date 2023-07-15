@@ -1,0 +1,29 @@
+﻿<Paragraph>
+    <Image Source="@ImageSource" Text="@ImageTitle" @onclick="@OnModalOpenClick" Width="Width.Is50" Margin="Margin.Is3.FromTop.Is4.FromBottom" Shadow="@(ShowShadow ? Shadow.Default : Shadow.None)" />
+</Paragraph>
+<Modal @ref="@modalRef">
+    <ModalContent Size="ModalSize.ExtraLarge">
+        <ModalBody>
+            <Image Source="@ImageSource" Text="@ImageTitle" @onclick="@OnModalCloseClick" Width="Width.Is100" />
+        </ModalBody>
+    </ModalContent>
+</Modal>
+@code {
+    Modal modalRef;
+
+    Task OnModalOpenClick()
+    {
+        return modalRef.Show();
+    }
+
+    Task OnModalCloseClick()
+    {
+        return modalRef.Hide();
+    }
+
+    [Parameter] public string ImageSource { get; set; }
+
+    [Parameter] public string ImageTitle { get; set; }
+
+    [Parameter] public bool ShowShadow { get; set; } = true;
+}

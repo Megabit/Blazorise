@@ -52,13 +52,33 @@
 </UnorderedList>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Card">
-        Simple card
+    <DocsPageSectionHeader Title="Default card">
+        Use the following simple card component with a title and description.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined>
         <CardExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="CardExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Card with button">
+        Use the following example of a card element if you also want to have an action button.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CardButtonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CardButtonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Card with image">
+        You can use the following example of a card element with an image for blog posts, user cards, and many more.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CardImageExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CardImageExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -71,9 +91,28 @@
     <DocsPageSectionSource Code="CardDeckExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Background color">
+        <Paragraph>
+            If you want to make the card standout you can set its background color.
+        </Paragraph>
+        <Paragraph>
+            Please note, depending on the used background color you might need to adjust the text color. This can be done by setting the <Code>WhiteText</Code> parameters.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <CardBackgroundExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="CardBackgroundExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes Title="Card">
     <DocsAttributesItem Name="Background" Type="Background" Default="Default">

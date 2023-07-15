@@ -1,22 +1,24 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Blazorise.DataGrid.Models;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Blazorise.Modules;
+using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
 #endregion
 
 namespace Blazorise.DataGrid;
 
 /// <summary>
-/// The DataGrid component llows you to display and manage data in a tabular (rows/columns) format.
+/// The DataGrid component allows you to display and manage data in a tabular (rows/columns) format.
 /// </summary>
 /// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
 [CascadingTypeParameter( nameof( TItem ) )]
@@ -35,19 +37,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     private Virtualize<TItem> virtualizeRef;
 
     /// <summary>
-    /// Gets or sets current selection mode.
-    /// </summary>
-    private DataGridSelectionMode selectionMode;
-
-    /// <summary>
     /// Element reference to the DataGrid's inner table.
     /// </summary>
     private Table tableRef;
-
-    /// <summary>
-    /// Original data-source.
-    /// </summary>
-    private IEnumerable<TItem> data;
 
     /// <summary>
     /// Optional aggregate data.
@@ -63,6 +55,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Holds the filtered data to display based on the current page.
     /// </summary>
     private IEnumerable<TItem> viewData;
+
+    /// <summary>
+    /// Holds the grouped data to display based on the current page.
+    /// </summary>
+    private List<GroupContext<TItem>> groupedData;
 
     /// <summary>
     /// Marks the grid to reload entire data source based on the current filter settings.
@@ -135,6 +132,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     protected internal int lastSelectedRowIndex;
 
+    /// <summary>
+    /// Gets the DataGrid columns that are currently marked for Grouping.
+    /// </summary>
+    /// <returns></returns>
+    protected List<DataGridColumn<TItem>> groupableColumns;
+
+    /// <summary>
+    /// Tracks the column currently being Dragged.
+    /// </summary>
+    internal DataGridColumn<TItem> columnBeingDragged;
+
     #endregion
 
     #region Constructors
@@ -185,15 +193,38 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Returns a list of all the columns that are currently associated with this datagrid.
+    /// </summary>
+    /// <returns>A read-only list of all columns</returns>
+    public IReadOnlyList<DataGridColumn<TItem>> GetColumns() => Columns.AsReadOnly();
+
+    /// <summary>
+    /// Returns a list of all columns currently used to sort this datagrid's data.
+    /// </summary>
+    /// <returns>A read-only list of all sort columns, or an empty list.</returns>
+    public IReadOnlyList<DataGridColumn<TItem>> GetSortByColumns() => SortByColumns.AsReadOnly();
+
+    /// <summary>
     /// Links the child column with this datagrid.
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
-    public void AddColumn( DataGridColumn<TItem> column )
+    public void AddColumn( DataGridColumn<TItem> column ) =>
+        AddColumn( column, false );
+
+    /// <summary>
+    /// Links the child column with this datagrid.
+    /// </summary>
+    /// <param name="column">Column to link with this datagrid.</param>
+    /// <param name="suppressSortChangedEvent">If <c>true</c> method will suppress the <see cref="SortChanged"/> event.</param>  
+    internal void AddColumn( DataGridColumn<TItem> column, bool suppressSortChangedEvent )
     {
         Columns.Add( column );
 
+        if ( column.Grouping )
+            AddGroupColumn( column );
+
         if ( column.CurrentSortDirection != SortDirection.Default )
-            HandleSortColumn( column, false );
+            HandleSortColumn( column, false, null, suppressSortChangedEvent );
 
         // save command column reference for later
         if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
@@ -224,7 +255,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
     public bool RemoveColumn( DataGridColumn<TItem> column )
-        => Columns.Remove( column );
+    {
+        var removed = Columns.Remove( column );
+
+        if ( column.SortDirection != SortDirection.Default )
+        {
+            SortByColumns.Remove( column );
+
+            _ = InvokeAsync( async () => await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, SortDirection.Default ) ) );
+        }
+
+        return removed;
+    }
 
     /// <summary>
     /// Links the child row with this datagrid.
@@ -242,6 +284,38 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         Aggregates.Add( aggregate );
     }
 
+    /// <summary>
+    /// Adds a new column to grouping.
+    /// </summary>
+    /// <param name="column">Column to be grouped by.</param>
+    public void AddGroupColumn( DataGridColumn<TItem> column )
+    {
+        if ( column.Groupable )
+        {
+            groupableColumns ??= new();
+
+            if ( !groupableColumns.Contains( column ) )
+            {
+                groupableColumns.Add( column );
+
+                SetDirty();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Removes a column from grouping.
+    /// </summary>
+    /// <param name="column">Column that is used for grouping.</param>
+    public void RemoveGroupColumn( DataGridColumn<TItem> column )
+    {
+        if ( column.Groupable )
+        {
+            if ( groupableColumns.Remove( column ) )
+                SetDirty();
+        }
+    }
+
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         await CheckMultipleSelectionSetEmpty( parameters );
@@ -252,7 +326,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( parameters.TryGetValue<DataGridSelectionMode>( nameof( SelectionMode ), out var paramSelectionMode ) && SelectionMode != paramSelectionMode )
             ExecuteAfterRender( HandleSelectionModeChanged );
 
+        if ( Data is INotifyCollectionChanged observableCollectionBeforeParamSet )
+            observableCollectionBeforeParamSet.CollectionChanged -= OnCollectionChanged;
+
         await base.SetParametersAsync( parameters );
+
+        if ( Data is INotifyCollectionChanged observableCollectionAfterParamSet )
+            observableCollectionAfterParamSet.CollectionChanged += OnCollectionChanged;
     }
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -285,6 +365,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( disposing )
         {
+            if ( Data is INotifyCollectionChanged observableCollection )
+            {
+                observableCollection.CollectionChanged -= OnCollectionChanged;
+            }
+
+
             if ( paginationContext is not null )
             {
                 paginationContext.UnsubscribeOnPageSizeChanged( OnPageSizeChanged );
@@ -386,9 +472,251 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
+    /// <summary>
+    /// Column Drag Started
+    /// </summary>
+    /// <param name="col"></param>
+    /// <returns></returns>
+    private Task OnColumnDragStarted( DataGridColumn<TItem> col )
+    {
+        columnBeingDragged = col;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Column Drag Ended
+    /// </summary>
+    /// <param name="e"></param>
+    /// <returns></returns>
+    private Task OnColumnDragEnded( DragEventArgs e )
+    {
+        columnBeingDragged = null;
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// If IsGroupable feature is active. Groups the data for Display.
+    /// </summary>
+    private void GroupDisplayData()
+    {
+        if ( !IsGroupEnabled )
+        {
+            groupedData = null;
+            return;
+        }
+
+
+        if ( GroupBy is null )
+        {
+            var firstGroupableColumn = groupableColumns.First();
+            var newGroupedData = DisplayData.GroupBy( x => firstGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                                                                             .Select( x => new GroupContext<TItem>( x, firstGroupableColumn.GroupTemplate ) )
+                                                                             .OrderBy( x => x.Key )
+                                                                             .ToList();
+            RecursiveGroup( 1, groupedData, newGroupedData );
+            groupedData = newGroupedData;
+
+        }
+        else
+        {
+            var newGroupedData = DisplayData.GroupBy( x => GroupBy.Invoke( x ) )
+                                     .Select( x => new GroupContext<TItem>( x ) )
+                                     .OrderBy( x => x.Key )
+                                     .ToList();
+            GroupSyncState( groupedData, newGroupedData );
+            groupedData = newGroupedData;
+        }
+        return;
+    }
+
+    /// <summary>
+    /// Syncs a new group state with the previous group state if the group key matches.
+    /// </summary>
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroupedData"></param>
+    private void GroupSyncState( List<GroupContext<TItem>> oldGroupedData, List<GroupContext<TItem>> newGroupedData )
+        => newGroupedData.ForEach( x => GroupSyncState( oldGroupedData, x ) );
+
+    /// <summary>
+    /// Syncs a new group state with the previous group state if the group key matches.
+    /// </summary>
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroup"></param>
+    /// <returns></returns>
+    private GroupContext<TItem> GroupSyncState( List<GroupContext<TItem>> oldGroupedData, GroupContext<TItem> newGroup )
+    {
+        var oldGroup = oldGroupedData?.FirstOrDefault( x => x.Key == newGroup.Key );
+        if ( oldGroup is not null )
+            newGroup.SetExpanded( oldGroup.Expanded );
+        return oldGroup;
+    }
+
+    /// <summary>
+    /// Recursively nests groups of data according to the configured group columns.
+    /// </summary>
+    /// <param name="iteration"></param>
+    /// <param name="oldGroupedData"></param>
+    /// <param name="newGroupedData"></param>
+    private void RecursiveGroup( int iteration, List<GroupContext<TItem>> oldGroupedData, List<GroupContext<TItem>> newGroupedData )
+    {
+        if ( newGroupedData.IsNullOrEmpty() )
+            return;
+
+        foreach ( var group in newGroupedData )
+        {
+            var oldGroup = GroupSyncState( oldGroupedData, group );
+
+            var nextGroupableColumn = groupableColumns?.ElementAtOrDefault( iteration );
+            if ( nextGroupableColumn is not null )
+            {
+                var nestedGroup = group.Items.GroupBy( x => nextGroupableColumn.GetGroupByFunc().Invoke( x ) )
+                                                                          .Select( x => new GroupContext<TItem>( x, nextGroupableColumn.GroupTemplate ) )
+                                                                          .OrderBy( x => x.Key )
+                                                                          .ToList();
+                group.SetNestedGroup( nestedGroup );
+
+                RecursiveGroup( iteration + 1, (List<GroupContext<TItem>>)oldGroup?.NestedGroup, nestedGroup );
+            }
+        }
+    }
+
+    /// <summary>
+    /// Recursively sets the grouped data and any nested grouped data Expanded property.
+    /// </summary>
+    /// <param name="groupedData"></param>
+    /// <param name="expanded"></param>
+    private void SetGroupExpanded( List<GroupContext<TItem>> groupedData, bool expanded )
+    {
+        foreach ( var group in groupedData )
+        {
+            group.SetExpanded( expanded );
+            if ( group.NestedGroup is not null )
+                SetGroupExpanded( (List<GroupContext<TItem>>)group.NestedGroup, expanded );
+        }
+    }
+
+    /// <summary>
+    /// Recursively sets the groups and any nested groups Expanded property that match the keys.
+    /// </summary>
+    /// <param name="groupedData"></param>
+    /// <param name="groupKeys"></param>
+    /// <param name="expanded"></param>
+    private void SetGroupByKeysExpanded( List<GroupContext<TItem>> groupedData, string[] groupKeys, bool expanded )
+    {
+        if ( groupKeys.IsNullOrEmpty() )
+            return;
+
+        foreach ( var group in groupedData )
+        {
+            if ( groupKeys.Contains( group.Key ) )
+            {
+                group.SetExpanded( expanded );
+            }
+
+            if ( group.NestedGroup is not null )
+                SetGroupByKeysExpanded( (List<GroupContext<TItem>>)group.NestedGroup, groupKeys, expanded );
+        }
+    }
+
+    /// <summary>
+    /// Recursively toggles the groups and any nested groups that match the keys.
+    /// </summary>
+    /// <param name="groupedData"></param>
+    /// <param name="groupKeys"></param>
+    private void ToggleGroupByKeys( List<GroupContext<TItem>> groupedData, string[] groupKeys )
+    {
+        if ( groupKeys.IsNullOrEmpty() )
+            return;
+
+        foreach ( var group in groupedData )
+        {
+            if ( groupKeys.Contains( group.Key ) )
+            {
+                group.SetExpanded( !group.Expanded );
+            }
+
+            if ( group.NestedGroup is not null )
+                ToggleGroupByKeys( (List<GroupContext<TItem>>)group.NestedGroup, groupKeys );
+        }
+    }
+
+    /// <summary>
+    /// Toggles the specified groups.
+    /// <para>For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"</para>
+    /// <para>For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"</para>
+    /// <para>GroupedData : <see cref="DataGrid{TItem}.DisplayGroupedData"/> | GroupKey: <see cref="GroupContext{TItem}.Key"/></para>
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ToggleGroups( params string[] groupKeys )
+    {
+        ToggleGroupByKeys( groupedData, groupKeys );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Expands the specified groups.
+    /// <para>For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"</para>
+    /// <para>For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"</para>
+    /// <para>GroupedData : <see cref="DataGrid{TItem}.DisplayGroupedData"/> | GroupKey: <see cref="GroupContext{TItem}.Key"/></para>
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ExpandGroups( params string[] groupKeys )
+    {
+        SetGroupByKeysExpanded( groupedData, groupKeys, true );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Collapses the specified groups.
+    /// <para>For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"</para>
+    /// <para>For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"</para>
+    /// <para>GroupedData : <see cref="DataGrid{TItem}.DisplayGroupedData"/> | GroupKey: <see cref="GroupContext{TItem}.Key"/></para>
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task CollapseGroups( params string[] groupKeys )
+    {
+        SetGroupByKeysExpanded( groupedData, groupKeys, false );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Expands all groups.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ExpandAllGroups()
+    {
+        SetGroupExpanded( groupedData, true );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Collapses all groups.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task CollapseAllGroups()
+    {
+        SetGroupExpanded( groupedData, expanded: false );
+
+        return Task.CompletedTask;
+    }
+
     #endregion
 
     #region Events
+
+    private async void OnCollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
+    {
+        if ( e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset || e.Action == NotifyCollectionChangedAction.Move || e.Action == NotifyCollectionChangedAction.Replace )
+        {
+            await InvokeAsync( async () => await Reload() );
+        }
+    }
 
     /// <summary>
     /// An event raised when theme settings changes.
@@ -471,7 +799,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( Data is ICollection<TItem> data )
         {
-            if ( await IsSafeToProceed( RowRemoving, item ) )
+            if ( await IsSafeToProceed( RowRemoving, item, item ) )
             {
                 var itemIsSelected = SelectedRow.IsEqual( item );
                 if ( UseInternalEditing )
@@ -520,7 +848,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
 
-        if ( await IsSafeToProceed( rowSavingHandler, editItem, editedCellValues ) )
+        var editItemClone = editItem.DeepClone();
+        SetItemEditedValues( editItemClone );
+
+        if ( await IsSafeToProceed( rowSavingHandler, editItem, editItemClone, editedCellValues ) )
         {
             if ( UseInternalEditing && editState == DataGridEditState.New && CanInsertNewItem && Data is ICollection<TItem> data )
             {
@@ -531,15 +862,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 // apply edited cell values to the item
                 // for new items it must be always be set, while for editing items it can be set only if it's enabled
-                foreach ( var column in EditableColumns )
-                {
-                    column.SetValue( editItem, editItemCellValues[column.ElementId].CellValue );
-                }
+                SetItemEditedValues( editItem );
             }
 
             if ( editState == DataGridEditState.New )
             {
-                await RowInserted.InvokeAsync( new( editItem, editedCellValues ) );
+                await RowInserted.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
                 SetDirty();
 
                 // If a new item is added, the data should be refreshed
@@ -548,13 +876,21 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     await HandleReadData( CancellationToken.None );
             }
             else
-                await RowUpdated.InvokeAsync( new( editItem, editedCellValues ) );
+                await RowUpdated.InvokeAsync( new( editItem, editItemClone, editedCellValues ) );
 
             editState = DataGridEditState.None;
             await VirtualizeOnEditCompleteScroll().AsTask();
         }
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    private void SetItemEditedValues( TItem item )
+    {
+        foreach ( var column in EditableColumns )
+        {
+            column.SetValue( item, editItemCellValues[column.ElementId].CellValue );
+        }
     }
 
     /// <summary>
@@ -578,6 +914,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public async Task Select( TItem item )
     {
         await SelectRow( item );
+
+        if ( Navigable )
+        {
+            var selectedTableRow = GetRowInfo( item )?.TableRow;
+            if ( selectedTableRow is not null )
+                await selectedTableRow.ElementRef.FocusAsync();
+        }
 
         await Refresh();
     }
@@ -618,6 +961,75 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         return Task.CompletedTask;
+    }
+
+
+    /// <summary>
+    /// Applies a new sort to the datagrid using the provided columns, sort order, and sort direction. Replaces the current sorting.
+    /// </summary>
+    /// <param name="columns">Columns used for sorting</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// Note that <see cref="DataGridColumn{TItem}.Sortable"/> and <see cref="Sortable"/> must be enabled to be able to sort!
+    /// If more than one column is specified, <see cref="SortMode"/> must be <see cref="DataGridSortMode.Multiple"/>
+    /// </remarks>
+    public async Task ApplySorting( params DataGridSortColumnInfo[] columns )
+    {
+        if ( !Sortable )
+            return;
+
+        if ( SortMode == DataGridSortMode.Single )
+        {
+            if ( !columns.IsNullOrEmpty() )
+            {
+                // Sort the DataGrid based on the first column passed
+                await Sort( columns[0].Field, columns[0].SortDirection );
+            }
+            else if ( SortByColumns.Count == 1 )
+            {
+                // If the user has not passed any columns and the DataGrid is currently sorted
+                // by a column, use the data-source's default sort order.
+                await Sort( SortByColumns[0].Field, SortDirection.Default );
+            }
+
+            return;
+        }
+
+        await ResetSorting();
+
+        if ( !columns.IsNullOrEmpty() )
+        {
+            var columnTuples = columns
+                .Select( ( x, idx ) => (
+                    Column: Columns.FirstOrDefault( c => c.Field == x.Field ),
+                    Direction: x.SortDirection,
+                    SortOrder: idx) )
+                .Where( x => x.Column is { Sortable: true } &&
+                             x.Direction != SortDirection.Default )
+                .DistinctBy( x => x.Column.GetFieldToSort() );
+
+            foreach ( var (column, direction, sortOrder) in columnTuples )
+            {
+                column.CurrentSortDirection = direction;
+                await column.SetSortOrder( sortOrder );
+                SortByColumns.Add( column );
+
+                await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, column.CurrentSortDirection ) );
+            }
+        }
+
+        await Reload();
+    }
+
+    private async Task ResetSorting()
+    {
+        foreach ( var column in SortByColumns )
+        {
+            column.CurrentSortDirection = SortDirection.Default;
+            await column.ResetSortOrder();
+        }
+
+        SortByColumns.Clear();
     }
 
     /// <summary>
@@ -677,6 +1089,24 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         foreach ( var column in Columns )
         {
             column.Filter.SearchValue = null;
+        }
+
+        return Reload();
+    }
+
+    /// <summary>
+    /// Clears the corresponding column filters.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ClearFilter( params string[] fieldNames )
+    {
+        if ( fieldNames.IsNullOrEmpty() )
+            return Task.CompletedTask;
+
+        foreach ( var column in Columns )
+        {
+            if ( fieldNames.Contains( column.Field ) )
+                column.Filter.SearchValue = null;
         }
 
         return Reload();
@@ -838,6 +1268,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
+    internal Task OnRowMouseOverCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+    {
+        return RowMouseOver.InvokeAsync( eventArgs );
+    }
+    internal Task OnRowMouseLeaveCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
+    {
+        return RowMouseLeave.InvokeAsync( eventArgs );
+    }
+
     internal Task OnRowClickedCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
     {
         return RowClicked.InvokeAsync( eventArgs );
@@ -965,11 +1404,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     // this is to give user a way to stop save if necessary
-    internal async Task<bool> IsSafeToProceed<TValues>( EventCallback<CancellableRowChange<TItem, TValues>> handler, TItem item, TValues editedCellValues )
+    internal async Task<bool> IsSafeToProceed<TValues>( EventCallback<CancellableRowChange<TItem, TValues>> handler, TItem item, TItem newItem, TValues editedCellValues )
     {
         if ( handler.HasDelegate )
         {
-            var args = new CancellableRowChange<TItem, TValues>( item, editedCellValues );
+            var args = new CancellableRowChange<TItem, TValues>( item, newItem, editedCellValues );
 
             await handler.InvokeAsync( args );
 
@@ -982,11 +1421,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return true;
     }
 
-    internal async Task<bool> IsSafeToProceed( EventCallback<CancellableRowChange<TItem>> handler, TItem item )
+    internal async Task<bool> IsSafeToProceed( EventCallback<CancellableRowChange<TItem>> handler, TItem item, TItem newItem )
     {
         if ( handler.HasDelegate )
         {
-            var args = new CancellableRowChange<TItem>( item );
+            var args = new CancellableRowChange<TItem>( item, newItem );
 
             await handler.InvokeAsync( args );
 
@@ -1056,6 +1495,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         try
         {
             IsLoading = true;
+            await InvokeAsync( StateHasChanged );
+            await Task.Yield();
 
             if ( !cancellationToken.IsCancellationRequested )
                 await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, CurrentPage, PageSize, 0, 0, cancellationToken ) );
@@ -1107,39 +1548,58 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return new( Data.ToList(), TotalItems.Value );
     }
 
-    protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null )
+    protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null ) =>
+        HandleSortColumn( column, changeSortDirection, sortDirection, false );
+
+    private void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection,
+        bool suppressSortChangedEvent )
     {
-        if ( Sortable && column.CanSort() )
+        if ( !Sortable || !column.CanSort() )
+            return;
+
+        if ( SortMode == DataGridSortMode.Single )
         {
-            if ( SortMode == DataGridSortMode.Single )
+            // in single-mode we need to reset all other columns to default state
+            foreach ( var c in Columns.Where( x => x.GetFieldToSort() != column.GetFieldToSort() ) )
             {
-                // in single-mode we need to reset all other columns to default state
-                foreach ( var c in Columns.Where( x => x.GetFieldToSort() != column.GetFieldToSort() ) )
-                {
-                    c.CurrentSortDirection = SortDirection.Default;
-                }
-
-                // and also remove any column sort info except for current one
-                SortByColumns.RemoveAll( x => x.GetFieldToSort() != column.GetFieldToSort() );
+                c.CurrentSortDirection = SortDirection.Default;
             }
 
-            if ( changeSortDirection )
-                column.CurrentSortDirection = sortDirection ?? column.CurrentSortDirection.NextDirection();
+            // and also remove any column sort info except for current one
+            SortByColumns.RemoveAll( x => x.GetFieldToSort() != column.GetFieldToSort() );
+        }
 
-            if ( !SortByColumns.Any( c => c.GetFieldToSort() == column.GetFieldToSort() ) )
-            {
-                var nextOrderToSort = SortByColumns.Count == 0 ? 0 : SortByColumns.Max( x => x.SortOrder ) + 1;
-                column.SetSortOrder( nextOrderToSort );
-                SortByColumns.Add( column );
-            }
-            else if ( column.CurrentSortDirection == SortDirection.Default )
-            {
-                SortByColumns.Remove( column );
-                column.ResetSortOrder();
-            }
+        if ( changeSortDirection )
+        {
+            column.CurrentSortDirection =
+                sortDirection ?? column.CurrentSortDirection.NextDirection( column.ReverseSorting );
+        }
 
-            if ( changeSortDirection )
-                InvokeAsync( () => SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.CurrentSortDirection ) ) );
+        if ( SortByColumns.All( c => c.GetFieldToSort() != column.GetFieldToSort() ) )
+        {
+            var nextOrderToSort = SortByColumns.Count == 0 ? 0 : SortByColumns.Max( x => x.SortOrder ) + 1;
+            column.SetSortOrder( nextOrderToSort );
+            SortByColumns.Add( column );
+        }
+        else if ( column.CurrentSortDirection == SortDirection.Default )
+        {
+            SortByColumns.Remove( column );
+            column.ResetSortOrder();
+        }
+
+        static Task RaiseSortChanged( DataGrid<TItem> dataGrid, DataGridColumn<TItem> c ) =>
+            dataGrid.SortChanged.InvokeAsync( new DataGridSortChangedEventArgs(
+                c.GetFieldToSort(),
+                c.Field,
+                c.CurrentSortDirection ) );
+
+
+        if ( changeSortDirection && !suppressSortChangedEvent )
+        {
+            _ = InvokeAsync( async () =>
+            {
+                await RaiseSortChanged( this, column );
+            } );
         }
     }
 
@@ -1191,7 +1651,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         dirtyFilter = false;
 
-        if ( query == null )
+        if ( query is null )
         {
             filteredData.Clear();
             FilteredDataChanged?.Invoke( new( filteredData, 0, 0 ) );
@@ -1199,7 +1659,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
         }
 
-        // only use internal filtering if we're not using custom data loading
         if ( !ManualReadMode )
         {
             var firstSort = true;
@@ -1239,7 +1698,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 if ( column.ExcludeFromFilter )
                     continue;
 
-                if ( column.CustomFilter != null )
+                if ( column.CustomFilter is not null )
                 {
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
@@ -1256,7 +1715,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue )
+                            where CompareFilterValues( cellStringValue, stringSearchValue, column.FilterMethod )
                             select item;
                 }
             }
@@ -1280,9 +1739,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return Reload( filterCancellationTokenSource.Token );
     }
 
-    private bool CompareFilterValues( string searchValue, string compareTo )
+    private bool CompareFilterValues( string searchValue, string compareTo, DataGridFilterMethod? columnFilterMethod )
     {
-        switch ( FilterMethod )
+        var filterMethod = columnFilterMethod ?? FilterMethod;
+        switch ( filterMethod )
         {
             case DataGridFilterMethod.StartsWith:
                 return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
@@ -1312,6 +1772,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 CurrentPage = paginationContext.LastPage;
                 skipElements = ( CurrentPage - 1 ) * PageSize;
             }
+
             return filteredData.Skip( skipElements ).Take( PageSize );
         }
 
@@ -1324,8 +1785,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return Task.CompletedTask;
 
         SelectedRow = item;
-
-        return SelectedRowChanged.InvokeAsync( SelectedRow );
+        return SelectedRowChanged.InvokeAsync( item );
     }
 
     private DataGridRowInfo<TItem> GetRowInfo( TItem item )
@@ -1337,7 +1797,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     #region Properties
 
-
     /// <summary>
     /// Cascaded theme settings.
     /// </summary>
@@ -1347,6 +1806,26 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    /// <summary>
+    /// Makes sure the DataGrid has columns defined as groupable.
+    /// </summary>
+    /// <returns></returns>
+    internal bool IsGroupableByColumn
+        => Groupable && ShowGrouping && ( Columns.Any( x => x.Groupable ) );
+
+    /// <summary>
+    /// Makes sure the DataGrid has enough defined conditions to group data.
+    /// </summary>
+    /// <returns></returns>
+    internal bool IsGroupEnabled
+        => Groupable && ( GroupBy is not null || !groupableColumns.IsNullOrEmpty() );
+
+    /// <summary>
+    /// Gets the DataGrid columns that are currently marked for Grouping Count.
+    /// </summary>
+    internal int GroupableColumnsCount
+        => groupableColumns?.Count ?? 0;
 
     internal bool IsFixedHeader
         => Virtualize || FixedHeader;
@@ -1396,11 +1875,89 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         get
         {
-            return Columns
+            var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displayable )
                 .OrderBy( x => x.DisplayOrder );
+
+            if ( !IsGroupHeaderCaptionsEnabled )
+                return orderedDisplayColumns;
+
+            var orderedDisplayColumnsAsList = orderedDisplayColumns.ToList();
+            var newOrderedDisplayColumns = new List<DataGridColumn<TItem>>();
+
+            for ( int i = 0; i < orderedDisplayColumnsAsList.Count; i++ )
+            {
+                var displayColumn = orderedDisplayColumnsAsList[i];
+                newOrderedDisplayColumns.Add( displayColumn );
+
+                if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumnsAsList.Count > i + 1 )
+                {
+                    var toRemove = new List<DataGridColumn<TItem>>();
+
+                    foreach ( var remainingDisplayColumn in orderedDisplayColumns.Skip( i + 1 ) )
+                    {
+                        if ( remainingDisplayColumn.HeaderGroupCaption == displayColumn.HeaderGroupCaption )
+                        {
+                            newOrderedDisplayColumns.Add( remainingDisplayColumn );
+                            toRemove.Add( remainingDisplayColumn );
+                        }
+                    }
+
+                    orderedDisplayColumnsAsList.RemoveAll( x => toRemove.Contains( x ) );
+                }
+            }
+
+            return newOrderedDisplayColumns;
         }
     }
+
+    /// <summary>
+    /// Gets only columns that are available for display in the grid group header.
+    /// </summary>
+    internal IEnumerable<(DataGridColumn<TItem> col, int colSpan)> DisplayableHeaderGroupColumns
+    {
+        get
+        {
+            var orderedDisplayColumns = Columns
+                .Where( x => x.IsDisplayable || x.Displayable )
+                .OrderBy( x => x.DisplayOrder )
+                .ToList();
+
+            var newOrderedDisplayColumns = new List<(DataGridColumn<TItem> col, int colSpan)>();
+
+            for ( int i = 0; i < orderedDisplayColumns.Count; i++ )
+            {
+                var displayColumn = orderedDisplayColumns[i];
+                var colSpan = 1;
+
+                if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumns.Count > i + 1 )
+                {
+                    var toRemove = new List<DataGridColumn<TItem>>();
+
+                    foreach ( var remainingDisplayColumn in orderedDisplayColumns.Skip( i + 1 ) )
+                    {
+                        if ( remainingDisplayColumn.HeaderGroupCaption == displayColumn.HeaderGroupCaption )
+                        {
+                            colSpan++;
+                            toRemove.Add( remainingDisplayColumn );
+                        }
+                    }
+
+                    orderedDisplayColumns.RemoveAll( x => toRemove.Contains( x ) );
+                }
+
+                newOrderedDisplayColumns.Add( (displayColumn, colSpan) );
+            }
+
+            return newOrderedDisplayColumns;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether user can see group header column captions.
+    /// </summary>
+    internal bool IsGroupHeaderCaptionsEnabled
+        => ShowHeaderGroupCaptions && Columns.Any( x => !string.IsNullOrWhiteSpace( x.HeaderGroupCaption ) );
 
     /// <summary>
     /// Returns true if <see cref="Data"/> is safe to modify.
@@ -1450,7 +2007,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         => !IsLoading && !IsNewItemInGrid && EmptyFilterTemplate != null && ( !Data.IsNullOrEmpty() && FilteredData.IsNullOrEmpty() ) && VirtualizeRendered;
 
     /// <summary>
-    /// Returns true if Virtualize is false or if Virtualize is true && Rendered
+    /// Returns true if Virtualize is false or if Virtualize is true &amp; Rendered
     /// This flag is to make sure Templates don't 'fight' for control over the Virtualize Initial Render.
     /// </summary>
     protected bool VirtualizeRendered => !Virtualize || ( Virtualize && Rendered );
@@ -1477,6 +2034,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     public bool ManualReadMode => ReadData.HasDelegate && !Virtualize;
 
+    /// <summary>
+    /// True if user is using <see cref="ReadData"/> and <see cref="Virtualize"/> for loading the data.
+    /// </summary>
     public bool VirtualizeManualReadMode => ReadData.HasDelegate && Virtualize;
 
     /// <summary>
@@ -1660,6 +2220,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Gets the grouped data to show on grid based on the filter, current page &amp; grouping.
+    /// </summary>
+    public IEnumerable<GroupContext<TItem>> DisplayGroupedData
+    {
+        get
+        {
+            if ( dirtyView )
+                GroupDisplayData();
+
+            return groupedData ?? Enumerable.Empty<GroupContext<TItem>>();
+        }
+    }
+
+    /// <summary>
     /// Specifies the behaviour of datagrid editing.
     /// </summary>
     /// <remarks>
@@ -1711,6 +2285,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether users can filter rows by its cell values.
     /// </summary>
     [Parameter] public bool Filterable { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the data will be grouped. Column groups need to be configured.
+    /// </summary>
+    [Parameter] public bool Groupable { get; set; }
+
+    /// <summary>
+    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active. 
+    /// If this is defined at the DataGrid level, column grouping will not be considered.
+    /// </summary>
+    [Parameter] public Func<TItem, object> GroupBy { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether user can see and edit column grouping.
+    /// </summary>
+    [Parameter] public bool ShowGrouping { get; set; }
 
     /// <summary>
     /// Gets or sets whether user can see a column captions.
@@ -1813,8 +2403,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// Gets or sets content of total items grid.
-    /// </summary>
+    /// </summary>In
     [Parameter] public RenderFragment<PaginationContext<TItem>> TotalItemsTemplate { get => paginationTemplates.TotalItemsTemplate; set => paginationTemplates.TotalItemsTemplate = value; }
+
+    /// <summary>
+    /// Gets or sets content of the page selector. The selector is only displayed under the tablets breakpoint. You will have to construct it using the provided pagination context.
+    /// </summary>
+    [Parameter] public RenderFragment<PaginationContext<TItem>> PageSelectorTemplate { get => paginationTemplates.PageSelectorTemplate; set => paginationTemplates.PageSelectorTemplate = value; }
+
+    /// <summary>
+    /// Gets or sets content of the page sizes selector. You will have to construct it using the provided pagination context.
+    /// </summary>
+    [Parameter] public RenderFragment<PaginationContext<TItem>> PageSizesTemplate { get => paginationTemplates.PageSizesTemplate; set => paginationTemplates.PageSizesTemplate = value; }
 
     /// <summary>
     /// Gets or sets the maximum number of items for each page.
@@ -1891,6 +2491,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter] public EventCallback<TItem> RowRemoved { get; set; }
 
+
+    /// <summary>
+    /// Event called after the mouse leaves the row.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowMouseLeave { get; set; }
+
+    /// <summary>
+    /// Event called after the mouse is over the row.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridRowMouseEventArgs<TItem>> RowMouseOver { get; set; }
+
     /// <summary>
     /// Event called after the row is clicked.
     /// </summary>
@@ -1922,7 +2533,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public EventCallback<DataGridReadDataEventArgs<TItem>> ReadData { get; set; }
 
     /// <summary>
-    /// Occurs after the column sort direction has changed.
+    /// Occurs after the sort direction of a single column has changed.
     /// </summary>
     [Parameter] public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
 
@@ -2059,9 +2670,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public DataGridRowStyling FilterRowStyling { get; set; }
 
     /// <summary>
-    /// Custom styles for group row.
+    /// Custom styles for aggregate row.
     /// </summary>
-    [Parameter] public DataGridRowStyling GroupRowStyling { get; set; }
+    [Obsolete( "DataGrid: The GroupRowStyling parameter is deprecated, please use the AggregateRowStyling parameter instead." )]
+    [Parameter] public DataGridRowStyling GroupRowStyling { get => AggregateRowStyling; set => AggregateRowStyling = value; }
+
+    /// <summary>
+    /// Custom styles for aggregate row.
+    /// </summary>
+    [Parameter] public DataGridRowStyling AggregateRowStyling { get; set; }
 
     /// <summary>
     /// Template for holding the datagrid columns.
@@ -2155,6 +2772,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     public Dictionary<string, object> Attributes { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
+    /// </summary>
+    [Parameter] public bool Navigable { get; set; }
+
+    /// <summary>
     /// Gets a zero-based index of the currently selected row if found; otherwise it'll return -1. Considers the current pagination.
     /// </summary>
     public int SelectedRowIndex
@@ -2170,6 +2792,32 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     : selectedRowDataIdx + ( CurrentPage - 1 ) * PageSize;
         }
     }
+
+    /// <summary>
+    /// Template for mouse hover overlay display formatting.
+    /// </summary>
+    [Parameter] public RenderFragment<RowOverlayContext<TItem>> RowOverlayTemplate { get; set; }
+
+    /// <summary>
+    /// Defines the position of the row overlay.
+    /// </summary>
+    [Parameter] public DataGridRowOverlayPosition RowOverlayPosition { get; set; } = DataGridRowOverlayPosition.End;
+
+    /// <summary>
+    /// Defines the background of the row overlay.
+    /// </summary>
+    [Parameter] public Background RowOverlayBackground { get; set; } = Background.Light;
+
+    /// <summary>
+    /// Gets or sets whether user can see defined header group captions.
+    /// </summary>
+    [Parameter] public bool ShowHeaderGroupCaptions { get; set; }
+
+    /// <summary>
+    /// Template for header group caption.
+    /// <para>Suggested usage: rendering content conditionally according to the defined <see cref="HeaderGroupContext.HeaderGroupCaption"/></para>
+    /// </summary>
+    [Parameter] public RenderFragment<HeaderGroupContext> HeaderGroupCaptionTemplate { get; set; }
 
     #endregion
 }

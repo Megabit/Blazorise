@@ -1,0 +1,37 @@
+﻿@typeparam TValue
+@inherits Blazorise.Switch<TValue>
+<Control Role="@ControlRole.Switch" Inline="@Inline">
+    <Label Type="LabelType.Switch" For="@ElementId" Style="@Style" Cursor="@Cursor">
+        <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@Checked" tabindex="@TabIndex" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <div class="@BackgroundClassNames"></div>
+        <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">@ChildContent</span>
+    </Label>
+    @Feedback
+</Control>
+@code {
+    string BackgroundClassNames
+    {
+        get
+        {
+            var colorName = Color?.Name;
+
+            if ( string.IsNullOrEmpty( colorName ) )
+                colorName = "primary";
+
+            return $"{SwitchSize( ThemeSize )} bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-{colorName}-300 dark:peer-focus:ring-{colorName}-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:bg-white after:border-gray-300 after:border after:rounded-full after:transition-all dark:border-gray-600 peer-checked:bg-{colorName}-600";
+        }
+    }
+
+    static string SwitchSize( Size size )
+    {
+        return size switch
+        {
+            Blazorise.Size.ExtraSmall => "w-8 h-4 after:h-3 after:w-3 after:top-1 after:left-[3px]",
+            Blazorise.Size.Small => "w-9 h-5 after:h-4 after:w-4 after:top-[2px] after:left-[2px]",
+            Blazorise.Size.Medium => "w-12 h-7 after:h-5 after:w-5 after:top-1 after:left-[3px]",
+            Blazorise.Size.Large => "w-14 h-8 after:h-6 after:w-6 after:top-1 after:left-[3px]",
+            Blazorise.Size.ExtraLarge => "w-16 h-10 after:h-7 after:w-7 after:top-1.5 after:left-[3px]",
+            _ => "w-11 h-6 after:h-5 after:w-5 after:top-0.5 after:left-[2px]"
+        };
+    }
+}

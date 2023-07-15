@@ -10,7 +10,7 @@
     Learn about Blazorise services and how to properly use them to build your application.
 </DocsPageLead>
 
-<Row RowColumns="RowColumns.Are4">
+<Row RowColumns="RowColumns.Are4.OnTablet.Are2.OnMobile">
     @foreach ( var info in ( PageEntries ?? Enumerable.Empty<PageEntry>() ).Where( x => x.Url.StartsWith( "docs/services" ) && !string.IsNullOrEmpty( x.Description ) ) )
     {
         <Column Margin="Margin.Is3.FromBottom">

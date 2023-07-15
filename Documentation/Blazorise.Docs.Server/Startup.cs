@@ -41,6 +41,7 @@ public class Startup
         services
             .AddBlazorise( options =>
             {
+                options.ProductToken = Configuration["Licensing:ProductToken"];
                 options.Immediate = true; // optional
             } )
             .AddBootstrap5Providers()
@@ -113,6 +114,11 @@ public class Startup
             endpoints.MapGet( "/sitemap.txt", async context =>
             {
                 await Seo.GenerateSitemap( context );
+            } );
+
+            endpoints.MapGet( "/sitemap.xml", async context =>
+            {
+                await Seo.GenerateSitemapXml( context );
             } );
 
             endpoints.MapHealthChecks( "/healthcheck" );

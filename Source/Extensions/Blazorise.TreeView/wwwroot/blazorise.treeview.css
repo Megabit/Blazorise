@@ -1,19 +1,31 @@
-﻿.tree-view {
+﻿.b-tree-view .b-tree-view-node {
   margin-left: 1.25rem;
 }
-
-.tree-view-collapsed {
+.b-tree-view .b-tree-view-node.b-tree-view-node-collapsed {
   display: none;
 }
-
-.tree-view-icon {
+.b-tree-view .b-tree-view-node .b-tree-view-node-icon {
   float: left;
 }
-
-.tree-view-title {
+.b-tree-view .b-tree-view-node .b-tree-view-node-title {
   margin-left: 1.25rem;
 }
-
-.tree-view .cursor-pointer {
+.b-tree-view .b-tree-view-node .b-tree-view-node-title > .b-tree-view-node-check {
+  display: inline-block;
+}
+.b-tree-view .b-tree-view-node .b-tree-view-node-title > .b-tree-view-node-check > input.is-checkradio + label {
+  padding-left: 1rem;
+}
+.b-tree-view .b-tree-view-node .b-tree-view-node-title > .b-tree-view-node-check > div.inline-flex.mr-4 {
+  margin-right: 0.25rem;
+}
+.b-tree-view .b-tree-view-node .b-tree-view-node-title > .b-tree-view-node-check > .custom-control.custom-checkbox {
+  padding-left: 1.5rem;
+}
+.b-tree-view .b-tree-view-node .b-tree-view-node-title > .b-tree-view-node-check > label.ant-checkbox-wrapper > span:last-child {
+  padding-right: 0;
+  padding-left: 0;
+}
+.b-tree-view .b-tree-view-node .b-tree-view-node .cursor-pointer {
   cursor: pointer;
 }

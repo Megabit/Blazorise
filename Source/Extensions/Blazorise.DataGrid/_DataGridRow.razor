@@ -13,7 +13,10 @@
         ParentDataGrid.RowStyling?.Invoke( Item, styling );
     }
 
-    <TableRow Clicked="@HandleClick"
+    <TableRow @ref="TableRowRef"
+              Clicked="@HandleClick"
+              MouseOver="BindMouseOver() ? HandleMouseOver : null"
+              MouseLeave="BindMouseLeave() ? HandleMouseLeave : null"
               DoubleClicked="@HandleDoubleClick"
               ContextMenu="@HandleContextMenu"
               ContextMenuPreventDefault="@ParentDataGrid.RowContextMenuPreventDefault"
@@ -21,7 +24,12 @@
               Color="@GetColor(styling, selectedStyling)"
               Class="@GetClass(styling, selectedStyling)"
               Style="@GetStyle(styling, selectedStyling)"
-              HoverCursor="@GetHoverCursor()">
+              HoverCursor="@GetHoverCursor()"
+              @onkeydown="@(ParentDataGrid.Navigable ? HandleKeyDown : null)"
+              tabindex="@(ParentDataGrid.Navigable ? 0 : null)">
+
+        @ParentDataGrid.groupIndentationFragment
+
         @foreach ( var column in Columns )
         {
             @if ( column.ColumnType == DataGridColumnType.Command )
@@ -40,7 +48,7 @@
             }
             else
             {
-                <TableRowCell @onclick:stopPropagation="column.PreventRowClick" Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment"  Display="@column.Display">
+                <TableRowCell @onclick:stopPropagation="column.PreventRowClick" Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
                     @if ( column.DisplayTemplate != null )
                     {
                         @column.DisplayTemplate( Item )
@@ -64,6 +72,16 @@
                     }
                 </TableRowCell>
             }
+        }
+        @if ( ParentDataGrid.RowOverlayTemplate is not null && mouseIsOver )
+        {
+            var rowOverlayPosition = ParentDataGrid.RowOverlayPosition == DataGridRowOverlayPosition.Start
+            ? Position.Absolute.Start
+            : Position.Absolute.End;
+
+            <Div Class="b-table-row-overlay" Background="@ParentDataGrid.RowOverlayBackground" Position="@rowOverlayPosition" Style="z-index:1;" @onclick:stopPropagation>
+                @ParentDataGrid.RowOverlayTemplate(new (Item))
+            </Div>
         }
     </TableRow>
 }

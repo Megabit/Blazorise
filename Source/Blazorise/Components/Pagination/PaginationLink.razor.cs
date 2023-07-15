@@ -28,7 +28,9 @@ public partial class PaginationLink : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.PaginationLink() );
-        builder.Append( ClassProvider.PaginationLinkActive(), ParentPaginationItemState.Active );
+        builder.Append( ClassProvider.PaginationLinkSize( ParentPagination?.Size ?? Size.Default ) );
+        builder.Append( ClassProvider.PaginationLinkActive( ParentPaginationItemState.Active ) );
+        builder.Append( ClassProvider.PaginationLinkDisabled( ParentPaginationItemState.Disabled ) );
 
         base.BuildClasses( builder );
     }
@@ -77,6 +79,11 @@ public partial class PaginationLink : BaseComponent
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Cascaded <see cref="Pagination"/> component in which this <see cref="PaginationLink"/> is placed.
+    /// </summary>
+    [CascadingParameter] protected Pagination ParentPagination { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="PaginationLink"/>.

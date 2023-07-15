@@ -297,6 +297,8 @@ class EmptyClassProvider : IClassProvider
 
     public string FieldLabel( bool horizontal ) => null;
 
+    public string FieldLabelRequiredIndicator( bool requiredIndicator ) => null;
+
     #endregion
 
     #region FieldBody
@@ -341,6 +343,8 @@ class EmptyClassProvider : IClassProvider
 
     public string Addon( AddonType addonType ) => null;
 
+    public string AddonSize( Size size ) => null;
+
     public string AddonLabel() => null;
 
     //public string AddonContainer() => null;
@@ -355,21 +359,19 @@ class EmptyClassProvider : IClassProvider
 
     #region Button
 
-    public string Button() => null;
+    public string Button( bool outline ) => null;
 
-    public string ButtonColor( Color color ) => null;
+    public string ButtonColor( Color color, bool outline ) => null;
 
-    public string ButtonOutline( Color color ) => null;
+    public string ButtonSize( Size size, bool outline ) => null;
 
-    public string ButtonSize( Size size ) => null;
+    public string ButtonBlock( bool outline ) => null;
 
-    public string ButtonBlock() => null;
+    public string ButtonActive( bool outline ) => null;
 
-    public string ButtonActive() => null;
+    public string ButtonDisabled( bool outline ) => null;
 
-    public string ButtonDisabled() => null;
-
-    public string ButtonLoading() => null;
+    public string ButtonLoading( bool outline ) => null;
 
     #endregion
 
@@ -411,6 +413,8 @@ class EmptyClassProvider : IClassProvider
 
     public string DropdownMenu() => null;
 
+    public string DropdownMenuSelector() => null;
+
     public string DropdownMenuScrollable() => null;
 
     //public string DropdownMenuBody() => null;
@@ -419,15 +423,15 @@ class EmptyClassProvider : IClassProvider
 
     public string DropdownMenuRight() => null;
 
-    public string DropdownToggle( bool isDropdownSubmenu ) => null;
+    public string DropdownToggle( bool isDropdownSubmenu, bool outline ) => null;
 
-    public string DropdownToggleColor( Color color ) => null;
+    public string DropdownToggleSelector( bool isDropdownSubmenu ) => null;
 
-    public string DropdownToggleOutline( Color color ) => null;
+    public string DropdownToggleColor( Color color, bool outline ) => null;
 
-    public string DropdownToggleSize( Size size ) => null;
+    public string DropdownToggleSize( Size size, bool outline ) => null;
 
-    public string DropdownToggleSplit() => null;
+    public string DropdownToggleSplit( bool split ) => null;
 
     public string DropdownToggleIcon( bool visible ) => null;
 
@@ -453,7 +457,7 @@ class EmptyClassProvider : IClassProvider
 
     public string TabItemDisabled( bool disabled ) => null;
 
-    public string TabLink() => null;
+    public string TabLink( TabPosition tabPosition ) => null;
 
     public string TabLinkActive( bool active ) => null;
 
@@ -481,6 +485,8 @@ class EmptyClassProvider : IClassProvider
 
     public string StepItemMarker() => null;
 
+    public string StepItemMarkerColor( Color color, bool active ) => null;
+
     public string StepItemDescription() => null;
 
     public string StepsContent() => null;
@@ -500,6 +506,8 @@ class EmptyClassProvider : IClassProvider
     public string CarouselSlide() => null;
 
     public string CarouselSlideActive( bool active ) => null;
+
+    public string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides ) => null;
 
     public string CarouselSlideSlidingLeft( bool left ) => null;
 
@@ -565,13 +573,17 @@ class EmptyClassProvider : IClassProvider
 
     public string CardLink() => null;
 
+    public string CardLinkActive( bool active ) => null;
+
     #endregion
 
     #region ListGroup
 
     public string ListGroup() => null;
 
-    public string ListGroupFlush() => null;
+    public string ListGroupFlush( bool flush ) => null;
+
+    public string ListGroupScrollable( bool scrollable ) => null;
 
     public string ListGroupItem() => null;
 
@@ -581,7 +593,7 @@ class EmptyClassProvider : IClassProvider
 
     public string ListGroupItemDisabled() => null;
 
-    public string ListGroupItemColor( Color color ) => null;
+    public string ListGroupItemColor( Color color, bool selectable, bool active ) => null;
 
     #endregion
 
@@ -701,6 +713,14 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region AccordionToggle
+
+    public string AccordionToggle() => null;
+
+    public string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    #endregion
+
     #region Collapse
 
     public string Collapse( bool accordion ) => null;
@@ -713,7 +733,7 @@ class EmptyClassProvider : IClassProvider
 
     public string CollapseBodyActive( bool accordion, bool active ) => null;
 
-    public string CollapseBodyContent( bool accordion ) => null;
+    public string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => null;
 
     #endregion
 
@@ -723,7 +743,7 @@ class EmptyClassProvider : IClassProvider
 
     public string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition ) => null;
 
-    public string RowNoGutters() => null;
+    public string RowNoGutters( bool noGutters ) => null;
 
     #endregion
 
@@ -731,9 +751,9 @@ class EmptyClassProvider : IClassProvider
 
     public string Column( bool hasSizes ) => null;
 
-    public string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) => null;
+    public string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
 
-    private string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+    public string Column( IEnumerable<ColumnDefinition> columnDefinitions ) => null;
 
     #endregion
 
@@ -787,8 +807,6 @@ class EmptyClassProvider : IClassProvider
 
     public string ModalContentSize( ModalSize modalSize ) => null;
 
-    public string ModalContentFullscreen( bool fullscreen ) => null;
-
     public string ModalContentCentered( bool centered ) => null;
 
     public string ModalContentScrollable( bool scrollable ) => null;
@@ -817,9 +835,11 @@ class EmptyClassProvider : IClassProvider
 
     public string PaginationLink() => null;
 
-    public string PaginationLinkActive() => null;
+    public string PaginationLinkSize( Size size ) => null;
 
-    public string PaginationLinkDisabled() => null;
+    public string PaginationLinkActive( bool active ) => null;
+
+    public string PaginationLinkDisabled( bool disabled ) => null;
 
     #endregion
 
@@ -885,11 +905,13 @@ class EmptyClassProvider : IClassProvider
 
     public string TableHeaderCell() => null;
 
+    public string TableHeaderCellCursor( Cursor cursor ) => null;
+
     public string TableFooter() => null;
 
     public string TableBody() => null;
 
-    public string TableRow() => null;
+    public string TableRow( bool striped, bool hoverable ) => null;
 
     public string TableRowColor( Color color ) => null;
 
@@ -902,6 +924,12 @@ class EmptyClassProvider : IClassProvider
     public string TableRowCell() => null;
 
     public string TableRowCellColor( Color color ) => null;
+
+    public string TableRowGroup( bool expanded ) => null;
+
+    public string TableRowGroupCell() => null;
+
+    public string TableRowGroupIndentCell() => null;
 
     public string TableResponsive() => null;
 
@@ -964,6 +992,12 @@ class EmptyClassProvider : IClassProvider
     #region DisplayHeading
 
     public string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => null;
+
+    #endregion
+
+    #region Lead
+
+    public string Lead() => null;
 
     #endregion
 
@@ -1041,6 +1075,14 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Link
+
+    public string Link() => null;
+
+    public string LinkActive( bool active ) => null;
+
+    #endregion
+
     #region States
 
     public string Show() => null;
@@ -1060,6 +1102,14 @@ class EmptyClassProvider : IClassProvider
     public string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint ) => null;
 
     public string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => null;
+
+    #endregion
+
+    #region Gap
+
+    public string Gap( GapSize gapSize, GapSide gapSide ) => null;
+
+    public string Gap( GapSize gapSize, IEnumerable<GapSide> rules ) => null;
 
     #endregion
 
@@ -1198,6 +1248,8 @@ class EmptyClassProvider : IClassProvider
     public string ToModalSize( ModalSize modalSize ) => null;
 
     public string ToSpacingSize( SpacingSize spacingSize ) => null;
+
+    public string ToGapSize( GapSize gapSize ) => null;
 
     public string ToJustifyContent( JustifyContent justifyContent ) => null;
 

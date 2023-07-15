@@ -12,7 +12,7 @@ public class CropperCroppedEventArgs
     /// <param name="startY">The starting pageY value.</param>
     /// <param name="endX">The ending pageX value.</param>
     /// <param name="endY">The ending pageY value.</param>
-    public CropperCroppedEventArgs( int startX, int startY, int endX, int endY )
+    public CropperCroppedEventArgs( double startX, double startY, double endX, double endY )
     {
         StartX = startX;
         StartY = startY;
@@ -23,20 +23,20 @@ public class CropperCroppedEventArgs
     /// <summary>
     /// Gets the starting pageX value.
     /// </summary>
-    public int StartX { get; }
+    public double StartX { get; }
 
     /// <summary>
     /// Gets the starting pageY value.
     /// </summary>
-    public int StartY { get; }
+    public double StartY { get; }
 
     /// <summary>
     /// Gets the ending pageX value.
     /// </summary>
-    public int EndX { get; }
+    public double EndX { get; }
 
     /// <summary>
     /// Gets the ending pageY value.
     /// </summary>
-    public int EndY { get; }
+    public double EndY { get; }
 }

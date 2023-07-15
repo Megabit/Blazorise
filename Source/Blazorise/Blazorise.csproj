@@ -12,6 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Include="Blazorise.Licensing.AssemblyBuildDateAttribute">
+      <_Parameter1>$([System.DateTime]::Now.ToString( "yyyyMMddHHmmss" ))</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
@@ -32,6 +38,11 @@
     <ProjectReference Include="..\SourceGenerators\Blazorise.Generator\Blazorise.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
     <!-- Exclude the output of source generators from the compilation -->
     <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Blazorise.Licensing" Version="1.1.0" />
+    <PackageReference Include="DeepCloner" Version="0.10.4" />
   </ItemGroup>
 
   <PropertyGroup>

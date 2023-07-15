@@ -17,7 +17,7 @@ public class Program
         var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
         builder.Services
-            .SetupDemoServices()
+            .SetupDemoServices( builder.Configuration["Licensing:ProductToken"] )
             .AddMaterialProviders()
             .AddMaterialIcons();
 

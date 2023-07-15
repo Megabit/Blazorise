@@ -1,8 +1,9 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
- Custom Filter: <TextEdit @bind-Text="@customFilterValue" ></TextEdit>
+ Custom Filter: <TextEdit Text="@customFilterValue" TextChanged="@OnCustomFilterValueChanged"></TextEdit>
 
-<DataGrid TItem="Employee"
+<DataGrid @ref="dataGrid"
+          TItem="Employee"
           Data="@employeeList"
           CustomFilter="@OnCustomFilter"
           Responsive>
@@ -10,9 +11,16 @@
 </DataGrid>
 
 @code{
+    private DataGrid<Employee> dataGrid;
     private List<Employee> employeeList = new() { new() { FirstName = "David" }, new() { FirstName = "MLaden" }, new() { FirstName = "John" }, new() { FirstName = "Ana" }, new() { FirstName = "Jessica" } };
 
     private string customFilterValue;
+
+    private Task OnCustomFilterValueChanged( string e )
+    {
+        customFilterValue = e;
+        return dataGrid.Reload();
+    }
 
     private bool OnCustomFilter( Employee model )
     {

@@ -353,7 +353,6 @@ input[type=button].btn-block {
     right: auto;
     left: 0;
   }
-
   .dropdown-menu-sm-end {
     right: 0;
     left: auto;
@@ -364,7 +363,6 @@ input[type=button].btn-block {
     right: auto;
     left: 0;
   }
-
   .dropdown-menu-md-end {
     right: 0;
     left: auto;
@@ -375,7 +373,6 @@ input[type=button].btn-block {
     right: auto;
     left: 0;
   }
-
   .dropdown-menu-lg-end {
     right: 0;
     left: auto;
@@ -386,7 +383,6 @@ input[type=button].btn-block {
     right: auto;
     left: 0;
   }
-
   .dropdown-menu-xl-end {
     right: 0;
     left: auto;
@@ -504,11 +500,13 @@ hr.divider.divider-text::before {
   font-size: 1.5rem;
 }
 
-.input-group > .b-numeric:not(:last-child) > input {
+.input-group > .b-numeric:not(:last-child) > input,
+.input-group > div.flatpickr-wrapper:not(:last-child) > input {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
-.input-group > .b-numeric:not(:first-child) > input {
+.input-group > .b-numeric:not(:first-child) > input,
+.input-group > div.flatpickr-wrapper:not(:first-child) > input {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -601,6 +599,13 @@ hr.divider.divider-text::before {
 .input-group.has-validation > .dropdown > .btn:not(:last-child):not(.dropdown-toggle) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.input-group > div.flatpickr-wrapper > .form-control {
+  position: relative;
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
 }
 
 .form-check > .form-check-input.form-check-input-xs {
@@ -811,7 +816,7 @@ input[readonly=readonly][type=range]::-ms-thumb {
     display: inline-block;
   }
   .form-inline .input-group,
-.form-inline .custom-select {
+  .form-inline .custom-select {
     width: auto;
   }
   .form-inline .form-check {
@@ -846,6 +851,23 @@ input[readonly=readonly][type=range]::-ms-thumb {
 
 .focus-trap {
   display: contents;
+}
+
+.form-file input[type=file] {
+  margin-left: -2px !important;
+}
+
+.form-file input[type=file]::-webkit-file-upload-button {
+  display: none;
+}
+
+.form-file input[type=file]::file-selector-button {
+  display: none;
+}
+
+.form-label-required:after {
+  content: " *";
+  color: var(--b-theme-danger, #dc3545);
 }
 
 .jumbotron {
@@ -919,7 +941,7 @@ li.list-group-item-action {
   cursor: pointer;
 }
 
-.b-list-view {
+.list-group-scrollable {
   overflow-y: scroll;
 }
 
@@ -1049,6 +1071,54 @@ li.list-group-item-action {
 }
 .rating .rating-item.rating-item-hover {
   opacity: 0.7;
+}
+
+.gap-y-0 {
+  row-gap: 0 !important;
+}
+
+.gap-x-0 {
+  column-gap: 0 !important;
+}
+
+.gap-y-1 {
+  row-gap: 0.25rem !important;
+}
+
+.gap-x-1 {
+  column-gap: 0.25rem !important;
+}
+
+.gap-y-2 {
+  row-gap: 0.5rem !important;
+}
+
+.gap-x-2 {
+  column-gap: 0.5rem !important;
+}
+
+.gap-y-3 {
+  row-gap: 1rem !important;
+}
+
+.gap-x-3 {
+  column-gap: 1rem !important;
+}
+
+.gap-y-4 {
+  row-gap: 1.5rem !important;
+}
+
+.gap-x-4 {
+  column-gap: 1.5rem !important;
+}
+
+.gap-y-5 {
+  row-gap: 3rem !important;
+}
+
+.gap-x-5 {
+  column-gap: 3rem !important;
 }
 
 .steps {
@@ -1508,12 +1578,20 @@ li.list-group-item-action {
   transform: translateX(calc(4rem - (2.5rem / 2)));
 }
 
-table.table tbody tr.selected {
-  background-color: var(--primary);
+table.table tbody tr:not(.table-group).selected {
+  background-color: var(--bs-primary);
+}
+table.table tbody tr.table-group {
+  cursor: pointer;
+  background-color: var(--b-theme-light, var(--bs-light, #f5f5f5));
+  font-weight: 700;
 }
 
 tr.table-row-selectable:hover {
   cursor: pointer;
+}
+tr.table-row-selectable:focus[tabindex="0"] {
+  outline: none;
 }
 
 .table-fixed-header {
@@ -2748,6 +2826,10 @@ ol.ordered-list-upper-roman {
 
 .border-link-start-5 {
   border-left: 5px solid #3273dc !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
 
 .flatpickr-months {

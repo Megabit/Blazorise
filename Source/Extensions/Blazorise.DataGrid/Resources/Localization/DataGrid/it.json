@@ -16,6 +16,7 @@
     "{0} - {1} of {2} items": "{0} - {1} di {2} articoli",
     "Row Edit": "Modifica riga",
     "Row Create": "Crea riga",
-    "Create": "Crea"
+    "Create": "Crea",
+    "Drag a column header here to group by that column": "Trascina qui un'intestazione di colonna per raggruppare in base a quella colonna"
   }
 }

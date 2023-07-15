@@ -17,6 +17,10 @@
     <Code>DatePicker</Code> will render <Code>type="text"</Code> in the DOM.
 </DocsPageParagraph>
 
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic example">
     </DocsPageSectionHeader>
@@ -74,6 +78,21 @@
         <InlineDatePickerExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="InlineDatePickerExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Non Static example">
+        <Paragraph>
+            By default, the calendar menu will position statically. This means that it will also keep its position relative to the page when you scroll.
+        </Paragraph>
+        <Paragraph>
+            If you want to disable this behavior, you should assign the value false to the <Code>StaticPicker</Code> parameter.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DatePickerNonStaticExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DatePickerNonStaticExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -237,8 +256,12 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="Date" Type="TValue" Default="default">
@@ -246,6 +269,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="DateChanged" Type="@("EventCallback<TValue>")">
         Occurs when the date has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DateExpression" Type="@("Expression<Func<TValue>>")">
+        Gets or sets an expression that identifies the date value.
     </DocsAttributesItem>
     <DocsAttributesItem Name="InputMode" Type="DateInputMode" Default="Date">
         Hints at the type of data that might be entered by the user while editing the element or its contents.
@@ -282,5 +308,23 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Inline" Type="bool" Default="false">
         Display the calendar in an always-open state with the inline option.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DisableMobile" Type="bool" Default="true">
+        If enabled, it disables the native input on mobile devices.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Dates" Type="IReadOnlyList<TValue>">
+        Gets or sets the input date value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DatesChanged" Type="EventCallback<IReadOnlyList<TValue>>">
+        Occurs when the date has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DatesExpression" Type="Expression<Func<IReadOnlyList<TValue>>>">
+        Gets or sets an expression that identifies the date value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RangeSeparator" Type="string">
+        Overrides the range separator that is used to separate date values when <Code>SelectionMode</Code> is set to <Code>DateInputSelectionMode.Range</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="StaticPicker" Type="bool" Default="true">
+        If enabled, the calendar menu will be positioned as static.
     </DocsAttributesItem>
 </DocsAttributes>

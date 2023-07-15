@@ -2,27 +2,63 @@
 @inherits BaseDataGridComponent
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Blazorise.Extensions
-@using Blazorise.DataGrid.Models
 @* there are two CascadingValue because one is used only to define columns, and the other is to build rows based on those columns *@
 @* This one is to build rows *@
+
 <CascadingValue Value="@this" IsFixed>
     @if ( IsPagerVisible && ( PagerPosition == DataGridPagerPosition.Top || PagerPosition == DataGridPagerPosition.TopAndBottom ) )
     {
         @paginationFragment
     }
     <Form>
+        @if ( IsGroupableByColumn )
+        {
+            <_DataGridColumnDropZone TItem="TItem" Columns="@groupableColumns" ColumnRemoved="@RemoveGroupColumn" ColumnAdded="@AddGroupColumn" />
+        }
         <Table @ref="@tableRef" ElementId="@ElementId" Class="@ClassNames" Style="@Style" Margin="@Margin" Padding="@Padding" Striped="@Striped" Bordered="@Bordered" Borderless="@Borderless" Hoverable="@Hoverable" Narrow="@Narrow" Responsive="@Responsive" Resizable="@Resizable" ResizeMode="@ResizeMode" FixedHeader="@(Virtualize || FixedHeader)" FixedHeaderTableHeight="@GetFixedTableHeaderHeight()" FixedHeaderTableMaxHeight="@GetFixedTableHeaderMaxHeight()" @attributes="@Attributes">
             <TableHeader ThemeContrast="HeaderThemeContrast">
+                @if ( IsGroupHeaderCaptionsEnabled )
+                {
+                    <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.Default)" Color="@(HeaderRowStyling?.Color ?? Color.Default)">
+                        @groupIndentationFragment
+
+                        @foreach ( var headerGroup in DisplayableHeaderGroupColumns )
+                        {
+                            var column = headerGroup.col;
+
+                            @if ( string.IsNullOrWhiteSpace( column.HeaderGroupCaption ) || ( column.ColumnType == DataGridColumnType.Command && IsCommandVisible ) )
+                            {
+                                <TableRowHeader />
+                            }
+                            else
+                            {
+                                <TableHeaderCell ColumnSpan="headerGroup.colSpan" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                    @if ( HeaderGroupCaptionTemplate is null )
+                                    {
+                                        @column.HeaderGroupCaption
+                                    }
+                                    else
+                                    {
+                                        @HeaderGroupCaptionTemplate( new HeaderGroupContext( column.HeaderGroupCaption) )
+                                    }
+                                </TableHeaderCell>
+                            }
+                        }
+                    </TableRow>
+                }
                 @if ( ShowCaptions )
                 {
                     <TableRow Class="@HeaderRowStyling?.Class" Style="@HeaderRowStyling?.Style" Background="@(HeaderRowStyling?.Background ?? Background.Default)" Color="@(HeaderRowStyling?.Color ?? Color.Default)">
+
+                        @groupIndentationFragment
+
                         @foreach ( var column in DisplayableColumns )
                         {
                             @if ( column.ColumnType == DataGridColumnType.Command )
                             {
                                 @if ( IsCommandVisible )
                                 {
-                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
+                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                         @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                         {
                                             <_DataGridNewCommand TItem="TItem" New="@New" />
@@ -34,14 +70,18 @@
                             {
                                 @if ( MultiSelect )
                                 {
-                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
+                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                         <_DataGridMultiSelectAll TItem="TItem" IsIndeterminate="@IsMultiSelectAllIndeterminate" IsChecked="@IsMultiSelectAllChecked"></_DataGridMultiSelectAll>
                                     </TableHeaderCell>
                                 }
                             }
                             else
                             {
-                                <TableHeaderCell Class="@column.HeaderCellClass" Style="@($"{column.HeaderCellStyle}{(Sortable && column.Sortable ? "; cursor: pointer" : "")}{(column.Width != null ? $"; width: {column.Width}" : "")}".TrimStart( ' ', ';' ))" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderTextAlignment" VerticalAlignment="@column.HeaderVerticalAlignment" Display="@column.HeaderDisplay" Background="@column.HeaderCellBackground()">
+                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="@(() => OnColumnDragStarted(column))" DragEnd="@OnColumnDragEnded" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                    @if ( IsGroupableByColumn && column.Groupable )
+                                    {
+                                        <Icon Name="@IconName.GripVertical" Margin="@Blazorise.Margin.Is1.FromEnd" Style="cursor:move" />
+                                    }
                                     @if ( column.ShowCaption )
                                     {
                                         @if ( column.CaptionTemplate != null )
@@ -79,13 +119,16 @@
                 @if ( Filterable )
                 {
                     <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.Default)" Color="@(FilterRowStyling?.Color ?? Color.Default)">
+
+                        @groupIndentationFragment
+
                         @foreach ( var column in DisplayableColumns )
                         {
-                            if ( column.ColumnType == DataGridColumnType.MultiSelect )
+                            @if ( column.ColumnType == DataGridColumnType.MultiSelect )
                             {
                                 @if ( MultiSelect )
                                 {
-                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()">
+                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap">
                                         @if ( column.FilterTemplate != null && column.Filterable )
                                         {
                                             @(column.FilterTemplate( column.Filter ))
@@ -95,7 +138,7 @@
                             }
                             else if ( !column.Filterable )
                             {
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()"></TableHeaderCell>
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap"></TableHeaderCell>
                                 continue;
                             }
                             else if ( column.ColumnType == DataGridColumnType.Command )
@@ -103,21 +146,31 @@
                                 @if ( IsCommandVisible )
                                 {
                                     // since Clear Filter is located in the command column it can be visible only when Edit is enabled
-                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()">
+                                    <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap">
                                         <_DataGridClearFilterCommand TItem="TItem" />
                                     </TableHeaderCell>
                                 }
                             }
                             else
                             {
-                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" Background="@column.FilterCellBackground()">
+
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap">
                                     @if ( column.FilterTemplate != null )
                                     {
                                         @(column.FilterTemplate( column.Filter ))
                                     }
                                     else
                                     {
-                                        <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@(async (newValue) => await OnFilterChanged(column, newValue))" />
+                                        //If this grows, move to a seperate component.
+                                        if ( column is DataGridSelectColumn<TItem> selectColumn )
+                                        {
+                                            <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@((newValue) => OnFilterChanged(column, newValue))"></_DataGridCellSelectEdit>
+
+                                        }
+                                        else
+                                        {
+                                            <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => OnFilterChanged(column, newValue))" />
+                                        }
                                     }
                                 </TableHeaderCell>
                             }
@@ -164,9 +217,17 @@
                     }
                     else
                     {
-                        @foreach ( var item in DisplayData )
+                        @if ( IsGroupEnabled )
                         {
-                            @rowFragment( item )
+                            @groupFragment( (0, DisplayGroupedData) )
+                        }
+                        else
+                        {
+
+                            @foreach ( var item in DisplayData )
+                            {
+                                @rowFragment( item )
+                            }
                         }
                     }
                 }
@@ -184,7 +245,7 @@
                 }
                 @if ( IsLoadingTemplateVisible )
                 {
-                    <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns">
+                    <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" RenderUpdates>
                         @LoadingTemplate
                     </_DataGridFullColumnSpanRow>
                 }
@@ -247,8 +308,57 @@
         }
     };
 
+    protected RenderFragment groupFragment( (int iteration, IEnumerable<GroupContext<TItem>> groupedData) x ) => __builder =>
+    {
+        @foreach ( var group in x.groupedData )
+        {
+            <TableRowGroup @key="group.Key" Expanded="@group.Expanded" ExpandedChanged="@group.SetExpanded" IndentTableCells="x.iteration">
+                <TitleTemplate>
+                    @if ( group.GroupTemplate is null )
+                    {
+                        @group.Key
+                    }
+                    else
+                    {
+                        @group.GroupTemplate( group )
+                    }
+                </TitleTemplate>
+                <ChildContent>
+                    @{
+                        if ( group.NestedGroup is null )
+                        {
+                            @foreach ( var item in group.Items )
+                            {
+                                @rowFragment( item )
+                            }
+                        }
+                        else
+                        {
+                            @groupFragment( (x.iteration + 1, group.NestedGroup) )
+                        }
+                    }
+                </ChildContent>
+            </TableRowGroup>
+        }
+    };
+
+    protected internal RenderFragment groupIndentationFragment => __builder =>
+    {
+        @if ( IsGroupEnabled )
+        {
+            var count = GroupableColumnsCount;
+            if ( count > 1 )
+            {
+                for ( int i = 1; i < count; i++ )
+                {
+                    <TableRowHeader />
+                }
+            }
+        }
+    };
+
     protected RenderFragment aggregateRowFragment => __builder =>
     {
-        <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@GroupRowStyling?.Class" Style="@GroupRowStyling?.Style" Background="@(GroupRowStyling?.Background ?? Background.Default)" Color="@(GroupRowStyling?.Color ?? Color.Default)" />
+        <_DataGridAggregateRow TItem="TItem" Aggregates="@Aggregates" Columns="@DisplayableColumns" Class="@AggregateRowStyling?.Class" Style="@AggregateRowStyling?.Style" Background="@(AggregateRowStyling?.Background ?? Background.Default)" Color="@(AggregateRowStyling?.Color ?? Color.Default)" />
     };
 }

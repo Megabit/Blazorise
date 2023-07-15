@@ -1,0 +1,49 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<TreeView Nodes="Items"
+          GetChildNodes="@(item => item.Children)"
+          HasChildNodes="@(item => item.Children?.Any() == true)"
+          SelectionMode="TreeViewSelectionMode.Multiple"
+          @bind-SelectedNodes="selectedNodes">
+    <NodeContent>
+        <Icon Name="IconName.Folder" />
+        @context.Text
+    </NodeContent>
+</TreeView>
+
+@code {
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    IEnumerable<Item> Items = new[]
+    {
+        new Item { Text = "Item 1" },
+        new Item
+        {
+            Text = "Item 2",
+            Children = new []
+            {
+                new Item { Text = "Item 2.1" },
+                new Item
+                {
+                    Text = "Item 2.2",
+                    Children = new []
+                    {
+                        new Item { Text = "Item 2.2.1" },
+                        new Item { Text = "Item 2.2.2" },
+                        new Item { Text = "Item 2.2.3" },
+                        new Item { Text = "Item 2.2.4" }
+                    }
+                },
+                new Item { Text = "Item 2.3" },
+                new Item { Text = "Item 2.4" }
+            }
+        },
+        new Item { Text = "Item 3" },
+    };
+
+    IList<Item> selectedNodes = new List<Item>();
+}

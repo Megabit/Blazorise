@@ -1,0 +1,4 @@
+﻿@inherits Blazorise.AccordionToggle
+<button d="@ElementId" type="button" class="@ClassNames" style="@StyleNames" aria-expanded="@((!CollapseVisible).ToString().ToLowerInvariant())" @onclick="@ClickHandler" @attributes="@Attributes">
+    @ChildContent
+</button>

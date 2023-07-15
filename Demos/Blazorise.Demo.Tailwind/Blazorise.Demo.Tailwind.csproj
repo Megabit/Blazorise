@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <Import Project="..\..\Build\Blazorise.Client.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Blazorise.Tailwind\Blazorise.Tailwind.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
+    <ProjectReference Include="..\Blazorise.Demo\Blazorise.Demo.csproj" />
+  </ItemGroup>
+
+</Project>

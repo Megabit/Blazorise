@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.ComponentModel;
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -14,18 +15,30 @@ public class SavedRowItem<TItem, TValues> : EventArgs
     /// <summary>
     /// Initializes a new instance of the event argument.
     /// </summary>
-    /// <param name="item">Saved item.</param>
+    /// <param name="oldItem">Old Saved item.</param>
+    /// <param name="newItem">New Saved item.</param>
     /// <param name="values">Edited values.</param>
-    public SavedRowItem( TItem item, TValues values )
+    public SavedRowItem( TItem oldItem, TItem newItem, TValues values )
     {
-        Item = item;
+        OldItem = oldItem;
+        NewItem = newItem;
         Values = values;
     }
 
     /// <summary>
     /// Gets the model that was saved.
     /// </summary>
-    public TItem Item { get; }
+    [Obsolete( "CancellableRowChange: The Item is deprecated, please use the OldItem instead." )]
+    [EditorBrowsable( EditorBrowsableState.Never )]
+    public TItem Item => OldItem;
+
+    /// <summary>
+    /// Gets the model with the values before being edited.
+    /// </summary>
+    public TItem OldItem { get; }
+
+    /// Gets the model with the edited values.
+    public TItem NewItem { get; }
 
     /// <summary>
     /// Values that are being edited by the datagrid.

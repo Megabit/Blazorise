@@ -45,6 +45,7 @@ public static class Config
 
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
+        { typeof( Blazorise.AccordionToggle ), typeof( Bootstrap5.AccordionToggle ) },
         { typeof( Blazorise.Addon ), typeof( Bootstrap5.Addon ) },
         { typeof( Blazorise.BarToggler ), typeof( Bootstrap5.BarToggler ) },
         { typeof( Blazorise.BarDropdown ), typeof( Bootstrap5.BarDropdown ) },
@@ -60,6 +61,7 @@ public static class Config
         { typeof( Blazorise.DropdownToggle ), typeof( Bootstrap5.DropdownToggle ) },
         { typeof( Blazorise.Field ), typeof( Bootstrap5.Field ) },
         { typeof( Blazorise.FieldBody ), typeof( Bootstrap5.FieldBody ) },
+        { typeof( Blazorise.FileEdit ), typeof( Bootstrap5.FileEdit ) },
         { typeof( Blazorise.Modal ), typeof( Bootstrap5.Modal ) },
         { typeof( Blazorise.ModalContent ), typeof( Bootstrap5.ModalContent) },
         { typeof( Blazorise.NumericPicker<> ), typeof( Bootstrap5.NumericPicker<> ) },

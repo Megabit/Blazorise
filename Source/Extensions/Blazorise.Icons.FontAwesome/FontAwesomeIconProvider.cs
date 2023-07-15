@@ -141,6 +141,7 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.Gift, "fa-gift" },
         { IconName.Grin, "fa-grin" },
         { IconName.GripLines, "fa-grip-lines" },
+        { IconName.GripVertical, FontAwesomeIcons.GripVertical },
         { IconName.HandPaper, "fa-hand-paper" },
         { IconName.HandsHelping, "fa-hands-helping" },
         { IconName.Headphones, "fa-headphones" },

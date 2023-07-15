@@ -4,8 +4,11 @@
           <span class="htmlAttributeName">GetChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children)</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">HasChildNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(item =&gt; item.Children?.Any() == true)</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedNode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">selectedNode</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ExpandedNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ExpandedNodes</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
-    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>context.Text<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
+          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ExpandedNodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">expandedNodes</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Icon</span> <span class="htmlAttributeName">Name</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">IconName</span><span class="enumValue">.Folder</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+        <span class="atSign">&#64;</span>context.Text
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">NodeContent</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TreeView</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
@@ -19,27 +22,31 @@
     IEnumerable&lt;Item&gt; Items = <span class="keyword">new</span>[]
     {
         <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 1&quot;</span> },
-        <span class="keyword">new</span> Item {
+        <span class="keyword">new</span> Item
+        {
             Text = <span class="string">&quot;Item 2&quot;</span>,
             Children = <span class="keyword">new</span> []
-    {
+            {
                 <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.1&quot;</span> },
-                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2&quot;</span>, Children = <span class="keyword">new</span> []
-        {
-                    <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.1&quot;</span> },
-                    <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.2&quot;</span> },
-                    <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.3&quot;</span> },
-                    <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.4&quot;</span> }
-                }
-            },
-            <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.3&quot;</span> },
-            <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.4&quot;</span> }
+                <span class="keyword">new</span> Item
+                {
+                    Text = <span class="string">&quot;Item 2.2&quot;</span>,
+                    Children = <span class="keyword">new</span> []
+                    {
+                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.1&quot;</span> },
+                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.2&quot;</span> },
+                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.3&quot;</span> },
+                        <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.4&quot;</span> }
+                    }
+                },
+                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.3&quot;</span> },
+                <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.4&quot;</span> }
             }
         },
         <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 3&quot;</span> },
     };
 
-    IList&lt;Item&gt; ExpandedNodes = <span class="keyword">new</span> List&lt;Item&gt;();
+    IList&lt;Item&gt; expandedNodes = <span class="keyword">new</span> List&lt;Item&gt;();
     Item selectedNode;
 }
 </pre></div>

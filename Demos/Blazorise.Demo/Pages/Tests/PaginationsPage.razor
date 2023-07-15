@@ -1,0 +1,194 @@
+﻿@page "/tests/paginations";
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Basic Pagination</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Provide pagination links for your site or app with the multi-page pagination component.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Pagination>
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">Previous</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                    @for ( int i = 1; i <= 5; ++i )
+                    {
+                        var pageIndex = i.ToString();
+
+                        <PaginationItem>
+                            <PaginationLink>
+                                @pageIndex
+                            </PaginationLink>
+                        </PaginationItem>
+                    }
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">Next</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                </Pagination>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Pagination with icon</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Add an icon for additional sizes.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Pagination>
+                    <PaginationItem>
+                        <PaginationLink>
+                            <Icon Name="IconName.Backward" />
+                        </PaginationLink>
+                    </PaginationItem>
+                    @for ( int i = 1; i <= 5; ++i )
+                    {
+                        var pageIndex = i.ToString();
+
+                        <PaginationItem>
+                            <PaginationLink>
+                                @pageIndex
+                            </PaginationLink>
+                        </PaginationItem>
+                    }
+                    <PaginationItem>
+                        <PaginationLink>
+                            <Icon Name="IconName.Forward" />
+                        </PaginationLink>
+                    </PaginationItem>
+                </Pagination>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Disabled and active states</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Pagination links are customizable for different circumstances. Use <Code>Disabled</Code> for links that appear un-clickable and <Code>Active</Code> to indicate the current page.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Pagination>
+                    <PaginationItem Disabled>
+                        <PaginationLink>
+                            <span aria-hidden="true">Previous</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                    @for ( int i = 1; i <= 5; ++i )
+                    {
+                        var pageIndex = i.ToString();
+
+                        <PaginationItem Active="@(i == 2)">
+                            <PaginationLink>
+                                @pageIndex
+                            </PaginationLink>
+                        </PaginationItem>
+                    }
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">Next</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                </Pagination>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Pagination Sizing</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Fancy larger or smaller pagination? Add <code>Size.Large</code> or <code>Size.Small</code> for additional sizes.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Pagination Size="Size.Small">
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">Previous</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                    @for ( int i = 1; i <= 5; ++i )
+                    {
+                        var pageIndex = i.ToString();
+
+                        <PaginationItem Active="@(i == 2)">
+                            <PaginationLink>
+                                @pageIndex
+                            </PaginationLink>
+                        </PaginationItem>
+                    }
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">Next</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                </Pagination>
+                <Pagination>
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">Previous</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                    @for ( int i = 1; i <= 5; ++i )
+                    {
+                        var pageIndex = i.ToString();
+
+                        <PaginationItem Active="@(i == 2)">
+                            <PaginationLink>
+                                @pageIndex
+                            </PaginationLink>
+                        </PaginationItem>
+                    }
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">Next</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                </Pagination>
+                <Pagination Size="Size.Large">
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">Previous</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                    @for ( int i = 1; i <= 5; ++i )
+                    {
+                        var pageIndex = i.ToString();
+
+                        <PaginationItem Active="@(i == 2)">
+                            <PaginationLink>
+                                @pageIndex
+                            </PaginationLink>
+                        </PaginationItem>
+                    }
+                    <PaginationItem>
+                        <PaginationLink>
+                            <span aria-hidden="true">Next</span>
+                        </PaginationLink>
+                    </PaginationItem>
+                </Pagination>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

@@ -8,7 +8,15 @@ public abstract class StyleProvider : IStyleProvider
 {
     #region Modal
 
+    public abstract int DefaultModalZIndex { get; }
+
+    public abstract int DefaultModalBackdropZIndex { get; }
+
     public abstract string ModalShow();
+
+    public abstract string ModalZIndex( int modalOpenIndex );
+
+    public abstract string ModalBackdropZIndex( int modalOpenIndex );
 
     #endregion
 

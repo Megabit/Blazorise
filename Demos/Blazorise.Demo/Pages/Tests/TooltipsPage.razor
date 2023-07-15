@@ -1,0 +1,96 @@
+﻿@page "/tests/tooltip";
+@page "/tests/tooltips";
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Tooltip</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Display a tooltip attached to any kind of element with different positioning.</CardText>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.Is6">
+                        <Tooltip Text="Hello tooltip">
+                            <Button Color="Color.Primary">Tooltip</Button>
+                        </Tooltip>
+                        <Tooltip Text="Tooltip with a long Text. So we use Multiline modifier to force multiline display." Multiline>
+                            <Button Color="Color.Primary">Multiline Tooltip</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello faded tooltip" Fade>
+                            <Button Color="Color.Primary">Fade Tooltip</Button>
+                        </Tooltip>
+                        <Tooltip Text="Tooltip text" AlwaysActive>
+                            <Button Color="Color.Primary">Always Active</Button>
+                        </Tooltip>
+                        <Tooltip Text="Tooltip text" ShowArrow="false">
+                            <Button Color="Color.Primary">No Arrow</Button>
+                        </Tooltip>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Field>
+                            <Tooltip Text="Hello tooltip">
+                                <TextEdit></TextEdit>
+                            </Tooltip>
+                        </Field>
+                        <Field>
+                            <Div ElementId="tooltip-custom-target">
+                                Trigger target vs
+                                <Tooltip Text="I'm a tooltip!" TriggerTargetId="tooltip-custom-target" Inline>
+                                    <Badge Color="Color.Warning">positioning target</Badge>
+                                </Tooltip>
+                            </Div>
+                        </Field>
+                    </Column>
+                </Row>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Left" ShowArrow="false">
+                            <Button Color="Color.Primary">Left</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Top" ShowArrow="false">
+                            <Button Color="Color.Primary">Top</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Bottom" ShowArrow="false">
+                            <Button Color="Color.Primary">Bottom</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.Right" ShowArrow="false">
+                            <Button Color="Color.Primary">Right</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.TopStart" ShowArrow="false">
+                            <Button Color="Color.Primary" Padding="Padding.Is5.OnX">Tooltip at top start</Button>
+                        </Tooltip>
+                        <Tooltip Text="Hello tooltip" Placement="TooltipPlacement.TopEnd" ShowArrow="false">
+                            <Button Color="Color.Primary" Padding="Padding.Is5.OnX">Tooltip at top end</Button>
+                        </Tooltip>
+                    </Column>
+                    <Column>
+                        <Tooltip Text="<span style='color: aqua;'>Hello</span>, this is a <strong>bolded content</strong>!">
+                            <Button Color="Color.Primary">Html content</Button>
+                        </Tooltip>
+                    </Column>
+                </Row>
+            </CardBody>
+            <CardBody>
+                <CardText>Tooltips can also be triggered by <code>click</code> or <code>focus</code> events.</CardText>
+                <Row>
+                    <Column>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.Click">
+                            <Button Color="Color.Primary">Click</Button>
+                        </Tooltip>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.Focus">
+                            <Button Color="Color.Primary">Focus</Button>
+                        </Tooltip>
+                        <Tooltip Text="I'm a tooltip!" Trigger="TooltipTrigger.MouseEnterClick">
+                            <Button Color="Color.Primary">MouseEnterClick</Button>
+                        </Tooltip>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

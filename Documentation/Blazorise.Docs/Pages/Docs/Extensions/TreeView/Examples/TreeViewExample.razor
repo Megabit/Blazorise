@@ -4,8 +4,11 @@
           GetChildNodes="@(item => item.Children)"
           HasChildNodes="@(item => item.Children?.Any() == true)"
           @bind-SelectedNode="selectedNode"
-          @bind-ExpandedNodes="ExpandedNodes">
-    <NodeContent>@context.Text</NodeContent>
+          @bind-ExpandedNodes="expandedNodes">
+    <NodeContent>
+        <Icon Name="IconName.Folder" />
+        @context.Text
+    </NodeContent>
 </TreeView>
 
 @code{
@@ -18,26 +21,30 @@
     IEnumerable<Item> Items = new[]
     {
         new Item { Text = "Item 1" },
-        new Item {
+        new Item
+        {
             Text = "Item 2",
             Children = new []
-    {
+            {
                 new Item { Text = "Item 2.1" },
-                new Item { Text = "Item 2.2", Children = new []
-        {
-                    new Item { Text = "Item 2.2.1" },
-                    new Item { Text = "Item 2.2.2" },
-                    new Item { Text = "Item 2.2.3" },
-                    new Item { Text = "Item 2.2.4" }
-                }
-            },
-            new Item { Text = "Item 2.3" },
-            new Item { Text = "Item 2.4" }
+                new Item
+                {
+                    Text = "Item 2.2",
+                    Children = new []
+                    {
+                        new Item { Text = "Item 2.2.1" },
+                        new Item { Text = "Item 2.2.2" },
+                        new Item { Text = "Item 2.2.3" },
+                        new Item { Text = "Item 2.2.4" }
+                    }
+                },
+                new Item { Text = "Item 2.3" },
+                new Item { Text = "Item 2.4" }
             }
         },
         new Item { Text = "Item 3" },
     };
 
-    IList<Item> ExpandedNodes = new List<Item>();
+    IList<Item> expandedNodes = new List<Item>();
     Item selectedNode;
 }

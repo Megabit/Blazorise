@@ -1,3 +1,5 @@
 ﻿@namespace Blazorise
-@inherits BaseComponent
-<a id="@ElementId" href="@Source" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">@ChildContent</a>
+@inherits BaseLinkComponent
+<a id="@ElementId" href="@To" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
+    @ChildContent
+</a>

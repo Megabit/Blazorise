@@ -1,0 +1,255 @@
+﻿@page "/news/release-notes/130"
+
+<Seo Canonical="news/release-notes/130" Title="Blazorise v1.3" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.3 release." ImageUrl="img/news/empty.png" />
+
+<NewsPageImage Source="img/news/empty.png" Text="Blazorise v1.3" />
+
+<NewsPageTitle>
+    Announcing Blazorise 1.3
+</NewsPageTitle>
+
+<Paragraph>
+    TODO
+</Paragraph>
+
+<NewsPageSubtitle>
+    Blazorise 1.3 Highlights 💡
+</NewsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        TODO
+    </UnorderedListItem>
+</UnorderedList>
+
+<NewsPageSubtitle>
+    Upgrade an existing Blazorise project 👨‍🔧
+</NewsPageSubtitle>
+
+<Paragraph>
+    To upgrade an existing Blazorise applications from <Strong>1.1.x</Strong> to <Strong>1.3</Strong>:
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.3</Strong>.
+    </UnorderedListItem>
+</UnorderedList>
+
+<Paragraph>
+    You should now be able to use Blazorise without any breaking changes.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Breaking Behaviour
+</NewsPageSubtitle>
+
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            <Code>DataGrid</Code> : The data collection no longer automatically updates upon mutating the collection, for example, by using methods like <Code>Add</Code> or <Code>Remove</Code>.
+        </Paragraph>
+        <Paragraph>
+            While this feature was good to have by default, the way it was implemented, was a general performance hit on <Code>DataGrid</Code> usage, even if it wasn't in the interest of the consumer to use it.
+        </Paragraph>
+        <Paragraph>
+            As such we now recommended the following, either:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>Invoke <Code>gridRef.Reload();</Code> when you're done mutating your collection;</UnorderedListItem>
+                <UnorderedListItem>Have your data be observable by using any implementation of the <Code>INotifyCollectionChanged</Code>, like the <Code>ObservableCollection</Code>. The example below ilustrates this.</UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
+            Please visit, <Anchor To="docs/extensions/datagrid/binding-data/observable">observable data docs</Anchor> for more information.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+<NewsPageSubtitle>
+    New Features 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Message Provider
+</Heading>
+
+<Paragraph>
+    We have added localization support to the MessageProvider. This update will allow developers to create applications that can support multiple languages and locales.
+</Paragraph>
+
+<Paragraph>
+    The MessageProvider is a vital component in Blazorise that enables the display of notifications, alerts, and other messages to users. With the added localization support, developers can now customize the messages displayed to users based on their preferred language and locale.
+</Paragraph>
+
+<Paragraph>
+    This update will make it easier for developers to create applications that can cater to a global audience. We hope this update will be beneficial to our users and help them create more accessible and user-friendly applications.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Paragraph>
+    The <Code>DataGridSelectColumn</Code> will now enable you to provide new parameters so you can quickly render a select structure.
+</Paragraph>
+
+<Paragraph>
+    We've changed the <Code>CancellableRowChange</Code> argument that's provided in the RowInserting, RowUpdating and RowRemoving callbacks and the <Code>SavedRowItem</Code> that's provided in the RowInserted, RowUpdated callbacks to now provide both an <Code>OldItem</Code> and <Code>NewItem</Code>.
+</Paragraph>
+
+<Paragraph>
+    <Code>OldItem</Code> will replace the regular existing <Code>Item</Code> as it's easier to understand what it represents.
+    <Code>Item</Code> is now marked as obsolete and will be removed in a future release.
+</Paragraph>
+
+<Paragraph>
+    <Code>NewItem</Code> is a deep clone of the item that's being inserted or updated with the updated edit values.
+</Paragraph>
+
+<Paragraph>
+    The existing <Code>Values</Code> Dictionary will still exist, but this allows you to promptly get a mapped <Code>TItem</Code> without having to write your own mapping code from the <Code>Dictionary</Code>.
+</Paragraph>
+
+<Paragraph>
+    Introduced a new <Code>ApplySorting</Code> method that allows you to programatically define the columns that you'd like the grid to be sorted on.
+</Paragraph>
+
+<Paragraph>
+    Please visit, <Anchor To="docs/extensions/datagrid/features/sorting">datagrid sorting docs</Anchor> for more information.
+</Paragraph>
+
+<Paragraph>
+    You are now able to use pre defined filtering on a per-column basis by specifying <Code>FilterMethod</Code> on <Code>DataGridColumn</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Expandable row groups
+</Heading>
+
+<Paragraph>
+    Introduced <Code>ExpandGroups</Code> and <Code>CollapseGroups</Code> methods that allows you to programatically expand or collapse specific groups.
+</Paragraph>
+
+<Paragraph>
+    These new methods provide you with more control over how the data is presented and viewed, allowing you to tailor the user experience to specific usage scenarios and user preferences.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Filtering
+</Heading>
+
+<Paragraph>
+    Added a new <Code>ClearFilter</Code> overload. You are now able to clear the filter on specific columns.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    HeaderGroupCaption
+</Heading>
+
+<Paragraph>
+    We are excited to introduce the new <Strong>HeaderGroupCaption</Strong> feature for the DataGrid component. This feature allows you to group together multiple DataGrid column headers under a single, overarching caption.
+</Paragraph>
+
+<Paragraph>
+    This is especially useful when you have related columns that need to be grouped under a common heading for better understanding and organization. For instance, if you have a DataGrid displaying product details, you can group columns like 'Price', 'Discount', and 'Total Cost' under a header group captioned 'Financial Details'.
+</Paragraph>
+
+<Paragraph>
+    With this enhancement, you can now structure your data more effectively and provide more clarity to users. Grouping column headers using <Strong>HeaderGroupCaption</Strong> significantly improves the readability of complex grids and enhances user experience by enabling more intuitive navigation through the DataGrid.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Contributions
+</Heading>
+
+<Paragraph>
+    DataGrid : ApplySorting was contributed by <Anchor To="https://github.com/danm-de">danm-de</Anchor>
+</Paragraph>
+<Paragraph>
+    Introduced a new <Code>RowOverlayTemplate</Code> that allows you to render an overlay with adittional information on top of the row.
+</Paragraph>
+
+<Paragraph>
+    Please visit, <Anchor To="docs/extensions/datagrid/templates/row-overlay">row overlay docs</Anchor> for more information.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    FieldLabel
+</Heading>
+
+<Paragraph>
+    A new <Code>RequiredIndicator</Code> parameter was introduced. By enabling this parameter. The label will display a a required indicator by appending a relevant class which by default will render an asterix by the label with the theme's danger color. Which you can of course override the css class to your liking.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Dropdown
+</Heading>
+
+<Paragraph>
+    We have added a new <Code>Checkbox</Code> parameter to the <Code>DropdownItem</Code> so you may now render dropdown items with checkboxes. You can also track the state of each one by binding to the new <Code>Checked</Code> and <Code>CheckedChanged</Code> parameters.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DropdownList
+</Heading>
+
+<Paragraph>
+    Introduced a new <Code>SelectionMode</Code> parameter, which allows the selection of a new Checkbox mode, that will set the <Code>DropdownList</Code> into a multiple selection mode. You can track the state of the selection by binding to the new <Code>SelectedValues</Code> and <Code>SelectedValuesChanged</Code> parameters.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    TreeView
+</Heading>
+
+<Paragraph>
+    Introduced <Code>RemoveNode</Code> method that allows you to remove a node from the tree if it's found.
+</Paragraph>
+
+<Paragraph>
+    You are now able to make node children collections observable (retrieved by <Code>GetChildNodes</Code> / <Code>GetChildNodesAsync</Code> ) and any changes to them should be reflected on the UI.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Autocomplete
+</Heading>
+
+<Paragraph>
+    1. We have added a new <Code>FreeTypingNotFoundTemplate</Code> parameter so you may provide a custom template when the user types in a value that is not found in the data source and <Code>FreeTyping</Code> is enabled.
+</Paragraph>
+
+<Paragraph>
+    This is useful when you want to provide a message for the user related to an item that's not in the data source. For example, presenting the following message for the Singapore text that's not in the data source: Add "Singapore"?
+</Paragraph>
+
+<Paragraph>
+    2. We have added a new <Code>AutocompleteTagContext</Code> parameter so you may customize tags to your liking when using <Code>Autocomplete</Code> multiple selection mode.
+</Paragraph>
+
+<Paragraph>
+    3. We've added EventCallbacks for the events that we currently listen to in the <Code>Autocomplete</Code>, these are called when the <Code>Autocomplete</Code> finishes handling the corresponding event.
+    <UnorderedList>
+        <UnorderedListItem><Code>SearchTextChanged</Code></UnorderedListItem>
+        <UnorderedListItem><Code>SearchKeyDown</Code></UnorderedListItem>
+        <UnorderedListItem><Code>SearchFocus</Code></UnorderedListItem>
+        <UnorderedListItem><Code>SearchBlur</Code></UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Signature Pad
+</Heading>
+
+<Paragraph>
+    We are pleased to announce that Signature Pad now supports the capture and storage of digital signatures. This update will allow developers to create applications that require the collection of signatures from users, such as contracts, agreements, and other legal documents.
+</Paragraph>
+
+<Paragraph>
+    The Signature Pad is a crucial component in Blazorise that enables users to sign and submit documents electronically. With this update, developers can now capture and store signatures in a secure and reliable manner, ensuring the authenticity and integrity of the documents.
+</Paragraph>
+
+<Paragraph>
+    This update will make it easier for developers to create applications that require the collection of digital signatures, saving time and effort for both the users and the developers. We hope this update will be beneficial to our users and help them create more efficient and effective applications.
+</Paragraph>
+
+<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="June 1st, 2023" Read="7 min" />

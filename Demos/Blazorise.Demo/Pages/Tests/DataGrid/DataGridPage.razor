@@ -211,17 +211,21 @@
                           RowInserted="@OnRowInserted"
                           RowUpdated="@OnRowUpdated"
                           RowRemoved="@OnRowRemoved"
-                          UseInternalEditing
-                          @bind-SelectedRow="@selectedEmployee"
-                          @bind-SelectedRows="@selectedEmployees"
+                          RowInserting="@OnRowInserting"
+                          RowUpdating="@OnRowUpdating"
+                          RowRemoving="@OnRowRemoving"
+                          UseInternalEditing="false"
+                @bind-SelectedRow="@selectedEmployee"
+                @bind-SelectedRows="@selectedEmployees"
                           NewItemDefaultSetter="@OnEmployeeNewItemDefaultSetter"
-                          DetailRowTrigger="@((e)=> e.Item.Salaries?.Count > 0 && e.Item.Id == selectedEmployee?.Id)"                          
+                          DetailRowTrigger="@((e)=> e.Item.Salaries?.Count > 0 && e.Item.Id == selectedEmployee?.Id)"
                           Striped
                           Bordered
                           Hoverable
                           Responsive
                           ValidationsSummaryLabel="Following error occurs..."
                           CustomFilter="@OnCustomFilter"
+                          PageSize="5"
                           CurrentPage="currentPage"
                           PageChanged="(e) => currentPage = e.Page"
                           FilteredDataChanged="@OnFilteredDataChanged"
@@ -263,7 +267,7 @@
                                 <Check TValue="bool" Checked="@context.IsSelected" CheckedExpression="() => context.IsSelected" Indeterminate="@context.IsIndeterminate" CheckedChanged="@context.SelectedChanged"></Check>
                             </MultiSelectTemplate>
                         </DataGridMultiSelectColumn>
-                        <DataGridCommandColumn Width="170px" PreventRowClick>
+                        <DataGridCommandColumn PreventRowClick>
                             <NewCommandTemplate>
                                 <Button Color="Color.Success" Clicked="@context.Clicked">@context.LocalizationString</Button>
                             </NewCommandTemplate>
@@ -290,7 +294,7 @@
                             </FilterTemplate>
                         </DataGridColumn>
                         <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable ValidationPattern="[A-Za-z]{3}" />
-                        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable PopupFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
+                        <DataGridColumn Field="@nameof( Employee.Email )" Caption="Email" Editable EditFieldColumnSize="ColumnSize.IsFull.OnDesktop" />
                         <DataGridColumn Field="@nameof( Employee.City )" Caption="City" Editable>
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
@@ -315,45 +319,10 @@
                         </DataGridColumn>
                         <DataGridDateColumn Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
                         <DataGridNumericColumn Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
-                        <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" Field="@nameof( Employee.Gender )" Caption="Gender" Editable>
-                            <FilterTemplate>
-                                @{
-                                    selectedGenderFilter = @context.SearchValue?.ToString() ?? "";
-                                    <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
-                                        <SelectItem Value="@("")">All</SelectItem>
-                                        <SelectItem Value="@("M")">Male</SelectItem>
-                                        <SelectItem Value="@("F")">Female</SelectItem>
-                                        <SelectItem Value="@("D")">Diverse</SelectItem>
-                                    </Select>
-                                }
-                            </FilterTemplate>
-                            <DisplayTemplate>
-                                @{
-                                    var gender = ( context as Employee )?.Gender;
 
-                                    @if ( gender == "M" )
-                                    {
-                                        @("Male")
-                                    }
-                                    else if ( gender == "F" )
-                                    {
-                                        @("Female")
-                                    }
-                                    else if ( gender == "D" )
-                                    {
-                                        @("Diverse")
-                                    }
-                                }
-                            </DisplayTemplate>
-                            <EditTemplate>
-                                <Select TValue="string" SelectedValue="@((string)( context.CellValue ))" SelectedValueChanged="@(( v ) => { context.CellValue = v; context.UpdateCell( nameof( Employee.FirstName ), TitleToName( TitleFromGender( v ), context.ReadCell( nameof( Employee.FirstName ) ) ) ); })">
-                                    <SelectItem Value="(string)null"></SelectItem>
-                                    <SelectItem Value="@("M")">Male</SelectItem>
-                                    <SelectItem Value="@("F")">Female</SelectItem>
-                                    <SelectItem Value="@("D")">Diverse</SelectItem>
-                                </Select>
-                            </EditTemplate>
-                        </DataGridSelectColumn>
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" 
+                                                CustomFilter="@OnGenderCustomFilter"
+                                                Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
                         <DataGridColumn Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
                             <EditTemplate>
                                 <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
@@ -366,9 +335,9 @@
                             var salaries = ( context as Employee ).Salaries;
 
                             <DataGrid TItem="Salary"
-                                  Data="salaries"
-                                  Sortable="false"
-                                  ShowCaptions="false">
+                                      Data="salaries"
+                                      Sortable="false"
+                                      ShowCaptions="false">
                                 <DataGridCommandColumn />
                                 <DataGridDateColumn Field="@nameof(Salary.Date)" Caption="Date" />
                                 <DataGridNumericColumn Field="@nameof(Salary.Total)" Caption="Total" />

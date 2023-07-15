@@ -29,9 +29,12 @@
                         </Field>
                     }
                     <Fields>
+                        @{
+#pragma warning disable CS0618 // Type or member is obsolete
+                        }
                         @foreach ( var column in OrderedEditableColumns )
                         {
-                            <Field ColumnSize="@column.PopupFieldColumnSize" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
+                            <Field ColumnSize="@(column.EditFieldColumnSize ?? column.PopupFieldColumnSize ?? ColumnSize.IsHalf.OnDesktop)" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
                                 <FieldLabel>
                                     @column.Caption
                                 </FieldLabel>
@@ -39,6 +42,9 @@
                                     <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" ValidationItem="@ValidationItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                                 </FieldBody>
                             </Field>
+                        }
+                        @{
+#pragma warning restore CS0618 // Type or member is obsolete
                         }
                     </Fields>
                 </Validations>

@@ -370,7 +370,6 @@ public static class FontAwesomeIcons
     public static readonly string FolderOpen = "fa-folder-open";
     public static readonly string FolderPlus = "fa-folder-plus";
     public static readonly string Font = "fa-font";
-    public static readonly string FontAwesomeLogoFull = "fa-font-awesome-logo-full";
     public static readonly string FootballBall = "fa-football-ball";
     public static readonly string Forward = "fa-forward";
     public static readonly string Frog = "fa-frog";

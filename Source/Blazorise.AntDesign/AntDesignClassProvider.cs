@@ -12,9 +12,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string TextEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+    public override string TextEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+    public override string TextEditColor( Color color ) => color != Color.Default ? $"ant-form-text-{ToColor( color )}" : null;
 
     public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -24,7 +24,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string MemoEdit( bool plaintext ) => plaintext ? "ant-input ant-input-static" : "ant-input";
 
-    public override string MemoEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+    public override string MemoEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
     public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -36,7 +36,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string SelectMultiple() => null;
 
-    public override string SelectSize( Size size ) => $"ant-select-{ToSize( size )}";
+    public override string SelectSize( Size size ) => size != Size.Default ? $"ant-select-{ToSize( size )}" : null;
 
     public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -46,7 +46,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string NumericEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+    public override string NumericEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
     public override string NumericEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
 
@@ -58,9 +58,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DateEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string DateEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+    public override string DateEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string DateEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+    public override string DateEditColor( Color color ) => color != Color.Default ? $"ant-form-text-{ToColor( color )}" : null;
 
     public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -70,9 +70,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimeEdit( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string TimeEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+    public override string TimeEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+    public override string TimeEditColor( Color color ) => color != Color.Default ? $"ant-form-text-{ToColor( color )}" : null;
 
     public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -82,7 +82,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ColorEdit() => "ant-input";
 
-    public override string ColorEditSize( Size size ) => $"ant-input-{ToSize( size )}";
+    public override string ColorEditSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
     #endregion
 
@@ -90,9 +90,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DatePicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string DatePickerSize( Size size ) => $"ant-input-{ToSize( size )}";
+    public override string DatePickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+    public override string DatePickerColor( Color color ) => color != Color.Default ? $"ant-form-text-{ToColor( color )}" : null;
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -102,9 +102,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimePicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string TimePickerSize( Size size ) => $"ant-input-{ToSize( size )}";
+    public override string TimePickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+    public override string TimePickerColor( Color color ) => color != Color.Default ? $"ant-form-text-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -114,7 +114,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ColorPicker() => "ant-input b-input-color-picker";
 
-    public override string ColorPickerSize( Size size ) => $"ant-input-{ToSize( size )}";
+    public override string ColorPickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
     #endregion
 
@@ -122,9 +122,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericPicker( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string NumericPickerSize( Size size ) => $"ant-input-{ToSize( size )}";
+    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+    public override string NumericPickerColor( Color color ) => color != Color.Default ? $"ant-form-text-{ToColor( color )}" : null;
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -134,9 +134,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string InputMask( bool plaintext ) => plaintext ? "ant-form-text" : "ant-input";
 
-    public override string InputMaskSize( Size size ) => $"ant-input-{ToSize( size )}";
+    public override string InputMaskSize( Size size ) => size != Size.Default ? $"ant-input-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => $"ant-form-text-{ToColor( color )}";
+    public override string InputMaskColor( Color color ) => color != Color.Default ? $"ant-form-text-{ToColor( color )}" : null;
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -308,6 +308,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string FieldLabel( bool horizontal ) => horizontal ? "ant-form-item-label" : null;
 
+    public override string FieldLabelRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "ant-form-item-label-required"
+            : null;
+
     #endregion
 
     #region FieldBody
@@ -346,7 +351,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Addons() => "ant-input-group-wrapper";
 
-    public override string AddonsSize( Size size ) => $"ant-input-group-wrapper-{ToSize( size )}";
+    public override string AddonsSize( Size size ) => size != Size.Default ? $"ant-input-group-wrapper-{ToSize( size )}" : null;
 
     public override string AddonsHasButton( bool hasButton ) => hasButton ? "ant-input-search ant-input-search-enter-button" : null;
 
@@ -363,6 +368,8 @@ public class AntDesignClassProvider : ClassProvider
         }
     }
 
+    public override string AddonSize( Size size ) => null;
+
     public override string AddonLabel() => null;
 
     //public override string AddonContainer() => null;
@@ -377,21 +384,21 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Button
 
-    public override string Button() => "ant-btn";
+    public override string Button( bool outline ) => "ant-btn";
 
-    public override string ButtonColor( Color color ) => $"{Button()}-{ToColor( color )}";
+    public override string ButtonColor( Color color, bool outline ) => outline
+        ? color != Color.Default ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
+        : color != Color.Default ? $"{Button( outline )}-{ToColor( color )}" : null;
 
-    public override string ButtonOutline( Color color ) => color != Blazorise.Color.Default ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+    public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"{Button( outline )}-{ToSize( size )}";
 
-    public override string ButtonSize( Size size ) => $"{Button()}-{ToSize( size )}";
+    public override string ButtonBlock( bool outline ) => $"{Button( outline )}-block";
 
-    public override string ButtonBlock() => $"{Button()}-block";
+    public override string ButtonActive( bool outline ) => "ant-btn-active";
 
-    public override string ButtonActive() => "ant-btn-active";
+    public override string ButtonDisabled( bool outline ) => "ant-btn-disabled";
 
-    public override string ButtonDisabled() => "ant-btn-disabled";
-
-    public override string ButtonLoading() => "ant-btn-loading";
+    public override string ButtonLoading( bool outline ) => "ant-btn-loading";
 
     #endregion
 
@@ -442,6 +449,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownMenu() => "ant-dropdown";
 
+    public override string DropdownMenuSelector() => "ant-dropdown";
+
     public override string DropdownMenuScrollable() => "ant-dropdown-menu-scrollable";
 
     //public override string DropdownMenuBody() => null;
@@ -450,15 +459,18 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownMenuRight() => "dropdown-menu-right";
 
-    public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
 
-    public override string DropdownToggleColor( Color color ) => $"{Button()}-{ToColor( color )}";
+    public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
 
-    public override string DropdownToggleOutline( Color color ) => color != Color.Default ? $"{Button()}-outline-{ToColor( color )}" : $"{Button()}-outline";
+    public override string DropdownToggleColor( Color color, bool outline ) => outline
+        ? color != Color.Default ? $"ant-btn-outline-{ToColor( color )}" : $"ant-btn-outline"
+        : color != Color.Default ? $"ant-btn-{ToColor( color )}" : null;
 
-    public override string DropdownToggleSize( Size size ) => $"{Button()}-{ToSize( size )}";
+    public override string DropdownToggleSize( Size size, bool outline )
+        => size != Size.Default ? $"ant-btn-{ToSize( size )}" : null;
 
-    public override string DropdownToggleSplit() => "dropdown-toggle-split";
+    public override string DropdownToggleSplit( bool split ) => split ? "dropdown-toggle-split" : null;
 
     public override string DropdownToggleIcon( bool visible ) => null;
 
@@ -490,7 +502,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TabItemDisabled( bool disabled ) => disabled ? "ant-tabs-tab-disabled" : null;
 
-    public override string TabLink() => null;
+    public override string TabLink( TabPosition tabPosition ) => null;
 
     public override string TabLinkActive( bool active ) => null;
 
@@ -518,6 +530,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string StepItemMarker() => "ant-steps-item-icon";
 
+    public override string StepItemMarkerColor( Color color, bool active ) => null;
+
     public override string StepItemDescription() => "ant-steps-item-content";
 
     public override string StepsContent() => "ant-steps-content";
@@ -537,6 +551,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string CarouselSlide() => "slick-slide";
 
     public override string CarouselSlideActive( bool active ) => active ? "slick-active slick-current" : null;
+
+    public override string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides ) => null;
 
     public override string CarouselSlideSlidingLeft( bool left ) => null;
 
@@ -602,13 +618,17 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CardLink() => "ant-card-extra";
 
+    public override string CardLinkActive( bool active ) => LinkActive( active );
+
     #endregion
 
     #region ListGroup
 
     public override string ListGroup() => "ant-list ant-list-split ant-list-bordered";
 
-    public override string ListGroupFlush() => "ant-list-flush";
+    public override string ListGroupFlush( bool flush ) => flush ? "ant-list-flush" : null;
+
+    public override string ListGroupScrollable( bool scrollable ) => scrollable ? "ant-list-scrollable" : null;
 
     public override string ListGroupItem() => "ant-list-item ant-list-item-no-flex";
 
@@ -618,7 +638,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled() => Disabled();
 
-    public override string ListGroupItemColor( Color color ) => $"ant-list-item-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"ant-list-item-{ToColor( color )}";
 
     #endregion
 
@@ -710,6 +730,14 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region AccordionToggle
+
+    public override string AccordionToggle() => "ant-btn";
+
+    public override string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    #endregion
+
     #region Collapse
 
     public override string Collapse( bool accordion ) => "ant-collapse-item";
@@ -722,7 +750,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CollapseBodyActive( bool accordion, bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
 
-    public override string CollapseBodyContent( bool accordion ) => "ant-collapse-content-box";
+    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "ant-collapse-content-box";
 
     #endregion
 
@@ -738,7 +766,7 @@ public class AntDesignClassProvider : ClassProvider
         return $"ant-row-columns-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
-    public override string RowNoGutters() => "ant-row-no-gutters";
+    public override string RowNoGutters( bool noGutters ) => noGutters ? "ant-row-no-gutters" : null;
 
     #endregion
 
@@ -762,8 +790,8 @@ public class AntDesignClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-        string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
+        => string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
 
     #endregion
 
@@ -823,9 +851,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ModalContent( bool dialog ) => "ant-modal-content";
 
-    public override string ModalContentSize( ModalSize modalSize ) => null;
-
-    public override string ModalContentFullscreen( bool fullscreen ) => fullscreen ? "ant-modal-content-fullscreen" : null;
+    public override string ModalContentSize( ModalSize modalSize ) => modalSize == ModalSize.Fullscreen
+        ? "ant-modal-content-fullscreen"
+        : null;
 
     public override string ModalContentCentered( bool centered ) => centered ? "ant-modal-content-centered" : null;
 
@@ -855,9 +883,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string PaginationLink() => "ant-pagination-link";
 
-    public override string PaginationLinkActive() => null;
+    public override string PaginationLinkSize( Size size ) => null;
 
-    public override string PaginationLinkDisabled() => null;
+    public override string PaginationLinkActive( bool active ) => null;
+
+    public override string PaginationLinkDisabled( bool disabled ) => null;
 
     #endregion
 
@@ -923,11 +953,13 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableHeaderCell() => null;
 
+    public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"ant-cursor-{ToCursor( cursor )}" : null;
+
     public override string TableFooter() => null;
 
     public override string TableBody() => "ant-table-tbody";
 
-    public override string TableRow() => "ant-table-row";
+    public override string TableRow( bool striped, bool hoverable ) => "ant-table-row";
 
     public override string TableRowColor( Color color ) => $"ant-table-{ToColor( color )}";
 
@@ -940,6 +972,12 @@ public class AntDesignClassProvider : ClassProvider
     public override string TableRowCell() => "ant-table-cell";
 
     public override string TableRowCellColor( Color color ) => $"ant-table-{ToColor( color )}";
+
+    public override string TableRowGroup( bool expanded ) => "ant-table-group";
+
+    public override string TableRowGroupCell() => "ant-table-group-cell";
+
+    public override string TableRowGroupIndentCell() => "ant-table-group-indentcell";
 
     public override string TableResponsive() => "ant-table-responsive";
 
@@ -1002,6 +1040,12 @@ public class AntDesignClassProvider : ClassProvider
     #region DisplayHeading
 
     public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"ant-display-{ToDisplayHeadingSize( displayHeadingSize )}";
+
+    #endregion
+
+    #region Lead
+
+    public override string Lead() => "ant-lead";
 
     #endregion
 
@@ -1079,6 +1123,14 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region Link
+
+    public override string Link() => null;
+
+    public override string LinkActive( bool active ) => active ? Active() : null;
+
+    #endregion
+
     #region States
 
     public override string Show() => "show";
@@ -1104,6 +1156,22 @@ public class AntDesignClassProvider : ClassProvider
     }
 
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
+
+    #endregion
+
+    #region Gap
+
+    public override string Gap( GapSize gapSize, GapSide gapSide )
+    {
+        var side = gapSide != GapSide.None && gapSide != GapSide.All
+            ? $"{ToGapSide( gapSide )}-"
+            : null;
+
+        return $"gap-{side}{ToGapSize( gapSize )}";
+    }
+
+    public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
+        => string.Join( " ", rules.Select( x => Gap( gapSize, x ) ) );
 
     #endregion
 

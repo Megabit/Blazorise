@@ -288,7 +288,7 @@ html, body * {
   position: relative;
   border-radius: 13px;
   /*background-image: linear-gradient( 106.4deg,  rgba(255,104,192,1) 11.1%, rgba(104,84,249,1) 81.3% );*/
-  background-image: linear-gradient(111.6deg, #ae44df 27.3%, #f68787 112.7%);
+  background-image: linear-gradient(111.6deg, rgb(174, 68, 223) 27.3%, rgb(246, 135, 135) 112.7%);
   /*background-image: linear-gradient( 109.6deg,  rgba(209,0,116,1) 11.2%, rgba(110,44,107,1) 91.1% );*/
   /*background-image: linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);*/
   /*background-image: linear-gradient(120deg, #a6c0fe 0%, #f68084 100%);*/
@@ -397,6 +397,21 @@ html, body * {
   color: #07a;
 }
 .b-docs-page .b-docs-attributes tbody tr .b-attribute-token.string code {
+  color: #690;
+}
+.b-docs-page .b-docs-methods tbody tr td:first-child code {
+  color: #1867c0;
+}
+.b-docs-page .b-docs-methods tbody tr td:nth-child(2) code {
+  color: #690;
+}
+.b-docs-page .b-docs-methods tbody tr .b-method-token.boolean code {
+  color: #905;
+}
+.b-docs-page .b-docs-methods tbody tr .b-method-token.keyword code {
+  color: #07a;
+}
+.b-docs-page .b-docs-methods tbody tr .b-method-token.string code {
   color: #690;
 }
 .b-docs-page .b-docs-example {
@@ -741,4 +756,53 @@ code {
 }
 .blog-page-section-source .btn {
   color: #576b85;
+}
+
+a.toc-link {
+  text-decoration: none;
+}
+
+.b-docs-toc {
+  position: sticky;
+  top: 5rem;
+  right: 0;
+  overflow-y: hidden;
+}
+.b-docs-toc .toc > .toc-list {
+  overflow: hidden;
+  position: relative;
+}
+.b-docs-toc .toc > .toc-list li {
+  margin-bottom: 0.25rem;
+  list-style: none;
+}
+.b-docs-toc .toc .toc-list {
+  margin: 0;
+  padding-left: 10px;
+  /*
+  .toc-link::before {
+      background-color: #EEE;
+      content: ' ';
+      display: inline-block;
+      height: inherit;
+      left: 0;
+      margin-top: -1px;
+      position: absolute;
+      width: 2px;
+  }*/
+}
+.b-docs-toc .toc a.toc-link {
+  color: currentColor;
+  height: 100%;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+.b-docs-toc .toc a.toc-link.is-active-link {
+  font-weight: 700;
+  /*&::before {
+      background-color: var(--b-theme-primary, #8950FC);
+  }*/
+}
+.b-docs-toc .toc a.toc-link:hover {
+  text-decoration: underline;
 }

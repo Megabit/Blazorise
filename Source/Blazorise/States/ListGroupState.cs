@@ -11,6 +11,11 @@ public record ListGroupState
     public bool Flush { get; init; }
 
     /// <summary>
+    /// Makes the list group scrollable by adding a vertical scrollbar.
+    /// </summary>
+    public bool Scrollable { get; init; }
+
+    /// <summary>
     /// Defines the list-group behaviour mode.
     /// </summary>
     public ListGroupMode Mode { get; init; }

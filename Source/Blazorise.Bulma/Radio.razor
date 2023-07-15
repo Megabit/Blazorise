@@ -45,7 +45,7 @@ else
         @Feedback
     }
 }
-@code{
+@code {
     string LabelButtonClassName
-        => $"{ClassProvider.Button()} {ClassProvider.ButtonColor( ButtonColor )} {( Checked ? ClassProvider.ButtonActive() : null )}";
+        => $"{ClassProvider.Button( false )} {ClassProvider.ButtonColor( ButtonColor, false )} {( Checked ? ClassProvider.ButtonActive( false ) : null )}";
 }

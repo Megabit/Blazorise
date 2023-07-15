@@ -16,6 +16,7 @@
     "{0} - {1} of {2} items": "{0} - {1} de {2} itens",
     "Row Edit": "Editar linha",
     "Row Create": "Criar linha",
-    "Create": "Criar"
+    "Create": "Criar",
+    "Drag a column header here to group by that column": "Arraste o cabeçalho de uma coluna aqui para agrupar por essa coluna"
   }
 }

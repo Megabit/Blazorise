@@ -12,9 +12,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TextEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string TextEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string TextEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => $"is-{ToColor( color )}";
+    public override string TextEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -24,7 +24,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string MemoEdit( bool plaintext ) => plaintext ? "textarea is-static" : "textarea";
 
-    public override string MemoEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string MemoEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -36,7 +36,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string SelectMultiple() => "is-multiple";
 
-    public override string SelectSize( Size size ) => $"is-{ToSize( size )}";
+    public override string SelectSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -46,9 +46,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string NumericEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string NumericEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string NumericEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => $"is-{ToColor( color )}";
+    public override string NumericEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -58,9 +58,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DateEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string DateEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string DateEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string DateEditColor( Color color ) => $"is-{ToColor( color )}";
+    public override string DateEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -70,9 +70,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TimeEdit( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string TimeEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string TimeEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => $"is-{ToColor( color )}";
+    public override string TimeEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -82,7 +82,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ColorEdit() => "input";
 
-    public override string ColorEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string ColorEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     #endregion
 
@@ -90,9 +90,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DatePicker( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string DatePickerSize( Size size ) => $"is-{ToSize( size )}";
+    public override string DatePickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => $"is-{ToColor( color )}";
+    public override string DatePickerColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -102,9 +102,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TimePicker( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string TimePickerSize( Size size ) => $"is-{ToSize( size )}";
+    public override string TimePickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => $"is-{ToColor( color )}";
+    public override string TimePickerColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -114,7 +114,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ColorPicker() => "input b-input-color-picker";
 
-    public override string ColorPickerSize( Size size ) => $"is-{ToSize( size )}";
+    public override string ColorPickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     #endregion
 
@@ -122,9 +122,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string NumericPicker( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string NumericPickerSize( Size size ) => $"is-{ToSize( size )}";
+    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => $"is-{ToColor( color )}";
+    public override string NumericPickerColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -134,9 +134,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string InputMask( bool plaintext ) => plaintext ? "input is-static" : "input";
 
-    public override string InputMaskSize( Size size ) => $"is-{ToSize( size )}";
+    public override string InputMaskSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => $"is-{ToColor( color )}";
+    public override string InputMaskColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -201,7 +201,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string FileEdit() => "file-input";
 
-    public override string FileEditSize( Size size ) => $"is-{ToSize( size )}";
+    public override string FileEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -312,6 +312,11 @@ public class BulmaClassProvider : ClassProvider
 
     public override string FieldLabel( bool horizontal ) => horizontal ? "field-label is-normal" : "field-label";
 
+    public override string FieldLabelRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "field-label-required"
+            : null;
+
     #endregion
 
     #region FieldBody
@@ -350,7 +355,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Addons() => "field has-addons";
 
-    public override string AddonsSize( Size size ) => $"is-{ToSize( size )}";
+    public override string AddonsSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     public override string AddonsHasButton( bool hasButton ) => null;
 
@@ -366,6 +371,8 @@ public class BulmaClassProvider : ClassProvider
         }
     }
 
+    public override string AddonSize( Size size ) => null;
+
     public override string AddonLabel() => "button is-static";
 
     //public override string AddonContainer() => "control";
@@ -380,21 +387,21 @@ public class BulmaClassProvider : ClassProvider
 
     #region Button
 
-    public override string Button() => "button";
+    public override string Button( bool outline ) => "button";
 
-    public override string ButtonColor( Color color ) => $"is-{ToColor( color )}";
+    public override string ButtonColor( Color color, bool outline ) => outline
+        ? color != Color.Default ? $"is-{ToColor( color )} is-outlined" : $"is-{ToColor( color )} is-outlined"
+        : color != Color.Default ? $"is-{ToColor( color )}" : null;
 
-    public override string ButtonOutline( Color color ) => $"is-{ToColor( color )} is-outlined";
+    public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"is-{ToSize( size )}";
 
-    public override string ButtonSize( Size size ) => $"is-{ToSize( size )}";
+    public override string ButtonBlock( bool outline ) => "is-fullwidth";
 
-    public override string ButtonBlock() => "is-fullwidth";
+    public override string ButtonActive( bool outline ) => "is-active";
 
-    public override string ButtonActive() => "is-active";
+    public override string ButtonDisabled( bool outline ) => "is-disabled";
 
-    public override string ButtonDisabled() => "is-disabled";
-
-    public override string ButtonLoading() => "is-loading";
+    public override string ButtonLoading( bool outline ) => "is-loading";
 
     #endregion
 
@@ -445,6 +452,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DropdownMenu() => "dropdown-menu";
 
+    public override string DropdownMenuSelector() => "dropdown-menu";
+
     public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
 
     //public override string DropdownMenuBody() => "dropdown-content";
@@ -453,15 +462,18 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DropdownMenuRight() => null;
 
-    public override string DropdownToggle( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
-    public override string DropdownToggleColor( Color color ) => $"is-{ToColor( color )}";
+    public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
-    public override string DropdownToggleOutline( Color color ) => $"is-{ToColor( color )} is-outlined";
+    public override string DropdownToggleColor( Color color, bool outline ) => outline
+        ? color != Color.Default ? $"is-{ToColor( color )} is-outlined" : null
+        : color != Color.Default ? $"is-{ToColor( color )}" : null;
 
-    public override string DropdownToggleSize( Size size ) => $"is-{ToSize( size )}";
+    public override string DropdownToggleSize( Size size, bool outline )
+        => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string DropdownToggleSplit() => null;
+    public override string DropdownToggleSplit( bool split ) => null;
 
     public override string DropdownToggleIcon( bool visible ) => null;
 
@@ -495,7 +507,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TabLinkDisabled( bool disabled ) => disabled ? Disabled() : null;
 
-    public override string TabLink() => null;
+    public override string TabLink( TabPosition tabPosition ) => null;
 
     public override string TabLinkActive( bool active ) => null;
 
@@ -521,6 +533,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string StepItemMarker() => "step-marker";
 
+    public override string StepItemMarkerColor( Color color, bool active ) => null;
+
     public override string StepItemDescription() => "step-details";
 
     public override string StepsContent() => "steps-content";
@@ -540,6 +554,8 @@ public class BulmaClassProvider : ClassProvider
     public override string CarouselSlide() => "carousel-item";
 
     public override string CarouselSlideActive( bool active ) => active ? null : "carousel-item-hidden";
+
+    public override string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides ) => null;
 
     public override string CarouselSlideSlidingLeft( bool left ) => null;
 
@@ -605,13 +621,17 @@ public class BulmaClassProvider : ClassProvider
 
     public override string CardLink() => null;
 
+    public override string CardLinkActive( bool active ) => LinkActive( active );
+
     #endregion
 
     #region ListGroup
 
     public override string ListGroup() => "list-group";
 
-    public override string ListGroupFlush() => "list-group-flush";
+    public override string ListGroupFlush( bool flush ) => flush ? "list-group-flush" : null;
+
+    public override string ListGroupScrollable( bool scrollable ) => scrollable ? "list-group-scrollable" : null;
 
     public override string ListGroupItem() => "list-group-item";
 
@@ -621,7 +641,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled() => Disabled();
 
-    public override string ListGroupItemColor( Color color ) => $"is-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"is-{ToColor( color )}";
 
     #endregion
 
@@ -728,6 +748,14 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region AccordionToggle
+
+    public override string AccordionToggle() => "button";
+
+    public override string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    #endregion
+
     #region Collapse
 
     public override string Collapse( bool accordion ) => "card";
@@ -740,13 +768,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string CollapseBodyActive( bool accordion, bool active ) => active ? Show() : null;
 
-    public override string CollapseBodyContent( bool accordion ) => "card-content";
+    public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "card-content";
 
     #endregion
 
     #region Row
 
-    public override string Row() => "columns";
+    public override string Row() => "columns is-multiline";
 
     public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
     {
@@ -756,7 +784,7 @@ public class BulmaClassProvider : ClassProvider
         return $"are-columns-{ToRowColumnsSize( rowColumnsSize )}";
     }
 
-    public override string RowNoGutters() => "is-gapless";
+    public override string RowNoGutters( bool noGutters ) => noGutters ? "is-gapless" : null;
 
     #endregion
 
@@ -779,8 +807,8 @@ public class BulmaClassProvider : ClassProvider
         return $"column is-{baseClass}{ToColumnWidth( columnWidth )}";
     }
 
-    public override string Column( ColumnWidth columnWidth, IEnumerable<(Breakpoint breakpoint, bool offset)> rules ) =>
-        string.Join( " ", rules.Select( r => Column( columnWidth, r.breakpoint, r.offset ) ) );
+    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
+       => string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
 
     #endregion
 
@@ -840,9 +868,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ModalContent( bool dialog ) => dialog ? "modal-card" : "modal-content";
 
-    public override string ModalContentSize( ModalSize modalSize ) => $"modal-{ToModalSize( modalSize )}";
+    public override string ModalContentSize( ModalSize modalSize )
+    {
+        if ( modalSize == ModalSize.Default )
+            return null;
 
-    public override string ModalContentFullscreen( bool fullscreen ) => fullscreen ? "modal-fullscreen" : null;
+        if ( modalSize == ModalSize.Fullscreen )
+            return "modal-fullscreen";
+
+        return $"modal-{ToModalSize( modalSize )}";
+    }
 
     public override string ModalContentCentered( bool centered ) => null;
 
@@ -872,9 +907,11 @@ public class BulmaClassProvider : ClassProvider
 
     public override string PaginationLink() => "pagination-link";
 
-    public override string PaginationLinkActive() => "is-current";
+    public override string PaginationLinkSize( Size size ) => null;
 
-    public override string PaginationLinkDisabled() => "is-disabled";
+    public override string PaginationLinkActive( bool active ) => active ? "is-current" : null;
+
+    public override string PaginationLinkDisabled( bool disabled ) => disabled ? "is-disabled" : null;
 
     #endregion
 
@@ -940,11 +977,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableHeaderCell() => null;
 
+    public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"is-cursor-{ToCursor( cursor )}" : null;
+
     public override string TableFooter() => null;
 
     public override string TableBody() => null;
 
-    public override string TableRow() => null;
+    public override string TableRow( bool striped, bool hoverable ) => null;
 
     public override string TableRowColor( Color color ) => $"has-background-{ToColor( color )}";
 
@@ -957,6 +996,12 @@ public class BulmaClassProvider : ClassProvider
     public override string TableRowCell() => null;
 
     public override string TableRowCellColor( Color color ) => $"has-background-{ToColor( color )}";
+
+    public override string TableRowGroup( bool expanded ) => "table-group";
+
+    public override string TableRowGroupCell() => "table-group-cell";
+
+    public override string TableRowGroupIndentCell() => "table-group-indentcell";
 
     public override string TableResponsive() => "table-container";
 
@@ -1019,6 +1064,12 @@ public class BulmaClassProvider : ClassProvider
     #region DisplayHeading
 
     public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"title is-{ToDisplayHeadingSize( displayHeadingSize )}";
+
+    #endregion
+
+    #region Lead
+
+    public override string Lead() => "lead";
 
     #endregion
 
@@ -1096,6 +1147,14 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region Link
+
+    public override string Link() => null;
+
+    public override string LinkActive( bool active ) => active ? Active() : null;
+
+    #endregion
+
     #region States
 
     public override string Show() => "is-block";
@@ -1122,6 +1181,18 @@ public class BulmaClassProvider : ClassProvider
     }
 
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
+
+    #endregion
+
+    #region Gap
+
+    public override string Gap( GapSize gapSize, GapSide gapSide )
+    {
+        return $"is-gap-{ToGapSize( gapSize )}";
+    }
+
+    public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
+        => string.Join( " ", rules.Select( x => Gap( gapSize, x ) ) );
 
     #endregion
 
@@ -1388,7 +1459,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ToBackground( Background background )
     {
-        var name = background.Name;
+        var name = background?.Name;
 
         if ( name == "secondary" )
             return "light";
@@ -1398,7 +1469,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ToTextColor( TextColor textColor )
     {
-        var name = textColor.Name;
+        var name = textColor?.Name;
 
         if ( name == "secondary" )
             return "light";

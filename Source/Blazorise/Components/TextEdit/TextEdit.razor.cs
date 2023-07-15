@@ -20,6 +20,14 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && !paramText.IsEqual( Text ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation != null )
@@ -64,8 +72,8 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TextEdit( Plaintext ) );
-        builder.Append( ClassProvider.TextEditColor( Color ), Color != Color.Default );
-        builder.Append( ClassProvider.TextEditSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.TextEditColor( Color ) );
+        builder.Append( ClassProvider.TextEditSize( ThemeSize ) );
         builder.Append( ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );

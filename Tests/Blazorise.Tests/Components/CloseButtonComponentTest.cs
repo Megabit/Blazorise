@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
 using Bunit;
@@ -12,6 +13,7 @@ public class CloseButtonComponentTest : TestContext
     public CloseButtonComponentTest()
     {
         BlazoriseConfig.AddBootstrapProviders( Services );
+        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
     }
 
     [Fact]
@@ -37,7 +39,7 @@ public class CloseButtonComponentTest : TestContext
     }
 
     [Fact]
-    public void CanRaiseCallback()
+    public async Task CanRaiseCallback()
     {
         // setup
         var comp = RenderComponent<CloseButtonComponent>();
@@ -45,10 +47,10 @@ public class CloseButtonComponentTest : TestContext
         var button = comp.Find( "#close-button" );
 
         // test
-        button.Click();
+        await button.ClickAsync( new() { Button = 0 } );
         var result1 = result.InnerHtml;
 
-        button.Click();
+        await button.ClickAsync( new() { Button = 0 } );
         var result2 = result.InnerHtml;
 
         // validate
@@ -57,7 +59,7 @@ public class CloseButtonComponentTest : TestContext
     }
 
     [Fact]
-    public void CanAutoClose()
+    public async Task CanAutoClose()
     {
         // setup
         var comp = RenderComponent<CloseButtonComponent>();
@@ -65,7 +67,7 @@ public class CloseButtonComponentTest : TestContext
         var button = comp.Find( "#autoclose-button" );
 
         // test
-        button.Click();
+        await button.ClickAsync( new() { Button = 0 } );
         var result1 = result.InnerHtml;
 
         // validate

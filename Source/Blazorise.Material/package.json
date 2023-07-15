@@ -1,0 +1,10 @@
+{
+  "version": "1.0.0",
+  "name": "blazorise.material",
+  "private": true,
+  "devDependencies": {},
+  "dependencies": {
+    "djibe-material": "4.6.0",
+    "jquery": "3.5.0"
+  }
+}

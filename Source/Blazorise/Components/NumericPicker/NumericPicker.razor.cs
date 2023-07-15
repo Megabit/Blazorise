@@ -225,8 +225,8 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.NumericPicker( Plaintext ) );
-        builder.Append( ClassProvider.NumericPickerSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.NumericPickerColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.NumericPickerSize( ThemeSize ) );
+        builder.Append( ClassProvider.NumericPickerColor( Color ) );
         builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );

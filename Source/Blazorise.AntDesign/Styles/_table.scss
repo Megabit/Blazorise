@@ -51,6 +51,14 @@
     &.ant-table-hover tbody > tr.ant-table-row:hover > td {
         background: #f5f5f5;
     }
+
+    tbody {
+        tr.ant-table-group {
+            cursor: pointer;
+            background-color: var(--b-theme-light, #f5f5f5);
+            font-weight: 600;
+        }
+    }
 }
 
 .ant-table {
@@ -110,5 +118,13 @@
 
     thead tr:nth-child(1) th {
         top: 0;
+    }
+}
+
+tr.ant-table-row {
+    &.ant-table-row-selectable {
+        &:focus[tabindex="0"] {
+            outline: none;
+        }
     }
 }

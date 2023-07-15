@@ -1,0 +1,10 @@
+﻿@inherits Blazorise.ModalContent
+<CascadingValue Value="@this" IsFixed>
+    <div class="@DialogClassNames" role="document">
+        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <FocusTrap @ref="@FocusTrapRef" Active="@IsFocusTrap">
+                @ChildContent
+            </FocusTrap>
+        </div>
+    </div>
+</CascadingValue>

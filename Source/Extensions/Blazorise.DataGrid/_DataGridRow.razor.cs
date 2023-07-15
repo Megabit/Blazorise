@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.DataGrid.Models;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -13,6 +13,8 @@ namespace Blazorise.DataGrid;
 public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 {
     #region Members
+
+    protected bool mouseIsOver = false;
 
     /// <summary>
     /// List of columns used to build this row.
@@ -39,6 +41,11 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// Holds information about the current Row.
     /// </summary>
     protected DataGridRowInfo<TItem> RowInfo;
+
+    /// <summary>
+    /// The Table Row Reference
+    /// </summary>
+    protected TableRow TableRowRef;
 
     #endregion
 
@@ -90,6 +97,8 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     {
         if ( firstRender )
         {
+            RowInfo.SetTableRow( TableRowRef );
+
             // initialise all internal cell values
             foreach ( var column in Columns )
             {
@@ -104,6 +113,53 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         }
 
         return base.OnAfterRenderAsync( firstRender );
+    }
+
+    protected internal async Task HandleKeyDown( KeyboardEventArgs eventArgs )
+    {
+        if ( eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" )
+        {
+            if ( !ParentDataGrid.SelectedRow.IsEqual( this.Item ) )
+                await ParentDataGrid.Select( this.Item );
+            return;
+        }
+
+        if ( eventArgs.Code == "ArrowUp" )
+        {
+            var idx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( this.Item ) );
+            if ( idx > 0 )
+            {
+                await ParentDataGrid.Select( ParentDataGrid.DisplayData.ElementAt( idx - 1 ) );
+                return;
+            }
+        }
+
+        if ( eventArgs.Code == "ArrowDown" )
+        {
+            var idx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( this.Item ) );
+            if ( idx < ParentDataGrid.DisplayData.Count() - 1 )
+            {
+                await ParentDataGrid.Select( ParentDataGrid.DisplayData.ElementAt( idx + 1 ) );
+                return;
+            }
+        }
+    }
+
+    protected bool BindMouseLeave()
+        => ParentDataGrid.RowMouseLeave.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
+
+    protected bool BindMouseOver()
+        => ParentDataGrid.RowMouseOver.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
+
+    protected internal async Task HandleMouseLeave( BLMouseEventArgs eventArgs )
+    {
+        mouseIsOver = false;
+        await ParentDataGrid.OnRowMouseLeaveCommand( new( Item, eventArgs ) );
+    }
+    protected internal async Task HandleMouseOver( BLMouseEventArgs eventArgs )
+    {
+        mouseIsOver = true;
+        await ParentDataGrid.OnRowMouseOverCommand( new( Item, eventArgs ) );
     }
 
     protected internal async Task HandleClick( BLMouseEventArgs eventArgs )

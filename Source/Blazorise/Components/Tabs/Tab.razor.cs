@@ -65,7 +65,7 @@ public partial class Tab : BaseComponent
     /// <param name="builder">Class builder used to append the classnames.</param>
     private void BuildLinkClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.TabLink() );
+        builder.Append( ClassProvider.TabLink( ParentTabs?.TabPosition ?? TabPosition.Top ) );
         builder.Append( ClassProvider.TabLinkActive( Active ) );
         builder.Append( ClassProvider.TabLinkDisabled( Disabled ) );
     }

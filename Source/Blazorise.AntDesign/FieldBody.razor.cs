@@ -45,7 +45,7 @@ public partial class FieldBody : Blazorise.FieldBody
 
     #region Properties
 
-    protected override bool ColumnSizeSupported => false; // disable column-size on the body, as we're going to add it on container
+    protected override bool PreventColumnSize => true; // disable column-size on the body, as we're going to add it on container
 
     protected string ContainerClassNames => containerClassBuilder.Class;
 

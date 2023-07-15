@@ -1,20 +1,44 @@
-﻿
-.tree-view {
-    margin-left: 1.25rem;
-}
+﻿.b-tree-view {
+    .b-tree-view-node {
+        margin-left: 1.25rem;
 
-.tree-view-collapsed {
-    display: none;
-}
+        &.b-tree-view-node-collapsed {
+            display: none;
+        }
 
-.tree-view-icon {
-    float: left;
-}
+        .b-tree-view-node-icon {
+            float: left;
+        }
 
-.tree-view-title {
-    margin-left: 1.25rem;
-}
+        .b-tree-view-node-title {
+            margin-left: 1.25rem;
 
-.tree-view .cursor-pointer {
-    cursor: pointer;
+            > .b-tree-view-node-check {
+                display: inline-block;
+
+                > input.is-checkradio + label {
+                    padding-left: 1rem;
+                }
+
+                > div.inline-flex.mr-4 {
+                    margin-right: .25rem;
+                }
+
+                > .custom-control.custom-checkbox {
+                    padding-left: 1.5rem;
+                }
+
+                > label.ant-checkbox-wrapper {
+                    > span:last-child {
+                        padding-right: 0;
+                        padding-left: 0;
+                    }
+                }
+            }
+        }
+
+        .b-tree-view-node .cursor-pointer {
+            cursor: pointer;
+        }
+    }
 }

@@ -8,7 +8,6 @@ using Blazorise.Localization;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using static System.TimeZoneInfo;
 #endregion
 
 namespace Blazorise;
@@ -16,7 +15,7 @@ namespace Blazorise;
 /// <summary>
 /// A slideshow component for cycling through elements - images or slides of text.
 /// </summary>
-public partial class Carousel : BaseContainerComponent, IDisposable
+public partial class Carousel : BaseComponent, IDisposable
 {
     #region Members
 
@@ -215,6 +214,24 @@ public partial class Carousel : BaseContainerComponent, IDisposable
                 SelectedSlide = carouselSlides.Single().Name
             };
         }
+    }
+
+    /// <summary>
+    /// Removes the slide from the list of running slides.
+    /// </summary>
+    /// <param name="slide">Slide to remove.</param>
+    internal void RemoveSlide( CarouselSlide slide )
+    {
+        carouselSlides.Remove( slide );
+
+        Reset();
+    }
+
+    private void Reset()
+    {
+        AnimationRunning = false;
+        ResetTimer();
+        ResetTransitionTimer();
     }
 
     /// <summary>
@@ -477,6 +494,14 @@ public partial class Carousel : BaseContainerComponent, IDisposable
         }
     }
 
+    /// <summary>
+    /// Gets the index of the slide with the specified name.
+    /// </summary>
+    /// <param name="slideName">Slide name.</param>
+    /// <returns>An index of slide.</returns>
+    public int SlideIndex( string slideName )
+        => carouselSlides.IndexOf( carouselSlides.FirstOrDefault( x => x.Name == slideName ) );
+
     #endregion
 
     #region Properties
@@ -684,6 +709,11 @@ public partial class Carousel : BaseContainerComponent, IDisposable
     /// Function used to handle custom localization for next button that will override a default <see cref="ITextLocalizer"/>.
     /// </summary>
     [Parameter] public TextLocalizerHandler NextButtonLocalizer { get; set; }
+
+    /// <summary>
+    /// Specifies the content to be rendered inside this <see cref="Carousel"/>.
+    /// </summary>
+    [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }

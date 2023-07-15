@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version>1.1.5</Version>
-		<PackageVersion>1.1.5</PackageVersion>
+		<Version>1.2.4</Version>
+		<PackageVersion>1.2.4</PackageVersion>
 
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
 		<PackageIcon>Blazorise.png</PackageIcon>
@@ -12,7 +12,7 @@
 		<Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
 		<Authors>Megabit</Authors>
 		<Company>Megabit</Company>
-		<Copyright>Copyright 2018-2022 Megabit</Copyright>
+		<Copyright>Copyright 2018-2023 Megabit</Copyright>
 		
 		<TargetFrameworks>net6.0;net7.0</TargetFrameworks>
 		<OutputType>Library</OutputType>
@@ -27,6 +27,11 @@
 		<SupportedPlatform Include="browser" />		
 	</ItemGroup>
 
+    <ItemGroup>
+        <Content Remove="package.json" />
+        <None Include="package.json" />
+    </ItemGroup>
+
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
 		<DefineConstants>$(DefineConstants);NET6_0</DefineConstants>
 	</PropertyGroup>
@@ -36,15 +41,14 @@
 	</PropertyGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.9" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.9" />
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.*" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.*" />
 	</ItemGroup>
 
 	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.0" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.*" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.*" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.*" />
 	</ItemGroup>
-
 </Project>

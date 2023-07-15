@@ -22,6 +22,10 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     protected EventCallback Cancel
         => EventCallback.Factory.Create( this, ParentDataGrid.Cancel );
 
+    protected static readonly IFluentFlex DefaultFlex = Flex.InlineFlex;
+
+    protected static readonly IFluentGap DefaultGap = Gap.Is2;
+
     #endregion
 
     #region Methods

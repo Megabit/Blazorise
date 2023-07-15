@@ -21,6 +21,7 @@ public class DropZoneTest : TestContext
         var testServices = new TestServiceProvider( Services.AddSingleton<NavigationManager, TestNavigationManager>() );
         BlazoriseConfig.AddBootstrapProviders( testServices );
         BlazoriseConfig.JSInterop.AddDragDrop( this.JSInterop );
+        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
     }
 
     [Fact]

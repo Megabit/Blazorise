@@ -1,0 +1,69 @@
+﻿<Autocomplete @ref="_autocomplete"
+              TItem="MyClass"
+              TValue="int"
+              Data="firstNames"
+              ValueField="@((item) => item.Id)"
+              TextField="@((item) => item.Name)"
+              @bind-SelectedValue="@_selectedValue"
+              @bind-SelectedText="@_selectedText"
+              ConfirmKey="_confirmKeys"
+              @onfocusout="@OnFocusOut" />
+<Text>@_selectedValue</Text>
+<Text>@_selectedText</Text>
+<Button ElementId="btnChangeValue" Outline Clicked="OnClickedButton">Change name to Emma</Button>
+<Button ElementId="btnClear" Outline Clicked="OnClearButton">Clear</Button>
+
+@code {
+    private class MyClass
+    {
+        public MyClass( int id, string name )
+        {
+            Id = id;
+            Name = name;
+        }
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+    }
+    private Autocomplete<MyClass, int> _autocomplete;
+
+    private int _previousValue = 0;
+    private int _selectedValue;
+    private string _selectedText;
+
+    private string[] _confirmKeys = new string[]
+    {
+        "Enter", "NumpadEnter", "Tab"
+    };
+
+    private List<MyClass> firstNames = new List<MyClass>()
+    {
+        new MyClass(1, "Alice"), new MyClass(2, "Emma"), new MyClass(3, "Liam"),
+        new MyClass(4, "Olivia"), new MyClass(5, "Noah"), new MyClass(6, "Ethan"),
+        new MyClass(7, "Mason"), new MyClass(8, "Mia"), new MyClass(9, "Oliver")
+    };
+
+    private void OnFocusOut()
+    {
+        if ( _previousValue != _selectedValue )
+        {
+            Console.WriteLine( $"{_selectedValue}" );
+            _previousValue = _selectedValue;
+        }
+    }
+
+    private void OnClickedButton()
+    {
+        var val = "Emma";
+
+        var item = _autocomplete.GetItemByText( val );
+
+        _selectedValue = item.Id;
+        _selectedText = item.Name;
+    }
+
+    private void OnClearButton()
+    {
+        _autocomplete.Clear();
+    }
+}

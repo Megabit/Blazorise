@@ -60,7 +60,11 @@
     <DocsPageSectionSource Code="CropperViewerExample" />
 </DocsPageSection>
 
-<Heading Size="HeadingSize.Is2">
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
     Attributes
 </Heading>
 
@@ -94,5 +98,11 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="CropperState" Type="CropperState" Default="null">
         Provides a shared state and syncronization context between the cropper and cropper viewer.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CrossOrigin" Type="string" Default="null">
+        The cross-origin attribute of the image.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageReady" Type="Func<Task>" Default="null">
+        This event fires when the image is ready / loaded.
     </DocsAttributesItem>
 </DocsAttributes>

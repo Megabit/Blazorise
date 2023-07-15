@@ -2,9 +2,9 @@
 using System;
 using Blazorise.Bootstrap;
 using Blazorise.DataGrid;
+using Blazorise.Licensing;
 using Blazorise.Localization;
 using Blazorise.Modules;
-using Blazorise.Providers;
 using Blazorise.Utilities;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +35,9 @@ public static class BlazoriseConfig
         services.AddScoped<ITextLocalizerService, TextLocalizerService>();
         services.AddScoped( typeof( ITextLocalizer<> ), typeof( TextLocalizer<> ) );
 
+        // Shared component context. Must be defined as scoped as we want to make it available for the user session.
+        services.AddScoped<IModalSharedContext, ModalSharedContext>();
+
         Action<BlazoriseOptions> configureOptions = ( options ) =>
         {
         };
@@ -62,6 +65,9 @@ public static class BlazoriseConfig
         services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
         services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
 
+        services.AddScoped<BlazoriseLicenseProvider>();
+        services.AddScoped<BlazoriseLicenseChecker>();
+
         services.AddMemoryCache();
         services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
         services.AddScoped<Blazorise.Shared.Data.CountryData>();
@@ -84,6 +90,19 @@ public static class BlazoriseConfig
             module.SetupVoid( "import", _ => true ).SetVoidResult();
             module.SetupVoid( "initialize", _ => true ).SetVoidResult();
             module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+        }
+
+        public static void AddBreakpoint( BunitJSInterop jsInterop )
+        {
+            AddUtilities( jsInterop );
+
+            var module = jsInterop.SetupModule( new JSBreakpointModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
+            module.SetupVoid( "import", _ => true ).SetVoidResult();
+            module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+            module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+            module.SetupVoid( "registerBreakpointComponent", _ => true ).SetVoidResult();
+            module.SetupVoid( "unregisterBreakpointComponent", _ => true ).SetVoidResult();
+            module.SetupVoid( "getBreakpoint", _ => true ).SetVoidResult();
         }
 
         public static void AddTextEdit( BunitJSInterop jsInterop )
@@ -134,6 +153,7 @@ public static class BlazoriseConfig
             module.Setup<string>( "getUserAgent", _ => true ).SetResult( String.Empty );
             module.SetupVoid( "scrollElementIntoView", _ => true ).SetVoidResult();
             module.SetupVoid( "focus", _ => true ).SetVoidResult();
+            module.SetupVoid( "log", _ => true ).SetVoidResult();
         }
 
         public static void AddModal( BunitJSInterop jsInterop )
@@ -168,6 +188,7 @@ public static class BlazoriseConfig
             AddTable( jsInterop );
             AddClosable( jsInterop );
             AddDropdown( jsInterop );
+            AddDragDrop( jsInterop );
 
             var module = jsInterop.SetupModule( new JSDataGridModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
             module.SetupVoid( "initialize", _ => true ).SetVoidResult();
@@ -191,7 +212,9 @@ public static class BlazoriseConfig
 
             var module = jsInterop.SetupModule( new JSDragDropModule( jsInterop.JSRuntime, new VersionProvider() ).ModuleFileName );
             module.SetupVoid( "initialize", _ => true ).SetVoidResult();
+            module.SetupVoid( "initializeThrottledDragEvents", _ => true ).SetVoidResult();
             module.SetupVoid( "destroy", _ => true ).SetVoidResult();
+            module.SetupVoid( "destroyThrottledDragEvents", _ => true ).SetVoidResult();
         }
     }
 

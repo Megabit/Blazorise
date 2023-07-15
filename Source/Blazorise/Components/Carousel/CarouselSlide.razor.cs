@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -10,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// A container for placing content in a carousel slide.
 /// </summary>
-public partial class CarouselSlide : BaseComponent
+public partial class CarouselSlide : BaseComponent, IDisposable
 {
     #region Members
 
@@ -55,10 +56,21 @@ public partial class CarouselSlide : BaseComponent
     }
 
     /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentCarousel?.RemoveSlide( this );
+        }
+        base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.CarouselSlide() );
         builder.Append( ClassProvider.CarouselSlideActive( Active ) );
+        builder.Append( ClassProvider.CarouselSlideIndex( ParentCarousel.SelectedSlideIndex, ParentCarousel.SlideIndex( Name ), ParentCarousel.NumberOfSlides ) );
         builder.Append( ClassProvider.CarouselSlideSlidingLeft( Left ) );
         builder.Append( ClassProvider.CarouselSlideSlidingRight( Right ) );
         builder.Append( ClassProvider.CarouselSlideSlidingPrev( Prev ) );
