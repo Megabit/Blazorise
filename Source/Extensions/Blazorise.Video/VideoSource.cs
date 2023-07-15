@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Linq;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -12,6 +13,13 @@ public record VideoSource
     #region Constructors
 
     /// <summary>
+    /// Default constructor.
+    /// </summary>
+    public VideoSource()
+    {
+    }
+
+    /// <summary>
     /// Default constructor for single source.
     /// </summary>
     /// <param name="source">Source address.</param>
@@ -19,13 +27,8 @@ public record VideoSource
     {
         Medias = new ValueEqualityList<VideoMedia>
         {
-            new VideoMedia
-            {
-                Source = source,
-            }
+            new VideoMedia( source )
         };
-
-        Indexed = false;
     }
 
     /// <summary>
@@ -36,19 +39,13 @@ public record VideoSource
     {
         if ( sources != null )
         {
+            Medias = new ValueEqualityList<VideoMedia>();
+
             foreach ( var source in sources )
             {
-                Medias = new ValueEqualityList<VideoMedia>
-                {
-                    new VideoMedia
-                    {
-                        Source = source,
-                    }
-                };
+                Medias.Add( new VideoMedia( source ) );
             }
         }
-
-        Indexed = true;
     }
 
     #endregion
@@ -64,6 +61,15 @@ public record VideoSource
         return new( source );
     }
 
+    /// <summary>
+    /// Implicit converted for the array of string source.
+    /// </summary>
+    /// <param name="sources">Multiple source addresses.</param>
+    public static implicit operator VideoSource( string[] sources )
+    {
+        return new( sources );
+    }
+
     #endregion
 
     #region Properties
@@ -71,7 +77,7 @@ public record VideoSource
     /// <summary>
     /// True if the source contains the single address.
     /// </summary>
-    public bool Indexed { get; private set; }
+    public bool Indexed => Medias?.Count > 1;
 
     /// <summary>
     /// Either video or audio. Note: YouTube and Vimeo are currently not supported as audio sources.
