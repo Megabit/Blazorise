@@ -5,20 +5,38 @@
             <CardHeader>
                 <CardTitle>Splitter</CardTitle>
             </CardHeader>
-            <CardBody>
-                <Splitter >
+            <CardBody Style="height: 300px;">
+                <Splitter>
                     <SplitterSection>
-                        <h1>Hello!</h1>
+                        <div>Hello!</div>
                     </SplitterSection>
                     <SplitterSection>
-                        <h1>World!</h1>
+                        <div>World!</div>
                     </SplitterSection>
                 </Splitter>
             </CardBody>
         </Card>
     </Column>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Splitter</CardTitle>
+            </CardHeader>
+            <CardBody Style="height: 300px;">
+                <Div Height="Height.Is100">
+                    <Splitter Direction="SplitDirection.Vertical">
+                        <SplitterSection>
+                            <div>Hello!</div>
+                        </SplitterSection>
+                        <SplitterSection>
+                            <div>World!</div>
+                        </SplitterSection>
+                    </Splitter>
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
-
 @code {
 
 }

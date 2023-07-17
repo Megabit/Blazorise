@@ -42,7 +42,12 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( "split flex" );
+        builder.Append( "split" );
+
+        if ( Direction == SplitDirection.Vertical )
+            builder.Append( "split-vertical" );
+        else
+            builder.Append( "split-horizontal" );
 
         base.BuildClasses( builder );
     }
@@ -173,7 +178,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Splitter"/>.
     /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; }
 
     #endregion
 }
