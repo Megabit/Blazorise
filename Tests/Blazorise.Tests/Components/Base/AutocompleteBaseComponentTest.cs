@@ -211,7 +211,7 @@ public class AutocompleteBaseComponentTest : TestContext
         // test
         var autoComplete = comp.Find( ".b-is-autocomplete input" );
         await autoComplete.KeyDownAsync( new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs() { Key = "A" } );
-        autoComplete.InputAsync( "A" );
+        await autoComplete.InputAsync( "A" );
         await autoComplete.FocusAsync( new() );
 
         comp.WaitForAssertion( () => comp.Find( ".b-is-autocomplete-suggestion.focus" ), TestExtensions.WaitTime );

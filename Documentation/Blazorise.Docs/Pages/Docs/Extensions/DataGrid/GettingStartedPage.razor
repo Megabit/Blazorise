@@ -78,7 +78,7 @@
         </UnorderedList>
         <Alert Color="Color.Warning" Visible>
             <AlertDescription>
-                Throughout our examples you may see the usage of <Blazorise.Link To="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/nameof" Target="Target.Blank"><Code>nameof</Code></Blazorise.Link> when defining the <Code>Field</Code> Parameter. 
+                Throughout our examples you may see the usage of <Blazorise.Link To="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/operators/nameof" Target="Target.Blank"><Code>nameof</Code></Blazorise.Link> when defining the <Code>Field</Code> Parameter.
                 Note that <Code>nameof</Code> produces only the name of the variable, type or member as the string constant. It is used as a way to strongly type the string that represents our field.
                 Please note, that this is not mandatory. And you may provide a regular string that represents the path to the field you want to be binding.
             </AlertDescription>
@@ -249,6 +249,9 @@
     <DocsAttributesItem Name="ValidationsHandlerType" Type="Type" Default="null">
         Defines the default handler type that will be used by the validation, unless it is overriden by <Code>Validation.HandlerType</Code> property.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SortChanged" Type="EventCallback<DataGridSortChangedEventArgs>" Default="null">
+        Occurs after the sort direction of a single column has changed.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="SortMode" Type="DataGridSortMode" Default="Multiple">
         Defines whether the user can sort only by one column or by multiple.
     </DocsAttributesItem>
@@ -365,6 +368,16 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Navigable" Type="bool" Default="false">
         Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod" Default="DataGridFilterMethod.Contains">
+        Defines the filter method when searching the cell values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowHeaderGroupCaptions" Type="bool" Default="false">
+        Gets or sets whether user can see defined header group captions.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderGroupCaptionTemplate" Type="RenderFragment<HeaderGroupContext>">
+        Template for header group caption.
+        Suggested usage: rendering content conditionally according to the defined HeaderGroupCaption.
     </DocsAttributesItem>
 </DocsAttributes>
 
@@ -571,64 +584,104 @@
     <DocsAttributesItem Name="ShowGrouping" Type="bool" Default="false">
         Gets or sets whether user can see and edit column grouping.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod?" Default="null">
+        Sets the filter method to be used for filtering the column.
+        If null, uses the DataGrid's FilterMethod.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderGroupCaption" Type="string">
+        Defines the caption to be displayed for a group header.
+        If set, all the column headers that are part of the group will be grouped under this caption.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <Heading Size="HeadingSize.Is3">
     Methods
 </Heading>
 
-<DocsAttributes>
-    <DocsAttributesItem Name="New">
+<DocsMethods>
+    <DocsMethodsItem Name="New" ReturnType="Task">
         Sets the DataGrid into the New state mode.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Edit">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Edit" ReturnType="Task" Parameters="TItem item">
         Sets the DataGrid into the Edit state mode for the specified item.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Delete">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Delete" ReturnType="Task" Parameters="TItem item">
         Deletes the specified item from the <Code>Data</Code> source.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Save">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Save" ReturnType="Task">
         Save the internal state of the editing items.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Cancel">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Cancel" ReturnType="Task">
         Cancels the editing of DataGrid item.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Select">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Select" ReturnType="Task" Parameters="TItem item">
         Selects the specified item.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Sort">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Sort" ReturnType="Task" Parameters="string fieldName, SortDirection? sortDirection = null">
         Sorts the Data for the specified column.
         Note that <Code>Sortable</Code> must be enabled to be able to sort!
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Paginate">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Sort" ReturnType="Task" Parameters="DataGridColumn<TItem> column, SortDirection? sortDirection = null">
+        Sorts the Data for the specified column.
+        Note that <Code>Sortable</Code> must be enabled to be able to sort!
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ApplySorting" ReturnType="Task" Parameters="params DataGridSortColumnInfo[] columns">
+        Applies a new sort to the datagrid using the provided columns, sort order, and sort direction. Replaces the current sorting.
+        Note that <Code>Sortable</Code> must be enabled to be able to sort!
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Paginate" ReturnType="Task" Parameters="string paginationCommandOrNumber">
         Triggers the DataGrid to change data source page.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ClearFilter">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ClearFilter" ReturnType="Task">
         Clears all filters from the grid.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="FilterData">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ClearFilter" ReturnType="Task" Parameters="params string[] fieldNames">
+        Clears the corresponding column filters.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="FilterData" ReturnType="void">
         Forces the internal DataGrid data to be filtered.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="UpdateCellEditValue">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="UpdateCellEditValue" ReturnType="void" Parameters="string fieldName, object value">
         Updates the cell of the current editing item that matches the <Code>fieldName</Code>.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ReadCellEditValue">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ReadCellEditValue" ReturnType="object" Parameters="string fieldName">
         Reads the cell value of the current editing item that matches the <Code>fieldName</Code>.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ToggleDetailRow">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ToggleDetailRow" ReturnType="Task" Parameters="TItem item, bool forceDetailRow = false">
         Toggles DetailRow while evaluating the <Code>DetailRowTrigger</Code> if provided.
         Use <Code>forceDetailRow</Code> to ignore <Code>DetailRowTrigger</Code> and toggle the DetailRow.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ScrollToPixels">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ScrollToPixels" ReturnType="ValueTask" Parameters="int pixels">
         If <Code>FixedHeader</Code> or <Code>Virtualize</Code> is enabled, it will scroll position to the provided pixels.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ScrollToRow">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ScrollToRow" ReturnType="ValueTask" Parameters="int row">
         If <Code>FixedHeader</Code> or <Code>Virtualize</Code> is enabled, it will scroll position to the provided row.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ExpandAllGroups">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ExpandAllGroups" ReturnType="Task">
         Expands all groups.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="CollapseAllGroups">
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="CollapseAllGroups" ReturnType="Task">
         Collapses all groups.
-    </DocsAttributesItem>
-</DocsAttributes>
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetColumns" ReturnType="IReadOnlyList<DataGridColumn<TItem>>">
+        Returns a read-only list of all the columns that are currently associated with this datagrid.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetSortByColumns" ReturnType="IReadOnlyList<DataGridColumn<TItem>>">
+        Returns a read-only list of all columns currently used to sort this datagrid's data.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ExpandGroups" ReturnType="Task" Parameters="params string[] groupKeys">
+        Expands the specified groups.
+        For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"
+        For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="CollapseGroups" ReturnType="Task" Parameters="params string[] groupKeys">
+        Collapses the specified groups.
+        For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"
+        For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ToggleGroups" ReturnType="Task" Parameters="params string[] groupKeys">
+        Toggles the specified groups.
+        For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"
+        For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"
+    </DocsMethodsItem>
+</DocsMethods>

@@ -1,0 +1,9 @@
+﻿@typeparam TItem
+@inherits DataGrid<TItem>
+@{
+    base.BuildRenderTree(__builder);
+}
+
+<button id="PerfReset" @onclick="ResetCalls"></button>
+<label id="PerfRenderCalls">@RenderCalls</label>
+<label id="PerfParametersSetCalls">@ParametersSetCalls</label>

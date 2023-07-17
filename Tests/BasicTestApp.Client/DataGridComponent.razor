@@ -3,9 +3,17 @@
           ShowPager
           ShowPageSizes
           Sortable
-          SortMode="DataGridSortMode.Single"
+          SortMode="@SortMode"
+          SortChanged="SortChanged"
           Editable
-          EditMode="@DataGridEditMode">
+          EditMode="@DataGridEditMode"
+          UseInternalEditing="UseInternalEditing"
+          RowInserting="RowInserting"
+          RowUpdating="RowUpdating"
+          RowRemoving="RowRemoving"
+          RowInserted="RowInserted"
+          RowUpdated="RowUpdated"
+          RowRemoved="RowRemoved">
     <DataGridColumns>
         <DataGridCommandColumn TItem="Employee">
             <NewCommandTemplate>
@@ -26,18 +34,18 @@
             <ClearFilterCommandTemplate>
                 <Button ElementId="btnClearFilter" Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
             </ClearFilterCommandTemplate>
-        </DataGridCommandColumn>
-        <DataGridColumn TextAlignment="TextAlignment.Center"
+            </DataGridCommandColumn>
+            <DataGridColumn TextAlignment="TextAlignment.Center"
                         TItem="Employee"
                         Field="@nameof( Employee.Fraction )"
                         Caption="Fraction"
                         SortField="@nameof( Employee.FractionValue )"
                         SortDirection="SortDirection.Ascending"
                         Editable="false" />
-        <DataGridColumn TItem="Employee"
+            <DataGridColumn TItem="Employee"
                         Field="@nameof( Employee.Name )"
                         Caption="Name"
-                        Editable />
+                                Editable />
     </DataGridColumns>
     <EmptyTemplate>
         No Records...
@@ -45,17 +53,34 @@
 </DataGrid>
 
 @code {
+
+    [Parameter] public EventCallback<CancellableRowChange<Employee, Dictionary<string, object>>> RowInserting { get; set; }
+    [Parameter] public EventCallback<CancellableRowChange<Employee, Dictionary<string, object>>> RowUpdating { get; set; }
+    [Parameter] public EventCallback<CancellableRowChange<Employee>> RowRemoving { get; set; }
+    [Parameter] public EventCallback<SavedRowItem<Employee, Dictionary<string, object>>> RowInserted { get; set; }
+    [Parameter] public EventCallback<SavedRowItem<Employee, Dictionary<string, object>>> RowUpdated { get; set; }
+    [Parameter] public EventCallback<Employee> RowRemoved { get; set; }
+
+    [Parameter] public bool UseInternalEditing { get; set; } = true;
+
     [Parameter]
-    public DataGridEditMode DataGridEditMode { get; set; }     
-    
+    public DataGridEditMode DataGridEditMode { get; set; }
+
     [Parameter]
-    public List<Employee> Data { get; set; } = new()
+    public IEnumerable<Employee> Data { get; set; } = new List<Employee>()
         {
             new() { Name = "John", Fraction = "1/2" },
             new() { Name = "Sarah", Fraction = "1/4" },
             new() { Name = "Paul", Fraction = "1/8" },
-            new() { Name = "Ana", Fraction = "3/4" }
+            new() { Name = "Ana", Fraction = "3/4" },
+            new() { Name = "John", Fraction = "1/3" }
         };
+
+    [Parameter]
+    public EventCallback<DataGridSortChangedEventArgs> SortChanged { get; set; }
+
+    [Parameter]
+    public DataGridSortMode SortMode { get; set; } = DataGridSortMode.Multiple;
 
     public class Employee
     {

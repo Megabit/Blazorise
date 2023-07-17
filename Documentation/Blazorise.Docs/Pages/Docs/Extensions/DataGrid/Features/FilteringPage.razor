@@ -47,9 +47,28 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Column Filtering">
+        <Paragraph>
+            Similar to the DataGrid filtering, it is also possible to use filtering on a per-column basis by specifying <Code>FilterMethod</Code> on <Code>DataGridColumn</Code>.
+        </Paragraph>
+        <Paragraph>
+            The following example sets the column filtering to <Code>FilterMethod.StartsWith</Code>.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridColumnFilteringExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridColumnFilteringExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Custom Filtering">
-        Regular filter works on per field basis. To enable advanced search capabilities you can use an attribute <Code>CustomFilter</Code>.
-        Filter API is fairly straightforward. All you need is to attach <Code>CustomFilter</Code> to a function and bind search value to <Code>TextEdit</Code> field. DataGrid will automatically respond to entered value.
+        <Paragraph>
+            Regular filter works on per field basis. To enable advanced search capabilities you can use an attribute <Code>CustomFilter</Code>.
+        </Paragraph>
+        <Paragraph>
+            Filter API is fairly straightforward. All you need is to attach <Code>CustomFilter</Code> to a function and bind search value to <Code>TextEdit</Code> field. DataGrid will automatically respond to entered value.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth Outlined>
         <DataGridCustomFilteringExample />
@@ -59,7 +78,12 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Custom Column Filtering">
-        Similar to the DataGrid custom filtering, it is also possible to use custom filtering on a per-column basis. You can define your editor with custom filtering to filter column values. You can see the dropdown menu to filter by gender in the following example by specifying <Code Tag>FilterTemplate</Code> on <Code>DataGridColumn</Code>.
+        <Paragraph>
+            Similar to the DataGrid custom filtering, it is also possible to use custom filtering on a per-column basis.
+        </Paragraph>
+        <Paragraph>
+            You can define your editor with custom filtering to filter column values. You can see the dropdown menu to filter by gender in the following example by specifying <Code Tag>FilterTemplate</Code> on <Code>DataGridColumn</Code>.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth Outlined>
         <DataGridCustomColumnFilteringExample />

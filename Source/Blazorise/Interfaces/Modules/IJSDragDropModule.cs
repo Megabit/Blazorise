@@ -21,7 +21,7 @@ public interface IJSDragDropModule : IBaseJSModule,
     ValueTask Initialize( ElementReference elementRef, string elementId );
 
     /// <summary>
-    /// Initializes throttled events for drag & drop events.
+    /// Initializes throttled events for drag and drop events.
     /// </summary>
     /// <param name="elementRef">Reference to the rendered element.</param>
     /// <param name="elementId">ID of the rendered element.</param>
@@ -30,9 +30,8 @@ public interface IJSDragDropModule : IBaseJSModule,
     ValueTask InitializeThrottledDragEvents<T>( ElementReference elementRef, string elementId, DotNetObjectReference<T> dotNetObjectReference ) where T : class;
 
     /// <summary>
-    /// Destroys throttled events for drag & drop events.
+    /// Destroys throttled events for drag and drop events.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
     /// <param name="elementRef"></param>
     /// <param name="elementId"></param>
     /// <returns></returns>

@@ -1,5 +1,5 @@
-﻿import "./vendors/flatpickr.js?v=1.2.3.0";
-import * as utilities from "./utilities.js?v=1.2.3.0";
+﻿import "./vendors/flatpickr.js?v=1.2.4.0";
+import * as utilities from "./utilities.js?v=1.2.4.0";
 
 const _pickers = [];
 
@@ -75,6 +75,16 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         picker.altInput.disabled = options.disabled || false;
         picker.altInput.readOnly = options.readOnly || false;
         picker.altInput.placeholder = options.placeholder;
+
+        picker.altInput.addEventListener("blur", (e) => {
+            const isInput = e.target === picker._input;
+
+            // Workaround for: onchange does not fire when user writes the time and then click outside of the input area.
+            if (isInput && picker.isOpen === false) {
+                picker.input.dispatchEvent(utilities.createEvent("change"));
+                picker.input.dispatchEvent(utilities.createEvent("input"));
+            }
+        });
     }
 
     picker.customOptions = {

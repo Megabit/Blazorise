@@ -308,6 +308,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string FieldLabel( bool horizontal ) => horizontal ? "ant-form-item-label" : null;
 
+    public override string FieldLabelRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "ant-form-item-label-required"
+            : null;
+
     #endregion
 
     #region FieldBody

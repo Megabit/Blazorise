@@ -5,22 +5,12 @@
           Filterable
           Responsive>
     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false"></DataGridColumn>
-    <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" Field="@nameof( Employee.Gender )" Caption="Gender" Editable>
-        <FilterTemplate>
-            <Select TValue="string" SelectedValue="@selectedGenderFilter" SelectedValueChanged="@(value => { selectedGenderFilter = value; context.TriggerFilterChange( selectedGenderFilter ); })">
-                <SelectItem Value="@("*")">All</SelectItem>
-                <SelectItem Value="@("M")">Male</SelectItem>
-                <SelectItem Value="@("F")">Female</SelectItem>
-                <SelectItem Value="@("D")">Diverse</SelectItem>
-            </Select>
-        </FilterTemplate>
-    </DataGridSelectColumn>
+    <DataGridSelectColumn CustomFilter="@OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+    <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
 </DataGrid>
 
 @code{
     private List<Employee> employeeList = new() { new() { FirstName = "David", Gender = "M" }, new() { FirstName = "Mladen", Gender = "M" }, new() { FirstName = "John", Gender = "M" }, new() { FirstName = "Ana", Gender = "F" }, new() { FirstName = "Jessica", Gender = "F" } };
-
-    string selectedGenderFilter;
 
     private bool OnGenderCustomFilter( object itemValue, object searchValue )
     {

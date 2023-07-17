@@ -865,6 +865,11 @@ input[readonly=readonly][type=range]::-ms-thumb {
   display: none;
 }
 
+.form-label-required:after {
+  content: " *";
+  color: var(--b-theme-danger, #dc3545);
+}
+
 .jumbotron {
   padding: 2rem 1rem;
   margin-bottom: 2rem;

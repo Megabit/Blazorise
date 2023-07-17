@@ -17,10 +17,6 @@ public partial class BarToggler : BaseComponent
 
     private BarState parentBarState;
 
-    private BarTogglerMode mode = BarTogglerMode.Normal;
-
-    private Bar bar;
-
     /// <summary>
     /// Holds the state for this bar component.
     /// </summary>

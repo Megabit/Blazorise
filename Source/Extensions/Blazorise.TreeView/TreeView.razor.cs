@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.TreeView.Extensions;
@@ -48,33 +49,28 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
 
         // We don't want to have memory leak so we need to unsubscribe any previous event if it exist.
         // The unsubscribe must happen before SetParametersAsync.
-        if ( Nodes is INotifyCollectionChanged obseravableCollectionBeforeChange )
+        if ( Nodes is INotifyCollectionChanged observableCollectionBeforeChange )
         {
-            obseravableCollectionBeforeChange.CollectionChanged -= OnCollectionChanged;
+            observableCollectionBeforeChange.CollectionChanged -= OnCollectionChanged;
         }
 
         await base.SetParametersAsync( parameters );
 
         if ( nodesChanged )
         {
-            treeViewNodeStates = new();
-
-            await foreach ( var nodeState in paramNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
-            {
-                treeViewNodeStates.Add( nodeState );
-            }
+            await Reload();
         }
 
         // Now we can safely subscribe to the changes.
-        if ( Nodes is INotifyCollectionChanged observableColleftionAfterChange )
+        if ( Nodes is INotifyCollectionChanged observableCollectionAfterChange )
         {
-            observableColleftionAfterChange.CollectionChanged += OnCollectionChanged;
+            observableCollectionAfterChange.CollectionChanged += OnCollectionChanged;
         }
     }
 
     private void OnCollectionChanged( object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e )
     {
-        if ( e.Action == NotifyCollectionChangedAction.Add || e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset )
+        if ( e.Action == NotifyCollectionChangedAction.Add )
         {
             InvokeAsync( async () =>
             {
@@ -84,6 +80,62 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
                 }
             } );
         }
+
+        if ( e.Action == NotifyCollectionChangedAction.Remove || e.Action == NotifyCollectionChangedAction.Reset || e.Action == NotifyCollectionChangedAction.Replace || e.Action == NotifyCollectionChangedAction.Move )
+        {
+            InvokeAsync( Reload );
+        }
+    }
+
+    /// <summary>
+    /// Attempts to find and remove an existing node from the Treeview.
+    /// </summary>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    public Task RemoveNode( TNode node )
+    {
+        SearchTryRemoveNode( treeViewNodeStates, node );
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Recursively searches for a given node to remove it from the Treeview.
+    /// </summary>
+    /// <param name="nodeStates"></param>
+    /// <param name="node"></param>
+    /// <returns></returns>
+    private void SearchTryRemoveNode( List<TreeViewNodeState<TNode>> nodeStates, TNode node )
+    {
+        if ( nodeStates.IsNullOrEmpty() )
+            return;
+
+        var nodeToRemove = nodeStates.FirstOrDefault( x => x.Node.Equals( node ) );
+        if ( nodeToRemove is not null )
+        {
+            nodeStates.Remove( nodeToRemove );
+        }
+        else
+        {
+            foreach ( var nodeState in nodeStates )
+            {
+                SearchTryRemoveNode( nodeState.Children, node );
+            }
+        }
+    }
+
+    /// <summary>
+    /// Triggers the reload of the <see cref="TreeView{TNode}.Nodes"/>.
+    /// </summary>
+    /// <returns>Returns the awaitable task.</returns>
+    public async Task Reload()
+    {
+        treeViewNodeStates = new();
+
+        await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+        {
+            treeViewNodeStates.Add( nodeState );
+        }
+        await InvokeAsync( StateHasChanged );
     }
 
     protected override void Dispose( bool disposing )

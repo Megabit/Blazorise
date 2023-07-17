@@ -1,7 +1,11 @@
 ﻿#region Using directives
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using BasicTestApp.Client;
 using Blazorise.Tests.Helpers;
+using Bunit;
+using FluentAssertions;
 using Xunit;
 #endregion
 
@@ -19,12 +23,61 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
     }
 
     [Fact]
+    public Task TagTemplate_Should_BeAbleTo_Remove()
+    {
+        var comp = RenderComponent<AutocompleteMultipleComponent>( parameters =>
+        {
+            parameters.Add( x => x.UseBadgeTemplate, true );
+            parameters.Add( x => x.SelectedTexts, new List<string>() { "Portugal", "Croatia" } );
+        } );
+
+        var tags = comp.FindAll( ".badge" );
+        comp.WaitForAssertion( () =>
+        {
+            tags.Refresh();
+            tags.Count.Should().Be( 2 );
+        } );
+
+        comp.Find( ".badge .badge-close" ).Click();
+
+        comp.WaitForAssertion( () =>
+        {
+            tags.Refresh();
+            tags.Count.Should().Be( 1 );
+        } );
+
+        return Task.CompletedTask;
+    }
+
+    [Fact]
+    public Task TagTemplate_Should_Render()
+    {
+        var comp = RenderComponent<AutocompleteMultipleComponent>( parameters =>
+        {
+            parameters.Add( x => x.UseBadgeTemplate, true );
+            parameters.Add( x => x.SelectedTexts, new List<string>() { "Portugal", "Croatia" } );
+        } );
+
+        var tags = comp.FindAll( ".badge" );
+        comp.WaitForAssertion( () =>
+        {
+            tags.Refresh();
+            tags.Count.Should().Be( 2 );
+            //The x represents the close button.
+            tags.Select( x => x.TextContent ).Should().BeEquivalentTo( new[] { "Portugal×", "Croatia×" } );
+        } );
+
+        return Task.CompletedTask;
+    }
+
+    [Fact]
     public Task Focus_ShouldFocus()
     {
         return TestFocus<AutocompleteMultipleComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
     }
 
     [Fact]
+
     public Task Clear_ShouldReset()
     {
         return TestClear<AutocompleteMultipleComponent>( async ( comp ) => await comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts?.ToArray() );

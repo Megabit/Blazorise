@@ -329,3 +329,8 @@ select[readonly] {
 .focus-trap {
     display: contents;
 }
+
+.form-label-required:after {
+    content: " *";
+    color: var(--b-theme-danger, $danger);
+}

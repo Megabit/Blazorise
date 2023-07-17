@@ -1,0 +1,32 @@
+﻿@page "/docs/extensions/datagrid/binding-data/observable"
+
+<Seo Canonical="/docs/extensions/datagrid/observable" Title="Blazorise DataGrid Binding Observable Data" Description="The DataGrid can bind observable data, so whenever the underlying collection is changed the DataGrid is automatically updated." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Binding-Data/Observable">
+    Blazorise DataGrid: Observable Data
+</DocsPageTitle>
+
+<DocsPageLead>
+    The <Code>DataGrid</Code> Observable Data feature allows you to bind in memory observable data collections.
+</DocsPageLead>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Observable Data">
+        <Paragraph>
+            By default, <Code>DataGrid</Code> does not listen to changes in the underlying data collection.
+            This means that if you change the collection, by calling methods like, <Code>Add</Code> or <Code>Remove</Code>, the <Code>DataGrid</Code> will not be updated.
+        </Paragraph>
+        <Paragraph>
+            This is in the interest of performance and as such we recommended the following, either:
+            <UnorderedList>
+                <UnorderedListItem>Invoke <Code>gridRef.Reload();</Code> when you're done mutating your collection</UnorderedListItem>
+                <UnorderedListItem>Have your data be observable by using any implementation of the <Code>INotifyCollectionChanged</Code>, like the <Code>ObservableCollection</Code>. The example below ilustrates this.</UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridObservableCollectionExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridObservableCollectionExample" />
+</DocsPageSection>
+

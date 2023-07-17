@@ -51,7 +51,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( ParentDataGrid is not null )
         {
-            ParentDataGrid.AddColumn( this );
+            ParentDataGrid.AddColumn( this, true );
 
             Filter?.Subscribe( OnSearchValueChanged );
         }
@@ -723,6 +723,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Template for custom group.
     /// </summary>
     [Parameter] public RenderFragment<GroupContext<TItem>> GroupTemplate { get; set; }
+
+    /// <summary>
+    /// <para>Sets the filter method to be used for filtering the column.</para>
+    /// <para>If null, uses the <see cref="DataGrid{TItem}.FilterMethod" /> </para>
+    /// </summary>
+    [Parameter] public DataGridFilterMethod? FilterMethod { get; set; }
+
+    /// <summary>
+    /// <para>Defines the caption to be displayed for a group header.</para>
+    /// <para>If set, all the column headers that are part of the group will be grouped under this caption.</para>
+    /// </summary>
+    [Parameter] public string HeaderGroupCaption { get; set; }
 
     #endregion
 }
