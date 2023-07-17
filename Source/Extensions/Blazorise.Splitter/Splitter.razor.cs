@@ -77,7 +77,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
             if ( splitSections.Count > 0 )
             {
-                var options = new SplitterConfiguration
+                var options = new SplitterOptions
                 {
                     Sizes = Sizes,
                     MinSize = MinSize,
@@ -88,7 +88,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
                     SnapOffset = SnapOffset,
                     DragInterval = DragInterval,
                     Direction = Direction,
-                    Cursor = Cursor
+                    Cursor = Cursor,
                 };
 
                 JSSplitInstance = await JSModule.InitializeSplit( splitSections, options );

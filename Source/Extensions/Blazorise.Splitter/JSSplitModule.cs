@@ -32,7 +32,7 @@ public class JSSplitModule : BaseJSModule
     /// <param name="sections">Sections of the splitter</param>
     /// <param name="options">Splitter configuration options</param>
     /// <returns>A <see cref="IJSObjectReference"/> to the Animation object</returns>
-    public virtual ValueTask<IJSObjectReference> InitializeSplit( IEnumerable<ElementReference> sections, SplitterConfiguration options )
+    public virtual ValueTask<IJSObjectReference> InitializeSplit( IEnumerable<ElementReference> sections, SplitterOptions options )
         => InvokeSafeAsync<IJSObjectReference>( "initializeSplit", sections, options );
 
     #endregion

@@ -6,7 +6,7 @@ namespace Blazorise.Splitter;
 /// <summary>
 /// Configuration object sent via JS interop to configure the split component
 /// </summary>
-public class SplitterConfiguration
+public class SplitterOptions
 {
     /// <summary>
     /// Cursor to display while dragging.
