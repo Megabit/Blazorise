@@ -26,10 +26,12 @@ public class SingleValueOrArrayJsonConverter<TItem> : JsonConverter<SingleValueO
                 return null;
             case JsonTokenType.StartArray:
                 var list = new List<TItem>();
+
                 while ( reader.Read() )
                 {
                     if ( reader.TokenType == JsonTokenType.EndArray )
                         break;
+
                     list.Add( JsonSerializer.Deserialize<TItem>( ref reader, options )! );
                 }
 
@@ -46,12 +48,16 @@ public class SingleValueOrArrayJsonConverter<TItem> : JsonConverter<SingleValueO
     public override void Write( Utf8JsonWriter writer, SingleValueOrArray<TItem> value, JsonSerializerOptions options )
     {
         if ( CanWrite && value.Values.Count == 1 )
+        {
             JsonSerializer.Serialize( writer, value.Values.First(), options );
+        }
         else
         {
             writer.WriteStartArray();
+
             foreach ( TItem item in value.Values )
                 JsonSerializer.Serialize( writer, item, options );
+
             writer.WriteEndArray();
         }
     }

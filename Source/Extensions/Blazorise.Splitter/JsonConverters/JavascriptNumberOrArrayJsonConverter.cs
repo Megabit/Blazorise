@@ -20,10 +20,12 @@ public class JavascriptNumberOrArrayJsonConverter : JsonConverter<JavascriptNumb
                 return null;
             case JsonTokenType.StartArray:
                 var list = new List<JavascriptNumber>();
+
                 while ( reader.Read() )
                 {
                     if ( reader.TokenType == JsonTokenType.EndArray )
                         break;
+
                     list.Add( JsonSerializer.Deserialize<JavascriptNumber>( ref reader, options )! );
                 }
 
@@ -44,8 +46,10 @@ public class JavascriptNumberOrArrayJsonConverter : JsonConverter<JavascriptNumb
         else
         {
             writer.WriteStartArray();
+
             foreach ( JavascriptNumber number in value.Values )
                 JsonSerializer.Serialize( writer, number, options );
+
             writer.WriteEndArray();
         }
     }

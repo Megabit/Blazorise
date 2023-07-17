@@ -30,6 +30,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     protected override Task OnInitializedAsync()
     {
         JSModule ??= new JSSplitModule( JSRuntime, VersionProvider );
+
         return base.OnInitializedAsync();
     }
 
