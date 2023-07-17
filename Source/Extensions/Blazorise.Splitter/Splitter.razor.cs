@@ -51,14 +51,14 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     {
         splitSections.Add( section );
 
-        StateHasChanged();
+        InvokeAsync( StateHasChanged );
     }
 
     public void UnregisterSection( ElementReference section )
     {
         splitSections.Remove( section );
 
-        StateHasChanged();
+        InvokeAsync( StateHasChanged );
     }
 
     private async Task CreateInstance()
