@@ -1,0 +1,116 @@
+﻿@page "/docs/extensions/splitter"
+
+<Seo Canonical="/docs/extensions/splitter" Title="Blazorise Splitter component" Description="Learn to use and work with the Blazorise Splitter component, a component for creating resizable split views in Blazor applications." />
+
+<DocsPageTitle Path="Extensions/Splitter">
+    Blazorise Splitter component
+</DocsPageTitle>
+
+<DocsPageLead>
+    The <Code>Splitter</Code> component is a dynamic control element in Blazor that generates resizable split views in applications.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The Splitter component allows you to segment your application screen into adjustable, standalone sections, either horizontally or vertically. This flexible utility lends itself to a wide variety of applications, from visually dividing up workspace areas, managing multi-panel layouts, to providing adjustable content viewing areas. It’s designed to enhance usability and optimize screen real estate utilization, thereby improving overall user experience. The ease of integration with other Blazor components makes Splitter a versatile tool in building responsive, intuitive, and user-friendly interfaces.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    To get started with Blazorise.Splitter, follow these simple installation steps:
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        <Paragraph>
+            First, you need to add the Blazorise.Splitter package to your project. You can do this by running the following command in your project's root directory:
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SplitterNugetInstallExample"></DocsPageSectionSource>
+    <DocsPageSectionHeader>
+        <Paragraph Margin="Margin.Is3.FromTop">
+            Alternatively, you can install the package using the .NET Core CLI:
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SplitterNugetInstall2Example"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Configuration">
+        <Paragraph>
+            Once the package is installed, you need to configure your Blazor project to use the Splitter component.
+        </Paragraph>
+        <Paragraph>
+            In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SplitterImportsExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Horizontal Splitter">
+        By default, the Splitter component creates a horizontal split. Here's a simple example:
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SplitterHorizontalExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SplitterHorizontalExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Vertical Splitter">
+        To create a vertical split, use the <Strong>Direction</Strong> parameter of the <Strong>Splitter</Strong> component and set it to <Strong>SplitDirection.Vertical</Strong>:
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SplitterVerticalExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SplitterVerticalExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Sizes" Type="IEnumerable<JavascriptNumber>">
+        Initial sizes of each element in percents or CSS values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MinSize" Type="JavascriptNumberOrArray">
+        Minimum size of each element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxSize" Type="JavascriptNumberOrArray">
+        Maximum size of each element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SnapOffset" Type="JavascriptNumberOrArray">
+        Snap to minimum size offset in pixels.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GutterSize" Type="JavascriptNumber" Default="10">
+        Gutter size in pixels. Defaults to 10.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ExpandToMin" Type="bool?">
+        When the split is created, if ExpandToMin is true, the minSize for each element overrides the percentage value from the sizes option.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GutterAlign" Type="SplitGutterAlignment" Default="SplitGutterAlignment.Center">
+        Determines how the gutter aligns between the two elements.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DragInterval" Type="JavascriptNumber">
+        Drag this number of pixels at a time. Defaults to 1 for smooth dragging, but can be set to a pixel value to give more control over the resulting sizes.
+        Works particularly well when the <Strong>GutterSize</Strong> is set to the same size.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Direction" Type="SplitDirection">
+        Direction to split.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Cursor" Type="string">
+        Cursor to display while dragging.
+    </DocsAttributesItem>
+</DocsAttributes>

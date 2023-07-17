@@ -7972,6 +7972,30 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""20px"" />";
 
+        public const string SplitterHorizontalExample = @"<Splitter>
+    <SplitterSection>
+        <div>Hello!</div>
+    </SplitterSection>
+    <SplitterSection>
+        <div>World!</div>
+    </SplitterSection>
+</Splitter>";
+
+        public const string SplitterImportsExample = @"@using Blazorise.Splitter";
+
+        public const string SplitterNugetInstall2Example = @"dotnet add package Blazorise.Splitter";
+
+        public const string SplitterNugetInstallExample = @"Install-Package Blazorise.Splitter";
+
+        public const string SplitterVerticalExample = @"<Splitter Direction=""SplitDirection.Vertical"">
+    <SplitterSection>
+        <div>Hello!</div>
+    </SplitterSection>
+    <SplitterSection>
+        <div>World!</div>
+    </SplitterSection>
+</Splitter>";
+
         public const string TreeViewExample = @"<TreeView Nodes=""Items""
           GetChildNodes=""@(item => item.Children)""
           HasChildNodes=""@(item => item.Children?.Any() == true)""

@@ -132,7 +132,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.E2E.Tests", "Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.SignaturePad", "Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj", "{96334C18-5A3B-4C90-9C48-B06043AF0C68}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Splitter", "Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj", "{EC28D772-D69F-418B-9720-3977850E2FDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Splitter", "Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj", "{EC28D772-D69F-418B-9720-3977850E2FDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
