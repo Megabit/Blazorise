@@ -6,18 +6,18 @@ using System.Linq;
 namespace Blazorise.Splitter;
 
 /// <summary>
-/// Represents the equivalent of a Javascript union of a type or an array of the same type
+/// Represents the equivalent of a Javascript union of a type or an array of the same type.
 /// </summary>
-/// <typeparam name="TValue">Type of the value or array of values</typeparam>
+/// <typeparam name="TValue">Type of the value or array of values.</typeparam>
 public class SingleValueOrArray<TValue> : IList<TValue>
 {
     #region Constructors
 
     /// <summary>
-    /// Instantiates a new <see cref="SingleValueOrArray{TValue}"/> from an array of values
+    /// Instantiates a new <see cref="SingleValueOrArray{TValue}"/> from an array of values.
     /// </summary>
-    /// <param name="values">Enumerable of values</param>
-    /// <exception cref="ArgumentNullException">Thrown if the enumerable is null</exception>
+    /// <param name="values">Enumerable of values.</param>
+    /// <exception cref="ArgumentNullException">Thrown if the enumerable is null.</exception>
     public SingleValueOrArray( IEnumerable<TValue> values )
     {
         ArgumentNullException.ThrowIfNull( values );
@@ -26,10 +26,10 @@ public class SingleValueOrArray<TValue> : IList<TValue>
     }
 
     /// <summary>
-    /// Instantiates a new <see cref="SingleValueOrArray{TValue}"/> from a single value
+    /// Instantiates a new <see cref="SingleValueOrArray{TValue}"/> from a single value.
     /// </summary>
-    /// <param name="value">Single value</param>
-    /// <exception cref="ArgumentNullException">Thrown if the value is null</exception>
+    /// <param name="value">Single value.</param>
+    /// <exception cref="ArgumentNullException">Thrown if the value is null.</exception>
     public SingleValueOrArray( TValue value )
     {
         ArgumentNullException.ThrowIfNull( value );
@@ -110,30 +110,30 @@ public class SingleValueOrArray<TValue> : IList<TValue>
     }
 
     /// <summary>
-    /// Implicitly converts a single value to a <see cref="SingleValueOrArray{TValue}"/>
+    /// Implicitly converts a single value to a <see cref="SingleValueOrArray{TValue}"/>.
     /// </summary>
-    /// <param name="value">Single value to convert</param>
-    /// <returns>A <see cref="SingleValueOrArray{TValue}"/> representing the value</returns>
+    /// <param name="value">Single value to convert.</param>
+    /// <returns>A <see cref="SingleValueOrArray{TValue}"/> representing the value.</returns>
     public static implicit operator SingleValueOrArray<TValue>( TValue value )
     {
         return new SingleValueOrArray<TValue>( value );
     }
 
     /// <summary>
-    /// Implicitly converts a list of values to a <see cref="SingleValueOrArray{TValue}"/>
+    /// Implicitly converts a list of values to a <see cref="SingleValueOrArray{TValue}"/>.
     /// </summary>
-    /// <param name="values">List of values to convert</param>
-    /// <returns>A <see cref="SingleValueOrArray{TValue}"/> representing the values</returns>
+    /// <param name="values">List of values to convert.</param>
+    /// <returns>A <see cref="SingleValueOrArray{TValue}"/> representing the values.</returns>
     public static implicit operator SingleValueOrArray<TValue>( List<TValue> values )
     {
         return new SingleValueOrArray<TValue>( values );
     }
 
     /// <summary>
-    /// Implicitly converts an array of values to a <see cref="SingleValueOrArray{TValue}"/>
+    /// Implicitly converts an array of values to a <see cref="SingleValueOrArray{TValue}"/>.
     /// </summary>
-    /// <param name="values">Array of values to convert</param>
-    /// <returns>A <see cref="SingleValueOrArray{TValue}"/> representing the values</returns>
+    /// <param name="values">Array of values to convert.</param>
+    /// <returns>A <see cref="SingleValueOrArray{TValue}"/> representing the values.</returns>
     public static implicit operator SingleValueOrArray<TValue>( TValue[] values )
     {
         return new SingleValueOrArray<TValue>( values );
@@ -144,7 +144,7 @@ public class SingleValueOrArray<TValue> : IList<TValue>
     #region Properties
 
     /// <summary>
-    /// List of values
+    /// List of values.
     /// </summary>
     public IList<TValue> Values { get; }
 

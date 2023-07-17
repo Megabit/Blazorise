@@ -55,7 +55,7 @@ public partial class SplitterSection : BaseComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Parent <see cref="Splitter"/> component
+    /// Parent <see cref="Splitter"/> component.
     /// </summary>
     [CascadingParameter] public Splitter Parent { get; set; } = null!;
 

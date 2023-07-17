@@ -9,12 +9,12 @@ namespace Blazorise.Splitter;
 public enum SplitDirection
 {
     /// <summary>
-    /// Split horizontally
+    /// Split horizontally.
     /// </summary>
     Horizontal,
 
     /// <summary>
-    /// Split vertically
+    /// Split vertically.
     /// </summary>
     Vertical
 }

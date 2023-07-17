@@ -11,7 +11,7 @@ using Microsoft.JSInterop;
 namespace Blazorise.Splitter;
 
 /// <summary>
-/// The Split component allows splitting an area into multiple resizable sections
+/// The Split component allows splitting an area into multiple resizable sections.
 /// </summary>
 public partial class Splitter : BaseComponent, IAsyncDisposable
 {
@@ -19,7 +19,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
     private readonly List<ElementReference> splitSections = new();
 
-    // Used to ensure we're only ever able to create a single instance despite multi-threaded rendering
+    // Used to ensure we're only ever able to create a single instance despite multi-threaded rendering.
     private readonly SemaphoreSlim createInstanceLock = new( 1, 1 );
 
     #endregion
@@ -139,7 +139,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     [Parameter] public bool? ExpandToMin { get; init; }
 
     /// <summary>
-    /// Gutter size in pixels.
+    /// Gutter size in pixels. Defaults to 10.
     /// </summary>
     [Parameter] public JavascriptNumber GutterSize { get; init; } = 10;
 
