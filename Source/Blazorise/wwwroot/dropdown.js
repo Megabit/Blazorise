@@ -1,5 +1,7 @@
 import { getRequiredElement } from "./utilities.js?v=1.2.4.0";
+//TODO : JS resource
 import { computePosition, autoUpdate, flip, shift, limitShift } from 'https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.4.5/+esm';
+
 
 const _instances = [];
 const DIRECTION_DEFAULT = 'Default'
@@ -45,6 +47,7 @@ export function initialize(element, elementId, targetElementId, altTargetElement
         : element.querySelector(createSelector(options.dropdownMenuClassNames));
 
 
+    //TODO : Shared init
     //https://floating-ui.com/docs/autoUpdate
     const instanceCleanupFunction = autoUpdate(targetElement, menuElement, () => {
         computePosition(targetElement, menuElement, { //https://floating-ui.com/docs/computePosition#anchoring
