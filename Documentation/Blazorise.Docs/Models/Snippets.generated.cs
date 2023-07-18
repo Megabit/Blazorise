@@ -7972,7 +7972,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""20px"" />";
 
-        public const string SplitterHorizontalExample = @"<Splitter>
+        public const string SplitterHorizontalExample = @"<Splitter Style=""height: 100px;"">
     <SplitterSection>
         <div>Hello!</div>
     </SplitterSection>
@@ -7987,7 +7987,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SplitterNugetInstallExample = @"Install-Package Blazorise.Splitter";
 
-        public const string SplitterVerticalExample = @"<Splitter Direction=""SplitDirection.Vertical"">
+        public const string SplitterVerticalExample = @"<Splitter Direction=""SplitDirection.Vertical"" Style=""height: 250px;"">
     <SplitterSection>
         <div>Hello!</div>
     </SplitterSection>
