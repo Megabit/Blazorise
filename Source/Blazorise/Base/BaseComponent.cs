@@ -240,6 +240,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
         if ( Shadow != Shadow.None )
             builder.Append( ClassProvider.Shadow( Shadow ) );
+
     }
 
     /// <summary>

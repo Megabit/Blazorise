@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Enums;
 using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -77,7 +78,8 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
                     RightAligned = RightAligned,
                     DropdownToggleClassNames = ClassProvider.DropdownToggleSelector( IsDropdownSubmenu ),
                     DropdownMenuClassNames = ClassProvider.DropdownMenuSelector(),
-                    DropdownShowClassName = ClassProvider.DropdownObserverShow()
+                    DropdownShowClassName = ClassProvider.DropdownObserverShow(),
+                    Strategy = PositionStrategy == FloatingPositionStrategy.Fixed ? "fixed" : "absolute",
                 } );
 
             if ( childrenButtonList?.Count > 0 )
@@ -500,6 +502,12 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// Specifies the content to be rendered inside this <see cref="Dropdown"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Defines the positioning strategy of the dropdown menu as a 'floating' element.
+    /// </summary>
+    [Parameter] public FloatingPositionStrategy PositionStrategy { get; set; } = FloatingPositionStrategy.Fixed;
+
 
     #endregion
 }

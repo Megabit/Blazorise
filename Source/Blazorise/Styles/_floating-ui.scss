@@ -1,0 +1,13 @@
+.floating {
+    width: max-content;
+    top: 0;
+    left: 0;
+}
+
+.floating-absolute {
+    position: absolute;
+}
+
+.floating-fixed {
+    position: fixed;
+}
