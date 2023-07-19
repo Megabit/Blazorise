@@ -735,7 +735,10 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public Func<Task> Ready { get; set; }
 
     /// <summary>
-    /// The quality of playback has changed.
+    /// The quality of playback has changed. 
+    /// <para>
+    /// If the quality argument is <c>null</c> it is considered that a default quality value was selected.
+    /// </para>
     /// </summary>
     [Parameter] public Func<int?, Task> QualityChanged { get; set; }
 
