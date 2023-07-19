@@ -75,9 +75,9 @@ public record VideoSource
     #region Properties
 
     /// <summary>
-    /// True if the source contains the single address.
+    /// True if the source contains more than one media element.
     /// </summary>
-    public bool Indexed => Medias?.Count > 1;
+    public bool HasMultipleMedia => Medias?.Count > 1;
 
     /// <summary>
     /// Either video or audio. Note: YouTube and Vimeo are currently not supported as audio sources.
