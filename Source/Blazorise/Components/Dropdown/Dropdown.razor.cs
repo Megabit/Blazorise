@@ -506,7 +506,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Defines the positioning strategy of the dropdown menu as a 'floating' element.
     /// </summary>
-    [Parameter] public FloatingPositionStrategy PositionStrategy { get; set; } = FloatingPositionStrategy.Fixed;
+    [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Fixed;
 
 
     #endregion

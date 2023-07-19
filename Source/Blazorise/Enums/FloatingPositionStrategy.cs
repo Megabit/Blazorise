@@ -4,7 +4,7 @@
 /// Defines the position strategy for the floating component.
 /// <para>See : https://floating-ui.com/docs/computeposition#strategy</para>
 /// </summary>
-public enum FloatingPositionStrategy
+public enum DropdownPositionStrategy
 {
     /// <summary>
     /// The floating element is positioned relative to its nearest positioned ancestor. With most layouts, this usually requires the browser to do the least work when updating the position.
