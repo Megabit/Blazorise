@@ -79,7 +79,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
                     DropdownToggleClassNames = ClassProvider.DropdownToggleSelector( IsDropdownSubmenu ),
                     DropdownMenuClassNames = ClassProvider.DropdownMenuSelector(),
                     DropdownShowClassName = ClassProvider.DropdownObserverShow(),
-                    Strategy = PositionStrategy == FloatingPositionStrategy.Fixed ? "fixed" : "absolute",
+                    Strategy = PositionStrategy == DropdownPositionStrategy.Fixed ? "fixed" : "absolute",
                 } );
 
             if ( childrenButtonList?.Count > 0 )
