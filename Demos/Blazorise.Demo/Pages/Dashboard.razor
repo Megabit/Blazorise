@@ -1,10 +1,35 @@
 ﻿@page "/"
 @inject IVersionProvider VersionProvider
+<Dropdown Direction="Direction.Up" Display="Display.InlineBlock">
+    <DropdownToggle Color="Color.Secondary">Menu Up</DropdownToggle>
+    <DropdownMenu>
+        <DropdownHeader>Dropdown header</DropdownHeader>
+        <DropdownItem>Item 1</DropdownItem>
+        <DropdownItem>Item 2</DropdownItem>
+    </DropdownMenu>
+</Dropdown>
+
+
 <Dropdown Direction="Direction.Up" Display="Display.InlineBlock" PositionStrategy="Enums.DropdownPositionStrategy.Absolute">
     <DropdownToggle Color="Color.Secondary">Menu Up</DropdownToggle>
     <DropdownMenu>
         <DropdownHeader>Dropdown header</DropdownHeader>
         <DropdownItem>Item 1</DropdownItem>
         <DropdownItem>Item 2</DropdownItem>
+
+        <Button Class="my-button">With Button</Button>
+        <Button Class="my-button">With Button2</Button>
+    </DropdownMenu>
+</Dropdown>
+
+<Dropdown  Display="Display.InlineBlock" >
+    <DropdownToggle Color="Color.Secondary">Menu Up</DropdownToggle>
+    <DropdownMenu>
+        <DropdownHeader>Dropdown header</DropdownHeader>
+        <DropdownItem>Item 1</DropdownItem>
+        <DropdownItem>Item 2</DropdownItem>
+
+        <Button Class="my-button">With Button</Button>
+        <Button Class="my-button">With Button2</Button>
     </DropdownMenu>
 </Dropdown>
