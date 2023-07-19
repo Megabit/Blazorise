@@ -56,9 +56,9 @@ public partial class DropdownMenu : BaseComponent, IDisposable
         builder.Append( ClassProvider.DropdownMenuRight(), ParentDropdownState.RightAligned );
 
         //TODO : Use ClassProvider
-        builder.Append( "floating" );
-        builder.Append( "floating-absolute", ParentDropdown.PositionStrategy == Enums.FloatingPositionStrategy.Absolute );
-        builder.Append( "floating-fixed", ParentDropdown.PositionStrategy == Enums.FloatingPositionStrategy.Fixed );
+        builder.Append( "b-floating" );
+        builder.Append( "b-floating-absolute", ParentDropdown.PositionStrategy == Enums.FloatingPositionStrategy.Absolute );
+        builder.Append( "b-floating-fixed", ParentDropdown.PositionStrategy == Enums.FloatingPositionStrategy.Fixed );
 
         base.BuildClasses( builder );
     }
