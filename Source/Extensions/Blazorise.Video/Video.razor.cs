@@ -632,7 +632,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// <summary>
     /// If the default controls are used, you can specify which settings to show in the menu.
     /// </summary>
-    [Parameter] public string[] SettingsList { get; set; } = new string[] { VideoSettingsType.Captions, VideoSettingsType.Quality, VideoSettingsType.Speed, VideoSettingsType.Loop };
+    [Parameter] public VideoSettingsType[] SettingsList { get; set; } = new VideoSettingsType[] { VideoSettingsType.Captions, VideoSettingsType.Quality, VideoSettingsType.Speed, VideoSettingsType.Loop };
 
     /// <summary>
     /// Sent periodically to inform interested parties of progress downloading the media. Information about the current amount of the media that has been downloaded is available in the media element's buffered attribute.

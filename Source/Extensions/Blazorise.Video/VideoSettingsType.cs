@@ -1,27 +1,31 @@
-﻿namespace Blazorise.Video;
+﻿using System.Text.Json.Serialization;
+using Blazorise.Utilities;
+
+namespace Blazorise.Video;
 
 /// <summary>
 /// Defines the video settings types.
 /// </summary>
-public static class VideoSettingsType
+[JsonConverter( typeof( CamelCaseEnumJsonConverter ) )]
+public enum VideoSettingsType
 {
     /// <summary>
     /// If defined, the captions settings will be available.
     /// </summary>
-    public const string Captions = "captions";
+    Captions,
 
     /// <summary>
     /// If defined, the quality settings will be available.
     /// </summary>
-    public const string Quality = "quality";
+    Quality,
 
     /// <summary>
     /// If defined, the speed settings will be available.
     /// </summary>
-    public const string Speed = "speed";
+    Speed,
 
     /// <summary>
     /// If defined, the loop settings will be available.
     /// </summary>
-    public const string Loop = "loop";
+    Loop,
 }
