@@ -893,6 +893,40 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region
+
+    public override string Offcanvas() => "offcanvas";
+
+    public override string OffcanvasPlacement( Placement placement )
+    {
+        return placement switch
+        {
+            Placement.Start => "is-start",
+            Placement.End => "is-end",
+            Placement.Top => "is-top",
+            Placement.Bottom => "is-bottom",
+            _ => "",
+        };
+    }
+
+    public override string OffcanvasShow( bool isVisible ) => isVisible ? "is-active" : null;
+
+    public override string OffcanvasHeader() => "offcanvas-header";
+
+    public override string OffcanvasBody() => "offcanvas-body";
+
+    public override string OffcanvasBackdrop() => "offcanvas-backdrop";
+
+    public override string OffcanvasBackdropFade() => "is-active";
+
+    public override string OffcanvasBackdropVisible( bool visible ) => visible ? "is-active" : null;
+
+    //public override string OffcanvasAnimationDuration( int animationDuration ) => $"offcanvas-animation-{animationDuration}";
+
+    //public override string OffcanvasBodyMaxHeight( int maxHeight ) => $"offcanvas-max-height-{maxHeight}";
+
+    #endregion
+
     #region Pagination
 
     public override string Pagination() => "pagination-list";

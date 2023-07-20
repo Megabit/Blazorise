@@ -1,0 +1,82 @@
+.offcanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: white;
+    z-index: 1050;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+
+    &.is-active {
+        transform: translateX(0);
+    }
+}
+
+.is-start {
+    transform-origin: left;
+    width:20%
+}
+
+.is-end {
+    float: right !important;
+    transform: translateX(520%);
+    right: 0px;
+
+    &.is-active {
+        transform: translatex(400%) !important;
+        width: 20%;
+        float: right !important;
+        right: 0px;
+    }
+}
+
+.is-top {
+    transform-origin: top;
+    transform: translateY(-100%) !important;
+    width: 100%;
+    height:20%;
+
+    &.is-active {
+        transform: translateY(0) !important;
+    }
+}
+
+.is-bottom {
+    transform-origin: bottom;
+    transform: translateY(520%);
+    width: 100%;
+
+    &.is-active {
+        transform: translateY(400%) !important;
+        transform-origin: bottom !important;
+        height: 20%;
+    }
+}
+
+.offcanvas-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
+.offcanvas-body {
+    overflow-y: auto;
+}
+
+.offcanvas-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    z-index: 1040;
+
+    &.is-active {
+        opacity: 1;
+    }
+}

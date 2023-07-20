@@ -26,6 +26,7 @@ public static class Config
         }
 
         serviceCollection.AddScoped<IJSModalModule, Modules.BulmaJSModalModule>();
+        serviceCollection.AddScoped<IJSOffcanvasModule, Modules.BulmaJSOffcanvasModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.BulmaJSTooltipModule>();
 
         return serviceCollection;
