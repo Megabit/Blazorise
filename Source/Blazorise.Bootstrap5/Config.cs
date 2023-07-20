@@ -28,6 +28,7 @@ public static class Config
         serviceCollection.AddBootstrap5Components();
 
         serviceCollection.AddScoped<IJSModalModule, Modules.BootstrapJSModalModule>();
+        serviceCollection.AddScoped<IJSOffcanvasModule, Modules.BootstrapJSOffcanvasModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.BootstrapJSTooltipModule>();
 
         return serviceCollection;
