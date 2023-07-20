@@ -266,7 +266,7 @@ input[type=button].btn-block {
 }
 .dropdown.dropup > .dropdown-menu {
   top: auto;
-  bottom: 100%;
+  bottom: auto;
   margin-top: 0;
   margin-bottom: 0.125rem;
 }
