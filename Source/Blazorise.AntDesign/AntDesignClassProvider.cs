@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Blazorise.Enums;
 #endregion
 
 namespace Blazorise.AntDesign;
@@ -448,6 +449,9 @@ public class AntDesignClassProvider : ClassProvider
     public override string DropdownHeader() => "ant-dropdown-menu-header";
 
     public override string DropdownMenu() => "ant-dropdown";
+
+    public override string DropdownMenuFloating( DropdownPositionStrategy dropdownPositionStrategy )
+        => $"b-floating {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "b-floating-fixed" : "b-floating-absolute" )}";
 
     public override string DropdownMenuSelector() => "ant-dropdown";
 

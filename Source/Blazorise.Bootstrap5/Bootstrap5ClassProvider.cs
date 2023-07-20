@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Blazorise.Enums;
 #endregion
 
 namespace Blazorise.Bootstrap5;
@@ -439,6 +440,9 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string DropdownHeader() => "dropdown-header";
 
     public override string DropdownMenu() => "dropdown-menu";
+
+    public override string DropdownMenuFloating( DropdownPositionStrategy dropdownPositionStrategy )
+        => $"b-floating {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "b-floating-fixed" : "b-floating-absolute" )}";
 
     public override string DropdownMenuSelector() => "dropdown-menu";
 

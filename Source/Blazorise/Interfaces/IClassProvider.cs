@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using Blazorise.Enums;
 #endregion
 
 namespace Blazorise;
@@ -407,6 +408,8 @@ public interface IClassProvider
     string DropdownDivider();
 
     string DropdownHeader();
+
+    string DropdownMenuFloating( DropdownPositionStrategy dropdownPositionStrategy );
 
     string DropdownMenu();
 

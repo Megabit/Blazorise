@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using Blazorise.Enums;
 #endregion
 
 namespace Blazorise.Providers;
@@ -412,6 +413,8 @@ class EmptyClassProvider : IClassProvider
     public string DropdownHeader() => null;
 
     public string DropdownMenu() => null;
+
+    public string DropdownMenuFloating( DropdownPositionStrategy dropdownPositionStrategy ) => null;
 
     public string DropdownMenuSelector() => null;
 

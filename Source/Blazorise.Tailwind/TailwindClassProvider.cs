@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Blazorise.Enums;
 #endregion
 
 namespace Blazorise.Tailwind;
@@ -572,6 +573,9 @@ public class TailwindClassProvider : ClassProvider
     public override string DropdownHeader() => "b-dropdown-header py-3 px-4 text-sm text-gray-900 dark:text-white";
 
     public override string DropdownMenu() => "b-dropdown-menu z-10 w-max bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700";
+
+    public override string DropdownMenuFloating( DropdownPositionStrategy dropdownPositionStrategy )
+        => $"b-floating {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "b-floating-fixed" : "b-floating-absolute" )}";
 
     public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
