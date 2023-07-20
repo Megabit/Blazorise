@@ -26,8 +26,11 @@ public class BootstrapStyleProvider : StyleProvider
     #region Offcanvas
 
     public override int DefaultOffcanvasZindex => 1050;
+
     public override int DefaultOffcanvasBackdropZindex => 1040;
+
     public override string OffcanvasAnimationDuration( int animationDuration ) => $"transition-duration: {animationDuration}ms";
+
     public override string OffcanvasBodyMaxHeight( int maxHeight ) => maxHeight > 0 ? $"max-height: {maxHeight}px; overflow-y: auto;" : null;
 
     public override string OffcanvasZindex( int offcanvasOpenIndex )

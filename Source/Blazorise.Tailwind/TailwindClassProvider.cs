@@ -1267,10 +1267,10 @@ public class TailwindClassProvider : ClassProvider
     {
         return placement switch
         {
-            Placement.Start => "fixed top-0 left-0 w-400 border-r w-80 border-gray-200 transform -translate-x-full transition-transform ease-in-out duration-300",
-            Placement.End => "fixed top-0 right-0 w-400 border-l w-80 border-gray-200 transform translate-x-full transition-transform ease-in-out duration-300",
-            Placement.Top => "fixed top-0 left-0 w-full h-60 transform -translate-y-full",
-            Placement.Bottom => "fixed bottom-0 left-0 w-full h-60 transform translate-y-full",
+            Placement.Start => "top-0 left-0 border-r w-80 border-gray-200 transform -translate-x-full transition-transform ease-in-out duration-300",
+            Placement.End => "top-0 right-0 border-l w-80 border-gray-200 transform translate-x-full transition-transform ease-in-out duration-300",
+            Placement.Top => "top-0 left-0 w-full h-60 transform -translate-y-full",
+            Placement.Bottom => "bottom-0 left-0 w-full h-60 transform translate-y-full",
             _ => "",
         };
     }

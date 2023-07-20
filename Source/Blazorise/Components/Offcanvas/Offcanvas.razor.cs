@@ -77,7 +77,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         closeableAdapter = new( this );
     }
 
-
     /// <summary>
     /// Event arguments for the Offcanvas opening event.
     /// </summary>
@@ -538,6 +537,5 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
     /// </summary>
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
+    #endregion
 }
-
-#endregion
