@@ -252,4 +252,21 @@
     This update will make it easier for developers to create applications that require the collection of digital signatures, saving time and effort for both the users and the developers. We hope this update will be beneficial to our users and help them create more efficient and effective applications.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is3">
+    Dropdown
+</Heading>
+
+<Paragraph>
+    We've migrated the underlying library that takes care of dynamically "anchor position" the dropdown menu according to the UI constraints. It has been migrated from <Anchor To="https://popper.js.org/">popper.js</Anchor> to the newer <Anchor To="https://floating-ui.com/">floating-ui</Anchor> library.
+    Behaviour should remain unchanged and your dropdown menus should still be cleverly positioned!
+</Paragraph>
+
+<Paragraph>
+    Added a new <Code>PositionStrategy</Code> parameter, that allows you to set the positioning strategy for your dropdown. Please read <Anchor To="https://floating-ui.com/docs/computeposition#strategy">Floating Ui Strategy</Anchor> for more details on how it can affect the positioning of your dropdown.
+</Paragraph>
+
+<Paragraph>
+    Fixed an issue where in some certain cases, if buttons existed inside the Dropdown the menu positioning would not be handled correctly.
+</Paragraph>
+
 <NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="June 1st, 2023" Read="7 min" />
