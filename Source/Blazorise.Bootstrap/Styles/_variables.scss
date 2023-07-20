@@ -824,6 +824,25 @@ $modal-transition: transform .3s ease-out !default;
 $modal-scale-transform: scale(1.02) !default;
 
 
+//Offcanvas
+$zindex-offcanvas-backdrop: 1040 !default
+;
+$zindex-offcanvas: 1045 !default;
+$offcanvas-padding-y: $modal-inner-padding !default;
+$offcanvas-padding-x: $modal-inner-padding !default;
+$offcanvas-horizontal-width: 400px !default;
+$offcanvas-vertical-height: 30vh !default;
+$offcanvas-transition-duration: .3s !default;
+$offcanvas-border-color: $modal-content-border-color !default;
+$offcanvas-border-width: $modal-content-border-width !default;
+$offcanvas-title-line-height: $modal-title-line-height !default;
+$offcanvas-bg-color: var(--body-bg) !default;
+$offcanvas-color: var(--body-color) !default;
+$offcanvas-box-shadow: $modal-content-box-shadow-xs !default;
+$offcanvas-backdrop-bg: $modal-backdrop-bg !default;
+$offcanvas-backdrop-opacity: $modal-backdrop-opacity !default;
+
+
 // Alerts
 //
 // Define alert colors, border radius, and padding.
