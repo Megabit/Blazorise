@@ -15,11 +15,11 @@ public class DropdownTests : BlazorisePageTest
 
         await button.ClickAsync();
         await Expect( dropdown ).ToHaveClassAsync( "dropdown show" );
-        await Expect( dropdownMenu ).ToHaveClassAsync( "dropdown-menu show" );
+        await Expect( dropdownMenu ).ToHaveClassAsync( "dropdown-menu show b-floating b-floating-fixed" );
 
         await button.ClickAsync();
         await Expect( dropdown ).Not.ToHaveClassAsync( "dropdown show" );
-        await Expect( dropdownMenu ).Not.ToHaveClassAsync( "dropdown-menu show" );
+        await Expect( dropdownMenu ).Not.ToHaveClassAsync( "dropdown-menu show b-floating b-floating-fixed" );
 
     }
 }
