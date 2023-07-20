@@ -1,0 +1,104 @@
+﻿@page "/docs/components/offcanvas"
+
+<Seo Canonical="/docs/components/offcanvas" Title="Blazorise Offcanvas component" Description="Learn to use and work with the Blazorise Offcanvas component, which provides a flexible way to display content off-canvas." />
+
+<DocsPageTitle Path="Components/Offcanvas">
+    Blazorise Offcanvas component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Offcanvas is a component that provides a flexible way to display content off-canvas, such as menus, sidebars, or additional information.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The Offcanvas component consists of the main container, OffcanvasContent, and several slots for content, including OffcanvasHeader, OffcanvasBody, and OffcanvasFooter.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Usage
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Start Placement">
+        The Offcanvas with the start placement appears from the left side of the screen.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasStartExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasStartExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Top Placement">
+        The Offcanvas with the top placement appears from the top of the screen.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasTopExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasTopExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Bottom Placement">
+        The Offcanvas with the bottom placement appears from the bottom of the screen.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasBottomExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasBottomExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="End Placement">
+        The Offcanvas with the end placement appears from the right side of the screen.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasEndExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasEndExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes Title="Offcanvas">
+    <DocsAttributesItem Name="Show" Type="bool" Default="false">
+        Determines whether the Offcanvas is visible or hidden.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowChanged" Type="EventCallback<bool>">
+        Occurs when the Show property value changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Animated" Type="bool" Default="true">
+        Determines whether the Offcanvas has animation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AnimationDuration" Type="int" Default="300">
+        The duration of the Offcanvas animation in milliseconds.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowBackdrop" Type="bool" Default="true">
+        Determines whether to show the backdrop behind the Offcanvas.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BackdropClicked" Type="EventCallback">
+        Occurs when the backdrop is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Placement" Type="OffcanvasPlacement" Default="OffcanvasPlacement.Start">
+        The placement of the Offcanvas (Start, End, Top, Bottom).
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="OffcanvasHeader">
+    <DocsAttributesItem Name="Class" Type="string">
+        The custom CSS class for the OffcanvasHeader.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="OffcanvasBody">
+    <DocsAttributesItem Name="Class" Type="string">
+        The custom CSS class for the OffcanvasBody.
+    </DocsAttributesItem>
+</DocsAttributes>
+

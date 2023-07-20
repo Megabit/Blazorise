@@ -1,0 +1,29 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Offcanvas @ref="offcanvasRef" ShowBackdrop Placement="Placement.Start" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Offcanvas Start
+        <CloseButton Clicked="@HideOffcanvasStart" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color="Color.Primary" Clicked="@ShowOffcanvasStart">Show Offcanvas Start</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+    private bool animation = true;
+    private int animationDuration = 300;
+
+    private Task ShowOffcanvasStart()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvasStart()
+    {
+        return offcanvasRef.Hide();
+    }
+}
