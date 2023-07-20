@@ -113,7 +113,7 @@
     &.is-up {
         > .dropdown-menu {
             display: none !important;
-            bottom: 100%;
+            bottom: auto;
             padding-bottom: 4px;
             padding-top: initial;
             top: auto;
