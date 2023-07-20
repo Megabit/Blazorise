@@ -31,6 +31,7 @@ public static class Config
         }
 
         serviceCollection.AddScoped<IJSModalModule, Modules.AntDesignJSModalModule>();
+        serviceCollection.AddScoped<IJSOffcanvasModule, Modules.AntDesignJSOffcanvasModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.AntDesignJSTooltipModule>();
 
         return serviceCollection;
@@ -78,6 +79,8 @@ public static class Config
         { typeof( Blazorise.FileEdit ), typeof( AntDesign.FileEdit ) },
         { typeof( Blazorise.ListGroup ), typeof( AntDesign.ListGroup ) },
         { typeof( Blazorise.ModalContent ), typeof( AntDesign.ModalContent ) },
+        { typeof( Blazorise.Offcanvas ), typeof( AntDesign.Offcanvas ) },
+        { typeof( Blazorise.OffcanvasHeader ), typeof( AntDesign.OffcanvasHeader ) },
         { typeof( Blazorise.Progress ), typeof( AntDesign.Progress ) },
         { typeof( Blazorise.Select<> ), typeof( AntDesign.Select<> ) },
         { typeof( Blazorise.SelectItem<> ), typeof( AntDesign.SelectItem<> ) },
