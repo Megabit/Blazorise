@@ -1259,6 +1259,41 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Offcanvas
+    public override string Offcanvas() => "fixed bottom-0 z-50 flex flex-col max-w-full visible bg-white bg-clip-padding outline-none transition-transform duration-300 ease-in-out -translate-x-full";
+
+
+    public override string OffcanvasPlacement( Placement placement )
+    {
+        return placement switch
+        {
+            Placement.Start => "fixed top-0 left-0 w-400 border-r w-80 border-gray-200 transform -translate-x-full transition-transform ease-in-out duration-300",
+            Placement.End => "fixed top-0 right-0 w-400 border-l w-80 border-gray-200 transform translate-x-full transition-transform ease-in-out duration-300",
+            Placement.Top => "fixed top-0 left-0 w-full h-60 transform -translate-y-full",
+            Placement.Bottom => "fixed bottom-0 left-0 w-full h-60 transform translate-y-full",
+            _ => "",
+        };
+    }
+
+    public override string OffcanvasShow( bool isVisible ) => isVisible ? "transform-none visible" : "-translate-x-full invisible";
+
+    public override string OffcanvasHeader() => "flex items-center justify-between p-4";
+
+    public override string OffcanvasBody() => "mb-6 text-sm text-gray-500 dark:text-gray-400";
+
+    public override string OffcanvasBackdrop() => "fixed top-0 left-0 z-40 w-screen h-screen bg-black bg-opacity-50";
+
+    public override string OffcanvasBackdropFade() => "fade";
+
+    public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
+
+
+    //public override string OffcanvasAnimationDuration( int animationDuration ) => $"offcanvas-animation-{animationDuration}";
+
+    //public override string OffcanvasBodyMaxHeight( int maxHeight ) => $"offcanvas-max-height-{maxHeight}";
+
+    #endregion
+
     #region Pagination
 
     public override string Pagination() => "pagination flex -space-x-px mb-3";
