@@ -45,5 +45,21 @@ public interface IStyleProvider
     string ColumnGutter( (int Horizontal, int Vertical) gutter );
 
     #endregion
+
+    #region Offcanvas
+
+    int DefaultOffcanvasZindex { get; }
+
+    int DefaultOffcanvasBackdropZindex { get; }
+
+    string OffcanvasAnimationDuration( int AnimationDuration );
+
+    string OffcanvasBodyMaxHeight( int MaxHeight );
+
+    string OffcanvasZindex( int OpenIndex );
+
+    string OffcanvasBackdropZindex( int OpenIndex );
+
+    #endregion
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

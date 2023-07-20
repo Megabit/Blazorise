@@ -20,6 +20,22 @@ public abstract class StyleProvider : IStyleProvider
 
     #endregion
 
+    #region Offcanvas
+
+    public abstract int DefaultOffcanvasZindex { get; }
+
+    public abstract int DefaultOffcanvasBackdropZindex { get; }
+
+    public abstract string OffcanvasAnimationDuration( int AnimationDuration );
+
+    public abstract string OffcanvasBodyMaxHeight( int MaxHeight );
+
+    public abstract string OffcanvasZindex( int OpenIndex );
+
+    public abstract string OffcanvasBackdropZindex( int OpenIndex );
+
+    #endregion
+
     #region ModalBody
 
     public abstract string ModalBodyMaxHeight( int maxHeight );

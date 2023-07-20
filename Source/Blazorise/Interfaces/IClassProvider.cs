@@ -1060,6 +1060,26 @@ public interface IClassProvider
 
     #endregion
 
+    #region Offcanvas
+
+    string Offcanvas();
+
+    string OffcanvasPlacement( Placement placement );
+
+    string OffcanvasShow( bool isVisible );
+
+    string OffcanvasHeader();
+
+    string OffcanvasBody();
+
+    string OffcanvasBackdrop();
+
+    string OffcanvasBackdropFade();
+
+    string OffcanvasBackdropVisible( bool visible );
+
+    #endregion
+
     #region Divider
 
     string Divider();
