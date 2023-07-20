@@ -188,7 +188,7 @@
   right: auto;
 }
 .dropdown.dropup > .dropdown-menu:not([x-placement]) {
-  bottom: 100%;
+  bottom: auto;
   top: auto;
   left: auto;
   right: auto;
