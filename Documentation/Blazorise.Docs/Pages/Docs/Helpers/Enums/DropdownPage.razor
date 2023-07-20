@@ -1,9 +1,9 @@
-﻿@page "/docs/helpers/enums/dropdown"
+﻿D@page "/docs/helpers/enums/dropdown"
 
 <Seo Canonical="/docs/helpers/enums/dropdown" Title="Enums: Dropdown" Description="Learn to use and work with the Blazorise Dropdown enums that help you to modify the dropdowns appearance and their behavior." />
 
 <DocsPageTitle>
-    Enums: Dropdown
+    Enums: DropdownD
 </DocsPageTitle>
 
 <DocsPageSection>
@@ -17,6 +17,16 @@
             <UnorderedListItem><Code>Direction.Left</Code> Trigger dropdown menus to the left of an element.</UnorderedListItem>
             <UnorderedListItem><Code>Direction.End</Code> Trigger dropdown menus to the end of an element.</UnorderedListItem>
             <UnorderedListItem><Code>Direction.Start</Code> Trigger dropdown menus to the start of an element.</UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DropdownPositionStrategy">
+        <Paragraph>Defines the position strategy for the floating component.</Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Code>DropdownPositionStrategy.Absolute</Code> The floating element is positioned relative to its nearest positioned ancestor. With most layouts, this usually requires the browser to do the least work when updating the position.</UnorderedListItem>
+            <UnorderedListItem><Code>DropdownPositionStrategy.Fixed</Code> The floating element is positioned relative to its nearest containing block (usually the viewport). This is useful when the reference element is also fixed to reduce jumpiness with positioning while scrolling.</UnorderedListItem>
         </UnorderedList>
     </DocsPageSectionHeader>
 </DocsPageSection>
