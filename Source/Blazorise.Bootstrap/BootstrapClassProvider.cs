@@ -449,7 +449,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DropdownMenu() => "dropdown-menu";
 
-    public override string DropdownMenuFloating( DropdownPositionStrategy dropdownPositionStrategy )
+    public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
         => $"b-floating {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "b-floating-fixed" : "b-floating-absolute" )}";
 
     public override string DropdownMenuSelector() => "dropdown-menu";

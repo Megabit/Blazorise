@@ -55,7 +55,7 @@ public partial class DropdownMenu : BaseComponent, IDisposable
         builder.Append( ClassProvider.DropdownMenuVisible( ParentDropdownState.Visible ) );
         builder.Append( ClassProvider.DropdownMenuRight(), ParentDropdownState.RightAligned );
 
-        builder.Append( ClassProvider.DropdownMenuFloating( ParentDropdown.PositionStrategy ) );
+        builder.Append( ClassProvider.DropdownMenuPositionStrategy( ParentDropdown.PositionStrategy ) );
 
         base.BuildClasses( builder );
     }

@@ -409,7 +409,7 @@ public interface IClassProvider
 
     string DropdownHeader();
 
-    string DropdownMenuFloating( DropdownPositionStrategy dropdownPositionStrategy );
+    string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy );
 
     string DropdownMenu();
 

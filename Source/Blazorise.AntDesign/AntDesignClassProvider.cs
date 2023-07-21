@@ -450,7 +450,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownMenu() => "ant-dropdown";
 
-    public override string DropdownMenuFloating( DropdownPositionStrategy dropdownPositionStrategy )
+    public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
         => $"b-floating {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "b-floating-fixed" : "b-floating-absolute" )}";
 
     public override string DropdownMenuSelector() => "ant-dropdown";
