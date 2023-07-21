@@ -6,9 +6,7 @@ const DIRECTION_UP = 'Up'
 const DIRECTION_END = 'End'
 const DIRECTION_START = 'Start'
 
-
-export function createFloatingUiAutoUpdate(targetElement, menuElement, options)
-{
+export function createFloatingUiAutoUpdate(targetElement, menuElement, options) {
     //https://floating-ui.com/docs/autoUpdate
     return autoUpdate(targetElement, menuElement, () => {
         computePosition(targetElement, menuElement, { //https://floating-ui.com/docs/computePosition#anchoring

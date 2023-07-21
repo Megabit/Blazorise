@@ -10,7 +10,6 @@ function createSelector(value) {
 }
 
 export function initialize(element, elementId, targetElementId, menuElementId, options) {
-
     element = getRequiredElement(element, elementId);
 
     if (!element)
@@ -23,7 +22,6 @@ export function initialize(element, elementId, targetElementId, menuElementId, o
     const menuElement = menuElementId
         ? document.getElementById(menuElementId)
         : element.querySelector(createSelector(options.dropdownMenuClassNames));
-
 
     const instanceCleanupFunction = createFloatingUiAutoUpdate(targetElement, menuElement, options);
 
