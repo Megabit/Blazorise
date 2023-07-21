@@ -128,6 +128,20 @@
   border-radius: 0.4rem;
 }
 
+.dropdown-menu-position-strategy {
+  width: max-content;
+  top: 0;
+  left: 0;
+}
+
+.dropdown-menu-position-strategy-absolute {
+  position: absolute;
+}
+
+.dropdown-menu-position-strategy-fixed {
+  position: fixed;
+}
+
 .dropdown-toggle.dropdown-toggle-hidden::after {
   content: none !important;
 }
