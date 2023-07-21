@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
-using Blazorise.Enums;
 #endregion
 
 namespace Blazorise.Tailwind;
