@@ -454,7 +454,7 @@ public class BulmaClassProvider : ClassProvider
     public override string DropdownMenu() => "dropdown-menu";
 
     public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
-        => $"b-floating {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "b-floating-fixed" : "b-floating-absolute" )}";
+        => $"dropdown-menu-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "dropdown-menu-position-strategy-fixed" : "dropdown-menu-position-strategy-absolute" )}";
 
     public override string DropdownMenuSelector() => "dropdown-menu";
 
