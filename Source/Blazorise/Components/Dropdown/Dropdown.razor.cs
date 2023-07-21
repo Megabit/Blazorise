@@ -498,6 +498,5 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Fixed;
 
-
     #endregion
 }
