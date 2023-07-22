@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
@@ -105,6 +105,9 @@ public class EditContextValidator : IEditContextValidator
             var results = new List<ValidationResult>();
 
             messages.Clear( fieldIdentifier );
+
+            // Clear any previous message for the given field.
+            editContext.ClearValidationMessages( fieldIdentifier );
 
             if ( messageLocalizer != null )
             {
