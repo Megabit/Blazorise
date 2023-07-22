@@ -372,6 +372,13 @@
     <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod" Default="DataGridFilterMethod.Contains">
         Defines the filter method when searching the cell values.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowHeaderGroupCaptions" Type="bool" Default="false">
+        Gets or sets whether user can see defined header group captions.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderGroupCaptionTemplate" Type="RenderFragment<HeaderGroupContext>">
+        Template for header group caption.
+        Suggested usage: rendering content conditionally according to the defined HeaderGroupCaption.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="VirtualizeOptions">
@@ -581,6 +588,10 @@
         Sets the filter method to be used for filtering the column.
         If null, uses the DataGrid's FilterMethod.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderGroupCaption" Type="string">
+        Defines the caption to be displayed for a group header.
+        If set, all the column headers that are part of the group will be grouped under this caption.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <Heading Size="HeadingSize.Is3">
@@ -657,5 +668,20 @@
     </DocsMethodsItem>
     <DocsMethodsItem Name="GetSortByColumns" ReturnType="IReadOnlyList<DataGridColumn<TItem>>">
         Returns a read-only list of all columns currently used to sort this datagrid's data.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ExpandGroups" ReturnType="Task" Parameters="params string[] groupKeys">
+        Expands the specified groups.
+        For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"
+        For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="CollapseGroups" ReturnType="Task" Parameters="params string[] groupKeys">
+        Collapses the specified groups.
+        For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"
+        For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ToggleGroups" ReturnType="Task" Parameters="params string[] groupKeys">
+        Toggles the specified groups.
+        For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"
+        For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"
     </DocsMethodsItem>
 </DocsMethods>

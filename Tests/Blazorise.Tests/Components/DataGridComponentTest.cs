@@ -5,13 +5,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BasicTestApp.Client;
 using Blazorise.DataGrid;
-using Blazorise.Tests.Extensions;
 using Blazorise.Tests.Helpers;
 using Blazorise.Tests.TestServices;
 using Bunit;
-using FluentAssertions;
 using Xunit;
 using Employee = BasicTestApp.Client.DataGridComponent.Employee;
 #endregion
@@ -528,11 +525,11 @@ public class DataGridComponentTest : TestContext
         var dataGridRef = comp.FindComponent<DataGrid<Employee>>();
         await dataGridRef.Instance.Reload();
 
-        var currentName = comp.Find( "tbody tr.table-row-selectable:first-child td:nth-child(3)" ).TextContent;
 
         // validate
         comp.WaitForAssertion( () => Assert.Contains( comp.Instance.Data, x => x.Name == updatedName ), System.TimeSpan.FromSeconds( 3 ) );
 
+        var currentName = comp.Find( "tbody tr.table-row-selectable:first-child td:nth-child(3)" ).TextContent;
         Assert.Equal( updatedName, currentName );
 
         Assert.False( object.ReferenceEquals( EmployeeUpdatingOld, EmployeeUpdatingNew ) );
@@ -607,11 +604,11 @@ public class DataGridComponentTest : TestContext
         comp.Click( "#btnSave" );
 
 
-        var currentName = comp.Find( "tbody tr.table-row-selectable:first-child td:nth-child(3)" ).TextContent;
 
         // validate
         comp.WaitForAssertion( () => Assert.Contains( comp.Instance.Data, x => x.Name == updatedName ), System.TimeSpan.FromSeconds( 3 ) );
 
+        var currentName = comp.Find( "tbody tr.table-row-selectable:first-child td:nth-child(3)" ).TextContent;
         Assert.Equal( updatedName, currentName );
 
         Assert.False( object.ReferenceEquals( EmployeeUpdatingOld, EmployeeUpdatingNew ) );
