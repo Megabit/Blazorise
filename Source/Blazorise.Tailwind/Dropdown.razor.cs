@@ -12,10 +12,6 @@ public partial class Dropdown : Blazorise.Dropdown
 
     #region Methods
 
-    //inheritdoc
-    protected override string GetShowElementId()
-        => ElementId;
-
     #endregion
 
     #region Properties
