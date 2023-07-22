@@ -408,6 +408,8 @@ public interface IClassProvider
 
     string DropdownHeader();
 
+    string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy );
+
     string DropdownMenu();
 
     string DropdownMenuSelector();

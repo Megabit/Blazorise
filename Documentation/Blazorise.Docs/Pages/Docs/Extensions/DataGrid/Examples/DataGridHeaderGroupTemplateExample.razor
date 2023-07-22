@@ -1,0 +1,42 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="Employee"
+          Data="inMemoryData"
+          ShowPager
+          ShowPageSizes
+          ShowHeaderGroupCaptions>
+    <DataGridColumns>
+        <DataGridColumn DisplayOrder=2 TItem="Employee" Field="@nameof( Employee.LastName )" HeaderGroupCaption="PersonalInfo" Caption="Last Name" />
+        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
+        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" HeaderGroupCaption="PersonalInfo" Caption="First Name" />
+        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" HeaderGroupCaption="Address" Caption="Zip" />
+        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" HeaderGroupCaption="Address" Caption="City">
+            <CaptionTemplate>
+                <Icon Name="IconName.City" /> @context.Caption
+            </CaptionTemplate>
+        </DataGridColumn>
+        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" HeaderGroupCaption="PersonalInfo" Caption="Email" />
+    </DataGridColumns>
+    <HeaderGroupCaptionTemplate>
+        @if ( context.HeaderGroupCaption == "PersonalInfo" )
+        {
+            <Strong TextColor="TextColor.Primary">Personal Information</Strong>
+        }
+        else if ( context.HeaderGroupCaption == "Address" )
+        {
+            <Strong TextColor="TextColor.Success">Address</Strong>
+        }
+    </HeaderGroupCaptionTemplate>
+</DataGrid>
+
+@code {
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private List<Employee> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
+        await base.OnInitializedAsync();
+    }
+}
