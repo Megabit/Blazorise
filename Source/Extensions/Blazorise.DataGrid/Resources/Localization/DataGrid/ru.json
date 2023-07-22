@@ -17,6 +17,11 @@
     "Row Edit": "Изменить строку",
     "Row Create": "Создать строку",
     "Create": "Создать",
-    "Drag a column header here to group by that column": "Перетащите заголовок столбца сюда, чтобы сгруппировать по этому столбцу"
+    "Drag a column header here to group by that column": "Перетащите заголовок столбца сюда, чтобы сгруппировать по этому столбцу",
+    "Contains": "Содержит",
+    "Starts With": "Начинается с",
+    "Ends With": "Заканчивается с",
+    "Equals": "Равно",
+    "Not Equals": "Не равно"
   }
 }

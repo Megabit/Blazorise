@@ -115,28 +115,7 @@
 
                                     @if ( Filterable && column.Filterable && FilterMode == DataGridFilterMode.Column )
                                     {
-                                        <Dropdown>
-                                            <DropdownToggle @onclick:stopPropagation>
-                                                <Icon Name="@IconName.Filter" Margin="@Blazorise.Margin.Is1.FromStart" Clicked="() => {}" />
-                                            </DropdownToggle>
-                                            <DropdownMenu Padding="@Blazorise.Padding.Is3" Style="cursor:default" @onclick:stopPropagation @onmouseup:stopPropagation >
-                                                    @*TODO : TRANSLATE*@
-                                                    <Select TValue="DataGridFilterMethod" SelectedValue="column.GetFilterMethod() ?? FilterMethod" SelectedValueChanged="e => { column.SetFilterMethod(e); OnFilterChanged(column, column.Filter.SearchValue); }">
-                                                        <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Contains">Contains</SelectItem>
-                                                        <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.StartsWith">Starts With</SelectItem>
-                                                        <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.EndsWith">Ends With</SelectItem>
-                                                        <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Equals">Equals</SelectItem>
-                                                        <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.NotEquals">Not Equals</SelectItem>
-                                                    </Select>
-
-                                                    <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => OnFilterChanged(column, newValue))" />
-
-                                                    <Buttons Float="Blazorise.Float.End" Margin="Blazorise.Margin.Is1.FromTop">
-                                                        <Button Clicked="FilterData" Color="Color.Primary">Filter</Button>
-                                                        <Button Clicked="() => ClearFilter(column.Field)" Color="Color.Light">Clear</Button>
-                                                    </Buttons>
-                                            </DropdownMenu>
-                                        </Dropdown>
+                                        <_DataGridColumnFilter Column="column" />
                                     }
                                 </TableHeaderCell>
                             }
