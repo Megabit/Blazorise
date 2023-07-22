@@ -5658,7 +5658,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Responsive>
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
     <DataGridSelectColumn CustomFilter=""@OnGenderCustomFilter"" TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-    <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
 </DataGrid>
 
 @code{
@@ -6023,6 +6022,22 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
 @code{
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""Mladen"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
+}";
+
+        public const string DataGridFilterModeColumnFilteringExample = @"<DataGrid @ref=""dataGrid""
+          TItem=""Employee""
+          Data=""@employeeList""
+          Responsive
+          Filterable
+          FilterMode=""DataGridFilterMode.Column"">
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
+    <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
+    <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+</DataGrid>
+
+@code{
+    private DataGrid<Employee> dataGrid;
+    private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"" }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender=""M"" }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"" }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"" }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender=""F"" } };
 }";
 
         public const string DataGridFixedHeaderExample = @"<DataGrid TItem=""Employee""
