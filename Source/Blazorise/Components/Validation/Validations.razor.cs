@@ -128,11 +128,6 @@ public partial class Validations : ComponentBase
         // Try to come up with solution that StatusChanged will be called only once while it will
         // still provide all of the failed messages.
 
-        if ( Model is IValidatableObject validatableObject )
-        {
-            var result = validatableObject.Validate( new ValidationContext( Model ) );
-        }
-
         if ( AllValidationsSuccessful )
         {
             RaiseStatusChanged( ValidationStatus.Success, null );
