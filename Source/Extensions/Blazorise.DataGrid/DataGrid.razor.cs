@@ -1119,11 +1119,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Keep in mind that this command will always trigger <see cref="FilteredDataChanged"/> even
     /// though not any data is actually changed.
     /// </remarks>
-    public void FilterData()
+    public async void FilterData()
     {
         FilterData( Data?.AsQueryable() );
 
-        InvokeAsync( StateHasChanged );
+        await Reload();
     }
 
     /// <summary>
@@ -2823,6 +2823,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <para>Suggested usage: rendering content conditionally according to the defined <see cref="HeaderGroupContext.HeaderGroupCaption"/></para>
     /// </summary>
     [Parameter] public RenderFragment<HeaderGroupContext> HeaderGroupCaptionTemplate { get; set; }
+
+    /// <summary>
+    /// Template for mouse hover overlay display formatting.
+    /// </summary>
+    [Parameter] public RenderFragment<FilterColumnContext<TItem>> FilterColumnTemplate { get; set; }
 
     #endregion
 }

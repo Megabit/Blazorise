@@ -6,19 +6,32 @@
         <Icon Name="@IconName.Filter" Margin="@Blazorise.Margin.Is1.FromStart" Clicked="() => {}" />
     </DropdownToggle>
     <DropdownMenu Padding="@Blazorise.Padding.Is3" Style="cursor:default" @onclick:stopPropagation @onmouseup:stopPropagation>
-        <Select TValue="DataGridFilterMethod" SelectedValue="Column.GetFilterMethod() ?? ParentDataGrid.FilterMethod" SelectedValueChanged="e => { Column.SetFilterMethod(e); ParentDataGrid.OnFilterChanged(Column, Column.Filter.SearchValue); }">
-            <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Contains">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodContainsLocalizer, "Contains" )</SelectItem>
-            <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.StartsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodStartsWithLocalizer, "Starts With" )</SelectItem>
-            <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.EndsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEndsWithLocalizer, "Ends With" )</SelectItem>
-            <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Equals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEqualsLocalizer, "Equals" )</SelectItem>
-            <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.NotEquals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodNotEqualsLocalizer, "Not Equals" )</SelectItem>
-        </Select>
+        @if ( ParentDataGrid.FilterColumnTemplate is null )
+        {
+            <Select TValue="DataGridFilterMethod" SelectedValue="Column.GetFilterMethod() ?? ParentDataGrid.FilterMethod" SelectedValueChanged="e => { Column.SetFilterMethod(e); ParentDataGrid.OnFilterChanged(Column, Column.Filter.SearchValue); }">
+                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Contains">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodContainsLocalizer, "Contains" )</SelectItem>
+                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.StartsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodStartsWithLocalizer, "Starts With" )</SelectItem>
+                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.EndsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEndsWithLocalizer, "Ends With" )</SelectItem>
+                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Equals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEqualsLocalizer, "Equals" )</SelectItem>
+                <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.NotEquals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodNotEqualsLocalizer, "Not Equals" )</SelectItem>
+            </Select>
 
-        <TextEdit Text="@Column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => ParentDataGrid.OnFilterChanged(Column, newValue))" />
+            <TextEdit Text="@Column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => ParentDataGrid.OnFilterChanged(Column, newValue))" />
 
-        <Buttons Float="Blazorise.Float.End" Margin="Blazorise.Margin.Is1.FromTop">
-            <Button Clicked="ParentDataGrid.FilterData" Color="Color.Primary">Filter</Button>
-            <Button Clicked="() => ParentDataGrid.ClearFilter(Column.Field)" Color="Color.Light">Clear</Button>
-        </Buttons>
+            <Buttons Float="Blazorise.Float.End" Margin="Blazorise.Margin.Is1.FromTop">
+                <Button Clicked="ParentDataGrid.FilterData" Color="Color.Primary">Filter</Button>
+                <Button Clicked="() => ParentDataGrid.ClearFilter(Column.Field)" Color="Color.Light">Clear</Button>
+            </Buttons>
+        }
+        else
+        {
+            @ParentDataGrid.FilterColumnTemplate( new( Column,
+                () => Column.GetFilterMethod() ?? ParentDataGrid.FilterMethod, 
+                () => Column.Filter.SearchValue,
+                EventCallback.Factory.Create<object>( this, async ( newFilterValue ) => await ParentDataGrid.OnFilterChanged( Column, newFilterValue ) ),
+                EventCallback.Factory.Create<DataGridFilterMethod?>( this, Column.SetFilterMethod ),
+                EventCallback.Factory.Create( this, ParentDataGrid.FilterData),
+                EventCallback.Factory.Create( this, async () => await ParentDataGrid.ClearFilter(Column.Field))))
+        }
     </DropdownMenu>
 </Dropdown>
