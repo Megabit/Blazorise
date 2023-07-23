@@ -13,6 +13,13 @@ namespace Blazorise.Extensions;
 /// </summary>
 internal static class EditContextExtensions
 {
+    private const BindingFlags INTERNAL_BINDING_FLAGS = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+    private const string FIELD_STATES = "_fieldStates";
+    private const string FIELD_VALIDATION_MESSAGE_STORES = "_validationMessageStores";
+    private static Func<EditContext, IDictionary> fieldStatesGetter;
+    private static Func<object, HashSet<ValidationMessageStore>> validationMessageStoresGetter;
+    private static readonly MethodInfo clearMethodInfo = typeof( HashSet<ValidationMessageStore> ).GetMethod( nameof( HashSet<ValidationMessageStore>.Clear ), INTERNAL_BINDING_FLAGS );
+
     /// <summary>
     /// Clears all validation messages from the <see cref="EditContext"/> of the given <see cref="FieldIdentifier"/>.
     /// </summary>
@@ -26,23 +33,18 @@ internal static class EditContextExtensions
     /// </param>
     public static void ClearValidationMessages( this EditContext editContext, FieldIdentifier fieldIdentifier, bool revalidate = false, bool markAsUnmodified = false )
     {
-        const BindingFlags InternalBindingFlags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        fieldStatesGetter ??= ExpressionCompiler.CreateFieldGetter<IDictionary>( editContext, FIELD_STATES );
 
-        object GetInstanceField( Type type, object instance, string fieldName )
-        {
-            var fieldInfo = type.GetField( fieldName, InternalBindingFlags );
-            return fieldInfo.GetValue( instance );
-        }
+        var fieldStates = fieldStatesGetter( editContext );
 
-        var fieldStates = GetInstanceField( typeof( EditContext ), editContext, "_fieldStates" );
-        var clearMethodInfo = typeof( HashSet<ValidationMessageStore> ).GetMethod( "Clear", InternalBindingFlags );
-
-        foreach ( DictionaryEntry kv in (IDictionary)fieldStates )
+        foreach ( DictionaryEntry kv in fieldStates )
         {
             if ( kv.Key is FieldIdentifier fieldIdentifier2
                 && fieldIdentifier2.FieldName == fieldIdentifier.FieldName )
             {
-                var messageStores = GetInstanceField( kv.Value.GetType(), kv.Value, "_validationMessageStores" );
+                validationMessageStoresGetter ??= ExpressionCompiler.CreateFieldGetter<HashSet<ValidationMessageStore>>( kv.Value, FIELD_VALIDATION_MESSAGE_STORES );
+
+                var messageStores = validationMessageStoresGetter( kv.Value );
                 clearMethodInfo.Invoke( messageStores, null );
             }
         }
@@ -53,4 +55,6 @@ internal static class EditContextExtensions
         if ( revalidate )
             editContext.Validate();
     }
+
+
 }
