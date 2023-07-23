@@ -1121,9 +1121,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </remarks>
     public async void FilterData()
     {
+        var wasDirty = dirtyFilter;
         FilterData( Data?.AsQueryable() );
 
-        await Reload();
+        if ( wasDirty )
+            await InvokeAsync( StateHasChanged );
+        else
+            await Reload();
     }
 
     /// <summary>
