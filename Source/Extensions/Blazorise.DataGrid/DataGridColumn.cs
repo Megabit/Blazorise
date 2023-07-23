@@ -186,6 +186,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( Width != null )
             sb.Append( $"; width: {Width};" );
 
+        if ( DropdownFilterVisible && ParentDataGrid.IsFixedHeader )
+            sb.Append( $"; z-index: 20" ); //Special case that fixes clipping of columns on top of the Dropdown column filter.
+
+
         return sb.ToString().TrimStart( ' ', ';' );
     }
 
@@ -383,6 +387,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     internal bool ExcludeFromEdit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
 
     internal bool ExcludeFromInit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+    /// <summary>
+    /// Tracks whether the dropdown filter is visible for this column.
+    /// </summary>
+    internal bool DropdownFilterVisible;
 
     /// <summary>
     /// Returns true if the cell value is editable.

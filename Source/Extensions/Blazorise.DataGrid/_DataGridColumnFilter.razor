@@ -1,7 +1,7 @@
 @using Blazorise.Extensions;
 @typeparam TItem
 
-<Dropdown>
+<Dropdown @bind-Visible="@Column.DropdownFilterVisible">
     <DropdownToggle @onclick:stopPropagation>
         <Icon Name="@IconName.Filter" Margin="@Blazorise.Margin.Is1.FromStart" Clicked="() => {}" />
     </DropdownToggle>
