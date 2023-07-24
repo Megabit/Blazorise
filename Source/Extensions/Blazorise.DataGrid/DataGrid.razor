@@ -32,7 +32,7 @@
                             }
                             else
                             {
-                                <TableHeaderCell ColumnSpan="headerGroup.colSpan" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                <TableHeaderCell ColumnSpan="headerGroup.colSpan" Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                     @if ( HeaderGroupCaptionTemplate is null )
                                     {
                                         @column.HeaderGroupCaption
@@ -58,7 +58,7 @@
                             {
                                 @if ( IsCommandVisible )
                                 {
-                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                    <TableHeaderCell Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                         @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                         {
                                             <_DataGridNewCommand TItem="TItem" New="@New" />
@@ -70,14 +70,14 @@
                             {
                                 @if ( MultiSelect )
                                 {
-                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                    <TableHeaderCell Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                         <_DataGridMultiSelectAll TItem="TItem" IsIndeterminate="@IsMultiSelectAllIndeterminate" IsChecked="@IsMultiSelectAllChecked"></_DataGridMultiSelectAll>
                                     </TableHeaderCell>
                                 }
                             }
                             else
                             {
-                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="@(() => OnColumnDragStarted(column))" DragEnd="@OnColumnDragEnded" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="@(() => OnColumnDragStarted(column))" DragEnd="@OnColumnDragEnded" Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                     @if ( IsGroupableByColumn && column.Groupable )
                                     {
                                         <Icon Name="@IconName.GripVertical" Margin="@Blazorise.Margin.Is1.FromEnd" Style="cursor:move" />

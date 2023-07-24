@@ -576,6 +576,9 @@ public class TailwindClassProvider : ClassProvider
     public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
         => $"max-w-max top-0 left-0 {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "fixed" : "absolute" )}";
 
+    public override string DropdownFixedHeaderVisible( bool visible )
+        => visible ? "z-11" : null;
+
     public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
     public override string DropdownMenuScrollable() => "b-dropdown-menu-scrollable max-h-[var(--dropdown-list-menu-max-height)] overflow-y-scroll";

@@ -4,6 +4,10 @@
     left: 0;
 }
 
+.dropdown-table-fixed-header-visible {
+    z-index: 11;
+}
+
 .dropdown-menu-position-strategy-absolute {
     position: absolute;
 }

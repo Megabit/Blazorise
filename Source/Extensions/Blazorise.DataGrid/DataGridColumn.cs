@@ -176,6 +176,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
                  || ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit ) );
     }
 
+    internal string BuildHeaderCellClass()
+    {
+        var sb = new StringBuilder();
+
+        if ( !string.IsNullOrEmpty( HeaderCellClass ) )
+            sb.Append( HeaderCellClass );
+
+        sb.Append( $" {ClassProvider.DropdownFixedHeaderVisible( DropdownFilterVisible && ParentDataGrid.IsFixedHeader )}" );
+
+        return sb.ToString().TrimStart( ' ' );
+    }
+
     internal string BuildHeaderCellStyle()
     {
         var sb = new StringBuilder();
