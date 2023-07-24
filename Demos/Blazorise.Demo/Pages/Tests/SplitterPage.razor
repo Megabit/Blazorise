@@ -1,20 +1,12 @@
 ﻿@page "/tests/splitter"
 <Row>
     <Column>
-        <Button Color="Color.Primary" Clicked="@(()=>StateHasChanged())">
-            Refresh page
-        </Button>
-        <Slider @bind-Value="@gutterSize" Min="5" Max="30" />
-    </Column>
-</Row>
-<Row>
-    <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Splitter</CardTitle>
             </CardHeader>
             <CardBody Style="height: 300px;">
-                <Splitter GutterSize="@gutterSize">
+                <Splitter Direction="@direction" GutterSize="@gutterSize" MinSize="@minSize" MaxSize="@maxSize" Width="@(direction == SplitDirection.Horizontal ? Width.Is100 : null)" Height="@(direction == SplitDirection.Vertical ? Height.Is100 : null)">
                     <SplitterSection>
                         <div>Hello!</div>
                     </SplitterSection>
@@ -28,23 +20,43 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Splitter</CardTitle>
+                <CardTitle>Settings</CardTitle>
             </CardHeader>
-            <CardBody Style="height: 300px;">
-                <Div Height="Height.Is100">
-                    <Splitter Direction="SplitDirection.Vertical">
-                        <SplitterSection>
-                            <div>Hello!</div>
-                        </SplitterSection>
-                        <SplitterSection>
-                            <div>World!</div>
-                        </SplitterSection>
-                    </Splitter>
-                </Div>
+            <CardBody>
+                <Field>
+                    <FieldLabel>Direction</FieldLabel>
+                    <FieldBody>
+                        <RadioGroup TValue="SplitDirection" @bind-CheckedValue="@direction">
+                            <Radio Value="SplitDirection.Horizontal">Horizontal</Radio>
+                            <Radio Value="SplitDirection.Vertical">Vertical</Radio>
+                        </RadioGroup>
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <FieldLabel>Minimum Size</FieldLabel>
+                    <FieldBody>
+                        <Slider @bind-Value="@minSize" Min="0" Max="300" />
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <FieldLabel>Maximum Size</FieldLabel>
+                    <FieldBody>
+                        <Slider @bind-Value="@maxSize" Min="0" Max="700" />
+                    </FieldBody>
+                </Field>
+                <Field>
+                    <FieldLabel>Gutter Size</FieldLabel>
+                    <FieldBody>
+                        <Slider @bind-Value="@gutterSize" Min="1" Max="50" />
+                    </FieldBody>
+                </Field>
             </CardBody>
         </Card>
     </Column>
 </Row>
 @code {
+    SplitDirection direction = SplitDirection.Horizontal;
+    int minSize = 10;
+    int maxSize = 10;
     int gutterSize = 10;
 }
