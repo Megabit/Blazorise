@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -17,16 +18,52 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 {
     #region Members
 
-    private readonly List<ElementReference> splitSections = new();
+    private readonly List<ElementReference> sectionElementRefs = new();
 
     // Used to ensure we're only ever able to create a single instance despite multi-threaded rendering.
     private readonly SemaphoreSlim createInstanceLock = new( 1, 1 );
+
+    private bool recreateInstance = true;
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( Rendered )
+        {
+            var sizesChanged = parameters.TryGetValue<IEnumerable<JavascriptNumber>>( nameof( Sizes ), out var paramSizes ) && !Sizes.AreEqual( paramSizes );
+            var minSizeChanged = parameters.TryGetValue<JavascriptNumber>( nameof( MinSize ), out var paramMinSize ) && !MinSize.IsEqual( paramMinSize );
+            var maxSizeChanged = parameters.TryGetValue<JavascriptNumber>( nameof( MaxSize ), out var paramMaxSize ) && !MaxSize.IsEqual( paramMaxSize );
+            var expandToMinChanged = parameters.TryGetValue<bool?>( nameof( ExpandToMin ), out var paramExpandToMin ) && !ExpandToMin.IsEqual( paramExpandToMin );
+            var gutterSizeChanged = parameters.TryGetValue<JavascriptNumber>( nameof( GutterSize ), out var paramGutterSize ) && !GutterSize.IsEqual( paramGutterSize );
+            var gutterAlignChanged = parameters.TryGetValue<SplitGutterAlignment>( nameof( GutterAlign ), out var paramGutterAlign ) && !GutterAlign.IsEqual( paramGutterAlign );
+            var snapOffsetChanged = parameters.TryGetValue<JavascriptNumberOrArray>( nameof( SnapOffset ), out var paramSnapOffset ) && !SnapOffset.IsEqual( paramSnapOffset );
+            var dragIntervalChanged = parameters.TryGetValue<JavascriptNumber>( nameof( DragInterval ), out var paramDragInterval ) && !DragInterval.IsEqual( paramDragInterval );
+            var directionChanged = parameters.TryGetValue<SplitDirection>( nameof( Direction ), out var paramDirection ) && !Direction.IsEqual( paramDirection );
+            var cursorChanged = parameters.TryGetValue<string>( nameof( Cursor ), out var paramCursor ) && !Cursor.IsEqual( paramCursor );
+
+            if ( sizesChanged
+                || minSizeChanged
+                || maxSizeChanged
+                || expandToMinChanged
+                || gutterSizeChanged
+                || gutterAlignChanged
+                || snapOffsetChanged
+                || dragIntervalChanged
+                || directionChanged
+                || cursorChanged )
+            {
+                ExecuteAfterRender( CreateInstance );
+            }
+        }
+
+        await base.SetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc />
     protected override Task OnInitializedAsync()
     {
         JSModule ??= new JSSplitModule( JSRuntime, VersionProvider );
@@ -34,9 +71,15 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
         return base.OnInitializedAsync();
     }
 
+    /// <inheritdoc />
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        await CreateInstance();
+        if ( firstRender || recreateInstance )
+        {
+            await CreateInstance();
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
     }
 
     /// <inheritdoc />
@@ -54,14 +97,18 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
     public void RegisterSection( ElementReference section )
     {
-        splitSections.Add( section );
+        sectionElementRefs.Add( section );
+
+        recreateInstance = true;
 
         InvokeAsync( StateHasChanged );
     }
 
     public void UnregisterSection( ElementReference section )
     {
-        splitSections.Remove( section );
+        sectionElementRefs.Remove( section );
+
+        recreateInstance = true;
 
         InvokeAsync( StateHasChanged );
     }
@@ -75,9 +122,9 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
             if ( JSSplitInstance is not null )
                 await JSSplitInstance.InvokeVoidAsync( "destroy" );
 
-            if ( splitSections.Count > 0 )
+            if ( sectionElementRefs.Count > 0 )
             {
-                var options = new SplitterOptions
+                JSSplitInstance = await JSModule.InitializeSplit( sectionElementRefs, new SplitterOptions
                 {
                     Sizes = Sizes,
                     MinSize = MinSize,
@@ -89,9 +136,9 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
                     DragInterval = DragInterval,
                     Direction = Direction,
                     Cursor = Cursor,
-                };
+                } );
 
-                JSSplitInstance = await JSModule.InitializeSplit( splitSections, options );
+                recreateInstance = false;
             }
         }
         finally

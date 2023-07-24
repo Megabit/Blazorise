@@ -1,12 +1,20 @@
 ﻿@page "/tests/splitter"
 <Row>
     <Column>
+        <Button Color="Color.Primary" Clicked="@(()=>StateHasChanged())">
+            Refresh page
+        </Button>
+        <Slider @bind-Value="@gutterSize" Min="5" Max="30" />
+    </Column>
+</Row>
+<Row>
+    <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
                 <CardTitle>Splitter</CardTitle>
             </CardHeader>
             <CardBody Style="height: 300px;">
-                <Splitter>
+                <Splitter GutterSize="@gutterSize">
                     <SplitterSection>
                         <div>Hello!</div>
                     </SplitterSection>
@@ -38,5 +46,5 @@
     </Column>
 </Row>
 @code {
-
+    int gutterSize = 10;
 }
