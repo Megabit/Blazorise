@@ -7972,6 +7972,15 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""20px"" />";
 
+        public const string SplitterGutterSIzeExample = @"<Splitter Style=""height: 100px;"" GutterSize=""50"">
+    <SplitterSection>
+        <div>Hello!</div>
+    </SplitterSection>
+    <SplitterSection>
+        <div>World!</div>
+    </SplitterSection>
+</Splitter>";
+
         public const string SplitterHorizontalExample = @"<Splitter Style=""height: 100px;"">
     <SplitterSection>
         <div>Hello!</div>
