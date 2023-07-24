@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Blazorise.Splitter;
+namespace Blazorise.Utilities;
 
 /// <summary>
-/// Represents the equivalent of a Javascript union of a type or an array of the same type.
+/// Represents the union of a type or an array of the same type.
 /// </summary>
 /// <typeparam name="TValue">Type of the value or array of values.</typeparam>
 public class SingleValueOrArray<TValue> : IList<TValue>

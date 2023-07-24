@@ -1,7 +1,9 @@
-﻿using System.Text.Json;
-using System.Text.Json.Serialization;
+﻿#region Using directives
+using System.Text.Json;
+using System.Text.Json.Serialization; 
+#endregion
 
-namespace Blazorise.Splitter;
+namespace Blazorise.Utilities.JsonConverters;
 
 /// <summary>
 /// JsonConverter for enums that converts to and from a Camel Case result
