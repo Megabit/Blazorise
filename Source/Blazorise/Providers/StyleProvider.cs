@@ -30,10 +30,6 @@ public abstract class StyleProvider : IStyleProvider
 
     public abstract string OffcanvasBodyMaxHeight( int MaxHeight );
 
-    public abstract string OffcanvasZindex( int OpenIndex );
-
-    public abstract string OffcanvasBackdropZindex( int OpenIndex );
-
     #endregion
 
     #region ModalBody

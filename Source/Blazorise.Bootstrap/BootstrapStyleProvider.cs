@@ -33,20 +33,6 @@ public class BootstrapStyleProvider : StyleProvider
 
     public override string OffcanvasBodyMaxHeight( int maxHeight ) => maxHeight > 0 ? $"max-height: {maxHeight}px; overflow-y: auto;" : null;
 
-    public override string OffcanvasZindex( int offcanvasOpenIndex )
-    {
-        int zIndex = DefaultOffcanvasZindex + ( OffcanvasZindexDiff * ( offcanvasOpenIndex - 1 ) ) + OffcanvasZindexDiff;
-        return offcanvasOpenIndex > 1 ? $"z-index: {zIndex};" : null;
-    }
-
-    public override string OffcanvasBackdropZindex( int offcanvasOpenIndex )
-    {
-        int zIndex = DefaultOffcanvasBackdropZindex + ( OffcanvasZindexDiff * ( offcanvasOpenIndex - 1 ) );
-        return offcanvasOpenIndex > 1 ? $"z-index: {zIndex};" : null;
-    }
-
-    private int OffcanvasZindexDiff => DefaultOffcanvasZindex - DefaultOffcanvasBackdropZindex;
-
     #endregion
 
     #region ModalBody

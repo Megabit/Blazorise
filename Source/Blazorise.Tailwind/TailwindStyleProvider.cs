@@ -35,15 +35,6 @@ public class TailwindStyleProvider : StyleProvider
     public override string OffcanvasBodyMaxHeight( int maxHeight )
         => maxHeight > 0 ? $"max-height: {maxHeight}px; overflow-y: auto;" : null;
 
-    int OffcanvasZindexDiff => DefaultOffcanvasZindex - DefaultOffcanvasBackdropZindex;
-
-    public override string OffcanvasZindex( int offcanvasOpenIndex )
-    => offcanvasOpenIndex > 1 ? $"z-index: {DefaultOffcanvasZindex + ( OffcanvasZindexDiff * ( offcanvasOpenIndex - 1 ) ) + OffcanvasZindexDiff}" : null;
-
-    public override string OffcanvasBackdropZindex( int offcanvasOpenIndex )
-        => offcanvasOpenIndex > 1 ? $"z-index: {DefaultOffcanvasZindex + ( OffcanvasZindexDiff * ( offcanvasOpenIndex - 1 ) )}" : null;
-
-
     #endregion
 
     #region ModalBody

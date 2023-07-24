@@ -194,7 +194,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         base.BuildStyles( builder );
 
         builder.Append( StyleProvider.OffcanvasAnimationDuration( AnimationDuration ) );
-        builder.Append( StyleProvider.OffcanvasZindex( OpenIndex ) );
 
     }
 
@@ -377,11 +376,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
     /// True if Offcanvas contains the <see cref="OffcanvasBody"/> component.
     /// </summary>
     protected bool HasOffcanvasBody { get; set; }
-
-    /// <summary>
-    /// Returns the opened index of modal.
-    /// </summary>
-    protected internal int OpenIndex => State.OpenIndex;
 
     /// <summary>
     /// Gets a value indicating whether the Offcanvas is visible.
