@@ -35,8 +35,8 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
         if ( Rendered )
         {
             var sizesChanged = parameters.TryGetValue<IEnumerable<JavascriptNumber>>( nameof( Sizes ), out var paramSizes ) && !Sizes.AreEqual( paramSizes );
-            var minSizeChanged = parameters.TryGetValue<JavascriptNumber>( nameof( MinSize ), out var paramMinSize ) && !MinSize.IsEqual( paramMinSize );
-            var maxSizeChanged = parameters.TryGetValue<JavascriptNumber>( nameof( MaxSize ), out var paramMaxSize ) && !MaxSize.IsEqual( paramMaxSize );
+            var minSizeChanged = parameters.TryGetValue<JavascriptNumberOrArray>( nameof( MinSize ), out var paramMinSize ) && !MinSize.IsEqual( paramMinSize );
+            var maxSizeChanged = parameters.TryGetValue<JavascriptNumberOrArray>( nameof( MaxSize ), out var paramMaxSize ) && !MaxSize.IsEqual( paramMaxSize );
             var expandToMinChanged = parameters.TryGetValue<bool?>( nameof( ExpandToMin ), out var paramExpandToMin ) && !ExpandToMin.IsEqual( paramExpandToMin );
             var gutterSizeChanged = parameters.TryGetValue<JavascriptNumber>( nameof( GutterSize ), out var paramGutterSize ) && !GutterSize.IsEqual( paramGutterSize );
             var gutterAlignChanged = parameters.TryGetValue<SplitGutterAlignment>( nameof( GutterAlign ), out var paramGutterAlign ) && !GutterAlign.IsEqual( paramGutterAlign );
