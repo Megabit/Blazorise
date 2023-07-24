@@ -210,7 +210,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// Drag this number of pixels at a time. Defaults to 1 for smooth dragging, but can be set to a pixel value to give more control over the resulting sizes.
     /// Works particularly well when the <see cref="GutterSize"/> is set to the same size.
     /// </summary>
-    [Parameter] public JavascriptNumber DragInterval { get; init; }
+    [Parameter] public JavascriptNumber DragInterval { get; init; } = 1;
 
     /// <summary>
     /// Direction to split.
