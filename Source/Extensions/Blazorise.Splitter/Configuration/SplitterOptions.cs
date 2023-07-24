@@ -37,7 +37,7 @@ public class SplitterOptions
     /// Determines how the gutter aligns between the two elements.
     /// </summary>
     [JsonPropertyName( "gutterAlign" )]
-    public SplitGutterAlignment GutterAlign { get; init; } = SplitGutterAlignment.Center;
+    public SplitterGutterAlignment GutterAlign { get; init; } = SplitterGutterAlignment.Center;
 
     /// <summary>
     /// Gutter size in pixels.

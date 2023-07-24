@@ -6,7 +6,7 @@ namespace Blazorise.Splitter;
 /// Gutter alignment between elements
 /// </summary>
 [JsonConverter( typeof( CamelCaseEnumJsonConverter ) )]
-public enum SplitGutterAlignment
+public enum SplitterGutterAlignment
 {
     /// <summary>
     /// Shrinks the first element to fit the gutter

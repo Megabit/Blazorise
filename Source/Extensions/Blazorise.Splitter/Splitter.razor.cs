@@ -39,7 +39,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
             var maxSizeChanged = parameters.TryGetValue<JavascriptNumberOrArray>( nameof( MaxSize ), out var paramMaxSize ) && !MaxSize.IsEqual( paramMaxSize );
             var expandToMinChanged = parameters.TryGetValue<bool?>( nameof( ExpandToMin ), out var paramExpandToMin ) && !ExpandToMin.IsEqual( paramExpandToMin );
             var gutterSizeChanged = parameters.TryGetValue<JavascriptNumber>( nameof( GutterSize ), out var paramGutterSize ) && !GutterSize.IsEqual( paramGutterSize );
-            var gutterAlignChanged = parameters.TryGetValue<SplitGutterAlignment>( nameof( GutterAlign ), out var paramGutterAlign ) && !GutterAlign.IsEqual( paramGutterAlign );
+            var gutterAlignChanged = parameters.TryGetValue<SplitterGutterAlignment>( nameof( GutterAlign ), out var paramGutterAlign ) && !GutterAlign.IsEqual( paramGutterAlign );
             var snapOffsetChanged = parameters.TryGetValue<JavascriptNumberOrArray>( nameof( SnapOffset ), out var paramSnapOffset ) && !SnapOffset.IsEqual( paramSnapOffset );
             var dragIntervalChanged = parameters.TryGetValue<JavascriptNumber>( nameof( DragInterval ), out var paramDragInterval ) && !DragInterval.IsEqual( paramDragInterval );
             var directionChanged = parameters.TryGetValue<SplitterDirection>( nameof( Direction ), out var paramDirection ) && !Direction.IsEqual( paramDirection );
@@ -199,7 +199,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Determines how the gutter aligns between the two elements.
     /// </summary>
-    [Parameter] public SplitGutterAlignment GutterAlign { get; init; } = SplitGutterAlignment.Center;
+    [Parameter] public SplitterGutterAlignment GutterAlign { get; init; } = SplitterGutterAlignment.Center;
 
     /// <summary>
     /// Snap to minimum size offset in pixels.
