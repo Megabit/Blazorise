@@ -6,7 +6,7 @@ namespace Blazorise.Splitter;
 /// Split directions
 /// </summary>
 [JsonConverter( typeof( CamelCaseEnumJsonConverter ) )]
-public enum SplitDirection
+public enum SplitterDirection
 {
     /// <summary>
     /// Split horizontally.

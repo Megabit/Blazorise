@@ -42,7 +42,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
             var gutterAlignChanged = parameters.TryGetValue<SplitGutterAlignment>( nameof( GutterAlign ), out var paramGutterAlign ) && !GutterAlign.IsEqual( paramGutterAlign );
             var snapOffsetChanged = parameters.TryGetValue<JavascriptNumberOrArray>( nameof( SnapOffset ), out var paramSnapOffset ) && !SnapOffset.IsEqual( paramSnapOffset );
             var dragIntervalChanged = parameters.TryGetValue<JavascriptNumber>( nameof( DragInterval ), out var paramDragInterval ) && !DragInterval.IsEqual( paramDragInterval );
-            var directionChanged = parameters.TryGetValue<SplitDirection>( nameof( Direction ), out var paramDirection ) && !Direction.IsEqual( paramDirection );
+            var directionChanged = parameters.TryGetValue<SplitterDirection>( nameof( Direction ), out var paramDirection ) && !Direction.IsEqual( paramDirection );
             var cursorChanged = parameters.TryGetValue<string>( nameof( Cursor ), out var paramCursor ) && !Cursor.IsEqual( paramCursor );
 
             if ( sizesChanged
@@ -87,7 +87,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     {
         builder.Append( "split" );
 
-        if ( Direction == SplitDirection.Vertical )
+        if ( Direction == SplitterDirection.Vertical )
             builder.Append( "split-vertical" );
         else
             builder.Append( "split-horizontal" );
@@ -215,7 +215,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Direction to split.
     /// </summary>
-    [Parameter] public SplitDirection Direction { get; init; } = SplitDirection.Horizontal;
+    [Parameter] public SplitterDirection Direction { get; init; } = SplitterDirection.Horizontal;
 
     /// <summary>
     /// Cursor to display while dragging.

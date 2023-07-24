@@ -18,7 +18,7 @@ public class SplitterOptions
     /// Direction to split.
     /// </summary>
     [JsonPropertyName( "direction" )]
-    public SplitDirection Direction { get; init; } = SplitDirection.Horizontal;
+    public SplitterDirection Direction { get; init; } = SplitterDirection.Horizontal;
 
     /// <summary>
     /// Drag this number of pixels at a time. Defaults to 1 for smooth dragging, but can be set to a pixel value to give more control over the resulting sizes.

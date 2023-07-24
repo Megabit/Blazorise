@@ -6,7 +6,7 @@
                 <CardTitle>Splitter</CardTitle>
             </CardHeader>
             <CardBody Style="height: 300px;">
-                <Splitter Direction="@direction" GutterSize="@gutterSize" MinSize="@minSize" MaxSize="@maxSize" Width="@(direction == SplitDirection.Horizontal ? Width.Is100 : null)" Height="@(direction == SplitDirection.Vertical ? Height.Is100 : null)">
+                <Splitter Direction="@direction" GutterSize="@gutterSize" MinSize="@minSize" MaxSize="@maxSize" Width="@(direction == SplitterDirection.Horizontal ? Width.Is100 : null)" Height="@(direction == SplitterDirection.Vertical ? Height.Is100 : null)">
                     <SplitterSection>
                         <div>Hello!</div>
                     </SplitterSection>
@@ -26,9 +26,9 @@
                 <Field>
                     <FieldLabel>Direction</FieldLabel>
                     <FieldBody>
-                        <RadioGroup TValue="SplitDirection" @bind-CheckedValue="@direction">
-                            <Radio Value="SplitDirection.Horizontal">Horizontal</Radio>
-                            <Radio Value="SplitDirection.Vertical">Vertical</Radio>
+                        <RadioGroup TValue="SplitterDirection" @bind-CheckedValue="@direction">
+                            <Radio Value="SplitterDirection.Horizontal">Horizontal</Radio>
+                            <Radio Value="SplitterDirection.Vertical">Vertical</Radio>
                         </RadioGroup>
                     </FieldBody>
                 </Field>
@@ -55,7 +55,7 @@
     </Column>
 </Row>
 @code {
-    SplitDirection direction = SplitDirection.Horizontal;
+    SplitterDirection direction = SplitterDirection.Horizontal;
     int minSize = 10;
     int maxSize = 10;
     int gutterSize = 10;

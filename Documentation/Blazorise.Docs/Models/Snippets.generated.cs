@@ -7987,7 +7987,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SplitterNugetInstallExample = @"Install-Package Blazorise.Splitter";
 
-        public const string SplitterVerticalExample = @"<Splitter Direction=""SplitDirection.Vertical"" Style=""height: 250px;"">
+        public const string SplitterVerticalExample = @"<Splitter Direction=""SplitterDirection.Vertical"" Style=""height: 250px;"">
     <SplitterSection>
         <div>Hello!</div>
     </SplitterSection>
