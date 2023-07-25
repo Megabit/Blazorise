@@ -7992,6 +7992,15 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SplitterImportsExample = @"@using Blazorise.Splitter";
 
+        public const string SplitterMinSizeExample = @"<Splitter Style=""height: 100px;"">
+    <SplitterSection MinSize=""50"">
+        <div>Hello!</div>
+    </SplitterSection>
+    <SplitterSection>
+        <div>World!</div>
+    </SplitterSection>
+</Splitter>";
+
         public const string SplitterNugetInstall2Example = @"dotnet add package Blazorise.Splitter";
 
         public const string SplitterNugetInstallExample = @"Install-Package Blazorise.Splitter";

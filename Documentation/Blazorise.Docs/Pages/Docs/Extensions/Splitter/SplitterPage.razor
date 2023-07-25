@@ -83,6 +83,21 @@
     <DocsPageSectionSource Code="SplitterGutterSIzeExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Min Size">
+        <Paragraph>
+            In this example, <Code>MinSize="50"</Code> would mean that this <Strong>SplitterSection</Strong> cannot be resized to less than 50 pixels.
+        </Paragraph>
+        <Paragraph>
+            This ensures that regardless of how much the user adjusts the split using the gutter, the section will not shrink below this minimum size. This can be very useful to ensure that content within each section remains readable and usable, regardless of the user's interactions.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SplitterMinSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SplitterMinSizeExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
@@ -91,20 +106,8 @@
     Attributes
 </Heading>
 
-<DocsAttributes>
-    <DocsAttributesItem Name="Sizes" Type="IEnumerable<JavascriptNumber>">
-        Initial sizes of each element in percents or CSS values.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="MinSize" Type="JavascriptNumberOrArray">
-        Minimum size of each element.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="MaxSize" Type="JavascriptNumberOrArray">
-        Maximum size of each element.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SnapOffset" Type="JavascriptNumberOrArray">
-        Snap to minimum size offset in pixels.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="GutterSize" Type="JavascriptNumber" Default="10">
+<DocsAttributes Title="Splitter">
+    <DocsAttributesItem Name="GutterSize" Type="double" Default="10">
         Gutter size in pixels. Defaults to 10.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ExpandToMin" Type="bool?">
@@ -113,14 +116,33 @@
     <DocsAttributesItem Name="GutterAlign" Type="SplitterGutterAlignment" Default="Center">
         Determines how the gutter aligns between the two elements.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DragInterval" Type="JavascriptNumber">
-        Drag this number of pixels at a time. Defaults to 1 for smooth dragging, but can be set to a pixel value to give more control over the resulting sizes.
-        Works particularly well when the <Strong>GutterSize</Strong> is set to the same size.
+    <DocsAttributesItem Name="DragInterval" Type="double" Default="1">
+        <Paragraph>
+            Drag this number of pixels at a time. Defaults to 1 for smooth dragging, but can be set to a pixel value to give more control over the resulting sizes.
+        </Paragraph>
+        <Paragraph>
+            Works particularly well when the <Strong>GutterSize</Strong> is set to the same size.
+        </Paragraph>
     </DocsAttributesItem>
     <DocsAttributesItem Name="Direction" Type="SplitterDirection" Default="Horizontal">
-        Direction to split.
+        Direction to split in. Can be <Strong>Vertical</Strong> or <Strong>Horizontal</Strong>.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Cursor" Type="string">
         Cursor to display while dragging.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="SplitterSection">
+    <DocsAttributesItem Name="Size" Type="double?" Default="null">
+        Initial size of a section element in percents or CSS values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MinSize" Type="double" Default="100">
+        Minimum size of the section, specified as pixel value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxSize" Type="double" Default="PositiveInfinity">
+        Maximum size of the section, specified as pixel value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SnapOffset" Type="double">
+        Snap to minimum size offset in pixels.
     </DocsAttributesItem>
 </DocsAttributes>

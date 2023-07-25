@@ -6,11 +6,11 @@
                 <CardTitle>Splitter</CardTitle>
             </CardHeader>
             <CardBody Style="height: 300px;">
-                <Splitter Direction="@direction" GutterSize="@gutterSize" MinSize="@minSize" MaxSize="@maxSize" Width="@(direction == SplitterDirection.Horizontal ? Width.Is100 : null)" Height="@(direction == SplitterDirection.Vertical ? Height.Is100 : null)">
-                    <SplitterSection>
+                <Splitter Direction="@direction" GutterSize="@gutterSize" Width="@(direction == SplitterDirection.Horizontal ? Width.Is100 : null)" Height="@(direction == SplitterDirection.Vertical ? Height.Is100 : null)">
+                    <SplitterSection MinSize="@minSize">
                         <div>Hello!</div>
                     </SplitterSection>
-                    <SplitterSection>
+                    <SplitterSection MinSize="@minSize">
                         <div>World!</div>
                     </SplitterSection>
                 </Splitter>
@@ -39,12 +39,6 @@
                     </FieldBody>
                 </Field>
                 <Field>
-                    <FieldLabel>Maximum Size</FieldLabel>
-                    <FieldBody>
-                        <Slider @bind-Value="@maxSize" Min="0" Max="700" />
-                    </FieldBody>
-                </Field>
-                <Field>
                     <FieldLabel>Gutter Size</FieldLabel>
                     <FieldBody>
                         <Slider @bind-Value="@gutterSize" Min="1" Max="50" />
@@ -56,7 +50,6 @@
 </Row>
 @code {
     SplitterDirection direction = SplitterDirection.Horizontal;
-    int minSize = 10;
-    int maxSize = 10;
+    double minSize = 10;
     int gutterSize = 10;
 }

@@ -1,5 +1,7 @@
 ﻿#region Using directives
 using System;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -7,11 +9,32 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise.Splitter;
 
 /// <summary>
-/// A resizable section of a <see cref="Splitter"/> component
+/// A resizable section of a <see cref="Splitter"/> component.
 /// </summary>
 public partial class SplitterSection : BaseComponent, IDisposable
 {
     #region Methods
+
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( Rendered )
+        {
+            var sizeChanged = parameters.TryGetValue<double?>( nameof( Size ), out var paramSize ) && !Size.IsEqual( paramSize );
+            var minSizeChanged = parameters.TryGetValue<double>( nameof( MinSize ), out var paramMinSize ) && !MinSize.IsEqual( paramMinSize );
+            var maxSizeChanged = parameters.TryGetValue<double>( nameof( MaxSize ), out var paramMaxSize ) && !MaxSize.IsEqual( paramMaxSize );
+            var snapOffsetChanged = parameters.TryGetValue<double>( nameof( SnapOffset ), out var paramSnapOffset ) && !SnapOffset.IsEqual( paramSnapOffset );
+
+            if ( sizeChanged
+                || minSizeChanged
+                || maxSizeChanged
+                || snapOffsetChanged )
+            {
+                Parent.UpdateSection( this );
+            }
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc />
     protected override void OnInitialized()
@@ -26,7 +49,7 @@ public partial class SplitterSection : BaseComponent, IDisposable
     protected override void OnAfterRender( bool firstRender )
     {
         if ( firstRender )
-            Parent.RegisterSection( ElementRef );
+            Parent.RegisterSection( this );
 
         base.OnAfterRender( firstRender );
     }
@@ -44,7 +67,7 @@ public partial class SplitterSection : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            Parent.UnregisterSection( ElementRef );
+            Parent.UnregisterSection( this );
         }
 
         base.Dispose( disposing );
@@ -53,6 +76,31 @@ public partial class SplitterSection : BaseComponent, IDisposable
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Defines the index of the section item.
+    /// </summary>
+    [Parameter] public int Index { get; init; } = -1;
+
+    /// <summary>
+    /// Initial size of a section element in percents or CSS values.
+    /// </summary>
+    [Parameter] public double? Size { get; init; }
+
+    /// <summary>
+    /// Minimum size of the section, specified as pixel value.
+    /// </summary>
+    [Parameter] public double MinSize { get; init; } = 100;
+
+    /// <summary>
+    /// Maximum size of the section, specified as pixel value.
+    /// </summary>
+    [Parameter] public double MaxSize { get; init; } = double.PositiveInfinity;
+
+    /// <summary>
+    /// Snap to minimum size offset in pixels.
+    /// </summary>
+    [Parameter] public double SnapOffset { get; init; }
 
     /// <summary>
     /// Parent <see cref="Splitter"/> component.
