@@ -27,13 +27,14 @@ public class JSSplitModule : BaseJSModule
     #region Methods
 
     /// <summary>
-    /// Initializes a new Split instance
+    /// Initializes a new Split instance.
     /// </summary>
-    /// <param name="sections">Sections of the splitter</param>
-    /// <param name="options">Splitter configuration options</param>
-    /// <returns>A <see cref="IJSObjectReference"/> to the Animation object</returns>
-    public virtual ValueTask<IJSObjectReference> InitializeSplitter( IEnumerable<ElementReference> sections, SplitterOptions options )
-        => InvokeSafeAsync<IJSObjectReference>( "initializeSplitter", sections, options );
+    /// <param name="sectionElementRefs">Sections of the splitter.</param>
+    /// <param name="splitterOptions">Splitter configuration options.</param>
+    /// <param name="splitterGutterOptions">Gutter configuration options</param>
+    /// <returns>A <see cref="IJSObjectReference"/> to the Animation object.</returns>
+    public virtual ValueTask<IJSObjectReference> InitializeSplitter( IEnumerable<ElementReference> sectionElementRefs, SplitterOptions splitterOptions, SplitterGutterOptions splitterGutterOptions )
+        => InvokeSafeAsync<IJSObjectReference>( "initializeSplitter", sectionElementRefs, splitterOptions, splitterGutterOptions );
 
     #endregion
 

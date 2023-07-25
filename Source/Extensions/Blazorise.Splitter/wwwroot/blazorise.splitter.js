@@ -19,11 +19,20 @@ document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link 
  /**
  * Creates a new Split instance
  * @param  {HTMLElement} elements The elements to split
- * @param {SplitOptions} options Configuration options
+ * @param {SplitOptions} splitterOptions Configuration options
  * @return A split instance
  */
-export function initializeSplitter(elements, options) {
-    return Split(elements, parseOptions(options));
+export function initializeSplitter(elements, splitterOptions, splitterGutterOptions) {
+    const parsedSplitterOptions = parseOptions(splitterOptions);
+
+    if (splitterGutterOptions && splitterGutterOptions.backgroundImage) {
+        parsedSplitterOptions.gutterStyle = (dimension, gutterSize) => ({
+            backgroundImage: `url(${splitterGutterOptions.backgroundImage})`,
+            [dimension]: `${gutterSize}px`
+        });
+    }
+
+    return Split(elements, parsedSplitterOptions);
 }
 
 /**

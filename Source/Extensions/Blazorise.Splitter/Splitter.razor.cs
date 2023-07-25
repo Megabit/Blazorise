@@ -37,6 +37,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
         {
             var expandToMinChanged = parameters.TryGetValue<bool?>( nameof( ExpandToMin ), out var paramExpandToMin ) && !ExpandToMin.IsEqual( paramExpandToMin );
             var gutterSizeChanged = parameters.TryGetValue<double>( nameof( GutterSize ), out var paramGutterSize ) && !GutterSize.IsEqual( paramGutterSize );
+            var gutterGutterBackgroundImage = parameters.TryGetValue<string>( nameof( GutterBackgroundImage ), out var paramGutterBackgroundImage ) && !GutterBackgroundImage.IsEqual( paramGutterBackgroundImage );
             var gutterAlignChanged = parameters.TryGetValue<SplitterGutterAlignment>( nameof( GutterAlign ), out var paramGutterAlign ) && !GutterAlign.IsEqual( paramGutterAlign );
             var dragIntervalChanged = parameters.TryGetValue<double>( nameof( DragInterval ), out var paramDragInterval ) && !DragInterval.IsEqual( paramDragInterval );
             var directionChanged = parameters.TryGetValue<SplitterDirection>( nameof( Direction ), out var paramDirection ) && !Direction.IsEqual( paramDirection );
@@ -44,6 +45,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
             if ( expandToMinChanged
                 || gutterSizeChanged
+                || gutterGutterBackgroundImage
                 || gutterAlignChanged
                 || dragIntervalChanged
                 || directionChanged
@@ -170,6 +172,9 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
                     DragInterval = DragInterval,
                     Direction = Direction,
                     Cursor = Cursor,
+                }, new SplitterGutterOptions
+                {
+                    BackgroundImage = GutterBackgroundImage,
                 } );
 
                 recreateInstance = false;
@@ -214,6 +219,11 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// Gutter size in pixels. Defaults to 10.
     /// </summary>
     [Parameter] public double GutterSize { get; init; } = 10;
+
+    /// <summary>
+    /// Defines the custom background image for the gutter element.
+    /// </summary>
+    [Parameter] public string GutterBackgroundImage { get; init; }
 
     /// <summary>
     /// Determines how the gutter aligns between the two elements.
