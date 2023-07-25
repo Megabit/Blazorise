@@ -42,16 +42,9 @@ public partial class SplitterSection : BaseComponent, IDisposable
         if ( Parent is null )
             throw new ArgumentNullException( nameof( Parent ), nameof( SplitterSection ) + " must exist within a Split" );
 
+        Parent.RegisterSection( this );
+
         base.OnInitialized();
-    }
-
-    /// <inheritdoc />
-    protected override void OnAfterRender( bool firstRender )
-    {
-        if ( firstRender )
-            Parent.RegisterSection( this );
-
-        base.OnAfterRender( firstRender );
     }
 
     /// <inheritdoc />
