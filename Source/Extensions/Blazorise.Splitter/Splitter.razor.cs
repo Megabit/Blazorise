@@ -75,6 +75,33 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
         await base.OnAfterRenderAsync( firstRender );
     }
 
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( JSSplitInstance is not null )
+            {
+                var task = JSSplitInstance.InvokeVoidAsync( "destroy" );
+
+                try
+                {
+                    await task;
+                }
+                catch when ( task.IsCanceled )
+                {
+                }
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
+
+                await JSSplitInstance.DisposeAsync();
+            }
+        }
+
+        await base.DisposeAsync( disposing );
+    }
+
     /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
