@@ -29,7 +29,7 @@ public partial class SplitterSection : BaseComponent, IDisposable
                 || maxSizeChanged
                 || snapOffsetChanged )
             {
-                Parent.UpdateSection( this );
+                Parent?.UpdateSection( this );
             }
         }
 
@@ -60,7 +60,7 @@ public partial class SplitterSection : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            Parent.UnregisterSection( this );
+            Parent?.UnregisterSection( this );
         }
 
         base.Dispose( disposing );
