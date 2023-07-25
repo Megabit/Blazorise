@@ -98,7 +98,7 @@ public partial class SplitterSection : BaseComponent, IDisposable
     /// <summary>
     /// Parent <see cref="Splitter"/> component.
     /// </summary>
-    [CascadingParameter] public Splitter Parent { get; set; } = null!;
+    [CascadingParameter] public Splitter Parent { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="SplitterSection"/>.
