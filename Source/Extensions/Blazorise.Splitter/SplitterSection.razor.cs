@@ -40,7 +40,7 @@ public partial class SplitterSection : BaseComponent, IDisposable
     protected override void OnInitialized()
     {
         if ( Parent is null )
-            throw new ArgumentNullException( nameof( Parent ), "SplitSection must exist within a Split" );
+            throw new ArgumentNullException( nameof( Parent ), nameof( SplitterSection ) + " must exist within a Split" );
 
         base.OnInitialized();
     }
