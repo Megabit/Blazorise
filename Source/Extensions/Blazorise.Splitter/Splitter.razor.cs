@@ -101,7 +101,8 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
         recreateInstance = true;
 
-        InvokeAsync( StateHasChanged );
+        if ( Rendered )
+            InvokeAsync( StateHasChanged );
     }
 
     public void UnregisterSection( ElementReference section )
@@ -110,7 +111,8 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
         recreateInstance = true;
 
-        InvokeAsync( StateHasChanged );
+        if ( Rendered )
+            InvokeAsync( StateHasChanged );
     }
 
     private async Task CreateInstance()
