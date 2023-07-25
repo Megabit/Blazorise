@@ -26,6 +26,7 @@ public static class Config
         }
 
         serviceCollection.AddScoped<IJSModalModule, Modules.MaterialJSModalModule>();
+        serviceCollection.AddScoped<IJSOffcanvasModule, Modules.MaterialJSOffcanvasModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.MaterialJSTooltipModule>();
 
         return serviceCollection;
