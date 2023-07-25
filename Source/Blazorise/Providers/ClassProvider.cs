@@ -826,6 +826,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string OffcanvasShow( bool isVisible );
 
+    public abstract string OffcanvasFade( bool isVisible );
+
     public abstract string OffcanvasHeader();
 
     public abstract string OffcanvasBody();

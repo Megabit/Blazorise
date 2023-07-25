@@ -26,4 +26,5 @@ public interface IJSOffcanvasModule : IBaseJSModule
     /// <param name="elementRef">Reference to the Offcanvas component.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     ValueTask CloseOffcanvas( ElementReference elementRef );
+
 }

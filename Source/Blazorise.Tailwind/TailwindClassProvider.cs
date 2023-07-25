@@ -1260,6 +1260,7 @@ public class TailwindClassProvider : ClassProvider
     #endregion
 
     #region Offcanvas
+
     public override string Offcanvas() => "fixed bottom-0 z-50 flex flex-col max-w-full visible bg-white bg-clip-padding outline-none transition-transform duration-300 ease-in-out -translate-x-full";
 
 
@@ -1276,6 +1277,8 @@ public class TailwindClassProvider : ClassProvider
     }
 
     public override string OffcanvasShow( bool isVisible ) => isVisible ? "transform-none visible" : "-translate-x-full invisible";
+
+    public override string OffcanvasFade( bool animated ) => animated ? "hiding" : null;
 
     public override string OffcanvasHeader() => "flex items-center justify-between p-4";
 

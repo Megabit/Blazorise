@@ -866,7 +866,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #endregion
 
-    #region
+    #region Offcanvas
 
     public override string Offcanvas() => "offcanvas";
 
@@ -883,6 +883,8 @@ public class Bootstrap5ClassProvider : ClassProvider
     }
 
     public override string OffcanvasShow( bool isVisible ) => isVisible ? Show() : null;
+
+    public override string OffcanvasFade( bool animated ) => animated ? "showing" : "hiding";
 
     public override string OffcanvasHeader() => "offcanvas-header";
 

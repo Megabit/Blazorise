@@ -869,7 +869,7 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
-    #region
+    #region Offcanvas
 
     public override string Offcanvas() => "ant-drawer";
 
@@ -886,6 +886,8 @@ public class AntDesignClassProvider : ClassProvider
     }
 
     public override string OffcanvasShow( bool isVisible ) => isVisible ? "ant-drawer-open" : null;
+
+    public override string OffcanvasFade( bool animated ) => animated ? "ant-drawer-open" : null;
 
     public override string OffcanvasHeader() => "ant-drawer-header";
 

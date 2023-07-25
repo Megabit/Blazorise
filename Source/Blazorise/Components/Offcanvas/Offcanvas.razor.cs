@@ -185,6 +185,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         builder.Append( ClassProvider.Offcanvas() );
         builder.Append( ClassProvider.OffcanvasPlacement( Placement ) );
         builder.Append( ClassProvider.OffcanvasShow( IsVisible ) );
+        builder.Append( ClassProvider.OffcanvasFade( IsVisible ) );
 
         base.BuildClasses( builder );
     }
@@ -217,6 +218,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
             ExecuteAfterRender( async () =>
             {
                 await JSOffcanvasModule.CloseOffcanvas( ElementRef );
+              
 
                 await JSClosableModule.Unregister( this );
             } );
@@ -224,6 +226,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
 
         await closeableAdapter.Run( visible );
     }
+
 
     protected virtual async Task RaiseEvents( bool visible )
     {

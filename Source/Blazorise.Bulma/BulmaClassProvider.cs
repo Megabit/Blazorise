@@ -893,7 +893,7 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
-    #region
+    #region Offcanvas
 
     public override string Offcanvas() => "offcanvas";
 
@@ -910,6 +910,8 @@ public class BulmaClassProvider : ClassProvider
     }
 
     public override string OffcanvasShow( bool isVisible ) => isVisible ? "is-active" : null;
+
+    public override string OffcanvasFade(bool animated) => animated ? "hiding" : null;
 
     public override string OffcanvasHeader() => "offcanvas-header";
 
