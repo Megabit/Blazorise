@@ -22,7 +22,7 @@ document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link 
  * @param {SplitOptions} options Configuration options
  * @return A split instance
  */
-export function initializeSplit(elements, options) {
+export function initializeSplitter(elements, options) {
     return Split(elements, parseOptions(options));
 }
 

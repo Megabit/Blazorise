@@ -127,7 +127,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
             if ( splitterSections.Count > 0 )
             {
-                JSSplitInstance = await JSModule.InitializeSplit( splitterSections.OrderBy( x => x.Index ).Select( x => x.ElementRef ), new SplitterOptions
+                JSSplitInstance = await JSModule.InitializeSplitter( splitterSections.OrderBy( x => x.Index ).Select( x => x.ElementRef ), new SplitterOptions
                 {
                     Sizes = splitterSections.Any( x => x.Size != null )
                         ? splitterSections.OrderBy( x => x.Index ).Select( x => new JavascriptNumber( x.Size ?? 0 ) ).ToArray()
