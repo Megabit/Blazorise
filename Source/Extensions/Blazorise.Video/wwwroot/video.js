@@ -46,6 +46,11 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         ratio: options.ratio,
         invertTime: options.invertTime || true,
         controls: options.controlsList,
+        settings: options.settingsList,
+        quality: {
+            default: options.defaultQuality || 576,
+            options: options.availableQualities || [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]
+        },
         previewThumbnails: {
             enabled: options.poster && options.poster.length > 0,
             src: options.poster
@@ -407,5 +412,9 @@ function registerToEvents(dotNetAdapter, player) {
 
     player.on('ready', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyReady");
+    });
+
+    player.on('qualitychange', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyQualityChange", event.detail.quality);
     });
 }

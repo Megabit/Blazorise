@@ -1,0 +1,18 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Video</span> <span class="htmlAttributeName">Source</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>videoSource</span><span class="quot">&quot;</span> <span class="htmlAttributeName">DefaultQuality</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">720</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    VideoSource videoSource = <span class="keyword">new</span> VideoSource()
+    {
+        Medias = <span class="keyword">new</span> ValueEqualityList&lt;VideoMedia&gt;
+        {
+            <span class="keyword">new</span> VideoMedia(<span class="string">&quot;https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4&quot;</span>, <span class="string">&quot;video/mp4&quot;</span>, <span class="number">576</span>),
+            <span class="keyword">new</span> VideoMedia(<span class="string">&quot;https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4&quot;</span>, <span class="string">&quot;video/mp4&quot;</span>, <span class="number">720</span>),
+            <span class="keyword">new</span> VideoMedia(<span class="string">&quot;https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4&quot;</span>, <span class="string">&quot;video/mp4&quot;</span>, <span class="number">1080</span>),
+        }
+    };
+}
+</pre></div>
+</div>

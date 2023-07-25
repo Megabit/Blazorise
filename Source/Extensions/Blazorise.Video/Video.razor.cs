@@ -70,6 +70,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
             {
                 Controls,
                 ControlsList,
+                SettingsList,
                 AutomaticallyHideControls,
                 AutoPlay,
                 AutoPause,
@@ -85,6 +86,8 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 ResetOnEnd,
                 Ratio,
                 InvertTime,
+                DefaultQuality,
+                AvailableQualities,
                 Protection = ProtectionType != VideoProtectionType.None ? new
                 {
                     Data = ProtectionData,
@@ -481,6 +484,19 @@ public partial class Video : BaseComponent, IAsyncDisposable
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Notifies the video component that the quality has changed. Should not be called directly by the user!
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    [JSInvokable]
+    public Task NotifyQualityChange( int? quality )
+    {
+        if ( QualityChanged != null )
+            return QualityChanged.Invoke( quality );
+
+        return Task.CompletedTask;
+    }
+
     #endregion
 
     #endregion
@@ -614,9 +630,24 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public string[] ControlsList { get; set; } = new string[] { VideoControlsType.PlayLarge, VideoControlsType.Play, VideoControlsType.Progress, VideoControlsType.CurrentTime, VideoControlsType.Mute, VideoControlsType.Volume, VideoControlsType.Captions, VideoControlsType.Settings, VideoControlsType.Pip, VideoControlsType.Airplay, VideoControlsType.Fullscreen };
 
     /// <summary>
+    /// If the default controls are used, you can specify which settings to show in the menu.
+    /// </summary>
+    [Parameter] public VideoSettingsType[] SettingsList { get; set; } = new VideoSettingsType[] { VideoSettingsType.Captions, VideoSettingsType.Quality, VideoSettingsType.Speed, VideoSettingsType.Loop };
+
+    /// <summary>
     /// Sent periodically to inform interested parties of progress downloading the media. Information about the current amount of the media that has been downloaded is available in the media element's buffered attribute.
     /// </summary>
     [Parameter] public Func<double, Task> Progress { get; set; }
+
+    /// <summary>
+    /// Gets or sets the default quality for the player.
+    /// </summary>
+    [Parameter] public int? DefaultQuality { get; set; }
+
+    /// <summary>
+    /// Defines the list of available quality options. Defaults to [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240].
+    /// </summary>
+    [Parameter] public int[] AvailableQualities { get; set; }
 
     /// <summary>
     /// Sent when the media begins to play (either for the first time, after having been paused, or after ending and then restarting).
@@ -702,6 +733,14 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// Triggered when the instance is ready for API calls.
     /// </summary>
     [Parameter] public Func<Task> Ready { get; set; }
+
+    /// <summary>
+    /// The quality of playback has changed. 
+    /// <para>
+    /// If the quality argument is <c>null</c> it is considered that a default quality value was selected.
+    /// </para>
+    /// </summary>
+    [Parameter] public Func<int?, Task> QualityChanged { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Video"/>.

@@ -411,6 +411,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DropdownMenu();
 
+    public abstract string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy );
+
     public abstract string DropdownMenuSelector();
 
     public abstract string DropdownMenuScrollable();

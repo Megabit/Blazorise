@@ -413,6 +413,8 @@ class EmptyClassProvider : IClassProvider
 
     public string DropdownMenu() => null;
 
+    public string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => null;
+
     public string DropdownMenuSelector() => null;
 
     public string DropdownMenuScrollable() => null;
