@@ -33,13 +33,19 @@
                     </FieldBody>
                 </Field>
                 <Field>
-                    <FieldLabel>Minimum Size</FieldLabel>
+                    <FieldLabel Flex="Flex.JustifyContent.Between">
+                        <Span>Minimum Size</Span>
+                        <Span>@($"{minSize}px")</Span>
+                    </FieldLabel>
                     <FieldBody>
                         <Slider @bind-Value="@minSize" Min="0" Max="300" />
                     </FieldBody>
                 </Field>
                 <Field>
-                    <FieldLabel>Gutter Size</FieldLabel>
+                    <FieldLabel Flex="Flex.JustifyContent.Between">
+                        <Span>Gutter Size</Span>
+                        <Span>@($"{gutterSize}px")</Span>
+                    </FieldLabel>
                     <FieldBody>
                         <Slider @bind-Value="@gutterSize" Min="1" Max="50" />
                     </FieldBody>
