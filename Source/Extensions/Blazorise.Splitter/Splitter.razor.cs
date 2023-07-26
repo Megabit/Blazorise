@@ -156,18 +156,18 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
 
             if ( splitterSections.Count > 0 )
             {
-                JSSplitInstance = await JSModule.InitializeSplitter( splitterSections.OrderBy( x => x.Index ).Select( x => x.ElementRef ), new SplitterOptions
+                JSSplitInstance = await JSModule.InitializeSplitter( splitterSections.Select( x => x.ElementRef ), new SplitterOptions
                 {
                     Sizes = splitterSections.Any( x => x.Size != null )
-                        ? splitterSections.OrderBy( x => x.Index ).Select( x => new JavascriptNumber( x.Size ?? 0 ) ).ToArray()
+                        ? splitterSections.Select( x => new JavascriptNumber( x.Size ?? 0 ) ).ToArray()
                         : null,
-                    MinSize = splitterSections.OrderBy( x => x.Index ).Select( x => new JavascriptNumber( x.MinSize ) ).ToArray(),
-                    MaxSize = splitterSections.OrderBy( x => x.Index ).Select( x => new JavascriptNumber( x.MaxSize ) ).ToArray(),
+                    MinSize = splitterSections.Select( x => new JavascriptNumber( x.MinSize ) ).ToArray(),
+                    MaxSize = splitterSections.Select( x => new JavascriptNumber( x.MaxSize ) ).ToArray(),
                     ExpandToMin = ExpandToMin,
                     GutterSize = GutterSize,
                     GutterAlign = GutterAlign,
                     SnapOffset = splitterSections.Any( x => x.SnapOffset > 0 )
-                        ? splitterSections.OrderBy( x => x.Index ).Select( x => new JavascriptNumber( x.SnapOffset ) ).ToArray()
+                        ? splitterSections.Select( x => new JavascriptNumber( x.SnapOffset ) ).ToArray()
                         : 0,
                     DragInterval = DragInterval,
                     Direction = Direction,

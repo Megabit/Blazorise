@@ -71,11 +71,6 @@ public partial class SplitterSection : BaseComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Defines the index of the section item.
-    /// </summary>
-    [Parameter] public int Index { get; init; } = -1;
-
-    /// <summary>
     /// Initial size of a section element in percents or CSS values.
     /// </summary>
     [Parameter] public double? Size { get; init; }
