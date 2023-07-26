@@ -221,7 +221,12 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     [Parameter] public double GutterSize { get; init; } = 10;
 
     /// <summary>
+    /// <para>
     /// Defines the custom background image for the gutter element.
+    /// </para>
+    /// <para>
+    /// This parameter accepts either a Base64 encoded string that represents an image, or a URL that points to an image resource.
+    /// </para>
     /// </summary>
     [Parameter] public string GutterBackgroundImage { get; init; }
 
