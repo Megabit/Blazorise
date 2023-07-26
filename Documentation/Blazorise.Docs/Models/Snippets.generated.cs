@@ -7972,6 +7972,15 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""20px"" />";
 
+        public const string SplitterBackgroundImageExample = @"<Splitter Style=""height: 100px;"" GutterSize=""32"" GutterBackgroundImage=""_content/Blazorise.Docs/assets/img/icons/resize-horizontal-30.png"">
+    <SplitterSection>
+        <div>Hello!</div>
+    </SplitterSection>
+    <SplitterSection>
+        <div>World!</div>
+    </SplitterSection>
+</Splitter>";
+
         public const string SplitterGutterSIzeExample = @"<Splitter Style=""height: 100px;"" GutterSize=""50"">
     <SplitterSection>
         <div>Hello!</div>
