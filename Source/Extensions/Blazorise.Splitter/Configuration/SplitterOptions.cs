@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 namespace Blazorise.Splitter;
 
 /// <summary>
-/// Configuration object sent via JS interop to configure the split component
+/// Configuration object sent via JS interop to configure the splitter component
 /// </summary>
 public class SplitterOptions
 {
@@ -28,7 +28,7 @@ public class SplitterOptions
     public JavascriptNumber DragInterval { get; init; }
 
     /// <summary>
-    /// When the split is created, if ExpandToMin is true, the minSize for each element overrides the percentage value from the sizes option.
+    /// When the splitter is created, if ExpandToMin is true, the minSize for each element overrides the percentage value from the sizes option.
     /// </summary>
     [JsonPropertyName( "expandToMin" )]
     public bool? ExpandToMin { get; init; }

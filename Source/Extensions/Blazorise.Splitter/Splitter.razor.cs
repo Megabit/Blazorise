@@ -13,7 +13,7 @@ using Microsoft.JSInterop;
 namespace Blazorise.Splitter;
 
 /// <summary>
-/// The Split component allows splitting an area into multiple resizable sections.
+/// The splitter component allows splitting an area into multiple resizable sections.
 /// </summary>
 public partial class Splitter : BaseComponent, IAsyncDisposable
 {
@@ -107,12 +107,12 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// <inheritdoc />
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( "split" );
+        builder.Append( "splitter" );
 
         if ( Direction == SplitterDirection.Vertical )
-            builder.Append( "split-vertical" );
+            builder.Append( "splitter-vertical" );
         else
-            builder.Append( "split-horizontal" );
+            builder.Append( "splitter-horizontal" );
 
         base.BuildClasses( builder );
     }
@@ -196,7 +196,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     protected JSSplitModule JSModule { get; private set; }
 
     /// <summary>
-    /// Gets or sets the reference to the JS split instance
+    /// Gets or sets the reference to the JS splitter instance.
     /// </summary>
     protected IJSObjectReference JSSplitInstance { get; private set; }
 
@@ -211,7 +211,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     [Inject] private IVersionProvider VersionProvider { get; set; }
 
     /// <summary>
-    /// When the split is created, if ExpandToMin is true, the minSize for each element overrides the percentage value from the sizes option.
+    /// When the splitter is created, if ExpandToMin is true, the minSize for each element overrides the percentage value from the sizes option.
     /// </summary>
     [Parameter] public bool? ExpandToMin { get; init; }
 

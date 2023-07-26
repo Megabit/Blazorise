@@ -32,6 +32,12 @@ export function initializeSplitter(elements, splitterOptions, splitterGutterOpti
         });
     }
 
+    parsedSplitterOptions.gutter = (index, direction) => {
+        const gutterElement = document.createElement('div');
+        gutterElement.className = `splitter-gutter splitter-gutter-${direction}`;
+        return gutterElement;
+    };
+
     return Split(elements, parsedSplitterOptions);
 }
 

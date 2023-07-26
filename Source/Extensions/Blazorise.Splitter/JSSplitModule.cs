@@ -7,7 +7,7 @@ using Microsoft.JSInterop;
 namespace Blazorise.Splitter;
 
 /// <summary>
-/// Default implementation of the split JS module.
+/// Default implementation of the splitter JS module.
 /// </summary>
 public class JSSplitModule : BaseJSModule
 {
@@ -27,12 +27,12 @@ public class JSSplitModule : BaseJSModule
     #region Methods
 
     /// <summary>
-    /// Initializes a new Split instance.
+    /// Initializes a new splitter instance.
     /// </summary>
     /// <param name="sectionElementRefs">Sections of the splitter.</param>
     /// <param name="splitterOptions">Splitter configuration options.</param>
     /// <param name="splitterGutterOptions">Gutter configuration options</param>
-    /// <returns>A <see cref="IJSObjectReference"/> to the Split object.</returns>
+    /// <returns>A <see cref="IJSObjectReference"/> to the Splitter object.</returns>
     public virtual ValueTask<IJSObjectReference> InitializeSplitter( IEnumerable<ElementReference> sectionElementRefs, SplitterOptions splitterOptions, SplitterGutterOptions splitterGutterOptions )
         => InvokeSafeAsync<IJSObjectReference>( "initializeSplitter", sectionElementRefs, splitterOptions, splitterGutterOptions );
 
