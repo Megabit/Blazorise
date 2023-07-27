@@ -10,5 +10,5 @@ internal class BootstrapJSOffcanvasModule : JSOffcanvasModule
     {
     }
 
-    public override string ModuleFileName => $"./_content/Blazorise.Bootstrap5/offcanvas.js?v={VersionProvider.Version}";
+    public override string ModuleFileName => $"./_content/Blazorise.Bootstrap/offcanvas.js?v={VersionProvider.Version}";
 }
