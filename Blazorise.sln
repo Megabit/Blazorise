@@ -133,6 +133,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.E2E.Tests", "Test
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.SignaturePad", "Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj", "{96334C18-5A3B-4C90-9C48-B06043AF0C68}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Splitter", "Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj", "{EC28D772-D69F-418B-9720-3977850E2FDA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -347,6 +349,10 @@ Global
 		{96334C18-5A3B-4C90-9C48-B06043AF0C68}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96334C18-5A3B-4C90-9C48-B06043AF0C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96334C18-5A3B-4C90-9C48-B06043AF0C68}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC28D772-D69F-418B-9720-3977850E2FDA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC28D772-D69F-418B-9720-3977850E2FDA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC28D772-D69F-418B-9720-3977850E2FDA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC28D772-D69F-418B-9720-3977850E2FDA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -406,6 +412,7 @@ Global
 		{47EEB5B2-3CA1-436C-8317-E69F611FA1E3} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
 		{FA75DC9B-32F0-41DC-A51D-F851E79D62DB} = {D04C5874-4D6A-493E-8CF4-6C7922198563}
 		{96334C18-5A3B-4C90-9C48-B06043AF0C68} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{EC28D772-D69F-418B-9720-3977850E2FDA} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
