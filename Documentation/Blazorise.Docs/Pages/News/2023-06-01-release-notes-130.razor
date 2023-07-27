@@ -318,4 +318,12 @@
     Fixed an issue where in some certain cases, if buttons existed inside the Dropdown the menu positioning would not be handled correctly.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is3">
+    Validation
+</Heading>
+
+<Paragraph>
+    We've added support for <Strong>IValidatableObject</Strong>. This new feature enhances the flexibility and robustness of your form validation processes. By implementing the <Strong>IValidatableObject</Strong> interface in your models, you can now provide custom validation logic that is more complex and situation-specific than what can be achieved with simple data annotation validation. This interface includes the <Strong>Validate</Strong> method, which you can override to define your custom validation rules. This method is automatically invoked when performing model validation, ensuring that your custom rules are adhered to. This feature is useful when the validity of a property's value is dependent on another property's value, or when an intricate validation process is required.
+</Paragraph>
+
 <NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="June 1st, 2023" Read="7 min" />
