@@ -909,9 +909,9 @@ public class BulmaClassProvider : ClassProvider
         };
     }
 
-    public override string OffcanvasShow( bool isVisible ) => isVisible ? "is-active" : null;
+    public override string OffcanvasFade( bool animation ) => animation ? "is-showing" : "is-hiding";
 
-    public override string OffcanvasFade(bool animated) => animated ? "is-showing" : "is-hiding";
+    public override string OffcanvasVisible( bool visible ) => visible ? "is-active" : null;
 
     public override string OffcanvasHeader() => "offcanvas-header";
 

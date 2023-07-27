@@ -814,6 +814,28 @@ public interface IClassProvider
 
     #endregion
 
+    #region Offcanvas
+
+    string Offcanvas();
+
+    string OffcanvasPlacement( Placement placement );
+
+    string OffcanvasFade( bool animation );
+
+    string OffcanvasVisible( bool visible );
+
+    string OffcanvasHeader();
+
+    string OffcanvasBody();
+
+    string OffcanvasBackdrop();
+
+    string OffcanvasBackdropFade();
+
+    string OffcanvasBackdropVisible( bool visible );
+
+    #endregion
+
     #region Pagination
 
     string Pagination();
@@ -1057,28 +1079,6 @@ public interface IClassProvider
     string TooltipFade();
 
     string TooltipInline();
-
-    #endregion
-
-    #region Offcanvas
-
-    string Offcanvas();
-
-    string OffcanvasPlacement( Placement placement );
-
-    string OffcanvasShow( bool isVisible );
-
-    string OffcanvasFade( bool isVisible );
-
-    string OffcanvasHeader();
-
-    string OffcanvasBody();
-
-    string OffcanvasBackdrop();
-
-    string OffcanvasBackdropFade();
-
-    string OffcanvasBackdropVisible( bool visible );
 
     #endregion
 

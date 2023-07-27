@@ -827,9 +827,9 @@ class EmptyClassProvider : IClassProvider
 
     public string OffcanvasPlacement( Placement placement ) => null;
 
-    public string OffcanvasShow( bool isVisible ) => null;
+    public string OffcanvasFade( bool animation ) => null;
 
-    public string OffcanvasFade( bool isVisible ) => null;
+    public string OffcanvasVisible( bool visible ) => null;
 
     public string OffcanvasHeader() => null;
 

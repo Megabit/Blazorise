@@ -889,10 +889,9 @@ public class BootstrapClassProvider : ClassProvider
         };
     }
 
+    public override string OffcanvasFade( bool animated ) => animated ? "showing" : "hiding";
 
-    public override string OffcanvasShow( bool isVisible ) => isVisible ? "show" : null;
-
-    public override string OffcanvasFade( bool isVisible ) => isVisible ? "showing" : "hiding";
+    public override string OffcanvasVisible( bool visible ) => visible ? "show" : null;
 
     public override string OffcanvasHeader() => "offcanvas-header";
 
