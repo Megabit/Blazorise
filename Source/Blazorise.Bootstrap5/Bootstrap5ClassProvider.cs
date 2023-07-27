@@ -851,9 +851,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ModalContent( bool dialog ) => "modal-content";
 
-    public override string ModalContentSize( ModalSize modalSize ) => modalSize != ModalSize.Default && modalSize != ModalSize.Fullscreen
-        ? $"modal-{ToModalSize( modalSize )}"
-        : null;
+    public override string ModalContentSize( ModalSize modalSize ) => null;
 
     public override string ModalContentCentered( bool centered ) => null;
 

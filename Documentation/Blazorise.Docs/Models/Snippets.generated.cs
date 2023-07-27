@@ -5277,6 +5277,11 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
+        public const string CropperMessageSizeExample = @".AddHubOptions(o =>
+{
+    o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
+})";
+
         public const string CropperNugetInstallExample = @"Install-Package Blazorise.Cropper";
 
         public const string CropperViewerExample = @"<Row>

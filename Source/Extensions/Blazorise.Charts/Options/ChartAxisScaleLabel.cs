@@ -14,7 +14,7 @@ public class ChartAxisScaleLabel
     /// If true, display the axis title.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public bool Display { get; set; }
+    public bool? Display { get; set; }
 
     /// <summary>
     /// The text for the title. (i.e. "# of People" or "Response Choices").
