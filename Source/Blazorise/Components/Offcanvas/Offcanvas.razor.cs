@@ -77,60 +77,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         closeableAdapter = new( this );
     }
 
-    /// <summary>
-    /// Event arguments for the Offcanvas opening event.
-    /// </summary>
-    public class OffcanvasOpeningEventArgs
-    {
-        /// <summary>
-        /// Gets or sets a value indicating whether the opening should be canceled.
-        /// </summary>
-        public bool Cancel { get; set; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OffcanvasOpeningEventArgs"/> class.
-        /// </summary>
-        /// <param name="cancel">Whether the opening should be canceled.</param>
-        public OffcanvasOpeningEventArgs( bool cancel )
-        {
-            Cancel = cancel;
-        }
-    }
-
-    public class OffcanvasClosingEventArgs
-    {
-        /// <summary>
-        /// Gets or sets a value indicating whether the closing should be canceled.
-        /// </summary>
-        public bool Cancel { get; set; }
-
-        /// <summary>
-        /// Gets the reason for the Offcanvas closing.
-        /// </summary>
-        public CloseReason CloseReason { get; }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="OffcanvasClosingEventArgs"/> class.
-        /// </summary>
-        /// <param name="cancel">Whether the closing should be canceled.</param>
-        /// <param name="closeReason">The reason for the Offcanvas closing.</param>
-        public OffcanvasClosingEventArgs( bool cancel, CloseReason closeReason )
-        {
-            Cancel = cancel;
-            CloseReason = closeReason;
-        }
-    }
-
-    /// <summary>
-    /// Specifies the rendering modes for the Offcanvas component.
-    /// </summary>
-    public enum OffcanvasRenderMode
-    {
-        Default,
-        LazyReload,
-        LazyLoad
-    }    
-
     #endregion
 
     #region Methods
