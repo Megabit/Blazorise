@@ -13,6 +13,17 @@
     }
 }
 
+.is-showing,
+.is-active:not(.is-hiding) {
+    transform: none;
+}
+
+.is-showing,
+.is-hiding,
+.is-showing {
+    visibility: visible;
+}
+
 .is-start {
     transform-origin: left;
     width:20%

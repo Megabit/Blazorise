@@ -1261,8 +1261,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Offcanvas
 
-    public override string Offcanvas() => "fixed bottom-0 z-50 flex flex-col max-w-full visible bg-white bg-clip-padding outline-none transition-transform duration-300 ease-in-out -translate-x-full";
-
+    public override string Offcanvas() => "fixed bottom-0 z-50 flex flex-col max-w-full bg-white bg-clip-padding outline-none transform duration-300 ease-in-out -translate-x-full";
 
     public override string OffcanvasPlacement( Placement placement )
     {
@@ -1278,7 +1277,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string OffcanvasShow( bool isVisible ) => isVisible ? "transform-none visible" : "-translate-x-full invisible";
 
-    public override string OffcanvasFade( bool animated ) => animated ? "hiding" : null;
+    public override string OffcanvasFade( bool isVisible ) => isVisible ? "transition-opacity opacity-100" : "transition-opacity opacity-0 pointer-events-none";
 
     public override string OffcanvasHeader() => "flex items-center justify-between p-4";
 
@@ -1289,6 +1288,7 @@ public class TailwindClassProvider : ClassProvider
     public override string OffcanvasBackdropFade() => "fade";
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
+
 
 
     //public override string OffcanvasAnimationDuration( int animationDuration ) => $"offcanvas-animation-{animationDuration}";

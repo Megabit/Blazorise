@@ -122,3 +122,14 @@
     text-rendering: optimizelegibility;
     -webkit-font-smoothing: antialiased;
 }
+
+.ant-drawer.ant-showing,
+.ant-drawer.ant-showing:not(.hiding) {
+    transform: none;
+}
+
+.ant-drawer.ant-showing,
+.ant-drawer.ant-hiding,
+.ant-drawer.ant-drawer-open {
+    visibility: visible;
+}
