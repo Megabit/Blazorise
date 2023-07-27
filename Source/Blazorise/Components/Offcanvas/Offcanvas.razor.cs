@@ -98,6 +98,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         return Hide( closeReason );
     }
 
+    /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         if ( parameters.TryGetValue<bool>( nameof( Visible ), out var visibleResult ) && state.Visible != visibleResult )
@@ -119,6 +120,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         }
     }
 
+    /// <inheritdoc/>
     protected override Task OnFirstAfterRenderAsync()
     {
         dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
@@ -126,6 +128,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         return base.OnFirstAfterRenderAsync();
     }
 
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Offcanvas() );
@@ -136,14 +139,15 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
         base.BuildStyles( builder );
 
         builder.Append( StyleProvider.OffcanvasAnimationDuration( AnimationDuration ) );
-
     }
 
+    /// <inheritdoc/>
     protected virtual async Task HandleVisibilityStyles( bool visible )
     {
         if ( visible )
@@ -164,7 +168,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
             ExecuteAfterRender( async () =>
             {
                 await JSOffcanvasModule.CloseOffcanvas( ElementRef );
-              
+
 
                 await JSClosableModule.Unregister( this );
             } );
@@ -173,7 +177,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         await closeableAdapter.Run( visible );
     }
 
-
+    /// <inheritdoc/>
     protected virtual async Task RaiseEvents( bool visible )
     {
         await InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
@@ -214,6 +218,10 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
             closeActivatorElementIds.Remove( elementId );
     }
 
+    /// <summary>
+    /// Starts the offcanvas opening process.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Show()
     {
         if ( state.Visible )
@@ -235,11 +243,20 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         }
     }
 
+    /// <summary>
+    /// Fires the offcanvas dialog closure process.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     public Task Hide()
     {
         return Hide( CloseReason.UserClosing );
     }
 
+    /// <summary>
+    /// Internal method to hide the offcanvas with reason of closing.
+    /// </summary>
+    /// <param name="closeReason">Reason why offcanvas was closed.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
     internal protected async Task Hide( CloseReason closeReason )
     {
         if ( !state.Visible )
@@ -265,6 +282,10 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         }
     }
 
+    /// <summary>
+    /// Determines if offcanvas can be opened.
+    /// </summary>
+    /// <returns>True if offcanvas can be opened.</returns>
     private async Task<bool> IsSafeToOpen()
     {
         var safeToOpen = true;
@@ -284,6 +305,10 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         return safeToOpen;
     }
 
+    /// <summary>
+    /// Determines if offcanvas can be closed.
+    /// </summary>
+    /// <returns>True if offcanvas can be closed.</returns>
     private async Task<bool> IsSafeToClose()
     {
         var safeToClose = true;
@@ -303,6 +328,10 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         return safeToClose;
     }
 
+    /// <summary>
+    /// Handles the internal visibility states.
+    /// </summary>
+    /// <param name="visible">Visible state.</param>
     private async Task SetVisibleState( bool visible )
     {
         state = state with { Visible = visible };
@@ -310,7 +339,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         await HandleVisibilityStyles( visible );
         await RaiseEvents( visible );
     }
-
 
     #endregion
 
@@ -387,11 +415,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
     protected internal bool BackdropVisible = false;
 
     /// <summary>
-    /// Evaluates the rendering mode to see if the offcanvas content is ready to be rendered.
-    /// </summary>
-    protected bool ShouldRenderContent => RenderMode == OffcanvasRenderMode.Default || ( RenderMode == OffcanvasRenderMode.LazyReload && IsVisible ) || ( RenderMode == OffcanvasRenderMode.LazyLoad && IsVisible );
-
-    /// <summary>
     /// Gets the CSS class for the Offcanvas based on its position.
     /// </summary>
     protected internal string OffcanvasClass
@@ -410,11 +433,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
             };
         }
     }
-
-    /// <summary>
-    /// Specifies the rendering mode for the Offcanvas component.
-    /// </summary>
-    [Parameter] public OffcanvasRenderMode RenderMode { get; set; }
 
     /// <summary>
     /// Gets or sets the visibility state of the Offcanvas.

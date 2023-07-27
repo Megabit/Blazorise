@@ -3,12 +3,9 @@
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" @attributes="@Attributes">
-            @if (ShouldRenderContent)
+            @if ( ShowBackdrop && BackdropVisible )
             {
-                @if (ShowBackdrop && BackdropVisible)
-                {
-                    <_OffcanvasBackdrop />
-                }
+                <_OffcanvasBackdrop />
             }
             <div tabindex="0" aria-hidden="true" data-sentinel="start" style="width: 0px; height: 0px; overflow: hidden; outline: none; position: absolute;"></div>
             <div class="@GetClass()" style="@GetStyle()">
@@ -25,11 +22,11 @@
 @code {
     string GetClass()
     {
-        var sb = new StringBuilder("ant-drawer-content-wrapper");
+        var sb = new StringBuilder( "ant-drawer-content-wrapper" );
 
-        if (!State.Visible)
+        if ( !State.Visible )
         {
-            sb.Append(" ant-drawer-content-wrapper-hidden");
+            sb.Append( " ant-drawer-content-wrapper-hidden" );
         }
 
         return sb.ToString();
@@ -37,16 +34,16 @@
 
     string GetStyle()
     {
-        var sb = new StringBuilder("");
+        var sb = new StringBuilder( "" );
 
-        if (Placement == Placement.Top && State.Visible || Placement == Placement.Bottom && State.Visible)
+        if ( Placement == Placement.Top && State.Visible || Placement == Placement.Bottom && State.Visible )
         {
-            sb.Append(" height: 378px;");
+            sb.Append( " height: 378px;" );
         }
 
-        if (Placement == Placement.Start && State.Visible || Placement == Placement.End && State.Visible)
+        if ( Placement == Placement.Start && State.Visible || Placement == Placement.End && State.Visible )
         {
-            sb.Append(" width: 500px;");
+            sb.Append( " width: 500px;" );
         }
 
         return sb.ToString();

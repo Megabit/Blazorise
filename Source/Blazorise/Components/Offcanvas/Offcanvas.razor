@@ -5,12 +5,9 @@
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" @attributes="@Attributes">
             @ChildContent
         </div>
-        @if ( ShouldRenderContent )
+        @if ( ShowBackdrop && BackdropVisible )
         {
-            @if ( ShowBackdrop && BackdropVisible)
-            {
-                <_OffcanvasBackdrop />
-            }
+            <_OffcanvasBackdrop />
         }
     </CascadingValue>
 </CascadingValue>
