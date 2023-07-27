@@ -820,7 +820,7 @@ public interface IClassProvider
 
     string OffcanvasPlacement( Placement placement );
 
-    string OffcanvasFade( bool animation );
+    string OffcanvasFade( bool showing, bool hiding );
 
     string OffcanvasVisible( bool visible );
 

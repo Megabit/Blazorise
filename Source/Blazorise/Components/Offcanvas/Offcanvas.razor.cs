@@ -18,7 +18,7 @@ namespace Blazorise;
 /// <summary>
 /// A sidebar component that slides in and out of the screen.
 /// </summary>
-public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableComponent, IAsyncDisposable
+public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedComponent, IHideableComponent, IAsyncDisposable
 {
     #region Members
 
@@ -64,6 +64,10 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
     /// Event that is triggered when the Offcanvas is closed.
     ///</summary>
     internal event Action _Closed;
+
+    private bool showing;
+
+    private bool hiding;
 
     #endregion
 
@@ -132,7 +136,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Offcanvas() );
-        builder.Append( ClassProvider.OffcanvasFade( Animated ) );
+        builder.Append( ClassProvider.OffcanvasFade( showing, hiding ) );
         builder.Append( ClassProvider.OffcanvasVisible( IsVisible ) );
         builder.Append( ClassProvider.OffcanvasPlacement( Placement ) );
 
@@ -231,12 +235,15 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         {
             await SetVisibleState( true );
 
-            DirtyClasses();
-            DirtyStyles();
-
-            if ( ShowBackdrop )
+            if ( !Animated )
             {
-                BackdropVisible = true;
+                DirtyClasses();
+                DirtyStyles();
+
+                if ( ShowBackdrop )
+                {
+                    BackdropVisible = true;
+                }
             }
 
             await InvokeAsync( StateHasChanged );
@@ -268,12 +275,15 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
         {
             await SetVisibleState( false );
 
-            DirtyClasses();
-            DirtyStyles();
-
-            if ( ShowBackdrop )
+            if ( !Animated )
             {
-                BackdropVisible = false;
+                DirtyClasses();
+                DirtyStyles();
+
+                if ( ShowBackdrop )
+                {
+                    BackdropVisible = false;
+                }
             }
 
             this.closeReason = CloseReason.None;
@@ -338,6 +348,46 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IHideableCompon
 
         await HandleVisibilityStyles( visible );
         await RaiseEvents( visible );
+    }
+
+    /// <inheritdoc/>
+    public Task BeginAnimation( bool visible )
+    {
+        if ( visible )
+        {
+            showing = true;
+
+            BackdropVisible = ShowBackdrop;
+        }
+        else
+        {
+            hiding = true;
+        }
+
+        DirtyClasses();
+        DirtyStyles();
+
+        return InvokeAsync( StateHasChanged );
+    }
+
+    /// <inheritdoc/>
+    public Task EndAnimation( bool visible )
+    {
+        if ( visible )
+        {
+            showing = false;
+        }
+        else
+        {
+            hiding = false;
+        }
+
+        DirtyClasses();
+        DirtyStyles();
+
+        BackdropVisible = ShowBackdrop && visible;
+
+        return InvokeAsync( StateHasChanged );
     }
 
     #endregion

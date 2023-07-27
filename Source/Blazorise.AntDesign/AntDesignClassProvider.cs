@@ -885,7 +885,11 @@ public class AntDesignClassProvider : ClassProvider
         };
     }
 
-    public override string OffcanvasFade( bool animation ) => animation ? "ant-showing" : "ant-hiding";
+    public override string OffcanvasFade( bool showing, bool hiding ) => showing
+        ? "ant-showing"
+        : hiding
+            ? "ant-hiding"
+            : null;
 
     public override string OffcanvasVisible( bool visible ) => visible ? "ant-drawer-open" : null;
 

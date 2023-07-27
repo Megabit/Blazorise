@@ -1275,7 +1275,11 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string OffcanvasFade( bool animation ) => animation ? "transition-opacity opacity-100" : "transition-opacity opacity-0 pointer-events-none";
+    public override string OffcanvasFade( bool showing, bool hiding ) => showing
+        ? "transition-opacity opacity-100"
+        : hiding
+            ? "transition-opacity opacity-0 pointer-events-none"
+            : null;
 
     public override string OffcanvasVisible( bool visible ) => visible ? "transform-none visible" : "-translate-x-full invisible";
 
