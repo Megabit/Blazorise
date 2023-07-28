@@ -1,6 +1,8 @@
 ﻿#region Using directives
 #endregion
 
+using System;
+
 namespace Blazorise.Snackbar;
 
 /// <summary>
@@ -11,17 +13,38 @@ public enum SnackbarLocation
     /// <summary>
     /// Default behavior.
     /// </summary>
+    [Obsolete( "Use Bottom instead" )]
     Default,
 
+    Bottom,
     /// <summary>
     /// Show the snackbar on the left side of the screen.
     /// </summary>
+    [Obsolete( "Use BottomStart instead" )]
     Start,
 
+    BottomStart,
     /// <summary>
     /// Show the snackbar on the right side of the screen.
     /// </summary>
+    [Obsolete( "Use BottomEnd instead" )]
     End,
+
+    BottomEnd,
+    /// <summary>
+    /// Show the snackbar on the top side of the screen.
+    /// </summary>
+    Top,
+
+    /// <summary>
+    /// Show the snackbar on the top-left side of the screen.
+    /// </summary>
+    TopStart,
+
+    /// <summary>
+    /// Show the snackbar on the top-right side of the screen.
+    /// </summary>
+    TopEnd
 }
 
 /// <summary>
@@ -32,17 +55,38 @@ public enum SnackbarStackLocation
     /// <summary>
     /// Default behavior.
     /// </summary>
+    [Obsolete( "Use Bottom instead" )]
     Center,
 
+    Bottom,
     /// <summary>
     /// Show the snackbar stack on the left side of the screen.
     /// </summary>
+    [Obsolete( "Use BottomStart instead" )]
     Start,
 
+    BottomStart,
     /// <summary>
     /// Show the snackbar stack on the right side of the screen.
     /// </summary>
+    [Obsolete( "Use BottomEnd instead" )]
     End,
+
+    BottomEnd,
+    /// <summary>
+    /// Show the snackbar stack on the top side of the screen.
+    /// </summary>
+    Top,
+
+    /// <summary>
+    /// Show the snackbar stack on the top-right side of the screen.
+    /// </summary>
+    TopStart,
+
+    /// <summary>
+    /// Show the snackbar stack on the top-left side of the screen.
+    /// </summary>
+    TopEnd
 }
 
 /// <summary>
