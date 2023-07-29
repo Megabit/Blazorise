@@ -410,51 +410,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     protected internal bool IsVisible => state.Visible == true;
 
     /// <summary>
-    /// Gets a value indicating whether the Offcanvas is positioned to the right.
-    /// </summary>
-    protected internal bool IsRight => Placement == Placement.End;
-
-    /// <summary>
-    /// Gets a value indicating whether the Offcanvas is positioned to the left.
-    /// </summary>
-    protected internal bool IsLeft => Placement == Placement.Start;
-
-    /// <summary>
-    /// Gets a value indicating whether the Offcanvas is positioned at the top.
-    /// </summary>
-    protected internal bool IsTop => Placement == Placement.Top;
-
-    /// <summary>
-    /// Gets a value indicating whether the Offcanvas is positioned at the bottom.
-    /// </summary>
-    protected internal bool IsBottom => Placement == Placement.Bottom;
-
-    /// <summary>
-    /// Gets a value indicating whether the Offcanvas is positioned vertically (top or bottom).
-    /// </summary>
-    protected internal bool IsVertical => IsTop || IsBottom;
-
-    /// <summary>
-    /// Gets a value indicating whether the Offcanvas is positioned horizontally (left or right).
-    /// </summary>
-    protected internal bool IsHorizontal => IsLeft || IsRight;
-
-    /// <summary>
-    /// Gets a value indicating whether the Offcanvas is vertically collapsed (hidden).
-    /// </summary>
-    protected internal bool IsVerticalCollapsed => IsVertical && !IsVisible;
-
-    /// <summary>
-    /// Gets a value indicating whether the Offcanvas is horizontally collapsed (hidden).
-    /// </summary>
-    protected internal bool IsHorizontalCollapsed => IsHorizontal && !IsVisible;
-
-    /// <summary>
-    /// Gets a value indicating whether the Offcanvas is collapsed (hidden).
-    /// </summary>
-    protected internal bool IsCollapsed => !IsVertical && !IsHorizontal && !IsVisible;
-
-    /// <summary>
     /// Gets the reference to state object for this Offcanvas.
     /// </summary>
     protected internal OffcanvasState State => state;
@@ -465,24 +420,14 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     protected internal bool BackdropVisible = false;
 
     /// <summary>
-    /// Gets the CSS class for the Offcanvas based on its position.
+    /// The injected JavaScript module for Offcanvas operations.
     /// </summary>
-    protected internal string OffcanvasClass
-    {
-        get
-        {
-            var placement = IsVisible ? Placement : Placement.Start;
+    [Inject] public IJSOffcanvasModule JSOffcanvasModule { get; set; }
 
-            return placement switch
-            {
-                Placement.Start => "offcanvas-start",
-                Placement.End => "offcanvas-end",
-                Placement.Top => "offcanvas-top",
-                Placement.Bottom => "offcanvas-bottom",
-                _ => "",
-            };
-        }
-    }
+    /// <summary>
+    /// The injected JavaScript module for closable operations.
+    /// </summary>
+    [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
     /// <summary>
     /// Gets or sets the visibility state of the Offcanvas.
@@ -503,6 +448,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     /// Callback for handling the closing of the Offcanvas.
     /// </summary>
     [Parameter] public Func<OffcanvasClosingEventArgs, Task> Closing { get; set; }
+
     /// <summary>
     /// Event callback for when the Offcanvas has been opened.
     /// </summary>
@@ -537,16 +483,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     /// The content to be rendered inside the Offcanvas.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
-
-    /// <summary>
-    /// The injected JavaScript module for Offcanvas operations.
-    /// </summary>
-    [Inject] public IJSOffcanvasModule JSOffcanvasModule { get; set; }
-
-    /// <summary>
-    /// The injected JavaScript module for closable operations.
-    /// </summary>
-    [Inject] public IJSClosableModule JSClosableModule { get; set; }
 
     #endregion
 }
