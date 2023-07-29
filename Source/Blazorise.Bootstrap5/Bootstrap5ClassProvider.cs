@@ -870,7 +870,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Offcanvas() => "offcanvas";
 
-    public override string OffcanvasPlacement( Placement placement )
+    public override string OffcanvasPlacement( Placement placement, bool visible )
     {
         return placement switch
         {

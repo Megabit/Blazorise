@@ -136,9 +136,9 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Offcanvas() );
+        builder.Append( ClassProvider.OffcanvasPlacement( Placement, IsVisible ) );
         builder.Append( ClassProvider.OffcanvasFade( showing, hiding ) );
         builder.Append( ClassProvider.OffcanvasVisible( IsVisible ) );
-        builder.Append( ClassProvider.OffcanvasPlacement( Placement ) );
 
         base.BuildClasses( builder );
     }

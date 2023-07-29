@@ -822,7 +822,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Offcanvas();
 
-    public abstract string OffcanvasPlacement( Placement placement );
+    public abstract string OffcanvasPlacement( Placement placement, bool visible );
 
     public abstract string OffcanvasFade( bool showing, bool hiding );
 

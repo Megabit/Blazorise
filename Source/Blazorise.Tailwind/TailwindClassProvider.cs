@@ -1261,33 +1261,50 @@ public class TailwindClassProvider : ClassProvider
 
     #region Offcanvas
 
-    public override string Offcanvas() => "fixed bottom-0 z-50 flex flex-col max-w-full bg-white bg-clip-padding outline-none transform duration-300 ease-in-out -translate-x-full";
+    public override string Offcanvas() => "fixed z-40 p-4 bg-white dark:bg-gray-800 transition-transform";
 
-    public override string OffcanvasPlacement( Placement placement )
+    public override string OffcanvasPlacement( Placement placement, bool visible )
     {
-        return placement switch
+        var sb = new StringBuilder( placement switch
         {
-            Placement.Start => "top-0 left-0 border-r w-80 border-gray-200 transform -translate-x-full transition-transform ease-in-out duration-300",
-            Placement.End => "top-0 right-0 border-l w-80 border-gray-200 transform translate-x-full transition-transform ease-in-out duration-300",
-            Placement.Top => "top-0 left-0 w-full h-60 transform -translate-y-full",
-            Placement.Bottom => "bottom-0 left-0 w-full h-60 transform translate-y-full",
-            _ => "",
-        };
+            Placement.End => "top-0 right-0 h-screen overflow-y-auto border-l w-80 border-gray-200",
+            Placement.Top => "top-0 left-0 right-0 w-full h-60",
+            Placement.Bottom => "bottom-0 left-0 right-0 w-full h-60",
+            _ => "top-0 left-0 h-screen overflow-y-auto border-r w-80 border-gray-200",
+        } );
+
+        if ( visible )
+        {
+            //sb.Append( " transform-none" );
+        }
+        else
+        {
+            sb.Append( placement switch
+            {
+                Placement.Start => " -translate-x-full",
+                Placement.End => " translate-x-full",
+                Placement.Top => " -translate-y-full",
+                Placement.Bottom => " translate-y-full",
+                _ => null,
+            } );
+        }
+
+        return sb.ToString();
     }
 
     public override string OffcanvasFade( bool showing, bool hiding ) => showing
-        ? "transition-opacity opacity-100"
+        ? "opacity-100"
         : hiding
-            ? "transition-opacity opacity-0 pointer-events-none"
+            ? "transform-none pointer-events-none"
             : null;
 
-    public override string OffcanvasVisible( bool visible ) => visible ? "transform-none visible" : "-translate-x-full invisible";
+    public override string OffcanvasVisible( bool visible ) => null;
 
     public override string OffcanvasHeader() => "flex items-center justify-between p-4";
 
     public override string OffcanvasBody() => "mb-6 text-sm text-gray-500 dark:text-gray-400";
 
-    public override string OffcanvasBackdrop() => "fixed top-0 left-0 z-40 w-screen h-screen bg-black bg-opacity-50";
+    public override string OffcanvasBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30";
 
     public override string OffcanvasBackdropFade() => "fade";
 

@@ -873,7 +873,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Offcanvas() => "ant-drawer";
 
-    public override string OffcanvasPlacement( Placement placement )
+    public override string OffcanvasPlacement( Placement placement, bool visible )
     {
         return placement switch
         {
