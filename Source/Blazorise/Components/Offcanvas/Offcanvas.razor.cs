@@ -65,8 +65,14 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     ///</summary>
     internal event Action _Closed;
 
+    /// <summary>
+    /// Flag that indicates that the showing animation is currently active.
+    /// </summary>
     private bool showing;
 
+    /// <summary>
+    /// Flag that indicates that the hiding animation is currently active.
+    /// </summary>
     private bool hiding;
 
     #endregion
