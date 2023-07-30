@@ -776,11 +776,13 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region Column
 
-    public override string Column( bool hasSizes ) => hasSizes ? null : "col";
+    public override string Column( bool grid, bool hasSizes ) => hasSizes ? null : grid ? "g-col" : "col";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
-        var baseClass = offset ? "offset" : "col";
+        var baseClass = offset
+            ? grid ? "g-start" : "offset"
+            : grid ? "g-col" : "col";
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
         {
@@ -790,8 +792,30 @@ public class Bootstrap5ClassProvider : ClassProvider
         return $"{baseClass}-{ToColumnWidth( columnWidth )}";
     }
 
-    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
-       => string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+    public override string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions )
+       => string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+
+    #endregion
+
+    #region Grid
+
+    public override string Grid() => "grid";
+
+    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
+    {
+        if ( gridRowsDefinition.Breakpoint != Breakpoint.None && gridRowsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"g-rows-{ToBreakpoint( gridRowsDefinition.Breakpoint )}-{ToGridRowsSize( gridRows )}";
+
+        return $"g-rows-{ToGridRowsSize( gridRows )}";
+    }
+
+    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
+    {
+        if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"g-cols-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
+
+        return $"g-cols-{ToGridColumnsSize( gridColumns )}";
+    }
 
     #endregion
 

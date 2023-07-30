@@ -775,9 +775,9 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Column
 
-    public override string Column( bool hasSizes ) => "ant-col";
+    public override string Column( bool grid, bool hasSizes ) => "ant-col";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         // AntDesign requires for base ant-col class to be always defined.
         var sb = new StringBuilder( "ant-col" );
@@ -793,8 +793,18 @@ public class AntDesignClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
-        => string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+    public override string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions )
+        => string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+
+    #endregion
+
+    #region Grid
+
+    public override string Grid() => null;
+
+    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition ) => null;
+
+    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition ) => null;
 
     #endregion
 

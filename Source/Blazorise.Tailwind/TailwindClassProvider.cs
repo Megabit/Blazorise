@@ -1135,9 +1135,9 @@ public class TailwindClassProvider : ClassProvider
 
     #region Column
 
-    public override string Column( bool hasSizes ) => hasSizes ? null : "relative w-full basis-0 grow pl-2 pr-2";
+    public override string Column( bool grid, bool hasSizes ) => hasSizes ? null : "relative w-full basis-0 grow pl-2 pr-2";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         var columnWidthNumber = ToColumnWidthNumber( columnWidth );
         var breakpointPart = breakpoint != Blazorise.Breakpoint.None && breakpoint >= Blazorise.Breakpoint.Tablet
@@ -1162,8 +1162,18 @@ public class TailwindClassProvider : ClassProvider
         return $"relative w-full {breakpointPart}basis-{columnWidthValue}";
     }
 
-    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
-       => $"{string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) )} pl-2 pr-2";
+    public override string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions )
+       => $"{string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) )} pl-2 pr-2";
+
+    #endregion
+
+    #region Grid
+
+    public override string Grid() => null;
+
+    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition ) => null;
+
+    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition ) => null;
 
     #endregion
 

@@ -1,0 +1,213 @@
+﻿@page "/tests/utilities/grid"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>CSS Grid Example</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>This container is centered on desktop.</CardText>
+            </CardBody>
+            <CardBody>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is12">
+                        <Alert Color="Color.Primary" Visible>
+                            Is12
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is11">
+                        <Alert Color="Color.Primary" Visible>
+                            Is11
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is1">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is1
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is10">
+                        <Alert Color="Color.Primary" Visible>
+                            Is10
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is2
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is9">
+                        <Alert Color="Color.Primary" Visible>
+                            Is9
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is3
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is8">
+                        <Alert Color="Color.Primary" Visible>
+                            Is8
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is4">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is4
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is7">
+                        <Alert Color="Color.Primary" Visible>
+                            Is7
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is5">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is5
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is6">
+                        <Alert Color="Color.Primary" Visible>
+                            Is6
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is6">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is6
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is5">
+                        <Alert Color="Color.Primary" Visible>
+                            Is5
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is7">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is7
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is4">
+                        <Alert Color="Color.Primary" Visible>
+                            Is4
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is8">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is8
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Alert Color="Color.Primary" Visible>
+                            Is3
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is9">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is9
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Alert Color="Color.Primary" Visible>
+                            Is2
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is10">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is10
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is1">
+                        <Alert Color="Color.Primary" Visible>
+                            Is1
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is11">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is11
+                        </Alert>
+                    </Column>
+                </Grid>
+                <Grid>
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Alert Color="Color.Primary" Visible>
+                            Is2
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is3">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is3
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is4">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is4
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is2">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is2
+                        </Alert>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.Is1">
+                        <Alert Color="Color.Secondary" Visible>
+                            Is1
+                        </Alert>
+                    </Column>
+                </Grid>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>CSS Grid Columns</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Use the responsive <code>GridColumns.Are*</code> utilities to quickly set the number of columns that best render your content and layout.
+
+                    Whereas normal <code>ColumnSize.Is*</code> utilities apply to the individual columns (e.g., <code>ColumnSize.Is4</code>), the grid columns utilities are set on the parent <code>Grid</code> as a shortcut.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Grid Rows="GridRows.Are2" Columns="GridColumns.Are2">
+                    <Alert Color="Color.Primary" Visible>
+                        Col 4
+                    </Alert>
+                    <Alert Color="Color.Primary" Visible>
+                        Col 4
+                    </Alert>
+                    <Alert Color="Color.Primary" Visible>
+                        Col 4
+                    </Alert>
+                </Grid>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
+
+}

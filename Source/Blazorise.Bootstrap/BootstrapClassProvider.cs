@@ -783,9 +783,9 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Column
 
-    public override string Column( bool hasSizes ) => hasSizes ? null : "col";
+    public override string Column( bool grid, bool hasSizes ) => hasSizes ? null : "col";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         var baseClass = offset ? "offset" : "col";
 
@@ -797,8 +797,18 @@ public class BootstrapClassProvider : ClassProvider
         return $"{baseClass}-{ToColumnWidth( columnWidth )}";
     }
 
-    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
-       => string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+    public override string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions )
+       => string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+
+    #endregion
+
+    #region Grid
+
+    public override string Grid() => null;
+
+    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition ) => null;
+
+    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition ) => null;
 
     #endregion
 
