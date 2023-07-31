@@ -780,7 +780,7 @@ public class AntDesignClassProvider : ClassProvider
     public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         // AntDesign requires for base ant-col class to be always defined.
-        var sb = new StringBuilder( "ant-col" );
+        var sb = new StringBuilder( grid ? "ant-grid-col" : "ant-col" );
 
         if ( breakpoint != Blazorise.Breakpoint.None )
             sb.Append( $"-{ToBreakpoint( breakpoint )}" );
@@ -798,15 +798,23 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
-    #region Grid
+    public override string Grid() => "ant-grid";
 
-    public override string Grid() => null;
+    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
+    {
+        if ( gridRowsDefinition.Breakpoint != Breakpoint.None && gridRowsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"ant-grid-rows-{ToBreakpoint( gridRowsDefinition.Breakpoint )}-{ToGridRowsSize( gridRows )}";
 
-    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition ) => null;
+        return $"ant-grid-rows-{ToGridRowsSize( gridRows )}";
+    }
 
-    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition ) => null;
+    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
+    {
+        if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"ant-grid-cols-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
 
-    #endregion
+        return $"ant-grid-cols-{ToGridColumnsSize( gridColumns )}";
+    }
 
     #region Display
 
