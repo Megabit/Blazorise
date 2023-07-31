@@ -20,8 +20,9 @@ static class Extensions
                 return "bottom-right";
             case SnackbarLocation.Default:
             case SnackbarLocation.Bottom:
+                return "bottom";
             default:
-                return null;
+                return "";
         }
     }
 
@@ -43,8 +44,9 @@ static class Extensions
                 return "bottom-right";
             case SnackbarStackLocation.Center:
             case SnackbarStackLocation.Bottom:
+                return "bottom";
             default:
-                return null;
+                return "";
         }
     }
 

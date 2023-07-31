@@ -331,7 +331,7 @@
   display: flex;
   flex-direction: column;
   position: fixed;
-  z-index: 60;
+  z-index: 1090 !important;
   bottom: 0;
 }
 
@@ -354,7 +354,7 @@
   display: flex;
   flex-direction: column;
   position: fixed;
-  z-index: 60;
+  z-index: 1090 !important;
   top: 0;
 }
 
@@ -376,16 +376,107 @@
   margin-bottom: 1.5rem;
 }
 
+.snackbar-stack-top .snackbar.snackbar-show,
+.snackbar-stack-top-left .snackbar.snackbar-show,
+.snackbar-stack-top-right .snackbar.snackbar-show {
+  transition: all 0.5s;
+  animation: showTop 0.5s forwards;
+  opacity: 1;
+}
+
+.snackbar-stack-top .snackbar-hide,
+.snackbar-stack-top-left .snackbar-hide,
+.snackbar-stack-top-right .snackbar-hide {
+  transition: all 1s;
+  animation: hideTop 0.5s forwards;
+  opacity: 0;
+}
+
+.snackbar-stack-bottom .snackbar.snackbar-show,
+.snackbar-stack-bottom-left .snackbar.snackbar-show,
+.snackbar-stack-bottom-right .snackbar.snackbar-show {
+  transition: all 0.5s;
+  animation: showBottom 0.5s forwards;
+  opacity: 1;
+}
+
+.snackbar-stack-bottom .snackbar-hide,
+.snackbar-stack-bottom-left .snackbar-hide,
+.snackbar-stack-bottom-right .snackbar-hide {
+  transition: all 1s;
+  animation: hideBottom 0.5s forwards;
+  opacity: 0;
+}
+
+@keyframes showTop {
+  0% {
+    max-height: 0;
+    padding: 0;
+    transform: translate(-50%) translateY(-50px);
+    opacity: 0;
+  }
+  100% {
+    max-height: 150px;
+    padding: 0.5rem 1rem;
+    transform: translate(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes hideTop {
+  0% {
+    max-height: 150px;
+    padding: 0.5rem 1rem;
+    transform: translate(-50%) translateY(0);
+    opacity: 1;
+  }
+  100% {
+    max-height: 0;
+    padding: 0;
+    transform: translate(-50%) translateY(-50px);
+    opacity: 0;
+  }
+}
+@keyframes showBottom {
+  0% {
+    max-height: 0;
+    padding: 0;
+    opacity: 0;
+    transform: translate(-50%) translateY(50px);
+  }
+  100% {
+    max-height: 150px;
+    padding: 0.5rem 1rem;
+    opacity: 1;
+    transform: translate(-50%) translateY(0);
+  }
+}
+@keyframes hideBottom {
+  0% {
+    max-height: 150px;
+    transform: translate(-50%) translateY(0);
+    padding: 0.5rem 1rem;
+    opacity: 1;
+  }
+  100% {
+    max-height: 0;
+    padding: 0;
+    transform: translate(-50%) translateY(50px);
+    opacity: 0;
+  }
+}
 @media (min-width: 576px) {
   .snackbar-stack-bottom {
     left: 50%;
     transform: translate(-50%, 0%);
+    bottom: 1.5rem;
   }
   .snackbar-stack-bottom-left {
     left: 1.5rem;
+    bottom: 1.5rem;
   }
   .snackbar-stack-bottom-right {
     right: 1.5rem;
+    bottom: 1.5rem;
   }
   .snackbar-stack-top-left {
     left: 1.5rem;
