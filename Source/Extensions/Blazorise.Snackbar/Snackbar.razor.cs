@@ -69,7 +69,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "snackbar" );
-        builder.Append( Visible && !closeAnimation ? "snackbar-show" : null );
+        builder.Append( "snackbar-show", Visible && !closeAnimation );
         builder.Append( closeAnimation ? "snackbar-hide" : null );
         builder.Append( "snackbar-multi-line", Multiline );
         builder.Append( $"snackbar-{Location.GetName()}", Location != SnackbarLocation.Default );
