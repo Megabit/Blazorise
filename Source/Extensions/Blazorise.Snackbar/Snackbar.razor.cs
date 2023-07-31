@@ -122,7 +122,7 @@ public partial class Snackbar : BaseComponent, IDisposable
         }
         else
         {
-            await ProposeHide( SnackbarCloseReason.UserClosed );
+            await BeginHide( SnackbarCloseReason.UserClosed );
         }
     }
 
@@ -139,10 +139,10 @@ public partial class Snackbar : BaseComponent, IDisposable
         return InvokeAsync( StateHasChanged );
     }
 
-    async Task ProposeHide( SnackbarCloseReason closeReason )
+    async Task BeginHide( SnackbarCloseReason closeReason )
     {
         closeAnimation = true;
-        closeAnimationTimer.Delay( 500 );
+        closeAnimationTimer.Delay( CloseAnimationInterval );
 
         DirtyClasses();
         DirtyStyles();
@@ -155,7 +155,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     /// </summary>
     public Task Hide()
     {
-        return ProposeHide( SnackbarCloseReason.UserClosed );
+        return BeginHide( SnackbarCloseReason.UserClosed );
     }
 
     protected Task Hide( SnackbarCloseReason closeReason )
@@ -178,7 +178,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     private void OnCountdownTimerElapsed( object sender, EventArgs e )
     {
         // InvokeAsync is used to prevent from blocking threads
-        InvokeAsync( () => ProposeHide( SnackbarCloseReason.None ) );
+        InvokeAsync( () => BeginHide( SnackbarCloseReason.None ) );
     }
 
     private async void OnCloseAnimationTimerElapsed( object sender, EventArgs e )
