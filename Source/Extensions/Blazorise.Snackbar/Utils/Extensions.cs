@@ -22,7 +22,7 @@ static class Extensions
             case SnackbarLocation.Bottom:
                 return "bottom";
             default:
-                return "";
+                return null;
         }
     }
 
@@ -46,7 +46,7 @@ static class Extensions
             case SnackbarStackLocation.Bottom:
                 return "bottom";
             default:
-                return "";
+                return null;
         }
     }
 
