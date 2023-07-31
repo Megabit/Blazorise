@@ -787,7 +787,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
-        var baseClass = offset ? "offset" : "col";
+        var baseClass = offset
+            ? grid ? "g-start" : "offset"
+            : grid ? "g-col" : "col";
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
         {
@@ -804,11 +806,23 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Grid
 
-    public override string Grid() => null;
+    public override string Grid() => "grid";
 
-    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition ) => null;
+    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
+    {
+        if ( gridRowsDefinition.Breakpoint != Breakpoint.None && gridRowsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"g-rows-{ToBreakpoint( gridRowsDefinition.Breakpoint )}-{ToGridRowsSize( gridRows )}";
 
-    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition ) => null;
+        return $"g-rows-{ToGridRowsSize( gridRows )}";
+    }
+
+    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
+    {
+        if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"g-cols-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
+
+        return $"g-cols-{ToGridColumnsSize( gridColumns )}";
+    }
 
     #endregion
 
