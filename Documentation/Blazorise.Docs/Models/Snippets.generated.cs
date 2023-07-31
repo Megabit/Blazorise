@@ -8567,7 +8567,7 @@ builder.Services
 
     Task SelectCulture( string name )
     {
-        LocalizationService.ChangeLanguage( name );
+        LocalizationService.ChangeLanguage( name, false );
 
         return Task.CompletedTask;
     }
