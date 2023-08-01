@@ -317,7 +317,7 @@ public static class MaterialIcons
     public static readonly string FiberSmartRecord = "fiber_smart_record";
     public static readonly string FileDownload = "file_download";
     public static readonly string FileUpload = "file_upload";
-    public static readonly string Filter = "filter";
+    public static readonly string Filter = "filter_alt";
     public static readonly string Filter1 = "filter_1";
     public static readonly string Filter2 = "filter_2";
     public static readonly string Filter3 = "filter_3";
