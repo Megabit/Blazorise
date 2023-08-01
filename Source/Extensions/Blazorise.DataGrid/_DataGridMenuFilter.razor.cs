@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid;
 
-public partial class _DataGridColumnFilter<TItem> : ComponentBase, IDisposable
+public partial class _DataGridMenuFilter<TItem> : ComponentBase, IDisposable
 {
     #region Methods
 

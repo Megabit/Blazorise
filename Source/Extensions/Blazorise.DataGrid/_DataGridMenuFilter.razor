@@ -11,7 +11,7 @@
             {
                 <Column ColumnSize="ColumnSize.Is12">
                     <Field>
-                        <Select TValue="DataGridFilterMethod" SelectedValue="Column.GetFilterMethod() ?? ParentDataGrid.FilterMethod" SelectedValueChanged="e => { Column.SetFilterMethod(e); ParentDataGrid.OnFilterChanged(Column, Column.Filter.SearchValue); }">
+                        <Select TValue="DataGridFilterMethod" SelectedValue="Column.GetFilterMethod() ?? ParentDataGrid.FilterMethod" SelectedValueChanged="e => { Column.SetFilterMethod(e); }">
                             <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Contains">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodContainsLocalizer, "Contains" )</SelectItem>
                             <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.StartsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodStartsWithLocalizer, "Starts With" )</SelectItem>
                             <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.EndsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEndsWithLocalizer, "Ends With" )</SelectItem>
@@ -22,7 +22,7 @@
                 </Column>
                 <Column ColumnSize="ColumnSize.Is12">
                     <Field>
-                        <TextEdit Text="@Column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => ParentDataGrid.OnFilterChanged(Column, newValue))" />
+                        <TextEdit Text="@Column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => Column.Filter.SearchValue = newValue)" />
                     </Field>
                 </Column>
                 <Column ColumnSize="ColumnSize.Is12">
