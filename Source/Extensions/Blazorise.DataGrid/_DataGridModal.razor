@@ -1,5 +1,6 @@
 ﻿@typeparam TItem
-@inherits _BaseDataGridModal<TItem>
+@inherits BaseAfterRenderComponent
+
 <Modal @ref="modalRef" Closing="@PopupClosing" Closed="@Cancel">
     <ModalContent Size="@PopupSize">
         <Form>

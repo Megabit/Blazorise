@@ -54,11 +54,11 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         InvokeAsync( StateHasChanged );
     }
 
-    protected async Task SaveWithValidation()
+    internal protected async Task SaveWithValidation()
     {
         if ( await validations.ValidateAll() )
         {
-            await ParentDataGrid.Save();
+            await ParentDataGrid.SaveItem();
         }
     }
 
@@ -75,6 +75,7 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     [Parameter] public TItem ValidationItem { get; set; }
 
     [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
+
 
     protected IEnumerable<DataGridColumn<TItem>> OrderedEditableColumns
     {

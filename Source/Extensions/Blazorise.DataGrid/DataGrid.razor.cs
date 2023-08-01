@@ -143,6 +143,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     internal DataGridColumn<TItem> columnBeingDragged;
 
+    /// <summary>
+    /// Tracks the current DataGridRowEdit reference.
+    /// </summary>
+    protected _DataGridRowEdit<TItem> dataGridRowEditRef;
+
+
+    /// <summary>
+    /// Tracks the current Edit DataGridModal reference.
+    /// </summary>
+    protected _DataGridModal<TItem> dataGridModalRef;
+
     #endregion
 
     #region Constructors
@@ -839,7 +850,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Save()
     {
-        if ( Data == null )
+        if ( Data == null || editState == DataGridEditState.None )
+            return;
+
+        if ( PopupVisible )
+            await dataGridModalRef.SaveWithValidation();
+        else
+            await dataGridRowEditRef.SaveWithValidation();
+    }
+
+
+    /// <summary>
+    /// Save the internal state of the editing items.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    internal protected async Task SaveItem()
+    {
+        if ( Data == null || editState == DataGridEditState.None )
             return;
 
         var editedCellValues = EditableColumns
@@ -2103,6 +2130,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets the flag which indicates if popup editor is visible.
     /// </summary>
     protected bool PopupVisible => EditMode == DataGridEditMode.Popup && EditState != DataGridEditState.None;
+
 
     /// <summary>
     /// Defines the size of popup dialog.

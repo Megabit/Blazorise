@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.DataGrid;
 
-public abstract class _BaseDataGridModal<TItem> : BaseAfterRenderComponent, IDisposable
+public partial class _DataGridModal<TItem> : BaseAfterRenderComponent, IDisposable
 {
     #region Members
 
@@ -72,11 +72,11 @@ public abstract class _BaseDataGridModal<TItem> : BaseAfterRenderComponent, IDis
         InvokeAsync( StateHasChanged );
     }
 
-    protected async Task SaveWithValidation()
+    internal protected async Task SaveWithValidation()
     {
         if ( await validations.ValidateAll() )
         {
-            await ParentDataGrid.Save();
+            await ParentDataGrid.SaveItem();
 
             if ( ParentDataGrid.EditState == DataGridEditState.None )
                 await CloseModal();

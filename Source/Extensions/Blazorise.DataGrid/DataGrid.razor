@@ -185,7 +185,7 @@
             <TableBody>
                 @if ( IsNewItemInGrid )
                 {
-                    <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
+                    <_DataGridRowEdit @ref=dataGridRowEditRef TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
                 }
                 @if ( IsDisplayDataVisible )
                 {
@@ -262,9 +262,10 @@
     {
         @paginationFragment
     }
-    @if ( editItem != null && EditMode == DataGridEditMode.Popup )
+    @if ( PopupVisible )
     {
-        <_DataGridModal TItem="TItem"
+        <_DataGridModal @ref=dataGridModalRef
+                        TItem="TItem"
                         TitleTemplate="@PopupTitleTemplate"
                         EditItem="@editItem"
                         ValidationItem="@validationItem"
@@ -294,7 +295,7 @@
     {
         if ( IsEditItemInGrid( item ) )
         {
-            <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
+            <_DataGridRowEdit @ref=dataGridRowEditRef TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
         }
         else
         {
