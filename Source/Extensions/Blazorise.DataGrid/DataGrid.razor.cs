@@ -2829,9 +2829,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment<HeaderGroupContext> HeaderGroupCaptionTemplate { get; set; }
 
     /// <summary>
-    /// Template for the filter column. When filter mode is set to DataGridFilterMode.Column, this template will be used to render the filter content.
+    /// Template for the filter column. When filter mode is set to DataGridFilterMode.Menu, this template will be used to render the filter content.
     /// </summary>
-    [Parameter] public RenderFragment<FilterColumnContext<TItem>> FilterColumnTemplate { get; set; }
+    [Parameter] public RenderFragment<FilterColumnContext<TItem>> FilterMenuTemplate { get; set; }
 
     #endregion
 }

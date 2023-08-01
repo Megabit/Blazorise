@@ -6029,7 +6029,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Data=""@employeeList""
           Responsive
           Filterable
-          FilterMode=""DataGridFilterMode.Column"">
+          FilterMode=""DataGridFilterMode.Menu"">
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
     <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
@@ -6045,7 +6045,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Data=""@employeeList""
           Responsive
           Filterable
-          FilterMode=""DataGridFilterMode.Column"">
+          FilterMode=""DataGridFilterMode.Menu"">
     <DataGridColumns>
         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
@@ -6069,7 +6069,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
             <Column ColumnSize=""ColumnSize.Is4"">
                 <Button Clicked=""context.Filter"" Color=""Color.Primary""><Icon Name=""IconName.Filter""></Icon> Filter</Button>
-                <Button Clicked=""context.ClearFilter"" Color=""Color.Light""><Icon Name=""IconName.Clear""></Icon>Clear</Button>
+                <Button Clicked=""context.ClearFilter"" Color=""Color.Light""><Icon Name=""IconName.Clear""></Icon> Clear</Button>
             </Column>
         </Row>
     </FilterColumnTemplate>

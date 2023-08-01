@@ -7,7 +7,7 @@
     </DropdownToggle>
     <DropdownMenu>
         <Row Padding="@Blazorise.Padding.Is3" Style="cursor:default" @onclick:stopPropagation @onmouseup:stopPropagation>
-            @if ( ParentDataGrid.FilterColumnTemplate is null )
+            @if ( ParentDataGrid.FilterMenuTemplate is null )
             {
                 <Column ColumnSize="ColumnSize.Is12">
                     <Field>
@@ -34,7 +34,7 @@
             }
             else
             {
-                @ParentDataGrid.FilterColumnTemplate( new( Column,
+                @ParentDataGrid.FilterMenuTemplate( new( Column,
                     () => Column.GetFilterMethod() ?? ParentDataGrid.FilterMethod,
                     () => Column.Filter.SearchValue,
                     EventCallback.Factory.Create<object>( this, async ( newFilterValue ) => await ParentDataGrid.OnFilterChanged( Column, newFilterValue ) ),

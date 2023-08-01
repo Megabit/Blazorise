@@ -113,7 +113,7 @@
                                         }
                                     }
 
-                                    @if ( Filterable && column.Filterable && FilterMode == DataGridFilterMode.Column )
+                                    @if ( Filterable && column.Filterable && FilterMode == DataGridFilterMode.Menu )
                                     {
                                         <_DataGridColumnFilter Column="column" />
                                     }
@@ -122,7 +122,7 @@
                         }
                     </TableRow>
                 }
-                @if ( Filterable && FilterMode == DataGridFilterMode.Row )
+                @if ( Filterable && FilterMode == DataGridFilterMode.Default )
                 {
                     <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.Default)" Color="@(FilterRowStyling?.Color ?? Color.Default)">
 

@@ -1,4 +1,4 @@
-﻿@page "/tests/datagrid/filter/column-filter"
+﻿@page "/tests/datagrid/filter/menu-filter"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -12,7 +12,7 @@
                           ShowPageSizes
                           Filterable
                           FilterMethod="DataGridFilterMethod.Contains"
-                          FilterMode="DataGridFilterMode.Column">
+                          FilterMode="DataGridFilterMode.Menu">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" Filterable />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Filterable>

@@ -8,10 +8,10 @@ public enum DataGridFilterMode
     /// <summary>
     /// A filter row is displayed at the top of the data grid.
     /// </summary>
-    Row,
+    Default,
 
     /// <summary>
-    /// A filter icon is displayed by each column.
+    /// A filter menu is accessible by each column.
     /// </summary>
-    Column
+    Menu
 }
