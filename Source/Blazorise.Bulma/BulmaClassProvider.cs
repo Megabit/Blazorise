@@ -797,6 +797,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
+        if ( grid )
+        {
+            if ( breakpoint != Blazorise.Breakpoint.None )
+            {
+                return $"is-grid-column-{ToColumnWidth( columnWidth )}-{ToBreakpoint( breakpoint )}";
+            }
+
+            return $"is-grid-column-{ToColumnWidth( columnWidth )}";
+        }
+
         var baseClass = offset ? "offset-" : null;
 
         if ( breakpoint != Blazorise.Breakpoint.None )
@@ -817,11 +827,23 @@ public class BulmaClassProvider : ClassProvider
 
     #region Grid
 
-    public override string Grid() => null;
+    public override string Grid() => "grid";
 
-    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition ) => null;
+    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
+    {
+        if ( gridRowsDefinition.Breakpoint != Breakpoint.None && gridRowsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"are-grid-rows-{ToGridRowsSize( gridRows )}-{ToBreakpoint( gridRowsDefinition.Breakpoint )}";
 
-    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition ) => null;
+        return $"are-grid-rows-{ToGridRowsSize( gridRows )}";
+    }
+
+    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
+    {
+        if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"are-grid-columns-{ToGridColumnsSize( gridColumns )}-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}";
+
+        return $"are-grid-columns-{ToGridColumnsSize( gridColumns )}";
+    }
 
     #endregion
 
