@@ -854,15 +854,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( UseValidation )
         {
-            if ( PopupVisible )
-                await dataGridModalRef.SaveWithValidation();
-            else
-                await dataGridRowEditRef.SaveWithValidation();
+            var result = PopupVisible
+                ? await dataGridModalRef.ValidateAll()
+                : await dataGridRowEditRef.ValidateAll();
+
+            if ( !result )
+                return;
         }
-        else
-        {
-            await SaveItem();
-        }
+
+        await SaveItem();
     }
 
     /// <summary>

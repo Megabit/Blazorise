@@ -54,12 +54,14 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         InvokeAsync( StateHasChanged );
     }
 
-    internal protected async Task SaveWithValidation()
+    internal protected Task<bool> ValidateAll()
     {
-        if ( await validations.ValidateAll() )
-        {
-            await ParentDataGrid.SaveItem();
-        }
+        return validations.ValidateAll();
+    }
+
+    internal protected async Task Save()
+    {
+        await ParentDataGrid.Save();
     }
 
     #endregion

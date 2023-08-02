@@ -79,7 +79,7 @@
                     {
                         @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
                         {
-                            Clicked = callbackFactory.Create( this, SaveWithValidation ),
+                            Clicked = callbackFactory.Create( this, Save ),
                             LocalizationString = saveButtonString,
                             Item = EditItem,
                         } )
@@ -88,13 +88,13 @@
                     {
                         @if ( ParentDataGrid.SubmitFormOnEnter )
                         {
-                            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@SaveWithValidation">
+                            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
                                 @saveButtonString
                             </Button>
                         }
                         else
                         {
-                            <Button Color="Color.Link" Clicked="@SaveWithValidation">
+                            <Button Color="Color.Link" Clicked="@Save">
                                 @saveButtonString
                             </Button>
                         }

@@ -72,15 +72,17 @@ public partial class _DataGridModal<TItem> : BaseAfterRenderComponent, IDisposab
         InvokeAsync( StateHasChanged );
     }
 
-    internal protected async Task SaveWithValidation()
+    internal protected Task<bool> ValidateAll()
     {
-        if ( await validations.ValidateAll() )
-        {
-            await ParentDataGrid.SaveItem();
+        return validations.ValidateAll();
+    }
 
-            if ( ParentDataGrid.EditState == DataGridEditState.None )
-                await CloseModal();
-        }
+    internal protected async Task Save()
+    {
+        await ParentDataGrid.Save();
+
+        if ( ParentDataGrid.EditState == DataGridEditState.None )
+            await CloseModal();
     }
 
     protected async Task OpenModal()
