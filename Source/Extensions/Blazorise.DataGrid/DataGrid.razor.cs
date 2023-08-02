@@ -148,7 +148,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     protected _DataGridRowEdit<TItem> dataGridRowEditRef;
 
-
     /// <summary>
     /// Tracks the current Edit DataGridModal reference.
     /// </summary>
@@ -858,7 +857,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         else
             await dataGridRowEditRef.SaveWithValidation();
     }
-
 
     /// <summary>
     /// Save the internal state of the editing items.
@@ -2130,7 +2128,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets the flag which indicates if popup editor is visible.
     /// </summary>
     protected bool PopupVisible => EditMode == DataGridEditMode.Popup && EditState != DataGridEditState.None;
-
 
     /// <summary>
     /// Defines the size of popup dialog.

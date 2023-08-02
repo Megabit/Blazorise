@@ -76,7 +76,6 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
     [Parameter] public IEnumerable<DataGridColumn<TItem>> Columns { get; set; }
 
-
     protected IEnumerable<DataGridColumn<TItem>> OrderedEditableColumns
     {
         get
