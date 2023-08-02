@@ -199,9 +199,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( Width != null )
             sb.Append( $"; width: {Width};" );
 
-        if ( DropdownFilterVisible && ParentDataGrid.IsFixedHeader )
-            sb.Append( $"; z-index: 20" ); //Special case that fixes clipping of columns on top of the Dropdown column filter.
-
         return sb.ToString().TrimStart( ' ', ';' );
     }
 

@@ -6051,7 +6051,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
     </DataGridColumns>
-    <FilterColumnTemplate>
+    <FilterMenuTemplate>
         <Row>
             <Column ColumnSize=""ColumnSize.Is4"">
                 <Select TValue=""DataGridFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
@@ -6072,7 +6072,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
                 <Button Clicked=""context.ClearFilter"" Color=""Color.Light""><Icon Name=""IconName.Clear""></Icon> Clear</Button>
             </Column>
         </Row>
-    </FilterColumnTemplate>
+    </FilterMenuTemplate>
 </DataGrid>
 
 @code {
