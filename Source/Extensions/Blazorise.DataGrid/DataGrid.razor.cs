@@ -852,10 +852,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( Data == null || editState == DataGridEditState.None )
             return;
 
-        if ( PopupVisible )
-            await dataGridModalRef.SaveWithValidation();
+        if ( UseValidation )
+        {
+            if ( PopupVisible )
+                await dataGridModalRef.SaveWithValidation();
+            else
+                await dataGridRowEditRef.SaveWithValidation();
+        }
         else
-            await dataGridRowEditRef.SaveWithValidation();
+        {
+            await SaveItem();
+        }
     }
 
     /// <summary>
