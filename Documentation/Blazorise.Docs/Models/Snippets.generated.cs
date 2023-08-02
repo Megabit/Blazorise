@@ -8750,6 +8750,71 @@ builder.Services
     </CardBody>
 </Card>";
 
+        public const string GridAutoColumns2Example = @"<Grid>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible>
+            Col 6
+        </Alert>
+    </Column>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+</Grid>";
+
+        public const string GridAutoColumnsExample = @"<Grid>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible>
+        1
+    </Alert>
+</Grid>";
+
         public const string GridThreeColumnsExample = @"<Grid Columns=""GridColumns.Are3"">
     <Alert Color=""Color.Primary"" Visible>
         Col 4
