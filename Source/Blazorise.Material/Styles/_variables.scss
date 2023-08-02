@@ -44,7 +44,8 @@ $elevation-shadows: ( 24: ( elevation: map-get($elevations, 24), shadow: map-get
 // Grid
 //
 $grid-columns: 12 !default;
-$grid-gutter-width: 30px !default;
+$grid-rows: 12 !default;
+$grid-gutter-width: 1.5rem !default;
 $grid-row-columns: 6 !default;
 
 $grid-breakpoints: ( xs: 0, sm: 576px, md: 768px, lg: 992px, xl: 1200px ) !default;
