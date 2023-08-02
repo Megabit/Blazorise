@@ -2,8 +2,8 @@
 @typeparam TItem
 
 <Dropdown @bind-Visible="@Column.DropdownFilterVisible">
-    <DropdownToggle @onclick:stopPropagation>
-        <Icon Name="@IconName.Filter" Margin="@Blazorise.Margin.Is1.FromStart" Clicked="() => {}" />
+    <DropdownToggle @onclick:stopPropagation >
+        <Icon Name="@IconName.Filter" Margin="@Blazorise.Margin.Is1.FromStart" Clicked="() => {}" TextColor="IsFiltering ? TextColor.Primary : TextColor.Default" />
     </DropdownToggle>
     <DropdownMenu>
         <Row Padding="@Blazorise.Padding.Is3" Style="cursor:default" @onclick:stopPropagation @onmouseup:stopPropagation>
@@ -45,3 +45,7 @@
         </Row>
     </DropdownMenu>
 </Dropdown>
+
+@code{
+    private bool IsFiltering => !string.IsNullOrEmpty(Column.Filter.SearchValue?.ToString());
+}
