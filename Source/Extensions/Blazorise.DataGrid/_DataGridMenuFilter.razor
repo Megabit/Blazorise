@@ -3,7 +3,7 @@
 
 <Dropdown @bind-Visible="@Column.DropdownFilterVisible">
     <DropdownToggle @onclick:stopPropagation >
-        <Icon Name="@IconName.Filter" Margin="@Blazorise.Margin.Is1.FromStart" Clicked="() => {}" TextColor="IsFiltering ? TextColor.Primary : TextColor.Default" />
+        <Icon Name="@IconName.Filter" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" TextColor="@(IsFiltering ? TextColor.Primary : TextColor.Default)" />
     </DropdownToggle>
     <DropdownMenu>
         <Row Padding="@Blazorise.Padding.Is3" Style="cursor:default" @onclick:stopPropagation @onmouseup:stopPropagation>
@@ -11,7 +11,7 @@
             {
                 <Column ColumnSize="ColumnSize.Is12">
                     <Field>
-                        <Select TValue="DataGridFilterMethod" SelectedValue="Column.GetFilterMethod() ?? ParentDataGrid.FilterMethod" SelectedValueChanged="e => { Column.SetFilterMethod(e); }">
+                        <Select TValue="DataGridFilterMethod" SelectedValue="@(Column.GetFilterMethod() ?? ParentDataGrid.FilterMethod)" SelectedValueChanged="e => { Column.SetFilterMethod(e); }">
                             <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Contains">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodContainsLocalizer, "Contains" )</SelectItem>
                             <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.StartsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodStartsWithLocalizer, "Starts With" )</SelectItem>
                             <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.EndsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEndsWithLocalizer, "Ends With" )</SelectItem>
@@ -25,11 +25,9 @@
                         <TextEdit Text="@Column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => Column.Filter.SearchValue = newValue)" />
                     </Field>
                 </Column>
-                <Column ColumnSize="ColumnSize.Is12">
-                    <Buttons Float="Blazorise.Float.End" Margin="Blazorise.Margin.Is1.FromTop">
-                        <Button Clicked="ParentDataGrid.FilterData" Color="Color.Primary">Filter</Button>
-                        <Button Clicked="() => ParentDataGrid.ClearFilter(Column.Field)" Color="Color.Light">Clear</Button>
-                    </Buttons>
+                <Column ColumnSize="ColumnSize.Is12" Flex="Flex.JustifyContent.End.AlignItems.Center" Gap="Gap.Is2">
+                    <Button Clicked="@ParentDataGrid.FilterData" Color="Color.Primary">Filter</Button>
+                    <Button Clicked="@(() => ParentDataGrid.ClearFilter(Column.Field))" Color="Color.Light">Clear</Button>
                 </Column>
             }
             else
@@ -45,7 +43,3 @@
         </Row>
     </DropdownMenu>
 </Dropdown>
-
-@code{
-    private bool IsFiltering => !string.IsNullOrEmpty(Column.Filter.SearchValue?.ToString());
-}
