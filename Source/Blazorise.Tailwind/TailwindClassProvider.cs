@@ -577,7 +577,7 @@ public class TailwindClassProvider : ClassProvider
         => $"max-w-max top-0 left-0 {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "fixed" : "absolute" )}";
 
     public override string DropdownFixedHeaderVisible( bool visible )
-        => visible ? "z-11" : null;
+        => visible ? "!z-20" : null;
 
     public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
