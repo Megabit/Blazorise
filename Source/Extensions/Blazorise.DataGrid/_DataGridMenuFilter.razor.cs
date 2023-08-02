@@ -28,6 +28,7 @@ public partial class _DataGridMenuFilter<TItem> : ComponentBase, IDisposable
     {
         await InvokeAsync( StateHasChanged );
     }
+
     #endregion
 
     #region Properties

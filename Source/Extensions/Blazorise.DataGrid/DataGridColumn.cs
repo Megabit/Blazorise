@@ -26,6 +26,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// FilterMethod can come from programatically defined Parameter or explicitly by the user through the interface.
     /// </summary>
     private DataGridFilterMethod? currentFilterMethod;
+
     #endregion
 
     #region Constructors
@@ -200,7 +201,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         if ( DropdownFilterVisible && ParentDataGrid.IsFixedHeader )
             sb.Append( $"; z-index: 20" ); //Special case that fixes clipping of columns on top of the Dropdown column filter.
-
 
         return sb.ToString().TrimStart( ' ', ';' );
     }

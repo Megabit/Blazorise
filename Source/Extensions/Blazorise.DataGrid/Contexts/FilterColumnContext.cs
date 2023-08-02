@@ -23,9 +23,11 @@ public class FilterColumnContext<TItem>
         Filter = filter;
         ClearFilter = clearFilter;
     }
+
     #endregion
 
     #region Properties
+
     /// <summary>
     /// The column that is being filtered.
     /// </summary>
@@ -44,27 +46,22 @@ public class FilterColumnContext<TItem>
     /// <summary>
     /// Triggers filter changed event.
     /// </summary>
-
     public EventCallback<object> FilterChanged { get; set; }
 
     /// <summary>
     /// Triggers filter method changed event.
     /// </summary>
-
     public EventCallback<DataGridFilterMethod?> FilterMethodChanged { get; set; }
 
     /// <summary>
     /// Triggers filter event for this column.
     /// </summary>
-
     public EventCallback Filter { get; set; }
 
     /// <summary>
     /// Triggers clear filter event for this column.
     /// </summary>
-
     public EventCallback ClearFilter { get; set; }
 
     #endregion
-
 }
