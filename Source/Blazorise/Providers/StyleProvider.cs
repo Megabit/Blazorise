@@ -20,18 +20,6 @@ public abstract class StyleProvider : IStyleProvider
 
     #endregion
 
-    #region Offcanvas
-
-    public abstract int DefaultOffcanvasZindex { get; }
-
-    public abstract int DefaultOffcanvasBackdropZindex { get; }
-
-    public abstract string OffcanvasAnimationDuration( int AnimationDuration );
-
-    public abstract string OffcanvasBodyMaxHeight( int MaxHeight );
-
-    #endregion
-
     #region ModalBody
 
     public abstract string ModalBodyMaxHeight( int maxHeight );
@@ -81,6 +69,14 @@ public abstract class StyleProvider : IStyleProvider
 
         return sb.ToString();
     }
+
+    #endregion
+
+    #region Offcanvas
+
+    public abstract string OffcanvasAnimationDuration( int AnimationDuration );
+
+    public abstract string OffcanvasBodyMaxHeight( int MaxHeight );
 
     #endregion
 }

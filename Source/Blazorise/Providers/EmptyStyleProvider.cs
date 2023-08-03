@@ -19,22 +19,6 @@ class EmptyStyleProvider : IStyleProvider
 
     #endregion
 
-    #region Offcanvas
-
-    public int DefaultOffcanvasZindex => 0;
-
-    public int DefaultOffcanvasBackdropZindex => 0;
-
-    public string OffcanvasAnimationDuration( int AnimationDuration ) => null;
-
-    public string OffcanvasBodyMaxHeight( int MaxHeight ) => null;
-
-    public string OffcanvasZindex( int OpenIndex ) => null;
-
-    public string OffcanvasBackdropZindex( int OpenIndex ) => null;
-
-    #endregion
-
     #region ModalBody
 
     public string ModalBodyMaxHeight( int maxHeight ) => null;
@@ -62,6 +46,14 @@ class EmptyStyleProvider : IStyleProvider
     #region Column
 
     public string ColumnGutter( (int Horizontal, int Vertical) gutter ) => null;
+
+    #endregion
+
+    #region Offcanvas
+
+    public string OffcanvasAnimationDuration( int AnimationDuration ) => null;
+
+    public string OffcanvasBodyMaxHeight( int MaxHeight ) => null;
 
     #endregion
 }

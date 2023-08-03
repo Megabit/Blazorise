@@ -48,10 +48,6 @@ public interface IStyleProvider
 
     #region Offcanvas
 
-    int DefaultOffcanvasZindex { get; }
-
-    int DefaultOffcanvasBackdropZindex { get; }
-
     string OffcanvasAnimationDuration( int AnimationDuration );
 
     string OffcanvasBodyMaxHeight( int MaxHeight );
