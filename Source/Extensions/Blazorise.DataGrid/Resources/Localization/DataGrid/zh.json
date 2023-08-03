@@ -17,6 +17,11 @@
     "Row Edit": "编辑行",
     "Row Create": "创建行",
     "Create": "创建",
-    "Drag a column header here to group by that column": "将列标题拖到此处以按该列分组"
+    "Drag a column header here to group by that column": "将列标题拖到此处以按该列分组",
+    "Contains": "包含",
+    "Starts With": "以。。開始",
+    "Ends With": "以。。結束",
+    "Equals": "等於",
+    "Not Equals": "不等於"
   }
 }

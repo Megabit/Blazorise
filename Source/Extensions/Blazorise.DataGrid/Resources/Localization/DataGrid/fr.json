@@ -17,6 +17,11 @@
     "Row Edit": "Modifier la ligne",
     "Row Create": "Créer une ligne",
     "Create": "Créer",
-    "Drag a column header here to group by that column": "Faites glisser un en-tête de colonne ici pour regrouper par cette colonne"
+    "Drag a column header here to group by that column": "Faites glisser un en-tête de colonne ici pour regrouper par cette colonne",
+    "Contains": "Contient",
+    "Starts With": "Commence avec",
+    "Ends With": "Se termine par",
+    "Equals": "Équivaut à",
+    "Not Equals": "Pas égal"
   }
 }

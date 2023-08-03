@@ -17,6 +17,11 @@
     "Row Edit": "Rij bewerken",
     "Row Create": "Rij Creëren",
     "Create": "Creëer",
-    "Drag a column header here to group by that column": "Sleep een kolomkop hierheen om op die kolom te groeperen"
+    "Drag a column header here to group by that column": "Sleep een kolomkop hierheen om op die kolom te groeperen",
+    "Contains": "Bevat",
+    "Starts With": "Begint met",
+    "Ends With": "Eindigt met",
+    "Equals": "Gelijk aan",
+    "Not Equals": "Niet gelijk"
   }
 }

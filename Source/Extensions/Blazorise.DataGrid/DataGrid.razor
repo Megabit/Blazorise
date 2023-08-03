@@ -32,7 +32,7 @@
                             }
                             else
                             {
-                                <TableHeaderCell ColumnSpan="headerGroup.colSpan" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                <TableHeaderCell ColumnSpan="headerGroup.colSpan" Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                     @if ( HeaderGroupCaptionTemplate is null )
                                     {
                                         @column.HeaderGroupCaption
@@ -58,7 +58,7 @@
                             {
                                 @if ( IsCommandVisible )
                                 {
-                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                    <TableHeaderCell Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                         @if ( CanInsertNewItem && editState != DataGridEditState.New )
                                         {
                                             <_DataGridNewCommand TItem="TItem" New="@New" />
@@ -70,53 +70,61 @@
                             {
                                 @if ( MultiSelect )
                                 {
-                                    <TableHeaderCell Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                    <TableHeaderCell Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                         <_DataGridMultiSelectAll TItem="TItem" IsIndeterminate="@IsMultiSelectAllIndeterminate" IsChecked="@IsMultiSelectAllChecked"></_DataGridMultiSelectAll>
                                     </TableHeaderCell>
                                 }
                             }
                             else
                             {
-                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="@(() => OnColumnDragStarted(column))" DragEnd="@OnColumnDragEnded" Class="@column.HeaderCellClass" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
-                                    @if ( IsGroupableByColumn && column.Groupable )
-                                    {
-                                        <Icon Name="@IconName.GripVertical" Margin="@Blazorise.Margin.Is1.FromEnd" Style="cursor:move" />
-                                    }
-                                    @if ( column.ShowCaption )
-                                    {
-                                        @if ( column.CaptionTemplate != null )
+                                <TableHeaderCell Draggable="@(IsGroupableByColumn && column.Groupable)" DragStart="@(() => OnColumnDragStarted(column))" DragEnd="@OnColumnDragEnded" Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" Cursor="@(Sortable && column.Sortable ? Cursor.Pointer : Cursor.Default)" Clicked="@(() => Sort( column ) )" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
+                                    <Div Display="Display.InlineFlex">
+                                        @if ( IsGroupableByColumn && column.Groupable )
                                         {
-                                            @column.CaptionTemplate( column )
+                                            <Icon Name="@IconName.GripVertical" Margin="@Blazorise.Margin.Is1.FromEnd" Style="cursor:move" />
                                         }
-                                        else
+                                        @if ( column.ShowCaption )
                                         {
-                                            @column.Caption
-                                        }
-                                    }
-                                    @if ( Sortable && column.Sortable )
-                                    {
-                                        @if ( column.SortDirectionTemplate != null )
-                                        {
-                                            @column.SortDirectionTemplate( column.CurrentSortDirection )
-                                        }
-                                        else
-                                        {
-                                            if ( column.CurrentSortDirection == SortDirection.Default && ShowDefaultSortIcon )
+                                            @if ( column.CaptionTemplate != null )
                                             {
-                                                <Icon Name="@IconName.Sort" />
+                                                @column.CaptionTemplate( column )
                                             }
-                                            else if ( column.CurrentSortDirection != SortDirection.Default )
+                                            else
                                             {
-                                                <Icon Name="@(column.CurrentSortDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                                                @column.Caption
                                             }
                                         }
-                                    }
+
+                                        @if ( Sortable && column.Sortable )
+                                        {
+                                            @if ( column.SortDirectionTemplate != null )
+                                            {
+                                                @column.SortDirectionTemplate( column.CurrentSortDirection )
+                                            }
+                                            else
+                                            {
+                                                if ( column.CurrentSortDirection == SortDirection.Default && ShowDefaultSortIcon )
+                                                {
+                                                    <Icon Name="@IconName.Sort" />
+                                                }
+                                                else if ( column.CurrentSortDirection != SortDirection.Default )
+                                                {
+                                                    <Icon Name="@(column.CurrentSortDirection == SortDirection.Descending ? IconName.SortDown : IconName.SortUp)" />
+                                                }
+                                            }
+                                        }
+
+                                        @if ( Filterable && column.Filterable && FilterMode == DataGridFilterMode.Menu )
+                                        {
+                                            <_DataGridMenuFilter Column="column" />
+                                        }
+                                    </Div>
                                 </TableHeaderCell>
                             }
                         }
                     </TableRow>
                 }
-                @if ( Filterable )
+                @if ( Filterable && FilterMode == DataGridFilterMode.Default )
                 {
                     <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.Default)" Color="@(FilterRowStyling?.Color ?? Color.Default)">
 
@@ -185,7 +193,7 @@
             <TableBody>
                 @if ( IsNewItemInGrid )
                 {
-                    <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
+                    <_DataGridRowEdit @ref=dataGridRowEditRef TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
                 }
                 @if ( IsDisplayDataVisible )
                 {
@@ -262,9 +270,10 @@
     {
         @paginationFragment
     }
-    @if ( editItem != null && EditMode == DataGridEditMode.Popup )
+    @if ( PopupVisible )
     {
-        <_DataGridModal TItem="TItem"
+        <_DataGridModal @ref=dataGridModalRef
+                        TItem="TItem"
                         TitleTemplate="@PopupTitleTemplate"
                         EditItem="@editItem"
                         ValidationItem="@validationItem"
@@ -294,7 +303,7 @@
     {
         if ( IsEditItemInGrid( item ) )
         {
-            <_DataGridRowEdit TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
+            <_DataGridRowEdit @ref=dataGridRowEditRef TItem="TItem" Item="@editItem" ValidationItem="@validationItem" Columns="@Columns" CellValues="@editItemCellValues" EditMode="@EditMode" />
         }
         else
         {
