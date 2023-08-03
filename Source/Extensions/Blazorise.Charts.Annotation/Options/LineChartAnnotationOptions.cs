@@ -31,7 +31,7 @@ public class LineChartAnnotationOptions : ChartAnnotationOptions
 
     [JsonPropertyName( "scaleID" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public string? ScaleID { get; set; }
+    public string ScaleID { get; set; }
 
     [JsonPropertyName( "value" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
