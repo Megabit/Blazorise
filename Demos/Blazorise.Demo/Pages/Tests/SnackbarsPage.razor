@@ -17,6 +17,9 @@
                 <Button Color="Color.Primary" Clicked="@(()=>snackbarMultiline.Show())">Multiline Snackbar</Button>
                 <Button Color="Color.Primary" Clicked="@(()=>snackbarLeft.Show())">Left-Aligned Snackbar</Button>
                 <Button Color="Color.Primary" Clicked="@(()=>snackbarRight.Show())">Right-Aligned Snackbar</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>snackbarTop.Show())">Top-Aligned Snackbar</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>snackbarTopEnd.Show())">Top-Right-Aligned Snackbar</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>snackbarTopStart.Show())">Top-Left-Aligned Snackbar</Button>
             </CardBody>
         </Card>
     </Column>
@@ -97,12 +100,29 @@
         <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
 </Snackbar>
-<Snackbar @ref="snackbarLeft" Location="SnackbarLocation.Start">
+<Snackbar @ref="snackbarLeft" Location="SnackbarLocation.BottomStart">
     <SnackbarBody>
         Single line of text directly related to the operation performed
     </SnackbarBody>
 </Snackbar>
-<Snackbar @ref="snackbarRight" Location="SnackbarLocation.End">
+<Snackbar @ref="snackbarRight" Location="SnackbarLocation.BottomEnd">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
+</Snackbar>
+<Snackbar @ref="snackbarTop" Location="SnackbarLocation.Top" Interval="5000">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
+</Snackbar>
+
+<Snackbar @ref="snackbarTopEnd" CloseAnimationDuration="4000" Location="SnackbarLocation.TopEnd" Interval="5000">
+    <SnackbarBody>
+        Single line of text directly related to the operation performed
+    </SnackbarBody>
+</Snackbar>
+
+<Snackbar @ref="snackbarTopStart" Location="SnackbarLocation.TopStart" Interval="5000">
     <SnackbarBody>
         Single line of text directly related to the operation performed
     </SnackbarBody>
@@ -157,15 +177,19 @@
     </SnackbarBody>
 </Snackbar>
 <SnackbarStack @ref="snackbarStack"
-               Location="SnackbarStackLocation.End"
-               DefaultInterval="3000"
-               DelayCloseOnClick />
-@code {
+               Location="SnackbarStackLocation.TopEnd"
+               DefaultInterval="300000"
+               DelayCloseOnClick/>
+
+ @code {
     Snackbar snackbar;
     Snackbar snackbarAction;
     Snackbar snackbarMultiline;
     Snackbar snackbarLeft;
     Snackbar snackbarRight;
+    Snackbar snackbarTop;
+    Snackbar snackbarTopEnd;
+    Snackbar snackbarTopStart;
 
     Snackbar snackbarPrimary;
     Snackbar snackbarSecondary;
@@ -178,5 +202,6 @@
 
     SnackbarStack snackbarStack;
 
+    bool closeAnimation = true;
     double intervalBeforeMsgClose = 2000;
 }
