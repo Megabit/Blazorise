@@ -2606,6 +2606,17 @@ li.ant-list-item-actionable {
   -webkit-font-smoothing: antialiased;
 }
 
+.ant-drawer.ant-showing,
+.ant-drawer.ant-showing:not(.hiding) {
+  transform: none;
+}
+
+.ant-drawer.ant-showing,
+.ant-drawer.ant-hiding,
+.ant-drawer.ant-drawer-open {
+  visibility: visible;
+}
+
 .ant-pagination.ant-pagination-xs .ant-pagination-total-text, .ant-pagination.ant-pagination-xs .ant-pagination-simple-pager {
   height: 16px;
   line-height: 16px;
