@@ -11,6 +11,10 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Charts.Annotation;
 
+/// <summary>
+/// Provides the annotation capabilities to the supported chart types.
+/// </summary>
+/// <typeparam name="TItem">Data point type.</typeparam>
 public partial class ChartAnnotation<TItem> : BaseComponent, IAsyncDisposable
 {
     #region Members
@@ -24,10 +28,9 @@ public partial class ChartAnnotation<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( Rendered && JSModule is not null )
         {
-            //var datasetsChanged = parameters.TryGetValue<List<ChartDataLabelsDataset>>( nameof( Datasets ), out var paramDataset ) && !Datasets.AreEqual( paramDataset );
             var optionsChanged = parameters.TryGetValue<Dictionary<string, ChartAnnotationOptions>>( nameof( Options ), out var paramOptions ) && !Options.IsEqual( paramOptions );
 
-            if ( /*datasetsChanged ||*/ optionsChanged )
+            if ( optionsChanged )
             {
                 ExecuteAfterRender( async () =>
                 {
