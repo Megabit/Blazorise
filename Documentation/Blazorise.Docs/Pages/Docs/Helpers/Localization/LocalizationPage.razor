@@ -49,6 +49,12 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="ITextLocalizerService">
         This is the preferred way and the easiest way of changing the components display text. To change a language you just need to inject <Code>ITextLocalizerService</Code> into your component or page and then call the <Code>ChangeLanguage</Code> method.
+        <Alert Color="Color.Info" Visible>
+            <AlertDescription>
+                <Strong>Note:</Strong> When using <strong>Blazor.Server</strong>, by default the <Code>ITextLocalizer.ChangeLanguage</Code> changes the default thread culture, this means it will be an application wide change.
+                If you want to change the language for a specific user, you need to use <Code>ITextLocalizerService.ChangeLanguage(mylanguage, false)</Code> instead.
+            </AlertDescription>
+        </Alert>
     </DocsPageSectionHeader>
     <DocsPageSectionContent>
         <ITextLocalizerServiceExample />

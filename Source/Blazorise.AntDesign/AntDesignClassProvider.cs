@@ -449,6 +449,12 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownMenu() => "ant-dropdown";
 
+    public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
+        => $"ant-dropdown-menu-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "ant-dropdown-menu-position-strategy-fixed" : "ant-dropdown-menu-position-strategy-absolute" )}";
+
+    public override string DropdownFixedHeaderVisible( bool visible )
+        => visible ? "ant-dropdown-table-fixed-header-visible" : null;
+
     public override string DropdownMenuSelector() => "ant-dropdown";
 
     public override string DropdownMenuScrollable() => "ant-dropdown-menu-scrollable";

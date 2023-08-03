@@ -44,7 +44,6 @@ public partial class DataGridPage
     private List<Employee> employeeList;
     private int totalEmployees;
 
-    private string selectedGenderFilter;
     private string selectedCityFilter;
 
     private Random random = new();
@@ -285,7 +284,7 @@ public partial class DataGridPage
 
     private void OnSortChanged( DataGridSortChangedEventArgs eventArgs )
     {
-        var sort = string.Equals(eventArgs.ColumnFieldName, eventArgs.FieldName, StringComparison.Ordinal)
+        var sort = string.Equals( eventArgs.ColumnFieldName, eventArgs.FieldName, StringComparison.Ordinal )
             ? string.Empty
             : $" (SortField: {eventArgs.FieldName})";
         Console.WriteLine( $"Sort changed > Field: {eventArgs.ColumnFieldName}{sort}; Direction: {eventArgs.SortDirection};" );

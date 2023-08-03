@@ -91,6 +91,18 @@
 </Heading>
 
 <Paragraph>
+    There is now a new <Code>FilterMode</Code> option that allows you to specify a new Filter Mode. By setting the <Code>FilterMode</Code> to the new <Code>DataGridFilterMode.Menu</Code>, the <Code>DataGrid</Code> will now show a filter icon by each column allowing your users to dinamically customize the filter to apply on per column basis.
+</Paragraph>
+
+<Paragraph>
+    Please visit, <Anchor To="docs/extensions/datagrid/features/filtering">datagrid filtering docs</Anchor> to find a new example showcasing this feature.
+</Paragraph>
+
+<Paragraph>
+    The <Code>DataGridSelectColumn</Code> will now enable you to provide new parameters so you can quickly render a select structure.
+</Paragraph>
+
+<Paragraph>
     We've changed the <Code>CancellableRowChange</Code> argument that's provided in the RowInserting, RowUpdating and RowRemoving callbacks and the <Code>SavedRowItem</Code> that's provided in the RowInserted, RowUpdated callbacks to now provide both an <Code>OldItem</Code> and <Code>NewItem</Code>.
 </Paragraph>
 
@@ -115,6 +127,45 @@
     Please visit, <Anchor To="docs/extensions/datagrid/features/sorting">datagrid sorting docs</Anchor> for more information.
 </Paragraph>
 
+<Paragraph>
+    You are now able to use pre defined filtering on a per-column basis by specifying <Code>FilterMethod</Code> on <Code>DataGridColumn</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Expandable row groups
+</Heading>
+
+<Paragraph>
+    Introduced <Code>ExpandGroups</Code> and <Code>CollapseGroups</Code> methods that allows you to programatically expand or collapse specific groups.
+</Paragraph>
+
+<Paragraph>
+    These new methods provide you with more control over how the data is presented and viewed, allowing you to tailor the user experience to specific usage scenarios and user preferences.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Filtering
+</Heading>
+
+<Paragraph>
+    Added a new <Code>ClearFilter</Code> overload. You are now able to clear the filter on specific columns.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    HeaderGroupCaption
+</Heading>
+
+<Paragraph>
+    We are excited to introduce the new <Strong>HeaderGroupCaption</Strong> feature for the DataGrid component. This feature allows you to group together multiple DataGrid column headers under a single, overarching caption.
+</Paragraph>
+
+<Paragraph>
+    This is especially useful when you have related columns that need to be grouped under a common heading for better understanding and organization. For instance, if you have a DataGrid displaying product details, you can group columns like 'Price', 'Discount', and 'Total Cost' under a header group captioned 'Financial Details'.
+</Paragraph>
+
+<Paragraph>
+    With this enhancement, you can now structure your data more effectively and provide more clarity to users. Grouping column headers using <Strong>HeaderGroupCaption</Strong> significantly improves the readability of complex grids and enhances user experience by enabling more intuitive navigation through the DataGrid.
+</Paragraph>
 
 <Heading Size="HeadingSize.Is3">
     Contributions
@@ -153,6 +204,18 @@
 
 <Paragraph>
     Introduced a new <Code>SelectionMode</Code> parameter, which allows the selection of a new Checkbox mode, that will set the <Code>DropdownList</Code> into a multiple selection mode. You can track the state of the selection by binding to the new <Code>SelectedValues</Code> and <Code>SelectedValuesChanged</Code> parameters.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    TreeView
+</Heading>
+
+<Paragraph>
+    Introduced <Code>RemoveNode</Code> method that allows you to remove a node from the tree if it's found.
+</Paragraph>
+
+<Paragraph>
+    You are now able to make node children collections observable (retrieved by <Code>GetChildNodes</Code> / <Code>GetChildNodesAsync</Code> ) and any changes to them should be reflected on the UI.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -195,6 +258,80 @@
 
 <Paragraph>
     This update will make it easier for developers to create applications that require the collection of digital signatures, saving time and effort for both the users and the developers. We hope this update will be beneficial to our users and help them create more efficient and effective applications.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Splitter
+</Heading>
+
+<Paragraph>
+    We're thrilled to announce the introduction of a new <Strong>Splitter</Strong> component in the latest update of Blazorise. This interactive and flexible layout component provides a way to create resizable panels in your application.
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>GutterSize</Strong>: Controls the width of the draggable area between sections, allowing users to adjust the relative sizes of the sections.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>MinSize</Strong>: Specifies the minimum size to which a section can be resized, ensuring the usability and readability of content in each section.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>MaxSize</Strong>: Specifies the maximum size to which a section can be resized, ensuring the usability and readability of content in each section.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                and more
+            </Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    We would like to express our sincere thanks to <Anchor To="https://github.com/smfields">smfields</Anchor>, a dedicated member of our community, who initially developed this feature. <Anchor To="https://github.com/smfields">smfields</Anchor> generously granted us the rights to include it in Blazorise, enabling all users of our library to benefit from this versatile component.
+</Paragraph>
+
+<Paragraph>
+    We look forward to seeing the creative ways in which you'll incorporate this new feature into your projects!
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Video
+</Heading>
+
+<Paragraph>
+    In this release, we've added a significant enhancement to the <Anchor To="docs/extensions/video">Blazorise Video player</Anchor>. Users now have the ability to define multiple sources for a single video, each with different qualities. This includes options for 576p, 720p, and 1080p. The chosen video file, hosted at a unique URL for each quality, will load based on the user's preference or network conditions. By default, the player is set to display the video in 720p. This new feature offers users a more tailored and efficient video viewing experience by adapting to their specific needs and conditions.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Dropdown
+</Heading>
+
+<Paragraph>
+    We've migrated the underlying library that takes care of dynamically "anchor position" the dropdown menu according to the UI constraints. It has been migrated from <Anchor To="https://popper.js.org/">Popper</Anchor> to the newer <Anchor To="https://floating-ui.com/">Floating UI</Anchor> library.
+    Behaviour should remain unchanged and your dropdown menus should still be cleverly positioned!
+</Paragraph>
+
+<Paragraph>
+    Added a new <Code>PositionStrategy</Code> parameter, that allows you to set the positioning strategy for your dropdown. Please read <Anchor To="https://floating-ui.com/docs/computeposition#strategy">Floating UI Strategy</Anchor> for more details on how it can affect the positioning of your dropdown.
+</Paragraph>
+
+<Paragraph>
+    Fixed an issue where in some certain cases, if buttons existed inside the Dropdown the menu positioning would not be handled correctly.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Validation
+</Heading>
+
+<Paragraph>
+    We've added support for <Strong>IValidatableObject</Strong>. This new feature enhances the flexibility and robustness of your form validation processes. By implementing the <Strong>IValidatableObject</Strong> interface in your models, you can now provide custom validation logic that is more complex and situation-specific than what can be achieved with simple data annotation validation. This interface includes the <Strong>Validate</Strong> method, which you can override to define your custom validation rules. This method is automatically invoked when performing model validation, ensuring that your custom rules are adhered to. This feature is useful when the validity of a property's value is dependent on another property's value, or when an intricate validation process is required.
 </Paragraph>
 
 <NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="June 1st, 2023" Read="7 min" />

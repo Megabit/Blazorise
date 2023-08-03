@@ -20,9 +20,10 @@
                 </Field>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
+                          Responsive
                           ShowPager
                           ShowPageSizes
-                          @bind-SelectedRow="@selectedEmployee"
+                @bind-SelectedRow="@selectedEmployee"
                           Editable
                           EditMode="editMode">
                     <DataGridColumns>
@@ -39,25 +40,8 @@
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable>
-                            <DisplayTemplate>
-                                @{
-                                    var gender = ( context as Employee )?.Gender;
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description">
 
-                                    @if ( gender == "M" )
-                                    {
-                                        @("Male")
-                                    }
-                                    else if ( gender == "F" )
-                                    {
-                                        @("Female")
-                                    }
-                                    else if ( gender == "D" )
-                                    {
-                                        @("Diverse")
-                                    }
-                                }
-                            </DisplayTemplate>
                             <EditTemplate>
                                 <Select TValue="string" SelectedValue="@((string)( context.CellValue ))" SelectedValueChanged="@(( v ) => { context.CellValue = v; context.UpdateCell( nameof( Employee.FirstName ), TitleToName( TitleFromGender( v ), context.ReadCell( nameof( Employee.FirstName ) ) ) ); })">
                                     <SelectItem Value="(string)null"></SelectItem>
@@ -67,6 +51,7 @@
                                 </Select>
                             </EditTemplate>
                         </DataGridSelectColumn>
+
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">

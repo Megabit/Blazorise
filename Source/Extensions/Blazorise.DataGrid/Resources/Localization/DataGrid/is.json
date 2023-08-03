@@ -17,6 +17,11 @@
     "Row Edit": "Breyta röð",
     "Row Create": "Ný röð",
     "Create": "Búa til",
-    "Drag a column header here to group by that column": "Dragðu dálkhaus hingað til að flokka eftir þeim dálki"
+    "Drag a column header here to group by that column": "Dragðu dálkhaus hingað til að flokka eftir þeim dálki",
+    "Contains": "Inniheldur",
+    "Starts With": "Byrjar með",
+    "Ends With": "Endar Með",
+    "Equals": "Jafnt",
+    "Not Equals": "Ekki jafnir"
   }
 }

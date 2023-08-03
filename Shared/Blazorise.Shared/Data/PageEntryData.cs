@@ -98,6 +98,8 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/binding-data/virtualize", "DataGrid Binding Data : Virtualize", "Optimize performance for large data sets with the Blazorise DataGrid's virtualization feature. By only rendering the data currently visible on the screen, virtualization reduces the amount of DOM elements, resulting in improved performance and load times." ),
                 new PageEntry( "docs/extensions/datagrid/binding-data/observable", "DataGrid Binding Data : Observable Data", "The DataGrid can bind observable data, so whenever the underlying collection is changed the DataGrid is automatically updated." ),
 
+                new PageEntry( "docs/extensions/datagrid/columns", "DataGrid Columns", "Learn to use and work with the Blazorise DataGrid Columns to customize and configure the columns in a data grid. Explore various column types, such as text, numeric, date, and boolean, to display and manipulate data effectively. Utilize column-specific features like sorting, filtering, and formatting to enhance the presentation and functionality of your data grid. Gain expertise in creating custom columns to meet specific requirements and provide tailored data visualization options." ),
+
                 new PageEntry( "docs/extensions/datagrid/features", "DataGrid Features" ),
                 new PageEntry( "docs/extensions/datagrid/features/context-menu", "DataGrid Context Menu", "Right-click on any row to access options such as editing, deleting, and custom actions." ),
                 new PageEntry( "docs/extensions/datagrid/features/editing", "DataGrid Editing", "The DataGrid can perform some basic CRUD operations on the supplied Data collection." ),
@@ -107,6 +109,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/features/paging", "DataGrid Paging", "Paginate your data with customizable page size options and intuitive navigation controls." ),
                 new PageEntry( "docs/extensions/datagrid/features/resizing", "DataGrid Resizing", "Easily adjust the size of your columns with the Blazorise DataGrid's resizing feature. Drag and drop column edges to resize, or use customized options to fit your needs." ),
                 new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Sorting", "Blazorise DataGrid offers efficient data sorting with customizable options." ),
+                new PageEntry( "docs/extensions/datagrid/features/header-group", "DataGrid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),
 
 
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),

@@ -202,13 +202,22 @@
 </Heading>
 
 <DocsMethods>
-    <DocsMethodsItem Name="ExpandAll()" ReturnType="void" Parameters="TNode node">
+    <DocsMethodsItem Name="ExpandAll()" ReturnType="Task">
         Expands all the collapsed TreeView nodes.
     </DocsMethodsItem>
-    <DocsMethodsItem Name="CollapseAll()" ReturnType="void" Parameters="TNode node">
+    <DocsMethodsItem Name="CollapseAll()" ReturnType="Task">
         Collapses all the expanded TreeView nodes.
     </DocsMethodsItem>
     <DocsMethodsItem Name="ToggleCheckNode()" ReturnType="Task" Parameters="TNode node">
         Toggles the checked state of the node when in multiple selection mode.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="SelectNode()" ReturnType="void" Parameters="TNode node">
+        Selects the node when in single selection mode.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="RemoveNode()" ReturnType="Task" Parameters="TNode node">
+        Attempts to find and remove an existing node from the TreeView.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Reload()" ReturnType="Task">
+        Triggers the reload of the TreeView Nodes.
     </DocsMethodsItem>
 </DocsMethods>

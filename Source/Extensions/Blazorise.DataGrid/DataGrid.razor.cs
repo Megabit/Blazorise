@@ -143,6 +143,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     internal DataGridColumn<TItem> columnBeingDragged;
 
+    /// <summary>
+    /// Tracks the current DataGridRowEdit reference.
+    /// </summary>
+    protected _DataGridRowEdit<TItem> dataGridRowEditRef;
+
+    /// <summary>
+    /// Tracks the current Edit DataGridModal reference.
+    /// </summary>
+    protected _DataGridModal<TItem> dataGridModalRef;
+
     #endregion
 
     #region Constructors
@@ -598,6 +608,93 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Recursively sets the groups and any nested groups Expanded property that match the keys.
+    /// </summary>
+    /// <param name="groupedData"></param>
+    /// <param name="groupKeys"></param>
+    /// <param name="expanded"></param>
+    private void SetGroupByKeysExpanded( List<GroupContext<TItem>> groupedData, string[] groupKeys, bool expanded )
+    {
+        if ( groupKeys.IsNullOrEmpty() )
+            return;
+
+        foreach ( var group in groupedData )
+        {
+            if ( groupKeys.Contains( group.Key ) )
+            {
+                group.SetExpanded( expanded );
+            }
+
+            if ( group.NestedGroup is not null )
+                SetGroupByKeysExpanded( (List<GroupContext<TItem>>)group.NestedGroup, groupKeys, expanded );
+        }
+    }
+
+    /// <summary>
+    /// Recursively toggles the groups and any nested groups that match the keys.
+    /// </summary>
+    /// <param name="groupedData"></param>
+    /// <param name="groupKeys"></param>
+    private void ToggleGroupByKeys( List<GroupContext<TItem>> groupedData, string[] groupKeys )
+    {
+        if ( groupKeys.IsNullOrEmpty() )
+            return;
+
+        foreach ( var group in groupedData )
+        {
+            if ( groupKeys.Contains( group.Key ) )
+            {
+                group.SetExpanded( !group.Expanded );
+            }
+
+            if ( group.NestedGroup is not null )
+                ToggleGroupByKeys( (List<GroupContext<TItem>>)group.NestedGroup, groupKeys );
+        }
+    }
+
+    /// <summary>
+    /// Toggles the specified groups.
+    /// <para>For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"</para>
+    /// <para>For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"</para>
+    /// <para>GroupedData : <see cref="DataGrid{TItem}.DisplayGroupedData"/> | GroupKey: <see cref="GroupContext{TItem}.Key"/></para>
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ToggleGroups( params string[] groupKeys )
+    {
+        ToggleGroupByKeys( groupedData, groupKeys );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Expands the specified groups.
+    /// <para>For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"</para>
+    /// <para>For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"</para>
+    /// <para>GroupedData : <see cref="DataGrid{TItem}.DisplayGroupedData"/> | GroupKey: <see cref="GroupContext{TItem}.Key"/></para>
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ExpandGroups( params string[] groupKeys )
+    {
+        SetGroupByKeysExpanded( groupedData, groupKeys, true );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Collapses the specified groups.
+    /// <para>For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"</para>
+    /// <para>For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"</para>
+    /// <para>GroupedData : <see cref="DataGrid{TItem}.DisplayGroupedData"/> | GroupKey: <see cref="GroupContext{TItem}.Key"/></para>
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task CollapseGroups( params string[] groupKeys )
+    {
+        SetGroupByKeysExpanded( groupedData, groupKeys, false );
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
     /// Expands all groups.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -752,7 +849,29 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Save()
     {
-        if ( Data == null )
+        if ( Data == null || editState == DataGridEditState.None )
+            return;
+
+        if ( UseValidation )
+        {
+            var result = PopupVisible
+                ? await dataGridModalRef.ValidateAll()
+                : await dataGridRowEditRef.ValidateAll();
+
+            if ( !result )
+                return;
+        }
+
+        await SaveItem();
+    }
+
+    /// <summary>
+    /// Save the internal state of the editing items.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    internal protected async Task SaveItem()
+    {
+        if ( Data == null || editState == DataGridEditState.None )
             return;
 
         var editedCellValues = EditableColumns
@@ -1008,17 +1127,39 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Clears the corresponding column filters.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ClearFilter( params string[] fieldNames )
+    {
+        if ( fieldNames.IsNullOrEmpty() )
+            return Task.CompletedTask;
+
+        foreach ( var column in Columns )
+        {
+            if ( fieldNames.Contains( column.Field ) )
+                column.Filter.SearchValue = null;
+        }
+
+        return Reload();
+    }
+
+    /// <summary>
     /// Forces the internal DataGrid data to be filtered.
     /// </summary>
     /// <remarks>
     /// Keep in mind that this command will always trigger <see cref="FilteredDataChanged"/> even
     /// though not any data is actually changed.
     /// </remarks>
-    public void FilterData()
+    public async void FilterData()
     {
+        var wasDirty = dirtyFilter;
         FilterData( Data?.AsQueryable() );
 
-        InvokeAsync( StateHasChanged );
+        if ( wasDirty )
+            await InvokeAsync( StateHasChanged );
+        else
+            await Reload();
     }
 
     /// <summary>
@@ -1610,7 +1751,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue )
+                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod() )
                             select item;
                 }
             }
@@ -1634,9 +1775,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return Reload( filterCancellationTokenSource.Token );
     }
 
-    private bool CompareFilterValues( string searchValue, string compareTo )
+    private bool CompareFilterValues( string searchValue, string compareTo, DataGridFilterMethod? columnFilterMethod )
     {
-        switch ( FilterMethod )
+        var filterMethod = columnFilterMethod ?? FilterMethod;
+        switch ( filterMethod )
         {
             case DataGridFilterMethod.StartsWith:
                 return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
@@ -1690,7 +1832,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #endregion
 
     #region Properties
-
 
     /// <summary>
     /// Cascaded theme settings.
@@ -1770,11 +1911,89 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         get
         {
-            return Columns
+            var orderedDisplayColumns = Columns
                 .Where( x => x.IsDisplayable || x.Displayable )
                 .OrderBy( x => x.DisplayOrder );
+
+            if ( !IsGroupHeaderCaptionsEnabled )
+                return orderedDisplayColumns;
+
+            var orderedDisplayColumnsAsList = orderedDisplayColumns.ToList();
+            var newOrderedDisplayColumns = new List<DataGridColumn<TItem>>();
+
+            for ( int i = 0; i < orderedDisplayColumnsAsList.Count; i++ )
+            {
+                var displayColumn = orderedDisplayColumnsAsList[i];
+                newOrderedDisplayColumns.Add( displayColumn );
+
+                if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumnsAsList.Count > i + 1 )
+                {
+                    var toRemove = new List<DataGridColumn<TItem>>();
+
+                    foreach ( var remainingDisplayColumn in orderedDisplayColumns.Skip( i + 1 ) )
+                    {
+                        if ( remainingDisplayColumn.HeaderGroupCaption == displayColumn.HeaderGroupCaption )
+                        {
+                            newOrderedDisplayColumns.Add( remainingDisplayColumn );
+                            toRemove.Add( remainingDisplayColumn );
+                        }
+                    }
+
+                    orderedDisplayColumnsAsList.RemoveAll( x => toRemove.Contains( x ) );
+                }
+            }
+
+            return newOrderedDisplayColumns;
         }
     }
+
+    /// <summary>
+    /// Gets only columns that are available for display in the grid group header.
+    /// </summary>
+    internal IEnumerable<(DataGridColumn<TItem> col, int colSpan)> DisplayableHeaderGroupColumns
+    {
+        get
+        {
+            var orderedDisplayColumns = Columns
+                .Where( x => x.IsDisplayable || x.Displayable )
+                .OrderBy( x => x.DisplayOrder )
+                .ToList();
+
+            var newOrderedDisplayColumns = new List<(DataGridColumn<TItem> col, int colSpan)>();
+
+            for ( int i = 0; i < orderedDisplayColumns.Count; i++ )
+            {
+                var displayColumn = orderedDisplayColumns[i];
+                var colSpan = 1;
+
+                if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumns.Count > i + 1 )
+                {
+                    var toRemove = new List<DataGridColumn<TItem>>();
+
+                    foreach ( var remainingDisplayColumn in orderedDisplayColumns.Skip( i + 1 ) )
+                    {
+                        if ( remainingDisplayColumn.HeaderGroupCaption == displayColumn.HeaderGroupCaption )
+                        {
+                            colSpan++;
+                            toRemove.Add( remainingDisplayColumn );
+                        }
+                    }
+
+                    orderedDisplayColumns.RemoveAll( x => toRemove.Contains( x ) );
+                }
+
+                newOrderedDisplayColumns.Add( (displayColumn, colSpan) );
+            }
+
+            return newOrderedDisplayColumns;
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets whether user can see group header column captions.
+    /// </summary>
+    internal bool IsGroupHeaderCaptionsEnabled
+        => ShowHeaderGroupCaptions && Columns.Any( x => !string.IsNullOrWhiteSpace( x.HeaderGroupCaption ) );
 
     /// <summary>
     /// Returns true if <see cref="Data"/> is safe to modify.
@@ -2102,6 +2321,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether users can filter rows by its cell values.
     /// </summary>
     [Parameter] public bool Filterable { get; set; }
+
+    /// <summary>
+    /// Gets or sets the filter mode.
+    /// </summary>
+    [Parameter] public DataGridFilterMode FilterMode { get; set; }
 
     /// <summary>
     /// Gets or sets whether the data will be grouped. Column groups need to be configured.
@@ -2624,6 +2848,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Defines the background of the row overlay.
     /// </summary>
     [Parameter] public Background RowOverlayBackground { get; set; } = Background.Light;
+
+    /// <summary>
+    /// Gets or sets whether user can see defined header group captions.
+    /// </summary>
+    [Parameter] public bool ShowHeaderGroupCaptions { get; set; }
+
+    /// <summary>
+    /// Template for header group caption.
+    /// <para>Suggested usage: rendering content conditionally according to the defined <see cref="HeaderGroupContext.HeaderGroupCaption"/></para>
+    /// </summary>
+    [Parameter] public RenderFragment<HeaderGroupContext> HeaderGroupCaptionTemplate { get; set; }
+
+    /// <summary>
+    /// Template for the filter column. When filter mode is set to DataGridFilterMode.Menu, this template will be used to render the filter content.
+    /// </summary>
+    [Parameter] public RenderFragment<FilterColumnContext<TItem>> FilterMenuTemplate { get; set; }
 
     #endregion
 }

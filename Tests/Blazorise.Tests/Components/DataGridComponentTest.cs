@@ -5,13 +5,10 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using BasicTestApp.Client;
 using Blazorise.DataGrid;
-using Blazorise.Tests.Extensions;
 using Blazorise.Tests.Helpers;
 using Blazorise.Tests.TestServices;
 using Bunit;
-using FluentAssertions;
 using Xunit;
 using Employee = BasicTestApp.Client.DataGridComponent.Employee;
 #endregion
@@ -119,12 +116,16 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        sortChanged
+        comp.WaitForAssertion( () =>
+        {
+            sortChanged
             .Should().HaveCount( 1 )
             .And
             .OnlyContain( e => e.ColumnFieldName == "Fraction" &&
                                e.FieldName == "FractionValue" &&
                                e.SortDirection == SortDirection.Descending );
+        } );
+
     }
 
     [Fact]
@@ -149,7 +150,9 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        sortingChanged
+        comp.WaitForAssertion( () =>
+        {
+            sortingChanged
             .Should().HaveCount( 1 )
             .And
             .ContainEquivalentOf( new DataGridSortChangedEventArgs(
@@ -157,6 +160,7 @@ public class DataGridComponentTest : TestContext
                  columnFieldName: nameof( Employee.Fraction ),
                  sortDirection: SortDirection.Descending
             ) );
+        } );
     }
 
     [Fact]
@@ -178,10 +182,13 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        comp.FindAll( "tbody tr td:nth-child(2)" )
-            .Select( x => x.TextContent )
-            .Should()
-            .BeEquivalentTo( expectedOrderedValues );
+        comp.WaitForAssertion( () =>
+        {
+            comp.FindAll( "tbody tr td:nth-child(2)" )
+                .Select( x => x.TextContent )
+                .Should()
+                .BeEquivalentTo( expectedOrderedValues );
+        } );
     }
 
     [Fact]
@@ -203,10 +210,13 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        comp.FindAll( "tbody tr td:nth-child(2)" )
-            .Select( x => x.TextContent )
-            .Should()
-            .BeEquivalentTo( expectedOrderedValues );
+        comp.WaitForAssertion( () =>
+        {
+            comp.FindAll( "tbody tr td:nth-child(2)" )
+                .Select( x => x.TextContent )
+                .Should()
+                .BeEquivalentTo( expectedOrderedValues );
+        } );
     }
 
     [Fact]
@@ -234,20 +244,23 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        sortingChanged
-        .Should().HaveCount( 2 )
-        .And
-        .ContainEquivalentOf( new DataGridSortChangedEventArgs(
-             fieldName: nameof( Employee.FractionValue ),
-             columnFieldName: nameof( Employee.Fraction ),
-             sortDirection: SortDirection.Descending
-        ) );
+        comp.WaitForAssertion( () =>
+        {
+            sortingChanged
+                .Should().HaveCount( 2 )
+                .And
+                .ContainEquivalentOf( new DataGridSortChangedEventArgs(
+                 fieldName: nameof( Employee.FractionValue ),
+                 columnFieldName: nameof( Employee.Fraction ),
+                 sortDirection: SortDirection.Descending
+                ) );
 
-        sortingChanged.Should().ContainEquivalentOf( new DataGridSortChangedEventArgs(
-             fieldName: nameof( Employee.Name ),
-             columnFieldName: nameof( Employee.Name ),
-             sortDirection: SortDirection.Ascending
-        ) );
+            sortingChanged.Should().ContainEquivalentOf( new DataGridSortChangedEventArgs(
+                             fieldName: nameof( Employee.Name ),
+                             columnFieldName: nameof( Employee.Name ),
+                             sortDirection: SortDirection.Ascending
+                        ) );
+        } );
     }
 
     [Fact]
@@ -262,10 +275,13 @@ public class DataGridComponentTest : TestContext
         await dataGrid.Instance.ApplySorting( Array.Empty<DataGridSortColumnInfo>() );
 
         // validate
-        comp.FindAll( "tbody tr td:nth-child(2)" )
-            .Select( x => x.TextContent )
-            .Should()
-            .BeEquivalentTo( expectedOrderedValues );
+        comp.WaitForAssertion( () =>
+        {
+            comp.FindAll( "tbody tr td:nth-child(2)" )
+                .Select( x => x.TextContent )
+                .Should()
+                .BeEquivalentTo( expectedOrderedValues );
+        } );
     }
 
     [Fact]
@@ -284,10 +300,13 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        comp.FindAll( "tbody tr td:nth-child(2)" )
-            .Select( x => x.TextContent )
-            .Should()
-            .BeEquivalentTo( expectedOrderedValues );
+        comp.WaitForAssertion( () =>
+        {
+            comp.FindAll( "tbody tr td:nth-child(2)" )
+                .Select( x => x.TextContent )
+                .Should()
+                .BeEquivalentTo( expectedOrderedValues );
+        } );
     }
 
     [Fact]
@@ -302,10 +321,13 @@ public class DataGridComponentTest : TestContext
         await dataGrid.Instance.ApplySorting( Array.Empty<DataGridSortColumnInfo>() );
 
         // validate
-        comp.FindAll( "tbody tr td:nth-child(2)" )
-            .Select( x => x.TextContent )
-            .Should()
-            .BeEquivalentTo( expectedOrderedValues );
+        comp.WaitForAssertion( () =>
+        {
+            comp.FindAll( "tbody tr td:nth-child(2)" )
+                .Select( x => x.TextContent )
+                .Should()
+                .BeEquivalentTo( expectedOrderedValues );
+        } );
     }
 
     [Fact]
@@ -331,14 +353,17 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        sortingChanged
-            .Should().HaveCount( 1 )
-            .And
-            .ContainEquivalentOf( new DataGridSortChangedEventArgs(
-                 fieldName: nameof( Employee.Name ),
-                 columnFieldName: nameof( Employee.Name ),
-                 sortDirection: SortDirection.Descending
-            ) );
+        comp.WaitForAssertion( () =>
+        {
+            sortingChanged
+                .Should().HaveCount( 1 )
+                .And
+                .ContainEquivalentOf( new DataGridSortChangedEventArgs(
+                     fieldName: nameof( Employee.Name ),
+                     columnFieldName: nameof( Employee.Name ),
+                     sortDirection: SortDirection.Descending
+                ) );
+        } );
     }
 
     [Fact]
@@ -367,14 +392,17 @@ public class DataGridComponentTest : TestContext
         );
 
         // validate
-        sortingChanged
-            .Should().HaveCount( 1 )
-            .And
-            .ContainEquivalentOf( new DataGridSortChangedEventArgs(
-                 fieldName: nameof( Employee.FractionValue ),
-                 columnFieldName: nameof( Employee.Fraction ),
-                 sortDirection: SortDirection.Default
-            ) );
+        comp.WaitForAssertion( () =>
+        {
+            sortingChanged
+                .Should().HaveCount( 1 )
+                .And
+                .ContainEquivalentOf( new DataGridSortChangedEventArgs(
+                     fieldName: nameof( Employee.FractionValue ),
+                     columnFieldName: nameof( Employee.Fraction ),
+                     sortDirection: SortDirection.Default
+                ) );
+        } );
     }
 
     [Theory]
@@ -528,11 +556,11 @@ public class DataGridComponentTest : TestContext
         var dataGridRef = comp.FindComponent<DataGrid<Employee>>();
         await dataGridRef.Instance.Reload();
 
-        var currentName = comp.Find( "tbody tr.table-row-selectable:first-child td:nth-child(3)" ).TextContent;
 
         // validate
         comp.WaitForAssertion( () => Assert.Contains( comp.Instance.Data, x => x.Name == updatedName ), System.TimeSpan.FromSeconds( 3 ) );
 
+        var currentName = comp.Find( "tbody tr.table-row-selectable:first-child td:nth-child(3)" ).TextContent;
         Assert.Equal( updatedName, currentName );
 
         Assert.False( object.ReferenceEquals( EmployeeUpdatingOld, EmployeeUpdatingNew ) );
@@ -607,11 +635,11 @@ public class DataGridComponentTest : TestContext
         comp.Click( "#btnSave" );
 
 
-        var currentName = comp.Find( "tbody tr.table-row-selectable:first-child td:nth-child(3)" ).TextContent;
 
         // validate
         comp.WaitForAssertion( () => Assert.Contains( comp.Instance.Data, x => x.Name == updatedName ), System.TimeSpan.FromSeconds( 3 ) );
 
+        var currentName = comp.Find( "tbody tr.table-row-selectable:first-child td:nth-child(3)" ).TextContent;
         Assert.Equal( updatedName, currentName );
 
         Assert.False( object.ReferenceEquals( EmployeeUpdatingOld, EmployeeUpdatingNew ) );

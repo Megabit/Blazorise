@@ -36,6 +36,10 @@ else
             {
                 <_DataGridCellEdit Column="@Column" Item="@Item" ValidationItem="@ValidationItem" Field="@Column.Field" ValueType="@valueType" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" DateInputMode="@dateColumn.InputMode" />
             }
+            else if ( Column is DataGridSelectColumn<TItem> selectColumn )
+            {
+                <_DataGridCellSelectEdit Column="@selectColumn" CellValue="CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
+            }
             else
             {
                 <_DataGridCellEdit Column="@Column" Item="@Item" ValidationItem="@ValidationItem" Field="@Column.Field" ValueType="@valueType" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" />

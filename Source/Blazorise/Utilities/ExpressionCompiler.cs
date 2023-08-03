@@ -54,9 +54,19 @@ public static class ExpressionCompiler
     /// <param name="fieldName"></param>
     /// <returns></returns>
     public static Func<object, T> CreateFieldGetter<T>( object instance, string fieldName )
+        => CreateFieldGetter<T>( instance.GetType(), fieldName );
+
+    /// <summary>
+    /// Generates a function getter for a field in an unknown instance.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="instanceType"></param>
+    /// <param name="fieldName"></param>
+    /// <returns></returns>
+    public static Func<object, T> CreateFieldGetter<T>( Type instanceType, string fieldName )
     {
         var parameterExp = Expression.Parameter( typeof( object ), "instance" );
-        var castExp = Expression.TypeAs( parameterExp, instance.GetType() );
+        var castExp = Expression.TypeAs( parameterExp, instanceType );
         var field = Expression.Field( castExp, fieldName );
 
         return Expression.Lambda<Func<object, T>>( Expression.Convert( field, typeof( T ) ), parameterExp ).Compile();

@@ -17,6 +17,11 @@
     "Row Edit": "Redigér række",
     "Row Create": "Opret række",
     "Create": "Opret",
-    "Drag a column header here to group by that column": "Træk en kolonneoverskrift hertil for at gruppere efter den kolonne"
+    "Drag a column header here to group by that column": "Træk en kolonneoverskrift hertil for at gruppere efter den kolonne",
+    "Contains": "Indeholder",
+    "Starts With": "Starter med",
+    "Ends With": "Ender med",
+    "Equals": "Lige med",
+    "Not Equals": "Ikke Lige"
   }
 }

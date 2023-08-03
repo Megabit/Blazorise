@@ -13,8 +13,8 @@ public class TailwindClassProvider : ClassProvider
     #region TextEdit
 
     public override string TextEdit( bool plaintext ) => plaintext
-        ? "text-gray-900 border-none focus:ring-primary-500 focus:border-primary-500 block w-full dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:bg-gray-100 readonly:bg-gray-100"
-        : "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:bg-gray-100 aria-readonly:bg-gray-100";
+        ? "text-gray-900 border-none rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-800 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75"
+        : "bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500 disabled:cursor-not-allowed disabled:opacity-75";
 
     public override string TextEditSize( Size size )
     {
@@ -29,7 +29,7 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string TextEditColor( Color color ) => $"text-{ToColor( color )}";
+    public override string TextEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
     public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -65,7 +65,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string NumericEditSize( Size size ) => TextEditSize( size );
 
-    public override string NumericEditColor( Color color ) => $"text-{ToColor( color )}";
+    public override string NumericEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
     public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -77,7 +77,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DateEditSize( Size size ) => TextEditSize( size );
 
-    public override string DateEditColor( Color color ) => $"text-{ToColor( color )}";
+    public override string DateEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
     public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -89,7 +89,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TimeEditSize( Size size ) => TextEditSize( size );
 
-    public override string TimeEditColor( Color color ) => $"text-{ToColor( color )}";
+    public override string TimeEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
     public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -120,7 +120,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => TextEditSize( size );
 
-    public override string DatePickerColor( Color color ) => $"text-{ToColor( color )}";
+    public override string DatePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -132,7 +132,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => TextEditSize( size );
 
-    public override string TimePickerColor( Color color ) => $"text-{ToColor( color )}";
+    public override string TimePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -163,7 +163,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => TextEditSize( size );
 
-    public override string NumericPickerColor( Color color ) => $"text-{ToColor( color )}";
+    public override string NumericPickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -175,7 +175,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => TextEditSize( size );
 
-    public override string InputMaskColor( Color color ) => $"text-{ToColor( color )}";
+    public override string InputMaskColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -573,6 +573,12 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownMenu() => "b-dropdown-menu z-10 w-max bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700";
 
+    public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
+        => $"max-w-max top-0 left-0 {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "fixed" : "absolute" )}";
+
+    public override string DropdownFixedHeaderVisible( bool visible )
+        => visible ? "!z-20" : null;
+
     public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
     public override string DropdownMenuScrollable() => "b-dropdown-menu-scrollable max-h-[var(--dropdown-list-menu-max-height)] overflow-y-scroll";
@@ -827,13 +833,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardGroup() => "b-card-group flex flex-row gap-x-0";
 
-    public override string Card() => "b-card max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700";
+    public override string Card() => "b-card max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ";
 
     public override string CardWhiteText() => "text-white";
 
     public override string CardActions() => "b-card-actions";
 
-    public override string CardBody() => "b-card-body p-5 text-inherit";
+    public override string CardBody() => "b-card-body p-5 text-inherit text-gray-700 dark:text-gray-400";
 
     public override string CardFooter() => "b-card-footer px-5 py-4 text-inherit";
 
@@ -841,7 +847,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardImage() => "b-card-image rounded-t-lg text-inherit";
 
-    public override string CardTitle( bool insideHeader ) => "b-card-title mb-2 text-2xl font-bold tracking-tight text-inherit";
+    public override string CardTitle( bool insideHeader ) => "b-card-title mb-2 text-2xl font-bold tracking-tight text-inherit text-gray-900 dark:text-white";
 
     public override string CardTitleSize( bool insideHeader, int? size ) => null;
 
@@ -1043,8 +1049,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu
-            ? "b-bar-dropdown-toggle flex items-center justify-between w-full px-4 py-2 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
-            : "b-bar-dropdown-toggle flex items-center justify-between w-full px-4 py-2 font-medium text-gray-700 md:hover:text-primary-700 md:w-auto dark:text-gray-400 dark:focus:text-white"
+            ? "b-bar-dropdown-toggle flex items-center justify-between w-full px-4 py-2 font-medium text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
+            : "b-bar-dropdown-toggle flex items-center justify-between w-full px-4 py-2 font-medium text-gray-700 md:hover:text-primary-700 md:w-auto dark:text-gray-400"
         : "b-bar-link b-bar-dropdown-toggle";
 
     public override string BarDropdownToggleDisabled( BarMode mode, bool isBarDropDownSubmenu, bool disabled ) => mode == Blazorise.BarMode.Horizontal && disabled

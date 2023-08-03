@@ -94,6 +94,24 @@
   overflow: initial;
 }
 
+.table-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {
+  z-index: 11;
+}
+
+.dropdown-menu-position-strategy {
+  width: max-content;
+  top: 0;
+  left: 0;
+}
+
+.dropdown-menu-position-strategy-absolute {
+  position: absolute;
+}
+
+.dropdown-menu-position-strategy-fixed {
+  position: fixed;
+}
+
 .dropdown-toggle.dropdown-toggle-hidden::after {
   content: none !important;
 }
@@ -188,7 +206,7 @@
   right: auto;
 }
 .dropdown.dropup > .dropdown-menu:not([x-placement]) {
-  bottom: 100%;
+  bottom: auto;
   top: auto;
   left: auto;
   right: auto;

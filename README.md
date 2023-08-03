@@ -3,7 +3,6 @@
 # Components for Blazor
 
 [![NuGet](https://img.shields.io/nuget/vpre/Blazorise.svg)](https://www.nuget.org/profiles/Megabit)
-[![MyGet](https://img.shields.io/myget/blazorise/vpre/blazorise.svg?label=myget)](https://www.myget.org/gallery/blazorise)
 ![Nuget](https://img.shields.io/nuget/dt/Blazorise.svg)
 [![Discord](https://img.shields.io/discord/761589226965696552?color=%237289da&label=Discord&logo=discord&logoColor=%237289da&style=flat-square)](https://discord.io/blazorise)
 [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE.md)
@@ -178,19 +177,6 @@ builder.Services
         currentCount++;
     }
 }
-```
-
-## Try Preview
-
-If you're willing to try preview versions of Blazorise, all you need to do is set up Visual Studio to know how to use Blazorise [MyGet feed](https://www.myget.org/feed/Details/blazorise) feed. The easiest way to do this is to create `NuGet.config` file and place it into your solution root folder. Then you copy the following content and paste it to the `NuGet.config`.
-
-```xml
-<?xml version="1.0" encoding="utf-8"?>
-<configuration>
-  <packageSources>
-    <add key="BlazoriseMyGet" value="https://www.myget.org/F/blazorise/api/v3/index.json" />
-  </packageSources>
-</configuration>
 ```
 
 Now you will be able to get preview versions of Blazorise with the latest changes and bug fixes.

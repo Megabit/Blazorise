@@ -17,6 +17,11 @@
     "Row Edit": "Modifica riga",
     "Row Create": "Crea riga",
     "Create": "Crea",
-    "Drag a column header here to group by that column": "Trascina qui un'intestazione di colonna per raggruppare in base a quella colonna"
+    "Drag a column header here to group by that column": "Trascina qui un'intestazione di colonna per raggruppare in base a quella colonna",
+    "Contains": "Contiene",
+    "Starts With": "Inizia con",
+    "Ends With": "Finisce con",
+    "Equals": "Equivale",
+    "Not Equals": "Non uguale"
   }
 }
