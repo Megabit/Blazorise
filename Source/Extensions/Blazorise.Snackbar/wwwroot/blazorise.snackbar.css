@@ -10,7 +10,7 @@
   bottom: 0;
   left: 0;
   transform: translateY(100%);
-  transition: opacity 0s 0.195s, transform 0.195s cubic-bezier(0.4, 0, 1, 1);
+  transition: opacity 0s var(--transition-duration-mobile-leaving, 0.195s), transform var(--transition-duration-mobile-leaving, 0.195s) cubic-bezier(0.4, 0, 1, 1);
   width: 100%;
   z-index: 60;
 }
@@ -26,12 +26,12 @@
 }
 @media (min-width: 768px) {
   .snackbar {
-    transition: opacity 0s 0.2535s, transform 0.2535s cubic-bezier(0.4, 0, 1, 1);
+    transition: opacity 0s var(--transition-duration-tablet-leaving, 0.2535s), transform var(--transition-duration-tablet-leaving, 0.2535s) cubic-bezier(0.4, 0, 1, 1);
   }
 }
 @media (min-width: 1200px) {
   .snackbar {
-    transition: opacity 0s 0.13s, transform 0.13s cubic-bezier(0.4, 0, 1, 1);
+    transition: opacity 0s var(--transition-duration-desktop-leaving, 0.13s), transform var(--transition-duration-desktop-leaving, 0.13s) cubic-bezier(0.4, 0, 1, 1);
   }
 }
 @media screen and (prefers-reduced-motion: reduce) {
@@ -40,7 +40,7 @@
   }
 }
 .snackbar.snackbar-show {
-  transition-duration: 0.225s;
+  transition-duration: var(--transition-duration-mobile-entering, 0.225s);
   transition-property: transform;
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
   opacity: 1;
@@ -48,12 +48,12 @@
 }
 @media (min-width: 768px) {
   .snackbar.snackbar-show {
-    transition-duration: 0.2925s;
+    transition-duration: var(--transition-duration-tablet-entering, 0.2925s);
   }
 }
 @media (min-width: 1200px) {
   .snackbar.snackbar-show {
-    transition-duration: 0.15s;
+    transition-duration: var(--transition-duration-desktop-entering, 0.15s);
   }
 }
 @media screen and (prefers-reduced-motion: reduce) {
@@ -107,7 +107,7 @@
 }
 
 .snackbar-action-button {
-  transition-duration: 0.3s;
+  transition-duration: var(--transition-duration-mobile, 0.3s);
   transition-property: background-color, background-image;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   background-color: transparent;
@@ -127,12 +127,12 @@
 }
 @media (min-width: 768px) {
   .snackbar-action-button {
-    transition-duration: 0.39s;
+    transition-duration: var(--transition-duration-tablet, 0.39s);
   }
 }
 @media (min-width: 1200px) {
   .snackbar-action-button {
-    transition-duration: 0.2s;
+    transition-duration: var(--transition-duration-desktop, 0.2s);
   }
 }
 @media screen and (prefers-reduced-motion: reduce) {
