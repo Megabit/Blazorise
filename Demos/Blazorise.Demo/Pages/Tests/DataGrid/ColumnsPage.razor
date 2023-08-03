@@ -33,7 +33,7 @@
             </CardBody>
             <CardBody>
 
-                <DataGrid TItem="Employee" Data="@inMemoryData" Editable ShowPager Filterable>
+                <DataGrid TItem="Employee" Data="@inMemoryData" Responsive Editable ShowPager Filterable>
                     <DataGridColumns>
                         <DataGridCommandColumn TItem="Employee"></DataGridCommandColumn>
                         <DataGridColumn Editable Field="@nameof(Employee.FirstName)" Caption="First Name"></DataGridColumn>

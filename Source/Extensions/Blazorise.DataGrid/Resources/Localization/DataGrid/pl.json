@@ -17,6 +17,11 @@
     "Row Edit": "Edytuj wiersz",
     "Row Create": "Utwórz wiersz",
     "Create": "Utwórz",
-    "Drag a column header here to group by that column": "Przeciągnij tutaj nagłówek kolumny, aby pogrupować według tej kolumny"
+    "Drag a column header here to group by that column": "Przeciągnij tutaj nagłówek kolumny, aby pogrupować według tej kolumny",
+    "Contains": "Zawiera",
+    "Starts With": "Zaczynać z",
+    "Ends With": "Kończy się na",
+    "Equals": "EqualsRówna się",
+    "Not Equals": "Nie równe"
   }
 }

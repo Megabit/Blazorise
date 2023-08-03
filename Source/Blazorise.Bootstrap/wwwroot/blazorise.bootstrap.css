@@ -128,6 +128,10 @@
   border-radius: 0.4rem;
 }
 
+.table-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {
+  z-index: 11;
+}
+
 .dropdown-menu-position-strategy {
   width: max-content;
   top: 0;

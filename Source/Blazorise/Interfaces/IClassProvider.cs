@@ -410,6 +410,8 @@ public interface IClassProvider
 
     string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy );
 
+    string DropdownFixedHeaderVisible( bool visible );
+
     string DropdownMenu();
 
     string DropdownMenuSelector();

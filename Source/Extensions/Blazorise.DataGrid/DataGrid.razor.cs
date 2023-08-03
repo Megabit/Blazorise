@@ -1151,11 +1151,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Keep in mind that this command will always trigger <see cref="FilteredDataChanged"/> even
     /// though not any data is actually changed.
     /// </remarks>
-    public void FilterData()
+    public async void FilterData()
     {
+        var wasDirty = dirtyFilter;
         FilterData( Data?.AsQueryable() );
 
-        InvokeAsync( StateHasChanged );
+        if ( wasDirty )
+            await InvokeAsync( StateHasChanged );
+        else
+            await Reload();
     }
 
     /// <summary>
@@ -1747,7 +1751,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue, column.FilterMethod )
+                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod() )
                             select item;
                 }
             }
@@ -2319,6 +2323,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool Filterable { get; set; }
 
     /// <summary>
+    /// Gets or sets the filter mode.
+    /// </summary>
+    [Parameter] public DataGridFilterMode FilterMode { get; set; }
+
+    /// <summary>
     /// Gets or sets whether the data will be grouped. Column groups need to be configured.
     /// </summary>
     [Parameter] public bool Groupable { get; set; }
@@ -2850,6 +2859,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <para>Suggested usage: rendering content conditionally according to the defined <see cref="HeaderGroupContext.HeaderGroupCaption"/></para>
     /// </summary>
     [Parameter] public RenderFragment<HeaderGroupContext> HeaderGroupCaptionTemplate { get; set; }
+
+    /// <summary>
+    /// Template for the filter column. When filter mode is set to DataGridFilterMode.Menu, this template will be used to render the filter content.
+    /// </summary>
+    [Parameter] public RenderFragment<FilterColumnContext<TItem>> FilterMenuTemplate { get; set; }
 
     #endregion
 }
