@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 using Blazorise.Snackbar.Utils;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -16,6 +17,7 @@ public partial class Snackbar : BaseComponent, IDisposable
 {
     #region Members
 
+    // A unique key associated with this snackbar.
     private string key;
 
     /// <summary>
@@ -43,12 +45,18 @@ public partial class Snackbar : BaseComponent, IDisposable
     /// </summary>
     private CountdownTimer countdownTimer;
 
+    /// <summary>
+    /// A flag that indicates if the snackbar is currently being closed with animation.
+    /// </summary>
     private bool closeAnimation = false;
 
+    /// <summary>
+    /// A timer used to control the duration of the closing animation.
+    /// </summary>
     private CountdownTimer closeAnimationTimer;
 
     /// <summary>
-    /// Flag that indicates if snackbar close action was delayed.
+    /// A flag that indicates if the snackbar close action was delayed.
     /// </summary>
     private bool closingDelayed = false;
 
@@ -58,7 +66,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     private SnackbarCloseReason closeReason = SnackbarCloseReason.None;
 
     /// <summary>
-    /// List of all action buttons placed inside of a snackbar.
+    /// List of all action buttons placed inside the snackbar.
     /// </summary>
     private List<SnackbarAction> snackbarActions = new();
 
@@ -80,21 +88,30 @@ public partial class Snackbar : BaseComponent, IDisposable
 
     protected override void OnInitialized()
     {
+
         if ( countdownTimer == null )
         {
-            countdownTimer = new( Interval );
-
+            countdownTimer = new CountdownTimer( Interval );
             countdownTimer.Elapsed += OnCountdownTimerElapsed;
         }
-
-        if ( closeAnimationTimer == null )
+        else
         {
-            closeAnimationTimer = new( 500 );
-
-            closeAnimationTimer.Elapsed += OnCloseAnimationTimerElapsed;
+            countdownTimer.Duration = Interval;
         }
 
         base.OnInitialized();
+    }
+
+    protected override void OnParametersSet()
+    {
+        if ( closeAnimationTimer == null || closeAnimationTimer.Duration != CloseAnimationDuration )
+        {
+            closeAnimationTimer?.Dispose();
+            closeAnimationTimer = new CountdownTimer( CloseAnimationDuration );
+            closeAnimationTimer.Elapsed += OnCloseAnimationTimerElapsed;
+        }
+
+        base.OnParametersSet();
     }
 
     /// <inheritdoc/>
@@ -135,6 +152,8 @@ public partial class Snackbar : BaseComponent, IDisposable
             return Task.CompletedTask;
 
         Visible = true;
+        closeAnimation = false; 
+        closingDelayed = false; 
 
         return InvokeAsync( StateHasChanged );
     }
@@ -142,12 +161,10 @@ public partial class Snackbar : BaseComponent, IDisposable
     async Task BeginHide( SnackbarCloseReason closeReason )
     {
         closeAnimation = true;
-        closeAnimationTimer.Delay( CloseAnimationInterval );
+        await Task.Delay( (int)CloseAnimationDuration );
+        closeAnimation = false;
 
-        DirtyClasses();
-        DirtyStyles();
-
-        await InvokeAsync( StateHasChanged );
+        await Hide( closeReason );
     }
 
     /// <summary>
@@ -167,24 +184,21 @@ public partial class Snackbar : BaseComponent, IDisposable
 
         Visible = false;
 
-        closingDelayed = false;
 
-        // finally reset close reason so it doesn't interfere with internal closing by Visible property
         this.closeReason = SnackbarCloseReason.None;
 
         return InvokeAsync( StateHasChanged );
     }
 
+
     private void OnCountdownTimerElapsed( object sender, EventArgs e )
     {
-        // InvokeAsync is used to prevent from blocking threads
+
         InvokeAsync( () => BeginHide( SnackbarCloseReason.None ) );
     }
 
     private async void OnCloseAnimationTimerElapsed( object sender, EventArgs e )
     {
-        closeAnimation = false;
-
         await Hide( SnackbarCloseReason.None );
     }
 
@@ -204,6 +218,7 @@ public partial class Snackbar : BaseComponent, IDisposable
         DirtyStyles();
     }
 
+
     private void RaiseEvents( bool visible )
     {
         if ( !visible )
@@ -211,6 +226,7 @@ public partial class Snackbar : BaseComponent, IDisposable
             InvokeAsync( () => Closed.InvokeAsync( new( Key, closeReason ) ) );
         }
     }
+
 
     internal void NotifySnackbarActionInitialized( SnackbarAction snackbarAction )
     {
@@ -220,6 +236,7 @@ public partial class Snackbar : BaseComponent, IDisposable
         if ( !snackbarActions.Contains( snackbarAction ) )
             snackbarActions.Add( snackbarAction );
     }
+
 
     internal void NotifySnackbarActionRemoved( SnackbarAction snackbarAction )
     {
@@ -314,6 +331,12 @@ public partial class Snackbar : BaseComponent, IDisposable
     /// Defines the interval(in milliseconds) after which the snackbar will be automatically closed.
     /// </summary>
     [Parameter] public double Interval { get; set; } = Constants.DefaultIntervalBeforeClose;
+
+    /// <summary>
+    /// Defines the duration of the closing animation of the snackbar.
+    /// </summary>
+    [Parameter]
+    public double CloseAnimationDuration { get; set; } = 500; // Default duration is 500ms
 
     /// <summary>
     /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="Interval"/> time.

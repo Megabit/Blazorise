@@ -50,6 +50,11 @@ public class SnackbarOptions
     public object ActionButtonIcon { get; set; }
 
     /// <summary>
+    /// Time in millisecond for snackbar closing animation.
+    /// </summary>
+    public double? CloseAnimationInterval { get; set; }
+
+    /// <summary>
     /// Time in millisecond until snackbar is automatically closed.
     /// </summary>
     public double? IntervalBeforeClose { get; set; }

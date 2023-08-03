@@ -28,6 +28,7 @@ public partial class SnackbarStack : BaseComponent
             string actionButtonText,
             object actionButtonIcon,
             double? intervalBeforeClose,
+            double? closeAnimationInterval,
             bool multiline )
         {
             Message = message;
@@ -42,6 +43,7 @@ public partial class SnackbarStack : BaseComponent
             ActionButtonText = actionButtonText;
             ActionButtonIcon = actionButtonIcon;
             IntervalBeforeClose = intervalBeforeClose;
+            CloseAnimationInterval = closeAnimationInterval;
             Multiline = multiline;
         }
 
@@ -66,6 +68,8 @@ public partial class SnackbarStack : BaseComponent
         public string ActionButtonText { get; }
 
         public object ActionButtonIcon { get; }
+
+        public double? CloseAnimationInterval { get; }
 
         public double? IntervalBeforeClose { get; }
 
@@ -151,6 +155,7 @@ public partial class SnackbarStack : BaseComponent
             snackbarOptions.ActionButtonText,
             snackbarOptions.ActionButtonIcon,
             snackbarOptions.IntervalBeforeClose,
+            snackbarOptions.CloseAnimationInterval,
             snackbarOptions.Multiline ) );
 
         return InvokeAsync( StateHasChanged );

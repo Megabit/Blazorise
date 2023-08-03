@@ -115,6 +115,7 @@ public class CountdownTimer : IDisposable
     /// Flag that indicates if the component is already fully disposed.
     /// </summary>
     protected bool Disposed { get; private set; }
+    public double Duration { get; set; }
 
     #endregion
 }
