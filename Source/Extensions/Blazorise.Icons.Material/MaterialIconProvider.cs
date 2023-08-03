@@ -124,7 +124,7 @@ class MaterialIconProvider : BaseIconProvider
         { IconName.FilePdf, "picture_as_pdf" },
         { IconName.FileUpload, "file_upload" },
         { IconName.Film, "theaters" },
-        { IconName.Filter, "filter" },
+        { IconName.Filter, MaterialIcons.FilterAlt },
         { IconName.Fingerprint, "fingerprint" },
         { IconName.Fire, "whatshot" },
         { IconName.Flag, "flag" },

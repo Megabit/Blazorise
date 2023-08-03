@@ -109,6 +109,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/features/paging", "DataGrid Paging", "Paginate your data with customizable page size options and intuitive navigation controls." ),
                 new PageEntry( "docs/extensions/datagrid/features/resizing", "DataGrid Resizing", "Easily adjust the size of your columns with the Blazorise DataGrid's resizing feature. Drag and drop column edges to resize, or use customized options to fit your needs." ),
                 new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Sorting", "Blazorise DataGrid offers efficient data sorting with customizable options." ),
+                new PageEntry( "docs/extensions/datagrid/features/header-group", "DataGrid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),
 
 
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),

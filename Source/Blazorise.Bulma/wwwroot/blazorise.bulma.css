@@ -5485,6 +5485,24 @@ ol.is-ordered-list-upper-roman {
   margin-bottom: 1px;
 }
 
+.table-container-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {
+  z-index: 11;
+}
+
+.dropdown-menu-position-strategy {
+  width: max-content;
+  top: 0;
+  left: 0;
+}
+
+.dropdown-menu-position-strategy-absolute {
+  position: absolute;
+}
+
+.dropdown-menu-position-strategy-fixed {
+  position: fixed;
+}
+
 .dropdown.is-active .dropdown-menu {
   animation-duration: 0.3s;
   animation-fill-mode: both;
@@ -5581,7 +5599,7 @@ ol.is-ordered-list-upper-roman {
 }
 .dropdown.is-up > .dropdown-menu {
   display: none !important;
-  bottom: 100%;
+  bottom: auto;
   padding-bottom: 4px;
   padding-top: initial;
   top: auto;

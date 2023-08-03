@@ -3,7 +3,7 @@
 <video @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" poster="@Poster" data-poster="@Poster" role="video" controls="@Controls" autoplay="@AutoPlay" muted="@Muted" @attributes="@Attributes">
     @foreach ( var media in Source?.Medias ?? Enumerable.Empty<VideoMedia>() )
     {
-        <source src="@media.Source" type="@media.Type" />
+        <source src="@media.Source" type="@media.Type" size="@media.Size" />
     }
     @ChildContent
 </video>

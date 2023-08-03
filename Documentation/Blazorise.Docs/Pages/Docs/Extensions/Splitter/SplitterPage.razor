@@ -1,0 +1,190 @@
+﻿@page "/docs/extensions/splitter"
+
+<Seo Canonical="/docs/extensions/splitter" Title="Blazorise Splitter component" Description="Learn to use and work with the Blazorise Splitter component, a component for creating resizable split views in Blazor applications." />
+
+<DocsPageTitle Path="Extensions/Splitter">
+    Blazorise Splitter component
+</DocsPageTitle>
+
+<DocsPageLead>
+    The <Code>Splitter</Code> component is a dynamic control element in Blazor that generates resizable split views in applications.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The Splitter component allows you to segment your application screen into adjustable, standalone sections, either horizontally or vertically. This flexible utility lends itself to a wide variety of applications, from visually dividing up workspace areas, managing multi-panel layouts, to providing adjustable content viewing areas. It’s designed to enhance usability and optimize screen real estate utilization, thereby improving overall user experience. The ease of integration with other Blazor components makes Splitter a versatile tool in building responsive, intuitive, and user-friendly interfaces.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    To get started with Blazorise.Splitter, follow these simple installation steps:
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        <Paragraph>
+            First, you need to add the Blazorise.Splitter package to your project. You can do this by running the following command in your project's root directory:
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SplitterNugetInstallExample"></DocsPageSectionSource>
+    <DocsPageSectionHeader>
+        <Paragraph Margin="Margin.Is3.FromTop">
+            Alternatively, you can install the package using the .NET Core CLI:
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SplitterNugetInstall2Example"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Configuration">
+        <Paragraph>
+            Once the package is installed, you need to configure your Blazor project to use the Splitter component.
+        </Paragraph>
+        <Paragraph>
+            In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="SplitterImportsExample"></DocsPageSectionSource>
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    When working with the <Strong>Splitter</Strong> component in Blazorise, it's essential to set the width or height appropriately based on the <Strong>Direction</Strong> mode of the splitter.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    If the <Strong>Direction</Strong> mode is set to <Strong>Horizontal</Strong>, the splitter will create sections positioned side by side. In this mode, it's generally advisable to define the width of the Splitter component or its sections to ensure they render and behave as expected.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    On the other hand, if the <Strong>Direction</Strong> mode is set to <Strong>Vertical</Strong>, the splitter will create sections stacked one on top of the other. In this case, defining the height for the Splitter component or its sections is recommended for proper rendering and functionality.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    By setting these properties correctly according to the splitter direction, you can ensure a more predictable layout and a better user interaction experience.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Horizontal Splitter">
+        By default, the Splitter component creates a horizontal split. Here's a simple example:
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SplitterHorizontalExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SplitterHorizontalExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Vertical Splitter">
+        To create a vertical split, use the <Strong>Direction</Strong> parameter of the <Strong>Splitter</Strong> component and set it to <Strong>SplitterDirection.Vertical</Strong>:
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SplitterVerticalExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SplitterVerticalExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Gutter Size">
+        By adjusting the <Strong>GutterSize</Strong> value, you can control the thickness of the draggable area. A larger <Strong>GutterSize</Strong> makes the gutter wider and therefore easier to interact with, particularly on touch interfaces, while a smaller <Strong>GutterSize</Strong> makes the gutter more subtle.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SplitterGutterSIzeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SplitterGutterSIzeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Min Size">
+        <Paragraph>
+            In this example, <Code>MinSize="50"</Code> would mean that this <Strong>SplitterSection</Strong> cannot be resized to less than 50 pixels.
+        </Paragraph>
+        <Paragraph>
+            This ensures that regardless of how much the user adjusts the split using the gutter, the section will not shrink below this minimum size. This can be very useful to ensure that content within each section remains readable and usable, regardless of the user's interactions.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SplitterMinSizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SplitterMinSizeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Background Image">
+        <Paragraph>
+            Using <Strong>GutterBackgroundImage</Strong> can help to enhance the visual appeal of your application, or provide additional context or functionality. For instance, a background image might be used to represent the direction of resizing, or simply to better match the overall design theme of your application.
+        </Paragraph>
+        <Paragraph>
+            This parameter accepts either a <Strong>Base64</Strong> encoded string that represents an image, or a <Strong>URL</Strong> that points to an image resource.
+        </Paragraph>
+        <Paragraph>
+            Remember to choose an image that will look good when stretched or repeated across the width of the gutter, and that will not distract from the usability of the splitter.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <SplitterBackgroundImageExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="SplitterBackgroundImageExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes Title="Splitter">
+    <DocsAttributesItem Name="GutterSize" Type="double" Default="10">
+        Gutter size in pixels. Defaults to 10.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GutterBackgroundImage" Type="string" Default="null">
+        <Paragraph>
+            Defines the custom background image for the gutter element.
+        </Paragraph>
+        <Paragraph>
+            This parameter accepts either a <Strong>Base64</Strong> encoded string that represents an image, or a <Strong>URL</Strong> that points to an image resource.
+        </Paragraph>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ExpandToMin" Type="bool?">
+        When the split is created, if ExpandToMin is true, the minSize for each element overrides the percentage value from the sizes option.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GutterAlign" Type="SplitterGutterAlignment" Default="Center">
+        Determines how the gutter aligns between the two elements.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DragInterval" Type="double" Default="1">
+        <Paragraph>
+            Drag this number of pixels at a time. Defaults to 1 for smooth dragging, but can be set to a pixel value to give more control over the resulting sizes.
+        </Paragraph>
+        <Paragraph>
+            Works particularly well when the <Strong>GutterSize</Strong> is set to the same size.
+        </Paragraph>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Direction" Type="SplitterDirection" Default="Horizontal">
+        Direction to split in. Can be <Strong>Vertical</Strong> or <Strong>Horizontal</Strong>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Cursor" Type="string">
+        Cursor to display while dragging.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="SplitterSection">
+    <DocsAttributesItem Name="Size" Type="double?" Default="null">
+        Initial size of a section element in percents or CSS values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MinSize" Type="double" Default="100">
+        Minimum size of the section, specified as pixel value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxSize" Type="double" Default="PositiveInfinity">
+        Maximum size of the section, specified as pixel value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SnapOffset" Type="double">
+        Snap to minimum size offset in pixels.
+    </DocsAttributesItem>
+</DocsAttributes>

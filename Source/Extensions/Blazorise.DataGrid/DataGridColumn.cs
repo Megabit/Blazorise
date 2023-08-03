@@ -1,12 +1,10 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
-using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -23,6 +21,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     private readonly Lazy<Func<TItem, object>> sortFieldGetter;
 
     private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new();
+
+    /// <summary>
+    /// FilterMethod can come from programatically defined Parameter or explicitly by the user through the interface.
+    /// </summary>
+    private DataGridFilterMethod? currentFilterMethod;
 
     #endregion
 
@@ -48,6 +51,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
         currentSortDirection[DataGridSortMode.Single] = SortDirection;
         currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
+        currentFilterMethod = FilterMethod;
 
         if ( ParentDataGrid is not null )
         {
@@ -173,6 +177,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
                  || ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit ) );
     }
 
+    internal string BuildHeaderCellClass()
+    {
+        var sb = new StringBuilder();
+
+        if ( !string.IsNullOrEmpty( HeaderCellClass ) )
+            sb.Append( HeaderCellClass );
+
+        sb.Append( $" {ClassProvider.DropdownFixedHeaderVisible( DropdownFilterVisible && ParentDataGrid.IsFixedHeader )}" );
+
+        return sb.ToString().TrimStart( ' ' );
+    }
+
     internal string BuildHeaderCellStyle()
     {
         var sb = new StringBuilder();
@@ -234,6 +250,16 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     {
         SortOrder = sortOrder;
         return SortOrderChanged.InvokeAsync( sortOrder );
+    }
+
+    internal void SetFilterMethod( DataGridFilterMethod? filterMethod )
+    {
+        currentFilterMethod = filterMethod;
+    }
+
+    internal DataGridFilterMethod? GetFilterMethod()
+    {
+        return currentFilterMethod;
     }
 
     #endregion
@@ -370,6 +396,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     internal bool ExcludeFromEdit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
 
     internal bool ExcludeFromInit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+
+    /// <summary>
+    /// Tracks whether the dropdown filter is visible for this column.
+    /// </summary>
+    internal bool DropdownFilterVisible;
 
     /// <summary>
     /// Returns true if the cell value is editable.
@@ -729,6 +760,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <para>If null, uses the <see cref="DataGrid{TItem}.FilterMethod" /> </para>
     /// </summary>
     [Parameter] public DataGridFilterMethod? FilterMethod { get; set; }
+
+    /// <summary>
+    /// <para>Defines the caption to be displayed for a group header.</para>
+    /// <para>If set, all the column headers that are part of the group will be grouped under this caption.</para>
+    /// </summary>
+    [Parameter] public string HeaderGroupCaption { get; set; }
 
     #endregion
 }

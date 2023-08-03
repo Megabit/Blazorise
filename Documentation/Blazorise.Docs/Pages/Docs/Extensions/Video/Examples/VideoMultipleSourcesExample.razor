@@ -1,0 +1,15 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Video Source="@videoSource" DefaultQuality="720" />
+
+@code {
+    VideoSource videoSource = new VideoSource()
+    {
+        Medias = new ValueEqualityList<VideoMedia>
+        {
+            new VideoMedia("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4", "video/mp4", 576),
+            new VideoMedia("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4", "video/mp4", 720),
+            new VideoMedia("https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4", "video/mp4", 1080),
+        }
+    };
+}

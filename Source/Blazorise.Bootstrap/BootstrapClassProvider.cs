@@ -448,6 +448,12 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DropdownMenu() => "dropdown-menu";
 
+    public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
+        => $"dropdown-menu-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "dropdown-menu-position-strategy-fixed" : "dropdown-menu-position-strategy-absolute" )}";
+
+    public override string DropdownFixedHeaderVisible( bool visible )
+        => visible ? "dropdown-table-fixed-header-visible" : null;
+
     public override string DropdownMenuSelector() => "dropdown-menu";
 
     public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
@@ -855,9 +861,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ModalContent( bool dialog ) => "modal-content";
 
-    public override string ModalContentSize( ModalSize modalSize ) => modalSize != ModalSize.Default && modalSize != ModalSize.Fullscreen
-        ? $"modal-{ToModalSize( modalSize )}"
-        : null;
+    public override string ModalContentSize( ModalSize modalSize ) => null;
 
     public override string ModalContentCentered( bool centered ) => null;
 

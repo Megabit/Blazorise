@@ -41,7 +41,7 @@
                                     {
                                         @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
                                         {
-                                            Clicked = callbackFactory.Create( this, SaveWithValidation ),
+                                            Clicked = callbackFactory.Create( this, Save ),
                                             LocalizationString = saveButtonString,
                                             Item = Item,
                                         });
@@ -50,13 +50,13 @@
                                     {
                                         @if ( ParentDataGrid.SubmitFormOnEnter )
                                         {
-                                            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@SaveWithValidation">
+                                            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
                                                 @saveButtonString
                                             </Button>
                                         }
                                         else
                                         {
-                                            <Button Color="Color.Link" Clicked="@SaveWithValidation">
+                                            <Button Color="Color.Link" Clicked="@Save">
                                                 @saveButtonString
                                             </Button>
                                         }
@@ -108,7 +108,7 @@ else if ( EditMode == DataGridEditMode.Inline )
             {
                 @if ( column.IsCommandColumn )
                 {
-                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="@column" Save="@SaveWithValidation" />
+                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="@column" Save="@Save" />
                 }
                 else if ( column.IsMultiSelectColumn )
                 {

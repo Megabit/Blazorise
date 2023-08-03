@@ -5389,6 +5389,11 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
+        public const string CropperMessageSizeExample = @".AddHubOptions(o =>
+{
+    o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
+})";
+
         public const string CropperNugetInstallExample = @"Install-Package Blazorise.Cropper";
 
         public const string CropperViewerExample = @"<Row>
@@ -5770,7 +5775,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Responsive>
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
     <DataGridSelectColumn CustomFilter=""@OnGenderCustomFilter"" TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-    <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
 </DataGrid>
 
 @code{
@@ -6137,6 +6141,62 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""Mladen"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
 }";
 
+        public const string DataGridFilterModeColumnFilteringExample = @"<DataGrid @ref=""dataGrid""
+          TItem=""Employee""
+          Data=""@employeeList""
+          Responsive
+          Filterable
+          FilterMode=""DataGridFilterMode.Menu"">
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
+    <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
+    <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+</DataGrid>
+
+@code{
+    private DataGrid<Employee> dataGrid;
+    private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"" }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender=""M"" }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"" }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"" }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender=""F"" } };
+}";
+
+        public const string DataGridFilterModeColumnTemplateFilteringExample = @"<DataGrid @ref=""dataGrid""
+          TItem=""Employee""
+          Data=""@employeeList""
+          Responsive
+          Filterable
+          FilterMode=""DataGridFilterMode.Menu"">
+    <DataGridColumns>
+        <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
+        <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
+        <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+    </DataGridColumns>
+    <FilterMenuTemplate>
+        <Row>
+            <Column ColumnSize=""ColumnSize.Is4"">
+                <Select TValue=""DataGridFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
+                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.Contains"">Contains</SelectItem>
+                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.StartsWith"">Starts With</SelectItem>
+                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.EndsWith"">Ends With</SelectItem>
+                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.Equals"">Equals</SelectItem>
+                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.NotEquals"">Not Equals</SelectItem>
+                </Select>
+            </Column>
+
+            <Column ColumnSize=""ColumnSize.Is4"">
+                <TextEdit Text=""@context.GetSearchValue()?.ToString()"" TextChanged=""@((newValue) => context.Column.Filter.SearchValue = newValue)"" />
+            </Column>
+
+            <Column ColumnSize=""ColumnSize.Is4"">
+                <Button Clicked=""context.Filter"" Color=""Color.Primary""><Icon Name=""IconName.Filter""></Icon> Filter</Button>
+                <Button Clicked=""context.ClearFilter"" Color=""Color.Light""><Icon Name=""IconName.Clear""></Icon> Clear</Button>
+            </Column>
+        </Row>
+    </FilterMenuTemplate>
+</DataGrid>
+
+@code {
+    private DataGrid<Employee> dataGrid;
+    private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"" }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender = ""M"" }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"" }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"" }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender = ""F"" } };
+}";
+
         public const string DataGridFixedHeaderExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
@@ -6191,6 +6251,129 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     protected override async Task OnInitializedAsync()
     {
         employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridGroupingMethodsExample = @"<Paragraph>
+    <Button Color=""Color.Primary"" Clicked=""@(() => dataGridRef.ExpandAllGroups())"">Expand All</Button>
+    <Button Color=""Color.Secondary"" Clicked=""@(() => dataGridRef.CollapseAllGroups())"">Collapse All</Button>
+</Paragraph>
+
+<Paragraph>
+    <Field>
+        <FieldLabel>
+            <SelectList Data=""@dataGridRef?.DisplayGroupedData""
+                        TItem=""GroupContext<Employee>"" TValue=""string""
+                        TextField=""x=> x.Key"" ValueField=""x=> x.Key""
+            @bind-SelectedValue=""selectedGroupKey""></SelectList>
+        </FieldLabel>
+        <FieldBody>
+            <Button Color=""Color.Primary"" Clicked=""@(() => dataGridRef.ExpandGroups(selectedGroupKey))"">Expand Selected Group</Button>
+            <Button Color=""Color.Secondary"" Clicked=""@(() => dataGridRef.CollapseGroups(selectedGroupKey))"">Collapse Selected Group</Button>
+            <Button Color=""Color.Light"" Clicked=""@(() => dataGridRef.ToggleGroups(selectedGroupKey))"">Toggle Selected Group</Button>
+        </FieldBody>
+    </Field>
+</Paragraph>
+
+<DataGrid @ref=""dataGridRef""
+          TItem=""Employee""
+          Data=""@employeeList""
+          Responsive
+          Groupable
+          GroupBy=""(x=> new { x.Childrens, x.Gender} )"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Gender)"" Caption=""Gender"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Childrens)"" Caption=""Children"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable />
+</DataGrid>
+
+@code{
+    [Inject] public EmployeeData EmployeeData { get; set; }
+
+    private string selectedGroupKey = ""{ Childrens = 1, Gender = F }"";
+    private DataGrid<Employee> dataGridRef;
+    private List<Employee> employeeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridHeaderGroupExample = @"<DataGrid TItem=""Employee""
+          Data=""inMemoryData""
+          ShowPager
+          ShowPageSizes
+          ShowHeaderGroupCaptions>
+    <DataGridColumns>
+        <DataGridColumn DisplayOrder=2 TItem=""Employee"" Field=""@nameof( Employee.LastName )"" HeaderGroupCaption=""Personal Info"" Caption=""Last Name"" />
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" HeaderGroupCaption=""Personal Info"" Caption=""First Name"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" HeaderGroupCaption=""Address"" Caption=""Zip"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" HeaderGroupCaption=""Address"" Caption=""City"">
+            <CaptionTemplate>
+                <Icon Name=""IconName.City"" /> @context.Caption
+            </CaptionTemplate>
+        </DataGridColumn>
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" HeaderGroupCaption=""Personal Info"" Caption=""Email"" />
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private List<Employee> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridHeaderGroupTemplateExample = @"<DataGrid TItem=""Employee""
+          Data=""inMemoryData""
+          ShowPager
+          ShowPageSizes
+          ShowHeaderGroupCaptions>
+    <DataGridColumns>
+        <DataGridColumn DisplayOrder=2 TItem=""Employee"" Field=""@nameof( Employee.LastName )"" HeaderGroupCaption=""PersonalInfo"" Caption=""Last Name"" />
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" HeaderGroupCaption=""PersonalInfo"" Caption=""First Name"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" HeaderGroupCaption=""Address"" Caption=""Zip"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" HeaderGroupCaption=""Address"" Caption=""City"">
+            <CaptionTemplate>
+                <Icon Name=""IconName.City"" /> @context.Caption
+            </CaptionTemplate>
+        </DataGridColumn>
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" HeaderGroupCaption=""PersonalInfo"" Caption=""Email"" />
+    </DataGridColumns>
+    <HeaderGroupCaptionTemplate>
+        @if ( context.HeaderGroupCaption == ""PersonalInfo"" )
+        {
+            <Strong TextColor=""TextColor.Primary"">Personal Information</Strong>
+        }
+        else if ( context.HeaderGroupCaption == ""Address"" )
+        {
+            <Strong TextColor=""TextColor.Success"">Address</Strong>
+        }
+    </HeaderGroupCaptionTemplate>
+</DataGrid>
+
+@code {
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private List<Employee> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
         await base.OnInitializedAsync();
     }
 }";
@@ -7961,6 +8144,57 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""20px"" />";
 
+        public const string SplitterBackgroundImageExample = @"<Splitter Style=""height: 100px;"" GutterSize=""32"" GutterBackgroundImage=""_content/Blazorise.Docs/assets/img/icons/resize-horizontal-30.png"">
+    <SplitterSection>
+        <div>Hello!</div>
+    </SplitterSection>
+    <SplitterSection>
+        <div>World!</div>
+    </SplitterSection>
+</Splitter>";
+
+        public const string SplitterGutterSIzeExample = @"<Splitter Style=""height: 100px;"" GutterSize=""50"">
+    <SplitterSection>
+        <div>Hello!</div>
+    </SplitterSection>
+    <SplitterSection>
+        <div>World!</div>
+    </SplitterSection>
+</Splitter>";
+
+        public const string SplitterHorizontalExample = @"<Splitter Style=""height: 100px;"">
+    <SplitterSection>
+        <div>Hello!</div>
+    </SplitterSection>
+    <SplitterSection>
+        <div>World!</div>
+    </SplitterSection>
+</Splitter>";
+
+        public const string SplitterImportsExample = @"@using Blazorise.Splitter";
+
+        public const string SplitterMinSizeExample = @"<Splitter Style=""height: 100px;"">
+    <SplitterSection MinSize=""50"">
+        <div>Hello!</div>
+    </SplitterSection>
+    <SplitterSection>
+        <div>World!</div>
+    </SplitterSection>
+</Splitter>";
+
+        public const string SplitterNugetInstall2Example = @"dotnet add package Blazorise.Splitter";
+
+        public const string SplitterNugetInstallExample = @"Install-Package Blazorise.Splitter";
+
+        public const string SplitterVerticalExample = @"<Splitter Direction=""SplitterDirection.Vertical"" Style=""height: 250px;"">
+    <SplitterSection>
+        <div>Hello!</div>
+    </SplitterSection>
+    <SplitterSection>
+        <div>World!</div>
+    </SplitterSection>
+</Splitter>";
+
         public const string TreeViewExample = @"<TreeView Nodes=""Items""
           GetChildNodes=""@(item => item.Children)""
           HasChildNodes=""@(item => item.Children?.Any() == true)""
@@ -8189,6 +8423,20 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         public const string ImportVideoExample = @"@using Blazorise.Video";
 
         public const string StreamingVideoExample = @"<Video Source=""@(""https://dash.akamaized.net/akamai/bbb_30fps/bbb_30fps.mpd"")"" StreamingLibrary=""StreamingLibrary.Dash"" />";
+
+        public const string VideoMultipleSourcesExample = @"<Video Source=""@videoSource"" DefaultQuality=""720"" />
+
+@code {
+    VideoSource videoSource = new VideoSource()
+    {
+        Medias = new ValueEqualityList<VideoMedia>
+        {
+            new VideoMedia(""https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-576p.mp4"", ""video/mp4"", 576),
+            new VideoMedia(""https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-720p.mp4"", ""video/mp4"", 720),
+            new VideoMedia(""https://cdn.plyr.io/static/demo/View_From_A_Blue_Moon_Trailer-1080p.mp4"", ""video/mp4"", 1080),
+        }
+    };
+}";
 
         public const string VideoNugetInstallExample = @"Install-Package Blazorise.Video";
 
@@ -8486,7 +8734,7 @@ builder.Services
 
     Task SelectCulture( string name )
     {
-        LocalizationService.ChangeLanguage( name );
+        LocalizationService.ChangeLanguage( name, false );
 
         return Task.CompletedTask;
     }
