@@ -1,0 +1,78 @@
+﻿@page "/docs/extensions/chart-annotation"
+
+<Seo Canonical="/docs/extensions/chart-annotation" Title="Blazorise Chart Annotation component" Description="Learn to use and work with the Blazorise Chart Annotation extension, Chart.js plugin for display annotations on data for any type of charts." />
+
+<DocsPageTitle Path="Extensions/Chart Annotation">
+    Blazorise Chart Annotation
+</DocsPageTitle>
+
+<DocsPageLead>
+    Draw lines, boxes, points, labels, polygons and ellipses on the chart area.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Annotations work with line, bar, scatter and bubble charts that use linear, logarithmic, time, or category scales. Annotations will not work on any chart that does not have two or more axes, including pie, radar, and polar area charts.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Annotations are made possible with the help of <Anchor To="https://www.chartjs.org/chartjs-plugin-annotation/latest/" Title="Link to chart Chart Annotation plugin" Target="Target.Blank">chartjs-plugin-annotation</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install chart annotations extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ChartAnnotationNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static Files">
+        Include the necessary files into your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ChartAnnotationResourcesExample" />
+    <DocsPageSectionContent FullWidth>
+        <Alert Visible Color="Color.Warning">
+             <AlertMessage>
+                 IMPORTANT
+             </AlertMessage>
+             <AlertDescription>
+                 chartjs-plugin-annotation must be loaded after the Chart.js library!
+             </AlertDescription>
+         </Alert>
+     </DocsPageSectionContent>
+ </DocsPageSection>
+
+
+ <DocsPageSubtitle>
+     Examples
+ </DocsPageSubtitle>
+
+ <DocsPageSection>
+     <DocsPageSectionHeader Title="Line Chart">
+         <Paragraph>
+             Line annotations are used to draw lines on the chart area. This can be useful for highlighting information such as a threshold.
+         </Paragraph>
+     </DocsPageSectionHeader>
+     <DocsPageSectionContent Outlined FullWidth>
+        <ChartAnnotationExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ChartAnnotationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Options" Type="Dictionary<string, ChartAnnotationOptions>" Default="null">
+        Defines the options for an annotation.
+    </DocsAttributesItem>
+</DocsAttributes>

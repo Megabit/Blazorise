@@ -96,5 +96,8 @@ public partial class ChartAnnotation<TItem> : BaseComponent, IAsyncDisposable
 
     [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }
 
+    /// <summary>
+    /// Defines the options for an annotation.
+    /// </summary>
     [Parameter] public Dictionary<string, ChartAnnotationOptions> Options { get; set; }
 }
