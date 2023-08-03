@@ -88,15 +88,10 @@ public partial class Snackbar : BaseComponent, IDisposable
 
     protected override void OnInitialized()
     {
-
         if ( countdownTimer == null )
         {
             countdownTimer = new CountdownTimer( Interval );
             countdownTimer.Elapsed += OnCountdownTimerElapsed;
-        }
-        else
-        {
-            countdownTimer.Duration = Interval;
         }
 
         base.OnInitialized();
@@ -104,10 +99,10 @@ public partial class Snackbar : BaseComponent, IDisposable
 
     protected override void OnParametersSet()
     {
-        if ( closeAnimationTimer == null || closeAnimationTimer.Duration != CloseAnimationDuration )
+        if ( closeAnimationTimer == null )
         {
             closeAnimationTimer?.Dispose();
-            closeAnimationTimer = new CountdownTimer( CloseAnimationDuration );
+            closeAnimationTimer = new CountdownTimer( CloseAnimationInterval );
             closeAnimationTimer.Elapsed += OnCloseAnimationTimerElapsed;
         }
 
@@ -161,7 +156,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     async Task BeginHide( SnackbarCloseReason closeReason )
     {
         closeAnimation = true;
-        await Task.Delay( (int)CloseAnimationDuration );
+        await Task.Delay( (int)CloseAnimationInterval );
         closeAnimation = false;
 
         await Hide( closeReason );
@@ -336,7 +331,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     /// Defines the duration of the closing animation of the snackbar.
     /// </summary>
     [Parameter]
-    public double CloseAnimationDuration { get; set; } = 500; // Default duration is 500ms
+    public double CloseAnimationInterval { get; set; } = 500;
 
     /// <summary>
     /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="Interval"/> time.
