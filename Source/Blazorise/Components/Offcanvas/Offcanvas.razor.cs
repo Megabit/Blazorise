@@ -490,6 +490,5 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
-    //test comment for CLA
     #endregion
 }
