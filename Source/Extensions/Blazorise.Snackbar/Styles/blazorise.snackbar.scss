@@ -107,7 +107,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
 }
 
 .snackbar-body {
-     display: flex;
+    display: flex;
     -ms-flex-pack: justify;
     justify-content: space-between;
     @include text-truncate;
@@ -188,7 +188,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
         top: 0;
         bottom: auto;
         transform: translateY(-100%);
-        left:0;
+        left: 0;
 
         @include media-breakpoint-up($snackbar-breakpoint) {
             transform: translateY(-100%);
@@ -296,31 +296,76 @@ $snackbar-padding-y-multi: 1.25rem !default;
 .snackbar-stack-top .snackbar.snackbar-show,
 .snackbar-stack-top-left .snackbar.snackbar-show,
 .snackbar-stack-top-right .snackbar.snackbar-show {
-    transition: all 0.5s;
-    animation: showTop 0.5s forwards;
+    transition: all $transition-duration-mobile-entering;
+    animation: showTop $transition-duration-mobile-entering forwards;
+
+    @include media-breakpoint-up(sm) {
+        transition: all $transition-duration-tablet-entering;
+        animation: showTop $transition-duration-tablet-entering forwards;
+    }
+
+    @include media-breakpoint-up(lg) {
+        transition: $transition-duration-desktop-entering;
+        animation: showTop $transition-duration-desktop-entering forwards;
+    }
+
     opacity: 1;
 }
 
 .snackbar-stack-top .snackbar-hide,
 .snackbar-stack-top-left .snackbar-hide,
 .snackbar-stack-top-right .snackbar-hide {
-    transition: all 1s;
-    animation: hideTop 0.5s forwards;
+    transition: all $transition-duration-mobile-leaving;
+    animation: hideTop $transition-duration-mobile-leaving forwards;
+
+    @include media-breakpoint-up(sm) {
+        transition: all $transition-duration-tablet-leaving;
+        animation: hideTop $transition-duration-tablet-leaving forwards;
+    }
+
+    @include media-breakpoint-up(lg) {
+        transition: $transition-duration-desktop-leaving;
+        animation: hideTop $transition-duration-desktop-leaving forwards;
+    }
+
     opacity: 0;
 }
 
 .snackbar-stack-bottom .snackbar.snackbar-show,
 .snackbar-stack-bottom-left .snackbar.snackbar-show,
 .snackbar-stack-bottom-right .snackbar.snackbar-show {
-    transition: all 0.5s;
-    animation: showBottom 0.5s forwards;
+    transition: all $transition-duration-mobile-entering;
+    animation: showBottom $transition-duration-mobile-entering forwards;
+
+    @include media-breakpoint-up(sm) {
+        transition: all $transition-duration-tablet-entering;
+        animation: showBottom $transition-duration-tablet-entering forwards;
+    }
+
+    @include media-breakpoint-up(lg) {
+        transition: $transition-duration-desktop-entering;
+        animation: showBottom $transition-duration-desktop-entering forwards;
+    }
+
     opacity: 1;
 }
+
 .snackbar-stack-bottom .snackbar-hide,
 .snackbar-stack-bottom-left .snackbar-hide,
 .snackbar-stack-bottom-right .snackbar-hide {
-    transition: all 1s;
-    animation: hideBottom 0.5s forwards;
+    transition: all $transition-duration-mobile-leaving;
+    animation: hideBottom $transition-duration-mobile-leaving forwards;
+
+    @include media-breakpoint-up(sm) {
+        transition: all $transition-duration-tablet-leaving;
+        animation: hideBottom $transition-duration-tablet-leaving forwards;
+    }
+
+    @include media-breakpoint-up(lg) {
+        transition: $transition-duration-desktop-leaving;
+        animation: hideBottom $transition-duration-desktop-leaving forwards;
+    }
+
     opacity: 0;
 }
 
