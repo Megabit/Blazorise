@@ -923,7 +923,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "offcanvas-backdrop";
 
-    public override string OffcanvasBackdropFade() => "is-active";
+    public override string OffcanvasBackdropFade() => null;
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? "is-active" : null;
 
