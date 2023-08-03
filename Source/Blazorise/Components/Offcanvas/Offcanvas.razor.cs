@@ -166,8 +166,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
 
             ExecuteAfterRender( async () =>
             {
-                await JSOffcanvasModule.OpenOffcanvas( ElementRef, Placement );
-
                 await JSClosableModule.Register( dotNetObjectRef, ElementRef );
             } );
         }
@@ -177,9 +175,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
 
             ExecuteAfterRender( async () =>
             {
-                await JSOffcanvasModule.CloseOffcanvas( ElementRef );
-
-
                 await JSClosableModule.Unregister( this );
             } );
         }
@@ -424,11 +419,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     /// Returns true if the offcanvas backdrop should be visible.
     /// </summary>
     protected internal bool BackdropVisible = false;
-
-    /// <summary>
-    /// The injected JavaScript module for Offcanvas operations.
-    /// </summary>
-    [Inject] public IJSOffcanvasModule JSOffcanvasModule { get; set; }
 
     /// <summary>
     /// The injected JavaScript module for closable operations.

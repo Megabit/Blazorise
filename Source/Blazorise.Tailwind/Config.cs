@@ -28,7 +28,6 @@ public static class Config
         serviceCollection.AddTailwindComponents();
 
         serviceCollection.AddScoped<IJSModalModule, Modules.TailwindJSModalModule>();
-        serviceCollection.AddScoped<IJSOffcanvasModule, Modules.TailwindJSOffcanvasModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.TailwindJSTooltipModule>();
 
         return serviceCollection;

@@ -31,7 +31,6 @@ public static class Config
         }
 
         serviceCollection.AddScoped<IJSModalModule, Modules.AntDesignJSModalModule>();
-        serviceCollection.AddScoped<IJSOffcanvasModule, Modules.AntDesignJSOffcanvasModule>();
         serviceCollection.AddScoped<IJSTooltipModule, Modules.AntDesignJSTooltipModule>();
 
         return serviceCollection;
