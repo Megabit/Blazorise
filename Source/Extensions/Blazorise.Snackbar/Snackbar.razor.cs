@@ -107,7 +107,8 @@ public partial class Snackbar : BaseComponent, IDisposable
     {
         if ( countdownTimer == null )
         {
-            countdownTimer = new CountdownTimer( Interval );
+            countdownTimer = new( Interval );
+
             countdownTimer.Elapsed += OnCountdownTimerElapsed;
         }
 
