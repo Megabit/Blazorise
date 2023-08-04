@@ -296,8 +296,8 @@ $snackbar-padding-y-multi: 1.25rem !default;
 .snackbar-stack-top .snackbar.snackbar-show,
 .snackbar-stack-top-left .snackbar.snackbar-show,
 .snackbar-stack-top-right .snackbar.snackbar-show {
-    transition: all var(--stack-transition-duration);
-    animation: showTop var(--stack-animation-duration) forwards;
+    transition: all var(--stack-transition-duration, 1000);
+    animation: showTop var(--stack-animation-duration, 500) forwards;
 
     opacity: 1;
 }
@@ -305,25 +305,24 @@ $snackbar-padding-y-multi: 1.25rem !default;
 .snackbar-stack-top .snackbar-hide,
 .snackbar-stack-top-left .snackbar-hide,
 .snackbar-stack-top-right .snackbar-hide {
-    transition: all var(--stack-transition-duration);
-    animation: hideTop var(--stack-animation-duration) forwards;
-
+    transition: all var(--stack-transition-duration, 1000);
+    animation: hideTop var(--stack-animation-duration, 500) forwards;
     opacity: 0;
 }
 
 .snackbar-stack-bottom .snackbar.snackbar-show,
 .snackbar-stack-bottom-left .snackbar.snackbar-show,
 .snackbar-stack-bottom-right .snackbar.snackbar-show {
-    transition: all var(--stack-transition-duration);
-    animation: showBottom var(--stack-animation-duration) forwards;
+    transition: all var(--stack-transition-duration, 1000);
+    animation: showBottom var(--stack-animation-duration, 500) forwards;
     opacity: 1;
 }
 
 .snackbar-stack-bottom .snackbar-hide,
 .snackbar-stack-bottom-left .snackbar-hide,
 .snackbar-stack-bottom-right .snackbar-hide {
-    transition: all var(--stack-transition-duration);
-    animation: hideBottom var(--stack-animation-duration) forwards;
+    transition: all var(--stack-transition-duration, 1000);
+    animation: hideBottom var(--stack-animation-duration, 500) forwards;
     opacity: 0;
 }
 

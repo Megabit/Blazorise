@@ -97,8 +97,8 @@ public partial class SnackbarStack : BaseComponent
 
     protected override void BuildStyles( StyleBuilder builder )
     {
-        var baseTransitionDuration = TransitionInterval;
-        var baseAnimationDuration = AnimationInterval;
+        var baseTransitionDuration = TransitionStackDuration;
+        var baseAnimationDuration = AnimationStackDuration;
 
         builder.Append( FormattableString.Invariant( $"--stack-transition-duration: {baseTransitionDuration}ms;" ) );
         builder.Append( FormattableString.Invariant( $"--stack-animation-duration: {baseAnimationDuration}ms" ) );
@@ -251,12 +251,12 @@ public partial class SnackbarStack : BaseComponent
     /// <summary>
     /// Defines the duration of the transition of the stack snackbar ( it would be preferable if the TransitionInterval is greater than the AnimationInterval ).
     /// </summary>
-    [Parameter] public double TransitionInterval { get; set; }
+    [Parameter] public double TransitionStackDuration { get; set; } = 1000;
 
     /// <summary>
     /// Defines the duration of the animation of the stack snackbar.
     /// </summary>
-    [Parameter] public double AnimationInterval { get; set; }
+    [Parameter] public double AnimationStackDuration { get; set; } = 500;
 
     /// <summary>
     /// Occurs after the snackbar has closed.
