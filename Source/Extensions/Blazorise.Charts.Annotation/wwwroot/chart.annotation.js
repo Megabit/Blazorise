@@ -20,17 +20,3 @@ export function addAnnotation(canvasId, options) {
 function adjustOptions(options) {
     return { annotations: options };
 }
-
-function compileDatasetsOptionsCallbacks(options) {
-    if (!options) {
-        return;
-    }
-
-    Object.keys(options).forEach(function (key) {
-        if (options[key] && options[key].startsWith("function")) {
-            options[key] = parseFunction(options[key]);
-        }
-    });
-
-    return options;
-}
