@@ -353,11 +353,13 @@
 .snackbar-stack-top {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
   position: fixed;
   z-index: 1090 !important;
   top: 0;
 }
-
 .snackbar-stack-top-right .snackbar,
 .snackbar-stack-top-left .snackbar,
 .snackbar-stack-top .snackbar {

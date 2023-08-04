@@ -270,14 +270,13 @@ $snackbar-padding-y-multi: 1.25rem !default;
 .snackbar-stack-top {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
     position: fixed;
     z-index: 1090 !important;
     top: 0;
-}
 
-.snackbar-stack-top-right,
-.snackbar-stack-top-left,
-.snackbar-stack-top {
     .snackbar {
         position: relative;
         flex-direction: row;
@@ -298,7 +297,6 @@ $snackbar-padding-y-multi: 1.25rem !default;
 .snackbar-stack-top-right .snackbar.snackbar-show {
     transition: all var(--stack-transition-duration, 1000);
     animation: showTop var(--stack-animation-duration, 500) forwards;
-
     opacity: 1;
 }
 

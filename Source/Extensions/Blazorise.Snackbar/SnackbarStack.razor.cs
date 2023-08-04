@@ -28,7 +28,7 @@ public partial class SnackbarStack : BaseComponent
             string actionButtonText,
             object actionButtonIcon,
             double? intervalBeforeClose,
-            double? closeAnimationInterval,
+            double? animationInterval,
             bool multiline )
         {
             Message = message;
@@ -43,7 +43,7 @@ public partial class SnackbarStack : BaseComponent
             ActionButtonText = actionButtonText;
             ActionButtonIcon = actionButtonIcon;
             IntervalBeforeClose = intervalBeforeClose;
-            CloseAnimationInterval = closeAnimationInterval;
+            AnimationInterval = animationInterval;
             Multiline = multiline;
         }
 
@@ -69,14 +69,13 @@ public partial class SnackbarStack : BaseComponent
 
         public object ActionButtonIcon { get; }
 
-        public double? CloseAnimationInterval { get; }
-
         public double? IntervalBeforeClose { get; }
+
+        public double? AnimationInterval { get; }
 
         public bool Visible { get; } = true;
 
         public bool Multiline { get; } = true;
-
     }
 
     private SnackbarStackLocation location = SnackbarStackLocation.Center;
@@ -97,11 +96,10 @@ public partial class SnackbarStack : BaseComponent
 
     protected override void BuildStyles( StyleBuilder builder )
     {
-        var baseTransitionDuration = TransitionStackDuration;
-        var baseAnimationDuration = AnimationStackDuration;
+        var baseAnimationDuration = AnimationDuration;
 
-        builder.Append( FormattableString.Invariant( $"--stack-transition-duration: {baseTransitionDuration}ms;" ) );
-        builder.Append( FormattableString.Invariant( $"--stack-animation-duration: {baseAnimationDuration}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--stack-transition-duration: {baseAnimationDuration * 5:0}ms;" ) );
+        builder.Append( FormattableString.Invariant( $"--stack-animation-duration: {baseAnimationDuration * 2.5:0}ms" ) );
 
         base.BuildStyles( builder );
     }
@@ -166,7 +164,7 @@ public partial class SnackbarStack : BaseComponent
             snackbarOptions.ActionButtonText,
             snackbarOptions.ActionButtonIcon,
             snackbarOptions.IntervalBeforeClose,
-            snackbarOptions.CloseAnimationInterval,
+            snackbarOptions.AnimationInterval,
             snackbarOptions.Multiline ) );
 
         return InvokeAsync( StateHasChanged );
@@ -249,14 +247,9 @@ public partial class SnackbarStack : BaseComponent
     [Parameter] public object ActionButtonIcon { get; set; }
 
     /// <summary>
-    /// Defines the duration of the transition of the stack snackbar ( it would be preferable if the TransitionInterval is greater than the AnimationInterval ).
-    /// </summary>
-    [Parameter] public double TransitionStackDuration { get; set; } = 1000;
-
-    /// <summary>
     /// Defines the duration of the animation of the stack snackbar.
     /// </summary>
-    [Parameter] public double AnimationStackDuration { get; set; } = 500;
+    [Parameter] public double AnimationDuration { get; set; } = 200;
 
     /// <summary>
     /// Occurs after the snackbar has closed.

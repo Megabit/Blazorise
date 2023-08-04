@@ -16,7 +16,7 @@ public static class Constants
     public const double DefaultOnClickIntervalBeforeClose = 10000;
 
     /// <summary>
-    /// Defines the default interval(in milliseconds) after which the snackbar will be automatically closed.
+    /// Defines the default animation interval(in milliseconds).
     /// </summary>
-    public const double DefaultCloseAnimationInterval = 500;
+    public const double DefaultAnimationInterval = 200;
 }
