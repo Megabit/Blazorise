@@ -116,7 +116,7 @@
     </SnackbarBody>
 </Snackbar>
 
-<Snackbar @ref="snackbarTopEnd" AnimationInterval="2000" Location="SnackbarLocation.TopEnd" Interval="5000">
+<Snackbar @ref="snackbarTopEnd" AnimationInterval="3000" Location="SnackbarLocation.TopEnd" Interval="5000">
     <SnackbarBody>
         Single line of text directly related to the operation performed
     </SnackbarBody>
@@ -179,7 +179,9 @@
 <SnackbarStack @ref="snackbarStack"
                Location="SnackbarStackLocation.TopEnd"
                DefaultInterval="300000"
-               DelayCloseOnClick/>
+               DelayCloseOnClick
+               AnimationInterval="2000"
+               TransitionInterval="4000"/>
 
  @code {
     Snackbar snackbar;
