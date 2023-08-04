@@ -339,7 +339,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     /// <summary>
     /// Defines the base animation duration in milliseconds.
     /// </summary>
-    [Parameter] public double AnimationDuration { get; set; } = 200;
+    [Parameter] public double AnimationDuration { get; set; } = Constants.DefaultAnimationDuration;
 
     /// <summary>
     /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="Interval"/> time.

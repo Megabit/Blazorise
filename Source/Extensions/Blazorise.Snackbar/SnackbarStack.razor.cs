@@ -249,7 +249,7 @@ public partial class SnackbarStack : BaseComponent
     /// <summary>
     /// Defines the duration of the animation of the stack snackbar.
     /// </summary>
-    [Parameter] public double AnimationDuration { get; set; } = 200;
+    [Parameter] public double AnimationDuration { get; set; } = Constants.DefaultAnimationDuration;
 
     /// <summary>
     /// Occurs after the snackbar has closed.
