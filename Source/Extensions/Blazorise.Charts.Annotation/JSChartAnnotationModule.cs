@@ -24,7 +24,7 @@ public class JSChartAnnotationModule : BaseJSModule
     {
         var moduleInstance = await Module;
 
-        await moduleInstance.InvokeVoidAsync( "addAnnotation", canvasId, annotationOptions /*JsonSerializer.Serialize<object>( annotationOptions )*/ );
+        await moduleInstance.InvokeVoidAsync( "addAnnotation", canvasId, annotationOptions );
     }
 
     /// <inheritdoc/>
