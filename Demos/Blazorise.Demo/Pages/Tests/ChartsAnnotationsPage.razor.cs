@@ -185,7 +185,7 @@ public partial class ChartsAnnotationsPage
 
     #endregion
 
-    private static string[] Labels = new string[] { "1", "2", "3", "4", "5", "6" };
+    private static string[] Labels = new string[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" };
     private static string[] BackgroundColors = new string[] { "#4bc0c0", "#36a2eb", "#ff3d88" };
     private static string[] BorderColors = new string[] { "#4bc0c0", "#36a2eb", "#ff3d88" };
     private Random random = new( DateTime.Now.Millisecond );
