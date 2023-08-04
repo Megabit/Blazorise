@@ -51,11 +51,6 @@ public partial class Snackbar : BaseComponent, IDisposable
     private bool closeAnimation = false;
 
     /// <summary>
-    /// A timer used to control the duration of the closing animation.
-    /// </summary>
-    private CountdownTimer closeAnimationTimer;
-
-    /// <summary>
     /// A flag that indicates if the snackbar close action was delayed.
     /// </summary>
     private bool closingDelayed = false;
@@ -117,18 +112,6 @@ public partial class Snackbar : BaseComponent, IDisposable
         }
 
         base.OnInitialized();
-    }
-
-    protected override void OnParametersSet()
-    {
-        if ( closeAnimationTimer == null )
-        {
-            closeAnimationTimer?.Dispose();
-            closeAnimationTimer = new CountdownTimer( CloseAnimationInterval );
-            closeAnimationTimer.Elapsed += OnCloseAnimationTimerElapsed;
-        }
-
-        base.OnParametersSet();
     }
 
     /// <inheritdoc/>
