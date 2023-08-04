@@ -15,6 +15,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     private NodeStyling selectedNodeStyling;
 
+    private NodeStyling disabledNodeStyling;
+
     private NodeStyling nodeStyling;
 
     private TreeViewSelectionMode selectionMode;
@@ -31,11 +33,19 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
             TextColor = TextColor.White
         };
 
+        disabledNodeStyling = new()
+        {
+            Background = Background.Light,
+            TextColor = TextColor.Muted
+        };
+
         nodeStyling = new()
         {
             Background = Background.Default,
             TextColor = TextColor.Default
         };
+
+        
     }
 
     #endregion
@@ -48,6 +58,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
         if ( Selected )
             builder.Append( $"{ClassProvider.BackgroundColor( selectedNodeStyling.Background )} {ClassProvider.TextColor( selectedNodeStyling.TextColor )} {selectedNodeStyling.Class}" );
+        else if ( NodeState.Disabled )
+            builder.Append( $"{ClassProvider.BackgroundColor( disabledNodeStyling.Background )} {ClassProvider.TextColor( disabledNodeStyling.TextColor )} {disabledNodeStyling.Class}" );
         else
             builder.Append( $"{ClassProvider.BackgroundColor( nodeStyling.Background )} {ClassProvider.TextColor( nodeStyling.TextColor )} {nodeStyling.Class}" );
 
@@ -56,7 +68,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected Task OnClick()
     {
-        if ( SelectionMode != TreeViewSelectionMode.Single )
+        //prevent onclick during multi selection mode or if node is disabled
+        if ( NodeState.Disabled || SelectionMode != TreeViewSelectionMode.Single )
             return Task.CompletedTask;
 
         DirtyClasses();
@@ -67,6 +80,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected Task OnCheckedChanged( bool value )
     {
+        //check shouldn't be rendered if nodestate is disabled, so we shouldn't need to check for it here
         if ( ParentTreeView is not null )
             return ParentTreeView.ToggleCheckNode( NodeState.Node );
 
@@ -77,6 +91,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     {
         if ( Selected )
             SelectedNodeStyling?.Invoke( NodeState.Node, selectedNodeStyling );
+        else if ( NodeState.Disabled )
+            DisabledNodeStyling?.Invoke( NodeState.Node, disabledNodeStyling );
         else
             NodeStyling?.Invoke( NodeState.Node, nodeStyling );
 
@@ -133,6 +149,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
 
+    [Parameter] public Action<TNode, NodeStyling> DisabledNodeStyling { get; set; }
+
     /// <summary>
     /// Gets or sets node styling.
     /// </summary>
@@ -144,4 +162,14 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
+
+    private string GetCurrentStyle()
+    {
+        if ( Selected )
+            return selectedNodeStyling.Style;
+        else if ( NodeState.Disabled )
+            return disabledNodeStyling.Style;
+        else
+            return nodeStyling.Style;
+    }
 }

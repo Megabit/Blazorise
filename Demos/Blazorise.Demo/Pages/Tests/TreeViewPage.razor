@@ -26,6 +26,12 @@
                         </Field>
                     </Column>
                     <Column ColumnSize="ColumnSize.IsAuto">
+                        <Button Color="Color.Primary" Clicked="ForceReload">Force Reload</Button>
+                        <Button Color="Color.Primary" Clicked="DisableRandomNode">Disable Random</Button>
+                        <Button Color="Color.Primary" Clicked="DisableAll">Disable All</Button>
+                        <Button Color="Color.Secondary" Clicked="EnableAllNodes">Enable All</Button>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
                         @if ( selectionMode == TreeViewSelectionMode.Single )
                         {
                             <Button Color="Color.Secondary" Clicked="@(()=>selectedNode = Nodes.ElementAt(2))">Select single node</Button>
@@ -46,6 +52,7 @@
                           @bind-SelectedNodes="selectedNodes"
                           GetChildNodes="@(item => item.Children)"
                           HasChildNodes="@(item => item.Children?.Any() == true)"
+                          IsDisabled="@(item => item.Disabled)"
                           NodeStyling="@((item, style) => { style.TextColor = (item.Children?.Any() == true) ? TextColor.Primary : TextColor.Dark; style.Style = "font-weight:bold"; })"
                           SelectedNodeStyling="@((item, style) => {style.Background = Background.Success; style.TextColor = TextColor.White; })">
                     <NodeContent>

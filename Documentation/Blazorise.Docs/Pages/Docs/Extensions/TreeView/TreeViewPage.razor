@@ -30,6 +30,9 @@
             Select single or multiple nodes (depending on the selection mode).
         </UnorderedListItem>
         <UnorderedListItem>
+            Allow Node Items to be disabled for selection
+        </UnorderedListItem>
+        <UnorderedListItem>
             Customize the appearance of the nodes using templates.
         </UnorderedListItem>
         <UnorderedListItem>
@@ -170,6 +173,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="HasChildNodes" Type="Func<TNode, bool>" Default="true">
         Expression that indicates whether the current node has any children nodes?
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IsDisabled" Type="Func<TNode, bool>" Default="false">
+        Expression that indicates whether the current node should be disabled from selection
     </DocsAttributesItem>
     <DocsAttributesItem Name="GetChildNodesAsync" Type="Func<TNode, Task<IEnumerable<TNode>>>">
         Asynchronous expression that allows the child nodes to be identified for a particular node.

@@ -74,7 +74,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
         {
             InvokeAsync( async () =>
             {
-                await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+                await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, IsDisabled ))
                 {
                     treeViewNodeStates.Add( nodeState );
                 }
@@ -131,10 +131,20 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     {
         treeViewNodeStates = new();
 
-        await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+        await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true , IsDisabled ))
         {
             treeViewNodeStates.Add( nodeState );
         }
+
+        ////traverse nodeStateTree and fill in children for expanded nodes
+        //foreach ( var nodeState in treeViewNodeStates )
+        //{
+        //    if ( nodeState.Expanded && nodeState.HasChildren )
+        //    {
+        //        nodeState.Children = nodeState.n
+        //    }
+        //}
+
         await InvokeAsync( StateHasChanged );
     }
 
@@ -335,6 +345,11 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     [Parameter] public Func<TNode, Task<IEnumerable<TNode>>> GetChildNodesAsync { get; set; }
 
     /// <summary>
+    /// Indicates the node's disabled state. Used for preventing selection
+    /// </summary>
+    [Parameter] public Func<TNode, bool> IsDisabled { get; set; } = node => false;
+
+    /// <summary>
     /// Indicates if the node has child elements.
     /// </summary>
     [Parameter] public Func<TNode, Task<bool>> HasChildNodesAsync { get; set; }
@@ -343,6 +358,11 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     /// Gets or sets selected node styling.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
+
+    /// <summary>
+    /// Gets or sets disabled node styling.
+    /// </summary>
+    [Parameter] public Action<TNode, NodeStyling> DisabledNodeStyling { get; set; }
 
     /// <summary>
     /// Gets or sets node styling.
