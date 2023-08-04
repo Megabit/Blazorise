@@ -91,31 +91,19 @@ public partial class Snackbar : BaseComponent, IDisposable
         var baseTransitionDuration = AnimationInterval;
 
         builder.Append( FormattableString.Invariant( $"--transition-duration-desktop: {baseTransitionDuration}ms;" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-desktop);" ) );
         builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-complex: {baseTransitionDuration * 1.25:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-desktop-complex);" ) );
         builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-entering: {baseTransitionDuration * 0.75:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-desktop-entering);" ) );
         builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-leaving: {baseTransitionDuration * 0.65:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-desktop-leaving);" ) );
 
         builder.Append( FormattableString.Invariant( $"--transition-duration-mobile: {baseTransitionDuration * 1.5:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-mobile);" ) );
         builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-complex: {baseTransitionDuration * 1.875:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-mobile-complex);" ) );
         builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-entering: {baseTransitionDuration * 1.125:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-mobile-entering);" ) );
         builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-leaving: {baseTransitionDuration * 0.975:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-mobile-leaving);" ) );
 
         builder.Append( FormattableString.Invariant( $"--transition-duration-tablet: {baseTransitionDuration * 1.95:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-tablet);" ) );
         builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-complex: {baseTransitionDuration * 2.435:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-tablet-complex);" ) );
         builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-entering: {baseTransitionDuration * 1.46:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-tablet-entering);" ) );
         builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-leaving: {baseTransitionDuration * 1.265:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"transition: var(--transition-duration-tablet-leaving);" ) );
 
         base.BuildStyles( builder );
     }

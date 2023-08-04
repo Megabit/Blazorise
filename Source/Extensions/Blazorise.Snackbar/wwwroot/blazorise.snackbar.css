@@ -1,4 +1,41 @@
-﻿.snackbar {
+﻿element.style {
+  transition: var(--transition-duration-desktop);
+}
+element.style.complex {
+  transition: var(--transition-duration-desktop-complex);
+}
+element.style.entering {
+  transition: var(--transition-duration-desktop-entering);
+}
+element.style.leaving {
+  transition: var(--transition-duration-desktop-leaving);
+}
+element.style.mobile {
+  transition: var(--transition-duration-mobile);
+}
+element.style.mobile.complex {
+  transition: var(--transition-duration-mobile-complex);
+}
+element.style.mobile.entering {
+  transition: var(--transition-duration-mobile-entering);
+}
+element.style.mobile.leaving {
+  transition: var(--transition-duration-mobile-leaving);
+}
+element.style.tablet {
+  transition: var(--transition-duration-tablet);
+}
+element.style.tablet.complex {
+  transition: var(--transition-duration-tablet-complex);
+}
+element.style.tablet.entering {
+  transition: var(--transition-duration-tablet-entering);
+}
+element.style.tablet.leaving {
+  transition: var(--transition-duration-tablet-leaving);
+}
+
+.snackbar {
   align-items: center;
   background-color: var(--b-snackbar-background, #323232);
   color: var(--b-snackbar-text-color, rgb(255, 255, 255));
