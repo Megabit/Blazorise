@@ -1,41 +1,4 @@
-﻿element.style {
-  transition: var(--transition-duration-desktop);
-}
-element.style.complex {
-  transition: var(--transition-duration-desktop-complex);
-}
-element.style.entering {
-  transition: var(--transition-duration-desktop-entering);
-}
-element.style.leaving {
-  transition: var(--transition-duration-desktop-leaving);
-}
-element.style.mobile {
-  transition: var(--transition-duration-mobile);
-}
-element.style.mobile.complex {
-  transition: var(--transition-duration-mobile-complex);
-}
-element.style.mobile.entering {
-  transition: var(--transition-duration-mobile-entering);
-}
-element.style.mobile.leaving {
-  transition: var(--transition-duration-mobile-leaving);
-}
-element.style.tablet {
-  transition: var(--transition-duration-tablet);
-}
-element.style.tablet.complex {
-  transition: var(--transition-duration-tablet-complex);
-}
-element.style.tablet.entering {
-  transition: var(--transition-duration-tablet-entering);
-}
-element.style.tablet.leaving {
-  transition: var(--transition-duration-tablet-leaving);
-}
-
-.snackbar {
+﻿.snackbar {
   align-items: center;
   background-color: var(--b-snackbar-background, #323232);
   color: var(--b-snackbar-text-color, rgb(255, 255, 255));
@@ -416,97 +379,33 @@ element.style.tablet.leaving {
 .snackbar-stack-top .snackbar.snackbar-show,
 .snackbar-stack-top-left .snackbar.snackbar-show,
 .snackbar-stack-top-right .snackbar.snackbar-show {
-  transition: all var(--transition-duration-mobile-entering, 0.225s);
-  animation: showTop var(--transition-duration-mobile-entering, 0.225s) forwards;
+  transition: all var(--stack-transition-duration);
+  animation: showTop var(--stack-animation-duration) forwards;
   opacity: 1;
-}
-@media (min-width: 768px) {
-  .snackbar-stack-top .snackbar.snackbar-show,
-  .snackbar-stack-top-left .snackbar.snackbar-show,
-  .snackbar-stack-top-right .snackbar.snackbar-show {
-    transition: all var(--transition-duration-tablet-entering, 0.2925s);
-    animation: showTop var(--transition-duration-tablet-entering, 0.2925s) forwards;
-  }
-}
-@media (min-width: 1200px) {
-  .snackbar-stack-top .snackbar.snackbar-show,
-  .snackbar-stack-top-left .snackbar.snackbar-show,
-  .snackbar-stack-top-right .snackbar.snackbar-show {
-    transition: var(--transition-duration-desktop-entering, 0.15s);
-    animation: showTop var(--transition-duration-desktop-entering, 0.15s) forwards;
-  }
 }
 
 .snackbar-stack-top .snackbar-hide,
 .snackbar-stack-top-left .snackbar-hide,
 .snackbar-stack-top-right .snackbar-hide {
-  transition: all var(--transition-duration-mobile-leaving, 0.195s);
-  animation: hideTop var(--transition-duration-mobile-leaving, 0.195s) forwards;
+  transition: all var(--stack-transition-duration);
+  animation: hideTop var(--stack-animation-duration) forwards;
   opacity: 0;
-}
-@media (min-width: 768px) {
-  .snackbar-stack-top .snackbar-hide,
-  .snackbar-stack-top-left .snackbar-hide,
-  .snackbar-stack-top-right .snackbar-hide {
-    transition: all var(--transition-duration-tablet-leaving, 0.2535s);
-    animation: hideTop var(--transition-duration-tablet-leaving, 0.2535s) forwards;
-  }
-}
-@media (min-width: 1200px) {
-  .snackbar-stack-top .snackbar-hide,
-  .snackbar-stack-top-left .snackbar-hide,
-  .snackbar-stack-top-right .snackbar-hide {
-    transition: var(--transition-duration-desktop-leaving, 0.13s);
-    animation: hideTop var(--transition-duration-desktop-leaving, 0.13s) forwards;
-  }
 }
 
 .snackbar-stack-bottom .snackbar.snackbar-show,
 .snackbar-stack-bottom-left .snackbar.snackbar-show,
 .snackbar-stack-bottom-right .snackbar.snackbar-show {
-  transition: all var(--transition-duration-mobile-entering, 0.225s);
-  animation: showBottom var(--transition-duration-mobile-entering, 0.225s) forwards;
+  transition: all var(--stack-transition-duration);
+  animation: showBottom var(--stack-animation-duration) forwards;
   opacity: 1;
-}
-@media (min-width: 768px) {
-  .snackbar-stack-bottom .snackbar.snackbar-show,
-  .snackbar-stack-bottom-left .snackbar.snackbar-show,
-  .snackbar-stack-bottom-right .snackbar.snackbar-show {
-    transition: all var(--transition-duration-tablet-entering, 0.2925s);
-    animation: showBottom var(--transition-duration-tablet-entering, 0.2925s) forwards;
-  }
-}
-@media (min-width: 1200px) {
-  .snackbar-stack-bottom .snackbar.snackbar-show,
-  .snackbar-stack-bottom-left .snackbar.snackbar-show,
-  .snackbar-stack-bottom-right .snackbar.snackbar-show {
-    transition: var(--transition-duration-desktop-entering, 0.15s);
-    animation: showBottom var(--transition-duration-desktop-entering, 0.15s) forwards;
-  }
 }
 
 .snackbar-stack-bottom .snackbar-hide,
 .snackbar-stack-bottom-left .snackbar-hide,
 .snackbar-stack-bottom-right .snackbar-hide {
-  transition: all var(--transition-duration-mobile-leaving, 0.195s);
-  animation: hideBottom var(--transition-duration-mobile-leaving, 0.195s) forwards;
+  transition: all var(--stack-transition-duration);
+  animation: hideBottom var(--stack-animation-duration) forwards;
   opacity: 0;
-}
-@media (min-width: 768px) {
-  .snackbar-stack-bottom .snackbar-hide,
-  .snackbar-stack-bottom-left .snackbar-hide,
-  .snackbar-stack-bottom-right .snackbar-hide {
-    transition: all var(--transition-duration-tablet-leaving, 0.2535s);
-    animation: hideBottom var(--transition-duration-tablet-leaving, 0.2535s) forwards;
-  }
-}
-@media (min-width: 1200px) {
-  .snackbar-stack-bottom .snackbar-hide,
-  .snackbar-stack-bottom-left .snackbar-hide,
-  .snackbar-stack-bottom-right .snackbar-hide {
-    transition: var(--transition-duration-desktop-leaving, 0.13s);
-    animation: hideBottom var(--transition-duration-desktop-leaving, 0.13s) forwards;
-  }
 }
 
 @keyframes showTop {

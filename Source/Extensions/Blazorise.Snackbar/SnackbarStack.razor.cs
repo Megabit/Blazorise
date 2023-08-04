@@ -95,6 +95,17 @@ public partial class SnackbarStack : BaseComponent
         base.BuildClasses( builder );
     }
 
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        var baseTransitionDuration = TransitionInterval;
+        var baseAnimationDuration = AnimationInterval;
+
+        builder.Append( FormattableString.Invariant( $"--stack-transition-duration: {baseTransitionDuration}ms;" ) );
+        builder.Append( FormattableString.Invariant( $"--stack-animation-duration: {baseAnimationDuration}ms" ) );
+
+        base.BuildStyles( builder );
+    }
+
     /// <summary>
     /// Pushes the message to the stack to be shown as a snackbar.
     /// </summary>
@@ -236,6 +247,16 @@ public partial class SnackbarStack : BaseComponent
     /// Defines an icon to show for snackbar action button. Leave as null to not show it!
     /// </summary>
     [Parameter] public object ActionButtonIcon { get; set; }
+
+    /// <summary>
+    /// Defines the duration of the transition of the stack snackbar ( it would be preferable if the TransitionInterval is greater than the AnimationInterval ).
+    /// </summary>
+    [Parameter] public double TransitionInterval { get; set; }
+
+    /// <summary>
+    /// Defines the duration of the animation of the stack snackbar.
+    /// </summary>
+    [Parameter] public double AnimationInterval { get; set; }
 
     /// <summary>
     /// Occurs after the snackbar has closed.
