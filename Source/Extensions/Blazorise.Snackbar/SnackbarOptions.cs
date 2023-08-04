@@ -52,7 +52,7 @@ public class SnackbarOptions
     /// <summary>
     /// Time in millisecond for snackbar animation.
     /// </summary>
-    public double? AnimationInterval { get; set; }
+    public double? AnimationDuration { get; set; }
 
     /// <summary>
     /// Time in millisecond until snackbar is automatically closed.

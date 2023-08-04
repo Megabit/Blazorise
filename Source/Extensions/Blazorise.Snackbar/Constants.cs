@@ -16,7 +16,7 @@ public static class Constants
     public const double DefaultOnClickIntervalBeforeClose = 10000;
 
     /// <summary>
-    /// Defines the default animation interval(in milliseconds).
+    /// Defines the default animation duration in milliseconds.
     /// </summary>
-    public const double DefaultAnimationInterval = 200;
+    public const double DefaultAnimationDuration = 200;
 }

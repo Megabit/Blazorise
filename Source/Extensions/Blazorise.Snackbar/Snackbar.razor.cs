@@ -73,7 +73,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     {
         builder.Append( "snackbar" );
         builder.Append( "snackbar-show", Visible && !closeAnimation );
-        builder.Append( closeAnimation ? "snackbar-hide" : null );
+        builder.Append( "snackbar-hide", closeAnimation );
         builder.Append( "snackbar-multi-line", Multiline );
         builder.Append( $"snackbar-{Location.GetName()}" );
         builder.Append( $"snackbar-{Color.GetName()}", Color != SnackbarColor.Default );
@@ -83,22 +83,22 @@ public partial class Snackbar : BaseComponent, IDisposable
 
     protected override void BuildStyles( StyleBuilder builder )
     {
-        var baseTransitionDuration = AnimationInterval;
+        var baseAnimationDuration = AnimationDuration;
 
-        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop: {baseTransitionDuration:0}ms;" ) );
-        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-complex: {baseTransitionDuration * 1.25:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-entering: {baseTransitionDuration * 0.75:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-leaving: {baseTransitionDuration * 0.65:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop: {baseAnimationDuration:0}ms;" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-complex: {baseAnimationDuration * 1.25:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-entering: {baseAnimationDuration * 0.75:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-leaving: {baseAnimationDuration * 0.65:0}ms" ) );
 
-        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile: {baseTransitionDuration * 1.5:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-complex: {baseTransitionDuration * 1.875:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-entering: {baseTransitionDuration * 1.125:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-leaving: {baseTransitionDuration * 0.975:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile: {baseAnimationDuration * 1.5:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-complex: {baseAnimationDuration * 1.875:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-entering: {baseAnimationDuration * 1.125:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-leaving: {baseAnimationDuration * 0.975:0}ms" ) );
 
-        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet: {baseTransitionDuration * 1.95:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-complex: {baseTransitionDuration * 2.435:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-entering: {baseTransitionDuration * 1.46:0}ms" ) );
-        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-leaving: {baseTransitionDuration * 1.265:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet: {baseAnimationDuration * 1.95:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-complex: {baseAnimationDuration * 2.435:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-entering: {baseAnimationDuration * 1.46:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-leaving: {baseAnimationDuration * 1.265:0}ms" ) );
 
         base.BuildStyles( builder );
     }
@@ -174,7 +174,7 @@ public partial class Snackbar : BaseComponent, IDisposable
 
         await InvokeAsync( StateHasChanged );
 
-        await Task.Delay( (int)CloseAnimationInterval );
+        await Task.Delay( (int)CloseAnimationDuration );
 
         closeAnimation = false;
         DirtyClasses();
@@ -250,7 +250,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     /// <summary>
     /// Gets the duration of the closing animation of the snackbar.
     /// </summary>
-    protected double CloseAnimationInterval => AnimationInterval;
+    protected double CloseAnimationDuration => AnimationDuration;
 
     /// <summary>
     /// Gets or sets the cascaded parent SnackbarStack component.
@@ -337,9 +337,9 @@ public partial class Snackbar : BaseComponent, IDisposable
     [Parameter] public double Interval { get; set; } = Constants.DefaultIntervalBeforeClose;
 
     /// <summary>
-    /// Defines the base animation interval in milliseconds.
+    /// Defines the base animation duration in milliseconds.
     /// </summary>
-    [Parameter] public double AnimationInterval { get; set; } = 200;
+    [Parameter] public double AnimationDuration { get; set; } = 200;
 
     /// <summary>
     /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="Interval"/> time.
