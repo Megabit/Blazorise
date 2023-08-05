@@ -92,23 +92,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     #region Methods
 
     /// <inheritdoc/>
-    public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
-    {
-        // Check if the elementId belongs to an element within the Offcanvas content
-        bool isElementInOffcanvas = closeActivatorElementIds.Contains( elementId );
-
-        // Determine if it's safe to close based on the closeReason and isChildClicked
-        bool isSafeToClose = closeReason == CloseReason.UserClosing && ( isChildClicked || !isElementInOffcanvas );
-        return Task.FromResult( true );
-    }
-
-    /// <inheritdoc/>
-    public Task Close( CloseReason closeReason )
-    {
-        return Hide( closeReason );
-    }
-
-    /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
         if ( parameters.TryGetValue<bool>( nameof( Visible ), out var visibleResult ) && state.Visible != visibleResult )
@@ -158,69 +141,34 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     }
 
     /// <inheritdoc/>
-    protected virtual async Task HandleVisibilityStyles( bool visible )
+    protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( visible )
+        if ( disposing && Rendered )
         {
-            jsRegistered = true;
-
-            ExecuteAfterRender( async () =>
+            // make sure to unregister listener
+            if ( jsRegistered )
             {
-                await JSClosableModule.Register( dotNetObjectRef, ElementRef );
-            } );
+                jsRegistered = false;
+
+                var unregisterClosableTask = JSClosableModule.Unregister( this );
+
+                try
+                {
+                    await unregisterClosableTask;
+                }
+                catch when ( unregisterClosableTask.IsCanceled )
+                {
+                }
+                catch ( Microsoft.JSInterop.JSDisconnectedException )
+                {
+                }
+            }
+
+            DisposeDotNetObjectRef( dotNetObjectRef );
+            dotNetObjectRef = null;
         }
-        else
-        {
-            jsRegistered = false;
 
-            ExecuteAfterRender( async () =>
-            {
-                await JSClosableModule.Unregister( this );
-            } );
-        }
-
-        await closeableAdapter.Run( visible );
-    }
-
-    /// <inheritdoc/>
-    protected virtual async Task RaiseEvents( bool visible )
-    {
-        await InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
-
-        if ( visible )
-        {
-            _Opened?.Invoke();
-
-            await Opened.InvokeAsync();
-        }
-        else
-        {
-            _Closed?.Invoke();
-
-            await Closed.InvokeAsync();
-        }
-    }
-
-    internal void NotifyHasOffcanvasHeader()
-    {
-        HasOffcanvasHeader = true;
-    }
-
-    internal void NotifyHasOffcanvasBody()
-    {
-        HasOffcanvasBody = true;
-    }
-
-    internal void NotifyCloseActivatorIdInitialized( string elementId )
-    {
-        if ( !closeActivatorElementIds.Contains( elementId ) )
-            closeActivatorElementIds.Add( elementId );
-    }
-
-    internal void NotifyCloseActivatorIdRemoved( string elementId )
-    {
-        if ( closeActivatorElementIds.Contains( elementId ) )
-            closeActivatorElementIds.Remove( elementId );
+        await base.DisposeAsync( disposing );
     }
 
     /// <summary>
@@ -340,6 +288,93 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     }
 
     /// <summary>
+    /// Handles the styles based on the visibility flag.
+    /// </summary>
+    /// <param name="visible">Offcanvas visibility flag.</param>
+    protected virtual async Task HandleVisibilityStyles( bool visible )
+    {
+        if ( visible )
+        {
+            jsRegistered = true;
+
+            ExecuteAfterRender( async () =>
+            {
+                await JSClosableModule.Register( dotNetObjectRef, ElementRef );
+            } );
+        }
+        else
+        {
+            jsRegistered = false;
+
+            ExecuteAfterRender( async () =>
+            {
+                await JSClosableModule.Unregister( this );
+            } );
+        }
+
+        await closeableAdapter.Run( visible );
+    }
+
+    /// <summary>
+    /// Fires all the events for this offcanvas.
+    /// </summary>
+    /// <param name="visible"></param>
+    protected virtual async Task RaiseEvents( bool visible )
+    {
+        await InvokeAsync( () => VisibleChanged.InvokeAsync( visible ) );
+
+        if ( visible )
+        {
+            _Opened?.Invoke();
+
+            await Opened.InvokeAsync();
+        }
+        else
+        {
+            _Closed?.Invoke();
+
+            await Closed.InvokeAsync();
+        }
+    }
+
+    /// <summary>
+    /// Registers a new element that can close the offcanvas.
+    /// </summary>
+    /// <param name="elementId">Element id.</param>
+    internal void NotifyCloseActivatorIdInitialized( string elementId )
+    {
+        if ( !closeActivatorElementIds.Contains( elementId ) )
+            closeActivatorElementIds.Add( elementId );
+    }
+
+    /// <summary>
+    /// Removes the element that can close the offcanvas.
+    /// </summary>
+    /// <param name="elementId">Element id.</param>
+    internal void NotifyCloseActivatorIdRemoved( string elementId )
+    {
+        if ( closeActivatorElementIds.Contains( elementId ) )
+            closeActivatorElementIds.Remove( elementId );
+    }
+
+    /// <inheritdoc/>
+    public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
+    {
+        // Check if the elementId belongs to an element within the Offcanvas content
+        bool isElementInOffcanvas = closeActivatorElementIds.Contains( elementId );
+
+        // Determine if it's safe to close based on the closeReason and isChildClicked
+        bool isSafeToClose = closeReason == CloseReason.UserClosing && ( isChildClicked || !isElementInOffcanvas );
+        return Task.FromResult( true );
+    }
+
+    /// <inheritdoc/>
+    public Task Close( CloseReason closeReason )
+    {
+        return Hide( closeReason );
+    }
+
+    /// <summary>
     /// Handles the internal visibility states.
     /// </summary>
     /// <param name="visible">Visible state.</param>
@@ -389,6 +424,16 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
         BackdropVisible = ShowBackdrop && visible;
 
         return InvokeAsync( StateHasChanged );
+    }
+
+    internal void NotifyHasOffcanvasHeader()
+    {
+        HasOffcanvasHeader = true;
+    }
+
+    internal void NotifyHasOffcanvasBody()
+    {
+        HasOffcanvasBody = true;
     }
 
     #endregion
