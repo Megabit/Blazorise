@@ -80,6 +80,8 @@ public partial class SnackbarStack : BaseComponent
 
     private SnackbarStackLocation location = SnackbarStackLocation.Center;
 
+    private double animationDuration = Constants.DefaultAnimationDuration;
+
     private readonly List<SnackbarInfo> snackbarInfos = new();
 
     #endregion
@@ -249,7 +251,20 @@ public partial class SnackbarStack : BaseComponent
     /// <summary>
     /// Defines the duration of the animation of the stack snackbar.
     /// </summary>
-    [Parameter] public double AnimationDuration { get; set; } = Constants.DefaultAnimationDuration;
+    [Parameter]
+    public double AnimationDuration
+    {
+        get => animationDuration;
+        set
+        {
+            if ( animationDuration == value )
+                return;
+
+            animationDuration = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Occurs after the snackbar has closed.
