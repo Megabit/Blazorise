@@ -360,12 +360,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     /// <inheritdoc/>
     public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
     {
-        // Check if the elementId belongs to an element within the Offcanvas content
-        bool isElementInOffcanvas = closeActivatorElementIds.Contains( elementId );
-
-        // Determine if it's safe to close based on the closeReason and isChildClicked
-        bool isSafeToClose = closeReason == CloseReason.UserClosing && ( isChildClicked || !isElementInOffcanvas );
-        return Task.FromResult( true );
+        return Task.FromResult( ElementId == elementId || closeActivatorElementIds.Contains( elementId ) );
     }
 
     /// <inheritdoc/>
