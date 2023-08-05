@@ -921,7 +921,7 @@ public class BulmaClassProvider : ClassProvider
             ? "is-hiding"
             : null;
 
-    public override string OffcanvasVisible( bool visible ) => visible ? "is-active" : null;
+    public override string OffcanvasVisible( bool visible ) => visible ? Active() : null;
 
     public override string OffcanvasHeader() => "offcanvas-header";
 
@@ -931,7 +931,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string OffcanvasBackdropFade() => null;
 
-    public override string OffcanvasBackdropVisible( bool visible ) => visible ? "is-active" : null;
+    public override string OffcanvasBackdropVisible( bool visible ) => visible ? Active() : null;
 
     #endregion
 
