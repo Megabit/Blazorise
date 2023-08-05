@@ -68,6 +68,9 @@ public partial class OffcanvasBody : BaseComponent, IDisposable
         get => maxHeight;
         set
         {
+            if ( maxHeight == value )
+                return;
+
             maxHeight = value;
 
             DirtyStyles();
