@@ -48,7 +48,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     /// <summary>
     /// A flag that indicates if the snackbar is currently being closed with animation.
     /// </summary>
-    private bool closeAnimation = false;
+    private bool closingAnimation = false;
 
     /// <summary>
     /// A flag that indicates if the snackbar close action was delayed.
@@ -72,8 +72,8 @@ public partial class Snackbar : BaseComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "snackbar" );
-        builder.Append( "snackbar-show", Visible && !closeAnimation );
-        builder.Append( "snackbar-hide", closeAnimation );
+        builder.Append( "snackbar-show", Visible && !closingAnimation );
+        builder.Append( "snackbar-hide", closingAnimation );
         builder.Append( "snackbar-multi-line", Multiline );
         builder.Append( $"snackbar-{Location.GetName()}" );
         builder.Append( $"snackbar-{Color.GetName()}", Color != SnackbarColor.Default );
@@ -153,7 +153,7 @@ public partial class Snackbar : BaseComponent, IDisposable
             return Task.CompletedTask;
 
         Visible = true;
-        closeAnimation = false;
+        closingAnimation = false;
         closingDelayed = false;
 
         return InvokeAsync( StateHasChanged );
@@ -169,7 +169,7 @@ public partial class Snackbar : BaseComponent, IDisposable
 
     protected async Task Hide( SnackbarCloseReason closeReason )
     {
-        closeAnimation = true;
+        closingAnimation = true;
         DirtyClasses();
         DirtyStyles();
 
@@ -177,7 +177,7 @@ public partial class Snackbar : BaseComponent, IDisposable
 
         await Task.Delay( (int)CloseAnimationDuration );
 
-        closeAnimation = false;
+        closingAnimation  = false;
         DirtyClasses();
         DirtyStyles();
 
