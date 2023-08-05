@@ -448,7 +448,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     /// <summary>
     /// Gets a value indicating whether the Offcanvas is visible.
     /// </summary>
-    protected internal bool IsVisible => state.Visible == true;
+    protected internal bool IsVisible => state.Visible;
 
     /// <summary>
     /// Gets the reference to state object for this Offcanvas.
