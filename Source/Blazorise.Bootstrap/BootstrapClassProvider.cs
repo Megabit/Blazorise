@@ -899,7 +899,7 @@ public class BootstrapClassProvider : ClassProvider
             ? "hiding"
             : null;
 
-    public override string OffcanvasVisible( bool visible ) => visible ? "show" : null;
+    public override string OffcanvasVisible( bool visible ) => visible ? Show() : null;
 
     public override string OffcanvasHeader() => "offcanvas-header";
 
