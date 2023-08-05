@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -8,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Center area of the offcanvas component.
 /// </summary>
-public partial class OffcanvasBody : BaseComponent
+public partial class OffcanvasBody : BaseComponent, IDisposable
 {
     #region Members
 
@@ -23,7 +24,18 @@ public partial class OffcanvasBody : BaseComponent
     {
         base.OnInitialized();
 
-        ParentOffcanvas?.NotifyHasOffcanvasBody();
+        ParentOffcanvas?.NotifyOffcanvasBodyInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentOffcanvas?.NotifyOffcanvasBodyRemoved();
+        }
+
+        base.Dispose( disposing );
     }
 
     /// <inheritdoc/>

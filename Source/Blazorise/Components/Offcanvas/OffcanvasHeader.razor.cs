@@ -1,9 +1,7 @@
 ﻿#region Using directives
+using System;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using System.Threading.Tasks;
-using Blazorise.States;
-using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -11,7 +9,7 @@ namespace Blazorise;
 /// <summary>
 /// Top header area of the modal component.
 /// </summary>
-public partial class OffcanvasHeader : BaseComponent
+public partial class OffcanvasHeader : BaseComponent, IDisposable
 {
     #region Methods
 
@@ -20,7 +18,18 @@ public partial class OffcanvasHeader : BaseComponent
     {
         base.OnInitialized();
 
-        ParentOffcanvas?.NotifyHasOffcanvasHeader();
+        ParentOffcanvas?.NotifyOffcanvasHeaderInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentOffcanvas?.NotifyOffcanvasHeaderRemoved();
+        }
+
+        base.Dispose( disposing );
     }
 
     /// <inheritdoc/>

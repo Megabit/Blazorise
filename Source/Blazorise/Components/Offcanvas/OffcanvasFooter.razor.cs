@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Components;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Microsoft.AspNetCore.Components.Web;
+using System;
 #endregion
 
 namespace Blazorise;
@@ -11,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// Top footer area of the modal component.
 /// </summary>
-public partial class OffcanvasFooter : BaseComponent
+public partial class OffcanvasFooter : BaseComponent, IDisposable
 {
     #region Methods
 
@@ -20,7 +21,18 @@ public partial class OffcanvasFooter : BaseComponent
     {
         base.OnInitialized();
 
-        ParentOffcanvas?.NotifyHasOffcanvasFooter();
+        ParentOffcanvas?.NotifyOffcanvasFooterInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            ParentOffcanvas?.NotifyOffcanvasFooterRemoved();
+        }
+
+        base.Dispose( disposing );
     }
 
     /// <inheritdoc/>

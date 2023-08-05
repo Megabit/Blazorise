@@ -421,19 +421,34 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
         return InvokeAsync( StateHasChanged );
     }
 
-    internal void NotifyHasOffcanvasHeader()
+    internal void NotifyOffcanvasHeaderInitialized()
     {
         HasOffcanvasHeader = true;
     }
 
-    internal void NotifyHasOffcanvasFooter()
+    internal void NotifyOffcanvasHeaderRemoved()
+    {
+        HasOffcanvasHeader = false;
+    }
+
+    internal void NotifyOffcanvasFooterInitialized()
     {
         HasOffcanvasFooter = true;
     }
 
-    internal void NotifyHasOffcanvasBody()
+    internal void NotifyOffcanvasFooterRemoved()
+    {
+        HasOffcanvasFooter = false;
+    }
+
+    internal void NotifyOffcanvasBodyInitialized()
     {
         HasOffcanvasBody = true;
+    }
+
+    internal void NotifyOffcanvasBodyRemoved()
+    {
+        HasOffcanvasBody = false;
     }
 
     #endregion
