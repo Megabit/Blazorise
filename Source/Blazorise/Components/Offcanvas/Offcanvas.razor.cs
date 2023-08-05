@@ -126,7 +126,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     {
         builder.Append( ClassProvider.Offcanvas() );
         builder.Append( ClassProvider.OffcanvasPlacement( Placement, IsVisible ) );
-        builder.Append( ClassProvider.OffcanvasFade( showing, hiding ) );
+        builder.Append( ClassProvider.OffcanvasFade( Animated && showing, Animated && hiding ) );
         builder.Append( ClassProvider.OffcanvasVisible( IsVisible ) );
 
         base.BuildClasses( builder );
@@ -137,7 +137,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     {
         base.BuildStyles( builder );
 
-        builder.Append( StyleProvider.OffcanvasAnimationDuration( AnimationDuration ) );
+        builder.Append( StyleProvider.OffcanvasAnimationDuration( Animated, AnimationDuration ) );
     }
 
     /// <inheritdoc/>

@@ -74,7 +74,7 @@ public abstract class StyleProvider : IStyleProvider
 
     #region Offcanvas
 
-    public abstract string OffcanvasAnimationDuration( int AnimationDuration );
+    public abstract string OffcanvasAnimationDuration( bool animated, int AnimationDuration );
 
     public abstract string OffcanvasBodyMaxHeight( int MaxHeight );
 

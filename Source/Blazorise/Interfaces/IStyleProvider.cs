@@ -48,7 +48,7 @@ public interface IStyleProvider
 
     #region Offcanvas
 
-    string OffcanvasAnimationDuration( int AnimationDuration );
+    string OffcanvasAnimationDuration( bool animated, int AnimationDuration );
 
     string OffcanvasBodyMaxHeight( int MaxHeight );
 
