@@ -78,7 +78,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected Task OnCheckedChanged( bool value )
     {
-        // check shouldn't be rendered if nodestate is disabled, so we shouldn't need to check for it here
+        // check shouldn't be toggled if nodestate is disabled
         if ( ParentTreeView is not null && !NodeState.Disabled )
             return ParentTreeView.ToggleCheckNode( NodeState.Node );
 
