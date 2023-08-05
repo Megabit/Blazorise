@@ -24,7 +24,10 @@ public partial class _OffcanvasBackdrop : BaseComponent
     {
         base.OnInitialized();
 
-        ParentOffcanvas.NotifyCloseActivatorIdInitialized( ElementId );
+        if ( ParentOffcanvas is not null )
+        {
+            ParentOffcanvas.NotifyCloseActivatorIdInitialized( ElementId );
+        }
     }
 
     /// <inheritdoc/>
