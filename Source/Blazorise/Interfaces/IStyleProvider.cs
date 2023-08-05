@@ -50,8 +50,6 @@ public interface IStyleProvider
 
     string OffcanvasAnimationDuration( bool animated, int AnimationDuration );
 
-    string OffcanvasBodyMaxHeight( int MaxHeight );
-
     #endregion
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

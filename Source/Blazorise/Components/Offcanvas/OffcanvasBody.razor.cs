@@ -46,36 +46,9 @@ public partial class OffcanvasBody : BaseComponent, IDisposable
         base.BuildClasses( builder );
     }
 
-    /// <inheritdoc/>
-    protected override void BuildStyles( StyleBuilder builder )
-    {
-        if ( MaxHeight != null )
-            builder.Append( StyleProvider.OffcanvasBodyMaxHeight( MaxHeight ?? 0 ) );
-
-        base.BuildStyles( builder );
-    }
-
     #endregion
 
     #region Properties
-
-    /// <summary>
-    /// Sets the maximum height of the offcanvas body (in pixels).
-    /// </summary>
-    [Parameter]
-    public int? MaxHeight
-    {
-        get => maxHeight;
-        set
-        {
-            if ( maxHeight == value )
-                return;
-
-            maxHeight = value;
-
-            DirtyStyles();
-        }
-    }
 
     /// <summary>
     /// Gets or sets the cascaded parent offcanvas-content component.

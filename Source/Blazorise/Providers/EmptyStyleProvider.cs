@@ -53,7 +53,5 @@ class EmptyStyleProvider : IStyleProvider
 
     public string OffcanvasAnimationDuration( bool animated, int AnimationDuration ) => null;
 
-    public string OffcanvasBodyMaxHeight( int MaxHeight ) => null;
-
     #endregion
 }

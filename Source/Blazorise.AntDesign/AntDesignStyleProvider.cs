@@ -59,8 +59,5 @@ public class AntDesignStyleProvider : StyleProvider
             ? $"transition-duration: {animationDuration}ms"
             : "transition-duration: unset";
 
-    public override string OffcanvasBodyMaxHeight( int maxHeight )
-        => maxHeight > 0 ? $"max-height: {maxHeight}px; overflow-y: auto;" : null;
-
     #endregion
 }
