@@ -438,12 +438,12 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     /// <summary>
     /// True if Offcanvas contains the <see cref="OffcanvasHeader"/> component.
     /// </summary>
-    protected bool HasOffcanvasHeader { get; set; }
+    protected bool HasOffcanvasHeader { get; private set; }
 
     /// <summary>
     /// True if Offcanvas contains the <see cref="OffcanvasBody"/> component.
     /// </summary>
-    protected bool HasOffcanvasBody { get; set; }
+    protected bool HasOffcanvasBody { get; private set; }
 
     /// <summary>
     /// Gets a value indicating whether the Offcanvas is visible.
