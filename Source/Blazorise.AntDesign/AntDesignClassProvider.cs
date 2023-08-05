@@ -909,10 +909,6 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? null : null;
 
-    //public override string OffcanvasAnimationDuration( int animationDuration ) => $"offcanvas-animation-{animationDuration}";
-
-    //public override string OffcanvasBodyMaxHeight( int maxHeight ) => $"offcanvas-max-height-{maxHeight}";
-
     #endregion
 
     #region Pagination

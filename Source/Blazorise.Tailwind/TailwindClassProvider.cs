@@ -1279,11 +1279,7 @@ public class TailwindClassProvider : ClassProvider
             _ => "top-0 left-0 h-screen overflow-y-auto border-r w-80 border-gray-200",
         } );
 
-        if ( visible )
-        {
-            //sb.Append( " transform-none" );
-        }
-        else
+        if ( !visible )
         {
             sb.Append( placement switch
             {
@@ -1315,12 +1311,6 @@ public class TailwindClassProvider : ClassProvider
     public override string OffcanvasBackdropFade() => "fade";
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
-
-
-
-    //public override string OffcanvasAnimationDuration( int animationDuration ) => $"offcanvas-animation-{animationDuration}";
-
-    //public override string OffcanvasBodyMaxHeight( int maxHeight ) => $"offcanvas-max-height-{maxHeight}";
 
     #endregion
 
