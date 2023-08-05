@@ -133,42 +133,42 @@
     private bool animation = true;
     private int animationDuration = 300;
 
-    private void ShowOffcanvas(int offcanvasNumber)
+    private async Task ShowOffcanvas(int offcanvasNumber)
     {
         switch ( offcanvasNumber )
         {
             case 1:
-                offcanvasRef1.Show();
+                await offcanvasRef1.Show();
                 break;
             case 2:
-                offcanvasRef2.Show();
+                await offcanvasRef2.Show();
                 break;
             case 3:
-                offcanvasRef3.Show();
+                await offcanvasRef3.Show();
                 break;
             case 4:
-                offcanvasRef4.Show();
+                await offcanvasRef4.Show();
                 break;
         }
     }
 
-    private void HideOffcanvas1()
+    private Task HideOffcanvas1()
     {
-        offcanvasRef1.Hide();
+        return offcanvasRef1.Hide();
     }
 
-    private void HideOffcanvas2()
+    private Task HideOffcanvas2()
     {
-        offcanvasRef2.Hide();
+        return offcanvasRef2.Hide();
     }
 
-    private void HideOffcanvas3()
+    private Task HideOffcanvas3()
     {
-        offcanvasRef3.Hide();
+        return offcanvasRef3.Hide();
     }
 
-    private void HideOffcanvas4()
+    private Task HideOffcanvas4()
     {
-        offcanvasRef4.Hide();
+        return offcanvasRef4.Hide();
     }
 }
