@@ -60,7 +60,7 @@ public partial class OffcanvasBody : BaseComponent, IDisposable
     #region Properties
 
     /// <summary>
-    /// Sets the maximum height of the offcanvas body (in viewport size unit).
+    /// Sets the maximum height of the offcanvas body (in pixels).
     /// </summary>
     [Parameter]
     public int? MaxHeight
