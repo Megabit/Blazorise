@@ -1267,7 +1267,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Offcanvas
 
-    public override string Offcanvas() => "fixed z-40 p-4 bg-white dark:bg-gray-800 transition-transform";
+    public override string Offcanvas() => "fixed flex flex-col z-40 bg-white dark:bg-gray-800 transition-transform";
 
     public override string OffcanvasPlacement( Placement placement, bool visible )
     {
@@ -1304,7 +1304,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string OffcanvasHeader() => "flex items-center justify-between p-4";
 
-    public override string OffcanvasBody() => "mb-6 text-sm text-gray-500 dark:text-gray-400";
+    public override string OffcanvasFooter() => "flex items-center justify-between p-4";
+
+    public override string OffcanvasBody() => "flex grow text-sm text-gray-500 dark:text-gray-400 p-4";
 
     public override string OffcanvasBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30";
 

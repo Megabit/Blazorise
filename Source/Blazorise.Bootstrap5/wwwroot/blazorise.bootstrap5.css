@@ -980,6 +980,16 @@ li.list-group-item-action {
   transition: transform var(--modal-animation-duration, 300ms) ease-out;
 }
 
+.offcanvas-footer {
+  position: sticky;
+  bottom: 0;
+  top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--bs-offcanvas-padding-y) var(--bs-offcanvas-padding-x);
+}
+
 .page-item:not(.disabled) .page-link {
   cursor: pointer;
 }

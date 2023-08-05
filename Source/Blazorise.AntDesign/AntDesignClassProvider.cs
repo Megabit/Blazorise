@@ -901,6 +901,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string OffcanvasHeader() => "ant-drawer-header";
 
+    public override string OffcanvasFooter() => "ant-drawer-footer";
+
     public override string OffcanvasBody() => "ant-drawer-body";
 
     public override string OffcanvasBackdrop() => "ant-drawer-mask";

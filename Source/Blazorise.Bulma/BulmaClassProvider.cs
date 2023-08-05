@@ -925,6 +925,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string OffcanvasHeader() => "offcanvas-header";
 
+    public override string OffcanvasFooter() => "offcanvas-footer";
+
     public override string OffcanvasBody() => "offcanvas-body";
 
     public override string OffcanvasBackdrop() => "offcanvas-backdrop";

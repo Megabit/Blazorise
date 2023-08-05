@@ -1,5 +1,7 @@
 .offcanvas {
     position: fixed;
+    display: flex;
+    flex-direction: column;
     background-color: white;
     z-index: 1050;
     transform: translateX(-100%);
@@ -76,8 +78,21 @@
     padding: 1rem;
 }
 
+.offcanvas-footer {
+    position: sticky;
+    bottom: 0;
+    top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+}
+
 .offcanvas-body {
+    display: flex;
+    flex-grow: 1;
     overflow-y: auto;
+    padding: 1rem;
 }
 
 .offcanvas-backdrop {

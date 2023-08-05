@@ -2865,6 +2865,35 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string OffcanvasFooterExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop>
+    <OffcanvasHeader>
+        Offcanvas Start
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color=""Color.Primary"" Clicked=""@HideOffcanvas"">Close Offcanvas</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}";
+
         public const string OffcanvasStartExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.Start"">
     <OffcanvasHeader>
         Offcanvas Start

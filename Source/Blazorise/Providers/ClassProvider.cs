@@ -834,6 +834,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string OffcanvasHeader();
 
+    public abstract string OffcanvasFooter();
+
     public abstract string OffcanvasBody();
 
     public abstract string OffcanvasBackdrop();

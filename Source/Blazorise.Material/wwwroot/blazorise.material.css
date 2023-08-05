@@ -1095,6 +1095,16 @@ select[readonly] optgroup {
   margin-bottom: calc(-0.5 * var(--offcanvas-padding-y));
 }
 
+.offcanvas-footer {
+  position: sticky;
+  bottom: 0;
+  top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--offcanvas-padding-y) var(--offcanvas-padding-x);
+}
+
 .offcanvas-title {
   margin-bottom: 0;
   line-height: var(--offcanvas-title-line-height);

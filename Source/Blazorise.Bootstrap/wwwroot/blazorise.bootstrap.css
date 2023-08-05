@@ -842,6 +842,34 @@ li.list-group-item-action {
   overflow-y: scroll;
 }
 
+.modal .modal-fullscreen {
+  width: 100vw;
+  max-width: none;
+  height: 100%;
+  margin: 0;
+}
+.modal .modal-fullscreen .modal-content {
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+}
+.modal .modal-fullscreen .modal-header {
+  border-radius: 0;
+}
+.modal .modal-fullscreen .modal-body {
+  overflow-y: auto;
+}
+.modal .modal-fullscreen .modal-footer {
+  border-radius: 0;
+}
+.modal.fade {
+  transition: opacity var(--modal-animation-duration, 300ms) linear;
+}
+.modal.fade .modal-dialog {
+  transition: -webkit-transform var(--modal-animation-duration, 300ms) ease-out;
+  transition: transform var(--modal-animation-duration, 300ms) ease-out;
+}
+
 .offcanvas, .offcanvas-xl, .offcanvas-lg, .offcanvas-md, .offcanvas-sm {
   --offcanvas-zindex: 1045;
   --offcanvas-width: 400px;
@@ -1222,6 +1250,16 @@ li.list-group-item-action {
   margin-bottom: calc(-0.5 * var(--offcanvas-padding-y));
 }
 
+.offcanvas-footer {
+  position: sticky;
+  bottom: 0;
+  top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--offcanvas-padding-y) var(--offcanvas-padding-x);
+}
+
 .offcanvas-title {
   margin-bottom: 0;
   line-height: var(--offcanvas-title-line-height);
@@ -1231,34 +1269,6 @@ li.list-group-item-action {
   flex-grow: 1;
   padding: var(--offcanvas-padding-y) var(--offcanvas-padding-x);
   overflow-y: auto;
-}
-
-.modal .modal-fullscreen {
-  width: 100vw;
-  max-width: none;
-  height: 100%;
-  margin: 0;
-}
-.modal .modal-fullscreen .modal-content {
-  height: 100%;
-  border: 0;
-  border-radius: 0;
-}
-.modal .modal-fullscreen .modal-header {
-  border-radius: 0;
-}
-.modal .modal-fullscreen .modal-body {
-  overflow-y: auto;
-}
-.modal .modal-fullscreen .modal-footer {
-  border-radius: 0;
-}
-.modal.fade {
-  transition: opacity var(--modal-animation-duration, 300ms) linear;
-}
-.modal.fade .modal-dialog {
-  transition: -webkit-transform var(--modal-animation-duration, 300ms) ease-out;
-  transition: transform var(--modal-animation-duration, 300ms) ease-out;
 }
 
 .page-item:not(.disabled) .page-link {

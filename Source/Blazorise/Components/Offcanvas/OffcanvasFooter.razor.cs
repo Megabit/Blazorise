@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Components.Web;
 namespace Blazorise;
 
 /// <summary>
-/// Top header area of the modal component.
+/// Top footer area of the modal component.
 /// </summary>
-public partial class OffcanvasHeader : BaseComponent
+public partial class OffcanvasFooter : BaseComponent
 {
     #region Methods
 
@@ -20,13 +20,13 @@ public partial class OffcanvasHeader : BaseComponent
     {
         base.OnInitialized();
 
-        ParentOffcanvas?.NotifyHasOffcanvasHeader();
+        ParentOffcanvas?.NotifyHasOffcanvasFooter();
     }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.OffcanvasHeader() );
+        builder.Append( ClassProvider.OffcanvasFooter() );
 
         base.BuildClasses( builder );
     }
@@ -41,7 +41,7 @@ public partial class OffcanvasHeader : BaseComponent
     [CascadingParameter] protected Offcanvas ParentOffcanvas { get; set; }
 
     /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="OffcanvasHeader"/>.
+    /// Specifies the content to be rendered inside this <see cref="OffcanvasFooter"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 

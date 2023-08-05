@@ -830,6 +830,8 @@ public interface IClassProvider
 
     string OffcanvasHeader();
 
+    string OffcanvasFooter();
+
     string OffcanvasBody();
 
     string OffcanvasBackdrop();

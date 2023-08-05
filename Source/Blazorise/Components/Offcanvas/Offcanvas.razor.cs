@@ -426,6 +426,11 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
         HasOffcanvasHeader = true;
     }
 
+    internal void NotifyHasOffcanvasFooter()
+    {
+        HasOffcanvasFooter = true;
+    }
+
     internal void NotifyHasOffcanvasBody()
     {
         HasOffcanvasBody = true;
@@ -439,6 +444,11 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     /// True if Offcanvas contains the <see cref="OffcanvasHeader"/> component.
     /// </summary>
     protected bool HasOffcanvasHeader { get; private set; }
+
+    /// <summary>
+    /// True if Offcanvas contains the <see cref="OffcanvasFooter"/> component.
+    /// </summary>
+    protected bool HasOffcanvasFooter { get; private set; }
 
     /// <summary>
     /// True if Offcanvas contains the <see cref="OffcanvasBody"/> component.

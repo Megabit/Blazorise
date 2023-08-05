@@ -837,6 +837,8 @@ class EmptyClassProvider : IClassProvider
 
     public string OffcanvasHeader() => null;
 
+    public string OffcanvasFooter() => null;
+
     public string OffcanvasBody() => null;
 
     public string OffcanvasBackdrop() => null;
