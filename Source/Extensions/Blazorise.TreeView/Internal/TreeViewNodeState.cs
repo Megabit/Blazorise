@@ -1,5 +1,7 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
+#endregion
 
 namespace Blazorise.TreeView.Internal;
 
@@ -24,8 +26,6 @@ public record TreeViewNodeState<TNode>
         Expanded = expanded;
         Disabled = disabled;
     }
-
-    
 
     /// <summary>
     /// Unique key of each node state, used for rendering optimization.

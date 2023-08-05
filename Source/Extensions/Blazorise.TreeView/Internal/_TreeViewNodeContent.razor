@@ -1,7 +1,7 @@
 ﻿@typeparam TNode
 @inherits BaseComponent
 <div class="b-tree-view-node-title">
-    @if (ParentTreeViewState.SelectionMode == TreeViewSelectionMode.Multiple && !NodeState.Disabled)
+    @if ( ParentTreeViewState.SelectionMode == TreeViewSelectionMode.Multiple && !NodeState.Disabled )
     {
         <div class="b-tree-view-node-check">
             <Check TValue="bool" Checked="@Checked" CheckedChanged="@OnCheckedChanged" />

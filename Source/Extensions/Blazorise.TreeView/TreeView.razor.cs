@@ -74,7 +74,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
         {
             InvokeAsync( async () =>
             {
-                await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, IsDisabled ))
+                await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, IsDisabled ) )
                 {
                     treeViewNodeStates.Add( nodeState );
                 }
@@ -131,7 +131,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     {
         treeViewNodeStates = new();
 
-        await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true , IsDisabled ))
+        await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, IsDisabled ) )
         {
             treeViewNodeStates.Add( nodeState );
         }
@@ -345,7 +345,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     [Parameter] public Func<TNode, Task<IEnumerable<TNode>>> GetChildNodesAsync { get; set; }
 
     /// <summary>
-    /// Indicates the node's disabled state. Used for preventing selection
+    /// Indicates the node's disabled state. Used for preventing selection.
     /// </summary>
     [Parameter] public Func<TNode, bool> IsDisabled { get; set; } = node => false;
 

@@ -79,6 +79,7 @@ public partial class TreeViewPage : ComponentBase
     private async Task DisableRandomNode()
     {
         var allNodes = Flatten( Nodes, node => node.Children ).ToList();
+
         if ( allNodes.Any() )
         {
             Random rand = new Random();
@@ -93,6 +94,7 @@ public partial class TreeViewPage : ComponentBase
     private async Task DisableAll()
     {
         var allNodes = Flatten( Nodes, node => node.Children ).ToList();
+
         foreach ( var node in allNodes )
         {
             node.Disabled = true;
@@ -100,10 +102,11 @@ public partial class TreeViewPage : ComponentBase
 
         await treeViewRef.Reload();
     }
-    
-    private async Task EnableAllNodes( )
+
+    private async Task EnableAllNodes()
     {
         var allNodes = Flatten( Nodes, node => node.Children ).ToList();
+
         foreach ( var node in allNodes )
         {
             node.Disabled = false;
@@ -112,19 +115,18 @@ public partial class TreeViewPage : ComponentBase
         await treeViewRef.Reload();
     }
 
-    protected IEnumerable<T> Flatten<T>( IEnumerable<T> source, Func<T, IEnumerable<T>> childrenSelector)
+    protected IEnumerable<T> Flatten<T>( IEnumerable<T> source, Func<T, IEnumerable<T>> childrenSelector )
     {
-        var queue = new Queue<T>(source);
-        while (queue.Count > 0)
+        var queue = new Queue<T>( source );
+        while ( queue.Count > 0 )
         {
             var current = queue.Dequeue();
             yield return current;
-            var children = childrenSelector(current);
-            if (children == null) continue;
-            foreach (var child in children) queue.Enqueue(child);
+            var children = childrenSelector( current );
+            if ( children == null )
+                continue;
+            foreach ( var child in children )
+                queue.Enqueue( child );
         }
-}
-
-    
-
+    }
 }

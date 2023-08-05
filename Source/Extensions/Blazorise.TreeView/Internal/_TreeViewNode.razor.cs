@@ -14,7 +14,11 @@ namespace Blazorise.TreeView.Internal;
 
 public partial class _TreeViewNode<TNode> : BaseComponent
 {
-    private bool _checkChildrenLoaded;
+    #region Members
+
+    private bool checkChildrenLoaded;
+
+    #endregion
 
     #region Methods
 
@@ -40,25 +44,28 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        _checkChildrenLoaded = true;
+        checkChildrenLoaded = true;
+
         await base.SetParametersAsync( parameters );
     }
 
     protected override async Task OnParametersSetAsync()
     {
-        //check if expanded is true but children is empty to load child nodes if needed, happens after Reload, we use the bool flag to ensure we don't do this multiple times during render
-        if ( _checkChildrenLoaded )
+        // Check if expanded is true but children is empty to load child nodes if needed, happens after Reload,
+        // we use the bool flag to ensure we don't do this multiple times during render.
+        if ( checkChildrenLoaded )
         {
-            var unloadedNodeStates = NodeStates != null ? NodeStates.Where( o => o.Expanded && o.Children.Count == 0 ) : Enumerable
-                .Empty<TreeViewNodeState<TNode>>();
+            var unloadedNodeStates = NodeStates != null
+                ? NodeStates.Where( o => o.Expanded && o.Children.Count == 0 )
+                : Enumerable.Empty<TreeViewNodeState<TNode>>();
+
             foreach ( TreeViewNodeState<TNode> unloadedNodeState in unloadedNodeStates )
             {
                 await LoadChildNodes( unloadedNodeState );
             }
 
-            _checkChildrenLoaded = false;
+            checkChildrenLoaded = false;
         }
-    
     }
 
     protected override void BuildClasses( ClassBuilder builder )
@@ -144,7 +151,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     {
         nodeState.Children.Clear();
 
-        await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true , IsDisabled) )
+        await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, IsDisabled ) )
         {
             nodeState.Children.Add( childNodeState );
         }
@@ -154,7 +161,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     {
         if ( e.Action == NotifyCollectionChangedAction.Add )
         {
-            await foreach ( var childNodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true , IsDisabled ))
+            await foreach ( var childNodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, IsDisabled ) )
             {
                 nodeState.Children.Add( childNodeState );
             }

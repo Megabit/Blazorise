@@ -44,8 +44,6 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
             Background = Background.Default,
             TextColor = TextColor.Default
         };
-
-        
     }
 
     #endregion
@@ -80,7 +78,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected Task OnCheckedChanged( bool value )
     {
-        //check shouldn't be rendered if nodestate is disabled, so we shouldn't need to check for it here
+        // check shouldn't be rendered if nodestate is disabled, so we shouldn't need to check for it here
         if ( ParentTreeView is not null )
             return ParentTreeView.ToggleCheckNode( NodeState.Node );
 
@@ -97,6 +95,16 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
             NodeStyling?.Invoke( NodeState.Node, nodeStyling );
 
         return base.OnParametersSetAsync();
+    }
+
+    private string GetCurrentStyle()
+    {
+        if ( Selected )
+            return selectedNodeStyling.Style;
+        else if ( NodeState.Disabled )
+            return disabledNodeStyling.Style;
+        else
+            return nodeStyling.Style;
     }
 
     #endregion
@@ -162,14 +170,4 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     #endregion
-
-    private string GetCurrentStyle()
-    {
-        if ( Selected )
-            return selectedNodeStyling.Style;
-        else if ( NodeState.Disabled )
-            return disabledNodeStyling.Style;
-        else
-            return nodeStyling.Style;
-    }
 }
