@@ -13,28 +13,28 @@ namespace Blazorise.TreeView.Extensions
     {
         public static async IAsyncEnumerable<TreeViewNodeState<TNode>> ToNodeStates<TNode>( this IEnumerable<TNode> nodes,
             Func<TNode, Task<bool>> hasChildNodesAsync,
-            Func<TNode, bool> hasChildNodesFunc,
-            Func<TNode, bool> isExpandedFunc,
-            Func<TNode, bool> isDisabledFunc )
+            Func<TNode, bool> hasChildNodes,
+            Func<TNode, bool> isExpanded,
+            Func<TNode, bool> isDisabled )
         {
             foreach ( var node in nodes ?? Enumerable.Empty<TNode>() )
             {
                 var hasChildren = hasChildNodesAsync is not null
                     ? await hasChildNodesAsync( node )
-                    : hasChildNodesFunc( node );
+                    : hasChildNodes( node );
 
-                var isExpanded = isExpandedFunc( node );
-                var isDisabled = isDisabledFunc( node );
+                var expanded = isExpanded( node );
+                var disabled = isDisabled( node );
 
-                yield return new TreeViewNodeState<TNode>( node, hasChildren, isExpanded, isDisabled );
+                yield return new TreeViewNodeState<TNode>( node, hasChildren, expanded, disabled );
             }
         }
 
         public static async IAsyncEnumerable<TreeViewNodeState<TNode>> ToNodeStates<TNode>( this IList nodes,
             Func<TNode, Task<bool>> hasChildNodesAsync,
-            Func<TNode, bool> hasChildNodesFunc,
-            Func<TNode, bool> isExpandedFunc,
-            Func<TNode, bool> isDisabledFunc )
+            Func<TNode, bool> hasChildNodes,
+            Func<TNode, bool> isExpanded,
+            Func<TNode, bool> isDisabled )
         {
             foreach ( var node in nodes )
             {
@@ -42,9 +42,12 @@ namespace Blazorise.TreeView.Extensions
                 {
                     var hasChildren = hasChildNodesAsync is not null
                         ? await hasChildNodesAsync( tNode )
-                        : hasChildNodesFunc( tNode );
+                        : hasChildNodes( tNode );
 
-                    yield return new TreeViewNodeState<TNode>( tNode, hasChildren, isExpandedFunc( tNode ), isDisabledFunc( tNode ) );
+                    var expanded = isExpanded( tNode );
+                    var disabled = isDisabled( tNode );
+
+                    yield return new TreeViewNodeState<TNode>( tNode, hasChildren, expanded, disabled );
                 }
             }
         }
