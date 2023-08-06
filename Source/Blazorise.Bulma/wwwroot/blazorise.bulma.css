@@ -6495,6 +6495,114 @@ li.list-group-item-action {
   animation-name: fadeIn;
 }
 
+.offcanvas {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  z-index: 1050;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease-in-out;
+}
+.offcanvas.is-active {
+  transform: translateX(0);
+}
+
+.is-showing,
+.is-active:not(.is-hiding) {
+  transform: none;
+}
+
+.is-showing,
+.is-hiding,
+.is-showing {
+  visibility: visible;
+}
+
+.is-start {
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 20rem;
+  transform-origin: left;
+}
+
+.is-end {
+  top: 0;
+  right: 0;
+  height: 100%;
+  transform: translateX(100%);
+}
+.is-end.is-active {
+  transform: none;
+  width: 20rem;
+}
+
+.is-top {
+  top: 0;
+  left: 0;
+  right: 0;
+  transform-origin: top;
+  transform: translateY(-100%);
+  width: 100%;
+}
+.is-top.is-active {
+  transform: none;
+  height: 20rem;
+}
+
+.is-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  transform-origin: bottom;
+  transform: translateY(100%);
+  width: 100%;
+}
+.is-bottom.is-active {
+  transform: none;
+  height: 20rem;
+}
+
+.offcanvas-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.offcanvas-footer {
+  position: sticky;
+  bottom: 0;
+  top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.offcanvas-body {
+  display: flex;
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 1rem;
+}
+
+.offcanvas-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 1040;
+}
+.offcanvas-backdrop.is-active {
+  opacity: 1;
+}
+
 .pagination.is-extra-small, .field.has-addons.are-extra-small > .control > .pagination.button {
   font-size: 0.65rem;
 }

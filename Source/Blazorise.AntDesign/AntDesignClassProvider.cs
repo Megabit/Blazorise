@@ -893,6 +893,44 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
+    #region Offcanvas
+
+    public override string Offcanvas() => "ant-drawer";
+
+    public override string OffcanvasPlacement( Placement placement, bool visible )
+    {
+        return placement switch
+        {
+            Placement.Start => "ant-drawer-left",
+            Placement.End => "ant-drawer-right",
+            Placement.Top => "ant-drawer-top",
+            Placement.Bottom => "ant-drawer-bottom",
+            _ => "",
+        };
+    }
+
+    public override string OffcanvasFade( bool showing, bool hiding ) => showing
+        ? "ant-showing"
+        : hiding
+            ? "ant-hiding"
+            : null;
+
+    public override string OffcanvasVisible( bool visible ) => visible ? "ant-drawer-open" : null;
+
+    public override string OffcanvasHeader() => "ant-drawer-header";
+
+    public override string OffcanvasFooter() => "ant-drawer-footer";
+
+    public override string OffcanvasBody() => "ant-drawer-body";
+
+    public override string OffcanvasBackdrop() => "ant-drawer-mask";
+
+    public override string OffcanvasBackdropFade() => null;
+
+    public override string OffcanvasBackdropVisible( bool visible ) => visible ? null : null;
+
+    #endregion
+
     #region Pagination
 
     public override string Pagination() => "ant-pagination";

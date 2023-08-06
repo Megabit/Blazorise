@@ -77,6 +77,7 @@ public static class Config
         { typeof( Blazorise.Field ), typeof( Tailwind.Field ) },
         { typeof( Blazorise.Modal ), typeof( Tailwind.Modal ) },
         { typeof( Blazorise.ModalContent ), typeof( Tailwind.ModalContent ) },
+        { typeof( Blazorise.Offcanvas ), typeof( Tailwind.Offcanvas ) },
         { typeof( Blazorise.Progress ), typeof( Tailwind.Progress ) },
         { typeof( Blazorise.ProgressBar ), typeof( Tailwind.ProgressBar ) },
         { typeof( Blazorise.Radio<> ), typeof( Tailwind.Radio<> ) },

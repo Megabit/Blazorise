@@ -40,4 +40,13 @@ public class BootstrapStyleProvider : StyleProvider
     #region Layout
 
     #endregion
+
+    #region Offcanvas
+
+    public override string OffcanvasAnimationDuration( bool animated, int animationDuration )
+        => animated
+            ? $"transition-duration: {animationDuration}ms"
+            : "transition-duration: unset";
+
+    #endregion
 }

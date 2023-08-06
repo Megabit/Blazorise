@@ -894,6 +894,44 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #endregion
 
+    #region Offcanvas
+
+    public override string Offcanvas() => "offcanvas";
+
+    public override string OffcanvasPlacement( Placement placement, bool visible )
+    {
+        return placement switch
+        {
+            Placement.Start => "offcanvas-start",
+            Placement.End => "offcanvas-end",
+            Placement.Top => "offcanvas-top",
+            Placement.Bottom => "offcanvas-bottom",
+            _ => "",
+        };
+    }
+
+    public override string OffcanvasFade( bool showing, bool hiding ) => showing
+        ? "showing"
+        : hiding
+            ? "hiding"
+            : null;
+
+    public override string OffcanvasVisible( bool visible ) => visible ? Show() : null;
+
+    public override string OffcanvasHeader() => "offcanvas-header";
+
+    public override string OffcanvasFooter() => "offcanvas-footer";
+
+    public override string OffcanvasBody() => "offcanvas-body";
+
+    public override string OffcanvasBackdrop() => "offcanvas-backdrop";
+
+    public override string OffcanvasBackdropFade() => Fade();
+
+    public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
+
+    #endregion
+
     #region Pagination
 
     public override string Pagination() => "pagination";

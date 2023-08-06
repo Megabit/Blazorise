@@ -832,6 +832,30 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Offcanvas
+
+    public abstract string Offcanvas();
+
+    public abstract string OffcanvasPlacement( Placement placement, bool visible );
+
+    public abstract string OffcanvasFade( bool showing, bool hiding );
+
+    public abstract string OffcanvasVisible( bool visible );
+
+    public abstract string OffcanvasHeader();
+
+    public abstract string OffcanvasFooter();
+
+    public abstract string OffcanvasBody();
+
+    public abstract string OffcanvasBackdrop();
+
+    public abstract string OffcanvasBackdropFade();
+
+    public abstract string OffcanvasBackdropVisible( bool visible );
+
+    #endregion
+
     #region Pagination
 
     public abstract string Pagination();

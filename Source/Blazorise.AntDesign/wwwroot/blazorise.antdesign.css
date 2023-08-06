@@ -3027,6 +3027,135 @@ li.ant-list-item-actionable {
   height: calc(100vh - 110px);
 }
 
+.ant-drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+.ant-drawer-mask {
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+}
+.ant-drawer-content-wrapper {
+  position: absolute;
+  z-index: 1000;
+  transition: all 0.3s;
+}
+.ant-drawer-content {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background: #fff;
+  pointer-events: auto;
+}
+.ant-drawer-wrapper-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.ant-drawer-header {
+  display: flex;
+  flex: 0;
+  align-items: center;
+  padding: 16px 24px;
+  font-size: 16px;
+  line-height: 22px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+.ant-drawer-header-title {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+  min-height: 0;
+}
+.ant-drawer-body {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  padding: 24px;
+  overflow: auto;
+}
+
+.ant-drawer-content-wrapper-hidden {
+  display: none;
+}
+
+.ant-drawer-top > .ant-drawer-content-wrapper {
+  top: 0;
+  right: 0;
+  left: 0;
+  box-shadow: 0 6px 16px -8px rgba(0, 0, 0, 0.0784313725), 0 9px 28px rgba(0, 0, 0, 0.0509803922), 0 12px 48px 16px rgba(0, 0, 0, 0.031372549);
+}
+
+.ant-drawer-bottom > .ant-drawer-content-wrapper {
+  right: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: 0 -6px 16px -8px rgba(0, 0, 0, 0.0784313725), 0 -9px 28px rgba(0, 0, 0, 0.0509803922), 0 -12px 48px 16px rgba(0, 0, 0, 0.031372549);
+}
+
+.ant-drawer-left > .ant-drawer-content-wrapper {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  box-shadow: 6px 0 16px -8px rgba(0, 0, 0, 0.0784313725), 9px 0 28px rgba(0, 0, 0, 0.0509803922), 12px 0 48px 16px rgba(0, 0, 0, 0.031372549);
+}
+
+.ant-drawer-right > .ant-drawer-content-wrapper {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  box-shadow: -6px 0 16px -8px rgba(0, 0, 0, 0.0784313725), -9px 0 28px rgba(0, 0, 0, 0.0509803922), -12px 0 48px 16px rgba(0, 0, 0, 0.031372549);
+}
+
+.ant-close {
+  display: inline-block;
+  margin-right: 12px;
+  color: rgba(0, 0, 0, 0.4509803922);
+  font-weight: 700;
+  font-size: 16px;
+  font-style: normal;
+  line-height: 1;
+  text-align: center;
+  text-transform: none;
+  text-decoration: none;
+  background: 0 0;
+  border: 0;
+  outline: 0;
+  cursor: pointer;
+  transition: color 0.3s;
+  text-rendering: auto;
+}
+
+.anticon {
+  display: inline-block;
+  color: inherit;
+  font-style: normal;
+  line-height: 0;
+  text-align: center;
+  text-transform: none;
+  vertical-align: -0.125em;
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.ant-drawer.ant-showing,
+.ant-drawer.ant-showing:not(.hiding) {
+  transform: none;
+}
+
+.ant-drawer.ant-showing,
+.ant-drawer.ant-hiding,
+.ant-drawer.ant-drawer-open {
+  visibility: visible;
+}
+
 .ant-pagination.ant-pagination-xs .ant-pagination-total-text, .ant-pagination.ant-pagination-xs .ant-pagination-simple-pager {
   height: 16px;
   line-height: 16px;

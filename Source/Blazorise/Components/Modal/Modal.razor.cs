@@ -404,7 +404,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
         await RaiseEvents( visible );
     }
 
-    /// inheritdoc
+    /// <inheritdoc/>
     public Task BeginAnimation( bool visible )
     {
         if ( visible )
@@ -418,7 +418,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
         return InvokeAsync( StateHasChanged );
     }
 
-    /// inheritdoc
+    /// <inheritdoc/>
     public Task EndAnimation( bool visible )
     {
         if ( visible )

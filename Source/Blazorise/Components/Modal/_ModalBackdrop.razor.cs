@@ -24,7 +24,10 @@ public partial class _ModalBackdrop : BaseComponent
     {
         base.OnInitialized();
 
-        ParentModal.NotifyCloseActivatorIdInitialized( ElementId );
+        if ( ParentModal is not null )
+        {
+            ParentModal.NotifyCloseActivatorIdInitialized( ElementId );
+        }
     }
 
     /// <inheritdoc/>
