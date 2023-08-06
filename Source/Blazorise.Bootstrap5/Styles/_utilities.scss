@@ -60,3 +60,25 @@ $border-sizes: (1, 2, 3, 4, 5);
 .cursor-pointer {
     cursor: pointer;
 }
+
+.fs {
+    &-xs {
+        font-size: 0.75rem;
+    }
+
+    &-sm {
+        font-size: 0.925rem;
+    }
+
+    &-md {
+        font-size: 1.125rem;
+    }
+
+    &-lg {
+        font-size: 1.25rem;
+    }
+
+    &-xl {
+        font-size: 1.5rem;
+    }
+}

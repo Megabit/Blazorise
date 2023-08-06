@@ -1008,6 +1008,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TextOverflow( TextOverflow textOverflow );
 
+    public abstract string TextSize( TextSize textSize );
+
     public abstract string TextItalic();
 
     #endregion
@@ -1408,6 +1410,25 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.TextOverflow.Wrap => "wrap",
             Blazorise.TextOverflow.NoWrap => "nowrap",
             Blazorise.TextOverflow.Truncate => "truncate",
+            _ => null,
+        };
+    }
+
+    public virtual string ToTextSize( TextSize textSize )
+    {
+        return textSize switch
+        {
+            Blazorise.TextSize.ExtraSmall => "xs",
+            Blazorise.TextSize.Small => "sm",
+            Blazorise.TextSize.Medium => "md",
+            Blazorise.TextSize.Large => "lg",
+            Blazorise.TextSize.ExtraLarge => "xl",
+            Blazorise.TextSize.Heading1 => "1",
+            Blazorise.TextSize.Heading2 => "2",
+            Blazorise.TextSize.Heading3 => "3",
+            Blazorise.TextSize.Heading4 => "4",
+            Blazorise.TextSize.Heading5 => "5",
+            Blazorise.TextSize.Heading6 => "6",
             _ => null,
         };
     }

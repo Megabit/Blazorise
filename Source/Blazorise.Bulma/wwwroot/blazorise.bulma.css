@@ -7681,6 +7681,22 @@ tr.table-row-selectable:focus[tabindex="0"] {
   margin-bottom: 1rem;
 }
 
+.is-size-xs {
+  font-size: 0.75rem;
+}
+.is-size-sm {
+  font-size: 0.925rem;
+}
+.is-size-md {
+  font-size: 1.125rem;
+}
+.is-size-lg {
+  font-size: 1.25rem;
+}
+.is-size-xl {
+  font-size: 1.5rem;
+}
+
 .flatpickr-months {
   margin: 0.5rem 0;
 }

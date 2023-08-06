@@ -1121,6 +1121,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"has-text-{ToTextOverflow( textOverflow )}";
 
+    public override string TextSize( TextSize textSize ) => $"is-size-{ToTextSize( textSize )}";
+
     public override string TextItalic() => "is-italic";
 
     #endregion

@@ -15,6 +15,9 @@
             sans: ['Graphik', 'sans-serif'],
             serif: ['Merriweather', 'serif'],
         },
+        fontSize: {
+            md: ['1.0625rem', '1.25rem']
+        },
         variants: {
             backgroundColor: ['even', 'odd', 'hover']
         },
