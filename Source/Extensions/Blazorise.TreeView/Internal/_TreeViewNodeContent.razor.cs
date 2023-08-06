@@ -78,11 +78,10 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected Task OnCheckedChanged( bool value )
     {
-        // check shouldn't be toggled if nodestate is disabled
-        if ( ParentTreeView is not null && !NodeState.Disabled )
-            return ParentTreeView.ToggleCheckNode( NodeState.Node );
+        if ( ParentTreeView is null || NodeState.Disabled )
+            return Task.CompletedTask;
 
-        return Task.CompletedTask;
+        return ParentTreeView.ToggleCheckNode( NodeState.Node );
     }
 
     protected override Task OnParametersSetAsync()
