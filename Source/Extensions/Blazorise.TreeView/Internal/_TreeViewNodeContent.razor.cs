@@ -67,7 +67,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     protected Task OnClick()
     {
         //prevent onclick during multi selection mode or if node is disabled
-        if ( NodeState.Disabled || SelectionMode != TreeViewSelectionMode.Single )
+        if ( NodeState.Disabled || SelectionMode == TreeViewSelectionMode.Multiple )
             return Task.CompletedTask;
 
         DirtyClasses();
