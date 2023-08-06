@@ -1,4 +1,4 @@
-﻿@page "/tests/datagrid/filter/column-filter"
+﻿@page "/tests/datagrid/filter/menu-filter"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
@@ -11,26 +11,28 @@
                           ShowPager
                           ShowPageSizes
                           Filterable
-                          FilterMethod="DataGridFilterMethod.Contains">
+                          Responsive
+                          FilterMethod="DataGridFilterMethod.Contains"
+                          FilterMode="DataGridFilterMode.Menu">
                     <DataGridColumns>
-                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" Filterable="false" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Filterable="false">
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" Filterable />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Filterable>
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Filterable="false" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Filterable="false" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Filterable="false">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Filterable />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Filterable />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Filterable>
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
                             </CaptionTemplate>
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Filterable="false">
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Filterable>
                         </DataGridColumn>
-                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable Filterable="false" />
-                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
-                        <DataGridSelectColumn CustomFilter="OnGenderCustomFilter" TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End" Filterable="false">
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable Filterable />
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable />
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End" >
                         </DataGridColumn>
-                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable>
                             <DisplayTemplate>
                                 <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
                             </DisplayTemplate>
@@ -47,16 +49,6 @@
     [Inject] EmployeeData EmployeeData { get; set; }
 
     private IEnumerable<Employee> inMemoryData;
-
-    private bool OnGenderCustomFilter( object itemValue, object searchValue )
-    {
-        if ( searchValue is string genderFilter )
-        {
-            return genderFilter == "*" || genderFilter == itemValue?.ToString();
-        }
-
-        return true;
-    }
 
     protected override async Task OnInitializedAsync()
     {

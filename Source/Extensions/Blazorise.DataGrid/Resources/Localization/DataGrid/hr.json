@@ -17,6 +17,11 @@
     "Row Edit": "Editiranje stavke",
     "Row Create": "Kreiranje stavke",
     "Create": "Kreiraj",
-    "Drag a column header here to group by that column": "Povucite zaglavlje stupca ovdje za grupiranje prema tom stupcu"
+    "Drag a column header here to group by that column": "Povucite zaglavlje stupca ovdje za grupiranje prema tom stupcu",
+    "Contains": "Sadrži",
+    "Starts With": "Počinje sa",
+    "Ends With": "Završava sa",
+    "Equals": "Jednako",
+    "Not Equals": "Nije jednako"
   }
 }

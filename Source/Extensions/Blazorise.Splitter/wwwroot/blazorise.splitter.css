@@ -1,0 +1,29 @@
+﻿.splitter {
+    height: 100%;
+}
+
+.splitter-vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.splitter-horizontal {
+    display: flex;
+    flex-direction: row;
+}
+
+.splitter-gutter {
+    background-color: #eee;
+    background-repeat: no-repeat;
+    background-position: 50%;
+}
+
+    .splitter-gutter.splitter-gutter-horizontal {
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+        cursor: col-resize;
+    }
+
+    .splitter-gutter.splitter-gutter-vertical {
+        background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+        cursor: row-resize;
+    }

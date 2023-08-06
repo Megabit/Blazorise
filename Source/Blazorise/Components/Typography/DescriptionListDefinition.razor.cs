@@ -25,7 +25,7 @@ public partial class DescriptionListDefinition : BaseTypographyComponent, IColum
         builder.Append( ClassProvider.DescriptionListDefinition() );
 
         if ( ColumnSize != null )
-            builder.Append( ColumnSize.Class( ClassProvider ) );
+            builder.Append( ColumnSize.Class( false, ClassProvider ) );
 
         base.BuildClasses( builder );
     }

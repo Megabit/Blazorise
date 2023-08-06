@@ -8,6 +8,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Streaming\Blazorise.Charts.Streaming.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.DataLabels\Blazorise.Charts.DataLabels.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Annotation\Blazorise.Charts.Annotation.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts\Blazorise.Charts.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Components\Blazorise.Components.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
@@ -19,6 +20,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.RichTextEdit\Blazorise.RichTextEdit.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Sidebar\Blazorise.Sidebar.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Snackbar\Blazorise.Snackbar.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.TreeView\Blazorise.TreeView.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SpinKit\Blazorise.SpinKit.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Video\Blazorise.Video.csproj" />

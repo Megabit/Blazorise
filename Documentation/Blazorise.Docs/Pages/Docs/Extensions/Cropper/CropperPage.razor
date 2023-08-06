@@ -36,6 +36,13 @@
     <DocsPageSectionSource Code="ImportCropperExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Message Size">
+        This step is recommended for Blazor Server only. In a default Blazor Server project template, the SignalR settings might be too small for some components like Cropper. To make it work, you should increase the <Code>MaximumReceiveMessageSize</Code> in your projects <Strong>Startup.cs</Strong>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="CropperMessageSizeExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Examples
 </DocsPageSubtitle>

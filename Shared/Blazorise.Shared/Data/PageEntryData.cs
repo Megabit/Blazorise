@@ -64,6 +64,7 @@ public class PageEntryData
                 new PageEntry( "docs/components/modal", "Modal", "Dialog is a small window that can be used to present information and user interface elements in an overlay." ),
                 new PageEntry( "docs/components/numeric", "Numeric Edit", "A native numeric <input> component built around the <input type=\"number\">." ),
                 new PageEntry( "docs/components/numeric-picker", "Numeric Picker", "A customizable NumericPicker component allows you to enter numeric values and contains controls for increasing and reducing the value." ),
+                new PageEntry( "docs/components/offcanvas", "Offcanvas", "Offcanvas is a sidebar component that can be toggled to appear from the left, right, top, or bottom edge of the viewport." ),
                 new PageEntry( "docs/components/pagination", "Pagination", "A responsive, usable, and flexible pagination." ),
                 new PageEntry( "docs/components/progress", "Progress", "Progress bars are used to show the status of an ongoing operation." ),
                 new PageEntry( "docs/components/radio", "Radio", "The Radio allow the user to select a single option from a group." ),

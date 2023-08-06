@@ -379,6 +379,12 @@
         Template for header group caption.
         Suggested usage: rendering content conditionally according to the defined HeaderGroupCaption.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMode" Type="DataGridFilterMode" Default="DataGridFilterMode.Default">
+        Gets or sets the filter mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMenuTemplate" Type="FilterColumnContext<TItem>">
+        Template for the filter menu. When filter mode is set to DataGridFilterMode.Menu, this template will be used to render the filter content.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="VirtualizeOptions">

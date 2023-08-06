@@ -415,6 +415,8 @@ class EmptyClassProvider : IClassProvider
 
     public string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy ) => null;
 
+    public string DropdownFixedHeaderVisible( bool visible ) => null;
+
     public string DropdownMenuSelector() => null;
 
     public string DropdownMenuScrollable() => null;
@@ -751,11 +753,21 @@ class EmptyClassProvider : IClassProvider
 
     #region Column
 
-    public string Column( bool hasSizes ) => null;
+    public string Column( bool grid, bool hasSizes ) => null;
 
-    public string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+    public string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
 
-    public string Column( IEnumerable<ColumnDefinition> columnDefinitions ) => null;
+    public string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions ) => null;
+
+    #endregion
+
+    #region Grid
+
+    public string Grid() => null;
+
+    public string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition ) => null;
+
+    public string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition ) => null;
 
     #endregion
 
@@ -820,6 +832,30 @@ class EmptyClassProvider : IClassProvider
     public string ModalFooter() => null;
 
     public string ModalTitle() => null;
+
+    #endregion
+
+    #region Offcanvas
+
+    public string Offcanvas() => null;
+
+    public string OffcanvasPlacement( Placement placement, bool visible ) => null;
+
+    public string OffcanvasFade( bool showing, bool hiding ) => null;
+
+    public string OffcanvasVisible( bool visible ) => null;
+
+    public string OffcanvasHeader() => null;
+
+    public string OffcanvasFooter() => null;
+
+    public string OffcanvasBody() => null;
+
+    public string OffcanvasBackdrop() => null;
+
+    public string OffcanvasBackdropFade() => null;
+
+    public string OffcanvasBackdropVisible( bool visible ) => null;
 
     #endregion
 

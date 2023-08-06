@@ -17,6 +17,11 @@
     "Row Edit": "Editar fila",
     "Row Create": "Fila Crear",
     "Create": "Crear",
-    "Drag a column header here to group by that column": "Arrastre un encabezado de columna aquí para agrupar por esa columna"
+    "Drag a column header here to group by that column": "Arrastre un encabezado de columna aquí para agrupar por esa columna",
+    "Contains": "Contiene",
+    "Starts With": "Comienza con",
+    "Ends With": "Termina con",
+    "Equals": "Igual",
+    "Not Equals": "No es igual"
   }
 }

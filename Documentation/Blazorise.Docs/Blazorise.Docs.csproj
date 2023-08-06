@@ -13,6 +13,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Streaming\Blazorise.Charts.Streaming.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Trendline\Blazorise.Charts.Trendline.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.DataLabels\Blazorise.Charts.DataLabels.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Annotation\Blazorise.Charts.Annotation.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts\Blazorise.Charts.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Components\Blazorise.Components.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
@@ -30,6 +31,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.LottieAnimation\Blazorise.LottieAnimation.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Cropper\Blazorise.Cropper.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
   </ItemGroup>
 
   <!--Binary path for the code generator-->
@@ -77,6 +79,9 @@
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.*" />
     <PackageReference Include="SendGrid" Version="9.28.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\Docs\Components\Offcanvas\Code\" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->

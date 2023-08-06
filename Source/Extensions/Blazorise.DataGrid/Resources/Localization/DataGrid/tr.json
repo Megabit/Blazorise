@@ -17,6 +17,11 @@
     "Row Edit": "Satır Düzenle",
     "Row Create": "Satır Oluştur",
     "Create": "Oluştur",
-    "Drag a column header here to group by that column": "Bu sütuna göre gruplamak için bir sütun başlığını buraya sürükleyin"
+    "Drag a column header here to group by that column": "Bu sütuna göre gruplamak için bir sütun başlığını buraya sürükleyin",
+    "Contains": "içerir",
+    "Starts With": "İle başlar",
+    "Ends With": "ile biter",
+    "Equals": "eşittir",
+    "Not Equals": "eşit değil"
   }
 }

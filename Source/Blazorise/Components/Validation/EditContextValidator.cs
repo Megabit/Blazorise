@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
@@ -106,6 +106,9 @@ public class EditContextValidator : IEditContextValidator
 
             messages.Clear( fieldIdentifier );
 
+            // Clear any previous message for the given field.
+            editContext.ClearValidationMessages( fieldIdentifier );
+
             if ( messageLocalizer != null )
             {
                 // In this case we need to validate by using TryValidateValue because we need
@@ -141,6 +144,18 @@ public class EditContextValidator : IEditContextValidator
                 Validator.TryValidateProperty( propertyValue, validationContext, results );
 
                 messages.Add( fieldIdentifier, results.Select( x => x.ErrorMessage ) );
+
+                // We don't know what fields user can validate in the Model. So we need to run the IValidatableObject.Validate every time
+                // and then check if any of the validated fields matches the current field name.
+                if ( editContext.Model is IValidatableObject validatableObject )
+                {
+                    var validateResult = validatableObject.Validate( validationContext );
+
+                    if ( validateResult is not null && validateResult.Any( x => x.MemberNames.Contains( validationContext.MemberName ) ) )
+                    {
+                        messages.Add( fieldIdentifier, validateResult.Where( x => x.MemberNames.Contains( validationContext.MemberName ) ).Select( x => x.ErrorMessage ) );
+                    }
+                }
             }
 
             // We have to notify even if there were no messages before and are still no messages now,

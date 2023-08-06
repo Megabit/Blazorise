@@ -1,0 +1,190 @@
+﻿@page "/tests/offcanvas"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Offcanvas (Configuration)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column>
+                        <Switch @bind-Checked="@animation">Animation</Switch>
+                    </Column>
+                    <Column>
+                        <NumericEdit TValue="int" @bind-Value="animationDuration">Animation Duration (ms)</NumericEdit>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Offcanvas (Default)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    A rendered offcanvas with header, body, and set of actions in the footer.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Card>
+                    <CardBody>
+                        <Button Color="Color.Primary" Clicked="@(() => ShowOffcanvas(1))">Show Offcanvas 1</Button>
+                    </CardBody>
+                </Card>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Offcanvas End</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Card>
+                    <CardBody>
+                        <Button Color="Color.Primary" Clicked="@(() => ShowOffcanvas(2))">Show Offcanvas 2</Button>
+                    </CardBody>
+                </Card>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Offcanvas Top</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Card>
+                    <CardBody>
+                        <Button Color="Color.Primary" Clicked="@(() => ShowOffcanvas(3))">Show Offcanvas 3</Button>
+                    </CardBody>
+                </Card>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Offcanvas Bottom</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Card>
+                    <CardBody>
+                        <Button Color="Color.Primary" Clicked="@(() => ShowOffcanvas(4))">Show Offcanvas 4</Button>
+                    </CardBody>
+                </Card>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Offcanvas @ref="offcanvasRef1" Placement="Placement.Start" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Offcanvas Header
+        <CloseButton Clicked="@HideOffcanvas1" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Offcanvas Body 1</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@HideOffcanvas1">Close Action</Button>
+        <Button Color="Color.Secondary" Clicked="@HideOffcanvas1">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasRef2"  Placement="Placement.End" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Offcanvas Header
+        <CloseButton Clicked="@HideOffcanvas2" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Offcanvas Body 2</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@HideOffcanvas2">Close Action</Button>
+        <Button Color="Color.Secondary" Clicked="@HideOffcanvas2">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasRef3"  Placement="Placement.Top" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Offcanvas Header
+        <CloseButton Clicked="@HideOffcanvas3" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Offcanvas Body 3</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@HideOffcanvas3">Close Action</Button>
+        <Button Color="Color.Secondary" Clicked="@HideOffcanvas3">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasRef4"  Placement="Placement.Bottom" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Offcanvas Header
+        <CloseButton Clicked="@HideOffcanvas4" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Offcanvas Body 4</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@HideOffcanvas4">Close Action</Button>
+        <Button Color="Color.Secondary" Clicked="@HideOffcanvas4">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+ @code {
+    private Offcanvas offcanvasRef1;
+    private Offcanvas offcanvasRef2;
+    private Offcanvas offcanvasRef3;
+    private Offcanvas offcanvasRef4;
+
+    private bool animation = true;
+    private int animationDuration = 300;
+
+    private async Task ShowOffcanvas(int offcanvasNumber)
+    {
+        switch ( offcanvasNumber )
+        {
+            case 1:
+                await offcanvasRef1.Show();
+                break;
+            case 2:
+                await offcanvasRef2.Show();
+                break;
+            case 3:
+                await offcanvasRef3.Show();
+                break;
+            case 4:
+                await offcanvasRef4.Show();
+                break;
+        }
+    }
+
+    private Task HideOffcanvas1()
+    {
+        return offcanvasRef1.Hide();
+    }
+
+    private Task HideOffcanvas2()
+    {
+        return offcanvasRef2.Hide();
+    }
+
+    private Task HideOffcanvas3()
+    {
+        return offcanvasRef3.Hide();
+    }
+
+    private Task HideOffcanvas4()
+    {
+        return offcanvasRef4.Hide();
+    }
+}
