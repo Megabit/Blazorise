@@ -17,6 +17,11 @@
     "Row Edit": "Úpraviť riadok",
     "Row Create": "Vytvoriť riadok",
     "Create": "Vytvoriť",
-    "Drag a column header here to group by that column": "Presuňte hlavičku stĺpca sem, ak chcete zoskupiť podľa daného stĺpca"
+    "Drag a column header here to group by that column": "Presuňte hlavičku stĺpca sem, ak chcete zoskupiť podľa daného stĺpca",
+    "Contains": "Obsahuje",
+    "Starts With": "Začína s",
+    "Ends With": "Končí s",
+    "Equals": "Rovná sa",
+    "Not Equals": "Nie Rovná sa"
   }
 }

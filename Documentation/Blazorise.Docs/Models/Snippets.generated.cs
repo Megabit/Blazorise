@@ -2761,6 +2761,191 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     decimal value;
 }";
 
+        public const string OffcanvasBottomExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.Bottom"">
+    <OffcanvasHeader>
+        Offcanvas Bottom
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas Bottom</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}";
+
+        public const string OffcanvasClosingExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Closing=""@OnOffcanvasClosing"">
+    <OffcanvasHeader>
+        Offcanvas Start
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <Div Padding=""Padding.Is3"">
+             Offcanvas Content
+        </Div>
+        <Div Padding=""Padding.Is3"">
+             <Button Color=""Color.Secondary"" Clicked=""@HideOffcanvas"">This will close the offcanvas</Button>
+             <Button Color=""Color.Primary"" Clicked=""@TryHideOffcanvas"">This will not</Button>
+        </Div>
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas Start</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private bool cancelClose;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        cancelClose = false;
+
+        return offcanvasRef.Hide();
+    }
+
+    private Task TryHideOffcanvas()
+    {
+        cancelClose = true;
+
+        return offcanvasRef.Hide();
+    }
+
+    private Task OnOffcanvasClosing( OffcanvasClosingEventArgs e )
+    {
+        // just set Cancel to prevent offcanvas from closing
+        e.Cancel = cancelClose
+            || e.CloseReason != CloseReason.UserClosing;
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string OffcanvasEndExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.End"">
+    <OffcanvasHeader>
+        Offcanvas End
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas End</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}";
+
+        public const string OffcanvasFooterExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop>
+    <OffcanvasHeader>
+        Offcanvas Start
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color=""Color.Primary"" Clicked=""@HideOffcanvas"">Close Offcanvas</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}";
+
+        public const string OffcanvasStartExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.Start"">
+    <OffcanvasHeader>
+        Offcanvas Start
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas Start</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}";
+
+        public const string OffcanvasTopExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.Top"">
+    <OffcanvasHeader>
+        Offcanvas Top
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas Top</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}";
+
         public const string BasicPaginationExample = @"<Pagination>
     <PaginationItem Disabled=""@isActive.First()"" @onclick=""Previous"">
         <PaginationLink>
@@ -5229,6 +5414,248 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         public const string ChartTrendlineResourcesExample = @"<script src=""https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-trendline""></script>";
 
+        public const string ChartAnnotationBoxExample = @"<LineChart @ref=""lineChartWithBoxes"" TItem=""int"" Options=""@lineChartWithBoxesOptions"">
+    <ChartAnnotation TItem=""int"" Options=""@boxAnnotationOptions"" />
+</LineChart>
+
+@code {
+    private LineChart<int> lineChartWithBoxes;
+
+    LineChartOptions lineChartWithBoxesOptions = new()
+    {
+        AspectRatio = 5d / 3d,
+        Layout = new()
+        {
+            Padding = new()
+            {
+                Top = 32,
+                Right = 16,
+                Bottom = 16,
+                Left = 8
+            }
+        },
+        Elements = new()
+        {
+            Line = new()
+            {
+                Fill = false,
+                Tension = 0.4,
+            }
+        },
+        Scales = new()
+        {
+            Y = new()
+            {
+                BeginAtZero = true,
+                Min = 0,
+                Max = 120,
+            }
+        },
+        Plugins = new()
+        {
+            Legend = new()
+            {
+                Display = false
+            }
+        }
+    };
+
+    Dictionary<string, ChartAnnotationOptions> boxAnnotationOptions = new()
+    {
+        { ""box1"", new BoxChartAnnotationOptions
+            {
+                Type = ""box"",
+                BackgroundColor = ""rgba(255, 245, 157, 0.2)"",
+                BorderWidth = 0,
+                XMax = 2.5,
+                XMin = -0.5,
+                Label = new()
+                {
+                    DrawTime = ""afterDraw"",
+                    Display = true,
+                    Content = ""First quarter"",
+                    Position = new { x = ""center"", y = ""start"" }
+                },
+            }
+        },
+        { ""box2"", new BoxChartAnnotationOptions
+            {
+                Type = ""box"",
+                BackgroundColor = ""rgba(188, 170, 164, 0.2)"",
+                BorderWidth = 0,
+                XMax = 5.5,
+                XMin = 2.5,
+                Label = new()
+                {
+                    DrawTime = ""afterDraw"",
+                    Display = true,
+                    Content = ""Second quarter"",
+                    Position = new { x = ""center"", y = ""start"" }
+                },
+            }
+        },
+        { ""box3"", new BoxChartAnnotationOptions
+            {
+                Type = ""box"",
+                BackgroundColor = ""rgba(165, 214, 167, 0.2)"",
+                BorderWidth = 0,
+                XMax = 8.5,
+                XMin = 5.5,
+                Label = new()
+                {
+                    DrawTime = ""afterDraw"",
+                    Display = true,
+                    Content = ""Third quarter"",
+                    Position = new { x = ""center"", y = ""start"" }
+                },
+            }
+        },
+        { ""box4"", new BoxChartAnnotationOptions
+            {
+                Type = ""box"",
+                BackgroundColor = ""rgba(159, 168, 218, 0.2)"",
+                BorderWidth = 0,
+                XMin = 8.5,
+                Label = new()
+                {
+                    DrawTime = ""afterDraw"",
+                    Display = true,
+                    Content = ""Fourth quarter"",
+                    Position = new { x = ""center"", y = ""start"" }
+                },
+            }
+        }
+    };
+
+    private static string[] Labels = new string[] { ""1"", ""2"", ""3"", ""4"", ""5"", ""6"", ""7"", ""8"", ""9"", ""10"", ""11"", ""12"" };
+    private static string[] BackgroundColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private static string[] BorderColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private Random random = new( DateTime.Now.Millisecond );
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await lineChartWithBoxes.Clear();
+            await lineChartWithBoxes.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset( 1 ) );
+        }
+    }
+
+    private LineChartDataset<int> GetLineChartDataset( int colorIndex )
+    {
+        return new()
+        {
+            Label = ""# of randoms"",
+            Data = RandomizeData( 2, 110 ),
+            BackgroundColor = BackgroundColors[colorIndex],
+            BorderColor = BorderColors[colorIndex],
+        };
+    }
+
+    List<int> RandomizeData( int min, int max )
+    {
+        return Enumerable.Range( 0, Labels.Count() ).Select( x => random.Next( min, max ) ).ToList();
+    }
+}";
+
+        public const string ChartAnnotationLineExample = @"<LineChart @ref=""lineChart"" TItem=""int"" Options=""@lineChartOptions"">
+    <ChartAnnotation TItem=""int"" Options=""@lineAnnotationOptions"" />
+</LineChart>
+
+@code {
+    private LineChart<int> lineChart;
+
+    LineChartOptions lineChartOptions = new()
+    {
+        AspectRatio = 5d / 3d,
+        Layout = new()
+        {
+            Padding = new()
+            {
+                Top = 32,
+                Right = 16,
+                Bottom = 16,
+                Left = 8
+            }
+        },
+        Elements = new()
+        {
+            Line = new()
+            {
+                Fill = false,
+                Tension = 0.4,
+            }
+        },
+        Scales = new()
+        {
+            Y = new()
+            {
+                Stacked = true,
+            }
+        },
+        Plugins = new()
+        {
+            Legend = new()
+            {
+                Display = false
+            }
+        }
+    };
+
+    Dictionary<string, ChartAnnotationOptions> lineAnnotationOptions = new()
+    {
+        { ""line1"", new LineChartAnnotationOptions
+            {
+                Type = ""line"",
+                Label = new()
+                {
+                    BackgroundColor = ""#ff0000"",
+                    Content = ""Test Label"",
+                    Display = true
+                },
+                YMin = 60,
+                YMax = 60,
+                BorderColor = new( 255, 99, 132 ),
+                BorderWidth = 5,
+            }
+        }
+    };
+
+    private static string[] Labels = new string[] { ""1"", ""2"", ""3"", ""4"", ""5"", ""6"" };
+    private static string[] BackgroundColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private static string[] BorderColors = new string[] { ""#4bc0c0"", ""#36a2eb"", ""#ff3d88"" };
+    private Random random = new( DateTime.Now.Millisecond );
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await lineChart.Clear();
+            await lineChart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset( 0 ), GetLineChartDataset( 1 ), GetLineChartDataset( 2 ) );
+        }
+    }
+
+    private LineChartDataset<int> GetLineChartDataset( int colorIndex )
+    {
+        return new()
+        {
+            Label = ""# of randoms"",
+            Data = RandomizeData( 2, 110 ),
+            BackgroundColor = BackgroundColors[colorIndex],
+            BorderColor = BorderColors[colorIndex],
+        };
+    }
+
+    List<int> RandomizeData( int min, int max )
+    {
+        return Enumerable.Range( 0, Labels.Count() ).Select( x => random.Next( min, max ) ).ToList();
+    }
+}";
+
+        public const string ChartAnnotationNugetInstallExample = @"Install-Package Blazorise.Charts.Annotation";
+
+        public const string ChartAnnotationResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1""></script>";
+
         public const string BasicCropperExample = @"<Row>
     <Column>
         <FieldLabel>
@@ -5663,7 +6090,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Responsive>
     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false""></DataGridColumn>
     <DataGridSelectColumn CustomFilter=""@OnGenderCustomFilter"" TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-    <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
 </DataGrid>
 
 @code{
@@ -6028,6 +6454,62 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
 @code{
     private List<Employee> employeeList = new() { new() { FirstName = ""David"" }, new() { FirstName = ""Mladen"" }, new() { FirstName = ""John"" }, new() { FirstName = ""Ana"" }, new() { FirstName = ""Jessica"" } };
+}";
+
+        public const string DataGridFilterModeColumnFilteringExample = @"<DataGrid @ref=""dataGrid""
+          TItem=""Employee""
+          Data=""@employeeList""
+          Responsive
+          Filterable
+          FilterMode=""DataGridFilterMode.Menu"">
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
+    <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
+    <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+</DataGrid>
+
+@code{
+    private DataGrid<Employee> dataGrid;
+    private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"" }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender=""M"" }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"" }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"" }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender=""F"" } };
+}";
+
+        public const string DataGridFilterModeColumnTemplateFilteringExample = @"<DataGrid @ref=""dataGrid""
+          TItem=""Employee""
+          Data=""@employeeList""
+          Responsive
+          Filterable
+          FilterMode=""DataGridFilterMode.Menu"">
+    <DataGridColumns>
+        <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
+        <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
+        <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+    </DataGridColumns>
+    <FilterMenuTemplate>
+        <Row>
+            <Column ColumnSize=""ColumnSize.Is4"">
+                <Select TValue=""DataGridFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
+                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.Contains"">Contains</SelectItem>
+                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.StartsWith"">Starts With</SelectItem>
+                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.EndsWith"">Ends With</SelectItem>
+                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.Equals"">Equals</SelectItem>
+                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.NotEquals"">Not Equals</SelectItem>
+                </Select>
+            </Column>
+
+            <Column ColumnSize=""ColumnSize.Is4"">
+                <TextEdit Text=""@context.GetSearchValue()?.ToString()"" TextChanged=""@((newValue) => context.Column.Filter.SearchValue = newValue)"" />
+            </Column>
+
+            <Column ColumnSize=""ColumnSize.Is4"">
+                <Button Clicked=""context.Filter"" Color=""Color.Primary""><Icon Name=""IconName.Filter""></Icon> Filter</Button>
+                <Button Clicked=""context.ClearFilter"" Color=""Color.Light""><Icon Name=""IconName.Clear""></Icon> Clear</Button>
+            </Column>
+        </Row>
+    </FilterMenuTemplate>
+</DataGrid>
+
+@code {
+    private DataGrid<Employee> dataGrid;
+    private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"" }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender = ""M"" }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"" }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"" }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender = ""F"" } };
 }";
 
         public const string DataGridFixedHeaderExample = @"<DataGrid TItem=""Employee""
@@ -8749,6 +9231,106 @@ builder.Services
         This example sets the margins for mobile(xs) and desktop(md) breakpoints
     </CardBody>
 </Card>";
+
+        public const string GridAutoColumns2Example = @"<Grid>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+</Grid>";
+
+        public const string GridAutoColumnsExample = @"<Grid>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+</Grid>";
+
+        public const string GridThreeColumnsExample = @"<Grid Columns=""GridColumns.Are3"">
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        Col 4
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        Col 4
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        Col 4
+    </Alert>
+</Grid>";
+
+        public const string GridWrappingExample = @"<Grid>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+</Grid>";
 
         public const string BasicPositionExample = @"<Div Position=""Position.Static"">...</Div>
 <Div Position=""Position.Relative"">...</Div>

@@ -45,5 +45,11 @@ public interface IStyleProvider
     string ColumnGutter( (int Horizontal, int Vertical) gutter );
 
     #endregion
+
+    #region Offcanvas
+
+    string OffcanvasAnimationDuration( bool animated, int AnimationDuration );
+
+    #endregion
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

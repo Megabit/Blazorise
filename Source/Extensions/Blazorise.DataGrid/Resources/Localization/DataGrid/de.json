@@ -17,6 +17,11 @@
     "Row Edit": "Zeile bearbeiten",
     "Row Create": "Zeile erstellen",
     "Create": "Erstellen",
-    "Drag a column header here to group by that column": "Ziehen Sie eine Spaltenüberschrift hierher, um nach dieser Spalte zu gruppieren"
+    "Drag a column header here to group by that column": "Ziehen Sie eine Spaltenüberschrift hierher, um nach dieser Spalte zu gruppieren",
+    "Contains": "Enthält",
+    "Starts With": "Beginnt mit",
+    "Ends With": "Endet mit",
+    "Equals": "Gleich",
+    "Not Equals": "Nicht gleich"
   }
 }

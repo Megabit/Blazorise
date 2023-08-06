@@ -17,6 +17,11 @@
     "Row Edit": "Row Edit",
     "Row Create": "Row Create",
     "Create": "Create",
-    "Drag a column header here to group by that column": "Drag a column header here to group by that column"
+    "Drag a column header here to group by that column": "Drag a column header here to group by that column",
+    "Contains": "Contains",
+    "Starts With": "Starts With",
+    "Ends With": "Ends With",
+    "Equals": "Equals",
+    "Not Equals": "Not Equals"
   }
 }

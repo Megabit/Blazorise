@@ -23,7 +23,7 @@ public abstract class BaseColumnComponent : BaseComponent, IColumnComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         if ( ColumnSize != null && !PreventColumnSize )
-            builder.Append( ColumnSize.Class( ClassProvider ) );
+            builder.Append( ColumnSize.Class( InsideGrid, ClassProvider ) );
 
         base.BuildClasses( builder );
     }
@@ -36,6 +36,21 @@ public abstract class BaseColumnComponent : BaseComponent, IColumnComponent
     /// Indicates if the column size generator should be skipped. Used to override the use of column sizes by some of the providers.
     /// </summary>
     protected virtual bool PreventColumnSize => false;
+
+    /// <summary>
+    /// Indicates if the column is placed inside of <see cref="Grid"/> component as a direct descendant.
+    /// </summary>
+    protected bool InsideGrid => ParentGrid is not null;
+
+    /// <summary>
+    /// Cascaded <see cref="Row"/> component in which this <see cref="Column"/> is placed.
+    /// </summary>
+    [CascadingParameter] public Row ParentRow { get; set; }
+
+    /// <summary>
+    /// Cascaded <see cref="Grid"/> component in which this <see cref="Column"/> is placed.
+    /// </summary>
+    [CascadingParameter] public Grid ParentGrid { get; set; }
 
     /// <summary>
     /// Defines the column sizes.

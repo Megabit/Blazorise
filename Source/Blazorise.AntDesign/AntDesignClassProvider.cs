@@ -452,6 +452,9 @@ public class AntDesignClassProvider : ClassProvider
     public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
         => $"ant-dropdown-menu-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "ant-dropdown-menu-position-strategy-fixed" : "ant-dropdown-menu-position-strategy-absolute" )}";
 
+    public override string DropdownFixedHeaderVisible( bool visible )
+        => visible ? "ant-dropdown-table-fixed-header-visible" : null;
+
     public override string DropdownMenuSelector() => "ant-dropdown";
 
     public override string DropdownMenuScrollable() => "ant-dropdown-menu-scrollable";
@@ -775,12 +778,12 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Column
 
-    public override string Column( bool hasSizes ) => "ant-col";
+    public override string Column( bool grid, bool hasSizes ) => "ant-col";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         // AntDesign requires for base ant-col class to be always defined.
-        var sb = new StringBuilder( "ant-col" );
+        var sb = new StringBuilder( grid ? "ant-grid-col" : "ant-col" );
 
         if ( breakpoint != Blazorise.Breakpoint.None )
             sb.Append( $"-{ToBreakpoint( breakpoint )}" );
@@ -793,10 +796,28 @@ public class AntDesignClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
-        => string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+    public override string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions )
+        => string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
 
     #endregion
+
+    public override string Grid() => "ant-grid";
+
+    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
+    {
+        if ( gridRowsDefinition.Breakpoint != Breakpoint.None && gridRowsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"ant-grid-rows-{ToBreakpoint( gridRowsDefinition.Breakpoint )}-{ToGridRowsSize( gridRows )}";
+
+        return $"ant-grid-rows-{ToGridRowsSize( gridRows )}";
+    }
+
+    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
+    {
+        if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"ant-grid-cols-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
+
+        return $"ant-grid-cols-{ToGridColumnsSize( gridColumns )}";
+    }
 
     #region Display
 
@@ -869,6 +890,44 @@ public class AntDesignClassProvider : ClassProvider
     public override string ModalFooter() => "ant-modal-footer";
 
     public override string ModalTitle() => "ant-modal-title";
+
+    #endregion
+
+    #region Offcanvas
+
+    public override string Offcanvas() => "ant-drawer";
+
+    public override string OffcanvasPlacement( Placement placement, bool visible )
+    {
+        return placement switch
+        {
+            Placement.Start => "ant-drawer-left",
+            Placement.End => "ant-drawer-right",
+            Placement.Top => "ant-drawer-top",
+            Placement.Bottom => "ant-drawer-bottom",
+            _ => "",
+        };
+    }
+
+    public override string OffcanvasFade( bool showing, bool hiding ) => showing
+        ? "ant-showing"
+        : hiding
+            ? "ant-hiding"
+            : null;
+
+    public override string OffcanvasVisible( bool visible ) => visible ? "ant-drawer-open" : null;
+
+    public override string OffcanvasHeader() => "ant-drawer-header";
+
+    public override string OffcanvasFooter() => "ant-drawer-footer";
+
+    public override string OffcanvasBody() => "ant-drawer-body";
+
+    public override string OffcanvasBackdrop() => "ant-drawer-mask";
+
+    public override string OffcanvasBackdropFade() => null;
+
+    public override string OffcanvasBackdropVisible( bool visible ) => visible ? null : null;
 
     #endregion
 
