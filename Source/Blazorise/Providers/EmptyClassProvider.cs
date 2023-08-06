@@ -825,6 +825,30 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Offcanvas
+
+    public string Offcanvas() => null;
+
+    public string OffcanvasPlacement( Placement placement, bool visible ) => null;
+
+    public string OffcanvasFade( bool showing, bool hiding ) => null;
+
+    public string OffcanvasVisible( bool visible ) => null;
+
+    public string OffcanvasHeader() => null;
+
+    public string OffcanvasFooter() => null;
+
+    public string OffcanvasBody() => null;
+
+    public string OffcanvasBackdrop() => null;
+
+    public string OffcanvasBackdropFade() => null;
+
+    public string OffcanvasBackdropVisible( bool visible ) => null;
+
+    #endregion
+
     #region Pagination
 
     public string Pagination() => null;

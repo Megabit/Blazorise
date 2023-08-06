@@ -1265,6 +1265,57 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Offcanvas
+
+    public override string Offcanvas() => "fixed flex flex-col z-40 bg-white dark:bg-gray-800 transition-transform";
+
+    public override string OffcanvasPlacement( Placement placement, bool visible )
+    {
+        var sb = new StringBuilder( placement switch
+        {
+            Placement.End => "top-0 right-0 h-screen overflow-y-auto border-l w-80 border-gray-200",
+            Placement.Top => "top-0 left-0 right-0 w-full h-60",
+            Placement.Bottom => "bottom-0 left-0 right-0 w-full h-60",
+            _ => "top-0 left-0 h-screen overflow-y-auto border-r w-80 border-gray-200",
+        } );
+
+        if ( !visible )
+        {
+            sb.Append( placement switch
+            {
+                Placement.Start => " -translate-x-full",
+                Placement.End => " translate-x-full",
+                Placement.Top => " -translate-y-full",
+                Placement.Bottom => " translate-y-full",
+                _ => null,
+            } );
+        }
+
+        return sb.ToString();
+    }
+
+    public override string OffcanvasFade( bool showing, bool hiding ) => showing
+        ? "opacity-100"
+        : hiding
+            ? "transform-none pointer-events-none"
+            : null;
+
+    public override string OffcanvasVisible( bool visible ) => null;
+
+    public override string OffcanvasHeader() => "flex items-center justify-between p-4";
+
+    public override string OffcanvasFooter() => "flex items-center justify-between p-4";
+
+    public override string OffcanvasBody() => "flex grow text-sm text-gray-500 dark:text-gray-400 p-4";
+
+    public override string OffcanvasBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30";
+
+    public override string OffcanvasBackdropFade() => "fade";
+
+    public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
+
+    #endregion
+
     #region Pagination
 
     public override string Pagination() => "pagination flex -space-x-px mb-3";

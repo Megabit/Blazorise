@@ -2761,6 +2761,191 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     decimal value;
 }";
 
+        public const string OffcanvasBottomExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.Bottom"">
+    <OffcanvasHeader>
+        Offcanvas Bottom
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas Bottom</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}";
+
+        public const string OffcanvasClosingExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Closing=""@OnOffcanvasClosing"">
+    <OffcanvasHeader>
+        Offcanvas Start
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <Div Padding=""Padding.Is3"">
+             Offcanvas Content
+        </Div>
+        <Div Padding=""Padding.Is3"">
+             <Button Color=""Color.Secondary"" Clicked=""@HideOffcanvas"">This will close the offcanvas</Button>
+             <Button Color=""Color.Primary"" Clicked=""@TryHideOffcanvas"">This will not</Button>
+        </Div>
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas Start</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private bool cancelClose;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        cancelClose = false;
+
+        return offcanvasRef.Hide();
+    }
+
+    private Task TryHideOffcanvas()
+    {
+        cancelClose = true;
+
+        return offcanvasRef.Hide();
+    }
+
+    private Task OnOffcanvasClosing( OffcanvasClosingEventArgs e )
+    {
+        // just set Cancel to prevent offcanvas from closing
+        e.Cancel = cancelClose
+            || e.CloseReason != CloseReason.UserClosing;
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string OffcanvasEndExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.End"">
+    <OffcanvasHeader>
+        Offcanvas End
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas End</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}";
+
+        public const string OffcanvasFooterExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop>
+    <OffcanvasHeader>
+        Offcanvas Start
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color=""Color.Primary"" Clicked=""@HideOffcanvas"">Close Offcanvas</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}";
+
+        public const string OffcanvasStartExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.Start"">
+    <OffcanvasHeader>
+        Offcanvas Start
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas Start</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}";
+
+        public const string OffcanvasTopExample = @"<Offcanvas @ref=""offcanvasRef"" ShowBackdrop Placement=""Placement.Top"">
+    <OffcanvasHeader>
+        Offcanvas Top
+        <CloseButton Clicked=""@HideOffcanvas"" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color=""Color.Primary"" Clicked=""@ShowOffcanvas"">Show Offcanvas Top</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}";
+
         public const string BasicPaginationExample = @"<Pagination>
     <PaginationItem Disabled=""@isActive.First()"" @onclick=""Previous"">
         <PaginationLink>

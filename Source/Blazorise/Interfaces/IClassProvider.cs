@@ -818,6 +818,30 @@ public interface IClassProvider
 
     #endregion
 
+    #region Offcanvas
+
+    string Offcanvas();
+
+    string OffcanvasPlacement( Placement placement, bool visible );
+
+    string OffcanvasFade( bool showing, bool hiding );
+
+    string OffcanvasVisible( bool visible );
+
+    string OffcanvasHeader();
+
+    string OffcanvasFooter();
+
+    string OffcanvasBody();
+
+    string OffcanvasBackdrop();
+
+    string OffcanvasBackdropFade();
+
+    string OffcanvasBackdropVisible( bool visible );
+
+    #endregion
+
     #region Pagination
 
     string Pagination();
