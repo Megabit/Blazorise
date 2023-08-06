@@ -78,7 +78,7 @@ function mapElementFilesToFileEntries(element) {
     element._blazorFilesById = {};
 
     let fileList = Array.prototype.map.call(element.files, function (file) {
-        file.id = ++nextFileId;
+        file.id = file.id ?? ++nextFileId;
         var fileEntry = {
             id: file.id,
             lastModified: new Date(file.lastModified).toISOString(),
