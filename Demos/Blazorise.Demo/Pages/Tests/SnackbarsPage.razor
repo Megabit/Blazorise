@@ -116,7 +116,7 @@
         <SnackbarAction Clicked="@(()=>snackbarAction.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
 </Snackbar>
-<Snackbar @ref="snackbarMultiline" Multiline>
+<Snackbar @ref="snackbarMultiline" AnimationDuration="@animationDuration" Multiline>
     <SnackbarBody>
         When I was 5 years old, my mother always told me that happiness was the key to life. When I went to school, they asked me what I wanted to be when I grew up. I wrote down ‘happy’. They told me I didn’t understand the assignment, and I told them they didn’t understand life. –John Lennon
         <SnackbarAction Clicked="@(()=>snackbarMultiline.Hide())">ACTION</SnackbarAction>
@@ -180,7 +180,7 @@
         <SnackbarAction Clicked="@(()=>snackbarWarning.Hide())">ACTION</SnackbarAction>
     </SnackbarBody>
 </Snackbar>
-<Snackbar @ref="snackbarInfo" Color="SnackbarColor.Info">
+<Snackbar @ref="snackbarInfo" AnimationDuration="@animationDuration" Color="SnackbarColor.Info">
     <SnackbarBody>
         Single line of text directly related to the operation performed
         <SnackbarAction Clicked="@(()=>snackbarInfo.Hide())">ACTION</SnackbarAction>
