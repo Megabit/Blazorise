@@ -56,7 +56,7 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
         if ( Selected )
             builder.Append( $"{ClassProvider.BackgroundColor( selectedNodeStyling.Background )} {ClassProvider.TextColor( selectedNodeStyling.TextColor )} {selectedNodeStyling.Class}" );
-        else if ( NodeState.Disabled )
+        else if ( NodeState?.Disabled ?? false )
             builder.Append( $"{ClassProvider.BackgroundColor( disabledNodeStyling.Background )} {ClassProvider.TextColor( disabledNodeStyling.TextColor )} {disabledNodeStyling.Class}" );
         else
             builder.Append( $"{ClassProvider.BackgroundColor( nodeStyling.Background )} {ClassProvider.TextColor( nodeStyling.TextColor )} {nodeStyling.Class}" );
