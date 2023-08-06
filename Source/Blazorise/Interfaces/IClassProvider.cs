@@ -746,11 +746,21 @@ public interface IClassProvider
 
     #region Column
 
-    string Column( bool hasSizes );
+    string Column( bool grid, bool hasSizes );
 
-    string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
+    string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 
-    string Column( IEnumerable<ColumnDefinition> columnDefinitions );
+    string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions );
+
+    #endregion
+
+    #region Grid
+
+    string Grid();
+
+    string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition );
+
+    string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition );
 
     #endregion
 

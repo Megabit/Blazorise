@@ -18,6 +18,19 @@
     border-bottom-right-radius: $radius;
 }
 
+@mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {
+    $min: breakpoint-min($name, $breakpoints);
+
+    @if $min {
+        @media (min-width: $min) {
+            @content;
+        }
+    }
+    @else {
+        @content;
+    }
+}
+
 @mixin caret-down() {
     border-top: $caret-width solid;
     border-right: $caret-width solid transparent;

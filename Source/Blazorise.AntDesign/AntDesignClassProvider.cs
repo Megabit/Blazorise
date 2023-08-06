@@ -778,12 +778,12 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Column
 
-    public override string Column( bool hasSizes ) => "ant-col";
+    public override string Column( bool grid, bool hasSizes ) => "ant-col";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         // AntDesign requires for base ant-col class to be always defined.
-        var sb = new StringBuilder( "ant-col" );
+        var sb = new StringBuilder( grid ? "ant-grid-col" : "ant-col" );
 
         if ( breakpoint != Blazorise.Breakpoint.None )
             sb.Append( $"-{ToBreakpoint( breakpoint )}" );
@@ -796,10 +796,28 @@ public class AntDesignClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
-        => string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+    public override string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions )
+        => string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
 
     #endregion
+
+    public override string Grid() => "ant-grid";
+
+    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
+    {
+        if ( gridRowsDefinition.Breakpoint != Breakpoint.None && gridRowsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"ant-grid-rows-{ToBreakpoint( gridRowsDefinition.Breakpoint )}-{ToGridRowsSize( gridRows )}";
+
+        return $"ant-grid-rows-{ToGridRowsSize( gridRows )}";
+    }
+
+    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
+    {
+        if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"ant-grid-cols-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
+
+        return $"ant-grid-cols-{ToGridColumnsSize( gridColumns )}";
+    }
 
     #region Display
 

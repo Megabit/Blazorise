@@ -753,11 +753,21 @@ class EmptyClassProvider : IClassProvider
 
     #region Column
 
-    public string Column( bool hasSizes ) => null;
+    public string Column( bool grid, bool hasSizes ) => null;
 
-    public string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
+    public string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset ) => null;
 
-    public string Column( IEnumerable<ColumnDefinition> columnDefinitions ) => null;
+    public string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions ) => null;
+
+    #endregion
+
+    #region Grid
+
+    public string Grid() => null;
+
+    public string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition ) => null;
+
+    public string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition ) => null;
 
     #endregion
 

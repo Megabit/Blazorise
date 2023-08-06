@@ -9232,6 +9232,106 @@ builder.Services
     </CardBody>
 </Card>";
 
+        public const string GridAutoColumns2Example = @"<Grid>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+</Grid>";
+
+        public const string GridAutoColumnsExample = @"<Grid>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+</Grid>";
+
+        public const string GridThreeColumnsExample = @"<Grid Columns=""GridColumns.Are3"">
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        Col 4
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        Col 4
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        Col 4
+    </Alert>
+</Grid>";
+
+        public const string GridWrappingExample = @"<Grid>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+</Grid>";
+
         public const string BasicPositionExample = @"<Div Position=""Position.Static"">...</Div>
 <Div Position=""Position.Relative"">...</Div>
 <Div Position=""Position.Absolute"">...</Div>

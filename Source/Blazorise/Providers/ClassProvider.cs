@@ -749,11 +749,21 @@ public abstract class ClassProvider : IClassProvider
 
     #region Column
 
-    public abstract string Column( bool hasSizes );
+    public abstract string Column( bool grid, bool hasSizes );
 
-    public abstract string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
+    public abstract string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 
-    public abstract string Column( IEnumerable<ColumnDefinition> columnDefinitions );
+    public abstract string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions );
+
+    #endregion
+
+    #region Grid
+
+    public abstract string Grid();
+
+    public abstract string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition );
+
+    public abstract string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition );
 
     #endregion
 
@@ -1433,6 +1443,40 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.RowColumnsSize.Are4 => "4",
             Blazorise.RowColumnsSize.Are5 => "5",
             Blazorise.RowColumnsSize.Are6 => "6",
+            _ => null,
+        };
+    }
+
+    public virtual string ToGridRowsSize( GridRowsSize gridRowsSize )
+    {
+        return gridRowsSize switch
+        {
+            Blazorise.GridRowsSize.Are1 => "1",
+            Blazorise.GridRowsSize.Are2 => "2",
+            Blazorise.GridRowsSize.Are3 => "3",
+            Blazorise.GridRowsSize.Are4 => "4",
+            Blazorise.GridRowsSize.Are5 => "5",
+            Blazorise.GridRowsSize.Are6 => "6",
+            _ => null,
+        };
+    }
+
+    public virtual string ToGridColumnsSize( GridColumnsSize gridColumnsSize )
+    {
+        return gridColumnsSize switch
+        {
+            Blazorise.GridColumnsSize.Are1 => "1",
+            Blazorise.GridColumnsSize.Are2 => "2",
+            Blazorise.GridColumnsSize.Are3 => "3",
+            Blazorise.GridColumnsSize.Are4 => "4",
+            Blazorise.GridColumnsSize.Are5 => "5",
+            Blazorise.GridColumnsSize.Are6 => "6",
+            Blazorise.GridColumnsSize.Are7 => "7",
+            Blazorise.GridColumnsSize.Are8 => "8",
+            Blazorise.GridColumnsSize.Are9 => "9",
+            Blazorise.GridColumnsSize.Are10 => "10",
+            Blazorise.GridColumnsSize.Are11 => "11",
+            Blazorise.GridColumnsSize.Are12 => "12",
             _ => null,
         };
     }

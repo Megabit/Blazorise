@@ -84,6 +84,7 @@ $spacers: () !default;
 $spacers: map-merge(( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3) ), $spacers);
 
 $grid-columns: 12 !default;
+$grid-rows: 12 !default;
 $grid-row-columns: 6 !default;
 $grid-breakpoints: ( xs: 0, mobile: $mobile, tablet: $tablet, desktop: $desktop, widescreen: $widescreen, hd: $fullhd ) !default;
 
@@ -161,7 +162,7 @@ $component-active-bg: theme-color("primary") !default;
 
 // Cards
 
-$grid-gutter-width: 30px !default;
+$grid-gutter-width: 1.5rem !default;
 
 $card-group-margin: $grid-gutter-width / 2 !default;
 $card-deck-margin: $card-group-margin !default;

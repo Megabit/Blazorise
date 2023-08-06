@@ -796,10 +796,20 @@ public class BulmaClassProvider : ClassProvider
 
     #region Column
 
-    public override string Column( bool hasSizes ) => hasSizes ? null : "column";
+    public override string Column( bool grid, bool hasSizes ) => hasSizes ? null : "column";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
+        if ( grid )
+        {
+            if ( breakpoint != Blazorise.Breakpoint.None )
+            {
+                return $"is-grid-column-{ToColumnWidth( columnWidth )}-{ToBreakpoint( breakpoint )}";
+            }
+
+            return $"is-grid-column-{ToColumnWidth( columnWidth )}";
+        }
+
         var baseClass = offset ? "offset-" : null;
 
         if ( breakpoint != Blazorise.Breakpoint.None )
@@ -813,8 +823,30 @@ public class BulmaClassProvider : ClassProvider
         return $"column is-{baseClass}{ToColumnWidth( columnWidth )}";
     }
 
-    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
-       => string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+    public override string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions )
+       => string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+
+    #endregion
+
+    #region Grid
+
+    public override string Grid() => "grid";
+
+    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
+    {
+        if ( gridRowsDefinition.Breakpoint != Breakpoint.None && gridRowsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"are-grid-rows-{ToGridRowsSize( gridRows )}-{ToBreakpoint( gridRowsDefinition.Breakpoint )}";
+
+        return $"are-grid-rows-{ToGridRowsSize( gridRows )}";
+    }
+
+    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
+    {
+        if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"are-grid-columns-{ToGridColumnsSize( gridColumns )}-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}";
+
+        return $"are-grid-columns-{ToGridColumnsSize( gridColumns )}";
+    }
 
     #endregion
 
