@@ -21,23 +21,23 @@ public enum SnackbarStackLocation
     Bottom,
 
     /// <summary>
-    /// Show the snackbar on the bottom-left side of the screen.
+    /// Show the snackbar on the bottom-start side of the screen.
     /// </summary>
     BottomStart,
 
     /// <summary>
-    /// Show the snackbar on the bottom-right side of the screen.
+    /// Show the snackbar on the bottom-end side of the screen.
     /// </summary>
     BottomEnd,
 
     /// <summary>
-    /// Show the snackbar stack on the left side of the screen.
+    /// Show the snackbar stack on the start side of the screen.
     /// </summary>
     [Obsolete( "Use BottomStart instead" )]
     Start,
 
     /// <summary>
-    /// Show the snackbar stack on the right side of the screen.
+    /// Show the snackbar stack on the end side of the screen.
     /// </summary>
     [Obsolete( "Use BottomEnd instead" )]
     End,
@@ -48,12 +48,12 @@ public enum SnackbarStackLocation
     Top,
 
     /// <summary>
-    /// Show the snackbar stack on the top-right side of the screen.
+    /// Show the snackbar stack on the top-end side of the screen.
     /// </summary>
     TopStart,
 
     /// <summary>
-    /// Show the snackbar stack on the top-left side of the screen.
+    /// Show the snackbar stack on the top-start side of the screen.
     /// </summary>
     TopEnd,
 }

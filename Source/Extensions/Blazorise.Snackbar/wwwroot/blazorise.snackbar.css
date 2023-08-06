@@ -154,24 +154,24 @@
 }
 
 @media (min-width: 768px) {
-  .snackbar-bottom-left,
-  .snackbar-bottom-right {
+  .snackbar-bottom-start,
+  .snackbar-bottom-end {
     transform: translateY(100%);
   }
-  .snackbar-bottom-left.snackbar-show,
-  .snackbar-bottom-right.snackbar-show {
+  .snackbar-bottom-start.snackbar-show,
+  .snackbar-bottom-end.snackbar-show {
     transform: translateY(-1.5rem);
   }
 }
 
 @media (min-width: 768px) {
-  .snackbar-bottom-left {
+  .snackbar-bottom-start {
     left: 1.5rem;
   }
 }
 
 @media (min-width: 768px) {
-  .snackbar-bottom-right {
+  .snackbar-bottom-end {
     right: 1.5rem;
     left: auto;
   }
@@ -190,33 +190,33 @@
     transform: translate(-50%, 1.5rem);
   }
 }
-.snackbar-top-left {
+.snackbar-top-start {
   top: 0;
   bottom: auto;
   transform: translateY(-100%);
   left: 0;
 }
 @media (min-width: 768px) {
-  .snackbar-top-left {
+  .snackbar-top-start {
     transform: translateY(-100%);
     left: 1.5rem;
   }
-  .snackbar-top-left.snackbar-show {
+  .snackbar-top-start.snackbar-show {
     transform: translateY(1.5rem);
   }
 }
-.snackbar-top-right {
+.snackbar-top-end {
   top: 0;
   bottom: auto;
   transform: translateY(-100%);
 }
 @media (min-width: 768px) {
-  .snackbar-top-right {
+  .snackbar-top-end {
     transform: translateY(-100%);
     right: 1.5rem;
     left: auto;
   }
-  .snackbar-top-right.snackbar-show {
+  .snackbar-top-end.snackbar-show {
     transform: translateY(1.5rem);
   }
 }
@@ -325,8 +325,8 @@
   color: var(--b-snackbar-button-hover-dark, #ff80ab);
 }
 
-.snackbar-stack-bottom-right,
-.snackbar-stack-bottom-left,
+.snackbar-stack-bottom-end,
+.snackbar-stack-bottom-start,
 .snackbar-stack-bottom {
   display: flex;
   flex-direction: column;
@@ -335,21 +335,21 @@
   bottom: 0;
 }
 
-.snackbar-stack-bottom-right .snackbar,
-.snackbar-stack-bottom-left .snackbar,
+.snackbar-stack-bottom-end .snackbar,
+.snackbar-stack-bottom-start .snackbar,
 .snackbar-stack-bottom .snackbar {
   position: relative;
   flex-direction: row;
   margin-bottom: 0;
 }
-.snackbar-stack-bottom-right .snackbar:not(:last-child),
-.snackbar-stack-bottom-left .snackbar:not(:last-child),
+.snackbar-stack-bottom-end .snackbar:not(:last-child),
+.snackbar-stack-bottom-start .snackbar:not(:last-child),
 .snackbar-stack-bottom .snackbar:not(:last-child) {
   margin-bottom: 1.5rem;
 }
 
-.snackbar-stack-top-right,
-.snackbar-stack-top-left,
+.snackbar-stack-top-end,
+.snackbar-stack-top-start,
 .snackbar-stack-top {
   display: flex;
   flex-direction: column;
@@ -360,51 +360,51 @@
   z-index: 1090 !important;
   top: 0;
 }
-.snackbar-stack-top-right .snackbar,
-.snackbar-stack-top-left .snackbar,
+.snackbar-stack-top-end .snackbar,
+.snackbar-stack-top-start .snackbar,
 .snackbar-stack-top .snackbar {
   position: relative;
   flex-direction: row;
   margin-bottom: 0;
 }
-.snackbar-stack-top-right .snackbar.snackbar-show,
-.snackbar-stack-top-left .snackbar.snackbar-show,
+.snackbar-stack-top-end .snackbar.snackbar-show,
+.snackbar-stack-top-start .snackbar.snackbar-show,
 .snackbar-stack-top .snackbar.snackbar-show {
   transform: translate(-50%);
 }
-.snackbar-stack-top-right .snackbar:not(:last-child),
-.snackbar-stack-top-left .snackbar:not(:last-child),
+.snackbar-stack-top-end .snackbar:not(:last-child),
+.snackbar-stack-top-start .snackbar:not(:last-child),
 .snackbar-stack-top .snackbar:not(:last-child) {
   margin-bottom: 1.5rem;
 }
 
 .snackbar-stack-top .snackbar.snackbar-show,
-.snackbar-stack-top-left .snackbar.snackbar-show,
-.snackbar-stack-top-right .snackbar.snackbar-show {
+.snackbar-stack-top-start .snackbar.snackbar-show,
+.snackbar-stack-top-end .snackbar.snackbar-show {
   transition: all var(--stack-transition-duration, 1000);
   animation: showTop var(--stack-animation-duration, 500) forwards;
   opacity: 1;
 }
 
 .snackbar-stack-top .snackbar-hide,
-.snackbar-stack-top-left .snackbar-hide,
-.snackbar-stack-top-right .snackbar-hide {
+.snackbar-stack-top-start .snackbar-hide,
+.snackbar-stack-top-end .snackbar-hide {
   transition: all var(--stack-transition-duration, 1000);
   animation: hideTop var(--stack-animation-duration, 500) forwards;
   opacity: 0;
 }
 
 .snackbar-stack-bottom .snackbar.snackbar-show,
-.snackbar-stack-bottom-left .snackbar.snackbar-show,
-.snackbar-stack-bottom-right .snackbar.snackbar-show {
+.snackbar-stack-bottom-start .snackbar.snackbar-show,
+.snackbar-stack-bottom-end .snackbar.snackbar-show {
   transition: all var(--stack-transition-duration, 1000);
   animation: showBottom var(--stack-animation-duration, 500) forwards;
   opacity: 1;
 }
 
 .snackbar-stack-bottom .snackbar-hide,
-.snackbar-stack-bottom-left .snackbar-hide,
-.snackbar-stack-bottom-right .snackbar-hide {
+.snackbar-stack-bottom-start .snackbar-hide,
+.snackbar-stack-bottom-end .snackbar-hide {
   transition: all var(--stack-transition-duration, 1000);
   animation: hideBottom var(--stack-animation-duration, 500) forwards;
   opacity: 0;
@@ -472,19 +472,19 @@
     transform: translate(-50%, 0%);
     bottom: 1.5rem;
   }
-  .snackbar-stack-bottom-left {
+  .snackbar-stack-bottom-start {
     left: 1.5rem;
     bottom: 1.5rem;
   }
-  .snackbar-stack-bottom-right {
+  .snackbar-stack-bottom-end {
     right: 1.5rem;
     bottom: 1.5rem;
   }
-  .snackbar-stack-top-left {
+  .snackbar-stack-top-start {
     left: 1.5rem;
     top: 1.5rem;
   }
-  .snackbar-stack-top-right {
+  .snackbar-stack-top-end {
     right: 1.5rem;
     top: 1.5rem;
   }

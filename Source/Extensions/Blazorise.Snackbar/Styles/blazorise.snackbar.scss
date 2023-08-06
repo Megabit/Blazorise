@@ -147,8 +147,8 @@ $snackbar-padding-y-multi: 1.25rem !default;
     }
 }
 
-.snackbar-bottom-left,
-.snackbar-bottom-right {
+.snackbar-bottom-start,
+.snackbar-bottom-end {
     @include media-breakpoint-up($snackbar-breakpoint) {
         transform: translateY(100%);
 
@@ -158,13 +158,13 @@ $snackbar-padding-y-multi: 1.25rem !default;
     }
 }
 
-.snackbar-bottom-left {
+.snackbar-bottom-start {
     @include media-breakpoint-up($snackbar-breakpoint) {
         left: $snackbar-margin-x;
     }
 }
 
-.snackbar-bottom-right {
+.snackbar-bottom-end {
     @include media-breakpoint-up($snackbar-breakpoint) {
         right: $snackbar-margin-x;
         left: auto;
@@ -184,7 +184,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
         }
     }
 
-    &-left {
+    &-start {
         top: 0;
         bottom: auto;
         transform: translateY(-100%);
@@ -200,7 +200,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
         }
     }
 
-    &-right {
+    &-end {
         top: 0;
         bottom: auto;
         transform: translateY(-100%);
@@ -241,8 +241,8 @@ $snackbar-padding-y-multi: 1.25rem !default;
     }
 }
 
-.snackbar-stack-bottom-right,
-.snackbar-stack-bottom-left,
+.snackbar-stack-bottom-end,
+.snackbar-stack-bottom-start,
 .snackbar-stack-bottom {
     display: flex;
     flex-direction: column;
@@ -251,8 +251,8 @@ $snackbar-padding-y-multi: 1.25rem !default;
     bottom: 0;
 }
 
-.snackbar-stack-bottom-right,
-.snackbar-stack-bottom-left,
+.snackbar-stack-bottom-end,
+.snackbar-stack-bottom-start,
 .snackbar-stack-bottom {
     .snackbar {
         position: relative;
@@ -265,8 +265,8 @@ $snackbar-padding-y-multi: 1.25rem !default;
     }
 }
 
-.snackbar-stack-top-right,
-.snackbar-stack-top-left,
+.snackbar-stack-top-end,
+.snackbar-stack-top-start,
 .snackbar-stack-top {
     display: flex;
     flex-direction: column;
@@ -293,32 +293,32 @@ $snackbar-padding-y-multi: 1.25rem !default;
 }
 
 .snackbar-stack-top .snackbar.snackbar-show,
-.snackbar-stack-top-left .snackbar.snackbar-show,
-.snackbar-stack-top-right .snackbar.snackbar-show {
+.snackbar-stack-top-start .snackbar.snackbar-show,
+.snackbar-stack-top-end .snackbar.snackbar-show {
     transition: all var(--stack-transition-duration, 1000);
     animation: showTop var(--stack-animation-duration, 500) forwards;
     opacity: 1;
 }
 
 .snackbar-stack-top .snackbar-hide,
-.snackbar-stack-top-left .snackbar-hide,
-.snackbar-stack-top-right .snackbar-hide {
+.snackbar-stack-top-start .snackbar-hide,
+.snackbar-stack-top-end .snackbar-hide {
     transition: all var(--stack-transition-duration, 1000);
     animation: hideTop var(--stack-animation-duration, 500) forwards;
     opacity: 0;
 }
 
 .snackbar-stack-bottom .snackbar.snackbar-show,
-.snackbar-stack-bottom-left .snackbar.snackbar-show,
-.snackbar-stack-bottom-right .snackbar.snackbar-show {
+.snackbar-stack-bottom-start .snackbar.snackbar-show,
+.snackbar-stack-bottom-end .snackbar.snackbar-show {
     transition: all var(--stack-transition-duration, 1000);
     animation: showBottom var(--stack-animation-duration, 500) forwards;
     opacity: 1;
 }
 
 .snackbar-stack-bottom .snackbar-hide,
-.snackbar-stack-bottom-left .snackbar-hide,
-.snackbar-stack-bottom-right .snackbar-hide {
+.snackbar-stack-bottom-start .snackbar-hide,
+.snackbar-stack-bottom-end .snackbar-hide {
     transition: all var(--stack-transition-duration, 1000);
     animation: hideBottom var(--stack-animation-duration, 500) forwards;
     opacity: 0;
@@ -395,22 +395,22 @@ $snackbar-padding-y-multi: 1.25rem !default;
         bottom: $spacer-lg;
     }
 
-    .snackbar-stack-bottom-left {
+    .snackbar-stack-bottom-start {
         left: $spacer-lg;
         bottom: $spacer-lg;
     }
 
-    .snackbar-stack-bottom-right {
+    .snackbar-stack-bottom-end {
         right: $spacer-lg;
         bottom: $spacer-lg;
     }
 
-    .snackbar-stack-top-left {
+    .snackbar-stack-top-start {
         left: $spacer-lg;
         top: $spacer-lg;
     }
 
-    .snackbar-stack-top-right {
+    .snackbar-stack-top-end {
         right: $spacer-lg;
         top: $spacer-lg;
     }
