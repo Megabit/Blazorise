@@ -1,4 +1,4 @@
-import { parseFunction, deepClone } from "./utilities.js?v=1.2.4.0";
+import { parseFunction, deepClone } from "./utilities.js?v=1.3.0.0";
 
 // workaround for: https://github.com/Megabit/Blazorise/issues/2287
 const _ChartTitleCallbacks = function (item) {
