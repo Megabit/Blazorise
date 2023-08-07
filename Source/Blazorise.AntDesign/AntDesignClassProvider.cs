@@ -1083,7 +1083,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"ant-typography-{ToTextOverflow( textOverflow )}";
 
-    public override string TextSize( TextSize textSize ) => null;
+    public override string TextSize( TextSize textSize ) => $"ant-font-size-{ToTextSize( textSize )}";
 
     public override string TextItalic() => "font-italic";
 
