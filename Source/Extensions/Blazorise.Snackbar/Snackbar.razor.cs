@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Threading;
 using Blazorise.Snackbar.Utils;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -16,6 +17,7 @@ public partial class Snackbar : BaseComponent, IDisposable
 {
     #region Members
 
+    // A unique key associated with this snackbar.
     private string key;
 
     /// <summary>
@@ -44,7 +46,12 @@ public partial class Snackbar : BaseComponent, IDisposable
     private CountdownTimer countdownTimer;
 
     /// <summary>
-    /// Flag that indicates if snackbar close action was delayed.
+    /// A flag that indicates if the snackbar is currently being closed with animation.
+    /// </summary>
+    private bool closingAnimation = false;
+
+    /// <summary>
+    /// A flag that indicates if the snackbar close action was delayed.
     /// </summary>
     private bool closingDelayed = false;
 
@@ -54,7 +61,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     private SnackbarCloseReason closeReason = SnackbarCloseReason.None;
 
     /// <summary>
-    /// List of all action buttons placed inside of a snackbar.
+    /// List of all action buttons placed inside the snackbar.
     /// </summary>
     private List<SnackbarAction> snackbarActions = new();
 
@@ -65,12 +72,35 @@ public partial class Snackbar : BaseComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "snackbar" );
-        builder.Append( "snackbar-show", Visible );
+        builder.Append( "snackbar-show", Visible && !closingAnimation );
+        builder.Append( "snackbar-hide", closingAnimation );
         builder.Append( "snackbar-multi-line", Multiline );
-        builder.Append( $"snackbar-{Location.GetName()}", Location != SnackbarLocation.Default );
+        builder.Append( $"snackbar-{Location.GetName()}" );
         builder.Append( $"snackbar-{Color.GetName()}", Color != SnackbarColor.Default );
 
         base.BuildClasses( builder );
+    }
+
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        var baseAnimationDuration = AnimationDuration;
+
+        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop: {baseAnimationDuration:0}ms;" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-complex: {baseAnimationDuration * 1.25:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-entering: {baseAnimationDuration * 0.75:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-desktop-leaving: {baseAnimationDuration * 0.65:0}ms" ) );
+
+        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile: {baseAnimationDuration * 1.5:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-complex: {baseAnimationDuration * 1.875:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-entering: {baseAnimationDuration * 1.125:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-mobile-leaving: {baseAnimationDuration * 0.975:0}ms" ) );
+
+        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet: {baseAnimationDuration * 1.95:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-complex: {baseAnimationDuration * 2.435:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-entering: {baseAnimationDuration * 1.46:0}ms" ) );
+        builder.Append( FormattableString.Invariant( $"--transition-duration-tablet-leaving: {baseAnimationDuration * 1.265:0}ms" ) );
+
+        base.BuildStyles( builder );
     }
 
     protected override void OnInitialized()
@@ -101,20 +131,17 @@ public partial class Snackbar : BaseComponent, IDisposable
         base.Dispose( disposing );
     }
 
-    protected Task OnClickHandler()
+    protected async Task OnClickHandler()
     {
         if ( DelayCloseOnClick && !closingDelayed )
         {
             countdownTimer?.Delay( DelayCloseOnClickInterval ?? Interval );
-
             closingDelayed = true;
         }
         else
         {
-            Hide( SnackbarCloseReason.UserClosed );
+            await Hide( SnackbarCloseReason.UserClosed );
         }
-
-        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -126,6 +153,8 @@ public partial class Snackbar : BaseComponent, IDisposable
             return Task.CompletedTask;
 
         Visible = true;
+        closingAnimation = false;
+        closingDelayed = false;
 
         return InvokeAsync( StateHasChanged );
     }
@@ -138,26 +167,36 @@ public partial class Snackbar : BaseComponent, IDisposable
         return Hide( SnackbarCloseReason.UserClosed );
     }
 
-    protected Task Hide( SnackbarCloseReason closeReason )
+    protected async Task Hide( SnackbarCloseReason closeReason )
     {
+        closingAnimation = true;
+        DirtyClasses();
+        DirtyStyles();
+
+        await InvokeAsync( StateHasChanged );
+
+        await Task.Delay( (int)CloseAnimationDuration );
+
+        closingAnimation  = false;
+        DirtyClasses();
+        DirtyStyles();
+
+        await InvokeAsync( StateHasChanged );
+
         if ( !Visible )
-            return Task.CompletedTask;
+            return;
 
         this.closeReason = closeReason;
 
         Visible = false;
 
-        closingDelayed = false;
-
-        // finally reset close reason so it doesn't interfere with internal closing by Visible property
         this.closeReason = SnackbarCloseReason.None;
 
-        return InvokeAsync( StateHasChanged );
+        await InvokeAsync( StateHasChanged );
     }
 
     private void OnCountdownTimerElapsed( object sender, EventArgs e )
     {
-        // InvokeAsync is used to prevent from blocking threads
         InvokeAsync( () => Hide( SnackbarCloseReason.None ) );
     }
 
@@ -181,7 +220,7 @@ public partial class Snackbar : BaseComponent, IDisposable
     {
         if ( !visible )
         {
-            _ = Closed.InvokeAsync( new( Key, closeReason ) );
+            InvokeAsync( () => Closed.InvokeAsync( new( Key, closeReason ) ) );
         }
     }
 
@@ -208,6 +247,16 @@ public partial class Snackbar : BaseComponent, IDisposable
     #region Properties
 
     protected bool HasSnackbarActions => snackbarActions.Count > 0;
+
+    /// <summary>
+    /// Gets the duration of the closing animation of the snackbar.
+    /// </summary>
+    protected double CloseAnimationDuration => AnimationDuration;
+
+    /// <summary>
+    /// Gets or sets the cascaded parent SnackbarStack component.
+    /// </summary>
+    [CascadingParameter] protected SnackbarStack ParentSnackbar { get; set; }
 
     /// <summary>
     /// Unique key associated by this snackbar.
@@ -287,6 +336,11 @@ public partial class Snackbar : BaseComponent, IDisposable
     /// Defines the interval(in milliseconds) after which the snackbar will be automatically closed.
     /// </summary>
     [Parameter] public double Interval { get; set; } = Constants.DefaultIntervalBeforeClose;
+
+    /// <summary>
+    /// Defines the base animation duration in milliseconds.
+    /// </summary>
+    [Parameter] public double AnimationDuration { get; set; } = Constants.DefaultAnimationDuration;
 
     /// <summary>
     /// If clicked on snackbar, a close action will be delayed by increasing the <see cref="Interval"/> time.
