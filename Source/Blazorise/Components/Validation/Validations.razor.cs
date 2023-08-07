@@ -117,7 +117,7 @@ public partial class Validations : ComponentBase
         }
     }
 
-    public void NotifyValidationStatusChanged( IValidation validation )
+    internal protected void NotifyValidationStatusChanged( IValidation validation )
     {
         // Here we need to call ValidatedAll only when in Auto mode. Manual call is already called through ValidateAll()
         if ( Mode == ValidationMode.Manual )
