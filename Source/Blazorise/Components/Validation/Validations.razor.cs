@@ -109,7 +109,7 @@ public partial class Validations : ComponentBase
         }
     }
 
-    public void NotifyValidationRemoved( IValidation validation )
+    internal protected void NotifyValidationRemoved( IValidation validation )
     {
         if ( validations.Contains( validation ) )
         {
