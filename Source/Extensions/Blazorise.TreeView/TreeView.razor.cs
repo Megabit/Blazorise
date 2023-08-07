@@ -136,15 +136,6 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
             treeViewNodeStates.Add( nodeState );
         }
 
-        ////traverse nodeStateTree and fill in children for expanded nodes
-        //foreach ( var nodeState in treeViewNodeStates )
-        //{
-        //    if ( nodeState.Expanded && nodeState.HasChildren )
-        //    {
-        //        nodeState.Children = nodeState.n
-        //    }
-        //}
-
         await InvokeAsync( StateHasChanged );
     }
 
