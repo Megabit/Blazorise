@@ -101,7 +101,7 @@ public partial class Validations : ComponentBase
         return validated;
     }
 
-    public void NotifyValidationInitialized( IValidation validation )
+    internal protected void NotifyValidationInitialized( IValidation validation )
     {
         if ( !validations.Contains( validation ) )
         {
