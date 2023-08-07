@@ -717,7 +717,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     }
 
     /// <summary>
-    /// Determines the text sizes for an element.
+    /// Determines the font size of an element.
     /// </summary>
     [Parameter]
     public TextSize TextSize
