@@ -107,7 +107,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
 }
 
 .snackbar-body {
-     display: flex;
+    display: flex;
     -ms-flex-pack: justify;
     justify-content: space-between;
     @include text-truncate;
@@ -147,8 +147,8 @@ $snackbar-padding-y-multi: 1.25rem !default;
     }
 }
 
-.snackbar-left,
-.snackbar-right {
+.snackbar-bottom-start,
+.snackbar-bottom-end {
     @include media-breakpoint-up($snackbar-breakpoint) {
         transform: translateY(100%);
 
@@ -158,16 +158,62 @@ $snackbar-padding-y-multi: 1.25rem !default;
     }
 }
 
-.snackbar-left {
+.snackbar-bottom-start {
     @include media-breakpoint-up($snackbar-breakpoint) {
         left: $snackbar-margin-x;
     }
 }
 
-.snackbar-right {
+.snackbar-bottom-end {
     @include media-breakpoint-up($snackbar-breakpoint) {
         right: $snackbar-margin-x;
         left: auto;
+    }
+}
+
+.snackbar-top {
+    top: 0;
+    bottom: auto;
+    transform: translateY(-100%);
+
+    @include media-breakpoint-up($snackbar-breakpoint) {
+        transform: translateX(-50%) translateY(-100%);
+
+        &.snackbar-show {
+            transform: translate(-50%, $snackbar-margin-y);
+        }
+    }
+
+    &-start {
+        top: 0;
+        bottom: auto;
+        transform: translateY(-100%);
+        left: 0;
+
+        @include media-breakpoint-up($snackbar-breakpoint) {
+            transform: translateY(-100%);
+            left: $snackbar-margin-x;
+
+            &.snackbar-show {
+                transform: translateY($snackbar-margin-y);
+            }
+        }
+    }
+
+    &-end {
+        top: 0;
+        bottom: auto;
+        transform: translateY(-100%);
+
+        @include media-breakpoint-up($snackbar-breakpoint) {
+            transform: translateY(-100%);
+            right: $snackbar-margin-x;
+            left: auto;
+
+            &.snackbar-show {
+                transform: translateY($snackbar-margin-y);
+            }
+        }
     }
 }
 
@@ -195,15 +241,19 @@ $snackbar-padding-y-multi: 1.25rem !default;
     }
 }
 
-.snackbar-stack {
+.snackbar-stack-bottom-end,
+.snackbar-stack-bottom-start,
+.snackbar-stack-bottom {
     display: flex;
     flex-direction: column;
     position: fixed;
-    z-index: map-get($snackbar-elevation-shadow, elevation);
+    z-index: 1090 !important;
     bottom: 0;
 }
 
-.snackbar-stack {
+.snackbar-stack-bottom-end,
+.snackbar-stack-bottom-start,
+.snackbar-stack-bottom {
     .snackbar {
         position: relative;
         flex-direction: row;
@@ -215,17 +265,159 @@ $snackbar-padding-y-multi: 1.25rem !default;
     }
 }
 
+.snackbar-stack-top-end,
+.snackbar-stack-top-start,
+.snackbar-stack-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    position: fixed;
+    z-index: 1090 !important;
+    top: 0;
+
+    .snackbar {
+        position: relative;
+        flex-direction: row;
+        margin-bottom: 0;
+
+        &.snackbar-show {
+            transform: translate(-50%);
+        }
+    }
+
+    .snackbar:not(:last-child) {
+        margin-bottom: $spacer-lg;
+    }
+}
+
+.snackbar-stack-top .snackbar.snackbar-show,
+.snackbar-stack-top-start .snackbar.snackbar-show,
+.snackbar-stack-top-end .snackbar.snackbar-show {
+    transition: all var(--stack-transition-duration, 1000);
+    animation: showTop var(--stack-animation-duration, 500) forwards;
+    opacity: 1;
+}
+
+.snackbar-stack-top .snackbar-hide,
+.snackbar-stack-top-start .snackbar-hide,
+.snackbar-stack-top-end .snackbar-hide {
+    transition: all var(--stack-transition-duration, 1000);
+    animation: hideTop var(--stack-animation-duration, 500) forwards;
+    opacity: 0;
+}
+
+.snackbar-stack-bottom .snackbar.snackbar-show,
+.snackbar-stack-bottom-start .snackbar.snackbar-show,
+.snackbar-stack-bottom-end .snackbar.snackbar-show {
+    transition: all var(--stack-transition-duration, 1000);
+    animation: showBottom var(--stack-animation-duration, 500) forwards;
+    opacity: 1;
+}
+
+.snackbar-stack-bottom .snackbar-hide,
+.snackbar-stack-bottom-start .snackbar-hide,
+.snackbar-stack-bottom-end .snackbar-hide {
+    transition: all var(--stack-transition-duration, 1000);
+    animation: hideBottom var(--stack-animation-duration, 500) forwards;
+    opacity: 0;
+}
+
+@keyframes showTop {
+    0% {
+        max-height: 0;
+        padding: 0;
+        transform: translate(-50%) translateY(-50px);
+        opacity: 0;
+    }
+
+    100% {
+        max-height: 150px;
+        padding: $spacer-sm $spacer;
+        transform: translate(-50%) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes hideTop {
+    0% {
+        max-height: 150px;
+        padding: $spacer-sm $spacer;
+        transform: translate(-50%) translateY(0);
+        opacity: 1;
+    }
+
+    100% {
+        max-height: 0;
+        padding: 0;
+        transform: translate(-50%) translateY(-50px);
+        opacity: 0;
+    }
+}
+
+@keyframes showBottom {
+    0% {
+        max-height: 0;
+        padding: 0;
+        opacity: 0;
+        transform: translate(-50%) translateY(50px);
+    }
+
+    100% {
+        max-height: 150px;
+        padding: $spacer-sm $spacer;
+        opacity: 1;
+        transform: translate(-50%) translateY(0);
+    }
+}
+
+@keyframes hideBottom {
+    0% {
+        max-height: 150px;
+        transform: translate(-50%) translateY(0);
+        padding: $spacer-sm $spacer;
+        opacity: 1;
+    }
+
+    100% {
+        max-height: 0;
+        padding: 0;
+        transform: translate(-50%) translateY(50px);
+        opacity: 0;
+    }
+}
+
 @media (min-width: $mobile) {
-    .snackbar-stack-center {
+    .snackbar-stack-bottom {
         left: 50%;
         transform: translate(-50%, 0%);
+        bottom: $spacer-lg;
     }
 
-    .snackbar-stack-left {
+    .snackbar-stack-bottom-start {
         left: $spacer-lg;
+        bottom: $spacer-lg;
     }
 
-    .snackbar-stack-right {
+    .snackbar-stack-bottom-end {
         right: $spacer-lg;
+        bottom: $spacer-lg;
+    }
+
+    .snackbar-stack-top-start {
+        left: $spacer-lg;
+        top: $spacer-lg;
+    }
+
+    .snackbar-stack-top-end {
+        right: $spacer-lg;
+        top: $spacer-lg;
+    }
+
+    .snackbar-stack-top {
+        left: 50%;
+        transform: translate(-50%, 0%);
+        top: $spacer-lg;
     }
 }
