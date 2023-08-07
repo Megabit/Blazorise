@@ -1,11 +1,12 @@
 ﻿using System.Text.Json.Serialization;
+using Blazorise.Utilities.JsonConverters;
 
 namespace Blazorise.Video;
 
 /// <summary>
 /// Defines the media source type.
 /// </summary>
-[JsonConverter( typeof( System.Text.Json.Serialization.JsonStringEnumConverter ) )]
+[JsonConverter( typeof( CamelCaseEnumJsonConverter ) )]
 public enum VideoSourceType
 {
     /// <summary>
