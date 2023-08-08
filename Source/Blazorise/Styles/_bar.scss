@@ -213,6 +213,14 @@
         width: 100%;
         padding-top: 1rem;
         display: block;
+
+        .b-bar-dropdown {
+            position: relative;
+        }
+
+        .b-bar-dropdown-menu-container {
+            bottom: 0;
+        }
     }
 
     .b-bar-link {

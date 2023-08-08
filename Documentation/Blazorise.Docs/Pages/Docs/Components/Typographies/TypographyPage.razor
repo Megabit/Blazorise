@@ -70,6 +70,51 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Unordered Lists">
+        Use the <Code>UnorderedList</Code> component to show an unordered or ordered list of items based on multiple styles, layouts, and variants.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TypographyUnorderedListExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TypographyUnorderedListExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Ordered Lists">
+        Use the <Code>OrderedList</Code> component to show an ordered list of items based on multiple styles, layouts, and variants.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TypographyOrderedListExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TypographyOrderedListExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="List Style Image">
+        <Paragraph>
+            Control the marker image for list items using the <Code>ListStyleImage</Code> parameter.
+        </Paragraph>
+        <Paragraph>
+            This parameter accepts either a <Strong>Base64</Strong> encoded string that represents an image, or a <Strong>URL</Strong> that points to an image resource.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TypographyListImageStyleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TypographyListImageStyleExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Unstyled List">
+        Use the <Code>Unstyled</Code> parameter to disable the list style bullets or numbers.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TypographyUnstyledListExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TypographyUnstyledListExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Text size">
         <Paragraph>
             The <Code>TextSize</Code> enum utility in Blazorise provides an easy way to control the size of the text in your Blazor components. It comes with a range of predefined sizes and also supports heading sizes.
@@ -128,5 +173,23 @@
 <DocsAttributes Title="DisplayHeading">
     <DocsAttributesItem Name="Size" Type="DisplayHeadingSize" Default="Is2">
         Sets the display heading size.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="UnorderedList">
+    <DocsAttributesItem Name="Unstyled" Type="bool" Default="false">
+        Remove the default <Code>list-style</Code> and left margin on list items (immediate children only).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ListStyleImage" Type="string" Default="null">
+        Defines the marker images for list items.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="OrderedList">
+    <DocsAttributesItem Name="Unstyled" Type="bool" Default="false">
+        Remove the default <Code>list-style</Code> and left margin on list items (immediate children only).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ListStyleImage" Type="string" Default="null">
+        Defines the marker images for list items.
     </DocsAttributesItem>
 </DocsAttributes>

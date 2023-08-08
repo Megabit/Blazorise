@@ -4088,6 +4088,34 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
 </Paragraph>";
 
+        public const string TypographyListImageStyleExample = @"<UnorderedList ListStyleImage=""data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTQiIGhlaWdodD0iMTIiIHZpZXdCb3g9IjAgMCAxNCAxMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBmaWxsPSIjMzhiZGY4Ij48cGF0aCBmaWxsLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0xMy42ODUuMTUzYS43NTIuNzUyIDAgMCAxIC4xNDMgMS4wNTJsLTggMTAuNWEuNzUuNzUgMCAwIDEtMS4xMjcuMDc1bC00LjUtNC41YS43NS43NSAwIDAgMSAxLjA2LTEuMDZsMy44OTQgMy44OTMgNy40OC05LjgxN2EuNzUuNzUgMCAwIDEgMS4wNS0uMTQzWiIgLz48L3N2Zz4="">
+    <UnorderedListItem>
+        5 cups chopped Porcini mushrooms
+    </UnorderedListItem>
+    <UnorderedListItem>
+        1/2 cup of olive oil
+    </UnorderedListItem>
+    <UnorderedListItem>
+        3lb of celery
+    </UnorderedListItem>
+</UnorderedList>";
+
+        public const string TypographyOrderedListExample = @"<Heading Size=""HeadingSize.Is4"">
+    Top students:
+</Heading>
+
+<OrderedList>
+    <OrderedListItem>
+        <Strong>Bonnie Green</Strong> with <Strong>70</Strong> points
+    </OrderedListItem>
+    <OrderedListItem>
+        <Strong>Jese Leos</Strong> with <Strong>63</Strong> points
+    </OrderedListItem>
+    <OrderedListItem>
+        <Strong>Leslie Livingston</Strong> with <Strong>57</Strong> points
+    </OrderedListItem>
+</OrderedList>";
+
         public const string TypographyParagraphExample = @"<Paragraph>
     Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work and deploy.
 </Paragraph>
@@ -4102,48 +4130,37 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     Cursus euismod quis viverra nibh cras.
 </Text>";
 
-        public const string TypographyTextSizeExample = @"<Row>
-    <Column>
-        <Paragraph TextSize=""TextSize.ExtraSmall"">
-            TextSize.ExtraSmall
-        </Paragraph>
-        <Paragraph TextSize=""TextSize.Small"">
-            TextSize.Small
-        </Paragraph>
-        <Paragraph TextSize=""TextSize.Default"">
-            TextSize.Default
-        </Paragraph>
-        <Paragraph TextSize=""TextSize.Medium"">
-            TextSize.Medium
-        </Paragraph>
-        <Paragraph TextSize=""TextSize.Large"">
-            TextSize.Large
-        </Paragraph>
-        <Paragraph TextSize=""TextSize.ExtraLarge"">
-            TextSize.ExtraLarge
-        </Paragraph>
-    </Column>
-    <Column>
-        <Paragraph TextSize=""TextSize.Heading1"">
-            TextSize.Heading1
-        </Paragraph>
-        <Paragraph TextSize=""TextSize.Heading2"">
-            TextSize.Heading2
-        </Paragraph>
-        <Paragraph TextSize=""TextSize.Heading3"">
-            TextSize.Heading3
-        </Paragraph>
-        <Paragraph TextSize=""TextSize.Heading4"">
-            TextSize.Heading4
-        </Paragraph>
-        <Paragraph TextSize=""TextSize.Heading5"">
-            TextSize.Heading5
-        </Paragraph>
-        <Paragraph TextSize=""TextSize.Heading6"">
-            TextSize.Heading6
-        </Paragraph>
-    </Column>
-</Row>";
+        public const string TypographyUnorderedListExample = @"<Heading Size=""HeadingSize.Is4"">
+    Password requirements:
+</Heading>
+
+<UnorderedList>
+    <UnorderedListItem>
+        At least 10 characters (and up to 100 characters)
+    </UnorderedListItem>
+    <UnorderedListItem>
+        At least one lowercase character
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Inclusion of at least one special character, e.g., ! @@ # ?
+    </UnorderedListItem>
+</UnorderedList>";
+
+        public const string TypographyUnstyledListExample = @"<Heading Size=""HeadingSize.Is4"">
+    Password requirements:
+</Heading>
+
+<UnorderedList Unstyled>
+    <UnorderedListItem>
+        At least 10 characters (and up to 100 characters)
+    </UnorderedListItem>
+    <UnorderedListItem>
+        At least one lowercase character
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Inclusion of at least one special character, e.g., ! @@ # ?
+    </UnorderedListItem>
+</UnorderedList>";
 
         public const string AsyncValidationExample = @"@using System.Threading
 
