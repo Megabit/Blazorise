@@ -2860,6 +2860,22 @@ ol.ordered-list-upper-roman {
   cursor: pointer;
 }
 
+.fs-xs {
+  font-size: 0.75rem;
+}
+.fs-sm {
+  font-size: 0.925rem;
+}
+.fs-md {
+  font-size: 1.125rem;
+}
+.fs-lg {
+  font-size: 1.25rem;
+}
+.fs-xl {
+  font-size: 1.5rem;
+}
+
 .grid {
   display: grid;
   grid-template-rows: repeat(1, 1fr);

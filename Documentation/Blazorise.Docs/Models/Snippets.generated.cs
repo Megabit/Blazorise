@@ -4130,6 +4130,49 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     Cursus euismod quis viverra nibh cras.
 </Text>";
 
+        public const string TypographyTextSizeExample = @"<Row>
+    <Column>
+        <Paragraph TextSize=""TextSize.ExtraSmall"">
+            TextSize.ExtraSmall
+        </Paragraph>
+        <Paragraph TextSize=""TextSize.Small"">
+            TextSize.Small
+        </Paragraph>
+        <Paragraph TextSize=""TextSize.Default"">
+            TextSize.Default
+        </Paragraph>
+        <Paragraph TextSize=""TextSize.Medium"">
+            TextSize.Medium
+        </Paragraph>
+        <Paragraph TextSize=""TextSize.Large"">
+            TextSize.Large
+        </Paragraph>
+        <Paragraph TextSize=""TextSize.ExtraLarge"">
+            TextSize.ExtraLarge
+        </Paragraph>
+    </Column>
+    <Column>
+        <Paragraph TextSize=""TextSize.Heading1"">
+            TextSize.Heading1
+        </Paragraph>
+        <Paragraph TextSize=""TextSize.Heading2"">
+            TextSize.Heading2
+        </Paragraph>
+        <Paragraph TextSize=""TextSize.Heading3"">
+            TextSize.Heading3
+        </Paragraph>
+        <Paragraph TextSize=""TextSize.Heading4"">
+            TextSize.Heading4
+        </Paragraph>
+        <Paragraph TextSize=""TextSize.Heading5"">
+            TextSize.Heading5
+        </Paragraph>
+        <Paragraph TextSize=""TextSize.Heading6"">
+            TextSize.Heading6
+        </Paragraph>
+    </Column>
+</Row>";
+
         public const string TypographyUnorderedListExample = @"<Heading Size=""HeadingSize.Is4"">
     Password requirements:
 </Heading>

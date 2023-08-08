@@ -3318,6 +3318,40 @@ ol.ordered-list-upper-roman {
   cursor: pointer;
 }
 
+.fs-xs {
+  font-size: 0.75rem;
+}
+.fs-sm {
+  font-size: 0.925rem;
+}
+.fs-md {
+  font-size: 1.125rem;
+}
+.fs-lg {
+  font-size: 1.25rem;
+}
+.fs-xl {
+  font-size: 1.5rem;
+}
+.fs-1 {
+  font-size: 2.5rem;
+}
+.fs-2 {
+  font-size: 2rem;
+}
+.fs-3 {
+  font-size: 1.75rem;
+}
+.fs-4 {
+  font-size: 1.5rem;
+}
+.fs-5 {
+  font-size: 1.25rem;
+}
+.fs-6 {
+  font-size: 1rem;
+}
+
 .grid {
   display: grid;
   grid-template-rows: repeat(1, 1fr);

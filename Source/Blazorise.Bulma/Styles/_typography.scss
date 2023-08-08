@@ -18,3 +18,25 @@
     font-weight: 300;
     margin-bottom: 1rem;
 }
+
+.is-size {
+    &-xs {
+        font-size: 0.75rem;
+    }
+
+    &-sm {
+        font-size: 0.925rem;
+    }
+
+    &-md {
+        font-size: 1.125rem;
+    }
+
+    &-lg {
+        font-size: 1.25rem;
+    }
+
+    &-xl {
+        font-size: 1.5rem;
+    }
+}

@@ -1646,6 +1646,8 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
+    public override string TextSize( TextSize textSize ) => $"text-{ToTextSize( textSize )}";
+
     public override string TextItalic() => "italic";
 
     #endregion
@@ -2243,6 +2245,25 @@ public class TailwindClassProvider : ClassProvider
             Blazorise.Breakpoint.Desktop => "lg",
             Blazorise.Breakpoint.Widescreen => "xl",
             Blazorise.Breakpoint.FullHD => "2xl",
+            _ => null,
+        };
+    }
+
+    public override string ToTextSize( TextSize textSize )
+    {
+        return textSize switch
+        {
+            Blazorise.TextSize.ExtraSmall => "xs",
+            Blazorise.TextSize.Small => "sm",
+            Blazorise.TextSize.Medium => "md",
+            Blazorise.TextSize.Large => "lg",
+            Blazorise.TextSize.ExtraLarge => "xl",
+            Blazorise.TextSize.Heading1 => "5xl",
+            Blazorise.TextSize.Heading2 => "4xl",
+            Blazorise.TextSize.Heading3 => "3xl",
+            Blazorise.TextSize.Heading4 => "2xl",
+            Blazorise.TextSize.Heading5 => "xl",
+            Blazorise.TextSize.Heading6 => "lg",
             _ => null,
         };
     }

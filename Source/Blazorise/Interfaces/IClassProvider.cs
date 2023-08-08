@@ -1004,6 +1004,8 @@ public interface IClassProvider
 
     string TextOverflow( TextOverflow textOverflow );
 
+    string TextSize( TextSize textSize );
+
     string TextItalic();
 
     #endregion
@@ -1274,6 +1276,8 @@ public interface IClassProvider
     string ToTextWeight( TextWeight textWeight );
 
     string ToTextOverflow( TextOverflow textOverflow );
+
+    string ToTextSize( TextSize textSize );
 
     string ToColumnWidth( ColumnWidth columnWidth );
 

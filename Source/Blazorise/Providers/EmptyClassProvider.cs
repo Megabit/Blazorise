@@ -1011,6 +1011,8 @@ class EmptyClassProvider : IClassProvider
 
     public string TextOverflow( TextOverflow textOverflow ) => null;
 
+    public string TextSize( TextSize textSize ) => null;
+
     public string TextItalic() => null;
 
     #endregion
@@ -1276,6 +1278,8 @@ class EmptyClassProvider : IClassProvider
     public string ToTextWeight( TextWeight textWeight ) => null;
 
     public string ToTextOverflow( TextOverflow textOverflow ) => null;
+
+    public string ToTextSize( TextSize textSize ) => null;
 
     public string ToColumnWidth( ColumnWidth columnWidth ) => null;
 

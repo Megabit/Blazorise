@@ -1091,6 +1091,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
 
+    public override string TextSize( TextSize textSize ) => $"fs-{ToTextSize( textSize )}";
+
     public override string TextItalic() => "font-italic";
 
     #endregion

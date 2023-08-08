@@ -3724,6 +3724,51 @@ tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   margin-bottom: 1rem;
 }
 
+.ant-font-size-xs {
+  font-size: 10px;
+  line-height: 18px;
+}
+.ant-font-size-sm {
+  font-size: 12px;
+  line-height: 20px;
+}
+.ant-font-size-md {
+  font-size: 16px;
+  line-height: 24px;
+}
+.ant-font-size-lg {
+  font-size: 20px;
+  line-height: 28px;
+}
+.ant-font-size-xl {
+  font-size: 24px;
+  line-height: 32px;
+}
+.ant-font-size-1 {
+  font-size: 38px;
+  line-height: 46px;
+}
+.ant-font-size-2 {
+  font-size: 30px;
+  line-height: 38px;
+}
+.ant-font-size-3 {
+  font-size: 24px;
+  line-height: 32px;
+}
+.ant-font-size-4 {
+  font-size: 20px;
+  line-height: 28px;
+}
+.ant-font-size-5 {
+  font-size: 16px;
+  line-height: 24px;
+}
+.ant-font-size-6 {
+  font-size: 14px;
+  line-height: 22px;
+}
+
 .gap-0 {
   gap: 0 !important;
 }
