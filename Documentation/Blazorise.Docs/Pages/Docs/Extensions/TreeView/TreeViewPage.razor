@@ -171,10 +171,10 @@
     <DocsAttributesItem Name="GetChildNodes" Type="Func<TNode, IEnumerable<TNode>>">
         Expression that allows the child nodes to be identified for a particular node.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="HasChildNodes" Type="Func<TNode, bool>" Default="false">
+    <DocsAttributesItem Name="HasChildNodes" Type="Func<TNode, bool>" Default="(node) => false">
         Expression that indicates whether the current node has any children nodes?
     </DocsAttributesItem>
-    <DocsAttributesItem Name="IsDisabled" Type="Func<TNode, bool>" Default="false">
+    <DocsAttributesItem Name="IsDisabled" Type="Func<TNode, bool>" Default="(node) => false">
         Expression that indicates whether the current node should be disabled from selection
     </DocsAttributesItem>
     <DocsAttributesItem Name="GetChildNodesAsync" Type="Func<TNode, Task<IEnumerable<TNode>>>">
