@@ -1647,23 +1647,6 @@ public class TailwindClassProvider : ClassProvider
     }
 
     public override string TextSize( TextSize textSize ) => $"text-{ToTextSize( textSize )}";
-    //{
-    //    return textSize switch
-    //    {
-    //        Blazorise.TextSize.ExtraSmall => "",
-    //        Blazorise.TextSize.Small => "",
-    //        Blazorise.TextSize.Medium => "",
-    //        Blazorise.TextSize.Large => "",
-    //        Blazorise.TextSize.ExtraLarge => "",
-    //        Blazorise.TextSize.Heading1 => "",
-    //        Blazorise.TextSize.Heading2 => "",
-    //        Blazorise.TextSize.Heading3 => "",
-    //        Blazorise.TextSize.Heading4 => "",
-    //        Blazorise.TextSize.Heading5 => "",
-    //        Blazorise.TextSize.Heading6 => "",
-    //        _ => null,
-    //    };
-    //}
 
     public override string TextItalic() => "italic";
 
