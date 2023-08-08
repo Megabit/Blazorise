@@ -74,7 +74,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
         {
             InvokeAsync( async () =>
             {
-                await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+                await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
                 {
                     treeViewNodeStates.Add( nodeState );
                 }
@@ -131,10 +131,11 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     {
         treeViewNodeStates = new();
 
-        await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+        await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
         {
             treeViewNodeStates.Add( nodeState );
         }
+
         await InvokeAsync( StateHasChanged );
     }
 
@@ -225,6 +226,16 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Indicates if the node has child elements.
+    /// </summary>
+    protected Func<TNode, bool> DetermineHasChildNodes => HasChildNodes ?? ( node => false );
+
+    /// <summary>
+    /// Indicates the node's disabled state. Used for preventing selection.
+    /// </summary>
+    protected Func<TNode, bool> DetermineIsDisabled => IsDisabled ?? ( node => false );
 
     /// <summary>
     /// Defines the name of the treenode expand icon.
@@ -327,12 +338,17 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     /// <summary>
     /// Indicates if the node has child elements.
     /// </summary>
-    [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => false;
+    [Parameter] public Func<TNode, bool> HasChildNodes { get; set; }
 
     /// <summary>
     /// Gets the list of child nodes for each node.
     /// </summary>
     [Parameter] public Func<TNode, Task<IEnumerable<TNode>>> GetChildNodesAsync { get; set; }
+
+    /// <summary>
+    /// Indicates the node's disabled state. Used for preventing selection.
+    /// </summary>
+    [Parameter] public Func<TNode, bool> IsDisabled { get; set; }
 
     /// <summary>
     /// Indicates if the node has child elements.
@@ -343,6 +359,11 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     /// Gets or sets selected node styling.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
+
+    /// <summary>
+    /// Gets or sets disabled node styling.
+    /// </summary>
+    [Parameter] public Action<TNode, NodeStyling> DisabledNodeStyling { get; set; }
 
     /// <summary>
     /// Gets or sets node styling.

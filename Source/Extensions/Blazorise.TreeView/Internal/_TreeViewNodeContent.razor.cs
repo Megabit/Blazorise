@@ -15,6 +15,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     private NodeStyling selectedNodeStyling;
 
+    private NodeStyling disabledNodeStyling;
+
     private NodeStyling nodeStyling;
 
     private TreeViewSelectionMode selectionMode;
@@ -29,6 +31,12 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
         {
             Background = Background.Primary,
             TextColor = TextColor.White
+        };
+
+        disabledNodeStyling = new()
+        {
+            Background = Background.Light,
+            TextColor = TextColor.Muted
         };
 
         nodeStyling = new()
@@ -48,6 +56,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
         if ( Selected )
             builder.Append( $"{ClassProvider.BackgroundColor( selectedNodeStyling.Background )} {ClassProvider.TextColor( selectedNodeStyling.TextColor )} {selectedNodeStyling.Class}" );
+        else if ( NodeState?.Disabled ?? false )
+            builder.Append( $"{ClassProvider.BackgroundColor( disabledNodeStyling.Background )} {ClassProvider.TextColor( disabledNodeStyling.TextColor )} {disabledNodeStyling.Class}" );
         else
             builder.Append( $"{ClassProvider.BackgroundColor( nodeStyling.Background )} {ClassProvider.TextColor( nodeStyling.TextColor )} {nodeStyling.Class}" );
 
@@ -56,7 +66,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected Task OnClick()
     {
-        if ( SelectionMode != TreeViewSelectionMode.Single )
+        //prevent onclick during multi selection mode or if node is disabled
+        if ( NodeState.Disabled || SelectionMode == TreeViewSelectionMode.Multiple )
             return Task.CompletedTask;
 
         DirtyClasses();
@@ -67,20 +78,32 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
 
     protected Task OnCheckedChanged( bool value )
     {
-        if ( ParentTreeView is not null )
-            return ParentTreeView.ToggleCheckNode( NodeState.Node );
+        if ( ParentTreeView is null || NodeState.Disabled )
+            return Task.CompletedTask;
 
-        return Task.CompletedTask;
+        return ParentTreeView.ToggleCheckNode( NodeState.Node );
     }
 
     protected override Task OnParametersSetAsync()
     {
         if ( Selected )
             SelectedNodeStyling?.Invoke( NodeState.Node, selectedNodeStyling );
+        else if ( NodeState.Disabled )
+            DisabledNodeStyling?.Invoke( NodeState.Node, disabledNodeStyling );
         else
             NodeStyling?.Invoke( NodeState.Node, nodeStyling );
 
         return base.OnParametersSetAsync();
+    }
+
+    private string GetCurrentStyle()
+    {
+        if ( Selected )
+            return selectedNodeStyling.Style;
+        else if ( NodeState.Disabled )
+            return disabledNodeStyling.Style;
+        else
+            return nodeStyling.Style;
     }
 
     #endregion
@@ -132,6 +155,8 @@ public partial class _TreeViewNodeContent<TNode> : BaseComponent
     /// Gets or sets selected node styling.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
+
+    [Parameter] public Action<TNode, NodeStyling> DisabledNodeStyling { get; set; }
 
     /// <summary>
     /// Gets or sets node styling.

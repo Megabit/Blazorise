@@ -14,6 +14,12 @@ namespace Blazorise.TreeView.Internal;
 
 public partial class _TreeViewNode<TNode> : BaseComponent
 {
+    #region Members
+
+    private bool checkChildrenLoaded;
+
+    #endregion
+
     #region Methods
 
     protected override async Task OnInitializedAsync()
@@ -34,6 +40,32 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         }
 
         await base.OnInitializedAsync();
+    }
+
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        checkChildrenLoaded = true;
+
+        await base.SetParametersAsync( parameters );
+    }
+
+    protected override async Task OnParametersSetAsync()
+    {
+        // Check if expanded is true but children is empty to load child nodes if needed, happens after Reload,
+        // we use the bool flag to ensure we don't do this multiple times during render.
+        if ( checkChildrenLoaded )
+        {
+            var unloadedNodeStates = NodeStates != null
+                ? NodeStates.Where( o => o.Expanded && o.Children.Count == 0 )
+                : Enumerable.Empty<TreeViewNodeState<TNode>>();
+
+            foreach ( TreeViewNodeState<TNode> unloadedNodeState in unloadedNodeStates )
+            {
+                await LoadChildNodes( unloadedNodeState );
+            }
+
+            checkChildrenLoaded = false;
+        }
     }
 
     protected override void BuildClasses( ClassBuilder builder )
@@ -119,7 +151,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     {
         nodeState.Children.Clear();
 
-        await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+        await foreach ( var childNodeState in childNodes.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
         {
             nodeState.Children.Add( childNodeState );
         }
@@ -129,7 +161,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     {
         if ( e.Action == NotifyCollectionChangedAction.Add )
         {
-            await foreach ( var childNodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, HasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true ) )
+            await foreach ( var childNodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
             {
                 nodeState.Children.Add( childNodeState );
             }
@@ -153,7 +185,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     {
         foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
         {
-            if ( HasChildNodes( nodeState.Node ) )
+            if ( DetermineHasChildNodes( nodeState.Node ) )
             {
                 if ( !nodeState.Expanded )
                     await ToggleNode( nodeState, false );
@@ -175,7 +207,7 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     {
         foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
         {
-            if ( HasChildNodes( nodeState.Node ) )
+            if ( DetermineHasChildNodes( nodeState.Node ) )
             {
                 if ( nodeState.Expanded )
                     await ToggleNode( nodeState, false );
@@ -197,6 +229,16 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     #region Properties
 
+    /// <summary>
+    /// Indicates if the node has child elements.
+    /// </summary>
+    protected Func<TNode, bool> DetermineHasChildNodes => HasChildNodes ?? ( node => false );
+
+    /// <summary>
+    /// Indicates the node's disabled state. Used for preventing selection.
+    /// </summary>
+    protected Func<TNode, bool> DetermineIsDisabled => IsDisabled ?? ( node => false );
+
     [Parameter] public IEnumerable<TreeViewNodeState<TNode>> NodeStates { get; set; }
 
     [Parameter] public RenderFragment<TNode> NodeContent { get; set; }
@@ -207,7 +249,9 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
     [Parameter] public Func<TNode, IEnumerable<TNode>> GetChildNodes { get; set; }
 
-    [Parameter] public Func<TNode, bool> HasChildNodes { get; set; } = node => false;
+    [Parameter] public Func<TNode, bool> HasChildNodes { get; set; }
+
+    [Parameter] public Func<TNode, bool> IsDisabled { get; set; }
 
     [Parameter] public Func<TNode, Task<IEnumerable<TNode>>> GetChildNodesAsync { get; set; }
 
@@ -259,6 +303,11 @@ public partial class _TreeViewNode<TNode> : BaseComponent
     /// Gets or sets selected node styling.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> SelectedNodeStyling { get; set; }
+
+    /// <summary>
+    /// Gets or sets disabled node styling.
+    /// </summary>
+    [Parameter] public Action<TNode, NodeStyling> DisabledNodeStyling { get; set; }
 
     /// <summary>
     /// Gets or sets node styling.

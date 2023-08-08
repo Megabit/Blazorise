@@ -22,7 +22,8 @@
                 <_TreeViewNodeContent TNode="TNode" NodeState="@nodeState"
                                       NodeStyling="@NodeStyling"
                                       SelectionMode="@SelectionMode"
-                                      SelectedNodeStyling="@SelectedNodeStyling">
+                                      SelectedNodeStyling="@SelectedNodeStyling"
+                                      DisabledNodeStyling="@DisabledNodeStyling">
                     @NodeContent( nodeState.Node )
                 </_TreeViewNodeContent>
 
@@ -38,9 +39,11 @@
                                    Expanded="@nodeState.Expanded"
                                    AutoExpandAll="@AutoExpandAll"
                                    HasChildNodes="@HasChildNodes"
+                                   IsDisabled="@IsDisabled"
                                    HasChildNodesAsync="@HasChildNodesAsync"
                                    NodeStyling="@NodeStyling"
                                    SelectedNodeStyling="@SelectedNodeStyling"
+                                   DisabledNodeStyling="@DisabledNodeStyling"
                                    ExpandIconName="@ExpandIconName"
                                    ExpandIconStyle="@ExpandIconStyle"
                                    CollapseIconName="@CollapseIconName"

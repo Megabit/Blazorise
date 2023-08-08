@@ -1,5 +1,7 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
+#endregion
 
 namespace Blazorise.TreeView.Internal;
 
@@ -15,12 +17,14 @@ public record TreeViewNodeState<TNode>
     /// <param name="node">Node that is being referenced.</param>
     /// <param name="hasChildren">Indicates if the node has any child node.</param>
     /// <param name="expanded">True if the node should be expanded.</param>
-    public TreeViewNodeState( TNode node, bool hasChildren, bool expanded )
+    /// <param name="disabled">True if the node should be disabled from selection.</param>
+    public TreeViewNodeState( TNode node, bool hasChildren, bool expanded, bool disabled )
     {
         Key = Guid.NewGuid().ToString();
         Node = node;
         HasChildren = hasChildren;
         Expanded = expanded;
+        Disabled = disabled;
     }
 
     /// <summary>
@@ -42,6 +46,11 @@ public record TreeViewNodeState<TNode>
     /// Indicates if the node is expanded.
     /// </summary>
     public bool Expanded { get; set; }
+
+    /// <summary>
+    /// Indicates if the node is disabled.
+    /// </summary>
+    public bool Disabled { get; set; }
 
     /// <summary>
     /// Indicates if the node was auto expanded. Can happen only once when node is first loaded.
