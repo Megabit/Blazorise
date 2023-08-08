@@ -14,6 +14,8 @@ public partial class UnorderedList : BaseTypographyComponent
 
     private bool unstyled;
 
+    private string listStyleImage;
+
     #endregion
 
     #region Methods
@@ -25,6 +27,17 @@ public partial class UnorderedList : BaseTypographyComponent
         builder.Append( ClassProvider.UnorderedListUnstyled( Unstyled ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        if ( !string.IsNullOrEmpty( ListStyleImage ) )
+        {
+            builder.Append( $"list-style-image: url('{ListStyleImage}')" );
+        }
+
+        base.BuildStyles( builder );
     }
 
     #endregion
@@ -40,7 +53,28 @@ public partial class UnorderedList : BaseTypographyComponent
         get => unstyled;
         set
         {
+            if ( unstyled == value )
+                return;
+
             unstyled = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Defines the marker images for list items. The paremeter accepts Base64 encoded string that represents an image, or a URL.
+    /// </summary>
+    [Parameter]
+    public string ListStyleImage
+    {
+        get => listStyleImage;
+        set
+        {
+            if ( listStyleImage == value )
+                return;
+
+            listStyleImage = value;
 
             DirtyClasses();
         }

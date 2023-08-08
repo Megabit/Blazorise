@@ -16,6 +16,8 @@ public partial class OrderedList : BaseTypographyComponent
 
     private OrderedListType listType = OrderedListType.Default;
 
+    private string listStyleImage;
+
     #endregion
 
     #region Methods
@@ -28,6 +30,17 @@ public partial class OrderedList : BaseTypographyComponent
         builder.Append( ClassProvider.OrderedListType( ListType ), ListType != OrderedListType.Default );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        if ( !string.IsNullOrEmpty( ListStyleImage ) )
+        {
+            builder.Append( $"list-style-image: url('{ListStyleImage}')" );
+        }
+
+        base.BuildStyles( builder );
     }
 
     #endregion
@@ -59,6 +72,24 @@ public partial class OrderedList : BaseTypographyComponent
         set
         {
             listType = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Defines the marker images for list items.
+    /// </summary>
+    [Parameter]
+    public string ListStyleImage
+    {
+        get => listStyleImage;
+        set
+        {
+            if ( listStyleImage == value )
+                return;
+
+            listStyleImage = value;
 
             DirtyClasses();
         }
