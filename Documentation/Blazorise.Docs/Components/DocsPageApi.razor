@@ -1,0 +1,20 @@
+﻿<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    See the documentation below for a complete reference to all of the props and classes available to the components mentioned here.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Link To="@Link">@Name</Link>
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+@code {
+    [Parameter] public string Name { get; set; }
+
+    [Parameter] public string Link { get; set; }
+}
