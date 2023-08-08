@@ -63,7 +63,7 @@ public partial class UnorderedList : BaseTypographyComponent
     }
 
     /// <summary>
-    /// Defines the marker images for list items.
+    /// Defines the marker images for list items. The paremeter accepts Base64 encoded string that represents an image, or a URL.
     /// </summary>
     [Parameter]
     public string ListStyleImage
