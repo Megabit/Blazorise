@@ -7,14 +7,10 @@
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    <UnorderedList>
-        <UnorderedListItem>
-            <Link To="@Link">@Name</Link>
-        </UnorderedListItem>
-    </UnorderedList>
+    @ChildContent
 </DocsPageParagraph>
-@code {
-    [Parameter] public string Name { get; set; }
 
-    [Parameter] public string Link { get; set; }
+
+@code{
+    [Parameter] public RenderFragment ChildContent { get; set; }
 }
