@@ -1,0 +1,46 @@
+@using System.Reflection;
+@typeparam TItem
+@inherits ComponentBase
+@if ( valueType == typeof( decimal ) || valueType == typeof( decimal? )
+|| valueType == typeof( double ) || valueType == typeof( double? )
+|| valueType == typeof( float ) || valueType == typeof( float? )
+|| valueType == typeof( int ) || valueType == typeof( int? )
+|| valueType == typeof( long ) || valueType == typeof( long? ) )
+{
+    @numericPickerFragment
+}
+
+
+@code {
+    private RenderFragment numericPickerFragment => builder =>
+       {
+           var type = typeof( NumericPicker<> ).MakeGenericType( new[] { valueType } );
+
+           builder.OpenComponent( 0, type );
+           builder.AddAttribute( 1, nameof( NumericPicker<object>.Value ), CellValue );
+           builder.AddAttribute( 2, nameof( NumericPicker<object>.ValueChanged ), valueType switch
+           {
+               Type typeDecimal when typeDecimal == typeof( decimal ) => EventCallback.Factory.Create<decimal>( this, ( OnCellValueChanged<decimal> ) ),
+               Type typeDecimalNull when typeDecimalNull == typeof( decimal? ) => EventCallback.Factory.Create<decimal?>( this, ( OnCellValueChanged<decimal?> ) ),
+               Type typeDouble when typeDouble == typeof( double ) => EventCallback.Factory.Create<double>( this, ( OnCellValueChanged<double> ) ),
+               Type typeDoubleNull when typeDoubleNull == typeof( double? ) => EventCallback.Factory.Create<double?>( this, ( OnCellValueChanged<double?> ) ),
+               Type typeFloat when typeFloat == typeof( float ) => EventCallback.Factory.Create<float>( this, ( OnCellValueChanged<float> ) ),
+               Type typeFloatNull when typeFloatNull == typeof( float? ) => EventCallback.Factory.Create<float?>( this, ( OnCellValueChanged<float?> ) ),
+               Type typeInt when typeInt == typeof( int ) => EventCallback.Factory.Create<int>( this, ( OnCellValueChanged<int> ) ),
+               Type typeIntNull when typeIntNull == typeof( int? ) => EventCallback.Factory.Create<int?>( this, ( OnCellValueChanged<int?> ) ),
+               Type typeLong when typeLong == typeof( long ) => EventCallback.Factory.Create<long>( this, ( OnCellValueChanged<long> ) ),
+               Type typeLongNull when typeLongNull == typeof( long? ) => EventCallback.Factory.Create<long?>( this, ( OnCellValueChanged<long?> ) ),
+               _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
+           } );
+           builder.AddAttribute( 3, nameof( BaseInputComponent<object>.ReadOnly ), Column.Readonly );
+           builder.AddAttribute( 4, nameof( NumericPicker<object>.Step ), Column.Step );
+           builder.AddAttribute( 5, nameof( NumericPicker<object>.Decimals ), Column.Decimals );
+           builder.AddAttribute( 6, nameof( NumericPicker<object>.DecimalSeparator ), Column.DecimalSeparator );
+           builder.AddAttribute( 7, nameof( NumericPicker<object>.Culture ), Column.Culture );
+           builder.AddAttribute( 8, nameof( NumericPicker<object>.ShowStepButtons ), Column.ShowStepButtons );
+           builder.AddAttribute( 9, nameof( NumericPicker<object>.EnableStep ), Column.EnableStep );
+           builder.CloseComponent();
+       };
+
+
+}
