@@ -8522,7 +8522,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
 <Button Color=""Color.Info"" Clicked=""@(()=>snackbarStack.PushAsync(""Some info message! Timeout: "" + intervalBeforeMsgClose, SnackbarColor.Info, options => {  options.IntervalBeforeClose = intervalBeforeMsgClose; } ))"">Show Info</Button>
 
-<SnackbarStack @ref=""snackbarStack"" Location=""SnackbarStackLocation.End"" />
+<SnackbarStack @ref=""snackbarStack"" Location=""SnackbarStackLocation.BottomEnd"" />
 
 @code{
     SnackbarStack snackbarStack;

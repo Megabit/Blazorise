@@ -78,7 +78,7 @@ public partial class SnackbarStack : BaseComponent
         public bool Multiline { get; } = true;
     }
 
-    private SnackbarStackLocation location = SnackbarStackLocation.Center;
+    private SnackbarStackLocation location = SnackbarStackLocation.Bottom;
 
     private double animationDuration = Constants.DefaultAnimationDuration;
 

@@ -11,12 +11,6 @@ namespace Blazorise;
 /// </summary>
 public partial class OffcanvasBody : BaseComponent, IDisposable
 {
-    #region Members
-
-    private int? maxHeight;
-
-    #endregion
-
     #region Methods
 
     /// <inheritdoc/>
