@@ -170,7 +170,12 @@
                                     else
                                     {
                                         //If this grows, move to a seperate component.
-                                        if ( column is DataGridSelectColumn<TItem> selectColumn )
+                                        if ( column is DataGridNumericColumn<TItem> numericColumn )
+                                        {
+                                            <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@(numericColumn.Filter.SearchValue)" CellValueChanged="@((newValue) => OnFilterChanged(column, newValue))"></_DataGridCellNumericEdit>
+
+                                        }
+                                        else if ( column is DataGridSelectColumn<TItem> selectColumn )
                                         {
                                             <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@((newValue) => OnFilterChanged(column, newValue))"></_DataGridCellSelectEdit>
 

@@ -17,7 +17,20 @@
            var type = typeof( NumericPicker<> ).MakeGenericType( new[] { valueType } );
 
            builder.OpenComponent( 0, type );
-           builder.AddAttribute( 1, nameof( NumericPicker<object>.Value ), CellValue );
+           builder.AddAttribute( 1, nameof( NumericPicker<object>.Value ), valueType switch
+           {
+               Type typeDecimal when typeDecimal == typeof( Decimal ) => (Decimal)( CellValue ?? (Decimal)default ),
+               Type typeDecimalNull when typeDecimalNull == typeof( Decimal? ) => (Decimal?)( CellValue ?? (Decimal?)default ),
+               Type typeDouble when typeDouble == typeof( Double ) => (Double)( CellValue ?? (Double)default ),
+               Type typeDoubleNull when typeDoubleNull == typeof( Double? ) => (Double?)( CellValue ?? (Double?)default ),
+               Type typeFloat when typeFloat == typeof( Single ) => (Single)( CellValue ?? (Single)default ),
+               Type typeFloatNull when typeFloatNull == typeof( Single? ) => (Single?)( CellValue ?? (Single?)default ),
+               Type typeInt when typeInt == typeof( Int32 ) => (Int32)( CellValue ?? (Int32)default ),
+               Type typeIntNull when typeIntNull == typeof( Int32? ) => (Int32?)( CellValue ?? (Int32?)default ),
+               Type typeLong when typeLong == typeof( Int64 ) => (Int64)( CellValue ?? (Int64)default ),
+               Type typeLongNull when typeLongNull == typeof( Int64? ) => (Int64?)( CellValue ?? (Int64?)default ),
+               _ => throw new InvalidOperationException( $"Unsupported type {valueType}" )
+           } );
            builder.AddAttribute( 2, nameof( NumericPicker<object>.ValueChanged ), valueType switch
            {
                Type typeDecimal when typeDecimal == typeof( decimal ) => EventCallback.Factory.Create<decimal>( this, ( OnCellValueChanged<decimal> ) ),
