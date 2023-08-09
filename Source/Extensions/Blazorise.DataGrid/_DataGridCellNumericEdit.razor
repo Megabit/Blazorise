@@ -1,6 +1,7 @@
 @using System.Reflection;
 @typeparam TItem
 @inherits ComponentBase
+
 @if ( valueType == typeof( decimal ) || valueType == typeof( decimal? )
 || valueType == typeof( double ) || valueType == typeof( double? )
 || valueType == typeof( float ) || valueType == typeof( float? )
@@ -9,7 +10,6 @@
 {
     @numericPickerFragment
 }
-
 
 @code {
     private RenderFragment numericPickerFragment => builder =>

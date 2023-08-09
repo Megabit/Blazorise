@@ -40,7 +40,4 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
         valueType = Column.GetValueType();
         base.OnInitialized();
     }
-
-
-
 }
