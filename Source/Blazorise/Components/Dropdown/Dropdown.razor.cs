@@ -499,7 +499,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Fixed;
 
     /// <summary>
-    /// Providers a custom anchor element id for the dropdown menu.
+    /// Provides a custom anchor element id for the dropdown menu.
     /// This is useful when you want the dropdown menu to be anchored from a different element than the toggle.
     /// </summary>
     [Parameter] public string AnchorId { get; set; }
