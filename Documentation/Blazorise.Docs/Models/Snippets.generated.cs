@@ -2195,9 +2195,9 @@ public class Gender
             Is4
         </Alert>
     </Column>
-    <Column ColumnSize=""ColumnSize.Is4.WithOffset"">
+    <Column ColumnSize=""ColumnSize.Is4.Is4.WithOffset"">
         <Alert Color=""Color.Primary"" Visible>
-            Is4.WithOffset
+            Is4.Is4.WithOffset
         </Alert>
     </Column>
 </Row>
@@ -2210,6 +2210,13 @@ public class Gender
     <Column ColumnSize=""ColumnSize.Is3.Is3.WithOffset"">
         <Alert Color=""Color.Primary"" Visible>
             Is3.Is3.WithOffset
+        </Alert>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize=""ColumnSize.Is6.Is3.WithOffset"">
+        <Alert Color=""Color.Primary"" Visible>
+            Is6.Is3.WithOffset
         </Alert>
     </Column>
 </Row>";
