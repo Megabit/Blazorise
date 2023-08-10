@@ -70,6 +70,10 @@
 .dropdown {
     position: relative;
 
+    &.dropdown-disabled {
+        background-color: #e9ecef;
+    }
+
     > .dropdown-menu {
         > .dropdown:not(.dropup, .dropleft, .dropright) {
             position: relative;

@@ -1494,6 +1494,9 @@
   display: inline-flex;
   white-space: nowrap;
 }
+.ant-dropdown-group.ant-dropdown-disabled {
+  background-color: #f5f5f5;
+}
 
 .ant-input-group-addon.ant-input-group-addon-dropdown {
   padding: 0;

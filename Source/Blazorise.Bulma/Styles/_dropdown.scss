@@ -76,6 +76,10 @@
 }
 
 .dropdown {
+    &.is-disabled {
+        background-color: #f5f5f5;
+    }
+
     .dropdown-menu > .dropdown-content {
         .dropdown {
             width: 100%;

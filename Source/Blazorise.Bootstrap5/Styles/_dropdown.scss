@@ -78,6 +78,10 @@
 .dropdown {
     position: relative;
 
+    &.dropdown-disabled {
+        background-color: #e9ecef;
+    }
+
     > .dropdown-menu {
         > .dropdown:not(.dropup, .dropstart, .dropend) {
             position: relative;
