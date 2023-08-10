@@ -1091,6 +1091,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             if ( Style != null )
                 sb.Append( Style );
 
+            if ( Disabled != false )
+                sb.Append( "background-color: #e9ecef;" );
+
             return sb.ToString();
         }
     }
