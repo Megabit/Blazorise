@@ -1571,5 +1571,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// </summary>
     [Parameter] public EventCallback<FocusEventArgs> SearchBlur { get; set; }
 
+    /// <summary>
+    /// Defines the positioning strategy of the dropdown menu as a 'floating' element.
+    /// </summary>
+    [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Fixed;
+
     #endregion
 }
