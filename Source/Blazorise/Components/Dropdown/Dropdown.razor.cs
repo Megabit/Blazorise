@@ -67,7 +67,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
         if ( firstRender )
         {
             JSModule.Initialize( ElementRef, ElementId,
-                targetElementId: AnchorId ?? childrenDropdownToggles?.FirstOrDefault()?.ElementId ?? childrenButtonList?.FirstOrDefault()?.ElementId ?? "test",
+                targetElementId: AnchorId ?? childrenDropdownToggles?.FirstOrDefault()?.ElementId ?? childrenButtonList?.FirstOrDefault()?.ElementId,
                 menuElementId: childrenDropdownMenus?.FirstOrDefault()?.ElementId,
                 options: new
                 {
