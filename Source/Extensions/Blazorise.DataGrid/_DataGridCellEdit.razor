@@ -4,46 +4,6 @@
 {
     <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
 }
-else if ( ValueType == typeof( decimal ) )
-{
-    <NumericPicker TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
-}
-else if ( ValueType == typeof( decimal? ) )
-{
-    <NumericPicker TValue="decimal?" Value="@((decimal?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
-}
-else if ( ValueType == typeof( double ) )
-{
-    <NumericPicker TValue="double" Value="@((double)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
-}
-else if ( ValueType == typeof( double? ) )
-{
-    <NumericPicker TValue="double?" Value="@(( double?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
-}
-else if ( ValueType == typeof( float ) )
-{
-    <NumericPicker TValue="float" Value="@((float)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
-}
-else if ( ValueType == typeof( float? ) )
-{
-    <NumericPicker TValue="float?" Value="@((float?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
-}
-else if ( ValueType == typeof( int ) )
-{
-    <NumericPicker TValue="int" Value="@((int)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
-}
-else if ( ValueType == typeof( int? ) )
-{
-    <NumericPicker TValue="int?" Value="@((int?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
-}
-else if ( ValueType == typeof( long ) )
-{
-    <NumericPicker TValue="long" Value="@((long)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
-}
-else if ( ValueType == typeof( long? ) )
-{
-    <NumericPicker TValue="long?" Value="@((long?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
-}
 else if ( ValueType == typeof( bool ) )
 {
     <Check TValue="bool" Checked="@((bool)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" ReadOnly="@Readonly" />

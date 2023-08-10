@@ -30,7 +30,7 @@ else
         {
             @if ( Column is DataGridNumericColumn<TItem> numericColumn )
             {
-                <_DataGridCellEdit Column="@Column" Item="@Item" ValidationItem="@ValidationItem" Field="@Column.Field" ValueType="@valueType" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" Step="@numericColumn.Step" Decimals="@numericColumn.Decimals" DecimalSeparator="@numericColumn.DecimalSeparator" Culture="@numericColumn.Culture" ShowStepButtons="@numericColumn.ShowStepButtons" EnableStep="@numericColumn.EnableStep" />
+                <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
             }
             else if ( Column is DataGridDateColumn<TItem> dateColumn )
             {
