@@ -1,4 +1,5 @@
 ﻿#region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -13,6 +14,7 @@ using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
+
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -225,7 +227,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Links the child column with this datagrid.
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
-    /// <param name="suppressSortChangedEvent">If <c>true</c> method will suppress the <see cref="SortChanged"/> event.</param>  
+    /// <param name="suppressSortChangedEvent">If <c>true</c> method will suppress the <see cref="SortChanged"/> event.</param>
     internal void AddColumn( DataGridColumn<TItem> column, bool suppressSortChangedEvent )
     {
         Columns.Add( column );
@@ -260,7 +262,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Removes an existing link of a child column with this datagrid.
     /// <para>Returns:
-    ///     true if item is successfully removed; otherwise, false. 
+    ///     true if item is successfully removed; otherwise, false.
     /// </para>
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
@@ -379,7 +381,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 observableCollection.CollectionChanged -= OnCollectionChanged;
             }
-
 
             if ( paginationContext is not null )
             {
@@ -517,7 +518,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
         }
 
-
         if ( GroupBy is null )
         {
             var firstGroupableColumn = groupableColumns.First();
@@ -527,7 +527,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                                                                              .ToList();
             RecursiveGroup( 1, groupedData, newGroupedData );
             groupedData = newGroupedData;
-
         }
         else
         {
@@ -869,7 +868,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Save the internal state of the editing items.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    internal protected async Task SaveItem()
+    protected internal async Task SaveItem()
     {
         if ( Data == null || editState == DataGridEditState.None )
             return;
@@ -994,7 +993,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         return Task.CompletedTask;
     }
-
 
     /// <summary>
     /// Applies a new sort to the datagrid using the provided columns, sort order, and sort direction. Replaces the current sorting.
@@ -1248,7 +1246,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             await Refresh();
         }
-
     }
 
     /// <summary>
@@ -1308,6 +1305,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         return RowMouseOver.InvokeAsync( eventArgs );
     }
+
     internal Task OnRowMouseLeaveCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
     {
         return RowMouseLeave.InvokeAsync( eventArgs );
@@ -1523,7 +1521,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Notifies the <see cref="DataGrid{TItem}"/> to refresh.
     /// </summary>
     /// <returns></returns>
-    public async virtual Task Refresh()
+    public virtual async Task Refresh()
         => await InvokeAsync( StateHasChanged );
 
     protected async Task HandleReadData( CancellationToken cancellationToken )
@@ -1628,7 +1626,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 c.GetFieldToSort(),
                 c.Field,
                 c.CurrentSortDirection ) );
-
 
         if ( changeSortDirection && !suppressSortChangedEvent )
         {
@@ -1782,12 +1779,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             case DataGridFilterMethod.StartsWith:
                 return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+
             case DataGridFilterMethod.EndsWith:
                 return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+
             case DataGridFilterMethod.Equals:
                 return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+
             case DataGridFilterMethod.NotEquals:
                 return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+
             case DataGridFilterMethod.Contains:
             default:
                 return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
@@ -2128,12 +2129,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter]
     public RenderFragment<PopupTitleContext<TItem>> PopupTitleTemplate { get; set; } = context =>
-    {
-        return builder =>
         {
-            builder.AddContent( 0, context.EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create" );
+            return builder =>
+            {
+                builder.AddContent( 0, context.EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create" );
+            };
         };
-    };
 
     /// <summary>
     /// Gets the flag which indicates if popup editor is visible.
@@ -2333,7 +2334,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool Groupable { get; set; }
 
     /// <summary>
-    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active. 
+    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active.
     /// If this is defined at the DataGrid level, column grouping will not be considered.
     /// </summary>
     [Parameter] public Func<TItem, object> GroupBy { get; set; }
@@ -2531,7 +2532,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Event called after the row is removed.
     /// </summary>
     [Parameter] public EventCallback<TItem> RowRemoved { get; set; }
-
 
     /// <summary>
     /// Event called after the mouse leaves the row.
