@@ -1,0 +1,120 @@
+﻿.banner {
+    padding: 80px 0px 80px 0px;
+    padding: 5rem 0rem 5rem 0rem;
+    color: #fff;
+    position: relative;
+    text-align: center;
+    width: 100%;
+    z-index: 1;
+}
+
+.banner .banner-anim {
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    -webkit-animation: gradient 15s ease infinite;
+    -moz-animation: gradient 15s ease infinite;
+    animation: gradient 15s ease infinite;
+    background: linear-gradient(270deg, #9317e1, #bb61f6, #ad37fb);
+    background-size: 500% 500%;
+    top: 0;
+    opacity: 1;
+    left: 0;
+    z-index: -2;
+}
+
+.banner .banner-bg {
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-image: url("img/banners/bg2.jpg");
+    width: 100%;
+    opacity: .5;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: -1;
+}
+
+.banner .banner-line {
+    display: block;
+    font-weight: 300;
+    text-align: center;
+}
+
+.banner .banner-line.lg {
+    font-size: 36px;
+    font-size: 2.25rem;
+    line-height: 40px;
+    line-height: 2.5rem;
+}
+
+.banner .banner-line.sm {
+    font-size: 26px;
+    font-size: 1.625rem;
+}
+
+.banner .banner-line strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+.banner .banner-line + .banner-line {
+    margin-top: 10px;
+    margin-top: 0.625rem;
+}
+
+.nav.pricing-tabs > .nav-item > .nav-link {
+    padding: 1.25rem;
+}
+
+.nav.pricing-tabs > .nav-item > .nav-link:not(.active) {
+    color: var(--b-theme-primary);
+    outline: solid var(--b-theme-primary) 1px;
+    transition: background-color 0.3s ease-out;
+}
+
+.nav.pricing-tabs > .nav-item > .nav-link.active {
+    transition: background-color 0.3s ease-in;
+}
+
+.plan-switch > .plan-switch-button {
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.2);
+    transition: background-color 0.3s ease-in;
+}
+
+.plan-switch > .plan-switch-button:hover {
+    box-shadow: 0 0 15px 0 rgba(0,0,0,.3);
+    transition-duration: .3s;
+}
+
+div.card.pricing-card {
+    box-shadow: 0 0 5px 0 rgba(0,0,0,.2);
+    transition: all 0.3s ease-out;
+}
+
+div.card.pricing-card:hover {
+    box-shadow: 0 0 25px 0 rgba(0,0,0,.3);
+    transform: translateY(-5px) scale(1.005)
+}
+
+div.developers-picker input {
+    font-size: 1.25rem;
+}
+
+div.developers-picker button {
+    transition-duration: .3s;
+    transition-property: color,background-color;
+    transition-timing-function: ease-out;
+}
+
+div.developers-picker button:hover {
+    background-color: var(--b-theme-primary);
+    color: var(--b-theme-white);
+}

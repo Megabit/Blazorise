@@ -1,0 +1,93 @@
+﻿@if ( ShowHeader )
+{
+    <DisplayHeading Size="DisplayHeadingSize.Is4" TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">FAQ</DisplayHeading>
+}
+
+<Accordion>
+    @foreach ( var faqInfo in faqInfos )
+    {
+        <Collapse @key="@faqInfo" Visible="@faqInfo.Visible">
+            <CollapseHeader Padding="Padding.Is1.OnY">
+                <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Margin="Margin.Is0.OnY">
+                    <Button Color="Color.Link" Clicked="@(()=>faqInfo.Visible = !faqInfo.Visible)">@faqInfo.Title</Button>
+                </Heading>
+            </CollapseHeader>
+            <CollapseBody TextAlignment="TextAlignment.Start">
+                @faqInfo.Body
+            </CollapseBody>
+        </Collapse>
+    }
+</Accordion>
+@code {
+    [Parameter] public bool ShowHeader { get; set; } = true;
+
+    class FaqInfo
+    {
+        public bool Visible { get; set; }
+
+        public string Title { get; set; }
+
+        public string Body { get; set; }
+    }
+
+    private List<FaqInfo> faqInfos = new List<FaqInfo>
+    {
+        new FaqInfo {
+            Title = "Is subscription renewal automatic?",
+            Body = "The renewal is automatic if it was activated through our partner Paddle.com. It will recur after the subscription period ends. You can cancel your subscription at any time."
+        },
+
+        new FaqInfo {
+            Title = "What happens if I stop with yearly subscription?",
+            Body = "By ending the yearly subscription you will no longer get free Blazorise updates, access to our support web and access to our private repositories. The last Blazorise version that was at the time of ending the yearly subscription will stay with you and you can continue to use it."
+        },
+
+        new FaqInfo {
+            Title = "Is the license perpetual?",
+            Body = "Yes. Blazorise licenses are perpetual. Perpetual means that the Professional features are available after the subscription ends. Product updates and support are only available during the subscription period."
+        },
+
+        new FaqInfo {
+            Title = "Does the license include support?",
+            Body = "Blazorise Professional and Blazorise Enterprise include dedicated support over our support forum during the subscription period."
+        },
+
+        new FaqInfo {
+            Title = "How many licenses do I need?",
+            Body = "All developers contributing to a project that uses any of the commercial products need to have a valid license."
+        },
+
+        new FaqInfo {
+            Title = "Do I need to purchase license if I'm freelancer and work with Blazorise for my clients?",
+            Body = "If freelancers are using Blazorise for their client projects, they would be considered as developers who are using Blazorise in their work. Therefore, they would need to obtain a commercial license for Blazorise. The responsibility for obtaining the necessary Blazorise licenses would depend on the terms of the agreement between the freelancer and their client company."
+        },
+
+        new FaqInfo {
+            Title = "If I deploy Blazorise based apps to my client, do they also need to purchase license?",
+            Body = "No. Your client doesn't need to purchase Blazorise license." },
+
+        new FaqInfo {
+            Title = "What is a customized agreement?",
+            Body = "You have the option to tailor the agreements that best suit your needs." },
+
+        new FaqInfo {
+            Title = "What does the Blazorise Mentor service include?",
+            Body = "Blazorise Mentor provides you with a personal Blazorise expert to assist you on your Blazorise journey. Consider your mentor to be a senior developer who can answer difficult questions about Blazorise and web development in person or via the communication tool of your choice. Blazorise Mentor keeps you out of common pitfalls and can have a significant impact on the productivity and quality of your team."
+        },
+
+        new FaqInfo {
+            Title = "What are packaged services?",
+            Body = "Packaged services are the service offerings most favored by our consulting customers that we bundle together and make available to Enterprise customers."
+        },
+
+        new FaqInfo {
+            Title = "What is the currency your prices are shown in?",
+            Body = "Our prices are shown in USD, and are charged in your local currency if available. Otherwise it is charged in USD."
+        },
+
+        new FaqInfo {
+            Title = "Do you offer volume discounts?",
+            Body = "Yes, get in touch with us at sales@blazorise.com."
+        },
+    };
+}

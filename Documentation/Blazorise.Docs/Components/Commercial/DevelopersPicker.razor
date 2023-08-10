@@ -1,0 +1,41 @@
+﻿<Div Class="developers-picker" Border="Border.Light.OnAll.RoundedPill" Flex="Flex.JustifyContent.Between" Padding="Padding.Is2">
+    <Button Clicked="@OnDownClicked" Border="Border.RoundedCircle" Margin="Margin.Is2.FromEnd">
+        <Icon Name="IconName.ChevronLeft" IconSize="IconSize.Large" />
+    </Button>
+    <NumericPicker TValue="int" Value="@Value" ValueChanged="@OnValueChanged" Min="1" Max="999" ShowStepButtons="false" Style="max-width: 4rem;" Border="Border.Is0" TextAlignment="TextAlignment.Center" />
+    <Button Clicked="@OnUpClicked" Border="Border.RoundedCircle" Margin="Margin.Is2.FromStart">
+        <Icon Name="IconName.ChevronRight" IconSize="IconSize.Large" />
+    </Button>
+</Div>
+@code {
+    [Parameter] public int Value { get; set; } = 1;
+
+    [Parameter] public EventCallback<int> ValueChanged { get; set; }
+
+    private Task OnValueChanged( int value )
+    {
+        Value = value;
+
+        return ValueChanged.InvokeAsync( Value );
+    }
+
+    private Task OnDownClicked()
+    {
+        Value--;
+
+        if ( Value < 1 )
+            Value = 1;
+
+        return ValueChanged.InvokeAsync( Value );
+    }
+
+    private Task OnUpClicked()
+    {
+        Value++;
+
+        if ( Value > 999 )
+            Value = 999;
+
+        return ValueChanged.InvokeAsync( Value );
+    }
+}

@@ -1,0 +1,164 @@
+﻿@page "/features"
+
+<Seo Canonical="/features" Title="Blazorise Commercial Benefits" Description="Blazorise helps you to quickly build and prototype Blazor SPA!" />
+
+<PageHeader>
+    <Title>
+        The fastest & easiest Blazor UI components
+    </Title>
+    <Description>
+        Quickly design and customize responsive sites with Blazorise, the world’s most popular front-end open source Blazor components, featuring support for multiple CSS frameworks, extensive prebuilt components, and many more.
+    </Description>
+</PageHeader>
+
+<HorizontalHero ImageSource="img/features/frameworks-1.png" ImageText="CSS Frameworks" Reversed>
+    <Title>
+        Multiple CSS frameworks
+    </Title>
+    <Description>
+        Blazorise is built from the ground up to support any favorite CSS framework without sacrificing speed or features.
+        <br /> <br />
+        Have a try at <Anchor To="https://bootstrapdemo.blazorise.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://bulmademo.blazorise.com/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://materialdemo.blazorise.com/" Target="Target.Blank">Material</Anchor>, or <Anchor To="https://antdesigndemo.blazorise.com/" Target="Target.Blank">AntDesign</Anchor>.
+    </Description>
+    <Actions>
+        <Button Type="ButtonType.Link" To="https://blazorise.com/docs" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">Explore the Docs</Button>
+    </Actions>
+</HorizontalHero>
+
+<HorizontalHero ImageSource="img/features/themes.svg" ImageText="CSS Frameworks">
+    <Title>
+        Themes & Templates
+    </Title>
+    <Description>
+        Chose any available template from the web or from one of our prebuilt themes and Blazorise will not stop you from using it in any way.
+
+    </Description>
+    <Actions>
+        <Button Type="ButtonType.Link" To="themes" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">Explore Our Themes</Button>
+    </Actions>
+</HorizontalHero>
+
+<HorizontalHero ImageSource="img/features/open-source.svg" ImageText="Open source" Reversed>
+    <Title>
+        Open Source
+    </Title>
+    <Description>
+        Blazorise is open-source and free to use under our Community License. You can install it from nuget or build your own copy from source.
+        <br /><br />
+        You can contribute directly to <Anchor To="https://github.com/Megabit/Blazorise">Blazorise</Anchor> by submiting a PR, reporting an issue, or asking for a feature.
+    </Description>
+    <Actions>
+        <Button Type="ButtonType.Link" To="https://github.com/Megabit/Blazorise" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">Start Contributing</Button>
+    </Actions>
+</HorizontalHero>
+
+<HorizontalHero ImageSource="img/features/responsive.svg" ImageText="Desktop and Mobile">
+    <Title>
+        Responsive
+    </Title>
+    <Description>
+        Our components are based on responsive css frameworks, and as such made to be fully responsive, whether your on a desktop or mobile our components will render accordingly.
+    </Description>
+    <Actions>
+        <Button Type="ButtonType.Link" To="https://blazorise.com/docs/helpers/utilities" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">Explore Utilities</Button>
+    </Actions>
+</HorizontalHero>
+
+<HorizontalHero ImageSource="img/features/localization.svg" ImageText="Localization" Reversed>
+    <Title>
+        Localization
+    </Title>
+    <Description>
+        Provide localized version of your application. Blazorise has it's own built-in localization system that shows translated content when the language changes.
+    </Description>
+    <Actions>
+        <Button Type="ButtonType.Link" To="https://blazorise.com/docs/helpers/localization" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">Learn more</Button>
+    </Actions>
+</HorizontalHero>
+
+<HorizontalHero ImageSource="img/features/code-validation-1.png" ImageText="Validation">
+    <Title>
+        Validation
+    </Title>
+    <Description>
+        With our custom validation system you will be able to do any validation type you want for your form elements.
+    </Description>
+    <Actions>
+        <Button Type="ButtonType.Link" To="https://blazorise.com/docs/components/validation" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">Learn more</Button>
+    </Actions>
+</HorizontalHero>
+
+<HorizontalHero ImageSource="img/features/code-utils-1.png" ImageText="Utilities" Reversed>
+    <Title>
+        Utilities
+    </Title>
+    <Description>
+        Advance fluent builder utilities with support for grid, display, spacing, flex, borders, shadows, typography, and many more.
+    </Description>
+    <Actions>
+        <Button Type="ButtonType.Link" To="https://blazorise.com/docs/helpers/utilities" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX">Explore Utilities</Button>
+    </Actions>
+</HorizontalHero>
+
+<Container Padding="Padding.Is4.OnX.Is5.OnY">
+    <Heading Size="HeadingSize.Is2" Padding="Padding.Is2.FromBottom" Border="Border.OnBottom">And Even More Features</Heading>
+
+    <Row Padding="Padding.Is4.OnY">
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop.Is3.OnWidescreen" Flex="Flex.AlignItems.Start">
+            <Icon Name="@("fab fa-bootstrap")" IconSize="IconSize.x2" Margin="Margin.Is3.FromEnd" />
+            <Div>
+                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.Bold">Bootstrap</Heading>
+                <Paragraph>World most loved CSS framework with all of it's great features.</Paragraph>
+            </Div>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop.Is3.OnWidescreen" Flex="Flex.AlignItems.Start">
+            <Icon Name="@("fa-table")" IconSize="IconSize.x2" Margin="Margin.Is3.FromEnd" />
+            <Div>
+                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.Bold">DataGrid</Heading>
+                <Paragraph>Advanced DataGrid component with paging, fltering and large data support.</Paragraph>
+            </Div>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop.Is3.OnWidescreen" Flex="Flex.AlignItems.Start">
+            <Icon Name="IconName.ChartPie" IconSize="IconSize.x2" Margin="Margin.Is3.FromEnd" />
+            <Div>
+                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.Bold">Charts</Heading>
+                <Paragraph>Chart JS with live updates as a native Blazor component.</Paragraph>
+            </Div>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop.Is3.OnWidescreen" Flex="Flex.AlignItems.Start">
+            <Icon Name="@("fa-columns")" IconSize="IconSize.x2" Margin="Margin.Is3.FromEnd" />
+            <Div>
+                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.Bold">Utilities</Heading>
+                <Paragraph>Advanced grid, spacing and flex utilities with fluent builders.</Paragraph>
+            </Div>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop.Is3.OnWidescreen" Flex="Flex.AlignItems.Start">
+            <Icon Name="IconName.Search" IconSize="IconSize.x2" Margin="Margin.Is3.FromEnd" />
+            <Div>
+                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.Bold">Autocomplete</Heading>
+                <Paragraph>The autocomplete component with search and selectable suggestions.</Paragraph>
+            </Div>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop.Is3.OnWidescreen" Flex="Flex.AlignItems.Start">
+            <Icon Name="IconName.Edit" IconSize="IconSize.x2" Margin="Margin.Is3.FromEnd" />
+            <Div>
+                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.Bold">Forms</Heading>
+                <Paragraph>All standard input and form elements are available out of the box.</Paragraph>
+            </Div>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop.Is3.OnWidescreen" Flex="Flex.AlignItems.Start">
+            <Icon Name="IconName.CalendarWeek" IconSize="IconSize.x2" Margin="Margin.Is3.FromEnd" />
+            <Div>
+                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.Bold">Pickers</Heading>
+                <Paragraph>Date and time pickers for easier input.</Paragraph>
+            </Div>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet.Is4.OnDesktop.Is3.OnWidescreen" Flex="Flex.AlignItems.Start">
+            <Icon Name="IconName.Code" IconSize="IconSize.x2" Margin="Margin.Is3.FromEnd" />
+            <Div>
+                <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.FromBottom" TextWeight="TextWeight.Bold">Quill</Heading>
+                <Paragraph>Modern WYSIWYG editor built for compatibility and extensibility..</Paragraph>
+            </Div>
+        </Column>
+    </Row>
+</Container>

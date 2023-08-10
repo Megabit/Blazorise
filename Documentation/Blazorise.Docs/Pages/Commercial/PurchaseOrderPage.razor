@@ -1,0 +1,249 @@
+﻿@page "/purchase-order"
+@page "/purchase-order/{ProductName}"
+
+<Seo Canonical="/checkout-order"
+     Title="Request a Quote"
+     Description="Blazorise Commercial purchase order request." />
+
+<PageHeader>
+    <Title>
+        Request a Quote
+    </Title>
+    <Description>
+        We will send you a quote to sign; once signed and returned, we will activate your licenses and send you an invoice with NET 30 payment terms.
+    </Description>
+</PageHeader>
+
+<Container>
+    <Row>
+        <Column>
+            <Card Shadow="Shadow.Large">
+                <CardBody>
+                    <Validations @ref="@validationsRef" Mode="ValidationMode.Manual" Model="@InputModel" ValidateOnLoad="false">
+                        <Fields>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is8.OnDesktop">
+                                    <FieldLabel>Product</FieldLabel>
+                                    <FieldBody>
+                                        <Select TValue="string" @bind-SelectedValue="@InputModel.Product">
+                                            <ChildContent>
+                                                <SelectItem TValue="string" Value="null"></SelectItem>
+                                                @foreach ( var productName in SupportedProductNames )
+                                                {
+                                                    <SelectItem TValue="string" @key="productName" Value="@productName">@productName</SelectItem>
+                                                }
+                                            </ChildContent>
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </Select>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                                    <FieldLabel Flex="Flex.InlineFlex.JustifyContent.Between.AlignItems.Center" Width="Width.Is100">
+                                        <Span>
+                                            Quantity
+                                        </Span>
+                                        <Tooltip Text="Defines how many developer licenses to purchase." Inline>
+                                            <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" />
+                                        </Tooltip>
+                                    </FieldLabel>
+                                    <FieldBody>
+                                        <NumericPicker @bind-Value="@InputModel.Quantity" Decimals="0" Min="1">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </NumericPicker>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        </Fields>
+                        <Fields>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is12">
+                                    <FieldLabel>Full Name</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit @bind-Text="@InputModel.FullName">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextEdit>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        </Fields>
+                        <Fields>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                                    <FieldLabel>Work Email</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit Role="TextRole.Email" @bind-Text="@InputModel.Email">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextEdit>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                            <Field ColumnSize="ColumnSize.Is6.OnDesktop">
+                                <FieldLabel>Phone</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit @bind-Text="@InputModel.PhoneNumber" Placeholder="(xx) xxx xxx xxx">
+                                        <Feedback>
+                                            <ValidationError />
+                                        </Feedback>
+                                    </TextEdit>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                        <Fields>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is8.OnDesktop">
+                                    <FieldLabel>Company Name</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit @bind-Text="@InputModel.Company">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextEdit>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                                    <FieldLabel>VAT / TAX Number</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit @bind-Text="@InputModel.VAT">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextEdit>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        </Fields>
+                        <Fields>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is12">
+                                    <FieldLabel>Address</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit @bind-Text="@InputModel.Address">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextEdit>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        </Fields>
+                        <Fields>
+                            <Field ColumnSize="ColumnSize.Is12">
+                                <FieldLabel>Address 2</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit @bind-Text="@InputModel.Address2" />
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+                        <Fields>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is12">
+                                    <FieldLabel>Country</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit @bind-Text="@InputModel.Country">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextEdit>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        </Fields>
+                        <Fields>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                                    <FieldLabel>Town / City</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit @bind-Text="@InputModel.City">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextEdit>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                                    <FieldLabel>State / Region</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit @bind-Text="@InputModel.State">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextEdit>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                            <Validation>
+                                <Field ColumnSize="ColumnSize.Is4.OnDesktop">
+                                    <FieldLabel>Zip / Postal Code</FieldLabel>
+                                    <FieldBody>
+                                        <TextEdit @bind-Text="@InputModel.Zip">
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </TextEdit>
+                                    </FieldBody>
+                                </Field>
+                            </Validation>
+                        </Fields>
+
+                        <Fields>
+                            <Field ColumnSize="ColumnSize.Is12">
+                                <FieldLabel>Preferred Payment Type</FieldLabel>
+                                <FieldBody>
+                                    <Select TValue="string" @bind-SelectedValue="@InputModel.PaymentType">
+                                        <SelectItem TValue="string" Value="null"></SelectItem>
+                                        @foreach ( var paymantType in SupportedPaymentTypes )
+                                        {
+                                            <SelectItem TValue="string" @key="paymantType" Value="@paymantType">@paymantType</SelectItem>
+                                        }
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+
+                        <Fields>
+                            <Field ColumnSize="ColumnSize.Is12">
+                                <FieldLabel>Additional Notes</FieldLabel>
+                                <FieldBody>
+                                    <MemoEdit @bind-Text="@InputModel.Note" Rows="3" />
+                                </FieldBody>
+                            </Field>
+                        </Fields>
+
+                        <Row>
+                            <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.End">
+                                <Button Color="Color.Primary" Size="Size.Large" Block Clicked="@OnSubmit">
+                                     <Icon Name="IconName.PaperPlane" Margin="Margin.Is3.FromEnd" />
+                                     Submit Order
+                                 </Button>
+                             </Column>
+                         </Row>
+                     </Validations>
+                 </CardBody>
+             </Card>
+             <Row Margin="Margin.Is3.FromTop">
+                 <Column ColumnSize="ColumnSize.Is12">
+                     <Paragraph TextColor="TextColor.Muted" TextAlignment="TextAlignment.Center">
+                         By clicking "Submit Order" you agree to our
+                         <Blazorise.Link To="terms">Terms of Service</Blazorise.Link>
+                         and
+                         <Blazorise.Link To="privacy">Privacy Policy</Blazorise.Link>.
+                     </Paragraph>
+                 </Column>
+             </Row>
+         </Column>
+     </Row>
+ </Container>

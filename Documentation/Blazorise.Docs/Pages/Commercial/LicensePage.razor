@@ -1,0 +1,58 @@
+﻿@page "/license"
+
+<Seo Canonical="/license" Title="Blazorise Licenses" Description="Learn more about Blazorise licensing!" />
+
+<PageHeader>
+    <Title>
+        Blazorise Licenses
+    </Title>
+    <Description>
+        Our product licenses are listed below for download and viewing.
+    </Description>
+</PageHeader>
+
+<Container Padding="Padding.Is4.OnX">
+    <Row RowColumns="RowColumns.Are1.Are2.OnDesktop">
+        <Column Margin="Margin.Is3.FromBottom">
+            <Card Margin="Margin.Is4.FromBottom" Border="Border.Rounded" Shadow="Shadow.Small">
+                <CardHeader Padding="Padding.Is3.OnY" Background="Background.Dark" Border="Border.Light" TextColor="TextColor.White">
+                    <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.OnY" TextWeight="TextWeight.Normal" TextColor="TextColor.White">
+                        Blazorise Software License Agreement
+                    </Heading>
+                </CardHeader>
+                <CardBody>
+                    <CardText>
+                        An open-source, standards-compliant, Blazorise component library for Blazor and .NET.
+                    </CardText>
+                </CardBody>
+                <CardBody>
+                    <Button Type="ButtonType.Link" To="@LicenseUrl" Target="Target.Blank" Color="Color.Primary">
+                        Download License
+                    </Button>
+                </CardBody>
+            </Card>
+        </Column>
+        <Column Margin="Margin.Is3.FromBottom">
+            <Card Margin="Margin.Is4.FromBottom" Border="Border.Rounded" Shadow="Shadow.Small">
+                <CardHeader Padding="Padding.Is3.OnY" Background="Background.Dark" Border="Border.Light" TextColor="TextColor.White">
+                    <Heading Size="HeadingSize.Is4" Margin="Margin.Is0.OnY" TextWeight="TextWeight.Normal" TextColor="TextColor.White">
+                        Blazorise Priority Support
+                    </Heading>
+                </CardHeader>
+                <CardBody>
+                    <CardText>
+                        Priority support agreement for Blazorise component library.
+                    </CardText>
+                </CardBody>
+                <CardBody>
+                    <Button Type="ButtonType.Link" To="files/supports/BlazorisePrioritySupport.pdf" Target="Target.Blank" Color="Color.Primary">
+                        Download License
+                    </Button>
+                </CardBody>
+            </Card>
+        </Column>
+    </Row>
+</Container>
+@code {
+    string LicenseUrl => "files/licences/SLA-2023-07.pdf";
+}
