@@ -2123,104 +2123,6 @@ public class Gender
     bool focusTrapActive = false;
 }";
 
-        public const string BasicContainerExample = @"<Container>
-    <Alert Color=""Color.Primary"" Visible>
-        Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
-    </Alert>
-</Container>";
-
-        public const string BasicGridExample = @"<Row>
-    <Column ColumnSize=""ColumnSize.Is12"">
-        <Alert Color=""Color.Primary"" Visible>
-            Is12
-        </Alert>
-    </Column>
-</Row>
-<Row>
-    <Column ColumnSize=""ColumnSize.Is8"">
-        <Alert Color=""Color.Primary"" Visible>
-            Is8
-        </Alert>
-    </Column>
-    <Column ColumnSize=""ColumnSize.Is4"">
-        <Alert Color=""Color.Secondary"" Visible>
-            Is4
-        </Alert>
-    </Column>
-</Row>";
-
-        public const string ContainerBreakpointExample = @"<Container Breakpoint=""Breakpoint.Tablet"">
-    <Alert Color=""Color.Primary"" Visible>
-        100% wide until tablet breakpoint
-    </Alert>
-</Container>
-<Container Breakpoint=""Breakpoint.Desktop"">
-    <Alert Color=""Color.Primary"" Visible>
-        100% wide until desktop breakpoint
-    </Alert>
-</Container>
-<Container Breakpoint=""Breakpoint.Widescreen"">
-    <Alert Color=""Color.Primary"" Visible>
-        100% wide until widescreen breakpoint
-    </Alert>
-</Container>
-<Container Breakpoint=""Breakpoint.FullHD"">
-    <Alert Color=""Color.Primary"" Visible>
-        100% wide until full-hd breakpoint
-    </Alert>
-</Container>";
-
-        public const string ContainerFluidExample = @"<Container Fluid>
-    <Alert Color=""Color.Primary"" Visible>
-        Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
-    </Alert>
-</Container>";
-
-        public const string GridGutterExample = @"<Row HorizontalGutter=""32"" VerticalGutter=""16"">
-    <Column ColumnSize=""ColumnSize.Is8"">
-        <Alert Color=""Color.Primary"" Visible>
-            I have padding
-        </Alert>
-    </Column>
-    <Column ColumnSize=""ColumnSize.Is4"">
-        <Alert Color=""Color.Secondary"" Visible>
-            I also have padding
-        </Alert>
-    </Column>
-</Row>";
-
-        public const string GridOffsetExample = @"<Row>
-    <Column ColumnSize=""ColumnSize.Is4"">
-        <Alert Color=""Color.Primary"" Visible>
-            Is4
-        </Alert>
-    </Column>
-    <Column ColumnSize=""ColumnSize.Is4.Is4.WithOffset"">
-        <Alert Color=""Color.Primary"" Visible>
-            Is4.Is4.WithOffset
-        </Alert>
-    </Column>
-</Row>
-<Row>
-    <Column ColumnSize=""ColumnSize.Is3.Is3.WithOffset"">
-        <Alert Color=""Color.Primary"" Visible>
-            Is3.Is3.WithOffset
-        </Alert>
-    </Column>
-    <Column ColumnSize=""ColumnSize.Is3.Is3.WithOffset"">
-        <Alert Color=""Color.Primary"" Visible>
-            Is3.Is3.WithOffset
-        </Alert>
-    </Column>
-</Row>
-<Row>
-    <Column ColumnSize=""ColumnSize.Is6.Is3.WithOffset"">
-        <Alert Color=""Color.Primary"" Visible>
-            Is6.Is3.WithOffset
-        </Alert>
-    </Column>
-</Row>";
-
         public const string BasicHighlighterExample = @"<Field>
     <FieldLabel>Search value</FieldLabel>
     <FieldBody>
@@ -9169,6 +9071,106 @@ builder.Services
     <FileEdit BrowseButtonLocalizer=""@((name, arguments)=>"" My custom browse button"")"" />
 </Field>";
 
+        public const string GridAutoColumns2Example = @"<Grid>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+</Grid>";
+
+        public const string GridAutoColumnsExample = @"<Grid>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        1
+    </Alert>
+</Grid>";
+
+        public const string GridThreeColumnsExample = @"<Grid Columns=""GridColumns.Are3"">
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        Col 4
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        Col 4
+    </Alert>
+    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+        Col 4
+    </Alert>
+</Grid>";
+
+        public const string GridWrappingExample = @"<Grid>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is6"">
+        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
+            Col 6
+        </Alert>
+    </Column>
+</Grid>";
+
         public const string BorderExample = @"<Span Border=""Border.Is1"">Border on all sides</Span>
 
 <Span Border=""Border.Is1.Rounded"">Rounded</Span>
@@ -9342,105 +9344,103 @@ builder.Services
     </CardBody>
 </Card>";
 
-        public const string GridAutoColumns2Example = @"<Grid>
-    <Column ColumnSize=""ColumnSize.Is6"">
-        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-            Col 6
-        </Alert>
-    </Column>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
+        public const string BasicContainerExample = @"<Container>
+    <Alert Color=""Color.Primary"" Visible>
+        Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
     </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-</Grid>";
+</Container>";
 
-        public const string GridAutoColumnsExample = @"<Grid>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        1
-    </Alert>
-</Grid>";
+        public const string BasicGridExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.Is12"">
+        <Alert Color=""Color.Primary"" Visible>
+            Is12
+        </Alert>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize=""ColumnSize.Is8"">
+        <Alert Color=""Color.Primary"" Visible>
+            Is8
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is4"">
+        <Alert Color=""Color.Secondary"" Visible>
+            Is4
+        </Alert>
+    </Column>
+</Row>";
 
-        public const string GridThreeColumnsExample = @"<Grid Columns=""GridColumns.Are3"">
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        Col 4
+        public const string ContainerBreakpointExample = @"<Container Breakpoint=""Breakpoint.Tablet"">
+    <Alert Color=""Color.Primary"" Visible>
+        100% wide until tablet breakpoint
     </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        Col 4
+</Container>
+<Container Breakpoint=""Breakpoint.Desktop"">
+    <Alert Color=""Color.Primary"" Visible>
+        100% wide until desktop breakpoint
     </Alert>
-    <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-        Col 4
+</Container>
+<Container Breakpoint=""Breakpoint.Widescreen"">
+    <Alert Color=""Color.Primary"" Visible>
+        100% wide until widescreen breakpoint
     </Alert>
-</Grid>";
+</Container>
+<Container Breakpoint=""Breakpoint.FullHD"">
+    <Alert Color=""Color.Primary"" Visible>
+        100% wide until full-hd breakpoint
+    </Alert>
+</Container>";
 
-        public const string GridWrappingExample = @"<Grid>
-    <Column ColumnSize=""ColumnSize.Is6"">
-        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-            Col 6
+        public const string ContainerFluidExample = @"<Container Fluid>
+    <Alert Color=""Color.Primary"" Visible>
+        Suspendisse vel quam malesuada, aliquet sem sit amet, fringilla elit. Morbi tempor tincidunt tempor. Etiam id turpis viverra, vulputate sapien nec, varius sem. Curabitur ullamcorper fringilla eleifend. In ut eros hendrerit est consequat posuere et at velit.
+    </Alert>
+</Container>";
+
+        public const string GridGutterExample = @"<Row HorizontalGutter=""32"" VerticalGutter=""16"">
+    <Column ColumnSize=""ColumnSize.Is8"">
+        <Alert Color=""Color.Primary"" Visible>
+            I have padding
         </Alert>
     </Column>
-    <Column ColumnSize=""ColumnSize.Is6"">
-        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-            Col 6
+    <Column ColumnSize=""ColumnSize.Is4"">
+        <Alert Color=""Color.Secondary"" Visible>
+            I also have padding
         </Alert>
     </Column>
-    <Column ColumnSize=""ColumnSize.Is6"">
-        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-            Col 6
+</Row>";
+
+        public const string GridOffsetExample = @"<Row>
+    <Column ColumnSize=""ColumnSize.Is4"">
+        <Alert Color=""Color.Primary"" Visible>
+            Is4
         </Alert>
     </Column>
-    <Column ColumnSize=""ColumnSize.Is6"">
-        <Alert Color=""Color.Primary"" Visible Margin=""Margin.Is0"">
-            Col 6
+    <Column ColumnSize=""ColumnSize.Is4.Is4.WithOffset"">
+        <Alert Color=""Color.Primary"" Visible>
+            Is4.Is4.WithOffset
         </Alert>
     </Column>
-</Grid>";
+</Row>
+<Row>
+    <Column ColumnSize=""ColumnSize.Is3.Is3.WithOffset"">
+        <Alert Color=""Color.Primary"" Visible>
+            Is3.Is3.WithOffset
+        </Alert>
+    </Column>
+    <Column ColumnSize=""ColumnSize.Is3.Is3.WithOffset"">
+        <Alert Color=""Color.Primary"" Visible>
+            Is3.Is3.WithOffset
+        </Alert>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize=""ColumnSize.Is6.Is3.WithOffset"">
+        <Alert Color=""Color.Primary"" Visible>
+            Is6.Is3.WithOffset
+        </Alert>
+    </Column>
+</Row>";
 
         public const string BasicPositionExample = @"<Div Position=""Position.Static"">...</Div>
 <Div Position=""Position.Relative"">...</Div>
