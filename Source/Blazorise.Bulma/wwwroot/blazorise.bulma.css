@@ -5557,8 +5557,8 @@ ol.is-ordered-list-upper-roman {
   box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
 }
 
-.dropdown.is-disabled {
-  background-color: #f5f5f5;
+.dropdown.is-disabled.b-is-autocomplete {
+  background-color: var(--b-theme-light, #f5f5f5);
 }
 .dropdown .dropdown-menu > .dropdown-content .dropdown {
   width: 100%;

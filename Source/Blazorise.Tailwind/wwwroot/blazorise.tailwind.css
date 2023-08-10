@@ -134,6 +134,9 @@
 .b-dropdown {
   position: relative;
 }
+.b-dropdown .b-dropdown-desible.b-is-autocomplete {
+  background-color: var(--b-theme-light, #f5f5f5);
+}
 .b-dropdown .b-dropdown-toggle-arrow {
   transition: transform 200ms ease-out;
 }

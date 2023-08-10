@@ -549,7 +549,7 @@ public class TailwindClassProvider : ClassProvider
         ? "b-dropdown b-dropdown-submenu relative inline-flex w-full"
         : "b-dropdown relative inline-flex";
 
-    public override string DropdownDisabled() => "b-dropdown-desible bg-gray-100";
+    public override string DropdownDisabled() => "b-dropdown-desible";
 
     public override string DropdownGroup() => "b-dropdown-group align-middle";
 

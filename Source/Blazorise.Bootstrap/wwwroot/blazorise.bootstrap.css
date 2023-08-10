@@ -200,8 +200,8 @@
 .dropdown {
   position: relative;
 }
-.dropdown.dropdown-disabled {
-  background-color: #e9ecef;
+.dropdown.dropdown-disabled.b-is-autocomplete {
+  background-color: var(--b-theme-light, #e9ecef);
 }
 .dropdown > .dropdown-menu > .dropdown:not(.dropup, .dropleft, .dropright) {
   position: relative;
