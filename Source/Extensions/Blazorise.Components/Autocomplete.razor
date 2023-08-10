@@ -4,7 +4,8 @@
 @typeparam TItem
 @typeparam TValue
 
-<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)" PositionStrategy="@PositionStrategy">
+<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)" PositionStrategy="@PositionStrategy"
+          AnchorId="@InputElementId">
     <Validation Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
 
         @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
