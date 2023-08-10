@@ -60,9 +60,9 @@
                             </Heading>
                         </CardHeader>
                         <CardBody>
-                            <CardTitle Size="1">
+                            <Div TextSize="TextSize.Heading1">
                                 <Span>@($"${( professionalPrices[plan].Price * quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@professionalPrices[plan].Unit</Small>
-                                </CardTitle>
+                                </Div>
                                 <CardText TextColor="TextColor.Primary" Class="text-decoration-line-through" Display="@(plan == "annually" ? Display.Block : Display.None)">
                                     <Span>@($"${( professionalPrices[plan].HigherPrice * quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@professionalPrices[plan].Unit</Small>
                                 </CardText>
@@ -102,9 +102,9 @@
                              </Heading>
                          </CardHeader>
                          <CardBody Background="Background.Light">
-                             <CardTitle Size="1">
+                             <Div TextSize="TextSize.Heading1">
                                  <Span>@($"${( enterprisePrices[plan].Price * quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@professionalPrices[plan].Unit</Small>
-                                </CardTitle>
+                                </Div>
                                 <CardText TextColor="TextColor.Primary" Class="text-decoration-line-through" Display="@(plan == "annually" ? Display.Block : Display.None)">
                                     <Span>@($"${( enterprisePrices[plan].HigherPrice * quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@professionalPrices[plan].Unit</Small>
                                 </CardText>
@@ -150,9 +150,9 @@
                              </Heading>
                          </CardHeader>
                          <CardBody>
-                             <CardTitle Size="1">
+                             <Div TextSize="TextSize.Heading1">
                                  Custom
-                             </CardTitle>
+                             </Div>
                              <CardText TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
                                  (a custom plan to suit any large enterprise)
                              </CardText>
