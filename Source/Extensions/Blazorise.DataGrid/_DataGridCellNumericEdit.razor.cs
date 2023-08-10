@@ -13,6 +13,21 @@ namespace Blazorise.DataGrid;
 public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
 {
     /// <summary>
+    /// Value data type.
+    /// </summary>
+    private Type valueType;
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        valueType = Column.GetValueType();
+        base.OnInitialized();
+    }
+
+    public Task OnCellValueChanged<TValue>( TValue value )
+        => CellValueChanged.InvokeAsync( value );
+
+    /// <summary>
     /// Column that this cell belongs to.
     /// </summary>
     [Parameter] public DataGridNumericColumn<TItem> Column { get; set; }
@@ -26,18 +41,4 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
     /// Raises when cell value changes.
     /// </summary>
     [Parameter] public EventCallback<object> CellValueChanged { get; set; }
-
-    /// <summary>
-    /// Value data type.
-    /// </summary>
-    private Type valueType;
-
-    public Task OnCellValueChanged<TValue>( TValue value )
-        => CellValueChanged.InvokeAsync( value );
-
-    protected override void OnInitialized()
-    {
-        valueType = Column.GetValueType();
-        base.OnInitialized();
-    }
 }
