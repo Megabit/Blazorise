@@ -1090,6 +1090,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     public ElementReference ElementRef => textEditRef.ElementRef;
 
     /// <summary>
+    /// Gets the Element Id
+    /// </summary>
+    public string InputElementId => textEditRef?.ElementId;
+
+    /// <summary>
     /// Gets the dropdown CSS styles.
     /// </summary>
     protected string CssStyle
@@ -1574,7 +1579,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Defines the positioning strategy of the dropdown menu as a 'floating' element.
     /// </summary>
-    [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Fixed;
+    [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Absolute;
 
     #endregion
 }
