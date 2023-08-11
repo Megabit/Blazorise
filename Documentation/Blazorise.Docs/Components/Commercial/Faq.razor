@@ -8,10 +8,12 @@
 <Accordion>
     @foreach ( var faqInfo in faqInfos )
     {
+        var index = faqInfos.IndexOf( faqInfo ) + 1;
+
         <Collapse @key="@faqInfo" Visible="@faqInfo.Visible">
             <CollapseHeader Padding="Padding.Is1.OnY">
-                <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Margin="Margin.Is0.OnY">
-                    <Button Color="Color.Link" Clicked="@(()=>faqInfo.Visible = !faqInfo.Visible)">@faqInfo.Title</Button>
+                <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Style="text-decoration: " Margin="Margin.Is0.OnY">
+                    <AccordionToggle Clicked="@(()=>faqInfo.Visible = !faqInfo.Visible)">@($"{index}. {faqInfo.Title}")</AccordionToggle>
                 </Heading>
             </CollapseHeader>
             <CollapseBody TextAlignment="TextAlignment.Start">
