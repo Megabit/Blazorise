@@ -1,35 +1,33 @@
-﻿<Div Padding="Padding.Is4.OnX.Is5.OnY" Margin="Margin.Is5.OnY" TextAlignment="TextAlignment.Center">
-    <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is4.FromBottom" Source="/img/logos/blazorise-small.svg" Text="Blazorise logo" Style="width: 110px; height: 110px;" />
-    @if ( Title != null )
-    {
-        <DisplayHeading Size="DisplayHeadingSize.Is4" TextWeight="TextWeight.Bold" Padding="Padding.Is3.OnY">
-            @Title
-        </DisplayHeading>
-    }
-    <Row>
-        <Column ColumnSize="ColumnSize.Is6.OnWidescreen" Margin="Margin.IsAuto.OnX">
-            @if ( Subtitle != null )
-            {
-                <Heading Size="HeadingSize.Is3">
-                    @Subtitle
-                </Heading>
-            }
-            @if ( Description != null )
-            {
-                <Paragraph Class="lead" Margin="Margin.Is4.FromBottom">
-                    @Description
-                </Paragraph>
-            }
-            @if ( Actions != null )
-            {
-                <Div Class="d-grid gap-2" Flex="Flex._.OnTablet.JustifyContent.Center">
-                    @Actions
-                </Div>
-            }
-        </Column>
-    </Row>
+﻿<Div Class="home-banner" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
+    <Container>
+        <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is4.FromTop.Is4.FromBottom" Source="@BlazoriseLogo" Text="Blazorise logo" Style="width: 120px; height: 120px;" />
+        @if ( Title != null )
+        {
+            <DisplayHeading Size="DisplayHeadingSize.Is4" TextWeight="TextWeight.Bold" Padding="Padding.Is3.OnY">
+                @Title
+            </DisplayHeading>
+        }
+        @if ( Subtitle != null )
+        {
+            <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
+                @Subtitle
+            </Heading>
+        }
+        @if ( Description != null )
+        {
+            <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
+                @Description
+            </Heading>
+        }
+        @if ( Actions != null )
+        {
+            <Div>
+                @Actions
+            </Div>
+        }
+    </Container>
 </Div>
-@code{
+@code {
     [Parameter] public RenderFragment Title { get; set; }
 
     [Parameter] public RenderFragment Subtitle { get; set; }
@@ -37,4 +35,20 @@
     [Parameter] public RenderFragment Description { get; set; }
 
     [Parameter] public RenderFragment Actions { get; set; }
+
+    private bool IsChristmasHolidays
+    {
+        get
+        {
+            var d1 = new DateTime( DateTime.Today.Year, 12, 15 );
+            var d2 = d1.AddDays( 20 );
+            var now = DateTime.Now;
+
+            return now >= d1 && now <= d2;
+        }
+    }
+
+    string BlazoriseLogo => IsChristmasHolidays
+        ? "/img/logos/blazorise-small-santa-hat.svg"
+        : "/img/logos/blazorise-small.svg";
 }
