@@ -67,7 +67,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
         if ( firstRender )
         {
             JSModule.Initialize( ElementRef, ElementId,
-                targetElementId: DropdownMenuAnchorId ?? childrenDropdownToggles?.FirstOrDefault()?.ElementId ?? childrenButtonList?.FirstOrDefault()?.ElementId,
+                targetElementId: DropdownMenuTargetId ?? childrenDropdownToggles?.FirstOrDefault()?.ElementId ?? childrenButtonList?.FirstOrDefault()?.ElementId,
                 menuElementId: childrenDropdownMenus?.FirstOrDefault()?.ElementId,
                 options: new
                 {
@@ -499,10 +499,10 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Fixed;
 
     /// <summary>
-    /// Provides a custom anchor element id for the dropdown menu.
+    /// Provides an alternative, or custom anchor element id for the dropdown menu.
     /// <para>This is useful when you want the dropdown menu to be anchored from a different element than the toggle.</para>
     /// </summary>
-    [Parameter] public string DropdownMenuAnchorId { get; set; }
+    [Parameter] public string DropdownMenuTargetId { get; set; }
 
     #endregion
 }
