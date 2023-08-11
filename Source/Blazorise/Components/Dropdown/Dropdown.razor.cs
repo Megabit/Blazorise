@@ -500,7 +500,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
 
     /// <summary>
     /// Provides a custom anchor element id for the dropdown menu.
-    /// This is useful when you want the dropdown menu to be anchored from a different element than the toggle.
+    /// <para>This is useful when you want the dropdown menu to be anchored from a different element than the toggle.</para>
     /// </summary>
     [Parameter] public string DropdownMenuAnchorId { get; set; }
 
