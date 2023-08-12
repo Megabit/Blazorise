@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using Blazorise;
+using Microsoft.AspNetCore.Components;
 #endregion
-
 
 namespace Blazorise.Docs.Layouts;
 

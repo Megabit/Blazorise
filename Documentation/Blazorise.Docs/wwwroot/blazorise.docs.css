@@ -137,15 +137,11 @@ html, body * {
   --docsearch-logo-color: var(--bd-violet);
 }
 
-.home-banner {
-  /*background-color: #f7f8fa;*/
+.page-header {
   text-align: center;
-  /* background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center center;*/
   background-image: linear-gradient(180deg, rgba(var(--bs-body-bg-rgb), 0.01), rgba(var(--bs-body-bg-rgb), 1) 85%), radial-gradient(ellipse at top left, rgba(var(--bs-primary-rgb), 0.5), transparent 50%), radial-gradient(ellipse at top right, rgba(var(--bd-accent-rgb), 0.5), transparent 50%), radial-gradient(ellipse at center right, rgba(var(--bd-violet-rgb), 0.5), transparent 50%), radial-gradient(ellipse at center left, rgba(var(--bd-pink-rgb), 0.5), transparent 50%);
 }
-.home-banner-img {
+.page-header-img {
   aspect-ratio: 3;
 }
 
@@ -756,6 +752,55 @@ code {
 }
 .blog-page-section-source .btn {
   color: #576b85;
+}
+
+.nav.pricing-tabs > .nav-item > .nav-link {
+  padding: 1.25rem;
+}
+
+.nav.pricing-tabs > .nav-item > .nav-link:not(.active) {
+  color: var(--b-theme-primary);
+  outline: solid var(--b-theme-primary) 1px;
+  transition: background-color 0.3s ease-out;
+}
+
+.nav.pricing-tabs > .nav-item > .nav-link.active {
+  transition: background-color 0.3s ease-in;
+}
+
+.plan-switch > .plan-switch-button {
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease-in;
+}
+
+.plan-switch > .plan-switch-button:hover {
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.3);
+  transition-duration: 0.3s;
+}
+
+div.card.pricing-card {
+  box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-out;
+}
+
+div.card.pricing-card:hover {
+  box-shadow: 0 0 25px 0 rgba(0, 0, 0, 0.3);
+  transform: translateY(-5px) scale(1.005);
+}
+
+div.developers-picker input {
+  font-size: 1.25rem;
+}
+
+div.developers-picker button {
+  transition-duration: 0.3s;
+  transition-property: color, background-color;
+  transition-timing-function: ease-out;
+}
+
+div.developers-picker button:hover {
+  background-color: var(--b-theme-primary);
+  color: var(--b-theme-white);
 }
 
 a.toc-link {

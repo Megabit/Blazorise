@@ -1,0 +1,52 @@
+﻿<Seo Canonical="@SeoCanonical" Title="@SeoTitle" Description="@SeoDescription" />
+
+<Row>
+    <Column Margin="Margin.Is4.FromTop">
+        <Container TextAlignment="TextAlignment.Start">
+            <Heading Size="HeadingSize.Is1" TextColor="TextColor.Dark" Margin="Margin.Is4.FromBottom">
+                @Title
+            </Heading>
+            <Row>
+                <Column ColumnSize="ColumnSize.Is8.OnWidescreen">
+                    <Blazorise.Link To="@PreviewUrl" Target="Target.Blank">
+                        <Image Width="Width.Is100" Source="@ImageUrl" Text="@ImageText"></Image>
+                    </Blazorise.Link>
+                    <Paragraph Margin="Margin.Is4.OnY">
+                        @Description
+                    </Paragraph>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is4.OnWidescreen">
+                    <Row Margin="Margin.Is3.FromBottom">
+                        <Column Display="Display.Flex">
+                            <Heading Size="HeadingSize.Is2">
+                                Options
+                            </Heading>
+                        </Column>
+                    </Row>
+                    <Form>
+                        <Field>
+                            <RadioGroup TValue="int" Class="license-options" @bind-CheckedValue="@checkedProductId">
+                                @foreach ( var product in Products )
+                                {
+                                    <Radio TValue="int" Value="@product.Id">
+                                        <ThemePrice @key="@product.Id" Name="@product.LicenseName" Description="@product.LicenseDescription" Price="@product.Price" Currency="@product.Currency" />
+                                    </Radio>
+                                }
+                            </RadioGroup>
+                        </Field>
+                        <Field>
+                            <Button Disabled="@PurchaseDisabled" Color="Color.Primary" Block Clicked="@OnPurchaseClicked">
+                                Purchase
+                            </Button>
+                        </Field>
+                        <Field>
+                            <Button Type="ButtonType.Link" To="@PreviewUrl" Color="Color.Secondary" Block Outline>
+                                Live preview
+                            </Button>
+                        </Field>
+                    </Form>
+                </Column>
+            </Row>
+        </Container>
+    </Column>
+</Row>

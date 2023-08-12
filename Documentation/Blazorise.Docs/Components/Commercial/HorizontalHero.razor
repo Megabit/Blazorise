@@ -1,0 +1,48 @@
+﻿<Container Padding="Padding.Is5.OnY">
+    <Row Flex="RowFlex" Padding="Padding.Is5.OnY">
+        <Column ColumnSize="ColumnSize.Is10.Is8.OnMobile.Is6.OnWidescreen">
+            <Image Source="@ImageSource" Text="@ImageText" Shadow="Shadow.Default" Display="Display.Block" Margin="Margin.IsAuto.OnWidescreen" Fluid Loading />
+        </Column>
+        <Column ColumnSize="ColumnSize.Is6.OnWidescreen">
+            @if ( Title != null )
+            {
+                <Paragraph Margin="Margin.Is3.FromBottom" TextSize="TextSize.Heading1" TextWeight="TextWeight.Bold">
+                    @Title
+                </Paragraph>
+            }
+            @if ( Description != null )
+            {
+                <Paragraph Class="lead">
+                    @Description
+                </Paragraph>
+            }
+            @if ( Actions != null )
+            {
+                <Div Flex="@ButtonFlex">
+                   @Actions
+                </Div>
+            }
+        </Column>
+    </Row>
+</Container>
+@code{
+    private IFluentFlex RowFlex => Reversed
+        ? Flex.ReverseRow.OnWidescreen.AlignItems.Center
+        : Flex.Row.OnWidescreen.AlignItems.Center;
+
+    private IFluentFlex ButtonFlex => Reversed
+        ? Flex._.OnDesktop.JustifyContent.Start.OnDesktop
+        : Flex._.OnDesktop.JustifyContent.End.OnDesktop;
+
+    [Parameter] public bool Reversed { get; set; }
+
+    [Parameter] public string ImageSource { get; set; }
+
+    [Parameter] public string ImageText { get; set; }
+
+    [Parameter] public RenderFragment Title { get; set; }
+
+    [Parameter] public RenderFragment Description { get; set; }
+
+    [Parameter] public RenderFragment Actions { get; set; }
+}

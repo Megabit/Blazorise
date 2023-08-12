@@ -32,6 +32,8 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Cropper\Blazorise.Cropper.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
+    <PackageReference Include="MailKit" Version="3.1.1" />
+    <PackageReference Include="MimeKit" Version="3.1.1" />
   </ItemGroup>
 
   <!--Binary path for the code generator-->

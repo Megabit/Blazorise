@@ -89,4 +89,4 @@ Cross-platform and multi-platform frameworks are here to stay as the lines of na
 
 This is MAUI's first stable release so we will keep an eye on updates from Microsoft with regards to future roadmap of MAUI.
 
-If you want to build out rich user interfaces with MAUI Blazor quickly, [reach out to our team](commercial/contact), and we will help you get started quickly with our [tested and production-ready UI components](https://blazorise.com/docs/components).
+If you want to build out rich user interfaces with MAUI Blazor quickly, [reach out to our team](contact), and we will help you get started quickly with our [tested and production-ready UI components](https://blazorise.com/docs/components).
