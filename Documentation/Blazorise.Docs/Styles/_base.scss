@@ -54,3 +54,9 @@ html, body * {
 .img-circle {
     border-radius : 4.25rem !important;
 }
+
+.gradient-commercial {
+    background: -webkit-linear-gradient(0deg,#287395,#b93895);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
