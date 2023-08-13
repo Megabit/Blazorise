@@ -33,7 +33,9 @@ public partial class Heading : BaseTypographyComponent
     /// <summary>
     /// Gets the heading tag name.
     /// </summary>
-    protected string TagName => $"h{SizeNumber}";
+    protected string TagName => string.IsNullOrEmpty( AlternativeTagName )
+        ? $"h{SizeNumber}"
+        : AlternativeTagName;
 
     /// <summary>
     /// Gets the heading size number.
@@ -58,11 +60,19 @@ public partial class Heading : BaseTypographyComponent
         get => headingSize;
         set
         {
+            if ( headingSize == value )
+                return;
+
             headingSize = value;
 
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Defines the alternative tag name for the heading element. Default is set to <c>h1</c>.
+    /// </summary>
+    [Parameter] public string AlternativeTagName { get; set; }
 
     #endregion
 }
