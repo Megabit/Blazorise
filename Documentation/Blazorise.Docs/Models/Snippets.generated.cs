@@ -3978,6 +3978,18 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </Tooltip>
 </Div>";
 
+        public const string TypographyAltDisplayHeadingExample = @"<DisplayHeading Size=""DisplayHeadingSize.Is1"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">Display 1</DisplayHeading>
+<DisplayHeading Size=""DisplayHeadingSize.Is2"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">Display 2</DisplayHeading>
+<DisplayHeading Size=""DisplayHeadingSize.Is3"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">Display 3</DisplayHeading>
+<DisplayHeading Size=""DisplayHeadingSize.Is4"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">Display 4</DisplayHeading>";
+
+        public const string TypographyAltHeadingExample = @"<Heading Size=""HeadingSize.Is1"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">h1. Blazorise heading</Heading>
+<Heading Size=""HeadingSize.Is2"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">h2. Blazorise heading</Heading>
+<Heading Size=""HeadingSize.Is3"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">h3. Blazorise heading</Heading>
+<Heading Size=""HeadingSize.Is4"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">h4. Blazorise heading</Heading>
+<Heading Size=""HeadingSize.Is5"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">h5. Blazorise heading</Heading>
+<Heading Size=""HeadingSize.Is6"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">h6. Blazorise heading</Heading>";
+
         public const string TypographyDisplayHeadingExample = @"<DisplayHeading Size=""DisplayHeadingSize.Is1"">Display 1</DisplayHeading>
 <DisplayHeading Size=""DisplayHeadingSize.Is2"">Display 2</DisplayHeading>
 <DisplayHeading Size=""DisplayHeadingSize.Is3"">Display 3</DisplayHeading>
