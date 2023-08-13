@@ -2,9 +2,22 @@
     <Row>
         <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
             <Image Display="Display.Block" Margin="Margin.Is2.FromBottom" Source="/img/logos/blazorise-small.svg" Text="Blazorise logo" Style="width: 42px; height: 42px;" />
-            <Div>
-
-                <Anchor TextColor="TextColor.Dark" Margin="Margin.Is3" To="https://github.com/Megabit/Blazorise" Title="GitHub" Target="Target.Blank" Display="Display.InlineBlock">
+            <Div Flex="Flex.Column" Margin="Margin.Is3.FromTop">
+                <Div Flex="Flex.AlignItems.Center">
+                    <Icon Name="IconName.Sun" Margin="Margin.Is2.FromEnd" />
+                    <Paragraph Margin="Margin.Is2.OnY">Blazorise</Paragraph>
+                </Div>
+                <Div Flex="Flex.AlignItems.Center">
+                    <Icon Name="IconName.Building" Margin="Margin.Is2.FromEnd" />
+                    <Paragraph Margin="Margin.Is2.OnY">Megabit Ltd</Paragraph>
+                </Div>
+                <Div Flex="Flex.AlignItems.Center">
+                    <Icon Name="IconName.LocationArrow" Margin="Margin.Is2.FromEnd" />
+                    <Paragraph Margin="Margin.Is2.OnY">Croatia</Paragraph>
+                </Div>
+            </Div>
+            <Div Flex="Flex._" Margin="Margin.Is3.FromTop">
+                <Anchor TextColor="TextColor.Dark" Margin="Margin.Is3.Is0.FromStart" To="https://github.com/Megabit/Blazorise" Title="GitHub" Target="Target.Blank" Display="Display.InlineBlock">
                     <Icon Name="@("fab fa-github")" IconSize="IconSize.Large" />
                 </Anchor>
                 <Anchor TextColor="TextColor.Dark" Margin="Margin.Is3" To="https://twitter.com/Blazorise" Title="Twitter" Target="Target.Blank" Display="Display.InlineBlock">
@@ -14,14 +27,14 @@
                     <Icon Name="@("fab fa-reddit")" IconSize="IconSize.Large" />
                 </Anchor>
             </Div>
-            <Small Display="Display.Block" Margin="Margin.Is3.FromBottom" TextColor="TextColor.Muted">
+            <Paragraph Margin="Margin.Is3.FromBottom" TextColor="TextColor.Muted">
                 <Span>
-                    Copyright © @DateTime.Today.Year Megabit
+                    Copyright © 2018-@DateTime.Today.Year Megabit
                 </Span>
-            </Small>
-            <Span>
+            </Paragraph>
+            <Paragraph Margin="Margin.Is3.FromBottom">
                 Powered by <Blazorise.Link TextColor="TextColor.Secondary" To="https://blazorise.com/" Title="Blazorise">Blazorise</Blazorise.Link>.
-            </Span>
+            </Paragraph>
         </Column>
         <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
             <Heading Size="HeadingSize.Is5">Product</Heading>
