@@ -17,9 +17,9 @@
             <Icon Name="IconName.Book" />
             Get Started
         </Button>
-        <Button Type="ButtonType.Link" To="https://github.com/Megabit/Blazorise" Target="Target.Blank" Color="Color.Secondary" Size="Size.Large">
-            <Icon Name="@("fab fa-github")" />
-            Star On GitHub
+        <Button Type="ButtonType.Link" To="book-a-demo" Color="Color.Secondary" Size="Size.Large">
+            <Icon Name="IconName.Microphone" />
+            Book a Demo
         </Button>
     </Actions>
 </PageHeader>
@@ -397,12 +397,12 @@
                  </Column>
              </Row>
              <Row>
-                 <Column>
-                     <Div TextAlignment="TextAlignment.Center">
-                         <Button Type="ButtonType.Link" To="contact" Color="Color.Primary" Size="Size.Large" Margin="Margin.Is2.OnY">
+                 <Column Margin="Margin.Is2.OnY">
+                     <Div Flex="Flex.Column.Row.OnDesktop.AlignItems.Stretch.JustifyContent.Center" Gap="Gap.Is3">
+                         <Button Type="ButtonType.Link" To="contact" Color="Color.Primary" Size="Size.Large">
                              Contact us
                          </Button>
-                         <Button Type="ButtonType.Link" To="docs" Color="Color.Primary" Outline Size="Size.Large" Margin="Margin.Is2.OnY">
+                         <Button Type="ButtonType.Link" To="docs" Color="Color.Primary" Outline Size="Size.Large">
                              Read documentation
                          </Button>
                      </Div>
