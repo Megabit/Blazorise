@@ -2072,37 +2072,37 @@ h6.card-title,
 }
 
 .fs-xs {
-  font-size: 0.75rem;
+  font-size: 0.75rem !important;
 }
 .fs-sm {
-  font-size: 0.925rem;
+  font-size: 0.925rem !important;
 }
 .fs-md {
-  font-size: 1.125rem;
+  font-size: 1.125rem !important;
 }
 .fs-lg {
-  font-size: 1.25rem;
+  font-size: 1.25rem !important;
 }
 .fs-xl {
-  font-size: 1.5rem;
+  font-size: 1.5rem !important;
 }
 .fs-1 {
-  font-size: 2.5rem;
+  font-size: 2.5rem !important;
 }
 .fs-2 {
-  font-size: 2rem;
+  font-size: 2rem !important;
 }
 .fs-3 {
-  font-size: 1.75rem;
+  font-size: 1.75rem !important;
 }
 .fs-4 {
-  font-size: 1.5rem;
+  font-size: 1.5rem !important;
 }
 .fs-5 {
-  font-size: 1.25rem;
+  font-size: 1.25rem !important;
 }
 .fs-6 {
-  font-size: 1rem;
+  font-size: 1rem !important;
 }
 
 .overflow-visible {
