@@ -2,71 +2,66 @@
 
 <Seo Canonical="/contact" Title="Contact the Blazorise Team" Description="Contact us and learn more about our Blazorise components. We are here to help you with your product, licensing, renewals and other questions." />
 
-<Container>
-    <Row>
-        <Column ColumnSize="ColumnSize.Is8.OnDesktop" Margin="Margin.IsAuto.OnX.Is5" TextAlignment="TextAlignment.Center">
-            <Badge Color="Color.Info">
-                Leave a message
-            </Badge>
-            <Heading Size="HeadingSize.Is1">
-                Tell us more about <b>yourself</b>
-            </Heading>
-            <Heading Size="HeadingSize.Is4">
-                Whether you have questions or you would just like to say hello, contact us.
-            </Heading>
-        </Column>
-    </Row>
+<PageHeader>
+    <Title>
+        Get in touch
+    </Title>
+    <Description>
+        <Paragraph>
+            Want to learn more about our products and services?
+        </Paragraph>
+        <Paragraph>
+            We’d love to chat.
+        </Paragraph>
+    </Description>
+</PageHeader>
 
+<Container>
     <Row>
         <Column ColumnSize="ColumnSize.Is8.OnWidescreen.Is12.OnDesktop" Margin="Margin.IsAuto.OnX">
             <Card Shadow="Shadow.Large">
                 <Form>
                     <CardBody>
                         <Validations @ref="validationsRef" Mode="ValidationMode.Manual">
-                            <Row>
-                                <Column ColumnSize="ColumnSize.IsHalf.OnDesktop">
-                                    <Validation Validator="ValidationRule.IsNotEmpty">
-                                        <Field>
-                                            <FieldLabel>First name</FieldLabel>
-                                            <FieldBody>
-                                                <Addons Margin="Margin.Is4.FromBottom">
-                                                    <Addon AddonType="AddonType.Start">
-                                                        <AddonLabel>
-                                                            <Icon Name="IconName.User" />
-                                                        </AddonLabel>
-                                                    </Addon>
-                                                    <Addon AddonType="AddonType.Body">
-                                                        <TextEdit @bind-Text="@User.FirstName" name="firstName" Placeholder="First Name..." aria-label="First Name..." />
-                                                    </Addon>
-                                                </Addons>
-                                            </FieldBody>
-                                        </Field>
-                                    </Validation>
-                                </Column>
-                                <Column ColumnSize="ColumnSize.IsHalf.OnDesktop" Padding="Padding.Is2.FromStart">
-                                    <Validation Validator="ValidationRule.IsNotEmpty">
-                                        <Field>
-                                            <FieldLabel>Last name</FieldLabel>
-                                            <FieldBody>
-
-                                                <Addons Margin="Margin.Is4.FromBottom">
-                                                    <Addon AddonType="AddonType.Start">
-                                                        <AddonLabel>
-                                                            <Icon Name="IconName.Book" />
-                                                        </AddonLabel>
-                                                    </Addon>
-                                                    <Addon AddonType="AddonType.Body">
-                                                        <TextEdit @bind-Text="@User.LastName" name="lastName" Placeholder="Last Name..." aria-label="Last Name..." />
-                                                    </Addon>
-                                                </Addons>
-                                            </FieldBody>
-                                        </Field>
-                                    </Validation>
-                                </Column>
-                            </Row>
+                            <Fields>
+                                <Validation Validator="ValidationRule.IsNotEmpty">
+                                    <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                        <FieldLabel RequiredIndicator>First name</FieldLabel>
+                                        <FieldBody>
+                                            <Addons>
+                                                <Addon AddonType="AddonType.Start">
+                                                    <AddonLabel>
+                                                        <Icon Name="IconName.User" />
+                                                    </AddonLabel>
+                                                </Addon>
+                                                <Addon AddonType="AddonType.Body">
+                                                    <TextEdit @bind-Text="@User.FirstName" name="firstName" Placeholder="First Name..." aria-label="First Name..." />
+                                                </Addon>
+                                            </Addons>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                                <Validation Validator="ValidationRule.IsNotEmpty">
+                                    <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                        <FieldLabel RequiredIndicator>Last name</FieldLabel>
+                                        <FieldBody>
+                                            <Addons>
+                                                <Addon AddonType="AddonType.Start">
+                                                    <AddonLabel>
+                                                        <Icon Name="IconName.Book" />
+                                                    </AddonLabel>
+                                                </Addon>
+                                                <Addon AddonType="AddonType.Body">
+                                                    <TextEdit @bind-Text="@User.LastName" name="lastName" Placeholder="Last Name..." aria-label="Last Name..." />
+                                                </Addon>
+                                            </Addons>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                            </Fields>
                             <Validation Validator="ValidationRule.IsEmail">
                                 <Field>
-                                    <FieldLabel>Email address</FieldLabel>
+                                    <FieldLabel RequiredIndicator>Email address</FieldLabel>
                                     <FieldBody>
                                         <Addons>
                                             <Addon AddonType="AddonType.Start">
@@ -89,24 +84,33 @@
                                                     <Icon Name="Blazorise.Icons.FontAwesome.FontAwesomeIcons.Question" />
                                                 </AddonLabel>
                                             </Addon>
-                                            <Select @bind-SelectedValue="@MessageSubject">
-                                                @foreach ( var subject in Subjects )
-                                                {
-                                                    <SelectItem TValue="string" Value="@subject">@subject</SelectItem>
-                                                }
-                                            </Select>
+                                            <Addon AddonType="AddonType.Body">
+                                                <Select @bind-SelectedValue="@MessageSubject">
+                                                    @foreach ( var subject in Subjects )
+                                                    {
+                                                        <SelectItem TValue="string" Value="@subject">@subject</SelectItem>
+                                                    }
+                                                </Select>
+                                            </Addon>
                                         </Addons>
                                     </FieldBody>
                                 </Field>
                             </Validation>
                             <Validation Validator="ValidationRule.IsNotEmpty">
                                 <Field>
-                                    <FieldLabel>Your message</FieldLabel>
+                                    <FieldLabel RequiredIndicator>What would you like to discuss?</FieldLabel>
                                     <FieldBody>
                                         <MemoEdit @bind-Text="@MessageBody" name="message" Rows="6" />
                                     </FieldBody>
                                 </Field>
                             </Validation>
+                            <Row>
+                                <Column Padding="Padding.Is3.FromBottom">
+                                    <Help>
+                                        Blazorise needs the contact information you provide to contact you about our products and services. You may unsubscribe from these communications at anytime. For information on how to unsubscribe, as well as our privacy practices and commitment to protecting your privacy, check out our <Anchor To="privacy" Title="Link to Privacy Policy">Privacy Policy</Anchor>.
+                                    </Help>
+                                </Column>
+                            </Row>
                             <Row>
                                 <Validation Validator="@ValidateRobot">
                                     <Column ColumnSize="ColumnSize.IsHalf.OnDesktop">

@@ -14,6 +14,8 @@
 
         public string VAT { get; set; }
 
+        public string JobRole { get; set; }
+
         public bool NewsletterEnabled { get; set; }
     }
 }
