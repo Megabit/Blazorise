@@ -13,7 +13,7 @@
             {
                 @if ( TagTemplate is null )
                 {
-                    <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
+                    <Badge Color="@GetMultipleBadgeColor()" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
                 }
                 else
                 {

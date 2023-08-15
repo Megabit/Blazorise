@@ -746,8 +746,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns></returns>
     public async Task RemoveMultipleTextAndValue( string text )
     {
+        if ( Disabled )
+            return;
+
         await RemoveMultipleText( text );
         await RemoveMultipleValue( GetValueByText( text ) );
+
         DirtyFilter();
     }
 
@@ -1059,6 +1063,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         => SelectedValues is not null
         ? SelectedValues.FirstOrDefault( x => GetItemText( x ) == text )
         : default;
+
+    private Color GetMultipleBadgeColor() => Disabled
+        ? MultipleDisabledBadgeColor
+        : MultipleBadgeColor;
 
     #endregion
 
@@ -1490,10 +1498,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public bool Multiple { get; set; }
 
     /// <summary>
-    /// Sets the Badge color for the multiple selection values.
-    /// Used when multiple selection is set.
+    /// Sets the Badge color for the multiple selection values. Used when multiple selection is set.
     /// </summary>
     [Parameter] public Color MultipleBadgeColor { get; set; } = Color.Primary;
+
+    /// <summary>
+    /// Sets the disabled Badge color for the multiple selection values. Used when multiple selection is set.
+    /// </summary>
+    [Parameter] public Color MultipleDisabledBadgeColor { get; set; } = Color.Light;
 
     /// <summary>
     /// Specifies the item content to be rendered inside each dropdown item.
