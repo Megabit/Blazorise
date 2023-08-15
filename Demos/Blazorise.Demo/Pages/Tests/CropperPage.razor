@@ -96,6 +96,24 @@
                             </Buttons>
                         </FieldBody>
                     </Field>
+                    <Field>
+                        <FieldLabel>
+                            Center
+                        </FieldLabel>
+                        <FieldBody>
+                            <Buttons>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Center(default))">
+                                    Default
+                                </Button>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Center("contain"))">
+                                    Contain
+                                </Button>
+                                <Button Color="Color.Primary" Clicked="@(() => cropper.Center("cover"))">
+                                    Cover
+                                </Button>
+                            </Buttons>
+                        </FieldBody>
+                    </Field>
                 </Fields>
             </CardBody>
             <CardBody>
@@ -114,6 +132,7 @@
                                      CropMoved="@(()=>{Console.WriteLine("CropMoved"); return Task.CompletedTask; })"
                                      Cropped="@((e)=>{Console.WriteLine($"Cropped StartX: {e.StartX}, StartY: {e.StartY}, EndX: {e.EndX}, EndY: {e.EndY}"); return Task.CompletedTask; })"
                                      Zoomed="@((e)=>{Console.WriteLine($"Zoomed Scale: {e.Scale}"); return Task.CompletedTask; })"
+                                     ImageReady="@(()=>{Console.WriteLine("ImageReady"); return Task.CompletedTask; })"
                                      CropperState="@cropperState" />
                         </FieldBody>
                     </Column>

@@ -294,6 +294,8 @@ public interface IClassProvider
 
     string FieldLabel( bool horizontal );
 
+    string FieldLabelRequiredIndicator( bool requiredIndicator );
+
     #endregion
 
     #region FieldBody
@@ -407,6 +409,10 @@ public interface IClassProvider
     string DropdownDivider();
 
     string DropdownHeader();
+
+    string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy );
+
+    string DropdownFixedHeaderVisible( bool visible );
 
     string DropdownMenu();
 
@@ -742,11 +748,21 @@ public interface IClassProvider
 
     #region Column
 
-    string Column( bool hasSizes );
+    string Column( bool grid, bool hasSizes );
 
-    string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
+    string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 
-    string Column( IEnumerable<ColumnDefinition> columnDefinitions );
+    string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions );
+
+    #endregion
+
+    #region Grid
+
+    string Grid();
+
+    string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition );
+
+    string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition );
 
     #endregion
 
@@ -811,6 +827,30 @@ public interface IClassProvider
     string ModalFooter();
 
     string ModalTitle();
+
+    #endregion
+
+    #region Offcanvas
+
+    string Offcanvas();
+
+    string OffcanvasPlacement( Placement placement, bool visible );
+
+    string OffcanvasFade( bool showing, bool hiding );
+
+    string OffcanvasVisible( bool visible );
+
+    string OffcanvasHeader();
+
+    string OffcanvasFooter();
+
+    string OffcanvasBody();
+
+    string OffcanvasBackdrop();
+
+    string OffcanvasBackdropFade();
+
+    string OffcanvasBackdropVisible( bool visible );
 
     #endregion
 
@@ -965,6 +1005,8 @@ public interface IClassProvider
     string TextWeight( TextWeight textWeight );
 
     string TextOverflow( TextOverflow textOverflow );
+
+    string TextSize( TextSize textSize );
 
     string TextItalic();
 
@@ -1236,6 +1278,8 @@ public interface IClassProvider
     string ToTextWeight( TextWeight textWeight );
 
     string ToTextOverflow( TextOverflow textOverflow );
+
+    string ToTextSize( TextSize textSize );
 
     string ToColumnWidth( ColumnWidth columnWidth );
 

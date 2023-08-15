@@ -1,4 +1,22 @@
-﻿.ant-dropdown-group {
+﻿.ant-table-fixed-header thead tr th.ant-dropdown-table-fixed-header-visible {
+    z-index: 2;
+}
+
+.ant-dropdown-menu-position-strategy {
+    width: max-content;
+    top: 0;
+    left: 0;
+}
+
+.ant-dropdown-menu-position-strategy-absolute {
+    position: absolute;
+}
+
+.ant-dropdown-menu-position-strategy-fixed {
+    position: fixed;
+}
+
+.ant-dropdown-group {
     display: inline-flex;
     white-space: nowrap;
 

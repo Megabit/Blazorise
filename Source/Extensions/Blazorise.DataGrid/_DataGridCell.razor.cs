@@ -15,6 +15,25 @@ public abstract class _BaseDataGridCell<TItem> : ComponentBase
 
     #endregion
 
+    #region Methods
+
+    /// <summary>
+    /// Updated the internal cell values.
+    /// </summary>
+    /// <param name="value">Value that is updating.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected Task OnEditValueChanged( object value )
+    {
+        CellEditContext.CellValue = value;
+
+        if ( ValidationItem != null )
+            Column.SetValue( ValidationItem, value );
+
+        return CellValueChanged.InvokeAsync( value );
+    }
+
+    #endregion
+
     #region Properties
 
     protected bool UseValidation
@@ -43,6 +62,9 @@ public abstract class _BaseDataGridCell<TItem> : ComponentBase
                 return typeof( PatternValidationHandler );
             else if ( HasValidator )
                 return typeof( ValidatorValidationHandler );
+
+            if ( ParentDataGrid?.ValidationsHandlerType is not null )
+                return ParentDataGrid.ValidationsHandlerType;
 
             // default is always data-annotations
             return typeof( DataAnnotationValidationHandler );

@@ -16,7 +16,7 @@ public enum Match
     All,
 
     /// <summary>
-    /// Specifies that the link should be active when it matches the supplied <see cref="Link.CustomMatch"/> method callback.
+    /// Specifies that the link should be active when it matches the supplied <see cref="BaseLinkComponent.CustomMatch"/> method callback.
     /// </summary>
     Custom,
 }

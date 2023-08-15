@@ -48,4 +48,10 @@ class EmptyStyleProvider : IStyleProvider
     public string ColumnGutter( (int Horizontal, int Vertical) gutter ) => null;
 
     #endregion
+
+    #region Offcanvas
+
+    public string OffcanvasAnimationDuration( bool animated, int AnimationDuration ) => null;
+
+    #endregion
 }

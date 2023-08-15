@@ -14,7 +14,8 @@ namespace Blazorise.TreeView.Extensions
         public static async IAsyncEnumerable<TreeViewNodeState<TNode>> ToNodeStates<TNode>( this IEnumerable<TNode> nodes,
             Func<TNode, Task<bool>> hasChildNodesAsync,
             Func<TNode, bool> hasChildNodes,
-            Func<TNode, bool> expanded )
+            Func<TNode, bool> isExpanded,
+            Func<TNode, bool> isDisabled )
         {
             foreach ( var node in nodes ?? Enumerable.Empty<TNode>() )
             {
@@ -22,24 +23,31 @@ namespace Blazorise.TreeView.Extensions
                     ? await hasChildNodesAsync( node )
                     : hasChildNodes( node );
 
-                yield return new TreeViewNodeState<TNode>( node, hasChildren, expanded( node ) );
+                var expanded = isExpanded( node );
+                var disabled = isDisabled( node );
+
+                yield return new TreeViewNodeState<TNode>( node, hasChildren, expanded, disabled );
             }
         }
 
         public static async IAsyncEnumerable<TreeViewNodeState<TNode>> ToNodeStates<TNode>( this IList nodes,
             Func<TNode, Task<bool>> hasChildNodesAsync,
             Func<TNode, bool> hasChildNodes,
-            Func<TNode, bool> expanded )
+            Func<TNode, bool> isExpanded,
+            Func<TNode, bool> isDisabled )
         {
             foreach ( var node in nodes )
             {
                 if ( node is TNode tNode )
                 {
                     var hasChildren = hasChildNodesAsync is not null
-                    ? await hasChildNodesAsync( tNode )
-                    : hasChildNodes( tNode );
+                        ? await hasChildNodesAsync( tNode )
+                        : hasChildNodes( tNode );
 
-                    yield return new TreeViewNodeState<TNode>( tNode, hasChildren, expanded( tNode ) );
+                    var expanded = isExpanded( tNode );
+                    var disabled = isDisabled( tNode );
+
+                    yield return new TreeViewNodeState<TNode>( tNode, hasChildren, expanded, disabled );
                 }
             }
         }

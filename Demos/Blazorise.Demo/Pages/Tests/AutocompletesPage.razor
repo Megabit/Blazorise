@@ -326,7 +326,6 @@
     private bool multipleAutocompleteFreeTyping = false;
     private bool multipleAutocompleteReadDataFreeTyping = false;
 
-    private ObservableCollection<int> items { get; } = new( Enumerable.Range( 1, 4 ) );
     private Random random = new();
 
     private async Task HandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
@@ -336,7 +335,7 @@
             await Task.Delay( random.Next( 100 ) );
             if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
             {
-                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+                ReadDataCountries = ( await CountryData.GetDataAsync() ).Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
             }
         }
     }
@@ -383,7 +382,7 @@
             await Task.Delay( random.Next( 100 ) );
             if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
             {
-                ReadDataCountries = Countries.Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) && !( multipleReadDataSelectionTexts?.Contains( x.Name ) ?? false ) );
+                ReadDataCountries = ( await CountryData.GetDataAsync() ).Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) && !( multipleReadDataSelectionTexts?.Contains( x.Name ) ?? false ) );
             }
         }
     }

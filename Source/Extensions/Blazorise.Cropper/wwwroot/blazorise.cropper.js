@@ -1,8 +1,8 @@
-import Cropper, { CropperViewer } from "./vendors/cropper.js?v=1.2.2.0";
+import Cropper, { CropperViewer } from "./vendors/cropper.js?v=1.3.0.0";
 
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.2.2.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.3.0.0";
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Cropper/blazorise.cropper.css?v=1.2.2.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Cropper/blazorise.cropper.css?v=1.3.0.0\" />");
 
 const _instances = [];
 
@@ -22,6 +22,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
 
     image.src = options.source;
     image.alt = options.alt;
+    image.crossOrigin = options.crossOrigin;
 
     const template = (
         `<cropper-canvas background="${options.showBackground}" disabled="${!options.enabled}">
@@ -53,6 +54,11 @@ export function initialize(dotNetAdapter, element, elementId, options) {
 
     const cropperCanvas = cropper.getCropperCanvas();
     const cropperSelection = cropper.getCropperSelection();
+    const cropperImage = cropper.getCropperImage();
+
+    cropperImage.$ready((image) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "ImageReady");
+    });
 
     registerEvents(cropperCanvas, cropperSelection, dotNetAdapter);
 
@@ -98,10 +104,19 @@ export function updateOptions(element, elementId, options) {
         if (cropperImage) {
             if (options.source.changed) {
                 cropperImage.src = options.source.value;
+
+                // Callback needs to be setup again after each source changed.
+                cropperImage.$ready((image) => {
+                    invokeDotNetMethodAsync(instance.adapter, "ImageReady");
+                });
             }
 
             if (options.alt.changed) {
                 cropperImage.alt = options.alt.value;
+            }
+
+            if (options.crossOrigin.changed) {
+                cropperImage.crossOrigin = options.crossOrigin.value;
             }
 
             if (options.image.changed) {
@@ -232,6 +247,27 @@ export function scale(element, elementId, x, y) {
 
         if (cropperImage) {
             cropperImage.$scale(x, y);
+        }
+    }
+}
+
+export function center(element, elementId, size) {
+    const instance = _instances[elementId];
+
+    if (!instance)
+        return;
+
+    if (instance.cropper) {
+        const cropper = instance.cropper;
+        const cropperImage = cropper.getCropperImage();
+
+        if (cropperImage) {
+            if (size) {
+                cropperImage.$center(size);
+            }
+            else {
+                cropperImage.$center();
+            }
         }
     }
 }

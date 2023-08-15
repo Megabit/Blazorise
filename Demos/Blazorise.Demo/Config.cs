@@ -15,7 +15,7 @@ public static class Config
         services
             .AddBlazorise( options =>
             {
-                options.LicenseKey = licenseKey;
+                options.ProductToken = licenseKey;
                 options.Immediate = true;
             } )
             .AddBlazoriseRichTextEdit( options =>

@@ -310,6 +310,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string FieldLabel( bool horizontal ) => horizontal ? "col-form-label" : null;
 
+    public override string FieldLabelRequiredIndicator( bool requiredIndicator )
+        => requiredIndicator
+            ? "form-label-required"
+            : null;
+
     #endregion
 
     #region FieldBody
@@ -444,6 +449,12 @@ public class BootstrapClassProvider : ClassProvider
     public override string DropdownHeader() => "dropdown-header";
 
     public override string DropdownMenu() => "dropdown-menu";
+
+    public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
+        => $"dropdown-menu-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "dropdown-menu-position-strategy-fixed" : "dropdown-menu-position-strategy-absolute" )}";
+
+    public override string DropdownFixedHeaderVisible( bool visible )
+        => visible ? "dropdown-table-fixed-header-visible" : null;
 
     public override string DropdownMenuSelector() => "dropdown-menu";
 
@@ -777,11 +788,13 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Column
 
-    public override string Column( bool hasSizes ) => hasSizes ? null : "col";
+    public override string Column( bool grid, bool hasSizes ) => hasSizes ? null : "col";
 
-    public override string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
+    public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
-        var baseClass = offset ? "offset" : "col";
+        var baseClass = offset
+            ? grid ? "g-start" : "offset"
+            : grid ? "g-col" : "col";
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
         {
@@ -791,8 +804,30 @@ public class BootstrapClassProvider : ClassProvider
         return $"{baseClass}-{ToColumnWidth( columnWidth )}";
     }
 
-    public override string Column( IEnumerable<ColumnDefinition> columnDefinitions )
-       => string.Join( ' ', columnDefinitions.Select( x => Column( x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+    public override string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions )
+       => string.Join( ' ', columnDefinitions.Select( x => Column( grid, x.ColumnWidth, x.Breakpoint, x.Offset ) ) );
+
+    #endregion
+
+    #region Grid
+
+    public override string Grid() => "grid";
+
+    public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
+    {
+        if ( gridRowsDefinition.Breakpoint != Breakpoint.None && gridRowsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"g-rows-{ToBreakpoint( gridRowsDefinition.Breakpoint )}-{ToGridRowsSize( gridRows )}";
+
+        return $"g-rows-{ToGridRowsSize( gridRows )}";
+    }
+
+    public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
+    {
+        if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"g-cols-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
+
+        return $"g-cols-{ToGridColumnsSize( gridColumns )}";
+    }
 
     #endregion
 
@@ -852,9 +887,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ModalContent( bool dialog ) => "modal-content";
 
-    public override string ModalContentSize( ModalSize modalSize ) => modalSize != ModalSize.Default && modalSize != ModalSize.Fullscreen
-        ? $"modal-{ToModalSize( modalSize )}"
-        : null;
+    public override string ModalContentSize( ModalSize modalSize ) => null;
 
     public override string ModalContentCentered( bool centered ) => null;
 
@@ -867,6 +900,44 @@ public class BootstrapClassProvider : ClassProvider
     public override string ModalFooter() => "modal-footer";
 
     public override string ModalTitle() => "modal-title";
+
+    #endregion
+
+    #region Offcanvas
+
+    public override string Offcanvas() => "offcanvas";
+
+    public override string OffcanvasPlacement( Placement placement, bool visible )
+    {
+        return placement switch
+        {
+            Placement.Start => "offcanvas-start",
+            Placement.End => "offcanvas-end",
+            Placement.Top => "offcanvas-top",
+            Placement.Bottom => "offcanvas-bottom",
+            _ => "",
+        };
+    }
+
+    public override string OffcanvasFade( bool showing, bool hiding ) => showing
+        ? "showing"
+        : hiding
+            ? "hiding"
+            : null;
+
+    public override string OffcanvasVisible( bool visible ) => visible ? Show() : null;
+
+    public override string OffcanvasHeader() => "offcanvas-header";
+
+    public override string OffcanvasFooter() => "offcanvas-footer";
+
+    public override string OffcanvasBody() => "offcanvas-body";
+
+    public override string OffcanvasBackdrop() => "offcanvas-backdrop";
+
+    public override string OffcanvasBackdropFade() => Fade();
+
+    public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
 
     #endregion
 
@@ -1021,6 +1092,8 @@ public class BootstrapClassProvider : ClassProvider
     public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
+
+    public override string TextSize( TextSize textSize ) => $"fs-{ToTextSize( textSize )}";
 
     public override string TextItalic() => "font-italic";
 

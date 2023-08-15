@@ -96,3 +96,43 @@ window.myComponent = {
         }
     }
 }
+
+window.blazorisePRO = {
+    paddle: {
+        openCheckout: (product, quantity, upsell) => {
+            if (upsell) {
+                Paddle.Checkout.open({
+                    product: product,
+                    quantity: quantity,
+                    upsell: upsell.id,
+                    upsellTitle: upsell.title,
+                    upsellText: upsell.text,
+                    upsellAction: upsell.action,
+                });
+            }
+            else {
+                Paddle.Checkout.open({
+                    product: product,
+                    quantity: quantity
+                });
+            }
+        }
+    },
+    wspay: {
+        submit: (elementId, data) => {
+            const form = document.getElementById(elementId);
+
+            if (form) {
+                const shoppingCartIDInput = document.getElementsByName("ShoppingCartID")[0];
+                const signatureInput = document.getElementsByName("Signature")[0];
+
+                if (shoppingCartIDInput && signatureInput) {
+                    shoppingCartIDInput.value = data.shoppingCartID;
+                    signatureInput.value = data.signature;
+
+                    form.submit();
+                }
+            }
+        }
+    }
+};

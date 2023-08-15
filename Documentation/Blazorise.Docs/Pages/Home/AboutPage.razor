@@ -1,0 +1,114 @@
+﻿@page "/about"
+@inherits BasePage
+
+<Seo Canonical="/about" Title="About Blazorise" Description="Know more about the Blazorise Team, our Partners, Mission statements, Customer quotes, our achievements and Awards." />
+
+<PageHeader>
+    <Title>
+        About Us
+    </Title>
+    <Actions>
+        <Button Type="ButtonType.Link" To="contact" Color="Color.Primary" Size="Size.Large" Padding="Padding.Is4.OnX.Is3.FromEnd.OnTablet">
+            <Icon Name="IconName.Comment" />
+            Contact Us
+        </Button>
+        <Button Type="ButtonType.Link" To="https://github.com/megabit" Target="Target.Blank" Color="Color.Secondary" Size="Size.Large" Padding="Padding.Is4.OnX">
+            <Icon Name="@("fab fa-github")" />
+            GitHub
+        </Button>
+    </Actions>
+</PageHeader>
+
+<Container Padding="Padding.Is5.OnY" TextAlignment="TextAlignment.Center">
+    <Row>
+        <Column Margin="Margin.IsAuto.OnX" TextAlignment="TextAlignment.Center">
+            <Paragraph>
+                Megabit Ltd is engaged in the production and maintenance of Blazorise component library.
+            </Paragraph>
+            <Table Responsive>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Company:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">Megabit d.o.o.</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Headquarter:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">Hrvojeva 11, 21204 Dugopolje, Croatia</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">OIB:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">11987636635</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">VAT:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">HR11987636635</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">MBS:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">2687593</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Commercial Court:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">Split, Tt-10/2258-2</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Activities:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">6201 Computer programming</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Key Person:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">Mladen Macanović, board member</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Year Of Foundation:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">2010</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Size:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">Small</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Website:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">
+                        <Blazorise.Link To="https://megabitsoft.com/" Target="Target.Blank">megabitsoft.com</Blazorise.Link>
+                    </TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Contact:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">
+                        <Blazorise.Link To="@($"mailto:{MailToLink}")">@MailToAddress</Blazorise.Link>
+                    </TableRowCell>
+                </TableRow>
+            </Table>
+        </Column>
+    </Row>
+
+    <Row>
+        <Column Margin="Margin.IsAuto.OnX" TextAlignment="TextAlignment.Center">
+            <Paragraph>
+                Bank details
+            </Paragraph>
+            <Table Responsive>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Bank:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">Podravska banka d.d.</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Headquarter:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">Opatička 3, 48000 Koprivnica, Croatia</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">OIB:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">97326283154</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">IBAN:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">HR8023860021110095639</TableRowCell>
+                </TableRow>
+                <TableRow>
+                    <TableRowHeader TextAlignment="TextAlignment.Start">Swift:</TableRowHeader>
+                    <TableRowCell TextAlignment="TextAlignment.End">PDKCHR2X</TableRowCell>
+                </TableRow>
+            </Table>
+        </Column>
+    </Row>
+</Container>

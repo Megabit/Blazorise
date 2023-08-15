@@ -6,11 +6,21 @@ static class Extensions
     {
         switch ( snackbarLocation )
         {
+            case SnackbarLocation.Top:
+                return "top";
+            case SnackbarLocation.TopStart:
+                return "top-start";
+            case SnackbarLocation.TopEnd:
+                return "top-end";
             case SnackbarLocation.Start:
-                return "left";
+            case SnackbarLocation.BottomStart:
+                return "bottom-start";
             case SnackbarLocation.End:
-                return "right";
+            case SnackbarLocation.BottomEnd:
+                return "bottom-end";
             case SnackbarLocation.Default:
+            case SnackbarLocation.Bottom:
+                return "bottom";
             default:
                 return null;
         }
@@ -20,13 +30,23 @@ static class Extensions
     {
         switch ( snackbarStackLocation )
         {
+            case SnackbarStackLocation.Top:
+                return "top";
+            case SnackbarStackLocation.TopStart:
+                return "top-start";
+            case SnackbarStackLocation.TopEnd:
+                return "top-end";
             case SnackbarStackLocation.Start:
-                return "left";
+            case SnackbarStackLocation.BottomStart:
+                return "bottom-start";
             case SnackbarStackLocation.End:
-                return "right";
+            case SnackbarStackLocation.BottomEnd:
+                return "bottom-end";
             case SnackbarStackLocation.Center:
+            case SnackbarStackLocation.Bottom:
+                return "bottom";
             default:
-                return "center";
+                return null;
         }
     }
 

@@ -3,8 +3,7 @@
 
 namespace Blazorise.Bootstrap5;
 
-public class Bootstrap5StyleProvider
-    : StyleProvider
+public class Bootstrap5StyleProvider : StyleProvider
 {
     #region Modal
 
@@ -39,6 +38,15 @@ public class Bootstrap5StyleProvider
     #endregion
 
     #region Layout
+
+    #endregion
+
+    #region Offcanvas
+
+    public override string OffcanvasAnimationDuration( bool animated, int animationDuration )
+        => animated
+            ? $"transition-duration: {animationDuration}ms"
+            : "transition-duration: unset";
 
     #endregion
 }

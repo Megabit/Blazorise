@@ -15,7 +15,7 @@
                 </BarBrand>
                 <BarMenu>
                     <BarStart>
-                        <BarItem Margin="Margin.Is1.OnAll">
+                        <BarItem Margin="Margin.Is2.OnAll">
                             <Autocomplete TItem="PageEntry"
                                           TValue="string"
                                           Data="@SearchEntries"
@@ -26,7 +26,8 @@
                                           Placeholder="Search..."
                                           Filter="AutocompleteFilter.Contains"
                                           CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"
-                                          SelectedValueChanged="@ComponentSearchSelectedValueChanged">
+                                          SelectedValueChanged="@ComponentSearchSelectedValueChanged"
+                                          PositionStrategy="DropdownPositionStrategy.Absolute">
                                 <NotFoundContent>
                                     Sorry... @context was not found! :(
                                 </NotFoundContent>
@@ -91,8 +92,8 @@
                                     <BarDropdownItem To="docs/components/file">File Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/file-picker">File Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/focus-trap">FocusTrap</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/grid">Grid</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/highlighter">Highlighter</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/image">Image</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/jumbotron">Jumbotron</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/layout">Layout</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/link">Link</BarDropdownItem>
@@ -100,6 +101,7 @@
                                     <BarDropdownItem To="docs/components/input-mask">Mask</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/memo">Memo Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/modal">Modal</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/offcanvas">Offcanvas</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/numeric">Numeric Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/numeric-picker">Numeric Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/pagination">Pagination</BarDropdownItem>
@@ -134,6 +136,7 @@
                                         <BarDropdownToggle>Chart</BarDropdownToggle>
                                         <BarDropdownMenu>
                                             <BarDropdownItem To="docs/extensions/chart">Start Here</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-annotation">Annotation</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-datalabels">DataLabels</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-live">Live Chart</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-trendline">Trendline</BarDropdownItem>
@@ -150,18 +153,13 @@
                                                     <BarDropdownItem To="docs/extensions/datagrid/binding-data/in-memory">In Memory</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/binding-data/large-data">From an External Source</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/binding-data/virtualize">Virtualize</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/binding-data/observable">Observable Collections</BarDropdownItem>
                                                 </BarDropdownMenu>
                                             </BarDropdown>
 
+                                            <BarDropdownItem To="docs/extensions/datagrid/aggregates">Aggregates</BarDropdownItem>
 
-                                            <BarDropdown>
-                                                <BarDropdownToggle>Selection</BarDropdownToggle>
-                                                <BarDropdownMenu>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/single">Single</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/multiple">Multiple</BarDropdownItem>
-                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/custom-row-colors">Custom Row Colors</BarDropdownItem>
-                                                </BarDropdownMenu>
-                                            </BarDropdown>
+                                            <BarDropdownItem To="docs/extensions/datagrid/columns">Columns</BarDropdownItem>
 
                                             <BarDropdown>
                                                 <BarDropdownToggle>Features</BarDropdownToggle>
@@ -174,6 +172,16 @@
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/fixed-header">Fixed Header</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/context-menu">Context Menu</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/features/grouping">Grouping</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/header-group">Header Group</BarDropdownItem>
+                                                </BarDropdownMenu>
+                                            </BarDropdown>
+
+                                            <BarDropdown>
+                                                <BarDropdownToggle>Selection</BarDropdownToggle>
+                                                <BarDropdownMenu>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/single">Single</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/multiple">Multiple</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/custom-row-colors">Custom Row Colors</BarDropdownItem>
                                                 </BarDropdownMenu>
                                             </BarDropdown>
 
@@ -186,10 +194,10 @@
                                                     <BarDropdownItem To="docs/extensions/datagrid/templates/commands">Commands</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/templates/loading">Loading</BarDropdownItem>
                                                     <BarDropdownItem To="docs/extensions/datagrid/templates/button-row">Button Row</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/row-overlay">Row Overlay</BarDropdownItem>
                                                 </BarDropdownMenu>
                                             </BarDropdown>
 
-                                            <BarDropdownItem To="docs/extensions/datagrid/aggregates">Aggregates</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/datagrid/validations">Validations</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
@@ -201,18 +209,20 @@
                                             <BarDropdownItem To="docs/extensions/icons-available">Available Icons</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
+                                    <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/fluent-validation">FluentValidation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/list-view">ListView</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/loadingindicator">LoadingIndicator</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/lottie-animation">LottieAnimation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/qrcode">QRCode</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/richtextedit">RichTextEdit</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/selectlist">SelectList</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/sidebar">Sidebar</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/signaturepad">SignaturePad</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/snackbar">Snackbar</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/spinkit">SpinKit</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/loadingindicator">LoadingIndicator</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/qrcode">QRCode</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/splitter">Splitter</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/treeview">TreeView</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/video">Video</BarDropdownItem>
                                 </BarDropdownMenu>
@@ -239,6 +249,8 @@
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/helpers/colors">Colors</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/css-grid">CSS Grid</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/grid">Grid</BarDropdownItem>
                                     <BarDropdown>
                                         <BarDropdownToggle>Enums</BarDropdownToggle>
                                         <BarDropdownMenu>
@@ -286,7 +298,7 @@
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/faq">FAQ</BarDropdownItem>
-                                    <BarDropdownItem To="commercial/license" Target="Target.Blank">License</BarDropdownItem>
+                                    <BarDropdownItem To="license">License</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -307,6 +319,7 @@
                                 Home
                             </BarLink>
                         </BarItem>
+                        <TopMenuStart />
                     </BarStart>
                     <BarEnd>
                         <TopMenuEnd />

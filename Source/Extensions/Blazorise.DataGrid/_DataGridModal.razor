@@ -1,5 +1,6 @@
 ﻿@typeparam TItem
-@inherits _BaseDataGridModal<TItem>
+@inherits BaseAfterRenderComponent
+
 <Modal @ref="modalRef" Closing="@PopupClosing" Closed="@Cancel">
     <ModalContent Size="@PopupSize">
         <Form>
@@ -29,6 +30,9 @@
                         </Field>
                     }
                     <Fields>
+                        @{
+#pragma warning disable CS0618 // Type or member is obsolete
+                        }
                         @foreach ( var column in OrderedEditableColumns )
                         {
                             <Field ColumnSize="@(column.EditFieldColumnSize ?? column.PopupFieldColumnSize ?? ColumnSize.IsHalf.OnDesktop)" Padding="Blazorise.Padding.Is2.OnX.Is2.OnY">
@@ -39,6 +43,9 @@
                                     <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" ValidationItem="@ValidationItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                                 </FieldBody>
                             </Field>
+                        }
+                        @{
+#pragma warning restore CS0618 // Type or member is obsolete
                         }
                     </Fields>
                 </Validations>
@@ -72,7 +79,7 @@
                     {
                         @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
                         {
-                            Clicked = callbackFactory.Create( this, SaveWithValidation ),
+                            Clicked = callbackFactory.Create( this, Save ),
                             LocalizationString = saveButtonString,
                             Item = EditItem,
                         } )
@@ -81,13 +88,13 @@
                     {
                         @if ( ParentDataGrid.SubmitFormOnEnter )
                         {
-                            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@SaveWithValidation">
+                            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
                                 @saveButtonString
                             </Button>
                         }
                         else
                         {
-                            <Button Color="Color.Link" Clicked="@SaveWithValidation">
+                            <Button Color="Color.Link" Clicked="@Save">
                                 @saveButtonString
                             </Button>
                         }

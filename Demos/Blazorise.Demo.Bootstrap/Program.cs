@@ -18,7 +18,7 @@ public class Program
         var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
         builder.Services
-            .SetupDemoServices( builder.Configuration["Licensing:LicenseKey"] )
+            .SetupDemoServices( builder.Configuration["Licensing:ProductToken"] )
             .AddBootstrapProviders()
             .AddFontAwesomeIcons();
 

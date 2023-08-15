@@ -1,0 +1,59 @@
+﻿@page "/themes"
+
+<Seo Canonical="/themes" Title="Blazorise Themes" Description="Blazorise Themes is a collection of the best templates and themes curated by Blazorise’s creators. Our collection of templates include themes to build an admin, dashboard, landing page, e-commerce site, application, and more.." />
+
+<PageHeader>
+    <Title>
+        Blazorise <Span Class="gradient-commercial">Themes</Span>
+    </Title>
+    <Description>
+        Professional, and modern UI themes built by the Blazorise creators.
+    </Description>
+</PageHeader>
+
+<Container>
+    <Row RowColumns="RowColumns.Are1.Are2.OnWidescreen">
+        <Column>
+            <Card>
+                <Blazorise.Link To="themes/blazestack">
+                    <CardImage Source="img/themes/blazestack/dashboard-small.jpg" Alt="Blazestack" />
+                </Blazorise.Link>
+                <CardBody>
+                    <Small TextColor="TextColor.Muted">Admin & Dashboard</Small>
+                    <CardTitle Size="5">
+                        BlazeStack - Admin & Dashboard
+                    </CardTitle>
+                    <Div Flex="Flex.JustifyContent.Between.AlignItems.Center">
+                        <Button Type="ButtonType.Link" To="themes/blazestack" Color="Color.Primary">
+                            Open theme page
+                        </Button>
+                        <Button Type="ButtonType.Link" To="https://blazestack.blazorforest.com/" Target="Target.Blank" Color="Color.Secondary">
+                            Live preview
+                        </Button>
+                    </Div>
+                </CardBody>
+            </Card>
+        </Column>
+        <Column>
+            <Card>
+                <Blazorise.Link To="themes/blazespark">
+                    <CardImage Source="img/themes/blazespark/dashboard-small.jpg" Alt="Blazestack" />
+                </Blazorise.Link>
+                <CardBody>
+                    <Small TextColor="TextColor.Muted">Admin & Dashboard</Small>
+                    <CardTitle Size="5">
+                        BlazeSpark - Admin & Dashboard
+                    </CardTitle>
+                    <Div Flex="Flex.JustifyContent.Between.AlignItems.Center">
+                        <Button Type="ButtonType.Link" To="themes/blazespark" Color="Color.Primary">
+                            Open theme page
+                        </Button>
+                        <Button Type="ButtonType.Link" To="https://blazespark.blazorforest.com/" Target="Target.Blank" Color="Color.Secondary">
+                            Live preview
+                        </Button>
+                    </Div>
+                </CardBody>
+            </Card>
+        </Column>
+    </Row>
+</Container>

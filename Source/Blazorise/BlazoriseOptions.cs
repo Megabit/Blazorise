@@ -34,9 +34,19 @@ public class BlazoriseOptions
     #region Properties
 
     /// <summary>
-    /// Defines the license key issued by the Blazorise licensing system.
+    /// Defines the product token issued by the Blazorise licensing system.
     /// </summary>
-    public string LicenseKey { get; set; }
+    [Obsolete( "LicenseKey property is deprecated, please use the ProductToken property instead." )]
+    public string LicenseKey
+    {
+        get => ProductToken;
+        set => ProductToken = value;
+    }
+
+    /// <summary>
+    /// Defines the product token issued by the Blazorise licensing system.
+    /// </summary>
+    public string ProductToken { get; set; }
 
     /// <summary>
     /// If true the text in <see cref="TextEdit"/> will be changed after each key press.

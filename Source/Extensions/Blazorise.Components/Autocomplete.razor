@@ -4,30 +4,30 @@
 @typeparam TItem
 @typeparam TValue
 
-<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)" Disabled=@Disabled>
+<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@InputElementId" Disabled="@Disabled">
     <Validation Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
 
         @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
         {
-            @if ( Disabled )
+            @foreach ( var selectedText in SelectedTexts )
             {
-                @foreach ( var selectedText in SelectedTexts )
-                {
-                    <Badge Color="@Color.Light" Margin="Margin.Is2.FromStart">@selectedText</Badge>
-                }
-            }
-            else
-            {
-                @foreach ( var selectedText in SelectedTexts )
+                @if ( TagTemplate is null )
                 {
                     <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
+                }
+                else
+                {
+                    var item = GetItemByText( selectedText );
+                    var value = GetItemValue( selectedText );
+                    var removeCallback = EventCallback.Factory.Create( this, async () => await RemoveMultipleTextAndValue( selectedText ) );
+                    @TagTemplate(new (item, value, selectedText, removeCallback))
                 }
             }
         }
 
         <TextEdit @ref="@textEditRef"
                   Role="TextRole.Search"
-                  Text="@CurrentSearch"
+                  Text="@Search"
                   TextChanged="@OnTextChangedHandler"
                   Placeholder="@Placeholder"
                   Size="@Size"
@@ -51,13 +51,6 @@
         </TextEdit>
     </Validation>
     <DropdownMenu>
-        @if ( NotFoundVisible )
-        {
-            <DropdownItem Disabled>
-                @NotFoundContent( Search )
-            </DropdownItem>
-        }
-
         @if ( DropdownVisible )
         {
             @if ( VirtualizeManualReadMode )
@@ -79,6 +72,18 @@
                     @itemFragment(item)
                 }
             }
+        }
+        else if ( NotFoundVisible )
+        {
+            <DropdownItem Disabled>
+                @NotFoundContent( Search )
+            </DropdownItem>
+        }
+        else if ( FreeTypingNotFoundVisible )
+        {
+            <DropdownItem Disabled>
+                @FreeTypingNotFoundTemplate( Search )
+            </DropdownItem>
         }
     </DropdownMenu>
 </Dropdown>

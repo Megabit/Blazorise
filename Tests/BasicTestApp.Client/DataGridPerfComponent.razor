@@ -1,0 +1,94 @@
+﻿@using BasicTestApp.Client.PerfComponents;
+
+<Select ElementId="dataGridSelectionMode" @bind-SelectedValue="@dataGridSelectionMode">
+    <SelectItem Value="DataGridSelectionMode.Single">Single</SelectItem>
+    <SelectItem Value="DataGridSelectionMode.Multiple">Multiple</SelectItem>
+</Select>
+
+<DataGridPerf @ref="PerfRef"
+              TItem="Employee"
+              Data="@Data"
+              ShowPager
+              ShowPageSizes
+              Sortable
+              SortMode="DataGridSortMode.Single"
+              Editable
+              SelectionMode="@dataGridSelectionMode">
+    <DataGridColumns>
+        <DataGridCommandColumn TItem="Employee">
+            <NewCommandTemplate>
+                <Button ElementId="btnNew" Color="Color.Success" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </NewCommandTemplate>
+            <EditCommandTemplate>
+                <Button ElementId="btnEdit" Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </EditCommandTemplate>
+            <SaveCommandTemplate>
+                <Button ElementId="btnSave" Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Primary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </SaveCommandTemplate>
+            <DeleteCommandTemplate>
+                <Button ElementId="btnDelete" Color="Color.Danger" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </DeleteCommandTemplate>
+            <CancelCommandTemplate>
+                <Button ElementId="btnCancel" Color="Color.Secondary" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </CancelCommandTemplate>
+            <ClearFilterCommandTemplate>
+                <Button ElementId="btnClearFilter" Color="Color.Warning" Clicked="@context.Clicked">@context.LocalizationString</Button>
+            </ClearFilterCommandTemplate>
+            </DataGridCommandColumn>
+            <DataGridColumn TextAlignment="TextAlignment.Center"
+                        TItem="Employee"
+                        Field="@nameof( Employee.Fraction )"
+                        Caption="Fraction"
+                        SortField="@nameof( Employee.FractionValue )"
+                        SortDirection="SortDirection.Ascending"
+                        Editable="false" />
+            <DataGridColumn TItem="Employee"
+                        Field="@nameof( Employee.Name )"
+                        Caption="Name"
+                                Editable />
+    </DataGridColumns>
+    <EmptyTemplate>
+        No Records...
+    </EmptyTemplate>
+</DataGridPerf>
+
+
+@code {
+    public DataGridPerf<Employee> PerfRef;
+
+    private DataGridSelectionMode dataGridSelectionMode;
+
+    public List<Employee> Data { get; set; } = new()
+        {
+            new() { Name = "John", Fraction = "1/2" },
+            new() { Name = "Sarah", Fraction = "1/4" },
+            new() { Name = "Paul", Fraction = "1/8" },
+            new() { Name = "Ana", Fraction = "3/4" }
+        };
+
+    public class Employee
+    {
+        public string Name { get; set; }
+
+        public string Fraction { get; set; }
+
+        public decimal FractionValue
+        {
+            get
+            {
+                if ( !string.IsNullOrWhiteSpace( Fraction ) )
+                {
+                    var split = Fraction.Split( "/" );
+                    if ( split.Length == 2 )
+                    {
+                        return decimal.Parse( split[0] ) / decimal.Parse( split[1] );
+                    }
+                }
+
+                return 0;
+
+            }
+        }
+
+    }
+}

@@ -37,7 +37,7 @@ public partial class FieldLabel : Blazorise.FieldLabel
 
         if ( ColumnSize != null )
         {
-            builder.Append( ColumnSize.Class( ClassProvider ) );
+            builder.Append( ColumnSize.Class( false, ClassProvider ) );
         }
     }
 

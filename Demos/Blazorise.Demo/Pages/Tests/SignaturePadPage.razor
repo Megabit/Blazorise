@@ -1,0 +1,129 @@
+﻿@page "/tests/signaturepad"
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12">
+        <Card Margin="Margin.Is4.FromTop">
+            <CardHeader>
+                <CardTitle>Settings</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    <Field>
+                        <FieldLabel>Background Color</FieldLabel>
+                        <FieldBody>
+                            <ColorPicker @bind-Color="@backgroundColor" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Pen Color</FieldLabel>
+                        <FieldBody>
+                            <ColorPicker @bind-Color="@penColor" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Dot Size</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@dotSize" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Min Width</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@minLineWidth" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Max Width</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@maxLineWidth" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Throttle</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@throttle" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Min Distance</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@minDistance" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Velocity Filter Weight</FieldLabel>
+                        <FieldBody>
+                            <NumericPicker @bind-Value="@velocityFilterWeight" />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Read only</FieldLabel>
+                        <FieldBody>
+                            <Check @bind-Checked="@readOnly" />
+                        </FieldBody>
+                    </Field>
+                </Fields>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Signature pad</CardTitle>
+                <Button Color="Color.Primary" Clicked="@(() => signaturePadRef.Undo())" Size="Size.Small" Margin="Margin.Is3.FromStart">
+                    <Icon Name="IconName.Undo" />
+                </Button>
+            </CardHeader>
+            <CardBody>
+                <SignaturePad @ref="@signaturePadRef" @bind-Value="@data" BackgroundColor="@backgroundColor" PenColor="@penColor" DotSize="@dotSize" MinLineWidth="@minLineWidth" MaxLineWidth="@maxLineWidth" Throttle="@throttle" MinDistance="@minDistance" VelocityFilterWeight="@velocityFilterWeight" ReadOnly="@readOnly" BeginStroke="@OnBegin" EndStroke="@OnEnd" />
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Image Source="@Image64" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+
+
+@code {
+    SignaturePad signaturePadRef;
+    byte[] data = null;
+
+    string Image64 => SignaturePad.GetDataUrl( data );
+
+    string backgroundColor = "rgba(255, 255, 255, 1)";
+    string penColor = "#000000";
+    double dotSize = 0.7;
+    double minLineWidth = 0.5;
+    double maxLineWidth = 1;
+    double velocityFilterWeight = 0.7;
+    int throttle = 10;
+    int minDistance = 5;
+    bool readOnly;
+
+    Task OnBegin( SignaturePadBeginStrokeEventArgs eventArgs )
+    {
+        Console.WriteLine( $"Begin >> x: {eventArgs.OffsetX} y: {eventArgs.OffsetY}" );
+
+        return Task.CompletedTask;
+    }
+
+    Task OnEnd( SignaturePadEndStrokeEventArgs eventArgs )
+    {
+        Console.WriteLine( $"End >> x: {eventArgs.OffsetX} y: {eventArgs.OffsetY}" );
+
+        return Task.CompletedTask;
+    }
+}

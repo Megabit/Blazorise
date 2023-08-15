@@ -1,5 +1,5 @@
-﻿import "./vendors/jsencrypt.js?v=1.2.2.0";
-import "./vendors/sha512.js?v=1.2.2.0";
+﻿import "./vendors/jsencrypt.js?v=1.3.0.0";
+import "./vendors/sha512.js?v=1.3.0.0";
 
 // adds a classname to the specified element
 export function addClass(element, classname) {
@@ -301,4 +301,10 @@ export function verifyRsa(publicKey, content, signature) {
 
 export function log(message, args) {
     console.log(message, args);
+}
+
+export function createEvent(name) {
+    const e = document.createEvent("Event");
+    e.initEvent(name, true, true);
+    return e;
 }

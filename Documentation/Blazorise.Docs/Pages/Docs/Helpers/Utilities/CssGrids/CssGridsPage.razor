@@ -1,0 +1,88 @@
+﻿@page "/docs/helpers/utilities/css-grid"
+
+<Seo Canonical="/docs/helpers/utilities/css-grid" Title="Blazorise CSS Grid Utilities" Description="Learn to use and work with the Blazorise CSS Grid that’s built on CSS Grid, but with a Blazorise twist." />
+
+<DocsPageTitle Path="Helpers/Utilities/CSS Grid">
+    Blazorise CSS Grid Utilities
+</DocsPageTitle>
+
+<DocsPageLead>
+    Quickly manage the layout, alignment, and sizing of grid columns, navigation, components, and more with a full suite of responsive grid utilities.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    With Blazorise, we’ve added the option to enable a separate grid system that’s built on CSS Grid, but with a Blazorise twist.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Three columns">
+        <Paragraph>
+            Three equal-width columns across all viewports and devices can be created by using the <Code>GridColumns.Are3</Code> utilities.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GridThreeColumnsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GridThreeColumnsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Wrapping">
+        <Paragraph>
+            Grid items automatically wrap to the next line when there’s no more room horizontally. Note that the gap applies to horizontal and vertical gaps between grid items.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GridWrappingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GridWrappingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Auto columns">
+        <Paragraph>
+            When there are no classes on the grid items (the immediate children of a <code>Grid</code>), each grid item will automatically be sized to one column.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GridAutoColumnsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GridAutoColumnsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        <Paragraph>
+            This behavior can be mixed with grid column classes.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <GridAutoColumns2Example />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="GridAutoColumns2Example" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes Title="Grid">
+    <DocsAttributesItem Name="Rows" Type="IFluentGridRows" Default="null">
+        Defines the number of rows to show in a grid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Columns" Type="IFluentGridColumns" Default="null">
+        Defines the number of columns to show in a grid.
+    </DocsAttributesItem>
+</DocsAttributes>

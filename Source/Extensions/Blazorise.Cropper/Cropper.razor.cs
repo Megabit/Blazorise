@@ -29,6 +29,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
         {
             var sourceChanged = parameters.TryGetValue<string>( nameof( Source ), out var paramSource ) && paramSource != Source;
             var altChanged = parameters.TryGetValue<string>( nameof( Alt ), out var paramAlt ) && paramAlt != Alt;
+            var crossoriginChanged = parameters.TryGetValue<string>( nameof( CrossOrigin ), out var paramCrossOrigin ) && paramCrossOrigin != CrossOrigin;
             var imageOptionsChanged = parameters.TryGetValue<CropperImageOptions>( nameof( ImageOptions ), out var paramImageOptions ) && paramImageOptions != ImageOptions;
             var selectionOptionsChanged = parameters.TryGetValue<CropperSelectionOptions>( nameof( SelectionOptions ), out var paramSelectionOptions ) && paramSelectionOptions != SelectionOptions;
             var gridOptionsChanged = parameters.TryGetValue<CropperGridOptions>( nameof( GridOptions ), out var paramGridOptions ) && paramGridOptions != GridOptions;
@@ -36,6 +37,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
 
             if ( sourceChanged
                 || altChanged
+                || crossoriginChanged
                 || imageOptionsChanged
                 || selectionOptionsChanged
                 || gridOptionsChanged
@@ -45,6 +47,7 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
                 {
                     Source = new { Changed = sourceChanged, Value = paramSource },
                     Alt = new { Changed = altChanged, Value = paramAlt },
+                    CrossOrigin = new { Changed = crossoriginChanged, Value = paramCrossOrigin },
                     Image = new
                     {
                         Changed = imageOptionsChanged,
@@ -215,6 +218,14 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
         => JSModule.Scale( ElementRef, ElementId, x, y );
 
     /// <summary>
+    /// Center the image.
+    /// </summary>
+    /// <param name="size">The size factor: null, contain or cover.</param>
+    /// <returns></returns>
+    public ValueTask Center( string size )
+        => JSModule.Center( ElementRef, ElementId, size );
+
+    /// <summary>
     /// Resets the selection to its initial position and size.
     /// </summary>
     /// <returns></returns>
@@ -257,6 +268,12 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
             await SelectionChanged.Invoke( new CropperSelectionChangedEventArgs( x, y, width, height ) );
     }
 
+    internal async Task NotifyImageReady()
+    {
+        if ( ImageReady is not null )
+            await ImageReady.Invoke();
+    }
+
     #endregion
 
     #region Properties
@@ -279,6 +296,11 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     /// The alt text of the image.
     /// </summary>
     [Parameter] public string Alt { get; set; }
+
+    /// <summary>
+    /// The cross-origin attribute of the image.
+    /// </summary>
+    [Parameter] public string CrossOrigin { get; set; }
 
     /// <summary>
     /// This event fires when the canvas (image wrapper) or the crop box starts to change.
@@ -309,6 +331,11 @@ public partial class Cropper : BaseComponent, IAsyncDisposable
     /// The event is fired when the position or size of the selection is going to change.
     /// </summary>
     [Parameter] public Func<CropperSelectionChangedEventArgs, Task> SelectionChanged { get; set; }
+
+    /// <summary>
+    /// This event fires when the image is ready / loaded.
+    /// </summary>
+    [Parameter] public Func<Task> ImageReady { get; set; }
 
     /// <summary>
     /// Indicates whether this element is disabled.

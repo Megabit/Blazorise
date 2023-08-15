@@ -1,0 +1,19 @@
+{
+  "culture": "da",
+  "translations": {
+    "ui:dialog": "farvevælger dialog",
+    "btn:toggle": "skift farvevælger dialog",
+    "btn:swatch": "farveprøve",
+    "btn:last-color": "brug forrige farve",
+    "btn:save": "Gem",
+    "btn:cancel": "Annuller",
+    "btn:clear": "Ryd",
+    "aria:btn:save": "gem og luk",
+    "aria:btn:cancel": "annuller og luk",
+    "aria:btn:clear": "ryd og luk",
+    "aria:input": "farvevalg",
+    "aria:palette": "farvevalgs palette",
+    "aria:hue": "skyder til farvenuancevalg",
+    "aria:opacity": "skyder til valg"
+  }
+}

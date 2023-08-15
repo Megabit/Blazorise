@@ -1,0 +1,591 @@
+﻿@page "/news/release-notes/130"
+
+<Seo Canonical="news/release-notes/130" Title="Blazorise v1.3" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.3 release." ImageUrl="img/news/empty.png" />
+
+<NewsPageImage Source="img/news/empty.png" Text="Blazorise v1.3" />
+
+<NewsPageTitle>
+    Announcing Blazorise 1.3
+</NewsPageTitle>
+
+<Paragraph>
+    Greetings to our amazing developer community! We're thrilled to announce the latest and greatest version of Blazorise – version 1.3. Dive in to explore the new components, enhancements, and features we've added to help you craft even better web applications!
+</Paragraph>
+
+<NewsPageSubtitle>
+    Blazorise 1.3 Highlights 💡
+</NewsPageSubtitle>
+
+<Paragraph>
+    Here's a summary of what’s new in this release:
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Offcanvas Component</Strong>: Now offers dynamic appearance from top, bottom, left, or right of the screen. Comprising three main elements (Offcanvas, OffcanvasHeader, OffcanvasBody), it enhances the responsive design for both desktop and mobile.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Splitter Component</Strong>: Craft resizable panels with new functionalities including GutterSize, MinSize, MaxSize, and more.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Signature Pad</Strong>: Collect digital signatures effortlessly.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Strong>Charts.Annotation</Strong>: Draw Lines and Boxes over the Charts
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>DataGrid Enhancements</Strong>:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    New <Strong>FilterMode</Strong> for dynamic column-based filtering.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Improved parameters for DataGridSelectColumn.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    CancellableRowChange and SavedRowItem improvements.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    New <Strong>ApplySorting</Strong> method for programmatic column sorting.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Predefined column filtering with FilterMethod.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Expandable row groups with <Strong>ExpandGroups</Strong> and <Strong>CollapseGroups</Strong>.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    New <Strong>ClearFilter</Strong> overload.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    New <Strong>HeaderGroupCaption</Strong> to group multiple column headers.
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>TreeView</Strong>: Observable collections.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Utilities</Strong>: CSS Grid, Text Size, List Styles, ...
+        </Paragraph>
+    </UnorderedListItem>
+</UnorderedList>
+
+<NewsPageSubtitle>
+    Get Started 👨‍🔧
+</NewsPageSubtitle>
+
+<Paragraph>
+    To upgrade an existing Blazorise applications from <Strong>1.2.x</Strong> to <Strong>1.3</Strong>:
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.3</Strong>.
+    </UnorderedListItem>
+</UnorderedList>
+
+<Paragraph>
+    You should now be able to use Blazorise without any breaking changes to the API.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Good to Know
+</NewsPageSubtitle>
+
+<Paragraph>
+    Before we continue we need to make sure that you're familiar with some behaviour changes in this release.
+</Paragraph>
+
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            <Code>DataGrid</Code> : The data collection no longer automatically updates upon mutating the collection, for example, by using methods like <Code>Add</Code> or <Code>Remove</Code>.
+        </Paragraph>
+        <Paragraph>
+            While this feature was good to have by default, the way it was implemented, was a general performance hit on <Code>DataGrid</Code> usage, even if it wasn't in the interest of the consumer to use it.
+        </Paragraph>
+        <Paragraph>
+            As such we now recommended the following, either:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>Invoke <Code>gridRef.Reload();</Code> when you're done mutating your collection;</UnorderedListItem>
+                <UnorderedListItem>Have your data be observable by using any implementation of the <Code>INotifyCollectionChanged</Code>, like the <Code>ObservableCollection</Code>. The example below ilustrates this.</UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
+            Please visit, <Anchor To="docs/extensions/datagrid/binding-data/observable">observable data docs</Anchor> for more information.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+<NewsPageSubtitle>
+    New Features & Enhancements 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Offcanvas Component
+</Heading>
+
+<Paragraph>
+    The new <Anchor To="docs/components/offcanvas" Title="Offcanvas component">Offcanvas component</Anchor> offers the flexibility to appear, or slide from the <Strong>top</Strong>, <Strong>bottom</Strong>, <Strong>left</Strong>, or <Strong>right</Strong> of your screen, making it highly adaptable to a variety of design contexts. This makes it a perfect fit for both desktop and mobile layouts, allowing you to create responsive designs with ease.
+</Paragraph>
+
+<Paragraph>
+    We believe the Offcanvas component will offer our developers a new level of versatility when crafting unique user interfaces, making it easier to manage additional content or navigation in a user-friendly and accessible way.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Splitter Component
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/130/feature-splitter.png" ImageTitle="Feature Splitter component" />
+
+<Paragraph>
+    We're thrilled to announce the introduction of a new <Strong>Splitter</Strong> component in the latest update of Blazorise. This interactive and flexible layout component provides a way to create resizable panels in your application.
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>GutterSize</Strong>: Controls the width of the draggable area between sections, allowing users to adjust the relative sizes of the sections.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>MinSize</Strong>: Specifies the minimum size to which a section can be resized, ensuring the usability and readability of content in each section.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>MaxSize</Strong>: Specifies the maximum size to which a section can be resized, ensuring the usability and readability of content in each section.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                and more
+            </Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    🏆 We would like to express our sincere thanks to <Anchor To="https://github.com/smfields" Title="Link to smfields GitHub">smfields</Anchor>, a dedicated member of our community, who initially developed this feature. He has generously granted us the rights to include it in Blazorise, enabling all users of our library to benefit from this versatile component.
+</Paragraph>
+
+<Paragraph>
+    We look forward to seeing the creative ways in which you'll incorporate this new feature into your projects!
+</Paragraph>
+
+<Paragraph>
+    The usage of new Splitter component can be see on <Anchor To="docs/extensions/splitter" Title="Splitter page">Splitter page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    SignaturePad
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/130/feature-signaturepad.png" ImageTitle="Feature SignaturePad component" />
+
+<Paragraph>
+    The SignaturePad is a crucial component in Blazorise that enables users to sign and submit documents electronically. With this update, developers can now capture and store signatures in a secure and reliable manner, ensuring the authenticity and integrity of the documents.
+</Paragraph>
+
+<Paragraph>
+    This component will make it easier for developers to create applications that require the collection of digital signatures, saving time and effort for both the users and the developers. We hope this update will be beneficial to our users and help them create more efficient and effective applications.
+</Paragraph>
+
+<Paragraph>
+    The usage of new SignaturePad component can be see on <Anchor To="docs/extensions/signaturepad" Title="SignaturePad page">SignaturePad page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Message Provider
+</Heading>
+
+<Paragraph>
+    We have added localization support to the <Anchor To="docs/services/message-provider" Title="MessageProvider page">MessageProvider</Anchor>. This update will allow developers to create applications that can support multiple languages and locales.
+</Paragraph>
+
+<Paragraph>
+    The MessageProvider is a vital component in Blazorise that enables the display of notifications, alerts, and other messages to users. With the added localization support, developers can now customize the messages displayed to users based on their preferred language and locale.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Draw Lines and Boxes over the Charts
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/130/feature-chartannotations.png" ImageTitle="Feature Charts Annotation component" />
+
+<Paragraph>
+    This innovative extension is based on the powerful <Anchor To="https://www.chartjs.org/chartjs-plugin-annotation/latest/" Title="Link to chart Chart Annotation plugin" Target="Target.Blank">chartjs-plugin-annotation</Anchor> and offers a new level of flexibility and functionality for your chart visualizations.
+</Paragraph>
+
+<Paragraph>
+    The <Anchor To="docs/extensions/chart-annotation" Title="Link to Charts Annotation">Charts Annotation</Anchor> extension lets you draw lines, boxes, points, labels, polygons, and ellipses directly on the chart area, adding context and enhancing data visualization. This feature is versatile and can be used in conjunction with line, bar, scatter, and bubble charts, providing meaningful insights for your data sets.
+</Paragraph>
+
+<Paragraph>
+    Whether you're using linear, logarithmic, time, or category scales, you'll find the annotations provide a new dimension to your charts. However, please note that annotations will not work on charts that do not have two or more axes, including pie, radar, and polar area charts.
+</Paragraph>
+
+<Paragraph>
+    This new extension is a significant step towards making Blazorise's charting features more comprehensive and versatile. We encourage you to experiment with these new capabilities to see how they can add depth to your data visualizations. As always, we look forward to hearing your feedback!
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Paragraph>
+    There are so many new features, APIs, and other improvements on the DataGrid component that is hard to keep track of all of them. Explaining them is not as easy task so we're going to be as short as possible.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Filtering Improvements
+</Heading>
+
+<OrderedList>
+    <OrderedListItem>
+        <Heading Size="HeadingSize.Is4">
+            New FilterMode
+        </Heading>
+
+        <NewsPageImageModal ImageSource="img/news/130/feature-datagrid-fildermode.png" ImageTitle="DataGrid FilterMode features" />
+
+        <Paragraph>
+            There is now a new <Code>FilterMode</Code> option that allows you to specify a new Filter Mode. By setting the <Code>FilterMode</Code> to the new <Code>DataGridFilterMode.Menu</Code>, the <Code>DataGrid</Code> will now show a filter icon by each column allowing your users to dinamically customize the filter to apply on per column basis.
+        </Paragraph>
+
+        <Paragraph>
+            Please visit, <Anchor To="docs/extensions/datagrid/features/filtering">datagrid filtering docs</Anchor> to find a new example showcasing this feature.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Heading Size="HeadingSize.Is4">
+            New FilterMethod
+        </Heading>
+
+        <Paragraph>
+            You are now able to use pre defined filtering on a per-column basis by specifying <Strong>FilterMethod</Strong> on <Strong>DataGridColumn</Strong>.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Heading Size="HeadingSize.Is4">
+            New ClearFilter
+        </Heading>
+
+        <Paragraph>
+            Added a new <Code>ClearFilter</Code> overload. You are now able to clear the filter on specific columns.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Heading Size="HeadingSize.Is4">
+            Numeric Filtering
+        </Heading>
+
+        <Paragraph>
+            The <Code>DataGridNumericColumn</Code> now renders a numeric filter input & applies the corresponding specific numeric configuration you've assigned it.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+
+<Heading Size="HeadingSize.Is4">
+    Grouping Header Captions
+</Heading>
+
+<Paragraph>
+    The new <Code>HeaderGroupCaption</Code> feature for the DataGrid component is something we are eager to share. With the help of this feature, you can combine several DataGrid column headers under a single, comprehensive caption.
+</Paragraph>
+
+<Paragraph>
+    This is particularly helpful when you need to group related columns under a single heading for easier understanding and organization. For instance, you could put columns like <Strong>"Price,"</Strong> <Strong>"Discount,"</Strong> and <Strong>"Total Cost"</Strong> under a header group titled <Strong>"Financial Details"</Strong> in a DataGrid that displays product details.
+</Paragraph>
+
+<Paragraph>
+    With this improvement, you can better structure your data and give users more information. By enabling more intuitive navigation through the DataGrid, grouping column headers using HeaderGroupCaption greatly improves the readability of complicated grids.
+</Paragraph>
+
+<Paragraph>
+    Please visit, <Anchor To="docs/extensions/datagrid/features/header-group" Title="Link to DataGrid Header Group docs">DataGrid Header Group docs</Anchor> to find a new example showcasing this feature.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    DataGrid Select Column Data Binding
+</Heading>
+
+<Paragraph>
+    The <Code>DataGridSelectColumn</Code> will now enable you to provide new parameters so you can quickly render a select structure. Similarly to how a regular <Code>SelectList</Code> works, you can define new parameters, <Strong>Data</Strong>, <Strong>ValueField</Strong>, and <Strong>TextField</Strong> that will help to danamically bind the underline select element.
+</Paragraph>
+
+<Paragraph>
+    Please visit, <Anchor To="docs/extensions/datagrid/columns" Title="Link to DataGridSelectColumn docs">DataGridSelectColumn docs</Anchor> to find a new example showcasing this feature.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Providing saved Item clone while saving
+</Heading>
+
+<Paragraph>
+    We've modified the callback <Code>CancellableRowChange</Code> argument in the <Code>RowInserting</Code>, <Code>RowUpdating</Code>, and <Code>RowRemoving</Code> callbacks to now provide both an <Code>OldItem</Code> and <Code>NewItem</Code> properties.
+</Paragraph>
+
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            <Code>OldItem</Code> will replace the regular existing <Code>Item</Code> as it's easier to understand what it represents.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            <Code>Item</Code> is now marked as obsolete and will be removed in a future release.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            <Code>NewItem</Code> is a deep clone of the item that's being inserted or updated with the updated edit values.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+
+<Paragraph>
+    The existing <Code>.Values;</Code> dictionary will still exist, but this allows you to promptly get a mapped <Code>TItem</Code> without having to write your own mapping code from the <Code>Dictionary</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Apply Sorting Programatically
+</Heading>
+
+<Paragraph>
+    Introduced a new <Code>ApplySorting()</Code> method that allows you to programatically define the columns that you'd like the grid to be sorted on.
+</Paragraph>
+
+<Paragraph>
+    🏆 This features was contributed by <Anchor To="https://github.com/danm-de" Title="Link to danm-de GitHub">danm-de</Anchor>.
+</Paragraph>
+
+<Paragraph>
+    Please visit, <Anchor To="docs/extensions/datagrid/features/sorting">datagrid sorting docs</Anchor> for more information.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Expandable Row Groups
+</Heading>
+
+<Paragraph>
+    Introduced <Code>ExpandGroups()</Code> and <Code>CollapseGroups()</Code> methods that allows you to programatically expand or collapse specific groups.
+</Paragraph>
+
+<Paragraph>
+    These new methods provide you with more control over how the data is presented and viewed, allowing you to tailor the user experience to specific usage scenarios and user preferences.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Display an overlay element while hovering over the row
+</Heading>
+
+<Paragraph>
+    Introduced a new <Code>RowOverlayTemplate</Code> that allows you to render an overlay with adittional information on top of the row. This feature is partically useful when you wish to provide more context about the data being presented to the user.
+</Paragraph>
+
+<Paragraph>
+    Please visit, <Anchor To="docs/extensions/datagrid/templates/row-overlay" Title="Link to Row Overlay docs">Row Overlay docs</Anchor> for more information.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Show Required Indicator on a Field Label
+</Heading>
+
+<Paragraph>
+    A new <Code>RequiredIndicator</Code> parameter was introduced. By enabling this parameter. The label will display a a required indicator by appending a relevant class which by default will render an asterix by the label with the theme's danger color. Which you can of course override the css class to your liking.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Dropdown with Checkboxes
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/130/feature-dropdown-check.png" ImageTitle="Feature Dropdown with Checkboxes" />
+
+<Paragraph>
+    We have added a new <Code>Checkbox</Code> parameter to the <Code>DropdownItem</Code> so you may now render dropdown items with checkboxes. You can also track the state of each one by binding to the new <Code>Checked</Code> and <Code>CheckedChanged</Code> parameters.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DropdownList selection with checkboxes
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/130/feature-dropdownlist-selection.png" ImageTitle="Feature Dropdown with Checkboxes" />
+
+<Paragraph>
+    Introduced a new <Code>SelectionMode</Code> parameter, which allows the selection of a new Checkbox mode, that will set the <Code>DropdownList</Code> into a multiple selection mode. You can track the state of the selection by binding to the new <Code>SelectedValues</Code> and <Code>SelectedValuesChanged</Code> parameters.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Remove Nodes from TreeView
+</Heading>
+
+<Paragraph>
+    🏆 With the contribution by our community member <Anchor To="https://github.com/JTtheGeek" Title="Link to JTtheGeek GitHub">JTtheGeek</Anchor>, we now have a <Code>RemoveNode()</Code> method that allows you to remove a node from the TreeView if it's found.
+</Paragraph>
+
+<Paragraph>
+    It is also possible to make node children collections observable (retrieved by <Code>GetChildNodes()</Code> / <Code>GetChildNodesAsync()</Code> ) and any changes to them should be reflected on the UI.
+</Paragraph>
+
+<Paragraph>
+    On top of it, you can also make use of <Code>IsDisabled()</Code> callback method to disable each node dynamically.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    New APIs added to Autocomplete
+</Heading>
+
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            We have added a new <Code>FreeTypingNotFoundTemplate</Code> parameter so you may provide a custom template when the user types in a value that is not found in the data source and <Code>FreeTyping</Code> is enabled.
+        </Paragraph>
+        <Paragraph>
+            This is useful when you want to provide a message for the user related to an item that's not in the data source. For example, presenting the following message for the Singapore text that's not in the data source: Add "Singapore"?
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            We have added a new <Code>AutocompleteTagContext</Code> parameter so you may customize tags to your liking when using <Code>Autocomplete</Code> multiple selection mode.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            We've added EventCallbacks for the events that we currently listen to in the <Code>Autocomplete</Code>, these are called when the <Code>Autocomplete</Code> finishes handling the corresponding event.
+            <UnorderedList>
+                <UnorderedListItem><Code>SearchTextChanged</Code></UnorderedListItem>
+                <UnorderedListItem><Code>SearchKeyDown</Code></UnorderedListItem>
+                <UnorderedListItem><Code>SearchFocus</Code></UnorderedListItem>
+                <UnorderedListItem><Code>SearchBlur</Code></UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+
+<Heading Size="HeadingSize.Is3">
+    Play Videos from multiple sources with diferent qualities
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/130/feature-video.png" ImageTitle="Feature Video sources" />
+
+<Paragraph>
+    In this release, we've added a significant enhancement to the <Anchor To="docs/extensions/video">Blazorise Video player</Anchor>. Users now have the ability to define multiple sources for a single video, each with different qualities. This includes options for 576p, 720p, and 1080p. The chosen video file, hosted at a unique URL for each quality, will load based on the user's preference or network conditions. By default, the player is set to display the video in 720p. This new feature offers users a more tailored and efficient video viewing experience by adapting to their specific needs and conditions.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Improved Dropdown Positioning
+</Heading>
+
+<Paragraph>
+    We've migrated the underlying library that takes care of dynamically "anchor position" the dropdown menu according to the UI constraints. It has been migrated from <Anchor To="https://popper.js.org/">Popper</Anchor> to the newer <Anchor To="https://floating-ui.com/">Floating UI</Anchor> library.
+    Behaviour should remain unchanged and your dropdown menus should still be cleverly positioned!
+</Paragraph>
+
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            Added a new <Code>PositionStrategy</Code> parameter, that allows you to set the positioning strategy for your dropdown. Please read <Anchor To="https://floating-ui.com/docs/computeposition#strategy" Title="Link to Floating UI Strategy">Floating UI Strategy</Anchor> for more details on how it can affect the positioning of your dropdown.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            Added a new <Code>DropdownMenuTargetId</Code> parameter, that allows you to set a custom anchor element id for the dropdown menu. This is useful when you want the dropdown menu to be anchored from a different element than the toggle button.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            Fixed an issue where in some certain cases, if buttons existed inside the Dropdown the menu positioning would not be handled correctly.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+
+<Heading Size="HeadingSize.Is3">
+    Validation with IValidatableObject
+</Heading>
+
+<Paragraph>
+    We've added support for <Strong>IValidatableObject</Strong>. This new feature enhances the flexibility and robustness of your form validation processes. By implementing the <Strong>IValidatableObject</Strong> interface in your models, you can now provide custom validation logic that is more complex and situation-specific than what can be achieved with simple data annotation validation.
+</Paragraph>
+
+<Paragraph>
+    This interface includes the <Strong>Validate</Strong> method, which you can override to define your custom validation rules. This method is automatically invoked when performing model validation, ensuring that your custom rules are adhered to. This feature is useful when the validity of a property's value is dependent on another property's value, or when an intricate validation process is required.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    New Utilities 🧰
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    CSS Grid
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/130/feature-cssgrid.png" ImageTitle="Feature CSS Grid" />
+
+<Paragraph>
+    The <Anchor To="docs/helpers/utilities/css-grid" Title="Link to CSS Grid">CSS Grid</Anchor> is a two-dimensional layout model, comprised of 12 columns and up to 6 rows, providing a robust structure for building complex layouts. This structure allows developers to craft visually appealing and responsive designs that will adapt seamlessly across various devices and screen sizes.
+</Paragraph>
+
+<Paragraph>
+    One of the standout features is its built-in responsiveness with mobile breakpoints. This ensures that the layout will automatically adjust to provide an optimal viewing experience on different devices, from large desktop monitors down to mobile phones. The alignment and positioning within the grid have been carefully designed to offer a straightforward yet powerful way to arrange your components.
+</Paragraph>
+
+<Paragraph>
+    We believe this new grid system will offer our developers more control and creativity in crafting layouts, making it easier to produce stunning, responsive designs. We encourage you to explore this new feature and as always, your feedback is most welcome.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Lists Style Image
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/130/feature-liststyle.png" ImageTitle="Feature Lists Style Image" />
+
+<Paragraph>
+    The ListStyleImage parameter allows you to define the marker images for list items. This gives you more flexibility and creativity in styling your lists, enhancing your user interface by going beyond the traditional bullet points or numerical markers. You can now use custom images to highlight or differentiate individual list items. It takes a string as its value, which should be <Strong>Base64</Strong> encoded string that represents an image, or a <Strong>URL</Strong> of the image you wish to use as your list marker. Please note that the image URL must be enclosed in url() and the image should ideally be a small, suitable size for use as a list marker. The example can be found on <Anchor To="docs/components/typography">Typography</Anchor> pages.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Text Size
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/130/feature-textsize.png" ImageTitle="Feature Text Size" />
+
+<Paragraph>
+    The <Strong>TextSize</Strong> enum provides predefined sizes from <Strong>extra small</Strong> to <Strong>extra large</Strong>, as well as supporting various heading sizes from <Strong>Heading1</Strong> (largest) to <Strong>Heading6</Strong> (smallest). The example can be found on <Anchor To="docs/components/typography">Typography</Anchor> pages.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Wrap Up
+</NewsPageSubtitle>
+
+<Paragraph>
+    This release is packed with features, enhancements, and improvements, all aimed at making your Blazorise experience richer and more efficient. We're always striving to make Blazorise the best it can be, and we couldn't do it without your feedback and support.
+</Paragraph>
+
+<Paragraph>
+    Thank you for being a part of our journey. We eagerly await to see the fantastic applications you craft using these new features!
+</Paragraph>
+
+<Paragraph>
+    Happy coding! 🎉🚀
+</Paragraph>
+
+<NewsPagePostInto UserName="Mladen Macanović" ImageName="mladen" PostedOn="August 16th, 2023" Read="11 min" />

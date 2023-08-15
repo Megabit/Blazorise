@@ -1,0 +1,22 @@
+﻿<Container Padding="Padding.Is5.OnY">
+    <Row Border="Border.Rounded" Shadow="Shadow.Small" Class="overflow-hidden flex-md-row mb-4 h-md-250 position-relative">
+        <Column ColumnSize="ColumnSize.IsAuto" Display="Display.None.Block.OnWidescreen" Border="Border.Is1.OnEnd">
+            <Image Source="@LogoUrl" Text="@LogoText" Style="width: 200px; height: 250px;"></Image>
+        </Column>
+        <Column Padding="Padding.Is4" Flex="Flex.Column">
+            <Paragraph Class="customer-quote" Margin="Margin.IsAuto.FromBottom">
+                <q>@Quote</q>
+            </Paragraph>
+            <Anchor To="@PartnerUrl" Title="Image to partner web">Partner web</Anchor>
+        </Column>
+    </Row>
+</Container>
+@code{
+    [Parameter] public string LogoUrl { get; set; }
+
+    [Parameter] public string LogoText { get; set; }
+
+    [Parameter] public string Quote { get; set; }
+
+    [Parameter] public string PartnerUrl { get; set; }
+}

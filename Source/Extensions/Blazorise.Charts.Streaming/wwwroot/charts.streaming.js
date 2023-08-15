@@ -1,5 +1,5 @@
-import { getChart, compileOptionCallbacks } from "../Blazorise.Charts/charts.js?v=1.2.2.0";
-import { deepClone } from "../Blazorise.Charts/utilities.js?v=1.2.2.0";
+import { getChart, compileOptionCallbacks } from "../Blazorise.Charts/charts.js?v=1.3.0.0";
+import { deepClone } from "../Blazorise.Charts/utilities.js?v=1.3.0.0";
 
 export function initialize(dotNetAdapter, canvas, canvasId, vertical, streamOptions) {
     const chart = getChart(canvasId);

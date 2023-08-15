@@ -1,0 +1,185 @@
+﻿@page "/book-a-demo"
+
+<Seo Canonical="/book-a-demo" Title="Book a Demo with the Blazorise Team" Description="Book a Demo with the Blazorise Team and learn more about our Blazorise components. We are here to help you with your product, licensing, renewals and other questions." />
+
+<PageHeader>
+    <Title>
+        Book a Demo
+    </Title>
+    <Description>
+        <Paragraph>
+            Interested in our commercial subscriptions?
+        </Paragraph>
+        <Paragraph>
+            Schedule a sales demo to see how to create a modern business web app for your use case.
+        </Paragraph>
+    </Description>
+</PageHeader>
+
+<Container>
+    <Row>
+        <Column ColumnSize="ColumnSize.Is8.OnWidescreen.Is12.OnDesktop" Margin="Margin.IsAuto.OnX">
+            <Card Shadow="Shadow.Large">
+                <Form>
+                    <CardBody>
+                        <Validations @ref="validationsRef" Mode="ValidationMode.Manual">
+                            <Fields>
+                                <Validation Validator="ValidationRule.IsNotEmpty">
+                                    <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                        <FieldLabel RequiredIndicator>First name</FieldLabel>
+                                        <FieldBody>
+                                            <Addons>
+                                                <Addon AddonType="AddonType.Start">
+                                                    <AddonLabel>
+                                                        <Icon Name="IconName.User" />
+                                                    </AddonLabel>
+                                                </Addon>
+                                                <Addon AddonType="AddonType.Body">
+                                                    <TextEdit @bind-Text="@User.FirstName" name="firstName" Placeholder="First Name..." aria-label="First Name..." />
+                                                </Addon>
+                                            </Addons>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                                <Validation Validator="ValidationRule.IsNotEmpty">
+                                    <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                        <FieldLabel RequiredIndicator>Last name</FieldLabel>
+                                        <FieldBody>
+                                            <Addons>
+                                                <Addon AddonType="AddonType.Start">
+                                                    <AddonLabel>
+                                                        <Icon Name="IconName.Book" />
+                                                    </AddonLabel>
+                                                </Addon>
+                                                <Addon AddonType="AddonType.Body">
+                                                    <TextEdit @bind-Text="@User.LastName" name="lastName" Placeholder="Last Name..." aria-label="Last Name..." />
+                                                </Addon>
+                                            </Addons>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                            </Fields>
+
+                            <Fields>
+                                <Validation Validator="ValidationRule.IsEmail">
+                                    <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                        <FieldLabel RequiredIndicator>Email address</FieldLabel>
+                                        <FieldBody>
+                                            <Addons>
+                                                <Addon AddonType="AddonType.Start">
+                                                    <AddonLabel>
+                                                        <Icon Name="Blazorise.Icons.FontAwesome.FontAwesomeIcons.Envelope" />
+                                                    </AddonLabel>
+                                                </Addon>
+                                                <TextEdit @bind-Text="@User.Email" name="email" Role="TextRole.Email" Placeholder="Email Here..." aria-label="Last Name..." />
+                                            </Addons>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                                <Validation Validator="ValidationRule.IsNotEmpty">
+                                    <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                        <FieldLabel RequiredIndicator>Company name</FieldLabel>
+                                        <FieldBody>
+                                            <Addons>
+                                                <Addon AddonType="AddonType.Start">
+                                                    <AddonLabel>
+                                                        <Icon Name="IconName.Building" />
+                                                    </AddonLabel>
+                                                </Addon>
+                                                <Addon AddonType="AddonType.Body">
+                                                    <TextEdit @bind-Text="@User.Company" name="companyName" Placeholder="Company name..." aria-label="Company Name..." />
+                                                </Addon>
+                                            </Addons>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                            </Fields>
+
+                            <Fields>
+                                <Validation Validator="ValidationRule.IsSelected">
+                                    <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                        <FieldLabel RequiredIndicator>Job Role</FieldLabel>
+                                        <FieldBody>
+                                            <Addons>
+                                                <Addon AddonType="AddonType.Start">
+                                                    <AddonLabel>
+                                                        <Icon Name="Blazorise.Icons.FontAwesome.FontAwesomeIcons.Suitcase" />
+                                                    </AddonLabel>
+                                                </Addon>
+                                                <Addon AddonType="AddonType.Body">
+                                                    <Select @bind-SelectedValue="@JobRole">
+                                                        @foreach ( var jobRole in JobRoles )
+                                                        {
+                                                            <SelectItem TValue="string" Value="@jobRole">@jobRole</SelectItem>
+                                                        }
+                                                    </Select>
+                                                </Addon>
+                                            </Addons>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                                <Validation Validator="ValidationRule.IsSelected">
+                                    <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                        <FieldLabel RequiredIndicator>Product</FieldLabel>
+                                        <FieldBody>
+                                            <Addons>
+                                                <Addon AddonType="AddonType.Start">
+                                                    <AddonLabel>
+                                                        <Icon Name="Blazorise.Icons.FontAwesome.FontAwesomeIcons.Box" />
+                                                    </AddonLabel>
+                                                </Addon>
+                                                <Addon AddonType="AddonType.Body">
+                                                    <Select @bind-SelectedValue="@Product">
+                                                        @foreach ( var product in Products )
+                                                        {
+                                                            <SelectItem TValue="string" Value="@product">@product</SelectItem>
+                                                        }
+                                                    </Select>
+                                                </Addon>
+                                            </Addons>
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                            </Fields>
+
+                            <Fields>
+                                <Validation Validator="ValidationRule.IsNotEmpty">
+                                    <Field>
+                                        <FieldLabel RequiredIndicator>What would you like to see during the demo?</FieldLabel>
+                                        <FieldBody>
+                                            <MemoEdit @bind-Text="@MessageBody" name="message" Rows="6" />
+                                        </FieldBody>
+                                    </Field>
+                                </Validation>
+                            </Fields>
+                            <Row>
+                                <Column Padding="Padding.Is3.FromBottom">
+                                    <Help>
+                                        Blazorise needs the contact information you provide to contact you about our products and services. You may unsubscribe from these communications at anytime. For information on how to unsubscribe, as well as our privacy practices and commitment to protecting your privacy, check out our <Anchor To="privacy" Title="Link to Privacy Policy">Privacy Policy</Anchor>.
+                                    </Help>
+                                </Column>
+                            </Row>
+                            <Row>
+                                <Validation Validator="@ValidateRobot">
+                                    <Column ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                        <Check TValue="bool" @bind-Checked="@NotARobot">
+                                            <ChildContent>
+                                                I'm not a robot
+                                            </ChildContent>
+                                            <Feedback>
+                                                <ValidationError />
+                                            </Feedback>
+                                        </Check>
+                                    </Column>
+                                </Validation>
+                                <Column ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                    <Button Clicked="@SendEmail" Color="Color.Primary" Float="Float.End">Send Message</Button>
+                                </Column>
+                            </Row>
+                        </Validations>
+                    </CardBody>
+                </Form>
+            </Card>
+        </Column>
+    </Row>
+</Container>

@@ -36,6 +36,13 @@
     <DocsPageSectionSource Code="ImportCropperExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Message Size">
+        This step is recommended for Blazor Server only. In a default Blazor Server project template, the SignalR settings might be too small for some components like Cropper. To make it work, you should increase the <Code>MaximumReceiveMessageSize</Code> in your projects <Strong>Startup.cs</Strong>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="CropperMessageSizeExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Examples
 </DocsPageSubtitle>
@@ -98,5 +105,11 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="CropperState" Type="CropperState" Default="null">
         Provides a shared state and syncronization context between the cropper and cropper viewer.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CrossOrigin" Type="string" Default="null">
+        The cross-origin attribute of the image.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageReady" Type="Func<Task>" Default="null">
+        This event fires when the image is ready / loaded.
     </DocsAttributesItem>
 </DocsAttributes>

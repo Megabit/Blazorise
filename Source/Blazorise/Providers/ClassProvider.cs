@@ -295,6 +295,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string FieldLabel( bool horizontal );
 
+    public abstract string FieldLabelRequiredIndicator( bool requiredIndicator );
+
     #endregion
 
     #region FieldBody
@@ -410,6 +412,10 @@ public abstract class ClassProvider : IClassProvider
     public abstract string DropdownHeader();
 
     public abstract string DropdownMenu();
+
+    public abstract string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy );
+
+    public abstract string DropdownFixedHeaderVisible( bool visible );
 
     public abstract string DropdownMenuSelector();
 
@@ -745,11 +751,21 @@ public abstract class ClassProvider : IClassProvider
 
     #region Column
 
-    public abstract string Column( bool hasSizes );
+    public abstract string Column( bool grid, bool hasSizes );
 
-    public abstract string Column( ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
+    public abstract string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset );
 
-    public abstract string Column( IEnumerable<ColumnDefinition> columnDefinitions );
+    public abstract string Column( bool grid, IEnumerable<ColumnDefinition> columnDefinitions );
+
+    #endregion
+
+    #region Grid
+
+    public abstract string Grid();
+
+    public abstract string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition );
+
+    public abstract string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition );
 
     #endregion
 
@@ -815,6 +831,30 @@ public abstract class ClassProvider : IClassProvider
     public abstract string ModalFooter();
 
     public abstract string ModalTitle();
+
+    #endregion
+
+    #region Offcanvas
+
+    public abstract string Offcanvas();
+
+    public abstract string OffcanvasPlacement( Placement placement, bool visible );
+
+    public abstract string OffcanvasFade( bool showing, bool hiding );
+
+    public abstract string OffcanvasVisible( bool visible );
+
+    public abstract string OffcanvasHeader();
+
+    public abstract string OffcanvasFooter();
+
+    public abstract string OffcanvasBody();
+
+    public abstract string OffcanvasBackdrop();
+
+    public abstract string OffcanvasBackdropFade();
+
+    public abstract string OffcanvasBackdropVisible( bool visible );
 
     #endregion
 
@@ -969,6 +1009,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string TextWeight( TextWeight textWeight );
 
     public abstract string TextOverflow( TextOverflow textOverflow );
+
+    public abstract string TextSize( TextSize textSize );
 
     public abstract string TextItalic();
 
@@ -1374,6 +1416,25 @@ public abstract class ClassProvider : IClassProvider
         };
     }
 
+    public virtual string ToTextSize( TextSize textSize )
+    {
+        return textSize switch
+        {
+            Blazorise.TextSize.ExtraSmall => "xs",
+            Blazorise.TextSize.Small => "sm",
+            Blazorise.TextSize.Medium => "md",
+            Blazorise.TextSize.Large => "lg",
+            Blazorise.TextSize.ExtraLarge => "xl",
+            Blazorise.TextSize.Heading1 => "1",
+            Blazorise.TextSize.Heading2 => "2",
+            Blazorise.TextSize.Heading3 => "3",
+            Blazorise.TextSize.Heading4 => "4",
+            Blazorise.TextSize.Heading5 => "5",
+            Blazorise.TextSize.Heading6 => "6",
+            _ => null,
+        };
+    }
+
     public virtual string ToColumnWidth( ColumnWidth columnWidth )
     {
         return columnWidth switch
@@ -1405,6 +1466,40 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.RowColumnsSize.Are4 => "4",
             Blazorise.RowColumnsSize.Are5 => "5",
             Blazorise.RowColumnsSize.Are6 => "6",
+            _ => null,
+        };
+    }
+
+    public virtual string ToGridRowsSize( GridRowsSize gridRowsSize )
+    {
+        return gridRowsSize switch
+        {
+            Blazorise.GridRowsSize.Are1 => "1",
+            Blazorise.GridRowsSize.Are2 => "2",
+            Blazorise.GridRowsSize.Are3 => "3",
+            Blazorise.GridRowsSize.Are4 => "4",
+            Blazorise.GridRowsSize.Are5 => "5",
+            Blazorise.GridRowsSize.Are6 => "6",
+            _ => null,
+        };
+    }
+
+    public virtual string ToGridColumnsSize( GridColumnsSize gridColumnsSize )
+    {
+        return gridColumnsSize switch
+        {
+            Blazorise.GridColumnsSize.Are1 => "1",
+            Blazorise.GridColumnsSize.Are2 => "2",
+            Blazorise.GridColumnsSize.Are3 => "3",
+            Blazorise.GridColumnsSize.Are4 => "4",
+            Blazorise.GridColumnsSize.Are5 => "5",
+            Blazorise.GridColumnsSize.Are6 => "6",
+            Blazorise.GridColumnsSize.Are7 => "7",
+            Blazorise.GridColumnsSize.Are8 => "8",
+            Blazorise.GridColumnsSize.Are9 => "9",
+            Blazorise.GridColumnsSize.Are10 => "10",
+            Blazorise.GridColumnsSize.Are11 => "11",
+            Blazorise.GridColumnsSize.Are12 => "12",
             _ => null,
         };
     }

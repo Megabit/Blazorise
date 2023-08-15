@@ -1,0 +1,49 @@
+﻿@using Blazorise.TreeView;
+@using System.Collections.ObjectModel;
+
+<Button ElementId="btnAdd" Clicked="@OnAddNodeClick" Color="Color.Primary">Add node</Button>
+<Button ElementId="btnRemove" Clicked="@OnRemoveNodeClick" Color="Color.Primary">Remove node</Button>
+
+<TreeView Nodes="Items"
+          GetChildNodes="@(item => item.Children)"
+          HasChildNodes="@(item => item.Children?.Any() == true)"
+          @bind-SelectedNode="selectedNode"
+          @bind-ExpandedNodes="expandedNodes">
+    <NodeContent>
+        <Icon Name="IconName.Folder" />
+        @context.Text
+    </NodeContent>
+</TreeView>
+
+@code{
+    private Task OnAddNodeClick()
+    {
+        Items.Add( new Item { Text = $"Item {Items.Count + 1}" } );
+
+        return Task.CompletedTask;
+    }
+
+    private Task OnRemoveNodeClick()
+    {
+        if ( Items.Count > 0 )
+            Items.RemoveAt( 0 );
+
+        return Task.CompletedTask;
+    }
+
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    [Parameter]
+    public IList<Item> Items { get; set; } = new ObservableCollection<Item>()
+    {
+        new Item { Text = "Item 1" },
+        new Item { Text = "Item 2" },
+    };
+
+    IList<Item> expandedNodes = new List<Item>();
+    Item selectedNode;
+}

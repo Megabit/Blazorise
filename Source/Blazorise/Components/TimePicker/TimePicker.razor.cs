@@ -31,6 +31,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
         var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
         var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
+        var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
+        var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
 
         if ( timeChanged )
         {
@@ -50,7 +52,9 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                            || timeAs24hrChanged
                            || disabledChanged
                            || readOnlyChanged
-                           || inlineChanged ) )
+                           || inlineChanged
+                           || placeholderChanged
+                           || staticPickerChanged ) )
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
             {
@@ -61,6 +65,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                 Disabled = new { Changed = disabledChanged, Value = disabled },
                 ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
                 Inline = new { Changed = inlineChanged, Value = paramInline },
+                Placeholder = new { Changed = placeholderChanged, Value = paramPlaceholder },
+                StaticPicker = new { Changed = staticPickerChanged, Value = paramSaticPicker },
             } ) );
         }
 
@@ -108,6 +114,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             ReadOnly,
             Localization = GetLocalizationObject(),
             Inline,
+            Placeholder,
+            StaticPicker,
         } );
 
         await base.OnFirstAfterRenderAsync();
@@ -331,6 +339,11 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// Display the time menu in an always-open state with the inline option.
     /// </summary>
     [Parameter] public bool Inline { get; set; }
+
+    /// <summary>
+    /// If enabled, the calendar menu will be positioned as static.
+    /// </summary>
+    [Parameter] public bool StaticPicker { get; set; } = true;
 
     #endregion
 }

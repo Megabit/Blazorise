@@ -1,0 +1,26 @@
+﻿@page "/themes/blazespark"
+@using Blazorise.Docs.Models;
+
+<ThemePage SeoCanonical="/themes/blazespark"
+           SeoTitle="BlazeSpark - Admin & Dashboard Template - Blazorise Themes"
+           SeoDescription="BlazeSpark is a fully-featured dashboard and admin template that comes with tones of well-designed UI elements, components, widgets, and pages. The super clean and flexible layout would enable you to easily build web applications."
+           ImageUrl="img/themes/blazespark/dashboard-small.jpg"
+           ImageText="BlazeSpark"
+           PreviewUrl="https://blazespark.blazorforest.com/"
+           Products="@products">
+    <Title>
+        BlazeSpark - Admin & Dashboard Template - Blazorise Themes
+    </Title>
+    <Description>
+        <Strong>BlazeSpark</Strong> is a fully-featured dashboard and admin template that comes with tones of well-designed UI elements,
+        components, widgets, and pages. The super clean and flexible layout would enable you to easily build web applications.
+        It can be used to create a saas-based interface, custom admin panels, dashboard, CRM, e-commerce, etc.
+    </Description>
+</ThemePage>
+@code{
+    ThemeInfo[] products = new ThemeInfo[]
+    {
+        new ThemeInfo( PaddlePrices.SinglesiteBlazeSparkTheme, "Standard", "Single Site", 49m, "$" ),
+        new ThemeInfo( PaddlePrices.MultisiteBlazeSparkTheme, "Multisite", "Unlimited sites", 149m, "$" ),
+    };
+}

@@ -1,7 +1,9 @@
 using System;
 using System.IO.Compression;
 using Blazorise.Bootstrap5;
+using Blazorise.Docs.Core;
 using Blazorise.Docs.Server.Infrastructure;
+using Blazorise.Docs.Services;
 using Blazorise.FluentValidation;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
@@ -41,7 +43,7 @@ public class Startup
         services
             .AddBlazorise( options =>
             {
-                options.LicenseKey = Configuration["Licensing:LicenseKey"];
+                options.ProductToken = Configuration["Licensing:ProductToken"];
                 options.Immediate = true; // optional
             } )
             .AddBootstrap5Providers()
@@ -55,6 +57,11 @@ public class Startup
         services.AddScoped<Shared.Data.EmployeeData>();
         services.AddScoped<Shared.Data.CountryData>();
         services.AddScoped<Shared.Data.PageEntryData>();
+
+        var emailOptions = Configuration.GetSection( "Email" ).Get<EmailOptions>();
+        services.AddSingleton<IEmailOptions>( serviceProvider => emailOptions );
+
+        services.AddSingleton<EmailSender>();
 
         services.AddResponseCompression( options =>
         {

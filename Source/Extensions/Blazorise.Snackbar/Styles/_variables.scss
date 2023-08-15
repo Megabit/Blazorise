@@ -44,20 +44,20 @@ $transition-scale: 0.87 !default;
 // Transition duration
 // Based on https://material.google.com/motion/duration-easing.html#duration-easing-common-durations
 
-$transition-duration-desktop: 0.2s !default;
-$transition-duration-desktop-complex: 0.25s !default;
-$transition-duration-desktop-entering: 0.15s !default;
-$transition-duration-desktop-leaving: 0.13s !default;
+$transition-duration-desktop: var(--transition-duration-desktop, 0.2s) !default;
+$transition-duration-desktop-complex: var(--transition-duration-desktop-complex, 0.25s) !default;
+$transition-duration-desktop-entering: var(--transition-duration-desktop-entering, 0.15s) !default;
+$transition-duration-desktop-leaving: var(--transition-duration-desktop-leaving, 0.13s) !default;
 
-$transition-duration-mobile: 0.3s !default;
-$transition-duration-mobile-complex: 0.375s !default;
-$transition-duration-mobile-entering: 0.225s !default;
-$transition-duration-mobile-leaving: 0.195s !default;
+$transition-duration-mobile: var(--transition-duration-mobile, 0.3s) !default;
+$transition-duration-mobile-complex: var(--transition-duration-mobile-complex, 0.375s) !default;
+$transition-duration-mobile-entering: var(--transition-duration-mobile-entering, 0.225s) !default;
+$transition-duration-mobile-leaving: var(--transition-duration-mobile-leaving, 0.195s) !default;
 
-$transition-duration-tablet: 0.39s !default;
-$transition-duration-tablet-complex: 0.4875s !default;
-$transition-duration-tablet-entering: 0.2925s !default;
-$transition-duration-tablet-leaving: 0.2535s !default;
+$transition-duration-tablet: var(--transition-duration-tablet, 0.39s) !default;
+$transition-duration-tablet-complex: var(--transition-duration-tablet-complex, 0.4875s) !default;
+$transition-duration-tablet-entering: var(--transition-duration-tablet-entering, 0.2925s) !default;
+$transition-duration-tablet-leaving: var(--transition-duration-tablet-leaving, 0.2535s) !default;
 
 // Transition timing function
 // Based on https://material.google.com/motion/duration-easing.html#duration-easing-natural-easing-curves

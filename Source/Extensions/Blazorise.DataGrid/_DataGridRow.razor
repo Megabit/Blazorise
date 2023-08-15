@@ -15,6 +15,8 @@
 
     <TableRow @ref="TableRowRef"
               Clicked="@HandleClick"
+              MouseOver="BindMouseOver() ? HandleMouseOver : null"
+              MouseLeave="BindMouseLeave() ? HandleMouseLeave : null"
               DoubleClicked="@HandleDoubleClick"
               ContextMenu="@HandleContextMenu"
               ContextMenuPreventDefault="@ParentDataGrid.RowContextMenuPreventDefault"
@@ -70,6 +72,16 @@
                     }
                 </TableRowCell>
             }
+        }
+        @if ( ParentDataGrid.RowOverlayTemplate is not null && mouseIsOver )
+        {
+            var rowOverlayPosition = ParentDataGrid.RowOverlayPosition == DataGridRowOverlayPosition.Start
+            ? Position.Absolute.Start
+            : Position.Absolute.End;
+
+            <Div Class="b-table-row-overlay" Background="@ParentDataGrid.RowOverlayBackground" Position="@rowOverlayPosition" Style="z-index:1;" @onclick:stopPropagation>
+                @ParentDataGrid.RowOverlayTemplate(new (Item))
+            </Div>
         }
     </TableRow>
 }

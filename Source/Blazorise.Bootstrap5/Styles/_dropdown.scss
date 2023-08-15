@@ -1,4 +1,22 @@
-﻿.dropdown-toggle.dropdown-toggle-hidden::after {
+﻿.table-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {
+    z-index: 11;
+}
+
+.dropdown-menu-position-strategy {
+    width: max-content;
+    top: 0;
+    left: 0;
+}
+
+.dropdown-menu-position-strategy-absolute {
+    position: absolute;
+}
+
+.dropdown-menu-position-strategy-fixed {
+    position: fixed;
+}
+
+.dropdown-toggle.dropdown-toggle-hidden::after {
     content: none !important;
 }
 
@@ -124,7 +142,7 @@
     &.dropup {
         > .dropdown-menu {
             top: auto;
-            bottom: 100%;
+            bottom: auto;
             margin-top: 0;
             margin-bottom: $dropdown-spacer;
         }

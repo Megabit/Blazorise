@@ -1,7 +1,11 @@
 ﻿<Dropdown id="dropdown">
     <DropdownToggle Color="Color.Secondary">Dropdown</DropdownToggle>
     <DropdownMenu id="dropdown-menu">
-        <DropdownItem>Item 1</DropdownItem>
+        <DropdownItem ShowCheckbox="ShowCheckbox">Item 1</DropdownItem>
         <DropdownItem>Item 2</DropdownItem>
     </DropdownMenu>
 </Dropdown>
+
+@code{
+    [Parameter] public bool ShowCheckbox { get; set; }
+}

@@ -53,6 +53,21 @@
     <DocsPageSectionSource Code="InlineTimePickerExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Non Static example">
+        <Paragraph>
+            By default, the time menu will position statically. This means that it will also keep its position relative to the page when you scroll.
+        </Paragraph>
+        <Paragraph>
+            If you want to disable this behavior, you should assign the value false to the <Code>StaticPicker</Code> parameter.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimePickerNonStaticExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimePickerNonStaticExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
@@ -88,5 +103,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Inline" Type="bool" Default="false">
         Display the time menu in an always-open state with the inline option.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="StaticPicker" Type="bool" Default="true">
+        If enabled, the time menu will be positioned as static.
     </DocsAttributesItem>
 </DocsAttributes>

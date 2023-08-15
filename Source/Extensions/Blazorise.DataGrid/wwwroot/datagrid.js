@@ -1,4 +1,4 @@
-﻿import { getRequiredElement } from "../Blazorise/utilities.js?v=1.2.2.0";
+﻿import { getRequiredElement } from "../Blazorise/utilities.js?v=1.3.0.0";
 
 export function initialize(element, elementId) {
     element = getRequiredElement(element, elementId);

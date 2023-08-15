@@ -60,7 +60,7 @@ public sealed class BlazoriseLicenseProvider
         if ( initialized )
             return;
 
-        if ( string.IsNullOrWhiteSpace( options.LicenseKey ) )
+        if ( string.IsNullOrWhiteSpace( options.ProductToken ) )
         {
             Result = BlazoriseLicenseResult.Community;
             return;
@@ -72,7 +72,7 @@ public sealed class BlazoriseLicenseProvider
             {
                 Result = await LicenseVerifier.Create()
                     .WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, PublicKey )
-                    .LoadAndVerify( options.LicenseKey, true, new Assembly[] { CurrentAssembly } )
+                    .LoadAndVerify( options.ProductToken, true, new Assembly[] { CurrentAssembly } )
                     ? BlazoriseLicenseResult.Licensed
                     : BlazoriseLicenseResult.Trial;
             }
@@ -80,7 +80,7 @@ public sealed class BlazoriseLicenseProvider
             {
                 Result = await LicenseVerifier.Create()
                     .WithRsaPublicKey( PublicKey )
-                    .LoadAndVerify( options.LicenseKey, true, new Assembly[] { CurrentAssembly } )
+                    .LoadAndVerify( options.ProductToken, true, new Assembly[] { CurrentAssembly } )
                     ? BlazoriseLicenseResult.Licensed
                     : BlazoriseLicenseResult.Trial;
             }

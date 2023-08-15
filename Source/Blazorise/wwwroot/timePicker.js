@@ -1,5 +1,5 @@
-﻿import "./vendors/flatpickr.js?v=1.2.2.0";
-import * as utilities from "./utilities.js?v=1.2.2.0";
+﻿import "./vendors/flatpickr.js?v=1.3.0.0";
+import * as utilities from "./utilities.js?v=1.3.0.0";
 
 const _pickers = [];
 
@@ -50,12 +50,23 @@ export function initialize(element, elementId, options) {
         clickOpens: !(options.readOnly || false),
         locale: options.localization || {},
         inline: options.inline || false,
-        static: true
+        static: options.staticPicker
     });
 
     if (options) {
         picker.altInput.disabled = options.disabled || false;
         picker.altInput.readOnly = options.readOnly || false;
+        picker.altInput.placeholder = options.placeholder;
+
+        picker.altInput.addEventListener("blur", (e) => {
+            const isInput = e.target === picker._input;
+
+            // Workaround for: onchange does not fire when user writes the time and then click outside of the input area.
+            if (isInput && picker.isOpen === false) {
+                picker.input.dispatchEvent(utilities.createEvent("change"));
+                picker.input.dispatchEvent(utilities.createEvent("input"));
+            }
+        });
     }
 
     _pickers[elementId] = picker;
@@ -112,6 +123,14 @@ export function updateOptions(element, elementId, options) {
 
         if (options.inline.changed) {
             picker.set("inline", options.inline.value || false);
+        }
+
+        if (options.placeholder.changed) {
+            picker.altInput.placeholder = options.placeholder.value;
+        }
+
+        if (options.staticPicker.changed) {
+            picker.set("static", options.staticPicker.value);
         }
     }
 }
