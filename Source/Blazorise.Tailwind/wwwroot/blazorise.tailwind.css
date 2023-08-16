@@ -134,7 +134,7 @@
 .b-dropdown {
   position: relative;
 }
-.b-dropdown .b-dropdown-disabled.b-is-autocomplete {
+.b-dropdown.b-dropdown-disabled.b-is-autocomplete {
   background-color: var(--b-theme-light, #f5f5f5);
 }
 .b-dropdown .b-dropdown-toggle-arrow {
