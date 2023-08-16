@@ -26,7 +26,6 @@
                                       Placeholder="Search..."
                                       Filter="AutocompleteFilter.StartsWith"
                                       FreeTyping="autocompleteFreeTyping"
-                                      Disabled
                                       CustomFilter="@(( item, searchValue ) => searchValue == null ? false : item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
                             <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
                             <ItemContent>
@@ -74,7 +73,6 @@
                                       CloseOnSelection="false"
                                       MinLength="1"
                                       SelectionMode="AutocompleteSelectionMode.Checkbox"
-                                      Disabled
                         @bind-SelectedValues="multipleSelectionData"
                         @bind-SelectedTexts="multipleSelectionTexts">
                         </Autocomplete>
