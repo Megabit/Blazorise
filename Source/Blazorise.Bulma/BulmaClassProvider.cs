@@ -432,6 +432,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
 
+    public override string DropdownDisabled() => "is-disabled";
+
     public override string DropdownGroup() => "field has-addons";
 
     public override string DropdownObserverShow() => DropdownShow();

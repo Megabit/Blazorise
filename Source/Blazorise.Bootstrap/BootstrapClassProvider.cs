@@ -428,6 +428,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
 
+    public override string DropdownDisabled() => "dropdown-disabled";
+
     public override string DropdownGroup() => "btn-group";
 
     public override string DropdownObserverShow() => DropdownShow();

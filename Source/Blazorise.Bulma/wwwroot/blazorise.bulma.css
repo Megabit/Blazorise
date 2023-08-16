@@ -5880,6 +5880,9 @@ ol.is-ordered-list-upper-roman {
   box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
 }
 
+.dropdown.is-disabled.b-is-autocomplete {
+  background-color: var(--b-theme-light, #f5f5f5);
+}
 .dropdown .dropdown-menu > .dropdown-content .dropdown {
   width: 100%;
 }
@@ -7682,19 +7685,19 @@ tr.table-row-selectable:focus[tabindex="0"] {
 }
 
 .is-size-xs {
-  font-size: 0.75rem;
+  font-size: 0.75rem !important;
 }
 .is-size-sm {
-  font-size: 0.925rem;
+  font-size: 0.925rem !important;
 }
 .is-size-md {
-  font-size: 1.125rem;
+  font-size: 1.125rem !important;
 }
 .is-size-lg {
-  font-size: 1.25rem;
+  font-size: 1.25rem !important;
 }
 .is-size-xl {
-  font-size: 1.5rem;
+  font-size: 1.5rem !important;
 }
 
 .flatpickr-months {

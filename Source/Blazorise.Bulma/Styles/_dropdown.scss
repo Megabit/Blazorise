@@ -94,6 +94,10 @@
 }
 
 .dropdown {
+    &.is-disabled.b-is-autocomplete {
+        background-color: var(--b-theme-light, #f5f5f5);
+    }
+
     .dropdown-menu > .dropdown-content {
         .dropdown {
             width: 100%;

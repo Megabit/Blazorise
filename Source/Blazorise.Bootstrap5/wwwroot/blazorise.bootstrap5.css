@@ -243,6 +243,9 @@ input[type=button].btn-block {
 .dropdown {
   position: relative;
 }
+.dropdown.dropdown-disabled.b-is-autocomplete {
+  background-color: var(--b-theme-light, #e9ecef);
+}
 .dropdown > .dropdown-menu > .dropdown:not(.dropup, .dropstart, .dropend) {
   position: relative;
 }

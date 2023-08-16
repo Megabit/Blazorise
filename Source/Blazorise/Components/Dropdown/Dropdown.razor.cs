@@ -100,6 +100,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.DropdownGroup(), IsGroup );
         builder.Append( ClassProvider.DropdownShow(), Visible );
         builder.Append( ClassProvider.DropdownRight(), RightAligned );
+        builder.Append( ClassProvider.DropdownDisabled(), Disabled );
         builder.Append( ClassProvider.DropdownDirection( GetDropdownDirection() ), Direction != Direction.Down );
 
         base.BuildClasses( builder );

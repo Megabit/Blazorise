@@ -1512,6 +1512,9 @@
   display: inline-flex;
   white-space: nowrap;
 }
+.ant-dropdown-group.ant-dropdown-disabled.b-is-autocomplete {
+  background-color: var(--b-theme-light, #f5f5f5);
+}
 
 .ant-input-group-addon.ant-input-group-addon-dropdown {
   padding: 0;

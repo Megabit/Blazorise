@@ -429,6 +429,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Dropdown( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-submenu ant-dropdown-menu-submenu-vertical" : "ant-dropdown-group ant-dropdown-button"; // ant-dropdown-group is custom class
 
+    public override string DropdownDisabled() => "ant-dropdown-disabled";
+
     public override string DropdownGroup() => null;
 
     public override string DropdownObserverShow() => DropdownMenuVisible( false );

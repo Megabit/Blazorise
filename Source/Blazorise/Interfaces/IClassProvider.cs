@@ -390,6 +390,8 @@ public interface IClassProvider
 
     string Dropdown( bool isDropdownSubmenu );
 
+    string DropdownDisabled();
+
     string DropdownGroup();
 
     string DropdownObserverShow();

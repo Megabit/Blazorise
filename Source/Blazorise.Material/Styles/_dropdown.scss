@@ -97,6 +97,10 @@
 .dropdown {
     position: relative;
 
+    &.dropdown-disabled.b-is-autocomplete {
+        background-color: var(--b-theme-light, #e9ecef);
+    }
+
     > .dropdown-menu:not([x-placement]) {
         > .dropdown:not(.dropup, .dropleft, .dropright) {
             position: relative;

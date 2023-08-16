@@ -553,6 +553,8 @@ public class TailwindClassProvider : ClassProvider
         ? "b-dropdown b-dropdown-submenu relative inline-flex w-full"
         : "b-dropdown relative inline-flex";
 
+    public override string DropdownDisabled() => "b-dropdown-disabled";
+
     public override string DropdownGroup() => "b-dropdown-group align-middle";
 
     public override string DropdownObserverShow() => DropdownShow();

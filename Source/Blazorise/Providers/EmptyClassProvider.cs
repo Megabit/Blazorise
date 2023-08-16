@@ -393,6 +393,8 @@ class EmptyClassProvider : IClassProvider
 
     public string Dropdown( bool isDropdownSubmenu ) => null;
 
+    public string DropdownDisabled() => null;
+
     public string DropdownGroup() => null;
 
     public string DropdownObserverShow() => null;

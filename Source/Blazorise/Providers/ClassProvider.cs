@@ -391,6 +391,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Dropdown( bool isDropdownSubmenu );
 
+    public abstract string DropdownDisabled();
+
     public abstract string DropdownGroup();
 
     public abstract string DropdownObserverShow();
