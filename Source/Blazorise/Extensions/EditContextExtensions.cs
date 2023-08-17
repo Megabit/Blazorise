@@ -45,7 +45,11 @@ internal static class EditContextExtensions
                 validationMessageStoresGetter ??= ExpressionCompiler.CreateFieldGetter<HashSet<ValidationMessageStore>>( kv.Value, FIELD_VALIDATION_MESSAGE_STORES );
 
                 var messageStores = validationMessageStoresGetter( kv.Value );
-                clearMethodInfo.Invoke( messageStores, null );
+
+                if ( messageStores is not null && clearMethodInfo is not null )
+                {
+                    clearMethodInfo.Invoke( messageStores, null );
+                }
             }
         }
 
