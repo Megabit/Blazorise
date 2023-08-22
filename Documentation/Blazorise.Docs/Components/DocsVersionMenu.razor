@@ -6,11 +6,11 @@
         <BarDropdownMenu>
             @foreach ( var version in AvailableVersions )
             {
-                @if ( IsActiveUrl( version.Url ) )
+                @if ( IsActiveUrl( version.BaseUrl ) )
                 {
-                    <BarDropdownItem To="@version.Url" Flex="Flex.InlineFlex.JustifyContent.Between.AlignItems.Center" Border="Border.Is1.OnTop.Is1.OnBottom">
+                    <BarDropdownItem To="@version.DocsUrl" Flex="Flex.InlineFlex.JustifyContent.Between.AlignItems.Center" Border="Border.Is1.OnTop.Is1.OnBottom">
                         <Span>@version.Name</Span>
-                        @if ( IsActiveUrl( version.Url ) )
+                        @if ( IsActiveUrl( version.BaseUrl ) )
                         {
                             <Icon Name="IconName.Check" Padding="Padding.Is2.FromStart" TextColor="TextColor.Primary" />
                         }
@@ -18,7 +18,7 @@
                 }
                 else
                 {
-                    <BarDropdownItem To="@version.Url">
+                    <BarDropdownItem To="@version.DocsUrl">
                         @version.Name
                     </BarDropdownItem>
                 }
@@ -29,7 +29,7 @@
 @code {
     private IEnumerable<DocsVersion> AvailableVersions => VersionOptions?.Versions ?? Enumerable.Empty<DocsVersion>();
 
-    private string GetActiveVersionName() => AvailableVersions.FirstOrDefault( v => NavigationManager.Uri?.StartsWith( v.Url ) == true )?.Name;
+    private string GetActiveVersionName() => AvailableVersions.FirstOrDefault( v => NavigationManager.Uri?.StartsWith( v.BaseUrl ) == true )?.Name;
 
     private bool IsActiveUrl( string url ) => NavigationManager.Uri?.StartsWith( url ) == true;
 
