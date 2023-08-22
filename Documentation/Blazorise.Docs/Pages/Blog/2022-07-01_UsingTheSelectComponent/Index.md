@@ -195,4 +195,4 @@ So the option should be left empty, let's see this in action with a nullable typ
 
 Thank you for your time! We just looked at the Blazorise Select component's features and the distinctions between primitive and complex types.
 
-Download our [Blazorise NuGet](https://www.nuget.org/profiles/Megabit) to try our Blazor components or purchase our [commercial Blazorise web](commercial/) license to gain access to our support forum. To learn more about other available features, please see our online examples and [documentation](docs).
+Download our [Blazorise NuGet](https://www.nuget.org/profiles/Megabit) to try our Blazor components or purchase our [commercial Blazorise web](https://blazorise.com/commercial) license to gain access to our support forum. To learn more about other available features, please see our online examples and [documentation](docs).

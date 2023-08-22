@@ -176,7 +176,7 @@ public class PageEntryData
             new PageEntry( "docs/services/notification-provider", "Notification Provider", "Notification service is used to provide feedback to the user." ),
             new PageEntry( "docs/services/page-progress-provider", "Page Progress Provider", "Page Progress service is used to provide a page loading indicator to the user." ),
             new PageEntry( "docs/faq", "FAQ" ),
-            new PageEntry( "commercial/license", "License" ),
+            new PageEntry( "https://blazorise.com/license", "License" ),
         }.ToArray() );
     }
 }

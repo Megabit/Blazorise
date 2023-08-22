@@ -49,7 +49,7 @@ By using Blazor WASM, the client-side and server-side can share a common code ba
 
 Programming languages take years to learn and master. As developers do not come cheap, finding and paying developers is a strategic decision for small teams. Having a team of skilled developers who can switch between client and server-side applications without losing any understanding of both sides enhances collaboration which is vital for small teams.
 
-> [Click here to discover how a Blazorise Mentor](commercial/enterprise-plus) can quickly help your development teams scale up rapid application development using Blazorise Components.
+> [Click here to discover how a Blazorise Mentor](https://blazorise.com/enterprise-plus) can quickly help your development teams scale up rapid application development using Blazorise Components.
 
 ### Code Reuse
 
@@ -126,4 +126,4 @@ The goal of Blazor WASM is to allow C# to run in the browser, but that does not 
 
 ## Conclusion
 
-Blazor helps teams build rich UI interfaces. If your team uses Blazor, [reach out to us](commercial/contact) on how we can help you speed up your development with our [production-ready UI components](docs/components).
+Blazor helps teams build rich UI interfaces. If your team uses Blazor, [reach out to us](https://blazorise.com/contact) on how we can help you speed up your development with our [production-ready UI components](docs/components).

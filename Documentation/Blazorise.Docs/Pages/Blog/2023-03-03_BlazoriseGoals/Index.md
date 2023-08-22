@@ -81,7 +81,7 @@ While the changes in version 1.1 were not groundbreaking, Blazorise is gradually
 
 ## Enterprise Plus Model
 
-After considering adding a new form of Commercial package, we added [Enterprise Plus](https://blazorise.com/commercial/enterprise-plus). As businesses grow and scale, their technology needs evolve. Large enterprises require tailor-made solutions that can meet their unique challenges and objectives. Blazorise understands this and offers a customized plan designed to fit any large business's specific requirements.
+After considering adding a new form of Commercial package, we added [Enterprise Plus](https://blazorise.com/enterprise-plus). As businesses grow and scale, their technology needs evolve. Large enterprises require tailor-made solutions that can meet their unique challenges and objectives. Blazorise understands this and offers a customized plan designed to fit any large business's specific requirements.
 
 The Blazorise Enterprise Plus plan provides businesses with everything they need to build robust and scalable applications. With unlimited seats, companies can equip their entire team with the tools to build high-quality apps quickly and efficiently.
 
