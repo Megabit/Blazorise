@@ -21,10 +21,10 @@
 
 .home-community {
     &-readmore-link {
-        font-size: 13px;
-        color: var(--b-theme-secondary);
+        color: var(--b-theme-primary);
         font-weight: 500;
         transition: color 0.5s ease-in-out;
+        text-decoration-color: var(--b-theme-primary);
 
         &:hover {
             color: var(--b-theme-primary);
@@ -35,7 +35,7 @@
         transition: all 0.4s ease-in-out;
 
         &:hover {
-            transform: scale(1.1);
+            transform: scale(1.3);
         }
     }
 }
