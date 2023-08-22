@@ -1,0 +1,39 @@
+﻿@using Blazorise.Docs.Models;
+@using Blazorise.Docs.Options;
+<BarItem>
+    <BarDropdown>
+        <BarDropdownToggle>@GetActiveVersionName()</BarDropdownToggle>
+        <BarDropdownMenu>
+            @foreach ( var version in AvailableVersions )
+            {
+                @if ( IsActiveUrl( version.Url ) )
+                {
+                    <BarDropdownItem To="@version.Url" Flex="Flex.InlineFlex.JustifyContent.Between.AlignItems.Center" Border="Border.Is1.OnTop.Is1.OnBottom">
+                        <Span>@version.Name</Span>
+                        @if ( IsActiveUrl( version.Url ) )
+                        {
+                            <Icon Name="IconName.Check" Padding="Padding.Is2.FromStart" TextColor="TextColor.Primary" />
+                        }
+                    </BarDropdownItem>
+                }
+                else
+                {
+                    <BarDropdownItem To="@version.Url">
+                        @version.Name
+                    </BarDropdownItem>
+                }
+            }
+        </BarDropdownMenu>
+    </BarDropdown>
+</BarItem>
+@code {
+    private IEnumerable<DocsVersion> AvailableVersions => VersionOptions?.Versions ?? Enumerable.Empty<DocsVersion>();
+
+    private string GetActiveVersionName() => AvailableVersions.FirstOrDefault( v => NavigationManager.Uri?.StartsWith( v.Url ) == true )?.Name;
+
+    private bool IsActiveUrl( string url ) => NavigationManager.Uri?.StartsWith( url ) == true;
+
+    [Inject] public NavigationManager NavigationManager { get; set; }
+
+    [Inject] public DocsVersionOptions VersionOptions { get; set; }
+}
