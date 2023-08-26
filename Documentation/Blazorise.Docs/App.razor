@@ -39,70 +39,7 @@
     <script defer data-domain="blazorise.com" src="https://plausible.io/js/script.js"></script>
 </head>
 <body>
-
-
-
-    <BlazoriseRouter @rendermode="@RenderMode.Server" />
-
-    @code {
-        private Theme theme = new()
-        {
-            LuminanceThreshold = 170,
-            BarOptions = new()
-            {
-                HorizontalHeight = "64px",
-                VerticalBrandHeight = "64px",
-                LightColors = new()
-                {
-                    ItemColorOptions = new()
-                    {
-                        ActiveBackgroundColor = "#dedede",
-                        ActiveColor = "#000000",
-                        HoverBackgroundColor = "#dedede",
-                        HoverColor = "#000000",
-                    },
-                }
-            },
-            ColorOptions = new()
-            {
-                Primary = "#9333ea",
-                Secondary = "#d7dae7",
-                Success = "#13a668",
-                Danger = "#e11d48",
-                Warning = "#FFA800",
-                Light = "#dce7ed",
-                Dark = "#181C32",
-                Info = "#60A5FA",
-            },
-            BackgroundOptions = new()
-            {
-                Primary = "#9333ea",
-                Secondary = "#d7dae7",
-                Success = "#13a668",
-                Danger = "#e11d48",
-                Warning = "#FFA800",
-                Light = "#dce7ed",
-                Dark = "#181C32",
-                Info = "#60A5FA",
-            },
-            TextColorOptions = new()
-            {
-                Primary = "#9333ea",
-                Secondary = "#d7dae7",
-                Success = "#13a668",
-                Danger = "#e11d48",
-                Warning = "#FFA800",
-                Light = "#dce7ed",
-                Dark = "#181C32",
-                Info = "#60A5FA",
-            },
-            InputOptions = new()
-            {
-                CheckColor = "#9333ea",
-            },
-        };
-    }
-
+    <Routes @rendermode="@RenderMode.Server" />
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@1.28.1"></script>
