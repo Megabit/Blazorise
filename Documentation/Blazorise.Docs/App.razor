@@ -40,29 +40,9 @@
 </head>
 <body>
 
-    <Router AppAssembly="@typeof(App).Assembly">
-        <Found Context="routeData">
-            @* <Blazorise.ThemeProvider Theme="@theme"> *@
-            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-            <FocusOnNavigate RouteData="@routeData" Selector="h1" />
 
-            @* <MessageProvider />
-            <NotificationProvider />
-            <PageProgressProvider />
-            <ModalProvider />
-            </Blazorise.ThemeProvider> *@
-        </Found>
-        <NotFound>
-            <LayoutView Layout="@typeof(Error404Layout)">
-                <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Normal" Margin="Margin.Is3.FromTop.Is4.FromBottom">
-                    Sorry, there's nothing at this address.
-                    <br /><br />
-                    The page you are looking for might have been removed.
-                </Heading>
-            </LayoutView>
-        </NotFound>
-    </Router>
 
+    <BlazoriseRouter @rendermode="@RenderMode.Server" />
 
     @code {
         private Theme theme = new()
