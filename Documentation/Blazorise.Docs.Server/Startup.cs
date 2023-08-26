@@ -37,7 +37,8 @@ public class Startup
         // Add services to the container.
         services
             .AddRazorComponents()
-            .AddServerComponents();
+            .AddServerComponents()
+            .AddWebAssemblyComponents();
 
         services.Configure<IISServerOptions>( options =>
         {
@@ -136,6 +137,8 @@ public class Startup
         app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
         app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
 
-        app.MapRazorComponents<App>();
+        app.MapRazorComponents<App>()
+            .AddServerRenderMode()
+            .AddWebAssemblyRenderMode();
     }
 }
