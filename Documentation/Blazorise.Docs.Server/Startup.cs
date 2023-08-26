@@ -130,12 +130,14 @@ public class Startup
 
         app.UseStaticFiles();
 
+        app.MapRazorComponents<App>();
+
         //app.UseRouting();
 
         app.MapGet( "/robots.txt", SeoGenerator.GenerateRobots );
         app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
         app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
 
-        app.MapRazorComponents<App>();
+        //app.MapRazorComponents<App>();
     }
 }
