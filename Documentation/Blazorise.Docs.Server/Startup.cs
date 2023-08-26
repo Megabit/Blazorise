@@ -137,7 +137,5 @@ public class Startup
         app.MapGet( "/robots.txt", SeoGenerator.GenerateRobots );
         app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
         app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
-
-        //app.MapRazorComponents<App>();
     }
 }
