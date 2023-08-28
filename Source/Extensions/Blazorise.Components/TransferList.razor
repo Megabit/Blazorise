@@ -1,0 +1,51 @@
+﻿@using Blazorise.Extensions
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@typeparam TItem
+
+<Div Display="Display.Flex">
+    <Div Flex="Flex.Grow" Width="Width.Is50" Margin="Margin.Is1.OnY.Is5.FromBottom">
+        <ListView TItem="TItem"
+                  Data="@Filtered1Items"
+                  ValueField="@ValueField"
+                  TextField="@TextField"
+                  Mode="@Mode"
+                  SelectionMode="@SelectionMode"
+                  Scrollable="@Scrollable"
+                  MaxHeight="300px"
+                  @bind-SelectedItems="@selectedListBox1Items"
+                  @bind-SelectedItem="@selectedListBox1Item">
+        </ListView>
+    </Div>
+
+    <Div Flex="Flex.Column.JustifyContent.Center.AlignItems.Center" Height="Height.Is50" Margin="Margin.Is1.OnY.Is2.FromEnd.Is2.FromStart">
+        @if (SelectionMode == ListGroupSelectionMode.Multiple)
+        {
+            <Div Margin="Margin.Is1.OnY">
+                <Button Color="Color.Primary" Clicked="MoveAllRight" Disabled="@MoveAllRightDisabled">@(">>")</Button>
+            </Div>
+            <Div Margin="Margin.Is1.OnY">
+                <Button Color="Color.Primary" Clicked="MoveAllLeft" Disabled="@MoveAllLeftDisabled">@("<<")</Button>
+            </Div>
+        }
+        <Div Margin="Margin.Is1.OnY">
+            <Button Color="Color.Primary" Clicked="MoveRight" Disabled="@MoveRightDisabled">@(">")</Button>
+        </Div>
+        <Div Margin="Margin.Is1.OnY">
+            <Button Color="Color.Primary" Clicked="MoveLeft" Disabled="@MoveLeftDisabled">@("<")</Button>
+        </Div>
+    </Div>
+
+    <Div Flex="Flex.Grow" Width="Width.Is50" Margin="Margin.Is1.OnY.Is5.FromBottom">
+        <ListView TItem="TItem"
+                  Data="Filtered2Items"
+                  ValueField="@ValueField"
+                  TextField="@TextField"
+                  Mode="@Mode"
+                  SelectionMode="@SelectionMode"
+                  Scrollable="@Scrollable"
+                  MaxHeight="300px"
+                  @bind-SelectedItems="@selectedListBox2Items"
+                  @bind-SelectedItem="@selectedListBox2Item">
+        </ListView>
+    </Div>
+</Div>
