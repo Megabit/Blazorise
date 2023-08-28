@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Web.Virtualization
 @typeparam TItem
-<ListGroup Class="@ListGroupClassNames" Style="@ListGroupStyleNames" Flush="@Flush" Scrollable="@Scrollable" Mode="@Mode" SelectedItem="@GetItemValue( SelectedItem )" SelectedItemChanged="@SelectedListGroupItemChanged" Attributes="@Attributes">
+<ListGroup Class="@ListGroupClassNames" Style="@ListGroupStyleNames" Flush="@Flush" Scrollable="@Scrollable" Mode="@Mode" SelectionMode="@SelectionMode" SelectedItem="@GetItemValue( SelectedItem )" SelectedItemChanged="@SelectedListGroupItemChanged" SelectedItems="@GetItemValues( SelectedItems )" SelectedItemsChanged="@SelectedListGroupItemsChanged" Attributes="@Attributes">
     @if ( Data != null )
     {
         @if ( Virtualize && Data is ICollection<TItem> collectionableData )
@@ -11,7 +11,7 @@
         }
         else
         {
-            @foreach ( var item in Data ?? Enumerable.Empty<TItem>() )
+            @foreach ( var item in Data )
             {
                 @itemFragment(item)
             }
