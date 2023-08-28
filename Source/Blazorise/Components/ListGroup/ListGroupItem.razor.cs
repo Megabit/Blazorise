@@ -74,7 +74,9 @@ public partial class ListGroupItem : BaseComponent
     /// <summary>
     /// Gets the flag indicating the item is selected.
     /// </summary>
-    protected bool Active => parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItem == Name;
+    protected bool Active => parentListGroupState.SelectionMode == ListGroupSelectionMode.Single
+        ? parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItem == Name
+        : parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItems?.Contains( Name ) == true;
 
     /// <summary>
     /// Defines the item name.

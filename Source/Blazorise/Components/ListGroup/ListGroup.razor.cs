@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -41,11 +42,29 @@ public partial class ListGroup : BaseComponent
     /// </summary>
     /// <param name="name"></param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task SelectItem( string name )
+    public async Task SelectItem( string name )
     {
-        SelectedItem = name;
+        if ( SelectionMode == ListGroupSelectionMode.Single )
+        {
+            SelectedItem = name;
+        }
+        else
+        {
+            SelectedItems = new List<string>( SelectedItems ?? new List<string>() );
 
-        return InvokeAsync( StateHasChanged );
+            if ( SelectedItems.Contains( name ) )
+            {
+                SelectedItems.Remove( name );
+            }
+            else
+            {
+                SelectedItems.Add( name );
+            }
+
+            await SelectedItemsChanged.InvokeAsync( SelectedItems );
+        }
+
+        await InvokeAsync( StateHasChanged );
     }
 
     #endregion
@@ -103,6 +122,21 @@ public partial class ListGroup : BaseComponent
     }
 
     /// <summary>
+    /// Defines the list-group selection mode.
+    /// </summary>
+    [Parameter]
+    public ListGroupSelectionMode SelectionMode
+    {
+        get => state.SelectionMode;
+        set
+        {
+            state = state with { SelectionMode = value };
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
     /// Gets or sets currently selected item name.
     /// </summary>
     [Parameter]
@@ -125,9 +159,34 @@ public partial class ListGroup : BaseComponent
     }
 
     /// <summary>
+    /// Gets or sets currently selected items names.
+    /// </summary>
+    [Parameter]
+    public List<string> SelectedItems
+    {
+        get => state.SelectedItems;
+        set
+        {
+            if ( value == state.SelectedItems )
+                return;
+
+            state = state with { SelectedItems = value };
+
+           // SelectedItemsChanged.InvokeAsync( state.SelectedItems );
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
     /// An event raised when <see cref="SelectedItem"/> is changed.
     /// </summary>
     [Parameter] public EventCallback<string> SelectedItemChanged { get; set; }
+
+    /// <summary>
+    /// An event raised when <see cref="SelectedItems"/> are changed.
+    /// </summary>
+    [Parameter] public EventCallback<List<string>> SelectedItemsChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the component child content.
