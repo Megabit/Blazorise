@@ -1,0 +1,81 @@
+﻿@page "/docs/extensions/transferlist"
+
+<Seo Canonical="/docs/extensions/transferlist" Title="Blazorise Transfer List component" Description="Learn to use and work with the Blazorise Transfer List component, a component for transferring items between two lists in Blazor applications." />
+
+<DocsPageTitle Path="Extensions/TransferList">
+    Blazorise Transfer List component
+</DocsPageTitle>
+
+<DocsPageLead>
+    The <Code>TransferList</Code> component is a versatile control element in Blazor that facilitates transferring items between two lists within applications.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Transfer List components provide an intuitive way to move items between two lists. These components enhance the user experience and streamline tasks that involve item organization and categorization.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple Selection Mode">
+        In the multiple selection mode, users can transfer multiple items between two lists. Selected items are tracked using the <Code>SelectedItems</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TransferListMultipleSelectionExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TransferListMultipleSelectionExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Single Selection Mode">
+        In the single selection mode, users can transfer one item at a time between two lists. The <Code>SelectedItem</Code> parameter tracks the currently selected item.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TransferListSingleSelectionExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TransferListSingleSelectionExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes Title="TransferList">
+    <DocsAttributesItem Name="Items" Type="List<TItem>">
+        Gets or sets the items data source for the Transfer List.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItem" Type="TItem">
+        Gets or sets the currently selected item in single selection mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItems" Type="List<TItem>">
+        Gets or sets the list of selected items in multiple selection mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItemsChanged" Type="EventCallback<List<TItem>>">
+        Occurs after the list of selected items has changed in multiple selection mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValueField" Type="Func<TItem, string>">
+        Gets or sets the function used to get the value field from the supplied data source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextField" Type="Func<TItem, string>">
+        Gets or sets the function used to get the text field from the supplied data source.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Mode" Type="ListGroupMode" Default="Selectable">
+        Defines the behavior mode of the Transfer List.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectionMode" Type="ListGroupSelectionMode" Default="Single">
+        Defines the selection mode of the Transfer List.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Scrollable" Type="bool" Default="true">
+        Makes the Transfer List scrollable by adding a vertical scrollbar.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment">
+        Specifies the content to be rendered inside the Transfer List.
+    </DocsAttributesItem>
+</DocsAttributes>
+
