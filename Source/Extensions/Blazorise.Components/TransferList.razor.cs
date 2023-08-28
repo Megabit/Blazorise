@@ -14,8 +14,6 @@ namespace Blazorise.Components
     /// <typeparam name="TItem">The type of items in the lists.</typeparam>
     public partial class TransferList<TItem> : ComponentBase
     {
-
-        // Collections to store selected items for each list.
         private TItem selectedListBox1Item;
         private TItem selectedListBox2Item;
         private List<TItem> selectedListBox1Items = new List<TItem>();
@@ -191,8 +189,14 @@ namespace Blazorise.Components
         /// </summary>
         [Parameter] public List<TItem> Items { get; set; }
 
+        /// <summary>
+        /// Gets or sets item that is currently selected.
+        /// </summary>
         [Parameter] public TItem SelectedItem { get; set; }
 
+        /// <summary>
+        /// Gets or sets items that are currently selected.
+        /// </summary>
         [Parameter] public List<TItem> SelectedItems { get; set; }
 
         /// <summary>
