@@ -742,6 +742,11 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// </summary>
     [Parameter] public Func<int?, Task> QualityChanged { get; set; }
 
+    ///<summary>
+    /// Gets and sets Id of youtube vdeo.
+    /// </summary>
+    [Parameter] public string YoutubeVideoID { get; set; }
+
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Video"/>.
     /// </summary>
