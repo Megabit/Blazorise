@@ -1,4 +1,6 @@
 ﻿@using Blazorise.Localization
+@using System.Collections.Generic
+@inject NavigationManager NavigationManager
 
 <Bar @bind-Visible="@topbarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.White" Shadow="Shadow.Default" ThemeContrast="ThemeContrast.Light">
     <BarBrand>
@@ -81,9 +83,14 @@
                     </BarDropdownMenu>
                 </BarDropdown>
             </BarItem>
-
         </BarStart>
         <BarEnd>
+            @if ( gitHubDemoUrl != null )
+            {
+                <BarItem>
+                    <BarLink To="@gitHubDemoUrl">GitHub Source</BarLink>
+                </BarItem>
+            }
             <BarItem>
                 <BarDropdown RightAligned>
                     <BarDropdownToggle><Icon Name="IconName.Language" /></BarDropdownToggle>
@@ -163,6 +170,97 @@
         LayoutType = layoutType;
 
         return LayoutTypeChanged.InvokeAsync( layoutType );
+    }
+
+    Dictionary<string, string> demoToGitHubMapping = new Dictionary<string, string>
+    {
+        { "", "Pages/Dashboard.razor" },
+        { "tests/alerts", "Pages/Tests/AlertsPage.razor" },
+        { "tests/animate", "Pages/Tests/AnimatePage.razor" },
+        { "tests/autocomplete", "Pages/Tests/AutocompletesPage.razor" },
+        { "tests/badges", "Pages/Tests/BadgesPage.razor" },
+        { "tests/utilities/borders", "Pages/Tests/BordersPage.razor" },
+        { "tests/breadcrumbs", "Pages/Tests/BreadcrumbsPage.razor" },
+        { "tests/buttons", "Pages/Tests/ButtonsPage.razor" },
+        { "tests/cards", "Pages/Tests/CardsPage.razor" },
+        { "tests/carousel", "Pages/Tests/CarouselPage.razor" },
+        { "tests/charts/annotations", "Pages/Tests/ChartsAnnotationsPage.razor" },
+        { "tests/charts/datalabels", "Pages/Tests/ChartsDataLabelsPage.razor" },
+        { "tests/charts", "Pages/Tests/ChartsPage.razor" },
+        { "tests/collapse", "Pages/Tests/CollapsePage.razor" },
+        { "tests/cropper", "Pages/Tests/CropperPage.razor" },
+        { "tests/dragdrop", "Pages/Tests/DragDropPage.razor" },
+        { "tests/dropdownlist", "Pages/Tests/DropdownListPage.razor" },
+        { "tests/dropdowns", "Pages/Tests/DropdownsPage.razor" },
+        { "tests/figures", "Pages/Tests/FigurePage.razor" },
+        { "tests/file-picker", "Pages/Tests/FilePickerPage.razor" },
+        { "tests/utilities/flex", "Pages/Tests/FlexPage.razor" },
+        { "tests/focus-trap", "Pages/Tests/FocusTrapPage.razor" },
+        { "tests/forms", "Pages/Tests/FormsPage.razor" },
+        { "tests/utilities/grid", "Pages/Tests/GridPage.razor" },
+        { "tests/icons", "Pages/Tests/IconsPage.razor" },
+        { "tests/jumbotrons", "Pages/Tests/JumbotronsPage.razor" },
+        { "tests/utilities/layout", "Pages/Tests/LayoutPage.razor" },
+        { "tests/listgroup", "Pages/Tests/ListGroupPage.razor" },
+        { "tests/listview", "Pages/Tests/ListViewPage.razor" },
+        { "tests/livecharts", "Pages/Tests/LiveChartsPage.razor" },
+        { "tests/loadingindicator", "Pages/Tests/LoadingIndicatorPage.razor" },
+        { "tests/lottie-animation", "Pages/Tests/LottieAnimationPage.razor" },
+        { "tests/markdown", "Pages/Tests/MarkdownPage.razor" },
+        { "tests/misc-forms", "Pages/Tests/MiscFormPage.razor" },
+        { "tests/modal-provider", "Pages/Tests/ModalProviderPage.razor" },
+        { "tests/modals", "Pages/Tests/ModalsPage.razor" },
+        { "tests/offcanvas", "Pages/Tests/OffcanvasPage.razor" },
+        { "tests/utilities/overflow", "Pages/Tests/OverflowPage.razor" },
+        { "tests/paginations", "Pages/Tests/PaginationsPage.razor" },
+        { "tests/pickers", "Pages/Tests/PickersPage.razor" },
+        { "tests/utilities/position", "Pages/Tests/PositionsPage.razor" },
+        { "tests/progressbars", "Pages/Tests/ProgressBarsPage.razor" },
+        { "tests/qrcode", "Pages/Tests/QRCodePage.razor" },
+        { "tests/ratings", "Pages/Tests/RatingPage.razor" },
+        { "tests/repeater", "Pages/Tests/RepeaterPage.razor" },
+        { "tests/richtextedit", "Pages/Tests/RichTextEditPage.razor" },
+        { "tests/selectlist", "Pages/Tests/SelectListPage.razor" },
+        { "tests/utilities/services", "Pages/Tests/ServicesPage.razor" },
+        { "tests/utilities/shadows", "Pages/Tests/ShadowPage.razor" },
+        { "tests/signaturepad", "Pages/Tests/SignaturePadPage.razor" },
+        { "tests/utilities/sizing", "Pages/Tests/SizingPage.razor" },
+        { "tests/snackbar", "Pages/Tests/SnackbarsPage.razor" },
+        { "tests/spinkit", "Pages/Tests/SpinKitPage.razor" },
+        { "tests/splitter", "Pages/Tests/SplitterPage.razor" },
+        { "tests/steps", "Pages/Tests/StepsPage.razor" },
+        { "tests/tables", "Pages/Tests/TablesPage.razor" },
+        { "tests/tabs", "Pages/Tests/TabsPage.razor" },
+        { "tests/theming", "Pages/Tests/ThemingPage.razor" },
+        { "tests/tests/tooltips", "Pages/Tests/TooltipsPage.razor" },
+        { "tests/treeview", "Pages/Tests/TreeViewPage.razor" },
+        { "tests/typography", "Pages/Tests/TypographyPage.razor" },
+        { "tests/validations", "Pages/Tests/ValidationsPage.razor" },
+        { "tests/vertical-align", "Pages/Tests/VerticalAlignPage.razor" },
+        { "tests/video", "Pages/Tests/VideoPage.razor" },
+    };
+
+    private string gitHubDemoUrl;
+
+    protected override void OnInitialized()
+    {
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged( object sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e )
+    {
+        var url = NavigationManager.ToBaseRelativePath( NavigationManager.Uri );
+
+        if (demoToGitHubMapping.TryGetValue( url, out var gh ))
+        {
+            gitHubDemoUrl = $"https://github.com/Megabit/Blazorise/blob/master/Demos/Blazorise.Demo/{gh}";
+        }
+        else
+        {
+            gitHubDemoUrl = null;
+        }
+
+        StateHasChanged();
     }
 
     [Parameter] public EventCallback<bool> ThemeEnabledChanged { get; set; }
