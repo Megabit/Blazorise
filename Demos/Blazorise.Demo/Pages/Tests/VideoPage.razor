@@ -24,11 +24,15 @@
             <CardBody>
                 <Video @ref="@videoRef" Source="@videoSource" CurrentTime="@currentTime" DefaultQuality="@quality" />
             </CardBody>
+            <CardBody Margin="Margin.IsAuto.FromTop">
+                <Video @ref="@videoRefYoutube" Height="Height.Is50" Width="Width.Is100" YoutubeVideoID="bTqVqk7FSmY" />
+            </CardBody>
         </Card>
     </Column>
 </Row>
 @code {
     Video videoRef;
+    Video videoRefYoutube;
     VideoSource videoSource = new VideoSource()
     {
         Medias = new ValueEqualityList<VideoMedia>
