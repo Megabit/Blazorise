@@ -1,6 +1,7 @@
 ﻿@using Blazorise.Localization
 @using System.Collections.Generic
 @inject NavigationManager NavigationManager
+@implements IDisposable
 
 <Bar @bind-Visible="@topbarVisible" Breakpoint="Breakpoint.Desktop" Background="Background.White" Shadow="Shadow.Default" ThemeContrast="ThemeContrast.Light">
     <BarBrand>
@@ -263,7 +264,7 @@
         StateHasChanged();
     }
 
-    public void Dispose()
+    void IDisposable.Dispose()
     {
         NavigationManager.LocationChanged -= OnLocationChanged;
     }
