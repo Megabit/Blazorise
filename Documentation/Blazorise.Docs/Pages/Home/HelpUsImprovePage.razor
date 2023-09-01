@@ -1,10 +1,10 @@
 ﻿@page "/help-us-improve"
 
-<Seo Canonical="/help-us-improve" Title="Help us improve" Description="Have a suggestion? Help us improve by voicing your thoughts!" />
+<Seo Canonical="/help-us-improve" Title="Help us improve Blazorise" Description="Have an idea or suggestion? Contact us and help us to improve Blazorise documentation, pages, and code, by voicing your thoughts!" />
 
 <PageHeader>
     <Title>
-        Help us improve
+        Help us Improve
     </Title>
     <Description>
         <Paragraph>
@@ -24,36 +24,36 @@
                     <CardBody>
                         <Validations @ref="validationsRef" Mode="ValidationMode.Manual">
                             <Fields>
-                                    <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
-                                        <FieldLabel>First name</FieldLabel>
-                                        <FieldBody>
-                                            <Addons>
-                                                <Addon AddonType="AddonType.Start">
-                                                    <AddonLabel>
-                                                        <Icon Name="IconName.User" />
-                                                    </AddonLabel>
-                                                </Addon>
-                                                <Addon AddonType="AddonType.Body">
-                                                    <TextEdit @bind-Text="@User.FirstName" name="firstName" Placeholder="First Name..." aria-label="First Name..." />
-                                                </Addon>
-                                            </Addons>
-                                        </FieldBody>
-                                    </Field>
-                                    <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
-                                        <FieldLabel>Last name</FieldLabel>
-                                        <FieldBody>
-                                            <Addons>
-                                                <Addon AddonType="AddonType.Start">
-                                                    <AddonLabel>
-                                                        <Icon Name="IconName.Book" />
-                                                    </AddonLabel>
-                                                </Addon>
-                                                <Addon AddonType="AddonType.Body">
-                                                    <TextEdit @bind-Text="@User.LastName" name="lastName" Placeholder="Last Name..." aria-label="Last Name..." />
-                                                </Addon>
-                                            </Addons>
-                                        </FieldBody>
-                                    </Field>
+                                <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                    <FieldLabel>First name</FieldLabel>
+                                    <FieldBody>
+                                        <Addons>
+                                            <Addon AddonType="AddonType.Start">
+                                                <AddonLabel>
+                                                    <Icon Name="IconName.User" />
+                                                </AddonLabel>
+                                            </Addon>
+                                            <Addon AddonType="AddonType.Body">
+                                                <TextEdit @bind-Text="@User.FirstName" name="firstName" Placeholder="First Name..." aria-label="First Name..." />
+                                            </Addon>
+                                        </Addons>
+                                    </FieldBody>
+                                </Field>
+                                <Field ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                    <FieldLabel>Last name</FieldLabel>
+                                    <FieldBody>
+                                        <Addons>
+                                            <Addon AddonType="AddonType.Start">
+                                                <AddonLabel>
+                                                    <Icon Name="IconName.Book" />
+                                                </AddonLabel>
+                                            </Addon>
+                                            <Addon AddonType="AddonType.Body">
+                                                <TextEdit @bind-Text="@User.LastName" name="lastName" Placeholder="Last Name..." aria-label="Last Name..." />
+                                            </Addon>
+                                        </Addons>
+                                    </FieldBody>
+                                </Field>
                             </Fields>
                             <Field>
                                 <FieldLabel>Email address</FieldLabel>
