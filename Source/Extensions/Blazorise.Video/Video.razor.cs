@@ -1,6 +1,10 @@
 ﻿#region Using directives
 using System;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Web;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -14,6 +18,11 @@ namespace Blazorise.Video;
 public partial class Video : BaseComponent, IAsyncDisposable
 {
     #region Methods
+
+    ///<summary>
+    /// ID of youtube video link.
+    /// </summary>
+    public string YoutubeVideoID;
 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
@@ -29,6 +38,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
             var currentTimeChanged = parameters.TryGetValue<double>( nameof( CurrentTime ), out var paramCurrentTime ) && !CurrentTime.IsEqual( paramCurrentTime );
             var volumeChanged = parameters.TryGetValue<double>( nameof( Volume ), out var paramVolume ) && !Volume.IsEqual( paramVolume );
+            var youtubeVideoSourceChanged = parameters.TryGetValue<string>( nameof( YoutubeVideoSource ), out var paramYoutubeVideoSource ) && !YoutubeVideoSource.Equals( paramYoutubeVideoSource );
 
             if ( sourceChanged || currentTimeChanged || volumeChanged )
             {
@@ -41,6 +51,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                     ProtectionHttpRequestHeaders = new { Changed = protectionHttpRequestHeadersChanged, Value = paramProtectionHttpRequestHeaders },
                     CurrentTime = new { Changed = currentTimeChanged, Value = paramCurrentTime },
                     Volume = new { Changed = volumeChanged, Value = paramVolume },
+                    YoutubeVideoSource = new { Changed = youtubeVideoSourceChanged, Value = paramYoutubeVideoSource }
                 } ) );
             }
         }
@@ -76,6 +87,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 AutoPause,
                 Muted,
                 Source,
+                YoutubeVideoSource,
                 Poster,
                 StreamingLibrary = StreamingLibrary.ToStreamingLibrary(),
                 SeekTime,
@@ -119,6 +131,22 @@ public partial class Video : BaseComponent, IAsyncDisposable
 
         await base.DisposeAsync( disposing );
     }
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        if ( !string.IsNullOrEmpty( YoutubeVideoSource ) )
+        {
+            var match = Regex.Match( YoutubeVideoSource, @"v=([A-Za-z0-9_-]+)" );
+            if ( match.Success )
+            {
+                YoutubeVideoID = match.Groups[1].Value;
+            }
+        }
+    }
+
 
     /// <summary>
     /// Updates the media source.
@@ -743,9 +771,9 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public Func<int?, Task> QualityChanged { get; set; }
 
     ///<summary>
-    /// Gets and sets Id of youtube vdeo.
+    /// Gets and sets url of youtube vdeo.
     /// </summary>
-    [Parameter] public string YoutubeVideoID { get; set; }
+    [Parameter] public string YoutubeVideoSource { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="Video"/>.
