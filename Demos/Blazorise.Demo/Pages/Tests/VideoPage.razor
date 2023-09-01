@@ -25,12 +25,14 @@
                 <Video @ref="@videoRef" Source="@videoSource" CurrentTime="@currentTime" DefaultQuality="@quality" />
             </CardBody>
             <CardBody Margin="Margin.IsAuto.FromTop">
-                <Video @ref="@videoRefYoutube" Height="Height.Is50" Width="Width.Is100" YoutubeVideoID="bTqVqk7FSmY" />
+                <Video @ref="@videoRefYoutube" Height="Height.Is50" Width="Width.Is100" YoutubeVideoSource="@YoutubeVideoSource" />
             </CardBody>
         </Card>
     </Column>
 </Row>
 @code {
+    string YoutubeVideoSource = "https://www.youtube.com/watch?v=7sUZbh_3m0Q";
+
     Video videoRef;
     Video videoRefYoutube;
     VideoSource videoSource = new VideoSource()
