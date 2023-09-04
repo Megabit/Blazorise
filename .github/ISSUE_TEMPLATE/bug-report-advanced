@@ -1,7 +1,7 @@
 name: "\U0001F41E Bug report"
 description: Create a report to help us improve
 title: "[Bug]: "
-labels: ["Triage"]
+labels: ["Type: Bug \U0001F41E", "Triage", "Minor", "Moderate", "Breaking"]
 body:
   - type: markdown
     attributes:
