@@ -33,6 +33,11 @@ public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelec
             inputValueDebouncer.Debounce += OnInputValueDebounce;
         }
 
+        if ( Placeholder == null )
+        {
+            Placeholder = "";
+        }
+
         base.OnInitialized();
     }
 
