@@ -4,9 +4,18 @@
 {
     <div class="plyr__video-embed" id="player">
         <iframe src="https://www.youtube.com/embed/@YoutubeVideoID;iv_load_policy=3&amp;modestbranding=1&amp;playsinline=1&amp;showinfo=0&amp;rel=0&amp;enablejsapi=1"
-                allowfullscreen
-                allowtransparency
-                allow="autoplay"></iframe>
+                allow="autoplay"
+                @ref="@ElementRef"
+                id="@ElementId" 
+                class="@ClassNames" 
+                style="@StyleNames" 
+                poster="@Poster" 
+                data-poster="@Poster"
+                role="video" 
+                controls="@Controls" 
+                autoplay="@AutoPlay" 
+                muted="@Muted" 
+                @attributes="@Attributes"></iframe>
     </div>
 }
 else
