@@ -34,10 +34,10 @@ body:
         - Bulma
         - Material
         - Tailwind
-  - type: input
+  - type: textarea
     id: reproduction-link
     attributes:
-      label: Link to minimal reproduction
+      label: Link to minimal reproduction, or a simple code snippet
       description: |
         The easiest way to provide a reproduction is to provide a link to a public GitHub repository or a tool like [Telerik Repl](https://blazorrepl.telerik.com/).
 
