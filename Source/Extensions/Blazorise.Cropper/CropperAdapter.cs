@@ -12,7 +12,6 @@ internal class CropperAdapter
         this.cropper = cropper;
     }
 
-
     [JSInvokable( "CropStart" )]
     public async ValueTask CropStart() => await cropper.NotifyCropStart();
 
