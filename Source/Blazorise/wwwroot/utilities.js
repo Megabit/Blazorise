@@ -308,3 +308,7 @@ export function createEvent(name) {
     e.initEvent(name, true, true);
     return e;
 }
+
+export function coalesce(value, defaultValue) {
+    return value === null || value === undefined ? defaultValue : value;
+}
