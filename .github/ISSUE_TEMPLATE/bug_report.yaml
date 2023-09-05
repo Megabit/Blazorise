@@ -1,4 +1,4 @@
-name: "\U0001F41E Bug report advanced"
+name: "\U0001F41E Bug report"
 description: Create a report to help us improve
 title: "[Bug]: "
 labels: ["Type: Bug \U0001F41E", "Triage"]
