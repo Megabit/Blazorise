@@ -74,7 +74,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     if (options) {
         picker.altInput.disabled = options.disabled || false;
         picker.altInput.readOnly = options.readOnly || false;
-        picker.altInput.placeholder = options.placeholder;
+        picker.altInput.placeholder = options.placeholder !== null ? options.placeholder : "";
 
         picker.altInput.addEventListener("blur", (e) => {
             const isInput = e.target === picker._input;
