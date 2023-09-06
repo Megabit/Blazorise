@@ -70,6 +70,10 @@
 .dropdown {
     position: relative;
 
+    .btn.dropdown-toggle:not(.btn-outline) {
+        box-shadow: none !important;
+    }
+
     > .dropdown-menu {
         > .dropdown:not(.dropup, .dropleft, .dropright) {
             position: relative;

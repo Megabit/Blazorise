@@ -200,6 +200,9 @@
 .dropdown {
   position: relative;
 }
+.dropdown .btn.dropdown-toggle:not(.btn-outline) {
+  box-shadow: none !important;
+}
 .dropdown > .dropdown-menu > .dropdown:not(.dropup, .dropleft, .dropright) {
   position: relative;
 }
