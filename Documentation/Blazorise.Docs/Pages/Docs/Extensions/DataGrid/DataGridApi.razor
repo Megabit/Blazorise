@@ -67,8 +67,14 @@
     <DocsAttributesItem Name="SelectedRow" Type="TItem">
         Currently selected row.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedRows" Type="List<TItem>">
+        Gets or sets currently selected rows.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedRowChanged" Type="EventCallback">
         Occurs after the selected row has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedRowsChanged" Type="EventCallback<List<TItem>>">
+        Occurs after multi selection has changed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="RowSelectable" Type="Func<TItem,bool>">
         Handles the selection of the DataGrid row. If not set it will default to always true.
@@ -190,6 +196,90 @@
     <DocsAttributesItem Name="RowContextMenuPreventDefault" Type="bool" Default="false">
         Used to prevent the default action for an <Code>RowContextMenu</Code> event.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="RowStyling" Type="Action<TItem, DataGridRowStyling>">
+        Custom handler for each row in the datagrid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedRowStyling" Type="Action<TItem, DataGridRowStyling>">
+        Custom handler for currently selected row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CustomFilter" Type="DataGridCustomFilter<TItem> ">
+        Handler for custom filtering on datagrid item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderRowStyling" Type="DataGridRowStyling">
+        Custom styles for header row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterRowStyling" Type="DataGridRowStyling">
+        Custom styles for filter row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupRowStyling" Type="DataGridRowStyling">
+        Custom styles for aggregate row. The GroupRowStyling parameter is deprecated, please use the AggregateRowStyling parameter instead.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AggregateRowStyling" Type="DataGridRowStyling">
+        Custom styles for aggregate row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowOverlayPosition" Type="DataGridRowOverlayPosition" Default="End">
+        Defines the position of the row overlay.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowOverlayBackground" Type="Background" Default="Light">
+        Defines the background of the row overlay.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Padding" Type="IFluentSpacing">
+        Defines the element padding spacing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Margin" Type="IFluentSpacing">
+        Defines the element margin spacing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Style" Type="string">
+        Custom html style.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Class" Type="string">
+        Custom css classname.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EditItemCreator" Type="Func<TItem, TItem>">
+        Function that, if set, is called to create a instance of the selected item to edit. If left null the selected item will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValidationItemCreator" Type="Func<TItem>">
+        Function that, if set, is called to create a validation instance of an item that it's used as a separate instance for Datagrid's internal processing of validation. If left null, Datagrid will try to use it's own implementation to instantiate.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowDoubleClicked" Type="EventCallback<DataGridRowMouseEventArgs<TItem>>">
+        Event called after the row is double clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowClicked" Type="EventCallback<DataGridRowMouseEventArgs<TItem>>">
+        Event called after the row is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowMouseOver" Type="EventCallback<DataGridRowMouseEventArgs<TItem>>">
+        Event called after the mouse is over the row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowMouseLeave" Type="EventCallback<DataGridRowMouseEventArgs<TItem>>">
+        Event called after the mouse leaves the row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxPaginationLinks" Type="int">
+        Gets or sets the maximum number of visible pagination links. It has to be odd for well look.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PageSizes" Type="IEnumerable<int>">
+        Gets or sets the chooseable page sizes of the datagrid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Groupable" Type="bool" Default="false">
+        Gets or sets whether the data will be grouped. Column groups need to be configured.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupBy" Type="Func<TItem, object>">
+        Gets or sets a custom GroupBy function. Groupable needs to be active.
+        If this is defined at the DataGrid level, column grouping will not be considered.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMode" Type="DataGridFilterMode" Default="Default">
+        Gets or sets the filter mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilteredDataChanged" Type="Action<DataGridFilteredDataEventArgs<TItem>>">
+        Raises an event every time that filtered data is refreshed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TotalItems" Type="int?">
+        Gets or sets the total number of items. Used only when <Code>ReadData</Code> is used to load the data.
+        This field must be set only when <Code>ReadData</Code> is used to load the data.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AggregateData" Type="IEnumerable<TItem>">
+        Gets or sets the calculated aggregate data.
+        Used only in manual read mode along with the <Code>ReadData</Code> handler.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="DataGrid Templates">
@@ -263,11 +353,26 @@
         Template for header group caption.
         Suggested usage: rendering content conditionally according to the defined HeaderGroupCaption.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="FilterMode" Type="DataGridFilterMode" Default="DataGridFilterMode.Default">
-        Gets or sets the filter mode.
-    </DocsAttributesItem>
     <DocsAttributesItem Name="FilterMenuTemplate" Type="FilterColumnContext<TItem>">
         Template for the filter menu. When filter mode is set to DataGridFilterMode.Menu, this template will be used to render the filter content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowOverlayTemplate" Type="RenderFragment<RowOverlayContext<TItem>>">
+        Template for mouse hover overlay display formatting.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="PagerOptions">
+    <DocsAttributesItem Name="ButtonSize" Type="Size">
+        Configures the pager buttons size.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ButtonRowPosition" Type="PagerElementPosition" Default="PagerElementPosition.Default">
+        Button Row Position.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PaginationPosition" Type="PagerElementPosition" Default="PagerElementPosition.Default">
+        Pagination Position.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TotalItemsPosition" Type="PagerElementPosition" Default="PagerElementPosition.Default">
+        Total Items Position.
     </DocsAttributesItem>
 </DocsAttributes>
 
@@ -451,9 +556,6 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="PreventRowClick" Type="bool">
         Will set @@onclick:StopProgration to true, stopping the RowClick and consequent events from triggering.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ValidationItemCreator" Type="Func<TItem>">
-        Function that, if set, is called to create a validation instance of an item that it's used as a separate instance for Datagrid's internal processing of validation. If left null, Datagrid will try to use it's own implementation to instantiate.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ShowDefaultSortIcon" Type="bool" Default="false">
         Gets or sets whether default sort icon should display.
