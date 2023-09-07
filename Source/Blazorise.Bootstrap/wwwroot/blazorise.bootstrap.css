@@ -188,7 +188,7 @@
   width: 100%;
   cursor: text;
   line-height: 1.5;
-  border: 1px solid #ced4da;
+  outline: 1px solid #ced4da;
   border-radius: 0.25rem;
 }
 .b-is-autocomplete.b-is-autocomplete-multipleselection > input.form-control {
