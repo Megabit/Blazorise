@@ -59,7 +59,8 @@ public class DataGridReadDataEventArgs<TItem> : EventArgs
             x.CurrentSortDirection,
             sortByColumns?.FirstOrDefault( sortCol => sortCol.IsEqual( x ) )?.SortOrder ?? -1,
             x.ColumnType,
-            x.GetFieldToSort() ) );
+            x.GetFieldToSort(),
+            x.GetFilterMethod() ));
         CancellationToken = cancellationToken;
         VirtualizeOffset = virtualizeOffset;
         VirtualizeCount = virtualizeCount;
