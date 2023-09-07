@@ -284,6 +284,14 @@ html, body * {
   color: var(--b-theme-primary);
 }
 
+.home-css-frameworks a {
+  color: inherit;
+  text-decoration: none;
+}
+.home-css-frameworks:hover {
+  color: none;
+}
+
 .home-newsletter-container {
   padding: 50px 50px;
   /*height: 200px;*/

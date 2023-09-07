@@ -196,6 +196,17 @@
     }
 }
 
+.home-css-frameworks {
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    &:hover {
+        color: none;
+    }
+}
+
 .home-newsletter-container {
     padding: 50px 50px;
     /*height: 200px;*/
