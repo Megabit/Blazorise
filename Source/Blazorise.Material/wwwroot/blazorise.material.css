@@ -172,7 +172,7 @@
   position: relative;
 }
 .dropdown .btn.dropdown-toggle:not(.btn-outline) {
-  box-shadow: none !important;
+  box-shadow: none;
 }
 .dropdown > .dropdown-menu:not([x-placement]) > .dropdown:not(.dropup, .dropleft, .dropright) {
   position: relative;
