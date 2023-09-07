@@ -76,6 +76,11 @@
 }
 
 .dropdown {
+    .button.dropdown-trigger:not(.is-outlined) {
+        box-shadow: none;
+        border: none;
+    }
+
     .dropdown-menu > .dropdown-content {
         .dropdown {
             width: 100%;

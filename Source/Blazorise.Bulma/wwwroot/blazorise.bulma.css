@@ -5557,6 +5557,10 @@ ol.is-ordered-list-upper-roman {
   box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
 }
 
+.dropdown .button.dropdown-trigger:not(.is-outlined) {
+  box-shadow: none;
+  border: none;
+}
 .dropdown .dropdown-menu > .dropdown-content .dropdown {
   width: 100%;
 }
