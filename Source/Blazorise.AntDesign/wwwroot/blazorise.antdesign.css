@@ -1500,6 +1500,11 @@
   border: 0;
 }
 
+.ant-dropdown-group .ant-btn.ant-dropdown-trigger:not(.ant-btn-outline) {
+  color: unset;
+  border-color: unset;
+  border: none;
+}
 .ant-dropdown-group > .ant-btn:not(:last-child):not(.ant-dropdown-trigger) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;

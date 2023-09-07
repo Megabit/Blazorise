@@ -9,6 +9,11 @@
 }
 
 .ant-dropdown-group {
+    .ant-btn.ant-dropdown-trigger:not(.ant-btn-outline) {
+        color: unset;
+        border-color: unset;
+        border: none;
+    }
     // Reset rounded corners
     > .ant-btn:not(:last-child):not(.ant-dropdown-trigger) {
         border-top-right-radius: 0;
@@ -94,7 +99,6 @@
 }
 
 .ant-dropdown {
-
     > .ant-dropdown-menu-item {
         width: 100%;
     }
