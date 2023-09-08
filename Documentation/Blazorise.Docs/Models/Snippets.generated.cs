@@ -507,6 +507,158 @@ public class Gender
     Click me!
 </Button>";
 
+        public const string CustomFilterExample = @"private bool MyCustomFilter( FilterExample row )
+{
+    return _filterTracker.columnFilters is null
+        ? true
+        : _filterTracker.columnFilters.All( x => EvaluateColumnFilter( x, row ) );
+}
+
+private bool EvaluateColumnFilter( ColumnFilter<FilterExample> columnFilter, FilterExample row )
+{
+    Console.WriteLine( $""Evaluating... {columnFilter.Column.Field}"" );
+    Console.WriteLine( $""Filter to apply... {columnFilter.SelectedFilter}"" );
+    Console.WriteLine( $""Search for... {columnFilter.SearchValue}"" );
+
+
+    //You might need some reflection based or expression based getter to get the value of the corresponding field dynamically
+    //Do whatever boolean logic you need to do here
+    //We opted to use the DataGrid.Utils.FunctionCompiler.CreateValueGetter to create a dynamic getter for the field and using a simple comparer with the new GreaterThan and LessThan comparisons.
+    var columnFieldGetter = DataGrid.Utils.FunctionCompiler.CreateValueGetter<FilterExample>( columnFilter.Column.Field );
+    var columnValue = columnFieldGetter( row );
+
+    return CompareFilterValues( columnValue.ToString(), columnFilter.SearchValue, columnFilter.SelectedFilter );
+
+}
+
+private bool CompareFilterValues( string searchValue, string compareTo, MyFilter filterMethod )
+{
+    switch (filterMethod)
+    {
+        case MyFilter.StartsWith:
+            return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+        case MyFilter.EndsWith:
+            return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+        case MyFilter.Equals:
+            return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+        case MyFilter.NotEquals:
+            return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+        case MyFilter.GreaterThan:
+            if (int.TryParse( searchValue, out var parsedSearchValue ) && int.TryParse( compareTo, out var parsedCompareToValue ))
+            {
+                return parsedSearchValue > parsedCompareToValue;
+            }
+            return false;
+        case MyFilter.LessThan:
+            if (int.TryParse( searchValue, out var parsedSearchValueLessThan ) && int.TryParse( compareTo, out var parsedCompareToValueLessThan ))
+            {
+                return parsedSearchValueLessThan < parsedCompareToValueLessThan;
+            }
+            return false;
+        case MyFilter.Contains:
+        default:
+            return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
+    }
+}";
+
+        public const string FilterMenuTemplateExample = @"<FilterMenuTemplate>
+    <Row>
+        <Column ColumnSize=""ColumnSize.Is4"">
+            <Select TValue=""MyFilter"" SelectedValue=""@_filterTracker.GetColumnFilterValue(context.Column.Field)"" SelectedValueChanged=""e => { _filterTracker.SetColumnFilter(context.Column, e); }"">
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.Contains"">Contains</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.StartsWith"">Starts With</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.EndsWith"">Ends With</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.Equals"">Equals</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.NotEquals"">Not Equals</SelectItem>
+                @if (context.Column.ColumnType == DataGridColumnType.Numeric)
+                {
+                    <SelectItem TValue=""MyFilter"" Value=""@MyFilter.GreaterThan"">GreaterThan</SelectItem>
+                    <SelectItem TValue=""MyFilter"" Value=""@MyFilter.LessThan"">LessThan</SelectItem>
+                }
+            </Select>
+        </Column>
+        <Column ColumnSize=""ColumnSize.Is4"">
+            <TextEdit Text=""@_filterTracker.GetColumnSearchValue(context.Column.Field)"" TextChanged=""@((newValue) => _filterTracker.SetColumnSearchValue(context.Column, newValue))"" />
+        </Column>
+
+        <Column ColumnSize=""ColumnSize.Is4"">
+            <Button Clicked=""context.Filter"" Color=""Color.Primary""><Icon Name=""IconName.Filter""></Icon> Filter</Button>
+            <Button Clicked=""@(() => { _filterTracker.ClearColumnFilter(context.Column); context.ClearFilter.InvokeAsync(); })"" Color=""Color.Light""><Icon Name=""IconName.Clear""></Icon> Clear</Button>
+        </Column>
+    </Row>
+</FilterMenuTemplate>";
+
+        public const string FilterTrackerExample = @"private FilterTracker<FilterExample> _filterTracker = new();
+
+public class FilterTracker<T>
+{
+    public List<ColumnFilter<T>> columnFilters { get; set; }
+
+    public void ClearColumnFilter( DataGridColumn<T> column )
+    {
+        columnFilters ??= new();
+
+        var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+        if (columnFilter is not null)
+        {
+            columnFilters.Remove( columnFilter );
+        }
+    }
+
+    public void SetColumnFilter( DataGridColumn<T> column, MyFilter myFilter )
+    {
+        columnFilters ??= new();
+
+        var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+        if (columnFilter is null)
+        {
+            columnFilters.Add( new()
+                {
+                    Column = column,
+                    SelectedFilter = myFilter
+                } );
+        }
+        else
+        {
+            columnFilter.SelectedFilter = myFilter;
+        }
+    }
+
+    public void SetColumnSearchValue( DataGridColumn<T> column, string searchValue )
+    {
+        columnFilters ??= new();
+
+        var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+        if (columnFilter is null)
+        {
+            columnFilters.Add( new()
+                {
+                    Column = column,
+                    SearchValue = searchValue
+                } );
+        }
+        else
+        {
+            columnFilter.SearchValue = searchValue;
+        }
+    }
+
+    public ColumnFilter<T> GetColumnFilter( string fieldName )
+        => columnFilters?.FirstOrDefault( x => x.Column.Field == fieldName );
+
+    public MyFilter GetColumnFilterValue( string fieldName )
+        => GetColumnFilter( fieldName )?.SelectedFilter ?? MyFilter.Contains;
+
+    public string GetColumnSearchValue( string fieldName )
+        => GetColumnFilter( fieldName )?.SearchValue;
+
+}";
+
+        public const string MyFilterExample = @"public enum MyFilter
+{
+	Equals, NotEquals, Contains, StartsWith, EndsWith, GreaterThan, LessThan
+}";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
