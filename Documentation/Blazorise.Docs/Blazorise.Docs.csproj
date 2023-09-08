@@ -82,10 +82,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.*" />
     <PackageReference Include="SendGrid" Version="9.28.1" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Blog\2023-09-08_HowToEnhanceDataGridMenuFilter\Code\" />
-    <Folder Include="Pages\Docs\Components\Offcanvas\Code\" />
-  </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
   <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
