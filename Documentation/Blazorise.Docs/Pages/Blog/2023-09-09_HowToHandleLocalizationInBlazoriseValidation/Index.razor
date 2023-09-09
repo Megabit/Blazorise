@@ -1,0 +1,104 @@
+@page "/blog/how-to-handle-localization-in-blazorise-validation"
+
+<Seo Canonical="/blog/how-to-handle-localization-in-blazorise-validation" Title="How to handle Localization in Blazorise Validation" Description="Learn how to properly localize Blazorise Validation messages by using the inbuilt MessageLocalizer" ImageUrl="" />
+
+<BlogPageImage Source="" Text="How to handle Localization in Blazorise Validation" />
+
+<BlogPageTitle>
+    How to handle Localization in Blazorise Validation
+</BlogPageTitle>
+
+<BlogPageParagraph>
+    In this blog post we'll teach you how to properly localize Blazorise Validation messages by using the inbuilt <Code>MessageLocalizer</Code>.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    The Problem
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Let's start with a simple example. We have a <Code>ValidationLocalizationExample</Code> class with a <Code>PhoneCountryCode</Code> property that has a <Code>DataAnnotations</Code> validation to validate whether the input would be a valid phone country code.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    We want to validate this property and display a localized error message if the validation fails. We do so by providing the <Code>Feedback</Code> and <Code>ValidationError</Code> components in addition to the regular Blazorise Validation components.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationExample" />
+
+<BlogPageImageModal ImageSource="img/blog/2023-09-09/validation-fail-standard-error-message.png" ImageTitle="Validation Standard Error Message" />
+
+<BlogPageParagraph>
+    As we can see in the screenshot above, by default, the <Code>DataAnnotations</Code> validation will display the error message in English, with two arguments that have been inserted in the message
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        The name of the field that failed and
+    </BlogPageListItem>
+    <BlogPageListItem>
+        The regular expression for the validation that failed.
+    </BlogPageListItem>
+</BlogPageList>
+
+<BlogPageParagraph>
+    But what if we want to display the error message in another language? Or just change the message to something else? Enter the <Code>MessageLocalizer</Code>!
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    What is & How to use the Message Localizer
+</Heading>
+
+<BlogPageParagraph>
+    The <Code>MessageLocalizer</Code> is a parameter that can be set in the <Code>Validation</Code> component. It is used to localize the error messages that are displayed when a validation fails.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This parameter is of type <Code>Func&lt;string, IEnumerable&lt;string&gt;? arguments, string&gt;</Code> and it receives the error message and corresponding arguments, if any and returns the localized error message.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    So by providing any delegate that adheres to this signature, we can localize the error messages. We'll go one step further and show you an example of how you can create an abstraction that utilizes the .NET <Code>IStringLocalizer</Code> to localize the error messages.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Creating a custom Message Localizer
+</Heading>
+
+<BlogPageParagraph>
+    We'll start by creating a helper class that will be used to localize the error messages. Let's call it <Code>MessageLocalizerHelper</Code>.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This class will receive a <Code>Microsoft.Extensions.Localization.IStringLocalizer&lt;T&gt;</Code> in the constructor and will have a <Code>Localize</Code> method that will receive the error message and arguments and return the localized error message.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToHandleLocalizationInBlazoriseValidation_MessageLocalizerHelperExample" />
+
+<Heading Size="HeadingSize.Is3">
+    Applying a custom Message Localizer
+</Heading>
+
+<BlogPageParagraph>
+    All that's left to do is to inject your Message Localizer in your page or component where the validations are being run and set the Localize method as the <Code>MessageLocalizer</Code> parameter.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The following shows a full example of how this would work:Markdig.Syntax.Inlines.LineBreakInline<Strong>NOTE:</Strong> This example assumes you're using Dependency Injection. Do not forget to register your dependencies!
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationFullExample" />
+
+<BlogPageSubtitle>
+    Conclusion
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    We've looked at a simple example of how to localize the error messages that are displayed when a validation fails. We've also shown how to create a custom Message Localizer that utilizes the .NET <Code>IStringLocalizer</Code> to localize the error messages.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    With this knowledge you should be able to localize the error messages in your Blazorise Validation components. We hope this blog post was helpful and that you've learned something new.
+</BlogPageParagraph>
+
+<BlogPagePostInto UserName="David Moreira" ImageName="david" PostedOn="September 9th, 2023" Read="5 min" />
