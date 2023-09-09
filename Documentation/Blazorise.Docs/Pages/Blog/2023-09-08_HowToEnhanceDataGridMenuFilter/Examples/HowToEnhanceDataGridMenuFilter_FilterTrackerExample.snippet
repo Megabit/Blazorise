@@ -1,66 +1,74 @@
+@code{
+    private FilterTracker<FilterExample> _filterTracker = new();
 
-private FilterTracker<FilterExample> _filterTracker = new();
-
-public class FilterTracker<T>
-{
-    public List<ColumnFilter<T>> columnFilters { get; set; }
-
-    public void ClearColumnFilter( DataGridColumn<T> column )
+    public class ColumnFilter<T>
     {
-        columnFilters ??= new();
-
-        var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
-        if (columnFilter is not null)
-        {
-            columnFilters.Remove( columnFilter );
-        }
+        public DataGridColumn<T> Column;
+        public string SearchValue;
+        public MyFilter SelectedFilter { get; set; } = MyFilter.Contains;
     }
 
-    public void SetColumnFilter( DataGridColumn<T> column, MyFilter myFilter )
+    public class FilterTracker<T>
     {
-        columnFilters ??= new();
+        public List<ColumnFilter<T>> columnFilters { get; set; }
 
-        var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
-        if (columnFilter is null)
+        public void ClearColumnFilter( DataGridColumn<T> column )
         {
-            columnFilters.Add( new()
-                {
-                    Column = column,
-                    SelectedFilter = myFilter
-                } );
+            columnFilters ??= new();
+
+            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+            if (columnFilter is not null)
+            {
+                columnFilters.Remove( columnFilter );
+            }
         }
-        else
+
+        public void SetColumnFilter( DataGridColumn<T> column, MyFilter myFilter )
         {
-            columnFilter.SelectedFilter = myFilter;
+            columnFilters ??= new();
+
+            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+            if (columnFilter is null)
+            {
+                columnFilters.Add( new()
+                    {
+                        Column = column,
+                        SelectedFilter = myFilter
+                    } );
+            }
+            else
+            {
+                columnFilter.SelectedFilter = myFilter;
+            }
         }
+
+        public void SetColumnSearchValue( DataGridColumn<T> column, string searchValue )
+        {
+            columnFilters ??= new();
+
+            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+            if (columnFilter is null)
+            {
+                columnFilters.Add( new()
+                    {
+                        Column = column,
+                        SearchValue = searchValue
+                    } );
+            }
+            else
+            {
+                columnFilter.SearchValue = searchValue;
+            }
+        }
+
+        public ColumnFilter<T> GetColumnFilter( string fieldName )
+            => columnFilters?.FirstOrDefault( x => x.Column.Field == fieldName );
+
+        public MyFilter GetColumnFilterValue( string fieldName )
+            => GetColumnFilter( fieldName )?.SelectedFilter ?? MyFilter.Contains;
+
+        public string GetColumnSearchValue( string fieldName )
+            => GetColumnFilter( fieldName )?.SearchValue;
+
     }
-
-    public void SetColumnSearchValue( DataGridColumn<T> column, string searchValue )
-    {
-        columnFilters ??= new();
-
-        var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
-        if (columnFilter is null)
-        {
-            columnFilters.Add( new()
-                {
-                    Column = column,
-                    SearchValue = searchValue
-                } );
-        }
-        else
-        {
-            columnFilter.SearchValue = searchValue;
-        }
-    }
-
-    public ColumnFilter<T> GetColumnFilter( string fieldName )
-        => columnFilters?.FirstOrDefault( x => x.Column.Field == fieldName );
-
-    public MyFilter GetColumnFilterValue( string fieldName )
-        => GetColumnFilter( fieldName )?.SelectedFilter ?? MyFilter.Contains;
-
-    public string GetColumnSearchValue( string fieldName )
-        => GetColumnFilter( fieldName )?.SearchValue;
-
 }

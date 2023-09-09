@@ -59,7 +59,7 @@
 </BlogPageList>
 
 <BlogPageParagraph>
-    So we definitely need a way to further enhance the filtering capabilities. Let's introduce a new <Code>MyFilter</Code> enum which additionally introduces "LessThan" and "GreaterThan".
+    So we definitely need a way to further enhance the filtering capabilities. Let's introduce a new <Code>MyFilter</Code> enum which additionally introduces "LessThan" and "GreaterThan". And you can, of course, further extend this to fit your needs.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToEnhanceDataGridMenuFilter_MyFilterExample" />
@@ -70,6 +70,10 @@
 
 <BlogPageParagraph>
     Next up, we need to find a way to track & glue our custom filter system together. Let's go ahead and create a custom <Code>FilterTracker</Code> class that will hold our custom filter values.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    We'll also go ahead and create a new <Code>ColumnFilter</Code> class that will hold the filtering state we need to keep for each column.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToEnhanceDataGridMenuFilter_FilterTrackerExample" />
@@ -90,6 +94,10 @@
 
 <BlogPageParagraph>
     Now that the user can submit the new filter values, and we are tracking everything under our <Code>FilterTracker</Code> we can leverage the Datagrid's <Code>CustomFilter</Code> in order to apply our custom filtering.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    <Strong>Note:</Strong> Don't forget to set the Datagrid's parameters! <Code>Filterable FilterMode="DataGridFilterMode.Menu" CustomFilter="MyCustomFilter"</Code>
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToEnhanceDataGridMenuFilter_CustomFilterExample" />
