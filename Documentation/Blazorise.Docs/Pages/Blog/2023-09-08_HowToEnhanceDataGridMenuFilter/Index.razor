@@ -13,7 +13,7 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    While this is a great addition to the Blazorise <Code>DataGrid</Code> and improving the flexibility of the filtering, it's still not a perfect solution. And that's what we'll touch on, on this blog post.
+    While this is a great addition to the Blazorise <Code>DataGrid</Code> and it improves the flexibility of the filtering provided, it's still not a perfect solution. And that's what we'll touch on, on this blog post.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -25,7 +25,7 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    I.e A numeric column type should have ways to filter by "less than" or "greater than"" for instance.
+    <Strong>I.e</Strong> A numeric column type should have ways to filter by <Strong>"less than"</Strong> or <Strong>"greater than"</Strong> for instance.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
@@ -61,7 +61,7 @@
 </BlogPageList>
 
 <BlogPageParagraph>
-    So we definitely need a way to further enhance the filtering capabilities. Let's introduce a new <Code>MyFilter</Code> enum which additionally introduces "LessThan" and "GreaterThan". And you can, of course, further extend this to fit your needs.
+    So we definitely need a way to further enhance the filtering capabilities. Let's introduce a new <Code>MyFilter</Code> enum which additionally introduces <Strong>"LessThan"</Strong> and <Strong>"GreaterThan"</Strong>. And you can, of course, further extend this to fit your needs.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToEnhanceDataGridMenuFilter_MyFilterExample" />
@@ -109,7 +109,11 @@
 </Heading>
 
 <BlogPageParagraph>
-    Optionally by using the Datagrid's <Code>ReadData</Code> feature this example still holds true, as you hold the filtering state & logic in your own hands. Of course you will have to do your own translation in order to make it work with your backend.
+    Optionally by using the Datagrid's <Code>ReadData</Code> feature this example still holds true, as you hold the filtering state & logic in your own hands.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    You will not be using the <Code>CustomFilter</Code> anymore, but you will be using the <Code>ReadData</Code> together with the filtering state you've tracked apply your custom filtering logic. Of course you will have to do your own translation in order to make it work with your backend.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>

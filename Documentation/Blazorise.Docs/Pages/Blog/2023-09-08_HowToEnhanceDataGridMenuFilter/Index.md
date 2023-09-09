@@ -15,13 +15,13 @@ read-time: 5 min
 
 With the release of Blazorise v1.3, we introduced a new Filter Method option that we've named Menu mode. With this new option you're now able to use pre defined filtering on a per-column basis.
 
-While this is a great addition to the Blazorise `DataGrid` and improving the flexibility of the filtering, it's still not a perfect solution. And that's what we'll touch on, on this blog post.
+While this is a great addition to the Blazorise `DataGrid` and it improves the flexibility of the filtering provided, it's still not a perfect solution. And that's what we'll touch on, on this blog post.
 
 ## Contextual filtering by column type
 
 Contextual filtering that makes sense as per your column types is currently not supported out of the box.
 
-I.e A numeric column type should have ways to filter by "less than" or "greater than"" for instance.
+**I.e** A numeric column type should have ways to filter by **"less than"** or **"greater than"** for instance.
 
 Let's talk about how we can make this work by using the `DataGrid` tools that we have at our disposal.
 
@@ -36,7 +36,7 @@ Let's start with the first limitation, the `DataGridFilterMethod`. At the time o
 - Equals
 - NotEquals
 
-So we definitely need a way to further enhance the filtering capabilities. Let's introduce a new `MyFilter` enum which additionally introduces "LessThan" and "GreaterThan". And you can, of course, further extend this to fit your needs.
+So we definitely need a way to further enhance the filtering capabilities. Let's introduce a new `MyFilter` enum which additionally introduces **"LessThan"** and **"GreaterThan"**. And you can, of course, further extend this to fit your needs.
 
 
 ```html|MyFilterExample
@@ -229,7 +229,9 @@ Now that the user can submit the new filter values, and we are tracking everythi
 ```
 
 ### Read Data
-Optionally by using the Datagrid's `ReadData` feature this example still holds true, as you hold the filtering state & logic in your own hands. Of course you will have to do your own translation in order to make it work with your backend.
+Optionally by using the Datagrid's `ReadData` feature this example still holds true, as you hold the filtering state & logic in your own hands. 
+
+You will not be using the `CustomFilter` anymore, but you will be using the `ReadData` together with the filtering state that you've tracked to apply your custom filtering logic. Of course you will have to do your own translation in order to make it work with your backend.
 
 ## Conclusion
 
