@@ -507,7 +507,7 @@ public class Gender
     Click me!
 </Button>";
 
-        public const string CustomFilterExample = @"private bool MyCustomFilter( FilterExample row )
+        public const string HowToEnhanceDataGridMenuFilter_CustomFilterExample = @"private bool MyCustomFilter( FilterExample row )
 {
     return _filterTracker.columnFilters is null
         ? true
@@ -561,7 +561,7 @@ private bool CompareFilterValues( string searchValue, string compareTo, MyFilter
     }
 }";
 
-        public const string FilterMenuTemplateExample = @"<FilterMenuTemplate>
+        public const string HowToEnhanceDataGridMenuFilter_FilterMenuTemplateExample = @"<FilterMenuTemplate>
     <Row>
         <Column ColumnSize=""ColumnSize.Is4"">
             <Select TValue=""MyFilter"" SelectedValue=""@_filterTracker.GetColumnFilterValue(context.Column.Field)"" SelectedValueChanged=""e => { _filterTracker.SetColumnFilter(context.Column, e); }"">
@@ -588,7 +588,7 @@ private bool CompareFilterValues( string searchValue, string compareTo, MyFilter
     </Row>
 </FilterMenuTemplate>";
 
-        public const string FilterTrackerExample = @"private FilterTracker<FilterExample> _filterTracker = new();
+        public const string HowToEnhanceDataGridMenuFilter_FilterTrackerExample = @"private FilterTracker<FilterExample> _filterTracker = new();
 
 public class FilterTracker<T>
 {
@@ -654,7 +654,7 @@ public class FilterTracker<T>
 
 }";
 
-        public const string MyFilterExample = @"public enum MyFilter
+        public const string HowToEnhanceDataGridMenuFilter_MyFilterExample = @"public enum MyFilter
 {
 	Equals, NotEquals, Contains, StartsWith, EndsWith, GreaterThan, LessThan
 }";

@@ -1,0 +1,69 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+private FilterTracker<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FilterExample</span><span class="htmlTagDelimiter">&gt;</span> _filterTracker = new();
+
+public class FilterTracker<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">T</span><span class="htmlTagDelimiter">&gt;</span>
+{
+    public List&lt;ColumnFilter<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">T</span><span class="htmlTagDelimiter">&gt;</span>&gt; columnFilters { get; set; }
+
+    public void ClearColumnFilter( DataGridColumn<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">T</span><span class="htmlTagDelimiter">&gt;</span> column )
+    {
+        columnFilters ??= new();
+
+        var columnFilter = columnFilters.FirstOrDefault( x =&gt; x.Column.Field == column.Field );
+        if (columnFilter is not null)
+        {
+            columnFilters.Remove( columnFilter );
+        }
+    }
+
+    public void SetColumnFilter( DataGridColumn<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">T</span><span class="htmlTagDelimiter">&gt;</span> column, MyFilter myFilter )
+    {
+        columnFilters ??= new();
+
+        var columnFilter = columnFilters.FirstOrDefault( x =&gt; x.Column.Field == column.Field );
+        if (columnFilter is null)
+        {
+            columnFilters.Add( new()
+                {
+                    Column = column,
+                    SelectedFilter = myFilter
+                } );
+        }
+        else
+        {
+            columnFilter.SelectedFilter = myFilter;
+        }
+    }
+
+    public void SetColumnSearchValue( DataGridColumn<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">T</span><span class="htmlTagDelimiter">&gt;</span> column, string searchValue )
+    {
+        columnFilters ??= new();
+
+        var columnFilter = columnFilters.FirstOrDefault( x =&gt; x.Column.Field == column.Field );
+        if (columnFilter is null)
+        {
+            columnFilters.Add( new()
+                {
+                    Column = column,
+                    SearchValue = searchValue
+                } );
+        }
+        else
+        {
+            columnFilter.SearchValue = searchValue;
+        }
+    }
+
+    public ColumnFilter<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">T</span><span class="htmlTagDelimiter">&gt;</span> GetColumnFilter( string fieldName )
+        =&gt; columnFilters?.FirstOrDefault( x =&gt; x.Column.Field == fieldName );
+
+    public MyFilter GetColumnFilterValue( string fieldName )
+        =&gt; GetColumnFilter( fieldName )?.SelectedFilter ?? MyFilter.Contains;
+
+    public string GetColumnSearchValue( string fieldName )
+        =&gt; GetColumnFilter( fieldName )?.SearchValue;
+
+}
+</pre></div>
+</div>

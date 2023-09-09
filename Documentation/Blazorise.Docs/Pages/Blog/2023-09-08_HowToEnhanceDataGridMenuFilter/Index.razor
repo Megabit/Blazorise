@@ -1,8 +1,8 @@
 @page "/blog/how-to-enhance-the-new-datagrid-menu-filter"
 
-<Seo Canonical="/blog/how-to-enhance-the-new-datagrid-menu-filter" Title="" Description="" ImageUrl="/" />
+<Seo Canonical="/blog/how-to-enhance-the-new-datagrid-menu-filter" Title="How to enhance the new DataGrid menu filter" Description="" ImageUrl="" />
 
-<BlogPageImage Source="" Text="" />
+<BlogPageImage Source="" Text="How to enhance the new DataGrid menu filter" />
 
 <BlogPageTitle>
     How to enhance the new DataGrid menu filter
@@ -10,10 +10,11 @@
 
 <BlogPageParagraph>
     With the release of Blazorise v1.3, we introduced a new Filter Method option that we've named Menu mode. With this new option you're now able to use pre defined filtering on a per-column basis.
-    While this is a great addition to the Blazorise <code>DataGrid</code> and improving the flexibility of the filtering, it's still not a perfect solution. And that's what we'll touch on, on this blog post.
 </BlogPageParagraph>
 
-
+<BlogPageParagraph>
+    While this is a great addition to the Blazorise <Code>DataGrid</Code> and improving the flexibility of the filtering, it's still not a perfect solution. And that's what we'll touch on, on this blog post.
+</BlogPageParagraph>
 
 <BlogPageSubtitle>
     Contextual filtering by column type
@@ -21,74 +22,100 @@
 
 <BlogPageParagraph>
     Contextual filtering that makes sense as per your column types is currently not supported out of the box.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
     I.e A numeric column type should have ways to filter by "less than" or "greater than"" for instance.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Let's talk about how we can make this work by using the Datagrid tools that we have at our disposal.
+    Let's talk about how we can make this work by using the <Code>DataGrid</Code> tools that we have at our disposal.
 </BlogPageParagraph>
 
-<BlogPageSubtitle>
+<Heading Size="HeadingSize.Is3">
     Custom Filter Method
-</BlogPageSubtitle>
+</Heading>
 
 <BlogPageParagraph>
-    Let's start with the first limitation, the <code>DataGridFilterMethod</code>. At the time of writing this only supports:
-    <BlogPageList>
-        <BlogPageListItem>Contains</BlogPageListItem>
-        <BlogPageListItem>StartsWith</BlogPageListItem>
-        <BlogPageListItem>EndsWith</BlogPageListItem>
-        <BlogPageListItem>Equals</BlogPageListItem>
-        <BlogPageListItem>NotEquals</BlogPageListItem>
-    </BlogPageList>
-
-    So we definitely need a way to further enhance the filtering capabilities. Let's introduce a new <code>MyFilter</code> enum which additionally introduces "LessThan" and "GreaterThan".
+    Let's start with the first limitation, the <Code>DataGridFilterMethod</Code>. At the time of writing this only supports:
 </BlogPageParagraph>
 
-<BlogPageSourceBlock Code="MyFilterExample" />
+<BlogPageList>
+    <BlogPageListItem>
+        Contains
+    </BlogPageListItem>
+    <BlogPageListItem>
+        StartsWith
+    </BlogPageListItem>
+    <BlogPageListItem>
+        EndsWith
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Equals
+    </BlogPageListItem>
+    <BlogPageListItem>
+        NotEquals
+    </BlogPageListItem>
+</BlogPageList>
 
-<BlogPageSubtitle>
+<BlogPageParagraph>
+    So we definitely need a way to further enhance the filtering capabilities. Let's introduce a new <Code>MyFilter</Code> enum which additionally introduces "LessThan" and "GreaterThan".
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToEnhanceDataGridMenuFilter_MyFilterExample" />
+
+<Heading Size="HeadingSize.Is3">
     Custom Filter Tracker
-</BlogPageSubtitle>
+</Heading>
 
 <BlogPageParagraph>
-    Next up, we need to find a way to track & glue our custom filter system together. Let's go ahead and create a custom <code>FilterTracker</code> class that will hold our custom filter values.
+    Next up, we need to find a way to track & glue our custom filter system together. Let's go ahead and create a custom <Code>FilterTracker</Code> class that will hold our custom filter values.
 </BlogPageParagraph>
 
-<BlogPageSourceBlock Code="FilterTrackerExample" />
+<BlogPageSourceBlock Code="HowToEnhanceDataGridMenuFilter_FilterTrackerExample" />
 
-<BlogPageSubtitle>
+<Heading Size="HeadingSize.Is3">
     Custom Filter Menu Template
-</BlogPageSubtitle>
+</Heading>
 
 <BlogPageParagraph>
     Now we need to update the UI so it uses our custom implementation, let's use the provided FilterMenuTemplate in order to do so.
 </BlogPageParagraph>
 
-<BlogPageSourceBlock Code="FilterMenuTemplateExample" />
+<BlogPageSourceBlock Code="HowToEnhanceDataGridMenuFilter_FilterMenuTemplateExample" />
 
-<BlogPageSubtitle>
-    Making it work 
-</BlogPageSubtitle>
+<Heading Size="HeadingSize.Is3">
+    Making it work
+</Heading>
 
 <BlogPageParagraph>
-    Now that the user can submit the new filter values, and we are tracking everything under our <code>FilterTracker</code> we can leverage the Datagrid's <code>CustomFilter</code> in order to apply our custom filtering.
+    Now that the user can submit the new filter values, and we are tracking everything under our <Code>FilterTracker</Code> we can leverage the Datagrid's <Code>CustomFilter</Code> in order to apply our custom filtering.
 </BlogPageParagraph>
 
-<BlogPageSourceBlock Code="CustomFilterExample" />
+<BlogPageSourceBlock Code="HowToEnhanceDataGridMenuFilter_CustomFilterExample" />
 
-<BlogPageSubtitle>
+<Heading Size="HeadingSize.Is3">
     Read Data
-</BlogPageSubtitle>
+</Heading>
 
 <BlogPageParagraph>
-    Optionally by using the Datagrid's <code>ReadData</code> feature this example still holds true, as you hold the filtering logic in your own hands. Of course you will have to do your own translation in order to make it work with your backend.
+    Optionally by using the Datagrid's <Code>ReadData</Code> feature this example still holds true, as you hold the filtering logic in your own hands. Of course you will have to do your own translation in order to make it work with your backend.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
-    Final Words
+    Conclusion
 </BlogPageSubtitle>
-<BlogPageParagraph>In an ideal world, component libraries do most of the heavy lifting for us, but it's not unusual for a library to sometimes have certain gaps in functionality. This shows that with a little creativity we can still use our favorite libraries and enhance them in order to accomplish our use cases.</BlogPageParagraph>
-<BlogPageParagraph>We'll definitely keep improving the <code>Datagrid</code> filtering in future versions, but in the meantime, we leave you with this alternative to improve the filtering capabilities of your <code>DataGrid</code>.</BlogPageParagraph>
-<BlogPageParagraph>You can find the full code example by visiting the <Anchor To="https://github.com/Megabit/Blazorise/issues/4941#issuecomment-1711836031">following github issue</Anchor>.</BlogPageParagraph>
+
+<BlogPageParagraph>
+    In an ideal world, component libraries do most of the heavy lifting for us, but it's not unusual for a library to sometimes have certain gaps in functionality. This shows that with a little creativity we can still use our favorite libraries and enhance them in order to accomplish our use cases.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    We'll definitely keep improving the <Code>Datagrid</Code>filtering in future versions, but in the meantime, we leave you with this alternative to improve the filtering capabilities of your <Code>DataGrid</Code>.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    You can find the full code example by visiting the <Anchor To="https://github.com/Megabit/Blazorise/issues/4941#issuecomment-1711836031" Title="Link to following github issue">following github issue</Anchor>.
+</BlogPageParagraph>
+
 <BlogPagePostInto UserName="David Moreira" ImageName="david" PostedOn="September 8th, 2023" Read="5 min" />
