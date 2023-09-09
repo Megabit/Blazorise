@@ -86,15 +86,15 @@ a {
   color: #1a81fa;
 }
 
-.b-top-bar {
-  /*.navbar-brand {
-      font-size: 1.25rem;
-      font-weight: 500;
-  }*/
-}
-.b-top-bar > :not(.navbar-brand) .nav-link {
+.b-top-bar .navbar-nav .nav-link {
   font-size: 1.1rem;
   font-weight: 400;
+  padding-top: 2.4px;
+  padding-bottom: 2.4px;
+}
+.b-top-bar .navbar-nav .nav-link:hover {
+  background-color: hsla(201deg, 50%, 98%, 0.5);
+  border-radius: 7px;
 }
 
 ::-webkit-scrollbar {
