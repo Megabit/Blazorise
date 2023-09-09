@@ -1,6 +1,6 @@
 @page "/blog/how-to-enhance-the-new-datagrid-menu-filter"
 
-<Seo Canonical="/blog/how-to-enhance-the-new-datagrid-menu-filter" Title="How to enhance the new DataGrid menu filter" Description="" ImageUrl="" />
+<Seo Canonical="/blog/how-to-enhance-the-new-datagrid-menu-filter" Title="How to enhance the new DataGrid menu filter" Description="Discover expert tips and techniques to supercharge the functionality of the new DataGrid menu filter. Learn how to optimize your data filtering capabilities for improved data management and analysis with our step-by-step guide." ImageUrl="" />
 
 <BlogPageImage Source="" Text="How to enhance the new DataGrid menu filter" />
 
@@ -31,6 +31,8 @@
 <BlogPageParagraph>
     Let's talk about how we can make this work by using the <Code>DataGrid</Code> tools that we have at our disposal.
 </BlogPageParagraph>
+
+<BlogPageImageModal ImageSource="img/blog/2023-09-08/custom-filter-menu-example.png" ImageTitle="Custom Filter Menu Example" />
 
 <Heading Size="HeadingSize.Is3">
     Custom Filter Method
@@ -83,7 +85,7 @@
 </Heading>
 
 <BlogPageParagraph>
-    Now we need to update the UI so it uses our custom implementation, let's use the provided FilterMenuTemplate in order to do so.
+    Now we need to update the UI so it uses our custom implementation, let's use the provided <Code>FilterMenuTemplate</Code> in order to do so.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToEnhanceDataGridMenuFilter_FilterMenuTemplateExample" />
@@ -107,7 +109,7 @@
 </Heading>
 
 <BlogPageParagraph>
-    Optionally by using the Datagrid's <Code>ReadData</Code> feature this example still holds true, as you hold the filtering logic in your own hands. Of course you will have to do your own translation in order to make it work with your backend.
+    Optionally by using the Datagrid's <Code>ReadData</Code> feature this example still holds true, as you hold the filtering state & logic in your own hands. Of course you will have to do your own translation in order to make it work with your backend.
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -119,11 +121,11 @@
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    We'll definitely keep improving the <Code>Datagrid</Code>filtering in future versions, but in the meantime, we leave you with this alternative to improve the filtering capabilities of your <Code>DataGrid</Code>.
+    We'll definitely keep improving the <Code>Datagrid</Code>filtering in future versions and we're hoping to bring you better column contextual filtering out of the box, but in the meantime, we leave you with this alternative to improve the filtering capabilities of your <Code>DataGrid</Code>.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    You can find the full code example by visiting the <Anchor To="https://github.com/Megabit/Blazorise/issues/4941#issuecomment-1711836031" Title="Link to following github issue">following github issue</Anchor>.
+    You can find the working full code example by visiting the <Anchor To="https://github.com/Megabit/Blazorise/issues/4941#issuecomment-1711836031" Title="Link to following github issue">following github issue</Anchor>.
 </BlogPageParagraph>
 
 <BlogPagePostInto UserName="David Moreira" ImageName="david" PostedOn="September 8th, 2023" Read="5 min" />

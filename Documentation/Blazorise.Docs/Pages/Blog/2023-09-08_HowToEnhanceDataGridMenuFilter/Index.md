@@ -1,6 +1,6 @@
 ﻿---
 title: How to enhance the new DataGrid menu filter
-description: 
+description: Discover expert tips and techniques to supercharge the functionality of the new DataGrid menu filter. Learn how to optimize your data filtering capabilities for improved data management and analysis with our step-by-step guide.
 permalink: /blog/how-to-enhance-the-new-datagrid-menu-filter
 canonical: /blog/how-to-enhance-the-new-datagrid-menu-filter
 image-url: 
@@ -24,6 +24,8 @@ Contextual filtering that makes sense as per your column types is currently not 
 I.e A numeric column type should have ways to filter by "less than" or "greater than"" for instance.
 
 Let's talk about how we can make this work by using the `DataGrid` tools that we have at our disposal.
+
+![Custom Filter Menu Example](img/blog/2023-09-08/custom-filter-menu-example.png)
 
 ### Custom Filter Method
 
@@ -130,7 +132,7 @@ We'll also go ahead and create a new `ColumnFilter` class that will hold the fil
 
 ### Custom Filter Menu Template
 
-Now we need to update the UI so it uses our custom implementation, let's use the provided FilterMenuTemplate in order to do so.
+Now we need to update the UI so it uses our custom implementation, let's use the provided `FilterMenuTemplate` in order to do so.
 
 ```html|FilterMenuTemplateExample
 
@@ -227,12 +229,12 @@ Now that the user can submit the new filter values, and we are tracking everythi
 ```
 
 ### Read Data
-Optionally by using the Datagrid's `ReadData` feature this example still holds true, as you hold the filtering logic in your own hands. Of course you will have to do your own translation in order to make it work with your backend.
+Optionally by using the Datagrid's `ReadData` feature this example still holds true, as you hold the filtering state & logic in your own hands. Of course you will have to do your own translation in order to make it work with your backend.
 
 ## Conclusion
 
 In an ideal world, component libraries do most of the heavy lifting for us, but it's not unusual for a library to sometimes have certain gaps in functionality. This shows that with a little creativity we can still use our favorite libraries and enhance them in order to accomplish our use cases.
 
-We'll definitely keep improving the `Datagrid`filtering in future versions, but in the meantime, we leave you with this alternative to improve the filtering capabilities of your `DataGrid`.
+We'll definitely keep improving the `Datagrid`filtering in future versions and we're hoping to bring you better column contextual filtering out of the box, but in the meantime, we leave you with this alternative to improve the filtering capabilities of your `DataGrid`.
 
 You can find the working full code example by visiting the [following github issue](https://github.com/Megabit/Blazorise/issues/4941#issuecomment-1711836031).
