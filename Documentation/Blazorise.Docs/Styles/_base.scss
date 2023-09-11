@@ -62,3 +62,11 @@ html, body * {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+.badge-primary-gradient {
+    background-image: linear-gradient(to bottom right, #9d54df, #9333EA);
+}
+
+.btn-primary-gradient {
+    background-image: linear-gradient(to bottom, #9d54df, #9333EA);
+}

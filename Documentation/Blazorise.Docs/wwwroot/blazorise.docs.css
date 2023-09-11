@@ -131,6 +131,14 @@ html, body * {
   -webkit-text-fill-color: transparent;
 }
 
+.badge-primary-gradient {
+  background-image: linear-gradient(to bottom right, #9d54df, #9333EA);
+}
+
+.btn-primary-gradient {
+  background-image: linear-gradient(to bottom, #9d54df, #9333EA);
+}
+
 :root {
   --bd-purple: #4c0bce;
   --bd-violet: #712cf9;
@@ -237,6 +245,19 @@ html, body * {
   background-color: rgba(0, 51, 204, 0.8);
   transition: all 0.8s ease-in-out;
   opacity: 0;
+}
+.home-case-studies-img-icons {
+  transition: all 0.4s ease-in-out;
+}
+.home-case-studies-img-icons:hover {
+  transform: scale(1.1);
+}
+.home-case-studies a {
+  color: inherit;
+  text-decoration: none;
+}
+.home-case-studies:hover {
+  color: none;
 }
 
 .home-customer-feedback-customer-cards {
