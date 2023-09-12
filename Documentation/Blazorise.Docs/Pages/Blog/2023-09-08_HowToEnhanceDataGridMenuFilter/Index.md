@@ -3,7 +3,7 @@ title: How to enhance the new DataGrid menu filter
 description: Discover expert tips and techniques to supercharge the functionality of the new DataGrid menu filter. Learn how to optimize your data filtering capabilities for improved data management and analysis with our step-by-step guide.
 permalink: /blog/how-to-enhance-the-new-datagrid-menu-filter
 canonical: /blog/how-to-enhance-the-new-datagrid-menu-filter
-image-url: 
+image-url: /img/blog/2023-09-08/how_to_enhance_the_new_dataGrid_menu_filter.png
 image-title: How to enhance the new DataGrid menu filter
 author-name: David Moreira
 author-image: david
