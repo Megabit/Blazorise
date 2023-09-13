@@ -1,0 +1,131 @@
+﻿<section class="home-case-studies" id="home-css-frameworks-section">
+    <Row>
+        <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
+            <Heading Size="HeadingSize.Is2" TextSize="TextSize.Heading1" TextWeight="TextWeight.Bold" Padding="Padding.Is3.FromBottom">
+                Explore some of its features
+            </Heading>
+            <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
+                Get Blazorise and take advantage of its free components and features that will help you setup your web project quickly.
+            </Heading>
+        </Column>
+    </Row>
+    <Grid>
+        <Column Flex="Flex.Column" ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnDesktop" Border="Border.Is1.Rounded" Padding="Padding.Is3">
+            <Div>
+                <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Bold">
+                    Code better, launch faster
+                </Heading>
+                <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Bold" Margin="Margin.Is3.OnY">
+                    With your favorite stack
+                </Heading>
+                <Paragraph>
+                    Blazorise comes with stunning fully coded components based on Blazor, .NET and HTML. Choose you favorite technologies!
+                </Paragraph>
+            </Div>
+            <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop">
+                <Div Flex="Flex.AlignItems.Center" Gap="Gap.Is5">
+                    <Anchor To="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor" Title="Link to Blazor">
+                        <Div Flex="Flex.Column.JustifyContent.Center.AlignItems.Center" Gap="Gap.Is2">
+                            <Image Source="_content/Blazorise.Docs/assets/img/logos/blazor.svg" Text="Blazor" Style="width: 2.5rem; height: 2.5rem;" />
+                            <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Bold">
+                                Blazor
+                            </Heading>
+                        </Div>
+                    </Anchor>
+                    <Anchor To="https://dotnet.microsoft.com/en-us/" Title="Link to .NET">
+                        <Div Flex="Flex.Column.JustifyContent.Center.AlignItems.Center" Gap="Gap.Is2">
+                            <Image Source="_content/Blazorise.Docs/assets/img/logos/net.svg" Text="Blazor" Style="width: 2.5rem; height: 2.5rem;" />
+                            <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Bold">
+                                .NET
+                            </Heading>
+                        </Div>
+                    </Anchor>
+                    <Anchor To="https://dotnet.microsoft.com/en-us/languages/csharp" Title="Link to C#">
+                        <Div Flex="Flex.Column.JustifyContent.Center.AlignItems.Center" Gap="Gap.Is2">
+                            <Image Source="_content/Blazorise.Docs/assets/img/logos/csharp.svg" Text="Blazor" Style="width: 2.5rem; height: 2.5rem;" />
+                            <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Bold">
+                                C#
+                            </Heading>
+                        </Div>
+                    </Anchor>
+                    <Anchor To="https://developer.mozilla.org/en-US/docs/Glossary/HTML5" Title="Link to HTML 5">
+                        <Div Flex="Flex.Column.JustifyContent.Center.AlignItems.Center" Gap="Gap.Is2">
+                            <Image Source="_content/Blazorise.Docs/assets/img/logos/html.svg" Text="Blazor" Style="width: 2.5rem; height: 2.5rem;" />
+                            <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Bold">
+                                HTML
+                            </Heading>
+                        </Div>
+                    </Anchor>
+                </Div>
+            </Div>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnDesktop" Border="Border.Is1.Rounded" Padding="Padding.Is3">
+            <Div>
+                <Heading Size="HeadingSize.Is6" TextWeight="TextWeight.Bold">
+                    Blazor Components
+                </Heading>
+                <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Bold" Margin="Margin.Is3.OnY">
+                    Code Fast. Code Consistently
+                </Heading>
+                <Paragraph>
+                    Our Blazor components library provides a simple way to customize your button; you can change the colors, fonts, styling, and everything you need.
+                </Paragraph>
+            </Div>
+            <Div TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromTop">
+                @if ( buttonExample == "outline" )
+                {
+                    <Button Color="Color.Primary" Outline Size="Size.Large">
+                         Button
+                     </Button>
+                }
+                else if ( buttonExample == "link" )
+                {
+                    <Button Color="Color.Link" Type="ButtonType.Link" To="#" Size="Size.Large">
+                        Button
+                    </Button>
+                }
+                else if ( buttonExample == "icon" )
+                {
+                    <Button Color="Color.Primary" Size="Size.Large">
+                        <Icon Name="IconName.Heart" />
+                        Button
+                    </Button>
+                }
+                else
+                {
+                    <Button Color="Color.Primary" Size="Size.Large">
+                        Button
+                    </Button>
+                }
+                <Div Margin="Margin.Is4.FromTop" Gap="Gap.Is2">
+                    <Button Clicked="@(()=>OnButtonTypeClicked("default"))">
+                        <Icon Name="IconName.Circle" />
+                        Default
+                    </Button>
+                    <Button Clicked="@(()=>OnButtonTypeClicked("outline"))">
+                        <Icon Name="IconName.BorderStyle" />
+                        Outline
+                    </Button>
+                    <Button Clicked="@(()=>OnButtonTypeClicked("link"))">
+                        <Icon Name="IconName.Link" />
+                        Link
+                    </Button>
+                    <Button Clicked="@(()=>OnButtonTypeClicked("icon"))">
+                        <Icon Name="IconName.Heart" />
+                        Icon
+                    </Button>
+                </Div>
+            </Div>
+        </Column>
+    </Grid>
+</section>
+@code {
+    string buttonExample = "default";
+
+    Task OnButtonTypeClicked( string example )
+    {
+        buttonExample = example;
+
+        return Task.CompletedTask;
+    }
+}

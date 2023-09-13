@@ -86,15 +86,15 @@ a {
   color: #1a81fa;
 }
 
-.b-top-bar {
-  /*.navbar-brand {
-      font-size: 1.25rem;
-      font-weight: 500;
-  }*/
-}
-.b-top-bar > :not(.navbar-brand) .nav-link {
+.b-top-bar .navbar-nav .nav-link {
   font-size: 1.1rem;
   font-weight: 400;
+  padding-top: 2.4px;
+  padding-bottom: 2.4px;
+}
+.b-top-bar .navbar-nav .nav-link:hover {
+  background-color: hsla(201deg, 50%, 98%, 0.5);
+  border-radius: 7px;
 }
 
 ::-webkit-scrollbar {
@@ -129,6 +129,14 @@ html, body * {
   background: -webkit-linear-gradient(0deg, #287395, #b93895);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.badge-primary-gradient {
+  background-image: linear-gradient(to bottom right, #9d54df, #9333EA);
+}
+
+.btn-primary-gradient {
+  background-image: linear-gradient(to bottom, #9d54df, #9333EA);
 }
 
 :root {
@@ -238,6 +246,19 @@ html, body * {
   transition: all 0.8s ease-in-out;
   opacity: 0;
 }
+.home-case-studies-img-icons {
+  transition: all 0.4s ease-in-out;
+}
+.home-case-studies-img-icons:hover {
+  transform: scale(1.1);
+}
+.home-case-studies a {
+  color: inherit;
+  text-decoration: none;
+}
+.home-case-studies:hover {
+  color: none;
+}
 
 .home-customer-feedback-customer-cards {
   background: #f3f7fb;
@@ -282,6 +303,14 @@ html, body * {
 }
 .home-testimonials a:hover {
   color: var(--b-theme-primary);
+}
+
+.home-css-frameworks a {
+  color: inherit;
+  text-decoration: none;
+}
+.home-css-frameworks:hover {
+  color: none;
 }
 
 .home-newsletter-container {

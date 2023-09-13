@@ -26,8 +26,7 @@
                                           Placeholder="Search..."
                                           Filter="AutocompleteFilter.Contains"
                                           CustomFilter="@(( item, searchValue ) => item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )"
-                                          SelectedValueChanged="@ComponentSearchSelectedValueChanged"
-                                          PositionStrategy="DropdownPositionStrategy.Absolute">
+                                          SelectedValueChanged="@ComponentSearchSelectedValueChanged">
                                 <NotFoundContent>
                                     Sorry... @context was not found! :(
                                 </NotFoundContent>
