@@ -13,7 +13,7 @@ read-time: 5 min
 
 # How to enhance the new DataGrid menu filter
 
-With the release of Blazorise v1.3, we introduced a new Filter Method option that we've named Menu mode. With this new option you're now able to use pre defined filtering on a per-column basis.
+With the release of [Blazorise v1.3](news/release-notes/130), we introduced a new **Filter Method** option that we've named Menu mode. With this new option you're now able to use pre-defined filtering on a per-column basis.
 
 While this is a great addition to the Blazorise `DataGrid` and it improves the flexibility of the filtering provided, it's still not a perfect solution. And that's what we'll touch on, on this blog post.
 
@@ -30,16 +30,17 @@ Let's talk about how we can make this work by using the `DataGrid` tools that we
 ### Custom Filter Method
 
 Let's start with the first limitation, the `DataGridFilterMethod`. At the time of writing this only supports:
-- Contains
-- StartsWith
-- EndsWith
-- Equals
-- NotEquals
+
+- `Contains`
+- `StartsWith`
+- `EndsWith`
+- `Equals`
+- `NotEquals`
 
 So we definitely need a way to further enhance the filtering capabilities. Let's introduce a new `MyFilter` enum which additionally introduces **"LessThan"** and **"GreaterThan"**. And you can, of course, further extend this to fit your needs.
 
 
-```html|MyFilterExample
+```csharp|MyFilterExample
 
 public enum MyFilter
 {
