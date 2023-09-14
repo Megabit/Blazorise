@@ -1,7 +1,10 @@
 using System;
 using System.IO.Compression;
+using System.Linq;
 using Blazorise.Bootstrap5;
 using Blazorise.Docs.Core;
+using Blazorise.Docs.Models;
+using Blazorise.Docs.Options;
 using Blazorise.Docs.Server.Infrastructure;
 using Blazorise.Docs.Services;
 using Blazorise.FluentValidation;
@@ -85,6 +88,11 @@ public class Startup
             options.Preload = true;
             options.IncludeSubDomains = true;
             options.MaxAge = TimeSpan.FromDays( 365 );
+        } );
+
+        services.AddSingleton( new DocsVersionOptions
+        {
+            Versions = Configuration.GetSection( "DocsVersions" ).Get<DocsVersion[]>().ToList()
         } );
 
         services.AddHealthChecks();
