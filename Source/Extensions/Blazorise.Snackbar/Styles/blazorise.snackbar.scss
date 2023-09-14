@@ -281,10 +281,6 @@ $snackbar-padding-y-multi: 1.25rem !default;
         position: relative;
         flex-direction: row;
         margin-bottom: 0;
-
-        &.snackbar-show {
-            transform: translate(-50%);
-        }
     }
 
     .snackbar:not(:last-child) {
@@ -304,7 +300,7 @@ $snackbar-padding-y-multi: 1.25rem !default;
 .snackbar-stack-top-start .snackbar-hide,
 .snackbar-stack-top-end .snackbar-hide {
     transition: all var(--stack-transition-duration, 1000);
-    animation: hideTop var(--stack-animation-duration, 500) forwards;
+    animation: hideTop var(--stack-animation-duration, 500) backwards;
     opacity: 0;
 }
 
@@ -320,70 +316,46 @@ $snackbar-padding-y-multi: 1.25rem !default;
 .snackbar-stack-bottom-start .snackbar-hide,
 .snackbar-stack-bottom-end .snackbar-hide {
     transition: all var(--stack-transition-duration, 1000);
-    animation: hideBottom var(--stack-animation-duration, 500) forwards;
+    animation: hideBottom var(--stack-animation-duration, 500) backwards;
     opacity: 0;
 }
 
 @keyframes showTop {
     0% {
-        max-height: 0;
-        padding: 0;
-        transform: translate(-50%) translateY(-50px);
         opacity: 0;
     }
 
     100% {
-        max-height: 150px;
-        padding: $spacer-sm $spacer;
-        transform: translate(-50%) translateY(0);
         opacity: 1;
     }
 }
 
 @keyframes hideTop {
     0% {
-        max-height: 150px;
-        padding: $spacer-sm $spacer;
-        transform: translate(-50%) translateY(0);
         opacity: 1;
     }
 
     100% {
-        max-height: 0;
-        padding: 0;
-        transform: translate(-50%) translateY(-50px);
         opacity: 0;
     }
 }
 
 @keyframes showBottom {
     0% {
-        max-height: 0;
-        padding: 0;
         opacity: 0;
-        transform: translate(-50%) translateY(50px);
     }
 
     100% {
-        max-height: 150px;
-        padding: $spacer-sm $spacer;
         opacity: 1;
-        transform: translate(-50%) translateY(0);
     }
 }
 
 @keyframes hideBottom {
     0% {
-        max-height: 150px;
-        transform: translate(-50%) translateY(0);
-        padding: $spacer-sm $spacer;
         opacity: 1;
     }
 
     100% {
-        max-height: 0;
-        padding: 0;
-        transform: translate(-50%) translateY(50px);
         opacity: 0;
     }
 }
