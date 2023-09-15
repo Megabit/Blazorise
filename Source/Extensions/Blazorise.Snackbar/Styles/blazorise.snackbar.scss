@@ -393,3 +393,11 @@ $snackbar-padding-y-multi: 1.25rem !default;
         top: $spacer-lg;
     }
 }
+
+@media (max-width: $mobile) {
+    .snackbar-stack{
+        right: 0;
+        left: 0;
+    }
+}
+

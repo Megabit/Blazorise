@@ -465,3 +465,9 @@
     top: 1.5rem;
   }
 }
+@media (max-width: 576px) {
+  .snackbar-stack {
+    right: 0;
+    left: 0;
+  }
+}
