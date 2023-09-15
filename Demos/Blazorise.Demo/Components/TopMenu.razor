@@ -89,7 +89,9 @@
             @if ( gitHubDemoUrl != null )
             {
                 <BarItem>
-                    <BarLink To="@gitHubDemoUrl">GitHub Source</BarLink>
+                    <BarLink To="@gitHubDemoUrl" Target="Target.Blank">
+                        Source Code <Icon Name="IconName.ExternalLinkSquareAlt" Margin="Margin.Is2.FromStart" />
+                    </BarLink>
                 </BarItem>
             }
             <BarItem>
@@ -245,14 +247,26 @@
 
     protected override void OnInitialized()
     {
-        NavigationManager.LocationChanged += OnLocationChanged;
+        if ( NavigationManager is not null )
+        {
+            DetermineCurrentUrl();
+
+            NavigationManager.LocationChanged += OnLocationChanged;
+        }
     }
 
     private void OnLocationChanged( object sender, Microsoft.AspNetCore.Components.Routing.LocationChangedEventArgs e )
     {
+        DetermineCurrentUrl();
+
+        InvokeAsync( StateHasChanged );
+    }
+
+    private void DetermineCurrentUrl()
+    {
         var url = NavigationManager.ToBaseRelativePath( NavigationManager.Uri );
 
-        if (demoToGitHubMapping.TryGetValue( url, out var gh ))
+        if ( demoToGitHubMapping.TryGetValue( url, out var gh ) )
         {
             gitHubDemoUrl = $"https://github.com/Megabit/Blazorise/blob/master/Demos/Blazorise.Demo/{gh}";
         }
@@ -260,13 +274,14 @@
         {
             gitHubDemoUrl = null;
         }
-
-        StateHasChanged();
     }
 
     void IDisposable.Dispose()
     {
-        NavigationManager.LocationChanged -= OnLocationChanged;
+        if ( NavigationManager is not null )
+        {
+            NavigationManager.LocationChanged -= OnLocationChanged;
+        }
     }
 
     [Parameter] public EventCallback<bool> ThemeEnabledChanged { get; set; }
