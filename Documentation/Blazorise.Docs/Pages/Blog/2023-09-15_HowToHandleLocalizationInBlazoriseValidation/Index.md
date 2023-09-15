@@ -3,11 +3,11 @@ title: How to handle Localization in Blazorise Validation
 description: Learn how to properly localize Blazorise Validation messages by using the inbuilt MessageLocalizer
 permalink: /blog/how-to-handle-localization-in-blazorise-validation
 canonical: /blog/how-to-handle-localization-in-blazorise-validation
-image-url: /img/blog/2023-09-09/how_to_handle_localization_in_blazorise_validation.png
+image-url: /img/blog/2023-09-15/how_to_handle_localization_in_blazorise_validation.png
 image-title: How to handle Localization in Blazorise Validation
 author-name: David Moreira
 author-image: david
-posted-on: September 9th, 2023
+posted-on: September 15th, 2023
 read-time: 8 min
 ---
 
@@ -19,7 +19,7 @@ In this blog post we'll teach you how to properly localize Blazorise Validation 
 
 Let's start with a simple example. We have a `ValidationLocalizationExample` class with a `PhoneCountryCode` property that has a `DataAnnotations` validation to validate whether the input would be a valid phone country code.
 
-We want to validate this property and display a localized error message if the validation fails. We do so by providing the `Feedback` and `ValidationError` components in addition to the regular Blazorise Validation components.
+We want to validate this property and display a localized error message if the validation fails. We do so by providing the `Feedback` and `ValidationError` components in addition to the regular [Blazorise Validation](docs/components/validation) components.
 
 ```html|ValidationLocalizationExample
 
@@ -57,11 +57,11 @@ We want to validate this property and display a localized error message if the v
 
 ```
 
-![Validation Standard Error Message](img/blog/2023-09-09/validation-fail-standard-error-message.png)
+![Validation Standard Error Message](img/blog/2023-09-15/validation-fail-standard-error-message.png)
 
 As we can see in the screenshot above, by default, the `DataAnnotations` validation will display the error message in English, with two arguments that have been inserted in the message
 
--  The name of the field that failed and 
+-  The name of the field that failed, and
  - The regular expression for the validation that failed.
 
 But what if we want to display the error message in another language? Or just change the message to something else? Enter the `MessageLocalizer`!
@@ -70,7 +70,7 @@ But what if we want to display the error message in another language? Or just ch
 
 The `MessageLocalizer` is a parameter that can be set in the `Validation` component. It is used to localize the error messages that are displayed when a validation fails.
 
-This parameter is of type `Func<string, IEnumerable<string>? arguments, string>` and it receives the error message and corresponding arguments, if any and returns the localized error message.
+This parameter is of type `Func<string, IEnumerable<string>? arguments, string>` and it receives the error message and corresponding arguments, if any, and returns the localized error message.
 
 So by providing any delegate that adheres to this signature, we can localize the error messages. We'll go one step further and show you an example of how you can create an abstraction that utilizes the .NET `IStringLocalizer` to localize the error messages.
 
@@ -80,7 +80,7 @@ We'll start by creating a helper class that will be used to localize the error m
 
 This class will receive a `Microsoft.Extensions.Localization.IStringLocalizer<T>` in the constructor and will have a `Localize` method that will receive the error message and arguments and return the localized error message.
 
-```html|MessageLocalizerHelperExample
+```cs|MessageLocalizerHelperExample
 public class MessageLocalizerHelper<T>
 {
     private readonly Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer;
