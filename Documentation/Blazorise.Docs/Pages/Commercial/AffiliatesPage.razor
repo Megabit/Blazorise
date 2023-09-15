@@ -1,0 +1,303 @@
+﻿@page "/affiliates"
+
+<Seo Canonical="/affiliates" Title="Blazorise Affiliates Program" Description="Make hundreds of dollars a month just by sharing the Blazorise and Blazor components you love. Blazorise gives you 20% recurring commission on every sale you help it make." />
+
+<PageHeader>
+    <Title>
+        Blazorise <Span Class="gradient-commercial">Affiliates</Span> Program
+    </Title>
+    <Description>
+        <Paragraph>
+            Make money by sharing the Blazorise and Blazor components you love!
+        </Paragraph>
+        <Paragraph>
+            Earn 20% recurring commission on every sale you help us make. Commissions are paid every month via PayPal or Wise.
+        </Paragraph>
+    </Description>
+</PageHeader>
+
+<Container TextAlignment="TextAlignment.Center">
+    <Row>
+        <Column>
+            <Button Class="btn-primary-gradient" Color="Color.Primary" Size="Size.Large" Type="ButtonType.Link" To="https://blazorise.getrewardful.com/signup" Target="Target.Blank" title="Link to Blazorise Affiliate signup">
+                Join affiliate program
+                <Icon Name="IconName.ArrowRight" Margin="Margin.Is2.FromStart" />
+            </Button>
+
+            <Paragraph Margin="Margin.Is3.FromTop">
+                Already have an Affiliate account? <Anchor To="https://blazorise.getrewardful.com/login" Target="Target.Blank" Title="Link to Blazorise Affiliate account">Login here</Anchor>
+            </Paragraph>
+        </Column>
+    </Row>
+
+    <Row>
+        <Column>
+            <Heading Size="HeadingSize.Is2" TextSize="TextSize.Heading1" TextWeight="TextWeight.Bold" Padding="Padding.Is5.FromTop.Is3.FromBottom">
+                How it works!
+            </Heading>
+            <Grid Gap="Gap.Is5">
+                <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop" TextAlignment="TextAlignment.Start">
+                    <Div Class="badge-primary-gradient" Flex="Flex.JustifyContent.Center.AlignItems.Center" Background="Background.Primary" TextColor="TextColor.White" TextWeight="TextWeight.Bold" Border="Border.Is1.RoundedCircle" Margin="Margin.Is4.FromBottom" Style="width: 3rem; height: 3rem;">
+                        1
+                    </Div>
+                    <Heading Size="HeadingSize.Is3" TextSize="TextSize.ExtraLarge" TextWeight="TextWeight.Bold">
+                        Get your affiliate link
+                    </Heading>
+                    <Paragraph>
+                        You create an account on our affiliate platform Rewardful and get your custom affiliate link.
+                    </Paragraph>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop" TextAlignment="TextAlignment.Start">
+                    <Div Class="badge-primary-gradient" Flex="Flex.JustifyContent.Center.AlignItems.Center" Background="Background.Primary" TextColor="TextColor.White" TextWeight="TextWeight.Bold" Border="Border.Is1.RoundedCircle" Margin="Margin.Is4.FromBottom" Style="width: 3rem; height: 3rem;">
+                        2
+                    </Div>
+                    <Heading Size="HeadingSize.Is3" TextSize="TextSize.ExtraLarge" TextWeight="TextWeight.Bold">
+                        Share Blazorise and make money
+                    </Heading>
+                    <Paragraph>
+                        Share your affiliate link with your friends, followers, and audience.
+                    </Paragraph>
+                    <Paragraph>
+                        When they subscribe to Blazorise, you get 20% of the sale amount for as long as they keep subscribed.
+                    </Paragraph>
+                </Column>
+                <Column ColumnSize="ColumnSize.Is12.OnMobile.Is4.OnDesktop" TextAlignment="TextAlignment.Start">
+                    <Div Class="badge-primary-gradient" Flex="Flex.JustifyContent.Center.AlignItems.Center" Background="Background.Primary" TextColor="TextColor.White" TextWeight="TextWeight.Bold" Border="Border.Is1.RoundedCircle" Margin="Margin.Is4.FromBottom" Style="width: 3rem; height: 3rem;">
+                        3
+                    </Div>
+                    <Heading Size="HeadingSize.Is3" TextSize="TextSize.ExtraLarge" TextWeight="TextWeight.Bold">
+                        Get Paid
+                    </Heading>
+                    <Paragraph>
+                        You get paid every month via Paypal or Wise. You can track your earnings and referrals in your Rewardful dashboard.
+                    </Paragraph>
+                </Column>
+            </Grid>
+        </Column>
+    </Row>
+
+    <Row>
+        <Column>
+            <Alert Color="Color.Light" Visible>
+                <AlertDescription>
+                    There's also a step 4, where you enjoy spending the money you made 😜
+                </AlertDescription>
+            </Alert>
+        </Column>
+    </Row>
+
+    <Row>
+        <Column>
+            <Heading Size="HeadingSize.Is2" TextSize="TextSize.Heading1" TextWeight="TextWeight.Bold" Padding="Padding.Is5.FromTop.Is3.FromBottom">
+                Give me some ideas!
+            </Heading>
+            <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
+                Sure, here are some ideas and assets to help you share Blazorise with your audience, followers, subscribers.
+            </Heading>
+            <Grid Gap="Gap.Is5">
+                @foreach ( var textExample in textExamples )
+                {
+                    <Column @key="@textExample" ColumnSize="ColumnSize.Is12.OnMobile.Is3.OnDesktop" TextAlignment="TextAlignment.Start">
+                        <Badge Color="Color.Light" Margin="Margin.Is3.FromBottom">
+                            Text
+                        </Badge>
+                        <Paragraph TextSize="TextSize.Medium">
+                            @textExample
+                        </Paragraph>
+                        <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Clicked="@(()=>OnCopyText(textExample))">
+                             Copy
+                         </Button>
+                     </Column>
+                }
+
+                @foreach ( var logoExample in logoExamples )
+                {
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.Is3.OnDesktop" TextAlignment="TextAlignment.Start">
+                        @if ( !string.IsNullOrEmpty( logoExample ) )
+                        {
+                            <Badge Color="Color.Light" Margin="Margin.Is3.FromBottom">
+                                Logo
+                            </Badge>
+                            <Div>
+                                <Image Source="@logoExample" Text="Blazorise logo" Fluid Style="max-width: 100px;" />
+                             </Div>
+                             <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(()=>OnCopyUrl(logoExample))">
+                                 Copy URL
+                             </Button>
+                        }
+                     </Column>
+                }
+
+                @foreach ( var imageExample in imageExamples )
+                {
+                    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnDesktop" TextAlignment="TextAlignment.Start">
+                        <Badge Color="Color.Light" Margin="Margin.Is3.FromBottom">
+                            Marketing Image
+                        </Badge>
+                        <Div>
+                            <Image Source="@imageExample" Text="Blazorise marketing image" Fluid Style="max-width: 420px;" Border="Border.Rounded.Is1.Light" />
+                         </Div>
+                         <Button Color="Color.Dark" Size="Size.ExtraSmall" Border="Border.Rounded" Outline Margin="Margin.Is3.FromTop" Clicked="@(()=>OnCopyUrl(imageExample))">
+                             Copy Image URL
+                         </Button>
+                     </Column>
+                }
+            </Grid>
+        </Column>
+    </Row>
+
+    <Row>
+        <Column>
+            <Heading Size="HeadingSize.Is2" TextSize="TextSize.Heading1" TextWeight="TextWeight.Bold" Padding="Padding.Is5.FromTop.Is3.FromBottom">
+                Frequently Asked Questions
+            </Heading>
+            <Accordion>
+                <Collapse>
+                    <CollapseHeader>
+                        <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Margin="Margin.Is0.OnY">
+                            <AccordionToggle>What is Blazorise?</AccordionToggle>
+                        </Heading>
+                    </CollapseHeader>
+                    <CollapseBody TextAlignment="TextAlignment.Start">
+                        Blazorise is a component library for Blazor, a web framework for building interactive web applications using C# instead of JavaScript. Blazorise provides a set of reusable UI components, such as buttons, forms, and modals, that you can use to build responsive and mobile-friendly web applications.
+                    </CollapseBody>
+                </Collapse>
+
+                <Collapse>
+                    <CollapseHeader>
+                        <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Margin="Margin.Is0.OnY">
+                            <AccordionToggle>How are referrals tracked?</AccordionToggle>
+                        </Heading>
+                    </CollapseHeader>
+                    <CollapseBody TextAlignment="TextAlignment.Start">
+                        <Paragraph>
+                            a. After signing up, you will receive a personalized referral link that you can use right away. Our affiliate tracking software tracks conversions through your link.
+                        </Paragraph>
+                        <Paragraph>
+                            b. To track all of your referrals, we use cookies that last 90 days.
+                        </Paragraph>
+                    </CollapseBody>
+                </Collapse>
+
+                <Collapse>
+                    <CollapseHeader>
+                        <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Margin="Margin.Is0.OnY">
+                            <AccordionToggle>Can I run ads as an Affiliate?</AccordionToggle>
+                        </Heading>
+                    </CollapseHeader>
+                    <CollapseBody TextAlignment="TextAlignment.Start">
+                        <Paragraph>
+                            a. <Strong>You can NOT run ads for branded keywords</Strong> such as Blazorise, blazorise, or any variations thereof, including misspellings.
+                        </Paragraph>
+                        <Paragraph>
+                            b. You can run ads for anything that’s not branded, but the user should be directed to the Blazorise website first. We track all our paid traffic and any affiliates that violate our terms and conditions <Strong>will be removed from our program</Strong>.
+                        </Paragraph>
+                    </CollapseBody>
+                </Collapse>
+
+                <Collapse>
+                    <CollapseHeader>
+                        <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Margin="Margin.Is0.OnY">
+                            <AccordionToggle>When will I get paid?</AccordionToggle>
+                        </Heading>
+                    </CollapseHeader>
+                    <CollapseBody TextAlignment="TextAlignment.Start">
+                        We pay commissions around the 20 of each month for verified sales from the previous month.
+                    </CollapseBody>
+                </Collapse>
+
+                <Collapse>
+                    <CollapseHeader>
+                        <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Margin="Margin.Is0.OnY">
+                            <AccordionToggle>How do I get paid?</AccordionToggle>
+                        </Heading>
+                    </CollapseHeader>
+                    <CollapseBody TextAlignment="TextAlignment.Start">
+                        We make regular payouts via PayPal or Wise. If you have any questions, feel free to email us at <Anchor To="mailto:commercial@blazorise.com" Target="Target.Blank" Title="Mail to commercial" rel="noreferrer noopener">commercial@blazorise.com</Anchor>.
+                    </CollapseBody>
+                </Collapse>
+
+                <Collapse>
+                    <CollapseHeader>
+                        <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Margin="Margin.Is0.OnY">
+                            <AccordionToggle>Is there a minimum payment threshold?</AccordionToggle>
+                        </Heading>
+                    </CollapseHeader>
+                    <CollapseBody TextAlignment="TextAlignment.Start">
+                        <Paragraph>
+                            a. The minimum payment threshold for all payment methods is €100.
+                        </Paragraph>
+                        <Paragraph>
+                            b. If you have any questions, feel free to email us at <Anchor To="mailto:commercial@blazorise.com" Target="Target.Blank" Title="Mail to commercial" rel="noreferrer noopener">commercial@blazorise.com</Anchor>.
+                        </Paragraph>
+                    </CollapseBody>
+                </Collapse>
+
+                <Collapse>
+                    <CollapseHeader>
+                        <Heading Size="HeadingSize.Is5" TextAlignment="TextAlignment.Start" Margin="Margin.Is0.OnY">
+                            <AccordionToggle>Have more questions?</AccordionToggle>
+                        </Heading>
+                    </CollapseHeader>
+                    <CollapseBody TextAlignment="TextAlignment.Start">
+                        Send an email to <Anchor To="mailto:commercial@blazorise.com" Target="Target.Blank" Title="Mail to commercial" rel="noreferrer noopener">commercial@blazorise.com</Anchor>, and we will assist you.
+                    </CollapseBody>
+                </Collapse>
+            </Accordion>
+        </Column>
+    </Row>
+</Container>
+@code {
+    List<string> textExamples = new List<string>
+    {
+        "Create stunning UI and web applications with Blazorise",
+        "Increase your development experience, by using Blazorise to build high-quality UI!",
+        "With Blazorise, you don't need to be a graphic designer to create high-quality UI and applications!",
+        "I use Blazorise to build and design my applications. It's free and easy to use - check it out!",
+    };
+
+    List<string> logoExamples = new List<string>
+    {
+        "_content/Blazorise.Docs/assets/img/brand/logos/blazorise-black-white-rectangle.png",
+        "_content/Blazorise.Docs/assets/img/brand/logos/blazorise-black-white-circle.png",
+        "_content/Blazorise.Docs/assets/img/brand/logos/blazorise-black-purple-rectangle.png",
+        "_content/Blazorise.Docs/assets/img/brand/logos/blazorise-black-purple-circle.png",
+        "_content/Blazorise.Docs/assets/img/brand/logos/blazorise-purple-circle.png",
+        "",
+        "",
+        "",
+    };
+
+    List<string> imageExamples = new List<string>
+    {
+        "_content/Blazorise.Docs/assets/img/brand/marketing-image-1.png",
+        "_content/Blazorise.Docs/assets/img/brand/marketing-image-1-instagram.png",
+        "_content/Blazorise.Docs/assets/img/brand/marketing-image-2.png",
+        "_content/Blazorise.Docs/assets/img/brand/marketing-image-2-instagram.png",
+        "_content/Blazorise.Docs/assets/img/brand/marketing-image-3.png",
+        "_content/Blazorise.Docs/assets/img/brand/marketing-image-3-instagram.png",
+    };
+
+    [Inject] public INotificationService NotificationService { get; set; }
+
+    [Inject] public IJSRuntime JSRuntime { get; set; }
+
+    [Inject] NavigationManager NavigationManager { get; set; }
+
+    private async Task OnCopyText( string text )
+    {
+        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", GetFullUrl( text ) );
+        await NotificationService.Success( $"Copied text to clipboard!" );
+    }
+
+    private async Task OnCopyUrl( string url )
+    {
+        await JSRuntime.InvokeVoidAsync( "blazoriseDocs.code.copyToClipboard", GetFullUrl( url ) );
+        await NotificationService.Success( $"Copied URL to clipboard!" );
+    }
+
+    private string GetFullUrl( string url )
+    {
+        return NavigationManager.ToAbsoluteUri( url ).AbsoluteUri;
+    }
+}
