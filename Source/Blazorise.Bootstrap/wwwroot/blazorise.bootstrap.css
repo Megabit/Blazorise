@@ -184,12 +184,11 @@
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  padding-top: 0.25rem;
   max-width: 100%;
   width: 100%;
   cursor: text;
   line-height: 1.5;
-  border: 1px solid #ced4da;
+  outline: 1px solid #ced4da;
   border-radius: 0.25rem;
 }
 .b-is-autocomplete.b-is-autocomplete-multipleselection > input.form-control {
@@ -203,6 +202,7 @@
   flex-grow: 1;
 }
 .b-is-autocomplete.b-is-autocomplete-multipleselection > .badge {
+  margin-top: 0.25rem;
   margin-bottom: 0.25rem;
   line-height: 1.5;
   flex-grow: initial;
