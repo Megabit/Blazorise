@@ -670,6 +670,156 @@ public class Gender
 	Equals, NotEquals, Contains, StartsWith, EndsWith, GreaterThan, LessThan
 }";
 
+        public const string HowToHandleLocalizationInBlazoriseValidation_MessageLocalizerHelperExample = @"public class MessageLocalizerHelper<T>
+{
+    private readonly Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer;
+
+    public MessageLocalizerHelper( Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer )
+    {
+        this.stringLocalizer = stringLocalizer;
+    }
+
+    public string Localize( string message, IEnumerable<string>? arguments )
+    {
+        try
+        {
+            return arguments?.Count() > 0
+                ? stringLocalizer[message, LocalizeMessageArguments( arguments )?.ToArray()!]
+                : stringLocalizer[message];
+        }
+        catch
+        {
+            return stringLocalizer[message];
+        }
+    }
+
+    private IEnumerable<string> LocalizeMessageArguments( IEnumerable<string> arguments )
+    {
+        foreach (var argument in arguments)
+        {
+            // first try to localize with ""DisplayName:{Name}""
+            var localization = stringLocalizer[$""DisplayName:{argument}""];
+
+            if (localization.ResourceNotFound)
+            {
+                // then try to localize with just ""{Name}""
+                localization = stringLocalizer[argument];
+
+                yield return localization;
+            }
+        }
+    }
+}";
+
+        public const string HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
+    <Validation>
+        <Field>
+            <FieldLabel>Phone Country Code</FieldLabel>
+            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Clicked=""Submit"">Submit</Button>
+@code {
+    private ValidationLocalizationExample _model = new();
+    private Validations _validationsRef;
+    public class ValidationLocalizationExample
+    {
+        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
+        public string PhoneCountryCode { get; set; }
+    }
+
+    private async Task Submit()
+    {
+        if (await _validationsRef.ValidateAll())
+        {
+            Console.WriteLine( ""Validation Success!"" );
+        }
+    }
+}";
+
+        public const string HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationFullExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
+    <Validation MessageLocalizer=""MessageLocalizer.Localize"">
+        <Field>
+            <FieldLabel>Phone Country Code</FieldLabel>
+            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Clicked=""Submit"">Submit</Button>
+@code {
+    [Inject] public MessageLocalizerHelper<Dashboard> MessageLocalizer { get; set; }
+
+    private ValidationLocalizationExample _model = new();
+    private Validations _validationsRef;
+
+    private async Task Submit()
+    {
+        if (await _validationsRef.ValidateAll())
+        {
+            Console.WriteLine( ""Validation Success!"" );
+        }
+    }
+
+    public class ValidationLocalizationExample
+    {
+        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
+        public string PhoneCountryCode { get; set; }
+    }
+
+
+    public class MessageLocalizerHelper<T>
+    {
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer;
+
+        public MessageLocalizerHelper( Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer )
+        {
+            this.stringLocalizer = stringLocalizer;
+        }
+
+        public string Localize( string message, IEnumerable<string>? arguments )
+        {
+            try
+            {
+                return arguments?.Count() > 0
+                    ? stringLocalizer[message, LocalizeMessageArguments( arguments )?.ToArray()!]
+                    : stringLocalizer[message];
+            }
+            catch
+            {
+                return stringLocalizer[message];
+            }
+        }
+
+        private IEnumerable<string> LocalizeMessageArguments( IEnumerable<string> arguments )
+        {
+            foreach (var argument in arguments)
+            {
+                // first try to localize with ""DisplayName:{Name}""
+                var localization = stringLocalizer[$""DisplayName:{argument}""];
+
+                if (localization.ResourceNotFound)
+                {
+                    // then try to localize with just ""{Name}""
+                    localization = stringLocalizer[argument];
+
+                    yield return localization;
+                }
+            }
+        }
+    }
+}";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
