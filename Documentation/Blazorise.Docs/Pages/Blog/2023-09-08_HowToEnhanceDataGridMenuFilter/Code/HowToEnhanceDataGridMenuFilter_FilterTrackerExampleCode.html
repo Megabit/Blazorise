@@ -1,0 +1,81 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code{
+    <span class="keyword">private</span> FilterTracker&lt;FilterExample&gt; _filterTracker = <span class="keyword">new</span>();
+
+    <span class="keyword">public</span> <span class="keyword">class</span> ColumnFilter&lt;T&gt;
+    {
+        <span class="keyword">public</span> DataGridColumn&lt;T&gt; Column;
+        <span class="keyword">public</span> <span class="keyword">string</span> SearchValue;
+        <span class="keyword">public</span> MyFilter SelectedFilter { <span class="keyword">get</span>; <span class="keyword">set</span>; } = MyFilter.Contains;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">class</span> FilterTracker&lt;T&gt;
+    {
+        <span class="keyword">public</span> List&lt;ColumnFilter&lt;T&gt;&gt; columnFilters { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">void</span> ClearColumnFilter( DataGridColumn&lt;T&gt; column )
+        {
+            columnFilters ??= <span class="keyword">new</span>();
+
+            <span class="keyword">var</span> columnFilter = columnFilters.FirstOrDefault( x =&gt; x.Column.Field == column.Field );
+            <span class="keyword">if</span> (columnFilter <span class="keyword">is</span> not <span class="keyword">null</span>)
+            {
+                columnFilters.Remove( columnFilter );
+            }
+        }
+
+        <span class="keyword">public</span> <span class="keyword">void</span> SetColumnFilter( DataGridColumn&lt;T&gt; column, MyFilter myFilter )
+        {
+            columnFilters ??= <span class="keyword">new</span>();
+
+            <span class="keyword">var</span> columnFilter = columnFilters.FirstOrDefault( x =&gt; x.Column.Field == column.Field );
+            <span class="keyword">if</span> (columnFilter <span class="keyword">is</span> <span class="keyword">null</span>)
+            {
+                columnFilters.Add( <span class="keyword">new</span>()
+                    {
+                        Column = column,
+                        SelectedFilter = myFilter
+                    } );
+            }
+            <span class="keyword">else</span>
+            {
+                columnFilter.SelectedFilter = myFilter;
+            }
+        }
+
+        <span class="keyword">public</span> <span class="keyword">void</span> SetColumnSearchValue( DataGridColumn&lt;T&gt; column, <span class="keyword">string</span> searchValue )
+        {
+            columnFilters ??= <span class="keyword">new</span>();
+
+            <span class="keyword">var</span> columnFilter = columnFilters.FirstOrDefault( x =&gt; x.Column.Field == column.Field );
+            <span class="keyword">if</span> (columnFilter <span class="keyword">is</span> <span class="keyword">null</span>)
+            {
+                columnFilters.Add( <span class="keyword">new</span>()
+                    {
+                        Column = column,
+                        SearchValue = searchValue
+                    } );
+            }
+            <span class="keyword">else</span>
+            {
+                columnFilter.SearchValue = searchValue;
+            }
+        }
+
+        <span class="keyword">public</span> ColumnFilter&lt;T&gt; GetColumnFilter( <span class="keyword">string</span> fieldName )
+            =&gt; columnFilters?.FirstOrDefault( x =&gt; x.Column.Field == fieldName );
+
+        <span class="keyword">public</span> MyFilter GetColumnFilterValue( <span class="keyword">string</span> fieldName )
+            =&gt; GetColumnFilter( fieldName )?.SelectedFilter ?? MyFilter.Contains;
+
+        <span class="keyword">public</span> <span class="keyword">string</span> GetColumnSearchValue( <span class="keyword">string</span> fieldName )
+            =&gt; GetColumnFilter( fieldName )?.SearchValue;
+
+    }
+}
+</pre></div>
+</div>

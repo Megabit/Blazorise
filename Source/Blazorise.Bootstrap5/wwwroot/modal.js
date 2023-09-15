@@ -1,4 +1,4 @@
-import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=1.3.0.0";
+import { addClassToBody, removeClassFromBody } from "../Blazorise/utilities.js?v=1.3.1.0";
 
 export function open(element, scrollToTop) {
     adjustDialogDimensionsBeforeShow(element);
