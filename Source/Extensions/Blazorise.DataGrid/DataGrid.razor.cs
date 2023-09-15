@@ -176,7 +176,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <returns></returns>
     private async Task<bool> IsUserAgentMacintoshOS()
-        => ( await JSUtilitiesModule.GetUserAgent() ).Contains( "Mac", StringComparison.InvariantCultureIgnoreCase );
+        => ( await JSUtilitiesModule.GetUserAgent() )?.Contains( "Mac", StringComparison.InvariantCultureIgnoreCase ) ?? false;
 
     /// <summary>
     /// Sets the height for the FixedHeader table feature.
