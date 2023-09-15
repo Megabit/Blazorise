@@ -136,6 +136,23 @@
         transition: all 0.8s ease-in-out;
         opacity: 0;
     }
+
+    &-img-icons {
+        transition: all 0.4s ease-in-out;
+
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    &:hover {
+        color: none;
+    }
 }
 
 .home-customer-feedback {

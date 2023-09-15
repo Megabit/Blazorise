@@ -507,6 +507,319 @@ public class Gender
     Click me!
 </Button>";
 
+        public const string HowToEnhanceDataGridMenuFilter_CustomFilterExample = @"@code{
+    private bool MyCustomFilter( FilterExample row )
+    {
+        return _filterTracker.columnFilters is null
+            ? true
+            : _filterTracker.columnFilters.All( x => EvaluateColumnFilter( x, row ) );
+    }
+
+    private bool EvaluateColumnFilter( ColumnFilter<FilterExample> columnFilter, FilterExample row )
+    {
+        Console.WriteLine( $""Evaluating... {columnFilter.Column.Field}"" );
+        Console.WriteLine( $""Filter to apply... {columnFilter.SelectedFilter}"" );
+        Console.WriteLine( $""Search for... {columnFilter.SearchValue}"" );
+
+
+        //You might need some reflection based or expression based getter to get the value of the corresponding field dynamically
+        //Do whatever boolean logic you need to do here
+        //We opted to use the DataGrid.Utils.FunctionCompiler.CreateValueGetter to create a dynamic getter for the field and using a simple comparer with the new GreaterThan and LessThan comparisons.
+        var columnFieldGetter = DataGrid.Utils.FunctionCompiler.CreateValueGetter<FilterExample>( columnFilter.Column.Field );
+        var columnValue = columnFieldGetter( row );
+
+        return CompareFilterValues( columnValue.ToString(), columnFilter.SearchValue, columnFilter.SelectedFilter );
+
+    }
+
+    private bool CompareFilterValues( string searchValue, string compareTo, MyFilter filterMethod )
+    {
+        switch (filterMethod)
+        {
+            case MyFilter.StartsWith:
+                return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+            case MyFilter.EndsWith:
+                return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+            case MyFilter.Equals:
+                return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+            case MyFilter.NotEquals:
+                return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+            case MyFilter.GreaterThan:
+                if (int.TryParse( searchValue, out var parsedSearchValue ) && int.TryParse( compareTo, out var parsedCompareToValue ))
+                {
+                    return parsedSearchValue > parsedCompareToValue;
+                }
+                return false;
+            case MyFilter.LessThan:
+                if (int.TryParse( searchValue, out var parsedSearchValueLessThan ) && int.TryParse( compareTo, out var parsedCompareToValueLessThan ))
+                {
+                    return parsedSearchValueLessThan < parsedCompareToValueLessThan;
+                }
+                return false;
+            case MyFilter.Contains:
+            default:
+                return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
+        }
+    }
+}";
+
+        public const string HowToEnhanceDataGridMenuFilter_FilterMenuTemplateExample = @"<FilterMenuTemplate>
+    <Row>
+        <Column ColumnSize=""ColumnSize.Is4"">
+            <Select TValue=""MyFilter"" SelectedValue=""@_filterTracker.GetColumnFilterValue(context.Column.Field)"" SelectedValueChanged=""e => { _filterTracker.SetColumnFilter(context.Column, e); }"">
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.Contains"">Contains</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.StartsWith"">Starts With</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.EndsWith"">Ends With</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.Equals"">Equals</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.NotEquals"">Not Equals</SelectItem>
+                @if (context.Column.ColumnType == DataGridColumnType.Numeric)
+                {
+                    <SelectItem TValue=""MyFilter"" Value=""@MyFilter.GreaterThan"">GreaterThan</SelectItem>
+                    <SelectItem TValue=""MyFilter"" Value=""@MyFilter.LessThan"">LessThan</SelectItem>
+                }
+            </Select>
+        </Column>
+        <Column ColumnSize=""ColumnSize.Is4"">
+            <TextEdit Text=""@_filterTracker.GetColumnSearchValue(context.Column.Field)"" TextChanged=""@((newValue) => _filterTracker.SetColumnSearchValue(context.Column, newValue))"" />
+        </Column>
+
+        <Column ColumnSize=""ColumnSize.Is4"">
+            <Button Clicked=""context.Filter"" Color=""Color.Primary""><Icon Name=""IconName.Filter""></Icon> Filter</Button>
+            <Button Clicked=""@(() => { _filterTracker.ClearColumnFilter(context.Column); context.ClearFilter.InvokeAsync(); })"" Color=""Color.Light""><Icon Name=""IconName.Clear""></Icon> Clear</Button>
+        </Column>
+    </Row>
+</FilterMenuTemplate>";
+
+        public const string HowToEnhanceDataGridMenuFilter_FilterTrackerExample = @"@code{
+    private FilterTracker<FilterExample> _filterTracker = new();
+
+    public class ColumnFilter<T>
+    {
+        public DataGridColumn<T> Column;
+        public string SearchValue;
+        public MyFilter SelectedFilter { get; set; } = MyFilter.Contains;
+    }
+
+    public class FilterTracker<T>
+    {
+        public List<ColumnFilter<T>> columnFilters { get; set; }
+
+        public void ClearColumnFilter( DataGridColumn<T> column )
+        {
+            columnFilters ??= new();
+
+            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+            if (columnFilter is not null)
+            {
+                columnFilters.Remove( columnFilter );
+            }
+        }
+
+        public void SetColumnFilter( DataGridColumn<T> column, MyFilter myFilter )
+        {
+            columnFilters ??= new();
+
+            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+            if (columnFilter is null)
+            {
+                columnFilters.Add( new()
+                    {
+                        Column = column,
+                        SelectedFilter = myFilter
+                    } );
+            }
+            else
+            {
+                columnFilter.SelectedFilter = myFilter;
+            }
+        }
+
+        public void SetColumnSearchValue( DataGridColumn<T> column, string searchValue )
+        {
+            columnFilters ??= new();
+
+            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+            if (columnFilter is null)
+            {
+                columnFilters.Add( new()
+                    {
+                        Column = column,
+                        SearchValue = searchValue
+                    } );
+            }
+            else
+            {
+                columnFilter.SearchValue = searchValue;
+            }
+        }
+
+        public ColumnFilter<T> GetColumnFilter( string fieldName )
+            => columnFilters?.FirstOrDefault( x => x.Column.Field == fieldName );
+
+        public MyFilter GetColumnFilterValue( string fieldName )
+            => GetColumnFilter( fieldName )?.SelectedFilter ?? MyFilter.Contains;
+
+        public string GetColumnSearchValue( string fieldName )
+            => GetColumnFilter( fieldName )?.SearchValue;
+
+    }
+}";
+
+        public const string HowToEnhanceDataGridMenuFilter_MyFilterExample = @"public enum MyFilter
+{
+	Equals, NotEquals, Contains, StartsWith, EndsWith, GreaterThan, LessThan
+}";
+
+        public const string HowToHandleLocalizationInBlazoriseValidation_MessageLocalizerHelperExample = @"public class MessageLocalizerHelper<T>
+{
+    private readonly Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer;
+
+    public MessageLocalizerHelper( Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer )
+    {
+        this.stringLocalizer = stringLocalizer;
+    }
+
+    public string Localize( string message, IEnumerable<string>? arguments )
+    {
+        try
+        {
+            return arguments?.Count() > 0
+                ? stringLocalizer[message, LocalizeMessageArguments( arguments )?.ToArray()!]
+                : stringLocalizer[message];
+        }
+        catch
+        {
+            return stringLocalizer[message];
+        }
+    }
+
+    private IEnumerable<string> LocalizeMessageArguments( IEnumerable<string> arguments )
+    {
+        foreach (var argument in arguments)
+        {
+            // first try to localize with ""DisplayName:{Name}""
+            var localization = stringLocalizer[$""DisplayName:{argument}""];
+
+            if (localization.ResourceNotFound)
+            {
+                // then try to localize with just ""{Name}""
+                localization = stringLocalizer[argument];
+
+                yield return localization;
+            }
+        }
+    }
+}";
+
+        public const string HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
+    <Validation>
+        <Field>
+            <FieldLabel>Phone Country Code</FieldLabel>
+            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Clicked=""Submit"">Submit</Button>
+@code {
+    private ValidationLocalizationExample _model = new();
+    private Validations _validationsRef;
+    public class ValidationLocalizationExample
+    {
+        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
+        public string PhoneCountryCode { get; set; }
+    }
+
+    private async Task Submit()
+    {
+        if (await _validationsRef.ValidateAll())
+        {
+            Console.WriteLine( ""Validation Success!"" );
+        }
+    }
+}";
+
+        public const string HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationFullExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
+    <Validation MessageLocalizer=""MessageLocalizer.Localize"">
+        <Field>
+            <FieldLabel>Phone Country Code</FieldLabel>
+            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Clicked=""Submit"">Submit</Button>
+@code {
+    [Inject] public MessageLocalizerHelper<Dashboard> MessageLocalizer { get; set; }
+
+    private ValidationLocalizationExample _model = new();
+    private Validations _validationsRef;
+
+    private async Task Submit()
+    {
+        if (await _validationsRef.ValidateAll())
+        {
+            Console.WriteLine( ""Validation Success!"" );
+        }
+    }
+
+    public class ValidationLocalizationExample
+    {
+        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
+        public string PhoneCountryCode { get; set; }
+    }
+
+
+    public class MessageLocalizerHelper<T>
+    {
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer;
+
+        public MessageLocalizerHelper( Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer )
+        {
+            this.stringLocalizer = stringLocalizer;
+        }
+
+        public string Localize( string message, IEnumerable<string>? arguments )
+        {
+            try
+            {
+                return arguments?.Count() > 0
+                    ? stringLocalizer[message, LocalizeMessageArguments( arguments )?.ToArray()!]
+                    : stringLocalizer[message];
+            }
+            catch
+            {
+                return stringLocalizer[message];
+            }
+        }
+
+        private IEnumerable<string> LocalizeMessageArguments( IEnumerable<string> arguments )
+        {
+            foreach (var argument in arguments)
+            {
+                // first try to localize with ""DisplayName:{Name}""
+                var localization = stringLocalizer[$""DisplayName:{argument}""];
+
+                if (localization.ResourceNotFound)
+                {
+                    // then try to localize with just ""{Name}""
+                    localization = stringLocalizer[argument];
+
+                    yield return localization;
+                }
+            }
+        }
+    }
+}";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
