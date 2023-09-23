@@ -246,6 +246,43 @@
   z-index: 1060 !important;
 }
 
+.figure.figure-is-16x16 {
+  height: 16px;
+  width: 16px;
+}
+.figure.figure-is-24x24 {
+  height: 24px;
+  width: 24px;
+}
+.figure.figure-is-32x32 {
+  height: 32px;
+  width: 32px;
+}
+.figure.figure-is-48x48 {
+  height: 48px;
+  width: 48px;
+}
+.figure.figure-is-64x64 {
+  height: 64px;
+  width: 64px;
+}
+.figure.figure-is-96x96 {
+  height: 96px;
+  width: 96px;
+}
+.figure.figure-is-128x128 {
+  height: 128px;
+  width: 128px;
+}
+.figure.figure-is-256x256 {
+  height: 256px;
+  width: 256px;
+}
+.figure.figure-is-512x512 {
+  height: 512px;
+  width: 512px;
+}
+
 .form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .custom-checkbox > .custom-control-input.custom-control-input-pointer,
