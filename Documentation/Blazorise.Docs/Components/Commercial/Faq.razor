@@ -1,7 +1,7 @@
 ﻿@if ( ShowHeader )
 {
-    <Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
-        FAQ
+    <Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
+        Frequently asked questions
     </Paragraph>
 }
 
@@ -158,6 +158,21 @@
             Body = (__builder) => {
                 <Paragraph>
                     <Strong>Yes.</Strong> Get in touch with us at <Anchor To="mailto:sales@blazorise.com" Title="Link to contact sales">sales team</Anchor>.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "What is the difference between Blazorise and Blazorise Blocks?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Blazorise is a component library for Blazor that provides a range of UI components and utilities to help developers build web applications more easily.
+                </Paragraph>
+                <Paragraph>
+                     Blazorise Blocks are a set of predefined UI elements or modules built on top of the Blazorise library. These blocks simplify the web development process by offering ready-to-use sections (like checkout, stats, login forms, etc.) that developers can integrate into their projects without having to design or code them from scratch.
+                </Paragraph>
+                <Paragraph>
+                    In essence, while Blazorise provides the foundational components and tools, Blazorise Blocks offer higher-level, more specialized modules that are based on those foundational components for specific use cases.
                 </Paragraph>
             }
         },
