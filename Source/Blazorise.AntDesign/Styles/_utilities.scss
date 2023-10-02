@@ -656,3 +656,25 @@ ol.ant-ordered-list {
 .ant-cursor-pointer {
     cursor: pointer;
 }
+
+.font-weight {
+    &-bold {
+        font-weight: 700;
+    }
+
+    &-semibold {
+        font-weight: 600;
+    }
+
+    &-normal {
+        font-weight: 400;
+    }
+
+    &-default {
+        font-weight: 400;
+    }
+
+    &-light {
+        font-weight: 300;
+    }
+}
