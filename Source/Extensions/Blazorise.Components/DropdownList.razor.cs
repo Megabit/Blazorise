@@ -91,7 +91,7 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// <summary>
     /// Defines the size of toggle button.
     /// </summary>
-    [Parameter] public Size Size { get; set; }
+    [Parameter] public Size DropdownToggleSize { get; set; }
 
     /// <summary>
     /// If true, a dropdown menu will be right aligned.
