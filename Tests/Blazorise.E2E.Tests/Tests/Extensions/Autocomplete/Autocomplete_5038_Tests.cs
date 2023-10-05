@@ -18,6 +18,7 @@ public class Autocomplete_5038_Tests : BlazorisePageTest
     [Test]
     public async Task Test()
     {
+
         var sut = Page.Locator( ".b-is-autocomplete input[type=search]" );
         var dropdownMenu = Page.Locator( ".dropdown-menu.show" );
 
