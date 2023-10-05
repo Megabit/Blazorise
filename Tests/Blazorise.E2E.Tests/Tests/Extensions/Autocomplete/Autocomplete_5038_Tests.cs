@@ -12,7 +12,7 @@ public class Autocomplete_5038_Tests : BlazorisePageTest
     }
 
     /// <summary>
-    /// When a value is already set, setting a different value programmatically and then revisiting should have updated the Current Search Value and options shown.
+    /// Makes sure that when FreeTyping is set and a value is not found, the FreeTypingNotFoundtemplate is shown.
     /// </summary>
     /// <returns></returns>
     [Test]
