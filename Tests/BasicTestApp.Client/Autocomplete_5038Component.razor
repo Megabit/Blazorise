@@ -1,0 +1,30 @@
+﻿<Autocomplete TItem="string"
+              TValue="string"
+              Data="@colors"
+              Placeholder="Search..."
+              Filter="AutocompleteFilter.StartsWith"
+              FreeTyping
+              TextField="@(( item ) => item)"
+              ValueField="@(( item ) => item)">
+    <FreeTypingNotFoundTemplate>
+         Add "@context"
+    </FreeTypingNotFoundTemplate>
+</Autocomplete>
+
+@code {
+    private List<string> colors = new List<string>
+    {
+        "Red",
+        "Orange",
+        "Yellow",
+        "Bright Green",
+        "Dark Green",
+        "Sky Blue",
+        "Blue",
+        "Purple",
+        "Hot Pink",
+        "Black",
+        "White",
+        "Gray"
+    };
+}
