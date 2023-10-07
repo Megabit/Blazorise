@@ -29,8 +29,8 @@
         var value = ValueField != null ? ValueField.Invoke( item ) : default;
 
         <DropdownItem @key="@item" Clicked="@HandleDropdownItemClicked" Value="@value"
-                        ShowCheckbox="@(SelectionMode == DropdownListSelectionMode.Checkbox)"
-                        Checked="IsSelected(value)"
-                        CheckedChanged="@((isChecked) => HandleDropdownItemChecked(isChecked, value))">@text</DropdownItem>
+                      ShowCheckbox="@(SelectionMode == DropdownListSelectionMode.Checkbox)"
+                      Checked="IsSelected(value)"
+                      CheckedChanged="@((isChecked) => HandleDropdownItemChecked(isChecked, value))">@text</DropdownItem>
     };
 }
