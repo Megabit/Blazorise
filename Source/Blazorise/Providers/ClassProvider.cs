@@ -1399,6 +1399,7 @@ public abstract class ClassProvider : IClassProvider
         return textWeight switch
         {
             Blazorise.TextWeight.Normal => "normal",
+            Blazorise.TextWeight.SemiBold => "semibold",
             Blazorise.TextWeight.Bold => "bold",
             Blazorise.TextWeight.Light => "light",
             _ => null,
