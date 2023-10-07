@@ -27,6 +27,9 @@ public class BlogMarkdown
                 var markdownFilename = Path.GetFileName( entry );
                 var razorFilename = Path.Combine( blogDirectory, markdownFilename.Replace( ".md", ".razor" ) );
 
+                if ( markdownFilename.Equals( "ReadMe.md", StringComparison.InvariantCultureIgnoreCase ) )
+                    continue;
+
                 var blogName = Path.GetFileName( blogDirectory ).Substring( "YYYY-MM-DD_".Length );
                 var blogBuilder = new BlogBuilder( blogName, blogDirectory );
 

@@ -1460,17 +1460,17 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "bg-primary-500",
-            "secondary" => "bg-secondary-500",
-            "success" => "bg-success-500",
-            "danger" => "bg-danger-500",
-            "warning" => "bg-warning-400",
-            "info" => "bg-info",
-            "light" => "bg-light",
-            "dark" => "bg-dark",
-            "white" => "bg-white",
-            "transparent" => "bg-transparent",
-            "body" => "bg-body",
+            "primary" => "!bg-primary-500",
+            "secondary" => "!bg-secondary-500",
+            "success" => "!bg-success-500",
+            "danger" => "!bg-danger-500",
+            "warning" => "!bg-warning-400",
+            "info" => "!bg-info",
+            "light" => "!bg-light",
+            "dark" => "!bg-dark",
+            "white" => "!bg-white",
+            "transparent" => "!bg-transparent",
+            "body" => "!bg-body",
             _ => name,
         };
     }

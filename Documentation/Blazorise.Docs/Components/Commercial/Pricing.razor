@@ -62,32 +62,32 @@
                         <CardBody>
                             <Div TextSize="TextSize.Heading1">
                                 <Span>@($"${( professionalPrices[plan].Price * quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@professionalPrices[plan].Unit</Small>
-                                </Div>
-                                <CardText TextColor="TextColor.Primary" Class="text-decoration-line-through" Display="@(plan == "annually" ? Display.Block : Display.None)">
-                                    <Span>@($"${( professionalPrices[plan].HigherPrice * quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@professionalPrices[plan].Unit</Small>
-                                </CardText>
-                                <CardText TextColor="TextColor.Muted" Margin="Margin.Is2.FromBottom">
-                                    + local tax (if applicable)
-                                </CardText>
-                                <CardText TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
-                                    (per developer, royalty-free subscription)
-                                </CardText>
-                                <Paragraph>
-                                    <UnorderedList Unstyled Class="pricing">
-                                     <UnorderedListItem>
-                                         <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
-                                         Everything from Blazorise Community
-                                     </UnorderedListItem>
-                                     <UnorderedListItem>
-                                         <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
-                                         Premium forum support
-                                     </UnorderedListItem>
-                                     <UnorderedListItem>
-                                         <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
-                                         Dedicated customer support with 24 hour response time
-                                     </UnorderedListItem>
-                                 </UnorderedList>
-                             </Paragraph>
+                            </Div>
+                            <CardText TextColor="TextColor.Primary" Class="text-decoration-line-through" Display="@(plan == "annually" ? Display.Block : Display.None)">
+                                <Span>@($"${( professionalPrices[plan].HigherPrice * quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@professionalPrices[plan].Unit</Small>
+                            </CardText>
+                            <CardText TextColor="TextColor.Muted" Margin="Margin.Is2.FromBottom">
+                                + local tax (if applicable)
+                            </CardText>
+                            <CardText TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                                (per developer, royalty-free subscription)
+                            </CardText>
+                            <Paragraph>
+                                <UnorderedList Unstyled Class="pricing">
+                                    <UnorderedListItem Padding="Padding.Is2.OnY">
+                                        <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
+                                        Everything from Blazorise Community
+                                    </UnorderedListItem>
+                                    <UnorderedListItem Padding="Padding.Is2.OnY">
+                                        <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
+                                        Premium forum support
+                                    </UnorderedListItem>
+                                    <UnorderedListItem Padding="Padding.Is2.OnY">
+                                        <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
+                                        Dedicated customer support with 24 hour response time
+                                    </UnorderedListItem>
+                                </UnorderedList>
+                            </Paragraph>
                              <PurchaseButton Color="Color.Secondary" ProductId="@professionalPrices[plan].ProductId" Quantity="@quantity" Upsell="@professionalPrices[plan].Upsell" ProductName="Blazorise Professional">
                                  Buy Now
                              </PurchaseButton>
@@ -104,41 +104,49 @@
                          <CardBody Background="Background.Light">
                              <Div TextSize="TextSize.Heading1">
                                  <Span>@($"${( enterprisePrices[plan].Price * quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@professionalPrices[plan].Unit</Small>
-                                </Div>
-                                <CardText TextColor="TextColor.Primary" Class="text-decoration-line-through" Display="@(plan == "annually" ? Display.Block : Display.None)">
-                                    <Span>@($"${( enterprisePrices[plan].HigherPrice * quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@professionalPrices[plan].Unit</Small>
-                                </CardText>
-                                <CardText TextColor="TextColor.Muted" Margin="Margin.Is2.FromBottom">
-                                    + local tax (if applicable)
-                                </CardText>
-                                <CardText TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
-                                    (per developer, royalty-free subscription)
-                                </CardText>
-                                <Paragraph>
-                                    <UnorderedList Unstyled Class="pricing">
-                                     <UnorderedListItem>
-                                         <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
-                                         Everything from Blazorise Professional
-                                     </UnorderedListItem>
-                                     <UnorderedListItem>
-                                         <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
-                                         <Anchor To="themes" Title="Link to themes page">
-                                             Premium themes
-                                         </Anchor>
-                                     </UnorderedListItem>
-                                     <UnorderedListItem>
-                                         <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
-                                         Priority customer support with 16 hour response time
-                                     </UnorderedListItem>
-                                     <UnorderedListItem>
-                                         <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
-                                         Priority fixes and feature requests
-                                     </UnorderedListItem>
-                                 </UnorderedList>
-                             </Paragraph>
-                             <PurchaseButton Color="Color.Primary" ProductId="@enterprisePrices[plan].ProductId" Quantity="@quantity" Upsell="@professionalPrices[plan].Upsell" ProductName="Blazorise Enterprise">
-                                 Buy Now
-                             </PurchaseButton>
+                            </Div>
+                            <CardText TextColor="TextColor.Primary" Class="text-decoration-line-through" Display="@(plan == "annually" ? Display.Block : Display.None)">
+                                <Span>@($"${( enterprisePrices[plan].HigherPrice * quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@professionalPrices[plan].Unit</Small>
+                            </CardText>
+                            <CardText TextColor="TextColor.Muted" Margin="Margin.Is2.FromBottom">
+                                + local tax (if applicable)
+                            </CardText>
+                            <CardText TextColor="TextColor.Muted" Margin="Margin.Is3.FromBottom">
+                                (per developer, royalty-free subscription)
+                            </CardText>
+                            <Paragraph>
+                                <UnorderedList Unstyled Class="pricing">
+                                    <UnorderedListItem Padding="Padding.Is2.OnY">
+                                        <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
+                                        Everything from Blazorise Professional
+                                    </UnorderedListItem>
+                                    <UnorderedListItem Padding="Padding.Is2.OnY">
+                                        <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
+                                        <Span>Access to</Span>
+                                        <Anchor To="themes" Title="Link to themes page">
+                                            premium themes
+                                        </Anchor>
+                                    </UnorderedListItem>
+                                    <UnorderedListItem Padding="Padding.Is2.OnY">
+                                        <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
+                                        <Span>Access to</Span>
+                                        <Anchor To="blocks" Title="Link to blocks page">
+                                            Blazorise blocks
+                                        </Anchor>
+                                    </UnorderedListItem>
+                                   <UnorderedListItem Padding="Padding.Is2.OnY">
+                                        <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
+                                        Priority customer support with 16 hour response time
+                                    </UnorderedListItem>
+                                    <UnorderedListItem Padding="Padding.Is2.OnY">
+                                        <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
+                                        Priority fixes and feature requests
+                                    </UnorderedListItem>
+                                </UnorderedList>
+                            </Paragraph>
+                            <PurchaseButton Color="Color.Primary" ProductId="@enterprisePrices[plan].ProductId" Quantity="@quantity" Upsell="@professionalPrices[plan].Upsell" ProductName="Blazorise Enterprise">
+                                Buy Now
+                            </PurchaseButton>
                          </CardBody>
                      </Card>
                  </Column>
@@ -158,27 +166,27 @@
                              </CardText>
                              <Paragraph>
                                  <UnorderedList Unstyled Class="pricing">
-                                     <UnorderedListItem>
+                                     <UnorderedListItem Padding="Padding.Is2.OnY">
                                          <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
                                          Everything from Blazorise Enterprise
                                      </UnorderedListItem>
-                                     <UnorderedListItem>
+                                     <UnorderedListItem Padding="Padding.Is2.OnY">
                                          <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
                                          Unlimited seats
                                      </UnorderedListItem>
-                                     <UnorderedListItem>
+                                     <UnorderedListItem Padding="Padding.Is2.OnY">
                                          <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
                                          <Anchor To="enterprise-plus" Title="Link to enterprise plus page">Blazorise Mentor</Anchor>
                                      </UnorderedListItem>
-                                     <UnorderedListItem>
+                                     <UnorderedListItem Padding="Padding.Is2.OnY">
                                          <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
                                          <Anchor To="enterprise-plus" Title="Link to enterprise plus page">Expert on Demand</Anchor>
                                      </UnorderedListItem>
-                                     <UnorderedListItem>
+                                     <UnorderedListItem Padding="Padding.Is2.OnY">
                                          <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
                                          Packaged services
                                      </UnorderedListItem>
-                                     <UnorderedListItem>
+                                     <UnorderedListItem Padding="Padding.Is2.OnY">
                                          <Icon TextColor="TextColor.Success" Padding="Padding.Is2.FromEnd" Name="IconName.Check" />
                                          Customized agreement
                                      </UnorderedListItem>
