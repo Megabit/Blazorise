@@ -1702,7 +1702,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Paragraph
 
-    public override string Paragraph() => "b-paragraph mb-3 font-light";
+    public override string Paragraph() => "b-paragraph";
 
     public override string ParagraphColor( TextColor textColor )
     {
