@@ -3355,6 +3355,10 @@ ol.ordered-list-upper-roman {
   font-size: 1rem !important;
 }
 
+.font-weight-semibold {
+  font-weight: 600 !important;
+}
+
 .grid {
   display: grid;
   grid-template-rows: repeat(1, 1fr);

@@ -3392,6 +3392,10 @@ ol.ordered-list-upper-roman {
   cursor: pointer;
 }
 
+.font-weight-semibold {
+  font-weight: 600 !important;
+}
+
 .flatpickr-months {
   margin: 0.5rem 0;
 }

@@ -9188,6 +9188,22 @@ ol.ant-ordered-list-upper-roman {
   cursor: pointer;
 }
 
+.ant-font-weight-bold {
+  font-weight: 700;
+}
+.ant-font-weight-semibold {
+  font-weight: 600;
+}
+.ant-font-weight-normal {
+  font-weight: 400;
+}
+.ant-font-weight-default {
+  font-weight: 400;
+}
+.ant-font-weight-light {
+  font-weight: 300;
+}
+
 .flatpickr-months {
   margin: 0.5rem 0;
 }
