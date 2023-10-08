@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System.Collections.Generic;
+using System.Linq;
 using Blazorise.Utilities;
 #endregion
 
@@ -20,12 +22,54 @@ public interface IFluentSizing
 /// <summary>
 /// Contains all the allowed sizing rules.
 /// </summary>
-public interface IFluentSizingAll :
+public interface IFluentSizingWithSizeWithMinMaxWithViewportAll :
     IFluentSizing,
     IFluentSizingSize,
     IFluentSizingMinMaxViewport,
     IFluentSizingViewport
 {
+}
+
+public interface IFluentSizingWithSizeOnBreakpoint :
+    IFluentSizing,
+    IFluentSizingSize,
+    IFluentSizingOnBreakpoint
+{
+}
+
+/// <summary>
+/// Allowed breakpoints for sizing rules.
+/// </summary>
+public interface IFluentSizingOnBreakpoint :
+    IFluentSizing,
+    IFluentSizingSize,
+    IFluentSizingMinMaxViewport,
+    IFluentSizingViewport
+{
+    /// <summary>
+    /// Valid on all devices. (extra small)
+    /// </summary>
+    IFluentSizingWithSizeWithMinMaxWithViewportAll OnMobile { get; }
+
+    /// <summary>
+    /// Breakpoint on tablets (small).
+    /// </summary>
+    IFluentSizingWithSizeWithMinMaxWithViewportAll OnTablet { get; }
+
+    /// <summary>
+    ///  Breakpoint on desktop (medium).
+    /// </summary>
+    IFluentSizingWithSizeWithMinMaxWithViewportAll OnDesktop { get; }
+
+    /// <summary>
+    /// Breakpoint on widescreen (large).
+    /// </summary>
+    IFluentSizingWithSizeWithMinMaxWithViewportAll OnWidescreen { get; }
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra large).
+    /// </summary>
+    IFluentSizingWithSizeWithMinMaxWithViewportAll OnFullHD { get; }
 }
 
 /// <summary>
@@ -37,22 +81,22 @@ public interface IFluentSizingSize :
     /// <summary>
     /// An element will occupy 25% of its parent space.
     /// </summary>
-    IFluentSizing Is25 { get; }
+    IFluentSizingOnBreakpoint Is25 { get; }
 
     /// <summary>
     /// An element will occupy 50% of its parent space.
     /// </summary>
-    IFluentSizing Is50 { get; }
+    IFluentSizingOnBreakpoint Is50 { get; }
 
     /// <summary>
     /// An element will occupy 75% of its parent space.
     /// </summary>
-    IFluentSizing Is75 { get; }
+    IFluentSizingOnBreakpoint Is75 { get; }
 
     /// <summary>
     /// An element will occupy 100% of its parent space.
     /// </summary>
-    IFluentSizingMinMaxViewport Is100 { get; }
+    IFluentSizingMinMaxViewportOnBreakpoint Is100 { get; }
 
     /// <summary>
     /// The browser calculates the size.
@@ -68,6 +112,18 @@ public interface IFluentSizingMinMaxViewport :
     IFluentSizingMin,
     IFluentSizingMax,
     IFluentSizingViewport
+{
+}
+
+/// <summary>
+/// Contains the min, max and viewport rules.
+/// </summary>
+public interface IFluentSizingMinMaxViewportOnBreakpoint :
+    IFluentSizing,
+    IFluentSizingMin,
+    IFluentSizingMax,
+    IFluentSizingViewport,
+    IFluentSizingOnBreakpoint
 {
 }
 
@@ -104,7 +160,7 @@ public interface IFluentSizingMax :
     /// <summary>
     /// Size will be defined for the max attribute(s) of the element style.
     /// </summary>
-    IFluentSizing Max { get; }
+    IFluentSizingWithSizeOnBreakpoint Max { get; }
 }
 
 /// <summary>
@@ -126,6 +182,8 @@ public record SizingDefinition
     /// Size will be defined for the viewport.
     /// </summary>
     public bool IsViewport { get; set; }
+
+    public Breakpoint Breakpoint { get; set; }
 }
 
 /// <summary>
@@ -138,9 +196,11 @@ public class FluentSizing :
     IFluentSizingViewport,
     IFluentSizingMax,
     IFluentSizingMinMaxViewport,
-    IFluentSizingAll
+    IFluentSizingMinMaxViewportOnBreakpoint,
+    IFluentSizingWithSizeWithMinMaxWithViewportAll,
+    IFluentSizingWithSizeOnBreakpoint,
+    IFluentSizingOnBreakpoint
 {
-
     #region Members
 
     /// <summary>
@@ -149,14 +209,11 @@ public class FluentSizing :
     private SizingType sizingType;
 
     /// <summary>
-    /// Currently used sizing size.
-    /// </summary>
-    private SizingSize currentSizingSize;
-
-    /// <summary>
     /// Currently used sizing rules.
     /// </summary>
     private SizingDefinition currentSizingDefinition;
+
+    private readonly Dictionary<SizingSize, List<SizingDefinition>> rules = new();
 
     /// <summary>
     /// Indicates if the rules have changed.
@@ -192,10 +249,8 @@ public class FluentSizing :
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( currentSizingSize != SizingSize.Default && currentSizingDefinition != null )
-                {
-                    builder.Append( classProvider.Sizing( sizingType, currentSizingSize, currentSizingDefinition ) );
-                }
+                if ( rules.Count > 0 )
+                    builder.Append( rules.Select( r => classProvider.Sizing( sizingType, r.Key, r.Value ) ) );
             }
 
             var classBuilder = new ClassBuilder( BuildClasses );
@@ -221,10 +276,16 @@ public class FluentSizing :
     /// </summary>
     /// <param name="sizingSize">Size of the element.</param>
     /// <returns>Next rule reference.</returns>returns>
-    public IFluentSizingAll WithSize( SizingSize sizingSize )
+    public IFluentSizingMinMaxViewportOnBreakpoint WithSize( SizingSize sizingSize )
     {
-        currentSizingSize = sizingSize;
-        currentSizingDefinition = new();
+        var sizingDefinition = new SizingDefinition { Breakpoint = Breakpoint.None };
+
+        if ( rules.TryGetValue( sizingSize, out var rule ) )
+            rule.Add( sizingDefinition );
+        else
+            rules.Add( sizingSize, new() { sizingDefinition } );
+
+        currentSizingDefinition = sizingDefinition;
         Dirty();
 
         return this;
@@ -246,7 +307,7 @@ public class FluentSizing :
     /// Sets the max rule for the current definition.
     /// </summary>
     /// <returns>Next rule reference.</returns>
-    public IFluentSizing WithMax()
+    public IFluentSizingWithSizeOnBreakpoint WithMax()
     {
         currentSizingDefinition.IsMax = true;
         Dirty();
@@ -266,21 +327,34 @@ public class FluentSizing :
         return this;
     }
 
+    /// <summary>
+    /// Appends the new breakpoint rule.
+    /// </summary>
+    /// <param name="breakpoint">Breakpoint to append.</param>
+    /// <returns>Next rule reference.</returns>
+    public IFluentSizingWithSizeWithMinMaxWithViewportAll WithBreakpoint( Breakpoint breakpoint )
+    {
+        currentSizingDefinition.Breakpoint = breakpoint;
+        Dirty();
+
+        return this;
+    }
+
     #endregion
 
     #region Properties
 
     /// <inheritdoc/>
-    IFluentSizing IFluentSizingSize.Is25 => WithSize( SizingSize.Is25 );
+    IFluentSizingOnBreakpoint IFluentSizingSize.Is25 => WithSize( SizingSize.Is25 );
 
     /// <inheritdoc/>
-    IFluentSizing IFluentSizingSize.Is50 => WithSize( SizingSize.Is50 );
+    IFluentSizingOnBreakpoint IFluentSizingSize.Is50 => WithSize( SizingSize.Is50 );
 
     /// <inheritdoc/>
-    IFluentSizing IFluentSizingSize.Is75 => WithSize( SizingSize.Is75 );
+    IFluentSizingOnBreakpoint IFluentSizingSize.Is75 => WithSize( SizingSize.Is75 );
 
     /// <inheritdoc/>
-    IFluentSizingMinMaxViewport IFluentSizingSize.Is100 => WithSize( SizingSize.Is100 );
+    IFluentSizingMinMaxViewportOnBreakpoint IFluentSizingSize.Is100 => WithSize( SizingSize.Is100 );
 
     /// <inheritdoc/>
     IFluentSizing IFluentSizingSize.Auto => WithSize( SizingSize.Auto );
@@ -289,10 +363,35 @@ public class FluentSizing :
     IFluentSizingViewport IFluentSizingMin.Min => WithMin();
 
     /// <inheritdoc/>
-    IFluentSizing IFluentSizingMax.Max => WithMax();
+    IFluentSizingWithSizeOnBreakpoint IFluentSizingMax.Max => WithMax();
 
     /// <inheritdoc/>
     IFluentSizing IFluentSizingViewport.Viewport => WithViewport();
+
+    /// <summary>
+    /// Valid on all devices. (extra small)
+    /// </summary>
+    public IFluentSizingWithSizeWithMinMaxWithViewportAll OnMobile => WithBreakpoint( Breakpoint.Mobile );
+
+    /// <summary>
+    /// Breakpoint on tablets (small).
+    /// </summary>
+    public IFluentSizingWithSizeWithMinMaxWithViewportAll OnTablet => WithBreakpoint( Breakpoint.Tablet );
+
+    /// <summary>
+    ///  Breakpoint on desktop (medium).
+    /// </summary>
+    public IFluentSizingWithSizeWithMinMaxWithViewportAll OnDesktop => WithBreakpoint( Breakpoint.Desktop );
+
+    /// <summary>
+    /// Breakpoint on widescreen (large).
+    /// </summary>
+    public IFluentSizingWithSizeWithMinMaxWithViewportAll OnWidescreen => WithBreakpoint( Breakpoint.Widescreen );
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra large).
+    /// </summary>
+    public IFluentSizingWithSizeWithMinMaxWithViewportAll OnFullHD => WithBreakpoint( Breakpoint.FullHD );
 
     #endregion
 }
@@ -305,32 +404,32 @@ public static class Width
     /// <summary>
     /// An element will occupy 25% of its parent space.
     /// </summary>
-    public static IFluentSizing Is25 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is25 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is25 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is25 );
 
     /// <summary>
     /// An element will occupy 50% of its parent space.
     /// </summary>
-    public static IFluentSizing Is50 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is50 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is50 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is50 );
 
     /// <summary>
     /// An element will occupy 75% of its parent space.
     /// </summary>
-    public static IFluentSizing Is75 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is75 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is75 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is75 );
 
     /// <summary>
     /// An element will occupy 100% of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewport Is100 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is100 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is100 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is100 );
 
     /// <summary>
     /// The browser calculates the size.
     /// </summary>
-    public static IFluentSizing Auto => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Auto );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Auto => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Auto );
 
     /// <summary>
     /// Defines the maximum allowed element width. Shorthand for "Width.Is100.Max".
     /// </summary>
-    public static IFluentSizing Max100 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is100 ).Max;
+    public static IFluentSizingWithSizeOnBreakpoint Max100 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is100 ).Max;
 }
 
 /// <summary>

@@ -1352,6 +1352,8 @@ public class AntDesignClassProvider : ClassProvider
         return sb.ToString();
     }
 
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules ) => null;
+
     #endregion
 
     #region Visibility

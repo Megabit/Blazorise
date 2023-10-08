@@ -1179,6 +1179,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
 
+    public abstract string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules );
+
     #endregion
 
     #region Float
