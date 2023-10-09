@@ -159,7 +159,6 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        padding-top: 0.25rem;
         max-width: 100%;
         width: 100%;
         cursor: text;
@@ -180,6 +179,7 @@
         }
 
         > .b-badge {
+            margin-top: 0.25rem;
             margin-bottom: 0.25rem;
             line-height: 1.5;
             flex-grow: initial;
