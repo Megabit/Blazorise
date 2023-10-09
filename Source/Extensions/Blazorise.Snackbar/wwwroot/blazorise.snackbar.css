@@ -378,7 +378,6 @@
 .snackbar-stack-top-end .snackbar.snackbar-show {
   transition: all var(--stack-transition-duration, 1000);
   animation: showTop var(--stack-animation-duration, 500) forwards;
-  opacity: 1;
 }
 
 .snackbar-stack-top .snackbar-hide,
@@ -386,7 +385,6 @@
 .snackbar-stack-top-end .snackbar-hide {
   transition: all var(--stack-transition-duration, 1000);
   animation: hideTop var(--stack-animation-duration, 500) backwards;
-  opacity: 0;
 }
 
 .snackbar-stack-bottom .snackbar.snackbar-show,
@@ -394,7 +392,6 @@
 .snackbar-stack-bottom-end .snackbar.snackbar-show {
   transition: all var(--stack-transition-duration, 1000);
   animation: showBottom var(--stack-animation-duration, 500) forwards;
-  opacity: 1;
 }
 
 .snackbar-stack-bottom .snackbar-hide,
@@ -402,7 +399,6 @@
 .snackbar-stack-bottom-end .snackbar-hide {
   transition: all var(--stack-transition-duration, 1000);
   animation: hideBottom var(--stack-animation-duration, 500) backwards;
-  opacity: 0;
 }
 
 @keyframes showTop {
@@ -416,9 +412,11 @@
 @keyframes hideTop {
   0% {
     opacity: 1;
+    top: 0;
   }
   100% {
     opacity: 0;
+    top: -100px;
   }
 }
 @keyframes showBottom {
