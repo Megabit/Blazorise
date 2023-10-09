@@ -74,9 +74,6 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                 case nameof( SelectedRows ):
                     SelectedRows = (List<TItem>)parameter.Value;
                     break;
-                case nameof( EditCellValues ):
-                    EditCellValues = (Dictionary<string, CellEditContext<TItem>>)parameter.Value;
-                    break;
                 default:
                     throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
             }
@@ -346,8 +343,6 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// Gets or sets currently selected rows.
     /// </summary>
     [Parameter] public List<TItem> SelectedRows { get; set; }
-
-    [Parameter] public Dictionary<string, CellEditContext<TItem>> EditCellValues { get; set; }
 
     #endregion
 }
