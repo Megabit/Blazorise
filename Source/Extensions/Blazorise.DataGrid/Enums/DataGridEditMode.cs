@@ -19,4 +19,10 @@ public enum DataGridEditMode
     /// Values will be edited in the modal dialog.
     /// </summary>
     Popup,
+
+    /// <summary>
+    /// Any cell value can be edited directly allowing for rapid editing of data.
+    /// <para>It is of note that certain features may be disabled. e.g edit command column, etc...</para>
+    /// </summary>
+    Cell
 }

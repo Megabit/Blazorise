@@ -266,6 +266,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     #region Properties
 
+
+    /// <summary>
+    /// Whether the cell is currently being edited.
+    /// </summary>
+    public bool CellEditing { get; internal set; }
+
     /// <summary>
     /// Determines the text alignment for the filter cell.
     /// </summary>
@@ -407,8 +413,17 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     public bool CellValueIsEditable
         => Editable &&
-           ( ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
-             || ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit ) );
+           (
+                ( ParentDataGrid.EditMode == DataGridEditMode.Cell && CellEditing )
+                ||
+                ( ParentDataGrid.EditMode != DataGridEditMode.Cell
+                    && (
+                        ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
+                        ||
+                        ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit )
+                        )
+                )
+            );
 
     /// <summary>
     /// Gets or sets the current sort direction.
@@ -766,6 +781,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <para>If set, all the column headers that are part of the group will be grouped under this caption.</para>
     /// </summary>
     [Parameter] public string HeaderGroupCaption { get; set; }
+
 
     #endregion
 }

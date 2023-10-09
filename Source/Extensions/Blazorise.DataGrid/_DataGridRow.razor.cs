@@ -47,6 +47,8 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// </summary>
     protected TableRow TableRowRef;
 
+    protected bool cellEditing;
+
     #endregion
 
     #region Methods
@@ -71,6 +73,9 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                     break;
                 case nameof( SelectedRows ):
                     SelectedRows = (List<TItem>)parameter.Value;
+                    break;
+                case nameof( EditCellValues ):
+                    EditCellValues = (Dictionary<string, CellEditContext<TItem>>)parameter.Value;
                     break;
                 default:
                     throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
@@ -263,6 +268,23 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         return base.DisposeAsync( disposing );
     }
 
+    protected async Task HandleCellClick( DataGridColumn<TItem> column )
+    {
+        await HandleCellEdit( column );
+    }
+
+    private async Task HandleCellEdit( DataGridColumn<TItem> column )
+    {
+        if ( ParentDataGrid.IsCellEdit && column.Editable )
+        {
+            foreach ( var editableColumn in ParentDataGrid.EditableColumns )
+                editableColumn.CellEditing = false;
+
+            column.CellEditing = true;
+            await ParentDataGrid.Edit( Item );
+        }
+    }
+
     #endregion
 
     #region Properties
@@ -324,6 +346,8 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// Gets or sets currently selected rows.
     /// </summary>
     [Parameter] public List<TItem> SelectedRows { get; set; }
+
+    [Parameter] public Dictionary<string, CellEditContext<TItem>> EditCellValues { get; set; }
 
     #endregion
 }

@@ -1866,6 +1866,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     internal bool IsFixedHeader
         => Virtualize || FixedHeader;
 
+    internal protected bool IsCellEdit
+        => EditMode == DataGridEditMode.Cell;
+
     /// <summary>
     /// Gets the DataGrid standard class and other existing Class
     /// </summary>
@@ -1902,7 +1905,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets only columns that are available for editing.
     /// </summary>
-    protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
+    internal protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
 
     /// <summary>
     /// Gets only columns that are available for display in the grid.
