@@ -1382,12 +1382,16 @@ public class BulmaClassProvider : ClassProvider
             ? "width"
             : "height" );
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
+
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
 
         return sb.ToString();
     }
 
-    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules ) => null;
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 

@@ -1940,6 +1940,9 @@ public class TailwindClassProvider : ClassProvider
     {
         var sb = new StringBuilder();
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"{ToBreakpoint( sizingDefinition.Breakpoint )}:" );
+
         if ( sizingDefinition.IsMin )
             sb.Append( "min-" );
         else if ( sizingDefinition.IsMax )
@@ -1957,7 +1960,8 @@ public class TailwindClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules ) => null;
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 
