@@ -1930,7 +1930,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 {
                     var toRemove = new List<DataGridColumn<TItem>>();
 
-                    foreach ( var remainingDisplayColumn in orderedDisplayColumns.Skip( i + 1 ) )
+                    foreach ( var remainingDisplayColumn in orderedDisplayColumnsAsList.Skip( i + 1 ) )
                     {
                         if ( remainingDisplayColumn.HeaderGroupCaption == displayColumn.HeaderGroupCaption )
                         {
