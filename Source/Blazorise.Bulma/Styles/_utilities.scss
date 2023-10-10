@@ -360,42 +360,6 @@ $border-sizes: (1, 2, 3, 4, 5);
     }
 }
 
-// Width and height
-
-@each $prop, $abbrev in (width: width, height: height) {
-    @each $size, $length in $sizes {
-        .is-#{$abbrev}-#{$size} {
-            #{$prop}: $length !important;
-        }
-    }
-}
-
-.is-max-width-100 {
-    max-width: 100% !important;
-}
-
-.is-max-height-100 {
-    max-height: 100% !important;
-}
-
-// Viewport additional helpers
-
-.is-min-viewport-width-100 {
-    min-width: 100vw !important;
-}
-
-.is-min-viewport-height-100 {
-    min-height: 100vh !important;
-}
-
-.is-viewport-width-100 {
-    width: 100vw !important;
-}
-
-.is-viewport-height-100 {
-    height: 100vh !important;
-}
-
 .is-visible {
     visibility: visible !important;
 }

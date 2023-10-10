@@ -45,5 +45,6 @@ $enable-ripple: true !default; // Enable ripple effect on components (Buttons, m
 @import "typography";
 
 @import "utilities";
+@import "utilities/sizing";
 
 @import "vendor/flatpickr";
