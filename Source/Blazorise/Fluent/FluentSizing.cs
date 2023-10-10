@@ -436,30 +436,30 @@ public static class Height
     /// <summary>
     /// An element will occupy 25% of its parent space.
     /// </summary>
-    public static IFluentSizing Is25 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is25 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is25 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is25 );
 
     /// <summary>
     /// An element will occupy 50% of its parent space.
     /// </summary>
-    public static IFluentSizing Is50 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is50 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is50 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is50 );
 
     /// <summary>
     /// An element will occupy 75% of its parent space.
     /// </summary>
-    public static IFluentSizing Is75 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is75 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is75 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is75 );
 
     /// <summary>
     /// An element will occupy 100% of its parent space.
     /// </summary>
-    public static IFluentSizingMinMaxViewport Is100 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is100 );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is100 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is100 );
 
     /// <summary>
     /// The browser calculates the size.
     /// </summary>
-    public static IFluentSizing Auto => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Auto );
+    public static IFluentSizingMinMaxViewportOnBreakpoint Auto => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Auto );
 
     /// <summary>
     /// Defines the maximum allowed element height. Shorthand for "Height.Is100.Max".
     /// </summary>
-    public static IFluentSizing Max100 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is100 ).Max;
+    public static IFluentSizingWithSizeOnBreakpoint Max100 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is100 ).Max;
 }
