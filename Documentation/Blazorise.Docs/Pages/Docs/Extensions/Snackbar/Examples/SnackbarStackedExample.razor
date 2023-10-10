@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<Button Color="Color.Primary" Clicked="@(()=>snackbarStack.PushAsync( DateTime.Now.ToString(), SnackbarColor.Info))">Primary</Button>
+<Button Color="Color.Primary" Clicked="@(()=>snackbarStack.PushAsync("Current time is: " + DateTime.Now, SnackbarColor.Info))">Primary</Button>
 
 <Button Color="Color.Info" Clicked="@(()=>snackbarStack.PushAsync("Some info message! Timeout: " + intervalBeforeMsgClose, SnackbarColor.Info, options => {  options.IntervalBeforeClose = intervalBeforeMsgClose; } ))">Show Info</Button>
 
