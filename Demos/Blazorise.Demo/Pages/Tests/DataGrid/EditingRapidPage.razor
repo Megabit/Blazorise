@@ -20,7 +20,7 @@
                           Editable
                           EditMode="@DataGridEditMode.Cell">
                     <DataGridColumns>
-                        <DataGridCommandColumn TItem="Employee"></DataGridCommandColumn>
+                        <DataGridCommandColumn TItem="Employee" EditCommandAllowed=false DeleteCommandAllowed=false></DataGridCommandColumn>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable />

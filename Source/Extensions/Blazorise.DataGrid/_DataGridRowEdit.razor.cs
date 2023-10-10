@@ -64,6 +64,23 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         await ParentDataGrid.Save();
     }
 
+    protected async Task HandleCellClick( DataGridColumn<TItem> column )
+    {
+        await HandleCellEdit( column );
+    }
+
+    protected async Task HandleCellEdit( DataGridColumn<TItem> column )
+    {
+        if ( ParentDataGrid.IsCellEdit && column.Editable )
+        {
+            foreach ( var editableColumn in ParentDataGrid.EditableColumns )
+                editableColumn.CellEditing = false;
+
+            column.CellEditing = true;
+            await ParentDataGrid.Edit( Item );
+        }
+    }
+
     #endregion
 
     #region Properties

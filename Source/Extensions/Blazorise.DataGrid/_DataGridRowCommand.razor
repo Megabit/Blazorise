@@ -1,6 +1,6 @@
 ﻿@typeparam TItem
 @inherits _BaseDataGridRowCommand<TItem>
-@if ( EditState == DataGridEditState.Edit )
+@if (EditState == DataGridEditState.Edit && ParentDataGrid.IsCommandVisible )
 {
     <TableRowCell Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap">
         <Div Flex="@DefaultFlex" Gap="@DefaultGap">

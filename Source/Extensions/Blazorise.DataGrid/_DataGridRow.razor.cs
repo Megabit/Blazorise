@@ -270,7 +270,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         await HandleCellEdit( column );
     }
 
-    private async Task HandleCellEdit( DataGridColumn<TItem> column )
+    protected async Task HandleCellEdit( DataGridColumn<TItem> column )
     {
         if ( ParentDataGrid.IsCellEdit && column.Editable )
         {

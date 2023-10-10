@@ -48,7 +48,7 @@
             }
             else
             {
-                <TableRowCell @onclick:stopPropagation="column.PreventRowClick" Class="@column.CellClass?.Invoke(Item)" Clicked="@(ParentDataGrid.IsCellEdit ? EventCallback.Factory.Create(this, () => HandleCellClick(column)) : EventCallback.Empty)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
+                <TableRowCell @onclick:stopPropagation="column.PreventRowClick" @onfocusin=@(() => ParentDataGrid.IsCellEdit ? HandleCellEdit(column) : default) tabindex="@(ParentDataGrid.IsCellEdit ? 0 : null)" Class="@column.CellClass?.Invoke(Item)" Clicked="@(ParentDataGrid.IsCellEdit ? EventCallback.Factory.Create(this, () => HandleCellClick(column)) : EventCallback.Empty)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
                     @if (column.DisplayTemplate != null)
                     {
                         @column.DisplayTemplate( Item )

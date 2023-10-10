@@ -28,6 +28,8 @@ public partial class _DataGridCellEdit<TItem> : ComponentBase
         return CellValueChanged.InvokeAsync( value );
     }
 
+    [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
+
     /// <summary>
     /// Column that this cell belongs to.
     /// </summary>
