@@ -8752,7 +8752,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SnackbarResourcesExample = @"<link href=""_content/Blazorise.Snackbar/blazorise.snackbar.css"" rel=""stylesheet"" />";
 
-        public const string SnackbarStackedExample = @"<Button Color=""Color.Primary"" Clicked=""@(()=>snackbarStack.PushAsync(""Current time is: "" + DateTime.Now, SnackbarColor.Info))"">Primary</Button>
+        public const string SnackbarStackedExample = @"<Button Color=""Color.Primary"" Clicked=""@(()=>snackbarStack.PushAsync( DateTime.Now.ToString(), SnackbarColor.Info))"">Primary</Button>
 
 <Button Color=""Color.Info"" Clicked=""@(()=>snackbarStack.PushAsync(""Some info message! Timeout: "" + intervalBeforeMsgClose, SnackbarColor.Info, options => {  options.IntervalBeforeClose = intervalBeforeMsgClose; } ))"">Show Info</Button>
 
