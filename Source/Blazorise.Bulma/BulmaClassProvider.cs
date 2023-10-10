@@ -1372,7 +1372,7 @@ public class BulmaClassProvider : ClassProvider
         var sb = new StringBuilder( "is-" );
 
         if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
-            sb.Append( "min-wiewport-" );
+            sb.Append( "min-viewport-" );
         else if ( sizingDefinition.IsMax )
             sb.Append( "max-" );
         else if ( sizingDefinition.IsViewport )
