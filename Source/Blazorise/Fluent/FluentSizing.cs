@@ -219,6 +219,9 @@ public class FluentSizing :
     /// </summary>
     private SizingDefinition currentSizingDefinition;
 
+    /// <summary>
+    /// Holds the list of defined sizing rules.
+    /// </summary>
     private readonly Dictionary<SizingSize, List<SizingDefinition>> rules = new();
 
     /// <summary>
