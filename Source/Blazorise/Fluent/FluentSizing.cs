@@ -30,6 +30,9 @@ public interface IFluentSizingWithSizeWithMinMaxWithViewportAll :
 {
 }
 
+/// <summary>
+/// Contains sizing rules for size and breakpoint.
+/// </summary>
 public interface IFluentSizingWithSizeOnBreakpoint :
     IFluentSizing,
     IFluentSizingSize,
@@ -183,6 +186,9 @@ public record SizingDefinition
     /// </summary>
     public bool IsViewport { get; set; }
 
+    /// <summary>
+    /// Defines the media breakpoint where the sizing rule will be applied.
+    /// </summary>
     public Breakpoint Breakpoint { get; set; }
 }
 
@@ -368,29 +374,19 @@ public class FluentSizing :
     /// <inheritdoc/>
     IFluentSizing IFluentSizingViewport.Viewport => WithViewport();
 
-    /// <summary>
-    /// Valid on all devices. (extra small)
-    /// </summary>
+    /// <inheritdoc/>
     public IFluentSizingWithSizeWithMinMaxWithViewportAll OnMobile => WithBreakpoint( Breakpoint.Mobile );
 
-    /// <summary>
-    /// Breakpoint on tablets (small).
-    /// </summary>
+    /// <inheritdoc/>
     public IFluentSizingWithSizeWithMinMaxWithViewportAll OnTablet => WithBreakpoint( Breakpoint.Tablet );
 
-    /// <summary>
-    ///  Breakpoint on desktop (medium).
-    /// </summary>
+    /// <inheritdoc/>
     public IFluentSizingWithSizeWithMinMaxWithViewportAll OnDesktop => WithBreakpoint( Breakpoint.Desktop );
 
-    /// <summary>
-    /// Breakpoint on widescreen (large).
-    /// </summary>
+    /// <inheritdoc/>
     public IFluentSizingWithSizeWithMinMaxWithViewportAll OnWidescreen => WithBreakpoint( Breakpoint.Widescreen );
 
-    /// <summary>
-    /// Breakpoint on large desktops (extra large).
-    /// </summary>
+    /// <inheritdoc/>
     public IFluentSizingWithSizeWithMinMaxWithViewportAll OnFullHD => WithBreakpoint( Breakpoint.FullHD );
 
     #endregion
