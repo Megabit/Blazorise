@@ -3132,8 +3132,14 @@ ol.ordered-list-upper-roman {
   .w-sm-25 {
     width: 25% !important;
   }
+  .w-sm-33 {
+    width: 33.333333% !important;
+  }
   .w-sm-50 {
     width: 50% !important;
+  }
+  .w-sm-66 {
+    width: 66.666667% !important;
   }
   .w-sm-75 {
     width: 75% !important;
@@ -3147,8 +3153,14 @@ ol.ordered-list-upper-roman {
   .h-sm-25 {
     height: 25% !important;
   }
+  .h-sm-33 {
+    height: 33.333333% !important;
+  }
   .h-sm-50 {
     height: 50% !important;
+  }
+  .h-sm-66 {
+    height: 66.666667% !important;
   }
   .h-sm-75 {
     height: 75% !important;
@@ -3182,8 +3194,14 @@ ol.ordered-list-upper-roman {
   .w-md-25 {
     width: 25% !important;
   }
+  .w-md-33 {
+    width: 33.333333% !important;
+  }
   .w-md-50 {
     width: 50% !important;
+  }
+  .w-md-66 {
+    width: 66.666667% !important;
   }
   .w-md-75 {
     width: 75% !important;
@@ -3197,8 +3215,14 @@ ol.ordered-list-upper-roman {
   .h-md-25 {
     height: 25% !important;
   }
+  .h-md-33 {
+    height: 33.333333% !important;
+  }
   .h-md-50 {
     height: 50% !important;
+  }
+  .h-md-66 {
+    height: 66.666667% !important;
   }
   .h-md-75 {
     height: 75% !important;
@@ -3232,8 +3256,14 @@ ol.ordered-list-upper-roman {
   .w-lg-25 {
     width: 25% !important;
   }
+  .w-lg-33 {
+    width: 33.333333% !important;
+  }
   .w-lg-50 {
     width: 50% !important;
+  }
+  .w-lg-66 {
+    width: 66.666667% !important;
   }
   .w-lg-75 {
     width: 75% !important;
@@ -3247,8 +3277,14 @@ ol.ordered-list-upper-roman {
   .h-lg-25 {
     height: 25% !important;
   }
+  .h-lg-33 {
+    height: 33.333333% !important;
+  }
   .h-lg-50 {
     height: 50% !important;
+  }
+  .h-lg-66 {
+    height: 66.666667% !important;
   }
   .h-lg-75 {
     height: 75% !important;
@@ -3282,8 +3318,14 @@ ol.ordered-list-upper-roman {
   .w-xl-25 {
     width: 25% !important;
   }
+  .w-xl-33 {
+    width: 33.333333% !important;
+  }
   .w-xl-50 {
     width: 50% !important;
+  }
+  .w-xl-66 {
+    width: 66.666667% !important;
   }
   .w-xl-75 {
     width: 75% !important;
@@ -3297,8 +3339,14 @@ ol.ordered-list-upper-roman {
   .h-xl-25 {
     height: 25% !important;
   }
+  .h-xl-33 {
+    height: 33.333333% !important;
+  }
   .h-xl-50 {
     height: 50% !important;
+  }
+  .h-xl-66 {
+    height: 66.666667% !important;
   }
   .h-xl-75 {
     height: 75% !important;

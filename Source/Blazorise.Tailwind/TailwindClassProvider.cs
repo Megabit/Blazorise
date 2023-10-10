@@ -2191,7 +2191,9 @@ public class TailwindClassProvider : ClassProvider
         return sizingSize switch
         {
             Blazorise.SizingSize.Is25 => "1/4",
+            Blazorise.SizingSize.Is33 => "1/3",
             Blazorise.SizingSize.Is50 => "1/2",
+            Blazorise.SizingSize.Is66 => "2/3",
             Blazorise.SizingSize.Is75 => "3/4",
             Blazorise.SizingSize.Is100 => "full",
             Blazorise.SizingSize.Auto => "auto",

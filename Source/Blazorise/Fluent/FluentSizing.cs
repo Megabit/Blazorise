@@ -87,9 +87,19 @@ public interface IFluentSizingSize :
     IFluentSizingOnBreakpoint Is25 { get; }
 
     /// <summary>
+    /// An element will occupy third of its parent space.
+    /// </summary>
+    IFluentSizingOnBreakpoint Is33 { get; }
+
+    /// <summary>
     /// An element will occupy 50% of its parent space.
     /// </summary>
     IFluentSizingOnBreakpoint Is50 { get; }
+
+    /// <summary>
+    /// An element will occupy two thirds of its parent space.
+    /// </summary>
+    IFluentSizingOnBreakpoint Is66 { get; }
 
     /// <summary>
     /// An element will occupy 75% of its parent space.
@@ -357,7 +367,13 @@ public class FluentSizing :
     IFluentSizingOnBreakpoint IFluentSizingSize.Is25 => WithSize( SizingSize.Is25 );
 
     /// <inheritdoc/>
+    IFluentSizingOnBreakpoint IFluentSizingSize.Is33 => WithSize( SizingSize.Is33 );
+
+    /// <inheritdoc/>
     IFluentSizingOnBreakpoint IFluentSizingSize.Is50 => WithSize( SizingSize.Is50 );
+
+    /// <inheritdoc/>
+    IFluentSizingOnBreakpoint IFluentSizingSize.Is66 => WithSize( SizingSize.Is66 );
 
     /// <inheritdoc/>
     IFluentSizingOnBreakpoint IFluentSizingSize.Is75 => WithSize( SizingSize.Is75 );
@@ -406,9 +422,19 @@ public static class Width
     public static IFluentSizingMinMaxViewportOnBreakpoint Is25 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is25 );
 
     /// <summary>
+    /// An element will occupy third of its parent space.
+    /// </summary>
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is33 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is33 );
+
+    /// <summary>
     /// An element will occupy 50% of its parent space.
     /// </summary>
     public static IFluentSizingMinMaxViewportOnBreakpoint Is50 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is50 );
+
+    /// <summary>
+    /// An element will occupy two thirds of its parent space.
+    /// </summary>
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is66 => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Is66 );
 
     /// <summary>
     /// An element will occupy 75% of its parent space.
@@ -442,9 +468,19 @@ public static class Height
     public static IFluentSizingMinMaxViewportOnBreakpoint Is25 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is25 );
 
     /// <summary>
+    /// An element will occupy third of its parent space.
+    /// </summary>
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is33 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is33 );
+
+    /// <summary>
     /// An element will occupy 50% of its parent space.
     /// </summary>
     public static IFluentSizingMinMaxViewportOnBreakpoint Is50 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is50 );
+
+    /// <summary>
+    /// An element will occupy two thirds of its parent space.
+    /// </summary>
+    public static IFluentSizingMinMaxViewportOnBreakpoint Is66 => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Is66 );
 
     /// <summary>
     /// An element will occupy 75% of its parent space.
