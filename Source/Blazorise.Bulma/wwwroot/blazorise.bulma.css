@@ -3688,70 +3688,6 @@
     order: 12;
   }
 }
-.is-width-25 {
-  width: 25% !important;
-}
-
-.is-width-50 {
-  width: 50% !important;
-}
-
-.is-width-75 {
-  width: 75% !important;
-}
-
-.is-width-100 {
-  width: 100% !important;
-}
-
-.is-width-auto {
-  width: auto !important;
-}
-
-.is-height-25 {
-  height: 25% !important;
-}
-
-.is-height-50 {
-  height: 50% !important;
-}
-
-.is-height-75 {
-  height: 75% !important;
-}
-
-.is-height-100 {
-  height: 100% !important;
-}
-
-.is-height-auto {
-  height: auto !important;
-}
-
-.is-max-width-100 {
-  max-width: 100% !important;
-}
-
-.is-max-height-100 {
-  max-height: 100% !important;
-}
-
-.is-min-viewport-width-100 {
-  min-width: 100vw !important;
-}
-
-.is-min-viewport-height-100 {
-  min-height: 100vh !important;
-}
-
-.is-viewport-width-100 {
-  width: 100vw !important;
-}
-
-.is-viewport-height-100 {
-  height: 100vh !important;
-}
-
 .is-visible {
   visibility: visible !important;
 }
@@ -4302,6 +4238,396 @@ ol.is-ordered-list-upper-roman {
   }
 }
 
+.is-width-25 {
+  width: 25% !important;
+}
+
+.is-width-33 {
+  width: 33.333333% !important;
+}
+
+.is-width-50 {
+  width: 50% !important;
+}
+
+.is-width-66 {
+  width: 66.666667% !important;
+}
+
+.is-width-75 {
+  width: 75% !important;
+}
+
+.is-width-100 {
+  width: 100% !important;
+}
+
+.is-width-auto {
+  width: auto !important;
+}
+
+.is-height-25 {
+  height: 25% !important;
+}
+
+.is-height-33 {
+  height: 33.333333% !important;
+}
+
+.is-height-50 {
+  height: 50% !important;
+}
+
+.is-height-66 {
+  height: 66.666667% !important;
+}
+
+.is-height-75 {
+  height: 75% !important;
+}
+
+.is-height-100 {
+  height: 100% !important;
+}
+
+.is-height-auto {
+  height: auto !important;
+}
+
+.is-max-width-100 {
+  max-width: 100% !important;
+}
+
+.is-max-height-100 {
+  max-height: 100% !important;
+}
+
+.is-min-viewport-width-100 {
+  min-width: 100vw !important;
+}
+
+.is-min-viewport-height-100 {
+  min-height: 100vh !important;
+}
+
+.is-viewport-width-100 {
+  width: 100vw !important;
+}
+
+.is-viewport-height-100 {
+  height: 100vh !important;
+}
+
+@media (min-width: 576px) {
+  .is-width-mobile-25 {
+    width: 25% !important;
+  }
+  .is-width-mobile-33 {
+    width: 33.333333% !important;
+  }
+  .is-width-mobile-50 {
+    width: 50% !important;
+  }
+  .is-width-mobile-66 {
+    width: 66.666667% !important;
+  }
+  .is-width-mobile-75 {
+    width: 75% !important;
+  }
+  .is-width-mobile-100 {
+    width: 100% !important;
+  }
+  .is-width-mobile-auto {
+    width: auto !important;
+  }
+  .is-height-mobile-25 {
+    height: 25% !important;
+  }
+  .is-height-mobile-33 {
+    height: 33.333333% !important;
+  }
+  .is-height-mobile-50 {
+    height: 50% !important;
+  }
+  .is-height-mobile-66 {
+    height: 66.666667% !important;
+  }
+  .is-height-mobile-75 {
+    height: 75% !important;
+  }
+  .is-height-mobile-100 {
+    height: 100% !important;
+  }
+  .is-height-mobile-auto {
+    height: auto !important;
+  }
+  .is-max-width-mobile-100 {
+    max-width: 100% !important;
+  }
+  .is-max-height-mobile-100 {
+    max-height: 100% !important;
+  }
+  .is-min-viewport-width-mobile-100 {
+    min-width: 100vw !important;
+  }
+  .is-min-viewport-height-mobile-100 {
+    min-height: 100vh !important;
+  }
+  .is-viewport-width-mobile-100 {
+    width: 100vw !important;
+  }
+  .is-viewport-height-mobile-100 {
+    height: 100vh !important;
+  }
+}
+@media (min-width: 1023px) {
+  .is-width-tablet-25 {
+    width: 25% !important;
+  }
+  .is-width-tablet-33 {
+    width: 33.333333% !important;
+  }
+  .is-width-tablet-50 {
+    width: 50% !important;
+  }
+  .is-width-tablet-66 {
+    width: 66.666667% !important;
+  }
+  .is-width-tablet-75 {
+    width: 75% !important;
+  }
+  .is-width-tablet-100 {
+    width: 100% !important;
+  }
+  .is-width-tablet-auto {
+    width: auto !important;
+  }
+  .is-height-tablet-25 {
+    height: 25% !important;
+  }
+  .is-height-tablet-33 {
+    height: 33.333333% !important;
+  }
+  .is-height-tablet-50 {
+    height: 50% !important;
+  }
+  .is-height-tablet-66 {
+    height: 66.666667% !important;
+  }
+  .is-height-tablet-75 {
+    height: 75% !important;
+  }
+  .is-height-tablet-100 {
+    height: 100% !important;
+  }
+  .is-height-tablet-auto {
+    height: auto !important;
+  }
+  .is-max-width-tablet-100 {
+    max-width: 100% !important;
+  }
+  .is-max-height-tablet-100 {
+    max-height: 100% !important;
+  }
+  .is-min-viewport-width-tablet-100 {
+    min-width: 100vw !important;
+  }
+  .is-min-viewport-height-tablet-100 {
+    min-height: 100vh !important;
+  }
+  .is-viewport-width-tablet-100 {
+    width: 100vw !important;
+  }
+  .is-viewport-height-tablet-100 {
+    height: 100vh !important;
+  }
+}
+@media (min-width: 1215px) {
+  .is-width-desktop-25 {
+    width: 25% !important;
+  }
+  .is-width-desktop-33 {
+    width: 33.333333% !important;
+  }
+  .is-width-desktop-50 {
+    width: 50% !important;
+  }
+  .is-width-desktop-66 {
+    width: 66.666667% !important;
+  }
+  .is-width-desktop-75 {
+    width: 75% !important;
+  }
+  .is-width-desktop-100 {
+    width: 100% !important;
+  }
+  .is-width-desktop-auto {
+    width: auto !important;
+  }
+  .is-height-desktop-25 {
+    height: 25% !important;
+  }
+  .is-height-desktop-33 {
+    height: 33.333333% !important;
+  }
+  .is-height-desktop-50 {
+    height: 50% !important;
+  }
+  .is-height-desktop-66 {
+    height: 66.666667% !important;
+  }
+  .is-height-desktop-75 {
+    height: 75% !important;
+  }
+  .is-height-desktop-100 {
+    height: 100% !important;
+  }
+  .is-height-desktop-auto {
+    height: auto !important;
+  }
+  .is-max-width-desktop-100 {
+    max-width: 100% !important;
+  }
+  .is-max-height-desktop-100 {
+    max-height: 100% !important;
+  }
+  .is-min-viewport-width-desktop-100 {
+    min-width: 100vw !important;
+  }
+  .is-min-viewport-height-desktop-100 {
+    min-height: 100vh !important;
+  }
+  .is-viewport-width-desktop-100 {
+    width: 100vw !important;
+  }
+  .is-viewport-height-desktop-100 {
+    height: 100vh !important;
+  }
+}
+@media (min-width: 1407px) {
+  .is-width-widescreen-25 {
+    width: 25% !important;
+  }
+  .is-width-widescreen-33 {
+    width: 33.333333% !important;
+  }
+  .is-width-widescreen-50 {
+    width: 50% !important;
+  }
+  .is-width-widescreen-66 {
+    width: 66.666667% !important;
+  }
+  .is-width-widescreen-75 {
+    width: 75% !important;
+  }
+  .is-width-widescreen-100 {
+    width: 100% !important;
+  }
+  .is-width-widescreen-auto {
+    width: auto !important;
+  }
+  .is-height-widescreen-25 {
+    height: 25% !important;
+  }
+  .is-height-widescreen-33 {
+    height: 33.333333% !important;
+  }
+  .is-height-widescreen-50 {
+    height: 50% !important;
+  }
+  .is-height-widescreen-66 {
+    height: 66.666667% !important;
+  }
+  .is-height-widescreen-75 {
+    height: 75% !important;
+  }
+  .is-height-widescreen-100 {
+    height: 100% !important;
+  }
+  .is-height-widescreen-auto {
+    height: auto !important;
+  }
+  .is-max-width-widescreen-100 {
+    max-width: 100% !important;
+  }
+  .is-max-height-widescreen-100 {
+    max-height: 100% !important;
+  }
+  .is-min-viewport-width-widescreen-100 {
+    min-width: 100vw !important;
+  }
+  .is-min-viewport-height-widescreen-100 {
+    min-height: 100vh !important;
+  }
+  .is-viewport-width-widescreen-100 {
+    width: 100vw !important;
+  }
+  .is-viewport-height-widescreen-100 {
+    height: 100vh !important;
+  }
+}
+@media (min-width: 1907px) {
+  .is-width-hd-25 {
+    width: 25% !important;
+  }
+  .is-width-hd-33 {
+    width: 33.333333% !important;
+  }
+  .is-width-hd-50 {
+    width: 50% !important;
+  }
+  .is-width-hd-66 {
+    width: 66.666667% !important;
+  }
+  .is-width-hd-75 {
+    width: 75% !important;
+  }
+  .is-width-hd-100 {
+    width: 100% !important;
+  }
+  .is-width-hd-auto {
+    width: auto !important;
+  }
+  .is-height-hd-25 {
+    height: 25% !important;
+  }
+  .is-height-hd-33 {
+    height: 33.333333% !important;
+  }
+  .is-height-hd-50 {
+    height: 50% !important;
+  }
+  .is-height-hd-66 {
+    height: 66.666667% !important;
+  }
+  .is-height-hd-75 {
+    height: 75% !important;
+  }
+  .is-height-hd-100 {
+    height: 100% !important;
+  }
+  .is-height-hd-auto {
+    height: auto !important;
+  }
+  .is-max-width-hd-100 {
+    max-width: 100% !important;
+  }
+  .is-max-height-hd-100 {
+    max-height: 100% !important;
+  }
+  .is-min-viewport-width-hd-100 {
+    min-width: 100vw !important;
+  }
+  .is-min-viewport-height-hd-100 {
+    min-height: 100vh !important;
+  }
+  .is-viewport-width-hd-100 {
+    width: 100vw !important;
+  }
+  .is-viewport-height-hd-100 {
+    height: 100vh !important;
+  }
+}
 .b-bar-vertical-inline.b-bar-dark .is-active,
 .b-bar-vertical.b-bar-dark .is-active {
   color: #fff !important;

@@ -1181,6 +1181,8 @@ class EmptyClassProvider : IClassProvider
 
     public string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition ) => null;
 
+    public string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules ) => null;
+
     #endregion
 
     #region Float

@@ -17,9 +17,19 @@ public enum SizingSize
     Is25,
 
     /// <summary>
+    /// An element will occupy third of its parent space.
+    /// </summary>
+    Is33,
+
+    /// <summary>
     /// An element will occupy 50% of its parent space.
     /// </summary>
     Is50,
+
+    /// <summary>
+    /// An element will occupy two thirds of its parent space.
+    /// </summary>
+    Is66,
 
     /// <summary>
     /// An element will occupy 75% of its parent space.
