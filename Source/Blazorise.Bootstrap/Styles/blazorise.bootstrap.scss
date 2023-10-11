@@ -1,4 +1,6 @@
-﻿@import "functions";
+﻿@import "vendors/bootstrap/functions";
+@import "vendors/bootstrap/variables";
+
 @import "variables";
 @import "mixins";
 @import "animations";
@@ -26,6 +28,7 @@
 @import "utilities";
 @import "grid";
 
+@import "utilities/overflow";
 @import "utilities/sizing";
 
 @import "vendors/flatpickr";
