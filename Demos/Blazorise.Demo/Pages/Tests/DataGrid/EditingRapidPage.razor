@@ -18,7 +18,10 @@
                           ShowPageSizes
                           @bind-SelectedRow="@selectedEmployee"
                           Editable
-                          EditMode="@DataGridEditMode.Cell">
+                          EditMode="@DataGridEditMode.Cell"
+                          UseValidation
+                          ValidationsSummaryLabel="The following validation errors have occurred..."
+                          ShowValidationsSummary>
                     <DataGridColumns>
                         <DataGridCommandColumn TItem="Employee" EditCommandAllowed=false DeleteCommandAllowed=false></DataGridCommandColumn>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />

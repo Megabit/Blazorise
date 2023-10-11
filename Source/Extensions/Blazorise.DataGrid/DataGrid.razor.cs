@@ -863,6 +863,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         await SaveItem();
+        
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -914,7 +916,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await VirtualizeOnEditCompleteScroll().AsTask();
         }
 
-        await InvokeAsync( StateHasChanged );
     }
 
     private void SetItemEditedValues( TItem item )
@@ -1301,6 +1302,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             if ( validationItem is not null )
                 column.SetValue( validationItem, cellValue );
+        }
+    }
+
+    internal async Task HandleCellEdit( DataGridColumn<TItem> column, TItem item )
+    {
+        if ( IsCellEdit && column.Editable )
+        {
+            foreach ( var editableColumn in EditableColumns )
+                editableColumn.CellEditing = false;
+
+            column.CellEditing = true;
+            await Edit( item );
         }
     }
 

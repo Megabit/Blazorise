@@ -40,18 +40,19 @@
                                     @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
                                     {
                                         @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
-                                        {
-                                            Clicked = callbackFactory.Create( this, Save ),
-                                            LocalizationString = saveButtonString,
-                                            Item = Item,
-                                        });
+                   {
+                       Clicked = callbackFactory.Create( this, Save ),
+                       LocalizationString = saveButtonString,
+                       Item = Item,
+                   } )
+                                        ;
                                     }
                                     else
                                     {
                                         @if ( ParentDataGrid.SubmitFormOnEnter )
                                         {
                                             <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
-                                                @saveButtonString
+                                                 @saveButtonString
                                             </Button>
                                         }
                                         else
@@ -69,11 +70,12 @@
                                     @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
                                     {
                                         @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
-                                        {
-                                            Clicked = Cancel,
-                                            LocalizationString = cancelButtonString,
-                                            Item = Item,
-                                        });
+                   {
+                       Clicked = Cancel,
+                       LocalizationString = cancelButtonString,
+                       Item = Item,
+                   } )
+                                        ;
                                     }
                                     else
                                     {
@@ -126,7 +128,11 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                 }
                 else if ( column.Displayable )
                 {
-                    <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" @onfocusin=@(() => ParentDataGrid.IsCellEdit ? HandleCellEdit(column) : default) tabindex="@(ParentDataGrid.IsCellEdit && !column.CellEditing ? 0 : null)" Clicked="@(ParentDataGrid.IsCellEdit ? EventCallback.Factory.Create(this, () => HandleCellClick(column)) : EventCallback.Empty)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
+                    <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)"
+                                  tabindex="@(ParentDataGrid.IsCellEdit && !column.CellEditing ? 0 : null)"
+                                  @onfocusin=@(ParentDataGrid.IsCellEdit ? () => ParentDataGrid.HandleCellEdit(column, Item) : default)
+                                  @onfocusout=@(ParentDataGrid.IsCellEdit && column.CellEditing ? async () => await ParentDataGrid.Save() : null )
+                                  TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
                         @if ( column.CellValueIsEditable )
                         {
                             <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
