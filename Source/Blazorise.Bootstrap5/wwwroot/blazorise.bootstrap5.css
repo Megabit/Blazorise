@@ -966,6 +966,11 @@ li.list-group-item-action {
   overflow-y: scroll;
 }
 
+.link-unstyled {
+  text-decoration: none !important;
+  color: inherit !important;
+}
+
 .media {
   display: flex;
   align-items: flex-start;

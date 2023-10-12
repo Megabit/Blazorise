@@ -1196,6 +1196,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string LinkActive( bool active ) => active ? Active() : null;
 
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+
     #endregion
 
     #region States
