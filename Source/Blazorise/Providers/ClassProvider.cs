@@ -96,7 +96,7 @@ public abstract class ClassProvider : IClassProvider
     public abstract string DatePickerValidation( ValidationStatus validationStatus );
 
     #endregion
-
+    
     #region TimePicker
 
     public abstract string TimePicker( bool plaintext );
@@ -1119,6 +1119,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string Link();
 
     public abstract string LinkActive( bool active );
+
+    public abstract string LinkUnstyled( bool unstyled );
 
     #endregion
 

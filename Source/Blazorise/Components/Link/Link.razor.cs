@@ -24,9 +24,20 @@ public partial class Link : BaseLinkComponent, IDisposable
     {
         builder.Append( ClassProvider.Link() );
         builder.Append( ClassProvider.LinkActive( Active ) );
+        builder.Append( ClassProvider.LinkUnstyled( Unstyled ) );
 
         base.BuildClasses( builder );
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Remove styles from Link component.
+    /// </summary>
+    [Parameter]
+    public bool Unstyled { get; set; }
 
     #endregion
 }

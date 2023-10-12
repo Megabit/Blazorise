@@ -1123,6 +1123,8 @@ class EmptyClassProvider : IClassProvider
 
     public string LinkActive( bool active ) => null;
 
+    public string LinkUnstyled( bool unstyled ) => null;
+
     #endregion
 
     #region States

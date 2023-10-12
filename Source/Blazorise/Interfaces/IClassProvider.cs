@@ -1116,6 +1116,8 @@ public interface IClassProvider
 
     string LinkActive( bool active );
 
+    string LinkUnstyled( bool unstyled );
+
     #endregion
 
     #region States
