@@ -845,6 +845,11 @@ li.list-group-item-action {
   overflow-y: scroll;
 }
 
+.link-unstyled {
+  text-decoration: none;
+  color: inherit !important;
+}
+
 .modal .modal-fullscreen {
   width: 100vw;
   max-width: none;
