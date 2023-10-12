@@ -2981,6 +2981,11 @@ li.ant-list-item-actionable {
   overflow-y: scroll;
 }
 
+.ant-link-unstyled {
+  text-decoration: none;
+  color: inherit;
+}
+
 .ant-modal {
   width: 520px;
 }
