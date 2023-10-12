@@ -1797,9 +1797,22 @@ public class TailwindClassProvider : ClassProvider
 
     #region Link
 
-    public override string Link() => "font-medium text-primary-600 dark:text-primary-500 hover:underline";
+    public override string Link() => "";
 
     public override string LinkActive( bool active ) => active ? "font-medium active" : null;
+
+    public override string LinkUnstyled( bool unstyled )
+    {
+        if ( unstyled )
+        {
+            return "no-underline text-inherit";
+        }
+        else
+        {
+            return "font-medium text-primary-600 dark:text-primary-500 hover:underline";
+        }
+    }
+
 
     #endregion
 
