@@ -6470,6 +6470,11 @@ li.list-group-item-action {
   overflow-y: scroll;
 }
 
+.is-link-unstyled {
+  text-decoration: none;
+  color: inherit;
+}
+
 @media (min-width: 576px) {
   .modal-sm {
     width: 300px;
