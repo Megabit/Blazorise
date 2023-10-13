@@ -1,4 +1,9 @@
-﻿@import "functions";
+﻿@import "vendors/bootstrap/functions";
+@import "vendors/bootstrap/variables";
+@import "vendors/bootstrap/variables-dark";
+@import "vendors/bootstrap/mixins";
+
+@import "functions";
 @import "variables";
 @import "mixins";
 @import "animations";
