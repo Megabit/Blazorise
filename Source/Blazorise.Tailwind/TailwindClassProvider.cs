@@ -1805,7 +1805,7 @@ public class TailwindClassProvider : ClassProvider
     {
         if ( unstyled )
         {
-            return "no-underline text-inherit";
+            return "font-medium text-inherit hover:underline";
         }
         else
         {

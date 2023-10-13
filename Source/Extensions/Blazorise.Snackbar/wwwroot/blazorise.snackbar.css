@@ -367,11 +367,6 @@
   flex-direction: row;
   margin-bottom: 0;
 }
-.snackbar-stack-top-end .snackbar.snackbar-show,
-.snackbar-stack-top-start .snackbar.snackbar-show,
-.snackbar-stack-top .snackbar.snackbar-show {
-  transform: translate(-50%);
-}
 .snackbar-stack-top-end .snackbar:not(:last-child),
 .snackbar-stack-top-start .snackbar:not(:last-child),
 .snackbar-stack-top .snackbar:not(:last-child) {
@@ -383,15 +378,13 @@
 .snackbar-stack-top-end .snackbar.snackbar-show {
   transition: all var(--stack-transition-duration, 1000);
   animation: showTop var(--stack-animation-duration, 500) forwards;
-  opacity: 1;
 }
 
 .snackbar-stack-top .snackbar-hide,
 .snackbar-stack-top-start .snackbar-hide,
 .snackbar-stack-top-end .snackbar-hide {
   transition: all var(--stack-transition-duration, 1000);
-  animation: hideTop var(--stack-animation-duration, 500) forwards;
-  opacity: 0;
+  animation: hideTop var(--stack-animation-duration, 500) backwards;
 }
 
 .snackbar-stack-bottom .snackbar.snackbar-show,
@@ -399,70 +392,46 @@
 .snackbar-stack-bottom-end .snackbar.snackbar-show {
   transition: all var(--stack-transition-duration, 1000);
   animation: showBottom var(--stack-animation-duration, 500) forwards;
-  opacity: 1;
 }
 
 .snackbar-stack-bottom .snackbar-hide,
 .snackbar-stack-bottom-start .snackbar-hide,
 .snackbar-stack-bottom-end .snackbar-hide {
   transition: all var(--stack-transition-duration, 1000);
-  animation: hideBottom var(--stack-animation-duration, 500) forwards;
-  opacity: 0;
+  animation: hideBottom var(--stack-animation-duration, 500) backwards;
 }
 
 @keyframes showTop {
   0% {
-    max-height: 0;
-    padding: 0;
-    transform: translate(-50%) translateY(-50px);
     opacity: 0;
   }
   100% {
-    max-height: 150px;
-    padding: 0.5rem 1rem;
-    transform: translate(-50%) translateY(0);
     opacity: 1;
   }
 }
 @keyframes hideTop {
   0% {
-    max-height: 150px;
-    padding: 0.5rem 1rem;
-    transform: translate(-50%) translateY(0);
     opacity: 1;
+    top: 0;
   }
   100% {
-    max-height: 0;
-    padding: 0;
-    transform: translate(-50%) translateY(-50px);
     opacity: 0;
+    top: -100px;
   }
 }
 @keyframes showBottom {
   0% {
-    max-height: 0;
-    padding: 0;
     opacity: 0;
-    transform: translate(-50%) translateY(50px);
   }
   100% {
-    max-height: 150px;
-    padding: 0.5rem 1rem;
     opacity: 1;
-    transform: translate(-50%) translateY(0);
   }
 }
 @keyframes hideBottom {
   0% {
-    max-height: 150px;
-    transform: translate(-50%) translateY(0);
-    padding: 0.5rem 1rem;
     opacity: 1;
   }
   100% {
-    max-height: 0;
-    padding: 0;
-    transform: translate(-50%) translateY(50px);
     opacity: 0;
   }
 }
@@ -492,5 +461,11 @@
     left: 50%;
     transform: translate(-50%, 0%);
     top: 1.5rem;
+  }
+}
+@media (max-width: 576px) {
+  .snackbar-stack {
+    right: 0;
+    left: 0;
   }
 }

@@ -966,9 +966,9 @@ li.list-group-item-action {
   overflow-y: scroll;
 }
 
-.link-unstyled {
-  text-decoration: none !important;
-  color: inherit !important;
+a.link-unstyled {
+  text-decoration: none;
+  color: inherit;
 }
 
 .media {

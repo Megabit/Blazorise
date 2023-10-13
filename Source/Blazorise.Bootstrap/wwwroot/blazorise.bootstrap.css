@@ -845,9 +845,9 @@ li.list-group-item-action {
   overflow-y: scroll;
 }
 
-.link-unstyled {
+a.link-unstyled {
   text-decoration: none;
-  color: inherit !important;
+  color: inherit;
 }
 
 .modal .modal-fullscreen {
