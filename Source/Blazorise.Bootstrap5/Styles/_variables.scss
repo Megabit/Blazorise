@@ -1,34 +1,4 @@
-﻿$white: #fff !default;
-$gray-100: #f8f9fa !default;
-$gray-200: #e9ecef !default;
-$gray-300: #dee2e6 !default;
-$gray-400: #ced4da !default;
-$gray-500: #adb5bd !default;
-$gray-600: #6c757d !default;
-$gray-700: #495057 !default;
-$gray-800: #343a40 !default;
-$gray-900: #212529 !default;
-$black: #000 !default;
-
-$grays: () !default;
-$grays: map-merge( ( "100": $gray-100, "200": $gray-200, "300": $gray-300, "400": $gray-400, "500": $gray-500, "600": $gray-600, "700": $gray-700, "800": $gray-800, "900": $gray-900 ), $grays );
-
-$blue: #007bff !default;
-$indigo: #6610f2 !default;
-$purple: #6f42c1 !default;
-$pink: #e83e8c !default;
-$red: #dc3545 !default;
-$orange: #fd7e14 !default;
-$yellow: #ffc107 !default;
-$green: #28a745 !default;
-$teal: #20c997 !default;
-$cyan: #17a2b8 !default;
-
-$colors: () !default;
-$colors: map-merge( ( "blue": $blue, "indigo": $indigo, "purple": $purple, "pink": $pink, "red": $red, "orange": $orange, "yellow": $yellow, "green": $green, "teal": $teal, "cyan": $cyan, "white": $white, "gray": $gray-600, "gray-dark": $gray-800 ), $colors );
-
-
-$primary: #007bff !default;
+﻿$primary: #007bff !default;
 $secondary: #6c757d !default;
 $success: #28a745 !default;
 $info: #17a2b8 !default;
@@ -461,10 +431,6 @@ $custom-checkbox-indicator-indeterminate-border-color: $custom-checkbox-indicato
 
 $custom-radio-indicator-border-radius: 50% !default;
 $custom-radio-indicator-icon-checked: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'><circle r='3' fill='#{$custom-control-indicator-checked-color}'/></svg>") !default;
-
-$custom-switch-width: $custom-control-indicator-size * 1.75 !default;
-$custom-switch-indicator-border-radius: $custom-control-indicator-size / 2 !default;
-$custom-switch-indicator-size: subtract($custom-control-indicator-size, $custom-control-indicator-border-width * 4) !default;
 
 $custom-select-padding-y: $input-padding-y !default;
 $custom-select-padding-x: $input-padding-x !default;
