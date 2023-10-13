@@ -1307,7 +1307,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     internal async Task HandleCellEdit( DataGridColumn<TItem> column, TItem item )
     {
-        if ( IsCellEdit && column.Editable )
+        if ( IsCellEdit && column.Editable && EditState != DataGridEditState.New )
         {
             foreach ( var editableColumn in EditableColumns )
                 editableColumn.CellEditing = false;
