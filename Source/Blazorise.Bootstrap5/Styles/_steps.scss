@@ -111,7 +111,7 @@
 
 @each $name, $value in $theme-colors {
     $color: $value;
-    $color-invert: color-yiq($value);
+    $color-invert: color-contrast($value);
 
     .step-#{$name} {
         .step-circle {

@@ -2,19 +2,6 @@
 
 $theme-colors: map-merge($theme-colors, ("link": $link));
 
-
-// Set a specific jump point for requesting color jumps
-$theme-color-interval: 8% !default;
-
-$text-light: #fff !default;
-$text-dark: #212529 !default;
-
-$yiq-text-light: $text-light !default;
-$yiq-text-dark: $text-dark !default;
-
-// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
-$yiq-contrasted-threshold: 150 !default;
-
 $figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
 
 $spacer: 1rem !default;
@@ -26,13 +13,6 @@ $spacers: map-merge( ( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 
 $sizes: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
-
-
-// Body
-//
-// Settings for the `<body>` element.
-$body-bg: $white !default;
-$body-color: $gray-900 !default;
 
 // Links
 //
