@@ -144,6 +144,21 @@ input[type=button].btn-block {
 
 .card-deck .card {
   height: 100%;
+  margin-bottom: 0.75rem;
+}
+@media (min-width: 576px) {
+  .card-deck {
+    display: flex;
+    flex-flow: row wrap;
+    margin-right: -0.75rem;
+    margin-left: -0.75rem;
+  }
+  .card-deck .card {
+    flex: 1 0 0%;
+    margin-right: 0.75rem;
+    margin-bottom: 0;
+    margin-left: 0.75rem;
+  }
 }
 
 .table-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {
