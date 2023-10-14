@@ -3,7 +3,7 @@
 @if ( ParentValidation?.Status == ValidationStatus.Error )
 {
     <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @if ( ErrorMessages != null && ErrorMessages.Any() )
+        @if ( ChildContent is null && ErrorMessages != null && ErrorMessages.Any() )
         {
             @if ( Multiline )
             {
