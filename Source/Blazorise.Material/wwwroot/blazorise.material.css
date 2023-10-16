@@ -1034,7 +1034,7 @@ select[readonly] optgroup {
 }
 @media (min-width: 1200px) {
   .modal .modal-xl {
-    max-width: 71;
+    max-width: 71rem;
   }
 }
 
