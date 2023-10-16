@@ -37,11 +37,19 @@
 
     .modal-xl {
         max-width: 1140px;
-        width: 1140px;
+        width: unset;
         margin: 1.75rem auto;
 
         .modal-content {
-            height: 60vh;
+            border-radius: unset;
+            height: unset;
+            overflow: unset;
+        }
+    }
+
+    @include media-breakpoint-up(xl) {
+        .modal-xl {
+            max-width: $dialog-width-xl;
         }
     }
 }

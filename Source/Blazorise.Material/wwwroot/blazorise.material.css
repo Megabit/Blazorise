@@ -1024,11 +1024,18 @@ select[readonly] optgroup {
 }
 .modal .modal-xl {
   max-width: 1140px;
-  width: 1140px;
+  width: unset;
   margin: 1.75rem auto;
 }
 .modal .modal-xl .modal-content {
-  height: 60vh;
+  border-radius: unset;
+  height: unset;
+  overflow: unset;
+}
+@media (min-width: 1200px) {
+  .modal .modal-xl {
+    max-width: 71;
+  }
 }
 
 .offcanvas, .offcanvas-xl, .offcanvas-lg, .offcanvas-md, .offcanvas-sm {
