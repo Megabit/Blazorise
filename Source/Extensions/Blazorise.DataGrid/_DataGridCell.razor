@@ -22,7 +22,7 @@ else
                 }
                 else if ( Column is DataGridSelectColumn<TItem> selectColumn )
                 {
-                    <_DataGridCellSelectEdit Column="@selectColumn" CellValue="CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" ShowValidationFeedback=ShowValidationFeedback />
+                    <_DataGridCellSelectEdit Column="@selectColumn" CellValue="CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" ShowValidationFeedback="@ShowValidationFeedback" />
                 }
                 else
                 {
