@@ -40,12 +40,11 @@
                                     @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
                                     {
                                         @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
-                   {
-                       Clicked = callbackFactory.Create( this, Save ),
-                       LocalizationString = saveButtonString,
-                       Item = Item,
-                   } )
-                                        ;
+                                        {
+                                            Clicked = callbackFactory.Create( this, Save ),
+                                            LocalizationString = saveButtonString,
+                                            Item = Item,
+                                        });
                                     }
                                     else
                                     {
@@ -70,12 +69,11 @@
                                     @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
                                     {
                                         @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
-                   {
-                       Clicked = Cancel,
-                       LocalizationString = cancelButtonString,
-                       Item = Item,
-                   } )
-                                        ;
+                                        {
+                                            Clicked = Cancel,
+                                            LocalizationString = cancelButtonString,
+                                            Item = Item,
+                                        });
                                     }
                                     else
                                     {
