@@ -266,8 +266,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     /// <summary>
     /// Removes styles from Link component.
     /// </summary>
-    [Parameter]
-    public bool Unstyled { get; set; }
+    [Parameter] public bool Unstyled { get; set; }
 
     /// <summary>
     /// Occurs when the link is clicked.
