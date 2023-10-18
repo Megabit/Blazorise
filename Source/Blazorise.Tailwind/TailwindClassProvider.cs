@@ -1823,7 +1823,6 @@ public class TailwindClassProvider : ClassProvider
         }
     }
 
-
     #endregion
 
     #region States
