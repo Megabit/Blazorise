@@ -2321,6 +2321,466 @@ textarea.ant-input.ant-input-static {
 .ant-grid.ant-grid-cols-24 {
   grid-template-columns: repeat(24, minmax(0, 1fr));
 }
+@media (min-width: 576px) {
+  .ant-grid.ant-grid-rows-xs-1 {
+    grid-template-rows: repeat(1, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-xs-2 {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-xs-3 {
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-xs-4 {
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-xs-5 {
+    grid-template-rows: repeat(5, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-xs-6 {
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-8 {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-9 {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-10 {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-11 {
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-13 {
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-14 {
+    grid-template-columns: repeat(14, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-15 {
+    grid-template-columns: repeat(15, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-16 {
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-17 {
+    grid-template-columns: repeat(17, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-18 {
+    grid-template-columns: repeat(18, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-19 {
+    grid-template-columns: repeat(19, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-20 {
+    grid-template-columns: repeat(20, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-21 {
+    grid-template-columns: repeat(21, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-22 {
+    grid-template-columns: repeat(22, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-23 {
+    grid-template-columns: repeat(23, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xs-24 {
+    grid-template-columns: repeat(24, minmax(0, 1fr));
+  }
+}
+@media (min-width: 768px) {
+  .ant-grid.ant-grid-rows-sm-1 {
+    grid-template-rows: repeat(1, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-sm-2 {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-sm-3 {
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-sm-4 {
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-sm-5 {
+    grid-template-rows: repeat(5, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-sm-6 {
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-8 {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-9 {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-10 {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-11 {
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-13 {
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-14 {
+    grid-template-columns: repeat(14, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-15 {
+    grid-template-columns: repeat(15, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-16 {
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-17 {
+    grid-template-columns: repeat(17, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-18 {
+    grid-template-columns: repeat(18, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-19 {
+    grid-template-columns: repeat(19, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-20 {
+    grid-template-columns: repeat(20, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-21 {
+    grid-template-columns: repeat(21, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-22 {
+    grid-template-columns: repeat(22, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-23 {
+    grid-template-columns: repeat(23, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-sm-24 {
+    grid-template-columns: repeat(24, minmax(0, 1fr));
+  }
+}
+@media (min-width: 992px) {
+  .ant-grid.ant-grid-rows-md-1 {
+    grid-template-rows: repeat(1, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-md-2 {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-md-3 {
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-md-4 {
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-md-5 {
+    grid-template-rows: repeat(5, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-md-6 {
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-8 {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-9 {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-10 {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-11 {
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-13 {
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-14 {
+    grid-template-columns: repeat(14, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-15 {
+    grid-template-columns: repeat(15, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-16 {
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-17 {
+    grid-template-columns: repeat(17, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-18 {
+    grid-template-columns: repeat(18, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-19 {
+    grid-template-columns: repeat(19, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-20 {
+    grid-template-columns: repeat(20, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-21 {
+    grid-template-columns: repeat(21, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-22 {
+    grid-template-columns: repeat(22, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-23 {
+    grid-template-columns: repeat(23, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-md-24 {
+    grid-template-columns: repeat(24, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1200px) {
+  .ant-grid.ant-grid-rows-lg-1 {
+    grid-template-rows: repeat(1, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-lg-2 {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-lg-3 {
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-lg-4 {
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-lg-5 {
+    grid-template-rows: repeat(5, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-lg-6 {
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-8 {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-9 {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-10 {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-11 {
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-13 {
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-14 {
+    grid-template-columns: repeat(14, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-15 {
+    grid-template-columns: repeat(15, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-16 {
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-17 {
+    grid-template-columns: repeat(17, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-18 {
+    grid-template-columns: repeat(18, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-19 {
+    grid-template-columns: repeat(19, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-20 {
+    grid-template-columns: repeat(20, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-21 {
+    grid-template-columns: repeat(21, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-22 {
+    grid-template-columns: repeat(22, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-23 {
+    grid-template-columns: repeat(23, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-lg-24 {
+    grid-template-columns: repeat(24, minmax(0, 1fr));
+  }
+}
+@media (min-width: 1600px) {
+  .ant-grid.ant-grid-rows-xl-1 {
+    grid-template-rows: repeat(1, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-xl-2 {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-xl-3 {
+    grid-template-rows: repeat(3, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-xl-4 {
+    grid-template-rows: repeat(4, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-xl-5 {
+    grid-template-rows: repeat(5, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-rows-xl-6 {
+    grid-template-rows: repeat(6, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-1 {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-2 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-5 {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-6 {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-7 {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-8 {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-9 {
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-10 {
+    grid-template-columns: repeat(10, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-11 {
+    grid-template-columns: repeat(11, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-12 {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-13 {
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-14 {
+    grid-template-columns: repeat(14, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-15 {
+    grid-template-columns: repeat(15, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-16 {
+    grid-template-columns: repeat(16, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-17 {
+    grid-template-columns: repeat(17, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-18 {
+    grid-template-columns: repeat(18, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-19 {
+    grid-template-columns: repeat(19, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-20 {
+    grid-template-columns: repeat(20, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-21 {
+    grid-template-columns: repeat(21, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-22 {
+    grid-template-columns: repeat(22, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-23 {
+    grid-template-columns: repeat(23, minmax(0, 1fr));
+  }
+  .ant-grid.ant-grid-cols-xl-24 {
+    grid-template-columns: repeat(24, minmax(0, 1fr));
+  }
+}
 .ant-grid .ant-grid-col-1 {
   grid-column: auto/span 0.5;
 }
