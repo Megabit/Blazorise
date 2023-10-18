@@ -1318,6 +1318,21 @@ select[readonly] optgroup {
   transition: opacity, -webkit-transform var(--modal-animation-duration, 300ms) cubic-bezier(0, 0, 0.2, 1);
   transition: opacity, transform var(--modal-animation-duration, 300ms) cubic-bezier(0, 0, 0.2, 1);
 }
+.modal .modal-xl {
+  max-width: 1140px;
+  width: unset;
+  margin: 1.75rem auto;
+}
+.modal .modal-xl .modal-content {
+  border-radius: unset;
+  height: unset;
+  overflow: unset;
+}
+@media (min-width: 1200px) {
+  .modal .modal-xl {
+    max-width: 71rem;
+  }
+}
 
 .offcanvas, .offcanvas-xl, .offcanvas-lg, .offcanvas-md, .offcanvas-sm {
   --offcanvas-zindex: 1045;
