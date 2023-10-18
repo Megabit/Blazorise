@@ -1176,6 +1176,8 @@ public interface IClassProvider
 
     string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
 
+    string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules );
+
     #endregion
 
     #region Float

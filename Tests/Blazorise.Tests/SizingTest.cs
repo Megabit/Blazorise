@@ -15,7 +15,9 @@ public class SizingTest
 
     [Theory]
     [InlineData( "w-25", SizingSize.Is25 )]
+    [InlineData( "w-33", SizingSize.Is33 )]
     [InlineData( "w-50", SizingSize.Is50 )]
+    [InlineData( "w-66", SizingSize.Is66 )]
     [InlineData( "w-75", SizingSize.Is75 )]
     [InlineData( "w-100", SizingSize.Is100 )]
     [InlineData( "w-auto", SizingSize.Auto )]
@@ -32,7 +34,9 @@ public class SizingTest
 
     [Theory]
     [InlineData( "h-25", SizingSize.Is25 )]
+    [InlineData( "h-33", SizingSize.Is33 )]
     [InlineData( "h-50", SizingSize.Is50 )]
+    [InlineData( "h-66", SizingSize.Is66 )]
     [InlineData( "h-75", SizingSize.Is75 )]
     [InlineData( "h-100", SizingSize.Is100 )]
     [InlineData( "h-auto", SizingSize.Auto )]

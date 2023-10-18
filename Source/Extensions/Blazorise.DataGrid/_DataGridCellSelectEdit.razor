@@ -15,6 +15,12 @@
             }
         }
     </ChildContent>
+    <Feedback>
+        @if ( ShowValidationFeedback )
+        {
+            <ValidationError />
+        }
+    </Feedback>
 </Select>
 @code {
     protected RenderFragment<object> itemFragment => item => __builder =>

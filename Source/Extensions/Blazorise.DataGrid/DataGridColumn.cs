@@ -14,11 +14,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 {
     #region Members
 
-    private readonly Lazy<Func<Type>> valueTypeGetter;
-    private readonly Lazy<Func<object>> defaultValueByType;
-    private readonly Lazy<Func<TItem, object>> valueGetter;
-    private readonly Lazy<Action<TItem, object>> valueSetter;
-    private readonly Lazy<Func<TItem, object>> sortFieldGetter;
+    protected readonly Lazy<Func<Type>> valueTypeGetter;
+    protected readonly Lazy<Func<object>> defaultValueByType;
+    protected readonly Lazy<Func<TItem, object>> valueGetter;
+    protected readonly Lazy<Action<TItem, object>> valueSetter;
+    protected readonly Lazy<Func<TItem, object>> sortFieldGetter;
 
     private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new();
 
@@ -110,7 +110,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to get the value.</param>
     /// <returns></returns>
-    internal object GetValue( TItem item )
+    protected internal object GetValue( TItem item )
         => !string.IsNullOrEmpty( Field )
             ? valueGetter.Value( item )
             : default;
@@ -120,7 +120,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to set the value.</param>
     /// <param name="value">Value to set.</param>
-    internal void SetValue( TItem item, object value )
+    protected internal virtual void SetValue( TItem item, object value )
     {
         if ( !string.IsNullOrEmpty( Field ) )
             valueSetter.Value( item, value );
@@ -131,7 +131,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to get the value.</param>
     /// <returns></returns>
-    internal object GetSortValue( TItem item )
+    protected internal object GetSortValue( TItem item )
         => sortFieldGetter.Value( item );
 
     /// <summary>

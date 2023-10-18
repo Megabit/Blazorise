@@ -6,6 +6,28 @@ namespace Blazorise.Shared.Models;
 
 public class Employee
 {
+    public Employee()
+    {
+
+    }
+
+    public Employee( Employee other )
+    {
+        Id = other.Id;
+        Childrens = other.Childrens;
+        DateOfBirth = other.DateOfBirth;
+        City = other.City;
+        Email = other.Email;
+        FirstName = other.FirstName;
+        LastName = other.LastName;
+        Gender = other.Gender;
+        IsActive = other.IsActive;
+        Salaries = other.Salaries;
+        Salary = other.Salary;
+        Tax = other.Tax;
+        Zip = other.Zip;
+    }
+
     public int Id { get; set; }
 
     [Required]
