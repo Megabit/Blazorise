@@ -12,10 +12,12 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     protected internal override void SetValue( TItem item, object value )
     {
         if ( !string.IsNullOrEmpty( Field ) )
+        {
             if ( ValueField is null )
                 valueSetter.Value( item, value );
             else
                 valueSetter.Value( item, ValueField( value ) );
+        }
     }
 
     /// <summary>
