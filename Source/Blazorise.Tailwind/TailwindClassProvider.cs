@@ -595,16 +595,16 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
     {
-        string baseClass = isDropdownSubmenu
+        var sb = new StringBuilder( isDropdownSubmenu
             ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-            : "b-button b-dropdown-toggle focus:outline-none font-medium text-sm text-center inline-flex items-center";
+            : "b-button b-dropdown-toggle focus:outline-none font-medium text-sm text-center inline-flex items-center" );
 
         if ( outline )
         {
-            baseClass += " focus:ring-4";
+            sb.Append( " focus:ring-4" );
         }
 
-        return baseClass;
+        return sb.ToString();
     }
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu
