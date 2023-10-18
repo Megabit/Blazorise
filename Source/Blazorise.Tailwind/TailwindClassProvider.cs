@@ -593,9 +593,19 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownMenuRight() => "b-dropdown-menu-right";
 
-    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
-        ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        : "b-button b-dropdown-toggle focus:ring-4 focus:outline-none font-medium text-sm text-center inline-flex items-center";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
+    {
+        var sb = new StringBuilder( isDropdownSubmenu
+            ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            : "b-button b-dropdown-toggle focus:outline-none font-medium text-sm text-center inline-flex items-center" );
+
+        if ( outline )
+        {
+            sb.Append( " focus:ring-4" );
+        }
+
+        return sb.ToString();
+    }
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu
         ? "b-dropdown-toggle-submenu"
@@ -1813,7 +1823,6 @@ public class TailwindClassProvider : ClassProvider
         }
     }
 
-
     #endregion
 
     #region States
@@ -1953,6 +1962,9 @@ public class TailwindClassProvider : ClassProvider
     {
         var sb = new StringBuilder();
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"{ToBreakpoint( sizingDefinition.Breakpoint )}:" );
+
         if ( sizingDefinition.IsMin )
             sb.Append( "min-" );
         else if ( sizingDefinition.IsMax )
@@ -1969,6 +1981,9 @@ public class TailwindClassProvider : ClassProvider
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 
@@ -2198,7 +2213,9 @@ public class TailwindClassProvider : ClassProvider
         return sizingSize switch
         {
             Blazorise.SizingSize.Is25 => "1/4",
+            Blazorise.SizingSize.Is33 => "1/3",
             Blazorise.SizingSize.Is50 => "1/2",
+            Blazorise.SizingSize.Is66 => "2/3",
             Blazorise.SizingSize.Is75 => "3/4",
             Blazorise.SizingSize.Is100 => "full",
             Blazorise.SizingSize.Auto => "auto",

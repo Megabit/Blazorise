@@ -1,3 +1,21 @@
-﻿.card-deck .card{
-    height:100%;
+﻿.card-deck {
+    .card {
+        height: 100%;
+        margin-bottom: $card-deck-margin;
+    }
+
+    @include media-breakpoint-up(sm) {
+        display: flex;
+        flex-flow: row wrap;
+        margin-right: -$card-deck-margin;
+        margin-left: -$card-deck-margin;
+
+        .card {
+            // Flexbugs #4: https://github.com/philipwalton/flexbugs#flexbug-4
+            flex: 1 0 0%;
+            margin-right: $card-deck-margin;
+            margin-bottom: 0; // Override the default
+            margin-left: $card-deck-margin;
+        }
+    }
 }
