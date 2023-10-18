@@ -96,6 +96,11 @@
 .dropdown {
     position: relative;
 
+    .btn.dropdown-toggle:not(.btn-outline) {
+        box-shadow: none;
+        border: none;
+    }
+
     &.dropdown-disabled.b-is-autocomplete {
         background-color: var(--b-theme-light, #e9ecef);
     }
