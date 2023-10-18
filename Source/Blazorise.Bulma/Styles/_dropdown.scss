@@ -94,6 +94,11 @@
 }
 
 .dropdown {
+    .button.dropdown-trigger:not(.is-outlined) {
+        box-shadow: none;
+        border: none;
+    }
+
     &.is-disabled.b-is-autocomplete {
         background-color: var(--b-theme-light, #f5f5f5);
     }
