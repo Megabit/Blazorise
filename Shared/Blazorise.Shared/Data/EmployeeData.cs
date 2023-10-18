@@ -55,7 +55,9 @@ public class EmployeeData
     };
 
     public async Task<List<Employee>> GetDataAsync()
-        => ( await cache.GetOrCreateAsync( employeesCacheKey, LoadData ) ).ToList(); //ToList is used so we make sure that we are not returning the same list reference avoiding an application wide "data corruption".
+        => ( await cache.GetOrCreateAsync( employeesCacheKey, LoadData ) )
+        .Select( x => new Employee(x) ) //new() is used so we make sure that we are not returning the same item references avoiding an application wide "data corruption".
+        .ToList(); 
 
     private Task<List<Employee>> LoadData( ICacheEntry cacheEntry )
     {

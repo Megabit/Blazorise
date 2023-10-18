@@ -24,4 +24,6 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     /// Raises when cell value changes.
     /// </summary>
     [Parameter] public EventCallback<object> CellValueChanged { get; set; }
+
+    [Parameter] public bool ShowValidationFeedback { get; set; }
 }
