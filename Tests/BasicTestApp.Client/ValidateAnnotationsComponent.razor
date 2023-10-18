@@ -7,7 +7,7 @@
         <Validation>
             <TextEdit @bind-Text="@autoModelForName.Name">
                 <Feedback>
-                    <ValidationError>error</ValidationError>
+                    <ValidationError></ValidationError>
                 </Feedback>
             </TextEdit>
         </Validation>
@@ -19,7 +19,7 @@
         <Validation>
             <TextEdit @bind-Text="@autoModelForName2.Name">
                 <Feedback>
-                    <ValidationError>error</ValidationError>
+                    <ValidationError></ValidationError>
                 </Feedback>
             </TextEdit>
         </Validation>
@@ -33,7 +33,7 @@
         <Validation>
             <TextEdit @bind-Text="@autoModelForName.Password">
                 <Feedback>
-                    <ValidationError>error</ValidationError>
+                    <ValidationError></ValidationError>
                 </Feedback>
             </TextEdit>
         </Validation>
@@ -45,7 +45,7 @@
         <Validation>
             <TextEdit @bind-Text="@autoModelForName2.Password">
                 <Feedback>
-                    <ValidationError>error</ValidationError>
+                    <ValidationError></ValidationError>
                 </Feedback>
             </TextEdit>
         </Validation>
@@ -60,7 +60,7 @@
         <Validation MessageLocalizer="@((m,a)=>a?.Count() > 0 ? string.Format(m,a?.ToArray()) : m)">
             <TextEdit @bind-Text="@autoModelForName.PasswordWithDisplay">
                 <Feedback>
-                    <ValidationError>error</ValidationError>
+                    <ValidationError></ValidationError>
                 </Feedback>
             </TextEdit>
         </Validation>
@@ -75,7 +75,7 @@
         <Validation>
             <TextEdit @bind-Text="@manualModelForName.Name">
                 <Feedback>
-                    <ValidationError>error</ValidationError>
+                    <ValidationError></ValidationError>
                 </Feedback>
             </TextEdit>
         </Validation>
@@ -88,16 +88,31 @@
         <Validation>
             <TextEdit @bind-Text="@manualModelForName2.Name">
                 <Feedback>
-                    <ValidationError>error</ValidationError>
+                    <ValidationError></ValidationError>
                 </Feedback>
             </TextEdit>
         </Validation>
     </Validations>
     <Button Clicked="@(()=>manualValidationsName2Ref.ValidateAll())">Validate</Button>
 </div>
+
+<h2>Auto name validation with override message</h2>
+<div id="auto-validate-name-initially-populated-error-override">
+    Initially populated:
+    <Validations Model="@autoModelForName3" ValidateOnLoad>
+        <Validation>
+            <TextEdit @bind-Text="@autoModelForName3.Name">
+                <Feedback>
+                    <ValidationError>error override message</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
+    </Validations>
+</div>
 @code {
     User autoModelForName = new();
     User autoModelForName2 = new() { Name = "a", Password = "12345" };
+    User autoModelForName3 = new() { Name = "a", Password = "12345" };
 
     User manualModelForName = new();
     User manualModelForName2 = new() { Name = "a", Password = "12345" };

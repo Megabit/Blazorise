@@ -4073,7 +4073,24 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TextEditDisabledExample = @"<TextEdit Disabled />";
 
-        public const string TextEditMaskExample = @"<TextEdit MaskType=""MaskType.RegEx"" EditMask=""^[a-zA-Z ]*$"" />";
+        public const string TextEditMaskExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Text only
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit MaskType=""MaskType.RegEx"" EditMask=""^[a-zA-Z ]*$"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Numbers only
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit MaskType=""MaskType.RegEx"" EditMask=""^(\d+(.\d{0,2})?|.?\d{1,2})$"" />
+        </FieldBody>
+    </Field>
+</Fields>";
 
         public const string TextEditPatternExample = @"<Validation UsePattern>
     <TextEdit Pattern=""[A-Za-z]{3}"">
@@ -4089,11 +4106,31 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TextEditReadonlyExample = @"<TextEdit ReadOnly />";
 
-        public const string TextEditRoleExample = @"<TextEdit Role=""TextRole.Email"" />
-<TextEdit Role=""TextRole.Password"" />";
+        public const string TextEditRoleExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Email
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit Role=""TextRole.Email"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Password
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit Role=""TextRole.Password"" autocomplete=""new-password"" />
+        </FieldBody>
+    </Field>
+</Fields>";
 
-        public const string TextEditSizingExample = @"<TextEdit Size=""Size.Small"" />
-<TextEdit Size=""Size.Large"" />";
+        public const string TextEditSizingExample = @"<Field>
+    <TextEdit Size=""Size.Small"" />
+</Field>
+<Field>
+    <TextEdit Size=""Size.Large"" />
+</Field>";
 
         public const string TextEditTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
 {
