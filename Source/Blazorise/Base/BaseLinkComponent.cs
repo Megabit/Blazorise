@@ -264,6 +264,12 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     [Parameter] public string Title { get; set; }
 
     /// <summary>
+    /// Removes styles from Link component.
+    /// </summary>
+    [Parameter]
+    public bool Unstyled { get; set; }
+
+    /// <summary>
     /// Occurs when the link is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }

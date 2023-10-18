@@ -30,14 +30,4 @@ public partial class Link : BaseLinkComponent, IDisposable
     }
 
     #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Remove styles from Link component.
-    /// </summary>
-    [Parameter]
-    public bool Unstyled { get; set; }
-
-    #endregion
 }
