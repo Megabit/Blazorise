@@ -1388,6 +1388,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public TextColor SearchTextColor { get; set; }
 
     /// <summary>
+    /// Defines class for search field.
+    /// </summary>
+    [Parameter] public string SearchClass { get; set; }
+
+    /// <summary>
+    /// Defines style for search field.
+    /// </summary>
+    [Parameter] public string SearchStyle { get; set; }
+
+    /// <summary>
     /// Currently selected items values.
     /// Used when multiple selection is set.
     /// </summary>
