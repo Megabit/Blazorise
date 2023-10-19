@@ -629,6 +629,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string CardLink() => null;
 
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "is-link-unstyled" : null;
+
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
     #endregion
