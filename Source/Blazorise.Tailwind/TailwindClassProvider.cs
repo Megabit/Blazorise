@@ -869,7 +869,19 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardText() => "b-card-text mb-3 font-normal text-inherit";
 
-    public override string CardLink() => "b-card-link inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
+    public override string CardLink() => "";
+
+    public override string CardLinkUnstyled( bool unstyled )
+    {
+        if ( unstyled )
+        {
+            return "inline-flex items-center dark:text-primary-500 hover:underline";
+        }
+        else
+        {
+            return "b-card-link inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
+        }
+    }
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
