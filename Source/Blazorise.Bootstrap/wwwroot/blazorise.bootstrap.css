@@ -1,29 +1,4 @@
-﻿@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-  0% {
-    opacity: 0;
-  }
-}
-@keyframes slideIn {
-  0% {
-    transform: translateY(1rem);
-    opacity: 0;
-  }
-  100% {
-    transform: translateY(0rem);
-    opacity: 1;
-  }
-  0% {
-    transform: translateY(1rem);
-    opacity: 0;
-  }
-}
-.badge-close {
+﻿.badge-close {
   cursor: pointer;
 }
 .badge-close::before {
@@ -307,14 +282,6 @@
   border-right: 0.3em solid;
   border-bottom: 0.3em solid transparent;
   vertical-align: 0;
-}
-
-.snackbar-stack {
-  z-index: 1009 !important;
-}
-
-.snackbar {
-  z-index: 1060 !important;
 }
 
 .figure.figure-is-16x16 {
@@ -1386,78 +1353,6 @@ li.list-group-item-action {
   opacity: 0.7;
 }
 
-.gap-0 {
-  gap: 0 !important;
-}
-
-.gap-y-0 {
-  row-gap: 0 !important;
-}
-
-.gap-x-0 {
-  column-gap: 0 !important;
-}
-
-.gap-1 {
-  gap: 0.25rem !important;
-}
-
-.gap-y-1 {
-  row-gap: 0.25rem !important;
-}
-
-.gap-x-1 {
-  column-gap: 0.25rem !important;
-}
-
-.gap-2 {
-  gap: 0.5rem !important;
-}
-
-.gap-y-2 {
-  row-gap: 0.5rem !important;
-}
-
-.gap-x-2 {
-  column-gap: 0.5rem !important;
-}
-
-.gap-3 {
-  gap: 1rem !important;
-}
-
-.gap-y-3 {
-  row-gap: 1rem !important;
-}
-
-.gap-x-3 {
-  column-gap: 1rem !important;
-}
-
-.gap-4 {
-  gap: 1.5rem !important;
-}
-
-.gap-y-4 {
-  row-gap: 1.5rem !important;
-}
-
-.gap-x-4 {
-  column-gap: 1.5rem !important;
-}
-
-.gap-5 {
-  gap: 3rem !important;
-}
-
-.gap-y-5 {
-  row-gap: 3rem !important;
-}
-
-.gap-x-5 {
-  column-gap: 3rem !important;
-}
-
 .steps {
   padding: 0;
   margin: 0;
@@ -2038,79 +1933,39 @@ tr.table-row-selectable:focus[tabindex="0"] {
   top: 0;
 }
 
-ol.ordered-list-lower-alpha {
-  list-style-type: lower-alpha;
-}
-ol.ordered-list-lower-roman {
-  list-style-type: lower-roman;
-}
-ol.ordered-list-upper-alpha {
-  list-style-type: upper-alpha;
-}
-ol.ordered-list-upper-roman {
-  list-style-type: upper-roman;
+.snackbar-stack {
+  z-index: 1009 !important;
 }
 
-.top-0 {
-  top: 0 !important;
+.snackbar {
+  z-index: 1060 !important;
 }
 
-.bottom-0 {
-  bottom: 0 !important;
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+  0% {
+    opacity: 0;
+  }
 }
-
-.left-0 {
-  left: 0 !important;
+@keyframes slideIn {
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0rem);
+    opacity: 1;
+  }
+  0% {
+    transform: translateY(1rem);
+    opacity: 0;
+  }
 }
-
-.right-0 {
-  right: 0 !important;
-}
-
-.top-50 {
-  top: 50% !important;
-}
-
-.bottom-50 {
-  bottom: 50% !important;
-}
-
-.left-50 {
-  left: 50% !important;
-}
-
-.right-50 {
-  right: 50% !important;
-}
-
-.top-100 {
-  top: 100% !important;
-}
-
-.bottom-100 {
-  bottom: 100% !important;
-}
-
-.left-100 {
-  left: 100% !important;
-}
-
-.right-100 {
-  right: 100% !important;
-}
-
-.translate-middle {
-  transform: translate(-50%, -50%) !important;
-}
-
-.translate-middle-x {
-  transform: translateX(-50%) !important;
-}
-
-.translate-middle-y {
-  transform: translateY(-50%) !important;
-}
-
 .border-1 {
   border: 1px solid #dee2e6 !important;
 }
@@ -3250,44 +3105,6 @@ ol.ordered-list-upper-roman {
   cursor: pointer;
 }
 
-.fs-xs {
-  font-size: 0.75rem !important;
-}
-.fs-sm {
-  font-size: 0.925rem !important;
-}
-.fs-md {
-  font-size: 1.125rem !important;
-}
-.fs-lg {
-  font-size: 1.25rem !important;
-}
-.fs-xl {
-  font-size: 1.5rem !important;
-}
-.fs-1 {
-  font-size: 2.5rem !important;
-}
-.fs-2 {
-  font-size: 2rem !important;
-}
-.fs-3 {
-  font-size: 1.75rem !important;
-}
-.fs-4 {
-  font-size: 1.5rem !important;
-}
-.fs-5 {
-  font-size: 1.25rem !important;
-}
-.fs-6 {
-  font-size: 1rem !important;
-}
-
-.font-weight-semibold {
-  font-weight: 600 !important;
-}
-
 .grid {
   display: grid;
   grid-template-rows: repeat(1, 1fr);
@@ -3761,6 +3578,19 @@ ol.ordered-list-upper-roman {
   }
 }
 
+ol.ordered-list-lower-alpha {
+  list-style-type: lower-alpha;
+}
+ol.ordered-list-lower-roman {
+  list-style-type: lower-roman;
+}
+ol.ordered-list-upper-alpha {
+  list-style-type: upper-alpha;
+}
+ol.ordered-list-upper-roman {
+  list-style-type: upper-roman;
+}
+
 .overflow-visible {
   overflow: visible !important;
 }
@@ -3775,22 +3605,6 @@ ol.ordered-list-upper-roman {
 
 .overflow-auto-hidden {
   overflow: auto hidden !important;
-}
-
-.overflow-auto-visible {
-  overflow: auto visible !important;
-}
-
-.overflow-auto-scroll {
-  overflow: auto scroll !important;
-}
-
-.overflow-auto-visible {
-  overflow: auto visible !important;
-}
-
-.overflow-auto-scroll {
-  overflow: auto scroll !important;
 }
 
 .overflow-auto-visible {
@@ -3817,44 +3631,12 @@ ol.ordered-list-upper-roman {
   overflow: hidden scroll !important;
 }
 
-.overflow-hidden-visible {
-  overflow: hidden visible !important;
-}
-
-.overflow-hidden-scroll {
-  overflow: hidden scroll !important;
-}
-
-.overflow-hidden-visible {
-  overflow: hidden visible !important;
-}
-
-.overflow-hidden-scroll {
-  overflow: hidden scroll !important;
-}
-
 .overflow-visible-auto {
   overflow: visible auto !important;
 }
 
 .overflow-visible-hidden {
   overflow: visible hidden !important;
-}
-
-.overflow-visible-visible {
-  overflow: visible visible !important;
-}
-
-.overflow-visible-scroll {
-  overflow: visible scroll !important;
-}
-
-.overflow-visible-visible {
-  overflow: visible visible !important;
-}
-
-.overflow-visible-scroll {
-  overflow: visible scroll !important;
 }
 
 .overflow-visible-visible {
@@ -3881,148 +3663,64 @@ ol.ordered-list-upper-roman {
   overflow: scroll scroll !important;
 }
 
-.overflow-scroll-visible {
-  overflow: scroll visible !important;
+.top-0 {
+  top: 0 !important;
 }
 
-.overflow-scroll-scroll {
-  overflow: scroll scroll !important;
+.bottom-0 {
+  bottom: 0 !important;
 }
 
-.overflow-scroll-visible {
-  overflow: scroll visible !important;
+.left-0 {
+  left: 0 !important;
 }
 
-.overflow-scroll-scroll {
-  overflow: scroll scroll !important;
+.right-0 {
+  right: 0 !important;
 }
 
-.overflow-visible-auto {
-  overflow: visible auto !important;
+.top-50 {
+  top: 50% !important;
 }
 
-.overflow-visible-hidden {
-  overflow: visible hidden !important;
+.bottom-50 {
+  bottom: 50% !important;
 }
 
-.overflow-visible-visible {
-  overflow: visible visible !important;
+.left-50 {
+  left: 50% !important;
 }
 
-.overflow-visible-scroll {
-  overflow: visible scroll !important;
+.right-50 {
+  right: 50% !important;
 }
 
-.overflow-visible-visible {
-  overflow: visible visible !important;
+.top-100 {
+  top: 100% !important;
 }
 
-.overflow-visible-scroll {
-  overflow: visible scroll !important;
+.bottom-100 {
+  bottom: 100% !important;
 }
 
-.overflow-visible-visible {
-  overflow: visible visible !important;
+.left-100 {
+  left: 100% !important;
 }
 
-.overflow-visible-scroll {
-  overflow: visible scroll !important;
+.right-100 {
+  right: 100% !important;
 }
 
-.overflow-scroll-auto {
-  overflow: scroll auto !important;
+.translate-middle {
+  transform: translate(-50%, -50%) !important;
 }
 
-.overflow-scroll-hidden {
-  overflow: scroll hidden !important;
+.translate-middle-x {
+  transform: translateX(-50%) !important;
 }
 
-.overflow-scroll-visible {
-  overflow: scroll visible !important;
-}
-
-.overflow-scroll-scroll {
-  overflow: scroll scroll !important;
-}
-
-.overflow-scroll-visible {
-  overflow: scroll visible !important;
-}
-
-.overflow-scroll-scroll {
-  overflow: scroll scroll !important;
-}
-
-.overflow-scroll-visible {
-  overflow: scroll visible !important;
-}
-
-.overflow-scroll-scroll {
-  overflow: scroll scroll !important;
-}
-
-.overflow-visible-auto {
-  overflow: visible auto !important;
-}
-
-.overflow-visible-hidden {
-  overflow: visible hidden !important;
-}
-
-.overflow-visible-visible {
-  overflow: visible visible !important;
-}
-
-.overflow-visible-scroll {
-  overflow: visible scroll !important;
-}
-
-.overflow-visible-visible {
-  overflow: visible visible !important;
-}
-
-.overflow-visible-scroll {
-  overflow: visible scroll !important;
-}
-
-.overflow-visible-visible {
-  overflow: visible visible !important;
-}
-
-.overflow-visible-scroll {
-  overflow: visible scroll !important;
-}
-
-.overflow-scroll-auto {
-  overflow: scroll auto !important;
-}
-
-.overflow-scroll-hidden {
-  overflow: scroll hidden !important;
-}
-
-.overflow-scroll-visible {
-  overflow: scroll visible !important;
-}
-
-.overflow-scroll-scroll {
-  overflow: scroll scroll !important;
-}
-
-.overflow-scroll-visible {
-  overflow: scroll visible !important;
-}
-
-.overflow-scroll-scroll {
-  overflow: scroll scroll !important;
-}
-
-.overflow-scroll-visible {
-  overflow: scroll visible !important;
-}
-
-.overflow-scroll-scroll {
-  overflow: scroll scroll !important;
+.translate-middle-y {
+  transform: translateY(-50%) !important;
 }
 
 @media (min-width: 576px) {
@@ -4273,6 +3971,116 @@ ol.ordered-list-upper-roman {
     height: 100vh !important;
   }
 }
+.gap-0 {
+  gap: 0 !important;
+}
+
+.gap-y-0 {
+  row-gap: 0 !important;
+}
+
+.gap-x-0 {
+  column-gap: 0 !important;
+}
+
+.gap-1 {
+  gap: 0.25rem !important;
+}
+
+.gap-y-1 {
+  row-gap: 0.25rem !important;
+}
+
+.gap-x-1 {
+  column-gap: 0.25rem !important;
+}
+
+.gap-2 {
+  gap: 0.5rem !important;
+}
+
+.gap-y-2 {
+  row-gap: 0.5rem !important;
+}
+
+.gap-x-2 {
+  column-gap: 0.5rem !important;
+}
+
+.gap-3 {
+  gap: 1rem !important;
+}
+
+.gap-y-3 {
+  row-gap: 1rem !important;
+}
+
+.gap-x-3 {
+  column-gap: 1rem !important;
+}
+
+.gap-4 {
+  gap: 1.5rem !important;
+}
+
+.gap-y-4 {
+  row-gap: 1.5rem !important;
+}
+
+.gap-x-4 {
+  column-gap: 1.5rem !important;
+}
+
+.gap-5 {
+  gap: 3rem !important;
+}
+
+.gap-y-5 {
+  row-gap: 3rem !important;
+}
+
+.gap-x-5 {
+  column-gap: 3rem !important;
+}
+
+.fs-xs {
+  font-size: 0.75rem !important;
+}
+.fs-sm {
+  font-size: 0.925rem !important;
+}
+.fs-md {
+  font-size: 1.125rem !important;
+}
+.fs-lg {
+  font-size: 1.25rem !important;
+}
+.fs-xl {
+  font-size: 1.5rem !important;
+}
+.fs-1 {
+  font-size: 2.5rem !important;
+}
+.fs-2 {
+  font-size: 2rem !important;
+}
+.fs-3 {
+  font-size: 1.75rem !important;
+}
+.fs-4 {
+  font-size: 1.5rem !important;
+}
+.fs-5 {
+  font-size: 1.25rem !important;
+}
+.fs-6 {
+  font-size: 1rem !important;
+}
+
+.font-weight-semibold {
+  font-weight: 600 !important;
+}
+
 .flatpickr-months {
   margin: 0.5rem 0;
 }
