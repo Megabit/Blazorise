@@ -56,7 +56,6 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    padding-top: 0.25rem;
     max-width: 100%;
     width: 100%;
     cursor: text;
@@ -80,6 +79,7 @@
 
     .tag {
         align-self: center;
+        margin-top: 0.25rem;
         margin-bottom: 0.25rem;
         line-height: 1.5;
         flex-grow: initial;
@@ -94,6 +94,11 @@
 }
 
 .dropdown {
+    .button.dropdown-trigger:not(.is-outlined) {
+        box-shadow: none;
+        border: none;
+    }
+
     &.is-disabled.b-is-autocomplete {
         background-color: var(--b-theme-light, #f5f5f5);
     }

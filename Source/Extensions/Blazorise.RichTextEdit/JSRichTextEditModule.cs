@@ -48,11 +48,14 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
     {
         await InitializeJsInterop();
 
+        if ( !isLoaded )
+        {
+            return AsyncDisposable.Create( () => ValueTask.CompletedTask );
+        }
+
         var dotNetRef = DotNetObjectReference.Create( richTextEdit );
 
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "initialize",
+        await InvokeSafeVoidAsync( "initialize",
             dotNetRef,
             richTextEdit.ElementRef,
             richTextEdit.ElementId,
@@ -70,107 +73,78 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
         } );
     }
 
-    public async ValueTask Destroy( ElementReference editorRef, string elementId )
-    {
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "destroy", editorRef, elementId );
-    }
+    public ValueTask Destroy( ElementReference editorRef, string elementId )
+        => InvokeSafeVoidAsync( "destroy", editorRef, elementId );
 
     /// <summary>
     /// Sets the editor content as html asynchronous.
     /// </summary>
-    public async ValueTask SetHtmlAsync( ElementReference editorRef, string html )
-    {
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "setHtml", editorRef, html );
-    }
+    public ValueTask SetHtmlAsync( ElementReference editorRef, string html )
+        => InvokeSafeVoidAsync( "setHtml", editorRef, html );
 
     /// <summary>
     /// Gets the editor content as html asynchronous.
     /// </summary>
-    public async ValueTask<string> GetHtmlAsync( ElementReference editorRef )
-    {
-        var moduleInstance = await Module;
-
-        return await moduleInstance.InvokeAsync<string>( "getHtml", editorRef );
-    }
+    public ValueTask<string> GetHtmlAsync( ElementReference editorRef )
+        => InvokeSafeAsync<string>( "getHtml", editorRef );
 
     /// <summary>
     /// Sets the editor content as Quill delta json asynchronous.
     /// </summary>
     /// <seealso href="https://quilljs.com/docs/delta/"/>
-    public async ValueTask SetDeltaAsync( ElementReference editorRef, string deltaJson )
-    {
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "setDelta", editorRef, deltaJson );
-    }
+    public ValueTask SetDeltaAsync( ElementReference editorRef, string deltaJson )
+        => InvokeSafeVoidAsync( "setDelta", editorRef, deltaJson );
 
     /// <summary>
     /// Gets the editor content as Quill delta asynchronous.
     /// </summary>
     /// <seealso href="https://quilljs.com/docs/delta/"/>
-    public async ValueTask<string> GetDeltaAsync( ElementReference editorRef )
-    {
-        var moduleInstance = await Module;
-
-        return await moduleInstance.InvokeAsync<string>( "getDelta", editorRef );
-    }
+    public ValueTask<string> GetDeltaAsync( ElementReference editorRef )
+        => InvokeSafeAsync<string>( "getDelta", editorRef );
 
     /// <summary>
     /// Sets the editor plain text asynchronous.
     /// </summary>
-    public async ValueTask SetTextAsync( ElementReference editorRef, string text )
-    {
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "setText", editorRef, text );
-    }
+    public ValueTask SetTextAsync( ElementReference editorRef, string text )
+        => InvokeSafeVoidAsync( "setText", editorRef, text );
 
     /// <summary>
     /// Gets the editor plain text asynchronous.
     /// </summary>
     /// <seealso href="https://quilljs.com/docs/delta/"/>
-    public async ValueTask<string> GetTextAsync( ElementReference editorRef )
-    {
-        var moduleInstance = await Module;
-
-        return await moduleInstance.InvokeAsync<string>( "getText", editorRef );
-    }
+    public ValueTask<string> GetTextAsync( ElementReference editorRef )
+        => InvokeSafeAsync<string>( "getText", editorRef );
 
     /// <summary>
     /// Clears the editor content asynchronous.
     /// </summary>
-    public async ValueTask ClearAsync( ElementReference editorRef )
-    {
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "clearContent", editorRef );
-    }
+    public ValueTask ClearAsync( ElementReference editorRef )
+        => InvokeSafeVoidAsync( "clearContent", editorRef );
 
     /// <summary>
     /// Sets the editor readonly state 
     /// </summary>
-    public async ValueTask SetReadOnly( ElementReference editorRef, bool value )
-    {
-        var moduleInstance = await Module;
-
-        await moduleInstance.InvokeVoidAsync( "setReadOnly", editorRef, value );
-    }
+    public ValueTask SetReadOnly( ElementReference editorRef, bool value )
+        => InvokeSafeVoidAsync( "setReadOnly", editorRef, value );
 
     private async ValueTask InitializeJsInterop()
     {
-        if ( isLoaded || ( isLoaded = await IsLoaded() ) )
+        try
         {
-            return;
+            if ( isLoaded || ( isLoaded = await IsLoaded() ) )
+            {
+                return;
+            }
+
+            await LoadDynamicReferences();
+            await CheckIsLoaded();
+
+            isLoaded = true;
         }
-
-        await LoadDynamicReferences();
-        await CheckIsLoaded();
-
-        isLoaded = true;
+        catch
+        {
+            isLoaded = false;
+        }
     }
 
     private async ValueTask LoadDynamicReferences()

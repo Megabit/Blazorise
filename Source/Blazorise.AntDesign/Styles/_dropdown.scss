@@ -31,7 +31,12 @@
 }
 
 .ant-dropdown-group {
-    // Reset rounded corners
+    .ant-btn.ant-dropdown-trigger:not(.ant-btn-outline) {
+        color: unset;
+        border-color: unset;
+        border: none;
+    }
+
     > .ant-btn:not(:last-child):not(.ant-dropdown-trigger) {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
@@ -80,7 +85,6 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    padding-top: 0.25rem;
     max-width: 100%;
     width: 100%;
     cursor: text;
@@ -100,6 +104,7 @@
     }
 
     > .ant-tag {
+        margin-top: 0.25rem;
         margin-bottom: 0.25rem;
         line-height: 1.5715;
         flex-grow: initial;

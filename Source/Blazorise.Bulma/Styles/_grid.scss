@@ -20,15 +20,23 @@
     grid-template-columns: repeat(12, 1fr);
     gap: #{$grid-gutter-width};
 
-    @for $i from 1 through $grid-rows {
-        &.are-grid-rows-#{$i} {
-            grid-template-rows: repeat($i,minmax(0,1fr));
-        }
-    }
+    @each $breakpoint in map-keys($grid-breakpoints) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-    @for $i from 1 through $grid-columns {
-        &.are-grid-columns-#{$i} {
-            grid-template-columns: repeat($i,minmax(0,1fr));
+        @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+            @if $grid-columns > 0 {
+                @for $i from 1 through $grid-rows {
+                    &.are-grid-rows#{$infix}-#{$i} {
+                        grid-template-rows: repeat($i,minmax(0,1fr));
+                    }
+                }
+
+                @for $i from 1 through $grid-columns {
+                    &.are-grid-columns#{$infix}-#{$i} {
+                        grid-template-columns: repeat($i,minmax(0,1fr));
+                    }
+                }
+            }
         }
     }
 

@@ -121,22 +121,5 @@ window.blazorisePRO = {
                 });
             }
         }
-    },
-    wspay: {
-        submit: (elementId, data) => {
-            const form = document.getElementById(elementId);
-
-            if (form) {
-                const shoppingCartIDInput = document.getElementsByName("ShoppingCartID")[0];
-                const signatureInput = document.getElementsByName("Signature")[0];
-
-                if (shoppingCartIDInput && signatureInput) {
-                    shoppingCartIDInput.value = data.shoppingCartID;
-                    signatureInput.value = data.signature;
-
-                    form.submit();
-                }
-            }
-        }
     }
 };

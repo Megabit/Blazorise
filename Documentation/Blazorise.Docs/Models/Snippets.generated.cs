@@ -670,6 +670,156 @@ public class Gender
 	Equals, NotEquals, Contains, StartsWith, EndsWith, GreaterThan, LessThan
 }";
 
+        public const string HowToHandleLocalizationInBlazoriseValidation_MessageLocalizerHelperExample = @"public class MessageLocalizerHelper<T>
+{
+    private readonly Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer;
+
+    public MessageLocalizerHelper( Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer )
+    {
+        this.stringLocalizer = stringLocalizer;
+    }
+
+    public string Localize( string message, IEnumerable<string>? arguments )
+    {
+        try
+        {
+            return arguments?.Count() > 0
+                ? stringLocalizer[message, LocalizeMessageArguments( arguments )?.ToArray()!]
+                : stringLocalizer[message];
+        }
+        catch
+        {
+            return stringLocalizer[message];
+        }
+    }
+
+    private IEnumerable<string> LocalizeMessageArguments( IEnumerable<string> arguments )
+    {
+        foreach (var argument in arguments)
+        {
+            // first try to localize with ""DisplayName:{Name}""
+            var localization = stringLocalizer[$""DisplayName:{argument}""];
+
+            if (localization.ResourceNotFound)
+            {
+                // then try to localize with just ""{Name}""
+                localization = stringLocalizer[argument];
+
+                yield return localization;
+            }
+        }
+    }
+}";
+
+        public const string HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
+    <Validation>
+        <Field>
+            <FieldLabel>Phone Country Code</FieldLabel>
+            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Clicked=""Submit"">Submit</Button>
+@code {
+    private ValidationLocalizationExample _model = new();
+    private Validations _validationsRef;
+    public class ValidationLocalizationExample
+    {
+        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
+        public string PhoneCountryCode { get; set; }
+    }
+
+    private async Task Submit()
+    {
+        if (await _validationsRef.ValidateAll())
+        {
+            Console.WriteLine( ""Validation Success!"" );
+        }
+    }
+}";
+
+        public const string HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationFullExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
+    <Validation MessageLocalizer=""MessageLocalizer.Localize"">
+        <Field>
+            <FieldLabel>Phone Country Code</FieldLabel>
+            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Clicked=""Submit"">Submit</Button>
+@code {
+    [Inject] public MessageLocalizerHelper<Dashboard> MessageLocalizer { get; set; }
+
+    private ValidationLocalizationExample _model = new();
+    private Validations _validationsRef;
+
+    private async Task Submit()
+    {
+        if (await _validationsRef.ValidateAll())
+        {
+            Console.WriteLine( ""Validation Success!"" );
+        }
+    }
+
+    public class ValidationLocalizationExample
+    {
+        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
+        public string PhoneCountryCode { get; set; }
+    }
+
+
+    public class MessageLocalizerHelper<T>
+    {
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer;
+
+        public MessageLocalizerHelper( Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer )
+        {
+            this.stringLocalizer = stringLocalizer;
+        }
+
+        public string Localize( string message, IEnumerable<string>? arguments )
+        {
+            try
+            {
+                return arguments?.Count() > 0
+                    ? stringLocalizer[message, LocalizeMessageArguments( arguments )?.ToArray()!]
+                    : stringLocalizer[message];
+            }
+            catch
+            {
+                return stringLocalizer[message];
+            }
+        }
+
+        private IEnumerable<string> LocalizeMessageArguments( IEnumerable<string> arguments )
+        {
+            foreach (var argument in arguments)
+            {
+                // first try to localize with ""DisplayName:{Name}""
+                var localization = stringLocalizer[$""DisplayName:{argument}""];
+
+                if (localization.ResourceNotFound)
+                {
+                    // then try to localize with just ""{Name}""
+                    localization = stringLocalizer[argument];
+
+                    yield return localization;
+                }
+            }
+        }
+    }
+}";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
@@ -3923,7 +4073,24 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TextEditDisabledExample = @"<TextEdit Disabled />";
 
-        public const string TextEditMaskExample = @"<TextEdit MaskType=""MaskType.RegEx"" EditMask=""^[a-zA-Z ]*$"" />";
+        public const string TextEditMaskExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Text only
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit MaskType=""MaskType.RegEx"" EditMask=""^[a-zA-Z ]*$"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Numbers only
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit MaskType=""MaskType.RegEx"" EditMask=""^(\d+(.\d{0,2})?|.?\d{1,2})$"" />
+        </FieldBody>
+    </Field>
+</Fields>";
 
         public const string TextEditPatternExample = @"<Validation UsePattern>
     <TextEdit Pattern=""[A-Za-z]{3}"">
@@ -3939,11 +4106,31 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TextEditReadonlyExample = @"<TextEdit ReadOnly />";
 
-        public const string TextEditRoleExample = @"<TextEdit Role=""TextRole.Email"" />
-<TextEdit Role=""TextRole.Password"" />";
+        public const string TextEditRoleExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Email
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit Role=""TextRole.Email"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Password
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit Role=""TextRole.Password"" autocomplete=""new-password"" />
+        </FieldBody>
+    </Field>
+</Fields>";
 
-        public const string TextEditSizingExample = @"<TextEdit Size=""Size.Small"" />
-<TextEdit Size=""Size.Large"" />";
+        public const string TextEditSizingExample = @"<Field>
+    <TextEdit Size=""Size.Small"" />
+</Field>
+<Field>
+    <TextEdit Size=""Size.Large"" />
+</Field>";
 
         public const string TextEditTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -4505,49 +4692,49 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     @*other validation fields*@
 </Validations>";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.3.1.0"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.3.2.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.3.1.0"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.3.2.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.3.1.0"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.3.2.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.3.1.0"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.3.2.0"" type=""module""></script>";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.3.1.0"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.3.2.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.3.1.0"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.3.2.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.3.1.0"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.3.2.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/button.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/dragDrop.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/dropdown.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileEdit.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/filePicker.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/io.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/observer.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/popper.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/table.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js?v=1.3.1.0"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileEdit.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoEdit.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/popper.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/textEdit.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=1.3.2.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.3.1.0"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.3.2.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -4555,15 +4742,15 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.3.1.0"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.3.2.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js?v=1.3.1.0"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=1.3.2.0"" type=""module""></script>";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.3.1.0"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.3.2.0"" type=""module""></script>";
 
-        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.3.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.3.1.0"" type=""module""></script>";
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.3.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.3.2.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
 
@@ -4571,7 +4758,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TemplatesVersionInstallExample = @"dotnet new install Blazorise.Templates::1.1.0";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.3.1.0"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.3.2.0"" type=""module""></script>";
 
         public const string AnimateExample = @"<Field>
     <Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
@@ -4639,7 +4826,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.3.1.0""></script>";
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.3.2.0""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -9133,7 +9320,7 @@ builder.Services
 <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />
 
 <script src=""https://cdn.tailwindcss.com""></script>
-<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.3.1.0""></script>
+<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.3.2.0""></script>
 
 <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css"" rel=""stylesheet"" />";
@@ -9968,12 +10155,12 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.3.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.3.1.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.3.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.3.2.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.3.1.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.3.1.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.3.1.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.3.2.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.3.2.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.3.2.0""></script>";
 
     }
 }

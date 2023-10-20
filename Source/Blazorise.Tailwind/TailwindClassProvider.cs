@@ -593,9 +593,19 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownMenuRight() => "b-dropdown-menu-right";
 
-    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
-        ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        : "b-button b-dropdown-toggle focus:ring-4 focus:outline-none font-medium text-sm text-center inline-flex items-center";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
+    {
+        var sb = new StringBuilder( isDropdownSubmenu
+            ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            : "b-button b-dropdown-toggle focus:outline-none font-medium text-sm text-center inline-flex items-center" );
+
+        if ( outline )
+        {
+            sb.Append( " focus:ring-4" );
+        }
+
+        return sb.ToString();
+    }
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu
         ? "b-dropdown-toggle-submenu"
@@ -1460,17 +1470,17 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "bg-primary-500",
-            "secondary" => "bg-secondary-500",
-            "success" => "bg-success-500",
-            "danger" => "bg-danger-500",
-            "warning" => "bg-warning-400",
-            "info" => "bg-info",
-            "light" => "bg-light",
-            "dark" => "bg-dark",
-            "white" => "bg-white",
-            "transparent" => "bg-transparent",
-            "body" => "bg-body",
+            "primary" => "!bg-primary-500",
+            "secondary" => "!bg-secondary-500",
+            "success" => "!bg-success-500",
+            "danger" => "!bg-danger-500",
+            "warning" => "!bg-warning-400",
+            "info" => "!bg-info",
+            "light" => "!bg-light",
+            "dark" => "!bg-dark",
+            "white" => "!bg-white",
+            "transparent" => "!bg-transparent",
+            "body" => "!bg-body",
             _ => name,
         };
     }
