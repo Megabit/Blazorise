@@ -2496,13 +2496,13 @@ public class Gender
     string sentence = ""\""There will be no foolish wand-waving or silly incantations in this class. As such, I don't expect many of you to appreciate the subtle science and exact art that is potion-making. However, for those select few who possess the predisposition, I can teach you how to bewitch the mind and ensnare the senses. I can tell you how to bottle fame, brew glory, and even put a stopper in death. Then again, maybe some of you have come to Hogwarts in possession of abilities so formidable that you feel confident enough to not pay attention!\"" — Severus Snape"";
 }";
 
-        public const string BasicImageExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-01.jpg"" Text=""A lovely animal..."" />";
+        public const string BasicImageExample = @"<Image Source=""assets/img/animals/animal-01.jpg"" Text=""A lovely animal..."" />";
 
-        public const string ImageFluidExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-02-large.jpg"" Text=""A lovely animal..."" Fluid />";
+        public const string ImageFluidExample = @"<Image Source=""assets/img/animals/animal-02-large.jpg"" Text=""A lovely animal..."" Fluid />";
 
-        public const string ImageLoadingExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-06.jpg"" Text=""A lovely animal..."" Loading />";
+        public const string ImageLoadingExample = @"<Image Source=""assets/img/animals/animal-06.jpg"" Text=""A lovely animal..."" Loading />";
 
-        public const string ImageTextExample = @"<Image Source=""_content/Blazorise.Docs/assets/img/animals/animal-05.jpg"" Text=""A lovely animal..."" />";
+        public const string ImageTextExample = @"<Image Source=""assets/img/animals/animal-05.jpg"" Text=""A lovely animal..."" />";
 
         public const string AliasInputMaskExample = @"<InputMask Alias=""datetime"" InputFormat=""dd/mm/yyyy"" OutputFormat=""ddmmyyyy"" />";
 
@@ -8833,7 +8833,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
         public const string SpinKitSizeExample = @"<SpinKit Type=""SpinKitType.Plane"" Size=""20px"" />";
 
-        public const string SplitterBackgroundImageExample = @"<Splitter Style=""height: 100px;"" GutterSize=""32"" GutterBackgroundImage=""_content/Blazorise.Docs/assets/img/icons/resize-horizontal-30.png"">
+        public const string SplitterBackgroundImageExample = @"<Splitter Style=""height: 100px;"" GutterSize=""32"" GutterBackgroundImage=""assets/img/icons/resize-horizontal-30.png"">
     <SplitterSection>
         <div>Hello!</div>
     </SplitterSection>

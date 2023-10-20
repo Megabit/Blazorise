@@ -37,7 +37,8 @@ public class Startup
         // Add services to the container.
         services
             .AddRazorComponents()
-            .AddInteractiveServerComponents();
+            .AddInteractiveServerComponents()
+            .AddInteractiveWebAssemblyComponents();
 
         services.Configure<IISServerOptions>( options =>
         {
@@ -119,7 +120,12 @@ public class Startup
     {
         app.UseResponseCompression();
 
-        if ( !app.Environment.IsDevelopment() )
+        // Configure the HTTP request pipeline.
+        if ( app.Environment.IsDevelopment() )
+        {
+            app.UseWebAssemblyDebugging();
+        }
+        else
         {
             app.UseExceptionHandler( "/Error" );
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -132,7 +138,8 @@ public class Startup
         app.UseAntiforgery();
 
         app.MapRazorComponents<App>()
-            .AddInteractiveServerRenderMode();
+            .AddInteractiveServerRenderMode()
+            .AddInteractiveWebAssemblyRenderMode();
 
         //app.UseRouting();
 

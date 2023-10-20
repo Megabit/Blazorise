@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0-rc.2.*" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Source\Blazorise.Bootstrap5\Blazorise.Bootstrap5.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
     <ProjectReference Include="..\Blazorise.Docs\Blazorise.Docs.csproj" />
