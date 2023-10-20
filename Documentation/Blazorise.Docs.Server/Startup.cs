@@ -37,7 +37,7 @@ public class Startup
         // Add services to the container.
         services
             .AddRazorComponents()
-            .AddServerComponents();
+            .AddInteractiveServerComponents();
 
         services.Configure<IISServerOptions>( options =>
         {
@@ -129,8 +129,10 @@ public class Startup
         app.UseHttpsRedirection();
 
         app.UseStaticFiles();
+        app.UseAntiforgery();
 
-        app.MapRazorComponents<App>();
+        app.MapRazorComponents<App>()
+            .AddInteractiveServerRenderMode();
 
         //app.UseRouting();
 
