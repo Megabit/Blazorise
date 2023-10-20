@@ -17,6 +17,10 @@
         },
 
         generateToc: (targetElement, options) => {
+            if (!document.getElementById('#TableOfContents')) {
+                return;
+            }
+
             document.querySelectorAll('.b-docs-page>h2, .b-docs-page>h3, .b-docs-page>h4, .b-docs-page-section-header>h3').forEach(function (el) {
                 if (el && !el.id && el.textContent) {
                     const textContent = el.textContent.trim();
