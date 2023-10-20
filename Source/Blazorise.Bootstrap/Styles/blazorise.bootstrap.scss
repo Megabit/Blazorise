@@ -1,6 +1,6 @@
-﻿@import "vendors/bootstrap/functions";
-@import "vendors/bootstrap/variables";
-@import "vendors/bootstrap/mixins";
+﻿@import "_vendors/bootstrap/functions";
+@import "_vendors/bootstrap/variables";
+@import "_vendors/bootstrap/mixins";
 
 @import "variables";
 @import "mixins";
@@ -32,4 +32,4 @@
 @import "utilities/overflow";
 @import "utilities/sizing";
 
-@import "vendors/flatpickr";
+@import "_vendors/flatpickr";
