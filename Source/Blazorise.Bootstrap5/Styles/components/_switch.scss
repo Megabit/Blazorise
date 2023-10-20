@@ -1,6 +1,4 @@
-﻿@import "variables";
-
-@each $name, $value in $theme-colors {
+﻿@each $name, $value in $theme-colors {
     $color: $value;
 
     .form-check.form-switch {
