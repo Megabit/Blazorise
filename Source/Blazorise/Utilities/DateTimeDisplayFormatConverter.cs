@@ -1,18 +1,17 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using System.Text;
 #endregion
 
 namespace Blazorise.Utilities;
 
 /// <summary>
-/// Defauult implementation of <see cref="IDateTimeFormatConverter"/>.
+/// Defauult implementation of <see cref="IDateTimeDisplayFormatConverter"/>.
 /// </summary>
-public class DateTimeFormatConverter : IDateTimeFormatConverter
+public class DateTimeDisplayFormatConverter : BaseDateTimeFormatConverter, IDateTimeDisplayFormatConverter
 {
-    #region Members
+    #region Properties
 
-    private static readonly Dictionary<string, string> FormatTokens = new()
+    private static readonly Dictionary<string, string> FormatTokensMap = new()
     {
         { "d", "j" },       // Day of the month without leading zeros, 1 to 31.
         { "dd", "d" },      // Day of the month, 2 digits with leading zeros, 01 to 31.
@@ -46,69 +45,8 @@ public class DateTimeFormatConverter : IDateTimeFormatConverter
         { "tt", "K" },      // -||-
     };
 
-    #endregion
-
-    #region Methods
-
     /// <inheritdoc/>
-    public string Convert( string format )
-    {
-        if ( string.IsNullOrEmpty( format ) || format.Length == 0 )
-            return format;
-
-        var tokens = ParseTokens( format );
-
-        var endFormat = new StringBuilder();
-
-        foreach ( var token in tokens )
-        {
-            if ( FormatTokens.TryGetValue( token, out var internalToken ) )
-                endFormat.Append( internalToken );
-            else
-                endFormat.Append( token );
-        }
-
-        return endFormat.ToString();
-    }
-
-    private IList<string> ParseTokens( string format )
-    {
-        var tokens = new List<string>();
-
-        string tempToken = null;
-        char? last = null;
-
-        foreach ( var c in format )
-        {
-            if ( !char.IsLetter( c ) )
-            {
-                if ( tempToken != null )
-                    tokens.Add( tempToken );
-
-                tokens.Add( c.ToString() );
-
-                tempToken = null;
-                last = null;
-                continue;
-            }
-
-            if ( last == null || ( last != null && last == c ) )
-            {
-                tempToken ??= string.Empty;
-
-                tempToken += c;
-            }
-
-            last = c;
-        }
-
-        if ( !string.IsNullOrEmpty( tempToken ) )
-        {
-            tokens.Add( tempToken );
-        }
-
-        return tokens;
-    }
+    protected override Dictionary<string, string> FormatTokens => FormatTokensMap;
 
     #endregion
 }

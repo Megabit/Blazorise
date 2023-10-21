@@ -58,7 +58,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
             {
-                DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( displayFormat ) },
+                DisplayFormat = new { Changed = displayFormatChanged, Value = DisplayFormatConverter.Convert( displayFormat ) },
                 TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
                 Min = new { Changed = minChanged, Value = min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) },
                 Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) },
@@ -105,7 +105,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     {
         await JSModule.Initialize( ElementRef, ElementId, new
         {
-            DisplayFormat = DateTimeFormatConverter.Convert( DisplayFormat ),
+            DisplayFormat = DisplayFormatConverter.Convert( DisplayFormat ),
             TimeAs24hr,
             Default = FormatValueAsString( Time ),
             Min = Min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
@@ -298,7 +298,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// <summary>
     /// Converts the supplied time format into the internal time format.
     /// </summary>
-    [Inject] protected IDateTimeFormatConverter DateTimeFormatConverter { get; set; }
+    [Inject] protected IDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
 
     /// <summary>
     /// Gets or sets the input time value.
