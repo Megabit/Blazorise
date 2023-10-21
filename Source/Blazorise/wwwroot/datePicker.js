@@ -1,5 +1,6 @@
 ﻿import "./vendors/flatpickr.js?v=1.3.2.0";
 import * as utilities from "./utilities.js?v=1.3.2.0";
+import Inputmask from "./vendors/inputmask.js?v=1.3.2.0";
 
 const _pickers = [];
 
@@ -85,6 +86,10 @@ export function initialize(dotnetAdapter, element, elementId, options) {
                 picker.input.dispatchEvent(utilities.createEvent("input"));
             }
         });
+
+        if (options.inputFormat) {
+            setInputMask(picker, options.inputFormat);
+        }
     }
 
     picker.customOptions = {
@@ -198,6 +203,10 @@ export function updateOptions(element, elementId, options) {
 
         if (options.displayFormat.changed) {
             picker.set("altFormat", options.displayFormat.value);
+        }
+
+        if (options.inputFormat.changed) {
+            setInputMask(picker, options.inputFormat.value);
         }
 
         if (options.timeAs24hr.changed) {
@@ -316,5 +325,20 @@ export function select(element, elementId, focus) {
 
     if (picker && picker.altInput) {
         utilities.select(picker.altInput, null, focus);
+    }
+}
+
+function setInputMask(picker, inputFormat) {
+    if (picker && picker.altInput) {
+        if (picker.inputMask && picker.inputMask.remove) {
+            picker.inputMask.remove();
+        }
+
+        picker.inputMask = new Inputmask({
+            alias: "datetime",
+            inputFormat: inputFormat
+        });
+
+        picker.inputMask.mask(picker.altInput);
     }
 }
