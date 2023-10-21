@@ -43,7 +43,8 @@ public static class Config
         serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
         serviceCollection.AddSingleton<IThemeCache, ThemeCache>();
         serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
-        serviceCollection.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
+        serviceCollection.AddSingleton<IDateTimeDisplayFormatConverter, DateTimeDisplayFormatConverter>();
+        serviceCollection.AddSingleton<IDateTimeInputFormatConverter, DateTimeInputFormatConverter>();
 
         foreach ( var mapping in LocalizationMap
                      .Concat( ValidationMap )
