@@ -30,7 +30,8 @@ public static class BlazoriseConfig
         services.AddSingleton<ValidatorValidationHandler>();
         services.AddSingleton<PatternValidationHandler>();
         services.AddSingleton<DataAnnotationValidationHandler>();
-        services.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
+        services.AddSingleton<IDateTimeDisplayFormatConverter, DateTimeDisplayFormatConverter>();
+        services.AddSingleton<IDateTimeInputFormatConverter, DateTimeInputFormatConverter>();
         services.AddSingleton<IVersionProvider, VersionProvider>();
         services.AddScoped<ITextLocalizerService, TextLocalizerService>();
         services.AddScoped( typeof( ITextLocalizer<> ), typeof( TextLocalizer<> ) );
