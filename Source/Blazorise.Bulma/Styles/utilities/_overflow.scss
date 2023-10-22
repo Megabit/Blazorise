@@ -1,0 +1,11 @@
+﻿@each $value1 in $overflows {
+    .is-overflow-#{$value1} {
+        overflow: $value1 !important;
+    }
+
+    @each $value2 in $overflows {
+        .is-overflow-#{$value1}-#{$value2} {
+            overflow: $value1 $value2 !important;
+        }
+    }
+}
