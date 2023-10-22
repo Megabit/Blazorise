@@ -1027,6 +1027,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
+    public override string TableHeaderCellFixed( bool @fixed ) => @fixed ? "table-header-cell-fixed" : null;
+
     public override string TableFooter() => null;
 
     public override string TableBody() => null;
@@ -1041,6 +1043,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableRowHeader() => null;
 
+    public override string TableRowHeaderFixed( bool @fixed ) => @fixed ? "table-row-header-fixed" : null;
+
     public override string TableRowCell() => null;
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
@@ -1051,9 +1055,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableRowGroupIndentCell() => "table-group-indentcell";
 
-    public override string TableResponsive() => "table-responsive";
+    public override string TableResponsive( bool responsive ) => responsive ? "table-responsive" : null;
 
-    public override string TableFixedHeader() => "table-fixed-header";
+    public override string TableFixedHeader( bool @fixed ) => @fixed ? "table-fixed-header" : null;
+
+    public override string TableFixedRowHeader( bool @fixed ) => @fixed ? "table-fixed-row-header" : null;
 
     #endregion
 

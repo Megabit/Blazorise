@@ -84,8 +84,9 @@ public partial class Table : BaseDraggableComponent
     /// <param name="builder">Class builder used to append the classnames.</param>
     protected virtual void BuildContainerClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.TableResponsive(), Responsive );
-        builder.Append( ClassProvider.TableFixedHeader(), FixedHeader );
+        builder.Append( ClassProvider.TableResponsive( Responsive ) );
+        builder.Append( ClassProvider.TableFixedHeader( FixedHeader ) );
+        builder.Append( ClassProvider.TableFixedRowHeader( FixedHeader ) );
     }
 
     /// <summary>

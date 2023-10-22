@@ -1933,6 +1933,30 @@ tr.table-row-selectable:focus[tabindex="0"] {
   top: 0;
 }
 
+.table-fixed-row-header {
+  overflow-x: auto;
+}
+.table-fixed-row-header .table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.table-fixed-row-header .table .table-header-cell-fixed {
+  position: sticky;
+  border-left: none;
+  left: 0;
+  z-index: 11;
+  background-color: white;
+  border-inline-start-width: 0;
+}
+.table-fixed-row-header .table .table-row-header-fixed {
+  position: sticky;
+  border-left: none;
+  left: 0;
+  z-index: 11;
+  background-color: white;
+  border-inline-start-width: 0;
+}
+
 .snackbar-stack {
   z-index: 1009 !important;
 }

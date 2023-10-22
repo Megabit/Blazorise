@@ -940,6 +940,8 @@ public interface IClassProvider
 
     string TableHeaderCellCursor( Cursor cursor );
 
+    string TableHeaderCellFixed( bool @fixed );
+
     string TableFooter();
 
     string TableBody();
@@ -954,6 +956,8 @@ public interface IClassProvider
 
     string TableRowHeader();
 
+    string TableRowHeaderFixed( bool @fixed );
+
     string TableRowCell();
 
     string TableRowCellColor( Color color );
@@ -964,9 +968,11 @@ public interface IClassProvider
 
     string TableRowGroupIndentCell();
 
-    string TableResponsive();
+    string TableResponsive( bool responsive );
 
-    string TableFixedHeader();
+    string TableFixedHeader( bool @fixed );
+
+    string TableFixedRowHeader( bool @fixed );
 
     #endregion
 

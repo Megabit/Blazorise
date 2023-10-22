@@ -26,6 +26,7 @@ public partial class TableHeaderCell : BaseDraggableComponent
     {
         builder.Append( ClassProvider.TableHeaderCell() );
         builder.Append( ClassProvider.TableHeaderCellCursor( Cursor ) );
+        builder.Append( ClassProvider.TableHeaderCellFixed( Fixed ) );
 
         base.BuildClasses( builder );
     }
@@ -53,6 +54,11 @@ public partial class TableHeaderCell : BaseDraggableComponent
     /// Number of columns a cell should span.
     /// </summary>
     [Parameter] public int? ColumnSpan { get; set; }
+
+    /// <summary>
+    /// Fixes the header cell to the start of the table.
+    /// </summary>
+    [Parameter] public bool Fixed { get; set; }
 
     /// <summary>
     /// Defines the mouse cursor based on the behaviour by the current css framework.

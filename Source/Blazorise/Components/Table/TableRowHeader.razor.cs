@@ -22,6 +22,7 @@ public partial class TableRowHeader : BaseDraggableComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TableRowHeader() );
+        builder.Append( ClassProvider.TableRowHeaderFixed( Fixed ) );
 
         base.BuildClasses( builder );
     }
@@ -48,6 +49,11 @@ public partial class TableRowHeader : BaseDraggableComponent
     /// Number of columns a cell should span.
     /// </summary>
     [Parameter] public int? ColumnSpan { get; set; }
+
+    /// <summary>
+    /// Fixes the row header to the start of the table.
+    /// </summary>
+    [Parameter] public bool Fixed { get; set; }
 
     /// <summary>
     /// Occurs when the row header is clicked.

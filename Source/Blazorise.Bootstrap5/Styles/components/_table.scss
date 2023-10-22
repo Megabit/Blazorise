@@ -50,3 +50,9 @@ tr {
         border-width: 1px 1px;
     }
 }
+
+.table-row-header-fixed {
+    position: sticky;
+    left: 0;
+    background-color: white;
+}

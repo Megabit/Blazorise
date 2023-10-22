@@ -1516,6 +1516,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
+    public override string TableHeaderCellFixed( bool @fixed ) => null;
+
     public override string TableFooter() => "b-table-footer";
 
     public override string TableBody() => "b-table-body";
@@ -1559,6 +1561,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowHeader() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
 
+    public override string TableRowHeaderFixed( bool @fixed ) => null;
+
     public override string TableRowCell() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4";
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
@@ -1569,9 +1573,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowGroupIndentCell() => "b-table-group-indentcell";
 
-    public override string TableResponsive() => "b-table-responsive overflow-x-auto relative shadow-md sm:rounded-lg";
+    public override string TableResponsive( bool responsive ) => responsive ? "b-table-responsive overflow-x-auto relative shadow-md sm:rounded-lg" : null;
 
-    public override string TableFixedHeader() => "b-table-fixed-header";
+    public override string TableFixedHeader( bool @fixed ) => @fixed ? "b-table-fixed-header" : null;
+
+    public override string TableFixedRowHeader( bool @fixed ) => null;
 
     #endregion
 

@@ -1019,6 +1019,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"ant-cursor-{ToCursor( cursor )}" : null;
 
+    public override string TableHeaderCellFixed( bool @fixed ) => null;
+
     public override string TableFooter() => null;
 
     public override string TableBody() => "ant-table-tbody";
@@ -1033,6 +1035,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRowHeader() => "ant-table-cell ant-table-row-header";
 
+    public override string TableRowHeaderFixed( bool @fixed ) => null;
+
     public override string TableRowCell() => "ant-table-cell";
 
     public override string TableRowCellColor( Color color ) => $"ant-table-{ToColor( color )}";
@@ -1043,9 +1047,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRowGroupIndentCell() => "ant-table-group-indentcell";
 
-    public override string TableResponsive() => "ant-table-responsive";
+    public override string TableResponsive( bool responsive ) => responsive ? "ant-table-responsive" : null;
 
-    public override string TableFixedHeader() => "ant-table-fixed-header";
+    public override string TableFixedHeader( bool @fixed ) => @fixed ? "ant-table-fixed-header" : null;
+
+    public override string TableFixedRowHeader( bool @fixed ) => null;
 
     #endregion
 

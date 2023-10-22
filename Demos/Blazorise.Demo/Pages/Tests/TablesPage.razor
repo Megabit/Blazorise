@@ -484,10 +484,10 @@
                 <CardText>Use <code>Responsive</code> for horizontally scrolling tables.</CardText>
             </CardBody>
             <CardBody>
-                <Table Responsive>
+                <Table Responsive Bordered FixedHeader>
                     <TableHeader>
                         <TableRow>
-                            <TableHeaderCell>#</TableHeaderCell>
+                            <TableHeaderCell Fixed>#</TableHeaderCell>
                             <TableHeaderCell>Column heading</TableHeaderCell>
                             <TableHeaderCell>Column heading</TableHeaderCell>
                             <TableHeaderCell>Column heading</TableHeaderCell>
@@ -511,7 +511,7 @@
                             var index = i.ToString();
 
                             <TableRow @key="@index">
-                                <TableRowHeader>@index</TableRowHeader>
+                                <TableRowHeader Fixed>@index</TableRowHeader>
                                 <TableRowCell>Column content</TableRowCell>
                                 <TableRowCell>Column content</TableRowCell>
                                 <TableRowCell>Column content</TableRowCell>

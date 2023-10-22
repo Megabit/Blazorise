@@ -1595,6 +1595,12 @@ tr.table-row-selectable:focus[tabindex="0"] {
   border-width: 1px 1px;
 }
 
+.table-row-header-fixed {
+  position: sticky;
+  left: 0;
+  background-color: white;
+}
+
 .snackbar-stack {
   z-index: 1069 !important;
 }

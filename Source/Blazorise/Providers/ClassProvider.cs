@@ -944,6 +944,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableHeaderCellCursor( Cursor cursor );
 
+    public abstract string TableHeaderCellFixed( bool @fixed );
+
     public abstract string TableFooter();
 
     public abstract string TableBody();
@@ -958,6 +960,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableRowHeader();
 
+    public abstract string TableRowHeaderFixed( bool @fixed );
+
     public abstract string TableRowCell();
 
     public abstract string TableRowCellColor( Color color );
@@ -968,9 +972,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableRowGroupIndentCell();
 
-    public abstract string TableResponsive();
+    public abstract string TableResponsive( bool responsive );
 
-    public abstract string TableFixedHeader();
+    public abstract string TableFixedHeader( bool @fixed );
+
+    public abstract string TableFixedRowHeader( bool @fixed );
 
     #endregion
 
