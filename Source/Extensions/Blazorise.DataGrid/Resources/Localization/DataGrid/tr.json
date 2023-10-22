@@ -22,6 +22,10 @@
     "Starts With": "İle başlar",
     "Ends With": "ile biter",
     "Equals": "eşittir",
-    "Not Equals": "eşit değil"
+    "Not Equals": "eşit değil",
+    "Greater Than": "Büyüktür",
+    "Greater Than or Equal": "Büyüktür veya Eşittir",
+    "Less Than": "Daha az",
+    "Less Than or Equal": "Az veya eşit"
   }
 }
