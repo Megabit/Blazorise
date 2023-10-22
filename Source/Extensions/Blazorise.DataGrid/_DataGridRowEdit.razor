@@ -23,6 +23,12 @@
                                     <FieldBody>
                                         <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                                     </FieldBody>
+                                    @if ( !string.IsNullOrWhiteSpace( column.HelpText ) )
+                                    {
+                                        <FieldHelp>
+                                            @column.HelpText
+                                        </FieldHelp>
+                                    }
                                 </Field>
                             }
                         </Fields>
@@ -40,18 +46,19 @@
                                     @if ( ParentDataGrid.CommandColumn?.SaveCommandTemplate != null )
                                     {
                                         @ParentDataGrid.CommandColumn.SaveCommandTemplate( new()
-                                        {
-                                            Clicked = callbackFactory.Create( this, Save ),
-                                            LocalizationString = saveButtonString,
-                                            Item = Item,
-                                        });
+                   {
+                       Clicked = callbackFactory.Create( this, Save ),
+                       LocalizationString = saveButtonString,
+                       Item = Item,
+                   } )
+                                        ;
                                     }
                                     else
                                     {
                                         @if ( ParentDataGrid.SubmitFormOnEnter )
                                         {
                                             <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
-                                                @saveButtonString
+                                                 @saveButtonString
                                             </Button>
                                         }
                                         else
@@ -69,11 +76,12 @@
                                     @if ( ParentDataGrid.CommandColumn?.CancelCommandTemplate != null )
                                     {
                                         @ParentDataGrid.CommandColumn.CancelCommandTemplate( new()
-                                        {
-                                            Clicked = Cancel,
-                                            LocalizationString = cancelButtonString,
-                                            Item = Item,
-                                        });
+                   {
+                       Clicked = Cancel,
+                       LocalizationString = cancelButtonString,
+                       Item = Item,
+                   } )
+                                        ;
                                     }
                                     else
                                     {

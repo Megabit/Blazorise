@@ -264,3 +264,10 @@ else
         </Feedback>
     </TextEdit>
 }
+
+@if ( !string.IsNullOrWhiteSpace( Column.HelpText ) )
+{
+    <FieldHelp>
+        @Column.HelpText
+    </FieldHelp>
+}

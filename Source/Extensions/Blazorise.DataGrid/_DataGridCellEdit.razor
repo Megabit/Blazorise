@@ -56,3 +56,10 @@ else
 {
     <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
 }
+
+@if ( !string.IsNullOrWhiteSpace( Column.HelpText ) )
+{
+    <FieldHelp>
+        @Column.HelpText
+    </FieldHelp>
+}

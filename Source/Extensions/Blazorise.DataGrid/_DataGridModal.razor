@@ -42,6 +42,12 @@
                                 <FieldBody>
                                     <_DataGridCell TItem="TItem" Column="@column" Item="@EditItem" ValidationItem="@ValidationItem" CellEditContext="@EditItemCellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />
                                 </FieldBody>
+                                @if ( !string.IsNullOrWhiteSpace( column.HelpText ) )
+                                {
+                                    <FieldHelp>
+                                        @column.HelpText
+                                    </FieldHelp>
+                                }
                             </Field>
                         }
                         @{
