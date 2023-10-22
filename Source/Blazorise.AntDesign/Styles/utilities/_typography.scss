@@ -144,3 +144,69 @@
         line-height: 22px;
     }
 }
+
+.ant-typography-wrap {
+    white-space: normal !important;
+}
+
+.ant-typography-nowrap {
+    white-space: nowrap !important;
+}
+
+.ant-typography-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ant-unordered-list {
+    &-unstyled {
+        padding-left: 0;
+        list-style: none;
+    }
+}
+
+ol.ant-ordered-list {
+    &-unstyled {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    &-lower-alpha {
+        list-style-type: lower-alpha;
+    }
+
+    &-lower-roman {
+        list-style-type: lower-roman;
+    }
+
+    &-upper-alpha {
+        list-style-type: upper-alpha;
+    }
+
+    &-upper-roman {
+        list-style-type: upper-roman;
+    }
+}
+
+.ant-font-weight {
+    &-bold {
+        font-weight: 700;
+    }
+
+    &-semibold {
+        font-weight: 600;
+    }
+
+    &-normal {
+        font-weight: 400;
+    }
+
+    &-default {
+        font-weight: 400;
+    }
+
+    &-light {
+        font-weight: 300;
+    }
+}
