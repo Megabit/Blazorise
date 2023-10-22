@@ -9,7 +9,7 @@ public partial class Table
     {
         base.BuildClasses( builder );
 
-        builder.Append( ClassProvider.TableFixedHeader(), FixedHeader );
+        builder.Append( ClassProvider.TableFixedHeader( FixedHeader ) );
     }
 
 }
