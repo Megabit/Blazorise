@@ -2,7 +2,7 @@
 @typeparam TItem
 
 <Dropdown @bind-Visible="@Column.DropdownFilterVisible">
-    <DropdownToggle @onclick:stopPropagation >
+    <DropdownToggle @onclick:stopPropagation>
         <Icon Name="@IconName.Filter" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" TextColor="@(IsFiltering ? TextColor.Primary : TextColor.Default)" />
     </DropdownToggle>
     <DropdownMenu>
@@ -11,12 +11,25 @@
             {
                 <Column ColumnSize="ColumnSize.Is12">
                     <Field>
-                        <Select TValue="DataGridFilterMethod" SelectedValue="@(Column.GetFilterMethod() ?? ParentDataGrid.FilterMethod)" SelectedValueChanged="e => { Column.SetFilterMethod(e); }">
-                            <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Contains">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodContainsLocalizer, "Contains" )</SelectItem>
-                            <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.StartsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodStartsWithLocalizer, "Starts With" )</SelectItem>
-                            <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.EndsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEndsWithLocalizer, "Ends With" )</SelectItem>
-                            <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.Equals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEqualsLocalizer, "Equals" )</SelectItem>
-                            <SelectItem TValue="DataGridFilterMethod" Value="@DataGridFilterMethod.NotEquals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodNotEqualsLocalizer, "Not Equals" )</SelectItem>
+                        <Select TValue="DataGridColumnFilterMethod" SelectedValue="@(Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn())" SelectedValueChanged="e => { Column.SetFilterMethod(e); }">
+                            @{
+                                var isNumericOrDate = Column.ColumnType == DataGridColumnType.Numeric || Column.ColumnType == DataGridColumnType.Date;
+                            }
+                            @if ( !isNumericOrDate )
+                            {
+                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.Contains">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodContainsLocalizer, "Contains" )</SelectItem>
+                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.StartsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodStartsWithLocalizer, "Starts With" )</SelectItem>
+                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.EndsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEndsWithLocalizer, "Ends With" )</SelectItem>
+                            }
+                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.Equals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEqualsLocalizer, "Equals" )</SelectItem>
+                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.NotEquals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodNotEqualsLocalizer, "Not Equals" )</SelectItem>
+                            @if ( isNumericOrDate )
+                            {
+                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.GreaterThan">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodContainsLocalizer, "Greater Than" )</SelectItem>
+                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.GreaterThanOrEqual">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodContainsLocalizer, "Greater Than Or Equal" )</SelectItem>
+                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.LessThan">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodContainsLocalizer, "Less Than" )</SelectItem>
+                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.LessThanOrEqual">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodContainsLocalizer, "Less Than Or Equal" )</SelectItem>
+                            }
                         </Select>
                     </Field>
                 </Column>
@@ -33,12 +46,12 @@
             else
             {
                 @ParentDataGrid.FilterMenuTemplate( new( Column,
-                    () => Column.GetFilterMethod() ?? ParentDataGrid.FilterMethod,
-                    () => Column.Filter.SearchValue,
-                    EventCallback.Factory.Create<object>( this, async ( newFilterValue ) => await ParentDataGrid.OnFilterChanged( Column, newFilterValue ) ),
-                    EventCallback.Factory.Create<DataGridFilterMethod?>( this, Column.SetFilterMethod ),
-                    EventCallback.Factory.Create( this, ParentDataGrid.FilterData),
-                    EventCallback.Factory.Create( this, async () => await ParentDataGrid.ClearFilter(Column.Field))))
+                         () => Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn(),
+                         () => Column.Filter.SearchValue,
+                         EventCallback.Factory.Create<object>( this, async ( newFilterValue ) => await ParentDataGrid.OnFilterChanged( Column, newFilterValue ) ),
+                         EventCallback.Factory.Create<DataGridColumnFilterMethod?>( this, Column.SetFilterMethod ),
+                         EventCallback.Factory.Create( this, ParentDataGrid.FilterData ),
+                         EventCallback.Factory.Create( this, async () => await ParentDataGrid.ClearFilter( Column.Field ) ) ) )
             }
         </Row>
     </DropdownMenu>

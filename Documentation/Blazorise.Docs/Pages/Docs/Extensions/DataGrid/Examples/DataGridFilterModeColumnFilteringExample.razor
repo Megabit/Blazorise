@@ -6,7 +6,7 @@
           Responsive
           Filterable
           FilterMode="DataGridFilterMode.Menu">
-    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="false" FilterMethod="DataGridFilterMethod.StartsWith"></DataGridColumn>
+     <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="First Name" Editable="false" FilterMethod="DataGridColumnFilterMethod.StartsWith"></DataGridColumn>
     <DataGridColumn Field="@nameof( Employee.LastName )" Caption="Last Name" Editable="false"></DataGridColumn>
     <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
 </DataGrid>
