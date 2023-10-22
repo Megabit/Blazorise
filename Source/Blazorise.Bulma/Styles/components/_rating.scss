@@ -1,6 +1,4 @@
-﻿@import "variables";
-
-.rating {
+﻿.rating {
     &:not(.rating-disabled):not(.rating-readonly):hover {
         .rating-item {
             cursor: pointer;
