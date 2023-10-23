@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Linq;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -10,7 +9,8 @@ namespace Blazorise.DataGrid;
 /// Internal component for editing the row item cell value.
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
+/// <typeparam name="TValue"></typeparam>
+public partial class _DataGridCellSelectEditGeneric<TItem, TValue> : ComponentBase
 {
     /// <summary>
     /// Column that this cell belongs to.
@@ -20,18 +20,18 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     /// <summary>
     /// Currently editing cell value.
     /// </summary>
-    [Parameter] public object CellValue { get; set; }
+    [Parameter] public TValue CellValue { get; set; }
+
+    [Parameter] public bool ShowValidationFeedback { get; set; }
 
     /// <summary>
     /// Raises when cell value changes.
     /// </summary>
     [Parameter] public EventCallback<object> CellValueChanged { get; set; }
 
-    [Parameter] public bool ShowValidationFeedback { get; set; }
-
-    private void OnValueChanged( object value )
+    private void OnSelectValueChanged( TValue value )
     {
-        
-        CellValueChanged.InvokeAsync( Column.ValueField.Invoke( value ) );
+        CellValueChanged.InvokeAsync( value );
     }
+
 }

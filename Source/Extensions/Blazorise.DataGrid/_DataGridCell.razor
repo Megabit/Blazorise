@@ -22,7 +22,14 @@ else
                 }
                 else if ( Column is DataGridSelectColumn<TItem> selectColumn )
                 {
-                    <_DataGridCellSelectEdit Column="@selectColumn" CellValue="CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" ShowValidationFeedback="@ShowValidationFeedback" />
+                    if ( selectColumn.Type is not null )
+                    {
+                        @InstantiateGenericSelectColumn( selectColumn )
+                    }
+                    else
+                    {
+                            <_DataGridCellSelectEdit Column="@selectColumn" CellValue="CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" ShowValidationFeedback="@ShowValidationFeedback" />
+                    }
                 }
                 else
                 {
@@ -42,7 +49,15 @@ else
             }
             else if ( Column is DataGridSelectColumn<TItem> selectColumn )
             {
-                <_DataGridCellSelectEdit Column="@selectColumn" CellValue="CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
+                if ( selectColumn.Type is not null )
+                {
+                    @InstantiateGenericSelectColumn( selectColumn )
+                }
+                else
+                {
+                    <_DataGridCellSelectEdit Column="@selectColumn" CellValue="CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
+
+                }
             }
             else
             {
@@ -50,4 +65,18 @@ else
             }
         }
     }
+}
+
+@code {
+
+    private RenderFragment<DataGridSelectColumn<TItem>> InstantiateGenericSelectColumn => column => builder =>
+                {
+                    var type = typeof( _DataGridCellSelectEditGeneric<,> ).MakeGenericType( new[] { typeof( TItem ), column.Type } );
+                    builder.OpenComponent( 0, type );
+                    builder.AddAttribute( 1, "Column", column );
+                    builder.AddAttribute( 2, "CellValue", CellEditContext.CellValue );
+                    builder.AddAttribute( 3, "CellValueChanged", EventCallback.Factory.Create<object>(this, OnEditValueChanged ));
+                    builder.AddAttribute( 4, "ShowValidationFeedback", ShowValidationFeedback );
+                    builder.CloseComponent();
+                };
 }
