@@ -86,7 +86,7 @@ public partial class TabPanel : BaseComponent, IDisposable
     /// <summary>
     /// Gets the current render mode.
     /// </summary>
-    protected TabsRenderMode RenderMode => ParentTabsState?.RenderMode ?? TabsRenderMode.Default;
+    protected TabsRenderMode RenderMode => ParentTabsState?.RenderMode ?? ParentTabsContentState?.RenderMode ?? TabsRenderMode.Default;
 
     /// <summary>
     /// Defines the panel name. Must match the corresponding tab name.
