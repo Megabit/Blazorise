@@ -23,8 +23,8 @@
     </Feedback>
 </Select>
 @code {
-    protected RenderFragment<(string text, object value, bool disabled)> itemFragment => item => __builder =>
+    private RenderFragment<SelectItem> itemFragment => item => __builder =>
     {
-        <SelectItem @key="@item.value" Value="@item.value" Disabled="@item.disabled">@item.text</SelectItem>
+        <SelectItem @key="@item.Value" Value="@item.Value" Disabled="@item.Disabled">@item.Text</SelectItem>
     };
 }
