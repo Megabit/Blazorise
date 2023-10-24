@@ -1287,7 +1287,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         editItem = item;
         editItemCellValues = new();
-
+        
         validationItem = UseValidation
             ? ValidationItemCreator is null ? RecursiveObjectActivator.CreateInstance<TItem>() : ValidationItemCreator()
             : default;

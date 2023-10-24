@@ -36,7 +36,6 @@ export function removeClassFromBody(classname) {
 
 // sets the input focuses to the given element
 export function focus(element, elementId, scrollToElement) {
-    console.log(element);
     element = getRequiredElement(element, elementId);
 
     if (element) {

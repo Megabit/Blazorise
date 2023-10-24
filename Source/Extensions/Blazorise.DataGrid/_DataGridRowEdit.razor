@@ -108,13 +108,13 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
             {
                 @if ( column.IsCommandColumn )
                 {
-                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="@column" Save="@Save" />
+                    <_DataGridRowCommand @key=column TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="@column" Save="@Save" />
                 }
                 else if ( column.IsMultiSelectColumn )
                 {
                     if ( ParentDataGrid.MultiSelect )
                     {
-                        <TableRowCell Class="@column.CellClass?.Invoke(Item)"
+                        <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)"
                                       Style="@column.BuildCellStyle(Item)"
                                       TextAlignment="@column.TextAlignment"
                                       VerticalAlignment="@column.VerticalAlignment"
@@ -126,10 +126,10 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                 }
                 else if ( column.Displayable )
                 {
-                    <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)"
-                                  tabindex="@(ParentDataGrid.IsCellEdit && !column.CellEditing ? 0 : null)"
-                                  @onfocusin=@(ParentDataGrid.IsCellEdit ? () => ParentDataGrid.HandleCellEdit(column, Item) : default)
-                                  @onfocusout=@(ParentDataGrid.IsCellEdit && column.CellEditing ? async () => await ParentDataGrid.Save() : null )
+                    <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)"
+                                  tabindex="@(ParentDataGrid.IsCellEdit && !column.CellEditing && ParentDataGrid.EditState != DataGridEditState.New ? 0 : null)"
+                                  @onfocusin=@(ParentDataGrid.IsCellEdit && !column.CellValueIsEditable ? async () => await ParentDataGrid.HandleCellEdit(column, Item) : default)
+                                  @onfocusout=@(ParentDataGrid.IsCellEdit && column.CellEditing && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.Save() : null )
                                   TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
                         @if ( column.CellValueIsEditable )
                         {

@@ -57,29 +57,3 @@ else
 {
     <TextEdit ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
 }
-
-@code{
-    [Inject] public IIdGenerator IdGenerator{ get; set; }
-    /// <summary>
-    /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
-    /// </summary>
-    [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
-    private string elementId;
-    protected override void OnInitialized()
-    {
-        elementId = IdGenerator.Generate;
-        base.OnInitialized();
-    }
-
-    protected override async Task OnAfterRenderAsync( bool firstRender )
-    {
-        if (firstRender)
-        {
-            if (ParentDataGrid.IsCellEdit)
-            {
-                await JSUtilitiesModule.Focus(default, elementId, false);
-            }
-        }
-        await base.OnAfterRenderAsync( firstRender );
-    }
-}
