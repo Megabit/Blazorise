@@ -6851,21 +6851,35 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Data=""@employeeList""
           Responsive
           Filterable
-          FilterMode=""DataGridFilterMode.Menu"">
-    <DataGridColumns>
+           FilterMode=""DataGridFilterMode.Menu"">
+     <DataGridColumns>
          <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
-        <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
-        <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-    </DataGridColumns>
-    <FilterMenuTemplate>
-        <Row>
-            <Column ColumnSize=""ColumnSize.Is4"">
+         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
+         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+     </DataGridColumns>
+     <FilterMenuTemplate>
+         <Row>
+             <Column ColumnSize=""ColumnSize.Is4"">
                  <Select TValue=""DataGridColumnFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
-                     <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.Contains"">Contains</SelectItem>
-                     <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.StartsWith"">Starts With</SelectItem>
-                     <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.EndsWith"">Ends With</SelectItem>
-                     <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.Equals"">Equals</SelectItem>
-                     <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.NotEquals"">Not Equals</SelectItem>
+                    @{
+                        var isNumericOrDate = context.Column.ColumnType == DataGridColumnType.Numeric || context.Column.ColumnType == DataGridColumnType.Date;
+                    }
+
+                    @if ( !isNumericOrDate )
+                    {
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.Contains"">Contains</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.StartsWith"">Starts With</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.EndsWith"">Ends With</SelectItem>
+                    }
+                    <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.Equals"">Equals</SelectItem>
+                    <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.NotEquals"">Not Equals</SelectItem>
+                    @if ( isNumericOrDate )
+                    {
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.GreaterThan"">Greater Than</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.GreaterThanOrEqual"">Greater Than Or Equal</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.LessThan"">Less Than</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.LessThanOrEqual"">Less Than Or Equal</SelectItem>
+                    }
                 </Select>
             </Column>
 

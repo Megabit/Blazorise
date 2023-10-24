@@ -69,6 +69,29 @@
     Official .NET 8 Support
 </Heading>
 
+<NewsPageSubtitle>
+    DataGrid
+</NewsPageSubtitle>
+
+<Paragraph>
+    With the introduction of the new <Code>DataGridFilterMode.Menu</Code> feature, we've found out that although it was an appreciated feature, users wanted even more contextual filtering support, i.e: numeric columns, with inbuilt 'less than'' or 'greater than' filtering method support.
+</Paragraph>
+
+<Paragraph>
+    We've now changed the <Code>DataGridColumn</Code> <Code>FilterMethod</Code> to be a specialized and contextual enum named <Code>DataGridColumnFilterMethod</Code> that enables additional filtering capabilities for numeric and date columns.
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>LessThan</UnorderedListItem>
+    <UnorderedListItem>LessThanOrEqual</UnorderedListItem>
+    <UnorderedListItem>GreaterThan</UnorderedListItem>
+    <UnorderedListItem>GreaterThanOrEqual</UnorderedListItem>
+</UnorderedList>
+
+<Paragraph>
+    If you're using the <Code>DataGridFilterMode.Menu</Code> feature, your date and numeric columns will now present the new filtering capabilities.
+    Otherwise, you may also set the new filtering capabilities on your regular columns, but please take note that these will only work if the columns are of a numeric or date type.
+</Paragraph>
 
 <NewsPageSubtitle>
     Tabs
