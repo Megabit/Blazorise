@@ -1,17 +1,17 @@
 @typeparam TItem
 @inherits ComponentBase
-<Select TValue="object" SelectedValue="@CellValue" SelectedValueChanged="@CellValueChanged" SelectedValueExpression="@(() => CellValue )"
+<Select TValue="object" SelectedValue="@CellValue" SelectedValueChanged="@OnSelectedValueChanged" SelectedValueExpression="@(() => CellValue )"
         Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Attributes="@Column.Attributes">
     <ChildContent>
         @if ( Column.DefaultItemText is not null )
         {
             <SelectItem @key="@Column.DefaultItemValue" Value="@Column.DefaultItemValue" Disabled="@Column.DefaultItemDisabled" Hidden="@Column.DefaultItemHidden">@Column.DefaultItemText</SelectItem>
         }
-        @if ( Column.Data is not null )
+        @if ( Column.Data is not null && selectItems is not null )
         {
-            @foreach ( var item in Column.Data ?? Enumerable.Empty<object>() )
+            @foreach ( var selectItem in selectItems )
             {
-                @itemFragment(item)
+                @itemFragment( selectItem )
             }
         }
     </ChildContent>
@@ -23,12 +23,8 @@
     </Feedback>
 </Select>
 @code {
-    protected RenderFragment<object> itemFragment => item => __builder =>
+    protected RenderFragment<(string text, object value, bool disabled)> itemFragment => item => __builder =>
     {
-        var text = Column.TextField?.Invoke( item );
-        var value = Column.ValueField != null ? Column.ValueField.Invoke( item ) : default;
-        var disabled = Column.ItemDisabled != null ? Column.ItemDisabled.Invoke( item ) : false;
-
-        <SelectItem @key="@value" Value="@value" Disabled="@disabled">@text</SelectItem>
+        <SelectItem @key="@item.value" Value="@item.value" Disabled="@item.disabled">@item.text</SelectItem>
     };
 }
