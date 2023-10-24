@@ -362,17 +362,14 @@ $snackbar-padding-y-multi: 1.25rem !default;
     .snackbar-stack-bottom {
         left: 50%;
         transform: translate(-50%, 0%);
-        bottom: $spacer-lg;
     }
 
     .snackbar-stack-bottom-start {
         left: $spacer-lg;
-        bottom: $spacer-lg;
     }
 
     .snackbar-stack-bottom-end {
         right: $spacer-lg;
-        bottom: $spacer-lg;
     }
 
     .snackbar-stack-top-start {
