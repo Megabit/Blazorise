@@ -51,8 +51,29 @@ tr {
     }
 }
 
-.table-row-header-fixed {
-    position: sticky;
-    left: 0;
-    background-color: white;
+.table-fixed-row-header {
+    overflow-x: auto;
+
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+
+        .table-header-cell-fixed {
+            position: sticky;
+            border-left: none;
+            left: 0;
+            z-index: 11;
+            background-color: white;
+            border-inline-start-width: 0;
+        }
+
+        .table-row-header-fixed {
+            position: sticky;
+            border-left: none;
+            left: 0;
+            z-index: 11;
+            background-color: white;
+            border-inline-start-width: 0;
+        }
+    }
 }

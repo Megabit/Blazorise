@@ -1020,7 +1020,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
-    public override string TableHeaderCellFixed( bool @fixed ) => null;
+    public override string TableHeaderCellFixed( bool @fixed ) => @fixed ? "table-header-cell-fixed" : null;
 
     public override string TableFooter() => null;
 
@@ -1052,7 +1052,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableFixedHeader( bool @fixed ) => @fixed ? "table-fixed-header" : null;
 
-    public override string TableFixedRowHeader( bool @fixed ) => null;
+    public override string TableFixedRowHeader( bool @fixed ) => @fixed ? "table-fixed-row-header" : null;
 
     #endregion
 
