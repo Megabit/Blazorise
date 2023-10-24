@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using System;
-using System.Linq;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -28,10 +26,4 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
     [Parameter] public EventCallback<object> CellValueChanged { get; set; }
 
     [Parameter] public bool ShowValidationFeedback { get; set; }
-
-    private void OnValueChanged( object value )
-    {
-        
-        CellValueChanged.InvokeAsync( Column.ValueField.Invoke( value ) );
-    }
 }

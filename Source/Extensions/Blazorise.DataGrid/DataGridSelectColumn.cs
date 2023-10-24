@@ -13,8 +13,10 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     {
         if ( !string.IsNullOrEmpty( Field ) )
         {
-            
-            valueSetter.Value( item, value );
+            if ( ValueField is null )
+                valueSetter.Value( item, value );
+            else
+                valueSetter.Value( item, ValueField( value ) );
         }
     }
 
@@ -34,12 +36,6 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
     ///<para> You can unbox the object by using the following example: ValueField="(x) => ((Model)x).Value"</para>
     /// </summary>
     [Parameter] public Func<object, object> ValueField { get; set; }
-
-    /// <summary>
-    /// Provides additional information about the underlying type. This is useful when the bound data is not easily castable to the desired type.
-    /// I.e: enums
-    /// </summary>
-    [Parameter] public Type Type { get; set; }
 
     /// <summary>
     /// Method used to determine if an item should be disabled.
