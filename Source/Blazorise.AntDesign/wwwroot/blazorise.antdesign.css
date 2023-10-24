@@ -3451,6 +3451,11 @@ a.ant-link-unstyled {
   color: inherit;
 }
 
+.ant-link-unstyled a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .ant-modal {
   width: 520px;
 }
