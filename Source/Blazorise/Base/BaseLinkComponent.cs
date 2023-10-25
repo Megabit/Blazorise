@@ -264,7 +264,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     [Parameter] public string Title { get; set; }
 
     /// <summary>
-    /// Removes styles from Link component.
+    /// Removes default color styles from the link.
     /// </summary>
     [Parameter] public bool Unstyled { get; set; }
 
