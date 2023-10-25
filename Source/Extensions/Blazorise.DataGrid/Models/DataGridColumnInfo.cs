@@ -19,7 +19,7 @@ public class DataGridColumnInfo
     /// <param name="columnType">Current column type.</param>
     /// <param name="sortField">Sort field name.</param>
     /// <param name="filterMethod">Filter method.</param>
-    public DataGridColumnInfo( string field, object searchValue, SortDirection sortDirection, int sortIndex, DataGridColumnType columnType, string sortField, DataGridFilterMethod? filterMethod )
+    public DataGridColumnInfo( string field, object searchValue, SortDirection sortDirection, int sortIndex, DataGridColumnType columnType, string sortField, DataGridColumnFilterMethod? filterMethod )
     {
         Field = field;
         SearchValue = searchValue;
@@ -63,5 +63,5 @@ public class DataGridColumnInfo
     /// <summary>
     /// Gets the column filter method.
     /// </summary>
-    public DataGridFilterMethod? FilterMethod { get; }
+    public DataGridColumnFilterMethod? FilterMethod { get; }
 }

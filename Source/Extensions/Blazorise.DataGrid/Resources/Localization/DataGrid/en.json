@@ -22,6 +22,10 @@
     "Starts With": "Starts With",
     "Ends With": "Ends With",
     "Equals": "Equals",
-    "Not Equals": "Not Equals"
+    "Not Equals": "Not Equals",
+    "Greater Than": "Greater Than",
+    "Greater Than or Equal": "Greater Than or Equal",
+    "Less Than": "Less Than",
+    "Less Than or Equal": "Less Than or Equal"
   }
 }

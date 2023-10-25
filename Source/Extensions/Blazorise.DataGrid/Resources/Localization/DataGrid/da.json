@@ -22,6 +22,10 @@
     "Starts With": "Starter med",
     "Ends With": "Ender med",
     "Equals": "Lige med",
-    "Not Equals": "Ikke Lige"
+    "Not Equals": "Ikke Lige",
+    "Greater Than": "Bedre end",
+    "Greater Than or Equal": "Større end eller lige",
+    "Less Than": "Mindre end",
+    "Less Than or Equal": "Mindre end eller lige"
   }
 }
