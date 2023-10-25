@@ -590,7 +590,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region Card
 
-    public override string CardDeck() => "card-deck row row-cols-1 row-cols-md-3";
+    public override string CardDeck() => "card-deck";
 
     public override string CardGroup() => "card-group";
 
