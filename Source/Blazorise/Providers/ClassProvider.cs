@@ -577,6 +577,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string CardLink();
 
+    public abstract string CardLinkUnstyled( bool unstyled );
+
     public abstract string CardLinkActive( bool active );
 
     #endregion
@@ -1125,6 +1127,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string Link();
 
     public abstract string LinkActive( bool active );
+
+    public abstract string LinkUnstyled( bool unstyled );
 
     #endregion
 

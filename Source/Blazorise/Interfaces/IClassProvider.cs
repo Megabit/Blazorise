@@ -576,6 +576,8 @@ public interface IClassProvider
 
     string CardLink();
 
+    string CardLinkUnstyled( bool unstyled );
+
     string CardLinkActive( bool active );
 
     #endregion
@@ -1121,6 +1123,8 @@ public interface IClassProvider
     string Link();
 
     string LinkActive( bool active );
+
+    string LinkUnstyled( bool unstyled );
 
     #endregion
 

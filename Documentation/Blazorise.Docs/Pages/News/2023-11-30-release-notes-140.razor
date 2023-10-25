@@ -1,0 +1,121 @@
+﻿@page "/news/release-notes/140"
+
+<Seo Canonical="news/release-notes/140" Title="Blazorise v1.4" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.4 release." ImageUrl="img/news/140/v140.png" />
+
+<NewsPageImage Source="img/news/140/v140.png" Text="Blazorise v1.4" />
+
+<NewsPageTitle>
+    Announcing Blazorise 1.4
+</NewsPageTitle>
+
+<Paragraph>
+    Greetings to our amazing developer community! We're thrilled to announce the latest and greatest version of Blazorise – version <Strong>1.4</Strong>.
+</Paragraph>
+
+<Paragraph>
+    It has been far too long since the last major version, but given the number of new features included in this release, it has been well worth the wait.
+</Paragraph>
+
+<Paragraph>
+    Dive in to learn about the new components, enhancements, and features we've added to assist you in creating even better web applications!
+</Paragraph>
+
+<NewsPageSubtitle>
+    Blazorise 1.4 Highlights 💡
+</NewsPageSubtitle>
+
+<Paragraph>
+    Here's a summary of what’s new in this release:
+</Paragraph>
+
+<UnorderedList>
+    
+</UnorderedList>
+
+<NewsPageSubtitle>
+    Upgrade an existing project 👨‍🔧
+</NewsPageSubtitle>
+
+<Paragraph>
+    To upgrade an existing Blazorise applications from <Strong>1.3.x</Strong> to <Strong>1.4</Strong>:
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.4</Strong>.
+    </UnorderedListItem>
+</UnorderedList>
+
+<Paragraph>
+    You should now be able to use Blazorise without any breaking changes to the API.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Good to Know
+</NewsPageSubtitle>
+
+<Paragraph>
+    Before we continue we need to make sure that you're familiar with some behaviour changes in this release.
+</Paragraph>
+
+<OrderedList>
+</OrderedList>
+
+<NewsPageSubtitle>
+    New Features & Enhancements 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Official .NET 8 Support
+</Heading>
+
+<NewsPageSubtitle>
+    DataGrid
+</NewsPageSubtitle>
+
+<Paragraph>
+    With the introduction of the new <Code>DataGridFilterMode.Menu</Code> feature, we've found out that although it was an appreciated feature, users wanted even more contextual filtering support, i.e: numeric columns, with inbuilt 'less than'' or 'greater than' filtering method support.
+</Paragraph>
+
+<Paragraph>
+    We've now changed the <Code>DataGridColumn</Code> <Code>FilterMethod</Code> to be a specialized and contextual enum named <Code>DataGridColumnFilterMethod</Code> that enables additional filtering capabilities for numeric and date columns.
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>LessThan</UnorderedListItem>
+    <UnorderedListItem>LessThanOrEqual</UnorderedListItem>
+    <UnorderedListItem>GreaterThan</UnorderedListItem>
+    <UnorderedListItem>GreaterThanOrEqual</UnorderedListItem>
+</UnorderedList>
+
+<Paragraph>
+    If you're using the <Code>DataGridFilterMode.Menu</Code> feature, your date and numeric columns will now present the new filtering capabilities.
+    Otherwise, you may also set the new filtering capabilities on your regular columns, but please take note that these will only work if the columns are of a numeric or date type.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Tabs
+</NewsPageSubtitle>
+
+<Paragraph>
+    The <Code>TabsContent</Code> component now also supports the <Code>RenderMode</Code> feature. This is specially useful when you need to use the <Code>Tabs</Code> and <Code>TabsContent</Code> separately, since these are unable to communicate, you can now set the <Code>RenderMode</Code> in the <Code>TabsContent</Code>.
+</Paragraph>
+
+
+<NewsPageSubtitle>
+    Wrap Up
+</NewsPageSubtitle>
+
+<Paragraph>
+    This release is packed with features, enhancements, and improvements, all aimed at making your Blazorise experience richer and more efficient. We're always striving to make Blazorise the best it can be, and we couldn't do it without your feedback and support.
+</Paragraph>
+
+<Paragraph>
+    Thank you for being a part of our journey. We eagerly await to see the fantastic applications you craft using these new features!
+</Paragraph>
+
+<Paragraph>
+    Happy coding! 🎉🚀
+</Paragraph>
+
+<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="November 30th, 2023" Read="11 min" />

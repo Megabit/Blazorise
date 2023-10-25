@@ -954,6 +954,11 @@ input[readonly=readonly][type=range]::-ms-thumb {
   z-index: 1031;
 }
 
+a.link-unstyled {
+  text-decoration: none;
+  color: inherit;
+}
+
 li.list-group-item-action {
   cursor: pointer;
 }

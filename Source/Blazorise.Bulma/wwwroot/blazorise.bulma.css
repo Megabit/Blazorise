@@ -1906,6 +1906,11 @@ body::-webkit-scrollbar {
   z-index: 30;
 }
 
+a.is-link-unstyled {
+  text-decoration: none;
+  color: inherit;
+}
+
 .list-group {
   display: flex;
   flex-direction: column;

@@ -22,6 +22,10 @@
     "Starts With": "Počinje sa",
     "Ends With": "Završava sa",
     "Equals": "Jednako",
-    "Not Equals": "Nije jednako"
+    "Not Equals": "Nije jednako",
+    "Greater Than": "Veći od",
+    "Greater Than or Equal": "Veće od ili jednako",
+    "Less Than": "Manje od",
+    "Less Than or Equal": "Manje od ili jednako"
   }
 }

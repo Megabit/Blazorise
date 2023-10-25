@@ -869,7 +869,19 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardText() => "b-card-text mb-3 font-normal text-inherit";
 
-    public override string CardLink() => "b-card-link inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
+    public override string CardLink() => "";
+
+    public override string CardLinkUnstyled( bool unstyled )
+    {
+        if ( unstyled )
+        {
+            return "inline-flex items-center dark:text-primary-500 hover:underline";
+        }
+        else
+        {
+            return "b-card-link inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
+        }
+    }
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
@@ -1813,9 +1825,21 @@ public class TailwindClassProvider : ClassProvider
 
     #region Link
 
-    public override string Link() => "font-medium text-primary-600 dark:text-primary-500 hover:underline";
+    public override string Link() => "";
 
     public override string LinkActive( bool active ) => active ? "font-medium active" : null;
+
+    public override string LinkUnstyled( bool unstyled )
+    {
+        if ( unstyled )
+        {
+            return "font-medium text-inherit hover:underline";
+        }
+        else
+        {
+            return "font-medium text-primary-600 dark:text-primary-500 hover:underline";
+        }
+    }
 
     #endregion
 
