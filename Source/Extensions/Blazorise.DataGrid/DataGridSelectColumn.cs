@@ -8,18 +8,6 @@ public class DataGridSelectColumn<TItem> : DataGridColumn<TItem>
 {
     public override DataGridColumnType ColumnType => DataGridColumnType.Select;
 
-    //<inheritdoc/>
-    protected internal override void SetValue( TItem item, object value )
-    {
-        if ( !string.IsNullOrEmpty( Field ) )
-        {
-            if ( ValueField is null )
-                valueSetter.Value( item, value );
-            else
-                valueSetter.Value( item, ValueField( value ) );
-        }
-    }
-
     /// <summary>
     /// Gets or sets the select data-source.
     /// </summary>
