@@ -684,13 +684,13 @@ select[readonly] optgroup {
   z-index: 161;
 }
 
-.list-group-scrollable {
-  overflow-y: scroll;
-}
-
 a.link-unstyled {
   text-decoration: none;
   color: inherit;
+}
+
+.list-group-scrollable {
+  overflow-y: scroll;
 }
 
 .modal .modal-fullscreen {

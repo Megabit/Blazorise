@@ -1906,6 +1906,11 @@ body::-webkit-scrollbar {
   z-index: 30;
 }
 
+a.is-link-unstyled {
+  text-decoration: none;
+  color: inherit;
+}
+
 .list-group {
   display: flex;
   flex-direction: column;
@@ -2097,11 +2102,6 @@ li.list-group-item-action {
 
 .list-group-scrollable {
   overflow-y: scroll;
-}
-
-a.is-link-unstyled {
-  text-decoration: none;
-  color: inherit;
 }
 
 @media (min-width: 576px) {
