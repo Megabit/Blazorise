@@ -265,11 +265,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     internal DataGridColumnFilterMethod GetDataGridFilterMethodAsColumn()
     {
         return ParentDataGrid.FilterMethod == DataGridFilterMethod.Contains ? DataGridColumnFilterMethod.Contains
-        : ParentDataGrid.FilterMethod == DataGridFilterMethod.StartsWith ? DataGridColumnFilterMethod.StartsWith
-        : ParentDataGrid.FilterMethod == DataGridFilterMethod.EndsWith ? DataGridColumnFilterMethod.EndsWith
-        : ParentDataGrid.FilterMethod == DataGridFilterMethod.Equals ? DataGridColumnFilterMethod.Equals
-        : ParentDataGrid.FilterMethod == DataGridFilterMethod.NotEquals ? DataGridColumnFilterMethod.NotEquals
-        : DataGridColumnFilterMethod.Contains;
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.StartsWith ? DataGridColumnFilterMethod.StartsWith
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.EndsWith ? DataGridColumnFilterMethod.EndsWith
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.Equals ? DataGridColumnFilterMethod.Equals
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.NotEquals ? DataGridColumnFilterMethod.NotEquals
+            : DataGridColumnFilterMethod.Contains;
     }
 
     #endregion

@@ -21,8 +21,8 @@
                                 <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.StartsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodStartsWithLocalizer, "Starts With" )</SelectItem>
                                 <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.EndsWith">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEndsWithLocalizer, "Ends With" )</SelectItem>
                             }
-                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.Equals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEqualsLocalizer, "Equals" )</SelectItem>
-                                <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.NotEquals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodNotEqualsLocalizer, "Not Equals" )</SelectItem>
+                            <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.Equals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodEqualsLocalizer, "Equals" )</SelectItem>
+                            <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.NotEquals">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodNotEqualsLocalizer, "Not Equals" )</SelectItem>
                             @if ( isNumericOrDate )
                             {
                                 <SelectItem TValue="DataGridColumnFilterMethod" Value="@DataGridColumnFilterMethod.GreaterThan">@Localizer.Localize( ParentDataGrid.Localizers?.FilterMethodContainsLocalizer, "Greater Than" )</SelectItem>
@@ -46,12 +46,12 @@
             else
             {
                 @ParentDataGrid.FilterMenuTemplate( new( Column,
-                         () => Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn(),
-                         () => Column.Filter.SearchValue,
-                         EventCallback.Factory.Create<object>( this, async ( newFilterValue ) => await ParentDataGrid.OnFilterChanged( Column, newFilterValue ) ),
-                         EventCallback.Factory.Create<DataGridColumnFilterMethod?>( this, Column.SetFilterMethod ),
-                         EventCallback.Factory.Create( this, ParentDataGrid.FilterData ),
-                         EventCallback.Factory.Create( this, async () => await ParentDataGrid.ClearFilter( Column.Field ) ) ) )
+                    () => Column.GetFilterMethod() ?? Column.GetDataGridFilterMethodAsColumn(),
+                    () => Column.Filter.SearchValue,
+                    EventCallback.Factory.Create<object>( this, async ( newFilterValue ) => await ParentDataGrid.OnFilterChanged( Column, newFilterValue ) ),
+                    EventCallback.Factory.Create<DataGridColumnFilterMethod?>( this, Column.SetFilterMethod ),
+                    EventCallback.Factory.Create( this, ParentDataGrid.FilterData ),
+                    EventCallback.Factory.Create( this, async () => await ParentDataGrid.ClearFilter( Column.Field ) ) ) )
             }
         </Row>
     </DropdownMenu>
