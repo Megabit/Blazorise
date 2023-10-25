@@ -684,6 +684,11 @@ select[readonly] optgroup {
   z-index: 161;
 }
 
+a.link-unstyled {
+  text-decoration: none;
+  color: inherit;
+}
+
 .list-group-scrollable {
   overflow-y: scroll;
 }

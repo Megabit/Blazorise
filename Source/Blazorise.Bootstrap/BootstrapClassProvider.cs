@@ -625,6 +625,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string CardLink() => "card-link";
 
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
     #endregion
@@ -1202,6 +1204,8 @@ public class BootstrapClassProvider : ClassProvider
     public override string Link() => null;
 
     public override string LinkActive( bool active ) => active ? Active() : null;
+
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
 
     #endregion
 
