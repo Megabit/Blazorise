@@ -22,6 +22,10 @@
     "Starts With": "Начинается с",
     "Ends With": "Заканчивается с",
     "Equals": "Равно",
-    "Not Equals": "Не равно"
+    "Not Equals": "Не равно",
+    "Greater Than": "Больше чем",
+    "Greater Than or Equal": "Больше или равно",
+    "Less Than": "Меньше, чем",
+    "Less Than or Equal": "Меньше или равно"
   }
 }

@@ -115,5 +115,20 @@ public partial class TabsContent : BaseComponent
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// Defines how the tabs content will be rendered.
+    /// </summary>
+    [Parameter]
+    public TabsRenderMode RenderMode
+    {
+        get => state.RenderMode;
+        set
+        {
+            state = state with { RenderMode = value };
+
+            DirtyClasses();
+        }
+    }
+
     #endregion
 }

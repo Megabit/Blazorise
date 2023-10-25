@@ -22,6 +22,10 @@
     "Starts With": "Inizia con",
     "Ends With": "Finisce con",
     "Equals": "Equivale",
-    "Not Equals": "Non uguale"
+    "Not Equals": "Non uguale",
+    "Greater Than": "Più grande di",
+    "Greater Than or Equal": "Maggiore o uguale",
+    "Less Than": "Meno di",
+    "Less Than or Equal": "Minore o uguale"
   }
 }

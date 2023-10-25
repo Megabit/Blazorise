@@ -1,56 +1,6 @@
-﻿$white: #fff !default;
-$gray-100: #f8f9fa !default;
-$gray-200: #e9ecef !default;
-$gray-300: #dee2e6 !default;
-$gray-400: #ced4da !default;
-$gray-500: #adb5bd !default;
-$gray-600: #6c757d !default;
-$gray-700: #495057 !default;
-$gray-800: #343a40 !default;
-$gray-900: #212529 !default;
-$black: #000 !default;
+﻿$link: #3273dc !default;
 
-$grays: () !default;
-$grays: map-merge( ( "100": $gray-100, "200": $gray-200, "300": $gray-300, "400": $gray-400, "500": $gray-500, "600": $gray-600, "700": $gray-700, "800": $gray-800, "900": $gray-900 ), $grays );
-
-$blue: #007bff !default;
-$indigo: #6610f2 !default;
-$purple: #6f42c1 !default;
-$pink: #e83e8c !default;
-$red: #dc3545 !default;
-$orange: #fd7e14 !default;
-$yellow: #ffc107 !default;
-$green: #28a745 !default;
-$teal: #20c997 !default;
-$cyan: #17a2b8 !default;
-
-$colors: () !default;
-$colors: map-merge( ( "blue": $blue, "indigo": $indigo, "purple": $purple, "pink": $pink, "red": $red, "orange": $orange, "yellow": $yellow, "green": $green, "teal": $teal, "cyan": $cyan, "white": $white, "gray": $gray-600, "gray-dark": $gray-800 ), $colors );
-
-
-$primary: #007bff !default;
-$secondary: #6c757d !default;
-$success: #28a745 !default;
-$info: #17a2b8 !default;
-$warning: #ffc107 !default;
-$danger: #dc3545 !default;
-$light: #f8f9fa !default;
-$dark: #343a40 !default;
-$link: #3273dc !default;
-
-$theme-colors: ( "primary": $primary, "secondary": $secondary, "success": $success, "info": $info, "warning": $warning, "danger": $danger, "light": $light, "dark": $dark, "link":$link);
-
-// Set a specific jump point for requesting color jumps
-$theme-color-interval: 8% !default;
-
-$text-light: #fff !default;
-$text-dark: #212529 !default;
-
-$yiq-text-light: $text-light !default;
-$yiq-text-dark: $text-dark !default;
-
-// The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
-$yiq-contrasted-threshold: 150 !default;
+$theme-colors: map-merge($theme-colors, ("link": $link));
 
 $figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
 
@@ -63,13 +13,6 @@ $spacers: map-merge( ( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 
 $sizes: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
 $sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
-
-
-// Body
-//
-// Settings for the `<body>` element.
-$body-bg: $white !default;
-$body-color: $gray-900 !default;
 
 // Links
 //
@@ -461,10 +404,6 @@ $custom-checkbox-indicator-indeterminate-border-color: $custom-checkbox-indicato
 
 $custom-radio-indicator-border-radius: 50% !default;
 $custom-radio-indicator-icon-checked: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='-4 -4 8 8'><circle r='3' fill='#{$custom-control-indicator-checked-color}'/></svg>") !default;
-
-$custom-switch-width: $custom-control-indicator-size * 1.75 !default;
-$custom-switch-indicator-border-radius: $custom-control-indicator-size / 2 !default;
-$custom-switch-indicator-size: subtract($custom-control-indicator-size, $custom-control-indicator-border-width * 4) !default;
 
 $custom-select-padding-y: $input-padding-y !default;
 $custom-select-padding-x: $input-padding-x !default;

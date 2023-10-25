@@ -25,7 +25,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// FilterMethod can come from programatically defined Parameter or explicitly by the user through the interface.
     /// </summary>
-    private DataGridFilterMethod? currentFilterMethod;
+    private DataGridColumnFilterMethod? currentFilterMethod;
 
     #endregion
 
@@ -252,14 +252,24 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         return SortOrderChanged.InvokeAsync( sortOrder );
     }
 
-    internal void SetFilterMethod( DataGridFilterMethod? filterMethod )
+    internal void SetFilterMethod( DataGridColumnFilterMethod? filterMethod )
     {
         currentFilterMethod = filterMethod;
     }
 
-    internal DataGridFilterMethod? GetFilterMethod()
+    internal DataGridColumnFilterMethod? GetFilterMethod()
     {
         return currentFilterMethod;
+    }
+
+    internal DataGridColumnFilterMethod GetDataGridFilterMethodAsColumn()
+    {
+        return ParentDataGrid.FilterMethod == DataGridFilterMethod.Contains ? DataGridColumnFilterMethod.Contains
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.StartsWith ? DataGridColumnFilterMethod.StartsWith
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.EndsWith ? DataGridColumnFilterMethod.EndsWith
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.Equals ? DataGridColumnFilterMethod.Equals
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.NotEquals ? DataGridColumnFilterMethod.NotEquals
+            : DataGridColumnFilterMethod.Contains;
     }
 
     #endregion
@@ -759,7 +769,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <para>Sets the filter method to be used for filtering the column.</para>
     /// <para>If null, uses the <see cref="DataGrid{TItem}.FilterMethod" /> </para>
     /// </summary>
-    [Parameter] public DataGridFilterMethod? FilterMethod { get; set; }
+    [Parameter] public DataGridColumnFilterMethod? FilterMethod { get; set; }
 
     /// <summary>
     /// <para>Defines the caption to be displayed for a group header.</para>
