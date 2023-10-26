@@ -974,7 +974,7 @@ public interface IClassProvider
 
     string TableFixedHeader( bool @fixed );
 
-    string TableFixedRowHeader( bool @fixed );
+    string TableFixedColumns( bool @fixed );
 
     #endregion
 

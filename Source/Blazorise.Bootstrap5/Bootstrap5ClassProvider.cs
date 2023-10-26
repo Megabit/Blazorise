@@ -1054,7 +1054,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableFixedHeader( bool @fixed ) => @fixed ? "table-fixed-header" : null;
 
-    public override string TableFixedRowHeader( bool @fixed ) => @fixed ? "table-fixed-row-header" : null;
+    public override string TableFixedColumns( bool @fixed ) => @fixed ? "table-fixed-columns" : null;
 
     #endregion
 

@@ -1589,7 +1589,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableFixedHeader( bool @fixed ) => @fixed ? "b-table-fixed-header" : null;
 
-    public override string TableFixedRowHeader( bool @fixed ) => null;
+    public override string TableFixedColumns( bool @fixed ) => null;
 
     #endregion
 

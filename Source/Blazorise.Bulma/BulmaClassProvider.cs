@@ -1091,7 +1091,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableFixedHeader( bool @fixed ) => @fixed ? "table-container-fixed-header" : null;
 
-    public override string TableFixedRowHeader( bool @fixed ) => null;
+    public override string TableFixedColumns( bool @fixed ) => null;
 
     #endregion
 

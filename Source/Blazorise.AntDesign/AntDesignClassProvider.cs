@@ -1053,7 +1053,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableFixedHeader( bool @fixed ) => @fixed ? "ant-table-fixed-header" : null;
 
-    public override string TableFixedRowHeader( bool @fixed ) => null;
+    public override string TableFixedColumns( bool @fixed ) => null;
 
     #endregion
 

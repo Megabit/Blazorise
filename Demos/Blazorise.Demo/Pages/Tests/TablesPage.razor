@@ -478,16 +478,61 @@
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
+                <CardTitle>Fixed columns</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use <code>FixedColumns</code> to lock some columns.</CardText>
+            </CardBody>
+            <CardBody>
+                <Table Responsive Bordered FixedColumns>
+                     <TableHeader>
+                         <TableRow>
+                            <TableHeaderCell Width="@Width.Is("120px")" Fixed>#</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Is("120px")">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Is("150px")" Fixed>Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Is("120px")">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Is("110px")">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Is("120px")">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Is("140px")">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Is("120px")">Column heading</TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        @for ( int i = 1; i <= 3; ++i )
+                        {
+                            var index = i.ToString();
+
+                            <TableRow @key="@index">
+                                <TableRowHeader Width="@Width.Is("120px")" Fixed>@index</TableRowHeader>
+                                <TableRowCell Width="@Width.Is("120px")">Column content</TableRowCell>
+                                <TableRowCell Width="@Width.Is("150px")" Fixed>Column content</TableRowCell>
+                                <TableRowCell Width="@Width.Is("120px")">Column content</TableRowCell>
+                                <TableRowCell Width="@Width.Is("110px")">Column content</TableRowCell>
+                                <TableRowCell Width="@Width.Is("120px")">Column content</TableRowCell>
+                                <TableRowCell Width="@Width.Is("140px")">Column content</TableRowCell>
+                                <TableRowCell Width="@Width.Is("120px")">Column content</TableRowCell>
+                            </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
                 <CardTitle>Responsive</CardTitle>
             </CardHeader>
             <CardBody>
                 <CardText>Use <code>Responsive</code> for horizontally scrolling tables.</CardText>
             </CardBody>
             <CardBody>
-                <Table Responsive Bordered FixedHeader>
+                <Table Responsive>
                     <TableHeader>
                         <TableRow>
-                            <TableHeaderCell Fixed>#</TableHeaderCell>
+                            <TableHeaderCell>#</TableHeaderCell>
                             <TableHeaderCell>Column heading</TableHeaderCell>
                             <TableHeaderCell>Column heading</TableHeaderCell>
                             <TableHeaderCell>Column heading</TableHeaderCell>
@@ -511,7 +556,7 @@
                             var index = i.ToString();
 
                             <TableRow @key="@index">
-                                <TableRowHeader Fixed>@index</TableRowHeader>
+                                <TableRowHeader>@index</TableRowHeader>
                                 <TableRowCell>Column content</TableRowCell>
                                 <TableRowCell>Column content</TableRowCell>
                                 <TableRowCell>Column content</TableRowCell>

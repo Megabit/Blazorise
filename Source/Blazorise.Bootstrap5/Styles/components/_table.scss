@@ -51,11 +51,11 @@ tr {
     }
 }
 
-.table-fixed-row-header {
+.table-fixed-columns {
     overflow-x: auto;
 
     .table {
-        border-collapse: separate;
+        border-collapse: collapse;
         border-spacing: 0;
 
         .table-header-cell-fixed {

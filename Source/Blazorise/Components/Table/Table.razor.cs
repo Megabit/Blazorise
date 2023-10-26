@@ -30,6 +30,8 @@ public partial class Table : BaseDraggableComponent
 
     private bool fixedHeader;
 
+    private bool fixedColumns;
+
     private string fixedHeaderTableHeight = "300px";
 
     private string fixedHeaderTableMaxHeight = "300px";
@@ -86,7 +88,7 @@ public partial class Table : BaseDraggableComponent
     {
         builder.Append( ClassProvider.TableResponsive( Responsive ) );
         builder.Append( ClassProvider.TableFixedHeader( FixedHeader ) );
-        builder.Append( ClassProvider.TableFixedRowHeader( FixedHeader ) );
+        builder.Append( ClassProvider.TableFixedColumns( FixedColumns ) );
     }
 
     /// <summary>
@@ -348,6 +350,24 @@ public partial class Table : BaseDraggableComponent
 
             if ( !fixedHeader )
                 ExecuteAfterRender( () => DestroyFixedHeader().AsTask() );
+        }
+    }
+
+    /// <summary>
+    ///  Makes table have a fixed set of columns. This will make it so that the table columns could be fixed to the side of the table.
+    /// </summary>
+    [Parameter]
+    public bool FixedColumns
+    {
+        get => fixedColumns;
+        set
+        {
+            if ( fixedColumns == value )
+                return;
+
+            fixedColumns = value;
+
+            DirtyClasses();
         }
     }
 

@@ -978,7 +978,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableFixedHeader( bool @fixed );
 
-    public abstract string TableFixedRowHeader( bool @fixed );
+    public abstract string TableFixedColumns( bool @fixed );
 
     #endregion
 

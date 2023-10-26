@@ -1938,14 +1938,14 @@ tr.table-row-selectable:focus[tabindex="0"] {
   top: 0;
 }
 
-.table-fixed-row-header {
+.table-fixed-columns {
   overflow-x: auto;
 }
-.table-fixed-row-header .table {
+.table-fixed-columns .table {
   border-collapse: separate;
   border-spacing: 0;
 }
-.table-fixed-row-header .table .table-header-cell-fixed {
+.table-fixed-columns .table .table-header-cell-fixed {
   position: sticky;
   border-left: none;
   left: 0;
@@ -1953,7 +1953,7 @@ tr.table-row-selectable:focus[tabindex="0"] {
   background-color: white;
   border-inline-start-width: 0;
 }
-.table-fixed-row-header .table .table-row-header-fixed {
+.table-fixed-columns .table .table-row-header-fixed {
   position: sticky;
   border-left: none;
   left: 0;
