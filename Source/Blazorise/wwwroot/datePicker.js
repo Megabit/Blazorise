@@ -1,6 +1,6 @@
 ﻿import "./vendors/flatpickr.js?v=1.3.2.0";
 import * as utilities from "./utilities.js?v=1.3.2.0";
-import Inputmask from "./vendors/inputmask.js?v=1.3.2.0";
+import * as inputmask from "./inputmask.js?v=1.3.2.0";
 
 const _pickers = [];
 
@@ -54,7 +54,10 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         disable: options.disabledDates || [],
         inline: options.inline || false,
         disableMobile: options.disableMobile || true,
-        static: options.staticPicker
+        static: options.staticPicker,
+        errorHandler: (error) => {
+            // do nothing to prevent warnings in the console
+        }
     };
 
     if (options.selectionMode)
@@ -334,11 +337,10 @@ function setInputMask(picker, inputFormat) {
             picker.inputMask.remove();
         }
 
-        picker.inputMask = new Inputmask({
+        picker.inputMask = inputmask.initialize(null, picker.altInput, null, {
+            placeholder: inputFormat,
             alias: "datetime",
             inputFormat: inputFormat
         });
-
-        picker.inputMask.mask(picker.altInput);
     }
 }
