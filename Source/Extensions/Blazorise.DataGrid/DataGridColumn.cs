@@ -777,5 +777,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     [Parameter] public string HeaderGroupCaption { get; set; }
 
+    /// <summary>
+    /// Sets the help-text positioned below the field input when editing.
+    /// </summary>
+    [Parameter] public string HelpText { get; set; }
+
     #endregion
 }
