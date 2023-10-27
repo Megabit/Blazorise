@@ -127,9 +127,8 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                 else if ( column.Displayable )
                 {
                     <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)"
-                                  tabindex="@(ParentDataGrid.IsCellEdit && !column.CellEditing && ParentDataGrid.EditState != DataGridEditState.New ? 0 : null)"
-                                  @onfocusin=@(ParentDataGrid.IsCellEdit && !column.CellValueIsEditable ? async () => await ParentDataGrid.HandleCellEdit(column, Item) : default)
-                                  @onfocusout=@(ParentDataGrid.IsCellEdit && column.CellEditing && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.Save() : null )
+                                  @onkeydown="@(ParentDataGrid.IsCellEdit ? async (args) =>  await HandleCellKeyDown(args, column) : default)"
+                                  @onclick=@(ParentDataGrid.IsCellEdit && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
                                   TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
                         @if ( column.CellValueIsEditable )
                         {

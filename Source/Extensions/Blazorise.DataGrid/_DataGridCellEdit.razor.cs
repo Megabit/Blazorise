@@ -25,8 +25,9 @@ public partial class _DataGridCellEdit<TItem> : ComponentBase
     {
         if ( firstRender )
         {
-            if ( ParentDataGrid.IsCellEdit )
+            if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
             {
+                await Task.Yield();
                 await Focus();
             }
         }
@@ -35,7 +36,7 @@ public partial class _DataGridCellEdit<TItem> : ComponentBase
 
     public async Task Focus()
     {
-        await JSUtilitiesModule.Focus( default, elementId, false );
+        await JSUtilitiesModule.Focus( default, elementId, true );
     }
 
     /// <summary>

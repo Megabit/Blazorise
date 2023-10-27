@@ -26,7 +26,7 @@
               Style="@GetStyle(styling, selectedStyling)"
               HoverCursor="@GetHoverCursor()"
               @onkeydown="@(ParentDataGrid.Navigable ? HandleKeyDown : null)"
-              tabindex="@(ParentDataGrid.Navigable ? 0 : null)">
+              tabindex="@(ParentDataGrid.Navigable || ParentDataGrid.IsCellEdit ? 0 : null)">
 
         @ParentDataGrid.groupIndentationFragment
 
@@ -49,9 +49,7 @@
             else
             {
                 <TableRowCell @key=column
-                              tabindex="@(ParentDataGrid.IsCellEdit ? 0 : null)" Class="@column.CellClass?.Invoke(Item)"
-                              @onclick:stopPropagation="column.PreventRowClick"
-                              @onfocusin=@(ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, Item) : default)
+                              @onclick=@(ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, Item) : default)
                               Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
                     @if ( column.DisplayTemplate != null )
                     {
