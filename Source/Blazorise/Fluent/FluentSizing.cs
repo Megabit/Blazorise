@@ -124,11 +124,12 @@ public interface IFluentSizingSize :
     IFluentSizing Auto { get; }
 
     /// <summary>
-    /// Defines the manual size, eg. in px, rem, em, etc.
+    /// Defines the manual size.
     /// </summary>
+    /// <param name="unit">Unit value, eg. in px, rem, em, etc.</param>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    IFluentSizing Is( string size );
+    IFluentSizing Is( string unit, double size );
 }
 
 /// <summary>
@@ -236,7 +237,7 @@ public class FluentSizing :
     /// <summary>
     /// Currently used sizing type.
     /// </summary>
-    private SizingType sizingType;
+    private readonly SizingType sizingType;
 
     /// <summary>
     /// Currently used sizing rules.
@@ -249,9 +250,19 @@ public class FluentSizing :
     private readonly Dictionary<SizingSize, List<SizingDefinition>> rules = new();
 
     /// <summary>
+    /// Holds the list of defined sizing rules for styles.
+    /// </summary>
+    private Dictionary<string, double> styleRules;
+
+    /// <summary>
     /// Indicates if the rules have changed.
     /// </summary>
     private bool dirty = true;
+
+    /// <summary>
+    /// Indicates if the style rules have changed.
+    /// </summary>
+    private bool styleDirty = true;
 
     /// <summary>
     /// Holds the built classnames based on the sizing rules.
@@ -287,7 +298,7 @@ public class FluentSizing :
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules.Count > 0 )
+                if ( rules is not null && rules.Count > 0 )
                     builder.Append( rules.Select( r => classProvider.Sizing( sizingType, r.Key, r.Value ) ) );
             }
 
@@ -304,22 +315,28 @@ public class FluentSizing :
     /// <inheritdoc/>
     public string Style( IStyleProvider styleProvider )
     {
-        if ( dirty )
+        if ( styleDirty )
         {
-            //void BuildStyles( StyleBuilder builder )
-            //{
-            //    if ( rules.Count > 0 )
-            //        builder.Append( rules.Select( r => classProvider.Sizing( sizingType, r.Key, r.Value ) ) );
-            //}
+            void BuildStyles( StyleBuilder builder )
+            {
+                if ( styleRules?.Count > 0 )
+                {
+                    var sizingTypeName = sizingType == SizingType.Width
+                        ? "width"
+                        : "height";
 
-            //var styleBuilder = new StyleBuilder( BuildStyles );
+                    builder.Append( string.Join( ";", styleRules.Select( r => $"{sizingTypeName}:{r.Value:G29}{r.Key}" ) ) );
+                }
+            }
 
-            //classNames = classBuilder.Class;
+            var styleBuilder = new StyleBuilder( BuildStyles );
 
-            dirty = false;
+            styleNames = styleBuilder.Styles;
+
+            styleDirty = false;
         }
 
-        return classNames;
+        return styleNames;
     }
 
     /// <summary>
@@ -350,8 +367,18 @@ public class FluentSizing :
         return this;
     }
 
-    public IFluentSizingMinMaxViewportOnBreakpoint WithSize( string size )
+    /// <summary>
+    /// Starts the new sizing rule for styles.
+    /// </summary>
+    /// <param name="unit">Unit it the style.</param>
+    /// <param name="size">Size of the element.</param>
+    /// <returns>Next rule reference.</returns>returns>
+    public IFluentSizingMinMaxViewportOnBreakpoint WithSize( string unit, double size )
     {
+        styleRules ??= new();
+
+        styleRules[unit] = size;
+
         return this;
     }
 
@@ -429,7 +456,7 @@ public class FluentSizing :
     /// <inheritdoc/>
     IFluentSizing IFluentSizingSize.Auto => WithSize( SizingSize.Auto );
 
-    IFluentSizing IFluentSizingSize.Is( string size ) => WithSize( size );
+    IFluentSizing IFluentSizingSize.Is( string unit, double size ) => WithSize( unit, size );
 
     /// <inheritdoc/>
     IFluentSizingViewport IFluentSizingMin.Min => WithMin();
@@ -499,11 +526,25 @@ public static class Width
     public static IFluentSizingMinMaxViewportOnBreakpoint Auto => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Auto );
 
     /// <summary>
-    /// Defines the manual size, eg. in px, rem, em, etc.
+    /// Defines the manual size in pixels.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    public static IFluentSizing Is( string size ) => new FluentSizing( SizingType.Width ).WithSize( size );
+    public static IFluentSizing Px( double size ) => new FluentSizing( SizingType.Width ).WithSize( "px", size );
+
+    /// <summary>
+    /// Defines the manual size in pixels.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
+    public static IFluentSizing Rem( double size ) => new FluentSizing( SizingType.Width ).WithSize( "rem", size );
+
+    /// <summary>
+    /// Defines the manual size in pixels.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
+    public static IFluentSizing Em( double size ) => new FluentSizing( SizingType.Width ).WithSize( "em", size );
 
     /// <summary>
     /// Defines the maximum allowed element width. Shorthand for "Width.Is100.Max".
@@ -552,11 +593,25 @@ public static class Height
     public static IFluentSizingMinMaxViewportOnBreakpoint Auto => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Auto );
 
     /// <summary>
-    /// Defines the manual size, eg. in px, rem, em, etc.
+    /// Defines the manual size in pixels.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
-    public static IFluentSizing Is( string size ) => new FluentSizing( SizingType.Height ).WithSize( size );
+    public static IFluentSizing Px( double size ) => new FluentSizing( SizingType.Height ).WithSize( "px", size );
+
+    /// <summary>
+    /// Defines the manual size in pixels.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
+    public static IFluentSizing Rem( double size ) => new FluentSizing( SizingType.Height ).WithSize( "rem", size );
+
+    /// <summary>
+    /// Defines the manual size in pixels.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
+    public static IFluentSizing Em( double size ) => new FluentSizing( SizingType.Height ).WithSize( "em", size );
 
     /// <summary>
     /// Defines the maximum allowed element height. Shorthand for "Height.Is100.Max".
