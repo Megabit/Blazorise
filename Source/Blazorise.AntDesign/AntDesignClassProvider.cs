@@ -1043,6 +1043,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRowCellColor( Color color ) => $"ant-table-{ToColor( color )}";
 
+    public override string TableRowCellFixed( bool @fixed ) => null;
+
     public override string TableRowGroup( bool expanded ) => "ant-table-group";
 
     public override string TableRowGroupCell() => "ant-table-group-cell";

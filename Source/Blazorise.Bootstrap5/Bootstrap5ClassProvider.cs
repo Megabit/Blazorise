@@ -1044,6 +1044,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
 
+    public override string TableRowCellFixed( bool @fixed ) => null;
+
     public override string TableRowGroup( bool expanded ) => "table-group";
 
     public override string TableRowGroupCell() => "table-group-cell";

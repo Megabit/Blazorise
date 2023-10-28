@@ -964,6 +964,8 @@ public interface IClassProvider
 
     string TableRowCellColor( Color color );
 
+    string TableRowCellFixed( bool @fixed );
+
     string TableRowGroup( bool expanded );
 
     string TableRowGroupCell();

@@ -1081,6 +1081,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRowCellColor( Color color ) => $"has-background-{ToColor( color )}";
 
+    public override string TableRowCellFixed( bool @fixed ) => null;
+
     public override string TableRowGroup( bool expanded ) => "table-group";
 
     public override string TableRowGroupCell() => "table-group-cell";

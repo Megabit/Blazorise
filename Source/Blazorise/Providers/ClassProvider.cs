@@ -968,6 +968,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableRowCellColor( Color color );
 
+    public abstract string TableRowCellFixed( bool @fixed );
+
     public abstract string TableRowGroup( bool expanded );
 
     public abstract string TableRowGroupCell();

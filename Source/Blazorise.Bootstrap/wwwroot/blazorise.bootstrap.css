@@ -1939,21 +1939,22 @@ tr.table-row-selectable:focus[tabindex="0"] {
 }
 
 .table-fixed-columns {
+  width: 100%;
   overflow-x: auto;
+  white-space: nowrap;
+  position: relative;
 }
 .table-fixed-columns .table {
+  table-layout: fixed;
+  overflow-x: auto;
+  white-space: nowrap;
   border-collapse: separate;
   border-spacing: 0;
+  border: 0;
 }
-.table-fixed-columns .table .table-header-cell-fixed {
-  position: sticky;
-  border-left: none;
-  left: 0;
-  z-index: 11;
-  background-color: white;
-  border-inline-start-width: 0;
-}
-.table-fixed-columns .table .table-row-header-fixed {
+.table-fixed-columns .table .table-header-cell-fixed,
+.table-fixed-columns .table .table-row-header-fixed,
+.table-fixed-columns .table .table-row-cell-fixed {
   position: sticky;
   border-left: none;
   left: 0;

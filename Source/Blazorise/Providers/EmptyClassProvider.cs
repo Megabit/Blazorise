@@ -971,6 +971,8 @@ class EmptyClassProvider : IClassProvider
 
     public string TableRowCellColor( Color color ) => null;
 
+    public string TableRowCellFixed( bool @fixed ) => null;
+
     public string TableRowGroup( bool expanded ) => null;
 
     public string TableRowGroupCell() => null;
