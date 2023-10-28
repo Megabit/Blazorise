@@ -1884,9 +1884,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     internal int GroupableColumnsCount
         => groupableColumns?.Count ?? 0;
 
+    /// <summary>
+    /// Whether the DataGrid is considered to be in a FixedHeader state.
+    /// </summary>
     internal bool IsFixedHeader
         => Virtualize || FixedHeader;
 
+    /// <summary>
+    /// Whether the DataGrid is considered in is Cell Edit Mode.
+    /// </summary>
     internal protected bool IsCellEdit
         => EditMode == DataGridEditMode.Cell;
 
