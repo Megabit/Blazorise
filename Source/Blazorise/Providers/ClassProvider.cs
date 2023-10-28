@@ -577,6 +577,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string CardLink();
 
+    public abstract string CardLinkUnstyled( bool unstyled );
+
     public abstract string CardLinkActive( bool active );
 
     #endregion
@@ -1120,6 +1122,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string LinkActive( bool active );
 
+    public abstract string LinkUnstyled( bool unstyled );
+
     #endregion
 
     #region States
@@ -1178,6 +1182,8 @@ public abstract class ClassProvider : IClassProvider
     #region Sizing
 
     public abstract string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
+
+    public abstract string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules );
 
     #endregion
 
@@ -1918,7 +1924,9 @@ public abstract class ClassProvider : IClassProvider
         return sizingSize switch
         {
             Blazorise.SizingSize.Is25 => "25",
+            Blazorise.SizingSize.Is33 => "33",
             Blazorise.SizingSize.Is50 => "50",
+            Blazorise.SizingSize.Is66 => "66",
             Blazorise.SizingSize.Is75 => "75",
             Blazorise.SizingSize.Is100 => "100",
             Blazorise.SizingSize.Auto => "auto",

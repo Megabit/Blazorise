@@ -1,0 +1,81 @@
+﻿$utilities: map-merge(
+  $utilities,
+  (
+    "width": map-merge(
+      map-get($utilities, "width"),
+      (
+        responsive: true,
+        values: map-merge(
+          map-get(map-get($utilities, "width"), "values"),
+          (33: 33.333333%, 66: 66.666667%),
+        ),
+      ),
+    ),
+    "max-width": map-merge(
+      map-get($utilities, "max-width"),
+      (
+        responsive: true
+      ),
+    ),
+    "viewport-width": map-merge(
+      map-get($utilities, "viewport-width"),
+      (
+        responsive: true
+      ),
+    ),
+    "min-viewport-width": map-merge(
+      map-get($utilities, "min-viewport-width"),
+      (
+        responsive: true
+      ),
+    ),
+    "height": map-merge(
+      map-get($utilities, "height"),
+      (
+        responsive: true,
+        values: map-merge(
+          map-get(map-get($utilities, "height"), "values"),
+          (33: 33.333333%, 66: 66.666667%),
+        ),
+      ),
+    ),
+    "max-height": map-merge(
+      map-get($utilities, "max-height"),
+      (
+        responsive: true
+      ),
+    ),
+    "viewport-height": map-merge(
+      map-get($utilities, "viewport-height"),
+      (
+        responsive: true
+      ),
+    ),
+    "min-viewport-height": map-merge(
+      map-get($utilities, "min-viewport-height"),
+      (
+        responsive: true
+      ),
+    ),
+  )
+);
+
+// Loop over each breakpoint
+@each $breakpoint in map-keys($grid-breakpoints) {
+
+    // Generate media query if needed
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        // Loop over each utility property
+        @each $key, $utility in $utilities {
+            @if($key == "width" or $key == "height" or $key == "max-width" or $key == "max-height" or $key == "viewport-width" or $key == "viewport-height" or $key == "min-viewport-width" or $key == "min-viewport-height") {
+                // The utility can be disabled with `false`, thus check if the utility is a map first
+                // Only proceed if responsive media queries are enabled or if it's the base media query
+                @if type-of($utility) == "map" and (map-get($utility, responsive) and $infix != "") {
+                    @include generate-utility($utility, $infix);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,114 @@
+﻿.ant-border {
+    border: $border-width solid $border-color !important;
+}
+
+.ant-border-top {
+    border-top: $border-width solid $border-color !important;
+}
+
+.ant-border-right {
+    border-right: $border-width solid $border-color !important;
+}
+
+.ant-border-bottom {
+    border-bottom: $border-width solid $border-color !important;
+}
+
+.ant-border-left {
+    border-left: $border-width solid $border-color !important;
+}
+
+.ant-border-0 {
+    border: 0 !important;
+}
+
+.ant-border-top-0 {
+    border-top: 0 !important;
+}
+
+.ant-border-right-0 {
+    border-right: 0 !important;
+}
+
+.ant-border-bottom-0 {
+    border-bottom: 0 !important;
+}
+
+.ant-border-left-0 {
+    border-left: 0 !important;
+}
+
+@each $name, $value in $theme-colors {
+    $color: $value;
+
+    .ant-border-#{$name} {
+        border-color: $color !important;
+    }
+}
+
+.ant-border-white {
+    border-color: white !important;
+}
+
+.ant-rounded {
+    border-radius: $radius !important;
+}
+
+.ant-rounded-top {
+    border-top-left-radius: $radius !important;
+    border-top-right-radius: $radius !important;
+}
+
+.ant-rounded-right {
+    border-top-right-radius: $radius !important;
+    border-bottom-right-radius: $radius !important;
+}
+
+.ant-rounded-bottom {
+    border-bottom-right-radius: $radius !important;
+    border-bottom-left-radius: $radius !important;
+}
+
+.ant-rounded-left {
+    border-top-left-radius: $radius !important;
+    border-bottom-left-radius: $radius !important;
+}
+
+.ant-rounded-circle {
+    border-radius: 50% !important;
+}
+
+.ant-rounded-pill {
+    border-radius: $radius-pill !important;
+}
+
+.ant-rounded-0 {
+    border-radius: 0 !important;
+}
+
+$border-sides: ("top", "right", "bottom", "left");
+$border-sizes: (1, 2, 3, 4, 5);
+
+@each $size in $border-sizes {
+    .ant-border-#{$size} {
+        border: #{$size}px solid $border-color !important;
+    }
+
+    @each $color-name, $color-value in $theme-colors {
+        .ant-border-#{$color-name}-#{$size} {
+            border: #{$size}px solid $color-value !important;
+        }
+    }
+
+    @each $side in $border-sides {
+        .ant-border-#{$side}-#{$size} {
+            border-#{$side}: #{$size}px solid $border-color !important;
+        }
+
+        @each $color-name, $color-value in $theme-colors {
+            .ant-border-#{$color-name}-#{$side}-#{$size} {
+                border-#{$side}: #{$size}px solid $color-value !important;
+            }
+        }
+    }
+}

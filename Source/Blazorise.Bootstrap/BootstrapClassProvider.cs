@@ -625,6 +625,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string CardLink() => "card-link";
 
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
     #endregion
@@ -1203,6 +1205,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string LinkActive( bool active ) => active ? Active() : null;
 
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+
     #endregion
 
     #region States
@@ -1352,10 +1356,16 @@ public class BootstrapClassProvider : ClassProvider
             ? "w"
             : "h" );
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
+
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+         => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 

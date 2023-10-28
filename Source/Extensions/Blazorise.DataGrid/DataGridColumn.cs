@@ -14,18 +14,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 {
     #region Members
 
-    private readonly Lazy<Func<Type>> valueTypeGetter;
-    private readonly Lazy<Func<object>> defaultValueByType;
-    private readonly Lazy<Func<TItem, object>> valueGetter;
-    private readonly Lazy<Action<TItem, object>> valueSetter;
-    private readonly Lazy<Func<TItem, object>> sortFieldGetter;
+    protected readonly Lazy<Func<Type>> valueTypeGetter;
+    protected readonly Lazy<Func<object>> defaultValueByType;
+    protected readonly Lazy<Func<TItem, object>> valueGetter;
+    protected readonly Lazy<Action<TItem, object>> valueSetter;
+    protected readonly Lazy<Func<TItem, object>> sortFieldGetter;
 
     private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new();
 
     /// <summary>
     /// FilterMethod can come from programatically defined Parameter or explicitly by the user through the interface.
     /// </summary>
-    private DataGridFilterMethod? currentFilterMethod;
+    private DataGridColumnFilterMethod? currentFilterMethod;
 
     #endregion
 
@@ -110,7 +110,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to get the value.</param>
     /// <returns></returns>
-    internal object GetValue( TItem item )
+    protected internal object GetValue( TItem item )
         => !string.IsNullOrEmpty( Field )
             ? valueGetter.Value( item )
             : default;
@@ -120,7 +120,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to set the value.</param>
     /// <param name="value">Value to set.</param>
-    internal void SetValue( TItem item, object value )
+    protected internal virtual void SetValue( TItem item, object value )
     {
         if ( !string.IsNullOrEmpty( Field ) )
             valueSetter.Value( item, value );
@@ -131,7 +131,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to get the value.</param>
     /// <returns></returns>
-    internal object GetSortValue( TItem item )
+    protected internal object GetSortValue( TItem item )
         => sortFieldGetter.Value( item );
 
     /// <summary>
@@ -252,14 +252,24 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         return SortOrderChanged.InvokeAsync( sortOrder );
     }
 
-    internal void SetFilterMethod( DataGridFilterMethod? filterMethod )
+    internal void SetFilterMethod( DataGridColumnFilterMethod? filterMethod )
     {
         currentFilterMethod = filterMethod;
     }
 
-    internal DataGridFilterMethod? GetFilterMethod()
+    internal DataGridColumnFilterMethod? GetFilterMethod()
     {
         return currentFilterMethod;
+    }
+
+    internal DataGridColumnFilterMethod GetDataGridFilterMethodAsColumn()
+    {
+        return ParentDataGrid.FilterMethod == DataGridFilterMethod.Contains ? DataGridColumnFilterMethod.Contains
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.StartsWith ? DataGridColumnFilterMethod.StartsWith
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.EndsWith ? DataGridColumnFilterMethod.EndsWith
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.Equals ? DataGridColumnFilterMethod.Equals
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.NotEquals ? DataGridColumnFilterMethod.NotEquals
+            : DataGridColumnFilterMethod.Contains;
     }
 
     #endregion
@@ -779,7 +789,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <para>Sets the filter method to be used for filtering the column.</para>
     /// <para>If null, uses the <see cref="DataGrid{TItem}.FilterMethod" /> </para>
     /// </summary>
-    [Parameter] public DataGridFilterMethod? FilterMethod { get; set; }
+    [Parameter] public DataGridColumnFilterMethod? FilterMethod { get; set; }
 
     /// <summary>
     /// <para>Defines the caption to be displayed for a group header.</para>
@@ -787,6 +797,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     [Parameter] public string HeaderGroupCaption { get; set; }
 
+    /// <summary>
+    /// Sets the help-text positioned below the field input when editing.
+    /// </summary>
+    [Parameter] public string HelpText { get; set; }
 
     #endregion
 }

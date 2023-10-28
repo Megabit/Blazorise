@@ -626,6 +626,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CardLink() => "ant-card-extra";
 
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
+
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
     #endregion
@@ -1195,6 +1197,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string LinkActive( bool active ) => active ? Active() : null;
 
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
+
     #endregion
 
     #region States
@@ -1347,10 +1351,16 @@ public class AntDesignClassProvider : ClassProvider
             ? "width"
             : "height" );
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
+
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 

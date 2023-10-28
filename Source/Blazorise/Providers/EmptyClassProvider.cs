@@ -579,6 +579,8 @@ class EmptyClassProvider : IClassProvider
 
     public string CardLink() => null;
 
+    public string CardLinkUnstyled( bool unstyled ) => null;
+
     public string CardLinkActive( bool active ) => null;
 
     #endregion
@@ -1123,6 +1125,8 @@ class EmptyClassProvider : IClassProvider
 
     public string LinkActive( bool active ) => null;
 
+    public string LinkUnstyled( bool unstyled ) => null;
+
     #endregion
 
     #region States
@@ -1180,6 +1184,8 @@ class EmptyClassProvider : IClassProvider
     #region Sizing
 
     public string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition ) => null;
+
+    public string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules ) => null;
 
     #endregion
 

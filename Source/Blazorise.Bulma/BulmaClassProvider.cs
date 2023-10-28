@@ -475,7 +475,7 @@ public class BulmaClassProvider : ClassProvider
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"is-{ToColor( color )} is-outlined" : null
+        ? color != Color.Default ? $"is-{ToColor( color )}" : $"is-outlined"
         : color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )
@@ -628,6 +628,8 @@ public class BulmaClassProvider : ClassProvider
     public override string CardText() => "card-text";
 
     public override string CardLink() => null;
+
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "is-link-unstyled" : null;
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
@@ -1233,6 +1235,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string LinkActive( bool active ) => active ? Active() : null;
 
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "is-link-unstyled" : null;
+
     #endregion
 
     #region States
@@ -1372,7 +1376,7 @@ public class BulmaClassProvider : ClassProvider
         var sb = new StringBuilder( "is-" );
 
         if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
-            sb.Append( "min-wiewport-" );
+            sb.Append( "min-viewport-" );
         else if ( sizingDefinition.IsMax )
             sb.Append( "max-" );
         else if ( sizingDefinition.IsViewport )
@@ -1382,10 +1386,16 @@ public class BulmaClassProvider : ClassProvider
             ? "width"
             : "height" );
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
+
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 
