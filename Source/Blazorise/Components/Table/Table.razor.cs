@@ -38,6 +38,14 @@ public partial class Table : BaseDraggableComponent
 
     private bool resizable;
 
+    private TableRow lastTableRow;
+
+    private double totalRowWidth;
+
+    private double fixedCellPosition;
+
+    private double lastFixedCellWidth;
+
     #endregion
 
     #region Constructors
@@ -179,6 +187,53 @@ public partial class Table : BaseDraggableComponent
         return ValueTask.CompletedTask;
     }
 
+    internal void NotifyTableRowCellInitialized( TableRow tableRow, TableRowHeader tableRowHeader )
+    {
+        CalculateTotalRowWidth( tableRow, tableRowHeader.Width, tableRowHeader.Fixed );
+    }
+
+    internal void NotifyTableRowCellInitialized( TableRow tableRow, TableHeaderCell tableHeaderCell )
+    {
+        CalculateTotalRowWidth( tableRow, tableHeaderCell.Width, tableHeaderCell.Fixed );
+    }
+
+    internal void NotifyTableRowCellInitialized( TableRow tableRow, TableRowCell tableRowCell )
+    {
+        CalculateTotalRowWidth( tableRow, tableRowCell.Width, tableRowCell.Fixed );
+    }
+
+    private void CalculateTotalRowWidth( TableRow tableRow, IFluentSizing width, bool cellIsFixed )
+    {
+        // reset sizes once we decect new row
+        if ( tableRow != lastTableRow )
+        {
+            totalRowWidth = 0;
+            fixedCellPosition = 0;
+            lastFixedCellWidth = 0;
+        }
+
+        if ( width is not null )
+        {
+            var fixedWidth = width.FixedWidth();
+
+            totalRowWidth += fixedWidth;
+
+            if ( cellIsFixed )
+            {
+                fixedCellPosition += lastFixedCellWidth;
+
+                lastFixedCellWidth += fixedWidth;
+            }
+        }
+
+        lastTableRow = tableRow;
+    }
+
+    internal double GetFixedCellPosition()
+    {
+        return fixedCellPosition;
+    }
+
     private ValueTask InitializeResizable()
         => JSModule.InitializeResizable( ElementRef, ElementId, ResizeMode );
 
@@ -215,7 +270,7 @@ public partial class Table : BaseDraggableComponent
     /// <summary>
     /// True if table needs to be placed inside of container element.
     /// </summary>
-    protected bool HasContainer => Responsive || FixedHeader || Resizable;
+    protected bool HasContainer => Responsive || FixedHeader || Resizable || FixedColumns;
 
     /// <summary>
     /// Gets or sets the <see cref="IJSTableModule"/> instance.

@@ -16,17 +16,47 @@ public partial class TableRowCell : BaseDraggableComponent
 
     private Color color = Color.Default;
 
+    private double? fixedLeftPosition;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        if ( ParentTable is not null )
+        {
+            ParentTable.NotifyTableRowCellInitialized( ParentTableRow, this );
+
+            if ( Fixed )
+            {
+                fixedLeftPosition = ParentTable.GetFixedCellPosition();
+            }
+        }
+
+        base.OnInitialized();
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TableRowCell() );
         builder.Append( ClassProvider.TableRowCellColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.TableRowCellFixed( Fixed ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        if ( Fixed && fixedLeftPosition != null )
+        {
+            builder.Append( $"left:{fixedLeftPosition:G29}px" );
+        }
+
+        base.BuildStyles( builder );
     }
 
     /// <summary>
@@ -42,6 +72,16 @@ public partial class TableRowCell : BaseDraggableComponent
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the cascaded parent table component.
+    /// </summary>
+    [CascadingParameter] protected Table ParentTable { get; set; }
+
+    /// <summary>
+    /// Gets or sets the cascaded parent table row component.
+    /// </summary>
+    [CascadingParameter] protected TableRow ParentTableRow { get; set; }
 
     /// <summary>
     /// Gets or sets the cell variant color.
@@ -67,6 +107,11 @@ public partial class TableRowCell : BaseDraggableComponent
     /// Number of columns a cell should span.
     /// </summary>
     [Parameter] public int? ColumnSpan { get; set; }
+
+    /// <summary>
+    /// Fixes the cell to the start of the table.
+    /// </summary>
+    [Parameter] public bool Fixed { get; set; }
 
     /// <summary>
     /// Occurs when the row cell is clicked.
