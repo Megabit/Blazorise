@@ -84,6 +84,12 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
             return;
         }
 
+        if (args.Code == "Enter" )
+        {
+            await Save();
+            return;
+        }
+
         if ( args.Code == "Tab" )
         {
             await Save();

@@ -237,12 +237,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             HandleSortColumn( column, false, null, suppressSortChangedEvent );
 
         // save command column reference for later
-        if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
+        if ( CommandColumn is null && column is DataGridCommandColumn<TItem> commandColumn )
         {
             CommandColumn = commandColumn;
         }
-
-        if ( MultiSelectColumn == null && column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
+        else if ( MultiSelectColumn is null && column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
         {
             MultiSelectColumn = multiSelectColumn;
         }
@@ -273,6 +272,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             SortByColumns.Remove( column );
 
             _ = InvokeAsync( async () => await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, SortDirection.Default ) ) );
+        }
+
+        if ( column is DataGridCommandColumn<TItem> commandColumn )
+        {
+            CommandColumn = null;
+        }
+        else if ( column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
+        {
+            MultiSelectColumn = null;
         }
 
         return removed;
