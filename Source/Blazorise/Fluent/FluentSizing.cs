@@ -24,6 +24,8 @@ public interface IFluentSizing
     /// <param name="styleProvider">Currently used style provider.</param>
     /// <returns>List of styles for the given rules and the style provider.</returns>
     string Style( IStyleProvider styleProvider );
+
+    double FixedWidth();
 }
 
 /// <summary>
@@ -250,9 +252,9 @@ public class FluentSizing :
     private readonly Dictionary<SizingSize, List<SizingDefinition>> rules = new();
 
     /// <summary>
-    /// Holds the list of defined sizing rules for styles.
+    /// Holds the sizing rules for the style.
     /// </summary>
-    private Dictionary<string, double> styleRules;
+    private (string unit, double size) styleRule;
 
     /// <summary>
     /// Indicates if the rules have changed.
@@ -319,13 +321,13 @@ public class FluentSizing :
         {
             void BuildStyles( StyleBuilder builder )
             {
-                if ( styleRules?.Count > 0 )
+                if ( styleRule.unit is not null )
                 {
                     var sizingTypeName = sizingType == SizingType.Width
                         ? "width"
                         : "height";
 
-                    builder.Append( string.Join( ";", styleRules.Select( r => $"{sizingTypeName}:{r.Value:G29}{r.Key}" ) ) );
+                    builder.Append( $"{sizingTypeName}:{styleRule.size:G29}{styleRule.unit}" );
                 }
             }
 
@@ -373,11 +375,10 @@ public class FluentSizing :
     /// <param name="unit">Unit it the style.</param>
     /// <param name="size">Size of the element.</param>
     /// <returns>Next rule reference.</returns>returns>
-    public IFluentSizingMinMaxViewportOnBreakpoint WithSize( string unit, double size )
+    public IFluentSizing WithSize( string unit, double size )
     {
-        styleRules ??= new();
-
-        styleRules[unit] = size;
+        styleRule.unit = unit;
+        styleRule.size = size;
 
         return this;
     }
@@ -429,6 +430,11 @@ public class FluentSizing :
         Dirty();
 
         return this;
+    }
+
+    public double FixedWidth()
+    {
+        return styleRule.size;
     }
 
     #endregion
