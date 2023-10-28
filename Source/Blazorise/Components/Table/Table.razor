@@ -4,26 +4,16 @@
     @if ( HasContainer )
     {
         <div class="@ContainerClassNames" style="@ContainerStyleNames">
-            <table @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
-                   draggable="@DraggableString"
-                   @ondragend="@OnDragEndHandler"
-                   @ondragend:preventDefault="@DragEndPreventDefault"
-                   @ondragenter="@OnDragEnterHandler"
-                   @ondragenter:preventDefault="@DragEnterPreventDefault"
-                   @ondragleave="@OnDragLeaveHandler"
-                   @ondragleave:preventDefault="@DragLeavePreventDefault"
-                   @ondragstart="@OnDragStartHandler"
-                   @ondragstart:preventDefault="@DragStartPreventDefault"
-                   @ondrop="@OnDropHandler"
-                   @ondrop:preventDefault="@DropPreventDefault"
-                   @oncontextmenu="@OnContextMenuHandler"
-                   @oncontextmenu:preventDefault="@ContextMenuPreventDefault"
-                   @attributes="@Attributes">
-                @ChildContent
-            </table>
+            @tableContent
         </div>
     }
     else
+    {
+        @tableContent
+    }
+</CascadingValue>
+@code {
+    private RenderFragment tableContent => __builder =>
     {
         <table @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
                draggable="@DraggableString"
@@ -42,5 +32,5 @@
                @attributes="@Attributes">
             @ChildContent
         </table>
-    }
-</CascadingValue>
+    };
+}
