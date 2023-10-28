@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -73,61 +74,81 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
     protected async Task HandleCellKeyDown( KeyboardEventArgs args, DataGridColumn<TItem> column )
     {
-        if ( ParentDataGrid.IsCellEdit && column.CellEditing )
+        var isCellEdit = ParentDataGrid.IsCellEdit && column.CellEditing;
+        if ( !isCellEdit )
+            return;
+
+        if ( args.Code == "Escape" )
         {
-            if ( args.Code == "Escape" )
-            {
-                await Cancel.InvokeAsync();
+            await Cancel.InvokeAsync();
+            return;
+        }
+
+        if ( args.Code == "Tab" )
+        {
+            await Save();
+
+            if ( ParentDataGrid.EditState == DataGridEditState.Edit )
                 return;
-            }
 
-            if ( args.Code == "Tab" )
+            if ( args.ShiftKey )
             {
-                await Save();
+                await HandleCellEditSelectPreviousColumn( column );
+            }
+            else
+            {
+                await HandleCellEditSelectNextColumn( column );
+            }
+        }
+    }
 
-                if ( ParentDataGrid.EditState == DataGridEditState.Edit )
-                    return;
+    private async Task HandleCellEditSelectNextColumn( DataGridColumn<TItem> currentColumn )
+    {
+        var currentIdx = OrderedColumnsForEditing?.Index( x => x.IsEqual( currentColumn ) ) ?? -1;
+        var nextColumn = OrderedColumnsForEditing.ElementAtOrDefault( currentIdx + 1 );
 
-
-                var currentIdx = OrderedColumnsForEditing.Index( x => x.IsEqual( column ) );
-
-                if ( args.ShiftKey )
+        if ( nextColumn is not null )
+        {
+            await ParentDataGrid.HandleCellEdit( nextColumn, Item );
+        }
+        else
+        {
+            if ( !ParentDataGrid.DisplayData.IsNullOrEmpty() )
+            {
+                var currentEditRowIdx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( Item ) );
+                var nextVisibleRow = ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx + 1 );
+                var nextRowFirstColumn = OrderedColumnsForEditing.FirstOrDefault();
+                if ( nextVisibleRow is not null && nextRowFirstColumn is not null )
                 {
-                    var previousColumn = OrderedColumnsForEditing.ElementAtOrDefault( currentIdx - 1 );
-                    if ( previousColumn is not null )
-                        await ParentDataGrid.HandleCellEdit( previousColumn, Item );
-                    else
-                    {
-                        var currentEditRowIdx = ParentDataGrid.Data.Index( x => x.IsEqual( Item ) );
-                        var previousVisibleRow = ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx - 1 );
-                        var previousRowLastColumn = OrderedColumnsForEditing.LastOrDefault();
-                        if ( previousVisibleRow is not null && previousRowLastColumn is not null )
-                        {
-                            await ParentDataGrid.HandleCellEdit( previousRowLastColumn, previousVisibleRow );
-                        }
-                    }
+                    await ParentDataGrid.HandleCellEdit( nextRowFirstColumn, nextVisibleRow );
                 }
-                else
-                {
-                    var nextColumn = OrderedColumnsForEditing.ElementAtOrDefault( currentIdx + 1 );
+            }
+        }
+    }
 
-                    if ( nextColumn is not null )
-                        await ParentDataGrid.HandleCellEdit( nextColumn, Item );
-                    else
-                    {
-                        var currentEditRowIdx = ParentDataGrid.Data.Index( x => x.IsEqual( Item ));
-                        var nextVisibleRow = ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx + 1 );
-                        var nextRowFirstColumn = OrderedColumnsForEditing.FirstOrDefault();
-                        if ( nextVisibleRow is not null && nextRowFirstColumn is not null )
-                        {
-                            await ParentDataGrid.HandleCellEdit( nextRowFirstColumn, nextVisibleRow );
-                        }
-                    }
+    private async Task HandleCellEditSelectPreviousColumn( DataGridColumn<TItem> currentColumn )
+    {
+        var currentIdx = OrderedColumnsForEditing?.Index( x => x.IsEqual( currentColumn ) ) ?? -1;
+        var previousColumn = OrderedColumnsForEditing?.ElementAtOrDefault( currentIdx - 1 );
+
+        if ( previousColumn is not null )
+        {
+            await ParentDataGrid.HandleCellEdit( previousColumn, Item );
+        }
+        else
+        {
+            if ( !ParentDataGrid.DisplayData.IsNullOrEmpty() )
+            {
+                var currentEditRowIdx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( Item ) );
+                var previousVisibleRow = ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx - 1 );
+                var previousRowLastColumn = OrderedColumnsForEditing.LastOrDefault();
+                if ( previousVisibleRow is not null && previousRowLastColumn is not null )
+                {
+                    await ParentDataGrid.HandleCellEdit( previousRowLastColumn, previousVisibleRow );
                 }
             }
 
         }
-
     }
 
     #endregion
