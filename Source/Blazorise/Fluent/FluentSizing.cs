@@ -553,25 +553,35 @@ public static class Width
     public static IFluentSizingMinMaxViewportOnBreakpoint Auto => new FluentSizing( SizingType.Width ).WithSize( SizingSize.Auto );
 
     /// <summary>
-    /// Defines the manual size in pixels.
+    /// Defines the element size in pixels (1px = 1/96th of 1in).
     /// </summary>
     /// <param name="size">Size value.</param>
+    /// <remarks>
+    /// Pixels (px) are relative to the viewing device. For low-dpi devices, 1px is one device pixel (dot) of the display. For printers and high resolution screens 1px implies multiple device pixels.
+    /// </remarks>
     /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
     public static IFluentSizing Px( double size ) => new FluentSizing( SizingType.Width ).WithSize( "px", size );
 
     /// <summary>
-    /// Defines the manual size in pixels.
+    /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
     public static IFluentSizing Rem( double size ) => new FluentSizing( SizingType.Width ).WithSize( "rem", size );
 
     /// <summary>
-    /// Defines the manual size in pixels.
+    /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
     public static IFluentSizing Em( double size ) => new FluentSizing( SizingType.Width ).WithSize( "em", size );
+
+    /// <summary>
+    /// Defines the advance measure (width) of the glyph "0" of the element's font.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
+    public static IFluentSizing Ch( double size ) => new FluentSizing( SizingType.Width ).WithSize( "ch", size );
 
     /// <summary>
     /// Defines the maximum allowed element width. Shorthand for "Width.Is100.Max".
@@ -620,25 +630,35 @@ public static class Height
     public static IFluentSizingMinMaxViewportOnBreakpoint Auto => new FluentSizing( SizingType.Height ).WithSize( SizingSize.Auto );
 
     /// <summary>
-    /// Defines the manual size in pixels.
+    /// Defines the element size in pixels (1px = 1/96th of 1in).
     /// </summary>
     /// <param name="size">Size value.</param>
+    /// <remarks>
+    /// Pixels (px) are relative to the viewing device. For low-dpi devices, 1px is one device pixel (dot) of the display. For printers and high resolution screens 1px implies multiple device pixels.
+    /// </remarks>
     /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
     public static IFluentSizing Px( double size ) => new FluentSizing( SizingType.Height ).WithSize( "px", size );
 
     /// <summary>
-    /// Defines the manual size in pixels.
+    /// Defines the element size, relative to font-size of the root element.
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
     public static IFluentSizing Rem( double size ) => new FluentSizing( SizingType.Height ).WithSize( "rem", size );
 
     /// <summary>
-    /// Defines the manual size in pixels.
+    /// Defines the element size, relative to the font-size of the element (2em means 2 times the size of the current font).
     /// </summary>
     /// <param name="size">Size value.</param>
     /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
     public static IFluentSizing Em( double size ) => new FluentSizing( SizingType.Height ).WithSize( "em", size );
+
+    /// <summary>
+    /// Defines the advance measure (width) of the glyph "0" of the element's font.
+    /// </summary>
+    /// <param name="size">Size value.</param>
+    /// <returns>Returns the <see cref="IFluentSizing"/> reference.</returns>
+    public static IFluentSizing Ch( double size ) => new FluentSizing( SizingType.Height ).WithSize( "ch", size );
 
     /// <summary>
     /// Defines the maximum allowed element height. Shorthand for "Height.Is100.Max".
