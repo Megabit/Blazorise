@@ -84,7 +84,7 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
             return;
         }
 
-        if (args.Code == "Enter" )
+        if ( args.Code == "Enter" || args.Code == "NumpadEnter" )
         {
             await Save();
             return;
