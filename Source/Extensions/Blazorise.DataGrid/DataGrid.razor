@@ -65,7 +65,7 @@
                         {
                             @if ( column.ColumnType == DataGridColumnType.Command )
                             {
-                                @if ( IsCommandVisible )
+                                @if ( IsCommandVisible || ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Cell ) )
                                 {
                                     <TableHeaderCell Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                         @if ( CanInsertNewItem && editState != DataGridEditState.New )

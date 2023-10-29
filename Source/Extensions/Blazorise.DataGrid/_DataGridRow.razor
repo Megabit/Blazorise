@@ -34,7 +34,7 @@
         {
             @if ( column.ColumnType == DataGridColumnType.Command )
             {
-                @if ( ParentDataGrid.IsCommandVisible )
+                @if ( ParentDataGrid.IsCommandVisible || ( ParentDataGrid.EditMode == DataGridEditMode.Inline || ParentDataGrid.EditMode == DataGridEditMode.Cell ) )
                 {
                     <_DataGridRowCommand @key=column TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Column="column" />
                 }

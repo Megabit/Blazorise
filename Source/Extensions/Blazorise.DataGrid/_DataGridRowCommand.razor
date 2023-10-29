@@ -104,3 +104,11 @@ else if ( EditState == DataGridEditState.None && ParentDataGrid.IsCommandVisible
         </Div>
     </TableRowCell>
 }
+else if ( EditState == DataGridEditState.None && !ParentDataGrid.IsCommandVisible && ( ( ParentDataGrid.EditMode == DataGridEditMode.Inline || ParentDataGrid.EditMode == DataGridEditMode.Cell ) ) )
+{
+
+        <TableRowCell @onclick:stopPropagation="@(ParentDataGrid.CommandColumn?.PreventRowClick ?? false)" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap">
+            <Div Flex="@DefaultFlex" Gap="@DefaultGap">
+            </Div>
+        </TableRowCell>
+}
