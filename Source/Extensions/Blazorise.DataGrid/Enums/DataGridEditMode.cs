@@ -22,7 +22,6 @@ public enum DataGridEditMode
 
     /// <summary>
     /// Any cell value can be edited directly allowing for rapid editing of data.
-    /// <para>It is of note that certain features may be disabled. e.g edit command column, etc...</para>
     /// </summary>
     Cell
 }

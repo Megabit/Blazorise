@@ -97,6 +97,22 @@
     Introduced a new <Code>HelpText</Code> Parameter in the <Code>DataGridColumn</Code> that will render an help text below the column field input when editing.
 </Paragraph>
 
+<Paragraph>
+    Introduced a new <Code>DataGridEditMode</Code> option, named Cell, this allows he user to edit the cell value directly, very much like an excel file behaves.
+</Paragraph>
+
+<Paragraph>
+    Every DataGrid edit related feature should still work as expected, like validations, etc.
+</Paragraph>
+
+<Paragraph>
+    For an experience similar to excel, we recommend using the <Code>Cell</Code> edit mode with the <Code>DataGridCommandColumn</Code> configured as <Code>EditCommandAllowed="false" DeleteCommandAllowed="false"</Code>. Additionally you might even set the <Code>SaveCommandAllowed="false" CancelCommandAllowed="false"</Code>, and use the Enter and Escape keys to Save and Cancel respectively.
+</Paragraph>
+
+<Paragraph>
+    It is of note that <Code>Tab </Code> and <Code>Shift+Tab</Code> will also work as expected. Whenever the user presses these keys, the cell will be saved and the next or previous cell will be selected.
+</Paragraph>
+
 <NewsPageSubtitle>
     Tabs
 </NewsPageSubtitle>
