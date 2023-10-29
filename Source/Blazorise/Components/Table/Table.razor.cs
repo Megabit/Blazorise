@@ -214,7 +214,7 @@ public partial class Table : BaseDraggableComponent
 
         if ( width is not null )
         {
-            var fixedWidth = width.FixedWidth();
+            var fixedWidth = width.FixedSize ?? 0d;
 
             totalRowWidth += fixedWidth;
 

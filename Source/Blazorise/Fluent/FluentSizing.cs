@@ -25,7 +25,10 @@ public interface IFluentSizing
     /// <returns>List of styles for the given rules and the style provider.</returns>
     string Style( IStyleProvider styleProvider );
 
-    double FixedWidth();
+    /// <summary>
+    /// Gets the fixed size value, or null if it's undefined.
+    /// </summary>
+    double? FixedSize { get; }
 }
 
 /// <summary>
@@ -220,6 +223,22 @@ public record SizingDefinition
 }
 
 /// <summary>
+/// Holds the build information for fixes sizing rules.
+/// </summary>
+public record FixedSizingDefiniton
+{
+    /// <summary>
+    /// Defines the CSS unit name.
+    /// </summary>
+    public string Unit { get; set; }
+
+    /// <summary>
+    /// Defines the size value.
+    /// </summary>
+    public double Size { get; set; }
+}
+
+/// <summary>
 /// Default builder implementation of <see cref="IFluentSizing"/>.
 /// </summary>
 public class FluentSizing :
@@ -254,7 +273,7 @@ public class FluentSizing :
     /// <summary>
     /// Holds the sizing rules for the style.
     /// </summary>
-    private (string unit, double size) styleRule;
+    private FixedSizingDefiniton styleRule;
 
     /// <summary>
     /// Indicates if the rules have changed.
@@ -321,13 +340,13 @@ public class FluentSizing :
         {
             void BuildStyles( StyleBuilder builder )
             {
-                if ( styleRule.unit is not null )
+                if ( !string.IsNullOrEmpty( styleRule.Unit ) )
                 {
                     var sizingTypeName = sizingType == SizingType.Width
                         ? "width"
                         : "height";
 
-                    builder.Append( $"{sizingTypeName}:{styleRule.size:G29}{styleRule.unit}" );
+                    builder.Append( $"{sizingTypeName}:{styleRule.Size:G29}{styleRule.Unit}" );
                 }
             }
 
@@ -377,8 +396,11 @@ public class FluentSizing :
     /// <returns>Next rule reference.</returns>returns>
     public IFluentSizing WithSize( string unit, double size )
     {
-        styleRule.unit = unit;
-        styleRule.size = size;
+        styleRule = new()
+        {
+            Unit = unit,
+            Size = size,
+        };
 
         return this;
     }
@@ -432,10 +454,9 @@ public class FluentSizing :
         return this;
     }
 
-    public double FixedWidth()
-    {
-        return styleRule.size;
-    }
+    /// <inheritdoc/>
+    public double? FixedSize
+        => styleRule?.Size;
 
     #endregion
 
