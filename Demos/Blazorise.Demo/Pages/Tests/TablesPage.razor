@@ -481,7 +481,7 @@
                 <CardTitle>Fixed columns</CardTitle>
             </CardHeader>
             <CardBody>
-                <CardText>Use <code>FixedColumns</code> to lock some columns.</CardText>
+                <CardText>Use <code>FixedColumns</code> to lock some columns.</CardText> Try to drag the horizontal scrollbar to see it in action.
             </CardBody>
             <CardBody>
                 <Table Bordered FixedColumns>
@@ -489,7 +489,7 @@
                          <TableRow>
                             <TableHeaderCell Width="@Width.Px(50)" Fixed>#</TableHeaderCell>
                             <TableHeaderCell Width="@Width.Px(200)">Column heading</TableHeaderCell>
-                            <TableHeaderCell Width="@Width.Px(150)" Fixed>Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Px(150)" Fixed>Fixed heading</TableHeaderCell>
                             <TableHeaderCell Width="@Width.Px(200)">Column heading</TableHeaderCell>
                             <TableHeaderCell Width="@Width.Px(850)">Column heading</TableHeaderCell>
                             <TableHeaderCell Width="@Width.Px(330)">Column heading</TableHeaderCell>
@@ -505,7 +505,7 @@
                             <TableRow @key="@index">
                                 <TableRowHeader Width="@Width.Px(50)" Fixed>@index</TableRowHeader>
                                 <TableRowCell Width="@Width.Px(200)">Column content</TableRowCell>
-                                <TableRowCell Width="@Width.Px(150)" Fixed>Column content</TableRowCell>
+                                <TableRowCell Width="@Width.Px(150)" Fixed>Fixed column</TableRowCell>
                                 <TableRowCell Width="@Width.Px(200)">Column content</TableRowCell>
                                 <TableRowCell Width="@Width.Px(850)">Column content</TableRowCell>
                                 <TableRowCell Width="@Width.Px(330)">Column content</TableRowCell>
