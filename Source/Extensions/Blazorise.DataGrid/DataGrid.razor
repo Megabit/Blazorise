@@ -15,7 +15,7 @@
         @if ( IsCellEdit && ( CommandColumn is null || !CommandColumn.SaveCommandAllowed ) )
         {
             //Disable the default form behaviour where pressing enter submits the form and posts the page which is not expected in typical SPA fashion.
-            <Button Type="ButtonType.Submit" Disabled Display="Display.None"></Button>
+            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Disabled Display="Display.None"></Button>
         }
 
         @if ( IsGroupableByColumn )
