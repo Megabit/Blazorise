@@ -108,7 +108,6 @@ else if ( EditState == DataGridEditState.None && !ParentDataGrid.IsCommandVisibl
 {
 
         <TableRowCell @onclick:stopPropagation="@(ParentDataGrid.CommandColumn?.PreventRowClick ?? false)" Class="@(Column.CellClass?.Invoke(Item))" Style="@BuildCellStyle()" TextAlignment="@Column.TextAlignment" VerticalAlignment="@Column.VerticalAlignment" Display="@Column.Display" Flex="@Column.Flex" Gap="@Column.Gap">
-            <Div Flex="@DefaultFlex" Gap="@DefaultGap">
-            </Div>
+            <Span></Span>
         </TableRowCell>
 }
