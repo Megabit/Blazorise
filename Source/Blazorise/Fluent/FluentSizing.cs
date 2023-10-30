@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.Linq;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 #endregion
 
@@ -319,7 +320,7 @@ public class FluentSizing :
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules is not null && rules.Count > 0 )
+                if ( !rules.IsNullOrEmpty() )
                     builder.Append( rules.Select( r => classProvider.Sizing( sizingType, r.Key, r.Value ) ) );
             }
 
