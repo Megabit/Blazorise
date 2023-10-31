@@ -1,5 +1,7 @@
 ﻿#region Using directives
 using System.Linq;
+using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -28,12 +30,16 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
         }
     }
 
+    protected string elementId;
+
     #endregion
 
     #region Methods
 
     protected override void OnInitialized()
     {
+        elementId = IdGenerator.Generate;
+
         if ( Column.Data is not null )
         {
             selectItems = new();
@@ -67,9 +73,35 @@ public partial class _DataGridCellSelectEdit<TItem> : ComponentBase
         }
     }
 
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
+            {
+                await Task.Yield();
+                await Focus();
+            }
+        }
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
+    public async Task Focus()
+    {
+        await JSUtilitiesModule.Focus( default, elementId, true );
+    }
+
     #endregion
 
     #region Properties
+
+    [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
+
+    [Inject] public IIdGenerator IdGenerator { get; set; }
+    /// <summary>
+    /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+    /// </summary>
+    [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
     /// Column that this cell belongs to.

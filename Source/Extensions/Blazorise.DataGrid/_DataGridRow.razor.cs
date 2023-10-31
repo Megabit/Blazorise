@@ -47,6 +47,8 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// </summary>
     protected TableRow TableRowRef;
 
+    protected bool cellEditing;
+
     #endregion
 
     #region Methods
