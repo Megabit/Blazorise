@@ -1,22 +1,15 @@
-﻿@page "/tests/datagrid/editing/rapid-editing"
+﻿@page "/tests/datagrid/editing/batch-editing"
 <Row>
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Datagrid: Rapid Editing</CardTitle>
+                <CardTitle>Datagrid: Batch Editing</CardTitle>
             </CardHeader>
             <CardBody>
                 <Paragraph>
-                    Allows you to edit the cell value directly by clicking on it.
+                    Allows you to batch edit by allowing the user to edit multiple rows and then save all the changes at once.
                 </Paragraph>
-                <Field>
-                    <FieldLabel>
-                        Show Command Column
-                    </FieldLabel>
-                    <FieldBody>
-                        <Check @bind-Checked=showCommandColumn></Check>
-                    </FieldBody>
-                </Field>
+
             </CardBody>
             <CardBody>
                 <DataGrid TItem="Employee"
@@ -26,15 +19,13 @@
                           ShowPageSizes
                            @bind-SelectedRow="@selectedEmployee"
                           Editable
-                           EditMode="@DataGridEditMode.Cell"
+                           EditMode="@DataGridEditMode.Inline"
+                           BatchEdit
                           UseValidation
                            ValidationsSummaryLabel="The following validation errors have occurred..."
                           ShowValidationsSummary>
                     <DataGridColumns>
-                        @if ( showCommandColumn )
-                        {
-                            <DataGridCommandColumn TItem="Employee" EditCommandAllowed=false DeleteCommandAllowed=false></DataGridCommandColumn>
-                        }
+                        <DataGridCommandColumn />
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
                          <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable />
@@ -67,7 +58,6 @@
 
     [Inject] EmployeeData EmployeeData { get; set; }
 
-    private bool showCommandColumn = true;
     private List<Employee> inMemoryData;
     private Employee selectedEmployee;
 

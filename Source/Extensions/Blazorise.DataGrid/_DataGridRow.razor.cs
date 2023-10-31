@@ -107,10 +107,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                 if ( column.ExcludeFromInit )
                     continue;
 
-                cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, ParentDataGrid.UpdateCellEditValue, ParentDataGrid.ReadCellEditValue )
-                {
-                    CellValue = column.GetValue( Item ),
-                } );
+                cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, column.GetValue( Item ), ParentDataGrid.UpdateCellEditValue, ParentDataGrid.ReadCellEditValue ));
             }
         }
 
@@ -265,6 +262,14 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         return base.DisposeAsync( disposing );
     }
 
+    protected TItem GetCurrentItem()
+    {
+        var batchEditItem = ParentDataGrid.GetBatchEditItemByOriginal( Item );
+        return batchEditItem is null
+            ? Item
+            : batchEditItem.NewItem;
+    }
+
     #endregion
 
     #region Properties
@@ -280,9 +285,22 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets the row background color.
     /// </summary>
-    protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
-        ? selectedStyling?.Background
-        : styling?.Background ) ?? Blazorise.Background.Default;
+    protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling )
+    {
+        var batchEditItem = ParentDataGrid.GetBatchEditItemByOriginal( Item );
+        if (batchEditItem is not null && batchEditItem.State == BatchEditItemState.Delete )
+        {
+            //TODO : Resolve ROW styles
+            return Background.Warning;
+        }
+        else
+        { 
+            return ( IsSelected
+            ? selectedStyling?.Background
+            : styling?.Background ) ?? Blazorise.Background.Default;
+        }
+    }
+
 
     /// <summary>
     /// Gets the row color.
@@ -292,7 +310,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         : styling?.Color ) ?? Blazorise.Color.Default;
 
     /// <summary>
-    /// Gets the row classnames.
+    /// Gets the row class names.
     /// </summary>
     protected string GetClass( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => IsSelected
         ? selectedStyling?.Class
@@ -304,6 +322,38 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected string GetStyle( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => IsSelected
         ? selectedStyling?.Style
         : styling?.Style;
+
+    /// <summary>
+    /// Gets the cell background color.
+    /// </summary>
+    protected Background GetCellBackground( DataGridColumn<TItem> column )
+    {
+        var batchEditItem = ParentDataGrid.GetBatchEditItemByOriginal( Item );
+
+        if ( batchEditItem is not null &&  batchEditItem.State == BatchEditItemState.Edit && batchEditItem.IsModified( column.Field ) )
+        {
+            //TODO : Resolve DataGridColumn custom styles
+            return Background.Success;
+        }
+        return Background.Default;
+    }
+
+    /// <summary>
+    /// Gets the cell color.
+    /// </summary>
+    protected Color GetCellColor( DataGridRowCellStyling styling, DataGridRowCellStyling selectedStyling ) => ( IsSelected
+        ? selectedStyling?.Color             //TODO : Resolve DataGridColumn custom styles
+        : styling?.Color ) ?? Blazorise.Color.Default;
+
+    /// <summary>
+    /// Gets the cell class names.
+    /// </summary>
+    protected string GetCellClass( DataGridRowCellStyling styling, DataGridRowCellStyling selectedStyling ) => IsSelected
+        ? selectedStyling?.Class             //TODO : Resolve DataGridColumn custom styles
+        : styling?.Class;
+
+
+
 
     /// <summary>
     /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.

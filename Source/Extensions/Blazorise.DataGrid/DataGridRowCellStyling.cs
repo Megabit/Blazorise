@@ -3,7 +3,7 @@
 /// <summary>
 /// Helpers class to override default row styling.
 /// </summary>
-public class DataGridRowStyling
+public class DataGridRowCellStyling
 {
     /// <summary>
     /// Row custom class names.

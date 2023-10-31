@@ -1,89 +1,93 @@
 @typeparam TItem
 @inherits _BaseDataGridRow<TItem>
 @{
-    var styling = new DataGridRowStyling();
-    var selectedStyling = new DataGridRowStyling { Color = Blazorise.Color.Primary };
-
-    @if ( IsSelected )
+    @if ( RowInfo is not null )
     {
-        ParentDataGrid.SelectedRowStyling?.Invoke( Item, selectedStyling );
-    }
-    else
-    {
-        ParentDataGrid.RowStyling?.Invoke( Item, styling );
-    }
+        var styling = new DataGridRowStyling();
+        var selectedStyling = new DataGridRowStyling { Color = Blazorise.Color.Primary };
 
-    <TableRow @ref="TableRowRef"
-              Clicked="@HandleClick"
-              MouseOver="BindMouseOver() ? HandleMouseOver : null"
-              MouseLeave="BindMouseLeave() ? HandleMouseLeave : null"
-              DoubleClicked="@HandleDoubleClick"
-              ContextMenu="@HandleContextMenu"
-              ContextMenuPreventDefault="@ParentDataGrid.RowContextMenuPreventDefault"
-              Background="@GetBackground(styling, selectedStyling)"
-              Color="@GetColor(styling, selectedStyling)"
-              Class="@GetClass(styling, selectedStyling)"
-              Style="@GetStyle(styling, selectedStyling)"
-              HoverCursor="@GetHoverCursor()"
-              @onkeydown="@(ParentDataGrid.Navigable ? HandleKeyDown : null)"
-              tabindex="@(ParentDataGrid.Navigable || ParentDataGrid.IsCellEdit ? 0 : null)">
-
-        @ParentDataGrid.groupIndentationFragment
-
-        @foreach ( var column in Columns )
+        @if ( IsSelected )
         {
-            @if ( column.ColumnType == DataGridColumnType.Command )
-            {
-                @if ( ParentDataGrid.IsCommandVisible || ( ParentDataGrid.EditMode == DataGridEditMode.Inline || ParentDataGrid.EditMode == DataGridEditMode.Cell ) )
-                {
-                    <_DataGridRowCommand @key=column TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Column="column" />
-                }
-            }
-            else if ( column.ColumnType == DataGridColumnType.MultiSelect )
-            {
-                @if ( ParentDataGrid.MultiSelect )
-                {
-                    <_DataGridRowMultiSelect @key=column @ref="multiSelect" TItem="TItem" Item="Item" Checked="@IsSelected" CheckedClicked="@OnMultiSelectCheckClicked" Column="column" />
-                }
-            }
-            else
-            {
-                <TableRowCell @key=column
-                              @onclick=@(ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, Item) : default)
-                              Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
-                    @if ( column.DisplayTemplate != null )
-                    {
-                        @column.DisplayTemplate( Item )
-                    }
-                    else if ( ParentDataGrid.EmptyCellTemplate != null && column.GetValue( Item ) == null )
-                    {
-                        @ParentDataGrid.EmptyCellTemplate( Item )
-                    }
-                    else
-                    {
-                        var displayValue = column.FormatDisplayValue( Item );
+            ParentDataGrid.SelectedRowStyling?.Invoke( GetCurrentItem(), selectedStyling );
+        }
+        else
+        {
+            ParentDataGrid.RowStyling?.Invoke( GetCurrentItem(), styling );
+        }
 
-                        @if ( column.ColumnType == DataGridColumnType.Check )
+        <TableRow @ref="TableRowRef"
+                  Clicked="@HandleClick"
+                  MouseOver="BindMouseOver() ? HandleMouseOver : null"
+                  MouseLeave="BindMouseLeave() ? HandleMouseLeave : null"
+                  DoubleClicked="@HandleDoubleClick"
+                  ContextMenu="@HandleContextMenu"
+                  ContextMenuPreventDefault="@ParentDataGrid.RowContextMenuPreventDefault"
+                  Background="@GetBackground(styling, selectedStyling)"
+                  Color="@GetColor(styling, selectedStyling)"
+                  Class="@GetClass(styling, selectedStyling)"
+                  Style="@GetStyle(styling, selectedStyling)"
+                  HoverCursor="@GetHoverCursor()"
+                  @onkeydown="@(ParentDataGrid.Navigable ? HandleKeyDown : null)"
+                  tabindex="@(ParentDataGrid.Navigable || ParentDataGrid.IsCellEdit ? 0 : null)">
+
+            @ParentDataGrid.groupIndentationFragment
+
+            @foreach ( var column in Columns )
+            {
+                @if ( column.ColumnType == DataGridColumnType.Command )
+                {
+                    @if ( ParentDataGrid.IsCommandVisible || ( ParentDataGrid.EditMode == DataGridEditMode.Inline || ParentDataGrid.EditMode == DataGridEditMode.Cell ) )
+                    {
+                        <_DataGridRowCommand @key=column TItem="TItem" Item="@GetCurrentItem()" EditState="DataGridEditState.None" Column="column" />
+                    }
+                }
+                else if ( column.ColumnType == DataGridColumnType.MultiSelect )
+                {
+                    @if ( ParentDataGrid.MultiSelect )
+                    {
+                        <_DataGridRowMultiSelect @key=column @ref="multiSelect" TItem="TItem" GetCurrentItem()="GetCurrentItem()" Checked="@IsSelected" CheckedClicked="@OnMultiSelectCheckClicked" Column="column" />
+                    }
+                }
+                else
+                {
+                    <TableRowCell @key=column
+                                  @onclick=@(ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, GetCurrentItem()) : default)
+                                  Style="@column.BuildCellStyle(GetCurrentItem())" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap"
+                                  Background="GetCellBackground(column)">
+                        @if ( column.DisplayTemplate != null )
                         {
-                            <Check TValue="bool" ReadOnly Disabled Checked="@(displayValue == bool.TrueString)" />
+                            @column.DisplayTemplate( GetCurrentItem() )
+                        }
+                        else if ( ParentDataGrid.EmptyCellTemplate != null && column.GetValue( GetCurrentItem() ) == null )
+                        {
+                            @ParentDataGrid.EmptyCellTemplate( GetCurrentItem() )
                         }
                         else
                         {
-                            @displayValue
-                        }
-                    }
-                </TableRowCell>
-            }
-        }
-        @if ( ParentDataGrid.RowOverlayTemplate is not null && mouseIsOver )
-        {
-            var rowOverlayPosition = ParentDataGrid.RowOverlayPosition == DataGridRowOverlayPosition.Start
-            ? Position.Absolute.Start
-            : Position.Absolute.End;
+                            var displayValue = column.FormatDisplayValue( GetCurrentItem() );
 
-            <Div Class="b-table-row-overlay" Background="@ParentDataGrid.RowOverlayBackground" Position="@rowOverlayPosition" Style="z-index:1;" @onclick:stopPropagation>
-                @ParentDataGrid.RowOverlayTemplate( new( Item ) )
-            </Div>
-        }
-    </TableRow>
+                            @if ( column.ColumnType == DataGridColumnType.Check )
+                            {
+                                <Check TValue="bool" ReadOnly Disabled Checked="@(displayValue == bool.TrueString)" />
+                            }
+                            else
+                            {
+                                @displayValue
+                            }
+                        }
+                    </TableRowCell>
+                }
+            }
+            @if ( ParentDataGrid.RowOverlayTemplate is not null && mouseIsOver )
+            {
+                var rowOverlayPosition = ParentDataGrid.RowOverlayPosition == DataGridRowOverlayPosition.Start
+                ? Position.Absolute.Start
+                : Position.Absolute.End;
+
+                <Div Class="b-table-row-overlay" Background="@ParentDataGrid.RowOverlayBackground" Position="@rowOverlayPosition" Style="z-index:1;" @onclick:stopPropagation>
+                    @ParentDataGrid.RowOverlayTemplate( new( GetCurrentItem() ) )
+                </Div>
+            }
+        </TableRow>
+    }
 }
