@@ -3129,5 +3129,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter] public RenderFragment<FilterColumnContext<TItem>> FilterMenuTemplate { get; set; }
 
+    /// <summary>
+    /// Whether the DataGrid will be in batch edit mode. This will make it so every change will only be saved when the SaveBatch is called.
+    /// </summary>
+    [Parameter] public bool BatchEdit { get; set; }
+
     #endregion
 }
