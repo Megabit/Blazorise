@@ -894,13 +894,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( Data == null || editState == DataGridEditState.None )
             return;
 
-        if ( UseValidation )
+        if ( !await ValidateAll() )
         {
-            var result = PopupVisible
-                ? await dataGridModalRef.ValidateAll()
-                : await dataGridRowEditRef.ValidateAll();
-
-            if ( !result )
                 return;
         }
 
@@ -914,6 +909,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Validates the current edit operation.
+    /// </summary>
+    /// <returns></returns>
+    public async Task<bool> ValidateAll()
+    {
+        if ( UseValidation )
+        {
+            var result = PopupVisible
+                ? await dataGridModalRef.ValidateAll()
+                : await dataGridRowEditRef.ValidateAll();
+
+            return result;
+        }
+        return true;
     }
 
     /// <summary>
@@ -936,6 +948,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns></returns>
     internal protected async Task SaveInternal()
     {
+        if ( Data == null || editState == DataGridEditState.None )
+            return;
+
+        if ( !await ValidateAll() )
+        {
+            return;
+        }
+
         if ( BatchEdit )
         {
             await SaveBatchItem();
