@@ -9,8 +9,21 @@
                 <Paragraph>
                     Allows you to batch edit by allowing the user to edit multiple rows and then save all the changes at once.
                 </Paragraph>
-
+                <Field>
+                    <FieldLabel>
+                        Edit Mode
+                    </FieldLabel>
+                    <FieldBody>
+                        <Select @bind-SelectedValue="@editMode">
+                            <SelectItem Value="DataGridEditMode.Form">Form</SelectItem>
+                            <SelectItem Value="DataGridEditMode.Inline">Inline</SelectItem>
+                            <SelectItem Value="DataGridEditMode.Popup">Popup</SelectItem>
+                            <SelectItem Value="DataGridEditMode.Cell">Cell</SelectItem>
+                        </Select>
+                    </FieldBody>
+                </Field>
             </CardBody>
+
             <CardBody>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
@@ -19,7 +32,7 @@
                           ShowPageSizes
                            @bind-SelectedRow="@selectedEmployee"
                           Editable
-                           EditMode="@DataGridEditMode.Inline"
+                           EditMode="@editMode"
                            BatchEdit
                           UseValidation
                            ValidationsSummaryLabel="The following validation errors have occurred..."
@@ -60,6 +73,7 @@
 
     private List<Employee> inMemoryData;
     private Employee selectedEmployee;
+    private DataGridEditMode editMode = DataGridEditMode.Form;
 
     protected override async Task OnInitializedAsync()
     {
