@@ -25,7 +25,17 @@
             </CardBody>
 
             <CardBody>
-                <DataGrid TItem="Employee"
+                <Paragraph>
+                    <Field>
+                        <FieldLabel>Number of Row Changes:</FieldLabel>
+                        <FieldBody>
+                            <TextEdit ReadOnly Text="@((dataGridRef?.BatchChanges?.Count ?? 0).ToString())"></TextEdit>
+                         </FieldBody>
+                     </Field>
+                </Paragraph>
+                <DataGrid 
+                          @ref=dataGridRef
+                          TItem="Employee"
                           Data="inMemoryData"
                           Responsive
                           ShowPager
@@ -71,6 +81,7 @@
 
     [Inject] EmployeeData EmployeeData { get; set; }
 
+    private DataGrid<Employee> dataGridRef;
     private List<Employee> inMemoryData;
     private Employee selectedEmployee;
     private DataGridEditMode editMode = DataGridEditMode.Form;
