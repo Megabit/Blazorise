@@ -198,6 +198,21 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     protected override TValue InternalValue { get => Value; set => Value = value; }
 
     /// <summary>
+    /// Gets the string representation of the <see cref="Step"/> value.
+    /// </summary>
+    protected string StepString => Step.ToCultureInvariantString();
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Min"/> value.
+    /// </summary>
+    protected string MinString => Min.ToCultureInvariantString();
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Max"/> value.
+    /// </summary>
+    protected string MaxString => Max.ToCultureInvariantString();
+
+    /// <summary>
     /// Gets the culture info defined on the input field.
     /// </summary>
     protected CultureInfo CurrentCultureInfo
