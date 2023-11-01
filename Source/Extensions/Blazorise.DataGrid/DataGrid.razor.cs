@@ -896,7 +896,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( !await ValidateAll() )
         {
-                return;
+            return;
         }
 
         if ( BatchEdit )
@@ -931,15 +931,64 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Saves all the tracked batch edit changes.
     /// </summary>
-    internal protected Task SaveBatch()
+    internal protected async Task SaveBatch()
     {
         if ( batchChanges.IsNullOrEmpty() )
-            return Task.CompletedTask;
+            return;
 
-        //TODO : Trigger Batch saving... events, etc...
+        if ( await IsSafeToProceed( BatchSaving, batchChanges ) )
+        {
+            if ( UseInternalEditing )
+            {
+                foreach ( var batchChange in batchChanges )
+                {
+                    switch ( batchChange.State )
+                    {
+                        case BatchEditItemState.New:
+                            if ( CanInsertNewItem && Data is ICollection<TItem> data )
+                                data.Add( batchChange.NewItem );
+                            break;
+                        case BatchEditItemState.Edit:
+                            SetItemEditedValues( batchChange.OldItem, batchChange.Values );
+                            break;
+                        case BatchEditItemState.Delete:
+                            if ( Data is ICollection<TItem> data2 )
+                                data2.Remove( batchChange.OldItem );
+                            break;
+                    }
+                }
+            }
 
-        batchChanges.Clear();
-        return Task.CompletedTask;
+            await BatchSaved.InvokeAsync( new BatchSavedEventArgs<TItem>( batchChanges ) );
+
+            var newItem = batchChanges.Any( x => x.State == BatchEditItemState.New );
+            var deletedItem = batchChanges.Any( x => x.State == BatchEditItemState.Delete );
+
+            if (newItem || deletedItem )
+            {
+                SetDirty();
+            }
+
+            if ( ManualReadMode )
+            {
+                // When deleting and the page becomes empty and we aren't the first page:
+                // go to the previous page
+                if ( deletedItem && ShowPager && CurrentPage > paginationContext.FirstVisiblePage && !Data.Any() )
+                {
+                    await Paginate( ( CurrentPage - 1 ).ToString() );
+                }
+
+                else if ( newItem )
+                {
+                    // If a new item is added, the data should be refreshed
+                    // to account for paging, sorting, and filtering
+
+                    await HandleReadData( CancellationToken.None );
+                }
+            }
+
+            batchChanges.Clear();
+        }
     }
 
     /// <summary>
@@ -1047,6 +1096,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await VirtualizeOnEditCompleteScroll().AsTask();
         }
 
+    }
+
+    private void SetItemEditedValues( TItem item, Dictionary<string, CellEditContext> values )
+    {
+        foreach ( var column in EditableColumns )
+        {
+            column.SetValue( item, values[column.Field].CellValue );
+        }
     }
 
     private void SetItemEditedValues( TItem item )
@@ -1636,6 +1693,24 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         return true;
     }
+
+    internal async Task<bool> IsSafeToProceed( EventCallback<BatchSavingEventArgs<TItem>> handler, IReadOnlyList<BatchEditItem<TItem>> batchEditItems )
+    {
+        if ( handler.HasDelegate )
+        {
+            var args = new BatchSavingEventArgs<TItem>( batchEditItems );
+
+            await handler.InvokeAsync( args );
+
+            if ( args.Cancel )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
 
     #endregion
 
@@ -3274,6 +3349,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Whether the DataGrid will be in batch edit mode. This will make it so every change will only be saved when <see cref="Save"/> is called.
     /// </summary>
     [Parameter] public bool BatchEdit { get; set; }
+
+    /// <summary>
+    /// Cancelable event before batch edit is saved.
+    /// </summary>
+    [Parameter] public EventCallback<BatchSavingEventArgs<TItem>> BatchSaving { get; set; }
+
+    /// <summary>
+    /// Event called after the batch edit is saved.
+    /// </summary>
+    [Parameter] public EventCallback<BatchSavedEventArgs<TItem>> BatchSaved { get; set; }
+
+
 
     #endregion
 }

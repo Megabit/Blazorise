@@ -30,6 +30,11 @@ public class DataGridLocalizers
     public TextLocalizerHandler SaveButtonLocalizer { get; set; }
 
     /// <summary>
+    /// Custom localization handler for 'save changes' button text.
+    /// </summary>
+    public TextLocalizerHandler SaveBatchButtonLocalizer { get; set; }
+
+    /// <summary>
     /// Custom localization handler for 'cancel' button text.
     /// </summary>
     public TextLocalizerHandler CancelButtonLocalizer { get; set; }

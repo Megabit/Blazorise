@@ -49,7 +49,7 @@ public class BatchEditItem<TItem>
     /// </summary>
     /// <param name="item"></param>
     /// <param name="values"></param>
-    public void UpdateEditItem( TItem item, Dictionary<string, CellEditContext> values )
+    internal void UpdateEditItem( TItem item, Dictionary<string, CellEditContext> values )
     {
         State = BatchEditItemState.Edit;
         NewItem = item;
@@ -83,7 +83,7 @@ public class BatchEditItem<TItem>
     /// <summary>
     /// Deletes an existing Edit Item
     /// </summary>
-    public void DeleteEditItem()
+    internal void DeleteEditItem()
     {
         State = BatchEditItemState.Delete;
         NewItem = OldItem;

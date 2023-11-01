@@ -70,6 +70,10 @@
                                         {
                                             <_DataGridNewCommand TItem="TItem" New="@New" />
                                         }
+                                        @if ( BatchEdit )
+                                        {
+                                            <_DataGridSaveBatchCommand TItem="TItem" SaveBatch="@SaveBatch" />
+                                        }
                                     </TableHeaderCell>
                                 }
                             }
