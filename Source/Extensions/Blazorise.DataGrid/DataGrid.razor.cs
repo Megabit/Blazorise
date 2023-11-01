@@ -2738,6 +2738,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             if ( dirtyView )
                 viewData = FilterViewData();
 
+            //TODO : We need to account for pagination... Maybe move this to FilterViewData.
+            if ( BatchEdit && !batchChanges.IsNullOrEmpty() )
+            {
+                var newChanges = batchChanges.Where( x => x.State == BatchEditItemState.New );
+                if ( newChanges.Any() )
+                {
+                    viewData ??= Enumerable.Empty<TItem>();
+                    foreach ( var newChange in newChanges )
+                    {
+                        viewData = viewData.Prepend( newChange.NewItem );
+                    }
+                }
+            }
+
             dirtyView = false;
 
             return viewData ?? Enumerable.Empty<TItem>();
