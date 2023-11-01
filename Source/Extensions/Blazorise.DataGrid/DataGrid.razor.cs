@@ -1025,16 +1025,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( Data == null || editState == DataGridEditState.None )
             return Task.CompletedTask;
 
-        var editItemClone = editItem.DeepClone();
-        SetItemEditedValues( editItemClone );
-
-
         var editedCellContextValues = EditableColumns
         .Where( x => !string.IsNullOrEmpty( x.Field ) )
         .Select( c => new { c.Field, Context = editItemCellValues[c.ElementId] as CellEditContext } ).ToDictionary( x => x.Field, x => x.Context );
 
+        var hasEditModifications = editedCellContextValues.Any( x => x.Value.Modified ) && editState == DataGridEditState.Edit;
+        if ( !hasEditModifications )
+        {
+            editState = DataGridEditState.None;
+            return Task.CompletedTask;
+        }
+
+        var editItemClone = editItem.DeepClone();
+        SetItemEditedValues( editItemClone );
+
         batchChanges ??= new();
         var existingBatchItem = GetBatchEditItemByLastEditItem( editItem );
+
         if ( existingBatchItem is null )
         {
             batchChanges.Add( new( editItem, editItemClone, editState == DataGridEditState.New ? BatchEditItemState.New : BatchEditItemState.Edit, editedCellContextValues ) );
