@@ -964,7 +964,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             var newItem = batchChanges.Any( x => x.State == BatchEditItemState.New );
             var deletedItem = batchChanges.Any( x => x.State == BatchEditItemState.Delete );
 
-            if (newItem || deletedItem )
+            if ( newItem || deletedItem )
             {
                 SetDirty();
             }
@@ -1029,7 +1029,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         .Where( x => !string.IsNullOrEmpty( x.Field ) )
         .Select( c => new { c.Field, Context = editItemCellValues[c.ElementId] as CellEditContext } ).ToDictionary( x => x.Field, x => x.Context );
 
-        var hasEditModifications = editedCellContextValues.Any( x => x.Value.Modified ) && editState == DataGridEditState.Edit;
+        var hasEditModifications = editState == DataGridEditState.New || ( editedCellContextValues.Any( x => x.Value.Modified ) && editState == DataGridEditState.Edit );
         if ( !hasEditModifications )
         {
             editState = DataGridEditState.None;
@@ -2753,6 +2753,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 GroupDisplayData();
 
             return groupedData ?? Enumerable.Empty<GroupContext<TItem>>();
+        }
+    }
+
+    /// <summary>
+    /// Gets the Batch Changes.
+    /// </summary>
+    public IReadOnlyList<BatchEditItem<TItem>> BatchChanges
+    {
+        get
+        {
+            return batchChanges;
         }
     }
 
