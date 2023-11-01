@@ -832,7 +832,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 existingBatchItem.DeleteEditItem();
             }
-
+            await BatchChange.InvokeAsync( new( existingBatchItem ) );
             await InvokeAsync( StateHasChanged );
             return;
         }
@@ -1020,10 +1020,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Saves the internal state of the editing items to the batch edit changes.
     /// </summary>
     /// <returns></returns>
-    internal protected Task SaveBatchItem()
+    internal protected async Task SaveBatchItem()
     {
         if ( Data == null || editState == DataGridEditState.None )
-            return Task.CompletedTask;
+            return;
 
         var editedCellContextValues = EditableColumns
         .Where( x => !string.IsNullOrEmpty( x.Field ) )
@@ -1033,26 +1033,28 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( !hasEditModifications )
         {
             editState = DataGridEditState.None;
-            return Task.CompletedTask;
+            return;
         }
 
         var editItemClone = editItem.DeepClone();
         SetItemEditedValues( editItemClone );
 
         batchChanges ??= new();
-        var existingBatchItem = GetBatchEditItemByLastEditItem( editItem );
+        var batchItem = GetBatchEditItemByLastEditItem( editItem );
 
-        if ( existingBatchItem is null )
+        if ( batchItem is null )
         {
-            batchChanges.Add( new( editItem, editItemClone, editState == DataGridEditState.New ? BatchEditItemState.New : BatchEditItemState.Edit, editedCellContextValues ) );
+            batchItem = new BatchEditItem<TItem>( editItem, editItemClone, editState == DataGridEditState.New ? BatchEditItemState.New : BatchEditItemState.Edit, editedCellContextValues );
+            batchChanges.Add( batchItem );
+
         }
         else
         {
-            existingBatchItem.UpdateEditItem( editItemClone, editedCellContextValues );
+            batchItem.UpdateEditItem( editItemClone, editedCellContextValues );
         }
 
         editState = DataGridEditState.None;
-        return Task.CompletedTask;
+        await BatchChange.InvokeAsync( new( batchItem ) );
     }
 
     /// <summary>
@@ -3378,7 +3380,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter] public EventCallback<BatchSavedEventArgs<TItem>> BatchSaved { get; set; }
 
-
+    /// <summary>
+    /// Event called after a batch change is made.
+    /// </summary>
+    [Parameter] public EventCallback<BatchChangeEventArgs<TItem>> BatchChange { get; set; }
 
     #endregion
 }

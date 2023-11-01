@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 #endregion
@@ -9,7 +10,7 @@ namespace Blazorise.DataGrid;
 /// Represents the Batch Saved Event Arguments.
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public class BatchSavedEventArgs<TItem> : CancelEventArgs
+public class BatchSavedEventArgs<TItem> : EventArgs
 {
     /// <summary>
     /// Initializes a new instance of the batch saved event argument.

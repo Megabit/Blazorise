@@ -27,9 +27,9 @@
             <CardBody>
                 <Paragraph>
                     <Field>
-                        <FieldLabel>Number of Row Changes:</FieldLabel>
+                        <FieldLabel>Number of pending Row Changes:</FieldLabel>
                         <FieldBody>
-                            <TextEdit ReadOnly Text="@((dataGridRef?.BatchChanges?.Count ?? 0).ToString())"></TextEdit>
+                            <TextEdit ReadOnly Text="@(batchQuantity.ToString())"></TextEdit>
                          </FieldBody>
                      </Field>
                 </Paragraph>
@@ -40,12 +40,15 @@
                           Responsive
                           ShowPager
                           ShowPageSizes
-                           @bind-SelectedRow="@selectedEmployee"
+                          @bind-SelectedRow="@selectedEmployee"
                           Editable
-                           EditMode="@editMode"
-                           BatchEdit
+                          EditMode="@editMode"
+                          BatchEdit
+                          BatchChange="OnBatchChange"
+                          BatchSaving="OnBatchSaving"
+                          BatchSaved="OnBatchSaved"
                           UseValidation
-                           ValidationsSummaryLabel="The following validation errors have occurred..."
+                          ValidationsSummaryLabel="The following validation errors have occurred..."
                           ShowValidationsSummary>
                     <DataGridColumns>
                         <DataGridCommandColumn />
@@ -81,6 +84,7 @@
 
     [Inject] EmployeeData EmployeeData { get; set; }
 
+    private int batchQuantity = 0;
     private DataGrid<Employee> dataGridRef;
     private List<Employee> inMemoryData;
     private Employee selectedEmployee;
@@ -90,5 +94,25 @@
     {
         inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
         await base.OnInitializedAsync();
+    }
+
+    private Task OnBatchChange( BatchChangeEventArgs<Employee> args )
+    {
+        Console.WriteLine("Batch Change");
+        batchQuantity = dataGridRef.BatchChanges.Count;
+        return Task.CompletedTask;
+    }
+
+    private Task OnBatchSaving( BatchSavingEventArgs<Employee> args )
+    {
+        Console.WriteLine( "Batch Saving" );
+        return Task.CompletedTask;
+    }
+
+    private Task OnBatchSaved( BatchSavedEventArgs<Employee> args )
+    {
+        Console.WriteLine( "Batch Saved" );
+        batchQuantity = 0;
+        return Task.CompletedTask;
     }
 }
