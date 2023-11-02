@@ -185,7 +185,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <param name="value">Value to format.</param>
     /// <returns>Returns value formatted as string.</returns>
     protected virtual string FormatValueAsString( TValue value )
-        => value?.ToCultureInvariantString();
+        => value?.ToString();
 
     /// <summary>
     /// Prepares the right value to be sent for validation.
