@@ -103,6 +103,7 @@
   width: var(--b-vertical-bar-width, 230px);
   box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
   height: 100%;
+  overflow-y: scroll; /* Add this line to make the content scrollable */
 }
 .navbar.flex-column .collapse.navbar-collapse {
   width: 100%;
@@ -169,6 +170,7 @@
 }
 .navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .dropdown .dropdown-menu-container .dropdown-menu[data-visible=true] {
   display: block;
+  width: 100%;
 }
 .navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .dropdown .dropdown-menu-container .dropdown-menu[data-visible=true] .dropdown-item {
   color: var(--b-bar-item-dark-hover-color, #fff);
@@ -185,19 +187,37 @@
   color: var(--b-bar-item-dark-active-color, #fff);
   background: var(--b-bar-item-dark-active-background, #0288D1);
 }
-.navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .dropdown .nav-icon {
+.navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .dropdown .dropdown-menu-container .dropdown-menu[data-visible=true] .dropdown {
+  color: black;
+}
+.navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .dropdown .dropdown-menu-container .dropdown-menu[data-visible=true] .dropdown .dropdown-toggle:before .nav-link {
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+  cursor: pointer;
+  overflow-x: hidden;
+  line-height: 1.5rem;
+  vertical-align: middle;
+  transition: font-size 150ms ease-in;
+}
+.navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .dropdown .dropdown-menu-container .dropdown-menu[data-visible=true] .dropdown .dropdown-toggle:before .nav-link .dropdown:not([data-visible=true]) .dropdown-toggle:before {
+  transform: rotate(45deg);
+  top: 0.5rem;
+}
+.navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .dropdown .dropdown-menu-container .nav-icon {
   font-size: 1.25rem;
   vertical-align: middle;
   margin: 3px;
   display: inline-block;
 }
-.navbar.flex-column .navbar-end {
+.navbar.flex-column .collapse.navbar-collapse .navbar-end {
   padding-bottom: 1rem;
   width: 100%;
   padding-top: 1rem;
   display: block;
 }
-.navbar.flex-column .navbar-end .nav-item {
+.navbar.flex-column .collapse.navbar-collapse .navbar-end .nav-item {
   margin: auto;
   flex-grow: 1;
   min-height: 40px;
