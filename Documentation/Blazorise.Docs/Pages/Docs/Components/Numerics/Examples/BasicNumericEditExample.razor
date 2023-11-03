@@ -1,3 +1,6 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<NumericEdit Value="123" />
+<NumericEdit @bind-Value="@value" />
+@code {
+    decimal? value = 123;
+}
