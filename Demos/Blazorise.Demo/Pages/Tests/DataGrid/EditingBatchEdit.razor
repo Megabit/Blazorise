@@ -118,7 +118,7 @@
 
     private void OnRowBatchEditStyling( BatchEditItem<Employee> batchEditItem, DataGridRowStyling cellStyling )
     {
-        if ( batchEditItem.State == BatchEditItemState.Delete )
+        if ( batchEditItem.State == DataGridBatchEditItemState.Delete )
         {
             cellStyling.Background = Background.Secondary;
         }
@@ -126,7 +126,7 @@
 
     private void OnCellBatchEditStyling( BatchEditItem<Employee> batchEditItem, DataGridColumn<Employee> column, DataGridCellStyling cellStyling )
     {
-        if ( batchEditItem.State == BatchEditItemState.Edit && batchEditItem.IsModified( column.Field ) )
+        if ( batchEditItem.State == DataGridBatchEditItemState.Edit && batchEditItem.IsModified( column.Field ) )
         {
             cellStyling.Background = Background.Light;
             cellStyling.TextColor = TextColor.Success;

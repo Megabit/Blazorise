@@ -27,7 +27,7 @@ public class BatchEditItem<TItem>
     /// <summary>
     /// The edit state for this batch edit item.
     /// </summary>
-    public BatchEditItemState State { get; private set; }
+    public DataGridBatchEditItemState State { get; private set; }
 
     /// <summary>
     /// Initializes a new instance of the Batch Edit Item.
@@ -36,7 +36,7 @@ public class BatchEditItem<TItem>
     /// <param name="newItem">New Saved item.</param>
     /// <param name="editItemState">The edit state for this batch item.</param>
     /// <param name="values">Edited values.</param>
-    public BatchEditItem( TItem oldItem, TItem newItem, BatchEditItemState editItemState, Dictionary<string, CellEditContext> values = null )
+    public BatchEditItem( TItem oldItem, TItem newItem, DataGridBatchEditItemState editItemState, Dictionary<string, CellEditContext> values = null )
     {
         OldItem = oldItem;
         NewItem = newItem;
@@ -52,6 +52,13 @@ public class BatchEditItem<TItem>
     internal void UpdateEditItem( TItem item, Dictionary<string, CellEditContext> values )
     {
         NewItem = item;
+
+        if ( State == DataGridBatchEditItemState.New )
+        {
+            Values = values;
+            return;
+        }
+            
 
         if ( !Values.IsNullOrEmpty() )
         {
@@ -84,7 +91,7 @@ public class BatchEditItem<TItem>
     /// </summary>
     internal void DeleteEditItem()
     {
-        State = BatchEditItemState.Delete;
+        State = DataGridBatchEditItemState.Delete;
         NewItem = OldItem;
         Values = null;
     }

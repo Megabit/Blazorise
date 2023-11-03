@@ -6,7 +6,7 @@ namespace Blazorise.DataGrid;
 /// <summary>
 /// Defines the Edit State for a Batch Edit Item.
 /// </summary>
-public enum BatchEditItemState
+public enum DataGridBatchEditItemState
 {
     /// <summary>
     /// This is a new item.

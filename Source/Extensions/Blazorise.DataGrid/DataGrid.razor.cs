@@ -826,7 +826,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             var existingBatchItem = GetBatchEditItemByLastEditItem( item );
             if ( existingBatchItem is null )
             {
-                batchChanges.Add( new BatchEditItem<TItem>( item, item, BatchEditItemState.Delete ) );
+                batchChanges.Add( new BatchEditItem<TItem>( item, item, DataGridBatchEditItemState.Delete ) );
             }
             else
             {
@@ -944,14 +944,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 {
                     switch ( batchChange.State )
                     {
-                        case BatchEditItemState.New:
+                        case DataGridBatchEditItemState.New:
                             if ( CanInsertNewItem && Data is ICollection<TItem> data )
                                 data.Add( batchChange.NewItem );
                             break;
-                        case BatchEditItemState.Edit:
+                        case DataGridBatchEditItemState.Edit:
                             SetItemEditedValues( batchChange.OldItem, batchChange.Values );
                             break;
-                        case BatchEditItemState.Delete:
+                        case DataGridBatchEditItemState.Delete:
                             if ( Data is ICollection<TItem> data2 )
                                 data2.Remove( batchChange.OldItem );
                             break;
@@ -961,8 +961,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             await BatchSaved.InvokeAsync( new BatchSavedEventArgs<TItem>( batchChanges ) );
 
-            var newItem = batchChanges.Any( x => x.State == BatchEditItemState.New );
-            var deletedItem = batchChanges.Any( x => x.State == BatchEditItemState.Delete );
+            var newItem = batchChanges.Any( x => x.State == DataGridBatchEditItemState.New );
+            var deletedItem = batchChanges.Any( x => x.State == DataGridBatchEditItemState.Delete );
 
             if ( newItem || deletedItem )
             {
@@ -1044,7 +1044,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( batchItem is null )
         {
-            batchItem = new BatchEditItem<TItem>( editItem, editItemClone, editState == DataGridEditState.New ? BatchEditItemState.New : BatchEditItemState.Edit, editedCellContextValues );
+            batchItem = new BatchEditItem<TItem>( editItem, editItemClone, editState == DataGridEditState.New ? DataGridBatchEditItemState.New : DataGridBatchEditItemState.Edit, editedCellContextValues );
             batchChanges.Add( batchItem );
 
         }
@@ -1053,7 +1053,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             batchItem.UpdateEditItem( editItemClone, editedCellContextValues );
         }
 
-        if ( editState == DataGridEditState.New )
+        if ( batchItem.State == DataGridBatchEditItemState.Edit )
             SetDirty();
 
         editState = DataGridEditState.None;
@@ -2011,7 +2011,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( BatchEdit && !batchChanges.IsNullOrEmpty() )
         {
-            var newChanges = batchChanges.Where( x => x.State == BatchEditItemState.New );
+            var newChanges = batchChanges.Where( x => x.State == DataGridBatchEditItemState.New );
             if ( newChanges.Any() )
             {
                 

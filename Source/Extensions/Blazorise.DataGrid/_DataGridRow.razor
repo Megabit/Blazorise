@@ -3,7 +3,7 @@
 @{
     @if ( RowInfo is not null )
     {
-        var isBatchDeleted = BatchEditItem is not null && BatchEditItem.State == BatchEditItemState.Delete;
+        var isBatchDeleted = BatchEditItem is not null && BatchEditItem.State == DataGridBatchEditItemState.Delete;
 
         var styling = new DataGridRowStyling();
         var selectedStyling = new DataGridRowStyling { Color = Blazorise.Color.Primary };
@@ -43,7 +43,7 @@
 
             @foreach ( var column in Columns )
             {
-                var isBatchModified = BatchEditItem is not null && BatchEditItem.State == BatchEditItemState.Edit && BatchEditItem.IsModified( column.Field );
+                var isBatchModified = BatchEditItem is not null && BatchEditItem.State == DataGridBatchEditItemState.Edit && BatchEditItem.IsModified( column.Field );
 
                 var styling = new DataGridCellStyling();
                 var selectedStyling = new DataGridCellStyling();
