@@ -96,7 +96,7 @@ public class BatchEditItem<TItem>
     /// <param name="field"></param>
     /// <returns></returns>
     public bool IsModified( string field )
-        => ( Values.TryGetValue( field, out var context ) && context.Modified );
+        => ( !string.IsNullOrWhiteSpace( field ) && Values.TryGetValue( field, out var context ) && context.Modified );
 
 }
 

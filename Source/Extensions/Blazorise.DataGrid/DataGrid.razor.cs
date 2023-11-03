@@ -3210,6 +3210,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public Action<TItem, DataGridRowStyling> SelectedRowStyling { get; set; }
 
     /// <summary>
+    /// Custom handler for the row that has batch edit changes.
+    /// </summary>
+    [Parameter] public Action<BatchEditItem<TItem>, DataGridRowStyling> RowBatchEditStyling { get; set; }
+
+    /// <summary>
     /// Handler for custom filtering on datagrid item.
     /// </summary>
     [Parameter] public DataGridCustomFilter<TItem> CustomFilter { get; set; }
@@ -3398,6 +3403,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Event called after a batch change is made.
     /// </summary>
     [Parameter] public EventCallback<BatchChangeEventArgs<TItem>> BatchChange { get; set; }
+
+    /// <summary>
+    /// Custom handler for the cell styling.
+    /// </summary>
+    [Parameter] public Action<TItem, DataGridColumn<TItem>, DataGridCellStyling> CellStyling { get; set; }
+
+    /// <summary>
+    /// Custom handler for the selected cell styling.
+    /// </summary>
+    [Parameter] public Action<TItem, DataGridColumn<TItem>, DataGridCellStyling> CellSelectedStyling { get; set; }
+
+
+    /// <summary>
+    /// Custom handler for the cell styling when the cell has batch edit changes.
+    /// </summary>
+    [Parameter] public Action<BatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling> CellBatchEditStyling { get; set; }
 
     #endregion
 }

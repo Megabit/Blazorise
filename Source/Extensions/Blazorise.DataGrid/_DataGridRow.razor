@@ -3,8 +3,12 @@
 @{
     @if ( RowInfo is not null )
     {
+        var isBatchDeleted = BatchEditItem is not null && BatchEditItem.State == BatchEditItemState.Delete;
+
         var styling = new DataGridRowStyling();
         var selectedStyling = new DataGridRowStyling { Color = Blazorise.Color.Primary };
+        var rowBatchEditStyling = new DataGridRowStyling() { Background = isBatchDeleted ? Background.Warning : Background.Default };
+
 
         @if ( IsSelected )
         {
@@ -15,6 +19,11 @@
             ParentDataGrid.RowStyling?.Invoke( GetCurrentItem(), styling );
         }
 
+        if ( BatchEditItem is not null )
+        {
+            ParentDataGrid.RowBatchEditStyling?.Invoke( BatchEditItem, rowBatchEditStyling );
+        }
+
         <TableRow @ref="TableRowRef"
                   Clicked="@HandleClick"
                   MouseOver="BindMouseOver() ? HandleMouseOver : null"
@@ -22,10 +31,10 @@
                   DoubleClicked="@HandleDoubleClick"
                   ContextMenu="@HandleContextMenu"
                   ContextMenuPreventDefault="@ParentDataGrid.RowContextMenuPreventDefault"
-                  Background="@GetBackground(styling, selectedStyling)"
-                  Color="@GetColor(styling, selectedStyling)"
-                  Class="@GetClass(styling, selectedStyling)"
-                  Style="@GetStyle(styling, selectedStyling)"
+                  Background="@GetBackground(styling, selectedStyling, rowBatchEditStyling)"
+                  Color="@GetColor(styling, selectedStyling, rowBatchEditStyling)"
+                  Class="@GetClass(styling, selectedStyling, rowBatchEditStyling)"
+                  Style="@GetStyle(styling, selectedStyling, rowBatchEditStyling)"
                   HoverCursor="@GetHoverCursor()"
                   @onkeydown="@(ParentDataGrid.Navigable ? HandleKeyDown : null)"
                   tabindex="@(ParentDataGrid.Navigable || ParentDataGrid.IsCellEdit ? 0 : null)">
@@ -34,6 +43,26 @@
 
             @foreach ( var column in Columns )
             {
+                var isBatchModified = BatchEditItem is not null && BatchEditItem.State == BatchEditItemState.Edit && BatchEditItem.IsModified( column.Field );
+
+                var styling = new DataGridCellStyling();
+                var selectedStyling = new DataGridCellStyling();
+                var cellBatchEditStyling = new DataGridCellStyling() { Background = isBatchModified ? Background.Success : Background.Default };
+
+                @if ( IsSelected )
+                {
+                    ParentDataGrid.CellSelectedStyling?.Invoke( GetCurrentItem(), column, selectedStyling );
+                }
+                else
+                {
+                    ParentDataGrid.CellStyling?.Invoke( GetCurrentItem(), column, styling );
+                }
+
+                if ( BatchEditItem is not null )
+                {
+                    ParentDataGrid.CellBatchEditStyling?.Invoke( BatchEditItem, column, cellBatchEditStyling );
+                }
+
                 @if ( column.ColumnType == DataGridColumnType.Command )
                 {
                     @if ( ParentDataGrid.IsCommandVisible || ( ParentDataGrid.EditMode == DataGridEditMode.Inline || ParentDataGrid.EditMode == DataGridEditMode.Cell ) )
@@ -53,7 +82,7 @@
                     <TableRowCell @key=column
                                   @onclick=@(ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, GetCurrentItem()) : default)
                                   Style="@column.BuildCellStyle(GetCurrentItem())" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap"
-                                  Background="GetCellBackground(column)">
+                                  Background="GetCellBackground(styling, selectedStyling, cellBatchEditStyling)" Color="GetCellColor(styling, selectedStyling, cellBatchEditStyling)" TextColor="GetCellTextColor(styling, selectedStyling, cellBatchEditStyling)">
                         @if ( column.DisplayTemplate != null )
                         {
                             @column.DisplayTemplate( GetCurrentItem() )

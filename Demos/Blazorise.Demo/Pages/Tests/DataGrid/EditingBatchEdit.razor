@@ -32,23 +32,24 @@
                             <TextEdit ReadOnly Text="@(batchQuantity.ToString())"></TextEdit>
                          </FieldBody>
                      </Field>
-                </Paragraph>
-                <DataGrid 
-                          @ref=dataGridRef
-                          TItem="Employee"
-                          Data="inMemoryData"
+                 </Paragraph>
+                 <DataGrid @ref=dataGridRef
+                           TItem="Employee"
+                           Data="inMemoryData"
                           Responsive
                           ShowPager
                           ShowPageSizes
-                          @bind-SelectedRow="@selectedEmployee"
+                           @bind-SelectedRow="@selectedEmployee"
                           Editable
-                          EditMode="@editMode"
+                           EditMode="@editMode"
                           BatchEdit
-                          BatchChange="OnBatchChange"
-                          BatchSaving="OnBatchSaving"
-                          BatchSaved="OnBatchSaved"
+                           BatchChange="OnBatchChange"
+                           BatchSaving="OnBatchSaving"
+                           BatchSaved="OnBatchSaved"
+                           CellBatchEditStyling="OnCellBatchEditStyling"
+                           RowBatchEditStyling="(x, y ) => OnRowBatchEditStyling(x,y)"
                           UseValidation
-                          ValidationsSummaryLabel="The following validation errors have occurred..."
+                           ValidationsSummaryLabel="The following validation errors have occurred..."
                           ShowValidationsSummary>
                     <DataGridColumns>
                         <DataGridCommandColumn />
@@ -98,7 +99,7 @@
 
     private Task OnBatchChange( BatchChangeEventArgs<Employee> args )
     {
-        Console.WriteLine("Batch Change");
+        Console.WriteLine( "Batch Change" );
         batchQuantity = dataGridRef.BatchChanges.Count;
         return Task.CompletedTask;
     }
@@ -114,5 +115,22 @@
         Console.WriteLine( "Batch Saved" );
         batchQuantity = 0;
         return Task.CompletedTask;
+    }
+
+    private void OnRowBatchEditStyling( BatchEditItem<Employee> batchEditItem, DataGridRowStyling cellStyling )
+    {
+        if ( batchEditItem.State == BatchEditItemState.Delete )
+        {
+            cellStyling.Background = Background.Secondary;
+        }
+    }
+
+    private void OnCellBatchEditStyling( BatchEditItem<Employee> batchEditItem, DataGridColumn<Employee> column, DataGridCellStyling cellStyling )
+    {
+        if ( batchEditItem.State == BatchEditItemState.Edit && batchEditItem.IsModified( column.Field ) )
+        {
+            cellStyling.Background = Background.Light;
+            cellStyling.TextColor = TextColor.Success;
+        }
     }
 }
