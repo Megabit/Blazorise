@@ -11,16 +11,15 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Being built around native <Code>type="number"</Code> input element, the <Code>NumericEdit</Code> component
-    comes with a few limitations that you must be aware of. First and foremost, the input display format is fully
-    controlled by the browser and the system locale. This means that for you to change the input format you would
-    need to change the browser settings.
+    Use <Code Tag>NumericEdit</Code> to have a field for any kind of numeric values. All basic types are supported, including nullable types (<Code>int</Code>, <Code>long</Code>, <Code>float</Code>, <Code>double</Code>, <Code>decimal</Code>, etc.).
 </DocsPageParagraph>
 
 <DocsPageParagraph>
-    Use <Code Tag>NumericEdit</Code> to have a field for any kind of numeric values.
-    All basic types are supported, including nullable types
-    (<Code>int</Code>, <Code>long</Code>, <Code>float</Code>, <Code>double</Code>, <Code>decimal</Code>, etc.).
+    Being built around native <Code>type="number"</Code> input element, the <Code>NumericEdit</Code> component in Blazorise has certain inherent limitations due to its reliance on native browser functionalities for numeric inputs. One such limitation is the handling of decimal values; for instance, inputting <Code>"0.0"</Code> may result in the component rounding the value to <Code>"0"</Code>. This occurs because the browser considers <Code>"0.0"</Code> as a complete value, which triggers an onchange event. Internally, the component, not knowing the exact number of decimals intended, rounds the value and subsequently triggers a <Code>ValueChanged</Code> event. This, in turn, prompts a refresh, causing Blazor to redraw the NumericEdit component, which updates the value and the caret position.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Additionally, due to the component using the native <Code>type="number"</Code> partial values cannot be retrieved mid-entry. This means that constraints on the <Code>Value</Code> are only checked upon the blur event, allowing for the detection and handling of invalid values without interrupting the user's input process. To mitigate these issues, users could consider setting <Code>Immediate="false"</Code> to ensure the value is only submitted once focus is lost, or alternatively, use the <Anchor To="docs/components/numeric-picker" Title="Link to NumericPicker component">NumericPicker component</Anchor> as a substitute.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
@@ -35,10 +34,6 @@
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="BasicNumericEditExample" />
 </DocsPageSection>
-
-<DocsPageSubtitle>
-    Rules
-</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Generic type">
