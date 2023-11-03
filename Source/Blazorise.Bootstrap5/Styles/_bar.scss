@@ -1,34 +1,19 @@
-﻿.navbar-nav .nav-item:hover {
-    cursor: pointer;
-}
-
-.navbar-nav .nav-link:hover {
-    cursor: pointer;
-}
-
-.nav .nav-link:hover {
-    cursor: pointer;
-}
-
-.nav-item {
+﻿.nav-item {
     position: relative;
 }
 
 .navbar-horizontal {
     .nav-item.dropdown {
         .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            z-index: 1; 
+
             > .dropdown {
                 > .dropdown-item {
                     width: 100%;
-
                     @include caret();
-
-                    &::after {
-                        transform: rotate( -90deg);
-                        position: absolute;
-                        right: 10%;
-                        top: 45%;
-                    }
                 }
 
                 > .dropdown-menu {
@@ -36,17 +21,18 @@
                     left: 100%;
                     margin-left: 0rem;
                     margin-right: .1rem;
+                    position: absolute;
+                    z-index: 2;
                 }
             }
         }
     }
 }
+
 .navbar-vertical-inline.navbar-dark, .navbar-vertical-popout.navbar-dark, .navbar-vertical-small.navbar-dark {
     background: var(--b-bar-dark-background, #001529);
     color: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));
 }
-
-
 
 .navbar.flex-column {
     display: flex;
@@ -60,7 +46,7 @@
     width: var(--b-vertical-bar-width, 230px);
     box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
     height: 100%;
-    overflow-y: scroll; /* Add this line to make the content scrollable */
+    overflow-y: scroll;
 
     .collapse.navbar-collapse {
         width: 100%;
@@ -105,6 +91,8 @@
                 }
 
                 .dropdown {
+                    position: relative;
+                    z-index: 1000; 
                     color: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));
 
                     .dropdown-toggle:before .nav-link {
@@ -132,7 +120,7 @@
 
                         .dropdown-menu[data-visible=true] {
                             display: block;
-                            width:100%;
+                            width: 100%;
 
                             .dropdown-item {
                                 color: var(--b-bar-item-dark-hover-color, #fff);
@@ -194,8 +182,13 @@
                 margin: auto;
                 flex-grow: 1;
                 min-height: 40px;
+
+                    .dropdown-menu.show {
+                        width: 100%;
+                        display: block;
+                        bottom: 0;
+                    }
+                }
             }
         }
     }
-}
-

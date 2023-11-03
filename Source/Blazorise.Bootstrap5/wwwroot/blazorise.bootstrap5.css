@@ -41,22 +41,16 @@
   background-color: rgba(10, 10, 10, 0.4);
 }
 
-.navbar-nav .nav-item:hover {
-  cursor: pointer;
-}
-
-.navbar-nav .nav-link:hover {
-  cursor: pointer;
-}
-
-.nav .nav-link:hover {
-  cursor: pointer;
-}
-
 .nav-item {
   position: relative;
 }
 
+.navbar-horizontal .nav-item.dropdown .dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+}
 .navbar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item {
   width: 100%;
 }
@@ -73,17 +67,13 @@
 .navbar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item:empty::after {
   margin-left: 0;
 }
-.navbar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-item::after {
-  transform: rotate(-90deg);
-  position: absolute;
-  right: 10%;
-  top: 45%;
-}
 .navbar-horizontal .nav-item.dropdown .dropdown-menu > .dropdown > .dropdown-menu {
   top: 0;
   left: 100%;
   margin-left: 0rem;
   margin-right: 0.1rem;
+  position: absolute;
+  z-index: 2;
 }
 
 .navbar-vertical-inline.navbar-dark, .navbar-vertical-popout.navbar-dark, .navbar-vertical-small.navbar-dark {
@@ -103,7 +93,7 @@
   width: var(--b-vertical-bar-width, 230px);
   box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
   height: 100%;
-  overflow-y: scroll; /* Add this line to make the content scrollable */
+  overflow-y: scroll;
 }
 .navbar.flex-column .collapse.navbar-collapse {
   width: 100%;
@@ -145,6 +135,8 @@
   background: var(--b-bar-item-dark-active-background, #0288D1);
 }
 .navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .dropdown {
+  position: relative;
+  z-index: 1000;
   color: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));
 }
 .navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .dropdown .dropdown-toggle:before .nav-link {
@@ -221,6 +213,11 @@
   margin: auto;
   flex-grow: 1;
   min-height: 40px;
+}
+.navbar.flex-column .collapse.navbar-collapse .navbar-end .nav-item .dropdown-menu.show {
+  width: 100%;
+  display: block;
+  bottom: 0;
 }
 
 .btn-group > .b-tooltip:not(:last-child) > .btn {
