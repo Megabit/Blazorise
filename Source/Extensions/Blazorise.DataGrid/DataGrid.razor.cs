@@ -1053,7 +1053,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             batchItem.UpdateEditItem( editItemClone, editedCellContextValues );
         }
 
-        if ( batchItem.State == DataGridBatchEditItemState.Edit )
+        if ( batchItem.State == DataGridBatchEditItemState.New )
             SetDirty();
 
         editState = DataGridEditState.None;
