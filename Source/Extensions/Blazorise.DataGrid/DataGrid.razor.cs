@@ -1053,6 +1053,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             batchItem.UpdateEditItem( editItemClone, editedCellContextValues );
         }
 
+        if ( editState == DataGridEditState.New )
+            SetDirty();
+
         editState = DataGridEditState.None;
         await BatchChange.InvokeAsync( new( batchItem ) );
     }
@@ -2004,7 +2007,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
         }
 
-        filteredData = query.ToList();
+        filteredData.Clear();
+
+        if ( BatchEdit && !batchChanges.IsNullOrEmpty() )
+        {
+            var newChanges = batchChanges.Where( x => x.State == BatchEditItemState.New );
+            if ( newChanges.Any() )
+            {
+                
+                foreach ( var newChange in newChanges )
+                {
+                    filteredData.Add( newChange.NewItem );
+                }
+            }
+        }
+
+        filteredData.AddRange(query.ToList());
 
         FilteredDataChanged?.Invoke( new(
             filteredData,
@@ -2737,20 +2755,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             if ( dirtyView )
                 viewData = FilterViewData();
-
-            //TODO : We need to account for pagination... Maybe move this to FilterViewData.
-            if ( BatchEdit && !batchChanges.IsNullOrEmpty() )
-            {
-                var newChanges = batchChanges.Where( x => x.State == BatchEditItemState.New );
-                if ( newChanges.Any() )
-                {
-                    viewData ??= Enumerable.Empty<TItem>();
-                    foreach ( var newChange in newChanges )
-                    {
-                        viewData = viewData.Prepend( newChange.NewItem );
-                    }
-                }
-            }
 
             dirtyView = false;
 

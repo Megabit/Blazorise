@@ -51,7 +51,6 @@ public class BatchEditItem<TItem>
     /// <param name="values"></param>
     internal void UpdateEditItem( TItem item, Dictionary<string, CellEditContext> values )
     {
-        State = BatchEditItemState.Edit;
         NewItem = item;
 
         if ( !Values.IsNullOrEmpty() )

@@ -25,17 +25,9 @@
             </CardBody>
 
             <CardBody>
-                <Paragraph>
-                    <Field>
-                        <FieldLabel>Number of pending Row Changes:</FieldLabel>
-                        <FieldBody>
-                            <TextEdit ReadOnly Text="@(batchQuantity.ToString())"></TextEdit>
-                         </FieldBody>
-                     </Field>
-                 </Paragraph>
-                 <DataGrid @ref=dataGridRef
-                           TItem="Employee"
-                           Data="inMemoryData"
+                <DataGrid @ref=dataGridRef
+                          TItem="Employee"
+                          Data="inMemoryData"
                           Responsive
                           ShowPager
                           ShowPageSizes
@@ -52,9 +44,16 @@
                            ValidationsSummaryLabel="The following validation errors have occurred..."
                           ShowValidationsSummary>
                     <DataGridColumns>
-                        <DataGridCommandColumn />
-                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
+                        <DataGridCommandColumn>
+                            <SaveBatchCommandTemplate>
+                                <Button Background=Background.Info Size=Size.Small Clicked="@context.Clicked">Save Changes (@batchQuantity.ToString())</Button>
+                                </SaveBatchCommandTemplate>
+                                <CancelBatchCommandTemplate>
+                                    <Button Background=Background.Light Size=Size.Small Clicked="@context.Clicked">Cancel Changes</Button>
+                                </CancelBatchCommandTemplate>
+                            </DataGridCommandColumn>
+                            <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
+                            <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Editable />
                          <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Editable />
                          <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Editable />
                          <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Editable>

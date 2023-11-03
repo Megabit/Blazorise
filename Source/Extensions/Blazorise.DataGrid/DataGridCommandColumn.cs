@@ -31,6 +31,11 @@ public partial class DataGridCommandColumn<TItem> : DataGridColumn<TItem>
     [Parameter] public RenderFragment<CommandContext> SaveBatchCommandTemplate { get; set; }
 
     /// <summary>
+    /// Template to customize cancel batch command button.
+    /// </summary>
+    [Parameter] public RenderFragment<CommandContext> CancelBatchCommandTemplate { get; set; }
+
+    /// <summary>
     /// Template to customize cancel command button.
     /// </summary>
     [Parameter] public RenderFragment<CommandContext<TItem>> CancelCommandTemplate { get; set; }
@@ -64,6 +69,11 @@ public partial class DataGridCommandColumn<TItem> : DataGridColumn<TItem>
     /// Handles the visibility of save batch command button.
     /// </summary>
     [Parameter] public bool SaveBatchCommandAllowed { get; set; } = true;
+
+    /// <summary>
+    /// Handles the visibility of cancel batch command button.
+    /// </summary>
+    [Parameter] public bool CancelBatchCommandAllowed { get; set; } = true;
 
     /// <summary>
     /// Handles the visibility of cancel command button.
