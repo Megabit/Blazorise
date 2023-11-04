@@ -100,6 +100,21 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
     protected override TValue InternalValue { get => Value; set => Value = value; }
 
     /// <summary>
+    /// Gets the string representation of the <see cref="Step"/> value.
+    /// </summary>
+    protected string StepString => Step.ToCultureInvariantString();
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Min"/> value.
+    /// </summary>
+    protected string MinString => Min.ToCultureInvariantString();
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Max"/> value.
+    /// </summary>
+    protected string MaxString => Max.ToCultureInvariantString();
+
+    /// <summary>
     /// Specifies the interval between valid values.
     /// </summary>
     [Parameter] public TValue Step { get; set; }

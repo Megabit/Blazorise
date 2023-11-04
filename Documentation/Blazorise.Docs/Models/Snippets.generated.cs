@@ -2949,11 +2949,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string BasicNumericEditExample = @"<NumericEdit Value=""123"" />";
+        public const string BasicNumericEditExample = @"<NumericEdit @bind-Value=""@value"" />
+@code {
+    decimal? value = 123;
+}";
 
         public const string BasicNumericPickerExample = @"<NumericPicker Value=""123"" />";
 
-        public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" />";
+        public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" @bind-Value=""@value"" />
+@code {
+    decimal? value = 123;
+}";
 
         public const string NumericPickerCurrencyExample = @"<NumericPicker TValue=""decimal?"" CurrencySymbol=""$"" Value=""456"" />";
 
