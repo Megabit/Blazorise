@@ -802,5 +802,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     [Parameter] public string HelpText { get; set; }
 
+    /// <summary>
+    /// <para>Gets or sets the filter mode for the column.</para>
+    /// <para>If set, this overrides the <see cref="DataGrid{TItem}.FilterMethod" />.</para>
+    /// </summary>
+    [Parameter] public DataGridFilterMode? FilterMode { get; set; }
+
     #endregion
 }

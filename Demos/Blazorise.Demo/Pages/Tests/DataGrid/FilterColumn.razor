@@ -16,10 +16,10 @@
                           FilterMode="DataGridFilterMode.Menu">
                     <DataGridColumns>
                         <DataGridNumericColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" Filterable />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" Filterable>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" FilterMode="DataGridFilterMode.Default" Filterable>
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" Filterable />
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" Filterable />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" FilterMode="DataGridFilterMode.Default" Filterable />
+                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" FilterMode="DataGridFilterMode.Default" Filterable />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City" Filterable>
                             <CaptionTemplate>
                                 <Icon Name="IconName.City" /> @context.Caption
@@ -29,7 +29,7 @@
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable Filterable />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data=" EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" FilterMode="DataGridFilterMode.Default" />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End" >
                         </DataGridNumericColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable>
