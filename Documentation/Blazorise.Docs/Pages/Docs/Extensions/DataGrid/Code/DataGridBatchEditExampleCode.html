@@ -89,20 +89,20 @@
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-    <span class="keyword">private</span> Task OnBatchSaving( BatchSavingEventArgs&lt;Employee&gt; args )
+    <span class="keyword">private</span> Task OnBatchSaving( DataGridBatchSavingEventArgs&lt;Employee&gt; args )
     {
         Console.WriteLine( <span class="string">&quot;Batch Saving&quot;</span> );
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-    <span class="keyword">private</span> Task OnBatchSaved( BatchSavedEventArgs&lt;Employee&gt; args )
+    <span class="keyword">private</span> Task OnBatchSaved( DataGridBatchSavedEventArgs&lt;Employee&gt; args )
     {
         Console.WriteLine( <span class="string">&quot;Batch Saved&quot;</span> );
         batchQuantity = <span class="number">0</span>;
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
-    <span class="keyword">private</span> <span class="keyword">void</span> OnRowBatchEditStyling( BatchEditItem&lt;Employee&gt; batchEditItem, DataGridRowStyling cellStyling )
+    <span class="keyword">private</span> <span class="keyword">void</span> OnRowBatchEditStyling( DataGridBatchEditItem&lt;Employee&gt; batchEditItem, DataGridRowStyling cellStyling )
     {
         <span class="keyword">if</span> ( batchEditItem.State == DataGridBatchEditItemState.Delete )
         {
@@ -110,7 +110,7 @@
         }
     }
 
-    <span class="keyword">private</span> <span class="keyword">void</span> OnCellBatchEditStyling( BatchEditItem&lt;Employee&gt; batchEditItem, DataGridColumn&lt;Employee&gt; column, DataGridCellStyling cellStyling )
+    <span class="keyword">private</span> <span class="keyword">void</span> OnCellBatchEditStyling( DataGridBatchEditItem&lt;Employee&gt; batchEditItem, DataGridColumn&lt;Employee&gt; column, DataGridCellStyling cellStyling )
     {
         <span class="keyword">if</span> ( batchEditItem.State == DataGridBatchEditItemState.Edit &amp;&amp; batchEditItem.IsModified( column.Field ) )
         {

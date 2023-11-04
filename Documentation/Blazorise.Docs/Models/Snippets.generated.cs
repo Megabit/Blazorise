@@ -6360,20 +6360,20 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         return Task.CompletedTask;
     }
 
-    private Task OnBatchSaving( BatchSavingEventArgs<Employee> args )
+    private Task OnBatchSaving( DataGridBatchSavingEventArgs<Employee> args )
     {
         Console.WriteLine( ""Batch Saving"" );
         return Task.CompletedTask;
     }
 
-    private Task OnBatchSaved( BatchSavedEventArgs<Employee> args )
+    private Task OnBatchSaved( DataGridBatchSavedEventArgs<Employee> args )
     {
         Console.WriteLine( ""Batch Saved"" );
         batchQuantity = 0;
         return Task.CompletedTask;
     }
 
-    private void OnRowBatchEditStyling( BatchEditItem<Employee> batchEditItem, DataGridRowStyling cellStyling )
+    private void OnRowBatchEditStyling( DataGridBatchEditItem<Employee> batchEditItem, DataGridRowStyling cellStyling )
     {
         if ( batchEditItem.State == DataGridBatchEditItemState.Delete )
         {
@@ -6381,7 +6381,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         }
     }
 
-    private void OnCellBatchEditStyling( BatchEditItem<Employee> batchEditItem, DataGridColumn<Employee> column, DataGridCellStyling cellStyling )
+    private void OnCellBatchEditStyling( DataGridBatchEditItem<Employee> batchEditItem, DataGridColumn<Employee> column, DataGridCellStyling cellStyling )
     {
         if ( batchEditItem.State == DataGridBatchEditItemState.Edit && batchEditItem.IsModified( column.Field ) )
         {
