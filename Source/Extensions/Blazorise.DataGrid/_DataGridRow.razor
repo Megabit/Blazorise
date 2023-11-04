@@ -51,7 +51,7 @@
 
                 @if ( IsSelected )
                 {
-                    ParentDataGrid.CellSelectedStyling?.Invoke( GetCurrentItem(), column, selectedStyling );
+                    ParentDataGrid.SelectedCellStyling?.Invoke( GetCurrentItem(), column, selectedStyling );
                 }
                 else
                 {
@@ -60,7 +60,7 @@
 
                 if ( BatchEditItem is not null )
                 {
-                    ParentDataGrid.CellBatchEditStyling?.Invoke( BatchEditItem, column, cellBatchEditStyling );
+                    ParentDataGrid.BatchEditCellStyling?.Invoke( BatchEditItem, column, cellBatchEditStyling );
                 }
 
                 @if ( column.ColumnType == DataGridColumnType.Command )

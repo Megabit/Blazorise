@@ -13,7 +13,7 @@ namespace Blazorise.DataGrid;
 public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 {
     #region Members
-    protected BatchEditItem<TItem> BatchEditItem;
+    protected DataGridBatchEditItem<TItem> BatchEditItem;
 
     protected bool mouseIsOver = false;
 

@@ -6298,7 +6298,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
            BatchChange=""OnBatchChange""
            BatchSaving=""OnBatchSaving""
            BatchSaved=""OnBatchSaved""
-           CellBatchEditStyling=""OnCellBatchEditStyling""
+           BatchEditCellStyling=""OnCellBatchEditStyling""
            RowBatchEditStyling=""(x, y ) => OnRowBatchEditStyling(x,y)""
           UseValidation
            ValidationsSummaryLabel=""The following validation errors have occurred...""
@@ -6353,7 +6353,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         await base.OnInitializedAsync();
     }
 
-    private Task OnBatchChange( BatchChangeEventArgs<Employee> args )
+    private Task OnBatchChange( DataGridBatchChangeEventArgs<Employee> args )
     {
         Console.WriteLine( ""Batch Change"" );
         batchQuantity = dataGridRef.BatchChanges.Count;

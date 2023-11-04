@@ -8,17 +8,17 @@ namespace Blazorise.DataGrid;
 /// Represents the Batch Change Event Arguments.
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public class BatchChangeEventArgs<TItem> : EventArgs
+public class DataGridBatchChangeEventArgs<TItem> : EventArgs
 {
     /// <summary>
     /// Initializes a new instance of the batch change event argument.
     /// </summary>
     /// <param name="batchChange"></param>
-    public BatchChangeEventArgs( BatchEditItem<TItem> batchChange )
+    public DataGridBatchChangeEventArgs( DataGridBatchEditItem<TItem> batchChange )
     {
         Item = batchChange;
     }
 
-    public BatchEditItem<TItem> Item { get; private set; }
+    public DataGridBatchEditItem<TItem> Item { get; private set; }
 
 }

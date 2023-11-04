@@ -156,7 +156,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Tracks the current batch edit changes if <see cref="BatchEdit"/> is active.
     /// </summary>
-    private List<BatchEditItem<TItem>> batchChanges;
+    private List<DataGridBatchEditItem<TItem>> batchChanges;
 
     #endregion
 
@@ -826,7 +826,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             var existingBatchItem = GetBatchEditItemByLastEditItem( item );
             if ( existingBatchItem is null )
             {
-                batchChanges.Add( new BatchEditItem<TItem>( item, item, DataGridBatchEditItemState.Delete ) );
+                batchChanges.Add( new DataGridBatchEditItem<TItem>( item, item, DataGridBatchEditItemState.Delete ) );
             }
             else
             {
@@ -876,13 +876,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets the corresponding batch edit item by the original if it exists.
     /// </summary>
-    public BatchEditItem<TItem> GetBatchEditItemByOriginal( TItem item )
+    public DataGridBatchEditItem<TItem> GetBatchEditItemByOriginal( TItem item )
         => batchChanges?.FirstOrDefault( x => x.OldItem.IsEqual( item ) );
 
     /// <summary>
     /// Gets the corresponding batch edit item by the last edited item if it exists.
     /// </summary>
-    public BatchEditItem<TItem> GetBatchEditItemByLastEditItem( TItem item )
+    public DataGridBatchEditItem<TItem> GetBatchEditItemByLastEditItem( TItem item )
         => batchChanges?.FirstOrDefault( x => x.NewItem.IsEqual( item ) );
 
     /// <summary>
@@ -959,7 +959,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 }
             }
 
-            await BatchSaved.InvokeAsync( new BatchSavedEventArgs<TItem>( batchChanges ) );
+            await BatchSaved.InvokeAsync( new DataGridBatchSavedEventArgs<TItem>( batchChanges ) );
 
             var newItem = batchChanges.Any( x => x.State == DataGridBatchEditItemState.New );
             var deletedItem = batchChanges.Any( x => x.State == DataGridBatchEditItemState.Delete );
@@ -1044,7 +1044,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         if ( batchItem is null )
         {
-            batchItem = new BatchEditItem<TItem>( editItem, editItemClone, editState == DataGridEditState.New ? DataGridBatchEditItemState.New : DataGridBatchEditItemState.Edit, editedCellContextValues );
+            batchItem = new DataGridBatchEditItem<TItem>( editItem, editItemClone, editState == DataGridEditState.New ? DataGridBatchEditItemState.New : DataGridBatchEditItemState.Edit, editedCellContextValues );
             batchChanges.Add( batchItem );
 
         }
@@ -1706,11 +1706,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return true;
     }
 
-    internal async Task<bool> IsSafeToProceed( EventCallback<BatchSavingEventArgs<TItem>> handler, IReadOnlyList<BatchEditItem<TItem>> batchEditItems )
+    internal async Task<bool> IsSafeToProceed( EventCallback<DataGridBatchSavingEventArgs<TItem>> handler, IReadOnlyList<DataGridBatchEditItem<TItem>> batchEditItems )
     {
         if ( handler.HasDelegate )
         {
-            var args = new BatchSavingEventArgs<TItem>( batchEditItems );
+            var args = new DataGridBatchSavingEventArgs<TItem>( batchEditItems );
 
             await handler.InvokeAsync( args );
 
@@ -2779,7 +2779,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets the Batch Changes.
     /// </summary>
-    public IReadOnlyList<BatchEditItem<TItem>> BatchChanges
+    public IReadOnlyList<DataGridBatchEditItem<TItem>> BatchChanges
     {
         get
         {
@@ -3216,7 +3216,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Custom handler for the row that has batch edit changes.
     /// </summary>
-    [Parameter] public Action<BatchEditItem<TItem>, DataGridRowStyling> RowBatchEditStyling { get; set; }
+    [Parameter] public Action<DataGridBatchEditItem<TItem>, DataGridRowStyling> RowBatchEditStyling { get; set; }
 
     /// <summary>
     /// Handler for custom filtering on datagrid item.
@@ -3396,17 +3396,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Cancelable event before batch edit is saved.
     /// </summary>
-    [Parameter] public EventCallback<BatchSavingEventArgs<TItem>> BatchSaving { get; set; }
+    [Parameter] public EventCallback<DataGridBatchSavingEventArgs<TItem>> BatchSaving { get; set; }
 
     /// <summary>
     /// Event called after the batch edit is saved.
     /// </summary>
-    [Parameter] public EventCallback<BatchSavedEventArgs<TItem>> BatchSaved { get; set; }
+    [Parameter] public EventCallback<DataGridBatchSavedEventArgs<TItem>> BatchSaved { get; set; }
 
     /// <summary>
     /// Event called after a batch change is made.
     /// </summary>
-    [Parameter] public EventCallback<BatchChangeEventArgs<TItem>> BatchChange { get; set; }
+    [Parameter] public EventCallback<DataGridBatchChangeEventArgs<TItem>> BatchChange { get; set; }
 
     /// <summary>
     /// Custom handler for the cell styling.
@@ -3416,13 +3416,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Custom handler for the selected cell styling.
     /// </summary>
-    [Parameter] public Action<TItem, DataGridColumn<TItem>, DataGridCellStyling> CellSelectedStyling { get; set; }
+    [Parameter] public Action<TItem, DataGridColumn<TItem>, DataGridCellStyling> SelectedCellStyling { get; set; }
 
 
     /// <summary>
     /// Custom handler for the cell styling when the cell has batch edit changes.
     /// </summary>
-    [Parameter] public Action<BatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling> CellBatchEditStyling { get; set; }
+    [Parameter] public Action<DataGridBatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling> BatchEditCellStyling { get; set; }
 
     #endregion
 }

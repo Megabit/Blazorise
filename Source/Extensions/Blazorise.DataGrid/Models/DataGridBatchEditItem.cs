@@ -9,7 +9,7 @@ namespace Blazorise.DataGrid;
 /// Tracks the state of the batch edit item.
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public class BatchEditItem<TItem>
+public class DataGridBatchEditItem<TItem>
 {
     /// <summary>
     /// Gets the model with the values before being edited.
@@ -36,7 +36,7 @@ public class BatchEditItem<TItem>
     /// <param name="newItem">New Saved item.</param>
     /// <param name="editItemState">The edit state for this batch item.</param>
     /// <param name="values">Edited values.</param>
-    public BatchEditItem( TItem oldItem, TItem newItem, DataGridBatchEditItemState editItemState, Dictionary<string, CellEditContext> values = null )
+    public DataGridBatchEditItem( TItem oldItem, TItem newItem, DataGridBatchEditItemState editItemState, Dictionary<string, CellEditContext> values = null )
     {
         OldItem = oldItem;
         NewItem = newItem;

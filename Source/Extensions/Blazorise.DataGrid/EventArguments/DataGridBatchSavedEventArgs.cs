@@ -10,17 +10,17 @@ namespace Blazorise.DataGrid;
 /// Represents the Batch Saved Event Arguments.
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public class BatchSavedEventArgs<TItem> : EventArgs
+public class DataGridBatchSavedEventArgs<TItem> : EventArgs
 {
     /// <summary>
     /// Initializes a new instance of the batch saved event argument.
     /// </summary>
     /// <param name="batchEditItems"></param>
-    public BatchSavedEventArgs( IReadOnlyList<BatchEditItem<TItem>> batchEditItems )
+    public DataGridBatchSavedEventArgs( IReadOnlyList<DataGridBatchEditItem<TItem>> batchEditItems )
     {
         Items = batchEditItems;
     }
 
-    public IReadOnlyList<BatchEditItem<TItem>> Items { get; private set; }
+    public IReadOnlyList<DataGridBatchEditItem<TItem>> Items { get; private set; }
 
 }
