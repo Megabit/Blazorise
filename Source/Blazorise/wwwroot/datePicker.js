@@ -1,5 +1,6 @@
 ﻿import "./vendors/flatpickr.js?v=1.3.2.0";
 import * as utilities from "./utilities.js?v=1.3.2.0";
+import { ClassWatcher } from "./observer.js?v=1.3.2.0";
 
 const _pickers = [];
 
@@ -354,50 +355,5 @@ export function select(element, elementId, focus) {
 
     if (picker && picker.altInput) {
         utilities.select(picker.altInput, null, focus);
-    }
-}
-
-class ClassWatcher {
-    constructor(targetNode, classToWatch, classAddedCallback, classRemovedCallback) {
-        this.targetNode = targetNode;
-        this.classToWatch = classToWatch;
-        this.classAddedCallback = classAddedCallback;
-        this.classRemovedCallback = classRemovedCallback;
-        this.observer = null;
-        this.lastClassState = targetNode.classList.contains(this.classToWatch);
-
-        this.init();
-    }
-
-    init() {
-        this.observer = new MutationObserver(this.mutationCallback);
-        this.observe();
-    }
-
-    observe() {
-        this.observer.observe(this.targetNode, { attributes: true });
-    }
-
-    disconnect() {
-        this.observer.disconnect();
-    }
-
-    mutationCallback = mutationsList => {
-        for (let mutation of mutationsList) {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                let currentClassState = mutation.target.classList.contains(this.classToWatch);
-
-                if (this.lastClassState !== currentClassState) {
-                    this.lastClassState = currentClassState;
-
-                    if (currentClassState) {
-                        this.classAddedCallback();
-                    }
-                    else {
-                        this.classRemovedCallback();
-                    }
-                }
-            }
-        }
     }
 }
