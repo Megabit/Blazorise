@@ -91,27 +91,27 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
             if (flatpickrWrapper) {
                 if (options.validationStatus.errorClass) {
-                    function workOnClassAdd() {
+                    function errorClassAddHandler() {
                         flatpickrWrapper.classList.add(options.validationStatus.errorClass);
                     }
 
-                    function workOnClassRemoval() {
+                    function errorClassRemoveHandler() {
                         flatpickrWrapper.classList.remove(options.validationStatus.errorClass);
                     }
 
-                    picker.errorClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.errorClass, workOnClassAdd, workOnClassRemoval);
+                    picker.errorClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.errorClass, errorClassAddHandler, errorClassRemoveHandler);
                 }
 
                 if (options.validationStatus.successClass) {
-                    function workOnClassAdd() {
+                    function successClassAddHandler() {
                         flatpickrWrapper.classList.add(options.validationStatus.successClass);
                     }
 
-                    function workOnClassRemoval() {
+                    function successClassRemoveHandler() {
                         flatpickrWrapper.classList.remove(options.validationStatus.successClass);
                     }
 
-                    picker.successClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.successClass, workOnClassAdd, workOnClassRemoval);
+                    picker.successClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.successClass, successClassAddHandler, successClassRemoveHandler);
                 }
             }
         }
