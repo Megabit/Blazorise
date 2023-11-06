@@ -6292,52 +6292,37 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           ShowPager
           ShowPageSizes
            @bind-SelectedRow=""@selectedEmployee""
-          Editable
+           Editable
            EditMode=""@editMode""
-          BatchEdit
+           BatchEdit
            BatchChange=""OnBatchChange""
            BatchSaving=""OnBatchSaving""
            BatchSaved=""OnBatchSaved""
-           BatchEditCellStyling=""OnCellBatchEditStyling""
-           RowBatchEditStyling=""(x, y ) => OnRowBatchEditStyling(x,y)""
-          UseValidation
+           UseValidation
            ValidationsSummaryLabel=""The following validation errors have occurred...""
+           CommandMode=""DataGridCommandMode.ButtonRow""
           ShowValidationsSummary>
     <DataGridColumns>
-        <DataGridCommandColumn>
-            <SaveBatchCommandTemplate>
-                <Button Background=Background.Info Size=Size.Small Clicked=""@context.Clicked"">Save Changes (@batchQuantity.ToString())</Button>
-                </SaveBatchCommandTemplate>
-                <CancelBatchCommandTemplate>
-                    <Button Background=Background.Light Size=Size.Small Clicked=""@context.Clicked"">Cancel Changes</Button>
-                </CancelBatchCommandTemplate>
-            </DataGridCommandColumn>
-            <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
-            <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
+        <DataGridCommandColumn SaveBatchCommandAllowed=false CancelBatchCommandAllowed=false />
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
          <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
          <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
-         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" Caption=""City"" Editable>
-            <CaptionTemplate>
-                <Icon Name=""IconName.City"" /> @context.Caption
-            </CaptionTemplate>
-        </DataGridColumn>
-        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" Caption=""Zip"">
-        </DataGridColumn>
-        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
-         <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Editable Filterable=""false"" />
-         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""140px"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"">
-         </DataGridColumn>
-         <DataGridCheckColumn TItem=""Employee"" Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable Filterable=""false"">
-             <DisplayTemplate>
-                 <Check TValue=""bool"" Checked=""context.IsActive"" Disabled ReadOnly />
-             </DisplayTemplate>
-         </DataGridCheckColumn>
+         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""140px"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"" />
      </DataGridColumns>
- </DataGrid>
+     <ButtonRowTemplate>
+         <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
+         <Button Color=""Color.Primary"" Disabled=""(selectedEmployee is null)"" Clicked=""context.EditCommand.Clicked"">Edit</Button>
+         <Button Color=""Color.Danger"" Disabled=""(selectedEmployee is null)"" Clicked=""context.DeleteCommand.Clicked"">Delete</Button>
+         <Button Color=""Color.Link"" Clicked=""context.ClearFilterCommand.Clicked"">Clear Filter</Button>
+
+         <Button Color=""Color.Success"" Disabled=""(batchQuantity == 0)"" Clicked=""@(context.SaveBatchCommand.Clicked)"">@context.SaveBatchCommand.LocalizationString</Button>
+         <Button Color=""Color.Default"" Clicked=""@(context.CancelBatchCommand.Clicked)"">@context.CancelBatchCommand.LocalizationString</Button>
+    </ButtonRowTemplate>
+    </DataGrid>
 
 
- @code {
+    @code {
 
     [Inject] EmployeeData EmployeeData { get; set; }
 

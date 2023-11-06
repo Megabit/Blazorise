@@ -68,6 +68,12 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     protected EventCallback ClearFilterClick
         => EventCallback.Factory.Create( this, ParentDataGrid.ClearFilter );
 
+    protected EventCallback SaveBatchClick
+         => EventCallback.Factory.Create( this, ParentDataGrid.SaveBatch );
+
+    protected EventCallback CancelBatchClick
+        => EventCallback.Factory.Create( this, ParentDataGrid.Cancel );
+
     #endregion
 
     #region Properties
