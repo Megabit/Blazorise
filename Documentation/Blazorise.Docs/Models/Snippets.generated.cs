@@ -6357,23 +6357,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         batchQuantity = 0;
         return Task.CompletedTask;
     }
-
-    private void OnRowBatchEditStyling( DataGridBatchEditItem<Employee> batchEditItem, DataGridRowStyling cellStyling )
-    {
-        if ( batchEditItem.State == DataGridBatchEditItemState.Delete )
-        {
-            cellStyling.Background = Background.Secondary;
-        }
-    }
-
-    private void OnCellBatchEditStyling( DataGridBatchEditItem<Employee> batchEditItem, DataGridColumn<Employee> column, DataGridCellStyling cellStyling )
-    {
-        if ( batchEditItem.State == DataGridBatchEditItemState.Edit && batchEditItem.IsModified( column.Field ) )
-        {
-            cellStyling.Background = Background.Light;
-            cellStyling.TextColor = TextColor.Success;
-        }
-    }
 }";
 
         public const string DataGridButtonRowExample = @"<DataGrid TItem=""Employee""

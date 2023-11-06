@@ -81,8 +81,9 @@
                 {
                     <TableRowCell @key=column
                                   @onclick=@(ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, GetCurrentItem()) : default)
-                                  Style="@column.BuildCellStyle(GetCurrentItem())" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap"
-                                  Background="GetCellBackground(styling, selectedStyling, cellBatchEditStyling)" Color="GetCellColor(styling, selectedStyling, cellBatchEditStyling)" TextColor="GetCellTextColor(styling, selectedStyling, cellBatchEditStyling)">
+                                  TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap"
+                                  Style="@GetCellStyle(column, styling, selectedStyling, cellBatchEditStyling)" Class="@GetCellClass(column, styling, selectedStyling, cellBatchEditStyling)"
+                                  Background="@GetCellBackground(styling, selectedStyling, cellBatchEditStyling)" Color="@GetCellColor(styling, selectedStyling, cellBatchEditStyling)" TextColor="@GetCellTextColor(styling, selectedStyling, cellBatchEditStyling)">
                         @if ( column.DisplayTemplate != null )
                         {
                             @column.DisplayTemplate( GetCurrentItem() )

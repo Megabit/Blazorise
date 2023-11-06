@@ -86,23 +86,6 @@
         batchQuantity = <span class="number">0</span>;
         <span class="keyword">return</span> Task.CompletedTask;
     }
-
-    <span class="keyword">private</span> <span class="keyword">void</span> OnRowBatchEditStyling( DataGridBatchEditItem&lt;Employee&gt; batchEditItem, DataGridRowStyling cellStyling )
-    {
-        <span class="keyword">if</span> ( batchEditItem.State == DataGridBatchEditItemState.Delete )
-        {
-            cellStyling.Background = Background.Secondary;
-        }
-    }
-
-    <span class="keyword">private</span> <span class="keyword">void</span> OnCellBatchEditStyling( DataGridBatchEditItem&lt;Employee&gt; batchEditItem, DataGridColumn&lt;Employee&gt; column, DataGridCellStyling cellStyling )
-    {
-        <span class="keyword">if</span> ( batchEditItem.State == DataGridBatchEditItemState.Edit &amp;&amp; batchEditItem.IsModified( column.Field ) )
-        {
-            cellStyling.Background = Background.Light;
-            cellStyling.TextColor = TextColor.Success;
-        }
-    }
 }
 </pre></div>
 </div>

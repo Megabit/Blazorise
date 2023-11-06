@@ -319,6 +319,38 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets the cell background color.
     /// </summary>
+    protected string GetCellStyle( DataGridColumn<TItem> column, DataGridCellStyling styling, DataGridCellStyling selectedStyling, DataGridCellStyling batchEditStyling )
+    {
+        var cellStyle = column.BuildCellStyle( GetCurrentItem() );
+
+        var styleFromStyling = selectedStyling?.Style ?? batchEditStyling?.Style ?? styling.Style;
+        if (!string.IsNullOrEmpty( styleFromStyling ) )
+        {
+            cellStyle += $";{styleFromStyling}";
+        }
+        return cellStyle;
+    }
+
+    /// <summary>
+    /// Gets the cell background color.
+    /// </summary>
+    protected string GetCellClass( DataGridColumn<TItem> column, DataGridCellStyling styling, DataGridCellStyling selectedStyling, DataGridCellStyling batchEditStyling )
+    {
+#pragma warning disable CS0618 // Type or member is obsolete : Temporary retro compatibility usage
+        var cellClass = column.CellClass?.Invoke( GetCurrentItem() ) ?? string.Empty;
+#pragma warning restore CS0618 // Type or member is obsolete
+        var classFromStyling = selectedStyling?.Class ?? batchEditStyling?.Class ?? styling.Class;
+
+        if ( !string.IsNullOrEmpty( classFromStyling ) )
+        {
+            cellClass += $" {classFromStyling}";
+        }
+        return cellClass;
+    }
+
+    /// <summary>
+    /// Gets the cell background color.
+    /// </summary>
     protected Background GetCellBackground( DataGridCellStyling styling, DataGridCellStyling selectedStyling, DataGridCellStyling batchEditStyling )
         =>  selectedStyling?.Background ?? batchEditStyling?.Background ?? styling.Background ?? Blazorise.Background.Default;
 

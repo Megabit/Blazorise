@@ -6,6 +6,16 @@
 public class DataGridCellStyling
 {
     /// <summary>
+    /// Row custom class names.
+    /// </summary>
+    public string Class { get; set; }
+
+    /// <summary>
+    /// Row custom styles.
+    /// </summary>
+    public string Style { get; set; }
+
+    /// <summary>
     /// Cell custom color.
     /// </summary>
     public Color Color { get; set; }
