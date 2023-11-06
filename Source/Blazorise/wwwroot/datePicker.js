@@ -85,6 +85,36 @@ export function initialize(dotnetAdapter, element, elementId, options) {
                 picker.input.dispatchEvent(utilities.createEvent("input"));
             }
         });
+
+        if (options.validationStatus) {
+            const flatpickrWrapper = picker.altInput.parentElement;
+
+            if (flatpickrWrapper) {
+                if (options.validationStatus.errorClass) {
+                    function workOnClassAdd() {
+                        flatpickrWrapper.classList.add(options.validationStatus.errorClass);
+                    }
+
+                    function workOnClassRemoval() {
+                        flatpickrWrapper.classList.remove(options.validationStatus.errorClass);
+                    }
+
+                    picker.errorClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.errorClass, workOnClassAdd, workOnClassRemoval);
+                }
+
+                if (options.validationStatus.successClass) {
+                    function workOnClassAdd() {
+                        flatpickrWrapper.classList.add(options.validationStatus.successClass);
+                    }
+
+                    function workOnClassRemoval() {
+                        flatpickrWrapper.classList.remove(options.validationStatus.successClass);
+                    }
+
+                    picker.successClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.successClass, workOnClassAdd, workOnClassRemoval);
+                }
+            }
+        }
     }
 
     picker.customOptions = {
@@ -169,6 +199,14 @@ export function destroy(element, elementId) {
 
     if (instance) {
         instance.destroy();
+
+        if (instance.errorClassWatcher) {
+            instance.errorClassWatcher.disconnect();
+        }
+
+        if (instance.successClassWatcher) {
+            instance.successClassWatcher.disconnect();
+        }
     }
 
     delete instances[elementId];
@@ -316,5 +354,49 @@ export function select(element, elementId, focus) {
 
     if (picker && picker.altInput) {
         utilities.select(picker.altInput, null, focus);
+    }
+}
+
+class ClassWatcher {
+
+    constructor(targetNode, classToWatch, classAddedCallback, classRemovedCallback) {
+        this.targetNode = targetNode
+        this.classToWatch = classToWatch
+        this.classAddedCallback = classAddedCallback
+        this.classRemovedCallback = classRemovedCallback
+        this.observer = null
+        this.lastClassState = targetNode.classList.contains(this.classToWatch)
+
+        this.init()
+    }
+
+    init() {
+        this.observer = new MutationObserver(this.mutationCallback)
+        this.observe()
+    }
+
+    observe() {
+        this.observer.observe(this.targetNode, { attributes: true })
+    }
+
+    disconnect() {
+        this.observer.disconnect()
+    }
+
+    mutationCallback = mutationsList => {
+        for (let mutation of mutationsList) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                let currentClassState = mutation.target.classList.contains(this.classToWatch)
+                if (this.lastClassState !== currentClassState) {
+                    this.lastClassState = currentClassState
+                    if (currentClassState) {
+                        this.classAddedCallback()
+                    }
+                    else {
+                        this.classRemovedCallback()
+                    }
+                }
+            }
+        }
     }
 }
