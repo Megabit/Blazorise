@@ -207,8 +207,6 @@ export function destroy(element, elementId) {
     }
 
     if (instance) {
-        instance.destroy();
-
         if (instance.errorClassWatcher) {
             instance.errorClassWatcher.disconnect();
         }
@@ -216,6 +214,8 @@ export function destroy(element, elementId) {
         if (instance.successClassWatcher) {
             instance.successClassWatcher.disconnect();
         }
+
+        instance.destroy();
     }
 
     delete instances[elementId];
