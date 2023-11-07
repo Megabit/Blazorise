@@ -125,16 +125,14 @@ export function initialize(dotnetAdapter, element, elementId, options) {
             picker.successClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.successClass, successClassAddHandler, successClassRemoveHandler);
         }
     }
-}
-}
 
-picker.customOptions = {
-    inputMode: options.inputMode
-};
+    picker.customOptions = {
+        inputMode: options.inputMode
+    };
 
-attachEventHandlers(picker.altInput);
+    attachEventHandlers(picker.altInput);
 
-_pickers[elementId] = picker;
+    _pickers[elementId] = picker;
 }
 
 function attachEventHandlers(picker) {
