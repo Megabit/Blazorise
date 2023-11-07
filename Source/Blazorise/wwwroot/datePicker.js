@@ -1,5 +1,6 @@
 ﻿import "./vendors/flatpickr.js?v=1.3.2.0";
 import * as utilities from "./utilities.js?v=1.3.2.0";
+import { ClassWatcher } from "./observer.js?v=1.3.2.0";
 
 const _pickers = [];
 
@@ -85,6 +86,36 @@ export function initialize(dotnetAdapter, element, elementId, options) {
                 picker.input.dispatchEvent(utilities.createEvent("input"));
             }
         });
+
+        if (options.validationStatus) {
+            const flatpickrWrapper = picker.altInput.parentElement;
+
+            if (flatpickrWrapper) {
+                if (options.validationStatus.errorClass) {
+                    function errorClassAddHandler() {
+                        flatpickrWrapper.classList.add(options.validationStatus.errorClass);
+                    }
+
+                    function errorClassRemoveHandler() {
+                        flatpickrWrapper.classList.remove(options.validationStatus.errorClass);
+                    }
+
+                    picker.errorClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.errorClass, errorClassAddHandler, errorClassRemoveHandler);
+                }
+
+                if (options.validationStatus.successClass) {
+                    function successClassAddHandler() {
+                        flatpickrWrapper.classList.add(options.validationStatus.successClass);
+                    }
+
+                    function successClassRemoveHandler() {
+                        flatpickrWrapper.classList.remove(options.validationStatus.successClass);
+                    }
+
+                    picker.successClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.successClass, successClassAddHandler, successClassRemoveHandler);
+                }
+            }
+        }
     }
 
     picker.customOptions = {
@@ -169,6 +200,14 @@ export function destroy(element, elementId) {
 
     if (instance) {
         instance.destroy();
+
+        if (instance.errorClassWatcher) {
+            instance.errorClassWatcher.disconnect();
+        }
+
+        if (instance.successClassWatcher) {
+            instance.successClassWatcher.disconnect();
+        }
     }
 
     delete instances[elementId];

@@ -168,5 +168,19 @@ public static class ValidationRule
         e.Status = string.IsNullOrEmpty( value ) || value == "0" ? ValidationStatus.Error : ValidationStatus.Success;
     }
 
+    /// <summary>
+    /// Checks if the file is selected.
+    /// </summary>
+    /// <param name="e"></param>
+    public static void IsFileSelected( ValidatorEventArgs e )
+    {
+        var value = e.Value as IFileEntry[];
+
+        if ( value is not null )
+        {
+            e.Status = value.Count() == 0 ? ValidationStatus.Error : ValidationStatus.Success;
+        }
+    }
+
     #endregion
 }
