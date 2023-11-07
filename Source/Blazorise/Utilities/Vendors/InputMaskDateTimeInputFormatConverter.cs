@@ -36,8 +36,8 @@ public class InputMaskDateTimeInputFormatConverter : BaseDateTimeFormatConverter
         { "h", "h" },           // The hour, using a 12-hour clock from 1 to 12.
         { "hh", "hh" },         // The hour, using a 12-hour clock from 01 to 12.
 
-        { "m", "m" },           // The minute, from 0 to 59.
-        { "mm", "mm" },         // The minute, from 00 to 59.
+        { "m", "M" },           // The minute, from 0 to 59.
+        { "mm", "MM" },         // The minute, from 00 to 59.
 
         { "s", "s" },           // The second, from 0 to 59.
         { "ss", "ss" },         // 	The second, from 00 to 59.
