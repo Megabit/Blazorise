@@ -161,6 +161,11 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             DisableMobile,
             Placeholder,
             StaticPicker,
+            ValidationStatus = new
+            {
+                SuccessClass = ClassProvider.DatePickerValidation( ValidationStatus.Success ),
+                ErrorClass = ClassProvider.DatePickerValidation( ValidationStatus.Error ),
+            }
         } );
 
         await base.OnFirstAfterRenderAsync();
