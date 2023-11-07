@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 #endregion
 
-namespace Blazorise.Utilities;
+namespace Blazorise.Utilities.Vendors;
 
 /// <summary>
 /// Base class for internal date time formaters.
