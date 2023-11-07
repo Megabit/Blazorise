@@ -1,9 +1,9 @@
-﻿namespace Blazorise;
+﻿namespace Blazorise.Vendors;
 
 /// <summary>
 /// Interface for converting the date formats for the input mask.
 /// </summary>
-public interface IDateTimeInputFormatConverter
+public interface IInputMaskDateTimeInputFormatConverter
 {
     /// <summary>
     /// Converts the .NET date format into the internal date format.

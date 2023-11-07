@@ -8,6 +8,7 @@ using Blazorise.Extensions;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
+using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
@@ -513,12 +514,12 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <summary>
     /// Converts the supplied date format into the internal date format used by the <see cref="DisplayFormat"/> mask.
     /// </summary>
-    [Inject] protected IDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
+    [Inject] protected IFlatPickrDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
 
     /// <summary>
     /// Converts the supplied date format into the internal date format used by the <see cref="InputFormat"/> mask.
     /// </summary>
-    [Inject] protected IDateTimeInputFormatConverter InputFormatConverter { get; set; }
+    [Inject] protected IInputMaskDateTimeInputFormatConverter InputFormatConverter { get; set; }
 
     /// <summary>
     /// Hints at the type of data that might be entered by the user while editing the element or its contents.

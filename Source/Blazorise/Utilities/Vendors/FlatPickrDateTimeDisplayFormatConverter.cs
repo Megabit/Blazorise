@@ -1,13 +1,14 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using Blazorise.Vendors;
 #endregion
 
-namespace Blazorise.Utilities;
+namespace Blazorise.Utilities.Vendors;
 
 /// <summary>
-/// Defauult implementation of <see cref="IDateTimeDisplayFormatConverter"/>.
+/// Defauult implementation of <see cref="IFlatPickrDateTimeDisplayFormatConverter"/>.
 /// </summary>
-public class DateTimeDisplayFormatConverter : BaseDateTimeFormatConverter, IDateTimeDisplayFormatConverter
+public class FlatPickrDateTimeDisplayFormatConverter : BaseDateTimeFormatConverter, IFlatPickrDateTimeDisplayFormatConverter
 {
     #region Properties
 

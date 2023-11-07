@@ -6,6 +6,7 @@ using Blazorise.Extensions;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
+using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -298,7 +299,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// <summary>
     /// Converts the supplied time format into the internal time format.
     /// </summary>
-    [Inject] protected IDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
+    [Inject] protected IFlatPickrDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
 
     /// <summary>
     /// Gets or sets the input time value.

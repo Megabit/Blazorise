@@ -1,13 +1,14 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using Blazorise.Vendors;
 #endregion
 
-namespace Blazorise.Utilities;
+namespace Blazorise.Utilities.Vendors;
 
 /// <summary>
-/// Default implementation of <see cref="IDateTimeInputFormatConverter"/>.
+/// Default implementation of <see cref="IInputMaskDateTimeInputFormatConverter"/>.
 /// </summary>
-public class DateTimeInputFormatConverter : BaseDateTimeFormatConverter, IDateTimeInputFormatConverter
+public class InputMaskDateTimeInputFormatConverter : BaseDateTimeFormatConverter, IInputMaskDateTimeInputFormatConverter
 {
     #region Properties
 
