@@ -15,7 +15,7 @@ public abstract class BaseDateTimeFormatConverter
     /// <inheritdoc/>
     public string Convert( string format )
     {
-        if ( string.IsNullOrEmpty( format ) || format.Length == 0 )
+        if ( string.IsNullOrEmpty( format ) )
             return format;
 
         var tokens = ParseTokens( format );
