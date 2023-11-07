@@ -579,6 +579,8 @@ class EmptyClassProvider : IClassProvider
 
     public string CardLink() => null;
 
+    public string CardLinkUnstyled( bool unstyled ) => null;
+
     public string CardLinkActive( bool active ) => null;
 
     #endregion
@@ -1122,6 +1124,8 @@ class EmptyClassProvider : IClassProvider
     public string Link() => null;
 
     public string LinkActive( bool active ) => null;
+
+    public string LinkUnstyled( bool unstyled ) => null;
 
     #endregion
 

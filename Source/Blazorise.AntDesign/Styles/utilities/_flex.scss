@@ -1,0 +1,147 @@
+﻿@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        .ant-flex-direction#{$infix}-row {
+            flex-direction: row !important;
+        }
+
+        .ant-flex-direction#{$infix}-column {
+            flex-direction: column !important;
+        }
+
+        .ant-flex-direction#{$infix}-row-reverse {
+            flex-direction: row-reverse !important;
+        }
+
+        .ant-flex-direction#{$infix}-column-reverse {
+            flex-direction: column-reverse !important;
+        }
+
+        .ant-flex-wrap#{$infix}-wrap {
+            flex-wrap: wrap !important;
+        }
+
+        .ant-flex-wrap#{$infix}-nowrap {
+            flex-wrap: nowrap !important;
+        }
+
+        .ant-flex-wrap#{$infix}-wrap-reverse {
+            flex-wrap: wrap-reverse !important;
+        }
+
+        .ant-flex#{$infix}-fill {
+            flex: 1 1 auto !important;
+        }
+
+        .ant-flex#{$infix}-grow-0 {
+            flex-grow: 0 !important;
+        }
+
+        .ant-flex#{$infix}-grow-1 {
+            flex-grow: 1 !important;
+        }
+
+        .ant-flex#{$infix}-shrink-0 {
+            flex-shrink: 0 !important;
+        }
+
+        .ant-flex#{$infix}-shrink-1 {
+            flex-shrink: 1 !important;
+        }
+
+        .ant-justify-content#{$infix}-flex-start {
+            justify-content: flex-start !important;
+        }
+
+        .ant-justify-content#{$infix}-flex-end {
+            justify-content: flex-end !important;
+        }
+
+        .ant-justify-content#{$infix}-center {
+            justify-content: center !important;
+        }
+
+        .ant-justify-content#{$infix}-space-between {
+            justify-content: space-between !important;
+        }
+
+        .ant-justify-content#{$infix}-space-around {
+            justify-content: space-around !important;
+        }
+
+        .ant-align-items#{$infix}-flex-start {
+            align-items: flex-start !important;
+        }
+
+        .ant-align-items#{$infix}-flex-end {
+            align-items: flex-end !important;
+        }
+
+        .ant-align-items#{$infix}-center {
+            align-items: center !important;
+        }
+
+        .ant-align-items#{$infix}-baseline {
+            align-items: baseline !important;
+        }
+
+        .ant-align-items#{$infix}-stretch {
+            align-items: stretch !important;
+        }
+
+        .ant-align-self#{$infix}-auto {
+            align-self: auto !important;
+        }
+
+        .ant-align-self#{$infix}-flex-start {
+            align-self: flex-start !important;
+        }
+
+        .ant-align-self#{$infix}-flex-end {
+            align-self: flex-end !important;
+        }
+
+        .ant-align-self#{$infix}-center {
+            align-self: center !important;
+        }
+
+        .ant-align-self#{$infix}-baseline {
+            align-self: baseline !important;
+        }
+
+        .ant-align-self#{$infix}-stretch {
+            align-self: stretch !important;
+        }
+
+        .ant-align-content#{$infix}-flex-start {
+            align-content: flex-start !important;
+        }
+
+        .ant-align-content#{$infix}-flex-end {
+            align-content: flex-end !important;
+        }
+
+        .ant-align-content#{$infix}-center {
+            align-content: center !important;
+        }
+
+        .ant-align-content#{$infix}-space-between {
+            align-content: space-between !important;
+        }
+
+        .ant-align-content#{$infix}-space-around {
+            align-content: space-around !important;
+        }
+
+        .ant-align-content#{$infix}-stretch {
+            align-content: stretch !important;
+        }
+
+        @for $i from 0 through 12 {
+            .ant-flex-order#{$infix}-#{$i} {
+                order: $i;
+            }
+        }
+    }
+}

@@ -626,6 +626,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CardLink() => "ant-card-extra";
 
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
+
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
     #endregion
@@ -1194,6 +1196,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string Link() => null;
 
     public override string LinkActive( bool active ) => active ? Active() : null;
+
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
 
     #endregion
 

@@ -26,7 +26,7 @@
               Style="@GetStyle(styling, selectedStyling)"
               HoverCursor="@GetHoverCursor()"
               @onkeydown="@(ParentDataGrid.Navigable ? HandleKeyDown : null)"
-              tabindex="@(ParentDataGrid.Navigable ? 0 : null)">
+              tabindex="@(ParentDataGrid.Navigable || ParentDataGrid.IsCellEdit ? 0 : null)">
 
         @ParentDataGrid.groupIndentationFragment
 
@@ -34,21 +34,23 @@
         {
             @if ( column.ColumnType == DataGridColumnType.Command )
             {
-                @if ( ParentDataGrid.IsCommandVisible )
+                @if ( ParentDataGrid.IsCommandVisible || ( ParentDataGrid.EditMode == DataGridEditMode.Inline || ParentDataGrid.EditMode == DataGridEditMode.Cell ) )
                 {
-                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Column="column" />
+                    <_DataGridRowCommand @key=column TItem="TItem" Item="@Item" EditState="DataGridEditState.None" Column="column" />
                 }
             }
             else if ( column.ColumnType == DataGridColumnType.MultiSelect )
             {
                 @if ( ParentDataGrid.MultiSelect )
                 {
-                    <_DataGridRowMultiSelect @ref="multiSelect" TItem="TItem" Item="Item" Checked="@IsSelected" CheckedClicked="@OnMultiSelectCheckClicked" Column="column" />
+                    <_DataGridRowMultiSelect @key=column @ref="multiSelect" TItem="TItem" Item="Item" Checked="@IsSelected" CheckedClicked="@OnMultiSelectCheckClicked" Column="column" />
                 }
             }
             else
             {
-                <TableRowCell @onclick:stopPropagation="column.PreventRowClick" Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
+                <TableRowCell @key=column
+                              @onclick=@(ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, Item) : default)
+                              Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
                     @if ( column.DisplayTemplate != null )
                     {
                         @column.DisplayTemplate( Item )
@@ -80,7 +82,7 @@
             : Position.Absolute.End;
 
             <Div Class="b-table-row-overlay" Background="@ParentDataGrid.RowOverlayBackground" Position="@rowOverlayPosition" Style="z-index:1;" @onclick:stopPropagation>
-                @ParentDataGrid.RowOverlayTemplate(new (Item))
+                @ParentDataGrid.RowOverlayTemplate( new( Item ) )
             </Div>
         }
     </TableRow>

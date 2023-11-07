@@ -237,12 +237,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             HandleSortColumn( column, false, null, suppressSortChangedEvent );
 
         // save command column reference for later
-        if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
+        if ( CommandColumn is null && column is DataGridCommandColumn<TItem> commandColumn )
         {
             CommandColumn = commandColumn;
         }
-
-        if ( MultiSelectColumn == null && column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
+        else if ( MultiSelectColumn is null && column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
         {
             MultiSelectColumn = multiSelectColumn;
         }
@@ -273,6 +272,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             SortByColumns.Remove( column );
 
             _ = InvokeAsync( async () => await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, SortDirection.Default ) ) );
+        }
+
+        if ( column is DataGridCommandColumn<TItem> commandColumn )
+        {
+            CommandColumn = null;
+        }
+        else if ( column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
+        {
+            MultiSelectColumn = null;
         }
 
         return removed;
@@ -863,6 +871,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         await SaveItem();
+        
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -914,7 +924,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await VirtualizeOnEditCompleteScroll().AsTask();
         }
 
-        await InvokeAsync( StateHasChanged );
     }
 
     private void SetItemEditedValues( TItem item )
@@ -1286,7 +1295,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         editItem = item;
         editItemCellValues = new();
-
+        
         validationItem = UseValidation
             ? ValidationItemCreator is null ? RecursiveObjectActivator.CreateInstance<TItem>() : ValidationItemCreator()
             : default;
@@ -1301,6 +1310,26 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             if ( validationItem is not null )
                 column.SetValue( validationItem, cellValue );
+        }
+    }
+
+    internal async Task HandleCellEdit( DataGridColumn<TItem> column, TItem item )
+    {
+        if ( !IsCellEdit )
+            return;
+
+        await Save();
+
+        if ( EditState == DataGridEditState.Edit )
+            return;
+
+        if ( IsCellEdit && column.Editable && EditState != DataGridEditState.New )
+        {
+            foreach ( var editableColumn in EditableColumns )
+                editableColumn.CellEditing = false;
+
+            column.CellEditing = true;
+            await Edit( item );
         }
     }
 
@@ -1751,7 +1780,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod() )
+                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod(), column.ColumnType, column.GetValueType() )
                             select item;
                 }
             }
@@ -1775,23 +1804,249 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return Reload( filterCancellationTokenSource.Token );
     }
 
-    private bool CompareFilterValues( string searchValue, string compareTo, DataGridFilterMethod? columnFilterMethod )
+    private bool CompareFilterValues( string searchValue, string compareTo, DataGridColumnFilterMethod? columnFilterMethod, DataGridColumnType columnType, Type columnValueType )
     {
-        var filterMethod = columnFilterMethod ?? FilterMethod;
-        switch ( filterMethod )
+        if ( columnFilterMethod is not null )
         {
-            case DataGridFilterMethod.StartsWith:
-                return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-            case DataGridFilterMethod.EndsWith:
-                return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-            case DataGridFilterMethod.Equals:
-                return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-            case DataGridFilterMethod.NotEquals:
-                return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-            case DataGridFilterMethod.Contains:
-            default:
-                return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
+            switch ( columnFilterMethod )
+            {
+                case DataGridColumnFilterMethod.StartsWith:
+                    return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridColumnFilterMethod.EndsWith:
+                    return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridColumnFilterMethod.Equals:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal == compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble == compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat == compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt == compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort == compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime == compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset == compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly == compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly == compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan == compareToTimeSpan;
+                    }
+
+                    return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridColumnFilterMethod.NotEquals:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal != compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble != compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat != compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt != compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort != compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime != compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset != compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly != compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly != compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan != compareToTimeSpan;
+                    }
+                    return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+
+                case DataGridColumnFilterMethod.LessThan:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal < compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble < compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat < compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt < compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort < compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime < compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset < compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly < compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly < compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan < compareToTimeSpan;
+                    }
+                    return false;
+                case DataGridColumnFilterMethod.LessThanOrEqual:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal <= compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble <= compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat <= compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt <= compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort <= compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime <= compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset <= compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly <= compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly <= compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan <= compareToTimeSpan;
+                    }
+                    return false;
+                case DataGridColumnFilterMethod.GreaterThan:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal > compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble > compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat > compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt > compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort > compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime > compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset > compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly > compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly > compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan > compareToTimeSpan;
+                    }
+                    return false;
+                case DataGridColumnFilterMethod.GreaterThanOrEqual:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal >= compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble >= compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat >= compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt >= compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort >= compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime >= compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset >= compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly >= compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly >= compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan >= compareToTimeSpan;
+                    }
+                    return false;
+                case DataGridColumnFilterMethod.Contains:
+                default:
+                    return searchValue.Contains( compareTo, StringComparison.OrdinalIgnoreCase );
+            }
+
         }
+
+        return FilterMethod switch
+        {
+            DataGridFilterMethod.StartsWith => searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase ),
+            DataGridFilterMethod.EndsWith => searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase ),
+            DataGridFilterMethod.Equals => searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase ),
+            DataGridFilterMethod.NotEquals => !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase ),
+            _ => searchValue.Contains( compareTo, StringComparison.OrdinalIgnoreCase ),
+        };
     }
 
     private IEnumerable<TItem> FilterViewData()
@@ -1863,8 +2118,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     internal int GroupableColumnsCount
         => groupableColumns?.Count ?? 0;
 
+    /// <summary>
+    /// Whether the DataGrid is considered to be in a FixedHeader state.
+    /// </summary>
     internal bool IsFixedHeader
         => Virtualize || FixedHeader;
+
+    /// <summary>
+    /// Whether the DataGrid is considered in is Cell Edit Mode.
+    /// </summary>
+    internal protected bool IsCellEdit
+        => EditMode == DataGridEditMode.Cell;
 
     /// <summary>
     /// Gets the DataGrid standard class and other existing Class
@@ -1902,7 +2166,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets only columns that are available for editing.
     /// </summary>
-    protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
+    internal protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
 
     /// <summary>
     /// Gets only columns that are available for display in the grid.

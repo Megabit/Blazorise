@@ -6350,7 +6350,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Data=""@employeeList""
           Responsive
           Filterable>
-    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
 </DataGrid>
 
 @code{
@@ -6659,6 +6659,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
             <SelectItem Value=""DataGridEditMode.Form"">Form</SelectItem>
             <SelectItem Value=""DataGridEditMode.Inline"">Inline</SelectItem>
             <SelectItem Value=""DataGridEditMode.Popup"">Popup</SelectItem>
+            <SelectItem Value=""DataGridEditMode.Cell"">Cell (""Rapid Editing"")</SelectItem>
         </Select>
     </FieldBody>
 </Field>
@@ -6672,7 +6673,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           CommandMode=""DataGridCommandMode.ButtonRow""
           EditMode=""editMode"">
     <DataGridColumns>
-        <DataGridCommandColumn  NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  >
+        <DataGridCommandColumn  NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  CancelCommandAllowed >
             <SaveCommandTemplate>
                 <Button ElementId=""btnSave"" Type=""ButtonType.Submit"" PreventDefaultOnSubmit Color=""Color.Primary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
             </SaveCommandTemplate>
@@ -6684,11 +6685,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
         <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
-        <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
-            <EditTemplate>
-                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
-            </EditTemplate>
-        </DataGridColumn>
+        <DataGridNumericColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable />
     </DataGridColumns>
     <ButtonRowTemplate>
         <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
@@ -6844,7 +6841,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Responsive
           Filterable
           FilterMode=""DataGridFilterMode.Menu"">
-    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
+     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
     <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
 </DataGrid>
@@ -6859,21 +6856,35 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Data=""@employeeList""
           Responsive
           Filterable
-          FilterMode=""DataGridFilterMode.Menu"">
-    <DataGridColumns>
-        <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
-        <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
-        <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-    </DataGridColumns>
-    <FilterMenuTemplate>
-        <Row>
-            <Column ColumnSize=""ColumnSize.Is4"">
-                <Select TValue=""DataGridFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
-                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.Contains"">Contains</SelectItem>
-                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.StartsWith"">Starts With</SelectItem>
-                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.EndsWith"">Ends With</SelectItem>
-                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.Equals"">Equals</SelectItem>
-                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.NotEquals"">Not Equals</SelectItem>
+           FilterMode=""DataGridFilterMode.Menu"">
+     <DataGridColumns>
+         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
+         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
+         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+     </DataGridColumns>
+     <FilterMenuTemplate>
+         <Row>
+             <Column ColumnSize=""ColumnSize.Is4"">
+                 <Select TValue=""DataGridColumnFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
+                    @{
+                        var isNumericOrDate = context.Column.ColumnType == DataGridColumnType.Numeric || context.Column.ColumnType == DataGridColumnType.Date;
+                    }
+
+                    @if ( !isNumericOrDate )
+                    {
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.Contains"">Contains</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.StartsWith"">Starts With</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.EndsWith"">Ends With</SelectItem>
+                    }
+                    <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.Equals"">Equals</SelectItem>
+                    <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.NotEquals"">Not Equals</SelectItem>
+                    @if ( isNumericOrDate )
+                    {
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.GreaterThan"">Greater Than</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.GreaterThanOrEqual"">Greater Than Or Equal</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.LessThan"">Less Than</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.LessThanOrEqual"">Less Than Or Equal</SelectItem>
+                    }
                 </Select>
             </Column>
 

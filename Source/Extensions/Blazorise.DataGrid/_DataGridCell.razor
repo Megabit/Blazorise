@@ -51,3 +51,10 @@ else
         }
     }
 }
+
+@if ( !string.IsNullOrWhiteSpace( Column.HelpText ) )
+{
+    <Help>
+        @Column.HelpText
+    </Help>
+}

@@ -5,7 +5,7 @@
           Data="@employeeList"
           Responsive
           Filterable>
-    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false" FilterMethod="DataGridFilterMethod.StartsWith"></DataGridColumn>
+    <DataGridColumn Field="@nameof( Employee.FirstName )" Caption="Name" Editable="false" FilterMethod="DataGridColumnFilterMethod.StartsWith"></DataGridColumn>
 </DataGrid>
 
 @code{
