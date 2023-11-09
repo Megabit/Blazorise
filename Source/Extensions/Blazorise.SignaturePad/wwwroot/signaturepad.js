@@ -9,6 +9,12 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     if (!element)
         return;
 
+    // we need to match the canvas size ans size in styles so that we can properly calculate scaling based on screen size
+    if (element.width && element.height) {
+        element.style.width = `${element.width}px`;
+        element.style.height = `${element.height}px`;
+    }
+
     const sigpad = new SignaturePad(element, {
         minWidth: options.minLineWidth || 0.5,
         maxWidth: options.maxLineWidth || 2.5,
