@@ -78,7 +78,7 @@
                 </Button>
             </CardHeader>
             <CardBody>
-                <SignaturePad @ref="@signaturePadRef" @bind-Value="@data" BackgroundColor="@backgroundColor" PenColor="@penColor" DotSize="@dotSize" MinLineWidth="@minLineWidth" MaxLineWidth="@maxLineWidth" Throttle="@throttle" MinDistance="@minDistance" VelocityFilterWeight="@velocityFilterWeight" ReadOnly="@readOnly" BeginStroke="@OnBegin" EndStroke="@OnEnd" />
+                <SignaturePad @ref="@signaturePadRef" @bind-Value="@data" BackgroundColor="@backgroundColor" PenColor="@penColor" DotSize="@dotSize" MinLineWidth="@minLineWidth" MaxLineWidth="@maxLineWidth" Throttle="@throttle" MinDistance="@minDistance" VelocityFilterWeight="@velocityFilterWeight" ReadOnly="@readOnly" BeginStroke="@OnBegin" EndStroke="@OnEnd" Style="width: 600px; height: 300px;" />
             </CardBody>
         </Card>
     </Column>

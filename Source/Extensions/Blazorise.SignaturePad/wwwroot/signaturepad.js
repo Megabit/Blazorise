@@ -31,10 +31,13 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     const instance = {
         options: options,
         sigpad: sigpad,
-        dotNetAdapter: dotNetAdapter
+        dotNetAdapter: dotNetAdapter,
+        element: element
     };
 
     registerToEvents(dotNetAdapter, instance);
+
+    resizeCanvas(sigpad, element);
 
     _instances[elementId] = instance;
 }
@@ -176,4 +179,42 @@ function getImageDataURL(sigpad, options) {
     }
 
     return sigpad.toDataURL("image/png", options.imageQuality || 1);
+}
+
+window.onresize = resizeAllCanvas;
+
+function resizeAllCanvas() {
+    if (_instances) {
+        for (let i = 0; i < _instances.length; i++) {
+            const instance = _instances[i];
+
+            if (instance) {
+                resizeCanvas(instance.sigpad, instance.element);
+            }
+        }
+    }
+}
+
+function resizeCanvas(sigpad, canvas) {
+    if (!sigpad) {
+        return;
+    }
+
+    if (!canvas) {
+        return;
+    }
+
+    // When zoomed out to less than 100%, for some very strange reason,
+    // some browsers report devicePixelRatio as less than 1
+    // and only part of the canvas is cleared then.
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+
+    const context = canvas.getContext("2d");
+
+    // This part causes the canvas to be cleared
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    context.scale(ratio, ratio);
+
+    sigpad.fromData(sigpad.toData());
 }
