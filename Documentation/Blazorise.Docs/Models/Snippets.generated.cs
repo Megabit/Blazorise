@@ -6271,6 +6271,91 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         );
 }";
 
+        public const string DataGridBatchEditExample = @"<Field>
+    <FieldLabel>
+        Edit Mode
+    </FieldLabel>
+    <FieldBody>
+        <Select @bind-SelectedValue=""@editMode"">
+            <SelectItem Value=""DataGridEditMode.Form"">Form</SelectItem>
+            <SelectItem Value=""DataGridEditMode.Inline"">Inline</SelectItem>
+            <SelectItem Value=""DataGridEditMode.Popup"">Popup</SelectItem>
+            <SelectItem Value=""DataGridEditMode.Cell"">Cell (""Rapid Editing"")</SelectItem>
+        </Select>
+    </FieldBody>
+</Field>
+
+<DataGrid @ref=dataGridRef
+            TItem=""Employee""
+            Data=""inMemoryData""
+            Responsive
+            ShowPager
+            ShowPageSizes
+            @bind-SelectedRow=""@selectedEmployee""
+            Editable
+            EditMode=""@editMode""
+            BatchEdit
+            BatchChange=""OnBatchChange""
+            BatchSaving=""OnBatchSaving""
+            BatchSaved=""OnBatchSaved""
+            UseValidation
+            ValidationsSummaryLabel=""The following validation errors have occurred...""
+            CommandMode=""DataGridCommandMode.ButtonRow""
+            ShowValidationsSummary>
+    <DataGridColumns>
+        <DataGridCommandColumn SaveBatchCommandAllowed=false CancelBatchCommandAllowed=false />
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""140px"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"" />
+     </DataGridColumns>
+     <ButtonRowTemplate>
+         <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
+         <Button Color=""Color.Primary"" Disabled=""(selectedEmployee is null)"" Clicked=""context.EditCommand.Clicked"">Edit</Button>
+         <Button Color=""Color.Danger"" Disabled=""(selectedEmployee is null)"" Clicked=""context.DeleteCommand.Clicked"">Delete</Button>
+         <Button Color=""Color.Link"" Clicked=""context.ClearFilterCommand.Clicked"">Clear Filter</Button>
+
+         <Button Color=""Color.Success"" Disabled=""(batchQuantity == 0)"" Clicked=""@(context.SaveBatchCommand.Clicked)"">@context.SaveBatchCommand.LocalizationString</Button>
+         <Button Color=""Color.Default"" Clicked=""@(context.CancelBatchCommand.Clicked)"">@context.CancelBatchCommand.LocalizationString</Button>
+    </ButtonRowTemplate>
+</DataGrid>
+@code {
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private int batchQuantity = 0;
+    private DataGrid<Employee> dataGridRef;
+    private List<Employee> inMemoryData;
+    private Employee selectedEmployee;
+    private DataGridEditMode editMode = DataGridEditMode.Form;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
+        await base.OnInitializedAsync();
+    }
+
+    private Task OnBatchChange( DataGridBatchChangeEventArgs<Employee> args )
+    {
+        Console.WriteLine( ""Batch Change"" );
+        batchQuantity = dataGridRef.BatchChanges.Count;
+        return Task.CompletedTask;
+    }
+
+    private Task OnBatchSaving( DataGridBatchSavingEventArgs<Employee> args )
+    {
+        Console.WriteLine( ""Batch Saving"" );
+        return Task.CompletedTask;
+    }
+
+    private Task OnBatchSaved( DataGridBatchSavedEventArgs<Employee> args )
+    {
+        Console.WriteLine( ""Batch Saved"" );
+        batchQuantity = 0;
+        return Task.CompletedTask;
+    }
+}";
+
         public const string DataGridButtonRowExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
