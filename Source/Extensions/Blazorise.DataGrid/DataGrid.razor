@@ -46,7 +46,7 @@
                                     }
                                     else
                                     {
-                                        @HeaderGroupCaptionTemplate( new HeaderGroupContext( column.HeaderGroupCaption) )
+                                        @HeaderGroupCaptionTemplate( new HeaderGroupContext( column.HeaderGroupCaption ) )
                                     }
                                 </TableHeaderCell>
                             }
@@ -126,7 +126,7 @@
                                             }
                                         }
 
-                                        @if ( Filterable && column.Filterable && FilterMode == DataGridFilterMode.Menu )
+                                        @if ( Filterable && column.Filterable && ( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Menu ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Menu ) )
                                         {
                                             <_DataGridMenuFilter Column="column" />
                                         }
@@ -136,7 +136,7 @@
                         }
                     </TableRow>
                 }
-                @if ( Filterable && FilterMode == DataGridFilterMode.Default )
+                @if ( Filterable && ( FilterMode == DataGridFilterMode.Default || DisplayableColumns.Any( x => x.FilterMode == DataGridFilterMode.Default ) ) )
                 {
                     <TableRow Class="@FilterRowStyling?.Class" Style="@FilterRowStyling?.Style" Background="@(FilterRowStyling?.Background ?? Background.Default)" Color="@(FilterRowStyling?.Color ?? Color.Default)">
 
@@ -171,7 +171,7 @@
                                     </TableHeaderCell>
                                 }
                             }
-                            else
+                            else if ( ( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Default ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Default ) )
                             {
 
                                 <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap">
@@ -198,6 +198,10 @@
                                         }
                                     }
                                 </TableHeaderCell>
+                            }
+                            else
+                            {
+                                <TableHeaderCell Class="@column.FilterCellClass" Style="@column.BuildFilterCellStyle()" TextAlignment="@column.FilterCellTextAlignment" VerticalAlignment="@column.FilterCellVerticalAlignment" Display="@column.FilterCellDisplay" Background="@column.FilterCellBackground" Flex="@column.FilterCellFlex" Gap="@column.FilterCellGap"></TableHeaderCell>
                             }
                         }
                     </TableRow>
@@ -271,7 +275,8 @@
                 @if ( IsLoadingTemplateVisible )
                 {
                     <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" RenderUpdates>
-                        @LoadingTemplate
+                         @LoadingTemplate
+
                     </_DataGridFullColumnSpanRow>
                 }
             </TableBody>
