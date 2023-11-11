@@ -16,7 +16,9 @@ public class DataGridBatchEditItem<TItem>
     /// </summary>
     public TItem OldItem { get; }
 
+    /// <summary>
     /// Gets the model with the edited values.
+    /// </summary>
     public TItem NewItem { get; private set; }
 
     /// <summary>
@@ -58,7 +60,7 @@ public class DataGridBatchEditItem<TItem>
             Values = values;
             return;
         }
-            
+
 
         if ( !Values.IsNullOrEmpty() )
         {
@@ -103,6 +105,5 @@ public class DataGridBatchEditItem<TItem>
     /// <returns></returns>
     public bool IsModified( string field )
         => ( !string.IsNullOrWhiteSpace( field ) && Values.TryGetValue( field, out var context ) && context.Modified );
-
 }
 

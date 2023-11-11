@@ -13,6 +13,7 @@ namespace Blazorise.DataGrid;
 public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 {
     #region Members
+
     protected DataGridBatchEditItem<TItem> BatchEditItem;
 
     protected bool mouseIsOver = false;
@@ -79,6 +80,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
                     throw new ArgumentException( $"Unknown parameter: {parameter.Name}" );
             }
         }
+
         BatchEditItem = ParentDataGrid.GetBatchEditItemByOriginal( Item );
 
         return base.SetParametersAsync( ParameterView.Empty );
@@ -291,7 +293,6 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         : batchEditSelectedStyling?.Background
             ?? styling?.Background ) ?? Blazorise.Background.Default;
 
-
     /// <summary>
     /// Gets the row color.
     /// </summary>
@@ -324,10 +325,12 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         var cellStyle = column.BuildCellStyle( GetCurrentItem() );
 
         var styleFromStyling = selectedStyling?.Style ?? batchEditStyling?.Style ?? styling.Style;
-        if (!string.IsNullOrEmpty( styleFromStyling ) )
+
+        if ( !string.IsNullOrEmpty( styleFromStyling ) )
         {
             cellStyle += $";{styleFromStyling}";
         }
+
         return cellStyle;
     }
 
@@ -345,6 +348,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         {
             cellClass += $" {classFromStyling}";
         }
+
         return cellClass;
     }
 
@@ -352,7 +356,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// Gets the cell background color.
     /// </summary>
     protected Background GetCellBackground( DataGridCellStyling styling, DataGridCellStyling selectedStyling, DataGridCellStyling batchEditStyling )
-        =>  selectedStyling?.Background ?? batchEditStyling?.Background ?? styling.Background ?? Blazorise.Background.Default;
+        => selectedStyling?.Background ?? batchEditStyling?.Background ?? styling.Background ?? Blazorise.Background.Default;
 
     /// <summary>
     /// Gets the cell color.

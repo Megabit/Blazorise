@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -9,7 +8,7 @@ namespace Blazorise.DataGrid;
 /// <summary>
 /// Represents the Batch Saved Event Arguments.
 /// </summary>
-/// <typeparam name="TItem"></typeparam>
+/// <typeparam name="TItem">Model type param.</typeparam>
 public class DataGridBatchSavedEventArgs<TItem> : EventArgs
 {
     /// <summary>
@@ -22,5 +21,4 @@ public class DataGridBatchSavedEventArgs<TItem> : EventArgs
     }
 
     public IReadOnlyList<DataGridBatchEditItem<TItem>> Items { get; private set; }
-
 }

@@ -1,7 +1,4 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise.DataGrid;
+﻿namespace Blazorise.DataGrid;
 
 /// <summary>
 /// Defines the Edit State for a Batch Edit Item.
@@ -12,10 +9,12 @@ public enum DataGridBatchEditItemState
     /// This is a new item.
     /// </summary>
     New = 0,
+
     /// <summary>
     /// This is an existing item with changes.
     /// </summary>
     Edit = 1,
+
     /// <summary>
     /// This is a deleted item.
     /// </summary>
