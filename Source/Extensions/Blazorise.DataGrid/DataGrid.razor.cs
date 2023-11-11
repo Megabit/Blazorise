@@ -237,12 +237,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             HandleSortColumn( column, false, null, suppressSortChangedEvent );
 
         // save command column reference for later
-        if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
+        if ( CommandColumn is null && column is DataGridCommandColumn<TItem> commandColumn )
         {
             CommandColumn = commandColumn;
         }
-
-        if ( MultiSelectColumn == null && column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
+        else if ( MultiSelectColumn is null && column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
         {
             MultiSelectColumn = multiSelectColumn;
         }
@@ -273,6 +272,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             SortByColumns.Remove( column );
 
             _ = InvokeAsync( async () => await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, SortDirection.Default ) ) );
+        }
+
+        if ( column is DataGridCommandColumn<TItem> commandColumn )
+        {
+            CommandColumn = null;
+        }
+        else if ( column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
+        {
+            MultiSelectColumn = null;
         }
 
         return removed;
@@ -745,7 +753,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
 
-        await Reload( paginationContext.CancellationTokenSource.Token );
+        await ReloadInternal( paginationContext.CancellationTokenSource.Token );
     }
 
     private async void OnPageChanged( int currentPage )
@@ -755,7 +763,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await InvokeAsync( () => PageChanged.InvokeAsync( new( currentPage, PageSize ) ) );
 
-        await Reload( paginationContext.CancellationTokenSource.Token );
+        await ReloadInternal( paginationContext.CancellationTokenSource.Token );
     }
 
     #endregion
@@ -863,6 +871,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         await SaveItem();
+        
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -914,7 +924,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await VirtualizeOnEditCompleteScroll().AsTask();
         }
 
-        await InvokeAsync( StateHasChanged );
     }
 
     private void SetItemEditedValues( TItem item )
@@ -1286,7 +1295,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         editItem = item;
         editItemCellValues = new();
-
+        
         validationItem = UseValidation
             ? ValidationItemCreator is null ? RecursiveObjectActivator.CreateInstance<TItem>() : ValidationItemCreator()
             : default;
@@ -1301,6 +1310,26 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             if ( validationItem is not null )
                 column.SetValue( validationItem, cellValue );
+        }
+    }
+
+    internal async Task HandleCellEdit( DataGridColumn<TItem> column, TItem item )
+    {
+        if ( !IsCellEdit )
+            return;
+
+        await Save();
+
+        if ( EditState == DataGridEditState.Edit )
+            return;
+
+        if ( IsCellEdit && column.Editable && EditState != DataGridEditState.New )
+        {
+            foreach ( var editableColumn in EditableColumns )
+                editableColumn.CellEditing = false;
+
+            column.CellEditing = true;
+            await Edit( item );
         }
     }
 
@@ -1485,14 +1514,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
-    /// Makes sure not to reload if the DataGrid is in a loading state.
     /// </summary>
     /// <returns>Returns the awaitable task.</returns>
-    public async Task Reload( CancellationToken cancellationToken = default )
+    private async Task ReloadInternal( CancellationToken cancellationToken = default )
     {
-        if ( IsLoading )
-            return;
-
         SetDirty();
 
         if ( ManualReadMode )
@@ -1520,6 +1545,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
+    /// Makes sure not to reload if the DataGrid is in a loading state.
+    /// </summary>
+    /// <returns>Returns the awaitable task.</returns>
+    public async Task Reload( CancellationToken cancellationToken = default )
+    {
+        if ( IsLoading )
+            return;
+
+        await ReloadInternal( cancellationToken );
+    }
+
+    /// <summary>
     /// Notifies the <see cref="DataGrid{TItem}"/> to refresh.
     /// </summary>
     /// <returns></returns>
@@ -1533,7 +1571,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             IsLoading = true;
             await InvokeAsync( StateHasChanged );
             await Task.Yield();
-
             if ( !cancellationToken.IsCancellationRequested )
                 await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, CurrentPage, PageSize, 0, 0, cancellationToken ) );
         }
@@ -2089,8 +2126,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     internal int GroupableColumnsCount
         => groupableColumns?.Count ?? 0;
 
+    /// <summary>
+    /// Whether the DataGrid is considered to be in a FixedHeader state.
+    /// </summary>
     internal bool IsFixedHeader
         => Virtualize || FixedHeader;
+
+    /// <summary>
+    /// Whether the DataGrid is considered in is Cell Edit Mode.
+    /// </summary>
+    internal protected bool IsCellEdit
+        => EditMode == DataGridEditMode.Cell;
 
     /// <summary>
     /// Gets the DataGrid standard class and other existing Class
@@ -2128,7 +2174,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets only columns that are available for editing.
     /// </summary>
-    protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
+    internal protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
 
     /// <summary>
     /// Gets only columns that are available for display in the grid.

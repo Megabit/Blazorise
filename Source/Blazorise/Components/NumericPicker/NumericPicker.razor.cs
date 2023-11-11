@@ -479,6 +479,11 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
         => EnableStep.GetValueOrDefault( Options?.EnableNumericStep ?? true );
 
     /// <summary>
+    /// Gets the string representation of the <see cref="Step"/> value.
+    /// </summary>
+    protected string StepString => Step.ToCultureInvariantString();
+
+    /// <summary>
     /// Gets the culture info defined on the input field.
     /// </summary>
     protected CultureInfo CurrentCultureInfo

@@ -2949,11 +2949,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string BasicNumericEditExample = @"<NumericEdit Value=""123"" />";
+        public const string BasicNumericEditExample = @"<NumericEdit @bind-Value=""@value"" />
+@code {
+    decimal? value = 123;
+}";
 
         public const string BasicNumericPickerExample = @"<NumericPicker Value=""123"" />";
 
-        public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" />";
+        public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" @bind-Value=""@value"" />
+@code {
+    decimal? value = 123;
+}";
 
         public const string NumericPickerCurrencyExample = @"<NumericPicker TValue=""decimal?"" CurrencySymbol=""$"" Value=""456"" />";
 
@@ -6651,6 +6657,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
             <SelectItem Value=""DataGridEditMode.Form"">Form</SelectItem>
             <SelectItem Value=""DataGridEditMode.Inline"">Inline</SelectItem>
             <SelectItem Value=""DataGridEditMode.Popup"">Popup</SelectItem>
+            <SelectItem Value=""DataGridEditMode.Cell"">Cell (""Rapid Editing"")</SelectItem>
         </Select>
     </FieldBody>
 </Field>
@@ -6664,7 +6671,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           CommandMode=""DataGridCommandMode.ButtonRow""
           EditMode=""editMode"">
     <DataGridColumns>
-        <DataGridCommandColumn  NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  >
+        <DataGridCommandColumn  NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  CancelCommandAllowed >
             <SaveCommandTemplate>
                 <Button ElementId=""btnSave"" Type=""ButtonType.Submit"" PreventDefaultOnSubmit Color=""Color.Primary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
             </SaveCommandTemplate>
@@ -6676,11 +6683,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
         <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
-        <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
-            <EditTemplate>
-                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
-            </EditTemplate>
-        </DataGridColumn>
+        <DataGridNumericColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable />
     </DataGridColumns>
     <ButtonRowTemplate>
         <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>

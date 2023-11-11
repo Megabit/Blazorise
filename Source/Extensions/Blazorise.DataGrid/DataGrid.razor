@@ -11,6 +11,13 @@
         @paginationFragment
     }
     <Form>
+
+        @if ( IsCellEdit && ( CommandColumn is null || !CommandColumn.SaveCommandAllowed ) )
+        {
+            //Disable the default form behaviour where pressing enter submits the form and posts the page which is not expected in typical SPA fashion.
+            <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Disabled Display="Display.None"></Button>
+        }
+
         @if ( IsGroupableByColumn )
         {
             <_DataGridColumnDropZone TItem="TItem" Columns="@groupableColumns" ColumnRemoved="@RemoveGroupColumn" ColumnAdded="@AddGroupColumn" />
@@ -56,7 +63,7 @@
                         {
                             @if ( column.ColumnType == DataGridColumnType.Command )
                             {
-                                @if ( IsCommandVisible )
+                                @if ( IsCommandVisible || ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Cell ) )
                                 {
                                     <TableHeaderCell Class="@column.BuildHeaderCellClass()" Style="@column.BuildHeaderCellStyle()" TextAlignment="@column.HeaderCellTextAlignment" VerticalAlignment="@column.HeaderCellVerticalAlignment" Display="@column.HeaderCellDisplay" Background="@column.HeaderCellBackground" Flex="@column.HeaderCellFlex" Gap="@column.HeaderCellGap">
                                         @if ( CanInsertNewItem && editState != DataGridEditState.New )

@@ -276,6 +276,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     #region Properties
 
+
+    /// <summary>
+    /// Whether the cell is currently being edited.
+    /// </summary>
+    public bool CellEditing { get; internal set; }
+
     /// <summary>
     /// Determines the text alignment for the filter cell.
     /// </summary>
@@ -417,8 +423,22 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     public bool CellValueIsEditable
         => Editable &&
-           ( ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
-             || ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit ) );
+           (
+                ( ParentDataGrid.EditState == DataGridEditState.Edit && ParentDataGrid.EditMode == DataGridEditMode.Cell && CellEditing 
+                    && IsCellEditablePerCommand )
+                ||
+                ( ParentDataGrid.EditMode != DataGridEditMode.Cell 
+                    || ( ParentDataGrid.EditState == DataGridEditState.New && ParentDataGrid.EditMode == DataGridEditMode.Cell ) //We don't have data, let's keep a regular editable row for New.
+                    && IsCellEditablePerCommand
+                )
+            );
+
+    protected bool IsCellEditablePerCommand
+        => (
+                        ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
+                        ||
+                        ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit )
+                        );
 
     /// <summary>
     /// Gets or sets the current sort direction.
