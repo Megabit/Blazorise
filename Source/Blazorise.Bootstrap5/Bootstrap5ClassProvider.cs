@@ -1022,7 +1022,15 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
-    public override string TableHeaderCellFixed( bool @fixed ) => @fixed ? "table-header-cell-fixed" : null;
+    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "table-header-cell-fixed-start",
+            TableColumnFixedPosition.End => "table-header-cell-fixed-end",
+            _ => null,
+        };
+    }
 
     public override string TableFooter() => null;
 
@@ -1038,13 +1046,29 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableRowHeader() => null;
 
-    public override string TableRowHeaderFixed( bool @fixed ) => @fixed ? "table-row-header-fixed" : null;
+    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "table-row-header-fixed-start",
+            TableColumnFixedPosition.End => "table-row-header-fixed-end",
+            _ => null,
+        };
+    }
 
     public override string TableRowCell() => null;
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
 
-    public override string TableRowCellFixed( bool @fixed ) => null;
+    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "table-row-cell-fixed-start",
+            TableColumnFixedPosition.End => "table-row-cell-fixed-end",
+            _ => null,
+        };
+    }
 
     public override string TableRowGroup( bool expanded ) => "table-group";
 

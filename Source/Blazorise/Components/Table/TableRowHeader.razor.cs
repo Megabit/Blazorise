@@ -14,7 +14,7 @@ public partial class TableRowHeader : BaseDraggableComponent
 {
     #region Members
 
-    private double? fixedLeftPosition;
+    private double? fixedPositionOffset;
 
     #endregion
 
@@ -25,11 +25,11 @@ public partial class TableRowHeader : BaseDraggableComponent
     {
         if ( ParentTable is not null )
         {
-            ParentTable.NotifyTableRowCellInitialized( ParentTableRow, this );
+            ParentTable.AddTableRowHeader( ParentTableRow, this );
 
-            if ( Fixed )
+            if ( FixedPosition != TableColumnFixedPosition.None )
             {
-                fixedLeftPosition = ParentTable.GetFixedCellPosition();
+                fixedPositionOffset = ParentTable.GetFixedCellPosition();
             }
         }
 
@@ -40,7 +40,7 @@ public partial class TableRowHeader : BaseDraggableComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TableRowHeader() );
-        builder.Append( ClassProvider.TableRowHeaderFixed( Fixed ) );
+        builder.Append( ClassProvider.TableRowHeaderFixed( FixedPosition ) );
 
         base.BuildClasses( builder );
     }
@@ -48,9 +48,9 @@ public partial class TableRowHeader : BaseDraggableComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( Fixed && fixedLeftPosition != null )
+        if ( FixedPosition == TableColumnFixedPosition.Start && fixedPositionOffset != null )
         {
-            builder.Append( $"left:{fixedLeftPosition:G29}px" );
+            builder.Append( $"left:{fixedPositionOffset:G29}px" );
         }
 
         base.BuildStyles( builder );
@@ -90,9 +90,9 @@ public partial class TableRowHeader : BaseDraggableComponent
     [Parameter] public int? ColumnSpan { get; set; }
 
     /// <summary>
-    /// Fixes the row header to the start of the table.
+    /// Defines the fixed position of the row header within the table.
     /// </summary>
-    [Parameter] public bool Fixed { get; set; }
+    [Parameter] public TableColumnFixedPosition FixedPosition { get; set; }
 
     /// <summary>
     /// Occurs when the row header is clicked.

@@ -64,12 +64,23 @@ tr {
         .table-header-cell-fixed,
         .table-row-header-fixed,
         .table-row-cell-fixed {
-            position: sticky;
-            border-left: none;
-            left: 0;
-            z-index: 11;
-            background-color: white;
-            border-inline-start-width: 0;
+            &-start {
+                position: sticky;
+                border-left: none;
+                z-index: 11;
+                background-color: white;
+                border-inline-start-width: 0;
+                left: 0;
+            }
+
+            &-end {
+                position: sticky;
+                border-left: none;
+                z-index: 11;
+                background-color: white;
+                border-inline-start-width: 0;
+                right: 0;
+            }
         }
     }
 }

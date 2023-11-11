@@ -17,7 +17,7 @@ public partial class TableHeaderCell : BaseDraggableComponent
 
     private Cursor cursor;
 
-    private double? fixedLeftPosition;
+    private double? fixedPositionOffset;
 
     #endregion
 
@@ -28,11 +28,11 @@ public partial class TableHeaderCell : BaseDraggableComponent
     {
         if ( ParentTable is not null )
         {
-            ParentTable.NotifyTableRowCellInitialized( ParentTableRow, this );
+            ParentTable.AddTableHeaderCell( ParentTableRow, this );
 
-            if ( Fixed )
+            if ( FixedPosition != TableColumnFixedPosition.None )
             {
-                fixedLeftPosition = ParentTable.GetFixedCellPosition();
+                fixedPositionOffset = ParentTable.GetFixedCellPosition();
             }
         }
 
@@ -44,7 +44,7 @@ public partial class TableHeaderCell : BaseDraggableComponent
     {
         builder.Append( ClassProvider.TableHeaderCell() );
         builder.Append( ClassProvider.TableHeaderCellCursor( Cursor ) );
-        builder.Append( ClassProvider.TableHeaderCellFixed( Fixed ) );
+        builder.Append( ClassProvider.TableHeaderCellFixed( FixedPosition ) );
 
         base.BuildClasses( builder );
     }
@@ -52,9 +52,9 @@ public partial class TableHeaderCell : BaseDraggableComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( Fixed && fixedLeftPosition != null )
+        if ( FixedPosition == TableColumnFixedPosition.Start && fixedPositionOffset != null )
         {
-            builder.Append( $"left:{fixedLeftPosition:G29}px" );
+            builder.Append( $"left:{fixedPositionOffset:G29}px" );
         }
 
         base.BuildStyles( builder );
@@ -95,9 +95,9 @@ public partial class TableHeaderCell : BaseDraggableComponent
     [Parameter] public int? ColumnSpan { get; set; }
 
     /// <summary>
-    /// Fixes the header cell to the start of the table.
+    /// Defines the fixed position of the header cell within the table.
     /// </summary>
-    [Parameter] public bool Fixed { get; set; }
+    [Parameter] public TableColumnFixedPosition FixedPosition { get; set; }
 
     /// <summary>
     /// Defines the mouse cursor based on the behaviour by the current css framework.

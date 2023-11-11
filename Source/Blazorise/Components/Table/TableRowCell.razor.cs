@@ -16,7 +16,7 @@ public partial class TableRowCell : BaseDraggableComponent
 
     private Color color = Color.Default;
 
-    private double? fixedLeftPosition;
+    private double? fixedPositionOffset;
 
     #endregion
 
@@ -27,11 +27,11 @@ public partial class TableRowCell : BaseDraggableComponent
     {
         if ( ParentTable is not null )
         {
-            ParentTable.NotifyTableRowCellInitialized( ParentTableRow, this );
+            ParentTable.AddTableRowCell( ParentTableRow, this );
 
-            if ( Fixed )
+            if ( FixedPosition != TableColumnFixedPosition.None )
             {
-                fixedLeftPosition = ParentTable.GetFixedCellPosition();
+                fixedPositionOffset = ParentTable.GetFixedCellPosition();
             }
         }
 
@@ -43,7 +43,7 @@ public partial class TableRowCell : BaseDraggableComponent
     {
         builder.Append( ClassProvider.TableRowCell() );
         builder.Append( ClassProvider.TableRowCellColor( Color ), Color != Color.Default );
-        builder.Append( ClassProvider.TableRowCellFixed( Fixed ) );
+        builder.Append( ClassProvider.TableRowCellFixed( FixedPosition ) );
 
         base.BuildClasses( builder );
     }
@@ -51,9 +51,9 @@ public partial class TableRowCell : BaseDraggableComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( Fixed && fixedLeftPosition != null )
+        if ( FixedPosition == TableColumnFixedPosition.Start && fixedPositionOffset != null )
         {
-            builder.Append( $"left:{fixedLeftPosition:G29}px" );
+            builder.Append( $"left:{fixedPositionOffset:G29}px" );
         }
 
         base.BuildStyles( builder );
@@ -109,9 +109,9 @@ public partial class TableRowCell : BaseDraggableComponent
     [Parameter] public int? ColumnSpan { get; set; }
 
     /// <summary>
-    /// Fixes the cell to the start of the table.
+    /// Defines the fixed position of the row cell within the table.
     /// </summary>
-    [Parameter] public bool Fixed { get; set; }
+    [Parameter] public TableColumnFixedPosition FixedPosition { get; set; }
 
     /// <summary>
     /// Occurs when the row cell is clicked.

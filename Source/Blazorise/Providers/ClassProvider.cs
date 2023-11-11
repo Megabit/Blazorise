@@ -946,7 +946,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableHeaderCellCursor( Cursor cursor );
 
-    public abstract string TableHeaderCellFixed( bool @fixed );
+    public abstract string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition );
 
     public abstract string TableFooter();
 
@@ -962,13 +962,13 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableRowHeader();
 
-    public abstract string TableRowHeaderFixed( bool @fixed );
+    public abstract string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition );
 
     public abstract string TableRowCell();
 
     public abstract string TableRowCellColor( Color color );
 
-    public abstract string TableRowCellFixed( bool @fixed );
+    public abstract string TableRowCellFixed( TableColumnFixedPosition fixedPosition );
 
     public abstract string TableRowGroup( bool expanded );
 
@@ -2023,6 +2023,16 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.PositionTranslateType.Middle => "middle",
             Blazorise.PositionTranslateType.MiddleX => "middle-x",
             Blazorise.PositionTranslateType.MiddleY => "middle-y",
+            _ => null,
+        };
+    }
+
+    public virtual string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition )
+    {
+        return tableColumnFixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "start",
+            TableColumnFixedPosition.End => "end",
             _ => null,
         };
     }

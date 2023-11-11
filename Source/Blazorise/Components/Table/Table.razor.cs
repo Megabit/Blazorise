@@ -187,22 +187,22 @@ public partial class Table : BaseDraggableComponent
         return ValueTask.CompletedTask;
     }
 
-    internal void NotifyTableRowCellInitialized( TableRow tableRow, TableRowHeader tableRowHeader )
+    internal void AddTableRowHeader( TableRow tableRow, TableRowHeader tableRowHeader )
     {
-        CalculateTotalRowWidth( tableRow, tableRowHeader.Width, tableRowHeader.Fixed );
+        CalculateTotalRowWidth( tableRow, tableRowHeader.Width, tableRowHeader.FixedPosition );
     }
 
-    internal void NotifyTableRowCellInitialized( TableRow tableRow, TableHeaderCell tableHeaderCell )
+    internal void AddTableHeaderCell( TableRow tableRow, TableHeaderCell tableHeaderCell )
     {
-        CalculateTotalRowWidth( tableRow, tableHeaderCell.Width, tableHeaderCell.Fixed );
+        CalculateTotalRowWidth( tableRow, tableHeaderCell.Width, tableHeaderCell.FixedPosition );
     }
 
-    internal void NotifyTableRowCellInitialized( TableRow tableRow, TableRowCell tableRowCell )
+    internal void AddTableRowCell( TableRow tableRow, TableRowCell tableRowCell )
     {
-        CalculateTotalRowWidth( tableRow, tableRowCell.Width, tableRowCell.Fixed );
+        CalculateTotalRowWidth( tableRow, tableRowCell.Width, tableRowCell.FixedPosition );
     }
 
-    private void CalculateTotalRowWidth( TableRow tableRow, IFluentSizing width, bool cellIsFixed )
+    private void CalculateTotalRowWidth( TableRow tableRow, IFluentSizing width, TableColumnFixedPosition fixedPosition )
     {
         // reset sizes once we decect new row
         if ( tableRow != lastTableRow )
@@ -218,7 +218,7 @@ public partial class Table : BaseDraggableComponent
 
             totalRowWidth += fixedWidth;
 
-            if ( cellIsFixed )
+            if ( fixedPosition == TableColumnFixedPosition.Start )
             {
                 fixedCellPosition += lastFixedCellWidth;
 

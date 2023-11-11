@@ -949,7 +949,7 @@ class EmptyClassProvider : IClassProvider
 
     public string TableHeaderCellCursor( Cursor cursor ) => null;
 
-    public string TableHeaderCellFixed( bool @fixed ) => null;
+    public string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition ) => null;
 
     public string TableFooter() => null;
 
@@ -965,13 +965,13 @@ class EmptyClassProvider : IClassProvider
 
     public string TableRowHeader() => null;
 
-    public string TableRowHeaderFixed( bool @fixed ) => null;
+    public string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition ) => null;
 
     public string TableRowCell() => null;
 
     public string TableRowCellColor( Color color ) => null;
 
-    public string TableRowCellFixed( bool @fixed ) => null;
+    public string TableRowCellFixed( TableColumnFixedPosition fixedPosition ) => null;
 
     public string TableRowGroup( bool expanded ) => null;
 
@@ -1364,6 +1364,8 @@ class EmptyClassProvider : IClassProvider
     public string ToPositionEdgeType( PositionEdgeType positionEdgeType ) => null;
 
     public string ToPositionTranslateType( PositionTranslateType positionTranslateType ) => null;
+
+    public string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition ) => null;
 
     #endregion
 

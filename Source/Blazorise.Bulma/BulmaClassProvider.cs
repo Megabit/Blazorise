@@ -1059,7 +1059,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"is-cursor-{ToCursor( cursor )}" : null;
 
-    public override string TableHeaderCellFixed( bool @fixed ) => null;
+    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition ) => null;
 
     public override string TableFooter() => null;
 
@@ -1075,13 +1075,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRowHeader() => null;
 
-    public override string TableRowHeaderFixed( bool @fixed ) => null;
+    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition ) => null;
 
     public override string TableRowCell() => null;
 
     public override string TableRowCellColor( Color color ) => $"has-background-{ToColor( color )}";
 
-    public override string TableRowCellFixed( bool @fixed ) => null;
+    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition ) => null;
 
     public override string TableRowGroup( bool expanded ) => "table-group";
 
