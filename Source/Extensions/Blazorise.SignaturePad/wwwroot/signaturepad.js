@@ -202,12 +202,8 @@ function resizeAllCanvas() {
 }
 
 function resizeCanvas(sigpad, canvas) {
-    if (!sigpad) {
-        return;
-    }
-
-    if (!canvas) {
-        return;
+    if (!sigpad || !options) {
+        return null;
     }
 
     // When zoomed out to less than 100%, for some very strange reason,
