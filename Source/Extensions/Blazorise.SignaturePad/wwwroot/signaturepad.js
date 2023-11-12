@@ -202,7 +202,7 @@ function resizeAllCanvas() {
 }
 
 function resizeCanvas(sigpad, canvas) {
-    if (!sigpad || !options) {
+    if (!sigpad || !canvas) {
         return null;
     }
 
