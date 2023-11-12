@@ -745,7 +745,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
 
-        await Reload( paginationContext.CancellationTokenSource.Token );
+        await ReloadInternal( paginationContext.CancellationTokenSource.Token );
     }
 
     private async void OnPageChanged( int currentPage )
@@ -755,7 +755,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await InvokeAsync( () => PageChanged.InvokeAsync( new( currentPage, PageSize ) ) );
 
-        await Reload( paginationContext.CancellationTokenSource.Token );
+        await ReloadInternal( paginationContext.CancellationTokenSource.Token );
     }
 
     #endregion
@@ -1485,14 +1485,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
-    /// Makes sure not to reload if the DataGrid is in a loading state.
     /// </summary>
     /// <returns>Returns the awaitable task.</returns>
-    public async Task Reload( CancellationToken cancellationToken = default )
+    private async Task ReloadInternal( CancellationToken cancellationToken = default )
     {
-        if ( IsLoading )
-            return;
-
         SetDirty();
 
         if ( ManualReadMode )
@@ -1520,6 +1516,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
+    /// Makes sure not to reload if the DataGrid is in a loading state.
+    /// </summary>
+    /// <returns>Returns the awaitable task.</returns>
+    public async Task Reload( CancellationToken cancellationToken = default )
+    {
+        if ( IsLoading )
+            return;
+
+        await ReloadInternal( cancellationToken );
+    }
+
+    /// <summary>
     /// Notifies the <see cref="DataGrid{TItem}"/> to refresh.
     /// </summary>
     /// <returns></returns>
@@ -1533,7 +1542,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             IsLoading = true;
             await InvokeAsync( StateHasChanged );
             await Task.Yield();
-
             if ( !cancellationToken.IsCancellationRequested )
                 await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, CurrentPage, PageSize, 0, 0, cancellationToken ) );
         }
