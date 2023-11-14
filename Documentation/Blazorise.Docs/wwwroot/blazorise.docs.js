@@ -17,7 +17,7 @@
         },
 
         generateToc: (targetElement, options) => {
-            if (!document.getElementById('#TableOfContents')) {
+            if (!document.getElementById('TableOfContents')) {
                 return;
             }
 
