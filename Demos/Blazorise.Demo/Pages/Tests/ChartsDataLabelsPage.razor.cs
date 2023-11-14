@@ -182,10 +182,12 @@ public partial class ChartsDataLabelsPage
                 BackgroundColor = BackgroundColors[2],
                 BorderColor = BorderColors[2],
                 Align = "center",
-                Anchor = "center"
+                Anchor = "center",
+                ScriptableFormatter = ScriptableFormatter
             }
         },
     };
+    static Expression<Func<object, ScriptableOptionsContext, string>> ScriptableFormatter = ( value, context ) => "$ " + value;
 
     ChartDataLabelsOptions barDataLabelsOptions = new()
     {

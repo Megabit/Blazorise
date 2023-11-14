@@ -52,7 +52,12 @@ function compileDatasetsOptionsCallbacks(options) {
 
     Object.keys(options).forEach(function (key) {
         if (options[key] && options[key].startsWith("function")) {
-            options[key] = parseFunction(options[key]);
+            if (key === 'scriptableFormatter') {
+                options['formatter'] = parseFunction(options[key]);
+            } else {
+                options[key] = parseFunction(options[key]);
+            }
+
         }
     });
 
