@@ -39,24 +39,6 @@ public class Startup
             .AddRazorComponents()
             .AddInteractiveServerComponents();
 
-        services.Configure<IISServerOptions>( options =>
-        {
-            options.AllowSynchronousIO = true;
-        } );
-
-        services.Configure<KestrelServerOptions>( options =>
-        {
-            options.AllowSynchronousIO = true;
-        } );
-
-        //services.AddRazorPages();
-        //services.AddServerSideBlazor();
-
-        //services.AddServerSideBlazor().AddHubOptions( ( o ) =>
-        //{
-        //    o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
-        //} );
-
         services.AddHttpContextAccessor();
 
         services
