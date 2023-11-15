@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace Blazorise.Docs.Server.Infrastructure;
 
-public class Seo
+public class SeoGenerator
 {
     public static async Task GenerateRobots( HttpContext context )
     {

@@ -38,7 +38,7 @@
 
   <!--Binary path for the code generator-->
   <PropertyGroup>
-    <BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net7.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
+    <BinDocsCompiler>..\..\Documentation/Blazorise.Docs.Compiler/bin/Debug/net8.0/Blazorise.Docs.Compiler.dll</BinDocsCompiler>
   </PropertyGroup>
 
   <!--Project path for code generator-->
@@ -79,7 +79,7 @@
   <ItemGroup>
     <PackageReference Include="Markdig" Version="0.30.4" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.*" />
     <PackageReference Include="SendGrid" Version="9.28.1" />
   </ItemGroup>
 
