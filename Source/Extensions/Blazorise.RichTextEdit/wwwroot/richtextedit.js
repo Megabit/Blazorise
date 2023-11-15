@@ -1,4 +1,4 @@
-﻿import { getRequiredElement } from "../Blazorise/utilities.js?v=1.3.2.0";
+﻿import { getRequiredElement } from "../Blazorise/utilities.js?v=1.3.3.0";
 
 export function initialize(dotnetAdapter, element, elementId, readOnly, placeholder, theme, bindEnter, configureQuillJsMethod) {
     element = getRequiredElement(element, elementId);
