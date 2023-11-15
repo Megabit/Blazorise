@@ -56,8 +56,7 @@ public class ChartDataLabelsOptions
     public ChartMathFormatter? Formatter { get; set; }
 
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    [JsonConverter( typeof( ScriptableValueBasedOptionsConverter<string, object, ScriptableOptionsContext> ) )]
-    public ScriptableValueBasedOptions<string, object, ScriptableOptionsContext> ScriptableFormatter { get; set; }
+    public string SoftCodeFormatter { get; set; }
 
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public object Labels { get; set; }

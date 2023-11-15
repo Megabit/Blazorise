@@ -183,11 +183,10 @@ public partial class ChartsDataLabelsPage
                 BorderColor = BorderColors[2],
                 Align = "center",
                 Anchor = "center",
-                ScriptableFormatter = ScriptableFormatter
+                SoftCodeFormatter = "function(value, context) { return \"$\" + value; }"
             }
         },
     };
-    static Expression<Func<object, ScriptableOptionsContext, string>> ScriptableFormatter = ( value, context ) => "$ " + value;
 
     ChartDataLabelsOptions barDataLabelsOptions = new()
     {
