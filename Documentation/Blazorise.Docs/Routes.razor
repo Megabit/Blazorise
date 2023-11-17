@@ -1,0 +1,79 @@
+﻿<Blazorise.ThemeProvider Theme="@theme">
+    <Router AppAssembly="@typeof(App).Assembly">
+        <Found Context="routeData">
+            <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
+            @* <FocusOnNavigate RouteData="@routeData" Selector="h1" /> *@
+        </Found>
+        <NotFound>
+            <LayoutView Layout="@typeof(Error404Layout)">
+                <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Normal" Margin="Margin.Is3.FromTop.Is4.FromBottom">
+                    Sorry, there's nothing at this address.
+                    <br /><br />
+                    The page you are looking for might have been removed.
+                </Heading>
+            </LayoutView>
+        </NotFound>
+    </Router>
+    <MessageProvider />
+    <NotificationProvider />
+    <PageProgressProvider />
+    <ModalProvider />
+</Blazorise.ThemeProvider>
+@code {
+    private Theme theme = new()
+        {
+            LuminanceThreshold = 170,
+            BarOptions = new()
+            {
+                HorizontalHeight = "64px",
+                VerticalBrandHeight = "64px",
+                LightColors = new()
+                {
+                    ItemColorOptions = new()
+                    {
+                        ActiveBackgroundColor = "#dedede",
+                        ActiveColor = "#000000",
+                        HoverBackgroundColor = "#dedede",
+                        HoverColor = "#000000",
+                    },
+                }
+            },
+            ColorOptions = new()
+            {
+                Primary = "#9333ea",
+                Secondary = "#d7dae7",
+                Success = "#13a668",
+                Danger = "#e11d48",
+                Warning = "#FFA800",
+                Light = "#dce7ed",
+                Dark = "#181C32",
+                Info = "#60A5FA",
+            },
+            BackgroundOptions = new()
+            {
+                Primary = "#9333ea",
+                Secondary = "#d7dae7",
+                Success = "#13a668",
+                Danger = "#e11d48",
+                Warning = "#FFA800",
+                Light = "#dce7ed",
+                Dark = "#181C32",
+                Info = "#60A5FA",
+            },
+            TextColorOptions = new()
+            {
+                Primary = "#9333ea",
+                Secondary = "#d7dae7",
+                Success = "#13a668",
+                Danger = "#e11d48",
+                Warning = "#FFA800",
+                Light = "#dce7ed",
+                Dark = "#181C32",
+                Info = "#60A5FA",
+            },
+            InputOptions = new()
+            {
+                CheckColor = "#9333ea",
+            },
+        };
+}

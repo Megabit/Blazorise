@@ -6,7 +6,7 @@
 public class DataGridRowStyling
 {
     /// <summary>
-    /// Row custom classnames.
+    /// Row custom class names.
     /// </summary>
     public string Class { get; set; }
 

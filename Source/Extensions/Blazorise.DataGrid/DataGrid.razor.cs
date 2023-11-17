@@ -153,6 +153,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     protected _DataGridModal<TItem> dataGridModalRef;
 
+    /// <summary>
+    /// Tracks the current batch edit changes if <see cref="BatchEdit"/> is active.
+    /// </summary>
+    private List<DataGridBatchEditItem<TItem>> batchChanges;
+
     #endregion
 
     #region Constructors
@@ -753,7 +758,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
 
-        await Reload( paginationContext.CancellationTokenSource.Token );
+        await ReloadInternal( paginationContext.CancellationTokenSource.Token );
     }
 
     private async void OnPageChanged( int currentPage )
@@ -763,7 +768,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await InvokeAsync( () => PageChanged.InvokeAsync( new( currentPage, PageSize ) ) );
 
-        await Reload( paginationContext.CancellationTokenSource.Token );
+        await ReloadInternal( paginationContext.CancellationTokenSource.Token );
     }
 
     #endregion
@@ -815,6 +820,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Delete( TItem item )
     {
+        if ( BatchEdit )
+        {
+            batchChanges ??= new();
+            var existingBatchItem = GetBatchEditItemByLastEditItem( item );
+            if ( existingBatchItem is null )
+            {
+                batchChanges.Add( new DataGridBatchEditItem<TItem>( item, item, DataGridBatchEditItemState.Delete ) );
+            }
+            else
+            {
+                existingBatchItem.DeleteEditItem();
+            }
+            await BatchChange.InvokeAsync( new( existingBatchItem ) );
+            await InvokeAsync( StateHasChanged );
+            return;
+        }
+
         if ( Data is ICollection<TItem> data )
         {
             if ( await IsSafeToProceed( RowRemoving, item, item ) )
@@ -852,6 +874,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Gets the corresponding batch edit item by the original if it exists.
+    /// </summary>
+    public DataGridBatchEditItem<TItem> GetBatchEditItemByOriginal( TItem item )
+        => batchChanges?.FirstOrDefault( x => x.OldItem.IsEqual( item ) );
+
+    /// <summary>
+    /// Gets the corresponding batch edit item by the last edited item if it exists.
+    /// </summary>
+    public DataGridBatchEditItem<TItem> GetBatchEditItemByLastEditItem( TItem item )
+        => batchChanges?.FirstOrDefault( x => x.NewItem.IsEqual( item ) );
+
+    /// <summary>
     /// Save the internal state of the editing items.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -860,19 +894,170 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( Data == null || editState == DataGridEditState.None )
             return;
 
+        if ( !await ValidateAll() )
+        {
+            return;
+        }
+
+        if ( BatchEdit )
+        {
+            await SaveBatch();
+        }
+        else
+        {
+            await SaveItem();
+        }
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Validates the current edit operation.
+    /// </summary>
+    /// <returns></returns>
+    public async Task<bool> ValidateAll()
+    {
         if ( UseValidation )
         {
             var result = PopupVisible
                 ? await dataGridModalRef.ValidateAll()
                 : await dataGridRowEditRef.ValidateAll();
 
-            if ( !result )
-                return;
+            return result;
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Saves all the tracked batch edit changes.
+    /// </summary>
+    internal protected async Task SaveBatch()
+    {
+        if ( batchChanges.IsNullOrEmpty() )
+            return;
+
+        if ( await IsSafeToProceed( BatchSaving, batchChanges ) )
+        {
+            if ( UseInternalEditing )
+            {
+                foreach ( var batchChange in batchChanges )
+                {
+                    switch ( batchChange.State )
+                    {
+                        case DataGridBatchEditItemState.New:
+                            if ( CanInsertNewItem && Data is ICollection<TItem> data )
+                                data.Add( batchChange.NewItem );
+                            break;
+                        case DataGridBatchEditItemState.Edit:
+                            SetItemEditedValues( batchChange.OldItem, batchChange.Values );
+                            break;
+                        case DataGridBatchEditItemState.Delete:
+                            if ( Data is ICollection<TItem> data2 )
+                                data2.Remove( batchChange.OldItem );
+                            break;
+                    }
+                }
+            }
+
+            await BatchSaved.InvokeAsync( new DataGridBatchSavedEventArgs<TItem>( batchChanges ) );
+
+            var newItem = batchChanges.Any( x => x.State == DataGridBatchEditItemState.New );
+            var deletedItem = batchChanges.Any( x => x.State == DataGridBatchEditItemState.Delete );
+
+            if ( newItem || deletedItem )
+            {
+                SetDirty();
+            }
+
+            if ( ManualReadMode )
+            {
+                // When deleting and the page becomes empty and we aren't the first page:
+                // go to the previous page
+                if ( deletedItem && ShowPager && CurrentPage > paginationContext.FirstVisiblePage && !Data.Any() )
+                {
+                    await Paginate( ( CurrentPage - 1 ).ToString() );
+                }
+
+                else if ( newItem )
+                {
+                    // If a new item is added, the data should be refreshed
+                    // to account for paging, sorting, and filtering
+
+                    await HandleReadData( CancellationToken.None );
+                }
+            }
+
+            batchChanges.Clear();
+        }
+    }
+
+    /// <summary>
+    /// Saves an ongoing edit operation.
+    /// </summary>
+    /// <returns></returns>
+    internal protected async Task SaveInternal()
+    {
+        if ( Data == null || editState == DataGridEditState.None )
+            return;
+
+        if ( !await ValidateAll() )
+        {
+            return;
         }
 
-        await SaveItem();
-        
+        if ( BatchEdit )
+        {
+            await SaveBatchItem();
+        }
+        else
+        {
+            await SaveItem();
+        }
         await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Saves the internal state of the editing items to the batch edit changes.
+    /// </summary>
+    /// <returns></returns>
+    internal protected async Task SaveBatchItem()
+    {
+        if ( Data == null || editState == DataGridEditState.None )
+            return;
+
+        var editedCellContextValues = EditableColumns
+        .Where( x => !string.IsNullOrEmpty( x.Field ) )
+        .Select( c => new { c.Field, Context = editItemCellValues[c.ElementId] as CellEditContext } ).ToDictionary( x => x.Field, x => x.Context );
+
+        var hasEditModifications = editState == DataGridEditState.New || ( editedCellContextValues.Any( x => x.Value.Modified ) && editState == DataGridEditState.Edit );
+        if ( !hasEditModifications )
+        {
+            editState = DataGridEditState.None;
+            return;
+        }
+
+        var editItemClone = editItem.DeepClone();
+        SetItemEditedValues( editItemClone );
+
+        batchChanges ??= new();
+        var batchItem = GetBatchEditItemByLastEditItem( editItem );
+
+        if ( batchItem is null )
+        {
+            batchItem = new DataGridBatchEditItem<TItem>( editItem, editItemClone, editState == DataGridEditState.New ? DataGridBatchEditItemState.New : DataGridBatchEditItemState.Edit, editedCellContextValues );
+            batchChanges.Add( batchItem );
+
+        }
+        else
+        {
+            batchItem.UpdateEditItem( editItemClone, editedCellContextValues );
+        }
+
+        if ( batchItem.State == DataGridBatchEditItemState.New )
+            SetDirty();
+
+        editState = DataGridEditState.None;
+        await BatchChange.InvokeAsync( new( batchItem ) );
     }
 
     /// <summary>
@@ -884,11 +1069,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( Data == null || editState == DataGridEditState.None )
             return;
 
+        var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
         var editedCellValues = EditableColumns
             .Where( x => !string.IsNullOrEmpty( x.Field ) )
             .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
-
-        var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
 
         var editItemClone = editItem.DeepClone();
         SetItemEditedValues( editItemClone );
@@ -926,6 +1110,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     }
 
+    private void SetItemEditedValues( TItem item, Dictionary<string, CellEditContext> values )
+    {
+        foreach ( var column in EditableColumns )
+        {
+            column.SetValue( item, values[column.Field].CellValue );
+        }
+    }
+
     private void SetItemEditedValues( TItem item )
     {
         foreach ( var column in EditableColumns )
@@ -935,10 +1127,24 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
-    /// Cancels the editing of DataGrid item.
+    /// Cancels any edit operation in progress.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Cancel()
+    {
+        if ( BatchEdit )
+        {
+            batchChanges?.Clear();
+        }
+
+        await CancelInternal();
+    }
+
+    /// <summary>
+    /// Cancels the editing of DataGrid item.
+    /// </summary>
+    /// <returns></returns>
+    internal protected async Task CancelInternal()
     {
         editState = DataGridEditState.None;
 
@@ -1303,10 +1509,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         foreach ( var column in EditableColumns )
         {
             var cellValue = column.GetValue( editItem );
-            editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, UpdateCellEditValue, ReadCellEditValue )
-            {
-                CellValue = cellValue,
-            } );
+            editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, cellValue, UpdateCellEditValue, ReadCellEditValue ) );
 
             if ( validationItem is not null )
                 column.SetValue( validationItem, cellValue );
@@ -1318,7 +1521,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( !IsCellEdit )
             return;
 
-        await Save();
+        await SaveInternal();
 
         if ( EditState == DataGridEditState.Edit )
             return;
@@ -1503,6 +1706,24 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return true;
     }
 
+    internal async Task<bool> IsSafeToProceed( EventCallback<DataGridBatchSavingEventArgs<TItem>> handler, IReadOnlyList<DataGridBatchEditItem<TItem>> batchEditItems )
+    {
+        if ( handler.HasDelegate )
+        {
+            var args = new DataGridBatchSavingEventArgs<TItem>( batchEditItems );
+
+            await handler.InvokeAsync( args );
+
+            if ( args.Cancel )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     #endregion
 
     #region Filtering
@@ -1514,14 +1735,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
-    /// Makes sure not to reload if the DataGrid is in a loading state.
     /// </summary>
     /// <returns>Returns the awaitable task.</returns>
-    public async Task Reload( CancellationToken cancellationToken = default )
+    private async Task ReloadInternal( CancellationToken cancellationToken = default )
     {
-        if ( IsLoading )
-            return;
-
         SetDirty();
 
         if ( ManualReadMode )
@@ -1549,6 +1766,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
+    /// Makes sure not to reload if the DataGrid is in a loading state.
+    /// </summary>
+    /// <returns>Returns the awaitable task.</returns>
+    public async Task Reload( CancellationToken cancellationToken = default )
+    {
+        if ( IsLoading )
+            return;
+
+        await ReloadInternal( cancellationToken );
+    }
+
+    /// <summary>
     /// Notifies the <see cref="DataGrid{TItem}"/> to refresh.
     /// </summary>
     /// <returns></returns>
@@ -1562,7 +1792,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             IsLoading = true;
             await InvokeAsync( StateHasChanged );
             await Task.Yield();
-
             if ( !cancellationToken.IsCancellationRequested )
                 await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, CurrentPage, PageSize, 0, 0, cancellationToken ) );
         }
@@ -1786,7 +2015,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
         }
 
-        filteredData = query.ToList();
+        filteredData.Clear();
+
+        if ( BatchEdit && !batchChanges.IsNullOrEmpty() )
+        {
+            var newChanges = batchChanges.Where( x => x.State == DataGridBatchEditItemState.New );
+            if ( newChanges.Any() )
+            {
+                
+                foreach ( var newChange in newChanges )
+                {
+                    filteredData.Add( newChange.NewItem );
+                }
+            }
+        }
+
+        filteredData.AddRange(query.ToList());
 
         FilteredDataChanged?.Invoke( new(
             filteredData,
@@ -2327,7 +2571,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Returns true if the datagrid is in edit mode and the item is the currently selected edititem
     /// </summary>
-    protected bool IsEditItemInGrid( TItem item ) => Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem );
+    protected bool IsEditItemInGrid( TItem item )
+    {
+        var insideGridEditMode = Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup;
+        var hasBeenBatchEditItem = BatchEdit && ( GetBatchEditItemByOriginal( item )?.NewItem.IsEqual( editItem ) ?? false );
+
+        return insideGridEditMode && ( hasBeenBatchEditItem || item.IsEqual( editItem ) );
+    }
+
 
     /// <summary>
     /// True if user is using <see cref="ReadData"/> for loading the data.
@@ -2530,6 +2781,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 GroupDisplayData();
 
             return groupedData ?? Enumerable.Empty<GroupContext<TItem>>();
+        }
+    }
+
+    /// <summary>
+    /// Gets the Batch Changes.
+    /// </summary>
+    public IReadOnlyList<DataGridBatchEditItem<TItem>> BatchChanges
+    {
+        get
+        {
+            return batchChanges;
         }
     }
 
@@ -2960,6 +3222,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public Action<TItem, DataGridRowStyling> SelectedRowStyling { get; set; }
 
     /// <summary>
+    /// Custom handler for the row that has batch edit changes.
+    /// </summary>
+    [Parameter] public Action<DataGridBatchEditItem<TItem>, DataGridRowStyling> RowBatchEditStyling { get; set; }
+
+    /// <summary>
     /// Handler for custom filtering on datagrid item.
     /// </summary>
     [Parameter] public DataGridCustomFilter<TItem> CustomFilter { get; set; }
@@ -3128,6 +3395,42 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Template for the filter column. When filter mode is set to DataGridFilterMode.Menu, this template will be used to render the filter content.
     /// </summary>
     [Parameter] public RenderFragment<FilterColumnContext<TItem>> FilterMenuTemplate { get; set; }
+
+    /// <summary>
+    /// Whether the DataGrid will be in batch edit mode. This will make it so every change will only be saved when <see cref="Save"/> is called.
+    /// </summary>
+    [Parameter] public bool BatchEdit { get; set; }
+
+    /// <summary>
+    /// Cancelable event before batch edit is saved.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridBatchSavingEventArgs<TItem>> BatchSaving { get; set; }
+
+    /// <summary>
+    /// Event called after the batch edit is saved.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridBatchSavedEventArgs<TItem>> BatchSaved { get; set; }
+
+    /// <summary>
+    /// Event called after a batch change is made.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridBatchChangeEventArgs<TItem>> BatchChange { get; set; }
+
+    /// <summary>
+    /// Custom handler for the cell styling.
+    /// </summary>
+    [Parameter] public Action<TItem, DataGridColumn<TItem>, DataGridCellStyling> CellStyling { get; set; }
+
+    /// <summary>
+    /// Custom handler for the selected cell styling.
+    /// </summary>
+    [Parameter] public Action<TItem, DataGridColumn<TItem>, DataGridCellStyling> SelectedCellStyling { get; set; }
+
+
+    /// <summary>
+    /// Custom handler for the cell styling when the cell has batch edit changes.
+    /// </summary>
+    [Parameter] public Action<DataGridBatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling> BatchEditCellStyling { get; set; }
 
     #endregion
 }

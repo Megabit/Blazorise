@@ -280,6 +280,39 @@
         Gets or sets the calculated aggregate data.
         Used only in manual read mode along with the <Code>ReadData</Code> handler.
     </DocsAttributesItem>
+        <DocsAttributesItem Name="Navigable" Type="bool" Default="false">
+        Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod" Default="DataGridFilterMethod.Contains">
+        Defines the filter method when searching the cell values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowHeaderGroupCaptions" Type="bool" Default="false">
+        Gets or sets whether user can see defined header group captions.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BatchEdit" Type="bool" Default="false">
+        Whether the DataGrid will be in batch edit mode. This will make it so every change will only be saved when Save is called.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BatchSaving" Type="EventCallback<DataGridBatchSavingEventArgs<TItem>>">
+        Cancelable event before batch edit is saved.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BatchSaved" Type="EventCallback<DataGridBatchSavedEventArgs<TItem>>">
+        Event called after the batch edit is saved.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BatchChange" Type="EventCallback<DataGridBatchChangeEventArgs<TItem>>">
+        Event called after a batch change is made.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CellStyling" Type="Action<TItem, DataGridColumn<TItem>, DataGridCellStyling>">
+        Custom handler for the cell styling.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedCellStyling" Type="Action<TItem, DataGridColumn<TItem>, DataGridCellStyling>">
+        Custom handler for the selected cell styling.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BatchEditCellStyling" Type="Action<DataGridBatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling>">
+        Custom handler for the cell styling when the cell has batch edit changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowBatchEditStyling" Type="Action<DataGridBatchEditItem<TItem>, DataGridRowStyling>">
+        Custom handler for the row that has batch edit changes.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <DocsAttributes Title="DataGrid Templates">
@@ -339,15 +372,6 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="PageSizesTemplate" Type="RenderFragment<PaginationContext<TItem>>">
         Gets or sets content of the page sizes selector. You will have to construct it using the provided pagination context.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="Navigable" Type="bool" Default="false">
-        Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod" Default="DataGridFilterMethod.Contains">
-        Defines the filter method when searching the cell values.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="ShowHeaderGroupCaptions" Type="bool" Default="false">
-        Gets or sets whether user can see defined header group captions.
     </DocsAttributesItem>
     <DocsAttributesItem Name="HeaderGroupCaptionTemplate" Type="RenderFragment<HeaderGroupContext>">
         Template for header group caption.
@@ -663,5 +687,14 @@
         Toggles the specified groups.
         For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"
         For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ValidateAll" ReturnType="Task<bool>">
+        Validates the current edit operation.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetBatchEditItemByOriginal" ReturnType="DataGridBatchEditItem<TItem>">
+        Gets the corresponding batch edit item by the original if it exists.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetBatchEditItemByLastEditItem" ReturnType="DataGridBatchEditItem<TItem>">
+        Gets the corresponding batch edit item by the last edited item if it exists.
     </DocsMethodsItem>
 </DocsMethods>

@@ -23,7 +23,7 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     protected bool isInvalid;
 
     protected EventCallback Cancel
-        => EventCallback.Factory.Create( this, ParentDataGrid.Cancel );
+        => EventCallback.Factory.Create( this, ParentDataGrid.CancelInternal );
 
     protected static readonly IFluentFlex DefaultFlex = Flex.InlineFlex;
 
@@ -64,7 +64,7 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
     internal protected async Task Save()
     {
-        await ParentDataGrid.Save();
+        await ParentDataGrid.SaveInternal();
     }
 
     protected async Task HandleCellClick( DataGridColumn<TItem> column )

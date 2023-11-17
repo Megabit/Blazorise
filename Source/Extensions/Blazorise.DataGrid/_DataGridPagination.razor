@@ -58,6 +58,8 @@
                     var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
                     var deleteButtonString = Localizer.Localize( ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete" );
                     var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
+                    var saveBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveBatchButtonLocalizer, "Save Changes" );
+                    var cancelBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelBatchButtonLocalizer, "Cancel Changes" );
 
                     @ButtonRowTemplate( new()
                     {
@@ -82,6 +84,16 @@
                         {
                             Clicked = ClearFilterClick,
                             LocalizationString = clearFilterButtonString,
+                        },
+                        SaveBatchCommand = new ()
+                        {
+                            Clicked = SaveBatchClick,
+                            LocalizationString = saveBatchButtonString,
+                        },
+                        CancelBatchCommand = new()
+                        {
+                            Clicked = CancelBatchClick,
+                            LocalizationString = cancelBatchButtonString,
                         }
                     } );
                 }

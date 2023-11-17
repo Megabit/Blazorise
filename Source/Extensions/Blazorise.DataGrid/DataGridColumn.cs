@@ -232,7 +232,9 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     {
         var sb = new StringBuilder();
 
+#pragma warning disable CS0618 // Type or member is obsolete : Temporary retro compatibility usage
         var result = CellStyle?.Invoke( item );
+#pragma warning restore CS0618 // Type or member is obsolete
 
         if ( !string.IsNullOrEmpty( result ) )
             sb.Append( result );
@@ -645,12 +647,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Custom classname handler for cell based on the current row item.
     /// </summary>
-    [Parameter] public Func<TItem, string> CellClass { get; set; }
+    [Obsolete( "DataGridColumn: The CellClass parameter is deprecated, please use the DataGrid.CellStyling parameter." )][Parameter] public Func<TItem, string> CellClass { get; set; }
 
     /// <summary>
     /// Custom style handler for cell based on the current row item.
     /// </summary>
-    [Parameter] public Func<TItem, string> CellStyle { get; set; }
+    [Obsolete( "DataGridColumn: The CellStyle parameter is deprecated, please use the DataGrid.CellStyling parameter." )][Parameter] public Func<TItem, string> CellStyle { get; set; }
 
     /// <summary>
     /// Custom classname for header cell.
@@ -801,6 +803,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Sets the help-text positioned below the field input when editing.
     /// </summary>
     [Parameter] public string HelpText { get; set; }
+
+    /// <summary>
+    /// <para>Gets or sets the filter mode for the column.</para>
+    /// <para>If set, this overrides the <see cref="DataGrid{TItem}.FilterMethod" />.</para>
+    /// </summary>
+    [Parameter] public DataGridFilterMode? FilterMode { get; set; }
 
     #endregion
 }

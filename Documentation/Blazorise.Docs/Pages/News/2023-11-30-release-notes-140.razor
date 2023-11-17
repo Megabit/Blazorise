@@ -123,6 +123,25 @@
     It is of note that <Code>Tab </Code> and <Code>Shift+Tab</Code> will also work as expected. Whenever the user presses these keys, the cell will be saved and the next or previous cell will be selected.
 </Paragraph>
 
+<Paragraph>
+    The <Code>FilterMode</Code> is now configurable per column. If set it will override the DataGrid's <Code>FilterMode</Code> setting per column.
+</Paragraph>
+
+<Paragraph>
+    We've introduced the ability to batch changes by enabling the new DataGrid Parameter <Code>BatchEdit</Code>. This will allow the user to edit multiple rows and then save all the changes at once.
+</Paragraph>
+
+<Paragraph>
+    We've introduced the following new Parameters to further customize your DataGrid rows and cells.
+    <UnorderedList>
+        <UnorderedListItem><Code>RowBatchEditStyling</Code></UnorderedListItem>
+        <UnorderedListItem><Code>CellStyling</Code></UnorderedListItem>
+        <UnorderedListItem><Code>CellSelectedStyling</Code></UnorderedListItem>
+        <UnorderedListItem><Code>CellBatchEditStyling</Code></UnorderedListItem>
+    </UnorderedList>
+    With the introduction of these more general parameters, the <Code>DataGridColumn</Code> parameters <Code>CellClass</Code> and <Code>CellStyle</Code> are deemed as obsolete and will be removed in a future version.
+</Paragraph>
+
 <NewsPageSubtitle>
     Tabs
 </NewsPageSubtitle>
