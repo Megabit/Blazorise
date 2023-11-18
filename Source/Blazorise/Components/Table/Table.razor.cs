@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.Utilities;
@@ -190,16 +191,78 @@ public partial class Table : BaseDraggableComponent
     internal void AddTableRowHeader( TableRow tableRow, TableRowHeader tableRowHeader )
     {
         CalculateTotalRowWidth( tableRow, tableRowHeader.Width, tableRowHeader.FixedPosition );
+
+        //DM: We are using a Dictionary just for this proof of concept... In theory we should do this logic per Row. Inside the TableRow.
+        if ( EndTableRowHeaders.TryGetValue( tableRow, out var rowCells ) )
+        {
+            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
+            rowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowHeader.Width.FixedSize ?? 0d ) );
+        }
+
+        if ( tableRowHeader.FixedPosition == TableColumnFixedPosition.End )
+        {
+            if ( EndTableRowHeaders.ContainsKey( tableRow ) )
+            {
+                EndTableRowHeaders[tableRow].Add( tableRowHeader );
+            }
+            else
+            {
+                //DM: we do not know yet, if more columns will come, let's keep these to update.
+                EndTableRowHeaders.Add( tableRow, new() { tableRowHeader } );
+            }
+        }
     }
 
     internal void AddTableHeaderCell( TableRow tableRow, TableHeaderCell tableHeaderCell )
     {
         CalculateTotalRowWidth( tableRow, tableHeaderCell.Width, tableHeaderCell.FixedPosition );
+
+
+        //DM: We are using a Dictionary just for this proof of concept... In theory we should do this logic per Row. Inside the TableRow.
+        if ( EndTableRowHeaderCells.TryGetValue( tableRow, out var rowCells ) )
+        {
+            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
+            rowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableHeaderCell.Width.FixedSize ?? 0d ) );
+        }
+
+        if ( tableHeaderCell.FixedPosition == TableColumnFixedPosition.End )
+        {
+            if ( EndTableRowHeaderCells.ContainsKey( tableRow ) )
+            {
+                EndTableRowHeaderCells[tableRow].Add( tableHeaderCell );
+            }
+            else
+            {
+                //DM: we do not know yet, if more columns will come, let's keep these to update.
+                EndTableRowHeaderCells.Add( tableRow, new() { tableHeaderCell } );
+            }
+        }
     }
 
     internal void AddTableRowCell( TableRow tableRow, TableRowCell tableRowCell )
     {
         CalculateTotalRowWidth( tableRow, tableRowCell.Width, tableRowCell.FixedPosition );
+
+        //DM: We are using a Dictionary just for this proof of concept... In theory we should do this logic per Row. Inside the TableRow.
+        if ( EndTableRowCells.TryGetValue( tableRow, out var rowCells ) )
+        {
+            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
+            //DM: These events should be triggered per the correct row.
+            rowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowCell.Width.FixedSize ?? 0d ) );
+        }
+
+        if ( tableRowCell.FixedPosition == TableColumnFixedPosition.End )
+        {
+            if ( EndTableRowCells.ContainsKey( tableRow ) )
+            {
+                EndTableRowCells[tableRow].Add( tableRowCell );
+            }
+            else
+            {
+                //DM: we do not know yet, if more columns will come, let's keep these to update.
+                EndTableRowCells.Add( tableRow, new() { tableRowCell } );
+            }
+        }
     }
 
     private void CalculateTotalRowWidth( TableRow tableRow, IFluentSizing width, TableColumnFixedPosition fixedPosition )
@@ -228,6 +291,12 @@ public partial class Table : BaseDraggableComponent
 
         lastTableRow = tableRow;
     }
+
+
+    //DM: To avoid these three collections, we should be able to downcast to a common base with all the common logic for handling these commonality. This is just for simplicity
+    Dictionary<TableRow, List<TableRowHeader>> EndTableRowHeaders { get; set; } = new();
+    Dictionary<TableRow, List<TableHeaderCell>> EndTableRowHeaderCells { get; set; } = new();
+    Dictionary<TableRow, List<TableRowCell>> EndTableRowCells { get; set; } = new();
 
     internal double GetFixedCellPosition()
     {

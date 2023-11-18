@@ -18,6 +18,9 @@ public partial class TableRowCell : BaseDraggableComponent
 
     private double? fixedPositionOffset;
 
+    private double? fixedPositionEndOffset;
+
+
     #endregion
 
     #region Methods
@@ -38,6 +41,15 @@ public partial class TableRowCell : BaseDraggableComponent
         base.OnInitialized();
     }
 
+    internal void IncreaseFixedPositionEndOff( double addPixels )
+    {
+        if ( fixedPositionEndOffset.HasValue )
+            fixedPositionEndOffset += addPixels;
+        else
+            fixedPositionEndOffset = addPixels;
+        DirtyStyles();
+    }
+
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
@@ -54,6 +66,11 @@ public partial class TableRowCell : BaseDraggableComponent
         if ( FixedPosition == TableColumnFixedPosition.Start && fixedPositionOffset != null )
         {
             builder.Append( $"left:{fixedPositionOffset:G29}px" );
+        }
+
+        if ( FixedPosition == TableColumnFixedPosition.End && fixedPositionEndOffset != null )
+        {
+            builder.Append( $"right:{fixedPositionEndOffset:G29}px" );
         }
 
         base.BuildStyles( builder );
