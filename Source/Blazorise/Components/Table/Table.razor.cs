@@ -192,15 +192,15 @@ public partial class Table : BaseDraggableComponent
     {
         CalculateTotalRowWidth( tableRow, tableRowHeader.Width, tableRowHeader.FixedPosition );
 
-        //DM: We are using a Dictionary just for this proof of concept... In theory we should do this logic per Row. Inside the TableRow.
-        if ( EndTableRowHeaders.TryGetValue( tableRow, out var rowCells ) )
-        {
-            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
-            rowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowHeader.Width.FixedSize ?? 0d ) );
-        }
-
         if ( tableRowHeader.FixedPosition == TableColumnFixedPosition.End )
         {
+            //DM: We are using a Dictionary just for this proof of concept... In theory we should do this logic per Row. Inside the TableRow.
+            if ( EndTableRowHeaders.TryGetValue( tableRow, out var rowCells ) )
+            {
+                //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
+                rowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowHeader.Width.FixedSize ?? 0d ) );
+            }
+
             if ( EndTableRowHeaders.ContainsKey( tableRow ) )
             {
                 EndTableRowHeaders[tableRow].Add( tableRowHeader );
@@ -217,16 +217,15 @@ public partial class Table : BaseDraggableComponent
     {
         CalculateTotalRowWidth( tableRow, tableHeaderCell.Width, tableHeaderCell.FixedPosition );
 
-
-        //DM: We are using a Dictionary just for this proof of concept... In theory we should do this logic per Row. Inside the TableRow.
-        if ( EndTableRowHeaderCells.TryGetValue( tableRow, out var rowCells ) )
-        {
-            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
-            rowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableHeaderCell.Width.FixedSize ?? 0d ) );
-        }
-
         if ( tableHeaderCell.FixedPosition == TableColumnFixedPosition.End )
         {
+            //DM: We are using a Dictionary just for this proof of concept... In theory we should do this logic per Row. Inside the TableRow.
+            if ( EndTableRowHeaderCells.TryGetValue( tableRow, out var rowCells ) )
+            {
+                //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
+                rowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableHeaderCell.Width.FixedSize ?? 0d ) );
+            }
+
             if ( EndTableRowHeaderCells.ContainsKey( tableRow ) )
             {
                 EndTableRowHeaderCells[tableRow].Add( tableHeaderCell );
@@ -243,16 +242,16 @@ public partial class Table : BaseDraggableComponent
     {
         CalculateTotalRowWidth( tableRow, tableRowCell.Width, tableRowCell.FixedPosition );
 
-        //DM: We are using a Dictionary just for this proof of concept... In theory we should do this logic per Row. Inside the TableRow.
-        if ( EndTableRowCells.TryGetValue( tableRow, out var rowCells ) )
-        {
-            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
-            //DM: These events should be triggered per the correct row.
-            rowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowCell.Width.FixedSize ?? 0d ) );
-        }
-
         if ( tableRowCell.FixedPosition == TableColumnFixedPosition.End )
         {
+            //DM: We are using a Dictionary just for this proof of concept... In theory we should do this logic per Row. Inside the TableRow.
+            if ( EndTableRowCells.TryGetValue( tableRow, out var rowCells ) )
+            {
+                //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
+                //DM: These events should be triggered per the correct row.
+                rowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowCell.Width.FixedSize ?? 0d ) );
+            }
+
             if ( EndTableRowCells.ContainsKey( tableRow ) )
             {
                 EndTableRowCells[tableRow].Add( tableRowCell );
