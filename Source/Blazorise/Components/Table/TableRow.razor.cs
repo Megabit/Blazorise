@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -19,6 +20,16 @@ public partial class TableRow : BaseDraggableComponent
     private bool selected;
 
     private Cursor hoverCursor;
+
+    List<TableRowHeader> EndTableRowHeaders { get; set; } = new();
+    List<TableHeaderCell> EndTableRowHeaderCells { get; set; } = new();
+    List<TableRowCell> EndTableRowCells { get; set; } = new();
+
+    private double totalRowWidth;
+
+    private double fixedCellPosition;
+
+    private double lastFixedCellWidth;
 
     #endregion
 
@@ -70,6 +81,68 @@ public partial class TableRow : BaseDraggableComponent
     protected Task OnMouseOverHandler( MouseEventArgs eventArgs )
     {
         return MouseOver.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+    }
+
+    internal void AddTableRowHeader( TableRowHeader tableRowHeader )
+    {
+        CalculateTotalRowWidth( tableRowHeader.Width, tableRowHeader.FixedPosition );
+
+        if ( tableRowHeader.FixedPosition == TableColumnFixedPosition.End )
+        {
+            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
+            EndTableRowHeaders.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowHeader.Width.FixedSize ?? 0d ) );
+
+            EndTableRowHeaders.Add( tableRowHeader );
+        }
+    }
+
+    internal void AddTableHeaderCell( TableHeaderCell tableHeaderCell )
+    {
+        CalculateTotalRowWidth( tableHeaderCell.Width, tableHeaderCell.FixedPosition );
+
+        if ( tableHeaderCell.FixedPosition == TableColumnFixedPosition.End )
+        {
+            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
+            EndTableRowHeaderCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableHeaderCell.Width.FixedSize ?? 0d ) );
+
+            EndTableRowHeaderCells.Add( tableHeaderCell );
+        }
+    }
+
+    internal void AddTableRowCell( TableRowCell tableRowCell )
+    {
+        CalculateTotalRowWidth( tableRowCell.Width, tableRowCell.FixedPosition );
+
+        if ( tableRowCell.FixedPosition == TableColumnFixedPosition.End )
+        {
+            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
+            //DM: These events should be triggered per the correct row.
+            EndTableRowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowCell.Width.FixedSize ?? 0d ) );
+
+            EndTableRowCells.Add( tableRowCell );
+        }
+    }
+
+    private void CalculateTotalRowWidth( IFluentSizing width, TableColumnFixedPosition fixedPosition )
+    {
+        if ( width is not null )
+        {
+            var fixedWidth = width.FixedSize ?? 0d;
+
+            totalRowWidth += fixedWidth;
+
+            if ( fixedPosition == TableColumnFixedPosition.Start )
+            {
+                fixedCellPosition += lastFixedCellWidth;
+
+                lastFixedCellWidth += fixedWidth;
+            }
+        }
+    }
+
+    internal double GetFixedCellPosition()
+    {
+        return fixedCellPosition;
     }
 
     #endregion

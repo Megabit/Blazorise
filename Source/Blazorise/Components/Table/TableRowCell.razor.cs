@@ -30,11 +30,11 @@ public partial class TableRowCell : BaseDraggableComponent
     {
         if ( ParentTable is not null )
         {
-            ParentTable.AddTableRowCell( ParentTableRow, this );
+            ParentTableRow.AddTableRowCell( this );
 
             if ( FixedPosition != TableColumnFixedPosition.None )
             {
-                fixedPositionOffset = ParentTable.GetFixedCellPosition();
+                fixedPositionOffset = ParentTableRow.GetFixedCellPosition();
             }
         }
 

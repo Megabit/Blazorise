@@ -27,11 +27,11 @@ public partial class TableRowHeader : BaseDraggableComponent
     {
         if ( ParentTable is not null )
         {
-            ParentTable.AddTableRowHeader( ParentTableRow, this );
+            ParentTableRow.AddTableRowHeader( this );
 
             if ( FixedPosition != TableColumnFixedPosition.None )
             {
-                fixedPositionOffset = ParentTable.GetFixedCellPosition();
+                fixedPositionOffset = ParentTableRow.GetFixedCellPosition();
             }
         }
 
