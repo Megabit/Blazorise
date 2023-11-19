@@ -36,7 +36,7 @@ public partial class TableHeaderCell : BaseDraggableComponent
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ParentTable is not null )
+        if ( ParentTableRow is not null )
         {
             ParentTableRow.AddTableHeaderCell( this );
 
@@ -88,11 +88,6 @@ public partial class TableHeaderCell : BaseDraggableComponent
     #endregion
 
     #region Properties
-
-    /// <summary>
-    /// Gets or sets the cascaded parent table component.
-    /// </summary>
-    [CascadingParameter] protected Table ParentTable { get; set; }
 
     /// <summary>
     /// Gets or sets the cascaded parent table row component.
