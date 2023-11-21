@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
@@ -83,16 +84,25 @@ public partial class TableRow : BaseDraggableComponent
         return MouseOver.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
     }
 
+    //DM : Just wanted to write the proof of concept for this. Change the naming to properly reflect the intent.
+    public class WidthChangedEventArgs
+    {
+        public double Width { get; set; }
+    }
+    public event EventHandler<WidthChangedEventArgs> WidthChanged;
+
     internal void AddTableRowHeader( TableRowHeader tableRowHeader )
     {
         CalculateTotalRowWidth( tableRowHeader.Width, tableRowHeader.FixedPosition );
 
+
         if ( tableRowHeader.FixedPosition == TableColumnFixedPosition.End )
         {
-            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
-            EndTableRowHeaders.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowHeader.Width.FixedSize ?? 0d ) );
+            if ( this.WidthChanged is not null )
+                this.WidthChanged( this, new WidthChangedEventArgs() { Width = tableRowHeader.Width.FixedSize ?? 0d } );
 
-            EndTableRowHeaders.Add( tableRowHeader );
+            //DM: Just a proof of concept. Proper implementation needs dispose, don't forget.
+            this.WidthChanged += ( sender, args ) => tableRowHeader.IncreaseFixedPositionEndOff( args.Width );
         }
     }
 
@@ -102,10 +112,12 @@ public partial class TableRow : BaseDraggableComponent
 
         if ( tableHeaderCell.FixedPosition == TableColumnFixedPosition.End )
         {
-            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
-            EndTableRowHeaderCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableHeaderCell.Width.FixedSize ?? 0d ) );
+            if ( this.WidthChanged is not null )
+                this.WidthChanged( this, new WidthChangedEventArgs() { Width = tableHeaderCell.Width.FixedSize ?? 0d } );
 
-            EndTableRowHeaderCells.Add( tableHeaderCell );
+            //DM: Just a proof of concept. Proper implementation needs dispose, don't forget.
+            this.WidthChanged += ( sender, args ) => tableHeaderCell.IncreaseFixedPositionEndOff( args.Width );
+
         }
     }
 
@@ -115,11 +127,17 @@ public partial class TableRow : BaseDraggableComponent
 
         if ( tableRowCell.FixedPosition == TableColumnFixedPosition.End )
         {
+            if ( this.WidthChanged is not null )
+                this.WidthChanged( this, new WidthChangedEventArgs() { Width = tableRowCell.Width.FixedSize ?? 0d } );
+
+            //DM: Just a proof of concept. Proper implementation needs dispose, don't forget.
+            this.WidthChanged += ( sender, args ) => tableRowCell.IncreaseFixedPositionEndOff( args.Width );
+
             //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
             //DM: These events should be triggered per the correct row.
-            EndTableRowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowCell.Width.FixedSize ?? 0d ) );
+            //EndTableRowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowCell.Width.FixedSize ?? 0d ) );
 
-            EndTableRowCells.Add( tableRowCell );
+            //EndTableRowCells.Add( tableRowCell );
         }
     }
 
