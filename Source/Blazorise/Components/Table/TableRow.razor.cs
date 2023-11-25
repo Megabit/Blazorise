@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -22,15 +21,12 @@ public partial class TableRow : BaseDraggableComponent
 
     private Cursor hoverCursor;
 
-    List<TableRowHeader> EndTableRowHeaders { get; set; } = new();
-    List<TableHeaderCell> EndTableRowHeaderCells { get; set; } = new();
-    List<TableRowCell> EndTableRowCells { get; set; } = new();
+    private double fixedStartCellPosition;
 
-    private double totalRowWidth;
-
-    private double fixedCellPosition;
-
-    private double lastFixedCellWidth;
+    /// <summary>
+    /// Triggers when the width of the cell with TableColumnFixedPosition.End changes.
+    /// </summary>
+    public event EventHandler<TableRowCellFixedPositionEndAddedEventArgs> TableRowCellFixedPositionEndAdded;
 
     #endregion
 
@@ -84,83 +80,36 @@ public partial class TableRow : BaseDraggableComponent
         return MouseOver.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
     }
 
-    //DM : Just wanted to write the proof of concept for this. Change the naming to properly reflect the intent.
-    public class WidthChangedEventArgs
-    {
-        public double Width { get; set; }
-    }
-    public event EventHandler<WidthChangedEventArgs> WidthChanged;
-
     internal void AddTableRowHeader( TableRowHeader tableRowHeader )
     {
-        CalculateTotalRowWidth( tableRowHeader.Width, tableRowHeader.FixedPosition );
-
-
-        if ( tableRowHeader.FixedPosition == TableColumnFixedPosition.End )
-        {
-            if ( this.WidthChanged is not null )
-                this.WidthChanged( this, new WidthChangedEventArgs() { Width = tableRowHeader.Width.FixedSize ?? 0d } );
-
-            //DM: Just a proof of concept. Proper implementation needs dispose, don't forget.
-            this.WidthChanged += ( sender, args ) => tableRowHeader.IncreaseFixedPositionEndOff( args.Width );
-        }
+        SetFixedCellPosition( tableRowHeader.Width, tableRowHeader.FixedPosition, tableRowHeader.SetFixedPositionStartOffset, tableRowHeader.IncreaseFixedPositionEndOffset );
     }
 
     internal void AddTableHeaderCell( TableHeaderCell tableHeaderCell )
     {
-        CalculateTotalRowWidth( tableHeaderCell.Width, tableHeaderCell.FixedPosition );
-
-        if ( tableHeaderCell.FixedPosition == TableColumnFixedPosition.End )
-        {
-            if ( this.WidthChanged is not null )
-                this.WidthChanged( this, new WidthChangedEventArgs() { Width = tableHeaderCell.Width.FixedSize ?? 0d } );
-
-            //DM: Just a proof of concept. Proper implementation needs dispose, don't forget.
-            this.WidthChanged += ( sender, args ) => tableHeaderCell.IncreaseFixedPositionEndOff( args.Width );
-
-        }
+        SetFixedCellPosition( tableHeaderCell.Width, tableHeaderCell.FixedPosition, tableHeaderCell.SetFixedPositionStartOffset, tableHeaderCell.IncreaseFixedPositionEndOffset );
     }
 
     internal void AddTableRowCell( TableRowCell tableRowCell )
     {
-        CalculateTotalRowWidth( tableRowCell.Width, tableRowCell.FixedPosition );
-
-        if ( tableRowCell.FixedPosition == TableColumnFixedPosition.End )
-        {
-            if ( this.WidthChanged is not null )
-                this.WidthChanged( this, new WidthChangedEventArgs() { Width = tableRowCell.Width.FixedSize ?? 0d } );
-
-            //DM: Just a proof of concept. Proper implementation needs dispose, don't forget.
-            this.WidthChanged += ( sender, args ) => tableRowCell.IncreaseFixedPositionEndOff( args.Width );
-
-            //DM: An additional option is that instead of tracking these collections we could setup events to update the fixed position of the cells.
-            //DM: These events should be triggered per the correct row.
-            //EndTableRowCells.ForEach( x => x.IncreaseFixedPositionEndOff( tableRowCell.Width.FixedSize ?? 0d ) );
-
-            //EndTableRowCells.Add( tableRowCell );
-        }
+        SetFixedCellPosition( tableRowCell.Width, tableRowCell.FixedPosition, tableRowCell.SetFixedPositionStartOffset, tableRowCell.IncreaseFixedPositionEndOffset );
     }
 
-    private void CalculateTotalRowWidth( IFluentSizing width, TableColumnFixedPosition fixedPosition )
+    private void SetFixedCellPosition( IFluentSizing width, TableColumnFixedPosition fixedPosition, Action<double> cellFixedPositionStartUpdate, Action<double> cellFixedPositionEndUpdate )
     {
-        if ( width is not null )
+        var fixedWidth = width?.FixedSize ?? 0d;
+
+        if ( fixedPosition == TableColumnFixedPosition.Start )
         {
-            var fixedWidth = width.FixedSize ?? 0d;
-
-            totalRowWidth += fixedWidth;
-
-            if ( fixedPosition == TableColumnFixedPosition.Start )
-            {
-                fixedCellPosition += lastFixedCellWidth;
-
-                lastFixedCellWidth += fixedWidth;
-            }
+            cellFixedPositionStartUpdate( fixedStartCellPosition );
+            fixedStartCellPosition += fixedWidth;
         }
-    }
 
-    internal double GetFixedCellPosition()
-    {
-        return fixedCellPosition;
+        if ( fixedPosition == TableColumnFixedPosition.End )
+        {
+            this.TableRowCellFixedPositionEndAdded?.Invoke( this, new TableRowCellFixedPositionEndAddedEventArgs() { Width = fixedWidth } );
+            this.TableRowCellFixedPositionEndAdded += ( sender, args ) => cellFixedPositionEndUpdate( args.Width );
+        }
     }
 
     #endregion

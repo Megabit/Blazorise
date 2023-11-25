@@ -14,7 +14,7 @@ public partial class TableRowHeader : BaseDraggableComponent
 {
     #region Members
 
-    private double? fixedPositionOffset;
+    private double? fixedPositionStartOffset;
 
     private double? fixedPositionEndOffset;
 
@@ -28,24 +28,34 @@ public partial class TableRowHeader : BaseDraggableComponent
         if ( ParentTableRow is not null )
         {
             ParentTableRow.AddTableRowHeader( this );
-
-            if ( FixedPosition != TableColumnFixedPosition.None )
-            {
-                fixedPositionOffset = ParentTableRow.GetFixedCellPosition();
-            }
         }
 
         base.OnInitialized();
     }
 
-    internal void IncreaseFixedPositionEndOff( double addPixels )
+    /// <summary>
+    /// Sets the fixed position start offset.
+    /// </summary>
+    /// <param name="width"></param>
+    internal void SetFixedPositionStartOffset( double width )
     {
-        if ( fixedPositionEndOffset.HasValue )
-            fixedPositionEndOffset += addPixels;
-        else
-            fixedPositionEndOffset = addPixels;
+        fixedPositionStartOffset = width;
         DirtyStyles();
     }
+
+    /// <summary>
+    /// Sets or increased the fixed position end offset by the provided width.
+    /// </summary>
+    /// <param name="width"></param>
+    internal void IncreaseFixedPositionEndOffset( double width )
+    {
+        if ( fixedPositionEndOffset.HasValue )
+            fixedPositionEndOffset += width;
+        else
+            fixedPositionEndOffset = width;
+        DirtyStyles();
+    }
+
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
@@ -58,12 +68,12 @@ public partial class TableRowHeader : BaseDraggableComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( FixedPosition == TableColumnFixedPosition.Start && fixedPositionOffset != null )
+        if ( FixedPosition == TableColumnFixedPosition.Start && fixedPositionStartOffset.HasValue )
         {
-            builder.Append( $"left:{fixedPositionOffset:G29}px" );
+            builder.Append( $"left:{fixedPositionStartOffset:G29}px" );
         }
 
-        if ( FixedPosition == TableColumnFixedPosition.End && fixedPositionEndOffset != null )
+        if ( FixedPosition == TableColumnFixedPosition.End && fixedPositionEndOffset.HasValue )
         {
             builder.Append( $"right:{fixedPositionEndOffset:G29}px" );
         }
