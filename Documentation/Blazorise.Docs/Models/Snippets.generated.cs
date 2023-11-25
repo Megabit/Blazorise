@@ -7803,6 +7803,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
+          RowStyling='(x,y ) => y.Style = ""height: 70px;""'
           Virtualize
           VirtualizeOptions=""@(new() { DataGridHeight = ""250px""})"">
     <DataGridCommandColumn />
