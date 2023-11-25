@@ -34,15 +34,6 @@ public sealed class BlazoriseLicenseChecker
     /// <returns>True if the license warning should be displayed.</returns>
     internal bool ShouldPrint()
     {
-        return !IsLicensed();
-    }
-
-    /// <summary>
-    /// Whether the current user session is licensed or not.
-    /// </summary>
-    /// <returns></returns>
-    internal bool IsLicensed()
-    {
         if ( blazoriseLicenseProvider.Result == BlazoriseLicenseResult.Initializing )
             return false;
 
