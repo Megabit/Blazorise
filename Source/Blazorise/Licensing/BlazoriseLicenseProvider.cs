@@ -31,6 +31,8 @@ public sealed class BlazoriseLicenseProvider
 
     private static bool initialized = false;
 
+    private int? limitsDataGridMaxRows;
+
     #endregion
 
     #region Constructors
@@ -117,6 +119,9 @@ public sealed class BlazoriseLicenseProvider
 
     internal int? GetDataGridRowsLimit()
     {
+        if ( limitsDataGridMaxRows.HasValue )
+            return limitsDataGridMaxRows;
+
         var initOrLicensedOrTrial =
             Result == BlazoriseLicenseResult.Initializing
             || Result == BlazoriseLicenseResult.Licensed
@@ -130,19 +135,19 @@ public sealed class BlazoriseLicenseProvider
         {
             if ( License.Properties.TryGetValue( "__LIMITS__DATAGRID__MAX_ROWS__", out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
             {
-                return rowsLimit;
+                limitsDataGridMaxRows = rowsLimit;
             }
         }
         else if ( Result == BlazoriseLicenseResult.Community )
         {
-            return 100000;
+            limitsDataGridMaxRows = 100000;
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
-            return 1000;
+            limitsDataGridMaxRows = 1000;
         }
 
-        return null;
+        return limitsDataGridMaxRows;
     }
 
     #endregion
