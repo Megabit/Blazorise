@@ -1,8 +1,8 @@
 ﻿@page "/news/release-notes/140"
 
-<Seo Canonical="news/release-notes/140" Title="Blazorise v1.4" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.4 release." ImageUrl="img/news/140/v140.png" />
+<Seo Canonical="news/release-notes/140" Title="Blazorise v1.4" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.4 release." ImageUrl="img/news/empty.png" />
 
-<NewsPageImage Source="img/news/140/v140.png" Text="Blazorise v1.4" />
+<NewsPageImage Source="img/news/empty.png" Text="Blazorise v1.4" />
 
 <NewsPageTitle>
     Announcing Blazorise 1.4
@@ -31,6 +31,16 @@
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
+            <Strong>.NET 8</Strong>: full support
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>DatePicker</Strong>: added input mask
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
             <Strong>ColorPicker</Strong>: added more options to control the UI elements
         </Paragraph>
     </UnorderedListItem>
@@ -55,23 +65,24 @@
 </Paragraph>
 
 <NewsPageSubtitle>
-    Good to Know
-</NewsPageSubtitle>
-
-<Paragraph>
-    Before we continue we need to make sure that you're familiar with some behaviour changes in this release.
-</Paragraph>
-
-<OrderedList>
-</OrderedList>
-
-<NewsPageSubtitle>
     New Features & Enhancements 🚀
 </NewsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
     Official .NET 8 Support
 </Heading>
+
+<Heading Size="HeadingSize.Is3">
+    DatePicker input mask
+</Heading>
+
+<Paragraph>
+    With the feedback from our community, we've introduced a new <Code>InputFormat</Code> parameter for the input mask. This feature lets developers define the format that the input should adhere to, ensuring consistency and data integrity.
+</Paragraph>
+
+<Paragraph>
+    At this moment almost all date formats should be supported. The only feature that is still missing is the usage of long-name days and month, eg <Code>ddd.MM.yyyy</Code>, or <Code>dd.MMM.yyyy</Code>. We are working on making it work in future versions.
+</Paragraph>
 
 <NewsPageSubtitle>
     DataGrid

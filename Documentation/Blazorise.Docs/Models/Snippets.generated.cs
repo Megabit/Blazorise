@@ -1663,6 +1663,8 @@ public class Gender
     <FieldHelp>Format: DD/MM/YYYY</FieldHelp>
 </Field>";
 
+        public const string DatePickerInputFormatExample = @"<DatePicker TValue=""DateTime?"" InputFormat=""dd.MM.yyyy"" DisplayFormat=""dd.MM.yyyy"" />";
+
         public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" StaticPicker=""false"" />";
 
         public const string DatePickerWithIconExample = @"<Addons>
