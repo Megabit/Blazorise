@@ -11,6 +11,11 @@ public enum BlazoriseLicenseResult
     Initializing,
 
     /// <summary>
+    /// Unlicensed user.
+    /// </summary>
+    Unlicensed,
+
+    /// <summary>
     /// License is issued to the community user.
     /// </summary>
     Community,

@@ -1,9 +1,11 @@
 ﻿#region Using directives
+
 using System.ComponentModel;
 using System.Reflection;
 using Blazorise.Licensing.Signing;
 using Blazorise.Modules;
 using Microsoft.JSInterop;
+
 #endregion
 
 namespace Blazorise.Licensing;
@@ -34,7 +36,7 @@ public sealed class BlazoriseLicenseProvider
     #region Constructors
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="options"></param>
     /// <param name="jsRuntime"></param>
@@ -58,11 +60,18 @@ public sealed class BlazoriseLicenseProvider
     private async void BackgroundWorker_DoWork( object sender, DoWorkEventArgs e )
     {
         if ( initialized )
+        {
+            if ( backgroundWorker is not null )
+            {
+                backgroundWorker.DoWork -= BackgroundWorker_DoWork;
+                backgroundWorker.Dispose();
+            }
             return;
+        }
 
         if ( string.IsNullOrWhiteSpace( options.ProductToken ) )
         {
-            Result = BlazoriseLicenseResult.Community;
+            Result = BlazoriseLicenseResult.Unlicensed;
             return;
         }
 
@@ -70,11 +79,16 @@ public sealed class BlazoriseLicenseProvider
         {
             if ( IsWebAssembly )
             {
+
                 Result = await LicenseVerifier.Create()
                     .WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, PublicKey )
                     .LoadAndVerify( options.ProductToken, true, new Assembly[] { CurrentAssembly } )
                     ? BlazoriseLicenseResult.Licensed
                     : BlazoriseLicenseResult.Trial;
+
+                License = await LicenseVerifier.Create()
+                    .WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, PublicKey )
+                    .Load( options.ProductToken, true );
             }
             else
             {
@@ -83,6 +97,12 @@ public sealed class BlazoriseLicenseProvider
                     .LoadAndVerify( options.ProductToken, true, new Assembly[] { CurrentAssembly } )
                     ? BlazoriseLicenseResult.Licensed
                     : BlazoriseLicenseResult.Trial;
+
+                //TODO: Only Load once.
+                //Add a verify method on License that returns the BlazoriseLicenseResult instead of a bool.
+                License = await LicenseVerifier.Create()
+                    .WithRsaPublicKey( PublicKey )
+                    .Load( options.ProductToken, true );
             }
         }
         catch
@@ -95,14 +115,49 @@ public sealed class BlazoriseLicenseProvider
         }
     }
 
+    internal int? GetDataGridRowsLimit()
+    {
+        var initOrLicensedOrTrial =
+            Result == BlazoriseLicenseResult.Initializing
+            || Result == BlazoriseLicenseResult.Licensed
+            || Result == BlazoriseLicenseResult.Trial;
+
+        if ( initOrLicensedOrTrial )
+            return null;
+
+
+        if ( License is not null )
+        {
+            if ( License.Properties.TryGetValue( "__LIMITS__DATAGRID__MAX_ROWS__", out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            {
+                return rowsLimit;
+            }
+        }
+        else if ( Result == BlazoriseLicenseResult.Community )
+        {
+            return 100000;
+        }
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
+        {
+            return 1000;
+        }
+
+        return null;
+    }
+
     #endregion
 
     #region Properties
 
     /// <summary>
+    /// Gets the license.
+    /// </summary>
+    internal License License { get; private set; }
+
+    /// <summary>
     /// Gets the result of the license validation.
     /// </summary>
-    public BlazoriseLicenseResult Result { get; private set; } = BlazoriseLicenseResult.Initializing;
+    internal BlazoriseLicenseResult Result { get; private set; } = BlazoriseLicenseResult.Initializing;
 
     /// <summary>
     /// Indicates if the current app is running in WebAssembly mode.

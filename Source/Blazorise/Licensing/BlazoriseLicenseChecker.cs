@@ -16,7 +16,7 @@ public sealed class BlazoriseLicenseChecker
     #region Constructors
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="blazoriseLicenseProvider"></param>
     public BlazoriseLicenseChecker( BlazoriseLicenseProvider blazoriseLicenseProvider )
@@ -32,7 +32,16 @@ public sealed class BlazoriseLicenseChecker
     /// Indicates if the license warning should be displayed.
     /// </summary>
     /// <returns>True if the license warning should be displayed.</returns>
-    public bool ShouldPrint()
+    internal bool ShouldPrint()
+    {
+        return !IsLicensed();
+    }
+
+    /// <summary>
+    /// Whether the current user session is licensed or not.
+    /// </summary>
+    /// <returns></returns>
+    internal bool IsLicensed()
     {
         if ( blazoriseLicenseProvider.Result == BlazoriseLicenseResult.Initializing )
             return false;
@@ -45,6 +54,16 @@ public sealed class BlazoriseLicenseChecker
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be displayed in the data grid.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public int? GetDataGridRowsLimit()
+    {
+        return blazoriseLicenseProvider.GetDataGridRowsLimit();
     }
 
     #endregion
