@@ -1,6 +1,8 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -27,6 +29,8 @@ public partial class TableRow : BaseDraggableComponent
     /// Triggers when the width of the cell with TableColumnFixedPosition.End changes.
     /// </summary>
     public event EventHandler<TableRowCellFixedPositionEndAddedEventArgs> TableRowCellFixedPositionEndAdded;
+
+    private List<EventHandler<TableRowCellFixedPositionEndAddedEventArgs>> tableRowCellFixedPositionEndAddedHandlers;
 
     #endregion
 
@@ -107,8 +111,47 @@ public partial class TableRow : BaseDraggableComponent
 
         if ( fixedPosition == TableColumnFixedPosition.End )
         {
+            tableRowCellFixedPositionEndAddedHandlers ??= new();
+            EventHandler<TableRowCellFixedPositionEndAddedEventArgs> handler = ( sender, args ) => cellFixedPositionEndUpdate( args.Width );
+
             this.TableRowCellFixedPositionEndAdded?.Invoke( this, new TableRowCellFixedPositionEndAddedEventArgs() { Width = fixedWidth } );
-            this.TableRowCellFixedPositionEndAdded += ( sender, args ) => cellFixedPositionEndUpdate( args.Width );
+            this.TableRowCellFixedPositionEndAdded += handler;
+
+            tableRowCellFixedPositionEndAddedHandlers.Add( handler );
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            DisposeEventHandlers();
+        }
+
+        base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            DisposeEventHandlers();
+        }
+
+        await base.DisposeAsync( disposing );
+    }
+
+    private void DisposeEventHandlers()
+    {
+        if ( !tableRowCellFixedPositionEndAddedHandlers.IsNullOrEmpty() && TableRowCellFixedPositionEndAdded is not null )
+        {
+            foreach ( var handler in tableRowCellFixedPositionEndAddedHandlers )
+            {
+                TableRowCellFixedPositionEndAdded -= handler;
+            }
+            tableRowCellFixedPositionEndAddedHandlers = null;
         }
     }
 
