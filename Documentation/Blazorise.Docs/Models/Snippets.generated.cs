@@ -1583,15 +1583,13 @@ public class Gender
     }
 }";
 
-        public const string BasicColorEditExample = @"<ColorEdit @bind-Color=""@colorValue"" />
+        public const string ColorEditDisabledExample = @"<ColorEdit Color=""#888888"" Disabled />";
+
+        public const string ColorEditExample = @"<ColorEdit @bind-Color=""@colorValue"" />
 
 @code {
     string colorValue = ""#ff0000"";
 }";
-
-        public const string BasicColorPickerExample = @"<ColorPicker Color=""#ff0000"" />";
-
-        public const string ColorEditDisabledExample = @"<ColorEdit Color=""#888888"" Disabled />";
 
         public const string ColorEditSizeExample = @"<Field>
     <ColorEdit Color=""#888888"" Size=""Size.Small"" />
@@ -1599,6 +1597,18 @@ public class Gender
 <Field>
     <ColorEdit Color=""#444444"" Size=""Size.Large"" />
 </Field>";
+
+        public const string ColorPickerExample = @"<ColorPicker @bind-Color=""@colorValue"" />
+
+@code {
+    string colorValue = ""#ff0000"";
+}";
+
+        public const string ColorPickerShowHueExample = @"<ColorPicker @bind-Color=""@colorValue"" ShowHueSlider />
+
+@code {
+    string colorValue = ""#ff00ff"";
+}";
 
         public const string BasicDateEditExample = @"<DateEdit TValue=""DateTime?"" />";
 

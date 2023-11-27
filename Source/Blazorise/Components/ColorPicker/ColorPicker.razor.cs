@@ -115,6 +115,9 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
             HideAfterPaletteSelect,
             ShowClearButton,
             ShowCancelButton,
+            ShowOpacitySlider,
+            ShowHueSlider,
+            ShowInputField,
             Disabled,
             ReadOnly,
             Localization = Localizer.GetStrings(),
@@ -275,6 +278,21 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// Controls the visibility of the cancel buttons.
     /// </summary>
     [Parameter] public bool ShowCancelButton { get; set; } = true;
+
+    /// <summary>
+    /// Controls the visibility of the opacity slider.
+    /// </summary>
+    [Parameter] public bool ShowOpacitySlider { get; set; } = true;
+
+    /// <summary>
+    /// Controls the visibility of the hue slider.
+    /// </summary>
+    [Parameter] public bool ShowHueSlider { get; set; }
+
+    /// <summary>
+    /// Controls the visibility of the textbox which shows the selected color value.
+    /// </summary>
+    [Parameter] public bool ShowInputField { get; set; } = true;
 
     /// <summary>
     /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.
