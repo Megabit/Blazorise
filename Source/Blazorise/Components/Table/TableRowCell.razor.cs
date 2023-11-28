@@ -27,35 +27,9 @@ public partial class TableRowCell : BaseDraggableComponent
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ParentTableRow is not null )
-        {
-            ParentTableRow.AddTableRowCell( this );
-        }
+        ParentTableRow?.AddTableRowCell( this );
 
         base.OnInitialized();
-    }
-
-    /// <summary>
-    /// Sets the fixed position start offset.
-    /// </summary>
-    /// <param name="width"></param>
-    internal void SetFixedPositionStartOffset( double width )
-    {
-        fixedPositionStartOffset = width;
-        DirtyStyles();
-    }
-
-    /// <summary>
-    /// Sets or increased the fixed position end offset by the provided width.
-    /// </summary>
-    /// <param name="width"></param>
-    internal void IncreaseFixedPositionEndOffset( double width )
-    {
-        if ( fixedPositionEndOffset.HasValue )
-            fixedPositionEndOffset += width;
-        else
-            fixedPositionEndOffset = width;
-        DirtyStyles();
     }
 
     /// <inheritdoc/>
@@ -92,6 +66,35 @@ public partial class TableRowCell : BaseDraggableComponent
     protected Task OnClickHandler( MouseEventArgs eventArgs )
     {
         return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+    }
+
+    /// <summary>
+    /// Sets the fixed position start offset.
+    /// </summary>
+    /// <param name="width">Size in pixels.</param>
+    internal void SetFixedPositionStartOffset( double width )
+    {
+        fixedPositionStartOffset = width;
+
+        DirtyStyles();
+    }
+
+    /// <summary>
+    /// Sets or increased the fixed position end offset by the provided width.
+    /// </summary>
+    /// <param name="width">Size in pixels.</param>
+    internal void IncreaseFixedPositionEndOffset( double width )
+    {
+        if ( fixedPositionEndOffset.HasValue )
+        {
+            fixedPositionEndOffset += width;
+        }
+        else
+        {
+            fixedPositionEndOffset = width;
+        }
+
+        DirtyStyles();
     }
 
     #endregion

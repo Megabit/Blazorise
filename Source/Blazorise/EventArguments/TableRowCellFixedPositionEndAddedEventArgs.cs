@@ -1,7 +1,4 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise;
+﻿namespace Blazorise;
 
 public partial class TableRow
 {
@@ -11,9 +8,8 @@ public partial class TableRow
     public class TableRowCellFixedPositionEndAddedEventArgs
     {
         /// <summary>
-        /// The width of the cell with TableColumnFixedPosition.End.
+        /// The width of the cell with <see cref="TableColumnFixedPosition.End"/> defined.
         /// </summary>
         public double Width { get; set; }
     }
-
 }

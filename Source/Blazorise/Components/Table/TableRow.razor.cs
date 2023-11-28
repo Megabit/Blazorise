@@ -114,8 +114,8 @@ public partial class TableRow : BaseDraggableComponent
             tableRowCellFixedPositionEndAddedHandlers ??= new();
             EventHandler<TableRowCellFixedPositionEndAddedEventArgs> handler = ( sender, args ) => cellFixedPositionEndUpdate( args.Width );
 
-            this.TableRowCellFixedPositionEndAdded?.Invoke( this, new TableRowCellFixedPositionEndAddedEventArgs() { Width = fixedWidth } );
-            this.TableRowCellFixedPositionEndAdded += handler;
+            TableRowCellFixedPositionEndAdded?.Invoke( this, new TableRowCellFixedPositionEndAddedEventArgs() { Width = fixedWidth } );
+            TableRowCellFixedPositionEndAdded += handler;
 
             tableRowCellFixedPositionEndAddedHandlers.Add( handler );
         }
@@ -151,6 +151,7 @@ public partial class TableRow : BaseDraggableComponent
             {
                 TableRowCellFixedPositionEndAdded -= handler;
             }
+
             tableRowCellFixedPositionEndAddedHandlers = null;
         }
     }
