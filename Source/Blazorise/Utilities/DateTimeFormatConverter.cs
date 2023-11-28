@@ -92,7 +92,7 @@ public class DateTimeFormatConverter : IDateTimeFormatConverter
                 continue;
             }
 
-            if ( last == null || ( last != null && last == c ) )
+            if ( last is null || ( last != null && last == c ) )
             {
                 tempToken ??= string.Empty;
 

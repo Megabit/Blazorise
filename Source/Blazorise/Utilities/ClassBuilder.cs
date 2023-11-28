@@ -47,7 +47,7 @@ public class ClassBuilder
     /// <param name="value">The string to append.</param>
     public void Append( string value )
     {
-        if ( value == null )
+        if ( value is null )
             return;
 
         builder.Append( value ).Append( Delimiter );

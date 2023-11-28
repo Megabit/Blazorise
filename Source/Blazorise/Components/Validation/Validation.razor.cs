@@ -189,7 +189,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// <inheritdoc/>
     public ValidationStatus Validate()
     {
-        if ( inputComponent == null )
+        if ( inputComponent is null )
             throw new ArgumentNullException( nameof( inputComponent ), "Input component is not assigned." );
 
         return Validate( inputComponent.ValidationValue );
@@ -218,7 +218,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
     /// <inheritdoc/>
     public Task<ValidationStatus> ValidateAsync()
     {
-        if ( inputComponent == null )
+        if ( inputComponent is null )
             throw new ArgumentNullException( nameof( inputComponent ), "Input component is not assigned." );
 
         return ValidateAsync( inputComponent.ValidationValue );

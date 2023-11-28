@@ -181,7 +181,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// <param name="barDropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
     internal void NotifyChildDropdownInitialized( BarDropdown barDropdown )
     {
-        if ( childBarDropdown == null )
+        if ( childBarDropdown is null )
             childBarDropdown = barDropdown;
     }
 

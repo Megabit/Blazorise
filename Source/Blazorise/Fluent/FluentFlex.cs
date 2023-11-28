@@ -680,7 +680,7 @@ public class FluentFlex :
     /// <returns>Current definition or new if none was found.</returns>
     private FlexDefinition GetDefinition()
     {
-        if ( currentFlexDefinition == null )
+        if ( currentFlexDefinition is null )
             currentFlexDefinition = CreateDefinition();
 
         return currentFlexDefinition;

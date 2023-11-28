@@ -38,7 +38,7 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
 
         // Individual Radio can have validation ONLY of it's not placed inside
         // of a RadioGroup
-        if ( ParentValidation != null && ParentRadioGroup == null )
+        if ( ParentValidation is not null && ParentRadioGroup is null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );

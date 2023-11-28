@@ -16,7 +16,7 @@ public static class ExpressionConverter
     /// <returns>The Templated String Literal</returns>
     public static string ToTemplatedStringLiteral( LambdaExpression expression )
     {
-        if ( expression == null )
+        if ( expression is null )
         {
             throw new ArgumentNullException( nameof( expression ) );
         }

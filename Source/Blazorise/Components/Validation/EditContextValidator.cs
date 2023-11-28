@@ -198,7 +198,7 @@ public class EditContextValidator : IEditContextValidator
                         // is also set.
                         // In case a custom ErrorMessage in the DataAnnotation like [Required(ErrorMessage="{0} is very important"]
                         // the ErrorMessage is not initialized with null.
-                        if ( validationAttribute.ErrorMessageResourceName == null )
+                        if ( validationAttribute.ErrorMessageResourceName is null )
                         {
                             ValidationAttributeHelper.SetDefaultErrorMessage( validationAttribute );
                         }

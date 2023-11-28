@@ -73,7 +73,7 @@ public record Enumeration<T>
     {
         get
         {
-            if ( cachedName == null )
+            if ( cachedName is null )
                 cachedName = BuildName();
 
             return cachedName;

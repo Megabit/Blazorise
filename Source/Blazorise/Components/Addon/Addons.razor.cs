@@ -77,7 +77,7 @@ public partial class Addons : BaseComponent, IDisposable
     /// <param name="button">A button reference that is placed inside of the addons.</param>
     internal void NotifyButtonInitialized( Button button )
     {
-        if ( button == null )
+        if ( button is null )
             return;
 
         registeredButtons ??= new();
@@ -94,7 +94,7 @@ public partial class Addons : BaseComponent, IDisposable
     /// <param name="button">A button reference that is placed inside of the addons.</param>
     internal void NotifyButtonRemoved( Button button )
     {
-        if ( button == null )
+        if ( button is null )
             return;
 
         if ( registeredButtons != null && registeredButtons.Contains( button ) )

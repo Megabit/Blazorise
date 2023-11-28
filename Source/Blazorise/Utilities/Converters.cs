@@ -46,7 +46,7 @@ public static class Converters
     /// <returns>Dictionary</returns>
     public static IDictionary<string, object> ToDictionary( object source, bool addEmptyObjects = true, bool forceCamelCase = true )
     {
-        if ( source == null )
+        if ( source is null )
         {
             return null;
         }

@@ -57,7 +57,7 @@ public abstract class BaseFocusableContainerComponent : BaseComponent, IFocusabl
             var firstFocusableComponent = FocusableComponents.FirstOrDefault( x => x.Autofocus );
 
             // take first component if Autofocus is unspecified
-            if ( firstFocusableComponent == null )
+            if ( firstFocusableComponent is null )
                 firstFocusableComponent = FocusableComponents.FirstOrDefault();
 
             if ( firstFocusableComponent != null )
@@ -72,7 +72,7 @@ public abstract class BaseFocusableContainerComponent : BaseComponent, IFocusabl
     /// <inheritdoc/>
     public void NotifyFocusableComponentInitialized( IFocusableComponent focusableComponent )
     {
-        if ( focusableComponent == null )
+        if ( focusableComponent is null )
             return;
 
         if ( !FocusableComponents.Contains( focusableComponent ) )
@@ -84,7 +84,7 @@ public abstract class BaseFocusableContainerComponent : BaseComponent, IFocusabl
     /// <inheritdoc/>
     public void NotifyFocusableComponentRemoved( IFocusableComponent focusableComponent )
     {
-        if ( focusableComponent == null )
+        if ( focusableComponent is null )
             return;
 
         if ( FocusableComponents.Contains( focusableComponent ) )

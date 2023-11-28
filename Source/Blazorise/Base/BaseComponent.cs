@@ -122,7 +122,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ShouldAutoGenerateId && ElementId == null )
+        if ( ShouldAutoGenerateId && ElementId is null )
         {
             ElementId = IdGenerator.Generate;
         }

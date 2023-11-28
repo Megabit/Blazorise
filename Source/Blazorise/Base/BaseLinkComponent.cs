@@ -146,7 +146,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     {
         try
         {
-            if ( relativeUri == null )
+            if ( relativeUri is null )
                 return string.Empty;
 
             if ( relativeUri.StartsWith( "mailto:", StringComparison.OrdinalIgnoreCase ) )

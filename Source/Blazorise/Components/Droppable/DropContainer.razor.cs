@@ -174,7 +174,7 @@ public partial class DropContainer<TItem> : BaseComponent
     {
         get
         {
-            if ( transaction == null )
+            if ( transaction is null )
                 return false;
 
             return transaction.CurrentZoneName != transaction.SourceZoneName || transaction.Index != transaction.SourceIndex;
@@ -189,7 +189,7 @@ public partial class DropContainer<TItem> : BaseComponent
     /// <returns>True if the zone and index matches the current transaction.</returns>
     public bool IsOrigin( int index, string zoneName )
     {
-        if ( transaction == null )
+        if ( transaction is null )
         {
             return false;
         }

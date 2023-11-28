@@ -24,7 +24,7 @@ public abstract class BaseIconProvider : IIconProvider
 
         // Some icons must be placed inside of an icon tag element so just return 
         // the style name. The actual icon name will be defined in the Icon.razor file.
-        if ( IconNameAsContent || name == null )
+        if ( IconNameAsContent || name is null )
             return iconStyle;
 
         if ( name is IconName iconEnum )

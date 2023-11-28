@@ -129,7 +129,7 @@ public class Repeater<TItem> : IComponent, IDisposable
     {
         renderHandle.Render( builder =>
         {
-            if ( Items == null )
+            if ( Items is null )
             {
                 return;
             }

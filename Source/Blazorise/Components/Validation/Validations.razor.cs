@@ -244,7 +244,7 @@ public partial class Validations : ComponentBase
                 .Concat(
                     // In case there are some fields that do not have error message we need to combine them all under one message.
                     validations.Any( v => v.Status == ValidationStatus.Error
-                                          && ( v.Messages == null || v.Messages.Count() == 0 )
+                                          && ( v.Messages is null || v.Messages.Count() == 0 )
                                           && !validations.Where( v2 => v2.Status == ValidationStatus.Error && v2.Messages?.Count() > 0 ).Contains( v ) )
                         ? new string[] { MissingFieldsErrorMessage ?? "One or more fields have an error. Please check and try again." }
                         : Array.Empty<string>() )

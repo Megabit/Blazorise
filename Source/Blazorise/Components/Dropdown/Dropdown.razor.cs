@@ -245,7 +245,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <param name="button">Reference to the <see cref="Button"/> that is placed inside of this <see cref="Dropdown"/>.</param>
     internal protected void NotifyButtonInitialized( Button button )
     {
-        if ( button == null )
+        if ( button is null )
             return;
 
         childrenButtonList ??= new();
@@ -262,7 +262,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <param name="button">Reference to the <see cref="Button"/> that is placed inside of this <see cref="Dropdown"/>.</param>
     internal protected void NotifyButtonRemoved( Button button )
     {
-        if ( button == null )
+        if ( button is null )
             return;
 
         if ( childrenButtonList != null && childrenButtonList.Contains( button ) )
@@ -277,7 +277,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <param name="dropdown">Reference to the <see cref="Dropdown"/> that is placed inside of this <see cref="Dropdown"/>.</param>
     internal protected void NotifyChildDropdownInitialized( Dropdown dropdown )
     {
-        if ( childDropdown == null )
+        if ( childDropdown is null )
             childDropdown = dropdown;
     }
 
@@ -296,7 +296,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <param name="dropdownMenu">Reference to the <see cref="DropdownMenu"/> that is placed inside of this <see cref="Dropdown"/>.</param>
     internal protected void NotifyDropdownMenuInitialized( DropdownMenu dropdownMenu )
     {
-        if ( dropdownMenu == null )
+        if ( dropdownMenu is null )
             return;
 
         childrenDropdownMenus ??= new();
@@ -316,7 +316,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <param name="dropdownToggle">Reference to the <see cref="DropdownToggle"/> that is placed inside of this <see cref="Dropdown"/>.</param>
     internal protected void NotifyDropdownToggleInitialized( DropdownToggle dropdownToggle )
     {
-        if ( dropdownToggle == null )
+        if ( dropdownToggle is null )
             return;
 
         childrenDropdownToggles ??= new();

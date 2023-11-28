@@ -176,7 +176,7 @@ public class TextLocalizer<T> : ITextLocalizer<T>
     {
         var translations = GetTranslations();
 
-        if ( translations == null || !translations.TryGetValue( name, out var value ) )
+        if ( translations is null || !translations.TryGetValue( name, out var value ) )
             value = name;
 
         if ( arguments.Length > 0 )

@@ -74,7 +74,7 @@ public partial class Carousel : BaseComponent, IDisposable
     {
         SetTimer();
 
-        if ( TransitionTimer == null )
+        if ( TransitionTimer is null )
         {
             InitializeTransitionTimer();
         }
@@ -304,7 +304,7 @@ public partial class Carousel : BaseComponent, IDisposable
     {
         TimerEnabled = ( Interval > 0 );
 
-        if ( Timer == null && TimerEnabled )
+        if ( Timer is null && TimerEnabled )
         {
             InitializeTimer();
         }

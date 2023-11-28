@@ -103,7 +103,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
         if ( Multiple )
             return SelectedValuesChanged.InvokeAsync( value );
         else
-            return SelectedValueChanged.InvokeAsync( value == null ? default : value.FirstOrDefault() );
+            return SelectedValueChanged.InvokeAsync( value is null ? default : value.FirstOrDefault() );
     }
 
     /// <inheritdoc/>
@@ -112,7 +112,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
         if ( Multiple )
             return value;
         else
-            return value == null ? default : value.FirstOrDefault();
+            return value is null ? default : value.FirstOrDefault();
     }
 
     /// <inheritdoc/>
@@ -149,7 +149,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     /// <inheritdoc/>
     protected override string FormatValueAsString( IReadOnlyList<TValue> value )
     {
-        if ( value == null || value.Count == 0 )
+        if ( value is null || value.Count == 0 )
             return string.Empty;
 
         if ( Multiple )
@@ -159,7 +159,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
         }
         else
         {
-            if ( value[0] == null )
+            if ( value[0] is null )
                 return string.Empty;
 
             return value[0].ToString();
@@ -187,7 +187,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
 
     internal void NotifySelectItemInitialized( ISelectItem<TValue> selectItem )
     {
-        if ( selectItem == null )
+        if ( selectItem is null )
             return;
 
         if ( !selectItems.Contains( selectItem ) )
@@ -196,7 +196,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
 
     internal void NotifySelectItemRemoved( ISelectItem<TValue> selectItem )
     {
-        if ( selectItem == null )
+        if ( selectItem is null )
             return;
 
         if ( selectItems.Contains( selectItem ) )
@@ -215,7 +215,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
             if ( Multiple )
                 return InternalValue;
             else
-                return InternalValue == null ? default : InternalValue.FirstOrDefault();
+                return InternalValue is null ? default : InternalValue.FirstOrDefault();
         }
     }
 
@@ -231,7 +231,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
             }
             else
             {
-                SelectedValue = value == null ? default : value.FirstOrDefault();
+                SelectedValue = value is null ? default : value.FirstOrDefault();
             }
         }
     }

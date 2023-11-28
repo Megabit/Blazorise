@@ -212,7 +212,7 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
 
         var (context, canBeDropped) = ItemCanBeDropped();
 
-        if ( context == null )
+        if ( context is null )
         {
             return;
         }
@@ -230,7 +230,7 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
 
         var (context, _) = ItemCanBeDropped();
 
-        if ( context == null )
+        if ( context is null )
         {
             return;
         }
@@ -242,7 +242,7 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
     {
         var (context, canBeDropped) = ItemCanBeDropped();
 
-        if ( context == null )
+        if ( context is null )
         {
             return;
         }
@@ -310,12 +310,12 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
 
     private (TItem, bool) ItemCanBeDropped()
     {
-        if ( ParentContainer == null || ParentContainer.TransactionInProgress == false )
+        if ( ParentContainer is null || ParentContainer.TransactionInProgress == false )
             return (default( TItem ), false);
 
         var item = ParentContainer.GetTransactionItem();
 
-        if ( item == null )
+        if ( item is null )
             return (default( TItem ), false);
 
         var canBeDropped = true;
