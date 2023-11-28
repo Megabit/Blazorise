@@ -58,7 +58,7 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ParentContainer != null )
+        if ( ParentContainer is not null )
         {
             ParentContainer.TransactionStarted += OnContainerTransactionStarted;
             ParentContainer.TransactionEnded += OnContainerTransactionEnded;
@@ -122,7 +122,7 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
                 await JSModule.SafeDestroy( ElementRef, ElementId );
             }
 
-            if ( ParentContainer != null )
+            if ( ParentContainer is not null )
             {
                 ParentContainer.TransactionStarted -= OnContainerTransactionStarted;
                 ParentContainer.TransactionEnded -= OnContainerTransactionEnded;
@@ -320,11 +320,11 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
 
         var canBeDropped = true;
 
-        if ( DropAllowed != null )
+        if ( DropAllowed is not null )
         {
             canBeDropped = DropAllowed( item );
         }
-        else if ( ParentContainer.DropAllowed != null )
+        else if ( ParentContainer.DropAllowed is not null )
         {
             canBeDropped = ParentContainer.DropAllowed( item, Name );
         }
@@ -354,7 +354,7 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
 
             Func<TItem, bool> predicate = ( item ) => ParentContainer.ItemsFilter( item, Name ?? string.Empty );
 
-            if ( ItemsFilter != null )
+            if ( ItemsFilter is not null )
             {
                 predicate = ItemsFilter;
             }
@@ -371,7 +371,7 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
 
         var predicate = ItemDisabled ?? ParentContainer?.ItemDisabled;
 
-        if ( predicate != null )
+        if ( predicate is not null )
         {
             disabled = predicate( item );
         }

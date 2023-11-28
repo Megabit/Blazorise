@@ -43,14 +43,14 @@ public partial class Validations : ComponentBase
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
-        if ( hasSetEditContextExplicitly && Model != null )
+        if ( hasSetEditContextExplicitly && Model is not null )
         {
             throw new InvalidOperationException( $"{nameof( Validations )} requires a {nameof( Model )} parameter, or an {nameof( EditContext )} parameter, but not both." );
         }
 
         // Update editContext if we don't have one yet, or if they are supplying a
         // potentially new EditContext, or if they are supplying a different Model
-        if ( Model != null && Model != editContext?.Model )
+        if ( Model is not null && Model != editContext?.Model )
         {
             editContext = new( Model );
         }
@@ -184,7 +184,7 @@ public partial class Validations : ComponentBase
         {
             editContext = value;
 
-            hasSetEditContextExplicitly = value != null;
+            hasSetEditContextExplicitly = value is not null;
         }
     }
 

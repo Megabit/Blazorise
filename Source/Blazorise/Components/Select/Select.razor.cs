@@ -55,7 +55,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( Multiple )
             {
@@ -175,7 +175,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     {
         var currentValue = CurrentValue;
 
-        if ( currentValue != null )
+        if ( currentValue is not null )
         {
             var result = currentValue.Any( x => x.IsEqual( value ) );
 

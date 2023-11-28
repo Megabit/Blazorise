@@ -149,19 +149,19 @@ public class TextLocalizer<T> : ITextLocalizer<T>
         // 5. Invariant culture (defaults to "en")
         IReadOnlyDictionary<string, string> result;
 
-        if ( localizerService.SelectedCulture != null
+        if ( localizerService.SelectedCulture is not null
              && translationsByCulture.TryGetValue( localizerService.SelectedCulture.Name, out result ) )
             return result;
 
-        if ( localizerService.SelectedCulture?.Parent != null && !localizerService.SelectedCulture.IsNeutralCulture
+        if ( localizerService.SelectedCulture?.Parent is not null && !localizerService.SelectedCulture.IsNeutralCulture
                                                               && translationsByCulture.TryGetValue( localizerService.SelectedCulture.Parent.Name, out result ) )
             return result;
 
-        if ( CultureInfo.CurrentUICulture != null
+        if ( CultureInfo.CurrentUICulture is not null
              && translationsByCulture.TryGetValue( CultureInfo.CurrentUICulture.Name, out result ) )
             return result;
 
-        if ( CultureInfo.CurrentUICulture?.Parent != null && !CultureInfo.CurrentUICulture.IsNeutralCulture
+        if ( CultureInfo.CurrentUICulture?.Parent is not null && !CultureInfo.CurrentUICulture.IsNeutralCulture
                                                           && translationsByCulture.TryGetValue( CultureInfo.CurrentUICulture.Parent.Name, out result ) )
             return result;
 

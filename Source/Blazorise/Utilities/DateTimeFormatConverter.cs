@@ -82,7 +82,7 @@ public class DateTimeFormatConverter : IDateTimeFormatConverter
         {
             if ( !char.IsLetter( c ) )
             {
-                if ( tempToken != null )
+                if ( tempToken is not null )
                     tokens.Add( tempToken );
 
                 tokens.Add( c.ToString() );
@@ -92,7 +92,7 @@ public class DateTimeFormatConverter : IDateTimeFormatConverter
                 continue;
             }
 
-            if ( last is null || ( last != null && last == c ) )
+            if ( last is null || ( last is not null && last == c ) )
             {
                 tempToken ??= string.Empty;
 

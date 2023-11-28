@@ -69,7 +69,7 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -94,7 +94,7 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
     {
         // no need to refresh if we're using custom localization
-        if ( PickerLocalizer != null )
+        if ( PickerLocalizer is not null )
             return;
 
         ExecuteAfterRender( async () => await JSModule.UpdateLocalization( ElementRef, ElementId, Localizer.GetStrings() ) );

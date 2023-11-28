@@ -76,7 +76,7 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -164,7 +164,7 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// <returns>Returns the awaitable task.</returns>
     protected virtual Task ProcessNumber( TValue number )
     {
-        if ( number is IComparable comparableNumber && comparableNumber != null )
+        if ( number is IComparable comparableNumber && comparableNumber is not null )
         {
             if ( maxDefined && Max is IComparable comparableMax && comparableNumber.CompareTo( comparableMax ) >= 0 )
             {

@@ -249,7 +249,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     {
         var safeToOpen = true;
 
-        if ( Opening != null )
+        if ( Opening is not null )
         {
             var eventArgs = new OffcanvasOpeningEventArgs( false );
 
@@ -272,7 +272,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     {
         var safeToClose = true;
 
-        if ( Closing != null )
+        if ( Closing is not null )
         {
             var eventArgs = new OffcanvasClosingEventArgs( false, closeReason );
 

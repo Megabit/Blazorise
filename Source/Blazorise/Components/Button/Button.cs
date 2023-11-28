@@ -79,7 +79,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
 
         LoadingTemplate ??= ProvideDefaultLoadingTemplate();
 
-        if ( Theme != null )
+        if ( Theme is not null )
         {
             Theme.Changed += OnThemeChanged;
         }
@@ -107,12 +107,12 @@ public partial class Button : BaseComponent, IAsyncDisposable
                 await JSModule.SafeDestroy( ElementRef, ElementId );
             }
 
-            if ( command != null )
+            if ( command is not null )
             {
                 command.CanExecuteChanged -= OnCanExecuteChanged;
             }
 
-            if ( Theme != null )
+            if ( Theme is not null )
             {
                 Theme.Changed -= OnThemeChanged;
             }
@@ -176,12 +176,12 @@ public partial class Button : BaseComponent, IAsyncDisposable
         }
 
         builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, ClickHandler ) );
-        builder.OnClickPreventDefault( Type == ButtonType.Link && To != null && To.StartsWith( "#" ) );
+        builder.OnClickPreventDefault( Type == ButtonType.Link && To is not null && To.StartsWith( "#" ) );
 
         builder.Attributes( Attributes );
         builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
 
-        if ( Loading && LoadingTemplate != null )
+        if ( Loading && LoadingTemplate is not null )
         {
             builder.Content( LoadingTemplate );
         }
@@ -197,14 +197,14 @@ public partial class Button : BaseComponent, IAsyncDisposable
 
     private void BindCommand( ICommand value )
     {
-        if ( command != null )
+        if ( command is not null )
         {
             command.CanExecuteChanged -= OnCanExecuteChanged;
         }
 
         command = value;
 
-        if ( command != null )
+        if ( command is not null )
         {
             command.CanExecuteChanged += OnCanExecuteChanged;
         }
@@ -269,7 +269,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// <summary>
     /// True if button is placed inside of a <see cref="Field"/>.
     /// </summary>
-    protected bool ParentIsField => ParentField != null;
+    protected bool ParentIsField => ParentField is not null;
 
     /// <summary>
     /// Gets the size based on the theme settings.

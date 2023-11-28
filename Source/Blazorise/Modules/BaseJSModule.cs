@@ -92,7 +92,7 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
 
                 if ( disposing )
                 {
-                    if ( moduleTask != null )
+                    if ( moduleTask is not null )
                     {
                         var moduleInstance = await moduleTask;
                         await moduleInstance.SafeDisposeAsync();

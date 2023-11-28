@@ -73,7 +73,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         // Let blazor do its thing!
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( TimeExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );

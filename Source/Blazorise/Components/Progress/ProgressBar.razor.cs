@@ -51,7 +51,7 @@ public partial class ProgressBar : BaseComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( Percentage != null )
+        if ( Percentage is not null )
             builder.Append( StyleProvider.ProgressBarValue( Percentage ?? 0 ) );
 
         builder.Append( StyleProvider.ProgressBarSize( ParentProgress?.ThemeSize ?? Size.Default ) );

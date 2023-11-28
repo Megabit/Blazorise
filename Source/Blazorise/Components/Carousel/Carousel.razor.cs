@@ -317,7 +317,7 @@ public partial class Carousel : BaseComponent, IDisposable
 
     private void ResetTimer()
     {
-        if ( Timer != null )
+        if ( Timer is not null )
         {
             Timer.Stop();
 
@@ -333,7 +333,7 @@ public partial class Carousel : BaseComponent, IDisposable
 
     private void ResetTransitionTimer()
     {
-        if ( TransitionTimer != null )
+        if ( TransitionTimer is not null )
         {
             TransitionTimer.Stop();
             // Avoid an System.ObjectDisposedException due to the timer being disposed. This occurs when the Enabled property of the timer is set to false by the call to Stop() above.
@@ -588,7 +588,7 @@ public partial class Carousel : BaseComponent, IDisposable
         {
             var localizationString = "Previous";
 
-            if ( PreviousButtonLocalizer != null )
+            if ( PreviousButtonLocalizer is not null )
                 return PreviousButtonLocalizer.Invoke( localizationString );
 
             return Localizer[localizationString];
@@ -604,7 +604,7 @@ public partial class Carousel : BaseComponent, IDisposable
         {
             var localizationString = "Next";
 
-            if ( PreviousButtonLocalizer != null )
+            if ( PreviousButtonLocalizer is not null )
                 return PreviousButtonLocalizer.Invoke( localizationString );
 
             return Localizer[localizationString];

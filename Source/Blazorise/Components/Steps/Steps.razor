@@ -2,7 +2,7 @@
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        @if ( Items != null && Content != null )
+        @if ( Items is not null && Content is not null )
         {
             <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                 @Items

@@ -27,7 +27,7 @@ public partial class ModalContent : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ParentModal != null )
+        if ( ParentModal is not null )
         {
             ParentModal._Opened += OnModalOpened;
         }
@@ -40,7 +40,7 @@ public partial class ModalContent : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( ParentModal != null )
+            if ( ParentModal is not null )
             {
                 ParentModal._Opened -= OnModalOpened;
             }

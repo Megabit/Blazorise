@@ -168,7 +168,7 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
             ? newExpressionValue
             : inputComponent.ValidationValue;
 
-        if ( EditContext != null && hasFieldIdentifier )
+        if ( EditContext is not null && hasFieldIdentifier )
         {
             EditContext.NotifyFieldChanged( fieldIdentifier );
         }

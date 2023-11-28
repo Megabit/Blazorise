@@ -94,7 +94,7 @@ public class EditContextValidator : IEditContextValidator
     /// <inheritdoc/>
     public virtual void ValidateField( EditContext editContext, ValidationMessageStore messages, in FieldIdentifier fieldIdentifier, Func<string, IEnumerable<string>, string> messageLocalizer )
     {
-        if ( TryGetValidatableProperty( fieldIdentifier, out var validationPropertyInfo, messageLocalizer != null ) )
+        if ( TryGetValidatableProperty( fieldIdentifier, out var validationPropertyInfo, messageLocalizer is not null ) )
         {
             var propertyValue = validationPropertyInfo.PropertyInfo.GetValue( fieldIdentifier.Model );
             var validationContext = new ValidationContext( fieldIdentifier.Model, serviceProvider, null )
@@ -109,7 +109,7 @@ public class EditContextValidator : IEditContextValidator
             // Clear any previous message for the given field.
             editContext.ClearValidationMessages( fieldIdentifier );
 
-            if ( messageLocalizer != null )
+            if ( messageLocalizer is not null )
             {
                 // In this case we need to validate by using TryValidateValue because we need
                 // to have custom messages on validation attributes
@@ -217,7 +217,7 @@ public class EditContextValidator : IEditContextValidator
             }
         }
 
-        return validationPropertyInfo != null;
+        return validationPropertyInfo is not null;
     }
 
     #endregion

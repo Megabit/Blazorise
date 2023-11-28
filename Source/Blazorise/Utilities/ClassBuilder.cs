@@ -60,7 +60,7 @@ public class ClassBuilder
     /// <param name="condition">Condition that must be true.</param>
     public void Append( string value, bool condition )
     {
-        if ( condition && value != null )
+        if ( condition && value is not null )
             builder.Append( value ).Append( Delimiter );
     }
 

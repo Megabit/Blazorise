@@ -26,7 +26,7 @@ public partial class PageProgressAlert : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( PageProgressService != null )
+            if ( PageProgressService is not null )
             {
                 PageProgressService.ProgressChanged -= OnProgressChanged;
             }

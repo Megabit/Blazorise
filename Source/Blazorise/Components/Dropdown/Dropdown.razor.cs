@@ -53,7 +53,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ParentDropdown != null )
+        if ( ParentDropdown is not null )
         {
             ParentDropdown.NotifyChildDropdownInitialized( this );
         }
@@ -126,7 +126,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     {
         if ( disposing )
         {
-            if ( ParentDropdown != null )
+            if ( ParentDropdown is not null )
             {
                 ParentDropdown.NotifyChildDropdownRemoved( this );
             }
@@ -265,7 +265,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
         if ( button is null )
             return;
 
-        if ( childrenButtonList != null && childrenButtonList.Contains( button ) )
+        if ( childrenButtonList is not null && childrenButtonList.Contains( button ) )
         {
             childrenButtonList.Remove( button );
         }
@@ -382,17 +382,17 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Makes the drop down to behave as a group for buttons(used for the split-button behaviour).
     /// </summary>
-    protected internal bool IsGroup => ParentButtons != null || childrenButtonList?.Count >= 1;
+    protected internal bool IsGroup => ParentButtons is not null || childrenButtonList?.Count >= 1;
 
     /// <summary>
     /// Returns true if the dropdown is placed inside of another dropdown.
     /// </summary>
-    protected internal bool IsDropdownSubmenu => ParentDropdown != null;
+    protected internal bool IsDropdownSubmenu => ParentDropdown is not null;
 
     /// <summary>
     /// Returns true if this dropdown contains any child dropdown.
     /// </summary>
-    protected internal bool HasSubmenu => childDropdown != null;
+    protected internal bool HasSubmenu => childDropdown is not null;
 
     /// <summary>
     /// Tracks the last DropdownToggle Element Id that acted.

@@ -35,7 +35,7 @@ public abstract class BaseFocusableContainerComponent : BaseComponent, IFocusabl
     {
         if ( disposing && Rendered )
         {
-            if ( focusableComponents != null )
+            if ( focusableComponents is not null )
             {
                 focusableComponents.Clear();
                 focusableComponents = null;
@@ -60,7 +60,7 @@ public abstract class BaseFocusableContainerComponent : BaseComponent, IFocusabl
             if ( firstFocusableComponent is null )
                 firstFocusableComponent = FocusableComponents.FirstOrDefault();
 
-            if ( firstFocusableComponent != null )
+            if ( firstFocusableComponent is not null )
             {
                 return firstFocusableComponent.Focus();
             }

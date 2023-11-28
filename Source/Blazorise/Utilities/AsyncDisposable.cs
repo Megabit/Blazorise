@@ -44,7 +44,7 @@ public sealed class AsyncDisposable : IAsyncDisposable
     /// </summary>
     public ValueTask DisposeAsync()
     {
-        if ( action != null )
+        if ( action is not null )
         {
             return action.Invoke();
         }

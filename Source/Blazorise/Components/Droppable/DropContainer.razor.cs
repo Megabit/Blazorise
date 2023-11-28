@@ -224,7 +224,7 @@ public partial class DropContainer<TItem> : BaseComponent
     /// True if the drag transaction is in process.
     /// </summary>
     public bool TransactionInProgress
-        => transaction != null;
+        => transaction is not null;
 
     /// <summary>
     /// Gets the name of the dropzone that started the transaction.

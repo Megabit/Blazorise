@@ -28,7 +28,7 @@ public partial class Addons : BaseComponent, IDisposable
     {
         await base.OnInitializedAsync();
 
-        if ( Theme != null )
+        if ( Theme is not null )
         {
             Theme.Changed += OnThemeChanged;
         }
@@ -52,7 +52,7 @@ public partial class Addons : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( Theme != null )
+            if ( Theme is not null )
             {
                 Theme.Changed -= OnThemeChanged;
             }
@@ -97,7 +97,7 @@ public partial class Addons : BaseComponent, IDisposable
         if ( button is null )
             return;
 
-        if ( registeredButtons != null && registeredButtons.Contains( button ) )
+        if ( registeredButtons is not null && registeredButtons.Contains( button ) )
         {
             registeredButtons.Remove( button );
         }

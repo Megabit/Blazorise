@@ -56,7 +56,7 @@ public class Repeater<TItem> : IComponent, IDisposable
     /// <param name="disposing"><value>true</value> when disposing, <value>false</value> when finalizing</param>
     protected virtual void Dispose( bool disposing )
     {
-        if ( disposing && collection != null )
+        if ( disposing && collection is not null )
         {
             collection.CollectionChanged -= OnCollectionChanged;
             collection = null;
@@ -76,7 +76,7 @@ public class Repeater<TItem> : IComponent, IDisposable
         }
         else
         {
-            if ( collection != null )
+            if ( collection is not null )
             {
                 collection.CollectionChanged -= OnCollectionChanged;
                 collection = null;

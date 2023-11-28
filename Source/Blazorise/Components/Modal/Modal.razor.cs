@@ -253,7 +253,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     {
         var safeToOpen = true;
 
-        if ( Opening != null )
+        if ( Opening is not null )
         {
             var eventArgs = new ModalOpeningEventArgs( false );
 
@@ -276,7 +276,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     {
         var safeToClose = true;
 
-        if ( Closing != null )
+        if ( Closing is not null )
         {
             var eventArgs = new ModalClosingEventArgs( false, closeReason );
 

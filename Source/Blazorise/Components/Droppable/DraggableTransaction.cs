@@ -51,7 +51,7 @@ public class DraggableTransaction<TItem>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task Cancel()
     {
-        if ( Canceled != null )
+        if ( Canceled is not null )
             return Canceled.Invoke();
 
         return Task.CompletedTask;
@@ -63,7 +63,7 @@ public class DraggableTransaction<TItem>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task Commit()
     {
-        if ( Commited != null )
+        if ( Commited is not null )
             return Commited.Invoke();
 
         return Task.CompletedTask;

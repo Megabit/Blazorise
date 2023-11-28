@@ -27,7 +27,7 @@ public partial class FieldHelp : BaseComponent
     /// <summary>
     /// True if the parent <see cref="Field"/> is in horizontal mode.
     /// </summary>
-    protected virtual bool ParentIsFieldBody => ParentFieldBody != null;
+    protected virtual bool ParentIsFieldBody => ParentFieldBody is not null;
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="FieldHelp"/>.
