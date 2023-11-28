@@ -21,10 +21,10 @@ public static class ObjectExtensions
     /// <returns>True if the specified objects are equal; otherwise, false.</returns>
     public static bool IsEqual<T>( this T x, T y )
     {
-        if ( x == null && y == null )
+        if ( x is null && y is null )
             return true;
 
-        if ( x == null || y == null )
+        if ( x is null || y is null )
             return false;
 
         return EqualityComparer<T>.Default.Equals( x, y );

@@ -97,7 +97,7 @@ public class CountdownTimer : IDisposable
     {
         if ( !Disposed )
         {
-            if ( timer != null )
+            if ( timer is not null )
             {
                 timer.Stop();
                 timer.Elapsed -= OnElapsed;

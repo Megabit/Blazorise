@@ -303,7 +303,7 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnWithSize WithColumnSize( string value )
     {
-        if ( customRules == null )
+        if ( customRules is null )
             customRules = new() { value };
         else
             customRules.Add( value );

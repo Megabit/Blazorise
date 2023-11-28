@@ -63,7 +63,7 @@ public abstract class BaseTextInput<TValue> : BaseInputComponent<TValue>, ISelec
     /// </summary>
     protected override void ReleaseResources()
     {
-        if ( inputValueDebouncer != null )
+        if ( inputValueDebouncer is not null )
         {
             inputValueDebouncer.Debounce -= OnInputValueDebounce;
             inputValueDebouncer = null;

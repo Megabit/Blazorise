@@ -281,7 +281,7 @@ public class FluentBorder :
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules != null )
+                if ( rules is not null )
                 {
                     if ( rules.Count > 0 )
                         builder.Append( rules.Select( r => classProvider.Border( r.Key, r.Value.Select( v => (v.Side, v.Color) ) ) ) );

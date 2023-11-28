@@ -63,7 +63,7 @@ public static class ValidationAttributeHelper
     /// <returns>Returns the formatted string.</returns>
     public static string SetErrorMessagePlaceholders( string errorMessage )
     {
-        if ( errorMessage != null )
+        if ( errorMessage is not null )
         {
             errorMessage = errorMessage.Replace( PlaceholderPrefix, TempPlaceholderPrefix );
             errorMessage = errorMessage.Replace( PlaceholderSuffix, TempPlaceholderSuffix );
@@ -79,7 +79,7 @@ public static class ValidationAttributeHelper
     /// <returns>Returns the formatted string.</returns>
     public static string RevertErrorMessagePlaceholders( string errorMessage )
     {
-        if ( errorMessage != null )
+        if ( errorMessage is not null )
         {
             errorMessage = errorMessage.Replace( TempPlaceholderPrefix, PlaceholderPrefix );
             errorMessage = errorMessage.Replace( TempPlaceholderSuffix, PlaceholderSuffix );

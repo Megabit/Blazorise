@@ -31,7 +31,7 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );

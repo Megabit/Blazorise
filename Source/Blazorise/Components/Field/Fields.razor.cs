@@ -27,7 +27,7 @@ public partial class Fields : BaseColumnComponent
     {
         builder.Append( ClassProvider.Fields() );
 
-        if ( ColumnSize != null )
+        if ( ColumnSize is not null )
         {
             builder.Append( ClassProvider.FieldsColumn() );
         }

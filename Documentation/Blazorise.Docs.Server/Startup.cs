@@ -17,6 +17,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace Blazorise.Docs.Server;
 
@@ -33,13 +34,10 @@ public class Startup
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices( IServiceCollection services )
     {
-        services.AddRazorPages();
-        services.AddServerSideBlazor();
-
-        services.AddServerSideBlazor().AddHubOptions( ( o ) =>
-        {
-            o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
-        } );
+        // Add services to the container.
+        services
+            .AddRazorComponents()
+            .AddInteractiveServerComponents();
 
         services.AddHttpContextAccessor();
 
@@ -99,15 +97,11 @@ public class Startup
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure( IApplicationBuilder app, IWebHostEnvironment env )
+    public void Configure( WebApplication app )
     {
         app.UseResponseCompression();
 
-        if ( env.IsDevelopment() )
-        {
-            app.UseDeveloperExceptionPage();
-        }
-        else
+        if ( !app.Environment.IsDevelopment() )
         {
             app.UseExceptionHandler( "/Error" );
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -115,31 +109,17 @@ public class Startup
         }
 
         app.UseHttpsRedirection();
+
         app.UseStaticFiles();
+        app.UseAntiforgery();
 
-        app.UseRouting();
+        app.MapRazorComponents<App>()
+            .AddInteractiveServerRenderMode();
 
-        app.UseEndpoints( endpoints =>
-        {
-            endpoints.MapGet( "/robots.txt", async context =>
-            {
-                await Seo.GenerateRobots( context );
-            } );
+        //app.UseRouting();
 
-            endpoints.MapGet( "/sitemap.txt", async context =>
-            {
-                await Seo.GenerateSitemap( context );
-            } );
-
-            endpoints.MapGet( "/sitemap.xml", async context =>
-            {
-                await Seo.GenerateSitemapXml( context );
-            } );
-
-            endpoints.MapHealthChecks( "/healthcheck" );
-
-            endpoints.MapBlazorHub();
-            endpoints.MapFallbackToPage( "/_Host" );
-        } );
+        app.MapGet( "/robots.txt", SeoGenerator.GenerateRobots );
+        app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
+        app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
     }
 }

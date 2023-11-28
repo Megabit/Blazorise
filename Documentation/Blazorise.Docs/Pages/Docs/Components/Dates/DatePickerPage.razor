@@ -95,20 +95,42 @@
     <DocsPageSectionSource Code="DatePickerNonStaticExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Input format mask">
+        <Paragraph>
+            In this example, the user is prompted to enter a value in the format <Code>dd.MM.yyyy</Code>.
+        </Paragraph>
+        <Paragraph>
+            Notice that we have also defined a <Code>DisplayFormat</Code> parameter. This is needed so that after the user finish with the input mask we need to properly parse it using the same format.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DatePickerInputFormatExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DatePickerInputFormatExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
-    Format
+    Formats
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Display Format
+</Heading>
 
 <DocsPageParagraph>
     Native Flatpickr component has some special rules regarding the date format string. To make it easier to use we
-    tried to map the flatpickr custom formatter to behave as close to <Strong>.Net</Strong> date format string. Bellow you can find
-    the list of available and supported mappings between Blazorise and flatpickr.
+    tried to map the flatpickr custom formatter to behave as close to <Strong>.NET</Strong> date format string.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Bellow you can find the list of available and supported mappings between Blazorise and flatpickr.
 </DocsPageParagraph>
 
 <Table>
     <TableHeader ThemeContrast="ThemeContrast.Light">
         <TableRow>
-            <TableHeaderCell TextAlignment="TextAlignment.Center">.Net value</TableHeaderCell>
+            <TableHeaderCell TextAlignment="TextAlignment.Center">.NET value</TableHeaderCell>
             <TableHeaderCell TextAlignment="TextAlignment.Center">Flatpickr value</TableHeaderCell>
             <TableHeaderCell>Description</TableHeaderCell>
         </TableRow>
@@ -232,6 +254,125 @@
     </TableBody>
 </Table>
 
+<Heading Size="HeadingSize.Is3">
+    Input Format
+</Heading>
+
+<DocsPageParagraph>
+    We use the <Anchor To="https://github.com/RobinHerbots/Inputmask" Title="Link to Inputmask library">Inputmask library</Anchor> for handling of the datetime edit masks.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Bellow you can find the list of available and supported mappings between Blazorise and Inputmask.
+</DocsPageParagraph>
+
+<Table>
+    <TableHeader ThemeContrast="ThemeContrast.Light">
+        <TableRow>
+            <TableHeaderCell TextAlignment="TextAlignment.Center">.NET value</TableHeaderCell>
+            <TableHeaderCell TextAlignment="TextAlignment.Center">Inputmask value</TableHeaderCell>
+            <TableHeaderCell>Description</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">d</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">d</TableRowCell>
+            <TableRowCell>Day of the month as digits; no leading zero for single-digit days.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">dd</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">dd</TableRowCell>
+            <TableRowCell>Day of the month as digits; leading zero for single-digit days.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">ddd</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">ddd</TableRowCell>
+            <TableRowCell>Day of the week as a three-letter abbreviation.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">dddd</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">dddd</TableRowCell>
+            <TableRowCell>Day of the week as its full name.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">M</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">m</TableRowCell>
+            <TableRowCell>Month as digits; no leading zero for single-digit months.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">MM</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">mm</TableRowCell>
+            <TableRowCell>Month as digits; leading zero for single-digit months.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">MMM</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">mmm</TableRowCell>
+            <TableRowCell>Month as a three-letter abbreviation.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">MMMM</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">mmmm</TableRowCell>
+            <TableRowCell>Month as its full name.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">yy</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">yy</TableRowCell>
+            <TableRowCell>Year as last two digits; leading zero for years less than 10.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">yyyy</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">yyyy</TableRowCell>
+            <TableRowCell>Year as 4 digits.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">h</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">h</TableRowCell>
+            <TableRowCell>Hours; no leading zero for single-digit hours (12-hour clock).</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">hh</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">hh</TableRowCell>
+            <TableRowCell>Hours; leading zero for single-digit hours (12-hour clock).</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">HH</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">HH</TableRowCell>
+            <TableRowCell>Hours; leading zero for single-digit hours (24-hour clock).</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">m</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">M</TableRowCell>
+            <TableRowCell>Minutes; no leading zero for single-digit minutes. Uppercase M unlike CF timeFormat's m to avoid conflict with months.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">mm</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">MM</TableRowCell>
+            <TableRowCell>Minutes; leading zero for single-digit minutes. Uppercase MM unlike CF timeFormat's mm to avoid conflict with months.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">s</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">s</TableRowCell>
+            <TableRowCell>Seconds; no leading zero for single-digit seconds.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">ss</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">ss</TableRowCell>
+            <TableRowCell>Seconds; leading zero for single-digit seconds.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">t</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">T</TableRowCell>
+            <TableRowCell>Single-character time marker string: A or P.</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell TextAlignment="TextAlignment.Center">tt</TableRowCell>
+            <TableRowCell TextAlignment="TextAlignment.Center">TT</TableRowCell>
+            <TableRowCell>Two-character time marker string: AM or PM.</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+
 <DocsPageSubtitle>
     Best Practices
 </DocsPageSubtitle>
@@ -299,6 +440,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="DisplayFormat" Type="string" Default="null">
         Defines the display format of the date input.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="InputFormat" Type="string" Default="null">
+        Defines the input format mask of the date input.
     </DocsAttributesItem>
     <DocsAttributesItem Name="TimeAs24hr" Type="bool" Default="false">
         Displays time picker in 24 hour mode without AM/PM selection when enabled.

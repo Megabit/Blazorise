@@ -69,7 +69,7 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -94,7 +94,7 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
     {
         // no need to refresh if we're using custom localization
-        if ( PickerLocalizer != null )
+        if ( PickerLocalizer is not null )
             return;
 
         ExecuteAfterRender( async () => await JSModule.UpdateLocalization( ElementRef, ElementId, Localizer.GetStrings() ) );
@@ -115,6 +115,9 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
             HideAfterPaletteSelect,
             ShowClearButton,
             ShowCancelButton,
+            ShowOpacitySlider,
+            ShowHueSlider,
+            ShowInputField,
             Disabled,
             ReadOnly,
             Localization = Localizer.GetStrings(),
@@ -275,6 +278,21 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// Controls the visibility of the cancel buttons.
     /// </summary>
     [Parameter] public bool ShowCancelButton { get; set; } = true;
+
+    /// <summary>
+    /// Controls the visibility of the opacity slider.
+    /// </summary>
+    [Parameter] public bool ShowOpacitySlider { get; set; } = true;
+
+    /// <summary>
+    /// Controls the visibility of the hue slider.
+    /// </summary>
+    [Parameter] public bool ShowHueSlider { get; set; }
+
+    /// <summary>
+    /// Controls the visibility of the textbox which shows the selected color value.
+    /// </summary>
+    [Parameter] public bool ShowInputField { get; set; } = true;
 
     /// <summary>
     /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.

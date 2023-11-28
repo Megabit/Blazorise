@@ -45,7 +45,7 @@ public partial class CarouselSlide : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ParentCarousel != null )
+        if ( ParentCarousel is not null )
         {
             ParentCarousel.AddSlide( this );
 

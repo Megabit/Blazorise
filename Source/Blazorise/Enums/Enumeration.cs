@@ -54,7 +54,7 @@ public record Enumeration<T>
     {
         var sb = new StringBuilder();
 
-        if ( ParentEnumeration != null )
+        if ( ParentEnumeration is not null )
             sb.Append( ParentEnumeration.Name ).Append( ' ' );
 
         sb.Append( name );
@@ -73,7 +73,7 @@ public record Enumeration<T>
     {
         get
         {
-            if ( cachedName == null )
+            if ( cachedName is null )
                 cachedName = BuildName();
 
             return cachedName;

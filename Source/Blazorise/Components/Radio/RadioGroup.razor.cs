@@ -50,7 +50,7 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );

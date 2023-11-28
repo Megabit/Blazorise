@@ -40,7 +40,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
             ParentDropdown.NotifyDropdownToggleInitialized( this );
         }
 
-        if ( Theme != null )
+        if ( Theme is not null )
         {
             Theme.Changed += OnThemeChanged;
         }
@@ -103,7 +103,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
                 ParentDropdown.NotifyDropdownToggleRemoved( this );
             }
 
-            if ( Theme != null )
+            if ( Theme is not null )
             {
                 Theme.Changed -= OnThemeChanged;
             }
@@ -122,7 +122,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
         if ( Disabled )
             return;
 
-        if ( ParentDropdown != null )
+        if ( ParentDropdown is not null )
             await ParentDropdown.Toggle( ElementId );
 
         await Clicked.InvokeAsync( eventArgs );
@@ -150,7 +150,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// <returns>Returns the awaitable task.</returns>
     public Task Close( CloseReason closeReason )
     {
-        if ( ParentDropdown != null )
+        if ( ParentDropdown is not null )
             return ParentDropdown.Hide();
 
         return Task.CompletedTask;
