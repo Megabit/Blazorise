@@ -983,7 +983,7 @@ class EmptyClassProvider : IClassProvider
 
     public string TableFixedHeader( bool @fixed ) => null;
 
-    public string TableFixedColumns( bool @fixed ) => null;
+    public string TableFixedColumns( bool fixedColumns ) => null;
 
     #endregion
 
