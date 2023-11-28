@@ -198,7 +198,7 @@ public class FluentGap :
 
     private IFluentGapWithSize WithSize( string value )
     {
-        if ( customRules == null )
+        if ( customRules is null )
             customRules = new() { value };
         else
             customRules.Add( value );

@@ -50,7 +50,7 @@ public partial class Progress : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( Theme != null )
+        if ( Theme is not null )
         {
             Theme.Changed += OnThemeChanged;
         }
@@ -63,7 +63,7 @@ public partial class Progress : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( Theme != null )
+            if ( Theme is not null )
             {
                 Theme.Changed -= OnThemeChanged;
             }
@@ -106,7 +106,7 @@ public partial class Progress : BaseComponent, IDisposable
     /// <param name="builder">Styles builder used to append the styles.</param>
     private void BuildProgressBarStyles( StyleBuilder builder )
     {
-        if ( Percentage != null )
+        if ( Percentage is not null )
             builder.Append( StyleProvider.ProgressBarValue( Percentage ?? 0 ) );
 
         builder.Append( StyleProvider.ProgressBarSize( ThemeSize ) );

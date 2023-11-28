@@ -37,7 +37,7 @@ public partial class ModalBody : BaseComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( MaxHeight != null )
+        if ( MaxHeight is not null )
             builder.Append( StyleProvider.ModalBodyMaxHeight( MaxHeight ?? 0 ) );
 
         base.BuildStyles( builder );

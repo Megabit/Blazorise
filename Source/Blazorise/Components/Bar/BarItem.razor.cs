@@ -84,7 +84,7 @@ public partial class BarItem : BaseComponent
     /// <summary>
     /// True if <see cref="BarDropdown"/> component is placed inside of this <see cref="BarItem"/>.
     /// </summary>
-    protected bool HasDropdown => barDropdown != null;
+    protected bool HasDropdown => barDropdown is not null;
 
     /// <summary>
     /// Gets or sets the flag to indicate if <see cref="BarItem"/> is active, or focused.

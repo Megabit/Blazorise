@@ -52,7 +52,7 @@ public partial class PageProgress : BaseComponent
     {
         builder.Append( "b-page-progress-indicator" );
         builder.Append( $"b-page-progress-indicator-{ClassProvider.ToColor( Color )}", Color != Color.Default );
-        builder.Append( "b-page-progress-indicator-indeterminate", Value == null );
+        builder.Append( "b-page-progress-indicator-indeterminate", Value is null );
     }
 
     /// <inheritdoc/>
@@ -94,7 +94,7 @@ public partial class PageProgress : BaseComponent
     /// Gets the stylenames for an indicator container.
     /// </summary>
     protected string IndicatorStyleNames
-        => Value == null ? null : $"width: {Value}%;";
+        => Value is null ? null : $"width: {Value}%;";
 
     /// <summary>
     /// Defines the visibility of progress bar.

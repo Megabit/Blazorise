@@ -92,7 +92,7 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
 
                 if ( disposing )
                 {
-                    if ( moduleTask != null )
+                    if ( moduleTask is not null )
                     {
                         var moduleInstance = await moduleTask;
                         await moduleInstance.SafeDisposeAsync();
@@ -169,7 +169,7 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
     /// <summary>
     /// Returns true if module was already being destroyed.
     /// </summary>
-    protected bool IsUnsafe => AsyncDisposed || moduleTask == null;
+    protected bool IsUnsafe => AsyncDisposed || moduleTask is null;
 
     /// <summary>
     /// Indicates if the component is already fully disposed (asynchronously).

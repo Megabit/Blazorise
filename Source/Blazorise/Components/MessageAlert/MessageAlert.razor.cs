@@ -28,7 +28,7 @@ public partial class MessageAlert : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( MessageService != null )
+            if ( MessageService is not null )
             {
                 MessageService.MessageReceived -= OnMessageReceived;
             }
@@ -72,7 +72,7 @@ public partial class MessageAlert : BaseComponent, IDisposable
         {
             await ModalRef.Hide();
 
-            if ( IsConfirmation && Callback != null && !Callback.Task.IsCompleted )
+            if ( IsConfirmation && Callback is not null && !Callback.Task.IsCompleted )
             {
                 await InvokeAsync( () => Callback.SetResult( true ) );
             }
@@ -91,7 +91,7 @@ public partial class MessageAlert : BaseComponent, IDisposable
         {
             await ModalRef.Hide();
 
-            if ( IsConfirmation && Callback != null && !Callback.Task.IsCompleted )
+            if ( IsConfirmation && Callback is not null && !Callback.Task.IsCompleted )
             {
                 await InvokeAsync( () => Callback.SetResult( false ) );
             }

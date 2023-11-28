@@ -22,7 +22,7 @@ public abstract class BaseColumnComponent : BaseComponent, IColumnComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        if ( ColumnSize != null && !PreventColumnSize )
+        if ( ColumnSize is not null && !PreventColumnSize )
             builder.Append( ColumnSize.Class( InsideGrid, ClassProvider ) );
 
         base.BuildClasses( builder );

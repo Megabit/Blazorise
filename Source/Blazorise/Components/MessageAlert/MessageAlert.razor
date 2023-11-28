@@ -26,14 +26,14 @@
             @if ( IsConfirmation )
             {
                 <Button Color="@CancelButtonColor" Class="@CancelButtonClass" Padding="@CancelButtonPadding" Clicked="@OnCancelClicked">
-                    @if ( Options?.CancelButtonIcon != null )
+                    @if ( Options?.CancelButtonIcon is not null )
                     {
                         <Icon Name="@Options.CancelButtonIcon" TextColor="@(Options.CancelButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
                     }
                     @CancelButtonText
                 </Button>
                 <Button Color="@ConfirmButtonColor" Class="@ConfirmButtonClass" Padding="@ConfirmButtonPadding" Clicked="@OnConfirmClicked">
-                    @if ( Options?.ConfirmButtonIcon != null )
+                    @if ( Options?.ConfirmButtonIcon is not null )
                     {
                         <Icon Name="@Options.ConfirmButtonIcon" TextColor="@(Options.ConfirmButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
                     }
@@ -43,7 +43,7 @@
             else
             {
                 <Button Color="@OkButtonColor" Class="@OkButtonClass" Padding="@OkButtonPadding" Clicked="@OnOkClicked">
-                    @if ( Options?.OkButtonIcon != null )
+                    @if ( Options?.OkButtonIcon is not null )
                     {
                         <Icon Name="@Options.OkButtonIcon" TextColor="@(Options.OkButtonIconColor ?? TextColor.Default)" Margin="Blazorise.Margin.Is2.FromEnd" />
                     }

@@ -1,6 +1,6 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-@if ( Link != null )
+@if ( Link is not null )
 {
     <a id="@ElementId" href="@Link" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent

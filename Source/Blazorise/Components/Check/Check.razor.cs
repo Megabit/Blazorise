@@ -36,7 +36,7 @@ public partial class Check<TValue> : BaseCheckComponent<TValue>
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );

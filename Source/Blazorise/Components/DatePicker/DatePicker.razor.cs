@@ -104,7 +104,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         // Let blazor do its thing!
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -221,13 +221,13 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         if ( SelectionMode != DateInputSelectionMode.Single )
             return DatesChanged.InvokeAsync( value );
         else
-            return DateChanged.InvokeAsync( value == null ? default : value.FirstOrDefault() );
+            return DateChanged.InvokeAsync( value is null ? default : value.FirstOrDefault() );
     }
 
     /// <inheritdoc/>
     protected override string FormatValueAsString( IReadOnlyList<TValue> values )
     {
-        if ( values == null || values.Count == 0 )
+        if ( values is null || values.Count == 0 )
             return null;
 
         if ( SelectionMode != DateInputSelectionMode.Single )
@@ -243,7 +243,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         }
         else
         {
-            if ( values[0] == null )
+            if ( values[0] is null )
                 return null;
 
             return Formaters.FormatDateValueAsString( values[0], DateFormat );
@@ -476,7 +476,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             }
             else
             {
-                Date = value == null ? default : value.FirstOrDefault();
+                Date = value is null ? default : value.FirstOrDefault();
             }
         }
     }

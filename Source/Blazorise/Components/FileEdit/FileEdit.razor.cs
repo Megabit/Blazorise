@@ -50,7 +50,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     {
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             await InitializeValidation();
         }
@@ -72,7 +72,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
     {
         // no need to refresh if we're using custom localization
-        if ( BrowseButtonLocalizer != null )
+        if ( BrowseButtonLocalizer is not null )
             return;
 
         await InvokeAsync( StateHasChanged );
@@ -144,7 +144,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
         InternalValue = updatedFiles.ToArray();
 
         // send the value to the validation for processing
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
             await ParentValidation.NotifyInputChanged<IFileEntry[]>( files );
 
         await Changed.InvokeAsync( new( files ) );
@@ -326,7 +326,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
                 ? $"Choose {uploadTypeString}s"
                 : $"Choose {uploadTypeString}";
 
-            if ( BrowseButtonLocalizer != null )
+            if ( BrowseButtonLocalizer is not null )
                 return BrowseButtonLocalizer.Invoke( localizationString );
 
             return Localizer[localizationString];
