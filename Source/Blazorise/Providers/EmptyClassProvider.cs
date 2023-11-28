@@ -981,7 +981,7 @@ class EmptyClassProvider : IClassProvider
 
     public string TableResponsive( bool responsive ) => null;
 
-    public string TableFixedHeader( bool @fixed ) => null;
+    public string TableFixedHeader( bool fixedHeader ) => null;
 
     public string TableFixedColumns( bool fixedColumns ) => null;
 

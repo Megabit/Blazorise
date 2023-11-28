@@ -974,7 +974,7 @@ public interface IClassProvider
 
     string TableResponsive( bool responsive );
 
-    string TableFixedHeader( bool @fixed );
+    string TableFixedHeader( bool fixedHeader );
 
     string TableFixedColumns( bool fixedColumns );
 

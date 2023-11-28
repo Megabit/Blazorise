@@ -1053,7 +1053,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableResponsive( bool responsive ) => responsive ? "ant-table-responsive" : null;
 
-    public override string TableFixedHeader( bool @fixed ) => @fixed ? "ant-table-fixed-header" : null;
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "ant-table-fixed-header" : null;
 
     public override string TableFixedColumns( bool fixedColumns ) => null;
 

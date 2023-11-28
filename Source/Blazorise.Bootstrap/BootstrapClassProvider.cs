@@ -1085,7 +1085,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableResponsive( bool responsive ) => responsive ? "table-responsive" : null;
 
-    public override string TableFixedHeader( bool @fixed ) => @fixed ? "table-fixed-header" : null;
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "table-fixed-header" : null;
 
     public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "table-fixed-columns" : null;
 

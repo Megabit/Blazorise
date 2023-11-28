@@ -1589,7 +1589,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableResponsive( bool responsive ) => responsive ? "b-table-responsive overflow-x-auto relative shadow-md sm:rounded-lg" : null;
 
-    public override string TableFixedHeader( bool @fixed ) => @fixed ? "b-table-fixed-header" : null;
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "b-table-fixed-header" : null;
 
     public override string TableFixedColumns( bool fixedColumns ) => null;
 

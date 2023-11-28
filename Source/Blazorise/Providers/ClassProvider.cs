@@ -978,7 +978,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableResponsive( bool responsive );
 
-    public abstract string TableFixedHeader( bool @fixed );
+    public abstract string TableFixedHeader( bool fixedHeader );
 
     public abstract string TableFixedColumns( bool fixedColumns );
 
