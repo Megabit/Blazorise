@@ -22,12 +22,12 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// <summary>
     /// True if the TValue is an integer type.
     /// </summary>
-    private bool isIntegerType;
+    private readonly bool isIntegerType;
 
     /// <summary>
     /// Contains the correct inputmode for the input element, based in the TValue.
     /// </summary>
-    private string inputMode;
+    private readonly string inputMode;
 
     /// <summary>
     /// Indicates if <see cref="Min"/> parameter is defined.
