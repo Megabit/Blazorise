@@ -30,7 +30,7 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( TextExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );

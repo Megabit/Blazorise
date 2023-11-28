@@ -16,7 +16,7 @@ public static class ExpressionConverter
     /// <returns>The Templated String Literal</returns>
     public static string ToTemplatedStringLiteral( LambdaExpression expression )
     {
-        if ( expression == null )
+        if ( expression is null )
         {
             throw new ArgumentNullException( nameof( expression ) );
         }
@@ -76,7 +76,7 @@ public static class ExpressionConverter
     private static void HandleBinaryExpression( List<object> arguments, BinaryExpression be, bool interpolateVariable )
     {
         var @operator = GetOperator( be.NodeType, out var useStringFormat );
-        if ( @operator != null )
+        if ( @operator is not null )
         {
             var beArgs = new List<object>();
             HandleExpression( beArgs, be.Left, false );

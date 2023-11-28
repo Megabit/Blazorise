@@ -42,7 +42,7 @@ public partial class BarToggler : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BarToggler( ParentBarState?.Mode ?? BarMode.Horizontal, Mode ) );
-        builder.Append( ClassProvider.BarTogglerCollapsed( ParentBarState?.Mode ?? BarMode.Horizontal, Mode, Bar != null ? Bar.Visible : ParentBarState.Visible ) );
+        builder.Append( ClassProvider.BarTogglerCollapsed( ParentBarState?.Mode ?? BarMode.Horizontal, Mode, Bar is not null ? Bar.Visible : ParentBarState.Visible ) );
 
         base.BuildClasses( builder );
     }
@@ -50,7 +50,7 @@ public partial class BarToggler : BaseComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( Bar != null )
+        if ( Bar is not null )
         {
             builder.Append( "display: inline-flex" );
         }
@@ -70,13 +70,13 @@ public partial class BarToggler : BaseComponent
             await Clicked.InvokeAsync( eventArgs );
         }
 
-        if ( Bar != null )
+        if ( Bar is not null )
         {
             await Bar.Toggle();
 
             DirtyClasses();
         }
-        else if ( ParentBar != null )
+        else if ( ParentBar is not null )
         {
             await ParentBar.Toggle();
         }

@@ -59,7 +59,7 @@ public abstract class BaseValidationResult : BaseComponent, IDisposable
 
     private void DetachValidationStatusChangedListener()
     {
-        if ( previousParentValidation != null )
+        if ( previousParentValidation is not null )
         {
             previousParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
         }

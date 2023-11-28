@@ -627,11 +627,11 @@ public class FluentFlex :
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules != null && rules.Count > 0 )
+                if ( rules is not null && rules.Count > 0 )
                 {
                     builder.Append( rules.Select( r => classProvider.Flex( r.Key, r.Value.Where( x => x.Condition ?? true ).Select( v => v ) ) ) );
                 }
-                else if ( currentFlexDefinition != null && currentFlexDefinition != FlexDefinition.Empty && ( currentFlexDefinition.Condition ?? true ) )
+                else if ( currentFlexDefinition is not null && currentFlexDefinition != FlexDefinition.Empty && ( currentFlexDefinition.Condition ?? true ) )
                 {
                     builder.Append( classProvider.Flex( currentFlexDefinition ) );
                 }
@@ -680,7 +680,7 @@ public class FluentFlex :
     /// <returns>Current definition or new if none was found.</returns>
     private FlexDefinition GetDefinition()
     {
-        if ( currentFlexDefinition == null )
+        if ( currentFlexDefinition is null )
             currentFlexDefinition = CreateDefinition();
 
         return currentFlexDefinition;

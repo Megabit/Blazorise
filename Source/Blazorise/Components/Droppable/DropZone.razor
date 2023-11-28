@@ -54,7 +54,7 @@
                 var renderer = ItemTemplate ?? ParentContainer?.ItemTemplate;
             }
 
-            @if ( renderer != null )
+            @if ( renderer is not null )
             {
                 @renderer(item)
             }

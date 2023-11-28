@@ -51,7 +51,7 @@ public partial class DropdownMenu : BaseComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.DropdownMenu() );
-        builder.Append( ClassProvider.DropdownMenuScrollable(), MaxMenuHeight != null );
+        builder.Append( ClassProvider.DropdownMenuScrollable(), MaxMenuHeight is not null );
         builder.Append( ClassProvider.DropdownMenuVisible( ParentDropdownState.Visible ) );
         builder.Append( ClassProvider.DropdownMenuRight(), ParentDropdownState.RightAligned );
         builder.Append( ClassProvider.DropdownMenuPositionStrategy( ParentDropdown.PositionStrategy ) );
@@ -62,7 +62,7 @@ public partial class DropdownMenu : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( MaxMenuHeight != null )
+        if ( MaxMenuHeight is not null )
             builder.Append( $"--dropdown-list-menu-max-height: {MaxMenuHeight};" );
 
         base.BuildStyles( builder );

@@ -31,7 +31,7 @@ public record ThemeInputOptions : ThemeBasicOptions
         return !string.IsNullOrEmpty( Color )
                || !string.IsNullOrEmpty( CheckColor )
                || !string.IsNullOrEmpty( SliderColor )
-               || Size != null
+               || Size is not null
                || base.HasOptions();
     }
 }

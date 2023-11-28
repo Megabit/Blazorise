@@ -33,7 +33,7 @@ public partial class CollapseHeader : BaseComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected async Task ClickHandler( MouseEventArgs eventArgs )
     {
-        if ( ParentCollapse != null )
+        if ( ParentCollapse is not null )
             await ParentCollapse.Toggle();
 
         await Clicked.InvokeAsync( eventArgs );

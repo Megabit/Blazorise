@@ -92,7 +92,7 @@ public partial class Tab : BaseComponent
 
         await Clicked.InvokeAsync( eventArgs );
 
-        if ( ParentTabs != null )
+        if ( ParentTabs is not null )
             await ParentTabs.SelectTab( Name );
     }
 

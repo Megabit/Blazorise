@@ -69,7 +69,7 @@ public partial class Field : BaseColumnComponent, IDisposable
     /// </summary>
     private void DetachValidationStatusChangedListener()
     {
-        if ( previousParentValidation != null )
+        if ( previousParentValidation is not null )
         {
             previousParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
         }
@@ -81,7 +81,7 @@ public partial class Field : BaseColumnComponent, IDisposable
         builder.Append( ClassProvider.Field() );
         builder.Append( ClassProvider.FieldHorizontal(), Horizontal );
         builder.Append( ClassProvider.FieldJustifyContent( JustifyContent ), JustifyContent != JustifyContent.Default );
-        builder.Append( ClassProvider.FieldValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation != null );
+        builder.Append( ClassProvider.FieldValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation is not null );
 
         base.BuildClasses( builder );
     }
@@ -126,7 +126,7 @@ public partial class Field : BaseColumnComponent, IDisposable
     /// <summary>
     /// Determines if the field is inside of <see cref="Fields"/> component.
     /// </summary>
-    protected bool IsFields => ParentFields != null;
+    protected bool IsFields => ParentFields is not null;
 
     /// <summary>
     /// Aligns the controls for horizontal form.

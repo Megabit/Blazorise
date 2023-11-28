@@ -39,7 +39,7 @@ public partial class Layout : BaseComponent
     {
         builder.Append( ClassProvider.Layout() );
         builder.Append( ClassProvider.LayoutHasSider(), Sider );
-        builder.Append( ClassProvider.LayoutRoot(), ParentLayout == null );
+        builder.Append( ClassProvider.LayoutRoot(), ParentLayout is null );
 
         base.BuildClasses( builder );
     }
