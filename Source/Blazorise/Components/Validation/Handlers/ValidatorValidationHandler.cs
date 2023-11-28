@@ -37,7 +37,7 @@ public class ValidatorValidationHandler : IValidationHandler
 
         cancellationToken.ThrowIfCancellationRequested();
 
-        if ( validation.AsyncValidator != null )
+        if ( validation.AsyncValidator is not null )
             await validation.AsyncValidator( validatorEventArgs, cancellationToken );
         else
             validation.Validator?.Invoke( validatorEventArgs );

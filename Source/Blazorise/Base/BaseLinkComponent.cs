@@ -45,10 +45,10 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
         PreventDefault = false;
 
         // in case the user has specified href instead of To we need to use that instead
-        if ( Attributes != null && Attributes.TryGetValue( "href", out var href ) )
+        if ( Attributes is not null && Attributes.TryGetValue( "href", out var href ) )
             To = $"{href}";
 
-        if ( To != null && To.StartsWith( "#" ) )
+        if ( To is not null && To.StartsWith( "#" ) )
         {
             // If the href contains an anchor link we don't want the default click action to occur, but
             // rather take care of the click in our own method.
@@ -76,7 +76,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
         if ( disposing )
         {
             // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-            if ( NavigationManager != null )
+            if ( NavigationManager is not null )
             {
                 NavigationManager.LocationChanged -= OnLocationChanged;
             }
@@ -146,7 +146,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     {
         try
         {
-            if ( relativeUri == null )
+            if ( relativeUri is null )
                 return string.Empty;
 
             if ( relativeUri.StartsWith( "mailto:", StringComparison.OrdinalIgnoreCase ) )

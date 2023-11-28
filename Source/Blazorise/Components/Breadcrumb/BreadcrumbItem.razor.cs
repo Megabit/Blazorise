@@ -89,7 +89,7 @@ public partial class BreadcrumbItem : BaseComponent, IDisposable
     internal void NotifyRelativeUriChanged( string relativeUri )
     {
         // uri will always be applied, no matter the BreadcrumbActivation state.
-        absoluteUri = relativeUri == null ? string.Empty : NavigationManager.ToAbsoluteUri( relativeUri ).AbsoluteUri;
+        absoluteUri = relativeUri is null ? string.Empty : NavigationManager.ToAbsoluteUri( relativeUri ).AbsoluteUri;
     }
 
     #endregion

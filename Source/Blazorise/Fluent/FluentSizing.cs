@@ -192,7 +192,7 @@ public class FluentSizing :
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( currentSizingSize != SizingSize.Default && currentSizingDefinition != null )
+                if ( currentSizingSize != SizingSize.Default && currentSizingDefinition is not null )
                 {
                     builder.Append( classProvider.Sizing( sizingType, currentSizingSize, currentSizingDefinition ) );
                 }

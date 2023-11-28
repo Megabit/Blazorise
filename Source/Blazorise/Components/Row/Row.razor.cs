@@ -25,7 +25,7 @@ public partial class Row : BaseRowComponent
         builder.Append( ClassProvider.Row() );
         builder.Append( ClassProvider.RowNoGutters( NoGutters ) );
 
-        if ( RowColumns != null && RowColumns.HasSizes )
+        if ( RowColumns is not null && RowColumns.HasSizes )
             builder.Append( RowColumns.Class( ClassProvider ) );
 
         base.BuildClasses( builder );

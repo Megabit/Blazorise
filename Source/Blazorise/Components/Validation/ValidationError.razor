@@ -7,7 +7,7 @@
         {
             @ChildContent
         }
-        else if ( ErrorMessages != null && ErrorMessages.Any() )
+        else if ( ErrorMessages is not null && ErrorMessages.Any() )
         {
             @if ( Multiline )
             {

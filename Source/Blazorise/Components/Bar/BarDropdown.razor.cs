@@ -115,7 +115,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
     {
         // Don't allow Toggle when menu is in a vertical "popout" style mode.
         // This will be handled by mouse over actions below.
-        if ( ParentBarItemState != null && ParentBarItemState.Mode != BarMode.Horizontal && !State.IsInlineDisplay )
+        if ( ParentBarItemState is not null && ParentBarItemState.Mode != BarMode.Horizontal && !State.IsInlineDisplay )
             return Task.CompletedTask;
 
         SetWasJustToggled( true );
@@ -155,7 +155,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
     {
         ShouldClose = false;
 
-        if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
+        if ( ParentBarItemState is not null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
             return Task.CompletedTask;
 
         return Show();
@@ -169,7 +169,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
     {
         ShouldClose = true;
 
-        if ( ParentBarItemState != null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
+        if ( ParentBarItemState is not null && ParentBarItemState.Mode == BarMode.Horizontal || State.IsInlineDisplay )
             return Task.CompletedTask;
 
         return Hide();
@@ -181,7 +181,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// <param name="barDropdown">Reference to the <see cref="BarDropdown"/> that is placed inside of this <see cref="BarDropdown"/>.</param>
     internal void NotifyChildDropdownInitialized( BarDropdown barDropdown )
     {
-        if ( childBarDropdown == null )
+        if ( childBarDropdown is null )
             childBarDropdown = barDropdown;
     }
 
@@ -199,7 +199,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( ParentBarDropdown != null )
+            if ( ParentBarDropdown is not null )
             {
                 ParentBarDropdown.NotifyChildDropdownRemoved( this );
             }
@@ -233,12 +233,12 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// <summary>
     /// Returns true if the BarDropdown is placed inside of another BarDropdown.
     /// </summary>
-    protected internal bool IsBarDropdownSubmenu => ParentBarDropdown != null;
+    protected internal bool IsBarDropdownSubmenu => ParentBarDropdown is not null;
 
     /// <summary>
     /// Returns true if this BarDropdown contains any child BarDropdown.
     /// </summary>
-    protected internal bool HasSubmenu => childBarDropdown != null;
+    protected internal bool HasSubmenu => childBarDropdown is not null;
 
     /// <summary>
     /// Gets the <see cref="Visible"/> flag represented as a string.

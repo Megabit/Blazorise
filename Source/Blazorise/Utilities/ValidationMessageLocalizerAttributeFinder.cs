@@ -31,7 +31,7 @@ public class ValidationMessageLocalizerAttributeFinder : IValidationMessageLocal
         var firstList = first?.Split( ' ' );
         var secondList = second?.Split( ' ' );
 
-        if ( firstList != null && secondList != null && firstList.Length == secondList.Length )
+        if ( firstList is not null && secondList is not null && firstList.Length == secondList.Length )
         {
             for ( int i = 0; i < firstList.Length; ++i )
             {

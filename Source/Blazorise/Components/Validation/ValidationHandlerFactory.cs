@@ -47,7 +47,7 @@ public class ValidationHandlerFactory : IValidationHandlerFactory
     {
         var validationHandler = serviceProvider.GetService( handlerType ) as IValidationHandler;
 
-        if ( validationHandler == null )
+        if ( validationHandler is null )
         {
             throw new ArgumentNullException( nameof( validationHandler ),
                 "Validation handler is not supported or it is not implemented." );
