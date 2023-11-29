@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Blazorise.TreeView.Extensions;
 using Blazorise.TreeView.Internal;
 using Blazorise.Utilities;
@@ -76,7 +77,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
             {
                 await foreach ( var nodeState in e.NewItems.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
                 {
-                    treeViewNodeStates.Add( nodeState );
+                    AddTreeViewNodeState( nodeState );
                 }
             } );
         }
@@ -129,14 +130,30 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     /// <returns>Returns the awaitable task.</returns>
     public async Task Reload()
     {
+        var maxRowsLimit = LicenseChecker.GetTreeViewRowsLimit();
+
         treeViewNodeStates = new();
 
         await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
         {
-            treeViewNodeStates.Add( nodeState );
+            AddTreeViewNodeState( nodeState );
         }
 
         await InvokeAsync( StateHasChanged );
+    }
+
+    private void AddTreeViewNodeState( TreeViewNodeState<TNode> treeViewNodeState )
+    {
+        var maxRowsLimit = LicenseChecker.GetTreeViewRowsLimit();
+        if ( maxRowsLimit.HasValue )
+        {
+            if ( treeViewNodeStates?.Count >= maxRowsLimit.Value )
+            {
+                return;
+            }
+        }
+
+        treeViewNodeStates.Add( treeViewNodeState );
     }
 
     protected override void Dispose( bool disposing )
@@ -236,6 +253,11 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     /// Indicates the node's disabled state. Used for preventing selection.
     /// </summary>
     protected Func<TNode, bool> DetermineIsDisabled => IsDisabled ?? ( node => false );
+
+    /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
     /// Defines the name of the treenode expand icon.
@@ -374,6 +396,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     /// Specifies the content to be rendered inside this <see cref="TreeView{TNode}"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
 
     #endregion
 }
