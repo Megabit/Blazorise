@@ -1501,7 +1501,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         editItem = item;
         editItemCellValues = new();
-        
+
         validationItem = UseValidation
             ? ValidationItemCreator is null ? RecursiveObjectActivator.CreateInstance<TItem>() : ValidationItemCreator()
             : default;
@@ -2022,7 +2022,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             var newChanges = batchChanges.Where( x => x.State == DataGridBatchEditItemState.New );
             if ( newChanges.Any() )
             {
-                
+
                 foreach ( var newChange in newChanges )
                 {
                     filteredData.Add( newChange.NewItem );
@@ -2030,7 +2030,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
         }
 
-        filteredData.AddRange(query.ToList());
+        filteredData.AddRange( query.ToList() );
 
         FilteredDataChanged?.Invoke( new(
             filteredData,
