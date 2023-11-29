@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Components.Autocomplete;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -812,7 +813,15 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             }
         }
 
-        filteredData = query.ToList();
+        var maxRowsLimit = LicenseChecker.GetAutoCompleteRowsLimit();
+        if ( maxRowsLimit.HasValue )
+        {
+            filteredData = query.Take( maxRowsLimit.Value ).ToList();
+        }
+        else
+        {
+            filteredData = query.ToList();
+        }
 
         dirtyFilter = false;
     }
@@ -1206,6 +1215,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets or set the IdGenerator.
     /// </summary>
     [Inject] public IIdGenerator IdGenerator { get; set; }
+
+    /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
     /// Gets or sets the dropdown element id.
