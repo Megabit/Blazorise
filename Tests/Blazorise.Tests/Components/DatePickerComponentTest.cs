@@ -1,6 +1,4 @@
 ﻿using System;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
@@ -10,8 +8,8 @@ public class DatePickerComponentTest : TestContext
 {
     public DatePickerComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddDatePicker( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        JSInterop.AddBlazoriseDatePicker();
     }
 
     [Fact]

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid;
-using Blazorise.Tests.Helpers;
 using Blazorise.Tests.TestServices;
 using Bunit;
 using Xunit;
@@ -19,8 +18,8 @@ public class DataGridComponentTest : TestContext
 {
     public DataGridComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddDataGrid( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        JSInterop.AddBlazoriseDataGrid();
     }
 
 

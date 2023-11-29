@@ -1,7 +1,4 @@
 ﻿using System.Threading.Tasks;
-using BasicTestApp.Client;
-using Blazorise.Tests.Extensions;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
@@ -11,8 +8,8 @@ public class ValidateTextEditComponentTest : TestContext
 {
     public ValidateTextEditComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        JSInterop.AddBlazoriseTextEdit();
     }
 
     [Fact]

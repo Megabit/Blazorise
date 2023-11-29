@@ -1,6 +1,4 @@
-﻿using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
-using Bunit;
+﻿using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -9,8 +7,8 @@ public class NumericEditComponentTest : TestContext
 {
     public NumericEditComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddNumericEdit( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        JSInterop.AddBlazoriseNumericEdit();
     }
 
     [Fact]

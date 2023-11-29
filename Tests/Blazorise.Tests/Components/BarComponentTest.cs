@@ -1,7 +1,5 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 #endregion
@@ -11,9 +9,10 @@ public class BarComponentTest : TestContext
 {
     public BarComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddBreakpoint( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        JSInterop
+            .AddBlazoriseBreakpoint()
+            .AddBlazoriseClosable();
     }
 
     [Fact]

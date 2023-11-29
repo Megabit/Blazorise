@@ -1,7 +1,5 @@
 ﻿#region Using directives
-using Blazorise.Tests.Helpers;
 using Bunit;
-using FluentAssertions;
 using Xunit;
 #endregion
 
@@ -11,8 +9,8 @@ public class FieldLabelComponentTest : TestContext
 {
     public FieldLabelComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddUtilities( JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        JSInterop.AddBlazoriseUtilities();
     }
 
     [Fact]

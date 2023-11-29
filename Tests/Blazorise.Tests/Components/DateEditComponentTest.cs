@@ -1,6 +1,4 @@
 ﻿using System;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
@@ -10,8 +8,8 @@ public class DateEditComponentTest : TestContext
 {
     public DateEditComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        JSInterop.AddBlazoriseUtilities();
     }
 
     [Fact]

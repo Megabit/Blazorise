@@ -1,8 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Threading.Tasks;
-using BasicTestApp.Client;
-using Blazorise.Tests.Extensions;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
@@ -13,8 +10,8 @@ public class ValidateNumericEditComponentTest : TestContext
 {
     public ValidateNumericEditComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddNumericEdit( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        JSInterop.AddBlazoriseNumericEdit();
     }
 
     [Fact]
