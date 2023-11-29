@@ -32,6 +32,10 @@ public sealed class BlazoriseLicenseProvider
     private static bool initialized = false;
 
     private int? limitsDataGridMaxRows;
+    private int? limitsAutocompleteMaxRows;
+    private int? limitsChartsMaxRows;
+    private int? limitsListViewMaxRows;
+    private int? limitsTreeViewMaxRows;
 
     #endregion
 
@@ -122,12 +126,7 @@ public sealed class BlazoriseLicenseProvider
         if ( limitsDataGridMaxRows.HasValue )
             return limitsDataGridMaxRows;
 
-        var initOrLicensedOrTrial =
-            Result == BlazoriseLicenseResult.Initializing
-            || Result == BlazoriseLicenseResult.Licensed
-            || Result == BlazoriseLicenseResult.Trial;
-
-        if ( initOrLicensedOrTrial )
+        if ( Result == BlazoriseLicenseResult.Initializing )
             return null;
 
 
@@ -140,7 +139,7 @@ public sealed class BlazoriseLicenseProvider
         }
         else if ( Result == BlazoriseLicenseResult.Community )
         {
-            limitsDataGridMaxRows = 100000;
+            limitsDataGridMaxRows = 10000;
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
@@ -148,6 +147,118 @@ public sealed class BlazoriseLicenseProvider
         }
 
         return limitsDataGridMaxRows;
+    }
+
+    internal int? GetAutocompleteRowsLimit()
+    {
+        if ( limitsAutocompleteMaxRows.HasValue )
+            return limitsAutocompleteMaxRows;
+
+        if ( Result == BlazoriseLicenseResult.Initializing )
+            return null;
+
+
+        if ( License is not null )
+        {
+            if ( License.Properties.TryGetValue( "TODO", out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            {
+                limitsAutocompleteMaxRows = rowsLimit;
+            }
+        }
+        else if ( Result == BlazoriseLicenseResult.Community )
+        {
+            limitsAutocompleteMaxRows = 10000;
+        }
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
+        {
+            limitsAutocompleteMaxRows = 1000;
+        }
+
+        return limitsAutocompleteMaxRows;
+    }
+
+    internal int? GetChartsRowsLimit()
+    {
+        if ( limitsChartsMaxRows.HasValue )
+            return limitsChartsMaxRows;
+
+        if ( Result == BlazoriseLicenseResult.Initializing )
+            return null;
+
+
+        if ( License is not null )
+        {
+            if ( License.Properties.TryGetValue( "TODO", out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            {
+                limitsChartsMaxRows = rowsLimit;
+            }
+        }
+        else if ( Result == BlazoriseLicenseResult.Community )
+        {
+            limitsChartsMaxRows = 100;
+        }
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
+        {
+            limitsChartsMaxRows = 10;
+        }
+
+        return limitsChartsMaxRows;
+    }
+
+    internal int? GetListViewRowsLimit()
+    {
+        if ( limitsListViewMaxRows.HasValue )
+            return limitsListViewMaxRows;
+
+        if ( Result == BlazoriseLicenseResult.Initializing )
+            return null;
+
+
+        if ( License is not null )
+        {
+            if ( License.Properties.TryGetValue( "TODO", out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            {
+                limitsListViewMaxRows = rowsLimit;
+            }
+        }
+        else if ( Result == BlazoriseLicenseResult.Community )
+        {
+            limitsListViewMaxRows = 100000;
+        }
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
+        {
+            limitsListViewMaxRows = 1000;
+        }
+
+        return limitsListViewMaxRows;
+    }
+
+    internal int? GetTreeViewRowsLimit()
+    {
+        if ( limitsTreeViewMaxRows.HasValue )
+            return limitsTreeViewMaxRows;
+
+        if ( Result == BlazoriseLicenseResult.Initializing )
+            return null;
+
+
+        if ( License is not null )
+        {
+            if ( License.Properties.TryGetValue( "TODO", out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            {
+                limitsTreeViewMaxRows = rowsLimit;
+            }
+        }
+        else if ( Result == BlazoriseLicenseResult.Community )
+        {
+            limitsTreeViewMaxRows = 1000;
+        }
+        else if ( Result == BlazoriseLicenseResult.Unlicensed )
+        {
+            limitsTreeViewMaxRows = 100;
+        }
+
+        return limitsTreeViewMaxRows;
     }
 
     #endregion

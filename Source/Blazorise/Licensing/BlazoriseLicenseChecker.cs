@@ -48,13 +48,53 @@ public sealed class BlazoriseLicenseChecker
     }
 
     /// <summary>
-    /// Returns the maximum number of rows that can be displayed in the data grid.
+    /// Returns the maximum number of rows that can be displayed.
     /// Null if no limit is set.
     /// </summary>
     /// <returns></returns>
     public int? GetDataGridRowsLimit()
     {
         return blazoriseLicenseProvider.GetDataGridRowsLimit();
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be displayed.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public int? GetAutoCompleteRowsLimit()
+    {
+        return blazoriseLicenseProvider.GetAutocompleteRowsLimit();
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be displayed.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public int? GetChartsRowsLimit()
+    {
+        return blazoriseLicenseProvider.GetChartsRowsLimit();
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be displayed.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public int? GetListViewRowsLimit()
+    {
+        return blazoriseLicenseProvider.GetListViewRowsLimit();
+    }
+
+    /// <summary>
+    /// Returns the maximum number of rows that can be displayed.
+    /// Null if no limit is set.
+    /// </summary>
+    /// <returns></returns>
+    public int? GetTreeViewRowsLimit()
+    {
+        return blazoriseLicenseProvider.GetTreeViewRowsLimit();
     }
 
     #endregion
