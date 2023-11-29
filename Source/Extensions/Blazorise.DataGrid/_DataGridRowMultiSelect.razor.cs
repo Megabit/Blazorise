@@ -56,15 +56,14 @@ public abstract class _BaseDataGridRowMultiSelect<TItem> : ComponentBase
     protected string BuildCellStyle()
     {
         var style = Column.BuildCellStyle( Item );
-        var width = Column.Width;
 
         var sb = new StringBuilder();
 
         if ( !string.IsNullOrEmpty( style ) )
             sb.Append( style );
 
-        if ( width != null )
-            sb.Append( $"; width: {width}" );
+        if ( Column.Width is not null && Column.FixedPosition == TableColumnFixedPosition.None )
+            sb.Append( $"; width: {Column.Width}" );
 
         return sb.ToString().TrimStart( ' ', ';' );
     }

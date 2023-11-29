@@ -334,7 +334,7 @@ public partial class Table : BaseDraggableComponent
     }
 
     /// <summary>
-    ///  Makes table have a fixed header and enables a scrollbar in the table body.
+    /// Makes table have a fixed header and enables a scrollbar in the table body.
     /// </summary>
     [Parameter]
     public bool FixedHeader
@@ -355,7 +355,7 @@ public partial class Table : BaseDraggableComponent
     }
 
     /// <summary>
-    ///  Makes table have a fixed set of columns. This will make it so that the table columns could be fixed to the side of the table.
+    /// Makes table have a fixed set of columns. This will make it so that the table columns could be fixed to the side of the table.
     /// </summary>
     [Parameter]
     public bool FixedColumns

@@ -3303,9 +3303,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    ///  Makes Datagrid have a fixed header and enabling a scrollbar in the Datagrid body.
+    /// Makes Datagrid have a fixed header and enabling a scrollbar in the Datagrid body.
     /// </summary>
     [Parameter] public bool FixedHeader { get; set; }
+
+    /// <summary>
+    /// Makes Datagrid have a fixed set of columns. This will make it so that the table columns could be fixed to the side of the table.
+    /// </summary>
+    [Parameter] public bool FixedColumns { get; set; }
 
     /// <summary>
     /// Sets the Datagrid height when <see cref="FixedHeader"/> feature is enabled (defaults to 500px).

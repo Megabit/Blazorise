@@ -196,7 +196,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( HeaderCellStyle ) )
             sb.Append( HeaderCellStyle );
 
-        if ( Width != null )
+        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
             sb.Append( $"; width: {Width};" );
 
         return sb.ToString().TrimStart( ' ', ';' );
@@ -209,7 +209,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( FilterCellStyle ) )
             sb.Append( FilterCellStyle );
 
-        if ( Width != null )
+        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
             sb.Append( $"; width: {Width};" );
 
         return sb.ToString().TrimStart( ' ', ';' );
@@ -222,10 +222,20 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( AggregateCellStyle ) )
             sb.Append( AggregateCellStyle );
 
-        if ( Width != null )
+        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
             sb.Append( $"; width: {Width};" );
 
         return sb.ToString().TrimStart( ' ', ';' );
+    }
+
+    internal IFluentSizing BuildCellFluentSizing()
+    {
+        if ( Width is not null && FixedPosition != TableColumnFixedPosition.None )
+        {
+            return Blazorise.Width.Px( int.Parse( Width.Replace( "px", string.Empty ) ) );
+        }
+
+        return null;
     }
 
     internal string BuildCellStyle( TItem item )
@@ -239,7 +249,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( result ) )
             sb.Append( result );
 
-        if ( Width != null )
+        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
             sb.Append( $"; width: {Width}" );
 
         return sb.ToString().TrimStart( ' ', ';' );
@@ -426,10 +436,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     public bool CellValueIsEditable
         => Editable &&
            (
-                ( ParentDataGrid.EditState == DataGridEditState.Edit && ParentDataGrid.EditMode == DataGridEditMode.Cell && CellEditing 
+                ( ParentDataGrid.EditState == DataGridEditState.Edit && ParentDataGrid.EditMode == DataGridEditMode.Cell && CellEditing
                     && IsCellEditablePerCommand )
                 ||
-                ( ParentDataGrid.EditMode != DataGridEditMode.Cell 
+                ( ParentDataGrid.EditMode != DataGridEditMode.Cell
                     || ( ParentDataGrid.EditState == DataGridEditState.New && ParentDataGrid.EditMode == DataGridEditMode.Cell ) //We don't have data, let's keep a regular editable row for New.
                     && IsCellEditablePerCommand
                 )
@@ -809,6 +819,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <para>If set, this overrides the <see cref="DataGrid{TItem}.FilterMethod" />.</para>
     /// </summary>
     [Parameter] public DataGridFilterMode? FilterMode { get; set; }
+
+    /// <summary>
+    /// Defines the fixed position of the row cell within the table.
+    /// </summary>
+    [Parameter] public TableColumnFixedPosition FixedPosition { get; set; }
 
     #endregion
 }
