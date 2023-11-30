@@ -1,5 +1,6 @@
 ﻿#region Using directives
 
+using System;
 using System.ComponentModel;
 using System.Reflection;
 using Blazorise.Licensing.Signing;
@@ -85,30 +86,33 @@ public sealed class BlazoriseLicenseProvider
         {
             if ( IsWebAssembly )
             {
+                var wasmLicenseVerifier = LicenseVerifier.Create().WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, PublicKey );
+                var license = await wasmLicenseVerifier.Load( options.ProductToken, true );
 
-                Result = await LicenseVerifier.Create()
-                    .WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, PublicKey )
-                    .LoadAndVerify( options.ProductToken, true, new Assembly[] { CurrentAssembly } )
-                    ? BlazoriseLicenseResult.Licensed
-                    : BlazoriseLicenseResult.Trial;
-
-                License = await LicenseVerifier.Create()
-                    .WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, PublicKey )
-                    .Load( options.ProductToken, true );
+                if ( wasmLicenseVerifier.Verify( license, new Assembly[] { CurrentAssembly } ) )
+                {
+                    License = license;
+                    Result = ResolveBlazoriseLicenseResult( license );
+                }
+                else
+                {
+                    Result = BlazoriseLicenseResult.Unlicensed;
+                }
             }
             else
             {
-                Result = await LicenseVerifier.Create()
-                    .WithRsaPublicKey( PublicKey )
-                    .LoadAndVerify( options.ProductToken, true, new Assembly[] { CurrentAssembly } )
-                    ? BlazoriseLicenseResult.Licensed
-                    : BlazoriseLicenseResult.Trial;
+                var licenseVerifier = LicenseVerifier.Create().WithRsaPublicKey( PublicKey );
+                var license = await licenseVerifier.Load( options.ProductToken, true );
 
-                //TODO: Only Load once.
-                //Add a verify method on License that returns the BlazoriseLicenseResult instead of a bool.
-                License = await LicenseVerifier.Create()
-                    .WithRsaPublicKey( PublicKey )
-                    .Load( options.ProductToken, true );
+                if ( licenseVerifier.Verify( license, new Assembly[] { CurrentAssembly } ) )
+                {
+                    License = license;
+                    Result = ResolveBlazoriseLicenseResult( license );
+                }
+                else
+                {
+                    Result = BlazoriseLicenseResult.Unlicensed;
+                }
             }
         }
         catch
@@ -119,6 +123,29 @@ public sealed class BlazoriseLicenseProvider
         {
             initialized = true;
         }
+    }
+
+    private static BlazoriseLicenseResult ResolveBlazoriseLicenseResult( License license )
+    {
+        if ( license is null )
+            return BlazoriseLicenseResult.Unlicensed;
+
+        if ( license.Properties.TryGetValue( Constants.Properties.LICENSE_TYPE, out var licenseType ) && Enum.TryParse<BlazoriseLicenseType>( licenseType, true, out var licenseTypeAsEnum ) )
+        {
+            switch ( licenseTypeAsEnum )
+            {
+                case BlazoriseLicenseType.Community:
+                    return BlazoriseLicenseResult.Community;
+                case BlazoriseLicenseType.Regular:
+                    return BlazoriseLicenseResult.Licensed;
+                case BlazoriseLicenseType.Trial:
+                    return BlazoriseLicenseResult.Trial;
+                default:
+                    break;
+            }
+        }
+
+        return BlazoriseLicenseResult.Licensed;
     }
 
     internal int? GetDataGridRowsLimit()
@@ -132,7 +159,7 @@ public sealed class BlazoriseLicenseProvider
 
         if ( License is not null )
         {
-            if ( License.Properties.TryGetValue( "__LIMITS__DATAGRID__MAX_ROWS__", out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            if ( License.Properties.TryGetValue( Constants.Properties.DATAGRID_MAX_ROWS, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
             {
                 limitsDataGridMaxRows = rowsLimit;
             }
@@ -160,7 +187,7 @@ public sealed class BlazoriseLicenseProvider
 
         if ( License is not null )
         {
-            if ( License.Properties.TryGetValue( "TODO", out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            if ( License.Properties.TryGetValue( Constants.Properties.AUTOCOMPLETE_MAX_ROWS, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
             {
                 limitsAutocompleteMaxRows = rowsLimit;
             }
@@ -188,7 +215,7 @@ public sealed class BlazoriseLicenseProvider
 
         if ( License is not null )
         {
-            if ( License.Properties.TryGetValue( "TODO", out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            if ( License.Properties.TryGetValue( Constants.Properties.CHARTS_MAX_ROWS, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
             {
                 limitsChartsMaxRows = rowsLimit;
             }
@@ -216,7 +243,7 @@ public sealed class BlazoriseLicenseProvider
 
         if ( License is not null )
         {
-            if ( License.Properties.TryGetValue( "TODO", out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            if ( License.Properties.TryGetValue( Constants.Properties.LISTVIEW_MAX_ROWS, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
             {
                 limitsListViewMaxRows = rowsLimit;
             }
@@ -244,7 +271,7 @@ public sealed class BlazoriseLicenseProvider
 
         if ( License is not null )
         {
-            if ( License.Properties.TryGetValue( "TODO", out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
+            if ( License.Properties.TryGetValue( Constants.Properties.TREEVIEW_MAX_ROWS, out var rowsLimitString ) && int.TryParse( rowsLimitString, out var rowsLimit ) )
             {
                 limitsTreeViewMaxRows = rowsLimit;
             }
