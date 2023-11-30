@@ -1,7 +1,9 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -72,6 +74,30 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
             await JSModule.AddLabel( ElementId, labels );
     }
 
+    private void LimitDataSets( params TDataSet[] datasets )
+    {
+        if ( datasets.IsNullOrEmpty() )
+            return;
+
+        var chartsRowLimit = LicenseChecker.GetChartsRowsLimit();
+        if ( !chartsRowLimit.HasValue )
+            return;
+
+        foreach ( var dataSet in datasets )
+        {
+            dataSet.Data = LimitData( dataSet.Data );
+        }
+    }
+
+    private List<TItem> LimitData( List<TItem> data )
+    {
+        var chartsRowLimit = LicenseChecker.GetChartsRowsLimit();
+        if ( !chartsRowLimit.HasValue )
+            return data;
+
+        return data.Take( chartsRowLimit.Value ).ToList();
+    }
+
     /// <summary>
     /// Adds a new dataset to the chart.
     /// </summary>
@@ -79,6 +105,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     public async Task AddDataSet( params TDataSet[] datasets )
     {
         dirty = true;
+
+        LimitDataSets( datasets );
 
         Datasets.AddRange( datasets );
 
@@ -111,10 +139,11 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     {
         dirty = true;
 
-        Datasets[dataSetIndex].Data = data;
+        var limitedData = LimitData( data );
+        Datasets[dataSetIndex].Data = limitedData;
 
         if ( initialized )
-            await JSModule.SetData( ElementId, dataSetIndex, data );
+            await JSModule.SetData( ElementId, dataSetIndex, limitedData );
     }
 
     /// <summary>
@@ -127,10 +156,12 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     {
         dirty = true;
 
-        Datasets[dataSetIndex].Data.AddRange( data );
+        var limitedData = LimitData( data.ToList() );
+
+        Datasets[dataSetIndex].Data.AddRange( limitedData );
 
         if ( initialized )
-            await JSModule.AddData( ElementId, dataSetIndex, data );
+            await JSModule.AddData( ElementId, dataSetIndex, limitedData );
     }
 
     /// <summary>
@@ -141,6 +172,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     public async Task AddDatasetsAndUpdate( params TDataSet[] datasets )
     {
         dirty = true;
+
+        LimitDataSets( datasets );
 
         Datasets.AddRange( datasets );
 
@@ -157,6 +190,8 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     public async Task AddLabelsDatasetsAndUpdate( IReadOnlyCollection<object> labels, params TDataSet[] datasets )
     {
         dirty = true;
+
+        LimitDataSets( datasets );
 
         Labels.AddRange( labels );
         Datasets.AddRange( datasets );
@@ -380,6 +415,11 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
             return Data.Datasets;
         }
     }
+
+    /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
     /// Defines the chart type.
