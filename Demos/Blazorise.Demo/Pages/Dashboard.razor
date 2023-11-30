@@ -51,11 +51,86 @@
      </Column>
  </Row>
 
- @code {
+ <Row>
+     <Autocomplete Data="@inMemoryData" TItem="Employee" TValue="string" ValueField="(x)=> x.Id.ToString()" TextField="(x) => x.Id.ToString()" MinLength="0"></Autocomplete>
+ </Row>
+
+ <Row>
+     <ListView Data="@inMemoryData" TItem="Employee" ValueField="(x)=> x.Id.ToString()" TextField="(x) => x.Id.ToString()"></ListView>
+ </Row>
+
+ <Row>
+     <Chart @ref="barChart" Type="ChartType.Bar" TItem="double" Data="@chartData" />
+ </Row>
+ <Row>
+
+     <TreeView Nodes="inMemoryData"
+               HasChildNodes="(x) => false">
+         <NodeContent>
+             @context.Id
+        </NodeContent>
+    </TreeView>
+</Row>
+
+
+@code {
 
     [Inject] EmployeeData EmployeeData { get; set; }
-
+    Chart<double> barChart;
+    private ChartData<double> chartData;
     private IEnumerable<Employee> inMemoryData;
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
+    }
+
+    async Task HandleRedraw()
+    {
+        await barChart.Clear();
+
+        await barChart.AddLabelsDatasetsAndUpdate( Labels, GetBarChartDataset() );
+    }
+
+    private BarChartDataset<double> GetBarChartDataset()
+    {
+        return new()
+            {
+                Label = "# of randoms",
+                Data = RandomizeData(),
+                BackgroundColor = backgroundColors,
+                BorderColor = borderColors,
+                BorderWidth = 1
+            };
+    }
+
+    string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange", "Bar7", "Bar8", "Bar9", "Bar10", "Bar11", "Bar12" };
+    List<string> backgroundColors = 
+    new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = 
+    new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
+    List<double> RandomizeData()
+    {
+        var r = new Random( DateTime.Now.Millisecond );
+
+        return new List<double> {
+            r.Next( 3, 50 ) * r.NextDouble(),//1
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),//5
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),//10
+            r.Next( 3, 50 ) * r.NextDouble(),//11
+            r.Next( 3, 50 ) * r.NextDouble()};//12
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -64,8 +139,27 @@
         result.AddRange( result );
         result.AddRange( result );
 
-        Console.WriteLine( $"Data Count : {result.Count}" );
-        inMemoryData = result;
+        var finalResult = new List<Employee>();
+        for ( int i = 0; i < result.Count; i++ )
+        {
+            var newEmployeeRef = new Employee( result[i] );
+            newEmployeeRef.Id = i;
+            finalResult.Add( newEmployeeRef );
+        }
+
+        Console.WriteLine( $"Data Count : {finalResult.Count}" );
+        inMemoryData = finalResult;
+
+        chartData = new ChartData<double>()
+            {
+                Datasets = new List<ChartDataset<double>>()
+            {
+                new ChartDataset<double>()
+                {
+                    Data = finalResult.Select(x=> double.Parse(x.Id.ToString())).ToList()
+                }
+            }
+            };
         await base.OnInitializedAsync();
     }
 }
