@@ -34,14 +34,14 @@ public sealed class BlazoriseLicenseChecker
     /// <returns>True if the license warning should be displayed.</returns>
     internal bool ShouldPrint()
     {
-        if ( blazoriseLicenseProvider.Result == BlazoriseLicenseResult.Initializing )
+        if ( BlazoriseLicenseProvider.Result == BlazoriseLicenseResult.Initializing )
             return false;
 
         if ( !rendered )
         {
             rendered = true;
 
-            return blazoriseLicenseProvider.Result != BlazoriseLicenseResult.Licensed;
+            return BlazoriseLicenseProvider.Result != BlazoriseLicenseResult.Licensed;
         }
 
         return false;

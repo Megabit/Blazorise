@@ -54,10 +54,12 @@ public sealed class BlazoriseLicenseProvider
         this.jsRuntime = jsRuntime;
         this.versionProvider = versionProvider;
 
-        backgroundWorker = new BackgroundWorker();
-        backgroundWorker.DoWork += BackgroundWorker_DoWork;
-
-        backgroundWorker.RunWorkerAsync();
+        if ( !initialized )
+        {
+            backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork += BackgroundWorker_DoWork;
+            backgroundWorker.RunWorkerAsync();
+        }
     }
 
     #endregion
@@ -295,12 +297,12 @@ public sealed class BlazoriseLicenseProvider
     /// <summary>
     /// Gets the license.
     /// </summary>
-    internal License License { get; private set; }
+    internal static License License { get; private set; }
 
     /// <summary>
     /// Gets the result of the license validation.
     /// </summary>
-    internal BlazoriseLicenseResult Result { get; private set; } = BlazoriseLicenseResult.Initializing;
+    internal static BlazoriseLicenseResult Result { get; private set; } = BlazoriseLicenseResult.Initializing;
 
     /// <summary>
     /// Indicates if the current app is running in WebAssembly mode.
