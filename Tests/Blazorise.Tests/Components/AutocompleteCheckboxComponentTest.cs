@@ -10,7 +10,7 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
 {
     public AutocompleteCheckboxComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseTextEdit()
             .AddBlazoriseUtilities()

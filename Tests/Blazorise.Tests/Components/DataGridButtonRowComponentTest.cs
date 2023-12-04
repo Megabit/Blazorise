@@ -10,7 +10,7 @@ public class DataGridButtonRowComponentTest : TestContext
 {
     public DataGridButtonRowComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseDataGrid();
     }
 

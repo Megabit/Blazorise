@@ -8,7 +8,7 @@ public class SelectComponentTest : TestContext
 {
     public SelectComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseButton();
     }
 

@@ -9,7 +9,7 @@ public class FieldLabelComponentTest : TestContext
 {
     public FieldLabelComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseUtilities();
     }
 

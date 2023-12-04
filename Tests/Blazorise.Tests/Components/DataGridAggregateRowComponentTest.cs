@@ -10,7 +10,7 @@ public class DataGridAggregateRowComponentTest : TestContext
 {
     public DataGridAggregateRowComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseDataGrid();
     }
 

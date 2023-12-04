@@ -8,7 +8,7 @@ public class DropdownComponentTest : TestContext
 {
     public DropdownComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseClosable()
             .AddBlazoriseDropdown();

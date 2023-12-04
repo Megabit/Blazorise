@@ -7,7 +7,7 @@ public class NumericEditComponentTest : TestContext
 {
     public NumericEditComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseNumericEdit();
     }
 

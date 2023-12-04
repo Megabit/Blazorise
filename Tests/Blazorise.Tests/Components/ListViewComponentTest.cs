@@ -11,7 +11,7 @@ public class ListViewComponentTest : TestContext
 {
     public ListViewComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseUtilities();
     }
 

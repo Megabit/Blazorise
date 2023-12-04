@@ -7,7 +7,7 @@ public class TemplateComponentTest : TestContext
 {
     public TemplateComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
     }
 
     [Fact]

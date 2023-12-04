@@ -12,7 +12,7 @@ public class AutocompleteComponentTest : AutocompleteBaseComponentTest
 {
     public AutocompleteComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseTextEdit()
             .AddBlazoriseUtilities()

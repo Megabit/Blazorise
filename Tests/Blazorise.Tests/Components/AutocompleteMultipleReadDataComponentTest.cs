@@ -9,7 +9,7 @@ public class AutocompleteMultipleReadDataComponentTest : AutocompleteMultipleBas
 {
     public AutocompleteMultipleReadDataComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseTextEdit()
             .AddBlazoriseUtilities()

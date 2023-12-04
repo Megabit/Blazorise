@@ -14,7 +14,7 @@ public class ValidateAnnotationsComponentTest : TestContext
 
     public ValidateAnnotationsComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseButton()
             .AddBlazoriseTextEdit();

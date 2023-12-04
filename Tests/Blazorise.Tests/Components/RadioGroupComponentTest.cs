@@ -7,7 +7,7 @@ public class RadioGroupComponentTest : TestContext
 {
     public RadioGroupComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseUtilities();
     }
 

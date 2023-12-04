@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Blazorise.Bootstrap;
 using Blazorise.DataGrid;
 using Blazorise.Tests.TestServices;
 using Bunit;
@@ -18,7 +19,7 @@ public class DataGridComponentTest : TestContext
 {
     public DataGridComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseDataGrid();
     }
 

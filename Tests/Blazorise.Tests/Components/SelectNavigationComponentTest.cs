@@ -10,7 +10,7 @@ public class SelectNavigationComponentTest : TestContext
 {
     public SelectNavigationComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseButton();
         Services.AddSingleton<NavigationManager>( new Mock<NavigationManager>().Object );
     }

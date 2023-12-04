@@ -10,7 +10,7 @@ public class CloseButtonComponentTest : TestContext
 {
     public CloseButtonComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseUtilities();
     }

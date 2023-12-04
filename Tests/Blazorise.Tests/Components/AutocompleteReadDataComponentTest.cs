@@ -9,7 +9,7 @@ public class AutocompleteReadDataComponentTest : AutocompleteBaseComponentTest
 {
     public AutocompleteReadDataComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseTextEdit()
             .AddBlazoriseUtilities()

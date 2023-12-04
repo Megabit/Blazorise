@@ -14,7 +14,7 @@ public class TreeViewComponentTest : TestContext
 {
     public TreeViewComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseButton();
     }
 

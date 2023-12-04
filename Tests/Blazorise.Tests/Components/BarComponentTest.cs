@@ -9,7 +9,7 @@ public class BarComponentTest : TestContext
 {
     public BarComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseBreakpoint()
             .AddBlazoriseClosable();

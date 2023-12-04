@@ -8,7 +8,7 @@ public class DatePickerComponentTest : TestContext
 {
     public DatePickerComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseDatePicker();
     }
 

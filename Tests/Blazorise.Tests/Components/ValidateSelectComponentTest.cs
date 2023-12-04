@@ -7,7 +7,7 @@ public class ValidateSelectComponentTest : TestContext
 {
     public ValidateSelectComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseUtilities();
     }
 

@@ -16,7 +16,7 @@ public class DropZoneTest : TestContext
     {
         var testServices = new TestServiceProvider( Services.AddSingleton<NavigationManager, TestNavigationManager>() );
 
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseDragDrop()
             .AddBlazoriseUtilities();

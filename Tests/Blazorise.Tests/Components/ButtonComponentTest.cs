@@ -9,7 +9,7 @@ public class ButtonComponentTest : TestContext
 {
     public ButtonComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseButton();
     }

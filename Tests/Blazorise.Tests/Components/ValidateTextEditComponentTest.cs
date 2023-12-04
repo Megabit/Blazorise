@@ -8,7 +8,7 @@ public class ValidateTextEditComponentTest : TestContext
 {
     public ValidateTextEditComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseTextEdit();
     }
 

@@ -9,7 +9,7 @@ public class DataGridMultiSelectComponentTest : TestContext
 {
     public DataGridMultiSelectComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseDataGrid();
     }
 

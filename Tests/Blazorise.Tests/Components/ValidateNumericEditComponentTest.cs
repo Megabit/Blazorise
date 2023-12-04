@@ -10,7 +10,7 @@ public class ValidateNumericEditComponentTest : TestContext
 {
     public ValidateNumericEditComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop.AddBlazoriseNumericEdit();
     }
 

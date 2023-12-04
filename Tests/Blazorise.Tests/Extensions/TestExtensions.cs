@@ -12,11 +12,12 @@ internal static class TestExtensions
 {
     public static TimeSpan WaitTime = TimeSpan.FromSeconds( 5 );
 
-    public static void AddTestData( this TestServiceProvider services )
+    public static IServiceCollection AddTestData( this IServiceCollection services )
     {
         services.AddMemoryCache();
         services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
         services.AddScoped<Blazorise.Shared.Data.CountryData>();
+        return services;
     }
 
     public static void Click<T>( this IRenderedComponent<T> comp, string selector ) where T : IComponent

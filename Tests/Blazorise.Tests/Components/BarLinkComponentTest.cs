@@ -13,7 +13,7 @@ public class BarLinkComponentTest : TestContext
     {
         var testServices = new TestServiceProvider( Services.AddSingleton<NavigationManager, TestNavigationManager>() );
 
-        testServices.AddBlazoriseTests().AddBootstrapProvidersTests();
+        testServices.AddBlazoriseTests().AddBootstrapProviders();
         JSInterop
             .AddBlazoriseButton();
     }

@@ -1,12 +1,10 @@
 ﻿#region Using directives
-using Blazorise.Bootstrap;
 using Blazorise.Licensing;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Blazorise.Utilities.Vendors;
 using Blazorise.Vendors;
-using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -17,7 +15,13 @@ namespace Blazorise.Tests.bUnit;
 
 public static class Configuration
 {
-    public static TestServiceProvider AddBlazoriseTests( this TestServiceProvider services )
+    public static IServiceCollection AddEmptyIconProvider( this IServiceCollection services )
+    {
+        services.AddSingleton<IIconProvider, EmptyIconProvider>();
+        return services;
+    }
+
+    public static IServiceCollection AddBlazoriseTests( this IServiceCollection services )
     {
         services.Replace( ServiceDescriptor.Transient<IComponentActivator, ComponentActivator>() );
         services.AddSingleton( new Mock<IComponentDisposer>().Object );
@@ -54,21 +58,8 @@ public static class Configuration
         services.AddScoped<IJSDropdownModule, JSDropdownModule>();
         services.AddScoped<IJSDragDropModule, JSDragDropModule>();
 
-        services.AddScoped<IJSModalModule, Bootstrap.Modules.BootstrapJSModalModule>();
-        services.AddScoped<IJSTooltipModule, Bootstrap.Modules.BootstrapJSTooltipModule>();
-
         services.AddScoped<BlazoriseLicenseProvider>();
         services.AddScoped<BlazoriseLicenseChecker>();
-        return services;
-    }
-
-    public static TestServiceProvider AddBootstrapProvidersTests( this TestServiceProvider services )
-    {
-        services.AddSingleton<IClassProvider>( new BootstrapClassProvider() );
-        services.AddSingleton<IStyleProvider>( new BootstrapStyleProvider() );
-        services.AddSingleton<IBehaviourProvider>( new BootstrapBehaviourProvider() );
-        services.AddSingleton<IThemeGenerator>( new BootstrapThemeGenerator( new Mock<IThemeCache>().Object ) );
-        services.AddSingleton( new Mock<IIconProvider>().Object );
         return services;
     }
 }

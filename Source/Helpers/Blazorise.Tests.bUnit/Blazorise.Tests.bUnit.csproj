@@ -12,7 +12,6 @@
 	</ItemGroup>
 	
   <ItemGroup>
-    <ProjectReference Include="..\..\Blazorise.Bootstrap\Blazorise.Bootstrap.csproj" />
     <ProjectReference Include="..\..\Blazorise\Blazorise.csproj" />
     <ProjectReference Include="..\..\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
   </ItemGroup>

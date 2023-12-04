@@ -12,7 +12,7 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
 {
     public AutocompleteMultipleComponentTest()
     {
-        Services.AddBlazoriseTests().AddBootstrapProvidersTests().AddTestData();
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
         JSInterop
             .AddBlazoriseTextEdit()
             .AddBlazoriseUtilities()
