@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Blazorise.Modules;
 using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
@@ -1501,7 +1502,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         editItem = item;
         editItemCellValues = new();
-        
+
         validationItem = UseValidation
             ? ValidationItemCreator is null ? RecursiveObjectActivator.CreateInstance<TItem>() : ValidationItemCreator()
             : default;
@@ -2020,9 +2021,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( BatchEdit && !batchChanges.IsNullOrEmpty() )
         {
             var newChanges = batchChanges.Where( x => x.State == DataGridBatchEditItemState.New );
+
             if ( newChanges.Any() )
             {
-                
                 foreach ( var newChange in newChanges )
                 {
                     filteredData.Add( newChange.NewItem );
@@ -2030,7 +2031,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
         }
 
-        filteredData.AddRange(query.ToList());
+        var maxRowsLimit = LicenseChecker.GetDataGridRowsLimit();
+
+        if ( maxRowsLimit.HasValue )
+        {
+            filteredData.AddRange( query.Take( maxRowsLimit.Value ).ToList() );
+        }
+        else
+        {
+            filteredData.AddRange( query.ToList() );
+        }
 
         FilteredDataChanged?.Invoke( new(
             filteredData,
@@ -2341,6 +2351,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
     /// Makes sure the DataGrid has columns defined as groupable.
