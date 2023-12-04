@@ -3,7 +3,7 @@
 @inherits _DataGridCellEdit<TItem>
 @if ( ValueType == typeof( string ) )
 {
-    <TextEdit ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" TextExpression="@stringExpression" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
+    <TextEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" TextExpression="@stringExpression" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -14,7 +14,7 @@
 }
 else if ( ValueType == typeof( decimal ) )
 {
-    <NumericPicker ElementId="@elementId" TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@decimalExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericPicker @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@decimalExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -25,7 +25,7 @@ else if ( ValueType == typeof( decimal ) )
 }
 else if ( ValueType == typeof( decimal? ) )
 {
-    <NumericPicker ElementId="@elementId" TValue="decimal?" Value="@((decimal?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDecimalExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericPicker @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="decimal?" Value="@((decimal?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDecimalExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -36,7 +36,7 @@ else if ( ValueType == typeof( decimal? ) )
 }
 else if ( ValueType == typeof( double ) )
 {
-    <NumericPicker ElementId="@elementId" TValue="double" Value="@((double)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@doubleExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericPicker @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="double" Value="@((double)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@doubleExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -47,7 +47,7 @@ else if ( ValueType == typeof( double ) )
 }
 else if ( ValueType == typeof( double? ) )
 {
-    <NumericPicker ElementId="@elementId" TValue="double?" Value="@(( double?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDoubleExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericPicker @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="double?" Value="@(( double?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableDoubleExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -58,7 +58,7 @@ else if ( ValueType == typeof( double? ) )
 }
 else if ( ValueType == typeof( float ) )
 {
-    <NumericPicker ElementId="@elementId" TValue="float" Value="@((float)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@floatExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericPicker @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="float" Value="@((float)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@floatExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -69,7 +69,7 @@ else if ( ValueType == typeof( float ) )
 }
 else if ( ValueType == typeof( float? ) )
 {
-    <NumericPicker ElementId="@elementId" TValue="float?" Value="@((float?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableFloatExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericPicker @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="float?" Value="@((float?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableFloatExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -80,7 +80,7 @@ else if ( ValueType == typeof( float? ) )
 }
 else if ( ValueType == typeof( int ) )
 {
-    <NumericPicker ElementId="@elementId" TValue="int" Value="@((int)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@intExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericPicker @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="int" Value="@((int)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@intExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -91,7 +91,7 @@ else if ( ValueType == typeof( int ) )
 }
 else if ( ValueType == typeof( int? ) )
 {
-    <NumericPicker ElementId="@elementId" TValue="int?" Value="@((int?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableIntExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericPicker @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="int?" Value="@((int?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableIntExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -102,7 +102,7 @@ else if ( ValueType == typeof( int? ) )
 }
 else if ( ValueType == typeof( long ) )
 {
-    <NumericPicker ElementId="@elementId" TValue="long" Value="@((long)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@longExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericPicker @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="long" Value="@((long)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@longExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -113,7 +113,7 @@ else if ( ValueType == typeof( long ) )
 }
 else if ( ValueType == typeof( long? ) )
 {
-    <NumericPicker ElementId="@elementId" TValue="long?" Value="@((long?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableLongExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
+    <NumericPicker @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="long?" Value="@((long?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ValueExpression="@nullableLongExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -124,7 +124,7 @@ else if ( ValueType == typeof( long? ) )
 }
 else if ( ValueType == typeof( bool ) )
 {
-    <Check ElementId="@elementId" TValue="bool" Checked="@((bool)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" CheckedExpression="@boolExpression" ReadOnly="@Readonly">
+    <Check @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="bool" Checked="@((bool)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" CheckedExpression="@boolExpression" ReadOnly="@Readonly">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -135,7 +135,7 @@ else if ( ValueType == typeof( bool ) )
 }
 else if ( ValueType == typeof( bool? ) )
 {
-    <Check ElementId="@elementId" TValue="bool?" Checked="@((bool?)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" CheckedExpression="@nullableBoolExpression" ReadOnly="@Readonly">
+    <Check @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="bool?" Checked="@((bool?)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" CheckedExpression="@nullableBoolExpression" ReadOnly="@Readonly">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -146,7 +146,7 @@ else if ( ValueType == typeof( bool? ) )
 }
 else if ( ValueType == typeof( DateTime ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateTime" Date="@((DateTime)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@dateTimeExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateTime" Date="@((DateTime)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@dateTimeExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -157,7 +157,7 @@ else if ( ValueType == typeof( DateTime ) )
 }
 else if ( ValueType == typeof( DateTime? ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateTime?" Date="@((DateTime?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@nullableDateTimeExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateTime?" Date="@((DateTime?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@nullableDateTimeExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -168,7 +168,7 @@ else if ( ValueType == typeof( DateTime? ) )
 }
 else if ( ValueType == typeof( DateOnly ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateOnly" Date="@((DateOnly)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@dateOnlyExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateOnly" Date="@((DateOnly)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@dateOnlyExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -179,7 +179,7 @@ else if ( ValueType == typeof( DateOnly ) )
 }
 else if ( ValueType == typeof( DateOnly? ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateOnly?" Date="@((DateOnly?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@nullableDateOnlyExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateOnly?" Date="@((DateOnly?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@nullableDateOnlyExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -190,7 +190,7 @@ else if ( ValueType == typeof( DateOnly? ) )
 }
 else if ( ValueType == typeof( DateTimeOffset ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateTimeOffset" Date="@((DateTimeOffset)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@dateTimeOffsetExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateTimeOffset" Date="@((DateTimeOffset)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@dateTimeOffsetExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -201,7 +201,7 @@ else if ( ValueType == typeof( DateTimeOffset ) )
 }
 else if ( ValueType == typeof( DateTimeOffset? ) )
 {
-    <DateEdit ElementId="@elementId" TValue="DateTimeOffset?" Date="@((DateTimeOffset?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@nullableDateTimeOffsetExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
+    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateTimeOffset?" Date="@((DateTimeOffset?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" DateExpression="@nullableDateTimeOffsetExpression" ReadOnly="@Readonly" Pattern="@ValidationPattern" InputMode="@DateInputMode">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -212,7 +212,7 @@ else if ( ValueType == typeof( DateTimeOffset? ) )
 }
 else if ( ValueType == typeof( TimeSpan ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeSpan" Time="@((TimeSpan)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" TimeExpression="@timeSpanExpression" ReadOnly="@Readonly">
+    <TimeEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="TimeSpan" Time="@((TimeSpan)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" TimeExpression="@timeSpanExpression" ReadOnly="@Readonly">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -223,7 +223,7 @@ else if ( ValueType == typeof( TimeSpan ) )
 }
 else if ( ValueType == typeof( TimeSpan? ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeSpan?" Time="@((TimeSpan?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" TimeExpression="@nullableTimeSpanExpression" ReadOnly="@Readonly">
+    <TimeEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="TimeSpan?" Time="@((TimeSpan?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" TimeExpression="@nullableTimeSpanExpression" ReadOnly="@Readonly">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -234,7 +234,7 @@ else if ( ValueType == typeof( TimeSpan? ) )
 }
 else if ( ValueType == typeof( TimeOnly ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeOnly" Time="@((TimeOnly)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" TimeExpression="@timeOnlyExpression" ReadOnly="@Readonly">
+    <TimeEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="TimeOnly" Time="@((TimeOnly)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" TimeExpression="@timeOnlyExpression" ReadOnly="@Readonly">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -245,7 +245,7 @@ else if ( ValueType == typeof( TimeOnly ) )
 }
 else if ( ValueType == typeof( TimeOnly? ) )
 {
-    <TimeEdit ElementId="@elementId" TValue="TimeOnly?" Time="@((TimeOnly?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" TimeExpression="@nullableTimeOnlyExpression" ReadOnly="@Readonly">
+    <TimeEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="TimeOnly?" Time="@((TimeOnly?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" TimeExpression="@nullableTimeOnlyExpression" ReadOnly="@Readonly">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
@@ -256,7 +256,7 @@ else if ( ValueType == typeof( TimeOnly? ) )
 }
 else
 {
-    <TextEdit ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
+    <TextEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" Pattern="@ValidationPattern">
         <Feedback>
             @if ( ShowValidationFeedback )
             {
