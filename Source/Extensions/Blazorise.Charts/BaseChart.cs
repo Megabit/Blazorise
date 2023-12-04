@@ -80,6 +80,7 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
             return;
 
         var chartsRowLimit = LicenseChecker.GetChartsRowsLimit();
+
         if ( !chartsRowLimit.HasValue )
             return;
 
@@ -92,6 +93,7 @@ public class BaseChart<TDataSet, TItem, TOptions, TModel> : BaseChart<TItem>, IB
     private List<TItem> LimitData( List<TItem> data )
     {
         var chartsRowLimit = LicenseChecker.GetChartsRowsLimit();
+
         if ( !chartsRowLimit.HasValue )
             return data;
 

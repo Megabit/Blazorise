@@ -145,6 +145,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     private void AddTreeViewNodeState( TreeViewNodeState<TNode> treeViewNodeState )
     {
         var maxRowsLimit = LicenseChecker.GetTreeViewRowsLimit();
+
         if ( maxRowsLimit.HasValue )
         {
             if ( treeViewNodeStates?.Count >= maxRowsLimit.Value )

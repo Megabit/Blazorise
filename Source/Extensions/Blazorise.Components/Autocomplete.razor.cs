@@ -814,6 +814,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
 
         var maxRowsLimit = LicenseChecker.GetAutoCompleteRowsLimit();
+
         if ( maxRowsLimit.HasValue )
         {
             filteredData = query.Take( maxRowsLimit.Value ).ToList();

@@ -1,12 +1,10 @@
 ﻿#region Using directives
-
 using System;
 using System.ComponentModel;
 using System.Reflection;
 using Blazorise.Licensing.Signing;
 using Blazorise.Modules;
 using Microsoft.JSInterop;
-
 #endregion
 
 namespace Blazorise.Licensing;
@@ -33,9 +31,13 @@ public sealed class BlazoriseLicenseProvider
     private static bool initialized = false;
 
     private int? limitsDataGridMaxRows;
+
     private int? limitsAutocompleteMaxRows;
+
     private int? limitsChartsMaxRows;
+
     private int? limitsListViewMaxRows;
+
     private int? limitsTreeViewMaxRows;
 
     #endregion

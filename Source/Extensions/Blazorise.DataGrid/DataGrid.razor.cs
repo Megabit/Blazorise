@@ -2021,9 +2021,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( BatchEdit && !batchChanges.IsNullOrEmpty() )
         {
             var newChanges = batchChanges.Where( x => x.State == DataGridBatchEditItemState.New );
+
             if ( newChanges.Any() )
             {
-
                 foreach ( var newChange in newChanges )
                 {
                     filteredData.Add( newChange.NewItem );
@@ -2032,6 +2032,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         var maxRowsLimit = LicenseChecker.GetDataGridRowsLimit();
+
         if ( maxRowsLimit.HasValue )
         {
             filteredData.AddRange( query.Take( maxRowsLimit.Value ).ToList() );

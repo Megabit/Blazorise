@@ -22,10 +22,12 @@ public partial class ListView<TItem> : ComponentBase
     private IEnumerable<TItem> GetData()
     {
         var maxRowsLimit = LicenseChecker.GetListViewRowsLimit();
+
         if ( maxRowsLimit.HasValue )
         {
             return Data?.Take( maxRowsLimit.Value );
         }
+
         return Data;
     }
 

@@ -9,12 +9,14 @@ public enum BlazoriseLicenseType
     /// A regular commercial license.
     /// </summary>
     Regular,
+
     /// <summary>
     /// A commercial trial license.
     /// </summary>
     Trial,
+
     /// <summary>
     /// A community license.
     /// </summary>
-    Community
+    Community,
 }
