@@ -1,5 +1,5 @@
 @namespace Blazorise
 @inherits BaseComponent
-<optgroup id="@ElementId" class="@ClassNames" style="@StyleNames" label="@Label" @attributes="@Attributes">
+<optgroup @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" label="@Label" @attributes="@Attributes">
     @ChildContent
 </optgroup>

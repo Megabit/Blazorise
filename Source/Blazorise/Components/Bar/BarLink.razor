@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<Anchor  ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Clicked="@ClickHandler" Attributes="@Attributes">
+<Anchor @bind-ElementRef="@ElementRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Clicked="@ClickHandler" Attributes="@Attributes">
     @ChildContent
 </Anchor>
