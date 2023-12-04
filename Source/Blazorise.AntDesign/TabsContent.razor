@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.TabsContent
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </div>
     </CascadingValue>

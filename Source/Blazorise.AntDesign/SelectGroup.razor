@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.SelectGroup
-<div id="@ElementId" class="@GroupClassNames" style="@StyleNames" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" class="@GroupClassNames" style="@StyleNames" @attributes="@Attributes">
     @Label
 </div>
 @ChildContent
