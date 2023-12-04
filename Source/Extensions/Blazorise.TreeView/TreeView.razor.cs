@@ -398,6 +398,5 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
-
     #endregion
 }
