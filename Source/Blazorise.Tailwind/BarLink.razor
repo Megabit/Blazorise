@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.BarLink
-<_BarOnlyLink ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Mode="@ParentBar?.Mode" InsideDropdown="false" Clicked="@ClickHandler" Attributes="@Attributes">
+<_BarOnlyLink @bind-ElementRef="@ElementRef" ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Mode="@ParentBar?.Mode" InsideDropdown="false" Clicked="@ClickHandler" Attributes="@Attributes">
     @ChildContent
 </_BarOnlyLink>
 @code {
