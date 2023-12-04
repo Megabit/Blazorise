@@ -341,7 +341,7 @@ public class FluentSizing :
         {
             void BuildStyles( StyleBuilder builder )
             {
-                if ( !string.IsNullOrEmpty( styleRule.Unit ) )
+                if ( !string.IsNullOrEmpty( styleRule?.Unit ) )
                 {
                     var sizingTypeName = sizingType == SizingType.Width
                         ? "width"
