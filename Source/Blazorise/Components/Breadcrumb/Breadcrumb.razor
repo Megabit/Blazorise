@@ -2,7 +2,7 @@
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
     <nav aria-label="breadcrumb">
-        <ol id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <ol @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @ChildContent
         </ol>
     </nav>

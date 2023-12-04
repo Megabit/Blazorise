@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @typeparam TItem
 @inherits BaseComponent
-<div id="@ElementId" class="@ClassNames" style="@StyleNames" draggable="@(Disabled == false ? "true" : "false")" @ondragstart="@OnDragStartHandler" @ondragend="@OnDragEndHandler" @ondragenter="@OnDragEnterHandler" @ondragleave="@OnDragLeaveHandler" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" draggable="@(Disabled == false ? "true" : "false")" @ondragstart="@OnDragStartHandler" @ondragend="@OnDragEndHandler" @ondragenter="@OnDragEnterHandler" @ondragleave="@OnDragLeaveHandler" @attributes="@Attributes">
     @if ( !HideContent )
     {
         @ChildContent
