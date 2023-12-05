@@ -172,7 +172,7 @@ public partial class ListGroup : BaseComponent
 
             state = state with { SelectedItems = value };
 
-           // SelectedItemsChanged.InvokeAsync( state.SelectedItems );
+            // SelectedItemsChanged.InvokeAsync( state.SelectedItems );
 
             DirtyClasses();
         }

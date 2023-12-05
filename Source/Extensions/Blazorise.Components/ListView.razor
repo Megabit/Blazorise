@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Web.Virtualization
 @typeparam TItem
-<ListGroup Class="@ListGroupClassNames" Style="@ListGroupStyleNames" Flush="@Flush" Scrollable="@Scrollable" Mode="@Mode" SelectedItem="@GetItemValue( SelectedItem )" SelectedItemChanged="@SelectedListGroupItemChanged" Attributes="@Attributes">
+<ListGroup Class="@ListGroupClassNames" Style="@ListGroupStyleNames" Flush="@Flush" Scrollable="@Scrollable" Mode="@Mode" SelectionMode="@SelectionMode" SelectedItem="@GetItemValue( SelectedItem )" SelectedItemChanged="@SelectedListGroupItemChanged" SelectedItems="@GetItemValues( SelectedItems )" SelectedItemsChanged="@SelectedListGroupItemsChanged" Attributes="@Attributes">
     @{
         var listViewData = GetData();
 
