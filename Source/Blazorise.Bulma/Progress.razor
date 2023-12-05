@@ -10,7 +10,7 @@
         else
         {
             <div class="progress-wrapper">
-                <progress id="@ElementId" class="@ClassNames" style="@StyleNames" value="@Percentage" min="@Min" max="@Max" @attributes="@Attributes">
+                <progress @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" value="@Percentage" min="@Min" max="@Max" @attributes="@Attributes">
                     @ChildContent
                 </progress>
             </div>

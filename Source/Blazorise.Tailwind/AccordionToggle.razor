@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.AccordionToggle
-<button d="@ElementId" type="button" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+<button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
     <span>@ChildContent</span>
     @if ( CollapseVisible )
     {

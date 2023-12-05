@@ -4,7 +4,7 @@
     <CascadingValue Value="@State">
         @if ( Items is not null && Content is not null )
         {
-            <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                 @Items
             </ul>
             <div class="@ContentClassNames" @attributes="@Attributes">
@@ -13,7 +13,7 @@
         }
         else
         {
-            <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                 @ChildContent
             </ul>
         }

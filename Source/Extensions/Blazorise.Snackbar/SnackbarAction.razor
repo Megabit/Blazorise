@@ -1,4 +1,4 @@
 ﻿@inherits BaseComponent
-<button id="@ElementId" class="@ClassNames" type="button" @onclick="@ClickHandler" @onclick:stopPropagation @attributes="@Attributes">
+<button @ref="@ElementRef" id="@ElementId" class="@ClassNames" type="button" @onclick="@ClickHandler" @onclick:stopPropagation @attributes="@Attributes">
     @ChildContent
 </button>
