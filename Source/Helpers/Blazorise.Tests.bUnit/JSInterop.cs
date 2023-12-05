@@ -6,7 +6,6 @@ using Bunit;
 
 namespace Blazorise.Tests.bUnit;
 
-
 public static class JSInterop
 {
     public static BunitJSInterop AddBlazoriseButton( this BunitJSInterop jsInterop )

@@ -5,7 +5,6 @@ using Microsoft.JSInterop;
 
 namespace Blazorise.Tests.bUnit;
 
-
 public class MockJsModalModule : JSModalModule
 {
     public MockJsModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider ) : base( jsRuntime, versionProvider )

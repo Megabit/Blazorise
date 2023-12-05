@@ -60,6 +60,7 @@ public static class Configuration
 
         services.AddScoped<BlazoriseLicenseProvider>();
         services.AddScoped<BlazoriseLicenseChecker>();
+
         return services;
     }
 }

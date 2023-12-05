@@ -1,8 +1,4 @@
-﻿#region Using directives
-#endregion
-
-namespace Blazorise.Tests.bUnit;
-
+﻿namespace Blazorise.Tests.bUnit;
 
 internal class MockVersionProvider : IVersionProvider
 {

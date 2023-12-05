@@ -1,4 +1,6 @@
-﻿using Blazorise.Providers;
+﻿#region Using directives
+using Blazorise.Providers;
+#endregion
 
 namespace Blazorise.Tests.bUnit;
 
