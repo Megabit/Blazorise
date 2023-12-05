@@ -4710,7 +4710,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     @*other validation fields*@
 </Validations>";
 
-        public const string AddBlazoriseTestingExample = @"Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider();";
+        public const string AddBlazoriseTestingExample = @"Services
+	.AddBlazoriseTests()
+	.AddBootstrapProviders()
+	.AddEmptyIconProvider();";
 
         public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.3.3.0"" type=""module""></script>
 <script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.3.3.0"" type=""module""></script>";
@@ -4779,6 +4782,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string TemplatesInstallExample = @"dotnet new install Blazorise.Templates";
 
         public const string TemplatesVersionInstallExample = @"dotnet new install Blazorise.Templates::1.1.0";
+
+        public const string TestingbUnitNugetExample = @"Install-Package Blazorise.Tests.bUnit";
 
         public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.3.3.0"" type=""module""></script>";
 
