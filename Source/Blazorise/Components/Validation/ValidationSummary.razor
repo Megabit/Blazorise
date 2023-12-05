@@ -2,7 +2,7 @@
 @inherits BaseComponent
 @if ( HasErrorMessages )
 {
-    <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @Label
 
         @foreach ( var errorMessage in ErrorMessages )

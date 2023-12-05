@@ -22,6 +22,12 @@
     "Starts With": "Byrjar með",
     "Ends With": "Endar Með",
     "Equals": "Jafnt",
-    "Not Equals": "Ekki jafnir"
+    "Not Equals": "Ekki jafnir",
+    "Greater Than": "Meiri en",
+    "Greater Than or Equal": "Stærri en eða jafn",
+    "Less Than": "Minna en",
+    "Less Than or Equal": "Minna en eða jafnt",
+    "Save Changes": "Vista breytingar",
+    "Cancel Changes": "Hætta við breytingar"
   }
 }

@@ -22,6 +22,12 @@
     "Starts With": "以。。開始",
     "Ends With": "以。。結束",
     "Equals": "等於",
-    "Not Equals": "不等於"
+    "Not Equals": "不等於",
+    "Greater Than": "比...更棒",
+    "Greater Than or Equal": "大於或等於",
+    "Less Than": "少於",
+    "Less Than or Equal": "小於或等於",
+    "Save Changes": "儲存變更",
+    "Cancel Changes": "取消更改"
   }
 }

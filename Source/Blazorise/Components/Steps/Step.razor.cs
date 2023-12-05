@@ -106,7 +106,7 @@ public partial class Step : BaseComponent, IDisposable
     {
         await Clicked.InvokeAsync( eventArgs );
 
-        if ( ParentSteps != null )
+        if ( ParentSteps is not null )
             await ParentSteps.SelectStep( Name );
     }
 

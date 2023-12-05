@@ -4,13 +4,13 @@
     <CascadingValue Value="@State">
         @if ( TabPosition == TabPosition.Top )
         {
-            @if ( Items != null )
+            @if ( Items is not null )
             {
-                <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                     @Items
                 </ul>
             }
-            @if ( Content != null )
+            @if ( Content is not null )
             {
                 <div class="@ContentClassNames" @attributes="@Attributes">
                     @Content
@@ -19,15 +19,15 @@
         }
         else if ( TabPosition == TabPosition.Bottom )
         {
-            @if ( Content != null )
+            @if ( Content is not null )
             {
                 <div class="@ContentClassNames" @attributes="@Attributes">
                     @Content
                 </div>
             }
-            @if ( Items != null )
+            @if ( Items is not null )
             {
-                <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                     @Items
                 </ul>
             }
@@ -36,15 +36,15 @@
         {
             <Row>
                 <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
-                    @if ( Items != null )
+                    @if ( Items is not null )
                     {
-                        <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                        <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                             @Items
                         </ul>
                     }
                 </Column>
                 <Column>
-                    @if ( Content != null )
+                    @if ( Content is not null )
                     {
                         <div class="@ContentClassNames" @attributes="@Attributes">
                             @Content
@@ -57,7 +57,7 @@
         {
             <Row>
                 <Column>
-                    @if ( Content != null )
+                    @if ( Content is not null )
                     {
                         <div class="@ContentClassNames" @attributes="@Attributes">
                             @Content
@@ -65,9 +65,9 @@
                     }
                 </Column>
                 <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
-                    @if ( Items != null )
+                    @if ( Items is not null )
                     {
-                        <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                        <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                             @Items
                         </ul>
                     }

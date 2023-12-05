@@ -84,7 +84,7 @@ public partial class Collapse : BaseComponent, IDisposable
     /// <summary>
     /// Determines if the collapse is placed inside of accordion component.
     /// </summary>
-    public bool InsideAccordion => ParentAccordion != null;
+    public bool InsideAccordion => ParentAccordion is not null;
 
     /// <summary>
     /// Determines if the collapse is placed inside of accordion component as the first item.

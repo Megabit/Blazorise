@@ -56,7 +56,7 @@ public partial class ListGroupItem : BaseComponent
         if ( Disabled )
             return;
 
-        if ( ParentListGroup != null )
+        if ( ParentListGroup is not null )
             await ParentListGroup.SelectItem( Name );
 
         await Clicked.InvokeAsync( eventArgs );

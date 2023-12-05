@@ -507,6 +507,319 @@ public class Gender
     Click me!
 </Button>";
 
+        public const string HowToEnhanceDataGridMenuFilter_CustomFilterExample = @"@code{
+    private bool MyCustomFilter( FilterExample row )
+    {
+        return _filterTracker.columnFilters is null
+            ? true
+            : _filterTracker.columnFilters.All( x => EvaluateColumnFilter( x, row ) );
+    }
+
+    private bool EvaluateColumnFilter( ColumnFilter<FilterExample> columnFilter, FilterExample row )
+    {
+        Console.WriteLine( $""Evaluating... {columnFilter.Column.Field}"" );
+        Console.WriteLine( $""Filter to apply... {columnFilter.SelectedFilter}"" );
+        Console.WriteLine( $""Search for... {columnFilter.SearchValue}"" );
+
+
+        //You might need some reflection based or expression based getter to get the value of the corresponding field dynamically
+        //Do whatever boolean logic you need to do here
+        //We opted to use the DataGrid.Utils.FunctionCompiler.CreateValueGetter to create a dynamic getter for the field and using a simple comparer with the new GreaterThan and LessThan comparisons.
+        var columnFieldGetter = DataGrid.Utils.FunctionCompiler.CreateValueGetter<FilterExample>( columnFilter.Column.Field );
+        var columnValue = columnFieldGetter( row );
+
+        return CompareFilterValues( columnValue.ToString(), columnFilter.SearchValue, columnFilter.SelectedFilter );
+
+    }
+
+    private bool CompareFilterValues( string searchValue, string compareTo, MyFilter filterMethod )
+    {
+        switch (filterMethod)
+        {
+            case MyFilter.StartsWith:
+                return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+            case MyFilter.EndsWith:
+                return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+            case MyFilter.Equals:
+                return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+            case MyFilter.NotEquals:
+                return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+            case MyFilter.GreaterThan:
+                if (int.TryParse( searchValue, out var parsedSearchValue ) && int.TryParse( compareTo, out var parsedCompareToValue ))
+                {
+                    return parsedSearchValue > parsedCompareToValue;
+                }
+                return false;
+            case MyFilter.LessThan:
+                if (int.TryParse( searchValue, out var parsedSearchValueLessThan ) && int.TryParse( compareTo, out var parsedCompareToValueLessThan ))
+                {
+                    return parsedSearchValueLessThan < parsedCompareToValueLessThan;
+                }
+                return false;
+            case MyFilter.Contains:
+            default:
+                return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
+        }
+    }
+}";
+
+        public const string HowToEnhanceDataGridMenuFilter_FilterMenuTemplateExample = @"<FilterMenuTemplate>
+    <Row>
+        <Column ColumnSize=""ColumnSize.Is4"">
+            <Select TValue=""MyFilter"" SelectedValue=""@_filterTracker.GetColumnFilterValue(context.Column.Field)"" SelectedValueChanged=""e => { _filterTracker.SetColumnFilter(context.Column, e); }"">
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.Contains"">Contains</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.StartsWith"">Starts With</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.EndsWith"">Ends With</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.Equals"">Equals</SelectItem>
+                <SelectItem TValue=""MyFilter"" Value=""@MyFilter.NotEquals"">Not Equals</SelectItem>
+                @if (context.Column.ColumnType == DataGridColumnType.Numeric)
+                {
+                    <SelectItem TValue=""MyFilter"" Value=""@MyFilter.GreaterThan"">GreaterThan</SelectItem>
+                    <SelectItem TValue=""MyFilter"" Value=""@MyFilter.LessThan"">LessThan</SelectItem>
+                }
+            </Select>
+        </Column>
+        <Column ColumnSize=""ColumnSize.Is4"">
+            <TextEdit Text=""@_filterTracker.GetColumnSearchValue(context.Column.Field)"" TextChanged=""@((newValue) => _filterTracker.SetColumnSearchValue(context.Column, newValue))"" />
+        </Column>
+
+        <Column ColumnSize=""ColumnSize.Is4"">
+            <Button Clicked=""context.Filter"" Color=""Color.Primary""><Icon Name=""IconName.Filter""></Icon> Filter</Button>
+            <Button Clicked=""@(() => { _filterTracker.ClearColumnFilter(context.Column); context.ClearFilter.InvokeAsync(); })"" Color=""Color.Light""><Icon Name=""IconName.Clear""></Icon> Clear</Button>
+        </Column>
+    </Row>
+</FilterMenuTemplate>";
+
+        public const string HowToEnhanceDataGridMenuFilter_FilterTrackerExample = @"@code{
+    private FilterTracker<FilterExample> _filterTracker = new();
+
+    public class ColumnFilter<T>
+    {
+        public DataGridColumn<T> Column;
+        public string SearchValue;
+        public MyFilter SelectedFilter { get; set; } = MyFilter.Contains;
+    }
+
+    public class FilterTracker<T>
+    {
+        public List<ColumnFilter<T>> columnFilters { get; set; }
+
+        public void ClearColumnFilter( DataGridColumn<T> column )
+        {
+            columnFilters ??= new();
+
+            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+            if (columnFilter is not null)
+            {
+                columnFilters.Remove( columnFilter );
+            }
+        }
+
+        public void SetColumnFilter( DataGridColumn<T> column, MyFilter myFilter )
+        {
+            columnFilters ??= new();
+
+            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+            if (columnFilter is null)
+            {
+                columnFilters.Add( new()
+                    {
+                        Column = column,
+                        SelectedFilter = myFilter
+                    } );
+            }
+            else
+            {
+                columnFilter.SelectedFilter = myFilter;
+            }
+        }
+
+        public void SetColumnSearchValue( DataGridColumn<T> column, string searchValue )
+        {
+            columnFilters ??= new();
+
+            var columnFilter = columnFilters.FirstOrDefault( x => x.Column.Field == column.Field );
+            if (columnFilter is null)
+            {
+                columnFilters.Add( new()
+                    {
+                        Column = column,
+                        SearchValue = searchValue
+                    } );
+            }
+            else
+            {
+                columnFilter.SearchValue = searchValue;
+            }
+        }
+
+        public ColumnFilter<T> GetColumnFilter( string fieldName )
+            => columnFilters?.FirstOrDefault( x => x.Column.Field == fieldName );
+
+        public MyFilter GetColumnFilterValue( string fieldName )
+            => GetColumnFilter( fieldName )?.SelectedFilter ?? MyFilter.Contains;
+
+        public string GetColumnSearchValue( string fieldName )
+            => GetColumnFilter( fieldName )?.SearchValue;
+
+    }
+}";
+
+        public const string HowToEnhanceDataGridMenuFilter_MyFilterExample = @"public enum MyFilter
+{
+	Equals, NotEquals, Contains, StartsWith, EndsWith, GreaterThan, LessThan
+}";
+
+        public const string HowToHandleLocalizationInBlazoriseValidation_MessageLocalizerHelperExample = @"public class MessageLocalizerHelper<T>
+{
+    private readonly Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer;
+
+    public MessageLocalizerHelper( Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer )
+    {
+        this.stringLocalizer = stringLocalizer;
+    }
+
+    public string Localize( string message, IEnumerable<string>? arguments )
+    {
+        try
+        {
+            return arguments?.Count() > 0
+                ? stringLocalizer[message, LocalizeMessageArguments( arguments )?.ToArray()!]
+                : stringLocalizer[message];
+        }
+        catch
+        {
+            return stringLocalizer[message];
+        }
+    }
+
+    private IEnumerable<string> LocalizeMessageArguments( IEnumerable<string> arguments )
+    {
+        foreach (var argument in arguments)
+        {
+            // first try to localize with ""DisplayName:{Name}""
+            var localization = stringLocalizer[$""DisplayName:{argument}""];
+
+            if (localization.ResourceNotFound)
+            {
+                // then try to localize with just ""{Name}""
+                localization = stringLocalizer[argument];
+
+                yield return localization;
+            }
+        }
+    }
+}";
+
+        public const string HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
+    <Validation>
+        <Field>
+            <FieldLabel>Phone Country Code</FieldLabel>
+            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Clicked=""Submit"">Submit</Button>
+@code {
+    private ValidationLocalizationExample _model = new();
+    private Validations _validationsRef;
+    public class ValidationLocalizationExample
+    {
+        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
+        public string PhoneCountryCode { get; set; }
+    }
+
+    private async Task Submit()
+    {
+        if (await _validationsRef.ValidateAll())
+        {
+            Console.WriteLine( ""Validation Success!"" );
+        }
+    }
+}";
+
+        public const string HowToHandleLocalizationInBlazoriseValidation_ValidationLocalizationFullExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
+    <Validation MessageLocalizer=""MessageLocalizer.Localize"">
+        <Field>
+            <FieldLabel>Phone Country Code</FieldLabel>
+            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Clicked=""Submit"">Submit</Button>
+@code {
+    [Inject] public MessageLocalizerHelper<Dashboard> MessageLocalizer { get; set; }
+
+    private ValidationLocalizationExample _model = new();
+    private Validations _validationsRef;
+
+    private async Task Submit()
+    {
+        if (await _validationsRef.ValidateAll())
+        {
+            Console.WriteLine( ""Validation Success!"" );
+        }
+    }
+
+    public class ValidationLocalizationExample
+    {
+        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
+        public string PhoneCountryCode { get; set; }
+    }
+
+
+    public class MessageLocalizerHelper<T>
+    {
+        private readonly Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer;
+
+        public MessageLocalizerHelper( Microsoft.Extensions.Localization.IStringLocalizer<T> stringLocalizer )
+        {
+            this.stringLocalizer = stringLocalizer;
+        }
+
+        public string Localize( string message, IEnumerable<string>? arguments )
+        {
+            try
+            {
+                return arguments?.Count() > 0
+                    ? stringLocalizer[message, LocalizeMessageArguments( arguments )?.ToArray()!]
+                    : stringLocalizer[message];
+            }
+            catch
+            {
+                return stringLocalizer[message];
+            }
+        }
+
+        private IEnumerable<string> LocalizeMessageArguments( IEnumerable<string> arguments )
+        {
+            foreach (var argument in arguments)
+            {
+                // first try to localize with ""DisplayName:{Name}""
+                var localization = stringLocalizer[$""DisplayName:{argument}""];
+
+                if (localization.ResourceNotFound)
+                {
+                    // then try to localize with just ""{Name}""
+                    localization = stringLocalizer[argument];
+
+                    yield return localization;
+                }
+            }
+        }
+    }
+}";
+
         public const string BasicAccordionExample = @"<Accordion>
     <Collapse Visible=""@collapse1Visible"">
         <CollapseHeader>
@@ -1270,15 +1583,13 @@ public class Gender
     }
 }";
 
-        public const string BasicColorEditExample = @"<ColorEdit @bind-Color=""@colorValue"" />
+        public const string ColorEditDisabledExample = @"<ColorEdit Color=""#888888"" Disabled />";
+
+        public const string ColorEditExample = @"<ColorEdit @bind-Color=""@colorValue"" />
 
 @code {
     string colorValue = ""#ff0000"";
 }";
-
-        public const string BasicColorPickerExample = @"<ColorPicker Color=""#ff0000"" />";
-
-        public const string ColorEditDisabledExample = @"<ColorEdit Color=""#888888"" Disabled />";
 
         public const string ColorEditSizeExample = @"<Field>
     <ColorEdit Color=""#888888"" Size=""Size.Small"" />
@@ -1286,6 +1597,18 @@ public class Gender
 <Field>
     <ColorEdit Color=""#444444"" Size=""Size.Large"" />
 </Field>";
+
+        public const string ColorPickerExample = @"<ColorPicker @bind-Color=""@colorValue"" />
+
+@code {
+    string colorValue = ""#ff0000"";
+}";
+
+        public const string ColorPickerShowHueExample = @"<ColorPicker @bind-Color=""@colorValue"" ShowHueSlider />
+
+@code {
+    string colorValue = ""#ff00ff"";
+}";
 
         public const string BasicDateEditExample = @"<DateEdit TValue=""DateTime?"" />";
 
@@ -1339,6 +1662,8 @@ public class Gender
     </FieldBody>
     <FieldHelp>Format: DD/MM/YYYY</FieldHelp>
 </Field>";
+
+        public const string DatePickerInputFormatExample = @"<DatePicker TValue=""DateTime?"" InputFormat=""dd.MM.yyyy"" DisplayFormat=""dd.MM.yyyy"" />";
 
         public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" StaticPicker=""false"" />";
 
@@ -2636,11 +2961,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string BasicNumericEditExample = @"<NumericEdit Value=""123"" />";
+        public const string BasicNumericEditExample = @"<NumericEdit @bind-Value=""@value"" />
+@code {
+    decimal? value = 123;
+}";
 
         public const string BasicNumericPickerExample = @"<NumericPicker Value=""123"" />";
 
-        public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" />";
+        public const string NumericEditGenericExample = @"<NumericEdit TValue=""decimal?"" @bind-Value=""@value"" />
+@code {
+    decimal? value = 123;
+}";
 
         public const string NumericPickerCurrencyExample = @"<NumericPicker TValue=""decimal?"" CurrencySymbol=""$"" Value=""456"" />";
 
@@ -3760,7 +4091,24 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TextEditDisabledExample = @"<TextEdit Disabled />";
 
-        public const string TextEditMaskExample = @"<TextEdit MaskType=""MaskType.RegEx"" EditMask=""^[a-zA-Z ]*$"" />";
+        public const string TextEditMaskExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Text only
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit MaskType=""MaskType.RegEx"" EditMask=""^[a-zA-Z ]*$"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Numbers only
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit MaskType=""MaskType.RegEx"" EditMask=""^(\d+(.\d{0,2})?|.?\d{1,2})$"" />
+        </FieldBody>
+    </Field>
+</Fields>";
 
         public const string TextEditPatternExample = @"<Validation UsePattern>
     <TextEdit Pattern=""[A-Za-z]{3}"">
@@ -3776,11 +4124,31 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TextEditReadonlyExample = @"<TextEdit ReadOnly />";
 
-        public const string TextEditRoleExample = @"<TextEdit Role=""TextRole.Email"" />
-<TextEdit Role=""TextRole.Password"" />";
+        public const string TextEditRoleExample = @"<Fields>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Email
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit Role=""TextRole.Email"" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize=""ColumnSize.Is6.OnDesktop.Is12.OnMobile"">
+        <FieldLabel>
+            Password
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit Role=""TextRole.Password"" autocomplete=""new-password"" />
+        </FieldBody>
+    </Field>
+</Fields>";
 
-        public const string TextEditSizingExample = @"<TextEdit Size=""Size.Small"" />
-<TextEdit Size=""Size.Large"" />";
+        public const string TextEditSizingExample = @"<Field>
+    <TextEdit Size=""Size.Small"" />
+</Field>
+<Field>
+    <TextEdit Size=""Size.Large"" />
+</Field>";
 
         public const string TextEditTextChangedModeExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -4342,49 +4710,49 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     @*other validation fields*@
 </Validations>";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.3.0.0"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.3.3.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.3.0.0"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.3.3.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.3.0.0"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.3.3.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.3.0.0"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.3.3.0"" type=""module""></script>";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.3.0.0"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.3.3.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.3.0.0"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.3.3.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.3.0.0"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.3.3.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/button.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/dragDrop.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/dropdown.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileEdit.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/filePicker.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/io.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/observer.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/popper.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/table.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js?v=1.3.0.0"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileEdit.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoEdit.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/popper.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/textEdit.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=1.3.3.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.3.0.0"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.3.3.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -4392,15 +4760,15 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.3.0.0"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.3.3.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js?v=1.3.0.0"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=1.3.3.0"" type=""module""></script>";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.3.0.0"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.3.3.0"" type=""module""></script>";
 
-        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.3.0.0"" type=""module""></script>
-<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.3.0.0"" type=""module""></script>";
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.3.3.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.3.3.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
 
@@ -4408,7 +4776,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TemplatesVersionInstallExample = @"dotnet new install Blazorise.Templates::1.1.0";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.3.0.0"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.3.3.0"" type=""module""></script>";
 
         public const string AnimateExample = @"<Field>
     <Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
@@ -4476,7 +4844,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.3.0.0""></script>";
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.3.3.0""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -5915,6 +6283,91 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         );
 }";
 
+        public const string DataGridBatchEditExample = @"<Field>
+    <FieldLabel>
+        Edit Mode
+    </FieldLabel>
+    <FieldBody>
+        <Select @bind-SelectedValue=""@editMode"">
+            <SelectItem Value=""DataGridEditMode.Form"">Form</SelectItem>
+            <SelectItem Value=""DataGridEditMode.Inline"">Inline</SelectItem>
+            <SelectItem Value=""DataGridEditMode.Popup"">Popup</SelectItem>
+            <SelectItem Value=""DataGridEditMode.Cell"">Cell (""Rapid Editing"")</SelectItem>
+        </Select>
+    </FieldBody>
+</Field>
+
+<DataGrid @ref=dataGridRef
+            TItem=""Employee""
+            Data=""inMemoryData""
+            Responsive
+            ShowPager
+            ShowPageSizes
+            @bind-SelectedRow=""@selectedEmployee""
+            Editable
+            EditMode=""@editMode""
+            BatchEdit
+            BatchChange=""OnBatchChange""
+            BatchSaving=""OnBatchSaving""
+            BatchSaved=""OnBatchSaved""
+            UseValidation
+            ValidationsSummaryLabel=""The following validation errors have occurred...""
+            CommandMode=""DataGridCommandMode.ButtonRow""
+            ShowValidationsSummary>
+    <DataGridColumns>
+        <DataGridCommandColumn SaveBatchCommandAllowed=false CancelBatchCommandAllowed=false />
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" Editable />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""140px"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"" />
+     </DataGridColumns>
+     <ButtonRowTemplate>
+         <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
+         <Button Color=""Color.Primary"" Disabled=""(selectedEmployee is null)"" Clicked=""context.EditCommand.Clicked"">Edit</Button>
+         <Button Color=""Color.Danger"" Disabled=""(selectedEmployee is null)"" Clicked=""context.DeleteCommand.Clicked"">Delete</Button>
+         <Button Color=""Color.Link"" Clicked=""context.ClearFilterCommand.Clicked"">Clear Filter</Button>
+
+         <Button Color=""Color.Success"" Disabled=""(batchQuantity == 0)"" Clicked=""@(context.SaveBatchCommand.Clicked)"">@context.SaveBatchCommand.LocalizationString</Button>
+         <Button Color=""Color.Default"" Clicked=""@(context.CancelBatchCommand.Clicked)"">@context.CancelBatchCommand.LocalizationString</Button>
+    </ButtonRowTemplate>
+</DataGrid>
+@code {
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private int batchQuantity = 0;
+    private DataGrid<Employee> dataGridRef;
+    private List<Employee> inMemoryData;
+    private Employee selectedEmployee;
+    private DataGridEditMode editMode = DataGridEditMode.Form;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 ).ToList();
+        await base.OnInitializedAsync();
+    }
+
+    private Task OnBatchChange( DataGridBatchChangeEventArgs<Employee> args )
+    {
+        Console.WriteLine( ""Batch Change"" );
+        batchQuantity = dataGridRef.BatchChanges.Count;
+        return Task.CompletedTask;
+    }
+
+    private Task OnBatchSaving( DataGridBatchSavingEventArgs<Employee> args )
+    {
+        Console.WriteLine( ""Batch Saving"" );
+        return Task.CompletedTask;
+    }
+
+    private Task OnBatchSaved( DataGridBatchSavedEventArgs<Employee> args )
+    {
+        Console.WriteLine( ""Batch Saved"" );
+        batchQuantity = 0;
+        return Task.CompletedTask;
+    }
+}";
+
         public const string DataGridButtonRowExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
@@ -5992,7 +6445,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Data=""@employeeList""
           Responsive
           Filterable>
-    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
+    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
 </DataGrid>
 
 @code{
@@ -6301,6 +6754,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
             <SelectItem Value=""DataGridEditMode.Form"">Form</SelectItem>
             <SelectItem Value=""DataGridEditMode.Inline"">Inline</SelectItem>
             <SelectItem Value=""DataGridEditMode.Popup"">Popup</SelectItem>
+            <SelectItem Value=""DataGridEditMode.Cell"">Cell (""Rapid Editing"")</SelectItem>
         </Select>
     </FieldBody>
 </Field>
@@ -6314,7 +6768,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           CommandMode=""DataGridCommandMode.ButtonRow""
           EditMode=""editMode"">
     <DataGridColumns>
-        <DataGridCommandColumn  NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  >
+        <DataGridCommandColumn  NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  CancelCommandAllowed >
             <SaveCommandTemplate>
                 <Button ElementId=""btnSave"" Type=""ButtonType.Submit"" PreventDefaultOnSubmit Color=""Color.Primary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
             </SaveCommandTemplate>
@@ -6326,11 +6780,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
         <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
-        <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
-            <EditTemplate>
-                <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
-            </EditTemplate>
-        </DataGridColumn>
+        <DataGridNumericColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable />
     </DataGridColumns>
     <ButtonRowTemplate>
         <Button Color=""Color.Success"" Clicked=""context.NewCommand.Clicked"">New</Button>
@@ -6486,7 +6936,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Responsive
           Filterable
           FilterMode=""DataGridFilterMode.Menu"">
-    <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
+     <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
     <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
     <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
 </DataGrid>
@@ -6501,21 +6951,35 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Data=""@employeeList""
           Responsive
           Filterable
-          FilterMode=""DataGridFilterMode.Menu"">
-    <DataGridColumns>
-        <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridFilterMethod.StartsWith""></DataGridColumn>
-        <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
-        <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-    </DataGridColumns>
-    <FilterMenuTemplate>
-        <Row>
-            <Column ColumnSize=""ColumnSize.Is4"">
-                <Select TValue=""DataGridFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
-                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.Contains"">Contains</SelectItem>
-                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.StartsWith"">Starts With</SelectItem>
-                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.EndsWith"">Ends With</SelectItem>
-                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.Equals"">Equals</SelectItem>
-                    <SelectItem TValue=""DataGridFilterMethod"" Value=""@DataGridFilterMethod.NotEquals"">Not Equals</SelectItem>
+           FilterMode=""DataGridFilterMode.Menu"">
+     <DataGridColumns>
+         <DataGridColumn Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Editable=""false"" FilterMethod=""DataGridColumnFilterMethod.StartsWith""></DataGridColumn>
+         <DataGridColumn Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Editable=""false""></DataGridColumn>
+         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+     </DataGridColumns>
+     <FilterMenuTemplate>
+         <Row>
+             <Column ColumnSize=""ColumnSize.Is4"">
+                 <Select TValue=""DataGridColumnFilterMethod"" SelectedValue=""@context.GetFilterMethod()"" SelectedValueChanged=""e => { context.FilterMethodChanged.InvokeAsync(e); }"">
+                    @{
+                        var isNumericOrDate = context.Column.ColumnType == DataGridColumnType.Numeric || context.Column.ColumnType == DataGridColumnType.Date;
+                    }
+
+                    @if ( !isNumericOrDate )
+                    {
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.Contains"">Contains</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.StartsWith"">Starts With</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.EndsWith"">Ends With</SelectItem>
+                    }
+                    <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.Equals"">Equals</SelectItem>
+                    <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.NotEquals"">Not Equals</SelectItem>
+                    @if ( isNumericOrDate )
+                    {
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.GreaterThan"">Greater Than</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.GreaterThanOrEqual"">Greater Than Or Equal</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.LessThan"">Less Than</SelectItem>
+                        <SelectItem TValue=""DataGridColumnFilterMethod"" Value=""@DataGridColumnFilterMethod.LessThanOrEqual"">Less Than Or Equal</SelectItem>
+                    }
                 </Select>
             </Column>
 
@@ -7447,6 +7911,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Responsive
+          RowStyling='(x,y ) => y.Style = ""height: 70px;""'
           Virtualize
           VirtualizeOptions=""@(new() { DataGridHeight = ""250px""})"">
     <DataGridCommandColumn />
@@ -8021,7 +8486,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     }
 }";
 
-        public const string MarkdownShortcutsExample = @"<Markdown Shortcuts=""@(new MarkdownShortcuts{ CleanBlock = null, ToggleCodeBlock = ""Cmd+E"" })"" />";
+        public const string MarkdownShortcutsExample = @"<Markdown Shortcuts=""@(new MarkdownShortcuts{ CleanBlock = null, ToggleCodeBlock = ""Cmd-E"" })"" />";
 
         public const string MarkdownUploadImageExample = @"<Markdown ImageUploadChanged=""@OnImageUploadChanged""
           ImageUploadStarted=""@OnImageUploadStarted""
@@ -8970,7 +9435,7 @@ builder.Services
 <link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />
 
 <script src=""https://cdn.tailwindcss.com""></script>
-<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.3.0.0""></script>
+<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.3.3.0""></script>
 
 <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css"" rel=""stylesheet"" />";
@@ -9018,7 +9483,7 @@ builder.Services
 
     Task SelectCulture( string name )
     {
-        LocalizationService.ChangeLanguage( name );
+        LocalizationService.ChangeLanguage( name, false );
 
         return Task.CompletedTask;
     }
@@ -9805,12 +10270,12 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.3.0.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.3.0.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.3.3.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.3.3.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.3.0.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.3.0.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.3.0.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.3.3.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.3.3.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.3.3.0""></script>";
 
     }
 }

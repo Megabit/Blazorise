@@ -379,7 +379,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string FieldLabelRequiredIndicator( bool requiredIndicator )
         => requiredIndicator
-            ? "after:content-[' *'] after:[color:var(--b-theme-danger, --btw-color-danger-500)]"
+            ? "after:content-['_*'] after:[color:var(--b-theme-danger,--btw-color-danger-500)]"
             : null;
 
     #endregion
@@ -553,6 +553,8 @@ public class TailwindClassProvider : ClassProvider
         ? "b-dropdown b-dropdown-submenu relative inline-flex w-full"
         : "b-dropdown relative inline-flex";
 
+    public override string DropdownDisabled() => "b-dropdown-disabled";
+
     public override string DropdownGroup() => "b-dropdown-group align-middle";
 
     public override string DropdownObserverShow() => DropdownShow();
@@ -591,9 +593,19 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownMenuRight() => "b-dropdown-menu-right";
 
-    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
-        ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        : "b-button b-dropdown-toggle focus:ring-4 focus:outline-none font-medium text-sm text-center inline-flex items-center";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
+    {
+        var sb = new StringBuilder( isDropdownSubmenu
+            ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            : "b-button b-dropdown-toggle focus:outline-none font-medium text-sm text-center inline-flex items-center" );
+
+        if ( outline )
+        {
+            sb.Append( " focus:ring-4" );
+        }
+
+        return sb.ToString();
+    }
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu
         ? "b-dropdown-toggle-submenu"
@@ -857,7 +869,19 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardText() => "b-card-text mb-3 font-normal text-inherit";
 
-    public override string CardLink() => "b-card-link inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
+    public override string CardLink() => "";
+
+    public override string CardLinkUnstyled( bool unstyled )
+    {
+        if ( unstyled )
+        {
+            return "inline-flex items-center dark:text-primary-500 hover:underline";
+        }
+        else
+        {
+            return "b-card-link inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
+        }
+    }
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
@@ -1458,17 +1482,17 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "bg-primary-500",
-            "secondary" => "bg-secondary-500",
-            "success" => "bg-success-500",
-            "danger" => "bg-danger-500",
-            "warning" => "bg-warning-400",
-            "info" => "bg-info",
-            "light" => "bg-light",
-            "dark" => "bg-dark",
-            "white" => "bg-white",
-            "transparent" => "bg-transparent",
-            "body" => "bg-body",
+            "primary" => "!bg-primary-500",
+            "secondary" => "!bg-secondary-500",
+            "success" => "!bg-success-500",
+            "danger" => "!bg-danger-500",
+            "warning" => "!bg-warning-400",
+            "info" => "!bg-info",
+            "light" => "!bg-light",
+            "dark" => "!bg-dark",
+            "white" => "!bg-white",
+            "transparent" => "!bg-transparent",
+            "body" => "!bg-body",
             _ => name,
         };
     }
@@ -1700,7 +1724,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Paragraph
 
-    public override string Paragraph() => "b-paragraph mb-3 font-light";
+    public override string Paragraph() => "b-paragraph";
 
     public override string ParagraphColor( TextColor textColor )
     {
@@ -1795,9 +1819,21 @@ public class TailwindClassProvider : ClassProvider
 
     #region Link
 
-    public override string Link() => "font-medium text-primary-600 dark:text-primary-500 hover:underline";
+    public override string Link() => "";
 
     public override string LinkActive( bool active ) => active ? "font-medium active" : null;
+
+    public override string LinkUnstyled( bool unstyled )
+    {
+        if ( unstyled )
+        {
+            return "font-medium text-inherit hover:underline";
+        }
+        else
+        {
+            return "font-medium text-primary-600 dark:text-primary-500 hover:underline";
+        }
+    }
 
     #endregion
 
@@ -1938,6 +1974,9 @@ public class TailwindClassProvider : ClassProvider
     {
         var sb = new StringBuilder();
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"{ToBreakpoint( sizingDefinition.Breakpoint )}:" );
+
         if ( sizingDefinition.IsMin )
             sb.Append( "min-" );
         else if ( sizingDefinition.IsMax )
@@ -1954,6 +1993,9 @@ public class TailwindClassProvider : ClassProvider
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 
@@ -2183,7 +2225,9 @@ public class TailwindClassProvider : ClassProvider
         return sizingSize switch
         {
             Blazorise.SizingSize.Is25 => "1/4",
+            Blazorise.SizingSize.Is33 => "1/3",
             Blazorise.SizingSize.Is50 => "1/2",
+            Blazorise.SizingSize.Is66 => "2/3",
             Blazorise.SizingSize.Is75 => "3/4",
             Blazorise.SizingSize.Is100 => "full",
             Blazorise.SizingSize.Auto => "auto",

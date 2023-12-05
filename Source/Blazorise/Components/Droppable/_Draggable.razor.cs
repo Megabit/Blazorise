@@ -36,7 +36,7 @@ public partial class _Draggable<TItem> : BaseComponent
 
     private async Task OnDragStartHandler()
     {
-        if ( ParentContainer == null )
+        if ( ParentContainer is null )
             return;
 
         dragging = true;
@@ -64,7 +64,7 @@ public partial class _Draggable<TItem> : BaseComponent
 
     private void OnDragEnterHandler()
     {
-        if ( ParentContainer == null || ParentContainer.TransactionInProgress == false )
+        if ( ParentContainer is null || ParentContainer.TransactionInProgress == false )
             return;
 
         ParentContainer.UpdateTransactionIndex( Index );

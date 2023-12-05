@@ -4,7 +4,7 @@
 @typeparam TItem
 @typeparam TValue
 
-<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@InputElementId">
+<Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@InputElementId" Disabled="@Disabled">
     <Validation Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
 
         @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
@@ -13,7 +13,7 @@
             {
                 @if ( TagTemplate is null )
                 {
-                    <Badge Color="@MultipleBadgeColor" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
+                    <Badge Color="@GetMultipleBadgeColor()" Margin="Margin.Is2.FromStart" CloseClicked="async () => await RemoveMultipleTextAndValue( selectedText )">@selectedText</Badge>
                 }
                 else
                 {
@@ -26,6 +26,7 @@
         }
 
         <TextEdit @ref="@textEditRef"
+                  ElementId="@InputElementId"
                   Role="TextRole.Search"
                   Text="@Search"
                   TextChanged="@OnTextChangedHandler"
@@ -42,7 +43,9 @@
                   DebounceInterval="@DebounceInterval"
                   CustomValidationValue="@GetValidationValue"
                   Background="@SearchBackground"
-                  TextColor="@SearchTextColor">
+                  TextColor="@SearchTextColor"
+                  Class="@SearchClass"
+                  Style="@SearchStyle">
             <Feedback>
                 <ValidationError />
                 <ValidationSuccess />

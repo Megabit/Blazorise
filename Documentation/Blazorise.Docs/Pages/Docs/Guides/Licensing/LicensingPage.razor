@@ -1,13 +1,13 @@
-﻿@page "/docs/usage/licensing/register-product-token"
+﻿@page "/docs/usage/licensing"
 
-<Seo Canonical="/docs/usage/licensing/register-product-token" Title="Register Blazorise Product Token in Blazor Application" Description="Learn here about how to register Blazorise blazor product token for blazor application for license validation." />
+<Seo Canonical="/docs/usage/licensing" Title="Overview of Blazorise license and product tokens" Description="Learn here about the Blazorise license key and products tokens and difference between license keys and product tokens." />
 
-<DocsPageTitle Path="Usage/Licensing/Register Product Token">
-    Register Blazorise Product Token in Blazor Application
+<DocsPageTitle Path="Usage/Licensing">
+    Blazorise Licensing Overview
 </DocsPageTitle>
 
 <DocsPageLead>
-    Quickly setup Blazorise Product Token
+    Overview of Blazorise license and product tokens.
 </DocsPageLead>
 
 <DocsPageSubtitle>
@@ -15,57 +15,104 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    All evaluators and paid customers who use NuGet packages from NuGet.org are eligible for the Blazorise products token. As a result, if you use the evaluation installer or the NuGet feed to reference Blazorise assemblies, you must also include the platform and version product tokens in your projects.
+    Welcome to the Blazorise Licensing Guide. Find the best fit for your development needs and learn how to manage your license keys and product tokens seamlessly.
 </DocsPageParagraph>
 
 <DocsPageSubtitle>
-    Setup
+    Difference between license keys and product tokens
 </DocsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
-    Log in to your Blazorise account
+    Blazorise License Key
 </Heading>
 
 <DocsPageParagraph>
-    Go to the Blazorise website and log in to your account using your username and password.
+    When you purchase a <Strong>Professional</Strong> or <Strong>Enterprise</Strong> Blazorise license, you receive a unique License Key. This key not only validates your purchase but also unlocks the advanced features of Blazorise.
 </DocsPageParagraph>
 
+<Heading Size="HeadingSize.Is4">
+    Functions of the License Key:
+</Heading>
+
+<DocsPageParagraph>
+    <OrderedList>
+        <OrderedListItem>
+            <Paragraph>
+                <Strong>Account Activation</Strong>: The License Key must be used to activate the user's account, confirming the authenticity of the purchase and providing access to the licensed features.
+            </Paragraph>
+        </OrderedListItem>
+        <OrderedListItem>
+            <Paragraph>
+                <Strong>Support Forum Access</Strong>: The same License Key facilitates registration on the <Anchor To="support" Title="Link to Blazorise Support Forum">Blazorise Support Forum</Anchor>, granting access to technical support resources.
+            </Paragraph>
+        </OrderedListItem>
+    </OrderedList>
+</DocsPageParagraph>
+
+<Alert Color="Color.Info" Visible>
+    Choose a Blazorise commercial license to elevate your development experience and enjoy priority support.
+</Alert>
+
 <Heading Size="HeadingSize.Is3">
-    Generate your unique Product Token
+    Blazorise Product Token
+</Heading>
+
+<DocsPageParagraph>
+    A Product Token is a unique encripted identifier generated through the Blazorise platform. Its primary purpose is to be integrated into the user's application source code. Once implemented, the Product Token serves to eliminate any licensing warning messages, ensuring a clean and uninterrupted development and runtime experience.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Whether you're a <Strong>Commercial User</Strong> or a proud member of our <Strong>Community of Individual Developers</Strong>, you can generate a <Strong>Product Token</Strong>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Community and Individual Developers are welcome to apply for a Community License. To maintain integrity and confirm identity, a LinkedIn login is required to request this license.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is4">
+    Why You Need a Product Token?
 </Heading>
 
 <DocsPageParagraph>
     <UnorderedList>
         <UnorderedListItem>
-            Once you are logged in, navigate to the "License" section of your account.
-        </UnorderedListItem>
-        <UnorderedListItem>
-            Click the "Generate" button to create your unique product token.
+            <Paragraph>
+                <Strong>Remove Licensing Warnings</Strong>: Simply copy and paste your Product Token into your application’s source code. This will remove any licensing warning messages, offering you a clean, seamless development environment.
+            </Paragraph>
         </UnorderedListItem>
     </UnorderedList>
 </DocsPageParagraph>
 
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Add the Product Token">
-        <Paragraph>
-            Open the solution containing your Blazor application in Visual Studio or another development environment.
-        </Paragraph>
-        <Paragraph>
-            In the Startup class, find the <Strong>ConfigureServices</Strong> method. This method is used to configure the services used in your Blazor application.
-        </Paragraph>
-        <Paragraph>
-            In the <Strong>ConfigureServices</Strong> method, add the following code snippet.
-        </Paragraph>
-    </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="LicensingGuideAddKeyExample" />
-</DocsPageSection>
+<Heading Size="HeadingSize.Is4">
+    How to Generate Your Product Token?
+</Heading>
 
 <DocsPageParagraph>
-    Save the changes you made to the Startup class. Run your Blazor application and your product token will now be registered.
+    Follow our <Anchor To="docs/usage/licensing/register-product-token" Title="Link to Register Product Token">Register Product Token</Anchor> guide to generate your product token.
 </DocsPageParagraph>
 
-<Alert Color="Color.Info" Visible>
-    <AlertDescription>
-        <Strong>Note:</Strong> If you encounter any issues or need assistance, please don't hesitate to contact the Blazorise team.
-    </AlertDescription>
-</Alert>
+<DocsPageSubtitle>
+    Frequently Asked Questions
+</DocsPageSubtitle>
+
+
+<DocsPageParagraph>
+    <UnorderedList Unstyled>
+        <UnorderedListItem>
+            <Paragraph Margin="Margin.Is0.FromBottom">
+                <Strong>Q: Are the License Key and Product Token the same?</Strong>
+            </Paragraph>
+            <Paragraph>
+                <Strong>A:</Strong> No. The License Key verifies a commercial purchase and provides access to premium resources. The Product Token's sole function is to remove licensing warning messages.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph Margin="Margin.Is0.FromBottom">
+                <Strong>Q: How can a community user obtain a Product Token?</Strong>
+            </Paragraph>
+            <Paragraph>
+                <Strong>A:</Strong> Community users must log into their Blazorise account via LinkedIn, and access the 'Product Token' section to generate a token.
+            </Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>

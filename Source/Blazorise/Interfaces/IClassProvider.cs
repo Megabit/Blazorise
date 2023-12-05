@@ -390,6 +390,8 @@ public interface IClassProvider
 
     string Dropdown( bool isDropdownSubmenu );
 
+    string DropdownDisabled();
+
     string DropdownGroup();
 
     string DropdownObserverShow();
@@ -573,6 +575,8 @@ public interface IClassProvider
     string CardText();
 
     string CardLink();
+
+    string CardLinkUnstyled( bool unstyled );
 
     string CardLinkActive( bool active );
 
@@ -1114,6 +1118,8 @@ public interface IClassProvider
 
     string LinkActive( bool active );
 
+    string LinkUnstyled( bool unstyled );
+
     #endregion
 
     #region States
@@ -1171,6 +1177,8 @@ public interface IClassProvider
     #region Sizing
 
     string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
+
+    string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules );
 
     #endregion
 

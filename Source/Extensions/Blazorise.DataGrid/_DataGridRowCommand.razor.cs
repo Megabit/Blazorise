@@ -69,7 +69,7 @@ public abstract class _BaseDataGridRowCommand<TItem> : ComponentBase, IDisposabl
         => EventCallback.Factory.Create( this, () => ParentDataGrid.Delete( Item ) );
 
     protected EventCallback Cancel
-        => EventCallback.Factory.Create( this, ParentDataGrid.Cancel );
+        => EventCallback.Factory.Create( this, ParentDataGrid.CancelInternal );
 
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 

@@ -46,7 +46,7 @@ public static class Converters
     /// <returns>Dictionary</returns>
     public static IDictionary<string, object> ToDictionary( object source, bool addEmptyObjects = true, bool forceCamelCase = true )
     {
-        if ( source == null )
+        if ( source is null )
         {
             return null;
         }
@@ -55,7 +55,7 @@ public static class Converters
 
         object ProcessValue( object value, bool emitDefaultValue )
         {
-            if ( value != null && ( emitDefaultValue || !IsEqualToDefaultValue( value ) ) )
+            if ( value is not null && ( emitDefaultValue || !IsEqualToDefaultValue( value ) ) )
             {
                 var type = value.GetType();
 
@@ -102,7 +102,7 @@ public static class Converters
                 propertyName = propertyName.ToCamelcase();
             }
 
-            if ( value != null && ( emitDefaultValue || !IsEqualToDefaultValue( value ) ) )
+            if ( value is not null && ( emitDefaultValue || !IsEqualToDefaultValue( value ) ) )
             {
                 dictionary.Add( propertyName, ProcessValue( value, emitDefaultValue ) );
             }
@@ -225,7 +225,7 @@ public static class Converters
     // modified version of https://stackoverflow.com/a/11521834/833106
     public static bool EnumTryParse<TValue>( string input, Type conversionType, out TValue theEnum )
     {
-        if ( input != null )
+        if ( input is not null )
         {
             foreach ( string en in Enum.GetNames( conversionType ) )
             {
@@ -259,7 +259,7 @@ public static class Converters
 
     public static string FormatValue( float value, CultureInfo culture = null, int? decimals = null )
     {
-        if ( decimals != null )
+        if ( decimals is not null )
             value = (float)Math.Round( (double)value, decimals.Value, MidpointRounding.AwayFromZero );
 
         return value.ToString( culture ?? CultureInfo.CurrentCulture );
@@ -267,7 +267,7 @@ public static class Converters
 
     public static string FormatValue( float? value, CultureInfo culture = null, int? decimals = null )
     {
-        if ( value != null && decimals != null )
+        if ( value is not null && decimals is not null )
             value = (float)Math.Round( (double)value.Value, decimals.Value, MidpointRounding.AwayFromZero );
 
         return value?.ToString( culture ?? CultureInfo.CurrentCulture );
@@ -275,7 +275,7 @@ public static class Converters
 
     public static string FormatValue( double value, CultureInfo culture = null, int? decimals = null )
     {
-        if ( decimals != null )
+        if ( decimals is not null )
             value = Math.Round( value, decimals.Value, MidpointRounding.AwayFromZero );
 
         return value.ToString( culture ?? CultureInfo.CurrentCulture );
@@ -283,7 +283,7 @@ public static class Converters
 
     public static string FormatValue( double? value, CultureInfo culture = null, int? decimals = null )
     {
-        if ( value != null && decimals != null )
+        if ( value is not null && decimals is not null )
             value = Math.Round( value.Value, decimals.Value, MidpointRounding.AwayFromZero );
 
         return value?.ToString( culture ?? CultureInfo.CurrentCulture );
@@ -291,7 +291,7 @@ public static class Converters
 
     public static string FormatValue( decimal value, CultureInfo culture = null, int? decimals = null )
     {
-        if ( decimals != null )
+        if ( decimals is not null )
             value = Math.Round( value, decimals.Value, MidpointRounding.AwayFromZero );
 
         return value.ToString( culture ?? CultureInfo.CurrentCulture );
@@ -299,7 +299,7 @@ public static class Converters
 
     public static string FormatValue( decimal? value, CultureInfo culture = null, int? decimals = null )
     {
-        if ( value != null && decimals != null )
+        if ( value is not null && decimals is not null )
             value = Math.Round( value.Value, decimals.Value, MidpointRounding.AwayFromZero );
 
         return value?.ToString( culture ?? CultureInfo.CurrentCulture );
@@ -377,7 +377,7 @@ public static class Converters
     {
         // deal with non-null nullables
         Type methodType = typeof( T );
-        if ( Nullable.GetUnderlyingType( methodType ) != null )
+        if ( Nullable.GetUnderlyingType( methodType ) is not null )
         {
             return false;
         }

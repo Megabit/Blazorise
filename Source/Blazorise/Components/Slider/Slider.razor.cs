@@ -31,7 +31,7 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -98,6 +98,21 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
 
     /// <inheritdoc/>
     protected override TValue InternalValue { get => Value; set => Value = value; }
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Step"/> value.
+    /// </summary>
+    protected string StepString => Step.ToCultureInvariantString();
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Min"/> value.
+    /// </summary>
+    protected string MinString => Min.ToCultureInvariantString();
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Max"/> value.
+    /// </summary>
+    protected string MaxString => Max.ToCultureInvariantString();
 
     /// <summary>
     /// Specifies the interval between valid values.

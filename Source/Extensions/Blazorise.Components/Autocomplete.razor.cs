@@ -1,4 +1,5 @@
 #region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Components.Autocomplete;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
+
 #endregion
 
 namespace Blazorise.Components;
@@ -23,10 +26,12 @@ namespace Blazorise.Components;
 /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
 public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAsyncDisposable
 {
-    class NullableT<T>
+    private class NullableT<T>
     {
         public NullableT( T t ) => Value = t;
+
         public T Value;
+
         public static implicit operator T( NullableT<T> nullable ) => nullable == null ? default : nullable.Value;
     }
 
@@ -65,16 +70,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Allow dropdown visibility
     /// </summary>
-    bool canShowDropDown;
+    private bool canShowDropDown;
 
-    string currentSearch;
-    string currentSearchParam;
+    private string currentSearch;
+    private string currentSearchParam;
 
-    NullableT<TValue> selectedValue;
-    TValue selectedValueParam;
+    private NullableT<TValue> selectedValue;
+    private TValue selectedValueParam;
 
-    List<TValue> selectedValuesParam;
-    List<string> selectedTextsParam;
+    private List<TValue> selectedValuesParam;
+    private List<string> selectedTextsParam;
 
     #endregion
 
@@ -104,7 +109,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         var selectedTextsParamChanged = parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
             && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts );
 
-
         await base.SetParametersAsync( parameters );
 
         await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged );
@@ -129,7 +133,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         else
             return new( Data.ToList(), TotalItems.HasValue ? TotalItems.Value : default );
     }
-
 
     private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
     {
@@ -238,6 +241,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
+        InputElementId = IdGenerator.Generate;
+
         ExecuteAfterRender( async () => await JSClosableModule.RegisterLight( ElementRef ) );
 
         if ( ManualReadMode )
@@ -260,8 +265,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         await base.OnInitializedAsync();
     }
-
-
 
     /// <summary>
     /// Handles the search field onchange or oninput event.
@@ -333,7 +336,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
     {
-
         if ( eventArgs.Code == "Escape" )
         {
             await Close();
@@ -746,8 +748,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns></returns>
     public async Task RemoveMultipleTextAndValue( string text )
     {
+        if ( Disabled )
+            return;
+
         await RemoveMultipleText( text );
         await RemoveMultipleValue( GetValueByText( text ) );
+
         DirtyFilter();
     }
 
@@ -807,7 +813,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             }
         }
 
-        filteredData = query.ToList();
+        var maxRowsLimit = LicenseChecker.GetAutoCompleteRowsLimit();
+
+        if ( maxRowsLimit.HasValue )
+        {
+            filteredData = query.Take( maxRowsLimit.Value ).ToList();
+        }
+        else
+        {
+            filteredData = query.ToList();
+        }
 
         dirtyFilter = false;
     }
@@ -821,7 +836,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         await ResetSelectedText();
         await ResetSelectedValue();
     }
-
 
     /// <summary>
     /// Clears the selected value and the search field.
@@ -910,7 +924,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Determines if Autocomplete can be closed
     /// </summary>
     /// <returns>True if Autocomplete can be closed.</returns>
-    /// 
+    ///
     [Obsolete( "IsSafeToClose is deprecated. This API now always returns true." )]
     public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
     {
@@ -1060,6 +1074,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         ? SelectedValues.FirstOrDefault( x => GetItemText( x ) == text )
         : default;
 
+    private Color GetMultipleBadgeColor() => Disabled
+        ? MultipleDisabledBadgeColor
+        : MultipleBadgeColor;
+
     #endregion
 
     #region Properties
@@ -1092,7 +1110,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Gets the Element Id
     /// </summary>
-    public string InputElementId => textEditRef?.ElementId;
+    public string InputElementId { get; private set; }
 
     /// <summary>
     /// Gets the dropdown CSS styles.
@@ -1195,6 +1213,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
+    /// Gets or set the IdGenerator.
+    /// </summary>
+    [Inject] public IIdGenerator IdGenerator { get; set; }
+
+    /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
     /// Gets or sets the dropdown element id.
     /// </summary>
     [Parameter] public string ElementId { get; set; }
@@ -1267,7 +1295,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Event handler used to detect when the autocomplete is opened.
     /// </summary>
     [Parameter] public EventCallback Opened { get; set; }
-
 
     /// <summary>
     /// Gets the data after all of the filters have being applied.
@@ -1374,6 +1401,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Defines the text color of the search field.
     /// </summary>
     [Parameter] public TextColor SearchTextColor { get; set; }
+
+    /// <summary>
+    /// Defines class for search field.
+    /// </summary>
+    [Parameter] public string SearchClass { get; set; }
+
+    /// <summary>
+    /// Defines style for search field.
+    /// </summary>
+    [Parameter] public string SearchStyle { get; set; }
 
     /// <summary>
     /// Currently selected items values.
@@ -1490,10 +1527,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public bool Multiple { get; set; }
 
     /// <summary>
-    /// Sets the Badge color for the multiple selection values.
-    /// Used when multiple selection is set.
+    /// Sets the Badge color for the multiple selection values. Used when multiple selection is set.
     /// </summary>
     [Parameter] public Color MultipleBadgeColor { get; set; } = Color.Primary;
+
+    /// <summary>
+    /// Sets the disabled Badge color for the multiple selection values. Used when multiple selection is set.
+    /// </summary>
+    [Parameter] public Color MultipleDisabledBadgeColor { get; set; } = Color.Light;
 
     /// <summary>
     /// Specifies the item content to be rendered inside each dropdown item.

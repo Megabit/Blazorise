@@ -33,7 +33,7 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );

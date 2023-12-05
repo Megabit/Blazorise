@@ -14,18 +14,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 {
     #region Members
 
-    private readonly Lazy<Func<Type>> valueTypeGetter;
-    private readonly Lazy<Func<object>> defaultValueByType;
-    private readonly Lazy<Func<TItem, object>> valueGetter;
-    private readonly Lazy<Action<TItem, object>> valueSetter;
-    private readonly Lazy<Func<TItem, object>> sortFieldGetter;
+    protected readonly Lazy<Func<Type>> valueTypeGetter;
+    protected readonly Lazy<Func<object>> defaultValueByType;
+    protected readonly Lazy<Func<TItem, object>> valueGetter;
+    protected readonly Lazy<Action<TItem, object>> valueSetter;
+    protected readonly Lazy<Func<TItem, object>> sortFieldGetter;
 
     private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new();
 
     /// <summary>
     /// FilterMethod can come from programatically defined Parameter or explicitly by the user through the interface.
     /// </summary>
-    private DataGridFilterMethod? currentFilterMethod;
+    private DataGridColumnFilterMethod? currentFilterMethod;
 
     #endregion
 
@@ -110,7 +110,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to get the value.</param>
     /// <returns></returns>
-    internal object GetValue( TItem item )
+    protected internal object GetValue( TItem item )
         => !string.IsNullOrEmpty( Field )
             ? valueGetter.Value( item )
             : default;
@@ -120,7 +120,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to set the value.</param>
     /// <param name="value">Value to set.</param>
-    internal void SetValue( TItem item, object value )
+    protected internal virtual void SetValue( TItem item, object value )
     {
         if ( !string.IsNullOrEmpty( Field ) )
             valueSetter.Value( item, value );
@@ -131,7 +131,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to get the value.</param>
     /// <returns></returns>
-    internal object GetSortValue( TItem item )
+    protected internal object GetSortValue( TItem item )
         => sortFieldGetter.Value( item );
 
     /// <summary>
@@ -232,7 +232,9 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     {
         var sb = new StringBuilder();
 
+#pragma warning disable CS0618 // Type or member is obsolete : Temporary retro compatibility usage
         var result = CellStyle?.Invoke( item );
+#pragma warning restore CS0618 // Type or member is obsolete
 
         if ( !string.IsNullOrEmpty( result ) )
             sb.Append( result );
@@ -252,19 +254,35 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         return SortOrderChanged.InvokeAsync( sortOrder );
     }
 
-    internal void SetFilterMethod( DataGridFilterMethod? filterMethod )
+    internal void SetFilterMethod( DataGridColumnFilterMethod? filterMethod )
     {
         currentFilterMethod = filterMethod;
     }
 
-    internal DataGridFilterMethod? GetFilterMethod()
+    internal DataGridColumnFilterMethod? GetFilterMethod()
     {
         return currentFilterMethod;
+    }
+
+    internal DataGridColumnFilterMethod GetDataGridFilterMethodAsColumn()
+    {
+        return ParentDataGrid.FilterMethod == DataGridFilterMethod.Contains ? DataGridColumnFilterMethod.Contains
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.StartsWith ? DataGridColumnFilterMethod.StartsWith
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.EndsWith ? DataGridColumnFilterMethod.EndsWith
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.Equals ? DataGridColumnFilterMethod.Equals
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.NotEquals ? DataGridColumnFilterMethod.NotEquals
+            : DataGridColumnFilterMethod.Contains;
     }
 
     #endregion
 
     #region Properties
+
+
+    /// <summary>
+    /// Whether the cell is currently being edited.
+    /// </summary>
+    public bool CellEditing { get; internal set; }
 
     /// <summary>
     /// Determines the text alignment for the filter cell.
@@ -407,8 +425,22 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     public bool CellValueIsEditable
         => Editable &&
-           ( ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
-             || ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit ) );
+           (
+                ( ParentDataGrid.EditState == DataGridEditState.Edit && ParentDataGrid.EditMode == DataGridEditMode.Cell && CellEditing 
+                    && IsCellEditablePerCommand )
+                ||
+                ( ParentDataGrid.EditMode != DataGridEditMode.Cell 
+                    || ( ParentDataGrid.EditState == DataGridEditState.New && ParentDataGrid.EditMode == DataGridEditMode.Cell ) //We don't have data, let's keep a regular editable row for New.
+                    && IsCellEditablePerCommand
+                )
+            );
+
+    protected bool IsCellEditablePerCommand
+        => (
+                        ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
+                        ||
+                        ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit )
+                        );
 
     /// <summary>
     /// Gets or sets the current sort direction.
@@ -615,12 +647,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Custom classname handler for cell based on the current row item.
     /// </summary>
-    [Parameter] public Func<TItem, string> CellClass { get; set; }
+    [Obsolete( "DataGridColumn: The CellClass parameter is deprecated, please use the DataGrid.CellStyling parameter." )][Parameter] public Func<TItem, string> CellClass { get; set; }
 
     /// <summary>
     /// Custom style handler for cell based on the current row item.
     /// </summary>
-    [Parameter] public Func<TItem, string> CellStyle { get; set; }
+    [Obsolete( "DataGridColumn: The CellStyle parameter is deprecated, please use the DataGrid.CellStyling parameter." )][Parameter] public Func<TItem, string> CellStyle { get; set; }
 
     /// <summary>
     /// Custom classname for header cell.
@@ -759,13 +791,24 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <para>Sets the filter method to be used for filtering the column.</para>
     /// <para>If null, uses the <see cref="DataGrid{TItem}.FilterMethod" /> </para>
     /// </summary>
-    [Parameter] public DataGridFilterMethod? FilterMethod { get; set; }
+    [Parameter] public DataGridColumnFilterMethod? FilterMethod { get; set; }
 
     /// <summary>
     /// <para>Defines the caption to be displayed for a group header.</para>
     /// <para>If set, all the column headers that are part of the group will be grouped under this caption.</para>
     /// </summary>
     [Parameter] public string HeaderGroupCaption { get; set; }
+
+    /// <summary>
+    /// Sets the help-text positioned below the field input when editing.
+    /// </summary>
+    [Parameter] public string HelpText { get; set; }
+
+    /// <summary>
+    /// <para>Gets or sets the filter mode for the column.</para>
+    /// <para>If set, this overrides the <see cref="DataGrid{TItem}.FilterMethod" />.</para>
+    /// </summary>
+    [Parameter] public DataGridFilterMode? FilterMode { get; set; }
 
     #endregion
 }

@@ -420,6 +420,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
 
+    public override string DropdownDisabled() => "dropdown-disabled";
+
     public override string DropdownGroup() => "btn-group";
 
     public override string DropdownObserverShow() => DropdownShow();
@@ -588,7 +590,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region Card
 
-    public override string CardDeck() => "card-deck row row-cols-1 row-cols-md-3";
+    public override string CardDeck() => "card-deck";
 
     public override string CardGroup() => "card-group";
 
@@ -617,6 +619,8 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string CardText() => "card-text";
 
     public override string CardLink() => "card-link";
+
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
@@ -1194,6 +1198,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string LinkActive( bool active ) => active ? Active() : null;
 
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+
     #endregion
 
     #region States
@@ -1343,10 +1349,16 @@ public class Bootstrap5ClassProvider : ClassProvider
             ? "w"
             : "h" );
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
+
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 

@@ -10,6 +10,8 @@ $yiq-text-dark: $text-dark !default;
 // The yiq lightness value that determines when the lightness of color changes from "dark" to "light". Acceptable values are between 0 and 255.
 $yiq-contrasted-threshold: 150 !default;
 
+$figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
+
 $primary: #9c27b0 !default;
 $secondary: #ff4081 !default;
 $success: #4caf50 !default;
@@ -70,7 +72,7 @@ $caret-spacing: $caret-width * .85 !default;
 
 $sizes: () !default;
 // stylelint-disable-next-line scss/dollar-variable-default
-$sizes: map-merge( ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, auto: auto ), $sizes );
+$sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
 
 $spacer: 1rem !default;
 

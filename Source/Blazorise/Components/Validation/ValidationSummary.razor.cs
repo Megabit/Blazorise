@@ -79,7 +79,7 @@ public partial class ValidationSummary : BaseComponent, IDisposable
 
     private void DetachAllListener()
     {
-        if ( previousParentValidations != null )
+        if ( previousParentValidations is not null )
         {
             previousParentValidations._StatusChanged -= OnValidationsStatusChanged;
         }

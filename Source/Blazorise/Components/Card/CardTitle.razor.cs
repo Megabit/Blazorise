@@ -34,7 +34,7 @@ public partial class CardTitle : BaseTypographyComponent
     /// <summary>
     /// Indicates if the title is placed inside if card header.
     /// </summary>
-    protected bool InsideHeader => ParentCardHeader != null;
+    protected bool InsideHeader => ParentCardHeader is not null;
 
     /// <summary>
     /// Number from 1 to 6 that defines the title size where the smaller number means larger text.

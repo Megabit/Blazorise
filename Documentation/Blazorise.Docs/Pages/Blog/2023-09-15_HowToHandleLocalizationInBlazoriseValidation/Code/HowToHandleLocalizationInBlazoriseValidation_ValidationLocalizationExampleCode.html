@@ -1,0 +1,37 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validations</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">_validationsRef</span> <span class="htmlAttributeName">HandlerType</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ValidationHandlerType</span><span class="enumValue">.DataAnnotation</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Model</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">_model</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Validation</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>Phone Country Code<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldLabel</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TextEdit</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-Text</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>_model.PhoneCountryCode</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
+                    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ValidationError</span> <span class="htmlTagDelimiter">/&gt;</span>
+                <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Feedback</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TextEdit</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validation</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Validations</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Submit</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Submit<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> ValidationLocalizationExample _model = <span class="keyword">new</span>();
+    <span class="keyword">private</span> Validations _validationsRef;
+    <span class="keyword">public</span> <span class="keyword">class</span> ValidationLocalizationExample
+    {
+        [RegularExpression( <span class="stringCSharpVerbatim"><span class="atSign">&#64;</span>&quot;^(\+?\d{1,3}|\d{1,4})$&quot;</span> )]
+        <span class="keyword">public</span> <span class="keyword">string</span> PhoneCountryCode { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+
+    <span class="keyword">private</span> <span class="keyword">async</span> Task Submit()
+    {
+        <span class="keyword">if</span> (<span class="keyword">await</span> _validationsRef.ValidateAll())
+        {
+            Console.WriteLine( <span class="string">&quot;Validation Success!&quot;</span> );
+        }
+    }
+}
+</pre></div>
+</div>

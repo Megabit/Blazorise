@@ -1,5 +1,5 @@
-﻿import "./vendors/Pickr.js?v=1.3.0.0";
-import * as utilities from "./utilities.js?v=1.3.0.0";
+﻿import "./vendors/Pickr.js?v=1.3.3.0";
+import * as utilities from "./utilities.js?v=1.3.3.0";
 
 const _instancesInfos = [];
 
@@ -11,7 +11,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     const picker = Pickr.create({
         el: element,
-        theme: 'monolith', // or 'monolith', or 'nano'
+        theme: 'monolith', // 'monolith' or 'nano'
 
         useAsButton: element,
 
@@ -26,8 +26,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
             // Main components
             preview: true,
-            opacity: true,
-            hue: false,
+            opacity: options.showOpacitySlider === true ? true : false,
+            hue: options.showHueSlider === true ? true : false,
 
             // Input / output Options
             interaction: {
@@ -36,10 +36,10 @@ export function initialize(dotnetAdapter, element, elementId, options) {
                 hsla: false,
                 hsva: false,
                 cmyk: false,
-                input: true,
+                input: options.showInputField === true ? true : false,
                 save: false,
-                clear: options.showClearButton || true,
-                cancel: options.showCancelButton || true
+                clear: options.showClearButton === true ? true : false,
+                cancel: options.showCancelButton === true ? true : false
             }
         },
 

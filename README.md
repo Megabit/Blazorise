@@ -70,18 +70,18 @@ Before you continue, please make sure you have the latest version of Visual Stud
 
 ## Installations
 
-There are currently 5 different NuGet packages for each of the supported CSS frameworks. Available packages are:
+There are currently 6 different NuGet packages for each of the supported CSS frameworks. Available packages are:
 
 ```
-- Blazorise.Tailwind
-- Blazorise.Bootstrap
-- Blazorise.Bootstrap5
-- Blazorise.Bulma
-- Blazorise.Material
-- Blazorise.AntDesign
+1. Blazorise.Tailwind
+2. Blazorise.Bootstrap
+3. Blazorise.Bootstrap5
+4. Blazorise.Bulma
+5. Blazorise.Material
+6. Blazorise.AntDesign
 ```
 
-This guide will show you how to setup Blazorise with **Bootstrap** and **FontAwesome** icons. To setup Blazorise for other CSS frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
+This guide will show you how to setup Blazorise with **Bootstrap 4** and **FontAwesome** icons. To setup Blazorise for other CSS frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
 
 ### 1. NuGet packages
 
@@ -105,8 +105,8 @@ Add the following to `index.html` (Blazor WebAssembly) or `_Host.cshtml` (Blazor
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
 
-<link href="_content/Blazorise/blazorise.css?v=1.1.4.0" rel="stylesheet" />
-<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.1.4.0" rel="stylesheet" />
+<link href="_content/Blazorise/blazorise.css?v=1.3.3.0" rel="stylesheet" />
+<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.3.3.0" rel="stylesheet" />
 ```
 
 Add the following to `index.html` or `_Host.cshtml` in the `body` section.
@@ -182,6 +182,7 @@ builder.Services
 Now you will be able to get preview versions of Blazorise with the latest changes and bug fixes.
 
 ## Contributing
+
 We welcome contributions and any suggestions or feature requests you might have. Contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. This will be signed once you submit a PullRequest on our repository. For details about our CLA, please visit: [Contributor License Agreement](https://gist.github.com/stsrki/abfa5ce0f4a5cf1e6ac67b92f8eb5d63).
 
 For our code conventions and guidelines please visit: [Contributing Guide](https://github.com/Megabit/Blazorise/wiki/Contributing)

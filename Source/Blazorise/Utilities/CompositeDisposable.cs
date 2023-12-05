@@ -29,10 +29,10 @@ public static class CompositeDisposableEx
     public static T DisposeWith<T>( this T disposable, CompositeDisposable cleanup )
         where T : IDisposable
     {
-        if ( disposable == null )
+        if ( disposable is null )
             throw new ArgumentNullException( nameof( disposable ) );
 
-        if ( cleanup == null )
+        if ( cleanup is null )
             throw new ArgumentNullException( nameof( cleanup ) );
 
         cleanup.Add( disposable );

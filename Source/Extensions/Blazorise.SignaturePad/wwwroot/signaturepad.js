@@ -1,5 +1,5 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.3.0.0";
-import "./vendors/sigpad.js?v=1.3.0.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.3.3.0";
+import "./vendors/sigpad.js?v=1.3.3.0";
 
 const _instances = [];
 
@@ -8,6 +8,12 @@ export function initialize(dotNetAdapter, element, elementId, options) {
 
     if (!element)
         return;
+
+    // we need to match the canvas size ans size in styles so that we can properly calculate scaling based on screen size
+    if (element.width && element.height) {
+        element.style.width = `${element.width}px`;
+        element.style.height = `${element.height}px`;
+    }
 
     const sigpad = new SignaturePad(element, {
         minWidth: options.minLineWidth || 0.5,
@@ -31,10 +37,13 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     const instance = {
         options: options,
         sigpad: sigpad,
-        dotNetAdapter: dotNetAdapter
+        dotNetAdapter: dotNetAdapter,
+        element: element
     };
 
     registerToEvents(dotNetAdapter, instance);
+
+    resizeCanvas(sigpad, element);
 
     _instances[elementId] = instance;
 }
@@ -176,4 +185,38 @@ function getImageDataURL(sigpad, options) {
     }
 
     return sigpad.toDataURL("image/png", options.imageQuality || 1);
+}
+
+window.onresize = resizeAllCanvas;
+
+function resizeAllCanvas() {
+    if (_instances) {
+        for (let i = 0; i < _instances.length; i++) {
+            const instance = _instances[i];
+
+            if (instance) {
+                resizeCanvas(instance.sigpad, instance.element);
+            }
+        }
+    }
+}
+
+function resizeCanvas(sigpad, canvas) {
+    if (!sigpad || !canvas) {
+        return null;
+    }
+
+    // When zoomed out to less than 100%, for some very strange reason,
+    // some browsers report devicePixelRatio as less than 1
+    // and only part of the canvas is cleared then.
+    const ratio = Math.max(window.devicePixelRatio || 1, 1);
+
+    const context = canvas.getContext("2d");
+
+    // This part causes the canvas to be cleared
+    canvas.width = canvas.offsetWidth * ratio;
+    canvas.height = canvas.offsetHeight * ratio;
+    context.scale(ratio, ratio);
+
+    sigpad.fromData(sigpad.toData());
 }

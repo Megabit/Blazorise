@@ -1,4 +1,4 @@
 ﻿@inherits Blazorise.Tab
-<div id="@ElementId" role="tab" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" tabindex="@(Disabled ? "-1" : "0")" aria-selected="@(Active.ToString().ToLowerInvariant())" aria-disabled="@(Disabled.ToString().ToLowerInvariant())" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" role="tab" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" tabindex="@(Disabled ? "-1" : "0")" aria-selected="@(Active.ToString().ToLowerInvariant())" aria-disabled="@(Disabled.ToString().ToLowerInvariant())" @attributes="@Attributes">
     @ChildContent
 </div>

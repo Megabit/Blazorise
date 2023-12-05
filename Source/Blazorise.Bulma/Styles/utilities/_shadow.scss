@@ -1,0 +1,15 @@
+﻿.has-shadow-small {
+    box-shadow: $box-shadow-sm !important;
+}
+
+.has-shadow {
+    box-shadow: $box-shadow !important;
+}
+
+.has-shadow-large {
+    box-shadow: $box-shadow-lg !important;
+}
+
+.has-shadow-none {
+    box-shadow: none !important;
+}

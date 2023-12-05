@@ -1,0 +1,52 @@
+﻿.ant-position {
+    &-static {
+        position: static !important;
+    }
+
+    &-relative {
+        position: relative !important;
+    }
+
+    &-absolute {
+        position: absolute !important;
+    }
+
+    &-fixed {
+        position: fixed !important;
+    }
+
+    &-sticky {
+        position: -webkit-sticky !important;
+        position: sticky !important;
+    }
+}
+
+@each $name, $value in $position-values {
+    .ant-top-#{$name} {
+        top: #{$value} !important;
+    }
+
+    .ant-bottom-#{$name} {
+        bottom: #{$value} !important;
+    }
+
+    .ant-left-#{$name} {
+        left: #{$value} !important;
+    }
+
+    .ant-right-#{$name} {
+        right: #{$value} !important;
+    }
+}
+
+.ant-translate-middle {
+    transform: translate(-50%, -50%) !important;
+}
+
+.ant-translate-middle-x {
+    transform: translateX(-50%) !important;
+}
+
+.ant-translate-middle-y {
+    transform: translateY(-50%) !important;
+}

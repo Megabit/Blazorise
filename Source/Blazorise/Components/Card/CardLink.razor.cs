@@ -34,6 +34,7 @@ public partial class CardLink : BaseLinkComponent
     {
         builder.Append( ClassProvider.CardLink() );
         builder.Append( ClassProvider.CardLinkActive( Active ) );
+        builder.Append( ClassProvider.CardLinkUnstyled( Unstyled ) );
 
         base.BuildClasses( builder );
     }

@@ -1,7 +1,7 @@
 ﻿@if ( ShowHeader )
 {
-    <Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
-        FAQ
+    <Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
+        Frequently Asked Questions
     </Paragraph>
 }
 
@@ -31,67 +31,150 @@
 
         public string Title { get; set; }
 
-        public string Body { get; set; }
+        public RenderFragment Body { get; set; }
     }
 
     private List<FaqInfo> faqInfos = new List<FaqInfo>
     {
         new FaqInfo {
             Title = "Is subscription renewal automatic?",
-            Body = "The renewal is automatic if it was activated through our partner Paddle.com. It will recur after the subscription period ends. You can cancel your subscription at any time."
+            Body = (__builder) => {
+                <Paragraph>
+                    The renewal is automatic if the license was purchased through our webpage and paid with the credit card. It will recur after the subscription period ends. You can cancel your subscription at any time.
+                </Paragraph>
+            }
         },
 
         new FaqInfo {
             Title = "What happens if I stop with yearly subscription?",
-            Body = "By ending the yearly subscription you will no longer get free Blazorise updates, access to our support web and access to our private repositories. The last Blazorise version that was at the time of ending the yearly subscription will stay with you and you can continue to use it."
+            Body = (__builder) => {
+                <Paragraph>
+                    By ending the yearly subscription you will no longer get free Blazorise updates, access to our support web and access to our private repositories. The last Blazorise version that was at the time of ending the yearly subscription will stay with you and you can continue to use it.
+                </Paragraph>
+            }
         },
 
         new FaqInfo {
             Title = "Is the license perpetual?",
-            Body = "Yes. Blazorise licenses are perpetual. Perpetual means that the Professional features are available after the subscription ends. Product updates and support are only available during the subscription period."
+            Body = (__builder) => {
+                <Paragraph>
+                    <Strong>Yes.</Strong> Blazorise licenses are perpetual. Perpetual means that the Professional features are available after the subscription ends. Product updates and support are only available during the subscription period.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "Am I allowed to use the product after the update entitlement expires?",
+            Body = (__builder) => {
+                <Paragraph>
+                    <Strong>Yes.</Strong> You can continue to use the product in production environments after the entitlement expires. But you will need to keep your subscription active to continue development, update for new features, or gain access to technical support.
+                </Paragraph>
+                <Paragraph>
+                    To renew your license, please <Anchor To="mailto:sales@blazorise.com" Title="Link to contact sales">contact sales</Anchor>.
+                </Paragraph>
+            }
         },
 
         new FaqInfo {
             Title = "Does the license include support?",
-            Body = "Blazorise Professional and Blazorise Enterprise include dedicated support over our support forum during the subscription period."
+            Body = (__builder) => {
+                <Paragraph>
+                    <Strong>Yes.</Strong> Blazorise Professional and Blazorise Enterprise include dedicated support over our <Anchor To="https://blazorise.com/support" Title="Link to support forum">support forum</Anchor> during the subscription period.
+                </Paragraph>
+            }
         },
 
         new FaqInfo {
             Title = "How many licenses do I need?",
-            Body = "All developers contributing to a project that uses any of the commercial products need to have a valid license."
+            Body = (__builder) => {
+                <Paragraph>
+                    The number of licenses purchased must correspond to the maximum number of concurrent developers contributing changes to the front-end code of projects that use Blazorise.
+                </Paragraph>
+                <Paragraph>
+                    <Strong>Example 1.</Strong> Company 'A' is developing an application named 'AppA'. The app needs to render 10k rows of data in a table and allow users to group, filter, and sort. The dev team adds Blazorise to the project to satisfy this requirement. 5 front-end and 10 back-end developers are working on 'AppA'. Only 1 developer is tasked with configuring and modifying the data grid. Only the front-end developers are contributing code to the front-end so Company 'A' purchases 5 licenses.
+                </Paragraph>
+                <Paragraph>
+                    <Strong>Example 2.</Strong> A UI development team at Company 'A' creates its own UI library for internal development and includes Blazorise as a component. The team working on 'AppA' uses the new library and so does the team working on 'AppB'. 'AppA' has 5 front-end developers and 'AppB' has 3. There are 2 front-end developers on the UI development team. Company 'B' purchases 10 licenses.
+                </Paragraph>
+            }
         },
 
         new FaqInfo {
             Title = "Do I need to purchase license if I'm freelancer and work with Blazorise for my clients?",
-            Body = "If freelancers are using Blazorise for their client projects, they would be considered as developers who are using Blazorise in their work. Therefore, they would need to obtain a commercial license for Blazorise. The responsibility for obtaining the necessary Blazorise licenses would depend on the terms of the agreement between the freelancer and their client company."
+            Body = (__builder) => {
+                <Paragraph>
+                    If freelancers are using Blazorise for their client projects, they would be considered as developers who are using Blazorise in their work.
+                </Paragraph>
+                <Paragraph>
+                    Therefore, they would need to obtain a commercial license for Blazorise. The responsibility for obtaining the necessary Blazorise licenses would depend on the terms of the agreement between the freelancer and their client company.
+                </Paragraph>
+            }
         },
 
         new FaqInfo {
             Title = "If I deploy Blazorise based apps to my client, do they also need to purchase license?",
-            Body = "No. Your client doesn't need to purchase Blazorise license." },
-
-        new FaqInfo {
-            Title = "What is a customized agreement?",
-            Body = "You have the option to tailor the agreements that best suit your needs." },
-
-        new FaqInfo {
-            Title = "What does the Blazorise Mentor service include?",
-            Body = "Blazorise Mentor provides you with a personal Blazorise expert to assist you on your Blazorise journey. Consider your mentor to be a senior developer who can answer difficult questions about Blazorise and web development in person or via the communication tool of your choice. Blazorise Mentor keeps you out of common pitfalls and can have a significant impact on the productivity and quality of your team."
+            Body = (__builder) => {
+                <Paragraph>
+                    <Strong>No.</Strong> Your client doesn't need to purchase Blazorise license.
+                </Paragraph>
+            }
         },
 
         new FaqInfo {
-            Title = "What are packaged services?",
-            Body = "Packaged services are the service offerings most favored by our consulting customers that we bundle together and make available to Enterprise customers."
+            Title = "What is a customized agreement?",
+            Body = (__builder) => {
+                <Paragraph>
+                    You have the option to tailor the agreements that best suit your company and your project requirements.
+                </Paragraph>
+                <Paragraph>
+                    To learn more, please <Anchor To="mailto:sales@blazorise.com" Title="Link to contact sales">contact sales</Anchor>.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "What does the Blazorise Mentor service include?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Blazorise Mentor provides you with a personal Blazorise expert to assist you on your Blazorise journey. 
+                </Paragraph>
+                <Paragraph>
+                    Consider your mentor to be a senior developer who can answer difficult questions about Blazorise and web development in person or via the communication tool of your choice. Blazorise Mentor keeps you out of common pitfalls and can have a significant impact on the productivity and quality of your team.
+                </Paragraph>
+            }
         },
 
         new FaqInfo {
             Title = "What is the currency your prices are shown in?",
-            Body = "Our prices are shown in USD, and are charged in your local currency if available. Otherwise it is charged in USD."
+            Body = (__builder) => {
+                <Paragraph>
+                    Our prices are shown in USD, and are charged in your local currency if available. Otherwise it is charged in USD.
+                </Paragraph>
+            }
         },
 
         new FaqInfo {
             Title = "Do you offer volume discounts?",
-            Body = "Yes, get in touch with us at sales@blazorise.com."
+            Body = (__builder) => {
+                <Paragraph>
+                    <Strong>Yes.</Strong> Get in touch with us at <Anchor To="mailto:sales@blazorise.com" Title="Link to contact sales">sales team</Anchor>.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "What is the difference between Blazorise and Blazorise Blocks?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Blazorise is a component library for Blazor that provides a range of UI components and utilities to help developers build web applications more easily.
+                </Paragraph>
+                <Paragraph>
+                     Blazorise Blocks are a set of predefined UI elements or modules built on top of the Blazorise library. These blocks simplify the web development process by offering ready-to-use sections (like checkout, stats, login forms, etc.) that developers can integrate into their projects without having to design or code them from scratch.
+                </Paragraph>
+                <Paragraph>
+                    In essence, while Blazorise provides the foundational components and tools, Blazorise Blocks offer higher-level, more specialized modules that are based on those foundational components for specific use cases.
+                </Paragraph>
+            }
         },
     };
 }

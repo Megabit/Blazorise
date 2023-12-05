@@ -43,4 +43,6 @@ public class ButtonRowContext<TItem>
     public EditCommandContext<TItem> EditCommand { get; set; }
     public DeleteCommandContext<TItem> DeleteCommand { get; set; }
     public CommandContext<TItem> ClearFilterCommand { get; set; }
+    public CommandContext<TItem> SaveBatchCommand { get; set; }
+    public CommandContext<TItem> CancelBatchCommand { get; set; }
 }

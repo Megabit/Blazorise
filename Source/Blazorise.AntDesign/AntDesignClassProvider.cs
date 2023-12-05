@@ -429,6 +429,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Dropdown( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-submenu ant-dropdown-menu-submenu-vertical" : "ant-dropdown-group ant-dropdown-button"; // ant-dropdown-group is custom class
 
+    public override string DropdownDisabled() => "ant-dropdown-disabled";
+
     public override string DropdownGroup() => null;
 
     public override string DropdownObserverShow() => DropdownMenuVisible( false );
@@ -623,6 +625,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string CardText() => "ant-card-text";
 
     public override string CardLink() => "ant-card-extra";
+
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
@@ -1079,7 +1083,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => $"ant-typography-{ToTextTransform( textTransform )}";
 
-    public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
+    public override string TextWeight( TextWeight textWeight ) => $"ant-font-weight-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"ant-typography-{ToTextOverflow( textOverflow )}";
 
@@ -1192,6 +1196,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string Link() => null;
 
     public override string LinkActive( bool active ) => active ? Active() : null;
+
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
 
     #endregion
 
@@ -1345,10 +1351,16 @@ public class AntDesignClassProvider : ClassProvider
             ? "width"
             : "height" );
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
+
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 

@@ -1,9 +1,9 @@
 ﻿<Div Class="page-header" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
     <Container>
-        <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is4.FromTop.Is4.FromBottom" Source="@BlazoriseLogo" Text="Blazorise logo" Style="width: 120px; height: 120px;" />
+        <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is4.FromTop.Is4.FromBottom" Source="@BlazoriseLogo" Text="Blazorise logo" Style="width: 160px; height: 160px;" />
         @if ( Title != null )
         {
-            <DisplayHeading Size="DisplayHeadingSize.Is4" TextWeight="TextWeight.Bold" Padding="Padding.Is3.OnY">
+            <DisplayHeading Size="DisplayHeadingSize.Is4" TextWeight="TextWeight.Bold" Padding="Padding.Is3.OnY.Is4.FromBottom">
                 @Title
             </DisplayHeading>
         }
@@ -21,7 +21,7 @@
         }
         @if ( Actions != null )
         {
-            <Div Flex="Flex.Column.Row.OnDesktop.AlignItems.Stretch.JustifyContent.Center" Gap="Gap.Is3">
+            <Div Flex="Flex.Column.Row.OnDesktop.AlignItems.Stretch.JustifyContent.Center" Gap="Gap.Is3" Padding="Padding.Is4.FromTop">
                 @Actions
             </Div>
         }

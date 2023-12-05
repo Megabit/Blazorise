@@ -216,7 +216,10 @@
         Multiple parameter will be removed in a future version, please replace with SelectionMode.Multiple Parameter instead.
     </DocsAttributesItem>
     <DocsAttributesItem Name="MultipleBadgeColor" Type="Color" Default="Color.Primary">
-        Sets the Badge color for the multiple selection values.
+        Sets the Badge color for the multiple selection values. Used when multiple selection is set.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MultipleDisabledBadgeColor" Type="Color" Default="Color.Light">
+        Sets the disabled Badge color for the multiple selection values. Used when multiple selection is set.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedValues" Type="List<TValue>">
         Currently selected items values.
@@ -264,6 +267,12 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SearchTextColor" Type="TextColor" Default="null">
         Defines the text color of the search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchClass" Type="string" Default="null">
+        Defines the class for the search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchStyle" Type="string" Default="null">
+        Defines the style for the search field.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Closed" Type="EventCallback<AutocompleteClosedEventArgs>">
         Event handler used to detect when the autocomplete is closed.

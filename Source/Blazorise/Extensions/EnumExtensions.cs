@@ -151,6 +151,6 @@ public static class EnumExtensions
     /// <param name="size">Enum to test.</param>
     /// <returns>True if the value parameter is null or a default value; otherwise, false.</returns>
     public static bool IsNullOrDefault( this Size? size )
-        => size == null || size == Size.Default;
+        => size is null || size == Size.Default;
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

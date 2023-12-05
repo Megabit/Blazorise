@@ -1,0 +1,118 @@
+﻿.is-borderless {
+    border: 0 !important;
+}
+
+.has-border {
+    border: $border-width solid $border-color !important;
+}
+
+.has-border-top {
+    border-top: $border-width solid $border-color !important;
+}
+
+.has-border-right {
+    border-right: $border-width solid $border-color !important;
+}
+
+.has-border-bottom {
+    border-bottom: $border-width solid $border-color !important;
+}
+
+.has-border-left {
+    border-left: $border-width solid $border-color !important;
+}
+
+.has-border-0 {
+    border: 0 !important;
+}
+
+.has-border-top-0 {
+    border-top: 0 !important;
+}
+
+.has-border-right-0 {
+    border-right: 0 !important;
+}
+
+.has-border-bottom-0 {
+    border-bottom: 0 !important;
+}
+
+.has-border-left-0 {
+    border-left: 0 !important;
+}
+
+@each $name, $value in $theme-colors {
+    $color: $value;
+
+    .has-border-#{$name} {
+        border-color: $color !important;
+    }
+}
+
+.has-border-white {
+    border-color: white !important;
+}
+
+.has-rounded-border {
+    border-radius: $radius !important;
+}
+
+.has-rounded-border-top {
+    border-top-left-radius: $radius !important;
+    border-top-right-radius: $radius !important;
+}
+
+.has-rounded-border-right {
+    border-top-right-radius: $radius !important;
+    border-bottom-right-radius: $radius !important;
+}
+
+.has-rounded-border-bottom {
+    border-bottom-right-radius: $radius !important;
+    border-bottom-left-radius: $radius !important;
+}
+
+.has-rounded-border-left {
+    border-top-left-radius: $radius !important;
+    border-bottom-left-radius: $radius !important;
+}
+
+.has-rounded-border-circle {
+    border-radius: 50% !important;
+}
+
+.has-rounded-border-pill {
+    border-radius: $radius-pill !important;
+}
+
+.has-rounded-border-0 {
+    border-radius: 0 !important;
+}
+
+$border-sides: ("top", "right", "bottom", "left");
+$border-sizes: (1, 2, 3, 4, 5);
+
+@each $size in $border-sizes {
+    .has-border-#{$size} {
+        border: #{$size}px solid $border-color !important;
+    }
+
+    @each $color-name, $color-value in $theme-colors {
+        .has-border-#{$color-name}-#{$size} {
+            border: #{$size}px solid $color-value !important;
+        }
+    }
+
+    @each $side in $border-sides {
+        .has-border-#{$side}-#{$size} {
+            border-#{$side}: #{$size}px solid $border-color !important;
+        }
+
+        @each $color-name, $color-value in $theme-colors {
+            .has-border-#{$color-name}-#{$side}-#{$size} {
+                border-#{$side}: #{$size}px solid $color-value !important;
+            }
+        }
+    }
+}
