@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.DropdownMenu
-<div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <div class="dropdown-content">
         @ChildContent
     </div>

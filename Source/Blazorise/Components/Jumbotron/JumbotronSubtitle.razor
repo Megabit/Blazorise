@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<p id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<p @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     @ChildContent
 </p>

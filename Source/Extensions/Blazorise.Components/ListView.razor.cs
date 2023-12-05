@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
 using Blazorise.Components.ListView;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Components;
@@ -17,6 +18,18 @@ namespace Blazorise.Components;
 public partial class ListView<TItem> : ComponentBase
 {
     #region Methods
+
+    private IEnumerable<TItem> GetData()
+    {
+        var maxRowsLimit = LicenseChecker.GetListViewRowsLimit();
+
+        if ( maxRowsLimit.HasValue )
+        {
+            return Data?.Take( maxRowsLimit.Value );
+        }
+
+        return Data;
+    }
 
     private string GetItemText( TItem item )
     {
@@ -74,6 +87,11 @@ public partial class ListView<TItem> : ComponentBase
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
     /// Defines the list-group behavior mode.

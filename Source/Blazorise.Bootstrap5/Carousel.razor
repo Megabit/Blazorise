@@ -3,7 +3,7 @@
     <CascadingValue Value="@State">
         @ChildContent
 
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" data-ride="carousel" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-ride="carousel" @attributes="@Attributes">
             @if (ShowIndicators)
             {
                 <ol class="@IndicatorsClassNames">

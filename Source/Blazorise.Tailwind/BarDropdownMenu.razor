@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BarDropdownMenu
 @if ( ParentBar?.Mode == BarMode.Horizontal )
 {
-    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" data-visible="@VisibleString">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" data-visible="@VisibleString">
         <ul class="py-1 text-sm text-gray-700 dark:text-gray-400">
             @ChildContent
         </ul>
@@ -10,7 +10,7 @@
 else
 {
     <div class="@ContainerClassNames">
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" data-visible="@VisibleString">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler" data-visible="@VisibleString">
             @ChildContent
         </div>
     </div>
