@@ -121,26 +121,22 @@ public partial class ListView<TItem> : ComponentBase
     /// <summary>
     /// Defines the list-group behavior mode.
     /// </summary>
-    [Parameter]
-    public ListGroupMode Mode { get; set; }
+    [Parameter] public ListGroupMode Mode { get; set; }
 
     /// <summary>
     /// Defines the list-group selection mode.
     /// </summary>
-    [Parameter]
-    public ListGroupSelectionMode SelectionMode { get; set; }
+    [Parameter] public ListGroupSelectionMode SelectionMode { get; set; }
 
     /// <summary>
     /// Remove some borders and rounded corners to render list group items edge-to-edge in a parent container (e.g., cards).
     /// </summary>
-    [Parameter]
-    public bool Flush { get; set; }
+    [Parameter] public bool Flush { get; set; }
 
     /// <summary>
     /// Makes the list group scrollable by adding a vertical scrollbar.
     /// </summary>
-    [Parameter]
-    public bool Scrollable { get; set; } = true;
+    [Parameter] public bool Scrollable { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the items data-source.

@@ -18,7 +18,7 @@
     </Div>
 
     <Div Flex="Flex.Column.JustifyContent.Center.AlignItems.Center" Height="Height.Is50" Margin="Margin.Is1.OnY.Is2.FromEnd.Is2.FromStart">
-        @if (SelectionMode == ListGroupSelectionMode.Multiple)
+        @if ( SelectionMode == ListGroupSelectionMode.Multiple )
         {
             <Div Margin="Margin.Is1.OnY">
                 <Button Color="Color.Primary" Clicked="MoveAllRight" Disabled="@MoveAllRightDisabled">@(">>")</Button>
