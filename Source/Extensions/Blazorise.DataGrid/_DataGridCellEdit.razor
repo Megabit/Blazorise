@@ -3,57 +3,57 @@
 @inherits ComponentBase
 @if ( ValueType == typeof( string ) )
 {
-    <TextEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
+    <TextEdit ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
 }
 else if ( ValueType == typeof( bool ) )
 {
-    <Check @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="bool" Checked="@((bool)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <Check ElementId="@elementId" TValue="bool" Checked="@((bool)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( bool? ) )
 {
-    <Check @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="bool?" Checked="@((bool?)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <Check ElementId="@elementId" TValue="bool?" Checked="@((bool?)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( DateTime ) )
 {
-    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateTime" Date="@((DateTime)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateTime" Date="@((DateTime)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateTime? ) )
 {
-    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateTime?" Date="@((DateTime?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateTime?" Date="@((DateTime?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateOnly ) )
 {
-    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateOnly" Date="@((DateOnly)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateOnly" Date="@((DateOnly)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateOnly? ) )
 {
-    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateOnly?" Date="@((DateOnly?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateOnly?" Date="@((DateOnly?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateTimeOffset ) )
 {
-    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateTimeOffset" Date="@((DateTimeOffset)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateTimeOffset" Date="@((DateTimeOffset)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateTimeOffset? ) )
 {
-    <DateEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="DateTimeOffset?" Date="@((DateTimeOffset?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateTimeOffset?" Date="@((DateTimeOffset?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( TimeSpan ) )
 {
-    <TimeEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="TimeSpan" Time="@((TimeSpan)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeEdit ElementId="@elementId" TValue="TimeSpan" Time="@((TimeSpan)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( TimeSpan? ) )
 {
-    <TimeEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="TimeSpan?" Time="@((TimeSpan?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeEdit ElementId="@elementId" TValue="TimeSpan?" Time="@((TimeSpan?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( TimeOnly ) )
 {
-    <TimeEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="TimeOnly" Time="@((TimeOnly)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeEdit ElementId="@elementId" TValue="TimeOnly" Time="@((TimeOnly)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( TimeSpan? ) )
 {
-    <TimeEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" TValue="TimeOnly?" Time="@((TimeOnly?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeEdit ElementId="@elementId" TValue="TimeOnly?" Time="@((TimeOnly?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else
 {
-    <TextEdit @bind-ElementRef="@ElementRef" ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
+    <TextEdit ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
 }
