@@ -1,6 +1,4 @@
 ﻿using AngleSharp.Dom;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
@@ -16,9 +14,10 @@ public class ValidateAnnotationsComponentTest : TestContext
 
     public ValidateAnnotationsComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop
+            .AddBlazoriseButton()
+            .AddBlazoriseTextEdit();
     }
 
     [Fact]

@@ -1,7 +1,4 @@
 ﻿using System.Threading.Tasks;
-using BasicTestApp.Client;
-using Blazorise.Tests.Extensions;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
@@ -11,8 +8,8 @@ public class SelectComponentTest : TestContext
 {
     public SelectComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseButton();
     }
 
     [Fact]

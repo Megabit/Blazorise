@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
 using Bunit;
-using FluentAssertions;
 using Xunit;
 #endregion
 
@@ -15,11 +12,12 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
 {
     public AutocompleteMultipleComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop
+            .AddBlazoriseTextEdit()
+            .AddBlazoriseUtilities()
+            .AddBlazoriseClosable()
+            .AddBlazoriseDropdown();
     }
 
     [Fact]

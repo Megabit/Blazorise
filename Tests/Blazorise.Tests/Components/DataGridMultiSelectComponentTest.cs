@@ -1,7 +1,4 @@
 ﻿#region Using directives
-using System.Linq;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 #endregion
@@ -12,8 +9,8 @@ public class DataGridMultiSelectComponentTest : TestContext
 {
     public DataGridMultiSelectComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddDataGrid( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseDataGrid();
     }
 
     [Fact]
