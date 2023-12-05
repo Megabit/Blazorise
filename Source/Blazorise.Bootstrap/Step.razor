@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.Step
 <CascadingValue Value="@this" IsFixed>
-    <li id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
         @if ( Marker != null || Caption != null )
         {
             <div class="@ContainerClassNames">

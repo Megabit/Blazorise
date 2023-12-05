@@ -2,7 +2,7 @@
 @if ( ParentDropdownState != null && ParentDropdownState.Mode != BarMode.VerticalInline )
 {
     <div class="@( ParentDropdownState.Mode == BarMode.Horizontal ? HorizontalMenuClass : VerticalMenuClass )" @onmouseenter="@ParentBarDropdown.OnMouseEnterHandler" @onmouseleave="@ParentBarDropdown.OnMouseLeaveHandler">
-        <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
+        <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
             @ChildContent
         </ul>
     </div>
@@ -10,7 +10,7 @@
 }
 else
 {
-    <ul id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
+    <ul @ref="@ElementRef" id="@SubMenuId" direction="ltr" class="@ClassNames" style="@StyleNames" role="menu" @attributes="@Attributes">
         @ChildContent
     </ul>
 }

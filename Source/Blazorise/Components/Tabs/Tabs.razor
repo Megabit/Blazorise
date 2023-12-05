@@ -6,7 +6,7 @@
         {
             @if ( Items is not null )
             {
-                <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                     @Items
                 </ul>
             }
@@ -27,7 +27,7 @@
             }
             @if ( Items is not null )
             {
-                <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                     @Items
                 </ul>
             }
@@ -38,7 +38,7 @@
                 <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
                     @if ( Items is not null )
                     {
-                        <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                        <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                             @Items
                         </ul>
                     }
@@ -67,7 +67,7 @@
                 <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
                     @if ( Items is not null )
                     {
-                        <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                        <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                             @Items
                         </ul>
                     }

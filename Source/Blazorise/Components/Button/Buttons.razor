@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
-    <div id="@ElementId" class="@ClassNames" style="@StyleNames" role="@(Role== ButtonsRole.Toolbar? "toolbar" : "group")" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="@(Role== ButtonsRole.Toolbar? "toolbar" : "group")" @attributes="@Attributes">
         @ChildContent
     </div>
 </CascadingValue>

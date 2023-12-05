@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<li id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <a class="@LinkClassNames" @onclick="@ClickHandler" tabindex="@(Disabled ? "-1" : "0")" aria-disabled="@(Disabled.ToString().ToLowerInvariant())">@ChildContent</a>
 </li>

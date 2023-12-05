@@ -2,7 +2,7 @@
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
         <CascadingValue Value="@SubMenuId" Name="SubMenuId">
-            <li id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" @attributes="@Attributes">
+            <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" @attributes="@Attributes">
                 @ChildContent
             </li>
         </CascadingValue>
