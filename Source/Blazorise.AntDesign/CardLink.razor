@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.CardLink
-<div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <a href="@To" title="@Title" target="@TargetName">
         @ChildContent
     </a>

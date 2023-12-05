@@ -1,4 +1,4 @@
 ﻿@namespace Blazorise
 @typeparam TValue
 @inherits BaseComponent
-<option id="@ElementId" class="@ClassNames" style="@StyleNames" value="@StringValue" selected="@Selected" disabled="@Disabled" hidden="@Hidden" @attributes="@Attributes">@ChildContent</option>
+<option @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" value="@StringValue" selected="@Selected" disabled="@Disabled" hidden="@Hidden" @attributes="@Attributes">@ChildContent</option>

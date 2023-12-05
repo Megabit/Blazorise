@@ -2,7 +2,7 @@
 
 @if ( ParentBarDropdown?.IsBarDropdownSubmenu == true )
 {
-    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
+    <li @ref="@ElementRef" @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-toggle="dropdown" @onclick="@ClickHandler" @onkeydown="@KeyDownHandler" @attributes="@Attributes">
         @ChildContent
         <i class="ant-menu-submenu-arrow"></i>
     </li>

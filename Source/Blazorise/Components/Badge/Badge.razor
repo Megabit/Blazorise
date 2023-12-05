@@ -2,7 +2,7 @@
 @inherits BaseComponent
 @if ( Link is not null )
 {
-    <a id="@ElementId" href="@Link" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <a @ref="@ElementRef" id="@ElementId" href="@Link" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
         @if ( Closable )
         {
@@ -14,7 +14,7 @@
 }
 else
 {
-    <span id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
         @if ( Closable )
         {

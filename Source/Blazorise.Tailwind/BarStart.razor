@@ -1,7 +1,7 @@
 ﻿@inherits Blazorise.BarStart
 @if ( ParentBar?.Mode == BarMode.Horizontal )
 {
-    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         <ul class="flex flex-col p-4 mt-4 md:flex-row md:mt-0 md:text-sm md:font-medium">
             @ChildContent
         </ul>
@@ -9,7 +9,7 @@
 }
 else
 {
-    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @ChildContent
     </div>
 }

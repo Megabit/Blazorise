@@ -2,7 +2,7 @@
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             @if ( !HasProgressBar )
             {
                 <div class="@ProgressBarClassNames" style="@ProgressBarStyleNames" role="progressbar" aria-valuenow="@Percentage" aria-valuemin="@Min" aria-valuemax="@Max" @attributes="@Attributes">

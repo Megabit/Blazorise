@@ -2,7 +2,7 @@
 @inherits BaseComponent
 @if ( IconName is RenderFragment )
 {
-    <div id="@ElementId" class="@ClassNames" style="@StyleNames">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames">
         @( IconName as RenderFragment )
     </div>
 }
