@@ -1528,7 +1528,15 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
-    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition ) => null;
+    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "sticky border-l-0 border-s-0 z-10 bg-white left-0",
+            TableColumnFixedPosition.End => "sticky border-l-0 border-s-0 z-10 bg-white right-0",
+            _ => null,
+        };
+    }
 
     public override string TableFooter() => "b-table-footer";
 
@@ -1573,13 +1581,29 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowHeader() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
 
-    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition ) => null;
+    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "sticky border-l-0 border-s-0 z-10 bg-white left-0",
+            TableColumnFixedPosition.End => "sticky border-l-0 border-s-0 z-10 bg-white right-0",
+            _ => null,
+        };
+    }
 
     public override string TableRowCell() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4";
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
 
-    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition ) => null;
+    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "sticky border-l-0 border-s-0 z-10 bg-white left-0",
+            TableColumnFixedPosition.End => "sticky border-l-0 border-s-0 z-10 bg-white right-0",
+            _ => null,
+        };
+    }
 
     public override string TableRowGroup( bool expanded ) => "b-table-group bg-gray-50 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700 font-bold cursor-pointer";
 
@@ -1591,7 +1615,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "b-table-fixed-header" : null;
 
-    public override string TableFixedColumns( bool fixedColumns ) => null;
+    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns
+        ? "b-table-fixed-columns w-full overflow-x-auto whitespace-nowrap relative" :
+        null;
 
     #endregion
 

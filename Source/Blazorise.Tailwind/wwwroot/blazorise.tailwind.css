@@ -343,6 +343,15 @@ tr.b-table-row.b-table-row-selectable:focus[tabindex="0"] {
   top: 0;
 }
 
+.b-table-fixed-columns .b-table {
+  table-layout: fixed;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 0;
+}
+
 p {
   --tw-text-opacity: 1;
   color: rgb(75 85 99/var(--tw-text-opacity));
