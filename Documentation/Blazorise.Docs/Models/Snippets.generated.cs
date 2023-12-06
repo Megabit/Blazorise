@@ -8999,6 +8999,48 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     </SplitterSection>
 </Splitter>";
 
+        public const string TransferListMultipleSelectionExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectedItemsChanged=""HandleList1ItemsChanged""
+              SelectionMode=""ListGroupSelectionMode.Multiple""
+              Mode=""ListGroupMode.Selectable""
+              Scrollable=false
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+
+    private Task HandleList1ItemsChanged(List<string> updatedList)
+    {
+        list = updatedList;
+
+        return Task.CompletedTask;
+    }
+}";
+
+        public const string TransferListSingleSelectionExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectedItemsChanged=""HandleList1ItemsChanged""
+              SelectionMode=""ListGroupSelectionMode.Single""
+              Mode=""ListGroupMode.Selectable""
+              Scrollable=false
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+
+    private Task HandleList1ItemsChanged(List<string> updatedList)
+    {
+        list = updatedList;
+
+        return Task.CompletedTask;
+    }
+}";
+
         public const string TreeViewExample = @"<TreeView Nodes=""Items""
           GetChildNodes=""@(item => item.Children)""
           HasChildNodes=""@(item => item.Children?.Any() == true)""

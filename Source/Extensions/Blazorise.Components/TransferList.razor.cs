@@ -139,33 +139,33 @@ public partial class TransferList<TItem> : ComponentBase
     /// <summary>
     /// Gets a value indicating whether the "Move All Right" action is disabled.
     /// </summary>
-    bool MoveAllRightDisabled => SelectionMode == ListGroupSelectionMode.Multiple
+    bool IsMoveAllRightDisabled => SelectionMode == ListGroupSelectionMode.Multiple
         ? selectedValues.Count == Items.Count
         : false;
 
     /// <summary>
     /// Gets a value indicating whether the "Move All Left" action is disabled.
     /// </summary>
-    bool MoveAllLeftDisabled => SelectionMode == ListGroupSelectionMode.Multiple
+    bool IsMoveAllLeftDisabled => SelectionMode == ListGroupSelectionMode.Multiple
         ? selectedValues.Count == 0
         : false;
 
     /// <summary>
     /// Gets a value indicating whether the "Move Right" action is disabled.
     /// </summary>
-    bool MoveRightDisabled => SelectionMode == ListGroupSelectionMode.Single
-        ? selectedValue != null
+    bool IsMoveRightDisabled => SelectionMode == ListGroupSelectionMode.Single
+        ? selectedListBox1Item is null
         : SelectionMode == ListGroupSelectionMode.Multiple
-            ? selectedValues.Count == Items.Count
+            ? selectedListBox1Items.Count == 0
             : false;
 
     /// <summary>
     /// Gets a value indicating whether the "Move Left" action is disabled.
     /// </summary>
-    bool MoveLeftDisabled => SelectionMode == ListGroupSelectionMode.Single
-        ? selectedValue == null
+    bool IsMoveLeftDisabled => SelectionMode == ListGroupSelectionMode.Single
+        ? selectedListBox2Item is null
         : SelectionMode == ListGroupSelectionMode.Multiple
-            ? selectedValues.Count <= 0
+            ? selectedListBox2Items.Count == 0
             : true;
 
     /// <summary>

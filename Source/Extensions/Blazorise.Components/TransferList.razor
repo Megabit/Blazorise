@@ -20,17 +20,17 @@
     <Div Flex="Flex.Column.JustifyContent.Center" Margin="Margin.Is3.OnX" Gap="Gap.Is3">
         @if ( SelectionMode == ListGroupSelectionMode.Multiple )
         {
-            <Button Color="Color.Primary" Clicked="@MoveAllRight" Disabled="@MoveAllRightDisabled">
+            <Button Color="Color.Primary" Clicked="@MoveAllRight" Disabled="@IsMoveAllRightDisabled">
                 @(">>")
             </Button>
-            <Button Color="Color.Primary" Clicked="@MoveAllLeft" Disabled="@MoveAllLeftDisabled">
+            <Button Color="Color.Primary" Clicked="@MoveAllLeft" Disabled="@IsMoveAllLeftDisabled">
                 @("<<")
             </Button>
         }
-        <Button Color="Color.Primary" Clicked="@MoveRight" Disabled="@MoveRightDisabled">
+        <Button Color="Color.Primary" Clicked="@MoveRight" Disabled="@IsMoveRightDisabled">
             @(">")
         </Button>
-        <Button Color="Color.Primary" Clicked="@MoveLeft" Disabled="@MoveLeftDisabled">
+        <Button Color="Color.Primary" Clicked="@MoveLeft" Disabled="@IsMoveLeftDisabled">
             @("<")
         </Button>
     </Div>
