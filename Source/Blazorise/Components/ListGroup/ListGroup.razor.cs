@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -151,7 +152,7 @@ public partial class ListGroup : BaseComponent
 
             state = state with { SelectedItem = value };
 
-            // raise the SelectedItemChanged notification                
+            // raise the SelectedItemChanged notification
             SelectedItemChanged.InvokeAsync( state.SelectedItem );
 
             DirtyClasses();
@@ -171,8 +172,6 @@ public partial class ListGroup : BaseComponent
                 return;
 
             state = state with { SelectedItems = value };
-
-            // SelectedItemsChanged.InvokeAsync( state.SelectedItems );
 
             DirtyClasses();
         }
