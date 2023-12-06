@@ -137,6 +137,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Splitter", "Sourc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts.Annotation", "Source\Extensions\Blazorise.Charts.Annotation\Blazorise.Charts.Annotation.csproj", "{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpers", "Helpers", "{5930C85A-4AE1-428B-BFEE-7A80970F7F3E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Tests.bUnit", "Source\Helpers\Blazorise.Tests.bUnit\Blazorise.Tests.bUnit.csproj", "{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -359,6 +363,10 @@ Global
 		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -420,6 +428,8 @@ Global
 		{96334C18-5A3B-4C90-9C48-B06043AF0C68} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{EC28D772-D69F-418B-9720-3977850E2FDA} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{5930C85A-4AE1-428B-BFEE-7A80970F7F3E} = {73CD9574-5204-442D-A67C-CA7B038057C2}
+		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8} = {5930C85A-4AE1-428B-BFEE-7A80970F7F3E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}

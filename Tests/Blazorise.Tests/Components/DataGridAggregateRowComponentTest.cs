@@ -1,8 +1,5 @@
 ﻿#region Using directives
-using System.Linq;
-using BasicTestApp.Client;
 using Blazorise.DataGrid;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 #endregion
@@ -13,8 +10,8 @@ public class DataGridAggregateRowComponentTest : TestContext
 {
     public DataGridAggregateRowComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddDataGrid( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseDataGrid();
     }
 
     [Fact]
