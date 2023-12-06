@@ -140,6 +140,16 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Fixed columns">
+        Implementing this feature involves setting the <Code>FixedPosition</Code> attribute to <Code>TableColumnFixedPosition.Start</Code> for anchoring to the left, or <Code>TableColumnFixedPosition.End</Code> for anchoring to the right, on a cell. Additionally, you must enable fixed columns on a table with the <Code>FixedColumns</Code> attribute.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableFixedColumnsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableFixedColumnsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Scroll To a Row Or Pixel Offset">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -223,6 +233,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="FixedHeader" Type="bool" Default="false">
         Makes table have a fixed header and enables a scrollbar in the table body.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedColumns" Type="bool" Default="false">
+        Makes table have a fixed set of columns. This will make it so that the table columns could be fixed to the side of the table.
     </DocsAttributesItem>
     <DocsAttributesItem Name="FixedHeaderTableHeight" Type="string" Default="300px">
         Sets the table height when FixedHeader feature is enabled (defaults to 300px).

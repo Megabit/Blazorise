@@ -46,6 +46,11 @@
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
+            <Strong>Table && DataGrid</Strong>: added ability to set sticky columns
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
             <Strong>Testing</Strong>: with bUnit
         </Paragraph>
     </UnorderedListItem>
@@ -170,6 +175,26 @@
 
 <Paragraph>
     To see these features in action, visit the <Anchor To="docs/components/color-picker" Title="Link to ColorPicker page">ColorPicker page</Anchor> in the Blazorise documentation.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Fixed columns
+</NewsPageSubtitle>
+
+<Paragraph>
+    We are excited to announce a new feature in our DataGrid component in the latest Blazorise release. This feature introduces the ability to set fixed cells or columns to the left or right side of a DataGrid. This enhancement offers better control and stability in the visual layout of your tables, especially beneficial in cases of large data sets or complex grid structures.
+</Paragraph>
+
+<Paragraph>
+    The new feature allows users to anchor cells or columns to either the left (Start) or right (End) side of the DataGrid. This ensures that the fixed cells or columns remain visible and in place as users scroll through the table. To utilize this feature, set the <Strong>FixedPosition</Strong> attribute to <Strong>TableColumnFixedPosition.Start</Strong> for left-side anchoring or <Strong>TableColumnFixedPosition.End</Strong> for right-side anchoring on a cell. Additionally, you must enable fixed columns on a table with the <Strong>FixedColumns</Strong> attribute.
+</Paragraph>
+
+<Paragraph>
+    This functionality is particularly useful for financial tables, reports, and dashboards, where key information needs to remain visible while scrolling through large amounts of data. We hope that this new feature will enhance your application's user experience and data presentation capabilities.
+</Paragraph>
+
+<Paragraph>
+    For more detailed information and examples, please refer to <Anchor To="docs/extensions/datagrid/features/fixed-columns" Title="Link to DataGrid Fixed Columns page">our DataGrid Fixed Columns documentation</Anchor>.
 </Paragraph>
 
 <NewsPageSubtitle>
