@@ -7,15 +7,28 @@
                 <CardTitle>Transfer List</CardTitle>
             </CardHeader>
             <CardBody>
-                <Check @bind-Checked="Scrollable">Check for Scrollable</Check>
+                <Fields>
+                    <Field>
+                        <Switch @bind-Checked="@Scrollable">
+                            Scroll Mode
+                        </Switch>
+                    </Field>
+                    <Field>
+                        <Switch @bind-Checked="@MultipleMode">
+                            Multiple Mode
+                        </Switch>
+                    </Field>
+                </Fields>
+            </CardBody>
+            <CardBody>
                 <TransferList TItem="string"
                               Items="@list"
                               SelectedItemsChanged="HandleList1ItemsChanged"
-                              SelectionMode="ListGroupSelectionMode.Multiple"
+                              SelectionMode="@(MultipleMode ? ListGroupSelectionMode.Multiple : ListGroupSelectionMode.Single)"
                               Mode="ListGroupMode.Selectable"
                               Scrollable=@Scrollable
-                              ValueField="item => item"
-                              TextField="item => item">
+                              ValueField="@(item => item)"
+                              TextField="@(item => item)">
                 </TransferList>
             </CardBody>
         </Card>
@@ -25,7 +38,7 @@
 @code {
     private List<string> list = new List<string> { "Apple", "Banana", "Cherry", "Grapes", "Orange", "Pear", "Strawberry" };
 
-    private Task HandleList1ItemsChanged(List<string> updatedList)
+    private Task HandleList1ItemsChanged( List<string> updatedList )
     {
         list = updatedList;
 
@@ -33,4 +46,6 @@
     }
 
     private bool Scrollable = false;
+
+    private bool MultipleMode = true;
 }
