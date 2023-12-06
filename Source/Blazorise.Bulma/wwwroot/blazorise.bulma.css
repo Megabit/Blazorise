@@ -3200,6 +3200,41 @@ tr.table-row-selectable:focus[tabindex="0"] {
   top: 0;
 }
 
+.table-container-fixed-columns {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  position: relative;
+}
+.table-container-fixed-columns .table {
+  table-layout: fixed;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 0;
+}
+.table-container-fixed-columns .table .is-header-cell-fixed-start,
+.table-container-fixed-columns .table .is-row-header-fixed-start,
+.table-container-fixed-columns .table .is-row-cell-fixed-start {
+  position: sticky;
+  border-left: none;
+  z-index: 11;
+  background-color: white;
+  border-inline-start-width: 0;
+  left: 0;
+}
+.table-container-fixed-columns .table .is-header-cell-fixed-end,
+.table-container-fixed-columns .table .is-row-header-fixed-end,
+.table-container-fixed-columns .table .is-row-cell-fixed-end {
+  position: sticky;
+  border-left: none;
+  z-index: 11;
+  background-color: white;
+  border-inline-start-width: 0;
+  right: 0;
+}
+
 .tab-pane {
   display: none;
 }

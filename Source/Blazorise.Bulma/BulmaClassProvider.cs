@@ -1059,7 +1059,15 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"is-cursor-{ToCursor( cursor )}" : null;
 
-    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition ) => null;
+    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "is-header-cell-fixed-start",
+            TableColumnFixedPosition.End => "is-header-cell-fixed-end",
+            _ => null,
+        };
+    }
 
     public override string TableFooter() => null;
 
@@ -1075,13 +1083,29 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRowHeader() => null;
 
-    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition ) => null;
+    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "is-row-header-fixed-start",
+            TableColumnFixedPosition.End => "is-row-header-fixed-end",
+            _ => null,
+        };
+    }
 
     public override string TableRowCell() => null;
 
     public override string TableRowCellColor( Color color ) => $"has-background-{ToColor( color )}";
 
-    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition ) => null;
+    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "is-row-cell-fixed-start",
+            TableColumnFixedPosition.End => "is-row-cell-fixed-end",
+            _ => null,
+        };
+    }
 
     public override string TableRowGroup( bool expanded ) => "table-group";
 
@@ -1093,7 +1117,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "table-container-fixed-header" : null;
 
-    public override string TableFixedColumns( bool fixedColumns ) => null;
+    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "table-container-fixed-columns" : null;
 
     #endregion
 
