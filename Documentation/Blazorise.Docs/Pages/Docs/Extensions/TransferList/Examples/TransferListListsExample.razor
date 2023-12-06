@@ -6,10 +6,15 @@
               Mode="ListGroupMode.Selectable"
               Scrollable=false
               ShowMoveAll=false
+              @bind-ItemsStart=@listStart
+              @bind-ItemsEnd=@listEnd
               ValueField="item => item"
               TextField="item => item">
 </TransferList>
 
 @code {
     private List<string> list = new List<string> { "Apple", "Banana", "Cherry", "Grapes", "Orange", "Pear", "Strawberry" };
+    private List<string> listStart = new List<string> {"Cherry", "Strawberry" };
+    private List<string> listEnd;
+
 }

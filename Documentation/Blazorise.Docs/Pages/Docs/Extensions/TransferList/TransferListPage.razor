@@ -20,7 +20,7 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Multiple Selection Mode">
-        In the multiple selection mode, users can transfer multiple items between two lists. Selected items are tracked using the <Code>SelectedItems</Code> parameter.
+        In the multiple selection mode, users can transfer multiple items between two lists.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <TransferListMultipleSelectionExample />
@@ -30,12 +30,43 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Single Selection Mode">
-        In the single selection mode, users can transfer one item at a time between two lists. The <Code>SelectedItem</Code> parameter tracks the currently selected item.
+        In the single selection mode, users can transfer one item at a time between two lists.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <TransferListSingleSelectionExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="TransferListSingleSelectionExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Move All">
+        You can enable the <Code>ShowMoveAll</Code> parameter to display the <Code>Move All</Code> buttons. These buttons allow users to move all items to the opposite list.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TransferListShowAllExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TransferListShowAllExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Bind Lists">
+        You can bind to both lists. The <Code>ItemsStart</Code> and <Code>ItemsEnd</Code> parameters track the items in the first and second lists, respectively.
+        You may also provide the starting items for each list. If the opposite list is empty, the list will be populated with the remaining items.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TransferListListsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TransferListListsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Scrollable">
+        If you have a large number of items, you can enable the <Code>Scrollable</Code> parameter to add a vertical scrollbar to the Transfer List. And control the maximum height by using the <Code>MaxHeight</Code> parameter.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TransferListScrollableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TransferListScrollableExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -49,15 +80,6 @@
 <DocsAttributes Title="TransferList">
     <DocsAttributesItem Name="Items" Type="List<TItem>">
         Gets or sets the items data source for the Transfer List.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedItem" Type="TItem">
-        Gets or sets the currently selected item in single selection mode.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedItems" Type="List<TItem>">
-        Gets or sets the list of selected items in multiple selection mode.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="SelectedItemsChanged" Type="EventCallback<List<TItem>>">
-        Occurs after the list of selected items has changed in multiple selection mode.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ValueField" Type="Func<TItem, string>">
         Gets or sets the function used to get the value field from the supplied data source.
@@ -77,5 +99,66 @@
     <DocsAttributesItem Name="ChildContent" Type="RenderFragment">
         Specifies the content to be rendered inside the Transfer List.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowMoveAll" Type="bool" Default="true">
+        Enables the "Move All" Actions.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxHeight" Type="string" Default="300px">
+        Sets the TransferList MaxHeight. Defaults to 300px.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemsStart" Type="List<TItem>">
+        Gets or sets the items in the start list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemsStartChanged" Type="EventCallback<List<TItem>>">
+        Gets or sets the event callback for changes in the start list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemsEnd" Type="List<TItem>">
+        Gets or sets the items in the end list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemsEndChanged" Type="EventCallback<List<TItem>>">
+        Gets or sets the event callback for changes in the end list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItemStart" Type="TItem">
+        Gets or sets item that is currently selected in the start list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItemStartChanged" Type="EventCallback<TItem>">
+        Gets or sets the event callback for changes in the start list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItemEnd" Type="TItem">
+        Gets or sets item that is currently selected in the end list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItemEndChanged" Type="EventCallback<TItem>">
+        Gets or sets the event callback for changes in the end list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItemsStart" Type="List<TItem>">
+        Gets or sets items that are currently selected in the start list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItemsStartChanged" Type="EventCallback<List<TItem>>">
+        Gets or sets the event callback for changes to the items in the start list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItemsEnd" Type="List<TItem>">
+        Gets or sets items that are currently selected in the end list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItemsEndChanged" Type="EventCallback<List<TItem>>">
+        Gets or sets the event callback for changes to the items in the end list.
+    </DocsAttributesItem>
 </DocsAttributes>
 
+
+<Heading Size="HeadingSize.Is3">
+    Methods
+</Heading>
+
+<DocsMethods>
+    <DocsMethodsItem Name="MoveSelectedEnd()" ReturnType="Task">
+        Moves selected items from the start list to the end list.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="MoveSelectedStart()" ReturnType="Task">
+        Moves selected items from the end list to the start list.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="MoveAllEnd()" ReturnType="Task">
+        Moves all items from the start list to the end list.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="MoveAllStart()" ReturnType="Task">
+        Moves all items from the end list to the start list.
+    </DocsMethodsItem>
+</DocsMethods>

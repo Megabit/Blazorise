@@ -8999,46 +8999,94 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     </SplitterSection>
 </Splitter>";
 
-        public const string TransferListMultipleSelectionExample = @"<TransferList TItem=""string""
+        public const string TransferListListsExample = @"<TransferList TItem=""string""
               Items=""@list""
-              SelectedItemsChanged=""HandleList1ItemsChanged""
-              SelectionMode=""ListGroupSelectionMode.Multiple""
+              SelectionMode=""ListGroupSelectionMode.Single""
               Mode=""ListGroupMode.Selectable""
               Scrollable=false
+              ShowMoveAll=false
+              @bind-ItemsStart=@listStart
+              @bind-ItemsEnd=@listEnd
               ValueField=""item => item""
               TextField=""item => item"">
 </TransferList>
 
 @code {
     private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+    private List<string> listStart = new List<string> {""Cherry"", ""Strawberry"" };
+    private List<string> listEnd;
 
-    private Task HandleList1ItemsChanged(List<string> updatedList)
-    {
-        list = updatedList;
+}";
 
-        return Task.CompletedTask;
-    }
+        public const string TransferListMultipleSelectionExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectionMode=""ListGroupSelectionMode.Multiple""
+              Mode=""ListGroupMode.Selectable""
+              Scrollable=false
+              ShowMoveAll=false
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+}";
+
+        public const string TransferListScrollableExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectionMode=""ListGroupSelectionMode.Single""
+              Mode=""ListGroupMode.Selectable""
+                Scrollable
+               MaxHeight=""500px""
+               ShowMoveAll=false
+               @bind-ItemsStart=@listStart
+               @bind-ItemsEnd=@listEnd
+               ValueField=""item => item""
+               TextField=""item => item"">
+ </TransferList>
+
+ @code {
+    private List<string> list = new List<string> {
+        ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"",
+        ""Watermelon"", ""Pineapple"", ""Mango"", ""Blueberry"", ""Raspberry"",
+        ""Kiwi"", ""Peach"", ""Plum"", ""Pomegranate"", ""Coconut"", ""Lemon"",
+        ""Lime"", ""Cantaloupe"", ""Honeydew"", ""Avocado"", ""Fig"", ""Guava"",
+        ""Passion Fruit"", ""Papaya"", ""Apricot"", ""Cranberry"", ""Blackberry"",
+        ""Currant"", ""Lychee"", ""Dragon Fruit"", ""Tangerine"", ""Nectarine"",
+        ""Persimmon"", ""Star Fruit"", ""Quince"", ""Kumquat"", ""Elderberry""
+    };
+
+    private List<string> listStart = new List<string> { ""Cherry"", ""Strawberry"" };
+    private List<string> listEnd;
+
+}";
+
+        public const string TransferListShowAllExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectionMode=""ListGroupSelectionMode.Multiple""
+              Mode=""ListGroupMode.Selectable""
+              Scrollable=false
+              ShowMoveAll
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
 }";
 
         public const string TransferListSingleSelectionExample = @"<TransferList TItem=""string""
               Items=""@list""
-              SelectedItemsChanged=""HandleList1ItemsChanged""
               SelectionMode=""ListGroupSelectionMode.Single""
               Mode=""ListGroupMode.Selectable""
               Scrollable=false
+              ShowMoveAll=false
               ValueField=""item => item""
               TextField=""item => item"">
 </TransferList>
 
 @code {
     private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
-
-    private Task HandleList1ItemsChanged(List<string> updatedList)
-    {
-        list = updatedList;
-
-        return Task.CompletedTask;
-    }
 }";
 
         public const string TreeViewExample = @"<TreeView Nodes=""Items""
