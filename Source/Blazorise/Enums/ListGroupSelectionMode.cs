@@ -6,12 +6,11 @@
 public enum ListGroupSelectionMode
 {
     /// <summary>
+    /// Allows only a single item to be selected.
+    /// </summary>
+    Single,
+    /// <summary>
     /// Allows multiple items to be selected.
     /// </summary>
     Multiple,
-
-    /// <summary>
-    /// Allows only a single item to be selected.
-    /// </summary>
-    Single
 }
