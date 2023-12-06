@@ -3371,6 +3371,41 @@ tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   outline: none;
 }
 
+.ant-table-fixed-columns .ant-table-container .ant-table-content {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  position: relative;
+}
+.ant-table-fixed-columns .ant-table-container .ant-table-content table {
+  table-layout: fixed !important;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 0;
+}
+.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-header-cell-fixed-start,
+.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-row-header-fixed-start,
+.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-row-cell-fixed-start {
+  position: sticky;
+  border-left: none;
+  z-index: 11;
+  background-color: white;
+  border-inline-start-width: 0;
+  left: 0;
+}
+.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-header-cell-fixed-end,
+.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-row-header-fixed-end,
+.ant-table-fixed-columns .ant-table-container .ant-table-content table .ant-row-cell-fixed-end {
+  position: sticky;
+  border-left: none;
+  z-index: 11;
+  background-color: white;
+  border-inline-start-width: 0;
+  right: 0;
+}
+
 .ant-tabs.ant-tabs-fill .ant-tabs-tab {
   flex-grow: 1;
   margin-right: 0px;
