@@ -240,7 +240,7 @@ public partial class TransferList<TItem> : ComponentBase
     /// <summary>
     /// Enables the "Move All" Actions.
     /// </summary>
-    [Parameter] public bool MoveAll { get; set; } = true;
+    [Parameter] public bool ShowMoveAll { get; set; } = true;
 
     /// <summary>
     /// Makes the list group scrollable by adding a vertical scrollbar.
