@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Blazorise.Extensions;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -51,7 +50,7 @@ public partial class ListGroup : BaseComponent
         }
         else
         {
-            SelectedItems = new List<string>( SelectedItems ?? new List<string>() );
+            SelectedItems ??= new List<string>();
 
             if ( SelectedItems.Contains( name ) )
             {
