@@ -105,4 +105,13 @@
     <DocsAttributesItem Name="Virtualize" Type="bool" Default="false">
         Gets or sets whether the listview will use the <Code>Virtualize</Code> functionality.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectionMode" Type="ListGroupSelectionMode" Default="ListGroupSelectionMode.Single">
+        Defines the list-group selection mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItems" Type="List<string>">
+        Gets or sets currently selected items names.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItemsChanged" Type="EventCallback<List<string>>">
+        An event raised when SelectedItems are changed.
+    </DocsAttributesItem>
 </DocsAttributes>
