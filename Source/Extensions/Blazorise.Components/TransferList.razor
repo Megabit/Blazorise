@@ -5,47 +5,47 @@
 <Div Display="Display.Flex">
     <Div Flex="Flex.Grow.Is1" Width="Width.Is50">
         <ListView TItem="TItem"
-                  Data="@Filtered1Items"
+                  Data="@ItemsStart"
                   ValueField="@ValueField"
                   TextField="@TextField"
                   Mode="@Mode"
                   SelectionMode="@SelectionMode"
                   Scrollable="@Scrollable"
-                  MaxHeight="300px"
-                  @bind-SelectedItems="@selectedListBox1Items"
-                  @bind-SelectedItem="@selectedListBox1Item">
+                  MaxHeight="@MaxHeight"
+                  @bind-SelectedItem="@SelectedItemStart"
+                  @bind-SelectedItems="@SelectedItemsStart">
         </ListView>
     </Div>
 
     <Div Flex="Flex.Column.JustifyContent.Center" Margin="Margin.Is3.OnX" Gap="Gap.Is3">
-        @if ( SelectionMode == ListGroupSelectionMode.Multiple )
+        @if ( MoveAll )
         {
-            <Button Color="Color.Primary" Clicked="@MoveAllRight" Disabled="@IsMoveAllRightDisabled">
+            <Button Color="Color.Primary" Clicked="@MoveAllEnd" Disabled="@IsMoveAllEndDisabled">
                 @(">>")
             </Button>
-            <Button Color="Color.Primary" Clicked="@MoveAllLeft" Disabled="@IsMoveAllLeftDisabled">
+            <Button Color="Color.Primary" Clicked="@MoveAllStart" Disabled="@IsMoveAllStartDisabled">
                 @("<<")
             </Button>
         }
-        <Button Color="Color.Primary" Clicked="@MoveRight" Disabled="@IsMoveRightDisabled">
+        <Button Color="Color.Primary" Clicked="@MoveSelectedEnd" Disabled="@IsMoveEndDisabled">
             @(">")
         </Button>
-        <Button Color="Color.Primary" Clicked="@MoveLeft" Disabled="@IsMoveLeftDisabled">
+        <Button Color="Color.Primary" Clicked="@MoveSelectedStart" Disabled="@IsMoveStartDisabled">
             @("<")
         </Button>
     </Div>
 
     <Div Flex="Flex.Grow.Is1" Width="Width.Is50">
         <ListView TItem="TItem"
-                  Data="@Filtered2Items"
+                  Data="@ItemsEnd"
                   ValueField="@ValueField"
                   TextField="@TextField"
                   Mode="@Mode"
                   SelectionMode="@SelectionMode"
                   Scrollable="@Scrollable"
-                  MaxHeight="300px"
-                  @bind-SelectedItems="@selectedListBox2Items"
-                  @bind-SelectedItem="@selectedListBox2Item">
+                  MaxHeight="@MaxHeight"
+                  @bind-SelectedItem="@SelectedItemEnd"
+                  @bind-SelectedItems="@SelectedItemsEnd">
         </ListView>
     </Div>
 </Div>

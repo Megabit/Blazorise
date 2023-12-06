@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -15,157 +17,214 @@ public partial class TransferList<TItem> : ComponentBase
 {
     #region Members
 
-    private TItem selectedListBox1Item;
-    private TItem selectedListBox2Item;
-    private List<TItem> selectedListBox1Items = new List<TItem>();
-    private List<TItem> selectedListBox2Items = new List<TItem>();
-
-    private string selectedValue;
-    private List<string> selectedValues = new List<string>();
-
     #endregion
 
     #region Methods
 
-    /// <summary>
-    /// Moves selected items from the first list to the second list.
-    /// </summary>
-    private void MoveRight()
+    protected override void OnInitialized()
     {
-        SelectedItems ??= new List<TItem>();
-        selectedValues ??= new List<string>();
+        base.OnInitialized();
+
+        if ( Items.IsNullOrEmpty() )
+            return;
+
+        var itemsStartStartedNullOrEmpty = ItemsStart.IsNullOrEmpty();
+        var itemsEndStartedNullOrEmpty = ItemsEnd.IsNullOrEmpty();
+
+        var bothListsEmpty = itemsStartStartedNullOrEmpty && itemsEndStartedNullOrEmpty;
+        var startEmptyButEndNotEmpty = itemsStartStartedNullOrEmpty && !itemsEndStartedNullOrEmpty;
+        var startNotEmptyButEndEmpty = !itemsStartStartedNullOrEmpty && itemsEndStartedNullOrEmpty;
+
+        if ( bothListsEmpty )
+        {
+            // If both lists are empty, then we just start with the items in the start list.
+            ItemsStart = Items;
+            ItemsStartChanged.InvokeAsync( Items );
+        }
+        else if ( startNotEmptyButEndEmpty )
+        {
+            // If the start list is not empty, but the end list is empty, then we assign the remainder of existing items to the end list.
+            ItemsEnd = Items.Where( x => !ItemsStart.Contains( x ) ).ToList();
+            ItemsEndChanged.InvokeAsync( ItemsEnd );
+        }
+        else if ( startEmptyButEndNotEmpty )
+        {
+            //If the start list is empty, but the end list is not empty, then we assign the remainder of existing items to the start list.
+            ItemsStart = Items.Where( x => !ItemsEnd.Contains( x ) ).ToList();
+            ItemsStartChanged.InvokeAsync( ItemsEnd );
+        }
+    }
+
+    /// <summary>
+    /// Moves selected items from the start list to the end list.
+    /// </summary>
+    public async Task MoveSelectedEnd()
+    {
+        ItemsEnd ??= new();
 
         if ( SelectionMode == ListGroupSelectionMode.Multiple )
         {
-            selectedValues.AddRange( selectedListBox1Items.Select( GetValue ) );
-            selectedListBox1Items.Clear();
-            selectedListBox2Items.Clear();
+            foreach ( var selectedItemStart in SelectedItemsStart )
+            {
+                ItemsEnd.Add( selectedItemStart );
+                ItemsStart.Remove( selectedItemStart );
+            }
         }
         else if ( SelectionMode == ListGroupSelectionMode.Single )
         {
-            if ( selectedListBox1Item != null )
+            if ( SelectedItemStart is not null )
             {
-                selectedValue = GetValue( selectedListBox1Item );
-                selectedListBox1Item = selectedListBox2Item;
+                ItemsEnd.Add( SelectedItemStart );
+                ItemsStart.Remove( SelectedItemStart );
             }
         }
+
+        await NotifyMove( true );
     }
 
     /// <summary>
-    /// Moves selected items from the second list to the first list.
+    /// Moves selected items from the end list to the start list.
     /// </summary>
-    private void MoveLeft()
+    public async Task MoveSelectedStart()
     {
-        SelectedItems ??= new List<TItem>();
-        selectedValues ??= new List<string>();
+        ItemsStart ??= new();
 
         if ( SelectionMode == ListGroupSelectionMode.Multiple )
         {
-            foreach ( var value in selectedListBox2Items.ToList() )
+            foreach ( var selectedItemEnd in SelectedItemsEnd )
             {
-                selectedValues.Remove( GetValue( value ) );
-                selectedListBox2Items.Remove( value );
+                ItemsStart.Add( selectedItemEnd );
+                ItemsEnd.Remove( selectedItemEnd );
             }
         }
         else if ( SelectionMode == ListGroupSelectionMode.Single )
         {
-            selectedValue = null;
-            selectedListBox2Item = selectedListBox1Item;
+            if ( SelectedItemEnd is not null )
+            {
+                ItemsStart.Add( SelectedItemEnd );
+                ItemsEnd.Remove( SelectedItemEnd );
+            }
         }
+
+        await NotifyMove( true );
     }
 
     /// <summary>
-    /// Moves all items from the first list to the second list.
+    /// Moves all items from the start list to the end list.
     /// </summary>
-    private void MoveAllRight()
+    public async Task MoveAllEnd()
     {
-        SelectedItems ??= new List<TItem>();
-        selectedValues ??= new List<string>();
+        ItemsEnd ??= new();
 
-        if ( SelectionMode == ListGroupSelectionMode.Multiple )
+        foreach ( var selectedItemStart in ItemsStart )
         {
-            var itemsToAdd = Items.Where( item => !selectedValues.Contains( GetValue( item ) ) ).ToList();
-
-            selectedValues.AddRange( itemsToAdd.Select( GetValue ) );
-            selectedListBox2Items.AddRange( itemsToAdd );
-            selectedListBox2Items.Clear();
+            ItemsEnd.Add( selectedItemStart );
         }
+
+        ItemsStart.Clear();
+        await NotifyMove( true );
     }
 
     /// <summary>
-    /// Moves all items from the second list to the first list.
+    /// Moves all items from the end list to the start list.
     /// </summary>
-    private void MoveAllLeft()
+    public async Task MoveAllStart()
     {
-        SelectedItems ??= new List<TItem>();
-        selectedValues ??= new List<string>();
+        ItemsStart ??= new();
 
-        if ( SelectionMode == ListGroupSelectionMode.Multiple )
+        foreach ( var selectedItemEnd in ItemsEnd )
         {
-            var itemsToRemove = Items.Where( item => selectedValues.Contains( GetValue( item ) ) ).ToList();
+            ItemsStart.Add( selectedItemEnd );
+        }
 
-            selectedValues.RemoveAll( value => itemsToRemove.Any( item => GetValue( item ) == value ) );
-            selectedListBox1Items.AddRange( itemsToRemove );
-            selectedListBox2Items.RemoveAll( item => itemsToRemove.Contains( item ) );
-            selectedListBox1Items.Clear();
+        ItemsEnd.Clear();
+        await NotifyMove( true );
+    }
+
+    private async Task NotifyMove( bool clearAllSelections )
+    {
+        await Task.WhenAll(
+            ItemsStartChanged.InvokeAsync( ItemsStart ),
+            ItemsEndChanged.InvokeAsync( ItemsEnd ) );
+
+        if ( clearAllSelections )
+        {
+            await Task.WhenAll(
+                ClearSelectedItemStart(),
+                ClearSelectedItemEnd(),
+                ClearSelectedItemsStart(),
+                ClearSelectedItemsEnd() );
         }
     }
 
-    /// <summary>
-    /// Get value from list view item.
-    /// </summary>
-    /// <param name="item"></param>
-    /// <returns></returns>
-    string GetValue( TItem item ) => ValueField?.Invoke( item );
+    private async Task ClearSelectedItemStart()
+    {
+        if ( !SelectedItemStart.IsEqual( default ) )
+        {
+            SelectedItemStart = default;
+            await SelectedItemStartChanged.InvokeAsync( SelectedItemStart );
+        }
+    }
+
+    private async Task ClearSelectedItemEnd()
+    {
+        if ( !SelectedItemEnd.IsEqual( default ) )
+        {
+            SelectedItemEnd = default;
+            await SelectedItemEndChanged.InvokeAsync( SelectedItemEnd );
+        }
+    }
+
+    private async Task ClearSelectedItemsStart()
+    {
+        if ( !SelectedItemsStart.IsNullOrEmpty() )
+        {
+            SelectedItemsStart.Clear();
+            await SelectedItemsStartChanged.InvokeAsync( SelectedItemsStart );
+        }
+    }
+
+    private async Task ClearSelectedItemsEnd()
+    {
+        if ( !SelectedItemsEnd.IsNullOrEmpty() )
+        {
+            SelectedItemsEnd.Clear();
+            await SelectedItemsEndChanged.InvokeAsync( SelectedItemsEnd );
+        }
+    }
 
     #endregion
 
     #region Properties
 
     /// <summary>
-    /// Represents a collection of items from first list view based on the specified filtering logic.
+    /// Gets a value indicating whether the "Move All End" action is disabled.
     /// </summary>
-    IEnumerable<TItem> Filtered1Items => SelectionMode == ListGroupSelectionMode.Single
-        ? Items.Where( x => GetValue( x ) != selectedValue )
-        : Items.Where( x => !( selectedValues ?? Enumerable.Empty<string>() ).Contains( GetValue( x ) ) );
+    public bool IsMoveAllEndDisabled
+        => ItemsStart.IsNullOrEmpty();
 
     /// <summary>
-    /// Represents a collection of items from second list view based on different filtering logic.
+    /// Gets a value indicating whether the "Move All Start" action is disabled.
     /// </summary>
-    IEnumerable<TItem> Filtered2Items => SelectionMode == ListGroupSelectionMode.Single
-        ? Items.Where( x => GetValue( x ) == selectedValue )
-        : Items.Where( x => ( selectedValues ?? Enumerable.Empty<string>() ).Contains( GetValue( x ) ) );
+    public bool IsMoveAllStartDisabled
+        => ItemsEnd.IsNullOrEmpty();
 
     /// <summary>
-    /// Gets a value indicating whether the "Move All Right" action is disabled.
+    /// Gets a value indicating whether the "Move End" action is disabled.
     /// </summary>
-    bool IsMoveAllRightDisabled => SelectionMode == ListGroupSelectionMode.Multiple
-        ? selectedValues.Count == Items.Count
-        : false;
-
-    /// <summary>
-    /// Gets a value indicating whether the "Move All Left" action is disabled.
-    /// </summary>
-    bool IsMoveAllLeftDisabled => SelectionMode == ListGroupSelectionMode.Multiple
-        ? selectedValues.Count == 0
-        : false;
-
-    /// <summary>
-    /// Gets a value indicating whether the "Move Right" action is disabled.
-    /// </summary>
-    bool IsMoveRightDisabled => SelectionMode == ListGroupSelectionMode.Single
-        ? selectedListBox1Item is null
+    public bool IsMoveEndDisabled => SelectionMode == ListGroupSelectionMode.Single
+        ? SelectedItemStart is null
         : SelectionMode == ListGroupSelectionMode.Multiple
-            ? selectedListBox1Items.Count == 0
+            ? SelectedItemsStart.IsNullOrEmpty()
             : false;
 
     /// <summary>
-    /// Gets a value indicating whether the "Move Left" action is disabled.
+    /// Gets a value indicating whether the "Move Start" action is disabled.
     /// </summary>
-    bool IsMoveLeftDisabled => SelectionMode == ListGroupSelectionMode.Single
-        ? selectedListBox2Item is null
+    public bool IsMoveStartDisabled => SelectionMode == ListGroupSelectionMode.Single
+        ? SelectedItemEnd is null
         : SelectionMode == ListGroupSelectionMode.Multiple
-            ? selectedListBox2Items.Count == 0
+            ? SelectedItemsEnd.IsNullOrEmpty()
             : true;
 
     /// <summary>
@@ -179,9 +238,20 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public ListGroupSelectionMode SelectionMode { get; set; } = ListGroupSelectionMode.Single;
 
     /// <summary>
+    /// Enables the "Move All" Actions.
+    /// </summary>
+    [Parameter] public bool MoveAll { get; set; } = true;
+
+    /// <summary>
     /// Makes the list group scrollable by adding a vertical scrollbar.
     /// </summary>
     [Parameter] public bool Scrollable { get; set; } = true;
+
+    /// <summary>
+    /// Sets the TransferList MaxHeight. 
+    /// Defaults to 300px.
+    /// </summary>
+    [Parameter] public string MaxHeight { get; set; } = "300px";
 
     /// <summary>
     /// Gets or sets the content to be rendered inside the component.
@@ -191,32 +261,77 @@ public partial class TransferList<TItem> : ComponentBase
     /// <summary>
     /// Gets or sets the items in the list.
     /// </summary>
-    [Parameter] public List<TItem> Items { get; set; }
-
-    /// <summary>
-    /// Gets or sets item that is currently selected.
-    /// </summary>
-    [Parameter] public TItem SelectedItem { get; set; }
-
-    /// <summary>
-    /// Gets or sets items that are currently selected.
-    /// </summary>
-    [Parameter] public List<TItem> SelectedItems { get; set; }
-
-    /// <summary>
-    /// Gets or sets the event callback for changes to the items in the list.
-    /// </summary>
-    [Parameter] public EventCallback<List<TItem>> SelectedItemsChanged { get; set; }
+    [EditorRequired][Parameter] public List<TItem> Items { get; set; }
 
     /// <summary>
     /// Gets or sets the function to extract the value field from an item.
     /// </summary>
-    [Parameter] public Func<TItem, string> ValueField { get; set; }
+    [EditorRequired][Parameter] public Func<TItem, string> ValueField { get; set; }
 
     /// <summary>
     /// Gets or sets the function to extract the text field from an item.
     /// </summary>
-    [Parameter] public Func<TItem, string> TextField { get; set; }
+    [EditorRequired][Parameter] public Func<TItem, string> TextField { get; set; }
+
+    /// <summary>
+    /// Gets or sets the items in the start list.
+    /// </summary>
+    [Parameter] public List<TItem> ItemsStart { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event callback for changes in the start list.
+    /// </summary>
+    [Parameter] public EventCallback<List<TItem>> ItemsStartChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets the items in the end list.
+    /// </summary>
+    [Parameter] public List<TItem> ItemsEnd { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event callback for changes in the end list.
+    /// </summary>
+    [Parameter] public EventCallback<List<TItem>> ItemsEndChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets item that is currently selected in the start list.
+    /// </summary>
+    [Parameter] public TItem SelectedItemStart { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event callback for changes in the start list.
+    /// </summary>
+    [Parameter] public EventCallback<TItem> SelectedItemStartChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets item that is currently selected in the end list.
+    /// </summary>
+    [Parameter] public TItem SelectedItemEnd { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event callback for changes in the end list.
+    /// </summary>
+    [Parameter] public EventCallback<TItem> SelectedItemEndChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets items that are currently selected in the start list.
+    /// </summary>
+    [Parameter] public List<TItem> SelectedItemsStart { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event callback for changes to the items in the start list.
+    /// </summary>
+    [Parameter] public EventCallback<List<TItem>> SelectedItemsStartChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets items that are currently selected in the end list.
+    /// </summary>
+    [Parameter] public List<TItem> SelectedItemsEnd { get; set; }
+
+    /// <summary>
+    /// Gets or sets the event callback for changes to the items in the end list.
+    /// </summary>
+    [Parameter] public EventCallback<List<TItem>> SelectedItemsEndChanged { get; set; }
 
     #endregion
 }

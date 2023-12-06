@@ -9,24 +9,32 @@
             <CardBody>
                 <Fields>
                     <Field>
-                        <Switch @bind-Checked="@Scrollable">
+                        <Switch @bind-Checked="@scrollable">
                             Scroll Mode
                         </Switch>
                     </Field>
                     <Field>
-                        <Switch @bind-Checked="@MultipleMode">
+                        <Switch @bind-Checked="@multipleMode">
                             Multiple Mode
+                        </Switch>
+                    </Field>
+                    <Field>
+                        <Switch @bind-Checked="@moveAll">
+                            Move All
                         </Switch>
                     </Field>
                 </Fields>
             </CardBody>
-            <CardBody>
+            <CardBody Height="Height.Max100">
                 <TransferList TItem="string"
                               Items="@list"
-                              SelectedItemsChanged="HandleList1ItemsChanged"
-                              SelectionMode="@(MultipleMode ? ListGroupSelectionMode.Multiple : ListGroupSelectionMode.Single)"
+                              @bind-ItemsStart="@listStart"
+                              @bind-ItemsEnd="@listEnd"
+                              SelectionMode="@(multipleMode ? ListGroupSelectionMode.Multiple : ListGroupSelectionMode.Single)"
                               Mode="ListGroupMode.Selectable"
-                              Scrollable=@Scrollable
+                              MoveAll="@moveAll"
+                              MaxHeight="@maxHeight"
+                              Scrollable=@scrollable
                               ValueField="@(item => item)"
                               TextField="@(item => item)">
                 </TransferList>
@@ -35,17 +43,53 @@
     </Column>
 </Row>
 
+<Row Margin="Margin.Is1.FromTop">
+    <Column ColumnSize="ColumnSize.Is6">
+        <Card>
+            <CardHeader>
+                <CardTitle>List 1</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    <Field>
+                        <FieldLabel>Items</FieldLabel>
+                        <FieldBody>
+                            <TextEdit ReadOnly Text="@(listStart != null ? string.Join( ',', listStart ) : "")"></TextEdit>
+                         </FieldBody>
+                     </Field>
+                 </Fields>
+             </CardBody>
+         </Card>
+     </Column>
+     <Column ColumnSize="ColumnSize.Is6">
+         <Card>
+             <CardHeader>
+                 <CardTitle>List 2</CardTitle>
+             </CardHeader>
+             <CardBody>
+                 <Fields>
+                     <Field>
+                         <FieldLabel>Items</FieldLabel>
+                         <FieldBody>
+                             <TextEdit ReadOnly Text="@(listEnd != null ? string.Join( ',', listEnd ) : "")"></TextEdit>
+                         </FieldBody>
+                     </Field>
+                 </Fields>
+             </CardBody>
+         </Card>
+     </Column>
+ </Row>
+
+
 @code {
     private List<string> list = new List<string> { "Apple", "Banana", "Cherry", "Grapes", "Orange", "Pear", "Strawberry" };
+    private List<string> listStart = new List<string>() { "Orange" };
+    private List<string> listEnd;
 
-    private Task HandleList1ItemsChanged( List<string> updatedList )
-    {
-        list = updatedList;
+    private string maxHeight 
+        => scrollable ? "300px" : null;
 
-        return Task.CompletedTask;
-    }
-
-    private bool Scrollable = false;
-
-    private bool MultipleMode = true;
+    private bool scrollable = false;
+    private bool multipleMode = true;
+    private bool moveAll = true;
 }
