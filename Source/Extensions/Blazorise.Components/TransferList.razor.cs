@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Components.ListView;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -116,12 +117,19 @@ public partial class TransferList<TItem> : ComponentBase
     {
         ItemsEnd ??= new();
 
-        foreach ( var selectedItemStart in ItemsStart )
+        foreach ( var selectedItemStart in MoveableItemsStart )
         {
             ItemsEnd.Add( selectedItemStart );
         }
 
-        ItemsStart.Clear();
+
+        for ( int i = ItemsStart.Count - 1; i >= 0; i-- )
+        {
+            if ( MoveableItemsStart.Contains( ItemsStart[i] ) )
+            {
+                ItemsStart.RemoveAt( i );
+            }
+        }
         await NotifyMove( true );
     }
 
@@ -132,12 +140,18 @@ public partial class TransferList<TItem> : ComponentBase
     {
         ItemsStart ??= new();
 
-        foreach ( var selectedItemEnd in ItemsEnd )
+        foreach ( var selectedItemEnd in MoveableItemsEnd )
         {
             ItemsStart.Add( selectedItemEnd );
         }
 
-        ItemsEnd.Clear();
+        for ( int i = ItemsEnd.Count - 1; i >= 0; i-- )
+        {
+            if ( MoveableItemsEnd.Contains( ItemsEnd[i] ) )
+            {
+                ItemsEnd.RemoveAt( i );
+            }
+        }
         await NotifyMove( true );
     }
 
@@ -193,21 +207,49 @@ public partial class TransferList<TItem> : ComponentBase
         }
     }
 
+    private bool IsMoveToStartDisabled( TItem item )
+    {
+        if ( CanMoveToStart is not null )
+            return !CanMoveToStart.Invoke( item );
+
+        return false;
+    }
+
+    private bool IsMoveToEndDisabled( TItem item )
+    {
+        if ( CanMoveToEnd is not null )
+            return !CanMoveToEnd.Invoke( item );
+
+        return false;
+    }
+
     #endregion
 
     #region Properties
 
     /// <summary>
+    /// Returns the items that can be moved to the end list.
+    /// </summary>
+    public IEnumerable<TItem> MoveableItemsStart
+        => ItemsStart.Where( x => !IsMoveToEndDisabled( x ) );
+
+    /// <summary>
+    /// Returns the items that can be moved to the start list.
+    /// </summary>
+    public IEnumerable<TItem> MoveableItemsEnd
+        => ItemsEnd.Where( x => !IsMoveToStartDisabled( x ) );
+
+    /// <summary>
     /// Gets a value indicating whether the "Move All End" action is disabled.
     /// </summary>
     public bool IsMoveAllEndDisabled
-        => ItemsStart.IsNullOrEmpty();
+        => MoveableItemsStart.IsNullOrEmpty();
 
     /// <summary>
     /// Gets a value indicating whether the "Move All Start" action is disabled.
     /// </summary>
     public bool IsMoveAllStartDisabled
-        => ItemsEnd.IsNullOrEmpty();
+        => MoveableItemsEnd.IsNullOrEmpty();
 
     /// <summary>
     /// Gets a value indicating whether the "Move End" action is disabled.
@@ -254,9 +296,14 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public string MaxHeight { get; set; } = "300px";
 
     /// <summary>
-    /// Gets or sets the content to be rendered inside the component.
+    /// Specifies the content to be rendered inside each item of the <see cref="ListView{TItem}"/>.
     /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
+    [Parameter] public RenderFragment<ItemContext<TItem>> ItemStartTemplate { get; set; }
+
+    /// <summary>
+    /// Specifies the content to be rendered inside each item of the <see cref="ListView{TItem}"/>.
+    /// </summary>
+    [Parameter] public RenderFragment<ItemContext<TItem>> ItemEndTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets the items in the list.
@@ -272,6 +319,16 @@ public partial class TransferList<TItem> : ComponentBase
     /// Gets or sets the function to extract the text field from an item.
     /// </summary>
     [EditorRequired][Parameter] public Func<TItem, string> TextField { get; set; }
+
+    /// <summary>
+    /// Whether the item may be moved to the Start List.
+    /// </summary>
+    [Parameter] public Func<TItem, bool> CanMoveToStart { get; set; }
+
+    /// <summary>
+    /// Whether the item may be moved to the End List.
+    /// </summary>
+    [Parameter] public Func<TItem, bool> CanMoveToEnd { get; set; }
 
     /// <summary>
     /// Gets or sets the items in the start list.

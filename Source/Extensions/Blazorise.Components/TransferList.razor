@@ -8,10 +8,12 @@
                   Data="@ItemsStart"
                   ValueField="@ValueField"
                   TextField="@TextField"
+                  DisabledItem="@IsMoveToEndDisabled"
                   Mode="@Mode"
                   SelectionMode="@SelectionMode"
                   Scrollable="@Scrollable"
                   MaxHeight="@MaxHeight"
+                  ItemTemplate="@ItemStartTemplate"
                   @bind-SelectedItem="@SelectedItemStart"
                   @bind-SelectedItems="@SelectedItemsStart">
         </ListView>
@@ -40,10 +42,12 @@
                   Data="@ItemsEnd"
                   ValueField="@ValueField"
                   TextField="@TextField"
+                  DisabledItem="@IsMoveToStartDisabled"
                   Mode="@Mode"
                   SelectionMode="@SelectionMode"
                   Scrollable="@Scrollable"
                   MaxHeight="@MaxHeight"
+                  ItemTemplate="@ItemEndTemplate"
                   @bind-SelectedItem="@SelectedItemEnd"
                   @bind-SelectedItems="@SelectedItemsEnd">
         </ListView>

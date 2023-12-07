@@ -47,6 +47,14 @@ public partial class ListView<TItem> : ComponentBase
         return ValueField.Invoke( item );
     }
 
+    private bool GetItemDisabled( TItem item )
+    {
+        if ( item is null || DisabledItem is null )
+            return false;
+
+        return DisabledItem.Invoke( item );
+    }
+
     private List<string> GetItemValues( List<TItem> selectedItems )
     {
         if ( selectedItems is null || ValueField is null )
@@ -155,6 +163,11 @@ public partial class ListView<TItem> : ComponentBase
     /// </summary>
     [EditorRequired]
     [Parameter] public Func<TItem, string> ValueField { get; set; }
+
+    /// <summary>
+    /// Method used to get the disabled items from the supplied data source.
+    /// </summary>
+    [Parameter] public Func<TItem, bool> DisabledItem { get; set; }
 
     /// <summary>
     /// Currently selected item.
