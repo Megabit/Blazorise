@@ -285,6 +285,11 @@ public partial class TransferList<TItem> : ComponentBase
     [Parameter] public bool ShowMoveAll { get; set; } = true;
 
     /// <summary>
+    /// Defines the color of the move buttons.
+    /// </summary>
+    [Parameter] public Color MoveButtonsColor { get; set; } = Color.Primary;
+
+    /// <summary>
     /// Makes the list group scrollable by adding a vertical scrollbar.
     /// </summary>
     [Parameter] public bool Scrollable { get; set; } = true;

@@ -22,19 +22,19 @@
     <Div Flex="Flex.Column.JustifyContent.Center" Margin="Margin.Is3.OnX" Gap="Gap.Is3">
         @if ( ShowMoveAll )
         {
-            <Button Color="Color.Primary" Clicked="@MoveAllEnd" Disabled="@IsMoveAllEndDisabled">
+            <Button Color="@MoveButtonsColor" Clicked="@MoveAllEnd" Disabled="@IsMoveAllEndDisabled">
                 @(">>")
             </Button>
         }
-        <Button Color="Color.Primary" Clicked="@MoveSelectedEnd" Disabled="@IsMoveEndDisabled">
+        <Button Color="@MoveButtonsColor" Clicked="@MoveSelectedEnd" Disabled="@IsMoveEndDisabled">
             @(">")
         </Button>
-        <Button Color="Color.Primary" Clicked="@MoveSelectedStart" Disabled="@IsMoveStartDisabled">
+        <Button Color="@MoveButtonsColor" Clicked="@MoveSelectedStart" Disabled="@IsMoveStartDisabled">
             @("<")
         </Button>
         @if ( ShowMoveAll )
         {
-            <Button Color="Color.Primary" Clicked="@MoveAllStart" Disabled="@IsMoveAllStartDisabled">
+            <Button Color="@MoveButtonsColor" Clicked="@MoveAllStart" Disabled="@IsMoveAllStartDisabled">
                 @("<<")
             </Button>
         }
