@@ -18,7 +18,7 @@
     </Div>
 
     <Div Flex="Flex.Column.JustifyContent.Center" Margin="Margin.Is3.OnX" Gap="Gap.Is3">
-        @if ( ShowMoveAll )
+        @if ( IsShowMoveAll )
         {
             <Button Color="Color.Primary" Clicked="@MoveAllEnd" Disabled="@IsMoveAllEndDisabled">
                 @(">>")

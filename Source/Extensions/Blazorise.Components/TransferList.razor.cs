@@ -228,6 +228,11 @@ public partial class TransferList<TItem> : ComponentBase
             : true;
 
     /// <summary>
+    /// Gets a value indicating whether the move all buttons are visible.
+    /// </summary>
+    protected bool IsShowMoveAll => ShowMoveAll && SelectionMode == ListGroupSelectionMode.Multiple;
+
+    /// <summary>
     /// Defines the list-group behavior mode.
     /// </summary>
     [Parameter] public ListGroupMode Mode { get; set; } = ListGroupMode.Selectable;
