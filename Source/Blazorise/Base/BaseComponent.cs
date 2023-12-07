@@ -256,6 +256,12 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     {
         if ( Style is not null )
             builder.Append( Style );
+
+        if ( Width != null )
+            builder.Append( Width.Style( StyleProvider ) );
+
+        if ( Height != null )
+            builder.Append( Height.Style( StyleProvider ) );
     }
 
     /// <summary>
@@ -280,7 +286,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <typeparam name="T">Type of the object.</typeparam>
     /// <param name="value">The reference of the tracked object.</param>
     /// <returns>An instance of <see cref="DotNetObjectReference{T}"/>.</returns>
-    protected DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
+    protected static DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
     {
         return DotNetObjectReference.Create( value );
     }
@@ -290,7 +296,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// </summary>
     /// <typeparam name="T">Type of the object.</typeparam>
     /// <param name="value">The reference of the tracked object.</param>
-    protected void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
+    protected static void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
     {
         value?.Dispose();
     }

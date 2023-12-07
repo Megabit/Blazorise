@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
@@ -9,9 +8,10 @@ public class DropdownComponentTest : TestContext
 {
     public DropdownComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop
+            .AddBlazoriseClosable()
+            .AddBlazoriseDropdown();
     }
 
     [Fact]

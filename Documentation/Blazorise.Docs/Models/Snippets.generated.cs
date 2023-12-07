@@ -3773,6 +3773,38 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </TableBody>
 </Table>";
 
+        public const string TableFixedColumnsExample = @"<Table Bordered FixedColumns>
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell Width=""@Width.Px(50)"" FixedPosition=""TableColumnFixedPosition.Start"">#</TableHeaderCell>
+            <TableHeaderCell Width=""@Width.Px(100)"">Column 1</TableHeaderCell>
+            <TableHeaderCell Width=""@Width.Px(150)"" FixedPosition=""TableColumnFixedPosition.Start"">Fixed heading</TableHeaderCell>
+            <TableHeaderCell Width=""@Width.Px(100)"">Column 2</TableHeaderCell>
+            <TableHeaderCell Width=""@Width.Px(450)"">Column 3</TableHeaderCell>
+            <TableHeaderCell Width=""@Width.Px(230)"">Column 4</TableHeaderCell>
+            <TableHeaderCell Width=""@Width.Px(220)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end heading</TableHeaderCell>
+            <TableHeaderCell Width=""@Width.Px(200)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end heading</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @for ( int i = 1; i <= 3; ++i )
+        {
+            var index = i.ToString();
+
+            <TableRow @key=""@index"">
+                <TableRowHeader Width=""@Width.Px(50)"" FixedPosition=""TableColumnFixedPosition.Start"">@index</TableRowHeader>
+                <TableRowCell Width=""@Width.Px(100)"">Column 1</TableRowCell>
+                <TableRowCell Width=""@Width.Px(150)"" FixedPosition=""TableColumnFixedPosition.Start"">Fixed column</TableRowCell>
+                <TableRowCell Width=""@Width.Px(200)"">Column 2</TableRowCell>
+                <TableRowCell Width=""@Width.Px(450)"">Column 3</TableRowCell>
+                <TableRowCell Width=""@Width.Px(230)"">Column 4</TableRowCell>
+                <TableRowCell Width=""@Width.Px(220)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end content</TableRowCell>
+                <TableRowCell Width=""@Width.Px(200)"" FixedPosition=""TableColumnFixedPosition.End"">Fixed end content</TableRowCell>
+            </TableRow>
+        }
+    </TableBody>
+</Table>";
+
         public const string TableFixedHeaderExample = @"<Table FixedHeader FixedHeaderTableHeight=""300px"">
     <TableHeader>
         <TableRow>
@@ -4710,6 +4742,11 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     @*other validation fields*@
 </Validations>";
 
+        public const string AddBlazoriseTestingExample = @"Services
+	.AddBlazoriseTests()
+	.AddBootstrapProviders()
+	.AddEmptyIconProvider();";
+
         public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.3.3.0"" type=""module""></script>
 <script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.3.3.0"" type=""module""></script>";
 
@@ -4721,6 +4758,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.3.3.0"" type=""module""></script>
 <script src=""_content/Blazorise.Bulma/tooltip.js?v=1.3.3.0"" type=""module""></script>";
+
+        public const string ButtonJavascriptMockTestingExample = @"JSInterop.AddBlazoriseButton();";
 
         public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.3.3.0"" type=""module""></script>";
 
@@ -4775,6 +4814,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string TemplatesInstallExample = @"dotnet new install Blazorise.Templates";
 
         public const string TemplatesVersionInstallExample = @"dotnet new install Blazorise.Templates::1.1.0";
+
+        public const string TestingbUnitNugetExample = @"Install-Package Blazorise.Tests.bUnit";
 
         public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.3.3.0"" type=""module""></script>";
 
@@ -6998,6 +7039,40 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 @code {
     private DataGrid<Employee> dataGrid;
     private List<Employee> employeeList = new() { new() { FirstName = ""David"", LastName = ""Moreira"", Gender = ""M"" }, new() { FirstName = ""MLaden"", LastName = ""Macanovic"", Gender = ""M"" }, new() { FirstName = ""John"", LastName = ""Doe"", Gender = ""M"" }, new() { FirstName = ""Ana"", LastName = ""Chamberlain"", Gender = ""F"" }, new() { FirstName = ""Jessica"", LastName = ""Winston"", Gender = ""F"" } };
+}";
+
+        public const string DataGridFixedColumnsExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          FixedColumns
+          ShowPager
+          ShowPageSizes
+          @bind-SelectedRow=""@selectedEmployee"">
+    <DataGridColumns>
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" FixedPosition=""TableColumnFixedPosition.Start"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"" Width=""150px"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" Width=""150px"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" Width=""250px"" FixedPosition=""TableColumnFixedPosition.Start"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" Caption=""City"" Width=""150px"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" Caption=""Zip"" Width=""100px"" />
+        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Width=""100px"" />
+        <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" Filterable=""false"" Width=""100px"" />
+        <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" Width=""100px"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"" Width=""100px"" FixedPosition=""TableColumnFixedPosition.End"" />
+        <DataGridCheckColumn TItem=""Employee"" Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Filterable=""false"" Width=""100px"" />
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
 }";
 
         public const string DataGridFixedHeaderExample = @"<DataGrid TItem=""Employee""

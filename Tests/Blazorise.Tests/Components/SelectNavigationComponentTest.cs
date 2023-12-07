@@ -1,6 +1,4 @@
-﻿using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
-using Bunit;
+﻿using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
@@ -12,8 +10,8 @@ public class SelectNavigationComponentTest : TestContext
 {
     public SelectNavigationComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseButton();
         Services.AddSingleton<NavigationManager>( new Mock<NavigationManager>().Object );
     }
 

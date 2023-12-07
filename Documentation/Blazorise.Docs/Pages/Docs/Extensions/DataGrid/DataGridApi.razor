@@ -178,6 +178,9 @@
     <DocsAttributesItem Name="FixedHeader" Type="bool">
         Makes Datagrid have a fixed header and enabling a scrollbar in the Datagrid body.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedColumns" Type="bool">
+        Makes Datagrid have a fixed set of columns. This will make it so that the table columns could be fixed to the side of the table.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="FixedHeaderDataGridHeight" Type="string" Default="500px">
         Sets the Datagrid height when FixedHeader feature is enabled (defaults to 500px).
     </DocsAttributesItem>
@@ -373,9 +376,21 @@
     <DocsAttributesItem Name="PageSizesTemplate" Type="RenderFragment<PaginationContext<TItem>>">
         Gets or sets content of the page sizes selector. You will have to construct it using the provided pagination context.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="Navigable" Type="bool" Default="false">
+        Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod" Default="DataGridFilterMethod.Contains">
+        Defines the filter method when searching the cell values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowHeaderGroupCaptions" Type="bool" Default="false">
+        Gets or sets whether user can see defined header group captions.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="HeaderGroupCaptionTemplate" Type="RenderFragment<HeaderGroupContext>">
         Template for header group caption.
         Suggested usage: rendering content conditionally according to the defined HeaderGroupCaption.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMode" Type="DataGridFilterMode" Default="DataGridFilterMode.Default">
+        Gets or sets the filter mode.
     </DocsAttributesItem>
     <DocsAttributesItem Name="FilterMenuTemplate" Type="FilterColumnContext<TItem>">
         Template for the filter menu. When filter mode is set to DataGridFilterMode.Menu, this template will be used to render the filter content.
@@ -566,6 +581,9 @@
     <DocsAttributesItem Name="PreventRowClick" Type="bool">
         Will set @@onclick:StopProgration to true, stopping the RowClick and consequent events from triggering.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="ValidationItemCreator" Type="Func<TItem>">
+        Function that, if set, is called to create a validation instance of an item that it's used as a separate instance for Datagrid's internal processing of validation. If left null, Datagrid will try to use it's own implementation to instantiate.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="ShowDefaultSortIcon" Type="bool" Default="false">
         Gets or sets whether default sort icon should display.
     </DocsAttributesItem>
@@ -595,6 +613,10 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="HelpText" Type="string">
         Sets the help-text positioned below the field input when editing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMode" Type="DataGridFilterMode" Default="DataGridFilterMode.Default">
+        Gets or sets the filter mode for the column.
+        If set, this overrides the DataGrid FilterMethod.
     </DocsAttributesItem>
 </DocsAttributes>
 

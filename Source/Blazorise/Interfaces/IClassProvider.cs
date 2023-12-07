@@ -942,6 +942,8 @@ public interface IClassProvider
 
     string TableHeaderCellCursor( Cursor cursor );
 
+    string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition );
+
     string TableFooter();
 
     string TableBody();
@@ -956,9 +958,13 @@ public interface IClassProvider
 
     string TableRowHeader();
 
+    string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition );
+
     string TableRowCell();
 
     string TableRowCellColor( Color color );
+
+    string TableRowCellFixed( TableColumnFixedPosition fixedPosition );
 
     string TableRowGroup( bool expanded );
 
@@ -966,9 +972,11 @@ public interface IClassProvider
 
     string TableRowGroupIndentCell();
 
-    string TableResponsive();
+    string TableResponsive( bool responsive );
 
-    string TableFixedHeader();
+    string TableFixedHeader( bool fixedHeader );
+
+    string TableFixedColumns( bool fixedColumns );
 
     #endregion
 
@@ -1354,6 +1362,8 @@ public interface IClassProvider
     string ToPositionEdgeType( PositionEdgeType positionEdgeType );
 
     string ToPositionTranslateType( PositionTranslateType positionTranslateType );
+
+    string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition );
 
     #endregion
 

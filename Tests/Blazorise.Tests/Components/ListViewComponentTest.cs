@@ -1,11 +1,8 @@
 ﻿#region Using directives
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
-using Bunit;
-using Xunit;
-using static System.Net.Mime.MediaTypeNames;
 using System.Linq;
 using System.Web;
+using Bunit;
+using Xunit;
 #endregion
 
 namespace Blazorise.Tests.Components;
@@ -14,8 +11,8 @@ public class ListViewComponentTest : TestContext
 {
     public ListViewComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseUtilities();
     }
 
     [Fact]
