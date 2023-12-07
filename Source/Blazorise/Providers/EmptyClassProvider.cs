@@ -373,6 +373,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ButtonLoading( bool outline ) => null;
 
+    public string ButtonStretchedLink( bool stretched ) => null;
+
     #endregion
 
     #region Buttons
@@ -1134,6 +1136,8 @@ class EmptyClassProvider : IClassProvider
     public string LinkActive( bool active ) => null;
 
     public string LinkUnstyled( bool unstyled ) => null;
+
+    public string LinkStretched( bool stretched ) => null;
 
     #endregion
 

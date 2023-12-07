@@ -56,6 +56,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.ButtonActive( Outline ), Active );
         builder.Append( ClassProvider.ButtonDisabled( Outline ), Disabled );
         builder.Append( ClassProvider.ButtonLoading( Outline ), Loading && LoadingTemplate is null );
+        builder.Append( ClassProvider.ButtonStretchedLink( StretchedLink ) );
 
         base.BuildClasses( builder );
     }
@@ -486,6 +487,11 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// The target attribute specifies where to open the linked document for a <see cref="ButtonType.Link"/>.
     /// </summary>
     [Parameter] public Target Target { get; set; } = Target.Default;
+
+    /// <summary>
+    /// Makes any HTML element or component clickable by “stretching” a nested link.
+    /// </summary>
+    [Parameter] public bool StretchedLink { get; set; }
 
     /// <summary>
     /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.
