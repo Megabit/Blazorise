@@ -25,9 +25,6 @@
             <Button Color="Color.Primary" Clicked="@MoveAllEnd" Disabled="@IsMoveAllEndDisabled">
                 @(">>")
             </Button>
-            <Button Color="Color.Primary" Clicked="@MoveAllStart" Disabled="@IsMoveAllStartDisabled">
-                @("<<")
-            </Button>
         }
         <Button Color="Color.Primary" Clicked="@MoveSelectedEnd" Disabled="@IsMoveEndDisabled">
             @(">")
@@ -35,6 +32,12 @@
         <Button Color="Color.Primary" Clicked="@MoveSelectedStart" Disabled="@IsMoveStartDisabled">
             @("<")
         </Button>
+        @if ( ShowMoveAll )
+        {
+            <Button Color="Color.Primary" Clicked="@MoveAllStart" Disabled="@IsMoveAllStartDisabled">
+                @("<<")
+            </Button>
+        }
     </Div>
 
     <Div Flex="Flex.Grow.Is1" Width="Width.Is50">
