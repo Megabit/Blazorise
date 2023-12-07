@@ -9145,7 +9145,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         <Card Background=Background.Info Shadow=""Shadow.Default"">
             <CardBody>
                 @{
-                    var imageSource = $""_content/Blazorise.Demo/img/fruit/{item.Value.ToLower()}.png"";
+                    var imageSource = $""img/fruit/{item.Value.ToLower()}.png"";
                 }
                 <Image Source=""@imageSource"" Style=""width:24px;height:24px;"" />
                 @item.Value
