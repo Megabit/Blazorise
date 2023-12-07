@@ -1719,6 +1719,41 @@ tr.table-row-selectable:focus[tabindex="0"] {
   top: 0;
 }
 
+.table-fixed-columns {
+  width: 100%;
+  overflow-x: auto;
+  white-space: nowrap;
+  position: relative;
+}
+.table-fixed-columns .table {
+  table-layout: fixed;
+  overflow-x: auto;
+  white-space: nowrap;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 0;
+}
+.table-fixed-columns .table .table-header-cell-fixed-start,
+.table-fixed-columns .table .table-row-header-fixed-start,
+.table-fixed-columns .table .table-row-cell-fixed-start {
+  position: sticky;
+  border-left: none;
+  z-index: 11;
+  background-color: white;
+  border-inline-start-width: 0;
+  left: 0;
+}
+.table-fixed-columns .table .table-header-cell-fixed-end,
+.table-fixed-columns .table .table-row-header-fixed-end,
+.table-fixed-columns .table .table-row-cell-fixed-end {
+  position: sticky;
+  border-left: none;
+  z-index: 11;
+  background-color: white;
+  border-inline-start-width: 0;
+  right: 0;
+}
+
 .nav.nav-tabs .nav-item a.nav-link {
   cursor: pointer;
 }

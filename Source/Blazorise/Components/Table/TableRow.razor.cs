@@ -1,5 +1,8 @@
 ﻿#region Using directives
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -19,6 +22,15 @@ public partial class TableRow : BaseDraggableComponent
     private bool selected;
 
     private Cursor hoverCursor;
+
+    private double fixedStartCellPosition;
+
+    /// <summary>
+    /// Triggers when the width of the cell with TableColumnFixedPosition.End changes.
+    /// </summary>
+    public event EventHandler<TableRowCellFixedPositionEndAddedEventArgs> TableRowCellFixedPositionEndAdded;
+
+    private List<EventHandler<TableRowCellFixedPositionEndAddedEventArgs>> tableRowCellFixedPositionEndAddedHandlers;
 
     #endregion
 
@@ -70,6 +82,78 @@ public partial class TableRow : BaseDraggableComponent
     protected Task OnMouseOverHandler( MouseEventArgs eventArgs )
     {
         return MouseOver.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
+    }
+
+    internal void AddTableRowHeader( TableRowHeader tableRowHeader )
+    {
+        SetFixedCellPosition( tableRowHeader.Width, tableRowHeader.FixedPosition, tableRowHeader.SetFixedPositionStartOffset, tableRowHeader.IncreaseFixedPositionEndOffset );
+    }
+
+    internal void AddTableHeaderCell( TableHeaderCell tableHeaderCell )
+    {
+        SetFixedCellPosition( tableHeaderCell.Width, tableHeaderCell.FixedPosition, tableHeaderCell.SetFixedPositionStartOffset, tableHeaderCell.IncreaseFixedPositionEndOffset );
+    }
+
+    internal void AddTableRowCell( TableRowCell tableRowCell )
+    {
+        SetFixedCellPosition( tableRowCell.Width, tableRowCell.FixedPosition, tableRowCell.SetFixedPositionStartOffset, tableRowCell.IncreaseFixedPositionEndOffset );
+    }
+
+    private void SetFixedCellPosition( IFluentSizing width, TableColumnFixedPosition fixedPosition, Action<double> cellFixedPositionStartUpdate, Action<double> cellFixedPositionEndUpdate )
+    {
+        var fixedWidth = width?.FixedSize ?? 0d;
+
+        if ( fixedPosition == TableColumnFixedPosition.Start )
+        {
+            cellFixedPositionStartUpdate( fixedStartCellPosition );
+            fixedStartCellPosition += fixedWidth;
+        }
+
+        if ( fixedPosition == TableColumnFixedPosition.End )
+        {
+            tableRowCellFixedPositionEndAddedHandlers ??= new();
+            EventHandler<TableRowCellFixedPositionEndAddedEventArgs> handler = ( sender, args ) => cellFixedPositionEndUpdate( args.Width );
+
+            TableRowCellFixedPositionEndAdded?.Invoke( this, new TableRowCellFixedPositionEndAddedEventArgs() { Width = fixedWidth } );
+            TableRowCellFixedPositionEndAdded += handler;
+
+            tableRowCellFixedPositionEndAddedHandlers.Add( handler );
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            DisposeEventHandlers();
+        }
+
+        base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            DisposeEventHandlers();
+        }
+
+        await base.DisposeAsync( disposing );
+    }
+
+    private void DisposeEventHandlers()
+    {
+        if ( !tableRowCellFixedPositionEndAddedHandlers.IsNullOrEmpty() && TableRowCellFixedPositionEndAdded is not null )
+        {
+            foreach ( var handler in tableRowCellFixedPositionEndAddedHandlers )
+            {
+                TableRowCellFixedPositionEndAdded -= handler;
+            }
+
+            tableRowCellFixedPositionEndAddedHandlers = null;
+        }
     }
 
     #endregion

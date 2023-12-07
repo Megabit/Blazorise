@@ -949,6 +949,8 @@ class EmptyClassProvider : IClassProvider
 
     public string TableHeaderCellCursor( Cursor cursor ) => null;
 
+    public string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition ) => null;
+
     public string TableFooter() => null;
 
     public string TableBody() => null;
@@ -963,9 +965,13 @@ class EmptyClassProvider : IClassProvider
 
     public string TableRowHeader() => null;
 
+    public string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition ) => null;
+
     public string TableRowCell() => null;
 
     public string TableRowCellColor( Color color ) => null;
+
+    public string TableRowCellFixed( TableColumnFixedPosition fixedPosition ) => null;
 
     public string TableRowGroup( bool expanded ) => null;
 
@@ -973,9 +979,11 @@ class EmptyClassProvider : IClassProvider
 
     public string TableRowGroupIndentCell() => null;
 
-    public string TableResponsive() => null;
+    public string TableResponsive( bool responsive ) => null;
 
-    public string TableFixedHeader() => null;
+    public string TableFixedHeader( bool fixedHeader ) => null;
+
+    public string TableFixedColumns( bool fixedColumns ) => null;
 
     #endregion
 
@@ -1356,6 +1364,8 @@ class EmptyClassProvider : IClassProvider
     public string ToPositionEdgeType( PositionEdgeType positionEdgeType ) => null;
 
     public string ToPositionTranslateType( PositionTranslateType positionTranslateType ) => null;
+
+    public string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition ) => null;
 
     #endregion
 

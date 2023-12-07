@@ -1,0 +1,27 @@
+﻿@page "/docs/extensions/datagrid/features/fixed-columns"
+
+<Seo Canonical="/docs/extensions/datagrid/features/fixed-columns" Title="Blazorise DataGrid Fixed Columns" Description="Learn Blazorise by the example. The table columns remains visible as you scroll, making it easy to identify and reference the data in your grid." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Features/Fixed Columns">
+    Blazorise DataGrid: Fixed Columns
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    This feature allows users to anchor cells or columns to either the left (Start) or right (End) side of the DataGrid. This ensures that the fixed cells or columns remain visible and in place as users scroll through the table. To utilize this feature, set the <Strong>FixedPosition</Strong> attribute to <Strong>TableColumnFixedPosition.Start</Strong> for left-side anchoring or <Strong>TableColumnFixedPosition.End</Strong> for right-side anchoring on a cell. Additionally, you must enable fixed columns on a table with the <Strong>FixedColumns</Strong> attribute.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    The functionality is particularly useful for financial tables, reports, and dashboards, where key information needs to remain visible while scrolling through large amounts of data.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Fixed Columns" />
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridFixedColumnsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridFixedColumnsExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>

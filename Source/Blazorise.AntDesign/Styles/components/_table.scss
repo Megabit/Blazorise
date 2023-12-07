@@ -128,3 +128,45 @@ tr.ant-table-row {
         }
     }
 }
+
+.ant-table-fixed-columns {
+    .ant-table-container {
+        .ant-table-content {
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            position: relative;
+
+            table {
+                table-layout: fixed !important;
+                overflow-x: auto;
+                white-space: nowrap;
+                border-collapse: separate;
+                border-spacing: 0;
+                border: 0;
+
+                .ant-header-cell-fixed,
+                .ant-row-header-fixed,
+                .ant-row-cell-fixed {
+                    &-start {
+                        position: sticky;
+                        border-left: none;
+                        z-index: 11;
+                        background-color: white;
+                        border-inline-start-width: 0;
+                        left: 0;
+                    }
+
+                    &-end {
+                        position: sticky;
+                        border-left: none;
+                        z-index: 11;
+                        background-color: white;
+                        border-inline-start-width: 0;
+                        right: 0;
+                    }
+                }
+            }
+        }
+    }
+}

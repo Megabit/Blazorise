@@ -46,3 +46,41 @@ tr {
         }
     }
 }
+
+.table-fixed-columns {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    position: relative;
+
+    .table {
+        table-layout: fixed;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 0;
+
+        .table-header-cell-fixed,
+        .table-row-header-fixed,
+        .table-row-cell-fixed {
+            &-start {
+                position: sticky;
+                border-left: none;
+                z-index: 11;
+                background-color: white;
+                border-inline-start-width: 0;
+                left: 0;
+            }
+
+            &-end {
+                position: sticky;
+                border-left: none;
+                z-index: 11;
+                background-color: white;
+                border-inline-start-width: 0;
+                right: 0;
+            }
+        }
+    }
+}

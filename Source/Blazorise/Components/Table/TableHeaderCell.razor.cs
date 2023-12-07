@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
-using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -17,17 +16,46 @@ public partial class TableHeaderCell : BaseDraggableComponent
 
     private Cursor cursor;
 
+    private double? fixedPositionStartOffset;
+
+    private double? fixedPositionEndOffset;
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        ParentTableRow?.AddTableHeaderCell( this );
+
+        base.OnInitialized();
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TableHeaderCell() );
         builder.Append( ClassProvider.TableHeaderCellCursor( Cursor ) );
+        builder.Append( ClassProvider.TableHeaderCellFixed( FixedPosition ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        if ( FixedPosition == TableColumnFixedPosition.Start && fixedPositionStartOffset.HasValue )
+        {
+            builder.Append( $"left:{fixedPositionStartOffset:G29}px" );
+        }
+
+        if ( FixedPosition == TableColumnFixedPosition.End && fixedPositionEndOffset.HasValue )
+        {
+            builder.Append( $"right:{fixedPositionEndOffset:G29}px" );
+        }
+
+        base.BuildStyles( builder );
     }
 
     /// <summary>
@@ -40,9 +68,43 @@ public partial class TableHeaderCell : BaseDraggableComponent
         return Clicked.InvokeAsync( EventArgsMapper.ToMouseEventArgs( eventArgs ) );
     }
 
+    /// <summary>
+    /// Sets the fixed position start offset.
+    /// </summary>
+    /// <param name="width">Size in pixels.</param>
+    internal void SetFixedPositionStartOffset( double width )
+    {
+        fixedPositionStartOffset = width;
+
+        DirtyStyles();
+    }
+
+    /// <summary>
+    /// Sets or increased the fixed position end offset by the provided width.
+    /// </summary>
+    /// <param name="width">Size in pixels.</param>
+    internal void IncreaseFixedPositionEndOffset( double width )
+    {
+        if ( fixedPositionEndOffset.HasValue )
+        {
+            fixedPositionEndOffset += width;
+        }
+        else
+        {
+            fixedPositionEndOffset = width;
+        }
+
+        DirtyStyles();
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets the cascaded parent table row component.
+    /// </summary>
+    [CascadingParameter] protected TableRow ParentTableRow { get; set; }
 
     /// <summary>
     /// Number of rows a cell should span.
@@ -53,6 +115,11 @@ public partial class TableHeaderCell : BaseDraggableComponent
     /// Number of columns a cell should span.
     /// </summary>
     [Parameter] public int? ColumnSpan { get; set; }
+
+    /// <summary>
+    /// Defines the fixed position of the header cell within the table.
+    /// </summary>
+    [Parameter] public TableColumnFixedPosition FixedPosition { get; set; }
 
     /// <summary>
     /// Defines the mouse cursor based on the behaviour by the current css framework.
