@@ -69,6 +69,26 @@
     <DocsPageSectionSource Code="TransferListScrollableExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Can Move">
+        You may customize which of the items are able to be moved by utilizing the <Code>CanMoveToStart</Code> and <Code>CanMoveToEnd</Code> parameters.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TransferListCanMoveExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TransferListCanMoveExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Customize">
+        You may customize the look of each of the transfer list by utilizing the <Code>ItemStartTemplate</Code> and <Code>ItemEndTemplate</Code> parameters.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TransferListCustomItemTemplatesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TransferListCustomItemTemplatesExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
@@ -140,6 +160,18 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedItemsEndChanged" Type="EventCallback<List<TItem>>">
         Gets or sets the event callback for changes to the items in the end list.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CanMoveToStart" Type="Func<TItem, bool>">
+        Whether the item may be moved to the Start List.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CanMoveToEnd" Type="Func<TItem, bool>">
+        Whether the item may be moved to the End List.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemStartTemplate" Type="RenderFragment<ItemContext<TItem>>">
+        Specifies the content to be rendered inside each item of the ListView.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ItemEndTemplate" Type="RenderFragment<ItemContext<TItem>>">
+        Specifies the content to be rendered inside each item of the ListView.
     </DocsAttributesItem>
 </DocsAttributes>
 

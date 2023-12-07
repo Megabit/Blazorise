@@ -231,13 +231,13 @@ public partial class TransferList<TItem> : ComponentBase
     /// Returns the items that can be moved to the end list.
     /// </summary>
     public IEnumerable<TItem> MoveableItemsStart
-        => ItemsStart.Where( x => !IsMoveToEndDisabled( x ) );
+        => ItemsStart?.Where( x => !IsMoveToEndDisabled( x ) );
 
     /// <summary>
     /// Returns the items that can be moved to the start list.
     /// </summary>
     public IEnumerable<TItem> MoveableItemsEnd
-        => ItemsEnd.Where( x => !IsMoveToStartDisabled( x ) );
+        => ItemsEnd?.Where( x => !IsMoveToStartDisabled( x ) );
 
     /// <summary>
     /// Gets a value indicating whether the "Move All End" action is disabled.
