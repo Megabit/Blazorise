@@ -371,6 +371,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ButtonLoading( bool outline );
 
+    public abstract string ButtonStretchedLink( bool stretched );
+
     #endregion
 
     #region Buttons
@@ -1131,6 +1133,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string LinkActive( bool active );
 
     public abstract string LinkUnstyled( bool unstyled );
+
+    public abstract string LinkStretched( bool stretched );
 
     #endregion
 

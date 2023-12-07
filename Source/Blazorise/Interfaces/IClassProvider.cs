@@ -370,6 +370,8 @@ public interface IClassProvider
 
     string ButtonLoading( bool outline );
 
+    string ButtonStretchedLink( bool stretched );
+
     #endregion
 
     #region Buttons
@@ -1127,6 +1129,8 @@ public interface IClassProvider
     string LinkActive( bool active );
 
     string LinkUnstyled( bool unstyled );
+
+    string LinkStretched( bool stretched );
 
     #endregion
 

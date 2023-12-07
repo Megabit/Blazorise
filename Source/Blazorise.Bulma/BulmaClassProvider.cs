@@ -403,6 +403,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ButtonLoading( bool outline ) => "is-loading";
 
+    public override string ButtonStretchedLink( bool stretched ) => stretched ? "is-link-stretched" : null;
+
     #endregion
 
     #region Buttons
@@ -1268,6 +1270,8 @@ public class BulmaClassProvider : ClassProvider
     public override string LinkActive( bool active ) => active ? Active() : null;
 
     public override string LinkUnstyled( bool unstyled ) => unstyled ? "is-link-unstyled" : null;
+
+    public override string LinkStretched( bool stretched ) => stretched ? "is-link-stretched" : null;
 
     #endregion
 

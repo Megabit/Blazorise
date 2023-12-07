@@ -71,6 +71,21 @@
     <DocsPageSectionSource Code="CustomLinkTargetExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Stretched link">
+        <Paragraph>
+            Add <Code>Stretched</Code> attribute to a link to make its containing block clickable via a <Code>::after</Code> pseudo element. In most cases, this means that an element with <Code>position: relative</Code> that contains a link with the stretched link class is clickable. Please note given how CSS position works, stretched-link cannot be mixed with most table elements.
+        </Paragraph>
+        <Paragraph>
+            Cards have <Code>position: relative</Code> by default, so in this case you can safely add the <Code>Stretched</Code> attribute to a link in the card without any other HTML changes.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LinkStretchedExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LinkStretchedExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
@@ -100,5 +115,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Clicked" Type="EventCallback">
         Occurs when the link is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Stretched" Type="bool" Default="false">
+        Makes any HTML element or component clickable by “stretching” a nested link.
     </DocsAttributesItem>
 </DocsAttributes>

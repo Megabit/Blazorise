@@ -1394,6 +1394,21 @@ public class Gender
 <Button Color=""Color.Primary"">Normal</Button>
 <Button Color=""Color.Primary"" Size=""Size.Small"">Small</Button>";
 
+        public const string StretchedLinkButtonExample = @"<Card Width=""Width.Rem(18)"">
+    <CardImage Source=""/img/gallery/5.jpg"" Alt=""Placeholder image"" />
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card with stretched link
+        </CardTitle>
+        <CardText>
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+        </CardText>
+        <Button Type=""ButtonType.Link"" To=""#"" Color=""Color.Primary"" StretchedLink>
+            Go somewhere
+        </Button>
+    </CardBody>
+</Card>";
+
         public const string SubmitButtonExample = @"<Form>
     <Field Horizontal>
         <FieldLabel ColumnSize=""ColumnSize.Is2"">Name</FieldLabel>
@@ -2636,6 +2651,21 @@ public class Gender
 </Link>
 
 <iframe name=""example"" src=""init_fixed.html""></iframe>";
+
+        public const string LinkStretchedExample = @"<Card Width=""Width.Rem(18)"">
+    <CardImage Source=""/img/gallery/2.jpg"" Alt=""Placeholder image"" />
+    <CardBody>
+        <CardTitle Size=""3"">
+            Card with stretched link
+        </CardTitle>
+        <CardText>
+            Some quick example text to build on the card title and make up the bulk of the card's content.
+        </CardText>
+        <Link To=""#"" Title=""Link to go somewhere"" Stretched>
+            Go somewhere
+        </Link>
+    </CardBody>
+</Card>";
 
         public const string LinkTargetExample = @"<Link To=""https://github.com/Megabit/Blazorise"" Target=""Target.Blank"">
     Blazorise

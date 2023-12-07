@@ -522,6 +522,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ButtonLoading( bool outline ) => null;
 
+    public override string ButtonStretchedLink( bool stretched ) => stretched ? "after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:z-1 after:content-['_']" : null;
+
     #endregion
 
     #region Buttons
@@ -1868,6 +1870,8 @@ public class TailwindClassProvider : ClassProvider
             return "font-medium text-primary-600 dark:text-primary-500 hover:underline";
         }
     }
+
+    public override string LinkStretched( bool stretched ) => stretched ? "after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:z-1 after:content-['_']" : null;
 
     #endregion
 
