@@ -391,6 +391,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ButtonLoading( bool outline ) => null;
 
+    public override string ButtonStretchedLink( bool stretched ) => stretched ? "stretched-link" : null;
+
     #endregion
 
     #region Buttons
@@ -1231,6 +1233,8 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string LinkActive( bool active ) => active ? Active() : null;
 
     public override string LinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+
+    public override string LinkStretched( bool stretched ) => stretched ? "stretched-link" : null;
 
     #endregion
 

@@ -1911,6 +1911,16 @@ a.is-link-unstyled {
   color: inherit;
 }
 
+.is-link-stretched::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  content: "";
+}
+
 .list-group {
   display: flex;
   flex-direction: column;

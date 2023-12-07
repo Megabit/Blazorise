@@ -400,6 +400,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ButtonLoading( bool outline ) => "ant-btn-loading";
 
+    public override string ButtonStretchedLink( bool stretched ) => stretched ? "ant-link-stretched" : null;
+
     #endregion
 
     #region Buttons
@@ -1230,6 +1232,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string LinkActive( bool active ) => active ? Active() : null;
 
     public override string LinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
+
+    public override string LinkStretched( bool stretched ) => stretched ? "ant-link-stretched" : null;
 
     #endregion
 

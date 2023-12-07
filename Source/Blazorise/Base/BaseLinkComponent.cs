@@ -269,6 +269,11 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     [Parameter] public bool Unstyled { get; set; }
 
     /// <summary>
+    /// Makes any HTML element or component clickable by “stretching” a nested link.
+    /// </summary>
+    [Parameter] public bool Stretched { get; set; }
+
+    /// <summary>
     /// Occurs when the link is clicked.
     /// </summary>
     [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
