@@ -130,6 +130,7 @@ public partial class TransferList<TItem> : ComponentBase
                 ItemsStart.RemoveAt( i );
             }
         }
+
         await NotifyMove( true );
     }
 
@@ -152,6 +153,7 @@ public partial class TransferList<TItem> : ComponentBase
                 ItemsEnd.RemoveAt( i );
             }
         }
+
         await NotifyMove( true );
     }
 
@@ -176,6 +178,7 @@ public partial class TransferList<TItem> : ComponentBase
         if ( !SelectedItemStart.IsEqual( default ) )
         {
             SelectedItemStart = default;
+
             await SelectedItemStartChanged.InvokeAsync( SelectedItemStart );
         }
     }
@@ -185,6 +188,7 @@ public partial class TransferList<TItem> : ComponentBase
         if ( !SelectedItemEnd.IsEqual( default ) )
         {
             SelectedItemEnd = default;
+
             await SelectedItemEndChanged.InvokeAsync( SelectedItemEnd );
         }
     }
@@ -194,6 +198,7 @@ public partial class TransferList<TItem> : ComponentBase
         if ( !SelectedItemsStart.IsNullOrEmpty() )
         {
             SelectedItemsStart.Clear();
+
             await SelectedItemsStartChanged.InvokeAsync( SelectedItemsStart );
         }
     }
@@ -203,6 +208,7 @@ public partial class TransferList<TItem> : ComponentBase
         if ( !SelectedItemsEnd.IsNullOrEmpty() )
         {
             SelectedItemsEnd.Clear();
+
             await SelectedItemsEndChanged.InvokeAsync( SelectedItemsEnd );
         }
     }
@@ -210,7 +216,9 @@ public partial class TransferList<TItem> : ComponentBase
     private bool IsMoveToStartDisabled( TItem item )
     {
         if ( CanMoveToStart is not null )
+        {
             return !CanMoveToStart.Invoke( item );
+        }
 
         return false;
     }
@@ -218,7 +226,9 @@ public partial class TransferList<TItem> : ComponentBase
     private bool IsMoveToEndDisabled( TItem item )
     {
         if ( CanMoveToEnd is not null )
+        {
             return !CanMoveToEnd.Invoke( item );
+        }
 
         return false;
     }
