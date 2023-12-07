@@ -63,7 +63,6 @@ tr {
         white-space: nowrap;
         border-collapse: separate;
         border-spacing: 0;
-        border: 0;
 
         .table-header-cell-fixed,
         .table-row-header-fixed,
@@ -84,6 +83,14 @@ tr {
                 background-color: white;
                 border-inline-start-width: 0;
                 right: 0;
+            }
+        }
+
+        &.table-bordered {
+            td:not(.table-header-cell-fixed-start):not(.table-row-header-fixed-start):not(.table-row-cell-fixed-start),
+            th:not(.table-header-cell-fixed-start):not(.table-row-header-fixed-start):not(.table-row-cell-fixed-start) {
+                border-left: 1px;
+                border-inline-start-width: 1px;
             }
         }
     }
