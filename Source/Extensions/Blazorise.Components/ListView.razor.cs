@@ -47,6 +47,22 @@ public partial class ListView<TItem> : ComponentBase
         return ValueField.Invoke( item );
     }
 
+    private bool GetItemDisabled( TItem item )
+    {
+        if ( item is null || DisabledItem is null )
+            return false;
+
+        return DisabledItem.Invoke( item );
+    }
+
+    private List<string> GetItemValues( List<TItem> selectedItems )
+    {
+        if ( selectedItems is null || ValueField is null )
+            return new List<string>();
+
+        return selectedItems.Select( x => ValueField.Invoke( x ) ).ToList();
+    }
+
     protected Task SelectedListGroupItemChanged( string value )
     {
         SelectedItem = GetItemBySelectedValue( value );
@@ -54,11 +70,28 @@ public partial class ListView<TItem> : ComponentBase
         return SelectedItemChanged.InvokeAsync( SelectedItem );
     }
 
+    protected Task SelectedListGroupItemsChanged( List<string> values )
+    {
+        SelectedItems = GetItemsBySelectedValues( values );
+
+        return SelectedItemsChanged.InvokeAsync( SelectedItems );
+    }
+
     private TItem GetItemBySelectedValue( string selectedValue )
     {
         if ( !Data.IsNullOrEmpty() && ValueField is not null )
         {
             return Data.FirstOrDefault( x => ValueField.Invoke( x ) == selectedValue );
+        }
+
+        return default;
+    }
+
+    private List<TItem> GetItemsBySelectedValues( List<string> selectedValues )
+    {
+        if ( !Data.IsNullOrEmpty() && ValueField is not null )
+        {
+            return Data.Where( x => selectedValues.Contains( ValueField.Invoke( x ) ) ).ToList();
         }
 
         return default;
@@ -96,20 +129,22 @@ public partial class ListView<TItem> : ComponentBase
     /// <summary>
     /// Defines the list-group behavior mode.
     /// </summary>
-    [Parameter]
-    public ListGroupMode Mode { get; set; }
+    [Parameter] public ListGroupMode Mode { get; set; }
+
+    /// <summary>
+    /// Defines the list-group selection mode.
+    /// </summary>
+    [Parameter] public ListGroupSelectionMode SelectionMode { get; set; }
 
     /// <summary>
     /// Remove some borders and rounded corners to render list group items edge-to-edge in a parent container (e.g., cards).
     /// </summary>
-    [Parameter]
-    public bool Flush { get; set; }
+    [Parameter] public bool Flush { get; set; }
 
     /// <summary>
     /// Makes the list group scrollable by adding a vertical scrollbar.
     /// </summary>
-    [Parameter]
-    public bool Scrollable { get; set; } = true;
+    [Parameter] public bool Scrollable { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the items data-source.
@@ -130,14 +165,29 @@ public partial class ListView<TItem> : ComponentBase
     [Parameter] public Func<TItem, string> ValueField { get; set; }
 
     /// <summary>
+    /// Method used to get the disabled items from the supplied data source.
+    /// </summary>
+    [Parameter] public Func<TItem, bool> DisabledItem { get; set; }
+
+    /// <summary>
     /// Currently selected item.
     /// </summary>
     [Parameter] public TItem SelectedItem { get; set; }
 
     /// <summary>
+    /// Currently selected items.
+    /// </summary>
+    [Parameter] public List<TItem> SelectedItems { get; set; }
+
+    /// <summary>
     /// Occurs after the selected item has changed.
     /// </summary>
     [Parameter] public EventCallback<TItem> SelectedItemChanged { get; set; }
+
+    /// <summary>
+    /// Occurs after the selected items has changed.
+    /// </summary>
+    [Parameter] public EventCallback<List<TItem>> SelectedItemsChanged { get; set; }
 
     /// <summary>
     /// Custom css class-names.

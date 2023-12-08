@@ -1,0 +1,15 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<TransferList TItem="string"
+              Items="@list"
+              SelectionMode="ListGroupSelectionMode.Multiple"
+              Mode="ListGroupMode.Selectable"
+              Scrollable=false
+              ShowMoveAll
+              ValueField="item => item"
+              TextField="item => item">
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { "Apple", "Banana", "Cherry", "Grapes", "Orange", "Pear", "Strawberry" };
+}

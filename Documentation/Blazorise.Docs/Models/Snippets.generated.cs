@@ -9104,6 +9104,146 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     </SplitterSection>
 </Splitter>";
 
+        public const string TransferListCanMoveExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectionMode=""ListGroupSelectionMode.Single""
+              Mode=""ListGroupMode.Selectable""
+              CanMoveToEnd=""@(item => item != ""Orange"")""
+              CanMoveToStart=""@(item => item != ""Strawberry"" && item != ""Cherry"")""
+              Scrollable=false
+              ShowMoveAll
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+}";
+
+        public const string TransferListCustomItemTemplatesExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectionMode=""ListGroupSelectionMode.Single""
+              Mode=""ListGroupMode.Selectable""
+              Scrollable
+              ShowMoveAll=false
+              ValueField=""item => item""
+              TextField=""item => item"">
+    <ItemStartTemplate>
+        @(transferListItemContent( context ))
+    </ItemStartTemplate>
+    <ItemEndTemplate>
+        @(transferListItemContent( context ))
+    </ItemEndTemplate>
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Bananas"", ""Lemon"", ""Broccoli"", ""Strawberry"", ""Cherry"", ""Cabbage"" };
+    private List<string> listStart = new List<string>() { ""Cabbage"", ""Broccoli"" };
+
+    private RenderFragment<Blazorise.Components.ListView.ItemContext<string>> transferListItemContent => item => __builder =>
+    {
+        <Card Background=Background.Info Shadow=""Shadow.Default"">
+            <CardBody>
+                @{
+                    var imageSource = $""img/fruit/{item.Value.ToLower()}.png"";
+                }
+                <Image Source=""@imageSource"" Style=""width:24px;height:24px;"" />
+                @item.Value
+            </CardBody>
+        </Card>
+    };
+}";
+
+        public const string TransferListListsExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectionMode=""ListGroupSelectionMode.Single""
+              Mode=""ListGroupMode.Selectable""
+              Scrollable=false
+              ShowMoveAll=false
+              @bind-ItemsStart=@listStart
+              @bind-ItemsEnd=@listEnd
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+    private List<string> listStart = new List<string> {""Cherry"", ""Strawberry"" };
+    private List<string> listEnd;
+
+}";
+
+        public const string TransferListMultipleSelectionExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectionMode=""ListGroupSelectionMode.Multiple""
+              Mode=""ListGroupMode.Selectable""
+              Scrollable=false
+              ShowMoveAll=false
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+}";
+
+        public const string TransferListScrollableExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectionMode=""ListGroupSelectionMode.Single""
+              Mode=""ListGroupMode.Selectable""
+                Scrollable
+               MaxHeight=""500px""
+               ShowMoveAll=false
+               @bind-ItemsStart=@listStart
+               @bind-ItemsEnd=@listEnd
+               ValueField=""item => item""
+               TextField=""item => item"">
+ </TransferList>
+
+ @code {
+    private List<string> list = new List<string> {
+        ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"",
+        ""Watermelon"", ""Pineapple"", ""Mango"", ""Blueberry"", ""Raspberry"",
+        ""Kiwi"", ""Peach"", ""Plum"", ""Pomegranate"", ""Coconut"", ""Lemon"",
+        ""Lime"", ""Cantaloupe"", ""Honeydew"", ""Avocado"", ""Fig"", ""Guava"",
+        ""Passion Fruit"", ""Papaya"", ""Apricot"", ""Cranberry"", ""Blackberry"",
+        ""Currant"", ""Lychee"", ""Dragon Fruit"", ""Tangerine"", ""Nectarine"",
+        ""Persimmon"", ""Star Fruit"", ""Quince"", ""Kumquat"", ""Elderberry""
+    };
+
+    private List<string> listStart = new List<string> { ""Cherry"", ""Strawberry"" };
+    private List<string> listEnd;
+
+}";
+
+        public const string TransferListShowAllExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectionMode=""ListGroupSelectionMode.Multiple""
+              Mode=""ListGroupMode.Selectable""
+              Scrollable=false
+              ShowMoveAll
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+}";
+
+        public const string TransferListSingleSelectionExample = @"<TransferList TItem=""string""
+              Items=""@list""
+              SelectionMode=""ListGroupSelectionMode.Single""
+              Mode=""ListGroupMode.Selectable""
+              Scrollable=false
+              ShowMoveAll=false
+              ValueField=""item => item""
+              TextField=""item => item"">
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
+}";
+
         public const string TreeViewExample = @"<TreeView Nodes=""Items""
           GetChildNodes=""@(item => item.Children)""
           HasChildNodes=""@(item => item.Children?.Any() == true)""

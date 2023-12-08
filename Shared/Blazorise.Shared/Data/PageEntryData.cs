@@ -142,6 +142,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/sidebar", "Sidebar", "The Sidebar component is an expandable and collapsible container area that holds primary and secondary information placed alongside the main content of a webpage." ),
                 new PageEntry( "docs/extensions/snackbar", "Snackbar", "Snackbar provide brief messages about app processes. The component is also known as a toast." ),
                 new PageEntry( "docs/extensions/spinkit", "SpinKit", "A component used to show loading indicators animated with CSS." ),
+                new PageEntry( "docs/extensions/transferlist", "TransferList", "The TransferList component is a versatile control element in Blazor that facilitates transferring items between two lists within applications." ),
                 new PageEntry( "docs/extensions/treeview", "TreeView", "The TreeView component is a graphical control element that presents a hierarchical view of information." ),
                 new PageEntry( "docs/extensions/video", "Video", "A Video component used to play a regular or streaming media." ),
                 new PageEntry( "docs/extensions/qrcode", "QRCode", "A component used to generate QR codes." ),
