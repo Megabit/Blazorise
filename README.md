@@ -105,8 +105,8 @@ Add the following to `index.html` (Blazor WebAssembly) or `_Host.cshtml` (Blazor
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
 
-<link href="_content/Blazorise/blazorise.css?v=1.3.3.0" rel="stylesheet" />
-<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.3.3.0" rel="stylesheet" />
+<link href="_content/Blazorise/blazorise.css?v=1.4.0.0" rel="stylesheet" />
+<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.4.0.0" rel="stylesheet" />
 ```
 
 Add the following to `index.html` or `_Host.cshtml` in the `body` section.
