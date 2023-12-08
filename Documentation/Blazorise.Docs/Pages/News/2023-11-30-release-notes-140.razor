@@ -1,11 +1,11 @@
 ﻿@page "/news/release-notes/140"
 
-<Seo Canonical="news/release-notes/140" Title="Blazorise v1.4" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.4 release." ImageUrl="img/news/empty.png" />
+<Seo Canonical="news/release-notes/140" Title="Blazorise v1.4" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.4 release." ImageUrl="img/news/140/v140.png" />
 
-<NewsPageImage Source="img/news/empty.png" Text="Blazorise v1.4" />
+<NewsPageImage Source="img/news/140/v140.png" Text="Blazorise v1.4" />
 
 <NewsPageTitle>
-    Announcing Blazorise 1.4
+    Announcing Blazorise 1.4 - Zadar
 </NewsPageTitle>
 
 <Paragraph>
@@ -13,11 +13,19 @@
 </Paragraph>
 
 <Paragraph>
-    It has been far too long since the last major version, but given the number of new features included in this release, it has been well worth the wait.
+    A few months have passed since the last major version, but given the number of new features included in this release, it has been well worth the wait.
 </Paragraph>
 
 <Paragraph>
-    Dive in to learn about the new components, enhancements, and features we've added to assist you in creating even better web applications!
+    In our release notes, we're excited to share a new approach to naming our versions: starting from this release, each version of Blazorise will be named after a city in Croatia. This version is affectionately named <Anchor To="https://en.wikipedia.org/wiki/Zadar" Title="Link to Zadar" Target="Target.Blank">Zadar</Anchor>. This change is more than just a naming convention; it's a celebration of our rich cultural heritage and a way to promote the beauty of Croatia.
+</Paragraph>
+
+<Paragraph>
+    By associating each release with a Croatian city, we aim to highlight the diverse and picturesque landscapes, the rich history, and the vibrant culture of our country. We believe this unique naming strategy will not only bring a distinctive identity to each Blazorise version but also offer a glimpse into the charming and scenic cities of Croatia to our global user community.
+</Paragraph>
+
+<Paragraph>
+    And now, finally, dive in to learn about the new components, enhancements, and features we've been working on to assist you in creating even better web applications!
 </Paragraph>
 
 <NewsPageSubtitle>
@@ -36,7 +44,12 @@
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>DatePicker</Strong>: added input mask
+            <Strong>TransferList</Strong>: new component for transferring items between two lists.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>DatePicker</Strong>: added input format mask
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
@@ -46,12 +59,17 @@
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Table && DataGrid</Strong>: added ability to set sticky columns
+            <Strong>Sticky columns</Strong>: added ability to set sticky columns on Table & DataGrid
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Testing</Strong>: with bUnit
+            <Strong>Testing</Strong>: new NuGet package for testing with bUnit
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Licensing</Strong>: added limitations for extension components
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
@@ -82,21 +100,41 @@
     Official .NET 8 Support
 </Heading>
 
+<Paragraph>
+    We have made Blazorise fully compatible with .NET in our latest <Anchor To="news/release-notes/133" Title="Link to maintenance v1.3.3 release">maintenance v1.3.3 release</Anchor>, but it is still worth mentioning. In this release, you can enjoy all the benefits of .NET Blazor SSR with Blazorise. We made a great deal to make it compatible on time with the .NET release back in November. We hope you will enjoy it as much as we do.
+</Paragraph>
+
+<Paragraph>
+    Our web is also already running on .NET 8 faster than ever.
+</Paragraph>
+
 <Heading Size="HeadingSize.Is3">
     DatePicker input mask
 </Heading>
 
 <Paragraph>
-    With the feedback from our community, we've introduced a new <Code>InputFormat</Code> parameter for the input mask. This feature lets developers define the format that the input should adhere to, ensuring consistency and data integrity.
+    With the feedback from our community, we've introduced a new <Code>InputFormat</Code> parameter for the input mask. This feature lets developers define the input's format, ensuring consistency and data integrity.
 </Paragraph>
 
 <Paragraph>
-    At this moment almost all date formats should be supported. The only feature that is still missing is the usage of long-name days and month, eg <Code>ddd.MM.yyyy</Code>, or <Code>dd.MMM.yyyy</Code>. We are working on making it work in future versions.
+    At this moment, almost all date formats should be supported. The only feature that is still missing is the usage of long-name days and months, eg <Code>ddd.MM.yyyy</Code>, or <Code>dd.MMM.yyyy</Code>. We are working hard on making it work in future versions.
 </Paragraph>
 
-<NewsPageSubtitle>
-    DataGrid
-</NewsPageSubtitle>
+<Paragraph>
+    To see it in action, visit the <Anchor To="docs/components/date-picker" Title="Link to DatePicker page">DatePicker page</Anchor>
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid improvements
+</Heading>
+
+<Paragraph>
+    DataGrid is our most used component, and it is only natural that it receives so much work. We have made many new features to make it even better.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    1. More filter modes
+</Heading>
 
 <Paragraph>
     With the introduction of the new <Code>DataGridFilterMode.Menu</Code> feature, we've found out that although it was an appreciated feature, users wanted even more contextual filtering support, i.e: numeric columns, with inbuilt 'less than'' or 'greater than' filtering method support.
@@ -107,10 +145,10 @@
 </Paragraph>
 
 <UnorderedList>
-    <UnorderedListItem>LessThan</UnorderedListItem>
-    <UnorderedListItem>LessThanOrEqual</UnorderedListItem>
-    <UnorderedListItem>GreaterThan</UnorderedListItem>
-    <UnorderedListItem>GreaterThanOrEqual</UnorderedListItem>
+    <UnorderedListItem><Code>LessThan</Code></UnorderedListItem>
+    <UnorderedListItem><Code>LessThanOrEqual</Code></UnorderedListItem>
+    <UnorderedListItem><Code>GreaterThan</Code></UnorderedListItem>
+    <UnorderedListItem><Code>GreaterThanOrEqual</Code></UnorderedListItem>
 </UnorderedList>
 
 <Paragraph>
@@ -118,75 +156,118 @@
     Otherwise, you may also set the new filtering capabilities on your regular columns, but please take note that these will only work if the columns are of a numeric or date type.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is4">
+    2. Help labels
+</Heading>
+
 <Paragraph>
-    Introduced a new <Code>HelpText</Code> Parameter in the <Code>DataGridColumn</Code> that will render an help text below the column field input when editing.
+    It's a small feature but it still deserves to be mentioned. We have introduced a new <Code>HelpText</Code> parameter in the <Code>DataGridColumn</Code> that will render a small help text below the column field input when editing making your UX even better.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    3. Cell editing
+</Heading>
+
+<Paragraph>
+    We have lost count of how many times this feature was requested, and finally, we have made it possible. Our engineer, David, took much time and effort, but it was all worth it. The new editing mode will undoubtedly be of a great deal for everyone.
 </Paragraph>
 
 <Paragraph>
-    Introduced a new <Code>DataGridEditMode</Code> option, named Cell, this allows he user to edit the cell value directly, very much like an excel file behaves.
+    This release introduces a new option named <Code>Cell</Code> edit mode under the <Code>DataGridEditMode</Code> enum. It allows the user to edit the cell value directly, as an Excel file behaves.
 </Paragraph>
 
 <Paragraph>
-    Every DataGrid edit related feature should still work as expected, like validations, etc.
+    Every DataGrid edit-related feature, like validations, etc., should continue to work as expected.
 </Paragraph>
 
 <Paragraph>
-    For an experience similar to excel, we recommend using the <Code>Cell</Code> edit mode with the <Code>DataGridCommandColumn</Code> configured as <Code>EditCommandAllowed="false" DeleteCommandAllowed="false"</Code>. Additionally you might even set the <Code>SaveCommandAllowed="false" CancelCommandAllowed="false"</Code>, and use the Enter and Escape keys to Save and Cancel respectively.
+    For an experience similar to Excel, we recommend using the <Code>Cell</Code> edit mode with the <Code>DataGridCommandColumn</Code> configured as <Code>EditCommandAllowed="false" DeleteCommandAllowed="false"</Code>. Additionally you might even set the <Code>SaveCommandAllowed="false" CancelCommandAllowed="false"</Code>, and use the Enter and Escape keys to Save and Cancel, respectively.
 </Paragraph>
 
 <Paragraph>
-    It is of note that <Code>Tab </Code> and <Code>Shift+Tab</Code> will also work as expected. Whenever the user presses these keys, the cell will be saved and the next or previous cell will be selected.
+    It is of note that <Code>Tab</Code> and <Code>Shift+Tab</Code> will also work as expected. Whenever the user presses these keys, the cell value will be saved and the next or previous cell will be selected.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    4. Batch editing and styling
+</Heading>
+
+<Paragraph>
+    Batch editing is another feature that was requested so many times.
 </Paragraph>
 
 <Paragraph>
-    The <Code>FilterMode</Code> is now configurable per column. If set it will override the DataGrid's <Code>FilterMode</Code> setting per column.
+    The new <Code>BatchEdit</Code> parameter in DataGrid has been implemented, allowing users to edit multiple rows simultaneously and save all changes in one go.
 </Paragraph>
 
 <Paragraph>
-    We've introduced the ability to batch changes by enabling the new DataGrid Parameter <Code>BatchEdit</Code>. This will allow the user to edit multiple rows and then save all the changes at once.
+    Additionally, we have introduced new Parameters to enhance customization options for DataGrid rows and cells, such as
 </Paragraph>
 
 <Paragraph>
-    We've introduced the following new Parameters to further customize your DataGrid rows and cells.
     <UnorderedList>
         <UnorderedListItem><Code>RowBatchEditStyling</Code></UnorderedListItem>
         <UnorderedListItem><Code>CellStyling</Code></UnorderedListItem>
         <UnorderedListItem><Code>CellSelectedStyling</Code></UnorderedListItem>
         <UnorderedListItem><Code>CellBatchEditStyling</Code></UnorderedListItem>
     </UnorderedList>
-    With the introduction of these more general parameters, the <Code>DataGridColumn</Code> parameters <Code>CellClass</Code> and <Code>CellStyle</Code> are deemed as obsolete and will be removed in a future version.
 </Paragraph>
-
-<NewsPageSubtitle>
-    TransferList
-</NewsPageSubtitle>
 
 <Paragraph>
-    We've introduced a new <Code>TransferList</Code> component. This component facilitates transferring items between two lists.
+    With these broader parameters now available, the <Code>DataGridColumn</Code> parameters <Code>CellClass</Code> and <Code>CellStyle</Code> are now considered outdated and will be phased out in an upcoming version.
 </Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    5. Column based filtering
+</Heading>
+
+<Paragraph>
+    The <Code>FilterMode</Code> can now be individually set for each column. When specified, it will supersede the overall DataGrid's <Code>FilterMode</Code> setting on a per-column basis.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    TransferList
+</Heading>
+
+<Paragraph>
+    We've introduced a new <Code>TransferList</Code> component. This component facilitates various features for list management:
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Selection Options</Strong>: Users can choose either single or multiple items for transfer, providing flexibility in how items are selected and moved.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Movement Flexibility</Strong>: The component supports both individual item transfers and a 'move all' feature, allowing for efficient management of list contents whether moving one item at a time or all at once.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Customizable Item Templates</Strong>: To cater to different content needs, the TransferList component provides the option to use templates for items. This means you can render custom content within each item, tailoring the appearance and functionality to suit specific requirements.
+            </Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
 <Paragraph>
     To see it in action, visit the <Anchor To="docs/extensions/transferlist" Title="Link to Transfer List page">TransferList page</Anchor>
 </Paragraph>
 
-<NewsPageSubtitle>
-    ListGroup
-</NewsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
+    ListGroup and ListView improvements
+</Heading>
 
 <Paragraph>
-    We've introduced multiple selection support for the <Code>ListGroup</Code> component. This feature allows users to select multiple items. Enable <Code>ListGroupSelectionMode.Multiple</Code>
+    In addition to the new TransferList component, we've also enhanced the <Code>ListGroup</Code> and <Code>ListView</Code> components by incorporating multiple selection support. This update is a part of our continuous efforts to improve user experience and functionality. Now, users can select multiple items within the ListGroup and ListView components, offering greater flexibility and efficiency in managing lists and item selections. This feature complements the TransferList component, ensuring a cohesive and versatile user experience across these different components.
 </Paragraph>
 
-<NewsPageSubtitle>
-    ListView
-</NewsPageSubtitle>
-
-<Paragraph>
-    We've introduced multiple selection support for the <Code>ListView</Code> component. This feature allows users to select multiple items. Enable <Code>ListGroupSelectionMode.Multiple</Code>
-</Paragraph>
-
-<NewsPageSubtitle>
-    Tabs
-</NewsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
+    Tabs rendering mode
+</Heading>
 
 <Paragraph>
     The <Code>TabsContent</Code> component now also supports the <Code>RenderMode</Code> feature. This is specially useful when you need to use the <Code>Tabs</Code> and <Code>TabsContent</Code> separately, since these are unable to communicate, you can now set the <Code>RenderMode</Code> in the <Code>TabsContent</Code>.
@@ -204,32 +285,28 @@
     To see these features in action, visit the <Anchor To="docs/components/color-picker" Title="Link to ColorPicker page">ColorPicker page</Anchor> in the Blazorise documentation.
 </Paragraph>
 
-<NewsPageSubtitle>
-    Fixed columns
-</NewsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
+    Sticky Table and DataGrid columns
+</Heading>
 
 <Paragraph>
-    We are excited to announce a new feature in our DataGrid component in the latest Blazorise release. This feature introduces the ability to set fixed cells or columns to the left or right side of a DataGrid. This enhancement offers better control and stability in the visual layout of your tables, especially beneficial in cases of large data sets or complex grid structures.
+    We are excited to announce a new feature in our DataGrid and Table component in the latest Blazorise release. This feature introduces the ability to set fixed cells or columns to the left or right side of a DataGrid. This functionality is particularly useful for financial tables, reports, and dashboards, where key information needs to remain visible while scrolling through large amounts of data. We hope that this new feature will enhance your application's user experience and data presentation capabilities.
 </Paragraph>
 
 <Paragraph>
-    The new feature allows users to anchor cells or columns to either the left (Start) or right (End) side of the DataGrid. This ensures that the fixed cells or columns remain visible and in place as users scroll through the table. To utilize this feature, set the <Strong>FixedPosition</Strong> attribute to <Strong>TableColumnFixedPosition.Start</Strong> for left-side anchoring or <Strong>TableColumnFixedPosition.End</Strong> for right-side anchoring on a cell. Additionally, you must enable fixed columns on a table with the <Strong>FixedColumns</Strong> attribute.
-</Paragraph>
-
-<Paragraph>
-    This functionality is particularly useful for financial tables, reports, and dashboards, where key information needs to remain visible while scrolling through large amounts of data. We hope that this new feature will enhance your application's user experience and data presentation capabilities.
+    The new feature allows users to anchor cells or columns to either the left (Start) or right (End) side of the DataGrid. This ensures that the fixed cells or columns remain visible and in place as users scroll through the table. To utilize this feature, set the <Code>FixedPosition</Code> attribute to <Code>TableColumnFixedPosition.Start</Code> for left-side anchoring or <Code>TableColumnFixedPosition.End</Code> for right-side anchoring on a cell. Additionally, you must enable fixed columns on a table with the <Code>FixedColumns</Code> attribute.
 </Paragraph>
 
 <Paragraph>
     For more detailed information and examples, please refer to <Anchor To="docs/extensions/datagrid/features/fixed-columns" Title="Link to DataGrid Fixed Columns page">our DataGrid Fixed Columns documentation</Anchor>.
 </Paragraph>
 
-<NewsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
     Testing with bUnit
-</NewsPageSubtitle>
+</Heading>
 
 <Paragraph>
-    We're thrilled to introduce <Strong>Blazorise.Tests.bUnit</Strong>, a new package for efficiently testing Blazorise components. This addition enhances the testing framework and simplifies the testing process for Blazorise developers.
+    Last but not the least. We're thrilled to introduce <Strong>Blazorise.Tests.bUnit</Strong>, a new <Strong>NuGet</Strong> package for efficiently testing Blazorise components. This addition enhances the testing framework and simplifies the testing process for Blazorise developers.
 </Paragraph>
 
 <Paragraph>
@@ -246,7 +323,27 @@
 </Paragraph>
 
 <Paragraph>
-    For detailed instructions and support, refer to our documentation. We're here to help with any issues or questions you might have.
+    For detailed instructions and support, refer to our <Anchor To="docs/testing" Title="Link to testing documentation">testing documentation</Anchor>. We're here to help with any issues or questions you might have.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Licensing changes
+</NewsPageSubtitle>
+
+<Paragraph>
+    In the Blazorise <Strong>1.4</Strong> release, we're also introducing an important update to our licensing system. This change is aimed at maintaining the quality and sustainability of our services. Under the new system, all unlicensed or free versions of Blazorise packages, including the DataGrid, will now have a data limit - for instance, DataGrid will be capped at a maximum of 1,000 rows.
+</Paragraph>
+
+<Paragraph>
+    For those using the Community user license, this limit will be extended to 10,000 rows, offering more flexibility. However, licensed users will enjoy the benefit of no limits, allowing for unrestricted usage.
+</Paragraph>
+
+<Paragraph>
+    It's crucial to clarify that these newly introduced data limitations apply solely to extension components. All our core components within Blazorise remain fully accessible and unrestricted. This means while extension components like those in the DataGrid will have a cap (1000 rows for unlicensed/free packages and 10,000 rows for community user licenses), our core components continue to be available without any such limits.
+</Paragraph>
+
+<Paragraph>
+    We want to emphasize our ongoing commitment to investing in and enhancing Blazorise. Our goal is to ensure fairness and value for all our users, especially those who have consistently supported us by playing fair. This update is a step towards honoring that mutual trust and respect. We appreciate your understanding and cooperation in this transition, and we're here to support you every step of the way.
 </Paragraph>
 
 <NewsPageSubtitle>
@@ -254,15 +351,15 @@
 </NewsPageSubtitle>
 
 <Paragraph>
-    This release is packed with features, enhancements, and improvements, all aimed at making your Blazorise experience richer and more efficient. We're always striving to make Blazorise the best it can be, and we couldn't do it without your feedback and support.
+    This latest release comes loaded with a list of features, upgrades, and refinements, all designed to enrich and streamline your experience with Blazorise. Our commitment is to continually elevate Blazorise to its fullest potential, and your invaluable feedback and support are key to this endeavor.
 </Paragraph>
 
 <Paragraph>
-    Thank you for being a part of our journey. We eagerly await to see the fantastic applications you craft using these new features!
+    We are grateful for your continued involvement in our journey. We're excited to see the incredible applications you'll create with these new additions!
 </Paragraph>
 
 <Paragraph>
-    Happy coding! 🎉🚀
+    Happy coding and best of luck with your projects! 🎉🚀
 </Paragraph>
 
-<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="November 30th, 2023" Read="11 min" />
+<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="December 8th, 2023" Read="9 min" />
