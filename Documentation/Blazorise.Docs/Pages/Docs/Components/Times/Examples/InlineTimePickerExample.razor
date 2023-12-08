@@ -1,3 +1,7 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<TimePicker TValue="TimeSpan?" Inline />
+<TimePicker TValue="TimeSpan?" @bind-Time="@value" Inline />
+
+@code {
+    TimeSpan? value;
+}

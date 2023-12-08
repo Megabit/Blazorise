@@ -4332,9 +4332,17 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string BasicTimeEditExample = @"<TimeEdit TValue=""TimeSpan?"" />";
 
-        public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" />";
+        public const string BasicTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" />
 
-        public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" Inline />";
+@code {
+    TimeSpan? value;
+}";
+
+        public const string InlineTimePickerExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" Inline />
+
+@code {
+    TimeSpan? value;
+}";
 
         public const string TimeEditShowPickerExample = @"<Field>
     <Button Color=""Color.Primary"" Clicked=""@(()=>timeEditRef.ShowPicker())"">
@@ -4368,11 +4376,21 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
-        public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" StaticPicker=""false"" />";
+        public const string TimePickerNonStaticExample = @"<TimePicker TValue=""TimeSpan?"" @bind-Time=""@value"" StaticPicker=""false"" />
+
+@code {
+    TimeSpan? value;
+}";
+
+        public const string TimePickerWithDateTimeExample = @"<TimePicker TValue=""DateTime?"" @bind-Time=""@value"" />
+
+@code {
+    DateTime? value;
+}";
 
         public const string TimePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
-        <TimePicker @ref=""@timePicker"" TValue=""TimeSpan?"" />
+        <TimePicker @ref=""@timePicker"" TValue=""TimeSpan?"" @bind-Time=""@value"" />
     </Addon>
     <Addon AddonType=""AddonType.End"">
         <Button Color=""Color.Light"" Clicked=""@(()=>timePicker.ToggleAsync())"">
@@ -4382,6 +4400,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 </Addons>
 @code{
     TimePicker<TimeSpan?> timePicker;
+
+    TimeSpan? value;
 }";
 
         public const string BasicTooltipExample = @"<Tooltip Text=""Hello tooltip"">
