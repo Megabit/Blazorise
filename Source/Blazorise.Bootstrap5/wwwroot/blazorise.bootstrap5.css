@@ -111,6 +111,18 @@
   margin: auto;
   flex-grow: 1;
   min-height: 40px;
+  position: relative;
+}
+.navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .dropdown-menu.show {
+  width: 100%;
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+}
+.navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item + .nav-item {
+  margin-top: 1rem;
 }
 .navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .nav-link {
   color: inherit;
@@ -203,6 +215,15 @@
   margin: 3px;
   display: inline-block;
 }
+.navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item + .nav-item {
+  margin-top: 0.2rem;
+}
+.navbar.flex-column .collapse.navbar-collapse .navbar-start .nav-item .dropdown-menu.show {
+  margin: auto;
+  flex-grow: 1;
+  min-height: 40px;
+  position: relative;
+}
 .navbar.flex-column .collapse.navbar-collapse .navbar-end {
   padding-bottom: 1rem;
   width: 100%;
@@ -213,11 +234,24 @@
   margin: auto;
   flex-grow: 1;
   min-height: 40px;
+  position: relative;
 }
 .navbar.flex-column .collapse.navbar-collapse .navbar-end .nav-item .dropdown-menu.show {
   width: 100%;
   display: block;
-  bottom: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
+}
+.navbar.flex-column .collapse.navbar-collapse .navbar-end .nav-item + .nav-item {
+  margin-top: 1rem;
+}
+.navbar.flex-column .collapse.navbar-collapse .navbar-end .nav-item .dropdown-menu.show {
+  margin: auto;
+  flex-grow: 1;
+  min-height: 40px;
+  position: relative;
 }
 
 .btn-group > .b-tooltip:not(:last-child) > .btn {
