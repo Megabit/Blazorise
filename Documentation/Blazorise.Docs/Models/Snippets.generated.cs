@@ -866,10 +866,10 @@ public class Gender
         <Addon AddonType=""AddonType.End"">
             <AddonLabel>This is a label</AddonLabel>
         </Addon>
+        <ValidationNone></ValidationNone>
+        <ValidationSuccess></ValidationSuccess>
+        <ValidationError>Enter valid name!</ValidationError>
     </Addons>
-    <ValidationNone></ValidationNone>
-    <ValidationSuccess></ValidationSuccess>
-    <ValidationError>Enter valid name!</ValidationError>
 </Validation>";
 
         public const string ButtonAddonExample = @"<Addons>
