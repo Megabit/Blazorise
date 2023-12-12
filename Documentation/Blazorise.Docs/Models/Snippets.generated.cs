@@ -1627,7 +1627,11 @@ public class Gender
 
         public const string BasicDateEditExample = @"<DateEdit TValue=""DateTime?"" />";
 
-        public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" />";
+        public const string BasicDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" />
+
+@code {
+    DateTime? value;
+}";
 
         public const string DateEditDateTimeExample = @"<DateEdit TValue=""DateTime?"" InputMode=""DateInputMode.DateTime"" />";
 
@@ -1678,13 +1682,21 @@ public class Gender
     <FieldHelp>Format: DD/MM/YYYY</FieldHelp>
 </Field>";
 
-        public const string DatePickerInputFormatExample = @"<DatePicker TValue=""DateTime?"" InputFormat=""dd.MM.yyyy"" DisplayFormat=""dd.MM.yyyy"" />";
+        public const string DatePickerInputFormatExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" InputFormat=""dd.MM.yyyy"" DisplayFormat=""dd.MM.yyyy"" />
 
-        public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" StaticPicker=""false"" />";
+@code {
+    DateTime? value;
+}";
+
+        public const string DatePickerNonStaticExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" StaticPicker=""false"" />
+
+@code {
+    DateTime? value;
+}";
 
         public const string DatePickerWithIconExample = @"<Addons>
     <Addon AddonType=""AddonType.Body"">
-        <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" />
+        <DatePicker @ref=""@datePicker"" TValue=""DateTime?"" @bind-Date=""@value"" />
     </Addon>
     <Addon AddonType=""AddonType.End"">
         <Button Color=""Color.Light"" Clicked=""@(()=>datePicker.ToggleAsync())"">
@@ -1692,11 +1704,17 @@ public class Gender
         </Button>
     </Addon>
 </Addons>
-@code{
+@code {
     DatePicker<DateTime?> datePicker;
+
+    DateTime? value;
 }";
 
-        public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" Inline />";
+        public const string InlineDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Date=""@value"" Inline />
+
+@code {
+    DateTime? value;
+}";
 
         public const string MultipleDatePickerExample = @"<DatePicker @bind-Dates=""selectedDates"" TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Multiple"" />
 
@@ -1704,7 +1722,7 @@ public class Gender
     IReadOnlyList<DateTime?> selectedDates;
 }";
 
-        public const string RangeDatePickerExample = @"<DatePicker @bind-Dates=""selectedDates"" TValue=""DateTime?"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />
+        public const string RangeDatePickerExample = @"<DatePicker TValue=""DateTime?"" @bind-Dates=""selectedDates"" InputMode=""DateInputMode.Date"" SelectionMode=""DateInputSelectionMode.Range"" />
 
 @code {
     IReadOnlyList<DateTime?> selectedDates;
