@@ -1,0 +1,15 @@
+﻿.card {
+    position: relative;
+    flex-direction: column;
+
+    .card-header {
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 0;
+    }
+
+    .card-content {
+        flex: 1 1 auto;
+        min-height: 1px;
+        padding: 1.25rem;
+    }
+}

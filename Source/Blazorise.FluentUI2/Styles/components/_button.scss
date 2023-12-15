@@ -1,0 +1,197 @@
+﻿button {
+    font: inherit;
+}
+
+.button {
+    align-items: center;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    text-decoration-line: none;
+    vertical-align: middle;
+    margin: 0px;
+    overflow: hidden;
+    background-color: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    font-family: var(--fontFamilyBase);
+    outline-style: none;
+    padding: 5px var(--spacingHorizontal);
+    min-width: 96px;
+    border-radius: var(--borderRadiusMedium);
+    font-size: var(--fontSizeBase300);
+    font-weight: var(--fontWeightSemibold);
+    line-height: var(--lineHeightBase300);
+    transition-duration: var(--durationFaster);
+    transition-property: background, border, color;
+    transition-timing-function: var(--curveEasyEase);
+
+    &:hover {
+        color: var(--colorNeutralForegroundOnBrand);
+        background-color: var(--colorNeutralBackground1Hover);
+        border-color: var(--colorNeutralStroke1Hover);
+        color: var(--colorNeutralForeground1Hover);
+        cursor: pointer;
+
+        &:active {
+            background-color: var(--colorNeutralBackground1Pressed);
+            border-color: var(--colorNeutralStroke1Pressed);
+            color: var(--colorNeutralForeground1Pressed);
+            outline-style: none;
+        }
+    }
+
+    &.is-primary {
+        background-color: var(--colorBrandBackground);
+        color: var(--colorNeutralForegroundOnBrand);
+
+        &:hover {
+            background-color: var(--colorBrandBackgroundHover);
+            color: var(--colorNeutralForegroundOnBrand);
+
+            &:active {
+                background-color: var(--colorBrandBackgroundPressed);
+            }
+        }
+    }
+
+    &.is-secondary {
+        background-color: var(--colorNeutralBackground3);
+        color: var(--colorNeutralForeground3);
+
+        &:hover {
+            background-color: var(--colorNeutralBackground3Hover);
+            color: var(--colorNeutralForeground3Hover);
+
+            &:active {
+                background-color: var(--colorNeutralBackground3Pressed);
+            }
+        }
+    }
+
+    &.is-success {
+        background-color: var(--colorStatusSuccessBackground3);
+        color: var(--colorNeutralForegroundOnBrand);
+
+        &:hover {
+            background-color: var(--colorStatusSuccessForeground1);
+            color: var(--colorNeutralForegroundOnBrand);
+
+            &:active {
+                background-color: var(--colorStatusSuccessForeground2);
+            }
+        }
+    }
+
+    &.is-danger {
+        background-color: var(--colorPaletteRedBackground3);
+        color: var(--colorNeutralForegroundOnBrand);
+
+        &:hover {
+            background-color: var(--colorStatusDangerForeground1);
+            color: var(--colorNeutralForegroundOnBrand);
+
+            &:active {
+                background-color: var(--colorStatusDangerForeground2);
+            }
+        }
+    }
+
+    &.is-warning {
+        background-color: var(--colorStatusWarningBackground3);
+        color: var(--colorStatusWarningBackground1);
+
+        &:hover {
+            background-color: var(--colorStatusWarningForeground1);
+            color: var(--colorNeutralForegroundOnBrand);
+
+            &:active {
+                background-color: var(--colorStatusWarningForeground2);
+            }
+        }
+    }
+
+    &.is-extra-small {
+        padding-left: var(--spacingHorizontalXS);
+        padding-right: var(--spacingHorizontalXS);
+        padding-top: 1px;
+        padding-bottom: 1px;
+        font-weight: var(--fontWeightRegular);
+        font-size: var(--fontSizeBase100);
+        min-width: 64px;
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        line-height: var(--lineHeightBase100);
+    }
+
+    &.is-small {
+        padding-left: var(--spacingHorizontalS);
+        padding-right: var(--spacingHorizontalS);
+        padding-top: 3px;
+        padding-bottom: 3px;
+        font-weight: var(--fontWeightRegular);
+        font-size: var(--fontSizeBase200);
+        min-width: 64px;
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        line-height: var(--lineHeightBase200);
+    }
+
+    &.is-medium {
+        padding-left: var(--spacingHorizontalM);
+        padding-right: var(--spacingHorizontalM);
+        padding-top: 6px;
+        padding-bottom: 6px;
+        font-weight: var(--fontWeightSemibold);
+        font-size: var(--fontSizeBase400);
+        min-width: 96px;
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        line-height: var(--lineHeightBase400);
+    }
+
+    &.is-large {
+        padding-left: var(--spacingHorizontalL);
+        padding-right: var(--spacingHorizontalL);
+        padding-top: 8px;
+        padding-bottom: 8px;
+        font-weight: var(--fontWeightSemibold);
+        font-size: var(--fontSizeBase400);
+        min-width: 96px;
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        line-height: var(--lineHeightBase400);
+    }
+
+    &.is-extra-large {
+        padding-left: var(--spacingHorizontalXL);
+        padding-right: var(--spacingHorizontalXL);
+        padding-top: 12px;
+        padding-bottom: 12px;
+        font-weight: var(--fontWeightSemibold);
+        font-size: var(--fontSizeBase400);
+        min-width: 96px;
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        line-height: var(--lineHeightBase400);
+    }
+
+    &.is-fullwidth {
+        display: block;
+        width: 100%;
+
+        + .is-fullwidth {
+            margin-top: 0.5rem;
+        }
+    }
+}
