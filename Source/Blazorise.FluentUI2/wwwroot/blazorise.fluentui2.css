@@ -42,8 +42,7 @@
   --spacingHorizontalSNudge: 6px;
   --spacingHorizontalS: 8px;
   --spacingHorizontalMNudge: 10px;
-  --spacingHorizontal: 12px;
-  --spacingHorizontalM: 14px;
+  --spacingHorizontalM: 12px;
   --spacingHorizontalL: 16px;
   --spacingHorizontalXL: 20px;
   --spacingHorizontalXXL: 24px;
@@ -447,7 +446,7 @@ button {
   border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
   font-family: var(--fontFamilyBase);
   outline-style: none;
-  padding: 5px var(--spacingHorizontal);
+  padding: 5px var(--spacingHorizontalM);
   min-width: 96px;
   border-radius: var(--borderRadiusMedium);
   font-size: var(--fontSizeBase300);
@@ -504,7 +503,7 @@ button {
   background-color: var(--colorStatusSuccessForeground2);
 }
 .button.is-danger {
-  background-color: var(--colorPaletteRedBackground3);
+  background-color: var(--colorStatusDangerBackground3);
   color: var(--colorNeutralForegroundOnBrand);
 }
 .button.is-danger:hover {
@@ -515,15 +514,62 @@ button {
   background-color: var(--colorStatusDangerForeground2);
 }
 .button.is-warning {
-  background-color: var(--colorStatusWarningBackground3);
-  color: var(--colorStatusWarningBackground1);
+  background-color: var(--colorPaletteMarigoldBackground3);
+  color: var(--colorPaletteMarigoldBackground1);
 }
 .button.is-warning:hover {
-  background-color: var(--colorStatusWarningForeground1);
-  color: var(--colorNeutralForegroundOnBrand);
+  background-color: var(--colorPaletteMarigoldForeground1);
+  color: var(--colorPaletteMarigoldBackground1);
 }
 .button.is-warning:hover:active {
-  background-color: var(--colorStatusWarningForeground2);
+  background-color: var(--colorPaletteMarigoldForeground2);
+}
+.button.is-info {
+  background-color: var(--colorNeutralForeground3);
+  color: var(--colorNeutralBackground3);
+}
+.button.is-info:hover {
+  background-color: var(--colorNeutralForeground3Hover);
+  color: var(--colorNeutralBackground3Hover);
+}
+.button.is-info:hover:active {
+  background-color: var(--colorNeutralForeground3Pressed);
+  color: var(--colorNeutralBackground3Pressed);
+}
+.button.is-dark {
+  background-color: var(--colorNeutralForeground1);
+  color: var(--colorNeutralBackground1);
+}
+.button.is-dark:hover {
+  background-color: var(--colorNeutralForeground2);
+  color: var(--colorNeutralBackground1);
+}
+.button.is-dark:hover:active {
+  background-color: var(--colorNeutralForeground3);
+}
+.button.is-light {
+  background-color: var(--colorNeutralBackground2);
+  color: var(--colorNeutralForeground2);
+}
+.button.is-light:hover {
+  background-color: var(--colorNeutralBackground2Hover);
+  color: var(--colorNeutralForeground2Hover);
+}
+.button.is-light:hover:active {
+  background-color: var(--colorNeutralBackground2Pressed);
+}
+.button.is-link {
+  color: var(--colorBrandForegroundLink);
+  text-decoration: none;
+  border: none;
+  background-color: var(--colorSubtleBackground);
+}
+.button.is-link:hover {
+  color: var(--colorBrandForegroundLinkHover);
+  text-decoration: underline;
+}
+.button.is-link:hover:active {
+  color: var(--colorBrandForegroundLinkPressed);
 }
 .button.is-extra-small {
   padding-left: var(--spacingHorizontalXS);

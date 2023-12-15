@@ -16,7 +16,7 @@
     border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
     font-family: var(--fontFamilyBase);
     outline-style: none;
-    padding: 5px var(--spacingHorizontal);
+    padding: 5px var(--spacingHorizontalM);
     min-width: 96px;
     border-radius: var(--borderRadiusMedium);
     font-size: var(--fontSizeBase300);
@@ -84,7 +84,7 @@
     }
 
     &.is-danger {
-        background-color: var(--colorPaletteRedBackground3);
+        background-color: var(--colorStatusDangerBackground3);
         color: var(--colorNeutralForegroundOnBrand);
 
         &:hover {
@@ -98,15 +98,74 @@
     }
 
     &.is-warning {
-        background-color: var(--colorStatusWarningBackground3);
-        color: var(--colorStatusWarningBackground1);
+        background-color: var(--colorPaletteMarigoldBackground3);
+        color: var(--colorPaletteMarigoldBackground1);
 
         &:hover {
-            background-color: var(--colorStatusWarningForeground1);
-            color: var(--colorNeutralForegroundOnBrand);
+            background-color: var(--colorPaletteMarigoldForeground1);
+            color: var(--colorPaletteMarigoldBackground1);
 
             &:active {
-                background-color: var(--colorStatusWarningForeground2);
+                background-color: var(--colorPaletteMarigoldForeground2);
+            }
+        }
+    }
+
+    &.is-info {
+        background-color: var(--colorNeutralForeground3);
+        color: var(--colorNeutralBackground3);
+
+        &:hover {
+            background-color: var(--colorNeutralForeground3Hover);
+            color: var(--colorNeutralBackground3Hover);
+
+            &:active {
+                background-color: var(--colorNeutralForeground3Pressed);
+                color: var(--colorNeutralBackground3Pressed);
+            }
+        }
+    }
+
+    &.is-dark {
+        background-color: var(--colorNeutralForeground1);
+        color: var(--colorNeutralBackground1);
+
+        &:hover {
+            background-color: var(--colorNeutralForeground2);
+            color: var(--colorNeutralBackground1);
+
+            &:active {
+                background-color: var(--colorNeutralForeground3);
+            }
+        }
+    }
+
+    &.is-light {
+        background-color: var(--colorNeutralBackground2);
+        color: var(--colorNeutralForeground2);
+
+        &:hover {
+            background-color: var(--colorNeutralBackground2Hover);
+            color: var(--colorNeutralForeground2Hover);
+
+            &:active {
+                background-color: var(--colorNeutralBackground2Pressed);
+            }
+        }
+    }
+
+    &.is-link {
+        color: var(--colorBrandForegroundLink);
+        text-decoration: none;
+        border: none;
+        background-color: var(--colorSubtleBackground);
+
+        &:hover {
+            color: var(--colorBrandForegroundLinkHover);
+            text-decoration: underline;
+
+            &:active {
+                color: var(--colorBrandForegroundLinkPressed);
             }
         }
     }
