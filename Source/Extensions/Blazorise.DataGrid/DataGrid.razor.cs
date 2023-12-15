@@ -1075,7 +1075,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             .Where( x => !string.IsNullOrEmpty( x.Field ) )
             .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
 
-        var editItemClone = editItem.DeepClone();
+        var editItemClone = CloneItemCreator != null ? CloneItemCreator.Invoke( editItem ) : editItem.DeepClone();
         SetItemEditedValues( editItemClone );
 
         if ( await IsSafeToProceed( rowSavingHandler, editItem, editItemClone, editedCellValues ) )
@@ -3170,6 +3170,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Function that, if set, is called to create a instance of the selected item to edit. If left null the selected item will be used.
     /// </summary>
     [Parameter] public Func<TItem, TItem> EditItemCreator { get; set; }
+
+    /// <summary>
+    /// Function that, if set, is called to clone an instance of the saving item. If left null the built-in DeepClone method will be used.
+    /// </summary>
+    [Parameter] public Func<TItem, TItem> CloneItemCreator { get; set; }
 
     /// <summary>
     /// Adds stripes to the table.

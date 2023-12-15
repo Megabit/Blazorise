@@ -241,6 +241,9 @@
     <DocsAttributesItem Name="EditItemCreator" Type="Func<TItem, TItem>">
         Function that, if set, is called to create a instance of the selected item to edit. If left null the selected item will be used.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="CloneItemCreator" Type="Func<TItem, TItem>">
+        Function that, if set, is called to clone an instance of the saving item. If left null the built-in DeepClone method will be used.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="ValidationItemCreator" Type="Func<TItem>">
         Function that, if set, is called to create a validation instance of an item that it's used as a separate instance for Datagrid's internal processing of validation. If left null, Datagrid will try to use it's own implementation to instantiate.
     </DocsAttributesItem>

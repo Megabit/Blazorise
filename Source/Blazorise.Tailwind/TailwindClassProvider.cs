@@ -2189,7 +2189,7 @@ public class TailwindClassProvider : ClassProvider
     {
         return modalSize switch
         {
-            Blazorise.ModalSize.Small => "max-w-md md:h-aut",
+            Blazorise.ModalSize.Small => "max-w-md md:h-auto",
             Blazorise.ModalSize.Large => "max-w-4xl md:h-auto",
             Blazorise.ModalSize.ExtraLarge => "max-w-7xl md:h-auto",
             _ => "max-w-2xl md:h-auto",
