@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <Import Project="..\..\Build\Blazorise.Client.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Blazorise.FluentUI2\Blazorise.FluentUI2.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
+    <ProjectReference Include="..\Blazorise.Demo\Blazorise.Demo.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="_Imports.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <Generator>MSBuild:RazorGenerateComponentDeclarationDesignTime</Generator>
+    </Content>
+  </ItemGroup>
+
+</Project>

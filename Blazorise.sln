@@ -143,6 +143,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Tests.bUnit", "So
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.FluentUI2", "Source\Blazorise.FluentUI2\Blazorise.FluentUI2.csproj", "{E228C1B1-DEC3-4195-978F-518BAD4D7FD7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.Demo.FluentUI2", "Demos\Blazorise.Demo.FluentUI2\Blazorise.Demo.FluentUI2.csproj", "{2C519602-A6E6-4195-9D63-AA34C6978ED2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -373,6 +375,10 @@ Global
 		{E228C1B1-DEC3-4195-978F-518BAD4D7FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E228C1B1-DEC3-4195-978F-518BAD4D7FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E228C1B1-DEC3-4195-978F-518BAD4D7FD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C519602-A6E6-4195-9D63-AA34C6978ED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C519602-A6E6-4195-9D63-AA34C6978ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C519602-A6E6-4195-9D63-AA34C6978ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C519602-A6E6-4195-9D63-AA34C6978ED2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -437,6 +443,7 @@ Global
 		{5930C85A-4AE1-428B-BFEE-7A80970F7F3E} = {73CD9574-5204-442D-A67C-CA7B038057C2}
 		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8} = {5930C85A-4AE1-428B-BFEE-7A80970F7F3E}
 		{E228C1B1-DEC3-4195-978F-518BAD4D7FD7} = {73CD9574-5204-442D-A67C-CA7B038057C2}
+		{2C519602-A6E6-4195-9D63-AA34C6978ED2} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
