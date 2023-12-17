@@ -1,0 +1,19 @@
+﻿.fui-Row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: calc(var(--spacingHorizontalM) * -1);
+    margin-left: calc(var(--spacingHorizontalM) * -1);
+
+    .fui-NoGutters {
+        margin-right: 0;
+        margin-left: 0;
+
+        > .fui-Column,
+        > [class*="fui-Column-"] {
+            padding-right: 0;
+            padding-left: 0;
+        }
+    }
+}
+
+@include make-grid-columns();

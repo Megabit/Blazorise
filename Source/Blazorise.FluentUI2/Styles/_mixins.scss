@@ -1,0 +1,167 @@
+﻿@mixin button-variant($background, $background-hover, $background-active, $color, $color-hover, $color-active) {
+    background-color: $background;
+    color: $color;
+    border-color: transparent;
+
+    &.disabled,
+    &:disabled {
+        cursor: not-allowed;
+        border-bottom-color: var(--colorNeutralStrokeDisabled);
+        border-left-color: var(--colorNeutralStrokeDisabled);
+        border-right-color: var(--colorNeutralStrokeDisabled);
+        border-top-color: var(--colorNeutralStrokeDisabled);
+        background-color: var(--colorNeutralBackgroundDisabled);
+    }
+
+    &:not(:disabled):not(.disabled),
+    &:not(:disabled):not(.disabled) {
+        &:hover {
+            background-color: $background-hover;
+            color: $color-hover;
+        }
+
+        &:active,
+        &.active {
+            background-color: $background-active;
+            color: $color-active;
+        }
+    }
+}
+
+
+@mixin button-outline-variant($color, $color-hover, $color-active) {
+    color: $color;
+    border-color: $color;
+
+    &.disabled,
+    &:disabled {
+        cursor: not-allowed;
+        border-bottom-color: var(--colorNeutralStrokeDisabled);
+        border-left-color: var(--colorNeutralStrokeDisabled);
+        border-right-color: var(--colorNeutralStrokeDisabled);
+        border-top-color: var(--colorNeutralStrokeDisabled);
+        background-color: var(--colorNeutralBackgroundDisabled);
+    }
+
+    &:not(:disabled):not(.disabled),
+    &:not(:disabled):not(.disabled) {
+        &:hover {
+            border-color: $color-hover;
+            color: $color-hover;
+        }
+
+        &:active,
+        &.active {
+            border-color: $color-active;
+            color: $color-active;
+        }
+    }
+}
+
+@mixin make-grid-columns($columns: $grid-columns, $gutter: $grid-gutter-width, $breakpoints: $grid-breakpoints) {
+    // Common properties for all breakpoints
+    %grid-column {
+        position: relative;
+        width: 100%;
+        padding-right: calc($gutter / 2);
+        padding-left: calc($gutter / 2);
+    }
+
+    @each $breakpoint in map-keys($breakpoints) {
+        $infix: breakpoint-infix($breakpoint, $breakpoints);
+
+        @if $columns > 0 {
+            // Allow columns to stretch full width below their breakpoints
+            @for $i from 1 through $columns {
+                .fui-Column#{$infix}-#{$i} {
+                    @extend %grid-column;
+                }
+            }
+        }
+
+        .fui-Column#{$infix},
+        .fui-Column#{$infix}-auto {
+            @extend %grid-column;
+        }
+
+        @include media-breakpoint-up($breakpoint, $breakpoints) {
+            // Provide basic `.fui-Column-{bp}` classes for equal-width flexbox columns
+            .fui-Column#{$infix} {
+                flex-basis: 0;
+                flex-grow: 1;
+                max-width: 100%;
+            }
+
+            @if $grid-row-columns > 0 {
+                @for $i from 1 through $grid-row-columns {
+                    .fui-row-columns#{$infix}-#{$i} {
+                        @include row-cols($i);
+                    }
+                }
+            }
+
+            .fui-Column#{$infix}-auto {
+                @include make-col-auto();
+            }
+
+            @if $columns > 0 {
+                @for $i from 1 through $columns {
+                    .fui-Column#{$infix}-#{$i} {
+                        @include make-col($i, $columns);
+                    }
+                }
+            }
+
+            .order#{$infix}-first {
+                order: -1;
+            }
+
+            .order#{$infix}-last {
+                order: $columns + 1;
+            }
+
+            @for $i from 0 through $columns {
+                .order#{$infix}-#{$i} {
+                    order: $i;
+                }
+            }
+
+            @if $columns > 0 {
+                // `$columns - 1` because offsetting by the width of an entire row isn't possible
+                @for $i from 0 through ($columns - 1) {
+                    @if not ($infix == "" and $i == 0) { // Avoid emitting useless .offset-0
+                        .offset#{$infix}-#{$i} {
+                            @include make-col-offset($i, $columns);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin make-col($size, $columns: $grid-columns) {
+    flex: 0 0 percentage($size / $columns);
+    // Add a `max-width` to ensure content within each column does not blow out
+    // the width of the column. Applies to IE10+ and Firefox. Chrome and Safari
+    // do not appear to require this.
+    max-width: percentage($size / $columns);
+}
+
+@mixin make-col-auto() {
+    flex: 0 0 auto;
+    width: auto;
+    max-width: 100%; // Reset earlier grid tiers
+}
+
+@mixin make-col-offset($size, $columns: $grid-columns) {
+    $num: $size / $columns;
+    margin-left: if($num == 0, 0, percentage($num));
+}
+
+@mixin row-cols($count) {
+    > * {
+        flex: 0 0 100% / $count;
+        max-width: 100% / $count;
+    }
+}

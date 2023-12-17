@@ -1,0 +1,85 @@
+﻿@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        @each $prop, $abbrev in (margin: fui-Margin, padding: fui-Padding) {
+            @each $size, $length in $spacers {
+                .#{$abbrev}#{$infix}-#{$size} {
+                    #{$prop}: $length !important;
+                }
+
+                .#{$abbrev}Top#{$infix}-#{$size},
+                .#{$abbrev}Y#{$infix}-#{$size} {
+                    #{$prop}-top: $length !important;
+                }
+
+                .#{$abbrev}End#{$infix}-#{$size},
+                .#{$abbrev}X#{$infix}-#{$size} {
+                    #{$prop}-right: $length !important;
+                }
+
+                .#{$abbrev}Bottom#{$infix}-#{$size},
+                .#{$abbrev}Y#{$infix}-#{$size} {
+                    #{$prop}-bottom: $length !important;
+                }
+
+                .#{$abbrev}Start#{$infix}-#{$size},
+                .#{$abbrev}X#{$infix}-#{$size} {
+                    #{$prop}-left: $length !important;
+                }
+            }
+        }
+        // Negative margins (e.g., where `.mb-n1` is negative version of `.mb-1`)
+        @each $size, $length in $spacers {
+            @if $size != 0 {
+                .fui-Margin#{$infix}-n#{$size} {
+                    margin: -$length !important;
+                }
+
+                .fui-MarginTop#{$infix}-n#{$size},
+                .fui-MarginY#{$infix}-n#{$size} {
+                    margin-top: -$length !important;
+                }
+
+                .fui-MarginEnd#{$infix}-n#{$size},
+                .fui-MarginX#{$infix}-n#{$size} {
+                    margin-right: -$length !important;
+                }
+
+                .fui-MarginBottom#{$infix}-n#{$size},
+                .fui-MarginY#{$infix}-n#{$size} {
+                    margin-bottom: -$length !important;
+                }
+
+                .fui-MarginStart#{$infix}-n#{$size},
+                .fui-MarginX#{$infix}-n#{$size} {
+                    margin-left: -$length !important;
+                }
+            }
+        }
+        // Some special margin utils
+        .fui-Margin#{$infix}-auto {
+            margin: auto !important;
+        }
+
+        .fui-MarginTop#{$infix}-auto,
+        .fui-MarginY#{$infix}-auto {
+            margin-top: auto !important;
+        }
+
+        .fui-MarginEnd#{$infix}-auto,
+        .fui-MarginX#{$infix}-auto {
+            margin-right: auto !important;
+        }
+
+        .fui-MarginBottom#{$infix}-auto,
+        .fui-MarginY#{$infix}-auto {
+            margin-bottom: auto !important;
+        }
+
+        .fui-MarginStart#{$infix}-auto,
+        .fui-MarginX#{$infix}-auto {
+            margin-left: auto !important;
+        }
+    }
+}

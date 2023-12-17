@@ -427,3 +427,13 @@
     --shadow28Brand: 0 0 8px rgba(0,0,0,0.30), 0 14px 28px rgba(0,0,0,0.25);
     --shadow64Brand: 0 0 8px rgba(0,0,0,0.30), 0 32px 64px rgba(0,0,0,0.25);
 }
+
+$spacer: var(--spacingHorizontalM) !default;
+$spacers: () !default;
+$spacers: map-merge( ( 0: 0, 1: var(--spacingHorizontalXS), 2: var(--spacingHorizontalS), 3: var(--spacingHorizontalM), 4: var(--spacingHorizontalL), 5: var(--spacingHorizontalXL) ), $spacers );
+
+$grid-breakpoints: ( xs: 0, sm: 600px, md: 960px, lg: 1280px, xl: 1920px ) !default;
+
+$grid-columns: 12 !default;
+$grid-gutter-width: var(--spacingHorizontalXXL) !default;
+$grid-row-columns: 6 !default;
