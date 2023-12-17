@@ -11,9 +11,9 @@ public class FluentUI2ClassProvider : ClassProvider
 {
     #region TextEdit
 
-    public override string TextEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TextEdit( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
 
-    public override string TextEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string TextEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     public override string TextEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
@@ -295,11 +295,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Field
 
-    public override string Field() => "form-group";
+    public override string Field() => "fui-Field";
 
-    public override string FieldHorizontal() => "row";
+    public override string FieldHorizontal() => "fui-FieldHorizontal";
 
-    public override string FieldColumn() => "col";
+    public override string FieldColumn() => "fui-Column";
 
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -309,7 +309,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region FieldLabel
 
-    public override string FieldLabel( bool horizontal ) => horizontal ? "col-form-label" : null;
+    public override string FieldLabel( bool horizontal ) => horizontal ? "fui-LabelHorizontal" : "fui-Label";
 
     public override string FieldLabelRequiredIndicator( bool requiredIndicator )
         => requiredIndicator
