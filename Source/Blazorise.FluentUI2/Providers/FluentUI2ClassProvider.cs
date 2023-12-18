@@ -33,13 +33,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Select
 
-    public override string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
+    public override string Select() => "fui-Select__select";
 
     public override string SelectMultiple() => null;
 
     public override string SelectSize( Size size ) => size != Size.Default ? $"{Select()}-{ToSize( size )}" : null;
 
-    public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SelectValidation( ValidationStatus validationStatus ) => $"fui-Select__select-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
