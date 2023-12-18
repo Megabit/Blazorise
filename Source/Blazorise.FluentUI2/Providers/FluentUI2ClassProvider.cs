@@ -23,11 +23,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region MemoEdit
 
-    public override string MemoEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string MemoEdit( bool plaintext ) => plaintext ? "fui-Textarea__input-plaintext" : "fui-Textarea__input";
 
-    public override string MemoEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string MemoEditSize( Size size ) => size != Size.Default ? $"fui-Textarea__input-{ToSize( size )}" : null;
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string MemoEditValidation( ValidationStatus validationStatus ) => $"fui-Textarea__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 

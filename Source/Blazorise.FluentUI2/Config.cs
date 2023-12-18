@@ -35,7 +35,9 @@ public static class Config
     {
         { typeof( Blazorise.CardHeader ), typeof( FluentUI2.CardHeader ) },
         { typeof( Blazorise.FieldLabel ), typeof( FluentUI2.FieldLabel ) },
+        { typeof( Blazorise.MemoEdit ), typeof( FluentUI2.MemoEdit ) },
         { typeof( Blazorise.TextEdit ), typeof( FluentUI2.TextEdit ) },
+        { typeof( Blazorise.Select<> ), typeof( FluentUI2.Select<> ) },
         { typeof( Blazorise.ValidationError ), typeof( FluentUI2.ValidationError ) },
         { typeof( Blazorise.ValidationSuccess ), typeof( FluentUI2.ValidationSuccess ) },
     };

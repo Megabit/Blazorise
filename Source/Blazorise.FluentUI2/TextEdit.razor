@@ -28,6 +28,11 @@
                 sb.Append( " fui-Input__success" );
             }
 
+            if ( Disabled )
+            {
+                sb.Append( " disabled" );
+            }
+
             return sb.ToString();
         }
     }
