@@ -1,5 +1,6 @@
-﻿@inherits Blazorise.TextEdit
-<span class="fui-Input">
+﻿@using System.Text
+@inherits Blazorise.TextEdit
+<span class="@InputClassNames">
     @if ( IsImmediate && IsDebounce )
     {
         <input @ref="@ElementRef" id="@ElementId" type="@Type" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" aria-readonly="@ReadOnlyAsString" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValue" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
@@ -11,3 +12,23 @@
 </span>
 @ChildContent
 @Feedback
+@code {
+    string InputClassNames
+    {
+        get
+        {
+            var sb = new StringBuilder( "fui-Input" );
+
+            if ( ParentValidation?.Status == ValidationStatus.Error )
+            {
+                sb.Append( " fui-Input__error" );
+            }
+            else if ( ParentValidation?.Status == ValidationStatus.Success )
+            {
+                sb.Append( " fui-Input__success" );
+            }
+
+            return sb.ToString();
+        }
+    }
+}

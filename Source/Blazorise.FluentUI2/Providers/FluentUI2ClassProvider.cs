@@ -17,7 +17,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TextEditValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -267,11 +267,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Validation
 
-    public override string ValidationSuccess() => "valid-feedback";
+    public override string ValidationSuccess() => "fui-Field__validationMessage";
 
     public override string ValidationSuccessTooltip() => "valid-tooltip";
 
-    public override string ValidationError() => "invalid-feedback";
+    public override string ValidationError() => "fui-Field__validationMessage";
 
     public override string ValidationErrorTooltip() => "invalid-tooltip";
 
@@ -309,11 +309,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region FieldLabel
 
-    public override string FieldLabel( bool horizontal ) => horizontal ? "fui-LabelHorizontal" : "fui-Label";
+    public override string FieldLabel( bool horizontal ) => horizontal ? "fui-Label fui-LabelHorizontal" : "fui-Label";
 
     public override string FieldLabelRequiredIndicator( bool requiredIndicator )
         => requiredIndicator
-            ? "form-label-required"
+            ? "fui-Label__required"
             : null;
 
     #endregion
@@ -326,7 +326,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region FieldHelp
 
-    public override string FieldHelp() => "form-text text-muted";
+    public override string FieldHelp() => "fui-Field__hint";
 
     #endregion
 
@@ -1530,6 +1530,16 @@ public class FluentUI2ClassProvider : ClassProvider
             Blazorise.Side.End => "End",
             Blazorise.Side.X => "X",
             Blazorise.Side.Y => "Y",
+            _ => null,
+        };
+    }
+
+    public override string ToValidationStatus( ValidationStatus validationStatus )
+    {
+        return validationStatus switch
+        {
+            Blazorise.ValidationStatus.Success => "success",
+            Blazorise.ValidationStatus.Error => "error",
             _ => null,
         };
     }

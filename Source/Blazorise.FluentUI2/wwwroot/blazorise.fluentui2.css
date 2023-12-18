@@ -1007,27 +1007,65 @@ button {
   /*padding: 1.25rem;*/
 }
 
-.fui-Field:not(.fui-FieldHorizontal) {
-  display: grid;
-  /* display: flex;
+.fui-Field {
+  display: flex;
   flex-direction: column;
-  row-gap: 2px;
-  column-gap: 2px;*/
+  margin-bottom: var(--spacingHorizontalM);
 }
-.fui-Field:not(.fui-FieldHorizontal) .fui-Label {
-  margin-bottom: var(--spacingVerticalXXS);
+
+.fui-Field.fui-FieldHorizontal {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.fui-Label.fui-LabelHorizontal {
   padding-bottom: var(--spacingVerticalXXS);
   padding-top: var(--spacingVerticalXXS);
   line-height: var(--lineHeightBase300);
   font-size: var(--fontSizeBase300);
   font-family: var(--fontFamilyBase);
   color: var(--colorNeutralForeground1);
-  /*  line-height: var(--lineHeightBase300);
+}
+.fui-Label:not(.fui-LabelHorizontal) {
+  margin-bottom: var(--spacingVerticalXXS);
+}
+.fui-Label .fui-Label__required {
+  padding-left: 4px;
+  color: var(--colorPaletteRedForeground3);
+  line-height: var(--lineHeightBase300);
   font-size: var(--fontSizeBase300);
   font-family: var(--fontFamilyBase);
-  color: var(--colorNeutralForeground1);*/
 }
-.fui-Field:not(.fui-FieldHorizontal) .fui-Input {
+
+.fui-Input + .fui-Field__validationMessage {
+  margin-top: var(--spacingVerticalXXS);
+  color: var(--colorNeutralForeground3);
+  font-family: var(--fontFamilyBase);
+  font-size: var(--fontSizeBase200);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase200);
+  padding-left: calc(12px + var(--spacingHorizontalXS));
+}
+.fui-Input + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
+  display: inline-block;
+  font-size: 12px;
+  margin-left: calc(-12px - var(--spacingHorizontalXS));
+  margin-right: var(--spacingHorizontalXS);
+  line-height: 0;
+  vertical-align: -1px;
+}
+.fui-Input.fui-Input__error + .fui-Field__validationMessage {
+  color: var(--colorPaletteRedForeground1);
+}
+.fui-Input.fui-Input__error + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
+  color: var(--colorPaletteRedForeground1);
+}
+.fui-Input.fui-Input__success + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
+  color: var(--colorPaletteGreenForeground1);
+}
+
+.fui-Input {
   display: inline-flex;
   align-items: center;
   flex-wrap: nowrap;
@@ -1039,18 +1077,18 @@ button {
   font-weight: var(--fontWeightRegular);
   line-height: var(--lineHeightBase300);
   background-color: var(--colorNeutralBackground1);
-  /* border-top-color:;
-  border-top-style:;
-  border-top-width:;
-  border-right-color:;
-  border-right-style:;
-  border-right-width:;
-  border-bottom-style:;
-  border-bottom-width:;
-  border-left-color:;
-  border-left-style:;
-  border-left-width:;
-  border-image-source:;
+  border-top-color: var(--colorNeutralStroke1);
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-right-color: var(--colorNeutralStroke1);
+  border-right-style: solid;
+  border-right-width: 1px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-left-color: var(--colorNeutralStroke1);
+  border-left-style: solid;
+  border-left-width: 1px;
+  /* border-image-source:;
   border-image-slice:;
   border-image-width:;
   border-image-outset:;
@@ -1058,90 +1096,31 @@ button {
   border-bottom-color: var(--colorNeutralStrokeAccessible);
   gap: var(--spacingHorizontalXXS);
   border-radius: var(--borderRadiusMedium);
-  padding: 0 var(--spacingHorizontalMNudge);
-}
-.fui-Field:not(.fui-FieldHorizontal) .fui-Input .fui-Input__input {
-  box-sizing: border-box;
-  flex-grow: 1;
-  min-width: 0px;
-  border-style: none;
-  padding: 0 var(--spacingHorizontalXXS);
-  color: var(--colorNeutralForeground1);
-  background-color: transparent;
-  outline-style: none;
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-}
-.fui-Field:not(.fui-FieldHorizontal) .fui-Input:after {
-  box-sizing: border-box;
-  content: "";
-  position: absolute;
-  left: -1px;
-  bottom: -1px;
-  right: -1px;
-  height: max(2px, var(--borderRadiusMedium));
-  border-bottom-left-radius: var(--borderRadiusMedium);
+  border-top-left-radius: var(--borderRadiusMedium);
+  border-top-right-radius: var(--borderRadiusMedium);
   border-bottom-right-radius: var(--borderRadiusMedium);
-  border-bottom: 2px solid var(--colorCompoundBrandStroke);
-  clip-path: inset(calc(100% - 2px) 0px 0px);
-  transform: scaleX(0);
-  transition-property: transform;
-  transition-duration: var(--durationUltraFast);
-  transition-delay: var(--curveAccelerateMid);
-}
-
-.fui-Field.fui-FieldHorizontal {
-  /* display: grid;
-  grid-template-rows: auto auto auto 1fr;
-  grid-template-columns: 33% 1fr;*/
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-}
-.fui-Field.fui-FieldHorizontal .fui-LabelHorizontal {
-  padding-bottom: var(--spacingVerticalXXS);
-  padding-top: var(--spacingVerticalXXS);
-  line-height: var(--lineHeightBase300);
-  font-size: var(--fontSizeBase300);
-  font-family: var(--fontFamilyBase);
-  color: var(--colorNeutralForeground1);
-}
-.fui-Field.fui-FieldHorizontal .fui-Input {
-  display: inline-flex;
-  align-items: center;
-  flex-wrap: nowrap;
-  position: relative;
-  box-sizing: border-box;
-  min-height: 32px;
-  font-family: var(--fontFamilyBase);
-  font-size: var(--fontSizeBase300);
-  font-weight: var(--fontWeightRegular);
-  line-height: var(--lineHeightBase300);
-  background-color: var(--colorNeutralBackground1);
-  border-bottom-width: 1px;
-  border-bottom-style: solid;
-  border-bottom-color: var(--colorNeutralStrokeAccessible);
-  gap: var(--spacingHorizontalXXS);
-  border-radius: var(--borderRadiusMedium);
+  border-bottom-left-radius: var(--borderRadiusMedium);
   padding: 0 var(--spacingHorizontalMNudge);
   text-align: left;
   color: var(--colorNeutralForeground1);
   width: 100%;
 }
-.fui-Field.fui-FieldHorizontal .fui-Input:active, .fui-Field.fui-FieldHorizontal .fui-Input:focus-within {
-  border-bottom-width: 2px;
-  border-bottom-style: solid;
-  border-bottom-color: var(--colorCompoundBrandStroke);
+.fui-Input:hover {
+  border-bottom-color: var(--colorNeutralStrokeAccessibleHover);
+  border-left-color: var(--colorNeutralStroke1Hover);
+  border-right-color: var(--colorNeutralStroke1Hover);
+  border-top-color: var(--colorNeutralStroke1Hover);
+}
+.fui-Input:active, .fui-Input:focus, .fui-Input:focus-within {
+  border-bottom: 2px solid var(--colorCompoundBrandStroke);
   border-left-color: var(--colorNeutralStroke1Pressed);
   border-right-color: var(--colorNeutralStroke1Pressed);
   border-top-color: var(--colorNeutralStroke1Pressed);
 }
-.fui-Field.fui-FieldHorizontal .fui-Input:focus-within {
+.fui-Input:focus-within {
   outline: transparent solid 2px;
 }
-.fui-Field.fui-FieldHorizontal .fui-Input .fui-Input__input {
+.fui-Input .fui-Input__input {
   box-sizing: border-box;
   flex-grow: 1;
   min-width: 0px;
@@ -1155,13 +1134,19 @@ button {
   font-weight: inherit;
   line-height: inherit;
 }
-.fui-Field.fui-FieldHorizontal .fui-Input:after {
-  line-height: var(--lineHeightBase300);
-  font-weight: var(--fontWeightRegular);
-  font-size: var(--fontSizeBase300);
-  font-family: var(--fontFamilyBase);
-  text-align: left;
-  color: var(--colorNeutralForeground1);
+.fui-Input__error {
+  border-bottom-color: var(--colorPaletteRedBorder2) !important;
+  border-left-color: var(--colorPaletteRedBorder2) !important;
+  border-right-color: var(--colorPaletteRedBorder2) !important;
+  border-top-color: var(--colorPaletteRedBorder2) !important;
+}
+.fui-Input__success {
+  border-bottom-color: var(--colorPaletteGreenForeground1) !important;
+  border-left-color: var(--colorPaletteGreenForeground1) !important;
+  border-right-color: var(--colorPaletteGreenForeground1) !important;
+  border-top-color: var(--colorPaletteGreenForeground1) !important;
+}
+.fui-Input:after {
   box-sizing: border-box;
   content: "";
   position: absolute;

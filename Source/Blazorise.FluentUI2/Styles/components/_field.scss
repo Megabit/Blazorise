@@ -1,0 +1,73 @@
+﻿.fui-Field {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: var(--spacingHorizontalM);
+}
+
+.fui-Field.fui-FieldHorizontal {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.fui-Label {
+    &.fui-LabelHorizontal {
+        padding-bottom: var(--spacingVerticalXXS);
+        padding-top: var(--spacingVerticalXXS);
+        line-height: var(--lineHeightBase300);
+        font-size: var(--fontSizeBase300);
+        font-family: var(--fontFamilyBase);
+        color: var(--colorNeutralForeground1);
+    }
+
+    &:not(.fui-LabelHorizontal) {
+        margin-bottom: var(--spacingVerticalXXS);
+    }
+
+    .fui-Label__required {
+        padding-left: 4px;
+        color: var(--colorPaletteRedForeground3);
+        line-height: var(--lineHeightBase300);
+        font-size: var(--fontSizeBase300);
+        font-family: var(--fontFamilyBase);
+    }
+}
+
+.fui-Input {
+    & + .fui-Field__validationMessage {
+        margin-top: var(--spacingVerticalXXS);
+        color: var(--colorNeutralForeground3);
+        font-family: var(--fontFamilyBase);
+        font-size: var(--fontSizeBase200);
+        font-weight: var(--fontWeightRegular);
+        line-height: var(--lineHeightBase200);
+        padding-left: calc(12px + var(--spacingHorizontalXS));
+
+        .fui-Field__validationMessageIcon {
+            display: inline-block;
+            font-size: 12px;
+            margin-left: calc(-12px - var(--spacingHorizontalXS));
+            margin-right: var(--spacingHorizontalXS);
+            line-height: 0;
+            vertical-align: -1px;
+        }
+    }
+
+    &.fui-Input__error {
+        & + .fui-Field__validationMessage {
+            color: var(--colorPaletteRedForeground1);
+
+            .fui-Field__validationMessageIcon {
+                color: var(--colorPaletteRedForeground1);
+            }
+        }
+    }
+
+    &.fui-Input__success {
+        & + .fui-Field__validationMessage {
+            .fui-Field__validationMessageIcon {
+                color: var(--colorPaletteGreenForeground1);
+            }
+        }
+    }
+}
