@@ -841,11 +841,12 @@ public class AntDesignThemeGenerator : ThemeGenerator
                 .AppendLine( "}" );
         }
 
-           sb
-                .Append( ".ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline {" )
-                .Append( $"background-color: var(--b-bar-dark-background, #001529);" )
-                .Append( $"color: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));" )
-                .Append( "}" );
+        sb
+            .Append( ".ant-menu.ant-menu-root.ant-menu-dark.ant-menu-inline" )
+            .Append( "{" )
+            .Append( $"background-color: var(--b-bar-dark-background, #001529);" )
+            .Append( $"color: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));" )
+            .AppendLine( "}" );
     }
 
     protected override void GenerateParagraphVariantStyles( StringBuilder sb, Theme theme, string variant, string inTextColor )
