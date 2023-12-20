@@ -6,20 +6,22 @@
     <Title>
         Blazorise <Span Class="gradient-commercial">Pricing</Span> & Plans
     </Title>
+    <Subtitle>
+        Be one of the thousands of satisfied users of Blazorise components.
+    </Subtitle>
     <Description>
         <Paragraph>
-            Blazorise Community is <Strong>free and open source</Strong> for all individuals.
-        </Paragraph>
-        <Paragraph>
-            For advanced requirements, explore our tailored packages to match your organization's needs.
+            Get started with 80+ free UI components, from developers to developers, to boost your development time and more.
         </Paragraph>
     </Description>
 </PageHeader>
 
-<Container Padding="Padding.Is5.OnY" TextAlignment="TextAlignment.Center">
-    <Pricing />
+<Container TextAlignment="TextAlignment.Center">
+    <BenefitsGrid />
 
-    <PlansComparer />
+    <Pricing @bind-Quantity="@quantity" @bind-Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
+
+    <PlansComparer Quantity="@quantity" Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
 
     <Faq />
 </Container>

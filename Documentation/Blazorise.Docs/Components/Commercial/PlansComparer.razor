@@ -1,15 +1,52 @@
-﻿<Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
-    Compare Plans
+﻿@using System.Globalization
+<Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
+    Compare Plan Features
 </Paragraph>
 
 <Table Responsive TextAlignment="TextAlignment.Center">
     <TableHeader>
         <TableRow>
             <TableHeaderCell style="width: 40%;"></TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Community</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Professional</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Enterprise</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Enterprise Plus</TableHeaderCell>
+            <TableHeaderCell style="width: 15%;">
+                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
+                    <Div>
+                        Community
+                    </Div>
+                    <Div Padding="Padding.Is2.OnY">
+                        &nbsp;
+                    </Div>
+                </Div>
+            </TableHeaderCell>
+            <TableHeaderCell style="width: 15%;">
+                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
+                    <Div>
+                        Professional
+                    </Div>
+                    <Div Padding="Padding.Is2.OnY">
+                        <Span>@($"${( ProfessionalPrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
+                    </Div>
+                </Div>
+            </TableHeaderCell>
+            <TableHeaderCell style="width: 15%;">
+                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
+                    <Div>
+                    Enterprise
+                    </Div>
+                    <Div Padding="Padding.Is2.OnY">
+                        <Span>@($"${( EnterprisePrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
+                    </Div>
+                </Div>
+            </TableHeaderCell>
+            <TableHeaderCell style="width: 15%;">
+                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
+                    <Div>
+                        Enterprise Plus
+                    </Div>
+                    <Div Padding="Padding.Is2.OnY">
+                        &nbsp;
+                    </Div>
+                </Div>
+                </TableHeaderCell>
         </TableRow>
     </TableHeader>
     <TableBody>
@@ -206,27 +243,19 @@
             <TableRowCell>1 year</TableRowCell>
             <TableRowCell>1 year</TableRowCell>
         </TableRow>
-    </TableBody>
-</Table>
 
-<Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
-    Extensions Feature Comparison
-</Paragraph>
 
-<Table Responsive TextAlignment="TextAlignment.Center">
-    <TableHeader>
+
+
+
         <TableRow>
-            <TableHeaderCell style="width: 40%;"></TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Unlicensed</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Community</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Licensed</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Trial</TableHeaderCell>
+            <TableRowHeader ColumnSpan="5" TextAlignment="TextAlignment.Start">
+                Extensions Record Limit
+            </TableRowHeader>
         </TableRow>
-    </TableHeader>
-    <TableBody>
         <TableRow>
             <TableRowHeader Flex="Flex.JustifyContent.Between">
-                Core UI
+                Core UI Components
             </TableRowHeader>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>

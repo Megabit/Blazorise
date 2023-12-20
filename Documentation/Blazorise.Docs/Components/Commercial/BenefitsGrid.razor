@@ -1,0 +1,66 @@
+﻿<Heading Size="HeadingSize.Is2" TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
+    Save up to <Span Class="gradient-commercial">17% resources</Span> on your next projects
+</Heading>
+
+<Paragraph>
+    Anual saving, etc.
+</Paragraph>
+
+<Paragraph>
+    Explore the Blazorise Benefits Grid to see how our UI components save you development time and costs. Quickly understand the hours and expenses you'll save with each component, streamlining your project while ensuring quality and functionality.
+</Paragraph>
+
+<Paragraph>
+    <Table Responsive Bordered Striped TextAlignment="TextAlignment.Center">
+        <TableHeader>
+            <TableRow>
+                <TableHeaderCell Style="width: 40%;"  TextAlignment="TextAlignment.Start">Component/Work Name</TableHeaderCell>
+                <TableHeaderCell Style="width: 20%;">Development Hours</TableHeaderCell>
+                <TableHeaderCell Style="width: 20%;">Total Savings</TableHeaderCell>
+            </TableRow>
+        </TableHeader>
+        <TableBody>
+            @foreach ( var work in Works )
+            {
+                <TableRow @key="@work">
+                    <TableRowCell TextAlignment="TextAlignment.Start">@work.Name</TableRowCell>
+                    <TableRowCell TextAlignment="TextAlignment.Center">@($"{work.HoursWorked:n0} hours")</TableRowCell>
+                    <TableRowCell TextAlignment="TextAlignment.End">@($"${work.HoursWorked * @HourlyRate:n0}")</TableRowCell>
+                </TableRow>
+            }
+        </TableBody>
+        <TableFooter>
+            <TableRow>
+                <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Total</Strong></TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Center"><Strong>@($"${Works.Sum( x => x.HoursWorked )} hours")</Strong></TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.End"><Strong>@($"${Works.Sum( x => x.HoursWorked * HourlyRate ):n2}")</Strong></TableRowCell>
+            </TableRow>
+        </TableFooter>
+    </Table>
+</Paragraph>
+
+<Paragraph>
+    <Span>*</Span> Savings are calculated using an hourly rate of <Strong>$50/hour</Strong> of an average enterprise level application.
+</Paragraph>
+
+ @code{
+    const decimal HourlyRate = 50;
+
+    class WorkInfo
+    {
+        public string Name { get; set; }
+
+        public decimal HoursWorked { get; set; }
+    }
+
+    List<WorkInfo> Works = new List<WorkInfo>()
+    {
+        new WorkInfo { Name = "Button and other interaction components", HoursWorked = 25 },
+        new WorkInfo { Name = "DataGrid component", HoursWorked = 300 },
+        new WorkInfo { Name = "Modal", HoursWorked = 120 },
+        new WorkInfo { Name = "Form inputs and validation", HoursWorked = 260 },
+        new WorkInfo { Name = "Navigation Bar", HoursWorked = 90 },
+        new WorkInfo { Name = "Charting Components", HoursWorked = 250 },
+        new WorkInfo { Name = "Notifications System", HoursWorked = 60 },
+    };
+}
