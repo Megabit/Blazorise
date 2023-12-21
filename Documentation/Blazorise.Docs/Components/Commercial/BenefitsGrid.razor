@@ -2,21 +2,21 @@
     Save up to <Span Class="gradient-commercial">17% resources</Span> on your next projects
 </Heading>
 
-<Paragraph>
+@* <Paragraph>
     Anual saving, etc.
-</Paragraph>
+</Paragraph> *@
 
 <Paragraph>
-    Explore the Blazorise Benefits Grid to see how our UI components save you development time and costs. Quickly understand the hours and expenses you'll save with each component, streamlining your project while ensuring quality and functionality.
+    Explore the Blazorise Benefits Grid to see how our Blazor UI components save you development <Strong>time and costs</Strong>. Quickly understand the hours and expenses you'll save with each component, streamlining your project while ensuring quality and functionality.
 </Paragraph>
 
 <Paragraph>
     <Table Responsive Bordered Striped TextAlignment="TextAlignment.Center">
         <TableHeader>
             <TableRow>
-                <TableHeaderCell Style="width: 40%;"  TextAlignment="TextAlignment.Start">Component/Work Name</TableHeaderCell>
+                <TableHeaderCell Style="width: 40%;" TextAlignment="TextAlignment.Start">Component, Work Name</TableHeaderCell>
                 <TableHeaderCell Style="width: 20%;">Development Hours</TableHeaderCell>
-                <TableHeaderCell Style="width: 20%;">Total Savings</TableHeaderCell>
+                <TableHeaderCell Style="width: 20%;" TextAlignment="TextAlignment.End">Total Savings</TableHeaderCell>
             </TableRow>
         </TableHeader>
         <TableBody>
@@ -55,12 +55,12 @@
 
     List<WorkInfo> Works = new List<WorkInfo>()
     {
-        new WorkInfo { Name = "Button and other interaction components", HoursWorked = 25 },
-        new WorkInfo { Name = "DataGrid component", HoursWorked = 300 },
-        new WorkInfo { Name = "Modal", HoursWorked = 120 },
-        new WorkInfo { Name = "Form inputs and validation", HoursWorked = 260 },
-        new WorkInfo { Name = "Navigation Bar", HoursWorked = 90 },
-        new WorkInfo { Name = "Charting Components", HoursWorked = 250 },
-        new WorkInfo { Name = "Notifications System", HoursWorked = 60 },
+        new WorkInfo { Name = "Button and other interaction components", HoursWorked = 90 },
+        new WorkInfo { Name = "DataGrid component with sorting, filtering, paging, editing, etc.", HoursWorked = 240 },
+        new WorkInfo { Name = "Modal with keyboard navigation, and form validation", HoursWorked = 120 },
+        new WorkInfo { Name = "Form inputs and validation", HoursWorked = 180 },
+        new WorkInfo { Name = "Navigation Bar and Sidebar", HoursWorked = 90 },
+        new WorkInfo { Name = "Charting Components", HoursWorked = 160 },
+        new WorkInfo { Name = "Notifications and Messaging System", HoursWorked = 60 },
     };
 }
