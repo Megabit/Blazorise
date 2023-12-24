@@ -11,18 +11,18 @@
         </Column>
     </Row>
     <Row Margin="Margin.Is4.FromBottom" TextAlignment="TextAlignment.Center">
+        <Column Flex="Flex.JustifyContent.Center.AlignItems.Center">
+            <PlanSwitch SelectedValue="@Plan" SelectedValueChanged="@PlanChanged" />
+        </Column>
+    </Row>
+    <Row Margin="Margin.Is4.FromBottom" TextAlignment="TextAlignment.Center">
         <Column Flex="Flex.Column.AlignItems.Center">
             <DevelopersPicker Value="@Quantity" ValueChanged="@QuantityChanged" />
             <Span Padding="Padding.Is3.FromTop">developers</Span>
         </Column>
     </Row>
-    <Row Margin="Margin.Is4.FromBottom" TextAlignment="TextAlignment.Center">
-        <Column Flex="Flex.JustifyContent.Center.AlignItems.Center">
-            <PlanSwitch SelectedValue="@Plan" SelectedValueChanged="@PlanChanged" />
-        </Column>
-    </Row>
 
-    <Row Margin="Margin.Is4.FromBottom" TextAlignment="TextAlignment.Center" TextColor="TextColor.Muted">
+    @* <Row Margin="Margin.Is4.FromBottom" TextAlignment="TextAlignment.Center" TextColor="TextColor.Muted">
         <Column>
             @if ( Plan == "one-time" )
             {
@@ -43,7 +43,7 @@
                 </Paragraph>
             }
         </Column>
-    </Row>
+    </Row> *@
 
     <Row RowColumns="RowColumns.Are1.Are2.OnTablet.Are4.OnDesktop" Margin="Margin.Is3.FromBottom" TextAlignment="TextAlignment.Center">
         <Column>

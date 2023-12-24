@@ -1,5 +1,5 @@
 ﻿<Heading Size="HeadingSize.Is2" TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is4.FromBottom">
-    Save up to <Span Class="gradient-commercial">17% resources</Span> on your next projects
+    Save up to <Span Class="gradient-commercial">17% resources</Span> on your next project
 </Heading>
 
 @* <Paragraph>
@@ -14,9 +14,9 @@
     <Table Responsive Bordered Striped TextAlignment="TextAlignment.Center">
         <TableHeader>
             <TableRow>
-                <TableHeaderCell Style="width: 40%;" TextAlignment="TextAlignment.Start">Component, Work Name</TableHeaderCell>
+                <TableHeaderCell Style="width: 65%;" TextAlignment="TextAlignment.Start">Component, Work Name</TableHeaderCell>
                 <TableHeaderCell Style="width: 20%;">Development Hours</TableHeaderCell>
-                <TableHeaderCell Style="width: 20%;" TextAlignment="TextAlignment.End">Total Savings</TableHeaderCell>
+                <TableHeaderCell Style="width: 15%;" TextAlignment="TextAlignment.End">Total Savings</TableHeaderCell>
             </TableRow>
         </TableHeader>
         <TableBody>
@@ -32,7 +32,7 @@
         <TableFooter>
             <TableRow>
                 <TableRowCell TextAlignment="TextAlignment.Start"><Strong>Total</Strong></TableRowCell>
-                <TableRowCell TextAlignment="TextAlignment.Center"><Strong>@($"${Works.Sum( x => x.HoursWorked )} hours")</Strong></TableRowCell>
+                <TableRowCell TextAlignment="TextAlignment.Center">@($"{Works.Sum( x => x.HoursWorked )} hours")</TableRowCell>
                 <TableRowCell TextAlignment="TextAlignment.End"><Strong>@($"${Works.Sum( x => x.HoursWorked * HourlyRate ):n2}")</Strong></TableRowCell>
             </TableRow>
         </TableFooter>
