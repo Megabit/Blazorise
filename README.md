@@ -9,24 +9,27 @@
 [![Tip Me via PayPal](https://img.shields.io/badge/PayPal-tip%20me-green.svg?logo=paypal)](https://www.paypal.me/mladenmacanovic)
 [![Patreon](https://img.shields.io/badge/Patreon-donate-yellow.svg)](https://www.patreon.com/mladenmacanovic)
 
-Blazorise is a component library built on top of [Blazor](https://blazor.net/) and CSS frameworks like Bootstrap, Bulma and Material.
+Blazorise is the only [Blazor](https://blazor.net/) component library offering development independent of CSS frameworks, exclusively using C#. It provides support for various frameworks including Bootstrap, Tailwind and Material.
 
-## Commercial support
+## Commercial usage
 
-[Support](https://blazorise.com/support) for the Blazorise Components is available as part of the [Blazorise Commercial](https://blazorise.com/commercial) subscription.
+Blazorise, as a commercial product, offers a range of subscription plans that include premium support. When you choose a commercial license, you gain several advantages:
 
-With the commercial license you get:
+The benefits of the commercial licenses are:
 
-- Access to premium themes and templates
-- Premium forum support
-- Dedicated customer support with 24 or 16 hour response time
-- Priority fixes and feature requests
+- Access to [Blazorise Themes](https://blazorise.com/themes).
+- Access to [Blazorise Blocks](https://blazorise.com/blocks).
+- Premium support via [Blazorise Support](https://blazorise.com/support) forum.
+- Dedicated customer support with swift response times of either 24 or 16 hours.
+- Priority fixes and feature requests.
+
+> \* Some features may be exclusive to specific subscription tiers.
 
 ## Supporting Blazorise
 
-Blazorise is an Apache 2.0-licensed open source project with its ongoing development made possible entirely by the support of these awesome backers.
+Blazorise is an open source project with its ongoing development made possible entirely by the support of these awesome backers.
 
-### Special Sponsors
+### Special Partners
 
 <!--platinum start-->
 <table>
@@ -35,6 +38,11 @@ Blazorise is an Apache 2.0-licensed open source project with its ongoing develop
       <td align="center" valign="middle">
         <a href="https://volosoft.com/" target="_blank">
           <img width="222px" src="https://volosoft.com/assets/logos/volosoft-logo-dark.svg">
+        </a>
+      </td>
+      <td align="center" valign="middle">
+        <a href="https://www.pebble.tv/" target="_blank">
+          <img width="222px" src="https://www.pebble.tv/wp-content/uploads/2020/10/logo.svg">
         </a>
       </td>
     </tr>
@@ -60,17 +68,21 @@ Blazorise is an Apache 2.0-licensed open source project with its ongoing develop
 
 ## Documentation
 
-For full documentation, please visit the [Blazorise official documentation page](https://blazorise.com/docs/).
+For full documentation, with code samples and a detailed explanation of each component please visit the Blazorise [official documentation pages](https://blazorise.com/docs/).
 
 Continuing reading below for a quick start guide.
 
-## Prerequisites
-
-Before you continue, please make sure you have the latest version of Visual Studio and .Net Core installed. Visit an official [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/client) site to learn more.
-
 ## Installations
 
-There are currently 6 different NuGet packages for each of the supported CSS frameworks. Available packages are:
+### Prerequisites
+
+Before you continue, please make sure you have the latest version of Visual Studio and .NET installed. Visit an official [Blazor](https://dotnet.microsoft.com/apps/aspnet/web-apps/client) site to learn more.
+
+### Available packages
+
+There are currently 6 different NuGet packages for each of the supported CSS frameworks.
+
+Available Blazorise packages are:
 
 ```
 1. Blazorise.Tailwind
@@ -87,14 +99,14 @@ This guide will show you how to setup Blazorise with **Bootstrap 4** and **FontA
 
 First step is to install a Bootstrap provider for Blazorise:
 
-```
-Install-Package Blazorise.Bootstrap
+```bash
+dotnet add package Blazorise.Bootstrap
 ```
 
 And FontAwesome icon package:
 
-```
-Install-Package Blazorise.Icons.FontAwesome
+```bash
+dotnet add package Blazorise.Icons.FontAwesome
 ```
 
 ### 2. Source files
@@ -150,17 +162,14 @@ using Blazorise.Icons.FontAwesome;
 
 ```cs
 builder.Services
-  .AddBlazorise( options =>
-  {
-      options.Immediate = true;
-  } )
+  .AddBlazorise()
   .AddBootstrapProviders()
   .AddFontAwesomeIcons();
 ```
 
 ## Usage
 
-```html
+```razor
 @page "/counter"
 
 <Heading Size="HeadingSize.Is1">Counter</Heading>
@@ -178,8 +187,6 @@ builder.Services
     }
 }
 ```
-
-Now you will be able to get preview versions of Blazorise with the latest changes and bug fixes.
 
 ## Contributing
 
