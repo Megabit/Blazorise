@@ -4,22 +4,24 @@
 
 <PageHeader>
     <Title>
-        Blazorise <Span Class="gradient-commercial">Pricing</Span> & Plans
+        Blazorise <Span Class="gradient-commercial">Plans</Span>
     </Title>
+    <Subtitle>
+        Thousands of developers love and use Blazorise on a daily basis.
+    </Subtitle>
     <Description>
         <Paragraph>
-            Blazorise Community is <Strong>free and open source</Strong> for all individuals.
-        </Paragraph>
-        <Paragraph>
-            For advanced requirements, explore our tailored packages to match your organization's needs.
+            Be a part of the most reliable and developer focused Blazor library in the world.
         </Paragraph>
     </Description>
 </PageHeader>
 
-<Container Padding="Padding.Is5.OnY" TextAlignment="TextAlignment.Center">
-    <Pricing />
+<Container TextAlignment="TextAlignment.Center">
+    <BenefitsGrid />
 
-    <PlansComparer />
+    <Pricing @bind-Quantity="@quantity" @bind-Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
+
+    <PlansComparer Quantity="@quantity" Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
 
     <Faq />
 </Container>

@@ -1,15 +1,52 @@
-﻿<Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
-    Compare Plans
+﻿@using System.Globalization
+<Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
+    Compare Plan Features
 </Paragraph>
 
 <Table Responsive TextAlignment="TextAlignment.Center">
     <TableHeader>
         <TableRow>
             <TableHeaderCell style="width: 40%;"></TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Community</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Professional</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Enterprise</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Enterprise Plus</TableHeaderCell>
+            <TableHeaderCell style="width: 15%;">
+                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
+                    <Div>
+                        Community
+                    </Div>
+                    <Div Padding="Padding.Is2.OnY">
+                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">Free</Small>
+                    </Div>
+                </Div>
+            </TableHeaderCell>
+            <TableHeaderCell style="width: 15%;">
+                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
+                    <Div>
+                        Professional
+                    </Div>
+                    <Div Padding="Padding.Is2.OnY">
+                        <Span>@($"${( ProfessionalPrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
+                    </Div>
+                </Div>
+            </TableHeaderCell>
+            <TableHeaderCell style="width: 15%;">
+                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
+                    <Div>
+                    Enterprise
+                    </Div>
+                    <Div Padding="Padding.Is2.OnY">
+                        <Span>@($"${( EnterprisePrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
+                    </Div>
+                </Div>
+            </TableHeaderCell>
+            <TableHeaderCell style="width: 15%;">
+                <Div Flex="Flex.InlineFlex.Column.JustifyContent.Center.AlignItems.Center">
+                    <Div>
+                        Enterprise Plus
+                    </Div>
+                    <Div Padding="Padding.Is2.OnY">
+                        <Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">On Request</Small>
+                    </Div>
+                </Div>
+                </TableHeaderCell>
         </TableRow>
     </TableHeader>
     <TableBody>
@@ -21,14 +58,14 @@
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowHeader Flex="Flex.JustifyContent.Between">
+            <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Private
                 <Tooltip Multiline Text="You get access to all Blazorise private repositories that can include source-code of themes, templates, blocks, support forum, and other projects.">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Danger" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Light" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
         </TableRow>
@@ -39,7 +76,7 @@
             <TableRowHeader TextAlignment="TextAlignment.Start">
                 Commercial Use
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
@@ -54,7 +91,7 @@
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowHeader Flex="Flex.JustifyContent.Between">
+            <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Unlimited number of applications
                 <Tooltip Multiline Text="No restrictions on a number of applications or deployment! You can deploy to as many servers as you want, including the cloud services or on-premises.">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
@@ -66,7 +103,7 @@
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowHeader Flex="Flex.JustifyContent.Between">
+            <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 <Blazorise.Link To="themes" TextColor="TextColor.Primary">
                     Blazorise Themes
                 </Blazorise.Link>
@@ -74,13 +111,13 @@
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowHeader Flex="Flex.JustifyContent.Between">
+            <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 <Anchor To="blocks" TextColor="TextColor.Primary">
                     Blazorise Blocks
                 </Anchor>
@@ -88,13 +125,13 @@
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowHeader Flex="Flex.JustifyContent.Between">
+            <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 <Anchor To="support" TextColor="TextColor.Primary">
                     1 year premium forum support
                 </Anchor>
@@ -103,7 +140,7 @@
                 </Tooltip>
             </TableRowHeader>
             <TableRowCell>
-                <Icon Name="IconName.Times" TextColor="TextColor.Danger" />
+                <Icon Name="IconName.Times" TextColor="TextColor.Light" />
             </TableRowCell>
             <TableRowCell>
                 <Tooltip Text="With 24 hour response time">
@@ -122,43 +159,43 @@
             </TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowHeader Flex="Flex.JustifyContent.Between">
+            <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Forum support incident count/year
                 <Tooltip Multiline Text="Professional and Enterprise licenses have incident/question count limit. If you buy additional developer licenses, your incident limit increases by 10 (for the Professional License) or 25 (for the Enterprise License).">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
             <TableRowCell>10</TableRowCell>
             <TableRowCell>25</TableRowCell>
             <TableRowCell><Strong TextColor="TextColor.Primary">Unlimited</Strong></TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowHeader Flex="Flex.JustifyContent.Between">
+            <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Guaranteed response time
                 <Tooltip Multiline Text="Professional and Enterprise licenses have a guaranteed response time on weekdays, Monday through Friday.">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
             <TableRowCell>24 hours</TableRowCell>
             <TableRowCell>16 hours</TableRowCell>
             <TableRowCell><Strong TextColor="TextColor.Muted">Custom</Strong></TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowHeader Flex="Flex.JustifyContent.Between">
+            <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Priority fixes and feature requests
                 <Tooltip Multiline Text="Enterprise licences includes private support (e-mail and ticket support).">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowHeader Flex="Flex.JustifyContent.Between">
+            <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 <Anchor To="enterprise-plus" Title="Link to enterprise plus page" TextColor="TextColor.Primary">
                     Blazorise Mentor
                 </Anchor>
@@ -166,13 +203,13 @@
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowHeader Flex="Flex.JustifyContent.Between">
+            <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 <Anchor To="enterprise-plus" Title="Link to enterprise plus page" TextColor="TextColor.Primary">
                     Expert on Demand
                 </Anchor>
@@ -180,13 +217,13 @@
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
                 </Tooltip>
             </TableRowHeader>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
-            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Danger" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
+            <TableRowCell><Icon Name="IconName.Times" TextColor="TextColor.Light" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Check" TextColor="TextColor.Success" /></TableRowCell>
         </TableRow>
         <TableRow>
-            <TableRowHeader Flex="Flex.JustifyContent.Between">
+            <TableRowHeader Flex="Flex.JustifyContent.Between" Padding="Padding.Is5.FromEnd">
                 Development license
                 <Tooltip Multiline Text="For active development.">
                     <Icon Name="IconName.InfoCircle" TextColor="TextColor.Muted" />
@@ -206,27 +243,19 @@
             <TableRowCell>1 year</TableRowCell>
             <TableRowCell>1 year</TableRowCell>
         </TableRow>
-    </TableBody>
-</Table>
 
-<Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
-    Extensions Feature Comparison
-</Paragraph>
 
-<Table Responsive TextAlignment="TextAlignment.Center">
-    <TableHeader>
-        <TableRow>
-            <TableHeaderCell style="width: 40%;"></TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Unlicensed</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Community</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Licensed</TableHeaderCell>
-            <TableHeaderCell style="width: 15%;">Trial</TableHeaderCell>
+
+
+
+        <TableRow Background="Background.Light">
+            <TableRowHeader ColumnSpan="5" TextAlignment="TextAlignment.Start">
+                Extensions Record Limit
+            </TableRowHeader>
         </TableRow>
-    </TableHeader>
-    <TableBody>
         <TableRow>
             <TableRowHeader Flex="Flex.JustifyContent.Between">
-                Core UI
+                Core UI Components
             </TableRowHeader>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
             <TableRowCell><Icon Name="IconName.Infinity" TextColor="TextColor.Primary" /></TableRowCell>
