@@ -1578,6 +1578,11 @@
   border-color: #40a9ff;
 }
 
+.ant-select-dropdown {
+  position: unset;
+  width: auto !important;
+}
+
 .ant-dropdown > .ant-dropdown-menu-item {
   width: 100%;
 }
