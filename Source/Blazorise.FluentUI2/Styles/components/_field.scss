@@ -33,6 +33,15 @@
     }
 }
 
+.fui-Field__hint {
+    margin-top: var(--spacingVerticalXXS);
+    color: var(--colorNeutralForeground3);
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase200);
+    font-weight: var(--fontWeightRegular);
+    line-height: var(--lineHeightBase200);
+}
+
 .fui-Input {
     & + .fui-Field__validationMessage {
         margin-top: var(--spacingVerticalXXS);
