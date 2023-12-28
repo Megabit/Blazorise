@@ -45,37 +45,37 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region NumericEdit
 
-    public override string NumericEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string NumericEdit( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
 
-    public override string NumericEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string NumericEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     public override string NumericEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string NumericEditValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
     #region DateEdit
 
-    public override string DateEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string DateEdit( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
 
-    public override string DateEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string DateEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     public override string DateEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string DateEditValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
     #region TimeEdit
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TimeEdit( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
 
-    public override string TimeEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string TimeEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     public override string TimeEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TimeEditValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -83,31 +83,31 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ColorEdit() => "form-control";
 
-    public override string ColorEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string ColorEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     #endregion
 
     #region DatePicker
 
-    public override string DatePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string DatePicker( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
 
-    public override string DatePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string DatePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     public override string DatePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string DatePickerValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
     #region TimePicker
 
-    public override string TimePicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string TimePicker( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
 
-    public override string TimePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string TimePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     public override string TimePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TimePickerValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -115,31 +115,31 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ColorPicker() => "form-control b-input-color-picker";
 
-    public override string ColorPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string ColorPickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     #endregion
 
     #region NumericPicker
 
-    public override string NumericPicker( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string NumericPicker( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
 
-    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     public override string NumericPickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string NumericPickerValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
     #region InputMask
 
-    public override string InputMask( bool plaintext ) => plaintext ? "form-control-plaintext" : "form-control";
+    public override string InputMask( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
 
-    public override string InputMaskSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
+    public override string InputMaskSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
     public override string InputMaskColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string InputMaskValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string InputMaskValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -153,7 +153,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
 
-    public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string CheckValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -209,7 +209,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string FileEditSize( Size size ) => size != Size.Default ? $"{FileEdit()}-{ToSize( size )}" : null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string FileEditValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
