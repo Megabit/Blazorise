@@ -1151,6 +1151,12 @@ button {
   border-right-color: var(--colorNeutralStroke1Hover);
   border-top-color: var(--colorNeutralStroke1Hover);
 }
+.fui-Input:not(.disabled):active, .fui-Input:not(.disabled):focus, .fui-Input:not(.disabled):focus-within {
+  border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
+  border-left-color: var(--colorNeutralStroke1Pressed);
+  border-right-color: var(--colorNeutralStroke1Pressed);
+  border-top-color: var(--colorNeutralStroke1Pressed);
+}
 .fui-Input:not(.disabled):focus-within {
   outline: transparent solid 2px;
 }
