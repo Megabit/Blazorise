@@ -1,0 +1,81 @@
+﻿.fui-RadioGroup {
+    align-items: flex-start;
+    flex-direction: column;
+    display: flex;
+}
+
+.fui-RadioGroup__horizontal {
+    align-items: flex-start;
+    display: flex;
+}
+
+.fui-Radio {
+    display: inline-flex;
+    position: relative;
+
+    .fui-Radio__input {
+        cursor: pointer;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: calc(16px + 2 * var(--spacingHorizontalS));
+        height: 100%;
+        box-sizing: border-box;
+        margin: 0px;
+        opacity: 0;
+
+        &:enabled:not(:checked) ~ .fui-Radio__indicator {
+            border-color: var(--colorNeutralStrokeAccessible);
+        }
+
+        &:not(:checked) ~ .fui-Radio__indicator > * {
+            opacity: 0;
+        }
+
+        &:enabled:not(:checked) ~ .fui-Radio__indicator {
+            border-color: var(--colorNeutralStrokeAccessible);
+        }
+
+        &:enabled ~ .fui-Radio__label {
+            cursor: pointer;
+        }
+    }
+
+    .fui-Radio__indicator {
+        width: 16px;
+        height: 16px;
+        font-size: 12px;
+        box-sizing: border-box;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border: var(--strokeWidthThin) solid;
+        border-radius: var(--borderRadiusCircular);
+        margin: var(--spacingVerticalS) var(--spacingHorizontalS);
+        fill: currentcolor;
+        pointer-events: none;
+        border-color: var(--colorCompoundBrandStroke);
+        color: var(--colorCompoundBrandForeground1);
+
+        .fui-Radio__indicator-icon {
+            display: inline;
+            line-height: 0;
+        }
+    }
+
+    .fui-Radio__label {
+        margin-bottom: calc((16px - var(--lineHeightBase300)) / 2);
+        margin-top: calc((16px - var(--lineHeightBase300)) / 2);
+        align-self: center;
+        padding-left: var(--spacingHorizontalXS);
+        padding-bottom: var(--spacingVerticalS);
+        padding-top: var(--spacingVerticalS);
+        padding-right: var(--spacingHorizontalS);
+        line-height: var(--lineHeightBase300);
+        font-size: var(--fontSizeBase300);
+        font-family: var(--fontFamilyBase);
+        color: var(--colorNeutralForeground1);
+    }
+}
