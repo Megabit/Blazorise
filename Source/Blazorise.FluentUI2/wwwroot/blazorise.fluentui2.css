@@ -1038,6 +1038,15 @@ button {
   font-family: var(--fontFamilyBase);
 }
 
+.fui-Field__hint {
+  margin-top: var(--spacingVerticalXXS);
+  color: var(--colorNeutralForeground3);
+  font-family: var(--fontFamilyBase);
+  font-size: var(--fontSizeBase200);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase200);
+}
+
 .fui-Input + .fui-Field__validationMessage {
   margin-top: var(--spacingVerticalXXS);
   color: var(--colorNeutralForeground3);
@@ -1160,7 +1169,8 @@ button {
 .fui-Input:not(.disabled):focus-within {
   outline: transparent solid 2px;
 }
-.fui-Input .fui-Input__input {
+.fui-Input .fui-Input__input,
+.fui-Input .fui-Input__input-plaintext {
   background-color: transparent;
   border-bottom-style: none;
   border-left-style: none;
@@ -1181,10 +1191,12 @@ button {
   outline-style: none;
   padding: 0 var(--spacingHorizontalXXS);
 }
-.fui-Input .fui-Input__input:not(:disabled) {
+.fui-Input .fui-Input__input:not(:disabled),
+.fui-Input .fui-Input__input-plaintext:not(:disabled) {
   background-color: transparent;
 }
-.fui-Input .fui-Input__input:disabled {
+.fui-Input .fui-Input__input:disabled,
+.fui-Input .fui-Input__input-plaintext:disabled {
   cursor: not-allowed;
   color: var(--colorNeutralForegroundDisabled);
   background-color: var(--colorTransparentBackground);
@@ -1316,6 +1328,12 @@ button {
   content: "";
   box-sizing: border-box;
 }
+.fui-Select:focus-within::after {
+  transform: scaleX(1);
+  transition-property: transform;
+  transition-duration: var(--durationNormal);
+  transition-delay: var(--curveDecelerateMid);
+}
 .fui-Select .fui-Select__select {
   padding-right: calc(var(--spacingHorizontalMNudge) + 20px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
   height: 32px;
@@ -1351,9 +1369,8 @@ button {
   background-color: var(--colorNeutralBackground1);
   color: var(--colorNeutralForeground1);
 }
-.fui-Select .fui-Select__select:active {
-  /*border-bottom-color: var(--colorNeutralStrokeAccessible);*/
-  border-bottom: 2px solid var(--colorNeutralStrokeAccessible);
+.fui-Select .fui-Select__select:active, .fui-Select .fui-Select__select:focus, .fui-Select .fui-Select__select:focus-within {
+  border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
   border-left-color: var(--colorNeutralStroke1Pressed);
   border-right-color: var(--colorNeutralStroke1Pressed);
   border-top-color: var(--colorNeutralStroke1Pressed);

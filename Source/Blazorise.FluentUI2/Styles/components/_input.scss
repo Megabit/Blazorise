@@ -101,7 +101,8 @@
         }
     }
 
-    .fui-Input__input {
+    .fui-Input__input,
+    .fui-Input__input-plaintext {
         background-color: transparent;
         border-bottom-style: none;
         border-left-style: none;
