@@ -1099,23 +1099,28 @@ button {
 }
 .fui-Input:after,
 .fui-Textarea:after {
-  border-bottom-color: var(--colorCompoundBrandStroke);
+  box-sizing: border-box;
+  content: "";
+  position: absolute;
+  left: -1px;
+  bottom: -1px;
+  right: -1px;
+  height: max(2px, var(--borderRadiusMedium));
   border-bottom-left-radius: var(--borderRadiusMedium);
   border-bottom-right-radius: var(--borderRadiusMedium);
-  border-bottom-style: solid;
-  border-bottom-width: var(--strokeWidthThick);
-  bottom: -1px;
-  box-sizing: border-box;
-  clip-path: inset(calc(100% - var(--strokeWidthThick)) 0 0 0);
-  content: "";
-  height: max(var(--strokeWidthThick), var(--borderRadiusMedium));
-  left: -1px;
-  position: absolute;
-  right: -1px;
+  border-bottom: 2px solid var(--colorCompoundBrandStroke);
+  clip-path: inset(calc(100% - 2px) 0px 0px);
   transform: scaleX(0);
-  transition-delay: var(--curveAccelerateMid);
-  transition-duration: var(--durationUltraFast);
   transition-property: transform;
+  transition-duration: var(--durationUltraFast);
+  transition-delay: var(--curveAccelerateMid);
+}
+.fui-Input:focus-within::after,
+.fui-Textarea:focus-within::after {
+  transform: scaleX(1);
+  transition-property: transform;
+  transition-duration: var(--durationNormal);
+  transition-delay: var(--curveDecelerateMid);
 }
 
 .fui-Input {
@@ -1145,12 +1150,6 @@ button {
   border-left-color: var(--colorNeutralStroke1Hover);
   border-right-color: var(--colorNeutralStroke1Hover);
   border-top-color: var(--colorNeutralStroke1Hover);
-}
-.fui-Input:not(.disabled):active, .fui-Input:not(.disabled):focus, .fui-Input:not(.disabled):focus-within {
-  border-bottom: 2px solid var(--colorCompoundBrandStroke);
-  border-left-color: var(--colorNeutralStroke1Pressed);
-  border-right-color: var(--colorNeutralStroke1Pressed);
-  border-top-color: var(--colorNeutralStroke1Pressed);
 }
 .fui-Input:not(.disabled):focus-within {
   outline: transparent solid 2px;
