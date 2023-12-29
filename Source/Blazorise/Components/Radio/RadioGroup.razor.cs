@@ -64,7 +64,7 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
     {
         builder.Append( ClassProvider.RadioGroup( Buttons, Orientation ) );
         builder.Append( ClassProvider.RadioGroupSize( Buttons, Orientation, ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.RadioGroupValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.RadioGroupValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status > ValidationStatus.None );
 
         base.BuildClasses( builder );
     }

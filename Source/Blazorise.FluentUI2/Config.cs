@@ -41,6 +41,7 @@ public static class Config
         { typeof( Blazorise.NumericEdit<> ), typeof( FluentUI2.NumericEdit<> ) },
         { typeof( Blazorise.TextEdit ), typeof( FluentUI2.TextEdit ) },
         { typeof( Blazorise.TimeEdit<> ), typeof( FluentUI2.TimeEdit<> ) },
+        { typeof( Blazorise.Radio<> ), typeof( FluentUI2.Radio<> ) },
         { typeof( Blazorise.Select<> ), typeof( FluentUI2.Select<> ) },
         { typeof( Blazorise.Slider<> ), typeof( FluentUI2.Slider<> ) },
         { typeof( Blazorise.ValidationError ), typeof( FluentUI2.ValidationError ) },

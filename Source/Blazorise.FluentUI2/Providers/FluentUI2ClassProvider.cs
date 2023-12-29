@@ -160,30 +160,42 @@ public class FluentUI2ClassProvider : ClassProvider
     #region RadioGroup
 
     public override string RadioGroup( bool buttons, Orientation orientation ) => buttons
-        ? orientation == Orientation.Horizontal ? "btn-group btn-group-toggle" : "btn-group-vertical btn-group-toggle"
-        : null;
+        ? orientation == Orientation.Horizontal ? "fui-RadioGroup__horizontal-buttons" : "fui-RadioGroup__buttons"
+        : orientation == Orientation.Horizontal ? "fui-RadioGroup__horizontal" :  "fui-RadioGroup";
 
-    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => buttons
-        ? orientation == Orientation.Horizontal ? $"btn-group-{ToSize( size )}" : $"btn-group-vertical-{ToSize( size )}"
-        : null;
+    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size )
+    {
+        if ( size == Size.Default )
+            return null;
 
-    public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        return buttons
+            ? orientation == Orientation.Horizontal ? $"fui-RadioGroup__horizontal-buttons-{ToSize( size )}" : $"fui-RadioGroup__buttons-{ToSize( size )}"
+            : orientation == Orientation.Horizontal ? $"fui-RadioGroup__horizontal-{ToSize( size )}" : $"fui-RadioGroup-{ToSize( size )}";
+    }
+
+    public override string RadioGroupValidation( ValidationStatus validationStatus )
+    {
+        if ( validationStatus == ValidationStatus.None )
+            return null;
+
+        return $"fui-RadioGroup-{ToValidationStatus( validationStatus )}";
+    }
 
     #endregion
 
     #region Radio
 
-    public override string Radio( bool button ) => button ? null : UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+    public override string Radio( bool button ) => "fui-Radio__input";
 
-    public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
+    public override string RadioSize( bool button, Size size ) => $"fui-Radio__input-{ToSize( size )}";
 
     public override string RadioInline( bool inline ) => inline
-        ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline"
+        ? "fui-Radio__input-inline"
         : null;
 
-    public override string RadioCursor( Cursor cursor ) => $"{( UseCustomInputStyles ? "custom-control-input" : "form-check-input" )}-{ToCursor( cursor )}";
+    public override string RadioCursor( Cursor cursor ) => $"fui-Radio__input-{ToCursor( cursor )}";
 
-    public override string RadioValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string RadioValidation( ValidationStatus validationStatus ) => $"fui-Radio__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
