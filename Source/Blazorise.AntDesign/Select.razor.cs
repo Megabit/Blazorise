@@ -18,13 +18,20 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
     #region Members
 
     private string selectorElementId;
-
+    
     private string inputElementId;
+
+    private string dropdownElementId;
 
     /// <summary>
     /// Holds the information about the element location and size.
     /// </summary>
     private DomElement elementInfo;
+
+    /// <summary>
+    /// Holds the information about the element location and size.
+    /// </summary>
+    private DomElement dropdownElementInfo;
 
     /// <summary>
     /// Reference for the close activator used to control the closing of an component
@@ -94,6 +101,7 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
         // because sometimes input can have different offset based on the changes on the page. For example
         // when validation is triggered the input can be pushed down by the error messages.
         elementInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId );
+        dropdownElementInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId );
 
         await JSClosableModule.Register( dotNetObjectRef, ElementRef );
 
@@ -233,6 +241,12 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
         set => inputElementId = value;
     }
 
+    protected string DropdownElementId
+    {
+        get => dropdownElementId ??= IdGenerator.Generate;
+        set => dropdownElementId = value;
+    }
+
     protected ElementReference DropdownElementRef { get; set; }
 
     /// <summary>
@@ -315,7 +329,7 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
     }
 
     string DropdownStyleNames =>
-        $"width: auto; left: {(int)elementInfo.OffsetLeft}px; top: {(int)( elementInfo.OffsetTop + elementInfo.BoundingClientRect.Height )}px; position: unset;";
+        $"width: {(int)dropdownElementInfo.BoundingClientRect.Width}px; left: {(int)dropdownElementInfo.OffsetLeft}px; top: {(int)( dropdownElementInfo.OffsetTop + dropdownElementInfo.BoundingClientRect.Height )}px;";
 
     string DropdownInnerStyleNames
         => $"max-height: {( MaxVisibleItems == null ? 256 : MaxVisibleItems * 32 )}px; overflow-y: auto; overflow-anchor: none;";
