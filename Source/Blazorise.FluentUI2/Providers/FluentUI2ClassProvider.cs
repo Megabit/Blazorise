@@ -45,7 +45,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region NumericEdit
 
-    public override string NumericEdit( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
+    public override string NumericEdit( bool plaintext ) => plaintext ? "fui-NumericInput fui-Input__input-plaintext" : "fui-NumericInput fui-Input__input";
 
     public override string NumericEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
@@ -57,7 +57,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region DateEdit
 
-    public override string DateEdit( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
+    public override string DateEdit( bool plaintext ) => plaintext ? "fui-DateInput fui-Input__input-plaintext" : "fui-DateInput fui-Input__input";
 
     public override string DateEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
@@ -69,7 +69,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region TimeEdit
 
-    public override string TimeEdit( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
+    public override string TimeEdit( bool plaintext ) => plaintext ? "fui-TimeInput fui-Input__input-plaintext" : "fui-TimeInput fui-Input__input";
 
     public override string TimeEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
@@ -81,7 +81,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region ColorEdit
 
-    public override string ColorEdit() => "fui-Input__input";
+    public override string ColorEdit() => "fui-ColorInput fui-Input__input";
 
     public override string ColorEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
@@ -89,7 +89,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region DatePicker
 
-    public override string DatePicker( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
+    public override string DatePicker( bool plaintext ) => plaintext ? "fui-DatePicker fui-Input__input-plaintext" : "fui-DatePicker fui-Input__input";
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
@@ -101,7 +101,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region TimePicker
 
-    public override string TimePicker( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
+    public override string TimePicker( bool plaintext ) => plaintext ? "fui-TimePicker fui-Input__input-plaintext" : "fui-TimePicker fui-Input__input";
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
@@ -113,7 +113,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => "fui-Input__input b-input-color-picker";
+    public override string ColorPicker() => "fui-ColorPicker fui-Input__input b-input-color-picker";
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
@@ -121,7 +121,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region NumericPicker
 
-    public override string NumericPicker( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
+    public override string NumericPicker( bool plaintext ) => plaintext ? "fui-NumericPicker fui-Input__input-plaintext" : "fui-NumericInput fui-Input__input";
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
@@ -133,7 +133,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region InputMask
 
-    public override string InputMask( bool plaintext ) => plaintext ? "fui-Input__input-plaintext" : "fui-Input__input";
+    public override string InputMask( bool plaintext ) => plaintext ? "fui-InputMask fui-Input__input-plaintext" : "fui-InputMask fui-Input__input";
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
