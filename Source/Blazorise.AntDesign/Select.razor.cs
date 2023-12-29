@@ -315,7 +315,7 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
     }
 
     string DropdownStyleNames =>
-        $"width: {(int)elementInfo.BoundingClientRect.Width}px; left: {(int)elementInfo.OffsetLeft}px; top: {(int)( elementInfo.OffsetTop + elementInfo.BoundingClientRect.Height )}px;";
+        $"width: auto; left: {(int)elementInfo.OffsetLeft}px; top: {(int)( elementInfo.OffsetTop + elementInfo.BoundingClientRect.Height )}px; position: unset;";
 
     string DropdownInnerStyleNames
         => $"max-height: {( MaxVisibleItems == null ? 256 : MaxVisibleItems * 32 )}px; overflow-y: auto; overflow-anchor: none;";
