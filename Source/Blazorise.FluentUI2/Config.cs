@@ -34,13 +34,18 @@ public static class Config
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
         { typeof( Blazorise.CardHeader ), typeof( FluentUI2.CardHeader ) },
+        { typeof( Blazorise.ColorEdit ), typeof( FluentUI2.ColorEdit ) },
+        { typeof( Blazorise.ColorPicker ), typeof( FluentUI2.ColorPicker ) },
         { typeof( Blazorise.DateEdit<> ), typeof( FluentUI2.DateEdit<> ) },
+        { typeof( Blazorise.DatePicker<> ), typeof( FluentUI2.DatePicker<> ) },
         { typeof( Blazorise.FieldHelp ), typeof( FluentUI2.FieldHelp ) },
         { typeof( Blazorise.FieldLabel ), typeof( FluentUI2.FieldLabel ) },
+        { typeof( Blazorise.FileEdit ), typeof( FluentUI2.FileEdit ) },
         { typeof( Blazorise.MemoEdit ), typeof( FluentUI2.MemoEdit ) },
         { typeof( Blazorise.NumericEdit<> ), typeof( FluentUI2.NumericEdit<> ) },
         { typeof( Blazorise.TextEdit ), typeof( FluentUI2.TextEdit ) },
         { typeof( Blazorise.TimeEdit<> ), typeof( FluentUI2.TimeEdit<> ) },
+        { typeof( Blazorise.TimePicker<> ), typeof( FluentUI2.TimePicker<> ) },
         { typeof( Blazorise.Radio<> ), typeof( FluentUI2.Radio<> ) },
         { typeof( Blazorise.Select<> ), typeof( FluentUI2.Select<> ) },
         { typeof( Blazorise.Slider<> ), typeof( FluentUI2.Slider<> ) },

@@ -1,0 +1,32 @@
+﻿@using System.Text
+@inherits Blazorise.FileEdit
+<span class="@InputClassNames">
+    <input @ref="@ElementRef" id="@ElementId" type="file" class="@ClassNames" webkitdirectory="@Directory" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" multiple="@Multiple" accept="@Filter" tabindex="@TabIndex" placeholder="@Placeholder" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+</span>
+@ChildContent
+@Feedback
+@code {
+    string InputClassNames
+    {
+        get
+        {
+            var sb = new StringBuilder( "fui-Input" );
+
+            if ( ParentValidation?.Status == ValidationStatus.Error )
+            {
+                sb.Append( " fui-Input__error" );
+            }
+            else if ( ParentValidation?.Status == ValidationStatus.Success )
+            {
+                sb.Append( " fui-Input__success" );
+            }
+
+            if ( Disabled )
+            {
+                sb.Append( " disabled" );
+            }
+
+            return sb.ToString();
+        }
+    }
+}

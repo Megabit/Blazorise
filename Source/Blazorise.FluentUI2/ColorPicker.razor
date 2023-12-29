@@ -1,0 +1,36 @@
+﻿@using System.Text
+@inherits Blazorise.ColorPicker
+<div class="@InputClassNames">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" tabindex="@TabIndex" aria-disabled="@Disabled.ToString().ToLowerInvariant()" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+        <div class="b-input-color-picker-preview">
+            <span class="b-input-color-picker-curent-color"></span>
+        </div>
+    </div>
+</div>
+@ChildContent
+@Feedback
+@code {
+    string InputClassNames
+    {
+        get
+        {
+            var sb = new StringBuilder( "fui-Input" );
+
+            if ( ParentValidation?.Status == ValidationStatus.Error )
+            {
+                sb.Append( " fui-Input__error" );
+            }
+            else if ( ParentValidation?.Status == ValidationStatus.Success )
+            {
+                sb.Append( " fui-Input__success" );
+            }
+
+            if ( Disabled )
+            {
+                sb.Append( " disabled" );
+            }
+
+            return sb.ToString();
+        }
+    }
+}

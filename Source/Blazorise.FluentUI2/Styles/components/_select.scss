@@ -67,6 +67,10 @@
         background-color: var(--colorNeutralBackground1);
         color: var(--colorNeutralForeground1);
 
+        &[multiple] {
+            height: auto;
+        }
+
         &:active,
         &:focus,
         &:focus-within {
@@ -82,7 +86,18 @@
             outline-width: 2px;
         }
 
+
+
         option {
+            cursor: pointer;
+            line-height: var(--lineHeightBase300);
+            font-weight: var(--fontWeightRegular);
+            font-size: var(--fontSizeBase300);
+            font-family: var(--fontFamilyBase);
+            color: var(--colorNeutralForeground1);
+        }
+
+        optgroup {
             cursor: pointer;
             line-height: var(--lineHeightBase300);
             font-weight: var(--fontWeightRegular);

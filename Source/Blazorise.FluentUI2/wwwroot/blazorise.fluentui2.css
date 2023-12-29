@@ -1238,6 +1238,13 @@ button {
   color: var(--colorNeutralForeground3);
   cursor: pointer;
 }
+.fui-Input .fui-Input__input[type=color],
+.fui-Input .fui-Input__input-plaintext[type=color] {
+  display: inline;
+  line-height: 0;
+  cursor: pointer;
+  margin: 0;
+}
 .fui-Input__error {
   border-bottom-color: var(--colorPaletteRedBorder2) !important;
   border-left-color: var(--colorPaletteRedBorder2) !important;
@@ -1488,6 +1495,9 @@ button {
   background-color: var(--colorNeutralBackground1);
   color: var(--colorNeutralForeground1);
 }
+.fui-Select .fui-Select__select[multiple] {
+  height: auto;
+}
 .fui-Select .fui-Select__select:active, .fui-Select .fui-Select__select:focus, .fui-Select .fui-Select__select:focus-within {
   border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
   border-left-color: var(--colorNeutralStroke1Pressed);
@@ -1500,6 +1510,14 @@ button {
   outline-width: 2px;
 }
 .fui-Select .fui-Select__select option {
+  cursor: pointer;
+  line-height: var(--lineHeightBase300);
+  font-weight: var(--fontWeightRegular);
+  font-size: var(--fontSizeBase300);
+  font-family: var(--fontFamilyBase);
+  color: var(--colorNeutralForeground1);
+}
+.fui-Select .fui-Select__select optgroup {
   cursor: pointer;
   line-height: var(--lineHeightBase300);
   font-weight: var(--fontWeightRegular);
@@ -1598,6 +1616,10 @@ button {
 .fui-Slider__container {
   display: flex;
   align-items: center;
+}
+
+.fui-Input__input.b-input-color-picker {
+  height: 20px;
 }
 
 .fui-Row {

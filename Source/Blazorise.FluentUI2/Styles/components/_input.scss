@@ -172,6 +172,13 @@
                 cursor: pointer;
             }
         }
+
+        &[type="color"] {
+            display: inline;
+            line-height: 0;
+            cursor: pointer;
+            margin: 0;
+        }
     }
 
     &__error {
