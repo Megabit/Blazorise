@@ -42,6 +42,7 @@ public static class Config
         { typeof( Blazorise.FieldLabel ), typeof( FluentUI2.FieldLabel ) },
         { typeof( Blazorise.FileEdit ), typeof( FluentUI2.FileEdit ) },
         { typeof( Blazorise.MemoEdit ), typeof( FluentUI2.MemoEdit ) },
+        { typeof( Blazorise.Modal ), typeof( FluentUI2.Modal ) },
         { typeof( Blazorise.NumericEdit<> ), typeof( FluentUI2.NumericEdit<> ) },
         { typeof( Blazorise.TextEdit ), typeof( FluentUI2.TextEdit ) },
         { typeof( Blazorise.TimeEdit<> ), typeof( FluentUI2.TimeEdit<> ) },

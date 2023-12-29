@@ -1,0 +1,16 @@
+﻿@using System.Text
+@inherits Blazorise.Modal
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        @if ( ShowBackdrop && BackdropVisible )
+        {
+            <_ModalBackdrop />
+        }
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" aria-modal="false" @attributes="@Attributes">
+            @if ( ShouldRenderContent )
+            {
+                @ChildContent
+            }
+        </div>
+    </CascadingValue>
+</CascadingValue>

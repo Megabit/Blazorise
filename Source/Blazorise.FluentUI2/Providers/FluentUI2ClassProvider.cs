@@ -81,7 +81,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region ColorEdit
 
-    public override string ColorEdit() => "form-control";
+    public override string ColorEdit() => "fui-Input__input";
 
     public override string ColorEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
@@ -113,7 +113,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region ColorPicker
 
-    public override string ColorPicker() => "form-control b-input-color-picker";
+    public override string ColorPicker() => "fui-Input__input b-input-color-picker";
 
     public override string ColorPickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
@@ -161,7 +161,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string RadioGroup( bool buttons, Orientation orientation ) => buttons
         ? orientation == Orientation.Horizontal ? "fui-RadioGroup__horizontal-buttons" : "fui-RadioGroup__buttons"
-        : orientation == Orientation.Horizontal ? "fui-RadioGroup__horizontal" :  "fui-RadioGroup";
+        : orientation == Orientation.Horizontal ? "fui-RadioGroup__horizontal" : "fui-RadioGroup";
 
     public override string RadioGroupSize( bool buttons, Orientation orientation, Size size )
     {
@@ -217,7 +217,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region FileEdit
 
-    public override string FileEdit() => UseCustomInputStyles ? "custom-file-input" : "form-control-file";
+    public override string FileEdit() => "fui-Input__input";
 
     public override string FileEditSize( Size size ) => size != Size.Default ? $"{FileEdit()}-{ToSize( size )}" : null;
 
@@ -888,21 +888,21 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Modal
 
-    public override string Modal() => "modal";
+    public override string Modal() => "fui-DialogSurface";
 
     public override string ModalFade() => Fade();
 
     public override string ModalFade( bool animation ) => animation ? Fade() : null;
 
-    public override string ModalVisible( bool visible ) => visible ? Show() : null;
+    public override string ModalVisible( bool visible ) => visible ? "fui-DialogSurface-show" : null;
 
-    public override string ModalBackdrop() => "modal-backdrop";
+    public override string ModalBackdrop() => "fui-DialogSurface__backdrop";
 
-    public override string ModalBackdropFade() => Fade();
+    public override string ModalBackdropFade() => "fui-DialogSurface__backdrop-fade";
 
-    public override string ModalBackdropVisible( bool visible ) => visible ? Show() : null;
+    public override string ModalBackdropVisible( bool visible ) => visible ? "fui-DialogSurface__backdrop-show" : null;
 
-    public override string ModalContent( bool dialog ) => "modal-content";
+    public override string ModalContent( bool dialog ) => "fui-DialogBody";
 
     public override string ModalContentSize( ModalSize modalSize ) => null;
 
@@ -910,11 +910,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ModalContentScrollable( bool scrollable ) => null;
 
-    public override string ModalBody() => "modal-body";
+    public override string ModalBody() => "fui-DialogContent";
 
-    public override string ModalHeader() => "modal-header";
+    public override string ModalHeader() => "fui-DialogTitle";
 
-    public override string ModalFooter() => "modal-footer";
+    public override string ModalFooter() => "fui-DialogActions";
 
     public override string ModalTitle() => "modal-title";
 
