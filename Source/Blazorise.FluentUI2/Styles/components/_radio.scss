@@ -39,6 +39,18 @@
         &:enabled ~ .fui-Radio__label {
             cursor: pointer;
         }
+
+        &:disabled {
+            ~ .fui-Radio__indicator {
+                border-color: var(--colorNeutralStrokeDisabled);
+                color: var(--colorNeutralForegroundDisabled);
+            }
+
+            ~ .fui-Radio__label {
+                color: var(--colorNeutralForegroundDisabled);
+                cursor: default;
+            }
+        }
     }
 
     .fui-Radio__indicator {

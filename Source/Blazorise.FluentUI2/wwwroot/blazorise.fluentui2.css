@@ -1377,6 +1377,14 @@ button {
 .fui-Radio .fui-Radio__input:enabled ~ .fui-Radio__label {
   cursor: pointer;
 }
+.fui-Radio .fui-Radio__input:disabled ~ .fui-Radio__indicator {
+  border-color: var(--colorNeutralStrokeDisabled);
+  color: var(--colorNeutralForegroundDisabled);
+}
+.fui-Radio .fui-Radio__input:disabled ~ .fui-Radio__label {
+  color: var(--colorNeutralForegroundDisabled);
+  cursor: default;
+}
 .fui-Radio .fui-Radio__indicator {
   width: 16px;
   height: 16px;
