@@ -215,11 +215,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Slider
 
-    public override string Slider() => "form-control-range";
+    public override string Slider() => "fui-Slider__input";
 
-    public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
+    public override string SliderColor( Color color ) => $"fui-Slider__input-{ToColor( color )}";
 
-    public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SliderValidation( ValidationStatus validationStatus ) => $"fui-Slider__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
