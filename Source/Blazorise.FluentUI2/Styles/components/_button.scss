@@ -245,3 +245,24 @@
 .fui-ButtonOutline__link {
     @include button-outline-variant(var(--colorBrandForegroundLink), var(--colorBrandForegroundLinkHover), var(--colorBrandForegroundLinkPressed));
 }
+
+.fui-CloseButton {
+    overflow: visible;
+    padding: 0px;
+    border-style: none;
+    position: relative;
+    box-sizing: content-box;
+    background-color: inherit;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    line-height: 0;
+    appearance: button;
+    text-align: unset;
+
+    .fui-CloseButton__icon {
+        display: inline;
+        line-height: 0;
+    }
+}

@@ -6,7 +6,7 @@
         {
             <_ModalBackdrop />
         }
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" aria-modal="false" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" tabindex="-1" @attributes="@Attributes">
             @if ( ShouldRenderContent )
             {
                 @ChildContent

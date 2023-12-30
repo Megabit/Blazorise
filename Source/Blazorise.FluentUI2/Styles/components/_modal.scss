@@ -1,25 +1,57 @@
-﻿.fui-DialogSurface__backdrop {
+﻿@keyframes slideaway {
+    from {
+        transform: scale(1) translateZ(0px);
+        display: block;
+    }
+
+    to {
+        transform: scale(0.75) translateZ(0px);
+        opacity: 0;
+    }
+}
+
+@keyframes slidein {
+    from {
+        transform: scale(1) translateZ(0px);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1) translateZ(0px);
+        display: block;
+    }
+}
+
+.fui-DialogSurface__backdrop {
     inset: 0px;
     background-color: rgba(0, 0, 0, 0.4);
     position: fixed;
-    transition-duration: var(--durationGentle);
-    transition-timing-function: var(--curveLinear);
-    transition-property: opacity;
     will-change: opacity;
-    opacity: 0;
+    z-index: 10;
+    display: none;
+
+    &-fade {
+        transition-duration: var(--modal-animation-duration, var(--durationGentle));
+        transition-timing-function: var(--curveLinear);
+        transition-property: opacity;
+    }
 
     &-show {
+        animation: slidein var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
+        display: block;
         opacity: 1;
+    }
+
+    &-hide {
+        animation: slideaway var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
+        display: none;
     }
 }
 
 .fui-DialogSurface {
+    display: none;
     transform: scale(1) translateZ(0px);
     box-shadow: var(--shadow64);
-    transition-timing-function: var(--curveDecelerateMid);
-    transition-property: opacity, transform, box-shadow;
-    transition-duration: var(--durationGentle);
-    opacity: 0;
     inset: 0px;
     padding: 24px;
     margin: auto;
@@ -34,7 +66,6 @@
     border-bottom-left-radius: var(--borderRadiusXLarge);
     border-top-right-radius: var(--borderRadiusXLarge);
     border-top-left-radius: var(--borderRadiusXLarge);
-    display: block;
     user-select: unset;
     visibility: unset;
     position: fixed;
@@ -44,18 +75,34 @@
     box-sizing: border-box;
     background-color: var(--colorNeutralBackground1);
     color: var(--colorNeutralForeground1);
+    z-index: 20;
+
+    &-fade {
+        transition-timing-function: var(--curveDecelerateMid);
+        transition-property: opacity, transform, box-shadow;
+        transition-duration: var(--modal-animation-duration, var(--durationGentle));
+    }
 
     &-show {
+        animation: slidein var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
+        display: block;
         opacity: 1;
+    }
+
+    &-hide {
+        animation: slideaway var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
+        display: none;
     }
 
     .fui-DialogBody {
         overflow: unset;
         gap: 8px;
-        display: grid;
+        /*display: grid;*/
+        display: flex;
+        flex-direction: column;
         max-height: calc(100vh - 48px);
         box-sizing: border-box;
-       /* grid-template-rows: auto 1fr;
+        /*grid-template-rows: auto 1fr;
         grid-template-columns: 1fr 1fr auto;*/
 
         .fui-DialogTitle {
@@ -65,9 +112,17 @@
             line-height: var(--lineHeightBase500);
             margin: 0px;
             grid-area: 1 / 1 / 1 / 3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
         }
 
         .fui-DialogContent {
+            /*row-gap: 10px;*/
+            flex-direction: column;
+            display: flex;
+            flex: 1 1 auto;
             padding-top: var(--strokeWidthThick);
             padding-right: var(--strokeWidthThick);
             padding-bottom: var(--strokeWidthThick);
@@ -87,14 +142,17 @@
         }
 
         .fui-DialogActions {
-            justify-self: end;
-            grid-column-end: 4;
-            grid-column-start: 2;
+            /*justify-self: end;*/
+            /*grid-column-end: 4;
+            grid-column-start: 2;*/
             gap: 8px;
             height: fit-content;
             box-sizing: border-box;
             display: flex;
-            grid-row: 3 / 3;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: flex-end;
+            /*grid-row: 3 / 3;*/
         }
     }
 }

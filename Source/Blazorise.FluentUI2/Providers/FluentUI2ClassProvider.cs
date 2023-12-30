@@ -344,7 +344,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region FocusTrap
 
-    public override string FocusTrap() => "focus-trap";
+    public override string FocusTrap() => "fui-FocusTrap";
 
     #endregion
 
@@ -435,7 +435,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region CloseButton
 
-    public override string CloseButton() => "close";
+    public override string CloseButton() => "fui-CloseButton";
 
     #endregion
 
@@ -890,11 +890,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Modal() => "fui-DialogSurface";
 
-    public override string ModalFade() => Fade();
+    public override string ModalFade() => "fui-DialogSurface-fade";
 
-    public override string ModalFade( bool animation ) => animation ? Fade() : null;
+    public override string ModalFade( bool animation ) => animation ? "fui-DialogSurface-fade" : null;
 
-    public override string ModalVisible( bool visible ) => visible ? "fui-DialogSurface-show" : null;
+    public override string ModalVisible( bool visible ) => visible ? "fui-DialogSurface-show" : "fui-DialogSurface-hide";
 
     public override string ModalBackdrop() => "fui-DialogSurface__backdrop";
 
