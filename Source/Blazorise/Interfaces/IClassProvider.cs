@@ -810,6 +810,8 @@ public interface IClassProvider
 
     string ModalVisible( bool visible );
 
+    string ModalSize( ModalSize modalSize );
+
     string ModalBackdrop();
 
     string ModalBackdropFade();

@@ -873,6 +873,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ModalVisible( bool visible ) => null;
 
+    public override string ModalSize( ModalSize modalSize ) => null;
+
     public override string ModalBackdrop() => "ant-modal-mask";
 
     public override string ModalBackdropFade() => null;
@@ -881,7 +883,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ModalContent( bool dialog ) => "ant-modal-content";
 
-    public override string ModalContentSize( ModalSize modalSize ) => modalSize == ModalSize.Fullscreen
+    public override string ModalContentSize( ModalSize modalSize ) => modalSize == Blazorise.ModalSize.Fullscreen
         ? "ant-modal-content-fullscreen"
         : null;
 

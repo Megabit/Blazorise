@@ -814,6 +814,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ModalVisible( bool visible );
 
+    public abstract string ModalSize( ModalSize modalSize );
+
     public abstract string ModalBackdrop();
 
     public abstract string ModalBackdropFade();

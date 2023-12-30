@@ -896,6 +896,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ModalVisible( bool visible ) => visible ? "fui-DialogSurface-show" : "fui-DialogSurface-hide";
 
+    public override string ModalSize( ModalSize modalSize ) => modalSize == Blazorise.ModalSize.Default ? null : $"fui-DialogSurface-{ToModalSize( modalSize )}";
+
     public override string ModalBackdrop() => "fui-DialogSurface__backdrop";
 
     public override string ModalBackdropFade() => "fui-DialogSurface__backdrop-fade";
@@ -1503,23 +1505,30 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Enums
 
+    public override string ToBreakpoint( Breakpoint breakpoint )
+    {
+        return breakpoint switch
+        {
+            Blazorise.Breakpoint.Mobile => "extra-small",
+            Blazorise.Breakpoint.Tablet => "small",
+            Blazorise.Breakpoint.Desktop => "medium",
+            Blazorise.Breakpoint.Widescreen => "large",
+            Blazorise.Breakpoint.FullHD => "extra-large",
+            _ => null,
+        };
+    }
+
     public override string ToSize( Size size )
     {
-        switch ( size )
+        return size switch
         {
-            case Blazorise.Size.ExtraSmall:
-                return "extra-small";
-            case Blazorise.Size.Small:
-                return "small";
-            case Blazorise.Size.Medium:
-                return "medium";
-            case Blazorise.Size.Large:
-                return "large";
-            case Blazorise.Size.ExtraLarge:
-                return "extra-large";
-            default:
-                return null;
-        }
+            Blazorise.Size.ExtraSmall => "extra-small",
+            Blazorise.Size.Small => "small",
+            Blazorise.Size.Medium => "medium",
+            Blazorise.Size.Large => "large",
+            Blazorise.Size.ExtraLarge => "extra-large",
+            _ => null,
+        };
     }
 
     public override string ToSpacing( Spacing spacing )
@@ -1552,6 +1561,18 @@ public class FluentUI2ClassProvider : ClassProvider
         {
             Blazorise.ValidationStatus.Success => "success",
             Blazorise.ValidationStatus.Error => "error",
+            _ => null,
+        };
+    }
+
+    public override string ToModalSize( ModalSize modalSize )
+    {
+        return modalSize switch
+        {
+            Blazorise.ModalSize.Small => "small",
+            Blazorise.ModalSize.Large => "large",
+            Blazorise.ModalSize.ExtraLarge => "extra-large",
+            Blazorise.ModalSize.Fullscreen => "fullscreen",
             _ => null,
         };
     }

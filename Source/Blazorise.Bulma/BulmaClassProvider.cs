@@ -904,6 +904,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ModalVisible( bool visible ) => visible ? Active() : null;
 
+    public override string ModalSize( ModalSize modalSize ) => null;
+
     public override string ModalBackdrop() => "modal-background";
 
     public override string ModalBackdropFade() => Fade();
@@ -914,10 +916,10 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ModalContentSize( ModalSize modalSize )
     {
-        if ( modalSize == ModalSize.Default )
+        if ( modalSize == Blazorise.ModalSize.Default )
             return null;
 
-        if ( modalSize == ModalSize.Fullscreen )
+        if ( modalSize == Blazorise.ModalSize.Fullscreen )
             return "modal-fullscreen";
 
         return $"modal-{ToModalSize( modalSize )}";

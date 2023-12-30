@@ -1296,6 +1296,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalVisible( bool visible ) => visible ? "flex" : null;
 
+    public override string ModalSize( ModalSize modalSize ) => null;
+
     public override string ModalBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40";
 
     public override string ModalBackdropFade() => "b-modal-fade";
@@ -1306,7 +1308,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalContentSize( ModalSize modalSize )
     {
-        if ( modalSize == ModalSize.Fullscreen )
+        if ( modalSize == Blazorise.ModalSize.Fullscreen )
             return "h-screen w-screen max-w-none h-full m-0 rounded-none border-none border-0";
 
         return null;

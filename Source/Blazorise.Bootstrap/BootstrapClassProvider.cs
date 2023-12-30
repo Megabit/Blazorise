@@ -883,6 +883,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ModalVisible( bool visible ) => visible ? Show() : null;
 
+    public override string ModalSize( ModalSize modalSize ) => null;
+
     public override string ModalBackdrop() => "modal-backdrop";
 
     public override string ModalBackdropFade() => Fade();

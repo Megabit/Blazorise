@@ -817,6 +817,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ModalVisible( bool visible ) => null;
 
+    public string ModalSize( ModalSize modalSize ) => null;
+
     public string ModalBackdrop() => null;
 
     public string ModalBackdropFade() => null;

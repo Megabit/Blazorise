@@ -1,4 +1,4 @@
-﻿@keyframes slideaway {
+﻿@keyframes fadeaway {
     from {
         transform: scale(1) translateZ(0px);
         display: block;
@@ -10,7 +10,7 @@
     }
 }
 
-@keyframes slidein {
+@keyframes fadein {
     from {
         transform: scale(1) translateZ(0px);
         opacity: 0;
@@ -37,13 +37,13 @@
     }
 
     &-show {
-        animation: slidein var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
+        animation: fadein var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
         display: block;
         opacity: 1;
     }
 
     &-hide {
-        animation: slideaway var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
+        animation: fadeaway var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
         display: none;
     }
 }
@@ -84,26 +84,22 @@
     }
 
     &-show {
-        animation: slidein var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
+        animation: fadein var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
         display: block;
         opacity: 1;
     }
 
     &-hide {
-        animation: slideaway var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
+        animation: fadeaway var(--modal-animation-duration, var(--durationGentle)) cubic-bezier(0, 0, 0, 1) forwards;
         display: none;
     }
 
     .fui-DialogBody {
         overflow: unset;
-        gap: 8px;
-        /*display: grid;*/
         display: flex;
         flex-direction: column;
         max-height: calc(100vh - 48px);
         box-sizing: border-box;
-        /*grid-template-rows: auto 1fr;
-        grid-template-columns: 1fr 1fr auto;*/
 
         .fui-DialogTitle {
             font-family: var(--fontFamilyBase);
@@ -119,7 +115,6 @@
         }
 
         .fui-DialogContent {
-            /*row-gap: 10px;*/
             flex-direction: column;
             display: flex;
             flex: 1 1 auto;
@@ -142,9 +137,6 @@
         }
 
         .fui-DialogActions {
-            /*justify-self: end;*/
-            /*grid-column-end: 4;
-            grid-column-start: 2;*/
             gap: 8px;
             height: fit-content;
             box-sizing: border-box;
@@ -152,7 +144,46 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: flex-end;
-            /*grid-row: 3 / 3;*/
         }
+    }
+
+    &-small {
+        max-width: 300px;
+    }
+
+    &-fullscreen {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+        border-radius: 0;
+
+        .fui-DialogBody {
+            height: 100%;
+            border: 0;
+        }
+
+        .fui-DialogContent {
+            overflow-y: auto;
+        }
+    }
+}
+
+@include media-breakpoint-up(small) {
+    .fui-DialogSurface-small {
+        max-width: $modal-sm;
+    }
+}
+
+@include media-breakpoint-up(large) {
+    .fui-DialogSurface-large,
+    .fui-DialogSurface-extra-large {
+        max-width: $modal-lg;
+    }
+}
+
+@include media-breakpoint-up(extra-large) {
+    .fui-DialogSurface-extra-large {
+        max-width: $modal-xl;
     }
 }
