@@ -6,6 +6,8 @@
     width: 100%;
 
     .fui-Addon__start {
+        display: inline-flex;
+
         .fui-Button {
             border-top-right-radius: 0;
             border-bottom-right-radius: 0;
@@ -13,6 +15,8 @@
     }
 
     .fui-Addon__end {
+        display: inline-flex;
+
         .fui-Button {
             border-top-left-radius: 0;
             border-bottom-left-radius: 0;
@@ -41,4 +45,39 @@
             }
         }
     }
+
+    &.fui-Addons-large {
+        .fui-Addon__label {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            background-color: var(--colorNeutralForeground3);
+            border: var(--strokeWidthThin) solid var(--colorNeutralForeground4);
+            /*border-radius: var(--bs-border-radius);*/
+
+            min-height: 40px;
+            padding-right: var(--spacingHorizontalM);
+            padding-left: var(--spacingHorizontalM);
+            font-size: var(--fontSizeBase400);
+            line-height: var(--lineHeightBase400);
+            font-weight: var(--fontWeightRegular);
+            font-family: var(--fontFamilyBase);
+        }
+    }
+    /*&.fui-Addons-large {
+        .fui-Button {
+            padding-left: var(--spacingHorizontalL);
+            padding-right: var(--spacingHorizontalL);
+            padding-top: 8px;
+            padding-bottom: 8px;
+            font-weight: var(--fontWeightSemibold);
+            font-size: var(--fontSizeBase400);
+            min-width: 96px;
+            border-top-left-radius: var(--borderRadiusMedium);
+            border-top-right-radius: var(--borderRadiusMedium);
+            border-bottom-left-radius: var(--borderRadiusMedium);
+            border-bottom-right-radius: var(--borderRadiusMedium);
+            line-height: var(--lineHeightBase400);
+        }
+    }*/
 }
