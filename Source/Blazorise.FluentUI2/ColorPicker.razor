@@ -25,6 +25,11 @@
                 sb.Append( " fui-Input__success" );
             }
 
+            if ( ThemeSize != Blazorise.Size.Default )
+            {
+                sb.Append( $" fui-Input-{ClassProvider.ToSize( ThemeSize )}" );
+            }
+
             if ( Disabled )
             {
                 sb.Append( " disabled" );
