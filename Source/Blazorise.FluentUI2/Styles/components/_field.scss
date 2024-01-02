@@ -78,7 +78,7 @@
         }
     }
 
-    &.fui-Input__extra-small {
+    &.fui-Input-extra-small {
         min-height: 16px;
         padding-left: var(--spacingHorizontalXS);
         padding-right: var(--spacingHorizontalXS);
@@ -88,7 +88,7 @@
         font-family: var(--fontFamilyBase);
     }
 
-    &.fui-Input__small {
+    &.fui-Input-small {
         min-height: 24px;
         padding-left: var(--spacingHorizontalSNudge);
         padding-right: var(--spacingHorizontalSNudge);
@@ -98,7 +98,7 @@
         font-family: var(--fontFamilyBase);
     }
 
-    &.fui-Input__medium {
+    &.fui-Input-medium {
         min-height: 40px;
         row-gap: var(--spacingHorizontalSNudge);
         padding-right: var(--spacingHorizontalM);
@@ -110,7 +110,7 @@
         font-family: var(--fontFamilyBase);
     }
 
-    &.fui-Input__large {
+    &.fui-Input-large {
         min-height: 48px;
         row-gap: var(--spacingHorizontalSNudge);
         padding-right: var(--spacingHorizontalL);
@@ -122,7 +122,7 @@
         font-family: var(--fontFamilyBase);
     }
 
-    &.fui-Input__extra-large {
+    &.fui-Input-extra-large {
         min-height: 56px;
         row-gap: var(--spacingHorizontalSNudge);
         padding-right: var(--spacingHorizontalXL);
