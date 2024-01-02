@@ -366,25 +366,26 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Addons
 
-    public override string Addons() => "input-group";
+    public override string Addons() => "fui-Addons";
 
-    public override string AddonsSize( Size size ) => size != Size.Default ? $"input-group-{ToSize( size )}" : null;
+    public override string AddonsSize( Size size ) => size != Size.Default ? $"fui-Addons-{ToSize( size )}" : null;
 
-    public override string AddonsHasButton( bool hasButton ) => null;
+    public override string AddonsHasButton( bool hasButton ) => "fui-Addons-buttons";
 
     public override string Addon( AddonType addonType )
     {
         return addonType switch
         {
-            AddonType.Start => "input-group-prepend",
-            AddonType.End => "input-group-append",
+            AddonType.Start => "fui-Addon__start",
+            AddonType.End => "fui-Addon__end",
+            AddonType.Body => "fui-Addon__body",
             _ => null,
         };
     }
 
     public override string AddonSize( Size size ) => null;
 
-    public override string AddonLabel() => "input-group-text";
+    public override string AddonLabel() => "fui-Addon__label";
 
     //public override string AddonContainer() => null;
 

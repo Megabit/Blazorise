@@ -1,0 +1,44 @@
+﻿.fui-Addons {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+
+    .fui-Addon__start {
+        .fui-Button {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+    }
+
+    .fui-Addon__end {
+        .fui-Button {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+
+    .fui-Addon__body {
+        flex: 1 1 auto;
+        width: 1%;
+        min-width: 0;
+
+        &:not(:first-child) {
+            .fui-Input {
+                margin-left: calc(1px * -1);
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+            }
+        }
+
+        &:not(:last-child) {
+
+
+            .fui-Input {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+        }
+    }
+}

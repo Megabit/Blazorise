@@ -428,6 +428,36 @@
   --shadow64Brand: 0 0 8px rgba(0,0,0,0.30), 0 32px 64px rgba(0,0,0,0.25);
 }
 
+.fui-Addons {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  width: 100%;
+}
+.fui-Addons .fui-Addon__start .fui-Button {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.fui-Addons .fui-Addon__end .fui-Button {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.fui-Addons .fui-Addon__body {
+  flex: 1 1 auto;
+  width: 1%;
+  min-width: 0;
+}
+.fui-Addons .fui-Addon__body:not(:first-child) .fui-Input {
+  margin-left: -1px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.fui-Addons .fui-Addon__body:not(:last-child) .fui-Input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
 button {
   font: inherit;
 }
@@ -1091,7 +1121,7 @@ button {
 .fui-Input.fui-Input__success + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
   color: var(--colorPaletteGreenForeground1);
 }
-.fui-Input.fui-Input__extra-small {
+.fui-Input.fui-Input-extra-small {
   min-height: 16px;
   padding-left: var(--spacingHorizontalXS);
   padding-right: var(--spacingHorizontalXS);
@@ -1100,7 +1130,7 @@ button {
   font-weight: var(--fontWeightRegular);
   font-family: var(--fontFamilyBase);
 }
-.fui-Input.fui-Input__small {
+.fui-Input.fui-Input-small {
   min-height: 24px;
   padding-left: var(--spacingHorizontalSNudge);
   padding-right: var(--spacingHorizontalSNudge);
@@ -1109,7 +1139,7 @@ button {
   font-weight: var(--fontWeightRegular);
   font-family: var(--fontFamilyBase);
 }
-.fui-Input.fui-Input__medium {
+.fui-Input.fui-Input-medium {
   min-height: 40px;
   row-gap: var(--spacingHorizontalSNudge);
   padding-right: var(--spacingHorizontalM);
@@ -1120,7 +1150,7 @@ button {
   font-weight: var(--fontWeightRegular);
   font-family: var(--fontFamilyBase);
 }
-.fui-Input.fui-Input__large {
+.fui-Input.fui-Input-large {
   min-height: 48px;
   row-gap: var(--spacingHorizontalSNudge);
   padding-right: var(--spacingHorizontalL);
@@ -1131,7 +1161,7 @@ button {
   font-weight: var(--fontWeightRegular);
   font-family: var(--fontFamilyBase);
 }
-.fui-Input.fui-Input__extra-large {
+.fui-Input.fui-Input-extra-large {
   min-height: 56px;
   row-gap: var(--spacingHorizontalSNudge);
   padding-right: var(--spacingHorizontalXL);
