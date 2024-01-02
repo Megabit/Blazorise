@@ -313,6 +313,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string FieldColumn() => "fui-Column";
 
+    public override string FieldSize( Size size ) => null;
+
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
     public override string FieldValidation( ValidationStatus validationStatus ) => null;

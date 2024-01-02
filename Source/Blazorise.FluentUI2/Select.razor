@@ -32,6 +32,11 @@
                 sb.Append( " fui-Select__success" );
             }
 
+            if ( Size is not null && Size != Blazorise.Size.Default )
+            {
+                sb.Append( $" fui-Select-{ClassProvider.ToSize( Size ?? Blazorise.Size.Default )}" );
+            }
+
             if ( Disabled )
             {
                 sb.Append( " disabled" );

@@ -118,5 +118,68 @@
             font-size: 20px;
             font-family: var(--fontFamilyBase);
         }
+
+        &.fui-Select__select-extra-small {
+            height: 16px;
+            font-size: var(--fontSizeBase100);
+            padding-right: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+            padding-left: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
+
+            + .fui-Select__icon {
+                right: var(--spacingHorizontalS);
+                width: 12px;
+                height: 12px;
+                font-size: 12px;
+            }
+        }
+
+        &.fui-Select__select-small {
+            height: 24px;
+            font-size: var(--fontSizeBase200);
+            padding-right: calc(var(--spacingHorizontalSNudge) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+            padding-left: calc(var(--spacingHorizontalSNudge) + var(--spacingHorizontalXXS));
+
+            + .fui-Select__icon {
+                right: var(--spacingHorizontalSNudge);
+                width: 16px;
+                height: 16px;
+                font-size: 16px;
+            }
+        }
+
+        &.fui-Select__select-medium {
+            height: 40px;
+            font-size: var(--fontSizeBase400);
+            padding-right: calc(var(--spacingHorizontalM) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+            padding-left: calc(var(--spacingHorizontalM) + var(--spacingHorizontalSNudge));
+        }
+
+        &.fui-Select__select-large {
+            height: 48px;
+            font-size: var(--fontSizeBase500);
+            padding-right: calc(var(--spacingHorizontalL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+            padding-left: calc(var(--spacingHorizontalL) + var(--spacingHorizontalSNudge));
+
+            + .fui-Select__icon {
+                right: var(--spacingHorizontalM);
+                width: 24px;
+                height: 24px;
+                font-size: 24px;
+            }
+        }
+
+        &.fui-Select__select-extra-large {
+            height: 56px;
+            font-size: var(--fontSizeBase600);
+            padding-right: calc(var(--spacingHorizontalXL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+            padding-left: calc(var(--spacingHorizontalXL) + var(--spacingHorizontalSNudge));
+
+             + .fui-Select__icon {
+                right: var(--spacingHorizontalL);
+                width: 28px;
+                height: 28px;
+                font-size: 28px;
+            }
+        }
     }
 }

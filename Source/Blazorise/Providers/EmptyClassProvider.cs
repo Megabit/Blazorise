@@ -287,6 +287,8 @@ class EmptyClassProvider : IClassProvider
 
     public string FieldColumn() => null;
 
+    public string FieldSize( Size size ) => null;
+
     public string FieldJustifyContent( JustifyContent justifyContent ) => null;
 
     public string FieldValidation( ValidationStatus validationStatus ) => null;

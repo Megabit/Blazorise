@@ -365,6 +365,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string FieldColumn() => "relative basis-0 grow pl-2 pr-2 w-full max-w-full";
 
+    public override string FieldSize( Size size ) => null;
+
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
     public override string FieldValidation( ValidationStatus validationStatus ) => null;

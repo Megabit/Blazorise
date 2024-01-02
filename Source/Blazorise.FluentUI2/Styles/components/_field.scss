@@ -77,4 +77,60 @@
             }
         }
     }
+
+    &.fui-Input__extra-small {
+        min-height: 16px;
+        padding-left: var(--spacingHorizontalXS);
+        padding-right: var(--spacingHorizontalXS);
+        font-size: var(--fontSizeBase100);
+        line-height: var(--lineHeightBase100);
+        font-weight: var(--fontWeightRegular);
+        font-family: var(--fontFamilyBase);
+    }
+
+    &.fui-Input__small {
+        min-height: 24px;
+        padding-left: var(--spacingHorizontalSNudge);
+        padding-right: var(--spacingHorizontalSNudge);
+        font-size: var(--fontSizeBase200);
+        line-height: var(--lineHeightBase200);
+        font-weight: var(--fontWeightRegular);
+        font-family: var(--fontFamilyBase);
+    }
+
+    &.fui-Input__medium {
+        min-height: 40px;
+        row-gap: var(--spacingHorizontalSNudge);
+        padding-right: var(--spacingHorizontalM);
+        padding-left: var(--spacingHorizontalM);
+        column-gap: var(--spacingHorizontalSNudge);
+        font-size: var(--fontSizeBase400);
+        line-height: var(--lineHeightBase400);
+        font-weight: var(--fontWeightRegular);
+        font-family: var(--fontFamilyBase);
+    }
+
+    &.fui-Input__large {
+        min-height: 48px;
+        row-gap: var(--spacingHorizontalSNudge);
+        padding-right: var(--spacingHorizontalL);
+        padding-left: var(--spacingHorizontalL);
+        column-gap: var(--spacingHorizontalSNudge);
+        font-size: var(--fontSizeBase500);
+        line-height: var(--lineHeightBase500);
+        font-weight: var(--fontWeightRegular);
+        font-family: var(--fontFamilyBase);
+    }
+
+    &.fui-Input__extra-large {
+        min-height: 56px;
+        row-gap: var(--spacingHorizontalSNudge);
+        padding-right: var(--spacingHorizontalXL);
+        padding-left: var(--spacingHorizontalXL);
+        column-gap: var(--spacingHorizontalSNudge);
+        font-size: var(--fontSizeBase600);
+        line-height: var(--lineHeightBase600);
+        font-weight: var(--fontWeightRegular);
+        font-family: var(--fontFamilyBase);
+    }
 }

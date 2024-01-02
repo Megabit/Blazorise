@@ -285,6 +285,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string FieldColumn();
 
+    public abstract string FieldSize( Size size );
+
     public abstract string FieldJustifyContent( JustifyContent justifyContent );
 
     public abstract string FieldValidation( ValidationStatus validationStatus );

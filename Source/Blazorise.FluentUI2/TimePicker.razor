@@ -22,6 +22,11 @@
                 sb.Append( " fui-Input__success" );
             }
 
+            if ( Size is not null && Size != Blazorise.Size.Default )
+            {
+                sb.Append( $" fui-Input-{ClassProvider.ToSize( Size ?? Blazorise.Size.Default )}" );
+            }
+
             if ( Disabled )
             {
                 sb.Append( " disabled" );

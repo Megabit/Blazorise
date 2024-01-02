@@ -28,6 +28,11 @@
                 sb.Append( " fui-Textarea__success" );
             }
 
+            if ( Size is not null && Size != Blazorise.Size.Default )
+            {
+                sb.Append( $" fui-Textarea-{ClassProvider.ToSize( Size ?? Blazorise.Size.Default )}" );
+            }
+
             if ( Disabled )
             {
                 sb.Append( " disabled" );

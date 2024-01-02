@@ -284,6 +284,8 @@ public interface IClassProvider
 
     string FieldColumn();
 
+    string FieldSize( Size size );
+
     string FieldValidation( ValidationStatus validationStatus );
 
     string FieldJustifyContent( JustifyContent justifyContent );

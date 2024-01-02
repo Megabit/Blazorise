@@ -287,6 +287,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string FieldColumn() => "ant-col";
 
+    public override string FieldSize( Size size ) => null;
+
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
     public override string FieldValidation( ValidationStatus validationStatus )

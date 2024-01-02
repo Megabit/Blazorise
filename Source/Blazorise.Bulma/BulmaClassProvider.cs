@@ -302,6 +302,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string FieldColumn() => "column";
 
+    public override string FieldSize( Size size ) => null;
+
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
     public override string FieldValidation( ValidationStatus validationStatus ) => null;
