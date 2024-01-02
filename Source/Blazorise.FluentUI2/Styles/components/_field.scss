@@ -99,7 +99,7 @@
     }
 
     &.fui-Input-medium {
-        min-height: 40px;
+        min-height: 36px;
         row-gap: var(--spacingHorizontalSNudge);
         padding-right: var(--spacingHorizontalM);
         padding-left: var(--spacingHorizontalM);
@@ -111,6 +111,18 @@
     }
 
     &.fui-Input-large {
+        min-height: 40px;
+        row-gap: var(--spacingHorizontalSNudge);
+        padding-right: var(--spacingHorizontalM);
+        padding-left: var(--spacingHorizontalM);
+        column-gap: var(--spacingHorizontalSNudge);
+        font-size: var(--fontSizeBase400);
+        line-height: var(--lineHeightBase400);
+        font-weight: var(--fontWeightRegular);
+        font-family: var(--fontFamilyBase);
+    }
+
+    &.fui-Input-extra-large {
         min-height: 48px;
         row-gap: var(--spacingHorizontalSNudge);
         padding-right: var(--spacingHorizontalL);
@@ -118,18 +130,6 @@
         column-gap: var(--spacingHorizontalSNudge);
         font-size: var(--fontSizeBase500);
         line-height: var(--lineHeightBase500);
-        font-weight: var(--fontWeightRegular);
-        font-family: var(--fontFamilyBase);
-    }
-
-    &.fui-Input-extra-large {
-        min-height: 56px;
-        row-gap: var(--spacingHorizontalSNudge);
-        padding-right: var(--spacingHorizontalXL);
-        padding-left: var(--spacingHorizontalXL);
-        column-gap: var(--spacingHorizontalSNudge);
-        font-size: var(--fontSizeBase600);
-        line-height: var(--lineHeightBase600);
         font-weight: var(--fontWeightRegular);
         font-family: var(--fontFamilyBase);
     }
