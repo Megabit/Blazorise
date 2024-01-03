@@ -1,18 +1,30 @@
 ﻿@using System.Text
 @inherits Blazorise.TextEdit
-<span class="@InputClassNames">
-    @if ( IsImmediate && IsDebounce )
-    {
-        <input @ref="@ElementRef" id="@ElementId" type="@Type" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" aria-readonly="@ReadOnlyAsString" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValue" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
-    }
-    else
-    {
-        <input @ref="@ElementRef" id="@ElementId" type="@Type" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" aria-readonly="@ReadOnlyAsString" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" tabindex="@TabIndex" @bind-value="CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
-    }
-</span>
+@if ( ParentIsAddons )
+{
+    @InputElement
+}
+else
+{
+    <div class="@InputClassNames">
+        @InputElement
+    </div>
+}
 @ChildContent
 @Feedback
 @code {
+    private RenderFragment InputElement => __builder =>
+    {
+        @if ( IsImmediate && IsDebounce )
+        {
+            <input @ref="@ElementRef" id="@ElementId" type="@Type" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" aria-readonly="@ReadOnlyAsString" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" tabindex="@TabIndex" value="@CurrentValue" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        }
+        else
+        {
+            <input @ref="@ElementRef" id="@ElementId" type="@Type" inputmode="@Mode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" aria-readonly="@ReadOnlyAsString" maxlength="@MaxLength" size="@VisibleCharacters" pattern="@Pattern" tabindex="@TabIndex" @bind-value="CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        }
+    };
+
     string InputClassNames
     {
         get

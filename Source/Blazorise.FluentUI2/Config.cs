@@ -33,6 +33,7 @@ public static class Config
 
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
+        { typeof( Blazorise.Addon ), typeof( FluentUI2.Addon ) },
         { typeof( Blazorise.CardHeader ), typeof( FluentUI2.CardHeader ) },
         { typeof( Blazorise.ColorEdit ), typeof( FluentUI2.ColorEdit ) },
         { typeof( Blazorise.ColorPicker ), typeof( FluentUI2.ColorPicker ) },

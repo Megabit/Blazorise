@@ -428,6 +428,34 @@
   --shadow64Brand: 0 0 8px rgba(0,0,0,0.30), 0 32px 64px rgba(0,0,0,0.25);
 }
 
+.fui-Input .fui-Input__contentBefore,
+.fui-Input .fui-Input__contentAfter {
+  box-sizing: border-box;
+  color: var(--colorNeutralForeground3);
+  display: flex;
+}
+.fui-Input .fui-Input__contentBefore button,
+.fui-Input .fui-Input__contentAfter button {
+  background-color: transparent;
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  color: var(--colorNeutralForeground2);
+}
+.fui-Input .fui-Input__contentBefore button:hover,
+.fui-Input .fui-Input__contentAfter button:hover {
+  background-color: var(--colorTransparentBackgroundHover);
+  color: var(--colorNeutralForeground2BrandHover);
+}
+.fui-Input > .fui-Select__select {
+  /*flex-grow: 1;*/
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+}
+
 .fui-Addons {
   position: relative;
   display: flex;
@@ -514,7 +542,7 @@ button {
   font-family: var(--fontFamilyBase);
   outline-style: none;
   padding: 5px var(--spacingHorizontalM);
-  min-width: 96px;
+  /*min-width: 96px;*/
   border-radius: var(--borderRadiusMedium);
   font-size: var(--fontSizeBase300);
   font-weight: var(--fontWeightSemibold);
@@ -560,7 +588,7 @@ button {
   padding-bottom: 1px;
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase100);
-  min-width: 64px;
+  /*min-width: 64px;*/
   border-top-left-radius: var(--borderRadiusMedium);
   border-top-right-radius: var(--borderRadiusMedium);
   border-bottom-left-radius: var(--borderRadiusMedium);
@@ -574,7 +602,7 @@ button {
   padding-bottom: 3px;
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase200);
-  min-width: 64px;
+  /*min-width: 64px;*/
   border-top-left-radius: var(--borderRadiusMedium);
   border-top-right-radius: var(--borderRadiusMedium);
   border-bottom-left-radius: var(--borderRadiusMedium);
@@ -588,7 +616,7 @@ button {
   padding-bottom: 6px;
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
-  min-width: 96px;
+  /*min-width: 96px;*/
   border-top-left-radius: var(--borderRadiusMedium);
   border-top-right-radius: var(--borderRadiusMedium);
   border-bottom-left-radius: var(--borderRadiusMedium);
@@ -602,7 +630,7 @@ button {
   padding-bottom: 8px;
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
-  min-width: 96px;
+  /*min-width: 96px;*/
   border-top-left-radius: var(--borderRadiusMedium);
   border-top-right-radius: var(--borderRadiusMedium);
   border-bottom-left-radius: var(--borderRadiusMedium);
@@ -616,7 +644,7 @@ button {
   padding-bottom: 12px;
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
-  min-width: 96px;
+  /*min-width: 96px;*/
   border-top-left-radius: var(--borderRadiusMedium);
   border-top-right-radius: var(--borderRadiusMedium);
   border-bottom-left-radius: var(--borderRadiusMedium);
@@ -1803,7 +1831,8 @@ button {
   transition-duration: var(--durationNormal);
   transition-delay: var(--curveDecelerateMid);
 }
-.fui-Select .fui-Select__select {
+
+.fui-Select__select {
   padding-right: calc(var(--spacingHorizontalMNudge) + 20px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
   height: 32px;
   padding-bottom: 0px;
@@ -1838,21 +1867,21 @@ button {
   background-color: var(--colorNeutralBackground1);
   color: var(--colorNeutralForeground1);
 }
-.fui-Select .fui-Select__select[multiple] {
+.fui-Select__select[multiple] {
   height: auto;
 }
-.fui-Select .fui-Select__select:active, .fui-Select .fui-Select__select:focus, .fui-Select .fui-Select__select:focus-within {
+.fui-Select__select:active, .fui-Select__select:focus, .fui-Select__select:focus-within {
   border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
   border-left-color: var(--colorNeutralStroke1Pressed);
   border-right-color: var(--colorNeutralStroke1Pressed);
   border-top-color: var(--colorNeutralStroke1Pressed);
 }
-.fui-Select .fui-Select__select:focus {
+.fui-Select__select:focus {
   outline-color: transparent;
   outline-style: solid;
   outline-width: 2px;
 }
-.fui-Select .fui-Select__select option {
+.fui-Select__select option {
   cursor: pointer;
   line-height: var(--lineHeightBase300);
   font-weight: var(--fontWeightRegular);
@@ -1860,7 +1889,7 @@ button {
   font-family: var(--fontFamilyBase);
   color: var(--colorNeutralForeground1);
 }
-.fui-Select .fui-Select__select optgroup {
+.fui-Select__select optgroup {
   cursor: pointer;
   line-height: var(--lineHeightBase300);
   font-weight: var(--fontWeightRegular);
@@ -1868,7 +1897,7 @@ button {
   font-family: var(--fontFamilyBase);
   color: var(--colorNeutralForeground1);
 }
-.fui-Select .fui-Select__select + .fui-Select__icon {
+.fui-Select__select + .fui-Select__icon {
   right: var(--spacingHorizontalMNudge);
   pointer-events: none;
   position: absolute;
@@ -1880,55 +1909,55 @@ button {
   font-size: 20px;
   font-family: var(--fontFamilyBase);
 }
-.fui-Select .fui-Select__select.fui-Select__select-extra-small {
+.fui-Select__select.fui-Select__select-extra-small {
   height: 16px;
   font-size: var(--fontSizeBase100);
   padding-right: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
   padding-left: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
 }
-.fui-Select .fui-Select__select.fui-Select__select-extra-small + .fui-Select__icon {
+.fui-Select__select.fui-Select__select-extra-small + .fui-Select__icon {
   right: var(--spacingHorizontalS);
   width: 12px;
   height: 12px;
   font-size: 12px;
 }
-.fui-Select .fui-Select__select.fui-Select__select-small {
+.fui-Select__select.fui-Select__select-small {
   height: 24px;
   font-size: var(--fontSizeBase200);
   padding-right: calc(var(--spacingHorizontalSNudge) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
   padding-left: calc(var(--spacingHorizontalSNudge) + var(--spacingHorizontalXXS));
 }
-.fui-Select .fui-Select__select.fui-Select__select-small + .fui-Select__icon {
+.fui-Select__select.fui-Select__select-small + .fui-Select__icon {
   right: var(--spacingHorizontalSNudge);
   width: 16px;
   height: 16px;
   font-size: 16px;
 }
-.fui-Select .fui-Select__select.fui-Select__select-medium {
-  height: 40px;
+.fui-Select__select.fui-Select__select-medium {
+  height: 36px;
   font-size: var(--fontSizeBase400);
   padding-right: calc(var(--spacingHorizontalM) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
   padding-left: calc(var(--spacingHorizontalM) + var(--spacingHorizontalSNudge));
 }
-.fui-Select .fui-Select__select.fui-Select__select-large {
-  height: 48px;
+.fui-Select__select.fui-Select__select-large {
+  height: 40px;
   font-size: var(--fontSizeBase500);
   padding-right: calc(var(--spacingHorizontalL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
   padding-left: calc(var(--spacingHorizontalL) + var(--spacingHorizontalSNudge));
 }
-.fui-Select .fui-Select__select.fui-Select__select-large + .fui-Select__icon {
+.fui-Select__select.fui-Select__select-large + .fui-Select__icon {
   right: var(--spacingHorizontalM);
   width: 24px;
   height: 24px;
   font-size: 24px;
 }
-.fui-Select .fui-Select__select.fui-Select__select-extra-large {
-  height: 56px;
+.fui-Select__select.fui-Select__select-extra-large {
+  height: 48px;
   font-size: var(--fontSizeBase600);
   padding-right: calc(var(--spacingHorizontalXL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
   padding-left: calc(var(--spacingHorizontalXL) + var(--spacingHorizontalSNudge));
 }
-.fui-Select .fui-Select__select.fui-Select__select-extra-large + .fui-Select__icon {
+.fui-Select__select.fui-Select__select-extra-large + .fui-Select__icon {
   right: var(--spacingHorizontalL);
   width: 28px;
   height: 28px;
@@ -2013,6 +2042,19 @@ button {
 .fui-Slider__container {
   display: flex;
   align-items: center;
+}
+
+.fui-Text {
+  text-overflow: clip;
+  overflow-y: visible;
+  overflow-x: visible;
+  white-space: normal;
+  text-align: start;
+  display: inline;
+  line-height: var(--lineHeightBase300);
+  font-weight: var(--fontWeightRegular);
+  font-size: var(--fontSizeBase300);
+  font-family: var(--fontFamilyBase);
 }
 
 .fui-Input__input.b-input-color-picker {

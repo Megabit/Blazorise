@@ -31,155 +31,155 @@
         transition-duration: var(--durationNormal);
         transition-delay: var(--curveDecelerateMid);
     }
+}
 
-    .fui-Select__select {
-        padding-right: calc(var(--spacingHorizontalMNudge) + 20px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
-        height: 32px;
-        padding-bottom: 0px;
-        max-width: 100%;
-        box-shadow: none;
-        border-bottom-width: 1px;
-        border-left-width: 1px;
-        border-right-width: 1px;
-        border-top-width: 1px;
-        appearance: none;
-        padding-left: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
-        border-bottom-color: var(--colorNeutralStrokeAccessible);
-        border-left-color: var(--colorNeutralStroke1);
-        border-right-color: var(--colorNeutralStroke1);
-        border-top-color: var(--colorNeutralStroke1);
-        border-bottom-style: solid;
-        border-left-style: solid;
-        border-right-style: solid;
-        border-top-style: solid;
-        padding-top: 0px;
-        box-sizing: border-box;
+.fui-Select__select {
+    padding-right: calc(var(--spacingHorizontalMNudge) + 20px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+    height: 32px;
+    padding-bottom: 0px;
+    max-width: 100%;
+    box-shadow: none;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-width: 1px;
+    appearance: none;
+    padding-left: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
+    border-bottom-color: var(--colorNeutralStrokeAccessible);
+    border-left-color: var(--colorNeutralStroke1);
+    border-right-color: var(--colorNeutralStroke1);
+    border-top-color: var(--colorNeutralStroke1);
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-style: solid;
+    padding-top: 0px;
+    box-sizing: border-box;
+    cursor: pointer;
+    border-top-left-radius: var(--borderRadiusMedium);
+    border-top-right-radius: var(--borderRadiusMedium);
+    border-bottom-left-radius: var(--borderRadiusMedium);
+    border-bottom-right-radius: var(--borderRadiusMedium);
+    flex-grow: 1;
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    background-color: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+
+    &[multiple] {
+        height: auto;
+    }
+
+    &:active,
+    &:focus,
+    &:focus-within {
+        border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
+        border-left-color: var(--colorNeutralStroke1Pressed);
+        border-right-color: var(--colorNeutralStroke1Pressed);
+        border-top-color: var(--colorNeutralStroke1Pressed);
+    }
+
+    &:focus {
+        outline-color: transparent;
+        outline-style: solid;
+        outline-width: 2px;
+    }
+
+
+
+    option {
         cursor: pointer;
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
-        flex-grow: 1;
         line-height: var(--lineHeightBase300);
         font-weight: var(--fontWeightRegular);
         font-size: var(--fontSizeBase300);
         font-family: var(--fontFamilyBase);
-        background-color: var(--colorNeutralBackground1);
         color: var(--colorNeutralForeground1);
+    }
 
-        &[multiple] {
-            height: auto;
-        }
+    optgroup {
+        cursor: pointer;
+        line-height: var(--lineHeightBase300);
+        font-weight: var(--fontWeightRegular);
+        font-size: var(--fontSizeBase300);
+        font-family: var(--fontFamilyBase);
+        color: var(--colorNeutralForeground1);
+    }
 
-        &:active,
-        &:focus,
-        &:focus-within {
-            border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
-            border-left-color: var(--colorNeutralStroke1Pressed);
-            border-right-color: var(--colorNeutralStroke1Pressed);
-            border-top-color: var(--colorNeutralStroke1Pressed);
-        }
+    + .fui-Select__icon {
+        right: var(--spacingHorizontalMNudge);
+        pointer-events: none;
+        position: absolute;
+        display: block;
+        color: var(--colorNeutralStrokeAccessible);
+        box-sizing: border-box;
+        width: 20px;
+        height: 20px;
+        font-size: 20px;
+        font-family: var(--fontFamilyBase);
+    }
 
-        &:focus {
-            outline-color: transparent;
-            outline-style: solid;
-            outline-width: 2px;
-        }
-
-
-
-        option {
-            cursor: pointer;
-            line-height: var(--lineHeightBase300);
-            font-weight: var(--fontWeightRegular);
-            font-size: var(--fontSizeBase300);
-            font-family: var(--fontFamilyBase);
-            color: var(--colorNeutralForeground1);
-        }
-
-        optgroup {
-            cursor: pointer;
-            line-height: var(--lineHeightBase300);
-            font-weight: var(--fontWeightRegular);
-            font-size: var(--fontSizeBase300);
-            font-family: var(--fontFamilyBase);
-            color: var(--colorNeutralForeground1);
-        }
+    &.fui-Select__select-extra-small {
+        height: 16px;
+        font-size: var(--fontSizeBase100);
+        padding-right: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+        padding-left: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
 
         + .fui-Select__icon {
-            right: var(--spacingHorizontalMNudge);
-            pointer-events: none;
-            position: absolute;
-            display: block;
-            color: var(--colorNeutralStrokeAccessible);
-            box-sizing: border-box;
-            width: 20px;
-            height: 20px;
-            font-size: 20px;
-            font-family: var(--fontFamilyBase);
+            right: var(--spacingHorizontalS);
+            width: 12px;
+            height: 12px;
+            font-size: 12px;
         }
+    }
 
-        &.fui-Select__select-extra-small {
+    &.fui-Select__select-small {
+        height: 24px;
+        font-size: var(--fontSizeBase200);
+        padding-right: calc(var(--spacingHorizontalSNudge) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
+        padding-left: calc(var(--spacingHorizontalSNudge) + var(--spacingHorizontalXXS));
+
+        + .fui-Select__icon {
+            right: var(--spacingHorizontalSNudge);
+            width: 16px;
             height: 16px;
-            font-size: var(--fontSizeBase100);
-            padding-right: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
-            padding-left: calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
-
-            + .fui-Select__icon {
-                right: var(--spacingHorizontalS);
-                width: 12px;
-                height: 12px;
-                font-size: 12px;
-            }
+            font-size: 16px;
         }
+    }
 
-        &.fui-Select__select-small {
+    &.fui-Select__select-medium {
+        height: 36px;
+        font-size: var(--fontSizeBase400);
+        padding-right: calc(var(--spacingHorizontalM) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+        padding-left: calc(var(--spacingHorizontalM) + var(--spacingHorizontalSNudge));
+    }
+
+    &.fui-Select__select-large {
+        height: 40px;
+        font-size: var(--fontSizeBase500);
+        padding-right: calc(var(--spacingHorizontalL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+        padding-left: calc(var(--spacingHorizontalL) + var(--spacingHorizontalSNudge));
+
+        + .fui-Select__icon {
+            right: var(--spacingHorizontalM);
+            width: 24px;
             height: 24px;
-            font-size: var(--fontSizeBase200);
-            padding-right: calc(var(--spacingHorizontalSNudge) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
-            padding-left: calc(var(--spacingHorizontalSNudge) + var(--spacingHorizontalXXS));
-
-            + .fui-Select__icon {
-                right: var(--spacingHorizontalSNudge);
-                width: 16px;
-                height: 16px;
-                font-size: 16px;
-            }
+            font-size: 24px;
         }
+    }
 
-        &.fui-Select__select-medium {
-            height: 40px;
-            font-size: var(--fontSizeBase400);
-            padding-right: calc(var(--spacingHorizontalM) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
-            padding-left: calc(var(--spacingHorizontalM) + var(--spacingHorizontalSNudge));
-        }
+    &.fui-Select__select-extra-large {
+        height: 48px;
+        font-size: var(--fontSizeBase600);
+        padding-right: calc(var(--spacingHorizontalXL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
+        padding-left: calc(var(--spacingHorizontalXL) + var(--spacingHorizontalSNudge));
 
-        &.fui-Select__select-large {
-            height: 48px;
-            font-size: var(--fontSizeBase500);
-            padding-right: calc(var(--spacingHorizontalL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
-            padding-left: calc(var(--spacingHorizontalL) + var(--spacingHorizontalSNudge));
-
-            + .fui-Select__icon {
-                right: var(--spacingHorizontalM);
-                width: 24px;
-                height: 24px;
-                font-size: 24px;
-            }
-        }
-
-        &.fui-Select__select-extra-large {
-            height: 56px;
-            font-size: var(--fontSizeBase600);
-            padding-right: calc(var(--spacingHorizontalXL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
-            padding-left: calc(var(--spacingHorizontalXL) + var(--spacingHorizontalSNudge));
-
-             + .fui-Select__icon {
-                right: var(--spacingHorizontalL);
-                width: 28px;
-                height: 28px;
-                font-size: 28px;
-            }
+        + .fui-Select__icon {
+            right: var(--spacingHorizontalL);
+            width: 28px;
+            height: 28px;
+            font-size: 28px;
         }
     }
 }

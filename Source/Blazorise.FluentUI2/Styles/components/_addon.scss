@@ -1,4 +1,35 @@
-﻿.fui-Addons {
+﻿.fui-Input {
+    .fui-Input__contentBefore,
+    .fui-Input__contentAfter {
+        box-sizing: border-box;
+        color: var(--colorNeutralForeground3);
+        display: flex;
+
+        button {
+            background-color: transparent;
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-top-color: transparent;
+            color: var(--colorNeutralForeground2);
+
+            &:hover {
+                background-color: var(--colorTransparentBackgroundHover);
+                color: var(--colorNeutralForeground2BrandHover);
+            }
+        }
+    }
+
+    > .fui-Select__select {
+        /*flex-grow: 1;*/
+        border-bottom-color: transparent;
+        border-left-color: transparent;
+        border-right-color: transparent;
+        border-top-color: transparent;
+    }
+}
+
+.fui-Addons {
     position: relative;
     display: flex;
     flex-wrap: wrap;

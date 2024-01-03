@@ -344,6 +344,11 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     protected bool ParentIsFieldBody => ParentFieldBody is not null;
 
     /// <summary>
+    /// Returns true if input belong to a <see cref="Addons"/>.
+    /// </summary>
+    protected bool ParentIsAddons => ParentAddons is not null;
+
+    /// <summary>
     /// Returns the default value for the <typeparamref name="TValue"/> type.
     /// </summary>
     protected virtual TValue DefaultValue => default;

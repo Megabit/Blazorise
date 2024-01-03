@@ -1,0 +1,12 @@
+﻿.fui-Text {
+    text-overflow: clip;
+    overflow-y: visible;
+    overflow-x: visible;
+    white-space: normal;
+    text-align: start;
+    display: inline;
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+}

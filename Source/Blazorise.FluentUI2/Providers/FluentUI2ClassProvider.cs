@@ -366,26 +366,25 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Addons
 
-    public override string Addons() => "fui-Addons";
+    public override string Addons() => "fui-Input";
 
-    public override string AddonsSize( Size size ) => size != Size.Default ? $"fui-Addons-{ToSize( size )}" : null;
+    public override string AddonsSize( Size size ) => size != Size.Default ? $"fui-Input-{ToSize( size )}" : null;
 
-    public override string AddonsHasButton( bool hasButton ) => "fui-Addons-buttons";
+    public override string AddonsHasButton( bool hasButton ) => null;
 
     public override string Addon( AddonType addonType )
     {
         return addonType switch
         {
-            AddonType.Start => "fui-Addon__start",
-            AddonType.End => "fui-Addon__end",
-            AddonType.Body => "fui-Addon__body",
+            AddonType.Start => "fui-Input__contentBefore",
+            AddonType.End => "fui-Input__contentAfter",
             _ => null,
         };
     }
 
     public override string AddonSize( Size size ) => null;
 
-    public override string AddonLabel() => "fui-Addon__label";
+    public override string AddonLabel() => "fui-Text";
 
     //public override string AddonContainer() => null;
 
