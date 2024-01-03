@@ -150,7 +150,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -425,7 +425,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     /// <returns>Returns the awaitable task.</returns>
     protected virtual Task ProcessNumber( TValue number )
     {
-        if ( number is IComparable comparableNumber && comparableNumber != null )
+        if ( number is IComparable comparableNumber && comparableNumber is not null )
         {
             if ( MaxDefined && Max is IComparable comparableMax && comparableNumber.CompareTo( comparableMax ) >= 0 )
             {
@@ -477,6 +477,11 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     /// </summary>
     protected bool IsEnableStep
         => EnableStep.GetValueOrDefault( Options?.EnableNumericStep ?? true );
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Step"/> value.
+    /// </summary>
+    protected string StepString => Step.ToCultureInvariantString();
 
     /// <summary>
     /// Gets the culture info defined on the input field.

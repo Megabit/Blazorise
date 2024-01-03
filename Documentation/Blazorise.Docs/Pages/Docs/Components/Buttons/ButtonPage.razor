@@ -152,6 +152,24 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Stretched link">
+        <Paragraph>
+            Add <Code>StretchedLink</Code> attribute to a link to make its containing block clickable via a <Code>::after</Code> pseudo element. In most cases, this means that an element with <Code>position: relative</Code> that contains a link with the stretched link class is clickable. Please note given how CSS position works, stretched-link cannot be mixed with most table elements.
+        </Paragraph>
+        <Paragraph>
+            Cards have <Code>position: relative</Code> by default, so in this case you can safely add the <Code>StretchedLink</Code> attribute to a link in the card without any other HTML changes.
+        </Paragraph>
+        <Paragraph>
+            Please note that on some CSS providers the <Code Tag>Button</Code> component can have <Code>position: relative</Code> by default, so the link would assume the button to be its relative parent element.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <StretchedLinkButtonExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="StretchedLinkButtonExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Toolbar">
         To attach buttons together use a <Code>ButtonsRole.Toolbar</Code> role.
     </DocsPageSectionHeader>
@@ -294,5 +312,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="PreventDefaultOnSubmit" Type="bool" Default="false">
         Prevents the button from submitting the form.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="StretchedLink" Type="bool" Default="false">
+        Makes any HTML element or component clickable by “stretching” a nested link.
     </DocsAttributesItem>
 </DocsAttributes>

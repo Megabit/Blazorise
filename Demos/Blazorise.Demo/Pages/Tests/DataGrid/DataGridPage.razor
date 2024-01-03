@@ -312,7 +312,7 @@
                                 }
                             </FilterTemplate>
                         </DataGridColumn>
-                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip" Editable HelpText="Please provide a Zip in the format = 'xxxxx-xxxx'">
                             <SortDirectionTemplate>
                                 <Icon Name="@( context == SortDirection.Descending ? IconName.ArrowDown : IconName.ArrowUp )" />
                             </SortDirectionTemplate>
@@ -328,7 +328,7 @@
                                 <NumericEdit TValue="decimal" Value="@((decimal)context.CellValue)" ValueChanged="@( v => context.CellValue = v)" />
                             </EditTemplate>
                         </DataGridColumn>
-                        <DataGridCheckColumn Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false" />
+                        <DataGridCheckColumn Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false" HelpText="Whether this employee is active." />
                     </DataGridColumns>
                     <DetailRowTemplate>
                         @{

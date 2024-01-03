@@ -99,7 +99,7 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
         if ( IsDisabled )
             return;
 
-        if ( ParentBarDropdown != null )
+        if ( ParentBarDropdown is not null )
             await ParentBarDropdown.Toggle( ElementId );
 
         await Clicked.InvokeAsync( eventArgs );
@@ -115,7 +115,7 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
         if ( IsDisabled )
             return Task.CompletedTask;
 
-        if ( ParentBarDropdown != null && eventArgs.Key == "Enter" )
+        if ( ParentBarDropdown is not null && eventArgs.Key == "Enter" )
             return ParentBarDropdown.Toggle( ElementId );
 
         return Task.CompletedTask;
@@ -130,7 +130,7 @@ public partial class BarDropdownToggle : BaseComponent, ICloseActivator, IAsyncD
     /// <inheritdoc/>
     public Task Close( CloseReason closeReason )
     {
-        if ( ParentBarDropdown != null )
+        if ( ParentBarDropdown is not null )
             return ParentBarDropdown.Hide();
 
         return Task.CompletedTask;

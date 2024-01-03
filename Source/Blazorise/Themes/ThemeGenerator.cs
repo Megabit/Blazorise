@@ -63,16 +63,16 @@ public abstract class ThemeGenerator : IThemeGenerator
         foreach ( var (name, color) in theme.ValidTextColors )
             GenerateTextColorVariables( theme, name, color );
 
-        if ( theme.SidebarOptions != null )
+        if ( theme.SidebarOptions is not null )
             GenerateSidebarVariables( theme, theme.SidebarOptions );
 
-        if ( theme.BarOptions != null )
+        if ( theme.BarOptions is not null )
             GenerateBarVariables( theme, theme.BarOptions );
 
-        if ( theme.SnackbarOptions != null )
+        if ( theme.SnackbarOptions is not null )
             GenerateSnackbarVariables( theme, theme.SnackbarOptions );
 
-        if ( theme.DividerOptions != null )
+        if ( theme.DividerOptions is not null )
             GenerateDividerVariables( theme, theme.DividerOptions );
 
         GenerateTooltipVariables( theme, theme.TooltipOptions );
@@ -348,13 +348,13 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="sidebarOptions">Sidebar options.</param>
     protected virtual void GenerateSidebarVariables( Theme theme, ThemeSidebarOptions sidebarOptions )
     {
-        if ( sidebarOptions.Width != null )
+        if ( sidebarOptions.Width is not null )
             Variables[ThemeVariables.SidebarWidth] = sidebarOptions.Width;
 
-        if ( sidebarOptions.BackgroundColor != null )
+        if ( sidebarOptions.BackgroundColor is not null )
             Variables[ThemeVariables.SidebarBackground] = ToHex( ParseColor( sidebarOptions.BackgroundColor ) );
 
-        if ( sidebarOptions.Color != null )
+        if ( sidebarOptions.Color is not null )
             Variables[ThemeVariables.SidebarColor] = ToHex( ParseColor( sidebarOptions.Color ) );
     }
 
@@ -380,7 +380,7 @@ public abstract class ThemeGenerator : IThemeGenerator
         if ( !string.IsNullOrEmpty( barOptions.HorizontalHeight ) )
             Variables[ThemeVariables.HorizontalBarHeight] = barOptions.HorizontalHeight;
 
-        if ( barOptions?.DarkColors != null )
+        if ( barOptions?.DarkColors is not null )
         {
             if ( !string.IsNullOrEmpty( barOptions.DarkColors.BackgroundColor ) )
                 Variables[ThemeVariables.BarDarkBackground] = GetGradientBgValue( theme, barOptions.DarkColors.BackgroundColor, barOptions.DarkColors.GradientBlendPercentage );
@@ -388,7 +388,7 @@ public abstract class ThemeGenerator : IThemeGenerator
             if ( !string.IsNullOrEmpty( barOptions.DarkColors.Color ) )
                 Variables[ThemeVariables.BarDarkColor] = ToHex( ParseColor( barOptions.DarkColors.Color ) );
 
-            if ( barOptions.DarkColors.ItemColorOptions != null )
+            if ( barOptions.DarkColors.ItemColorOptions is not null )
             {
                 if ( !string.IsNullOrEmpty( barOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor ) )
                     Variables[ThemeVariables.BarItemDarkActiveBackground] = ToHex( ParseColor( barOptions.DarkColors.ItemColorOptions.ActiveBackgroundColor ) );
@@ -410,7 +410,7 @@ public abstract class ThemeGenerator : IThemeGenerator
                 Variables[ThemeVariables.BarBrandDarkBackground] = ToHex( ParseColor( barOptions.DarkColors.BrandColorOptions.BackgroundColor ) );
         }
 
-        if ( barOptions?.LightColors != null )
+        if ( barOptions?.LightColors is not null )
         {
             if ( !string.IsNullOrEmpty( barOptions.LightColors.BackgroundColor ) )
                 Variables[ThemeVariables.BarLightBackground] = GetGradientBgValue( theme, barOptions.LightColors.BackgroundColor, barOptions.LightColors.GradientBlendPercentage );
@@ -418,7 +418,7 @@ public abstract class ThemeGenerator : IThemeGenerator
             if ( !string.IsNullOrEmpty( barOptions.LightColors.Color ) )
                 Variables[ThemeVariables.BarLightColor] = ToHex( ParseColor( barOptions.LightColors.Color ) );
 
-            if ( barOptions.LightColors.ItemColorOptions != null )
+            if ( barOptions.LightColors.ItemColorOptions is not null )
             {
                 if ( !string.IsNullOrEmpty( barOptions.LightColors.ItemColorOptions.ActiveBackgroundColor ) )
                     Variables[ThemeVariables.BarItemLightActiveBackground] = ToHex( ParseColor( barOptions.LightColors.ItemColorOptions.ActiveBackgroundColor ) );
@@ -448,16 +448,16 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="snackbarOptions">Snackbar options</param>
     protected virtual void GenerateSnackbarVariables( Theme theme, ThemeSnackbarOptions snackbarOptions )
     {
-        if ( snackbarOptions?.BackgroundColor != null )
+        if ( snackbarOptions?.BackgroundColor is not null )
             Variables[ThemeVariables.SnackbarBackground] = ToHex( ParseColor( snackbarOptions.BackgroundColor ) );
 
-        if ( snackbarOptions?.TextColor != null )
+        if ( snackbarOptions?.TextColor is not null )
             Variables[ThemeVariables.SnackbarTextColor] = ToHex( ParseColor( snackbarOptions.TextColor ) );
 
-        if ( snackbarOptions?.ButtonColor != null )
+        if ( snackbarOptions?.ButtonColor is not null )
             Variables[ThemeVariables.SnackbarButtonColor] = ToHex( ParseColor( snackbarOptions.ButtonColor ) );
 
-        if ( snackbarOptions?.ButtonHoverColor != null )
+        if ( snackbarOptions?.ButtonHoverColor is not null )
             Variables[ThemeVariables.SnackbarButtonHoverColor] = ToHex( ParseColor( snackbarOptions.ButtonHoverColor ) );
     }
 
@@ -468,13 +468,13 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="dividerOptions">Divider options</param>
     protected virtual void GenerateDividerVariables( Theme theme, ThemeDividerOptions dividerOptions )
     {
-        if ( dividerOptions.Color != null )
+        if ( dividerOptions.Color is not null )
             Variables[ThemeVariables.DividerColor] = ToHex( ParseColor( dividerOptions.Color ) );
 
-        if ( dividerOptions.Color != null )
+        if ( dividerOptions.Color is not null )
             Variables[ThemeVariables.DividerThickness] = dividerOptions.Thickness;
 
-        if ( dividerOptions.Color != null )
+        if ( dividerOptions.Color is not null )
             Variables[ThemeVariables.DividerTextSize] = dividerOptions.TextSize;
     }
 
@@ -485,7 +485,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="tooltipOptions">Tooltip options</param>
     protected virtual void GenerateTooltipVariables( Theme theme, ThemeTooltipOptions tooltipOptions )
     {
-        if ( tooltipOptions?.BackgroundColor != null )
+        if ( tooltipOptions?.BackgroundColor is not null )
         {
             var backgroundColor = ParseColor( tooltipOptions.BackgroundColor );
 
@@ -495,34 +495,34 @@ public abstract class ThemeGenerator : IThemeGenerator
             Variables[ThemeVariables.TooltipBackgroundOpacity] = ( backgroundColor.A / 255f ).ToString( "n2", CultureInfo.InvariantCulture );
         }
 
-        if ( tooltipOptions?.Color != null )
+        if ( tooltipOptions?.Color is not null )
         {
             Variables[ThemeVariables.TooltipColor] = tooltipOptions.Color;
         }
 
-        if ( tooltipOptions?.FontSize != null )
+        if ( tooltipOptions?.FontSize is not null )
         {
             Variables[ThemeVariables.TooltipFontSize] = tooltipOptions.FontSize;
         }
 
         Variables[ThemeVariables.TooltipBorderRadius] = GetBorderRadius( theme, tooltipOptions?.BorderRadius, Var( ThemeVariables.BorderRadius ) );
 
-        if ( tooltipOptions?.FadeTime != null )
+        if ( tooltipOptions?.FadeTime is not null )
         {
             Variables[ThemeVariables.TooltipFadeTime] = tooltipOptions.FadeTime;
         }
 
-        if ( tooltipOptions?.MaxWidth != null )
+        if ( tooltipOptions?.MaxWidth is not null )
         {
             Variables[ThemeVariables.TooltipMaxWidth] = tooltipOptions.MaxWidth;
         }
 
-        if ( tooltipOptions?.Padding != null )
+        if ( tooltipOptions?.Padding is not null )
         {
             Variables[ThemeVariables.TooltipPadding] = tooltipOptions.Padding;
         }
 
-        if ( tooltipOptions?.ZIndex != null )
+        if ( tooltipOptions?.ZIndex is not null )
         {
             Variables[ThemeVariables.TooltipZIndex] = tooltipOptions.ZIndex;
         }
@@ -548,7 +548,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     /// <param name="stepsOptions">Steps options.</param>
     protected virtual void GenerateStepsVariables( Theme theme, ThemeStepsOptions stepsOptions )
     {
-        if ( stepsOptions != null )
+        if ( stepsOptions is not null )
         {
             if ( !string.IsNullOrEmpty( stepsOptions.StepsItemIconColor ) )
             {
@@ -1622,7 +1622,7 @@ public abstract class ThemeGenerator : IThemeGenerator
     {
         first = values?.FirstOrDefault( x => !string.IsNullOrEmpty( x ) );
 
-        return first != null;
+        return first is not null;
     }
 
     /// <summary>

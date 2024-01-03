@@ -400,6 +400,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ButtonLoading( bool outline ) => "ant-btn-loading";
 
+    public override string ButtonStretchedLink( bool stretched ) => stretched ? "ant-link-stretched" : null;
+
     #endregion
 
     #region Buttons
@@ -625,6 +627,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string CardText() => "ant-card-text";
 
     public override string CardLink() => "ant-card-extra";
+
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
@@ -1019,6 +1023,16 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"ant-cursor-{ToCursor( cursor )}" : null;
 
+    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "ant-header-cell-fixed-start",
+            TableColumnFixedPosition.End => "ant-header-cell-fixed-end",
+            _ => null,
+        };
+    }
+
     public override string TableFooter() => null;
 
     public override string TableBody() => "ant-table-tbody";
@@ -1033,9 +1047,29 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRowHeader() => "ant-table-cell ant-table-row-header";
 
+    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "ant-row-header-fixed-start",
+            TableColumnFixedPosition.End => "ant-row-header-fixed-end",
+            _ => null,
+        };
+    }
+
     public override string TableRowCell() => "ant-table-cell";
 
     public override string TableRowCellColor( Color color ) => $"ant-table-{ToColor( color )}";
+
+    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "ant-row-cell-fixed-start",
+            TableColumnFixedPosition.End => "ant-row-cell-fixed-end",
+            _ => null,
+        };
+    }
 
     public override string TableRowGroup( bool expanded ) => "ant-table-group";
 
@@ -1043,9 +1077,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRowGroupIndentCell() => "ant-table-group-indentcell";
 
-    public override string TableResponsive() => "ant-table-responsive";
+    public override string TableResponsive( bool responsive ) => responsive ? "ant-table-responsive" : null;
 
-    public override string TableFixedHeader() => "ant-table-fixed-header";
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "ant-table-fixed-header" : null;
+
+    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "ant-table-fixed-columns" : null;
 
     #endregion
 
@@ -1081,7 +1117,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => $"ant-typography-{ToTextTransform( textTransform )}";
 
-    public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
+    public override string TextWeight( TextWeight textWeight ) => $"ant-font-weight-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"ant-typography-{ToTextOverflow( textOverflow )}";
 
@@ -1194,6 +1230,10 @@ public class AntDesignClassProvider : ClassProvider
     public override string Link() => null;
 
     public override string LinkActive( bool active ) => active ? Active() : null;
+
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
+
+    public override string LinkStretched( bool stretched ) => stretched ? "ant-link-stretched" : null;
 
     #endregion
 
@@ -1347,10 +1387,16 @@ public class AntDesignClassProvider : ClassProvider
             ? "width"
             : "height" );
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
+
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 

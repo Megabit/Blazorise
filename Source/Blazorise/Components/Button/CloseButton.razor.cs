@@ -38,11 +38,11 @@ public partial class CloseButton : BaseComponent
         // And we don't want to close both Alert and Modal in that case.
         if ( IsAutoClose )
         {
-            if ( ParentAlert != null )
+            if ( ParentAlert is not null )
             {
                 await ParentAlert.Hide();
             }
-            else if ( ParentModal != null )
+            else if ( ParentModal is not null )
             {
                 await ParentModal.Hide();
             }

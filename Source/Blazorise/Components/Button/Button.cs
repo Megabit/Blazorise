@@ -55,7 +55,8 @@ public partial class Button : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.ButtonBlock( Outline ), Block );
         builder.Append( ClassProvider.ButtonActive( Outline ), Active );
         builder.Append( ClassProvider.ButtonDisabled( Outline ), Disabled );
-        builder.Append( ClassProvider.ButtonLoading( Outline ), Loading && LoadingTemplate == null );
+        builder.Append( ClassProvider.ButtonLoading( Outline ), Loading && LoadingTemplate is null );
+        builder.Append( ClassProvider.ButtonStretchedLink( StretchedLink ) );
 
         base.BuildClasses( builder );
     }
@@ -79,7 +80,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
 
         LoadingTemplate ??= ProvideDefaultLoadingTemplate();
 
-        if ( Theme != null )
+        if ( Theme is not null )
         {
             Theme.Changed += OnThemeChanged;
         }
@@ -107,12 +108,12 @@ public partial class Button : BaseComponent, IAsyncDisposable
                 await JSModule.SafeDestroy( ElementRef, ElementId );
             }
 
-            if ( command != null )
+            if ( command is not null )
             {
                 command.CanExecuteChanged -= OnCanExecuteChanged;
             }
 
-            if ( Theme != null )
+            if ( Theme is not null )
             {
                 Theme.Changed -= OnThemeChanged;
             }
@@ -176,12 +177,12 @@ public partial class Button : BaseComponent, IAsyncDisposable
         }
 
         builder.OnClick( this, EventCallback.Factory.Create<MouseEventArgs>( this, ClickHandler ) );
-        builder.OnClickPreventDefault( Type == ButtonType.Link && To != null && To.StartsWith( "#" ) );
+        builder.OnClickPreventDefault( Type == ButtonType.Link && To is not null && To.StartsWith( "#" ) );
 
         builder.Attributes( Attributes );
         builder.ElementReferenceCapture( capturedRef => ElementRef = capturedRef );
 
-        if ( Loading && LoadingTemplate != null )
+        if ( Loading && LoadingTemplate is not null )
         {
             builder.Content( LoadingTemplate );
         }
@@ -197,14 +198,14 @@ public partial class Button : BaseComponent, IAsyncDisposable
 
     private void BindCommand( ICommand value )
     {
-        if ( command != null )
+        if ( command is not null )
         {
             command.CanExecuteChanged -= OnCanExecuteChanged;
         }
 
         command = value;
 
-        if ( command != null )
+        if ( command is not null )
         {
             command.CanExecuteChanged += OnCanExecuteChanged;
         }
@@ -269,7 +270,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// <summary>
     /// True if button is placed inside of a <see cref="Field"/>.
     /// </summary>
-    protected bool ParentIsField => ParentField != null;
+    protected bool ParentIsField => ParentField is not null;
 
     /// <summary>
     /// Gets the size based on the theme settings.
@@ -486,6 +487,11 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// The target attribute specifies where to open the linked document for a <see cref="ButtonType.Link"/>.
     /// </summary>
     [Parameter] public Target Target { get; set; } = Target.Default;
+
+    /// <summary>
+    /// Makes any HTML element or component clickable by “stretching” a nested link.
+    /// </summary>
+    [Parameter] public bool StretchedLink { get; set; }
 
     /// <summary>
     /// If defined, indicates that its element can be focused and can participates in sequential keyboard navigation.

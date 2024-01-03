@@ -8,7 +8,7 @@ internal static class EventArgsMapper
 {
     public static BLMouseEventArgs ToMouseEventArgs( MouseEventArgs e )
     {
-        if ( e == null )
+        if ( e is null )
             return null;
 
         return new( ToMouseButton( e.Button ),

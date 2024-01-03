@@ -3,14 +3,14 @@
 <CascadingValue Value="@this" IsFixed>
     @if ( Buttons )
     {
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="@TabIndex" @attributes="@Attributes" data-toggle="buttons">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="@TabIndex" @attributes="@Attributes" data-toggle="buttons">
             @ChildContent
         </div>
         @Feedback
     }
     else
     {
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="@TabIndex" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="@TabIndex" @attributes="@Attributes">
             @ChildContent
         </div>
         @Feedback

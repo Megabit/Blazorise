@@ -9,10 +9,22 @@ namespace Blazorise.DataGrid;
 /// </summary>
 public class CellEditContext
 {
+    protected object cellValue;
+
     /// <summary>
     /// Gets or sets the editor value.
     /// </summary>
-    public object CellValue { get; set; }
+    public object CellValue
+    {
+        get => cellValue;
+        set
+        {
+            cellValue = value;
+            Modified = true;
+        }
+    }
+
+    public bool Modified { get; private set; }
 }
 
 /// <summary>
@@ -35,13 +47,15 @@ public class CellEditContext<TItem> : CellEditContext
     /// Initializes a new instance of the <see cref="CellEditContext{TItem}"/>.
     /// </summary>
     /// <param name="item">An item to which this cell belongs.</param>
+    /// <param name="cellValue">The initial cell value</param>
     /// <param name="setCellValue">Method that will be called when cell is manually updated.</param>
     /// <param name="getCellValue">Method that will be called when cell value is manually read.</param>
-    public CellEditContext( TItem item, Action<string, object> setCellValue, Func<string, object> getCellValue )
+    public CellEditContext( TItem item, object cellValue, Action<string, object> setCellValue, Func<string, object> getCellValue )
     {
-        Item = item;
-        SetCellValue = setCellValue;
-        GetCellValue = getCellValue;
+        this.Item = item;
+        this.cellValue = cellValue;
+        this.SetCellValue = setCellValue;
+        this.GetCellValue = getCellValue;
     }
 
     /// <summary>
@@ -72,5 +86,10 @@ public class CellEditContext<TItem> : CellEditContext
     public object ReadCell( string fieldName )
     {
         return GetCellValue?.Invoke( fieldName );
+    }
+
+    internal void SetCellValueInternal( object cellValue )
+    {
+        CellValue = cellValue;
     }
 }

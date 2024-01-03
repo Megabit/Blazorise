@@ -391,6 +391,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ButtonLoading( bool outline ) => null;
 
+    public override string ButtonStretchedLink( bool stretched ) => stretched ? "stretched-link" : null;
+
     #endregion
 
     #region Buttons
@@ -619,6 +621,8 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string CardText() => "card-text";
 
     public override string CardLink() => "card-link";
+
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
@@ -1020,6 +1024,16 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
+    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "table-header-cell-fixed-start",
+            TableColumnFixedPosition.End => "table-header-cell-fixed-end",
+            _ => null,
+        };
+    }
+
     public override string TableFooter() => null;
 
     public override string TableBody() => null;
@@ -1034,9 +1048,29 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableRowHeader() => null;
 
+    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "table-row-header-fixed-start",
+            TableColumnFixedPosition.End => "table-row-header-fixed-end",
+            _ => null,
+        };
+    }
+
     public override string TableRowCell() => null;
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
+
+    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "table-row-cell-fixed-start",
+            TableColumnFixedPosition.End => "table-row-cell-fixed-end",
+            _ => null,
+        };
+    }
 
     public override string TableRowGroup( bool expanded ) => "table-group";
 
@@ -1044,9 +1078,11 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TableRowGroupIndentCell() => "table-group-indentcell";
 
-    public override string TableResponsive() => "table-responsive";
+    public override string TableResponsive( bool responsive ) => responsive ? "table-responsive" : null;
 
-    public override string TableFixedHeader() => "table-fixed-header";
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "table-fixed-header" : null;
+
+    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "table-fixed-columns" : null;
 
     #endregion
 
@@ -1195,6 +1231,10 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string Link() => null;
 
     public override string LinkActive( bool active ) => active ? Active() : null;
+
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+
+    public override string LinkStretched( bool stretched ) => stretched ? "stretched-link" : null;
 
     #endregion
 
@@ -1345,10 +1385,16 @@ public class Bootstrap5ClassProvider : ClassProvider
             ? "w"
             : "h" );
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
+
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 

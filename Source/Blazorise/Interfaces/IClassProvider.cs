@@ -370,6 +370,8 @@ public interface IClassProvider
 
     string ButtonLoading( bool outline );
 
+    string ButtonStretchedLink( bool stretched );
+
     #endregion
 
     #region Buttons
@@ -575,6 +577,8 @@ public interface IClassProvider
     string CardText();
 
     string CardLink();
+
+    string CardLinkUnstyled( bool unstyled );
 
     string CardLinkActive( bool active );
 
@@ -940,6 +944,8 @@ public interface IClassProvider
 
     string TableHeaderCellCursor( Cursor cursor );
 
+    string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition );
+
     string TableFooter();
 
     string TableBody();
@@ -954,9 +960,13 @@ public interface IClassProvider
 
     string TableRowHeader();
 
+    string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition );
+
     string TableRowCell();
 
     string TableRowCellColor( Color color );
+
+    string TableRowCellFixed( TableColumnFixedPosition fixedPosition );
 
     string TableRowGroup( bool expanded );
 
@@ -964,9 +974,11 @@ public interface IClassProvider
 
     string TableRowGroupIndentCell();
 
-    string TableResponsive();
+    string TableResponsive( bool responsive );
 
-    string TableFixedHeader();
+    string TableFixedHeader( bool fixedHeader );
+
+    string TableFixedColumns( bool fixedColumns );
 
     #endregion
 
@@ -1116,6 +1128,10 @@ public interface IClassProvider
 
     string LinkActive( bool active );
 
+    string LinkUnstyled( bool unstyled );
+
+    string LinkStretched( bool stretched );
+
     #endregion
 
     #region States
@@ -1173,6 +1189,8 @@ public interface IClassProvider
     #region Sizing
 
     string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
+
+    string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules );
 
     #endregion
 
@@ -1348,6 +1366,8 @@ public interface IClassProvider
     string ToPositionEdgeType( PositionEdgeType positionEdgeType );
 
     string ToPositionTranslateType( PositionTranslateType positionTranslateType );
+
+    string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition );
 
     #endregion
 

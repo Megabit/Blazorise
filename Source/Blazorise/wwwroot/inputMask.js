@@ -1,5 +1,5 @@
-﻿import Inputmask from "./vendors/inputmask.js?v=1.3.2.0";
-import { getRequiredElement } from "./utilities.js?v=1.3.2.0";
+﻿import Inputmask from "./vendors/inputmask.js?v=1.4.0.0";
+import { getRequiredElement } from "./utilities.js?v=1.4.0.0";
 
 let _instances = [];
 
@@ -12,6 +12,19 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     const maskOptions = options.mask ? { mask: options.mask } : {};
     const regexOptions = options.mask ? { regex: options.regex } : {};
     const aliasOptions = options.alias ? { alias: options.alias, inputFormat: options.inputFormat, outputFormat: options.outputFormat } : {};
+    const eventOptions = dotnetAdapter
+        ? {
+            oncomplete: function (e) {
+                dotnetAdapter.invokeMethodAsync('NotifyCompleted', e.target.value);
+            },
+            onincomplete: function (e) {
+                dotnetAdapter.invokeMethodAsync('NotifyIncompleted', e.target.value);
+            },
+            oncleared: function () {
+                dotnetAdapter.invokeMethodAsync('NotifyCleared');
+            }
+        } : {};
+
     const otherOptions = {
         placeholder: options.placeholder || "_",
         showMaskOnFocus: options.showMaskOnFocus,
@@ -24,21 +37,12 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         positionCaretOnClick: options.positionCaretOnClick || "lvp",
         clearMaskOnLostFocus: options.clearMaskOnLostFocus || true,
         clearIncomplete: options.clearIncomplete || false,
-        autoUnmask: options.autoUnmask || false,
-        oncomplete: function (e) {
-            dotnetAdapter.invokeMethodAsync('NotifyCompleted', e.target.value);
-        },
-        onincomplete: function (e) {
-            dotnetAdapter.invokeMethodAsync('NotifyIncompleted', e.target.value);
-        },
-        oncleared: function () {
-            dotnetAdapter.invokeMethodAsync('NotifyCleared');
-        }
+        autoUnmask: options.autoUnmask || false
     };
 
     const finalOptions = options.alias
-        ? Object.assign({}, aliasOptions, otherOptions)
-        : Object.assign({}, maskOptions, regexOptions, otherOptions);
+        ? Object.assign({}, aliasOptions, eventOptions, otherOptions)
+        : Object.assign({}, maskOptions, regexOptions, eventOptions, otherOptions);
 
     var inputMask = new Inputmask(finalOptions);
 
@@ -50,6 +54,8 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         elementId: elementId,
         inputMask: inputMask
     };
+
+    return inputMask;
 }
 
 export function destroy(element, elementId) {

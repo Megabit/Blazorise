@@ -1,5 +1,5 @@
-﻿import "./vendors/flatpickr.js?v=1.3.2.0";
-import * as utilities from "./utilities.js?v=1.3.2.0";
+﻿import "./vendors/flatpickr.js?v=1.4.0.0";
+import * as utilities from "./utilities.js?v=1.4.0.0";
 
 const _pickers = [];
 
@@ -56,7 +56,7 @@ export function initialize(element, elementId, options) {
     if (options) {
         picker.altInput.disabled = options.disabled || false;
         picker.altInput.readOnly = options.readOnly || false;
-        picker.altInput.placeholder = options.placeholder;
+        picker.altInput.placeholder = utilities.coalesce(options.placeholder, "");
 
         picker.altInput.addEventListener("blur", (e) => {
             const isInput = e.target === picker._input;

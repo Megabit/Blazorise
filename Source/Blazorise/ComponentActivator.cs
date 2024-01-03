@@ -35,7 +35,7 @@ public class ComponentActivator : IComponentActivator
     {
         var instance = ServiceProvider.GetService( componentType );
 
-        if ( instance == null )
+        if ( instance is null )
         {
             instance = Activator.CreateInstance( componentType );
         }

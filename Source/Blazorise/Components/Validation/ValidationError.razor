@@ -2,12 +2,12 @@
 @inherits BaseValidationResult
 @if ( ParentValidation?.Status == ValidationStatus.Error )
 {
-    <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @if ( ChildContent is not null )
         {
             @ChildContent
         }
-        else if ( ErrorMessages != null && ErrorMessages.Any() )
+        else if ( ErrorMessages is not null && ErrorMessages.Any() )
         {
             @if ( Multiline )
             {

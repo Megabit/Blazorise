@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Components.Autocomplete;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -812,7 +813,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             }
         }
 
-        filteredData = query.ToList();
+        var maxRowsLimit = LicenseChecker.GetAutoCompleteRowsLimit();
+
+        if ( maxRowsLimit.HasValue )
+        {
+            filteredData = query.Take( maxRowsLimit.Value ).ToList();
+        }
+        else
+        {
+            filteredData = query.ToList();
+        }
 
         dirtyFilter = false;
     }
@@ -1208,6 +1218,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Inject] public IIdGenerator IdGenerator { get; set; }
 
     /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
     /// Gets or sets the dropdown element id.
     /// </summary>
     [Parameter] public string ElementId { get; set; }
@@ -1386,6 +1401,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Defines the text color of the search field.
     /// </summary>
     [Parameter] public TextColor SearchTextColor { get; set; }
+
+    /// <summary>
+    /// Defines class for search field.
+    /// </summary>
+    [Parameter] public string SearchClass { get; set; }
+
+    /// <summary>
+    /// Defines style for search field.
+    /// </summary>
+    [Parameter] public string SearchStyle { get; set; }
 
     /// <summary>
     /// Currently selected items values.

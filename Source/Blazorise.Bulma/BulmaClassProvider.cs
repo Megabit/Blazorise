@@ -403,6 +403,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ButtonLoading( bool outline ) => "is-loading";
 
+    public override string ButtonStretchedLink( bool stretched ) => stretched ? "is-link-stretched" : null;
+
     #endregion
 
     #region Buttons
@@ -628,6 +630,8 @@ public class BulmaClassProvider : ClassProvider
     public override string CardText() => "card-text";
 
     public override string CardLink() => null;
+
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "is-link-unstyled" : null;
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
@@ -1057,6 +1061,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"is-cursor-{ToCursor( cursor )}" : null;
 
+    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "is-header-cell-fixed-start",
+            TableColumnFixedPosition.End => "is-header-cell-fixed-end",
+            _ => null,
+        };
+    }
+
     public override string TableFooter() => null;
 
     public override string TableBody() => null;
@@ -1071,9 +1085,29 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRowHeader() => null;
 
+    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "is-row-header-fixed-start",
+            TableColumnFixedPosition.End => "is-row-header-fixed-end",
+            _ => null,
+        };
+    }
+
     public override string TableRowCell() => null;
 
     public override string TableRowCellColor( Color color ) => $"has-background-{ToColor( color )}";
+
+    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "is-row-cell-fixed-start",
+            TableColumnFixedPosition.End => "is-row-cell-fixed-end",
+            _ => null,
+        };
+    }
 
     public override string TableRowGroup( bool expanded ) => "table-group";
 
@@ -1081,9 +1115,11 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRowGroupIndentCell() => "table-group-indentcell";
 
-    public override string TableResponsive() => "table-container";
+    public override string TableResponsive( bool responsive ) => responsive ? "table-container" : null;
 
-    public override string TableFixedHeader() => "table-container-fixed-header";
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "table-container-fixed-header" : null;
+
+    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "table-container-fixed-columns" : null;
 
     #endregion
 
@@ -1233,6 +1269,10 @@ public class BulmaClassProvider : ClassProvider
 
     public override string LinkActive( bool active ) => active ? Active() : null;
 
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "is-link-unstyled" : null;
+
+    public override string LinkStretched( bool stretched ) => stretched ? "is-link-stretched" : null;
+
     #endregion
 
     #region States
@@ -1372,7 +1412,7 @@ public class BulmaClassProvider : ClassProvider
         var sb = new StringBuilder( "is-" );
 
         if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
-            sb.Append( "min-wiewport-" );
+            sb.Append( "min-viewport-" );
         else if ( sizingDefinition.IsMax )
             sb.Append( "max-" );
         else if ( sizingDefinition.IsViewport )
@@ -1382,10 +1422,16 @@ public class BulmaClassProvider : ClassProvider
             ? "width"
             : "height" );
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
+
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 

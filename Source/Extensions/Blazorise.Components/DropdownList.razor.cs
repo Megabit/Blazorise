@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -38,6 +39,16 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     {
         selectedValues = SelectedValues?.ToList();
         base.OnInitialized();
+    }
+
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        var selectedValuesChanged = parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !paramSelectedValues.AreEqual( SelectedValues );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( selectedValuesChanged )
+            selectedValues = paramSelectedValues?.ToList();
     }
 
     protected Task HandleDropdownItemClicked( object value )
@@ -87,6 +98,11 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Defines the color of toggle button.
     /// </summary>
     [Parameter] public Color Color { get; set; }
+
+    /// <summary>
+    /// Defines the size of toggle button.
+    /// </summary>
+    [Parameter] public Size DropdownToggleSize { get; set; }
 
     /// <summary>
     /// If true, a dropdown menu will be right aligned.

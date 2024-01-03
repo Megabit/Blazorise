@@ -22,6 +22,12 @@
     "Starts With": "Začíná s",
     "Ends With": "Končí s",
     "Equals": "Rovná se",
-    "Not Equals": "Nerovná se"
+    "Not Equals": "Nerovná se",
+    "Greater Than": "Větší než",
+    "Greater Than or Equal": "Větší než nebo rovno",
+    "Less Than": "Méně než",
+    "Less Than or Equal": "Menší než nebo rovno",
+    "Save Changes": "Uložit změny",
+    "Cancel Changes": "Zrušit změny"
   }
 }

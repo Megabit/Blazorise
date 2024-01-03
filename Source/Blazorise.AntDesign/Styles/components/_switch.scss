@@ -1,0 +1,74 @@
+﻿@each $name, $value in $theme-colors {
+    $color: $value;
+
+    .ant-switch {
+        &.ant-switch-#{$name}.ant-switch-checked {
+            background-color: $color;
+        }
+
+        &.ant-switch-#{$name}:focus {
+            box-shadow: 0 0 0 .2rem rgba($color,.25);
+        }
+
+        &:disabled {
+            &.ant-switch-#{$name}.ant-switch-checked {
+                background-color: rgba($color,.5);
+            }
+        }
+    }
+}
+
+@mixin switch($size, $height, $min-width, $checked-margin-left, $font-size) {
+    &-#{$size} {
+        min-width: $min-width;
+        height: $height;
+        line-height: $height - 2px;
+
+        .ant-switch-inner {
+            margin-right: 3px;
+            margin-left: 18px;
+            font-size: $font-size;
+        }
+
+        &::after {
+            width: $height - 4px;
+            height: $height - 4px;
+        }
+
+        &:active::before,
+        &:active::after {
+            width: 16px;
+        }
+    }
+
+    &-#{$size}.ant-switch-loading-icon {
+        width: $height - 4px;
+        height: $height - 4px;
+    }
+
+    &-#{$size}.ant-switch-checked {
+        .ant-switch-inner {
+            margin-right: 18px;
+            margin-left: 3px;
+        }
+    }
+
+    &-#{$size}.ant-switch-checked .ant-switch-loading-icon {
+        left: 100%;
+        margin-left: $checked-margin-left;
+    }
+
+    &-#{$size}.ant-switch-loading .ant-switch-loading-icon {
+        font-weight: bold;
+        // animation: AntSwitchSmallLoadingCircle 1s infinite linear;
+        transform: scale(0.66667);
+    }
+}
+
+.ant-switch {
+    @include switch('xs',$switch-xs-height, $switch-xs-min-width, $switch-xs-checked-margin-left, $switch-xs-font-size);
+    @include switch('sm',$switch-sm-height, $switch-sm-min-width, $switch-sm-checked-margin-left, $switch-sm-font-size);
+    @include switch('md',$switch-md-height, $switch-md-min-width, $switch-md-checked-margin-left, $switch-md-font-size);
+    @include switch('lg',$switch-lg-height, $switch-lg-min-width, $switch-lg-checked-margin-left, $switch-lg-font-size);
+    @include switch('xl',$switch-xl-height, $switch-xl-min-width, $switch-xl-checked-margin-left, $switch-xl-font-size);
+}

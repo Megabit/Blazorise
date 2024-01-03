@@ -2,13 +2,13 @@
 @inherits BaseComponent
 @if ( Rating.ReadOnly )
 {
-    <span id="@ElementId" class="@ClassNames" style="@StyleNames">
+    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames">
         <Icon Name="@IconName" IconStyle="@IconStyle" />
     </span>
 }
 else
 {
-    <span id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @onmouseover="@HandleMouseOver" @onmouseout="@HandleMouseOut">
+    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @onmouseover="@HandleMouseOver" @onmouseout="@HandleMouseOut">
         <Icon Name="@IconName" IconStyle="@IconStyle" />
     </span>
 }

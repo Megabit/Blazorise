@@ -17,7 +17,7 @@ Below you will find instructions on how to use Playwright. This assumes you will
 2. Execute the playwright powershell script to install necessary dependencies (browser dependencies, etc...), i.e:
 
 ```bash
-powershell .\bin\Debug\net7.0\playwright.ps1 install --with-deps
+powershell .\bin\Debug\net8.0\playwright.ps1 install --with-deps
 ```
 
 > The script must be run in the folder `./Tests/Blazorise.E2E.Tests/`
@@ -27,7 +27,7 @@ powershell .\bin\Debug\net7.0\playwright.ps1 install --with-deps
 To start a record session to generate c# test code (a browser session & Playwright Inspector should be opened automatically):
 
 ```bash
-powershell .\bin\Debug\net7.0\playwright.ps1 codegen http://localhost:14696
+powershell .\bin\Debug\net8.0\playwright.ps1 codegen http://localhost:14696
 ```
 
 In the **Playwright Inspector**, please select **.NET C# NUnit** as the target library to generate the appropriate code.

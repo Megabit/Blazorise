@@ -15,6 +15,11 @@ public enum TextWeight
     /// </summary>
     Normal,
 
+    /// <sumary>
+    /// Defines semi thick characters.
+    /// </sumary>
+    SemiBold,
+
     /// <summary>
     /// Defines thick characters.
     /// </summary>

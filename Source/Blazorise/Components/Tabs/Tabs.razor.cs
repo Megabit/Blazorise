@@ -134,7 +134,7 @@ public partial class Tabs : BaseComponent
     /// <summary>
     /// True if <see cref="Tabs"/> is placed inside of <see cref="CardHeader"/> component.
     /// </summary>
-    protected bool IsCards => CardHeader != null;
+    protected bool IsCards => CardHeader is not null;
 
     /// <summary>
     /// Gets or sets the class builder for the content container element.

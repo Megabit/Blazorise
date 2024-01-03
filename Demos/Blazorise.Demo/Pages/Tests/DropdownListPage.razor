@@ -15,9 +15,10 @@
                                       Data="@Countries"
                                       TextField="@(( item ) => item.Name)"
                                       ValueField="@((item) => item.Iso)"
-                        @bind-SelectedValue="@selectedDropValue"
+                                      @bind-SelectedValue="@selectedDropValue"
                                       Color="Color.Primary"
-                                      MaxMenuHeight="200px">
+                                      MaxMenuHeight="200px"
+                                     DropdownToggleSize="Size.Large">
                             Select item
                         </DropdownList>
                     </FieldBody>

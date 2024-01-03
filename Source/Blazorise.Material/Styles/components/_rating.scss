@@ -1,0 +1,25 @@
+﻿.rating {
+    &:not(.rating-disabled):not(.rating-readonly):hover {
+        .rating-item {
+            cursor: pointer;
+        }
+    }
+
+    &.rating-disabled {
+        opacity: .65;
+    }
+
+    .rating-item {
+        @each $name, $value in $theme-colors {
+            $color: $value;
+
+            &.is-#{$name} {
+                color: $color;
+            }
+        }
+
+        &.rating-item-hover {
+            opacity: 0.7;
+        }
+    }
+}

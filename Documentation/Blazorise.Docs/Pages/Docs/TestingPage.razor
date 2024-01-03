@@ -1,0 +1,66 @@
+﻿@page "/docs/testing"
+
+<Seo Canonical="/docs/testing" Title="Blazorise Testing" Description="Accelerate your understanding and proficiency in testing Blazorise components efficiently, ensuring robust and error-free applications." />
+
+<DocsPageTitle Path="Testing">
+    Blazorise Testing Guide
+</DocsPageTitle>
+
+<DocsPageLead>
+    Get started testing with Blazor and Blazorise in no time.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Testing with bUnit
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    To ensure proper functioning during testing, it's necessary to set up an internal Blazorise Service as Transient. This adjustment is crucial to avoid errors from the bUnit testing framework. Implement the following configuration:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Code>ctx.Services.AddBlazorise().Replace(ServiceDescriptor.Transient&lt;IComponentActivator, ComponentActivator&gt;());</Code>
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Apart from this setup, the system should operate seamlessly. If you encounter any challenges, please reach out for assistance.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Additionally, for guidance on testing, you might find it useful to review some of our <Anchor To="https://github.com/Megabit/Blazorise/tree/master/Tests/Blazorise.Tests" Title="Link to tests" Target="Target.Blank">test cases</Anchor>. If you're looking for a starter package to facilitate testing of Blazorise components with bUnit, please refer to the subsequent section for more information.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Setup Project
+</DocsPageSubtitle>
+
+<Paragraph>
+    For initiating tests on Blazorise components using <Anchor To="https://bunit.dev/" Title="Link to bUnit" Target="Target.Blank">bUnit</Anchor>, we offer a supportive package.
+</Paragraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="bUnit">
+        The initial action involves installing a Blazorise testing package:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TestingbUnitNugetExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Following this, it's necessary to configure the dependencies of your project:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="AddBlazoriseTestingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Mocking">
+        <Paragraph>
+            The package includes both <Code>AddBlazoriseTests</Code> and <Code>AddEmptyIconProvider</Code>. For providers, you have the flexibility to choose from any Blazorise provider options.
+        </Paragraph>
+
+        <Paragraph>
+            In bUnit testing, it's necessary to mock JavaScript interop calls due to their specific operational nature. Our package also offers methods to mock these JavaScript interop calls for various Blazorise components. For instance, to mock the JavaScript interop calls for the Blazorise Button component, you would use:
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ButtonJavascriptMockTestingExample" />
+</DocsPageSection>

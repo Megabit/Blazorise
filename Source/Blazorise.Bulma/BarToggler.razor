@@ -1,5 +1,5 @@
 ﻿@inherits Blazorise.BarToggler
-<a id="@ElementId" role="button" class="@ClassNames" style="@StyleNames" aria-label="Toggle navigation" @onclick="@ClickHandler" @attributes="@Attributes">
+<a @ref="@ElementRef" id="@ElementId" role="button" class="@ClassNames" style="@StyleNames" aria-label="Toggle navigation" @onclick="@ClickHandler" @attributes="@Attributes">
     <span class="@ClassProvider.BarTogglerIcon( ParentBarState?.Mode ?? BarMode.Horizontal )" aria-hidden="true"></span>
     <span class="@ClassProvider.BarTogglerIcon( ParentBarState?.Mode ?? BarMode.Horizontal )" aria-hidden="true"></span>
     <span class="@ClassProvider.BarTogglerIcon( ParentBarState?.Mode ?? BarMode.Horizontal )" aria-hidden="true"></span>

@@ -95,6 +95,11 @@ public partial class Animate
         => GetOptions()?.Once.ToString().ToLowerInvariant() ?? string.Empty;
 
     /// <summary>
+    /// Gets or sets the reference to the rendered element.
+    /// </summary>
+    public ElementReference ElementRef { get; set; }
+
+    /// <summary>
     /// Injects the globally configured <see cref="AnimateOptions"/>.
     /// </summary>
     [Inject] private IOptionsSnapshot<AnimateOptions> OptionsAccessor { get; set; }

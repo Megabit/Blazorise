@@ -1,6 +1,6 @@
 ---
 title: How to handle Localization in Blazorise Validation
-description: Learn how to properly localize Blazorise Validation messages by using the inbuilt MessageLocalizer
+description: In this blog post we'll teach you how to properly localize Blazorise Validation messages by using the inbuilt MessageLocalizer.
 permalink: /blog/how-to-handle-localization-in-blazorise-validation
 canonical: /blog/how-to-handle-localization-in-blazorise-validation
 image-url: /img/blog/2023-09-15/how_to_handle_localization_in_blazorise_validation.png

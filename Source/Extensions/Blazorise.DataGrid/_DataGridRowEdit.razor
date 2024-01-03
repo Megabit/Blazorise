@@ -44,14 +44,14 @@
                                             Clicked = callbackFactory.Create( this, Save ),
                                             LocalizationString = saveButtonString,
                                             Item = Item,
-                                        });
+                                        } );
                                     }
                                     else
                                     {
                                         @if ( ParentDataGrid.SubmitFormOnEnter )
                                         {
                                             <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Color="Color.Link" Clicked="@Save">
-                                                @saveButtonString
+                                                 @saveButtonString
                                             </Button>
                                         }
                                         else
@@ -73,7 +73,7 @@
                                             Clicked = Cancel,
                                             LocalizationString = cancelButtonString,
                                             Item = Item,
-                                        });
+                                        } );
                                     }
                                     else
                                     {
@@ -90,7 +90,7 @@
         </TableRow>
     </Validations>
 }
-else if ( EditMode == DataGridEditMode.Inline )
+else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Cell )
 {
     <Validations @ref="validations" Mode="ValidationMode.Manual" StatusChanged="@ValidationsStatusChanged" Model="@ValidationItem" HandlerType="@ParentDataGrid?.ValidationsHandlerType">
         @if ( ParentDataGrid.ShowValidationsSummary )
@@ -108,25 +108,30 @@ else if ( EditMode == DataGridEditMode.Inline )
             {
                 @if ( column.IsCommandColumn )
                 {
-                    <_DataGridRowCommand TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="@column" Save="@Save" />
+                    <_DataGridRowCommand @key=column TItem="TItem" Item="@Item" EditState="DataGridEditState.Edit" Column="@column" Save="@Save" />
                 }
                 else if ( column.IsMultiSelectColumn )
                 {
                     if ( ParentDataGrid.MultiSelect )
                     {
-                        <TableRowCell Class="@column.CellClass?.Invoke(Item)"
+                        <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)"
                                       Style="@column.BuildCellStyle(Item)"
                                       TextAlignment="@column.TextAlignment"
                                       VerticalAlignment="@column.VerticalAlignment"
                                       Display="@column.Display"
                                       Flex="@column.Flex"
-                                      Gap="@column.Gap">
+                                      Gap="@column.Gap"
+                                      FixedPosition="@column.FixedPosition"
+                                      Width="@column.BuildCellFluentSizing()">
                         </TableRowCell>
                     }
                 }
                 else if ( column.Displayable )
                 {
-                    <TableRowCell Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)" TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap">
+                    <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)"
+                                  @onkeydown="@(ParentDataGrid.IsCellEdit ? async (args) =>  await HandleCellKeyDown(args, column) : default)"
+                                  @onclick=@(ParentDataGrid.IsCellEdit && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
+                                  TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
                         @if ( column.CellValueIsEditable )
                         {
                             <_DataGridCell TItem="TItem" Column="@column" Item="@Item" ValidationItem="@ValidationItem" CellEditContext="@CellValues[column.ElementId]" ShowValidationFeedback="@ParentDataGrid.ShowValidationFeedback" />

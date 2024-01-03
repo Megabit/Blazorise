@@ -1,8 +1,8 @@
-﻿import "./vendors/plyr.js?v=1.3.2.0";
-import "./vendors/dash.js?v=1.3.2.0";
-import "./vendors/hls.js?v=1.3.2.0";
+﻿import "./vendors/plyr.js?v=1.4.0.0";
+import "./vendors/dash.js?v=1.4.0.0";
+import "./vendors/hls.js?v=1.4.0.0";
 
-import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.3.2.0";
+import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.4.0.0";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"https://cdn.plyr.io/3.6.12/plyr.css\" />");
 

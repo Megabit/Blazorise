@@ -373,6 +373,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ButtonLoading( bool outline ) => null;
 
+    public string ButtonStretchedLink( bool stretched ) => null;
+
     #endregion
 
     #region Buttons
@@ -578,6 +580,8 @@ class EmptyClassProvider : IClassProvider
     public string CardText() => null;
 
     public string CardLink() => null;
+
+    public string CardLinkUnstyled( bool unstyled ) => null;
 
     public string CardLinkActive( bool active ) => null;
 
@@ -947,6 +951,8 @@ class EmptyClassProvider : IClassProvider
 
     public string TableHeaderCellCursor( Cursor cursor ) => null;
 
+    public string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition ) => null;
+
     public string TableFooter() => null;
 
     public string TableBody() => null;
@@ -961,9 +967,13 @@ class EmptyClassProvider : IClassProvider
 
     public string TableRowHeader() => null;
 
+    public string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition ) => null;
+
     public string TableRowCell() => null;
 
     public string TableRowCellColor( Color color ) => null;
+
+    public string TableRowCellFixed( TableColumnFixedPosition fixedPosition ) => null;
 
     public string TableRowGroup( bool expanded ) => null;
 
@@ -971,9 +981,11 @@ class EmptyClassProvider : IClassProvider
 
     public string TableRowGroupIndentCell() => null;
 
-    public string TableResponsive() => null;
+    public string TableResponsive( bool responsive ) => null;
 
-    public string TableFixedHeader() => null;
+    public string TableFixedHeader( bool fixedHeader ) => null;
+
+    public string TableFixedColumns( bool fixedColumns ) => null;
 
     #endregion
 
@@ -1123,6 +1135,10 @@ class EmptyClassProvider : IClassProvider
 
     public string LinkActive( bool active ) => null;
 
+    public string LinkUnstyled( bool unstyled ) => null;
+
+    public string LinkStretched( bool stretched ) => null;
+
     #endregion
 
     #region States
@@ -1180,6 +1196,8 @@ class EmptyClassProvider : IClassProvider
     #region Sizing
 
     public string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition ) => null;
+
+    public string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules ) => null;
 
     #endregion
 
@@ -1350,6 +1368,8 @@ class EmptyClassProvider : IClassProvider
     public string ToPositionEdgeType( PositionEdgeType positionEdgeType ) => null;
 
     public string ToPositionTranslateType( PositionTranslateType positionTranslateType ) => null;
+
+    public string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition ) => null;
 
     #endregion
 

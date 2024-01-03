@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Blazorise.Modules;
 using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
@@ -153,6 +154,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     protected _DataGridModal<TItem> dataGridModalRef;
 
+    /// <summary>
+    /// Tracks the current batch edit changes if <see cref="BatchEdit"/> is active.
+    /// </summary>
+    private List<DataGridBatchEditItem<TItem>> batchChanges;
+
     #endregion
 
     #region Constructors
@@ -237,12 +243,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             HandleSortColumn( column, false, null, suppressSortChangedEvent );
 
         // save command column reference for later
-        if ( CommandColumn == null && column is DataGridCommandColumn<TItem> commandColumn )
+        if ( CommandColumn is null && column is DataGridCommandColumn<TItem> commandColumn )
         {
             CommandColumn = commandColumn;
         }
-
-        if ( MultiSelectColumn == null && column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
+        else if ( MultiSelectColumn is null && column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
         {
             MultiSelectColumn = multiSelectColumn;
         }
@@ -273,6 +278,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             SortByColumns.Remove( column );
 
             _ = InvokeAsync( async () => await SortChanged.InvokeAsync( new DataGridSortChangedEventArgs( column.GetFieldToSort(), column.Field, SortDirection.Default ) ) );
+        }
+
+        if ( column is DataGridCommandColumn<TItem> commandColumn )
+        {
+            CommandColumn = null;
+        }
+        else if ( column is DataGridMultiSelectColumn<TItem> multiSelectColumn )
+        {
+            MultiSelectColumn = null;
         }
 
         return removed;
@@ -745,7 +759,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await InvokeAsync( () => PageSizeChanged.InvokeAsync( pageSize ) );
 
-        await Reload( paginationContext.CancellationTokenSource.Token );
+        await ReloadInternal( paginationContext.CancellationTokenSource.Token );
     }
 
     private async void OnPageChanged( int currentPage )
@@ -755,7 +769,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         await InvokeAsync( () => PageChanged.InvokeAsync( new( currentPage, PageSize ) ) );
 
-        await Reload( paginationContext.CancellationTokenSource.Token );
+        await ReloadInternal( paginationContext.CancellationTokenSource.Token );
     }
 
     #endregion
@@ -807,6 +821,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Delete( TItem item )
     {
+        if ( BatchEdit )
+        {
+            batchChanges ??= new();
+            var existingBatchItem = GetBatchEditItemByLastEditItem( item );
+            if ( existingBatchItem is null )
+            {
+                batchChanges.Add( new DataGridBatchEditItem<TItem>( item, item, DataGridBatchEditItemState.Delete ) );
+            }
+            else
+            {
+                existingBatchItem.DeleteEditItem();
+            }
+            await BatchChange.InvokeAsync( new( existingBatchItem ) );
+            await InvokeAsync( StateHasChanged );
+            return;
+        }
+
         if ( Data is ICollection<TItem> data )
         {
             if ( await IsSafeToProceed( RowRemoving, item, item ) )
@@ -844,6 +875,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Gets the corresponding batch edit item by the original if it exists.
+    /// </summary>
+    public DataGridBatchEditItem<TItem> GetBatchEditItemByOriginal( TItem item )
+        => batchChanges?.FirstOrDefault( x => x.OldItem.IsEqual( item ) );
+
+    /// <summary>
+    /// Gets the corresponding batch edit item by the last edited item if it exists.
+    /// </summary>
+    public DataGridBatchEditItem<TItem> GetBatchEditItemByLastEditItem( TItem item )
+        => batchChanges?.FirstOrDefault( x => x.NewItem.IsEqual( item ) );
+
+    /// <summary>
     /// Save the internal state of the editing items.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -852,17 +895,170 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( Data == null || editState == DataGridEditState.None )
             return;
 
+        if ( !await ValidateAll() )
+        {
+            return;
+        }
+
+        if ( BatchEdit )
+        {
+            await SaveBatch();
+        }
+        else
+        {
+            await SaveItem();
+        }
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Validates the current edit operation.
+    /// </summary>
+    /// <returns></returns>
+    public async Task<bool> ValidateAll()
+    {
         if ( UseValidation )
         {
             var result = PopupVisible
                 ? await dataGridModalRef.ValidateAll()
                 : await dataGridRowEditRef.ValidateAll();
 
-            if ( !result )
-                return;
+            return result;
+        }
+        return true;
+    }
+
+    /// <summary>
+    /// Saves all the tracked batch edit changes.
+    /// </summary>
+    internal protected async Task SaveBatch()
+    {
+        if ( batchChanges.IsNullOrEmpty() )
+            return;
+
+        if ( await IsSafeToProceed( BatchSaving, batchChanges ) )
+        {
+            if ( UseInternalEditing )
+            {
+                foreach ( var batchChange in batchChanges )
+                {
+                    switch ( batchChange.State )
+                    {
+                        case DataGridBatchEditItemState.New:
+                            if ( CanInsertNewItem && Data is ICollection<TItem> data )
+                                data.Add( batchChange.NewItem );
+                            break;
+                        case DataGridBatchEditItemState.Edit:
+                            SetItemEditedValues( batchChange.OldItem, batchChange.Values );
+                            break;
+                        case DataGridBatchEditItemState.Delete:
+                            if ( Data is ICollection<TItem> data2 )
+                                data2.Remove( batchChange.OldItem );
+                            break;
+                    }
+                }
+            }
+
+            await BatchSaved.InvokeAsync( new DataGridBatchSavedEventArgs<TItem>( batchChanges ) );
+
+            var newItem = batchChanges.Any( x => x.State == DataGridBatchEditItemState.New );
+            var deletedItem = batchChanges.Any( x => x.State == DataGridBatchEditItemState.Delete );
+
+            if ( newItem || deletedItem )
+            {
+                SetDirty();
+            }
+
+            if ( ManualReadMode )
+            {
+                // When deleting and the page becomes empty and we aren't the first page:
+                // go to the previous page
+                if ( deletedItem && ShowPager && CurrentPage > paginationContext.FirstVisiblePage && !Data.Any() )
+                {
+                    await Paginate( ( CurrentPage - 1 ).ToString() );
+                }
+
+                else if ( newItem )
+                {
+                    // If a new item is added, the data should be refreshed
+                    // to account for paging, sorting, and filtering
+
+                    await HandleReadData( CancellationToken.None );
+                }
+            }
+
+            batchChanges.Clear();
+        }
+    }
+
+    /// <summary>
+    /// Saves an ongoing edit operation.
+    /// </summary>
+    /// <returns></returns>
+    internal protected async Task SaveInternal()
+    {
+        if ( Data == null || editState == DataGridEditState.None )
+            return;
+
+        if ( !await ValidateAll() )
+        {
+            return;
         }
 
-        await SaveItem();
+        if ( BatchEdit )
+        {
+            await SaveBatchItem();
+        }
+        else
+        {
+            await SaveItem();
+        }
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Saves the internal state of the editing items to the batch edit changes.
+    /// </summary>
+    /// <returns></returns>
+    internal protected async Task SaveBatchItem()
+    {
+        if ( Data == null || editState == DataGridEditState.None )
+            return;
+
+        var editedCellContextValues = EditableColumns
+        .Where( x => !string.IsNullOrEmpty( x.Field ) )
+        .Select( c => new { c.Field, Context = editItemCellValues[c.ElementId] as CellEditContext } ).ToDictionary( x => x.Field, x => x.Context );
+
+        var hasEditModifications = editState == DataGridEditState.New || ( editedCellContextValues.Any( x => x.Value.Modified ) && editState == DataGridEditState.Edit );
+        if ( !hasEditModifications )
+        {
+            editState = DataGridEditState.None;
+            return;
+        }
+
+        var editItemClone = editItem.DeepClone();
+        SetItemEditedValues( editItemClone );
+
+        batchChanges ??= new();
+        var batchItem = GetBatchEditItemByLastEditItem( editItem );
+
+        if ( batchItem is null )
+        {
+            batchItem = new DataGridBatchEditItem<TItem>( editItem, editItemClone, editState == DataGridEditState.New ? DataGridBatchEditItemState.New : DataGridBatchEditItemState.Edit, editedCellContextValues );
+            batchChanges.Add( batchItem );
+
+        }
+        else
+        {
+            batchItem.UpdateEditItem( editItemClone, editedCellContextValues );
+        }
+
+        if ( batchItem.State == DataGridBatchEditItemState.New )
+            SetDirty();
+
+        editState = DataGridEditState.None;
+        await BatchChange.InvokeAsync( new( batchItem ) );
     }
 
     /// <summary>
@@ -874,13 +1070,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( Data == null || editState == DataGridEditState.None )
             return;
 
+        var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
         var editedCellValues = EditableColumns
             .Where( x => !string.IsNullOrEmpty( x.Field ) )
             .Select( c => new { c.Field, editItemCellValues[c.ElementId].CellValue } ).ToDictionary( x => x.Field, x => x.CellValue );
 
-        var rowSavingHandler = editState == DataGridEditState.New ? RowInserting : RowUpdating;
-
-        var editItemClone = editItem.DeepClone();
+        var editItemClone = CloneItemCreator != null ? CloneItemCreator.Invoke( editItem ) : editItem.DeepClone();
         SetItemEditedValues( editItemClone );
 
         if ( await IsSafeToProceed( rowSavingHandler, editItem, editItemClone, editedCellValues ) )
@@ -914,7 +1109,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             await VirtualizeOnEditCompleteScroll().AsTask();
         }
 
-        await InvokeAsync( StateHasChanged );
+    }
+
+    private void SetItemEditedValues( TItem item, Dictionary<string, CellEditContext> values )
+    {
+        foreach ( var column in EditableColumns )
+        {
+            column.SetValue( item, values[column.Field].CellValue );
+        }
     }
 
     private void SetItemEditedValues( TItem item )
@@ -926,10 +1128,24 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
-    /// Cancels the editing of DataGrid item.
+    /// Cancels any edit operation in progress.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Cancel()
+    {
+        if ( BatchEdit )
+        {
+            batchChanges?.Clear();
+        }
+
+        await CancelInternal();
+    }
+
+    /// <summary>
+    /// Cancels the editing of DataGrid item.
+    /// </summary>
+    /// <returns></returns>
+    internal protected async Task CancelInternal()
     {
         editState = DataGridEditState.None;
 
@@ -1294,13 +1510,30 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         foreach ( var column in EditableColumns )
         {
             var cellValue = column.GetValue( editItem );
-            editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, UpdateCellEditValue, ReadCellEditValue )
-            {
-                CellValue = cellValue,
-            } );
+            editItemCellValues.Add( column.ElementId, new CellEditContext<TItem>( item, cellValue, UpdateCellEditValue, ReadCellEditValue ) );
 
             if ( validationItem is not null )
                 column.SetValue( validationItem, cellValue );
+        }
+    }
+
+    internal async Task HandleCellEdit( DataGridColumn<TItem> column, TItem item )
+    {
+        if ( !IsCellEdit )
+            return;
+
+        await SaveInternal();
+
+        if ( EditState == DataGridEditState.Edit )
+            return;
+
+        if ( IsCellEdit && column.Editable && EditState != DataGridEditState.New )
+        {
+            foreach ( var editableColumn in EditableColumns )
+                editableColumn.CellEditing = false;
+
+            column.CellEditing = true;
+            await Edit( item );
         }
     }
 
@@ -1474,6 +1707,24 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return true;
     }
 
+    internal async Task<bool> IsSafeToProceed( EventCallback<DataGridBatchSavingEventArgs<TItem>> handler, IReadOnlyList<DataGridBatchEditItem<TItem>> batchEditItems )
+    {
+        if ( handler.HasDelegate )
+        {
+            var args = new DataGridBatchSavingEventArgs<TItem>( batchEditItems );
+
+            await handler.InvokeAsync( args );
+
+            if ( args.Cancel )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
     #endregion
 
     #region Filtering
@@ -1485,14 +1736,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
-    /// Makes sure not to reload if the DataGrid is in a loading state.
     /// </summary>
     /// <returns>Returns the awaitable task.</returns>
-    public async Task Reload( CancellationToken cancellationToken = default )
+    private async Task ReloadInternal( CancellationToken cancellationToken = default )
     {
-        if ( IsLoading )
-            return;
-
         SetDirty();
 
         if ( ManualReadMode )
@@ -1520,6 +1767,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <summary>
+    /// Triggers the reload of the <see cref="DataGrid{TItem}"/> data.
+    /// Makes sure not to reload if the DataGrid is in a loading state.
+    /// </summary>
+    /// <returns>Returns the awaitable task.</returns>
+    public async Task Reload( CancellationToken cancellationToken = default )
+    {
+        if ( IsLoading )
+            return;
+
+        await ReloadInternal( cancellationToken );
+    }
+
+    /// <summary>
     /// Notifies the <see cref="DataGrid{TItem}"/> to refresh.
     /// </summary>
     /// <returns></returns>
@@ -1533,7 +1793,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             IsLoading = true;
             await InvokeAsync( StateHasChanged );
             await Task.Yield();
-
             if ( !cancellationToken.IsCancellationRequested )
                 await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, CurrentPage, PageSize, 0, 0, cancellationToken ) );
         }
@@ -1751,13 +2010,37 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod() )
+                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod(), column.ColumnType, column.GetValueType() )
                             select item;
                 }
             }
         }
 
-        filteredData = query.ToList();
+        filteredData.Clear();
+
+        if ( BatchEdit && !batchChanges.IsNullOrEmpty() )
+        {
+            var newChanges = batchChanges.Where( x => x.State == DataGridBatchEditItemState.New );
+
+            if ( newChanges.Any() )
+            {
+                foreach ( var newChange in newChanges )
+                {
+                    filteredData.Add( newChange.NewItem );
+                }
+            }
+        }
+
+        var maxRowsLimit = LicenseChecker.GetDataGridRowsLimit();
+
+        if ( maxRowsLimit.HasValue )
+        {
+            filteredData.AddRange( query.Take( maxRowsLimit.Value ).ToList() );
+        }
+        else
+        {
+            filteredData.AddRange( query.ToList() );
+        }
 
         FilteredDataChanged?.Invoke( new(
             filteredData,
@@ -1775,23 +2058,249 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return Reload( filterCancellationTokenSource.Token );
     }
 
-    private bool CompareFilterValues( string searchValue, string compareTo, DataGridFilterMethod? columnFilterMethod )
+    private bool CompareFilterValues( string searchValue, string compareTo, DataGridColumnFilterMethod? columnFilterMethod, DataGridColumnType columnType, Type columnValueType )
     {
-        var filterMethod = columnFilterMethod ?? FilterMethod;
-        switch ( filterMethod )
+        if ( columnFilterMethod is not null )
         {
-            case DataGridFilterMethod.StartsWith:
-                return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-            case DataGridFilterMethod.EndsWith:
-                return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-            case DataGridFilterMethod.Equals:
-                return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-            case DataGridFilterMethod.NotEquals:
-                return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-            case DataGridFilterMethod.Contains:
-            default:
-                return searchValue.IndexOf( compareTo, StringComparison.OrdinalIgnoreCase ) >= 0;
+            switch ( columnFilterMethod )
+            {
+                case DataGridColumnFilterMethod.StartsWith:
+                    return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridColumnFilterMethod.EndsWith:
+                    return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridColumnFilterMethod.Equals:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal == compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble == compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat == compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt == compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort == compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime == compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset == compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly == compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly == compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan == compareToTimeSpan;
+                    }
+
+                    return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+                case DataGridColumnFilterMethod.NotEquals:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal != compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble != compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat != compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt != compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort != compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime != compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset != compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly != compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly != compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan != compareToTimeSpan;
+                    }
+                    return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
+
+                case DataGridColumnFilterMethod.LessThan:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal < compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble < compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat < compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt < compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort < compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime < compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset < compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly < compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly < compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan < compareToTimeSpan;
+                    }
+                    return false;
+                case DataGridColumnFilterMethod.LessThanOrEqual:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal <= compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble <= compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat <= compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt <= compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort <= compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime <= compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset <= compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly <= compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly <= compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan <= compareToTimeSpan;
+                    }
+                    return false;
+                case DataGridColumnFilterMethod.GreaterThan:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal > compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble > compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat > compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt > compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort > compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime > compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset > compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly > compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly > compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan > compareToTimeSpan;
+                    }
+                    return false;
+                case DataGridColumnFilterMethod.GreaterThanOrEqual:
+                    if ( columnType == DataGridColumnType.Numeric )
+                    {
+                        if ( columnValueType == typeof( decimal ) || columnValueType == typeof( decimal? ) )
+                            return decimal.TryParse( compareTo, out var compareToDecimal ) && decimal.TryParse( searchValue, out var searchValueDecimal ) && searchValueDecimal >= compareToDecimal;
+
+                        if ( columnValueType == typeof( double ) || columnValueType == typeof( double? ) )
+                            return double.TryParse( compareTo, out var compareToDouble ) && double.TryParse( searchValue, out var searchValueDouble ) && searchValueDouble >= compareToDouble;
+
+                        if ( columnValueType == typeof( float ) || columnValueType == typeof( float? ) )
+                            return float.TryParse( compareTo, out var compareToFloat ) && float.TryParse( searchValue, out var searchValueFloat ) && searchValueFloat >= compareToFloat;
+
+                        if ( columnValueType == typeof( int ) || columnValueType == typeof( int? ) )
+                            return int.TryParse( compareTo, out var compareToInt ) && int.TryParse( searchValue, out var searchValueInt ) && searchValueInt >= compareToInt;
+
+                        if ( columnValueType == typeof( short ) || columnValueType == typeof( short? ) )
+                            return short.TryParse( compareTo, out var compareToShort ) && short.TryParse( searchValue, out var searchValueShort ) && searchValueShort >= compareToShort;
+                    }
+                    else if ( columnType == DataGridColumnType.Date )
+                    {
+                        if ( columnValueType == typeof( DateTime ) || columnValueType == typeof( DateTime? ) )
+                            return DateTime.TryParse( compareTo, out var compareToDateTime ) && DateTime.TryParse( searchValue, out var searchValueDateTime ) && searchValueDateTime >= compareToDateTime;
+
+                        if ( columnValueType == typeof( DateTimeOffset ) || columnValueType == typeof( DateTimeOffset? ) )
+                            return DateTimeOffset.TryParse( compareTo, out var compareToDateTimeOffset ) && DateTimeOffset.TryParse( searchValue, out var searchValueDateTimeOffset ) && searchValueDateTimeOffset >= compareToDateTimeOffset;
+
+                        if ( columnValueType == typeof( DateOnly ) || columnValueType == typeof( DateOnly? ) )
+                            return DateOnly.TryParse( compareTo, out var compareToDateOnly ) && DateOnly.TryParse( searchValue, out var SearchValueDateOnly ) && SearchValueDateOnly >= compareToDateOnly;
+
+                        if ( columnValueType == typeof( TimeOnly ) || columnValueType == typeof( TimeOnly? ) )
+                            return TimeOnly.TryParse( compareTo, out var compareToTimeOnly ) && TimeOnly.TryParse( searchValue, out var searchValueTimeOnly ) && searchValueTimeOnly >= compareToTimeOnly;
+
+                        if ( columnValueType == typeof( TimeSpan ) || columnValueType == typeof( TimeSpan? ) )
+                            return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan >= compareToTimeSpan;
+                    }
+                    return false;
+                case DataGridColumnFilterMethod.Contains:
+                default:
+                    return searchValue.Contains( compareTo, StringComparison.OrdinalIgnoreCase );
+            }
+
         }
+
+        return FilterMethod switch
+        {
+            DataGridFilterMethod.StartsWith => searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase ),
+            DataGridFilterMethod.EndsWith => searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase ),
+            DataGridFilterMethod.Equals => searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase ),
+            DataGridFilterMethod.NotEquals => !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase ),
+            _ => searchValue.Contains( compareTo, StringComparison.OrdinalIgnoreCase ),
+        };
     }
 
     private IEnumerable<TItem> FilterViewData()
@@ -1844,6 +2353,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
     /// Makes sure the DataGrid has columns defined as groupable.
     /// </summary>
     /// <returns></returns>
@@ -1863,8 +2377,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     internal int GroupableColumnsCount
         => groupableColumns?.Count ?? 0;
 
+    /// <summary>
+    /// Whether the DataGrid is considered to be in a FixedHeader state.
+    /// </summary>
     internal bool IsFixedHeader
         => Virtualize || FixedHeader;
+
+    /// <summary>
+    /// Whether the DataGrid is considered in is Cell Edit Mode.
+    /// </summary>
+    internal protected bool IsCellEdit
+        => EditMode == DataGridEditMode.Cell;
 
     /// <summary>
     /// Gets the DataGrid standard class and other existing Class
@@ -1902,7 +2425,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets only columns that are available for editing.
     /// </summary>
-    protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
+    internal protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
 
     /// <summary>
     /// Gets only columns that are available for display in the grid.
@@ -2063,7 +2586,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Returns true if the datagrid is in edit mode and the item is the currently selected edititem
     /// </summary>
-    protected bool IsEditItemInGrid( TItem item ) => Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && item.IsEqual( editItem );
+    protected bool IsEditItemInGrid( TItem item )
+    {
+        var insideGridEditMode = Editable && editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup;
+        var hasBeenBatchEditItem = BatchEdit && ( GetBatchEditItemByOriginal( item )?.NewItem.IsEqual( editItem ) ?? false );
+
+        return insideGridEditMode && ( hasBeenBatchEditItem || item.IsEqual( editItem ) );
+    }
+
 
     /// <summary>
     /// True if user is using <see cref="ReadData"/> for loading the data.
@@ -2266,6 +2796,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 GroupDisplayData();
 
             return groupedData ?? Enumerable.Empty<GroupContext<TItem>>();
+        }
+    }
+
+    /// <summary>
+    /// Gets the Batch Changes.
+    /// </summary>
+    public IReadOnlyList<DataGridBatchEditItem<TItem>> BatchChanges
+    {
+        get
+        {
+            return batchChanges;
         }
     }
 
@@ -2631,6 +3172,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public Func<TItem, TItem> EditItemCreator { get; set; }
 
     /// <summary>
+    /// Function that, if set, is called to clone an instance of the saving item. If left null the built-in DeepClone method will be used.
+    /// </summary>
+    [Parameter] public Func<TItem, TItem> CloneItemCreator { get; set; }
+
+    /// <summary>
     /// Adds stripes to the table.
     /// </summary>
     [Parameter] public bool Striped { get; set; }
@@ -2694,6 +3240,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Custom handler for currently selected row.
     /// </summary>
     [Parameter] public Action<TItem, DataGridRowStyling> SelectedRowStyling { get; set; }
+
+    /// <summary>
+    /// Custom handler for the row that has batch edit changes.
+    /// </summary>
+    [Parameter] public Action<DataGridBatchEditItem<TItem>, DataGridRowStyling> RowBatchEditStyling { get; set; }
 
     /// <summary>
     /// Handler for custom filtering on datagrid item.
@@ -2772,9 +3323,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
-    ///  Makes Datagrid have a fixed header and enabling a scrollbar in the Datagrid body.
+    /// Makes Datagrid have a fixed header and enabling a scrollbar in the Datagrid body.
     /// </summary>
     [Parameter] public bool FixedHeader { get; set; }
+
+    /// <summary>
+    /// Makes Datagrid have a fixed set of columns. This will make it so that the table columns could be fixed to the side of the table.
+    /// </summary>
+    [Parameter] public bool FixedColumns { get; set; }
 
     /// <summary>
     /// Sets the Datagrid height when <see cref="FixedHeader"/> feature is enabled (defaults to 500px).
@@ -2864,6 +3420,42 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Template for the filter column. When filter mode is set to DataGridFilterMode.Menu, this template will be used to render the filter content.
     /// </summary>
     [Parameter] public RenderFragment<FilterColumnContext<TItem>> FilterMenuTemplate { get; set; }
+
+    /// <summary>
+    /// Whether the DataGrid will be in batch edit mode. This will make it so every change will only be saved when <see cref="Save"/> is called.
+    /// </summary>
+    [Parameter] public bool BatchEdit { get; set; }
+
+    /// <summary>
+    /// Cancelable event before batch edit is saved.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridBatchSavingEventArgs<TItem>> BatchSaving { get; set; }
+
+    /// <summary>
+    /// Event called after the batch edit is saved.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridBatchSavedEventArgs<TItem>> BatchSaved { get; set; }
+
+    /// <summary>
+    /// Event called after a batch change is made.
+    /// </summary>
+    [Parameter] public EventCallback<DataGridBatchChangeEventArgs<TItem>> BatchChange { get; set; }
+
+    /// <summary>
+    /// Custom handler for the cell styling.
+    /// </summary>
+    [Parameter] public Action<TItem, DataGridColumn<TItem>, DataGridCellStyling> CellStyling { get; set; }
+
+    /// <summary>
+    /// Custom handler for the selected cell styling.
+    /// </summary>
+    [Parameter] public Action<TItem, DataGridColumn<TItem>, DataGridCellStyling> SelectedCellStyling { get; set; }
+
+
+    /// <summary>
+    /// Custom handler for the cell styling when the cell has batch edit changes.
+    /// </summary>
+    [Parameter] public Action<DataGridBatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling> BatchEditCellStyling { get; set; }
 
     #endregion
 }

@@ -102,7 +102,7 @@ public class ValueDebouncer : IDisposable
     /// </summary>
     public void Dispose()
     {
-        if ( timer != null )
+        if ( timer is not null )
         {
             timer.Stop();
             timer.Elapsed -= OnElapsed;

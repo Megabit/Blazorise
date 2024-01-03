@@ -24,7 +24,7 @@ public partial class _DataGridModal<TItem> : BaseAfterRenderComponent, IDisposab
     protected bool isInvalid;
 
     protected EventCallback Cancel
-        => EventCallback.Factory.Create( this, ParentDataGrid.Cancel );
+        => EventCallback.Factory.Create( this, ParentDataGrid.CancelInternal );
 
     #endregion
 
@@ -79,7 +79,7 @@ public partial class _DataGridModal<TItem> : BaseAfterRenderComponent, IDisposab
 
     internal protected async Task Save()
     {
-        await ParentDataGrid.Save();
+        await ParentDataGrid.SaveInternal();
 
         if ( ParentDataGrid.EditState == DataGridEditState.None )
             await CloseModal();

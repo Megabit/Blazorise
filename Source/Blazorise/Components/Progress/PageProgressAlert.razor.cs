@@ -26,7 +26,7 @@ public partial class PageProgressAlert : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( PageProgressService != null )
+            if ( PageProgressService is not null )
             {
                 PageProgressService.ProgressChanged -= OnProgressChanged;
             }
@@ -39,7 +39,7 @@ public partial class PageProgressAlert : BaseComponent, IDisposable
     private async void OnProgressChanged( object sender, PageProgressEventArgs eventArgs )
     {
         Percentage = eventArgs.Percentage;
-        Visible = eventArgs.Percentage == null || ( eventArgs.Percentage >= 0 && eventArgs.Percentage <= 100 );
+        Visible = eventArgs.Percentage is null || ( eventArgs.Percentage >= 0 && eventArgs.Percentage <= 100 );
         Color = eventArgs.Options.Color;
 
         await PageProgressRef.SetValueAsync( eventArgs.Percentage );

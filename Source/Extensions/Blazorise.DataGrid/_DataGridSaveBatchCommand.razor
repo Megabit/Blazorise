@@ -1,0 +1,22 @@
+﻿@inherits ComponentBase
+@typeparam TItem
+
+@if ( ParentDataGrid.CommandColumn?.SaveBatchCommandAllowed == true )
+{
+    var buttonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveBatchButtonLocalizer, "Save Changes" );
+
+    @if ( ParentDataGrid.CommandColumn?.SaveBatchCommandTemplate != null )
+    {
+        @ParentDataGrid.CommandColumn.SaveBatchCommandTemplate( new()
+        {
+            Clicked = SaveBatch,
+            LocalizationString = buttonString,
+        } )
+    }
+    else
+    {
+        <Button Color="Color.Link" Clicked="@SaveBatch">
+            @buttonString
+        </Button>
+    }
+}

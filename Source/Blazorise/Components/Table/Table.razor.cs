@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.Utilities;
@@ -29,6 +30,8 @@ public partial class Table : BaseDraggableComponent
     private bool responsive;
 
     private bool fixedHeader;
+
+    private bool fixedColumns;
 
     private string fixedHeaderTableHeight = "300px";
 
@@ -84,8 +87,9 @@ public partial class Table : BaseDraggableComponent
     /// <param name="builder">Class builder used to append the classnames.</param>
     protected virtual void BuildContainerClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.TableResponsive(), Responsive );
-        builder.Append( ClassProvider.TableFixedHeader(), FixedHeader );
+        builder.Append( ClassProvider.TableResponsive( Responsive ) );
+        builder.Append( ClassProvider.TableFixedHeader( FixedHeader ) );
+        builder.Append( ClassProvider.TableFixedColumns( FixedColumns ) );
     }
 
     /// <summary>
@@ -212,7 +216,7 @@ public partial class Table : BaseDraggableComponent
     /// <summary>
     /// True if table needs to be placed inside of container element.
     /// </summary>
-    protected bool HasContainer => Responsive || FixedHeader || Resizable;
+    protected bool HasContainer => Responsive || FixedHeader || Resizable || FixedColumns;
 
     /// <summary>
     /// Gets or sets the <see cref="IJSTableModule"/> instance.
@@ -330,7 +334,7 @@ public partial class Table : BaseDraggableComponent
     }
 
     /// <summary>
-    ///  Makes table have a fixed header and enables a scrollbar in the table body.
+    /// Makes table have a fixed header and enables a scrollbar in the table body.
     /// </summary>
     [Parameter]
     public bool FixedHeader
@@ -347,6 +351,24 @@ public partial class Table : BaseDraggableComponent
 
             if ( !fixedHeader )
                 ExecuteAfterRender( () => DestroyFixedHeader().AsTask() );
+        }
+    }
+
+    /// <summary>
+    /// Makes table have a fixed set of columns. This will make it so that the table columns could be fixed to the side of the table.
+    /// </summary>
+    [Parameter]
+    public bool FixedColumns
+    {
+        get => fixedColumns;
+        set
+        {
+            if ( fixedColumns == value )
+                return;
+
+            fixedColumns = value;
+
+            DirtyClasses();
         }
     }
 

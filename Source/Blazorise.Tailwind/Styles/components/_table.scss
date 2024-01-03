@@ -38,3 +38,14 @@ tr.b-table-row {
         }
     }
 }
+
+.b-table-fixed-columns {
+    .b-table {
+        table-layout: fixed;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 0;
+    }
+}

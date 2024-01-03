@@ -371,6 +371,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ButtonLoading( bool outline );
 
+    public abstract string ButtonStretchedLink( bool stretched );
+
     #endregion
 
     #region Buttons
@@ -576,6 +578,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string CardText();
 
     public abstract string CardLink();
+
+    public abstract string CardLinkUnstyled( bool unstyled );
 
     public abstract string CardLinkActive( bool active );
 
@@ -944,6 +948,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableHeaderCellCursor( Cursor cursor );
 
+    public abstract string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition );
+
     public abstract string TableFooter();
 
     public abstract string TableBody();
@@ -958,9 +964,13 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableRowHeader();
 
+    public abstract string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition );
+
     public abstract string TableRowCell();
 
     public abstract string TableRowCellColor( Color color );
+
+    public abstract string TableRowCellFixed( TableColumnFixedPosition fixedPosition );
 
     public abstract string TableRowGroup( bool expanded );
 
@@ -968,9 +978,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableRowGroupIndentCell();
 
-    public abstract string TableResponsive();
+    public abstract string TableResponsive( bool responsive );
 
-    public abstract string TableFixedHeader();
+    public abstract string TableFixedHeader( bool fixedHeader );
+
+    public abstract string TableFixedColumns( bool fixedColumns );
 
     #endregion
 
@@ -1120,6 +1132,10 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string LinkActive( bool active );
 
+    public abstract string LinkUnstyled( bool unstyled );
+
+    public abstract string LinkStretched( bool stretched );
+
     #endregion
 
     #region States
@@ -1178,6 +1194,8 @@ public abstract class ClassProvider : IClassProvider
     #region Sizing
 
     public abstract string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition );
+
+    public abstract string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules );
 
     #endregion
 
@@ -1399,6 +1417,7 @@ public abstract class ClassProvider : IClassProvider
         return textWeight switch
         {
             Blazorise.TextWeight.Normal => "normal",
+            Blazorise.TextWeight.SemiBold => "semibold",
             Blazorise.TextWeight.Bold => "bold",
             Blazorise.TextWeight.Light => "light",
             _ => null,
@@ -1917,7 +1936,9 @@ public abstract class ClassProvider : IClassProvider
         return sizingSize switch
         {
             Blazorise.SizingSize.Is25 => "25",
+            Blazorise.SizingSize.Is33 => "33",
             Blazorise.SizingSize.Is50 => "50",
+            Blazorise.SizingSize.Is66 => "66",
             Blazorise.SizingSize.Is75 => "75",
             Blazorise.SizingSize.Is100 => "100",
             Blazorise.SizingSize.Auto => "auto",
@@ -2006,6 +2027,16 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.PositionTranslateType.Middle => "middle",
             Blazorise.PositionTranslateType.MiddleX => "middle-x",
             Blazorise.PositionTranslateType.MiddleY => "middle-y",
+            _ => null,
+        };
+    }
+
+    public virtual string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition )
+    {
+        return tableColumnFixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "start",
+            TableColumnFixedPosition.End => "end",
             _ => null,
         };
     }
