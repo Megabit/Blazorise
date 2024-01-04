@@ -35,6 +35,7 @@ public static class Config
     {
         { typeof( Blazorise.Addon ), typeof( FluentUI2.Addon ) },
         { typeof( Blazorise.CardHeader ), typeof( FluentUI2.CardHeader ) },
+        { typeof( Blazorise.Check<> ), typeof( FluentUI2.Check<> ) },
         { typeof( Blazorise.ColorEdit ), typeof( FluentUI2.ColorEdit ) },
         { typeof( Blazorise.ColorPicker ), typeof( FluentUI2.ColorPicker ) },
         { typeof( Blazorise.CloseButton ), typeof( FluentUI2.CloseButton ) },

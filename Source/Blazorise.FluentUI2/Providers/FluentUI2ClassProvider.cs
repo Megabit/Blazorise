@@ -145,11 +145,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Check
 
-    public override string Check() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+    public override string Check() => "fui-Checkbox__input";
 
     public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
 
-    public override string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+    public override string CheckInline() => "fui-Checkbox__input-inline";
 
     public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
 
