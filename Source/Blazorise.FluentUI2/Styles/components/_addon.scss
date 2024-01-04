@@ -5,19 +5,21 @@
         color: var(--colorNeutralForeground3);
         display: flex;
 
-       /* button {
-            background-color: transparent;
-            border-bottom-color: transparent;
-            border-left-color: transparent;
-            border-right-color: transparent;
-            border-top-color: transparent;
-            color: var(--colorNeutralForeground2);
+        button {
+            background-color: var(--colorNeutralBackground1);
+            color: var(--colorNeutralForeground1);
+            border: none;
+            font-family: var(--fontFamilyBase);
+            font-size: var(--fontSizeBase300);
+            font-weight: var(--fontWeightSemibold);
+            line-height: var(--lineHeightBase300);
+            cursor: pointer;
 
             &:hover {
                 background-color: var(--colorTransparentBackgroundHover);
                 color: var(--colorNeutralForeground2BrandHover);
             }
-        }*/
+        }
     }
 
     .fui-Input__content {
