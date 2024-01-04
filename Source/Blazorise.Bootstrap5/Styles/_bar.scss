@@ -46,7 +46,7 @@
     width: var(--b-vertical-bar-width, 230px);
     box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     .collapse.navbar-collapse {
         width: 100%;
@@ -135,17 +135,21 @@
                         .dropdown-menu[data-visible=true] {
                             display: block;
                             width: 100%;
+                            border: none;
+                            border-radius: 0%;
+                            background-color: #f8f9fa;
 
                             .dropdown-item {
                                 color: var(--b-bar-item-dark-hover-color, #fff);
-                                background: var(--b-bar-item-dark-hover-background, rgba(255, 255, 255, 0.3));
+                                background: #f8f9fa;
                                 position: relative;
-                                color: inherit;
+                                color: rgba(0,0,0,.55);
                                 transition: background 100ms ease-in-out, color 100ms ease-in-out;
                                 text-decoration: none;
                                 display: block;
                                 width: 100%;
                                 overflow-x: hidden;
+                                white-space: initial;
                             }
 
                             .dropdown-item.active {
@@ -153,8 +157,23 @@
                                 background: var(--b-bar-item-dark-active-background, #0288D1);
                             }
 
+                            .dropdown-item:hover {
+                                color: #1e2125;
+                                background-color: #e9ecef;
+                            }
+
                             .dropdown {
-                                color: black;
+                                color: rgba(0,0,0,.55);
+                                padding: unset;
+
+                                .nav-link {
+                                    padding: unset;
+                                }
+
+                                .dropdown-item.active {
+                                    color: var(--b-bar-item-dark-active-color, #fff);
+                                    background: var(--b-bar-item-dark-active-background, #0288D1);
+                                }
 
                                 .dropdown-toggle:before .nav-link {
                                     display: block;
@@ -166,11 +185,6 @@
                                     line-height: 1.5rem;
                                     vertical-align: middle;
                                     transition: font-size 150ms ease-in;
-
-                                    .dropdown:not([data-visible=true]) .dropdown-toggle:before {
-                                        transform: rotate(45deg);
-                                        top: 0.5rem;
-                                    }
                                 }
                             }
                         }
