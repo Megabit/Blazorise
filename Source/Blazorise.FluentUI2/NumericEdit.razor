@@ -3,7 +3,9 @@
 @inherits Blazorise.NumericEdit<TValue>
 @if ( ParentIsAddons )
 {
-    @InputElement
+    <span class="@AddonClassNames">
+        @InputElement
+    </span>
 }
 else
 {
@@ -25,6 +27,14 @@ else
             <input @ref="@ElementRef" id="@ElementId" type="number" inputmode="@InputMode" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" size="@VisibleCharacters" step="@StepString" pattern="@Pattern" tabindex="@TabIndex" @bind-value="@CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
         }
     };
+
+    string AddonClassNames
+    {
+        get
+        {
+            return "fui-Input__content";       
+        }
+    }
 
     string InputClassNames
     {

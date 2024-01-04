@@ -1,15 +1,37 @@
 ﻿@using System.Text
 @inherits Blazorise.ColorPicker
-<div class="@InputClassNames">
-    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" tabindex="@TabIndex" aria-disabled="@Disabled.ToString().ToLowerInvariant()" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
-        <div class="b-input-color-picker-preview">
-            <span class="b-input-color-picker-curent-color"></span>
-        </div>
+@if ( ParentIsAddons )
+{
+    <div class="@AddonClassNames">
+        @InputElement
     </div>
-</div>
+}
+else
+{
+    <div class="@InputClassNames">
+        @InputElement
+    </div>
+}
 @ChildContent
 @Feedback
 @code {
+    private RenderFragment InputElement => __builder =>
+    {
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" tabindex="@TabIndex" aria-disabled="@Disabled.ToString().ToLowerInvariant()" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+            <div class="b-input-color-picker-preview">
+                <span class="b-input-color-picker-curent-color"></span>
+            </div>
+        </div>
+    };
+
+    string AddonClassNames
+    {
+        get
+        {
+            return "fui-Input__content";
+        }
+    }
+
     string InputClassNames
     {
         get

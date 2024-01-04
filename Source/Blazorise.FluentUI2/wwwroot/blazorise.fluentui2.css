@@ -433,94 +433,35 @@
   box-sizing: border-box;
   color: var(--colorNeutralForeground3);
   display: flex;
-}
-.fui-Input .fui-Input__contentBefore button,
-.fui-Input .fui-Input__contentAfter button {
-  background-color: transparent;
-  border-bottom-color: transparent;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  border-top-color: transparent;
-  color: var(--colorNeutralForeground2);
-}
-.fui-Input .fui-Input__contentBefore button:hover,
-.fui-Input .fui-Input__contentAfter button:hover {
-  background-color: var(--colorTransparentBackgroundHover);
-  color: var(--colorNeutralForeground2BrandHover);
-}
-.fui-Input > .fui-Select__select {
-  /*flex-grow: 1;*/
-  border-bottom-color: transparent;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  border-top-color: transparent;
-}
+  /* button {
+       background-color: transparent;
+       border-bottom-color: transparent;
+       border-left-color: transparent;
+       border-right-color: transparent;
+       border-top-color: transparent;
+       color: var(--colorNeutralForeground2);
 
-.fui-Addons {
+       &:hover {
+           background-color: var(--colorTransparentBackgroundHover);
+           color: var(--colorNeutralForeground2BrandHover);
+       }
+   }*/
+}
+.fui-Input .fui-Input__content {
+  flex-wrap: nowrap;
   position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: stretch;
-  width: 100%;
-  /*&.fui-Addons-large {
-      .fui-Button {
-          padding-left: var(--spacingHorizontalL);
-          padding-right: var(--spacingHorizontalL);
-          padding-top: 8px;
-          padding-bottom: 8px;
-          font-weight: var(--fontWeightSemibold);
-          font-size: var(--fontSizeBase400);
-          min-width: 96px;
-          border-top-left-radius: var(--borderRadiusMedium);
-          border-top-right-radius: var(--borderRadiusMedium);
-          border-bottom-left-radius: var(--borderRadiusMedium);
-          border-bottom-right-radius: var(--borderRadiusMedium);
-          line-height: var(--lineHeightBase400);
-      }
-  }*/
-}
-.fui-Addons .fui-Addon__start {
-  display: inline-flex;
-}
-.fui-Addons .fui-Addon__start .fui-Button {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.fui-Addons .fui-Addon__end {
-  display: inline-flex;
-}
-.fui-Addons .fui-Addon__end .fui-Button {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.fui-Addons .fui-Addon__body {
-  flex: 1 1 auto;
-  width: 1%;
-  min-width: 0;
-}
-.fui-Addons .fui-Addon__body:not(:first-child) .fui-Input {
-  margin-left: -1px;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-.fui-Addons .fui-Addon__body:not(:last-child) .fui-Input {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-.fui-Addons.fui-Addons-large .fui-Addon__label {
-  display: flex;
+  box-sizing: border-box;
   align-items: center;
-  white-space: nowrap;
-  background-color: var(--colorNeutralForeground3);
-  border: var(--strokeWidthThin) solid var(--colorNeutralForeground4);
-  /*border-radius: var(--bs-border-radius);*/
-  min-height: 40px;
-  padding-right: var(--spacingHorizontalM);
-  padding-left: var(--spacingHorizontalM);
-  font-size: var(--fontSizeBase400);
-  line-height: var(--lineHeightBase400);
-  font-weight: var(--fontWeightRegular);
+  display: flex;
   font-family: var(--fontFamilyBase);
+  flex-grow: 1;
+}
+.fui-Input .fui-Input__content .fui-Select__select,
+.fui-Input .fui-Input__content .fui-Select__select:focus {
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
 }
 
 button {
@@ -1240,6 +1181,17 @@ button {
 
 .fui-FocusTrap {
   display: contents;
+}
+
+input::file-selector-button {
+  background-color: var(--colorNeutralBackground1);
+  color: var(--colorNeutralForeground1);
+  border: none;
+  font-family: var(--fontFamilyBase);
+  font-size: var(--fontSizeBase300);
+  font-weight: var(--fontWeightSemibold);
+  line-height: var(--lineHeightBase300);
+  cursor: pointer;
 }
 
 .fui-Input,

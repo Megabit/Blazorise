@@ -1,12 +1,34 @@
 ﻿@using System.Text
 @typeparam TValue
 @inherits Blazorise.DatePicker<TValue>
-<span class="@InputClassNames">
-    <input @ref="@ElementRef" id="@ElementId" type="text" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" min="@Min?.ToString(Utilities.Parsers.InternalDateFormat)" max="@Max?.ToString(Utilities.Parsers.InternalDateFormat)" tabindex="@TabIndex" @attributes="@Attributes" />
-</span>
+@if ( ParentIsAddons )
+{
+    <span class="@AddonClassNames">
+        @InputElement
+    </span>
+}
+else
+{
+    <span class="@InputClassNames">
+        @InputElement
+    </span>
+}
 @ChildContent
 @Feedback
 @code {
+    private RenderFragment InputElement => __builder =>
+    {
+        <input @ref="@ElementRef" id="@ElementId" type="text" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" pattern="@Pattern" value="@CurrentValueAsString" @onchange="@OnChangeHandler" @onclick="@OnClickHandler" placeholder="@Placeholder" min="@Min?.ToString(Utilities.Parsers.InternalDateFormat)" max="@Max?.ToString(Utilities.Parsers.InternalDateFormat)" tabindex="@TabIndex" @attributes="@Attributes" />
+    };
+
+    string AddonClassNames
+    {
+        get
+        {
+            return "fui-Input__content";
+        }
+    }
+
     string InputClassNames
     {
         get

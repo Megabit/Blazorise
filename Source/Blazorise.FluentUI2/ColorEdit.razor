@@ -1,11 +1,33 @@
 ﻿@using System.Text
 @inherits Blazorise.ColorEdit
-<span class="@InputClassNames">
-    <input @ref="@ElementRef" id="@ElementId" type="color" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
-</span>
+@if ( ParentIsAddons )
+{
+    <span class="@AddonClassNames">
+        @InputElement
+    </span>
+}
+else
+{
+    <span class="@InputClassNames">
+        @InputElement
+    </span>
+}
 @ChildContent
 @Feedback
 @code {
+    private RenderFragment InputElement => __builder =>
+    {
+        <input @ref="@ElementRef" id="@ElementId" type="color" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+    };
+
+    string AddonClassNames
+    {
+        get
+        {
+            return "fui-Input__content";
+        }
+    }
+
     string InputClassNames
     {
         get
