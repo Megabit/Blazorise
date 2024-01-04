@@ -1,3 +1,14 @@
 ﻿.fui-FocusTrap {
     display: contents;
 }
+
+input::file-selector-button {
+    background-color: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+    border: none;
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase300);
+    font-weight: var(--fontWeightSemibold);
+    line-height: var(--lineHeightBase300);
+    cursor: pointer;
+}
