@@ -1860,6 +1860,45 @@ input::file-selector-button {
   color: var(--colorNeutralForegroundDisabled);
   cursor: default;
 }
+.fui-Radio .fui-Radio__input.fui-Radio__input-extra-small ~ .fui-Radio__indicator {
+  width: 10px;
+  height: 10px;
+  font-size: 8px;
+}
+.fui-Radio .fui-Radio__input.fui-Radio__input-extra-small ~ .fui-Radio__indicator + .fui-Radio__label {
+  padding: 0;
+}
+.fui-Radio .fui-Radio__input.fui-Radio__input-small ~ .fui-Radio__indicator {
+  width: 12px;
+  height: 12px;
+  font-size: 10px;
+}
+.fui-Radio .fui-Radio__input.fui-Radio__input-small ~ .fui-Radio__indicator + .fui-Radio__label {
+  padding: 0;
+}
+.fui-Radio .fui-Radio__input.fui-Radio__input-medium ~ .fui-Radio__indicator {
+  width: 18px;
+  height: 18px;
+  font-size: 14px;
+}
+.fui-Radio .fui-Radio__input.fui-Radio__input-large ~ .fui-Radio__indicator {
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+}
+.fui-Radio .fui-Radio__input.fui-Radio__input-large ~ .fui-Radio__indicator + .fui-Radio__label {
+  margin-bottom: calc((20px - var(--lineHeightBase300)) / 2);
+  margin-top: calc((20x - var(--lineHeightBase300)) / 2);
+}
+.fui-Radio .fui-Radio__input.fui-Radio__input-extra-large ~ .fui-Radio__indicator {
+  width: 24px;
+  height: 24px;
+  font-size: 20px;
+}
+.fui-Radio .fui-Radio__input.fui-Radio__input-extra-large ~ .fui-Radio__indicator + .fui-Radio__label {
+  margin-bottom: calc((24px - var(--lineHeightBase300)) / 2);
+  margin-top: calc((24x - var(--lineHeightBase300)) / 2);
+}
 .fui-Radio .fui-Radio__indicator {
   width: 16px;
   height: 16px;
