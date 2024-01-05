@@ -2141,6 +2141,96 @@ input::file-selector-button {
   align-items: center;
 }
 
+.fui-Switch {
+  align-items: flex-start;
+  box-sizing: border-box;
+  display: inline-flex;
+  position: relative;
+}
+
+.fui-Switch__input {
+  top: 0px;
+  left: 0px;
+  box-sizing: border-box;
+  cursor: pointer;
+  height: 100%;
+  margin: 0px;
+  opacity: 0;
+  position: absolute;
+  width: calc(40px + 2 * var(--spacingHorizontalS));
+}
+.fui-Switch__input:disabled {
+  cursor: default;
+}
+.fui-Switch__input:disabled:not(:checked) ~ .fui-Switch__indicator {
+  border-color: var(--colorNeutralStrokeDisabled);
+}
+.fui-Switch__input:disabled ~ .fui-Switch__indicator {
+  color: var(--colorNeutralForegroundDisabled);
+}
+.fui-Switch__input:disabled ~ .fui-Switch__label {
+  cursor: default;
+  color: var(--colorNeutralForegroundDisabled);
+}
+.fui-Switch__input:enabled:not(:checked) ~ .fui-Switch__indicator {
+  color: var(--colorNeutralStrokeAccessible);
+  border-color: var(--colorNeutralStrokeAccessible);
+}
+.fui-Switch__input:enabled:not(:checked) ~ .fui-Switch__label {
+  color: var(--colorNeutralForeground1);
+}
+.fui-Switch__input:enabled:not(:checked):hover ~ .fui-Switch__indicator {
+  color: var(--colorNeutralStrokeAccessibleHover);
+  border-color: var(--colorNeutralStrokeAccessibleHover);
+}
+.fui-Switch__input:enabled:checked ~ .fui-Switch__indicator {
+  background-color: var(--colorCompoundBrandBackground);
+  color: var(--colorNeutralForegroundInverted);
+  border-color: var(--colorTransparentStroke);
+}
+.fui-Switch__input:enabled:checked:hover ~ .fui-Switch__indicator {
+  background-color: var(--colorCompoundBrandBackgroundHover);
+  border-color: var(--colorTransparentStrokeInteractive);
+}
+.fui-Switch__input:checked ~ .fui-Switch__indicator > * {
+  transform: translateX(20px);
+}
+.fui-Switch__input ~ .fui-Switch__indicator {
+  border-radius: var(--borderRadiusCircular);
+  border: 1px solid;
+  line-height: 0;
+  box-sizing: border-box;
+  fill: currentcolor;
+  flex-shrink: 0;
+  font-size: 18px;
+  height: 20px;
+  margin: var(--spacingVerticalS) var(--spacingHorizontalS);
+  pointer-events: none;
+  transition-duration: var(--durationNormal);
+  transition-timing-function: var(--curveEasyEase);
+  transition-property: background, border, color;
+  width: 40px;
+}
+.fui-Switch__input ~ .fui-Switch__indicator .fui-Switch__indicator__icon {
+  display: inline;
+  line-height: 0;
+  transition-duration: var(--durationNormal);
+  transition-timing-function: var(--curveEasyEase);
+  transition-property: transform;
+}
+.fui-Switch__input ~ .fui-Switch__label {
+  padding-bottom: var(--spacingVerticalS);
+  padding-top: var(--spacingVerticalS);
+  margin-top: calc((20px - var(--lineHeightBase300)) / 2);
+  margin-bottom: calc((20px - var(--lineHeightBase300)) / 2);
+  cursor: pointer;
+  padding-right: var(--spacingHorizontalS);
+  line-height: var(--lineHeightBase300);
+  font-size: var(--fontSizeBase300);
+  font-family: var(--fontFamilyBase);
+  color: var(--colorNeutralForeground1);
+}
+
 .fui-Text {
   text-overflow: clip;
   overflow-y: visible;

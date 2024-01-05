@@ -201,17 +201,17 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Switch
 
-    public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
+    public override string Switch() => "fui-Switch__input";
 
     public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
 
-    public override string SwitchSize( Size size ) => $"custom-control-input-{ToSize( size )}";
+    public override string SwitchSize( Size size ) => $"fui-Switch__input-{ToSize( size )}";
 
     public override string SwitchChecked( bool @checked ) => null;
 
     public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
 
-    public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SwitchValidation( ValidationStatus validationStatus ) => $"fui-Switch__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 

@@ -1,0 +1,68 @@
+﻿@using System.Text
+@typeparam TValue
+@inherits Blazorise.Switch<TValue>
+@if ( ParentIsAddons )
+{
+    <span class="@AddonClassNames">
+        @InputElement
+    </span>
+}
+else
+{
+    <span class="@InputClassNames">
+        @InputElement
+    </span>
+}
+@Feedback
+@code {
+    bool IsChecked => string.Compare( CurrentValueAsString ,bool.TrueString, StringComparison.InvariantCultureIgnoreCase ) == 0;
+
+    private RenderFragment InputElement => __builder =>
+    {
+        <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@CurrentValue" tabindex="@TabIndex" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        
+        <div aria-hidden="true" class="fui-Switch__indicator">
+            <svg fill="currentColor" class="fui-Switch__indicator__icon" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z" fill="currentColor"></path></svg>
+        </div>
+        <label for="@ElementId" class="fui-Label fui-Switch__label">
+            @ChildContent
+        </label>
+    };
+
+    string AddonClassNames
+    {
+        get
+        {
+            return "fui-Input__content";       
+        }
+    }
+
+    string InputClassNames
+    {
+        get
+        {
+            var sb = new StringBuilder( "fui-Switch" );
+
+            if ( ParentValidation?.Status == ValidationStatus.Error )
+            {
+                sb.Append( " fui-Switch__error" );
+            }
+            else if ( ParentValidation?.Status == ValidationStatus.Success )
+            {
+                sb.Append( " fui-Switch__success" );
+            }
+
+            if ( Size is not null && Size != Blazorise.Size.Default )
+            {
+                sb.Append( $" fui-Switch-{ClassProvider.ToSize( Size ?? Blazorise.Size.Default )}" );
+            }
+
+            if ( Disabled )
+            {
+                sb.Append( " fui-Switch__disabled" );
+            }
+
+            return sb.ToString();
+        }
+    }
+}

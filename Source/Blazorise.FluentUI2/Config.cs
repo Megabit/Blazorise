@@ -54,6 +54,7 @@ public static class Config
         { typeof( Blazorise.Radio<> ), typeof( Components.Radio<> ) },
         { typeof( Blazorise.Select<> ), typeof( Components.Select<> ) },
         { typeof( Blazorise.Slider<> ), typeof( Components.Slider<> ) },
+        { typeof( Blazorise.Switch<> ), typeof( Components.Switch<> ) },
         { typeof( Blazorise.ValidationError ), typeof( Components.ValidationError ) },
         { typeof( Blazorise.ValidationSuccess ), typeof( Components.ValidationSuccess ) },
     };
