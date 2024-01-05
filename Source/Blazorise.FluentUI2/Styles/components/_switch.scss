@@ -71,6 +71,46 @@
                 transform: translateX(20px);
             }
         }
+
+        &.fui-Switch__input-extra-small {
+            ~ .fui-Switch__indicator {
+                > * {
+                    transform: translateX(14px);
+                }
+            }
+        }
+
+        &.fui-Switch__input-small {
+            ~ .fui-Switch__indicator {
+                > * {
+                    transform: translateX(16px);
+                }
+            }
+        }
+
+        &.fui-Switch__input-medium {
+            ~ .fui-Switch__indicator {
+                > * {
+                    transform: translateX(22px);
+                }
+            }
+        }
+
+        &.fui-Switch__input-large {
+            ~ .fui-Switch__indicator {
+                > * {
+                    transform: translateX(24px);
+                }
+            }
+        }
+
+        &.fui-Switch__input-extra-large {
+            ~ .fui-Switch__indicator {
+                > * {
+                    transform: translateX(28px);
+                }
+            }
+        }
     }
 
     ~ .fui-Switch__indicator {
@@ -109,5 +149,65 @@
         font-size: var(--fontSizeBase300);
         font-family: var(--fontFamilyBase);
         color: var(--colorNeutralForeground1);
+    }
+
+    &.fui-Switch__input-extra-small {
+        ~ .fui-Switch__indicator {
+            width: 28px;
+            height: 14px;
+            font-size: 12px;
+
+            + .fui-Switch__label {
+                padding-bottom: var(--spacingVerticalXS);
+                padding-top: var(--spacingVerticalXS);
+            }
+        }
+    }
+
+    &.fui-Switch__input-small {
+        ~ .fui-Switch__indicator {
+            width: 32px;
+            height: 16px;
+            font-size: 14px;
+
+            + .fui-Switch__label {
+                padding-bottom: var(--spacingVerticalSNudge);
+                padding-top: var(--spacingVerticalSNudge);
+            }
+        }
+    }
+
+    &.fui-Switch__input-medium {
+        ~ .fui-Switch__indicator {
+            width: 44px;
+            height: 22px;
+            font-size: 20px;
+        }
+    }
+
+    &.fui-Switch__input-large {
+        ~ .fui-Switch__indicator {
+            width: 48px;
+            height: 24px;
+            font-size: 22px;
+
+            + .fui-Switch__label {
+                padding-bottom: var(--spacingVerticalMNudge);
+                padding-top: var(--spacingVerticalMNudge);
+            }
+        }
+    }
+
+    &.fui-Switch__input-extra-large {
+        ~ .fui-Switch__indicator {
+            width: 56px;
+            height: 28px;
+            font-size: 26px;
+
+            ~ .fui-Switch__label {
+                padding-bottom: var(--spacingVerticalM);
+                padding-top: var(--spacingVerticalM);
+            }
+        }
     }
 }
