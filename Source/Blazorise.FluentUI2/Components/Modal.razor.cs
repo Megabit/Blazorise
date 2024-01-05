@@ -1,6 +1,6 @@
 ﻿using Blazorise.Utilities;
 
-namespace Blazorise.FluentUI2;
+namespace Blazorise.FluentUI2.Components;
 
 public partial class Modal
 {
