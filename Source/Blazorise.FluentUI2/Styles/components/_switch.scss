@@ -61,6 +61,86 @@
                 background-color: var(--colorCompoundBrandBackgroundHover);
                 border-color: var(--colorTransparentStrokeInteractive);
             }
+
+            &.fui-Switch__input-secondary {
+                ~ .fui-Switch__indicator {
+                    background-color: var(--colorNeutralBackground3);
+                }
+
+                &:hover ~ .fui-Switch__indicator {
+                    background-color: var(--colorNeutralBackground3Hover);
+                }
+            }
+
+            &.fui-Switch__input-success {
+                ~ .fui-Switch__indicator {
+                    background-color: var(--colorStatusSuccessBackground3);
+                }
+
+                &:hover ~ .fui-Switch__indicator {
+                    background-color: var(--colorStatusSuccessForeground1);
+                }
+            }
+
+            &.fui-Switch__input-danger {
+                ~ .fui-Switch__indicator {
+                    background-color: var(--colorStatusDangerBackground3);
+                }
+
+                &:hover ~ .fui-Switch__indicator {
+                    background-color: var(--colorStatusDangerForeground1);
+                }
+            }
+
+            &.fui-Switch__input-warning {
+                ~ .fui-Switch__indicator {
+                    background-color: var(--colorPaletteMarigoldBackground3);
+                }
+
+                &:hover ~ .fui-Switch__indicator {
+                    background-color: var(--colorPaletteMarigoldForeground1);
+                }
+            }
+
+            &.fui-Switch__input-info {
+                ~ .fui-Switch__indicator {
+                    background-color: var(--colorNeutralForeground3);
+                }
+
+                &:hover ~ .fui-Switch__indicator {
+                    background-color: var(--colorNeutralForeground3Hover);
+                }
+            }
+
+            &.fui-Switch__input-light {
+                ~ .fui-Switch__indicator {
+                    background-color: var(--colorNeutralBackground2);
+                }
+
+                &:hover ~ .fui-Switch__indicator {
+                    background-color: var(--colorNeutralBackground2Hover);
+                }
+            }
+
+            &.fui-Switch__input-dark {
+                ~ .fui-Switch__indicator {
+                    background-color: var(--colorNeutralForeground1);
+                }
+
+                &:hover ~ .fui-Switch__indicator {
+                    background-color: var(--colorNeutralForeground2);
+                }
+            }
+
+            &.fui-Switch__input-link {
+                ~ .fui-Switch__indicator {
+                    background-color: var(--colorBrandForegroundLink);
+                }
+
+                &:hover ~ .fui-Switch__indicator {
+                    background-color: var(--colorBrandForegroundLinkHover);
+                }
+            }
         }
     }
 
