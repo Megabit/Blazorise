@@ -115,12 +115,6 @@
             await dataGridRef.LoadState( stateFromLocalStorage );
             return;
         }
-
-        var state = new DataGridState<Employee>()
-            {
-                CurrentPage = 2,
-                PageSize = 10,
-            };
     }
 
     private async Task SaveState()
