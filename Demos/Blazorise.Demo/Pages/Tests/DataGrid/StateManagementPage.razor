@@ -1,0 +1,131 @@
+﻿@page "/tests/datagrid/state"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Datagrid: State Management</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    Our DataGrid allows you to save and load state.
+                    You can use the <code>LoadState</code> and <code>GetState</code> methods to load and get the DataGrid state.
+                </Paragraph>
+                <Paragraph>
+                    In the following example, 
+                    <UnorderedList>
+                        <UnorderedListItem>we are using the <code>LoadState</code> method to load the DataGrid state from the LocalStorage if available.</UnorderedListItem>
+                        <UnorderedListItem>We are using the <code>GetState</code> method to save the DataGrid state to the LocalStorage in order to load at a later date.</UnorderedListItem>
+                        <UnorderedListItem>The page checks the LocalStorage on first render and loads the saved state if available.</UnorderedListItem>
+                    </UnorderedList>
+                </Paragraph>
+                <Paragraph>
+                    <Button Color="Color.Primary" Clicked="LoadState">Load State</Button>
+                    <Button Color="Color.Success" Clicked="SaveState">Save State</Button>
+                    <Button Color="Color.Light" Clicked="ResetState">Reset State</Button>
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <DataGrid @ref="dataGridRef"
+                          TItem="Employee"
+                          Data="inMemoryData"
+                          Responsive
+                          Editable
+                          ShowPager
+                          ShowPageSizes>
+                    <DataGridColumns>
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City">
+                            <CaptionTemplate>
+                                <Icon Name="IconName.City" /> @context.Caption
+                            </CaptionTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
+                        </DataGridColumn>
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
+                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" ReverseSorting="true" Editable Filterable="false" />
+                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                         </DataGridColumn>
+                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
+                             <DisplayTemplate>
+                                 <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                             </DisplayTemplate>
+                         </DataGridCheckColumn>
+                     </DataGridColumns>
+                 </DataGrid>
+             </CardBody>
+         </Card>
+     </Column>
+ </Row>
+
+ @code {
+    [Inject] Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private const string STORAGE_KEY = "__DATAGRID_STATE__";
+    private DataGrid<Employee> dataGridRef;
+    private IEnumerable<Employee> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+        await base.OnInitializedAsync();
+    }
+
+    protected async override Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await LoadState();
+        }
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
+    private async Task ResetState()
+    {
+        await LocalStorage.RemoveItemAsync( STORAGE_KEY );
+        var state = new DataGridState<Employee>()
+        {
+            CurrentPage = 1,
+            PageSize = 10,
+        };
+        await dataGridRef.LoadState( state );
+    }
+
+    private async Task LoadState()
+    {
+        var stateFromLocalStorage = await LocalStorage.GetItemAsync<DataGridState<Employee>>( STORAGE_KEY );
+
+        if ( stateFromLocalStorage is not null )
+        {
+            //It is of note that we must make sure the reference is contained in the DataGrid Data collection.
+            if (stateFromLocalStorage.SelectedRow is not null )
+            {
+                stateFromLocalStorage.SelectedRow = inMemoryData.FirstOrDefault(x => x.Id == stateFromLocalStorage.SelectedRow.Id);
+            }
+            if ( stateFromLocalStorage.EditItem is not null )
+            {
+                stateFromLocalStorage.EditItem = inMemoryData.FirstOrDefault( x => x.Id == stateFromLocalStorage.EditItem.Id );
+            }
+            await dataGridRef.LoadState( stateFromLocalStorage );
+            return;
+        }
+
+        var state = new DataGridState<Employee>()
+            {
+                CurrentPage = 2,
+                PageSize = 10,
+            };
+    }
+
+    private async Task SaveState()
+    {
+        var state = await dataGridRef.GetState();
+        await LocalStorage.SetItemAsync( STORAGE_KEY, state );
+    }
+}

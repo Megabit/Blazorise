@@ -180,11 +180,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #region Setup
 
     /// <summary>
-    ///
+    /// Loads the state of the DataGrid.
     /// </summary>
+    /// <param name="dataGridState">The state to be loaded, If null no action is taken.</param>
     /// <returns></returns>
     public async Task LoadState( DataGridState<TItem> dataGridState )
     {
+        if ( dataGridState is null )
+        {
+            return;
+        }
+
         PageSize = dataGridState.PageSize;
         CurrentPage = dataGridState.CurrentPage;
         if ( !dataGridState.ColumnSortStates.IsNullOrEmpty() )
@@ -208,10 +214,34 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             FilterData();
         }
+
+        SelectedRow = dataGridState.SelectedRow;
+        await SelectedRowChanged.InvokeAsync( dataGridState.SelectedRow );
+
+        SelectedRows = dataGridState.SelectedRows;
+        await SelectedRowsChanged.InvokeAsync( dataGridState.SelectedRows );
+
+        if ( dataGridState.EditState == DataGridEditState.None )
+        {
+            await Cancel();
+        }
+        else if ( dataGridState.EditState == DataGridEditState.New )
+        {
+            await New();
+        }
+        else if ( dataGridState.EditState == DataGridEditState.Edit )
+        {
+            if ( dataGridState.EditItem is not null )
+            {
+                await Edit( dataGridState.EditItem );
+            }
+        }
+
+        await ReloadInternal();
     }
 
     /// <summary>
-    ///
+    /// Gets the current state of the DataGrid.
     /// </summary>
     /// <returns></returns>
     public Task<DataGridState<TItem>> GetState()
@@ -220,6 +250,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             CurrentPage = CurrentPage,
             PageSize = PageSize,
+            EditState = EditState,
+            EditItem = editState == DataGridEditState.None ? default : editItem,
+            SelectedRow = SelectedRow,
+            SelectedRows = SelectedRows
         };
         return Task.FromResult( dataGridState );
     }

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Blazored.LocalStorage;
 using Blazorise.FluentValidation;
 using Blazorise.LoadingIndicator;
 using Blazorise.RichTextEdit;
@@ -25,6 +26,8 @@ public static class Config
             } )
             .AddLoadingIndicator()
             .AddBlazoriseFluentValidation();
+
+        services.AddBlazoredLocalStorage();
 
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
 
