@@ -10,3 +10,13 @@
     font-size: var(--fontSizeBase300);
     font-family: var(--fontFamilyBase);
 }
+
+code {
+    background: #f0f0f0;
+    border-radius: 4px;
+    padding: 1px 4px;
+    margin: 0 3px 0 3px;
+    color: black;
+    border: none;
+    line-height: 1.5;
+}

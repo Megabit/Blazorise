@@ -1026,25 +1026,25 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Table
 
-    public override string Table() => "table";
+    public override string Table() => "fui-Table";
 
-    public override string TableFullWidth() => null;
+    public override string TableFullWidth() => "fui-Table--fullwidth";
 
-    public override string TableStriped() => "table-striped";
+    public override string TableStriped() => "fui-Table--striped";
 
-    public override string TableHoverable() => "table-hover";
+    public override string TableHoverable() => "fui-Table--hoverable";
 
-    public override string TableBordered() => "table-bordered";
+    public override string TableBordered() => "fui-Table--bordered";
 
-    public override string TableNarrow() => "table-sm";
+    public override string TableNarrow() => "fui-Table--narrow";
 
-    public override string TableBorderless() => "table-borderless";
+    public override string TableBorderless() => "fui-Table--borderless";
 
-    public override string TableHeader() => null;
+    public override string TableHeader() => "fui-TableHeader";
 
-    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"table-thead-theme thead-{ToThemeContrast( themeContrast )}";
+    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"fui-TableHeader__theme fui-TableHeader__theme--{ToThemeContrast( themeContrast )}";
 
-    public override string TableHeaderCell() => null;
+    public override string TableHeaderCell() => "fui-TableHeaderCell";
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
@@ -1052,61 +1052,61 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "table-header-cell-fixed-start",
-            TableColumnFixedPosition.End => "table-header-cell-fixed-end",
+            TableColumnFixedPosition.Start => "fui-TableHeaderCell--fixed-start",
+            TableColumnFixedPosition.End => "fui-TableHeaderCell--fixed-end",
             _ => null,
         };
     }
 
-    public override string TableFooter() => null;
+    public override string TableFooter() => "fui-TableFooter";
 
-    public override string TableBody() => null;
+    public override string TableBody() => "fui-TableBody";
 
-    public override string TableRow( bool striped, bool hoverable ) => null;
+    public override string TableRow( bool striped, bool hoverable ) => "fui-TableRow";
 
-    public override string TableRowColor( Color color ) => $"table-{ToColor( color )}";
+    public override string TableRowColor( Color color ) => $"fui-TableRow--{ToColor( color )}";
 
     public override string TableRowHoverCursor() => "table-row-selectable";
 
     public override string TableRowIsSelected() => "selected";
 
-    public override string TableRowHeader() => null;
+    public override string TableRowHeader() => "fui-TableRowHeader";
 
     public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition )
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "table-row-header-fixed-start",
-            TableColumnFixedPosition.End => "table-row-header-fixed-end",
+            TableColumnFixedPosition.Start => "fui-TableRowHeader--fixed-start",
+            TableColumnFixedPosition.End => "fui-TableRowHeader--fixed-end",
             _ => null,
         };
     }
 
-    public override string TableRowCell() => null;
+    public override string TableRowCell() => "fui-TableCell";
 
-    public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
+    public override string TableRowCellColor( Color color ) => $"fui-TableCell--{ToColor( color )}";
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "table-row-cell-fixed-start",
-            TableColumnFixedPosition.End => "table-row-cell-fixed-end",
+            TableColumnFixedPosition.Start => "fui-TableCell--fixed-start",
+            TableColumnFixedPosition.End => "fui-TableCell--fixed-end",
             _ => null,
         };
     }
 
-    public override string TableRowGroup( bool expanded ) => "table-group";
+    public override string TableRowGroup( bool expanded ) => "fui-TableGroup";
 
-    public override string TableRowGroupCell() => "table-group-cell";
+    public override string TableRowGroupCell() => "fui-TableGroupCell";
 
-    public override string TableRowGroupIndentCell() => "table-group-indentcell";
+    public override string TableRowGroupIndentCell() => "fui-TableGroup--indentcell";
 
-    public override string TableResponsive( bool responsive ) => responsive ? "table-responsive" : null;
+    public override string TableResponsive( bool responsive ) => responsive ? "fui-Table--responsive" : null;
 
-    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "table-fixed-header" : null;
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "fui-Table--fixed-header" : null;
 
-    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "table-fixed-columns" : null;
+    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "fui-Table--fixed-columns" : null;
 
     #endregion
 

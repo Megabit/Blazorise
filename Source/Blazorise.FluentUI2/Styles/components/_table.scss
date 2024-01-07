@@ -1,0 +1,225 @@
+﻿.fui-Table {
+    table-layout: fixed;
+    vertical-align: middle;
+    display: table;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: var(--colorSubtleBackground);
+
+    .fui-TableHeader {
+        display: table-row-group;
+
+        .fui-TableRow {
+            display: table-row;
+            border-bottom-color: var(--colorNeutralStroke2);
+            border-bottom-style: solid;
+            border-bottom-width: var(--strokeWidthThin);
+            box-sizing: border-box;
+            color: var(--colorNeutralForeground1);
+
+            .fui-TableHeaderCell {
+                display: table-cell;
+                padding-bottom: 0px;
+                padding-top: 0px;
+                vertical-align: middle;
+                position: relative;
+                padding-left: var(--spacingHorizontalS);
+                padding-right: var(--spacingHorizontalS);
+                font-weight: var(--fontWeightRegular);
+                height: 32px;
+            }
+        }
+    }
+
+    .fui-TableBody {
+        display: table-row-group;
+
+        .fui-TableRow {
+            display: table-row;
+            border-bottom-color: var(--colorNeutralStroke2);
+            border-bottom-style: solid;
+            border-bottom-width: var(--strokeWidthThin);
+            box-sizing: border-box;
+            color: var(--colorNeutralForeground1);
+
+            .fui-TableCell {
+                height: 44px;
+                display: table-cell;
+                padding-bottom: 0px;
+                padding-top: 0px;
+                vertical-align: middle;
+                position: relative;
+                padding-left: var(--spacingHorizontalS);
+                padding-right: var(--spacingHorizontalS);
+            }
+
+            th.fui-TableRowHeader {
+                font-weight: var(--fontWeightSemibold);
+                padding-bottom: 0px;
+                padding-top: 0px;
+                vertical-align: middle;
+                position: relative;
+                padding-left: var(--spacingHorizontalS);
+                padding-right: var(--spacingHorizontalS);
+            }
+        }
+
+        .fui-TableGroup {
+            //display: table-row-group;
+            border-bottom-color: var(--colorNeutralStroke2);
+            border-bottom-style: solid;
+            border-bottom-width: var(--strokeWidthThin);
+            box-sizing: border-box;
+            color: var(--colorNeutralForeground1);
+            cursor: pointer;
+            background-color: var(--b-theme-light, var(--light, #f5f5f5));
+            font-weight: 700;
+
+            .fui-TableGroupCell {
+                //display: table-group-column;
+                height: 44px;
+                display: table-cell;
+                padding-bottom: 0px;
+                padding-top: 0px;
+                vertical-align: middle;
+                position: relative;
+                padding-left: var(--spacingHorizontalS);
+                padding-right: var(--spacingHorizontalS);
+            }
+        }
+    }
+
+    &.fui-Table--narrow {
+        .fui-TableBody {
+            .fui-TableRow {
+
+                .fui-TableCell {
+                    height: 34px;
+                }
+            }
+        }
+    }
+
+    &.fui-Table--hoverable {
+        .fui-TableBody {
+            .fui-TableRow {
+                &:hover {
+                    color: var(--colorNeutralForeground1Hover);
+                    background-color: var(--colorSubtleBackgroundHover);
+                }
+            }
+        }
+    }
+
+    &.fui-Table--striped {
+        .fui-TableBody {
+            .fui-TableRow:nth-of-type(odd) {
+                background-color: var(--colorSubtleBackgroundHover);
+            }
+        }
+    }
+
+    &.fui-Table--bordered {
+        border: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
+
+        th,
+        td {
+            border: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
+        }
+    }
+
+    &.fui-Table--borderless {
+        .fui-TableHeader {
+            .fui-TableRow {
+                border: 0;
+            }
+        }
+
+        .fui-TableBody {
+            .fui-TableRow {
+                border: 0;
+            }
+        }
+    }
+}
+
+
+.fui-Table--responsive {
+    @each $breakpoint in map-keys($grid-breakpoints) {
+        $next: breakpoint-next($breakpoint, $grid-breakpoints);
+        $infix: breakpoint-infix($next, $grid-breakpoints);
+
+        &#{$infix} {
+            @include media-breakpoint-down($breakpoint) {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                // Prevent double border on horizontal scroll due to use of `display: block;`
+                > .fui-Table--bordered {
+                    border: 0;
+                }
+            }
+        }
+    }
+}
+
+.fui-Table--fixed-header {
+    overflow-y: auto;
+
+    .fui-Table {
+        border-collapse: separate;
+        border-spacing: 0;
+
+        thead:not(.fui-TableHeader__theme) th {
+            background: white;
+        }
+
+        thead tr th {
+            border-top: none;
+            position: sticky !important;
+            z-index: 10;
+        }
+
+        thead tr:nth-child(1) th {
+            top: 0;
+        }
+    }
+}
+
+.fui-Table--fixed-columns {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    position: relative;
+
+    .fui-Table {
+        overflow-x: auto;
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 0;
+
+        .fui-TableHeaderCell--fixed,
+        .fui-TableRowHeader--fixed,
+        .fui-TableCell--fixed {
+            &-start {
+                position: sticky !important;
+                border-left: none;
+                z-index: 11;
+                background-color: white;
+                border-inline-start-width: 0;
+                left: 0;
+            }
+
+            &-end {
+                position: sticky !important;
+                border-left: none;
+                z-index: 11;
+                background-color: white;
+                border-inline-start-width: 0;
+                right: 0;
+            }
+        }
+    }
+}
