@@ -2375,7 +2375,7 @@ input::file-selector-button {
 }
 
 .fui-Table {
-  table-layout: fixed;
+  /*table-layout: fixed;*/
   vertical-align: middle;
   display: table;
   border-collapse: collapse;
@@ -2434,15 +2434,33 @@ input::file-selector-button {
   padding-left: var(--spacingHorizontalS);
   padding-right: var(--spacingHorizontalS);
 }
+.fui-Table .fui-TableBody .fui-TableRow:active {
+  color: var(--colorNeutralForeground1Pressed);
+  background-color: var(--colorSubtleBackgroundPressed);
+}
+.fui-Table .fui-TableBody .fui-TableRow.fui-TableRow--selectable {
+  cursor: pointer;
+}
+.fui-Table .fui-TableBody .fui-TableRow.fui-TableRow--selected, .fui-Table .fui-TableBody .fui-TableRow.fui-TableRow--primary {
+  background-color: var(--colorBrandBackground2);
+  border-bottom-color: var(--colorTransparentStrokeInteractive);
+  border-left-color: var(--colorTransparentStrokeInteractive);
+  border-right-color: var(--colorTransparentStrokeInteractive);
+  border-top-color: var(--colorTransparentStrokeInteractive);
+}
 .fui-Table .fui-TableBody .fui-TableGroup {
+  display: table-row;
   border-bottom-color: var(--colorNeutralStroke2);
   border-bottom-style: solid;
   border-bottom-width: var(--strokeWidthThin);
   box-sizing: border-box;
   color: var(--colorNeutralForeground1);
   cursor: pointer;
-  background-color: var(--b-theme-light, var(--light, #f5f5f5));
+  background-color: var(--colorNeutralBackground3);
   font-weight: 700;
+}
+.fui-Table .fui-TableBody .fui-TableGroup:hover {
+  background-color: var(--colorNeutralBackground3Hover);
 }
 .fui-Table .fui-TableBody .fui-TableGroup .fui-TableGroupCell {
   height: 44px;
@@ -2461,8 +2479,23 @@ input::file-selector-button {
   color: var(--colorNeutralForeground1Hover);
   background-color: var(--colorSubtleBackgroundHover);
 }
+.fui-Table.fui-Table--hoverable .fui-TableBody .fui-TableRow:active {
+  color: var(--colorNeutralForeground1Pressed);
+  background-color: var(--colorSubtleBackgroundPressed);
+}
 .fui-Table.fui-Table--striped .fui-TableBody .fui-TableRow:nth-of-type(odd) {
   background-color: var(--colorSubtleBackgroundHover);
+}
+.fui-Table.fui-Table--striped .fui-TableBody .fui-TableRow:nth-of-type(odd):active {
+  color: var(--colorNeutralForeground1Pressed);
+  background-color: var(--colorSubtleBackgroundPressed);
+}
+.fui-Table.fui-Table--striped .fui-TableBody .fui-TableRow:nth-of-type(odd).fui-TableRow--selected, .fui-Table.fui-Table--striped .fui-TableBody .fui-TableRow:nth-of-type(odd).fui-TableRow--primary {
+  background-color: var(--colorBrandBackground2);
+  border-bottom-color: var(--colorTransparentStrokeInteractive);
+  border-left-color: var(--colorTransparentStrokeInteractive);
+  border-right-color: var(--colorTransparentStrokeInteractive);
+  border-top-color: var(--colorTransparentStrokeInteractive);
 }
 .fui-Table.fui-Table--bordered {
   border: var(--strokeWidthThin) solid var(--colorNeutralStroke2);

@@ -1,5 +1,5 @@
 ﻿.fui-Table {
-    table-layout: fixed;
+    /*table-layout: fixed;*/
     vertical-align: middle;
     display: table;
     border-collapse: collapse;
@@ -62,21 +62,42 @@
                 padding-left: var(--spacingHorizontalS);
                 padding-right: var(--spacingHorizontalS);
             }
+
+            &:active {
+                color: var(--colorNeutralForeground1Pressed);
+                background-color: var(--colorSubtleBackgroundPressed);
+            }
+
+            &.fui-TableRow--selectable {
+                cursor: pointer;
+            }
+
+            &.fui-TableRow--selected,
+            &.fui-TableRow--primary {
+                background-color: var(--colorBrandBackground2);
+                border-bottom-color: var(--colorTransparentStrokeInteractive);
+                border-left-color: var(--colorTransparentStrokeInteractive);
+                border-right-color: var(--colorTransparentStrokeInteractive);
+                border-top-color: var(--colorTransparentStrokeInteractive);
+            }
         }
 
         .fui-TableGroup {
-            //display: table-row-group;
+            display: table-row;
             border-bottom-color: var(--colorNeutralStroke2);
             border-bottom-style: solid;
             border-bottom-width: var(--strokeWidthThin);
             box-sizing: border-box;
             color: var(--colorNeutralForeground1);
             cursor: pointer;
-            background-color: var(--b-theme-light, var(--light, #f5f5f5));
+            background-color: var(--colorNeutralBackground3);
             font-weight: 700;
 
+            &:hover {
+                background-color: var(--colorNeutralBackground3Hover);
+            }
+
             .fui-TableGroupCell {
-                //display: table-group-column;
                 height: 44px;
                 display: table-cell;
                 padding-bottom: 0px;
@@ -107,6 +128,11 @@
                     color: var(--colorNeutralForeground1Hover);
                     background-color: var(--colorSubtleBackgroundHover);
                 }
+
+                &:active {
+                    color: var(--colorNeutralForeground1Pressed);
+                    background-color: var(--colorSubtleBackgroundPressed);
+                }
             }
         }
     }
@@ -115,6 +141,20 @@
         .fui-TableBody {
             .fui-TableRow:nth-of-type(odd) {
                 background-color: var(--colorSubtleBackgroundHover);
+
+                &:active {
+                    color: var(--colorNeutralForeground1Pressed);
+                    background-color: var(--colorSubtleBackgroundPressed);
+                }
+
+                &.fui-TableRow--selected,
+                &.fui-TableRow--primary {
+                    background-color: var(--colorBrandBackground2);
+                    border-bottom-color: var(--colorTransparentStrokeInteractive);
+                    border-left-color: var(--colorTransparentStrokeInteractive);
+                    border-right-color: var(--colorTransparentStrokeInteractive);
+                    border-top-color: var(--colorTransparentStrokeInteractive);
+                }
             }
         }
     }

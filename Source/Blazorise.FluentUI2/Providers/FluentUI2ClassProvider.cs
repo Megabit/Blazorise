@@ -1066,9 +1066,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableRowColor( Color color ) => $"fui-TableRow--{ToColor( color )}";
 
-    public override string TableRowHoverCursor() => "table-row-selectable";
+    public override string TableRowHoverCursor() => "fui-TableRow--selectable";
 
-    public override string TableRowIsSelected() => "selected";
+    public override string TableRowIsSelected() => "fui-TableRow--selected";
 
     public override string TableRowHeader() => "fui-TableRowHeader";
 
