@@ -1,0 +1,36 @@
+﻿@page "/docs/extensions/datagrid/features/state-management"
+
+<Seo Canonical="/docs/extensions/datagrid/features/state-management" Title="Blazorise DataGrid State Management" Description="Learn Blazorise by the example. You are able to manage the state of the DataGrid by using the provided GetState and LoadState methods." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Features/State Management">
+    Blazorise DataGrid: State Management
+</DocsPageTitle>
+
+<DocsPageLead>
+    You are able to manage the state of the DataGrid by using the provided GetState and LoadState methods.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Example
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Get And Load State">
+        <Paragraph>
+            In the following example, 
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>we are using the <code>LoadState</code> method to load the DataGrid state from the LocalStorage if available.</UnorderedListItem>
+            <UnorderedListItem>We are using the <code>GetState</code> method to save the DataGrid state to the LocalStorage in order to load at a later date.</UnorderedListItem>
+            <UnorderedListItem>The page checks the LocalStorage on first render and loads the saved state if available.</UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridStateManagementExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridStateManagementExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>
