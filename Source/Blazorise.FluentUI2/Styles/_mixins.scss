@@ -94,7 +94,7 @@
 
             @if $grid-row-columns > 0 {
                 @for $i from 1 through $grid-row-columns {
-                    .fui-row-columns#{$infix}-#{$i} {
+                    .fui-RowColumns#{$infix}-#{$i} {
                         @include row-cols($i);
                     }
                 }
@@ -112,16 +112,16 @@
                 }
             }
 
-            .order#{$infix}-first {
+            .fui-ColumnOrder#{$infix}-first {
                 order: -1;
             }
 
-            .order#{$infix}-last {
+            .fui-ColumnOrder#{$infix}-last {
                 order: $columns + 1;
             }
 
             @for $i from 0 through $columns {
-                .order#{$infix}-#{$i} {
+                .fui-ColumnOrder#{$infix}-#{$i} {
                     order: $i;
                 }
             }
@@ -130,7 +130,7 @@
                 // `$columns - 1` because offsetting by the width of an entire row isn't possible
                 @for $i from 0 through ($columns - 1) {
                     @if not ($infix == "" and $i == 0) { // Avoid emitting useless .offset-0
-                        .offset#{$infix}-#{$i} {
+                        .fui-ColumnOffset#{$infix}-#{$i} {
                             @include make-col-offset($i, $columns);
                         }
                     }

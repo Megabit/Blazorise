@@ -83,3 +83,17 @@
         }
     }
 }
+
+@each $size, $length in $spacers {
+    .fui-Gap--#{$size} {
+        gap: $length !important;
+    }
+
+    .fui-GapY--#{$size} {
+        row-gap: $length !important;
+    }
+
+    .fui-GapX--#{$size} {
+        column-gap: $length !important;
+    }
+}
