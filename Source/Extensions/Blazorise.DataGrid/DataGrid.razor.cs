@@ -193,7 +193,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         PageSize = dataGridState.PageSize;
         CurrentPage = dataGridState.CurrentPage;
-        if ( !dataGridState.ColumnSortStates.IsNullOrEmpty() )
+        if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
+        {
+            await ResetSorting();
+        }
+        else
         {
             foreach ( var sortState in dataGridState.ColumnSortStates )
             {
@@ -201,7 +205,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
         }
 
-        if ( !dataGridState.ColumnFilterStates.IsNullOrEmpty() )
+        if ( dataGridState.ColumnFilterStates.IsNullOrEmpty() )
+        {
+            ResetFiltering();
+        }
+        else
         {
             foreach ( var filterState in dataGridState.ColumnFilterStates )
             {
@@ -255,6 +263,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             SelectedRow = SelectedRow,
             SelectedRows = SelectedRows
         };
+
+        if ( !SortByColumns.IsNullOrEmpty() )
+        {
+            dataGridState.ColumnSortStates = SortByColumns.Select( x => new DataGridColumnSortState<TItem>( x.Field, x.CurrentSortDirection ) ).ToList();
+        }
+
+        if ( Columns.Any( x => x.Filter?.SearchValue != null ) )
+        {
+            dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue ) ).ToList();
+        }
         return Task.FromResult( dataGridState );
     }
 
@@ -1354,6 +1372,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         SortByColumns.Clear();
+    }
+
+    private void ResetFiltering()
+    {
+        foreach ( var column in Columns )
+        {
+            column.Filter.SearchValue = null;
+        }
     }
 
     /// <summary>
