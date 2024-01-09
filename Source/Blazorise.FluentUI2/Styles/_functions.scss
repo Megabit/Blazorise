@@ -14,7 +14,7 @@
 }
 
 @function breakpoint-infix($name, $breakpoints: $grid-breakpoints) {
-    @return if(breakpoint-min($name, $breakpoints) == null, "", "--#{$name}");
+    @return if(breakpoint-min($name, $breakpoints) == null, "", "-#{$name}");
 }
 
 @mixin media-breakpoint-up($name, $breakpoints: $grid-breakpoints) {

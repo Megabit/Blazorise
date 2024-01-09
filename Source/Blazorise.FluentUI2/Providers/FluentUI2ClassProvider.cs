@@ -796,7 +796,7 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string RowColumns( RowColumnsSize rowColumnsSize, RowColumnsDefinition rowColumnsDefinition )
     {
         if ( rowColumnsDefinition.Breakpoint != Breakpoint.None && rowColumnsDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"fui-RowColumns--{ToBreakpoint( rowColumnsDefinition.Breakpoint )}-{ToRowColumnsSize( rowColumnsSize )}";
+            return $"fui-RowColumns-{ToBreakpoint( rowColumnsDefinition.Breakpoint )}-{ToRowColumnsSize( rowColumnsSize )}";
 
         return $"fui-RowColumns-{ToRowColumnsSize( rowColumnsSize )}";
     }
@@ -817,7 +817,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
         {
-            return $"{baseClass}--{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
+            return $"{baseClass}-{ToBreakpoint( breakpoint )}-{ToColumnWidth( columnWidth )}";
         }
 
         return $"{baseClass}-{ToColumnWidth( columnWidth )}";
@@ -835,7 +835,7 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
     {
         if ( gridRowsDefinition.Breakpoint != Breakpoint.None && gridRowsDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"fui-GridRows--{ToBreakpoint( gridRowsDefinition.Breakpoint )}-{ToGridRowsSize( gridRows )}";
+            return $"fui-GridRows-{ToBreakpoint( gridRowsDefinition.Breakpoint )}-{ToGridRowsSize( gridRows )}";
 
         return $"fui-GridRows-{ToGridRowsSize( gridRows )}";
     }
@@ -843,7 +843,7 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
     {
         if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"fui-GridCols--{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
+            return $"fui-GridCols-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
 
         return $"fui-GridCols-{ToGridColumnsSize( gridColumns )}";
     }
@@ -1028,21 +1028,21 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Table() => "fui-Table";
 
-    public override string TableFullWidth() => "fui-Table--fullwidth";
+    public override string TableFullWidth() => "fui-Table-fullwidth";
 
-    public override string TableStriped() => "fui-Table--striped";
+    public override string TableStriped() => "fui-Table-striped";
 
-    public override string TableHoverable() => "fui-Table--hoverable";
+    public override string TableHoverable() => "fui-Table-hoverable";
 
-    public override string TableBordered() => "fui-Table--bordered";
+    public override string TableBordered() => "fui-Table-bordered";
 
-    public override string TableNarrow() => "fui-Table--narrow";
+    public override string TableNarrow() => "fui-Table-narrow";
 
-    public override string TableBorderless() => "fui-Table--borderless";
+    public override string TableBorderless() => "fui-Table-borderless";
 
     public override string TableHeader() => "fui-TableHeader";
 
-    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"fui-TableHeader__theme fui-TableHeader__theme--{ToThemeContrast( themeContrast )}";
+    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"fui-TableHeader__theme fui-TableHeader__theme-{ToThemeContrast( themeContrast )}";
 
     public override string TableHeaderCell() => "fui-TableHeaderCell";
 
@@ -1052,8 +1052,8 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "fui-TableHeaderCell--fixed-start",
-            TableColumnFixedPosition.End => "fui-TableHeaderCell--fixed-end",
+            TableColumnFixedPosition.Start => "fui-TableHeaderCell-fixed-start",
+            TableColumnFixedPosition.End => "fui-TableHeaderCell-fixed-end",
             _ => null,
         };
     }
@@ -1064,11 +1064,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => "fui-TableRow";
 
-    public override string TableRowColor( Color color ) => $"fui-TableRow--{ToColor( color )}";
+    public override string TableRowColor( Color color ) => $"fui-TableRow-{ToColor( color )}";
 
-    public override string TableRowHoverCursor() => "fui-TableRow--selectable";
+    public override string TableRowHoverCursor() => "fui-TableRow-selectable";
 
-    public override string TableRowIsSelected() => "fui-TableRow--selected";
+    public override string TableRowIsSelected() => "fui-TableRow-selected";
 
     public override string TableRowHeader() => "fui-TableRowHeader";
 
@@ -1076,22 +1076,22 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "fui-TableRowHeader--fixed-start",
-            TableColumnFixedPosition.End => "fui-TableRowHeader--fixed-end",
+            TableColumnFixedPosition.Start => "fui-TableRowHeader-fixed-start",
+            TableColumnFixedPosition.End => "fui-TableRowHeader-fixed-end",
             _ => null,
         };
     }
 
     public override string TableRowCell() => "fui-TableCell";
 
-    public override string TableRowCellColor( Color color ) => $"fui-TableCell--{ToColor( color )}";
+    public override string TableRowCellColor( Color color ) => $"fui-TableCell-{ToColor( color )}";
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
         return fixedPosition switch
         {
-            TableColumnFixedPosition.Start => "fui-TableCell--fixed-start",
-            TableColumnFixedPosition.End => "fui-TableCell--fixed-end",
+            TableColumnFixedPosition.Start => "fui-TableCell-fixed-start",
+            TableColumnFixedPosition.End => "fui-TableCell-fixed-end",
             _ => null,
         };
     }
@@ -1100,13 +1100,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableRowGroupCell() => "fui-TableGroupCell";
 
-    public override string TableRowGroupIndentCell() => "fui-TableGroup--indentcell";
+    public override string TableRowGroupIndentCell() => "fui-TableGroup-indentcell";
 
-    public override string TableResponsive( bool responsive ) => responsive ? "fui-Table--responsive" : null;
+    public override string TableResponsive( bool responsive ) => responsive ? "fui-Table-responsive" : null;
 
-    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "fui-Table--fixed-header" : null;
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "fui-Table-fixed-header" : null;
 
-    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "fui-Table--fixed-columns" : null;
+    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "fui-Table-fixed-columns" : null;
 
     #endregion
 
@@ -1281,9 +1281,9 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
     {
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Breakpoint.Mobile )
-            return $"{ToSpacing( spacing )}{ToSide( side )}--{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
+            return $"fui-{ToSpacing( spacing )}-{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
 
-        return $"{ToSpacing( spacing )}{ToSide( side )}-{ToSpacingSize( spacingSize )}";
+        return $"fui-{ToSpacing( spacing )}-{ToSide( side )}-{ToSpacingSize( spacingSize )}";
     }
 
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
@@ -1298,7 +1298,7 @@ public class FluentUI2ClassProvider : ClassProvider
             ? $"{ToGapSide( gapSide )}-"
             : null;
 
-        return $"fui-Gap{side}--{ToGapSize( gapSize )}";
+        return $"fui-Gap{side}-{ToGapSize( gapSize )}";
     }
 
     public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
@@ -1347,31 +1347,31 @@ public class FluentUI2ClassProvider : ClassProvider
             : null;
 
         if ( flexDefinition.Direction != FlexDirection.Default )
-            sb.Append( "fui-Flex--" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
+            sb.Append( "fui-Flex-" ).Append( breakpoint ).Append( ToDirection( flexDefinition.Direction ) );
 
         if ( flexDefinition.JustifyContent != FlexJustifyContent.Default )
-            sb.Append( "fui-JustifyContent--" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
+            sb.Append( "fui-JustifyContent-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
 
         if ( flexDefinition.AlignItems != FlexAlignItems.Default )
-            sb.Append( "fui-AlignIitems--" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+            sb.Append( "fui-AlignIitems-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
 
         if ( flexDefinition.AlignSelf != FlexAlignSelf.Default )
-            sb.Append( "fui-AlignSelf--" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
+            sb.Append( "fui-AlignSelf-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
 
         if ( flexDefinition.AlignContent != FlexAlignContent.Default )
-            sb.Append( "fui-AlignContent--" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
+            sb.Append( "fui-AlignContent-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
 
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
-            sb.Append( "fui-Flex--" ).Append( breakpoint ).Append( "--" ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+            sb.Append( "fui-Flex-" ).Append( breakpoint ).Append( "-" ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
 
         if ( flexDefinition.Wrap != FlexWrap.Default )
-            sb.Append( "fui-Flex--" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
+            sb.Append( "fui-Flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
 
         if ( flexDefinition.Order != FlexOrder.Default )
-            sb.Append( "fui-FlexOrder--" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
+            sb.Append( "fui-FlexOrder-" ).Append( breakpoint ).Append( ToOrder( flexDefinition.Order ) );
 
         if ( flexDefinition.Fill )
-            sb.Append( "fui-Flex--" ).Append( breakpoint ).Append( "fill" );
+            sb.Append( "fui-Flex-" ).Append( breakpoint ).Append( "fill" );
 
         return sb.ToString();
     }
@@ -1537,8 +1537,8 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return spacing switch
         {
-            Blazorise.Spacing.Margin => "fui-Margin",
-            Blazorise.Spacing.Padding => "fui-Padding",
+            Blazorise.Spacing.Margin => "Margin",
+            Blazorise.Spacing.Padding => "Padding",
             _ => null,
         };
     }
