@@ -1324,6 +1324,18 @@ button {
   font-family: var(--fontFamilyBase);
 }
 
+.fui-Fields {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: calc(-1 * var(--spacingHorizontalM) * 0.5);
+  margin-left: calc(-1 * var(--spacingHorizontalM) * 0.5);
+}
+.fui-Fields > .fui-Column,
+.fui-Fields > [class*=fui-Column-] {
+  padding-right: calc(var(--spacingHorizontalM) * 0.5);
+  padding-left: calc(var(--spacingHorizontalM) * 0.5);
+}
+
 .fui-FocusTrap {
   display: contents;
 }

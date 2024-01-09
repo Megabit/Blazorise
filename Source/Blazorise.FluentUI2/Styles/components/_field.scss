@@ -134,3 +134,16 @@
         font-family: var(--fontFamilyBase);
     }
 }
+
+.fui-Fields {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: calc(-1 * var(--spacingHorizontalM) * .5);
+    margin-left: calc(-1 * var(--spacingHorizontalM) * .5);
+
+    > .fui-Column,
+    > [class*="fui-Column-"] {
+        padding-right: calc(var(--spacingHorizontalM) * .5);
+        padding-left: calc(var(--spacingHorizontalM) * .5);
+    }
+}

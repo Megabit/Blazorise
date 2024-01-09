@@ -297,11 +297,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Fields
 
-    public override string Fields() => "form-row";
+    public override string Fields() => "fui-Fields";
 
     public override string FieldsBody() => null;
 
-    public override string FieldsColumn() => "col";
+    public override string FieldsColumn() => "fui-Column";
 
     #endregion
 
