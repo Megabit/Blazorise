@@ -1511,11 +1511,11 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return breakpoint switch
         {
-            Blazorise.Breakpoint.Mobile => "extra-small",
+            Blazorise.Breakpoint.Mobile => "x-small",
             Blazorise.Breakpoint.Tablet => "small",
             Blazorise.Breakpoint.Desktop => "medium",
             Blazorise.Breakpoint.Widescreen => "large",
-            Blazorise.Breakpoint.FullHD => "extra-large",
+            Blazorise.Breakpoint.FullHD => "x-large",
             _ => null,
         };
     }
@@ -1524,11 +1524,11 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return size switch
         {
-            Blazorise.Size.ExtraSmall => "extra-small",
+            Blazorise.Size.ExtraSmall => "x-small",
             Blazorise.Size.Small => "small",
             Blazorise.Size.Medium => "medium",
             Blazorise.Size.Large => "large",
-            Blazorise.Size.ExtraLarge => "extra-large",
+            Blazorise.Size.ExtraLarge => "x-large",
             _ => null,
         };
     }
@@ -1573,7 +1573,7 @@ public class FluentUI2ClassProvider : ClassProvider
         {
             Blazorise.ModalSize.Small => "small",
             Blazorise.ModalSize.Large => "large",
-            Blazorise.ModalSize.ExtraLarge => "extra-large",
+            Blazorise.ModalSize.ExtraLarge => "x-large",
             Blazorise.ModalSize.Fullscreen => "fullscreen",
             _ => null,
         };
