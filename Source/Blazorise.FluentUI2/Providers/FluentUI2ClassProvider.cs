@@ -1590,7 +1590,7 @@ public class FluentUI2ClassProvider : ClassProvider
             Blazorise.DisplayType.Flex => "Flex",
             Blazorise.DisplayType.InlineFlex => "InlineFlex",
             Blazorise.DisplayType.Table => "Table",
-            Blazorise.DisplayType.TableRow => "TableRrow",
+            Blazorise.DisplayType.TableRow => "TableRow",
             Blazorise.DisplayType.TableCell => "TableCell",
             _ => null,
         };
