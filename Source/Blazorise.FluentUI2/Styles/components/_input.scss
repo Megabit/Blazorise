@@ -99,6 +99,13 @@
         &:focus-within {
             outline: transparent solid 2px;
         }
+
+        &.fui-Input-plaintext {
+            border-left-color: var(--colorTransparentStroke);
+            border-right-color: var(--colorTransparentStroke);
+            border-top-color: var(--colorTransparentStroke);
+            border-bottom-color: var(--colorTransparentStroke);
+        }
     }
 
     .fui-Input__input,
@@ -184,7 +191,7 @@
         &.fui-Input__input-small,
         &.fui-Input__input-medium,
         &.fui-Input__input-large,
-        &.fui-Input__input-extra-large{
+        &.fui-Input__input-extra-large {
             box-sizing: border-box;
             flex-grow: 1;
             min-width: 0px;

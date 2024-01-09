@@ -41,6 +41,11 @@ else
         {
             var sb = new StringBuilder( "fui-Input" );
 
+            if ( Plaintext )
+            {
+                sb.Append( " fui-Input-plaintext" );
+            }
+
             if ( ParentValidation?.Status == ValidationStatus.Error )
             {
                 sb.Append( " fui-Input__error" );
