@@ -1,5 +1,5 @@
 ﻿.fui-Field {
-    margin-bottom: var(--spacingHorizontalM);
+    margin-bottom: var(--spacingVerticalM);
 }
 
 .fui-Field.fui-FieldHorizontal {
@@ -145,5 +145,21 @@
     > [class*="fui-Column-"] {
         padding-right: calc(var(--spacingHorizontalM) * .5);
         padding-left: calc(var(--spacingHorizontalM) * .5);
+    }
+}
+
+.fui-Fields-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+
+    @include media-breakpoint-up(small) {
+        .fui-Field {
+            display: flex;
+            flex: 0 0 auto;
+            flex-flow: row wrap;
+            align-items: center;
+            margin-bottom: var(--spacingVerticalNone);
+        }
     }
 }

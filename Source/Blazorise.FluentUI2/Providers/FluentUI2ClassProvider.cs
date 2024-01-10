@@ -392,7 +392,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Inline
 
-    public override string Inline() => "form-inline";
+    public override string Inline() => "fui-Fields-inline";
 
     #endregion
 
