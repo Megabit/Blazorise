@@ -147,11 +147,11 @@
         }
     }
 
-    &-small {
+    &-sm {
         max-width: 300px;
     }
 
-    &-fullscreen {
+    &-full {
         width: 100vw;
         max-width: none;
         height: 100%;
@@ -169,21 +169,21 @@
     }
 }
 
-@include media-breakpoint-up(small) {
-    .fui-DialogSurface-small {
+@include media-breakpoint-up(sm) {
+    .fui-DialogSurface-sm {
         max-width: $modal-sm;
     }
 }
 
-@include media-breakpoint-up(large) {
-    .fui-DialogSurface-large,
-    .fui-DialogSurface-extra-large {
+@include media-breakpoint-up(lg) {
+    .fui-DialogSurface-lg,
+    .fui-DialogSurface-xl {
         max-width: $modal-lg;
     }
 }
 
-@include media-breakpoint-up(extra-large) {
-    .fui-DialogSurface-extra-large {
+@include media-breakpoint-up(xl) {
+    .fui-DialogSurface-xl {
         max-width: $modal-xl;
     }
 }

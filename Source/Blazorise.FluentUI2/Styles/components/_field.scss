@@ -78,7 +78,7 @@
         }
     }
 
-    &.fui-Input-extra-small {
+    &.fui-Input-xs {
         min-height: 16px;
         padding-left: var(--spacingHorizontalXS);
         padding-right: var(--spacingHorizontalXS);
@@ -88,7 +88,7 @@
         font-family: var(--fontFamilyBase);
     }
 
-    &.fui-Input-small {
+    &.fui-Input-sm {
         min-height: 24px;
         padding-left: var(--spacingHorizontalSNudge);
         padding-right: var(--spacingHorizontalSNudge);
@@ -98,7 +98,7 @@
         font-family: var(--fontFamilyBase);
     }
 
-    &.fui-Input-medium {
+    &.fui-Input-md {
         min-height: 36px;
         row-gap: var(--spacingHorizontalSNudge);
         padding-right: var(--spacingHorizontalM);
@@ -110,7 +110,7 @@
         font-family: var(--fontFamilyBase);
     }
 
-    &.fui-Input-large {
+    &.fui-Input-lg {
         min-height: 40px;
         row-gap: var(--spacingHorizontalSNudge);
         padding-right: var(--spacingHorizontalM);
@@ -122,7 +122,7 @@
         font-family: var(--fontFamilyBase);
     }
 
-    &.fui-Input-extra-large {
+    &.fui-Input-xl {
         min-height: 48px;
         row-gap: var(--spacingHorizontalSNudge);
         padding-right: var(--spacingHorizontalL);

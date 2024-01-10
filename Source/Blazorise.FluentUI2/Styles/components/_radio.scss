@@ -52,7 +52,7 @@
             }
         }
 
-        &.fui-Radio__input-extra-small {
+        &.fui-Radio__input-xs {
             ~ .fui-Radio__indicator {
                 width: 10px;
                 height: 10px;
@@ -64,7 +64,7 @@
             }
         }
 
-        &.fui-Radio__input-small {
+        &.fui-Radio__input-sm {
             ~ .fui-Radio__indicator {
                 width: 12px;
                 height: 12px;
@@ -76,7 +76,7 @@
             }
         }
 
-        &.fui-Radio__input-medium {
+        &.fui-Radio__input-md {
             ~ .fui-Radio__indicator {
                 width: 18px;
                 height: 18px;
@@ -84,7 +84,7 @@
             }
         }
 
-        &.fui-Radio__input-large {
+        &.fui-Radio__input-lg {
             ~ .fui-Radio__indicator {
                 width: 20px;
                 height: 20px;
@@ -97,7 +97,7 @@
             }
         }
 
-        &.fui-Radio__input-extra-large {
+        &.fui-Radio__input-xl {
             ~ .fui-Radio__indicator {
                 width: 24px;
                 height: 24px;

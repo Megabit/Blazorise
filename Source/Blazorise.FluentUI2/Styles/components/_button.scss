@@ -62,7 +62,7 @@
         }
     }
 
-    &.fui-Button__extra-small {
+    &.fui-Button-xs {
         padding-left: var(--spacingHorizontalXS);
         padding-right: var(--spacingHorizontalXS);
         padding-top: 1px;
@@ -77,7 +77,7 @@
         line-height: var(--lineHeightBase100);
     }
 
-    &.fui-Button__small {
+    &.fui-Button-sm {
         padding-left: var(--spacingHorizontalS);
         padding-right: var(--spacingHorizontalS);
         padding-top: 3px;
@@ -92,7 +92,7 @@
         line-height: var(--lineHeightBase200);
     }
 
-    &.fui-Button__medium {
+    &.fui-Button-md {
         padding-left: var(--spacingHorizontalM);
         padding-right: var(--spacingHorizontalM);
         padding-top: 6px;
@@ -107,7 +107,7 @@
         line-height: var(--lineHeightBase400);
     }
 
-    &.fui-Button__large {
+    &.fui-Button-lg {
         padding-left: var(--spacingHorizontalL);
         padding-right: var(--spacingHorizontalL);
         padding-top: 8px;
@@ -122,7 +122,7 @@
         line-height: var(--lineHeightBase400);
     }
 
-    &.fui-Button__extra-large {
+    &.fui-Button-xl {
         padding-left: var(--spacingHorizontalXL);
         padding-right: var(--spacingHorizontalXL);
         padding-top: 12px;
@@ -147,40 +147,40 @@
     }
 }
 
-.fui-Button__primary {
+.fui-Button-primary {
     @include button-variant(var(--colorBrandBackground), var(--colorBrandBackgroundHover), var(--colorBrandBackgroundPressed), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
 }
 
-.fui-Button__secondary {
+.fui-Button-secondary {
     @include button-variant(var(--colorNeutralBackground3), var(--colorNeutralBackground3Hover), var(--colorNeutralBackground3Pressed), var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Hover));
     border-color: var(--colorNeutralStroke1);
 }
 
-.fui-Button__success {
+.fui-Button-success {
     @include button-variant(var(--colorStatusSuccessBackground3), var(--colorStatusSuccessForeground1), var(--colorStatusSuccessForeground2), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
 }
 
-.fui-Button__danger {
+.fui-Button-danger {
     @include button-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerForeground1), var(--colorStatusDangerForeground2), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
 }
 
-.fui-Button__warning {
+.fui-Button-warning {
     @include button-variant(var(--colorPaletteMarigoldBackground3), var(--colorPaletteMarigoldForeground1), var(--colorPaletteMarigoldForeground2), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1));
 }
 
-.fui-Button__info {
+.fui-Button-info {
     @include button-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed), var(--colorNeutralBackground3), var(--colorNeutralBackground3Hover), var(--colorNeutralBackground3Pressed));
 }
 
-.fui-Button__dark {
+.fui-Button-dark {
     @include button-variant(var(--colorNeutralForeground1), var(--colorNeutralForeground2), var(--colorNeutralForeground3), var(--colorNeutralBackground1), var(--colorNeutralBackground1), var(--colorNeutralBackground1));
 }
 
-.fui-Button__light {
+.fui-Button-light {
     @include button-variant(var(--colorNeutralBackground2), var(--colorNeutralBackground2Hover), var(--colorNeutralBackground2Pressed), var(--colorNeutralForeground2), var(--colorNeutralBackground2Hover), var(--colorNeutralBackground2Hover));
 }
 
-.fui-Button__link {
+.fui-Button-link {
     background-color: var(--colorSubtleBackground);
     color: var(--colorBrandForegroundLink);
     border: none;
@@ -210,39 +210,39 @@
     }
 }
 
-.fui-ButtonOutline__primary {
+.fui-ButtonOutline-primary {
     @include button-outline-variant(var(--colorBrandBackground), var(--colorBrandBackgroundHover), var(--colorBrandBackgroundPressed));
 }
 
-.fui-ButtonOutline__secondary {
+.fui-ButtonOutline-secondary {
     @include button-outline-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed));
 }
 
-.fui-ButtonOutline__success {
+.fui-ButtonOutline-success {
     @include button-outline-variant(var(--colorStatusSuccessBackground3), var(--colorStatusSuccessForeground1), var(--colorStatusSuccessForeground2));
 }
 
-.fui-ButtonOutline__danger {
+.fui-ButtonOutline-danger {
     @include button-outline-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerForeground1), var(--colorStatusDangerForeground2));
 }
 
-.fui-ButtonOutline__warning {
+.fui-ButtonOutline-warning {
     @include button-outline-variant(var(--colorPaletteMarigoldBackground3), var(--colorPaletteMarigoldForeground1), var(--colorPaletteMarigoldForeground2));
 }
 
-.fui-ButtonOutline__info {
+.fui-ButtonOutline-info {
     @include button-outline-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed));
 }
 
-.fui-ButtonOutline__dark {
+.fui-ButtonOutline-dark {
     @include button-outline-variant(var(--colorNeutralForeground1), var(--colorNeutralForeground2), var(--colorNeutralForeground3));
 }
 
-.fui-ButtonOutline__light {
+.fui-ButtonOutline-light {
     @include button-outline-variant(var(--colorNeutralBackground2), var(--colorNeutralBackground2Hover), var(--colorNeutralBackground2Pressed));
 }
 
-.fui-ButtonOutline__link {
+.fui-ButtonOutline-link {
     @include button-outline-variant(var(--colorBrandForegroundLink), var(--colorBrandForegroundLinkHover), var(--colorBrandForegroundLinkPressed));
 }
 

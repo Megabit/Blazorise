@@ -118,7 +118,7 @@
         font-family: var(--fontFamilyBase);
     }
 
-    &.fui-Select__select-extra-small {
+    &.fui-Select__select-xs {
         height: 16px;
         font-size: var(--fontSizeBase100);
         padding-right: calc(var(--spacingHorizontalXS) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
@@ -132,7 +132,7 @@
         }
     }
 
-    &.fui-Select__select-small {
+    &.fui-Select__select-sm {
         height: 24px;
         font-size: var(--fontSizeBase200);
         padding-right: calc(var(--spacingHorizontalSNudge) + 16px + var(--spacingHorizontalXXS) + var(--spacingHorizontalXXS));
@@ -146,14 +146,14 @@
         }
     }
 
-    &.fui-Select__select-medium {
+    &.fui-Select__select-md {
         height: 36px;
         font-size: var(--fontSizeBase400);
         padding-right: calc(var(--spacingHorizontalM) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
         padding-left: calc(var(--spacingHorizontalM) + var(--spacingHorizontalSNudge));
     }
 
-    &.fui-Select__select-large {
+    &.fui-Select__select-lg {
         height: 40px;
         font-size: var(--fontSizeBase500);
         padding-right: calc(var(--spacingHorizontalL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));
@@ -167,7 +167,7 @@
         }
     }
 
-    &.fui-Select__select-extra-large {
+    &.fui-Select__select-xl {
         height: 48px;
         font-size: var(--fontSizeBase600);
         padding-right: calc(var(--spacingHorizontalXL) + 24px + var(--spacingHorizontalSNudge) + var(--spacingHorizontalSNudge));

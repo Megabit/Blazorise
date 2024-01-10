@@ -8,23 +8,23 @@
                     #{$prop}: $length !important;
                 }
 
-                .#{$abbrev}-Top#{$infix}-#{$size},
-                .#{$abbrev}-Y#{$infix}-#{$size} {
+                .#{$abbrev}-top#{$infix}-#{$size},
+                .#{$abbrev}-y#{$infix}-#{$size} {
                     #{$prop}-top: $length !important;
                 }
 
-                .#{$abbrev}-End#{$infix}-#{$size},
-                .#{$abbrev}-X#{$infix}-#{$size} {
+                .#{$abbrev}-end#{$infix}-#{$size},
+                .#{$abbrev}-x#{$infix}-#{$size} {
                     #{$prop}-right: $length !important;
                 }
 
-                .#{$abbrev}-Bottom#{$infix}-#{$size},
-                .#{$abbrev}-Y#{$infix}-#{$size} {
+                .#{$abbrev}-bottom#{$infix}-#{$size},
+                .#{$abbrev}-y#{$infix}-#{$size} {
                     #{$prop}-bottom: $length !important;
                 }
 
-                .#{$abbrev}-Start#{$infix}-#{$size},
-                .#{$abbrev}-X#{$infix}-#{$size} {
+                .#{$abbrev}-start#{$infix}-#{$size},
+                .#{$abbrev}-x#{$infix}-#{$size} {
                     #{$prop}-left: $length !important;
                 }
             }
@@ -36,23 +36,23 @@
                     margin: -$length !important;
                 }
 
-                .fui-Margin-Top#{$infix}-n#{$size},
-                .fui-Margin-Y#{$infix}-n#{$size} {
+                .fui-Margin-top#{$infix}-n#{$size},
+                .fui-Margin-y#{$infix}-n#{$size} {
                     margin-top: -$length !important;
                 }
 
-                .fui-Margin-End#{$infix}-n#{$size},
-                .fui-Margin-X#{$infix}-n#{$size} {
+                .fui-Margin-end#{$infix}-n#{$size},
+                .fui-Margin-x#{$infix}-n#{$size} {
                     margin-right: -$length !important;
                 }
 
-                .fui-Margin-Bottom#{$infix}-n#{$size},
-                .fui-Margin-Y#{$infix}-n#{$size} {
+                .fui-Margin-bottom#{$infix}-n#{$size},
+                .fui-Margin-y#{$infix}-n#{$size} {
                     margin-bottom: -$length !important;
                 }
 
-                .fui-Margin-Start#{$infix}-n#{$size},
-                .fui-Margin-X#{$infix}-n#{$size} {
+                .fui-Margin-start#{$infix}-n#{$size},
+                .fui-Margin-x#{$infix}-n#{$size} {
                     margin-left: -$length !important;
                 }
             }
@@ -62,23 +62,23 @@
             margin: auto !important;
         }
 
-        .fui-Margin-Top#{$infix}-auto,
-        .fui-Margin-Y#{$infix}-auto {
+        .fui-Margin-top#{$infix}-auto,
+        .fui-Margin-y#{$infix}-auto {
             margin-top: auto !important;
         }
 
-        .fui-Margin-End#{$infix}-auto,
-        .fui-Margin-X#{$infix}-auto {
+        .fui-Margin-end#{$infix}-auto,
+        .fui-Margin-x#{$infix}-auto {
             margin-right: auto !important;
         }
 
-        .fui-Margin-Bottom#{$infix}-auto,
-        .fui-Margin-Y#{$infix}-auto {
+        .fui-Margin-bottom#{$infix}-auto,
+        .fui-Margin-y#{$infix}-auto {
             margin-bottom: auto !important;
         }
 
-        .fui-Margin-Start#{$infix}-auto,
-        .fui-Margin-X#{$infix}-auto {
+        .fui-Margin-start#{$infix}-auto,
+        .fui-Margin-x#{$infix}-auto {
             margin-left: auto !important;
         }
     }
@@ -89,11 +89,11 @@
         gap: $length !important;
     }
 
-    .fui-GapY-#{$size} {
+    .fui-Gap-y-#{$size} {
         row-gap: $length !important;
     }
 
-    .fui-GapX-#{$size} {
+    .fui-Gap-x-#{$size} {
         column-gap: $length !important;
     }
 }

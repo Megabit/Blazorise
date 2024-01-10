@@ -402,9 +402,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ButtonColor( Color color, bool outline ) => outline
         ? color != Color.Default ? $"{Button( outline )}Outline__{ToColor( color )}" : $"{Button( outline )}Outline"
-        : color != Color.Default ? $"{Button( outline )}__{ToColor( color )}" : null;
+        : color != Color.Default ? $"{Button( outline )}-{ToColor( color )}" : null;
 
-    public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"fui-Button__{ToSize( size )}";
+    public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"fui-Button-{ToSize( size )}";
 
     public override string ButtonBlock( bool outline ) => $"{Button( outline )}Block";
 
@@ -1298,7 +1298,7 @@ public class FluentUI2ClassProvider : ClassProvider
             ? $"{ToGapSide( gapSide )}-"
             : null;
 
-        return $"fui-Gap{side}-{ToGapSize( gapSize )}";
+        return $"fui-Gap-{side}-{ToGapSize( gapSize )}";
     }
 
     public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
@@ -1511,12 +1511,12 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return breakpoint switch
         {
-            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "x-small",
-            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "small",
-            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "medium",
-            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "large",
-            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "x-large",
-            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "xx-large",
+            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "xs",
+            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "sm",
+            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "md",
+            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "lg",
+            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "xl",
+            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "xxl",
             _ => null,
         };
     }
@@ -1525,11 +1525,11 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return size switch
         {
-            Blazorise.Size.ExtraSmall => "x-small",
-            Blazorise.Size.Small => "small",
-            Blazorise.Size.Medium => "medium",
-            Blazorise.Size.Large => "large",
-            Blazorise.Size.ExtraLarge => "x-large",
+            Blazorise.Size.ExtraSmall => "xs",
+            Blazorise.Size.Small => "sm",
+            Blazorise.Size.Medium => "md",
+            Blazorise.Size.Large => "lg",
+            Blazorise.Size.ExtraLarge => "xl",
             _ => null,
         };
     }
@@ -1548,12 +1548,12 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return side switch
         {
-            Blazorise.Side.Top => "Top",
-            Blazorise.Side.Bottom => "Bottom",
-            Blazorise.Side.Start => "Start",
-            Blazorise.Side.End => "End",
-            Blazorise.Side.X => "X",
-            Blazorise.Side.Y => "Y",
+            Blazorise.Side.Top => "top",
+            Blazorise.Side.Bottom => "bottom",
+            Blazorise.Side.Start => "start",
+            Blazorise.Side.End => "end",
+            Blazorise.Side.X => "x",
+            Blazorise.Side.Y => "y",
             _ => null,
         };
     }
@@ -1572,10 +1572,10 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return modalSize switch
         {
-            Blazorise.ModalSize.Small => "small",
-            Blazorise.ModalSize.Large => "large",
-            Blazorise.ModalSize.ExtraLarge => "x-large",
-            Blazorise.ModalSize.Fullscreen => "fullscreen",
+            Blazorise.ModalSize.Small => "sm",
+            Blazorise.ModalSize.Large => "lg",
+            Blazorise.ModalSize.ExtraLarge => "xl",
+            Blazorise.ModalSize.Fullscreen => "full",
             _ => null,
         };
     }

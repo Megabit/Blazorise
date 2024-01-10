@@ -115,7 +115,7 @@
         }
     }
 
-    &.fui-Checkbox__input-extra-small {
+    &.fui-Checkbox__input-xs {
         + .fui-Checkbox__indicator {
             width: 10px;
             height: 10px;
@@ -127,7 +127,7 @@
         }
     }
 
-    &.fui-Checkbox__input-small {
+    &.fui-Checkbox__input-sm {
         + .fui-Checkbox__indicator {
             width: 12px;
             height: 12px;
@@ -139,7 +139,7 @@
         }
     }
 
-    &.fui-Checkbox__input-medium {
+    &.fui-Checkbox__input-md {
         + .fui-Checkbox__indicator {
             width: 18px;
             height: 18px;
@@ -151,7 +151,7 @@
         }
     }
 
-    &.fui-Checkbox__input-large {
+    &.fui-Checkbox__input-lg {
         + .fui-Checkbox__indicator {
             width: 20px;
             height: 20px;
@@ -168,7 +168,7 @@
         }
     }
 
-    &.fui-Checkbox__input-extra-large {
+    &.fui-Checkbox__input-xl {
         + .fui-Checkbox__indicator {
             width: 24px;
             height: 24px;

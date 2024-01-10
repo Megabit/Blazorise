@@ -152,7 +152,7 @@
             }
         }
 
-        &.fui-Switch__input-extra-small {
+        &.fui-Switch__input-xs {
             ~ .fui-Switch__indicator {
                 > * {
                     transform: translateX(14px);
@@ -160,7 +160,7 @@
             }
         }
 
-        &.fui-Switch__input-small {
+        &.fui-Switch__input-sm {
             ~ .fui-Switch__indicator {
                 > * {
                     transform: translateX(16px);
@@ -168,7 +168,7 @@
             }
         }
 
-        &.fui-Switch__input-medium {
+        &.fui-Switch__input-md {
             ~ .fui-Switch__indicator {
                 > * {
                     transform: translateX(22px);
@@ -176,7 +176,7 @@
             }
         }
 
-        &.fui-Switch__input-large {
+        &.fui-Switch__input-lg {
             ~ .fui-Switch__indicator {
                 > * {
                     transform: translateX(24px);
@@ -184,7 +184,7 @@
             }
         }
 
-        &.fui-Switch__input-extra-large {
+        &.fui-Switch__input-xl{
             ~ .fui-Switch__indicator {
                 > * {
                     transform: translateX(28px);
@@ -231,7 +231,7 @@
         color: var(--colorNeutralForeground1);
     }
 
-    &.fui-Switch__input-extra-small {
+    &.fui-Switch__input-xs {
         ~ .fui-Switch__indicator {
             width: 28px;
             height: 14px;
@@ -244,7 +244,7 @@
         }
     }
 
-    &.fui-Switch__input-small {
+    &.fui-Switch__input-sm {
         ~ .fui-Switch__indicator {
             width: 32px;
             height: 16px;
@@ -257,7 +257,7 @@
         }
     }
 
-    &.fui-Switch__input-medium {
+    &.fui-Switch__input-md {
         ~ .fui-Switch__indicator {
             width: 44px;
             height: 22px;
@@ -265,7 +265,7 @@
         }
     }
 
-    &.fui-Switch__input-large {
+    &.fui-Switch__input-lg {
         ~ .fui-Switch__indicator {
             width: 48px;
             height: 24px;
@@ -278,7 +278,7 @@
         }
     }
 
-    &.fui-Switch__input-extra-large {
+    &.fui-Switch__input-xl {
         ~ .fui-Switch__indicator {
             width: 56px;
             height: 28px;
