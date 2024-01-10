@@ -11,9 +11,14 @@ public enum Breakpoint
     None,
 
     /// <summary>
-    /// Valid on all devices. (extra small)
+    /// Valid on all devices (extra small)
     /// </summary>
     Mobile,
+
+    /// <summary>
+    /// Valid on all devices.
+    /// </summary>
+    ExtraSmall,
 
     /// <summary>
     /// Breakpoint on tablets (small).
@@ -21,9 +26,19 @@ public enum Breakpoint
     Tablet,
 
     /// <summary>
-    ///  Breakpoint on desktop (medium).
+    /// Breakpoint on tablets.
+    /// </summary>
+    Small,
+
+    /// <summary>
+    /// Breakpoint on desktop (medium).
     /// </summary>
     Desktop,
+
+    /// <summary>
+    /// Breakpoint on desktop.
+    /// </summary>
+    Medium,
 
     /// <summary>
     /// Breakpoint on widescreen (large).
@@ -31,7 +46,27 @@ public enum Breakpoint
     Widescreen,
 
     /// <summary>
-    /// Breakpoint on large desktops (extra large).
+    /// Breakpoint on widescreen.
+    /// </summary>
+    Large,
+
+    /// <summary>
+    /// Breakpoint on hd screens (extra large).
     /// </summary>
     FullHD,
+
+    /// <summary>
+    /// Breakpoint on hd screens.
+    /// </summary>
+    ExtraLarge,
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    Full2K,
+
+    /// <summary>
+    /// Breakpoint on large desktops.
+    /// </summary>
+    ExtraExtraLarge,
 }

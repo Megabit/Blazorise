@@ -1511,11 +1511,12 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return breakpoint switch
         {
-            Blazorise.Breakpoint.Mobile => "x-small",
-            Blazorise.Breakpoint.Tablet => "small",
-            Blazorise.Breakpoint.Desktop => "medium",
-            Blazorise.Breakpoint.Widescreen => "large",
-            Blazorise.Breakpoint.FullHD => "x-large",
+            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "x-small",
+            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "small",
+            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "medium",
+            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "large",
+            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "x-large",
+            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "xx-large",
             _ => null,
         };
     }

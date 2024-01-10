@@ -1553,21 +1553,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ToBreakpoint( Breakpoint breakpoint )
     {
-        switch ( breakpoint )
+        return breakpoint switch
         {
-            case Blazorise.Breakpoint.Mobile:
-                return "mobile";
-            case Blazorise.Breakpoint.Tablet:
-                return "tablet";
-            case Blazorise.Breakpoint.Desktop:
-                return "desktop";
-            case Blazorise.Breakpoint.Widescreen:
-                return "widescreen";
-            case Blazorise.Breakpoint.FullHD:
-                return "fullhd";
-            default:
-                return null;
-        }
+            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "mobile",
+            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "tablet",
+            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "desktop",
+            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "widescreen",
+            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "fullhd",
+            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "full24",
+            _ => null,
+        };
     }
 
     public override string ToDisplayType( DisplayType displayType )

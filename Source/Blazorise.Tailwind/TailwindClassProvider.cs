@@ -2326,11 +2326,12 @@ public class TailwindClassProvider : ClassProvider
     {
         return breakpoint switch
         {
-            Blazorise.Breakpoint.Mobile => "sm",
-            Blazorise.Breakpoint.Tablet => "md",
-            Blazorise.Breakpoint.Desktop => "lg",
-            Blazorise.Breakpoint.Widescreen => "xl",
-            Blazorise.Breakpoint.FullHD => "2xl",
+            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "sm",
+            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "md",
+            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "lg",
+            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "xl",
+            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "2xl",
+            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "3xl",
             _ => null,
         };
     }
