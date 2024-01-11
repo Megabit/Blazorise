@@ -1293,8 +1293,8 @@ button {
 .fui-Input.fui-Input-md {
   min-height: 36px;
   row-gap: var(--spacingHorizontalSNudge);
-  padding-right: var(--spacingHorizontalM);
   padding-left: var(--spacingHorizontalM);
+  padding-right: var(--spacingHorizontalM);
   column-gap: var(--spacingHorizontalSNudge);
   font-size: var(--fontSizeBase400);
   line-height: var(--lineHeightBase400);
@@ -1304,8 +1304,8 @@ button {
 .fui-Input.fui-Input-lg {
   min-height: 40px;
   row-gap: var(--spacingHorizontalSNudge);
-  padding-right: var(--spacingHorizontalM);
-  padding-left: var(--spacingHorizontalM);
+  padding-right: var(--spacingHorizontalL);
+  padding-left: var(--spacingHorizontalL);
   column-gap: var(--spacingHorizontalSNudge);
   font-size: var(--fontSizeBase400);
   line-height: var(--lineHeightBase400);
@@ -1315,8 +1315,8 @@ button {
 .fui-Input.fui-Input-xl {
   min-height: 48px;
   row-gap: var(--spacingHorizontalSNudge);
-  padding-right: var(--spacingHorizontalL);
-  padding-left: var(--spacingHorizontalL);
+  padding-right: var(--spacingHorizontalXL);
+  padding-left: var(--spacingHorizontalXL);
   column-gap: var(--spacingHorizontalSNudge);
   font-size: var(--fontSizeBase500);
   line-height: var(--lineHeightBase500);
@@ -1433,11 +1433,6 @@ input::file-selector-button {
   line-height: var(--lineHeightBase300);
   min-height: 32px;
   padding: 0 var(--spacingHorizontalMNudge);
-  /* border-image-source:;
-  border-image-slice:;
-  border-image-width:;
-  border-image-outset:;
-  border-image-repeat:;*/
 }
 .fui-Input:not(.disabled) {
   border-bottom-color: var(--colorNeutralStrokeAccessible);

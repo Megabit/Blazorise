@@ -101,8 +101,8 @@
     &.fui-Input-md {
         min-height: 36px;
         row-gap: var(--spacingHorizontalSNudge);
-        padding-right: var(--spacingHorizontalM);
         padding-left: var(--spacingHorizontalM);
+        padding-right: var(--spacingHorizontalM);
         column-gap: var(--spacingHorizontalSNudge);
         font-size: var(--fontSizeBase400);
         line-height: var(--lineHeightBase400);
@@ -113,8 +113,8 @@
     &.fui-Input-lg {
         min-height: 40px;
         row-gap: var(--spacingHorizontalSNudge);
-        padding-right: var(--spacingHorizontalM);
-        padding-left: var(--spacingHorizontalM);
+        padding-right: var(--spacingHorizontalL);
+        padding-left: var(--spacingHorizontalL);
         column-gap: var(--spacingHorizontalSNudge);
         font-size: var(--fontSizeBase400);
         line-height: var(--lineHeightBase400);
@@ -125,8 +125,8 @@
     &.fui-Input-xl {
         min-height: 48px;
         row-gap: var(--spacingHorizontalSNudge);
-        padding-right: var(--spacingHorizontalL);
-        padding-left: var(--spacingHorizontalL);
+        padding-right: var(--spacingHorizontalXL);
+        padding-left: var(--spacingHorizontalXL);
         column-gap: var(--spacingHorizontalSNudge);
         font-size: var(--fontSizeBase500);
         line-height: var(--lineHeightBase500);

@@ -65,13 +65,6 @@
     line-height: var(--lineHeightBase300);
     min-height: 32px;
     padding: 0 var(--spacingHorizontalMNudge);
-    /* border-image-source:;
-    border-image-slice:;
-    border-image-width:;
-    border-image-outset:;
-    border-image-repeat:;*/
-
-
 
     &:not(.disabled) {
         border-bottom-color: var(--colorNeutralStrokeAccessible);
