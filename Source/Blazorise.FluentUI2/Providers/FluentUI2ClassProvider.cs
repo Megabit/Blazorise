@@ -423,15 +423,15 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Buttons( ButtonsRole role, Orientation orientation )
     {
         if ( role == ButtonsRole.Toolbar )
-            return "btn-toolbar";
+            return "fui-ButtonGroup-toolbar";
 
         if ( orientation == Orientation.Vertical )
-            return "btn-group-vertical";
+            return "fui-ButtonGroup-vertical";
 
-        return "btn-group";
+        return "fui-ButtonGroup";
     }
 
-    public override string ButtonsSize( Size size ) => $"btn-group-{ToSize( size )}";
+    public override string ButtonsSize( Size size ) => $"fui-ButtonGroup-{ToSize( size )}";
 
     #endregion
 
@@ -443,32 +443,32 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Dropdown
 
-    public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
+    public override string Dropdown( bool isDropdownSubmenu ) => "fui-Menu";
 
-    public override string DropdownDisabled() => "dropdown-disabled";
+    public override string DropdownDisabled() => "fui-MenuButton-disabled";
 
-    public override string DropdownGroup() => "btn-group";
+    public override string DropdownGroup() => "fui-ButtonGroup";
 
     public override string DropdownObserverShow() => DropdownShow();
 
-    public override string DropdownShow() => Show();
+    public override string DropdownShow() => "fui-MenuButton-show";
 
     public override string DropdownRight() => null;
 
-    public override string DropdownItem() => "dropdown-item";
+    public override string DropdownItem() => "fui-MenuItem";
 
-    public override string DropdownItemActive( bool active ) => active ? Active() : null;
+    public override string DropdownItemActive( bool active ) => active ? "fui-MenuItem-active" : null;
 
-    public override string DropdownItemDisabled( bool disabled ) => disabled ? Disabled() : null;
+    public override string DropdownItemDisabled( bool disabled ) => disabled ? "fui-MenuItem-disabled" : null;
 
-    public override string DropdownDivider() => "dropdown-divider";
+    public override string DropdownDivider() => "fui-MenuDivider";
 
-    public override string DropdownHeader() => "dropdown-header";
+    public override string DropdownHeader() => "fui-MenuGroup";
 
-    public override string DropdownMenu() => "dropdown-menu";
+    public override string DropdownMenu() => "fui-MenuPopover";
 
     public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
-        => $"dropdown-menu-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "dropdown-menu-position-strategy-fixed" : "dropdown-menu-position-strategy-absolute" )}";
+        => $"fui-MenuPopover-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "fui-MenuPopover-position-strategy-fixed" : "fui-MenuPopover-position-strategy-absolute" )}";
 
     public override string DropdownFixedHeaderVisible( bool visible )
         => visible ? "dropdown-table-fixed-header-visible" : null;
@@ -479,34 +479,105 @@ public class FluentUI2ClassProvider : ClassProvider
 
     //public override string DropdownMenuBody() => null;
 
-    public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
+    public override string DropdownMenuVisible( bool visible ) => visible ? "fui-MenuPopover-show" : null;
 
     public override string DropdownMenuRight() => "dropdown-menu-right";
 
-    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
+        ? "fui-MenuItem"
+        : "fui-Button fui-MenuButton";
 
-    public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
+    public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu
+        ? "fui-MenuItem"
+        : "fui-Button fui-MenuButton";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
-        : color != Color.Default ? $"btn-{ToColor( color )}" : null;
+        ? color != Color.Default ? $"fui-ButtonOutline-{ToColor( color )}" : $"fui-ButtonOutline"
+        : color != Color.Default ? $"fui-Button-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )
         => size != Size.Default ? $"btn-{ToSize( size )}" : null;
 
-    public override string DropdownToggleSplit( bool split ) => split ? "dropdown-toggle-split" : null;
+    public override string DropdownToggleSplit( bool split ) => split ? "fui-SplitButton__menuButton" : null;
 
     public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
 
     public override string DropdownDirection( Direction direction ) => direction switch
     {
-        Direction.Up => "dropup",
-        Direction.End => "dropright",
-        Direction.Start => "dropleft",
+        Direction.Up => "fui-Menu-up",
+        Direction.End => "fui-Menu-end",
+        Direction.Start => "fui-Menu-start",
         _ => null,
     };
 
     #endregion
+
+    //#region Dropdown
+
+    //public override string Dropdown( bool isDropdownSubmenu ) => "fui-Dropdown";
+
+    //public override string DropdownDisabled() => "fui-Dropdown-disabled";
+
+    //public override string DropdownGroup() => "btn-group";
+
+    //public override string DropdownObserverShow() => DropdownShow();
+
+    //public override string DropdownShow() => "fui-Dropdown-show";
+
+    //public override string DropdownRight() => null;
+
+    //public override string DropdownItem() => "fui-Option";
+
+    //public override string DropdownItemActive( bool active ) => active ? "fui-Option-active" : null;
+
+    //public override string DropdownItemDisabled( bool disabled ) => disabled ? "fui-Option-disabled" : null;
+
+    //public override string DropdownDivider() => "fui-Option__divider";
+
+    //public override string DropdownHeader() => "fui-OptionGroup__label";
+
+    //public override string DropdownMenu() => "fui-Listbox fui-Dropdown__listbox";
+
+    //public override string DropdownMenuPositionStrategy( DropdownPositionStrategy dropdownPositionStrategy )
+    //    => $"fui-Dropdown__listbox-position-strategy {( dropdownPositionStrategy == DropdownPositionStrategy.Fixed ? "fui-Dropdown__listbox-position-strategy-fixed" : "fui-Dropdown__listbox-position-strategy-absolute" )}";
+
+    //public override string DropdownFixedHeaderVisible( bool visible )
+    //    => visible ? "dropdown-table-fixed-header-visible" : null;
+
+    //public override string DropdownMenuSelector() => "dropdown-menu";
+
+    //public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
+
+    ////public override string DropdownMenuBody() => null;
+
+    //public override string DropdownMenuVisible( bool visible ) => visible ? "fui-Dropdown__listbox-show" : null;
+
+    //public override string DropdownMenuRight() => "dropdown-menu-right";
+
+    //public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "fui-Dropdown__button";
+
+    //public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "fui-Dropdown__button";
+
+    //public override string DropdownToggleColor( Color color, bool outline ) => outline
+    //    ? color != Color.Default ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
+    //    : color != Color.Default ? $"btn-{ToColor( color )}" : null;
+
+    //public override string DropdownToggleSize( Size size, bool outline )
+    //    => size != Size.Default ? $"btn-{ToSize( size )}" : null;
+
+    //public override string DropdownToggleSplit( bool split ) => split ? "dropdown-toggle-split" : null;
+
+    //public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
+
+    //public override string DropdownDirection( Direction direction ) => direction switch
+    //{
+    //    Direction.Up => "dropup",
+    //    Direction.End => "dropright",
+    //    Direction.Start => "dropleft",
+    //    _ => null,
+    //};
+
+    //#endregion
 
     #region Tabs
 

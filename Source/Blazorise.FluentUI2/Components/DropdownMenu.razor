@@ -1,0 +1,9 @@
+﻿@inherits Blazorise.DropdownMenu
+@* <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="listbox" @attributes="@Attributes">
+    @ChildContent
+</div> *@
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="presentation" @attributes="@Attributes">
+    <div class="fui-MenuList" role="menu" @attributes="@Attributes">
+        @ChildContent
+    </div>
+</div>

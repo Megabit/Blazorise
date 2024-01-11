@@ -266,3 +266,37 @@
         line-height: 0;
     }
 }
+
+.fui-ButtonGroup-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.fui-ButtonGroup {
+    vertical-align: middle;
+    justify-content: stretch;
+    display: inline-flex;
+    position: relative;
+
+    .fui-Button:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .fui-Button:not(:last-child):not(.fui-MenuButton) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    > .fui-ButtonGroup:not(:first-child),
+    > .fui-Button:not(:first-child) {
+        margin-left: -1px;
+    }
+
+    > .fui-ButtonGroup:not(:first-child) > .fui-Button,
+    .fui-ButtonGroup > .fui-Button:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
