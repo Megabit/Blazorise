@@ -1341,12 +1341,14 @@ button {
   flex-flow: row wrap;
   align-items: center;
 }
-.fui-Fields-inline .fui-Field {
-  display: flex;
-  flex: 0 0 auto;
-  flex-flow: row wrap;
-  align-items: center;
-  margin-bottom: var(--spacingVerticalNone);
+@media (min-width: 600px) {
+  .fui-Fields-inline .fui-Field {
+    display: flex;
+    flex: 0 0 auto;
+    flex-flow: row wrap;
+    align-items: center;
+    margin-bottom: var(--spacingVerticalNone);
+  }
 }
 
 .fui-FocusTrap {

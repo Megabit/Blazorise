@@ -153,7 +153,7 @@
     flex-flow: row wrap;
     align-items: center;
 
-    @include media-breakpoint-up(small) {
+    @include media-breakpoint-up(sm) {
         .fui-Field {
             display: flex;
             flex: 0 0 auto;
