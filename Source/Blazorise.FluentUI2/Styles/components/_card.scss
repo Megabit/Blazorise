@@ -9,15 +9,10 @@
     overflow-y: hidden;
     max-width: 100%;
     column-gap: var(--fui-Card--size);
-    padding-bottom: var(--fui-Card--size);
-    padding-left: var(--fui-Card--size);
-    padding-right: var(--fui-Card--size);
-    padding-top: var(--fui-Card--size);
     border-top-left-radius: var(--fui-Card--border-radius);
     border-top-right-radius: var(--fui-Card--border-radius);
     border-bottom-left-radius: var(--fui-Card--border-radius);
     border-bottom-right-radius: var(--fui-Card--border-radius);
-    box-shadow: var(--shadow4);
     margin: auto;
     row-gap: var(--fui-Card--size);
     column-gap: var(--fui-Card--size);
@@ -26,10 +21,12 @@
         flex-shrink: 0;
         display: grid;
         align-items: center;
-        /*padding: 0.75rem 1.25rem;*/
+        padding-top: var(--fui-Card--size);
+        padding-left: var(--fui-Card--size);
+        padding-right: var(--fui-Card--size);
         margin-bottom: 0;
 
-        > .card-Header__header {
+        > .fui-CardHeader__header {
             text-align: start;
             white-space: normal;
             overflow-x: visible;
@@ -51,8 +48,90 @@
         position: relative;
         margin-left: 0;
         margin-right: 0;
-        /* flex: 1 1 auto;
-        min-height: 1px;*/
-        /*padding: 1.25rem;*/
+        padding-top: var(--fui-Card--size);
+        padding-bottom: var(--fui-Card--size);
+        padding-left: var(--fui-Card--size);
+        padding-right: var(--fui-Card--size);
+
+        + .fui-CardBody {
+            padding-top: 0;
+        }
+    }
+
+    &:not(.fui-CardGroup .fui-Card) {
+        box-shadow: var(--shadow4);
+    }
+}
+
+.fui-CardDeck {
+    .fui-Card {
+        margin-bottom: var(--spacingVerticalM);
+    }
+
+    @include media-breakpoint-up(sm) {
+        display: flex;
+        flex-flow: row wrap;
+        margin-right: calc(-1 * var(--spacingVerticalM));
+        margin-left: calc(-1 * var(--spacingVerticalM));
+
+        .fui-Card {
+            flex: 1 0 0%;
+            margin-right: var(--spacingVerticalM);
+            margin-bottom: 0; // Override the default
+            margin-left: var(--spacingVerticalM);
+        }
+    }
+}
+
+.fui-CardGroup {
+    box-shadow: var(--shadow4);
+
+    > .fui-Card {
+        margin-bottom: var(--spacingVerticalM);
+    }
+
+    @include media-breakpoint-up(sm) {
+        display: flex;
+        flex-flow: row wrap;
+
+        > .fui-Card {
+            flex: 1 0 0%;
+            margin-bottom: 0;
+
+            + .fui-Card {
+                margin-left: 0;
+                border-left: 0;
+            }
+
+            &:not(:last-child) {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+
+                .fui-CardPreview,
+                .fui-CardHeader {
+                    border-top-right-radius: 0;
+                }
+
+                .card-img-bottom,
+                .card-footer {
+                    border-bottom-right-radius: 0;
+                }
+            }
+
+            &:not(:first-child) {
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+
+                .fui-CardPreview,
+                .fui-CardHeader {
+                    border-top-left-radius: 0;
+                }
+
+                .card-img-bottom,
+                .card-footer {
+                    border-bottom-left-radius: 0;
+                }
+            }
+        }
     }
 }
