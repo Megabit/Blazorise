@@ -71,14 +71,14 @@
     @include media-breakpoint-up(sm) {
         display: flex;
         flex-flow: row wrap;
-        margin-right: calc(-1 * var(--spacingVerticalM));
-        margin-left: calc(-1 * var(--spacingVerticalM));
+        margin-right: calc(-1 * var(--spacingHorizontalM));
+        margin-left: calc(-1 * var(--spacingHorizontalM));
 
         .fui-Card {
             flex: 1 0 0%;
-            margin-right: var(--spacingVerticalM);
-            margin-bottom: 0; // Override the default
-            margin-left: var(--spacingVerticalM);
+            margin-right: var(--spacingHorizontalM);
+            margin-bottom: 0;
+            margin-left: var(--spacingHorizontalM);
         }
     }
 }
