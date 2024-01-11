@@ -1112,13 +1112,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Badge
 
-    public override string Badge() => "badge";
+    public override string Badge() => "fui-Badge";
 
     public override string BadgeColor( Color color ) => $"{Badge()}-{ToColor( color )}";
 
     public override string BadgePill() => $"{Badge()}-pill";
 
-    public override string BadgeClose() => "badge-close";
+    public override string BadgeClose() => "fui-Badge__close";
 
     #endregion
 
