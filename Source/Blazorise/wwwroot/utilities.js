@@ -119,7 +119,9 @@ export function setProperty(element, property, value) {
 }
 
 export function getElementInfo(element, elementId) {
-    element = document.getElementById(elementId);
+    if (!element || (element && element.id !== elementId)) {
+        element = document.getElementById(elementId);
+    }
 
     if (element) {
         const position = element.getBoundingClientRect();
