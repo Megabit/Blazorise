@@ -305,13 +305,6 @@
         --fui-positioning-slide-distance-x: -10px;
     }
 
-    /*&.fui-ButtonGroup {
-        .fui-Button:first-child {
-            border-bottom-right-radius: 0px;
-            border-top-right-radius: 0px;
-        }
-    }*/
-
     .fui-Button {
         &.fui-MenuButton {
             .fui-MenuButton__menuIcon {
@@ -332,6 +325,12 @@
                 border-bottom-left-radius: 0px;
                 border-top-left-radius: 0px;
                 border-left-width: 0px;
+            }
+
+            &.fui-MenuButton-toggle-hidden {
+                .fui-MenuButton__menuIcon {
+                    display: none;
+                }
             }
         }
     }

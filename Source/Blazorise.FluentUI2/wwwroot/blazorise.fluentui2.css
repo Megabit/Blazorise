@@ -1726,12 +1726,6 @@ button {
 .fui-Menu {
   --fui-positioning-slide-distance-y: -10px;
   --fui-positioning-slide-distance-x: 0px;
-  /*&.fui-ButtonGroup {
-      .fui-Button:first-child {
-          border-bottom-right-radius: 0px;
-          border-top-right-radius: 0px;
-      }
-  }*/
 }
 .fui-Menu-up {
   --fui-positioning-slide-distance-y: 10px;
@@ -1761,6 +1755,9 @@ button {
   border-bottom-left-radius: 0px;
   border-top-left-radius: 0px;
   border-left-width: 0px;
+}
+.fui-Menu .fui-Button.fui-MenuButton.fui-MenuButton-toggle-hidden .fui-MenuButton__menuIcon {
+  display: none;
 }
 @keyframes fadein {
   0% {

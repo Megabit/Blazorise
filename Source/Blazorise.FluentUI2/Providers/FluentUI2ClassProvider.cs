@@ -500,7 +500,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DropdownToggleSplit( bool split ) => split ? "fui-SplitButton__menuButton" : null;
 
-    public override string DropdownToggleIcon( bool visible ) => visible ? null : "dropdown-toggle-hidden";
+    public override string DropdownToggleIcon( bool visible ) => visible ? null : "fui-MenuButton-toggle-hidden";
 
     public override string DropdownDirection( Direction direction ) => direction switch
     {
