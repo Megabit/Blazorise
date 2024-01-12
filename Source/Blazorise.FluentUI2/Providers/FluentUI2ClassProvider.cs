@@ -939,11 +939,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Alert
 
-    public override string Alert() => "alert";
+    public override string Alert() => "fui-MessageBar";
 
-    public override string AlertColor( Color color ) => $"{Alert()}-{ToColor( color )}";
+    public override string AlertColor( Color color ) => $"fui-MessageBar-{ToColor( color )}";
 
-    public override string AlertDismisable() => "alert-dismissible";
+    public override string AlertDismisable() => "fui-CloseButton";
 
     public override string AlertFade() => Fade();
 
@@ -953,7 +953,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string AlertHasDescription() => null;
 
-    public override string AlertMessage() => null;
+    public override string AlertMessage() => "fui-MessageBarTitle";
 
     public override string AlertDescription() => null;
 
