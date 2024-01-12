@@ -1287,13 +1287,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Breadcrumb
 
-    public override string Breadcrumb() => "breadcrumb";
+    public override string Breadcrumb() => "fui-Breadcrumb__list";
 
-    public override string BreadcrumbItem() => "breadcrumb-item";
+    public override string BreadcrumbItem() => "fui-BreadcrumbItem";
 
-    public override string BreadcrumbItemActive() => Active();
+    public override string BreadcrumbItemActive() => "fui-BreadcrumbItem-active";
 
-    public override string BreadcrumbLink() => null;
+    public override string BreadcrumbLink() => "fui-BreadcrumbButton";
 
     #endregion
 

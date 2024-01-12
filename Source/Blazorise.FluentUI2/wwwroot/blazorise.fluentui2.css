@@ -489,8 +489,8 @@
   color: var(--colorNeutralForegroundOnBrand);
 }
 .fui-Badge-secondary {
-  background-color: var(--colorBrandBackground2);
-  color: var(--colorBrandForeground2);
+  background-color: var(--colorNeutralBackground3);
+  color: var(--colorNeutralForeground3);
 }
 .fui-Badge-success {
   background-color: var(--colorPaletteGreenBackground3);
@@ -1095,6 +1095,110 @@ button {
 .fui-ButtonGroup .fui-ButtonGroup > .fui-Button:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
+}
+
+.fui-Breadcrumb .fui-Breadcrumb__list {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  margin: 0px;
+  padding: 0px;
+}
+.fui-Breadcrumb .fui-BreadcrumbItem {
+  display: flex;
+  align-items: center;
+  color: var(--colorNeutralForeground2);
+  box-sizing: border-box;
+  text-wrap: nowrap;
+}
+.fui-Breadcrumb .fui-BreadcrumbItem:not(.fui-Breadcrumb .fui-BreadcrumbItem-active) .fui-BreadcrumbButton:hover {
+  color: var(--colorNeutralForeground2Hover);
+  background-color: var(--colorSubtleBackgroundHover);
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  background-color: var(--colorNeutralBackground1Hover);
+  border-color: var(--colorNeutralStroke1Hover);
+  color: var(--colorNeutralForeground1Hover);
+  cursor: pointer;
+}
+.fui-Breadcrumb .fui-BreadcrumbItem:not(.fui-Breadcrumb .fui-BreadcrumbItem-active) .fui-BreadcrumbButton:hover:active {
+  color: var(--colorNeutralForeground2Pressed);
+  background-color: var(--colorSubtleBackgroundPressed);
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  background-color: var(--colorNeutralBackground1Pressed);
+  border-color: var(--colorNeutralStroke1Pressed);
+  color: var(--colorNeutralForeground1Pressed);
+  outline-style: none;
+}
+.fui-Breadcrumb .fui-BreadcrumbItem-active .fui-BreadcrumbButton {
+  font-weight: var(--fontWeightSemibold);
+}
+.fui-Breadcrumb .fui-BreadcrumbItem-active .fui-BreadcrumbButton:hover {
+  cursor: auto;
+  color: var(--colorNeutralForeground2);
+  background-color: var(--colorTransparentBackground);
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+}
+.fui-Breadcrumb .fui-BreadcrumbItem-active .fui-BreadcrumbButton:hover:active {
+  cursor: auto;
+  color: var(--colorNeutralForeground2);
+  background-color: var(--colorTransparentBackground);
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  outline-style: none;
+}
+.fui-Breadcrumb .fui-BreadcrumbDivider {
+  display: flex;
+}
+.fui-Breadcrumb .fui-BreadcrumbDivider > svg {
+  display: inline;
+  line-height: 0;
+}
+.fui-Breadcrumb .fui-BreadcrumbDivider:last-child {
+  display: none;
+}
+.fui-Breadcrumb .fui-BreadcrumbButton {
+  align-items: center;
+  background-color: var(--colorSubtleBackground);
+  border-bottom-color: transparent;
+  border-left-color: transparent;
+  border-radius: var(--borderRadiusMedium);
+  border-right-color: transparent;
+  border-top-color: transparent;
+  box-sizing: border-box;
+  color: var(--colorNeutralForeground2);
+  display: inline-flex;
+  font-family: var(--fontFamilyBase);
+  font-size: var(--fontSizeBase300);
+  font-weight: var(--fontWeightRegular);
+  height: 32px;
+  justify-content: center;
+  line-height: var(--lineHeightBase300);
+  margin: 0px;
+  min-width: unset;
+  outline-style: none;
+  overflow: hidden;
+  padding: 5px var(--spacingHorizontalM);
+  padding-bottom: var(--spacingHorizontalSNudge);
+  padding-left: var(--spacingHorizontalSNudge);
+  padding-right: var(--spacingHorizontalSNudge);
+  padding-top: var(--spacingHorizontalSNudge);
+  text-decoration-line: none;
+  text-wrap: nowrap;
+  transition-duration: var(--durationFaster);
+  transition-property: background, border, color;
+  transition-timing-function: var(--curveEasyEase);
+  vertical-align: middle;
 }
 
 .fui-Card {
