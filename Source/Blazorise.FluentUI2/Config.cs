@@ -51,6 +51,7 @@ public static class Config
         { typeof( Blazorise.DropdownItem ), typeof( Components.DropdownItem ) },        
         { typeof( Blazorise.DropdownMenu ), typeof( Components.DropdownMenu ) },
         { typeof( Blazorise.DropdownToggle ), typeof( Components.DropdownToggle ) },
+        { typeof( Blazorise.Field ), typeof( Components.Field ) },
         { typeof( Blazorise.FieldHelp ), typeof( Components.FieldHelp ) },
         { typeof( Blazorise.FieldLabel ), typeof( Components.FieldLabel ) },
         { typeof( Blazorise.FileEdit ), typeof( Components.FileEdit ) },
