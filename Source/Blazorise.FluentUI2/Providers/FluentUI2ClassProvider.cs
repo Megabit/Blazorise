@@ -926,7 +926,7 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
     {
         var baseClass = displayDefinition.Breakpoint != Breakpoint.None && displayDefinition.Breakpoint != Blazorise.Breakpoint.Mobile
-            ? $"fui-Display-{ToDisplayType( displayType )}-{ToBreakpoint( displayDefinition.Breakpoint )}-"
+            ? $"fui-Display-{ToDisplayType( displayType )}-{ToBreakpoint( displayDefinition.Breakpoint )}"
             : $"fui-Display-{ToDisplayType( displayType )}";
 
         if ( displayDefinition.Direction != DisplayDirection.Default )
@@ -1370,10 +1370,10 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Gap( GapSize gapSize, GapSide gapSide )
     {
         var side = gapSide != GapSide.None && gapSide != GapSide.All
-            ? $"{ToGapSide( gapSide )}-"
+            ? $"-{ToGapSide( gapSide )}-"
             : null;
 
-        return $"fui-Gap-{side}-{ToGapSize( gapSize )}";
+        return $"fui-Gap{side}-{ToGapSize( gapSize )}";
     }
 
     public override string Gap( GapSize gapSize, IEnumerable<GapSide> rules )
@@ -1437,7 +1437,7 @@ public class FluentUI2ClassProvider : ClassProvider
             sb.Append( "fui-AlignContent-" ).Append( breakpoint ).Append( ToAlignContent( flexDefinition.AlignContent ) );
 
         if ( flexDefinition.GrowShrink != FlexGrowShrink.Default && flexDefinition.GrowShrinkSize != FlexGrowShrinkSize.Default )
-            sb.Append( "fui-Flex-" ).Append( breakpoint ).Append( "-" ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
+            sb.Append( "fui-Flex-" ).Append( breakpoint ).Append( ToGrowShrink( flexDefinition.GrowShrink ) ).Append( "-" ).Append( ToGrowShrinkSize( flexDefinition.GrowShrinkSize ) );
 
         if ( flexDefinition.Wrap != FlexWrap.Default )
             sb.Append( "fui-Flex-" ).Append( breakpoint ).Append( ToWrap( flexDefinition.Wrap ) );
@@ -1533,8 +1533,8 @@ public class FluentUI2ClassProvider : ClassProvider
     #region Overflow
 
     public override string Overflow( OverflowType overflowType, OverflowType secondOverflowType ) => secondOverflowType != OverflowType.Default
-        ? $"overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
-        : $"overflow-{ToOverflowType( overflowType )}";
+        ? $"fui-Overflow-{ToOverflowType( overflowType )}-{ToOverflowType( secondOverflowType )}"
+        : $"fui-Overflow-{ToOverflowType( overflowType )}";
 
     #endregion
 
@@ -1659,7 +1659,7 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return displayType switch
         {
-            Blazorise.DisplayType.None => "bone",
+            Blazorise.DisplayType.None => "none",
             Blazorise.DisplayType.Block => "block",
             Blazorise.DisplayType.Inline => "inline",
             Blazorise.DisplayType.InlineBlock => "inline-block",
