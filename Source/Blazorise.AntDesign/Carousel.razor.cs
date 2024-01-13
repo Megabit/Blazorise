@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
@@ -14,13 +16,25 @@ public partial class Carousel : Blazorise.Carousel
 
     private ElementReference slickListElementRef;
 
+    private string slickListElementId;
+
     private int slickWidth = -1;
 
     private int totalWidth = -1;
 
+    private long slickListLastRenderTimeStamp;
+    private TimeSpan slickListThrottleTimeSpan = TimeSpan.FromMilliseconds( 500 );
+
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        slickListElementId = IdGenerator.Generate;
+        base.OnInitialized();
+    }
 
     protected override void BuildClasses( ClassBuilder builder )
     {
@@ -29,16 +43,19 @@ public partial class Carousel : Blazorise.Carousel
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
-        var listRect = await JSUtilitiesModule.GetElementInfo( slickListElementRef, null );
-
-        if ( slickWidth != (int)listRect.BoundingClientRect.Width )
+        if ( Stopwatch.GetElapsedTime( slickListLastRenderTimeStamp ) > slickListThrottleTimeSpan )
         {
-            slickWidth = (int)listRect.BoundingClientRect.Width;
-            totalWidth = slickWidth * ( carouselSlides.Count * 2 + 1 );
+            slickListLastRenderTimeStamp = Stopwatch.GetTimestamp();
+            var listRect = await JSUtilitiesModule.GetElementInfo( slickListElementRef, slickListElementId );
 
-            await InvokeAsync( StateHasChanged );
+            if ( slickWidth != (int)listRect.BoundingClientRect.Width )
+            {
+                slickWidth = (int)listRect.BoundingClientRect.Width;
+                totalWidth = slickWidth * ( carouselSlides.Count * 2 + 1 );
+
+                await InvokeAsync( StateHasChanged );
+            }
         }
-
         await base.OnAfterRenderAsync( firstRender );
     }
 
