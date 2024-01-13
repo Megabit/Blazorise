@@ -122,6 +122,11 @@ public partial class CarouselSlide : BaseComponent, IDisposable
 
     #region Properties
 
+    /// <summary>
+    /// The time it takes to animate the carousel slide transition.
+    /// </summary>
+    internal protected virtual int AnimationTime { get; set; } = 600;
+
     bool IndicatorActive
     {
         get
