@@ -1351,10 +1351,14 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, Side side, Breakpoint breakpoint )
     {
-        if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Breakpoint.Mobile )
-            return $"fui-{ToSpacing( spacing )}-{ToSide( side )}-{ToBreakpoint( breakpoint )}-{ToSpacingSize( spacingSize )}";
+        var spacingString = ToSpacing( spacing );
+        var sideString = side == Side.None || side == Side.All ? null : $"-{ToSide( side )}";
+        var spacingSizeString = $"-{ToSpacingSize( spacingSize )}";
 
-        return $"fui-{ToSpacing( spacing )}-{ToSide( side )}-{ToSpacingSize( spacingSize )}";
+        if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Breakpoint.Mobile )
+            return $"fui-{spacingString}{sideString}-{ToBreakpoint( breakpoint )}{spacingSizeString}";
+
+        return $"fui-{spacingString}{sideString}{spacingSizeString}";
     }
 
     public override string Spacing( Spacing spacing, SpacingSize spacingSize, IEnumerable<(Side side, Breakpoint breakpoint)> rules ) => string.Join( " ", rules.Select( x => Spacing( spacing, spacingSize, x.side, x.breakpoint ) ) );
