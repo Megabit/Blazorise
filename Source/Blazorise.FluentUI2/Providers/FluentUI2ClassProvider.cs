@@ -943,19 +943,19 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string AlertColor( Color color ) => $"fui-MessageBar-{ToColor( color )}";
 
-    public override string AlertDismisable() => "fui-CloseButton";
+    public override string AlertDismisable() => "fui-MessageBar-closable";
 
-    public override string AlertFade() => Fade();
+    public override string AlertFade() => "fui-MessageBar-fade";
 
-    public override string AlertShow() => Show();
+    public override string AlertShow() => "fui-MessageBar-show";
 
     public override string AlertHasMessage() => null;
 
     public override string AlertHasDescription() => null;
 
-    public override string AlertMessage() => "fui-MessageBarTitle";
+    public override string AlertMessage() => "fui-MessageBar__message";
 
-    public override string AlertDescription() => null;
+    public override string AlertDescription() => "fui-MessageBar__description";
 
     #endregion
 
