@@ -63,17 +63,19 @@
                 padding-right: var(--spacingHorizontalS);
             }
 
-            &:active {
-                color: var(--colorNeutralForeground1Pressed);
-                background-color: var(--colorSubtleBackgroundPressed);
-            }
 
-            &.fui-TableRow--selectable {
+
+            &.fui-TableRow-selectable {
                 cursor: pointer;
+
+                &:active {
+                    color: var(--colorNeutralForeground1Pressed);
+                    background-color: var(--colorSubtleBackgroundPressed);
+                }
             }
 
-            &.fui-TableRow--selected,
-            &.fui-TableRow--primary {
+            &.fui-TableRow-selected,
+            &.fui-TableRow-primary {
                 background-color: var(--colorBrandBackground2);
                 border-bottom-color: var(--colorTransparentStrokeInteractive);
                 border-left-color: var(--colorTransparentStrokeInteractive);
@@ -110,7 +112,7 @@
         }
     }
 
-    &.fui-Table--narrow {
+    &.fui-Table-narrow {
         .fui-TableBody {
             .fui-TableRow {
 
@@ -121,7 +123,7 @@
         }
     }
 
-    &.fui-Table--hoverable {
+    &.fui-Table-hoverable {
         .fui-TableBody {
             .fui-TableRow {
                 &:hover {
@@ -129,22 +131,26 @@
                     background-color: var(--colorSubtleBackgroundHover);
                 }
 
-                &:active {
-                    color: var(--colorNeutralForeground1Pressed);
-                    background-color: var(--colorSubtleBackgroundPressed);
+                &.fui-TableRow-selectable {
+                    &:active {
+                        color: var(--colorNeutralForeground1Pressed);
+                        background-color: var(--colorSubtleBackgroundPressed);
+                    }
                 }
             }
         }
     }
 
-    &.fui-Table--striped {
+    &.fui-Table-striped {
         .fui-TableBody {
             .fui-TableRow:nth-of-type(odd) {
                 background-color: var(--colorSubtleBackgroundHover);
 
-                &:active {
-                    color: var(--colorNeutralForeground1Pressed);
-                    background-color: var(--colorSubtleBackgroundPressed);
+                &.fui-TableRow-selectable {
+                    &:active {
+                        color: var(--colorNeutralForeground1Pressed);
+                        background-color: var(--colorSubtleBackgroundPressed);
+                    }
                 }
 
                 &.fui-TableRow--selected,
@@ -159,7 +165,7 @@
         }
     }
 
-    &.fui-Table--bordered {
+    &.fui-Table-bordered {
         border: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
 
         th,
@@ -168,7 +174,7 @@
         }
     }
 
-    &.fui-Table--borderless {
+    &.fui-Table-borderless {
         .fui-TableHeader {
             .fui-TableRow {
                 border: 0;
@@ -184,7 +190,7 @@
 }
 
 
-.fui-Table--responsive {
+.fui-Table-responsive {
     @each $breakpoint in map-keys($grid-breakpoints) {
         $next: breakpoint-next($breakpoint, $grid-breakpoints);
         $infix: breakpoint-infix($next, $grid-breakpoints);
@@ -196,7 +202,7 @@
                 overflow-x: auto;
                 -webkit-overflow-scrolling: touch;
                 // Prevent double border on horizontal scroll due to use of `display: block;`
-                > .fui-Table--bordered {
+                > .fui-Table-bordered {
                     border: 0;
                 }
             }
@@ -204,7 +210,7 @@
     }
 }
 
-.fui-Table--fixed-header {
+.fui-Table-fixed-header {
     overflow-y: auto;
 
     .fui-Table {
@@ -227,7 +233,7 @@
     }
 }
 
-.fui-Table--fixed-columns {
+.fui-Table-fixed-columns {
     width: 100%;
     overflow-x: auto;
     white-space: nowrap;
@@ -240,9 +246,9 @@
         border-spacing: 0;
         border: 0;
 
-        .fui-TableHeaderCell--fixed,
-        .fui-TableRowHeader--fixed,
-        .fui-TableCell--fixed {
+        .fui-TableHeaderCell-fixed,
+        .fui-TableRowHeader-fixed,
+        .fui-TableCell-fixed {
             &-start {
                 position: sticky !important;
                 border-left: none;
