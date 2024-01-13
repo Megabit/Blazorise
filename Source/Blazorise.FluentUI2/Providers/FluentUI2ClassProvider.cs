@@ -926,8 +926,8 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Display( DisplayType displayType, DisplayDefinition displayDefinition )
     {
         var baseClass = displayDefinition.Breakpoint != Breakpoint.None && displayDefinition.Breakpoint != Blazorise.Breakpoint.Mobile
-            ? $"fui-Display{ToDisplayType( displayType )}-{ToBreakpoint( displayDefinition.Breakpoint )}-"
-            : $"fui-Display{ToDisplayType( displayType )}";
+            ? $"fui-Display-{ToDisplayType( displayType )}-{ToBreakpoint( displayDefinition.Breakpoint )}-"
+            : $"fui-Display-{ToDisplayType( displayType )}";
 
         if ( displayDefinition.Direction != DisplayDirection.Default )
             return $"{baseClass} fui-Flex-{ToDisplayDirection( displayDefinition.Direction )}";
@@ -1428,7 +1428,7 @@ public class FluentUI2ClassProvider : ClassProvider
             sb.Append( "fui-JustifyContent-" ).Append( breakpoint ).Append( ToJustifyContent( flexDefinition.JustifyContent ) );
 
         if ( flexDefinition.AlignItems != FlexAlignItems.Default )
-            sb.Append( "fui-AlignIitems-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
+            sb.Append( "fui-AlignItems-" ).Append( breakpoint ).Append( ToAlignItems( flexDefinition.AlignItems ) );
 
         if ( flexDefinition.AlignSelf != FlexAlignSelf.Default )
             sb.Append( "fui-AlignSelf-" ).Append( breakpoint ).Append( ToAlignSelf( flexDefinition.AlignSelf ) );
@@ -1659,15 +1659,15 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return displayType switch
         {
-            Blazorise.DisplayType.None => "None",
-            Blazorise.DisplayType.Block => "Block",
-            Blazorise.DisplayType.Inline => "Inline",
-            Blazorise.DisplayType.InlineBlock => "InlineBlock",
-            Blazorise.DisplayType.Flex => "Flex",
-            Blazorise.DisplayType.InlineFlex => "InlineFlex",
-            Blazorise.DisplayType.Table => "Table",
-            Blazorise.DisplayType.TableRow => "TableRow",
-            Blazorise.DisplayType.TableCell => "TableCell",
+            Blazorise.DisplayType.None => "bone",
+            Blazorise.DisplayType.Block => "block",
+            Blazorise.DisplayType.Inline => "inline",
+            Blazorise.DisplayType.InlineBlock => "inline-block",
+            Blazorise.DisplayType.Flex => "flex",
+            Blazorise.DisplayType.InlineFlex => "inline-flex",
+            Blazorise.DisplayType.Table => "table",
+            Blazorise.DisplayType.TableRow => "table-row",
+            Blazorise.DisplayType.TableCell => "table-cell",
             _ => null,
         };
     }
@@ -1686,8 +1686,8 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return growShrink switch
         {
-            Blazorise.FlexGrowShrink.Grow => "Grow",
-            Blazorise.FlexGrowShrink.Shrink => "Shrink",
+            Blazorise.FlexGrowShrink.Grow => "grow",
+            Blazorise.FlexGrowShrink.Shrink => "shrink",
             _ => null,
         };
     }

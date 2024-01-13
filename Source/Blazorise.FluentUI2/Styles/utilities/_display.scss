@@ -2,35 +2,35 @@
     @include media-breakpoint-up($breakpoint) {
         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-        .fui-DisplayFlex#{$infix} {
+        .fui-Display-flex#{$infix} {
             display: flex;
         }
 
-        .fui-DisplayInlineFlex#{$infix} {
+        .fui-Display-inline-flex#{$infix} {
             display: inline-flex;
         }
 
-        .fui-DisplayBlock#{$infix} {
+        .fui-Display-block#{$infix} {
             display: block;
         }
 
-        .fui-DisplayInlineBlock#{$infix} {
+        .fui-Display-inline-block#{$infix} {
             display: inline-block;
         }
 
-        .fui-DisplayInline#{$infix} {
+        .fui-Display-inline#{$infix} {
             display: inline;
         }
 
-        .fui-DisplayTable#{$infix} {
+        .fui-Display-table#{$infix} {
             display: table;
         }
 
-        .fui-DisplayTableRow#{$infix} {
+        .fui-Display-table-row#{$infix} {
             display: table-row;
         }
 
-        .fui-DisplayTableCell#{$infix} {
+        .fui-Display-table-cell#{$infix} {
             display: table-cell;
         }
     }
