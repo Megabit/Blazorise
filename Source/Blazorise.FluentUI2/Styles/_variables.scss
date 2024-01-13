@@ -434,6 +434,7 @@ $spacers: map-merge( ( 0: 0, 1: var(--spacingHorizontalXS), 2: var(--spacingHori
 
 $grid-breakpoints: ( xs: 0, sm: 600px, md: 960px, lg: 1280px, xl: 1920px, xxl: 2560px ) !default;
 
+$grid-rows: 6 !default;
 $grid-columns: 12 !default;
 $grid-gutter-width: var(--spacingHorizontalXXL) !default;
 $grid-row-columns: 6 !default;

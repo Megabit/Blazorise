@@ -883,8 +883,8 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Column( bool grid, ColumnWidth columnWidth, Breakpoint breakpoint, bool offset )
     {
         var baseClass = offset
-            ? grid ? "g-start" : "fui-ColumnOffset"
-            : grid ? "g-col" : "fui-Column";
+            ? grid ? "fui-Grid-start" : "fui-ColumnOffset"
+            : grid ? "fui-GridColumn" : "fui-Column";
 
         if ( breakpoint != Blazorise.Breakpoint.None && breakpoint != Blazorise.Breakpoint.Mobile )
         {
@@ -914,9 +914,9 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
     {
         if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"fui-GridCols-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
+            return $"fui-GridColumns-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}-{ToGridColumnsSize( gridColumns )}";
 
-        return $"fui-GridCols-{ToGridColumnsSize( gridColumns )}";
+        return $"fui-GridColumns-{ToGridColumnsSize( gridColumns )}";
     }
 
     #endregion
