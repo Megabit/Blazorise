@@ -41,7 +41,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         valueGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
         valueSetter = new( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
         sortFieldGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( SortField ) );
+    }
 
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Initializes the default values for this column.
+    /// </summary>
+    private void InitializeDefaults()
+    {
         currentSortDirection[DataGridSortMode.Single] = SortDirection;
         currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
         currentFilterMethod = FilterMethod;
@@ -49,9 +60,6 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         Filter?.Subscribe( OnSearchValueChanged );
     }
 
-    #endregion
-
-    #region Methods
 
     /// <summary>
     /// Provides a way to generate column specific dependencies outside the Blazor engine.
@@ -67,11 +75,15 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         this.IdGenerator = serviceProvider.GetRequiredService<IIdGenerator>();
 
         base.OnInitialized();
+
+        InitializeDefaults();
     }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
+
+        InitializeDefaults();
 
         ParentDataGrid?.AddColumn( this, true );
     }
