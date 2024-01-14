@@ -395,6 +395,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await base.OnAfterRenderAsync( firstRender );
     }
 
+    /// <summary>
+    /// Auto generates columns based on the <typeparamref name="TItem"/> properties.
+    /// </summary>
     private void AutoGenerateColumns()
     {
         var properties = ReflectionHelper.GetPublicProperties<TItem>();
@@ -405,11 +408,27 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 continue;
             }
 
-            var column = new DataGridColumn<TItem>
+            DataGridColumn<TItem> column;
+
+            if ( property.PropertyType.IsEnum )
             {
-                Caption = ReflectionHelper.ResolveCaption( property ),
-                Field = property.Name,
-            };
+                var enumValues = Enum.GetValues( property.PropertyType ).Cast<object>();
+
+                column = new DataGridSelectColumn<TItem>()
+                {
+                    Data = enumValues,
+                    TextField = x => x?.ToString(),
+                    ValueField = x => x,
+                };
+            }
+            else
+            {
+                column = new DataGridColumn<TItem>();
+            }
+
+            column.Editable = property.SetMethod is not null;
+            column.Caption = ReflectionHelper.ResolveCaption( property );
+            column.Field = property.Name;
             this.AddColumn( column );
         }
 
