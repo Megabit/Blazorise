@@ -900,6 +900,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ProgressAnimated();
 
+    public abstract string ProgressIndeterminate();
+
     public abstract string ProgressWidth( int width );
 
     public abstract string ProgressBar();
@@ -911,6 +913,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string ProgressBarStriped();
 
     public abstract string ProgressBarAnimated();
+
+    public abstract string ProgressBarIndeterminate();
 
     public abstract string ProgressBarWidth( int width );
 

@@ -1057,9 +1057,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Progress
 
-    public override string Progress() => "progress";
+    public override string Progress() => "fui-ProgressBar";
 
-    public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
+    public override string ProgressSize( Size size ) => size == Size.Default ? null : $"fui-ProgressBar-{ToSize( size )}";
 
     public override string ProgressColor( Color color ) => null;
 
@@ -1067,17 +1067,21 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ProgressAnimated() => null;
 
+    public override string ProgressIndeterminate() => null;
+
     public override string ProgressWidth( int width ) => null;
 
-    public override string ProgressBar() => "progress-bar";
+    public override string ProgressBar() => "fui-ProgressBar__bar";
 
-    public override string ProgressBarSize( Size size ) => null;
+    public override string ProgressBarSize( Size size ) => size == Size.Default ? null : $"fui-ProgressBar__bar-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => $"bg-{ToColor( color )}";
+    public override string ProgressBarColor( Color color ) => $"fui-ProgressBar__bar-{ToColor( color )}";
 
-    public override string ProgressBarStriped() => "progress-bar-striped";
+    public override string ProgressBarStriped() => "fui-ProgressBar__bar-striped";
 
-    public override string ProgressBarAnimated() => "progress-bar-animated";
+    public override string ProgressBarAnimated() => "fui-ProgressBar__bar-animated";
+
+    public override string ProgressBarIndeterminate() => "fui-ProgressBar__bar-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 

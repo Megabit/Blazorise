@@ -1013,6 +1013,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ProgressAnimated() => "progress-animated";
 
+    public override string ProgressIndeterminate() => "progress-indeterminate";
+
     public override string ProgressWidth( int width ) => null;
 
     public override string ProgressBar() => "progress-bar";
@@ -1024,6 +1026,8 @@ public class BulmaClassProvider : ClassProvider
     public override string ProgressBarStriped() => "progress-striped";
 
     public override string ProgressBarAnimated() => "progress-animated";
+
+    public override string ProgressBarIndeterminate() => "progress-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 

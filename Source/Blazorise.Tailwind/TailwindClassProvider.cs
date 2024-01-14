@@ -1442,6 +1442,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ProgressAnimated() => null;
 
+    public override string ProgressIndeterminate() => "overflow-hidden";
+
     public override string ProgressWidth( int width ) => null;
 
     public override string ProgressBar() => "text-xs shadow-none flex flex-col text-center whitespace-nowrap justify-center";
@@ -1469,6 +1471,8 @@ public class TailwindClassProvider : ClassProvider
     public override string ProgressBarStriped() => "progress-bar-striped";
 
     public override string ProgressBarAnimated() => "progress-bar-animated";
+
+    public override string ProgressBarIndeterminate() => "progress-bar-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 

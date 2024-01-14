@@ -903,6 +903,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ProgressAnimated() => null;
 
+    public string ProgressIndeterminate() => null;
+
     public string ProgressWidth( int width ) => null;
 
     public string ProgressBar() => null;
@@ -914,6 +916,8 @@ class EmptyClassProvider : IClassProvider
     public string ProgressBarStriped() => null;
 
     public string ProgressBarAnimated() => null;
+
+    public string ProgressBarIndeterminate() => null;
 
     public string ProgressBarWidth( int width ) => null;
 
