@@ -1376,6 +1376,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     private void ResetFiltering()
     {
+        if ( Columns.IsNullOrEmpty() )
+            return;
+
         foreach ( var column in Columns )
         {
             column.Filter.SearchValue = null;
