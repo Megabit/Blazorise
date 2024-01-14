@@ -123,6 +123,9 @@ public static class Formaters
     /// <returns></returns>
     public static string PascalCaseToFriendlyName( string input )
     {
+        if ( string.IsNullOrWhiteSpace( input ) )
+            return input;
+
         StringBuilder result = new StringBuilder();
         var firstUpperChar = true;
         foreach ( char c in input )
