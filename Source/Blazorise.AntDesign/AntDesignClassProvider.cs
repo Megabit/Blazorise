@@ -975,6 +975,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ProgressAnimated() => null;
 
+    public override string ProgressIndeterminate() => "ant-progress-indeterminate";
+
     public override string ProgressWidth( int width ) => null;
 
     public override string ProgressBar() => "ant-progress-bg b-ant-progress-text";
@@ -986,6 +988,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string ProgressBarStriped() => "ant-progress-bar-striped";
 
     public override string ProgressBarAnimated() => "ant-progress-bar-animated";
+
+    public override string ProgressBarIndeterminate() => "ant-progress-bar-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 

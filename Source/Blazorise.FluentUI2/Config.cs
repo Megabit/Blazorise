@@ -62,6 +62,7 @@ public static class Config
         { typeof( Blazorise.TextEdit ), typeof( Components.TextEdit ) },
         { typeof( Blazorise.TimeEdit<> ), typeof( Components.TimeEdit<> ) },
         { typeof( Blazorise.TimePicker<> ), typeof( Components.TimePicker<> ) },
+        { typeof( Blazorise.ProgressBar ), typeof( Components.ProgressBar ) },
         { typeof( Blazorise.Radio<> ), typeof( Components.Radio<> ) },
         { typeof( Blazorise.Select<> ), typeof( Components.Select<> ) },
         { typeof( Blazorise.Slider<> ), typeof( Components.Slider<> ) },

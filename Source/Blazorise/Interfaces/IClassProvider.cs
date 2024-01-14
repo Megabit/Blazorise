@@ -896,6 +896,8 @@ public interface IClassProvider
 
     string ProgressAnimated();
 
+    string ProgressIndeterminate();
+
     string ProgressWidth( int width );
 
     string ProgressBar();
@@ -907,6 +909,8 @@ public interface IClassProvider
     string ProgressBarStriped();
 
     string ProgressBarAnimated();
+
+    string ProgressBarIndeterminate();
 
     string ProgressBarWidth( int width );
 

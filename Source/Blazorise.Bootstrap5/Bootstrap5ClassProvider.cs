@@ -976,6 +976,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ProgressAnimated() => null;
 
+    public override string ProgressIndeterminate() => "progress-indeterminate";
+
     public override string ProgressWidth( int width ) => null;
 
     public override string ProgressBar() => "progress-bar";
@@ -987,6 +989,8 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string ProgressBarStriped() => "progress-bar-striped";
 
     public override string ProgressBarAnimated() => "progress-bar-animated";
+
+    public override string ProgressBarIndeterminate() => "progress-bar-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 

@@ -1,0 +1,96 @@
+﻿.fui-ProgressBar {
+    height: 3px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    background-color: var(--colorNeutralBackground6);
+    display: flex;
+    width: 100%;
+    border-top-left-radius: var(--borderRadiusMedium);
+    border-top-right-radius: var(--borderRadiusMedium);
+    border-bottom-right-radius: var(--borderRadiusMedium);
+    border-bottom-left-radius: var(--borderRadiusMedium);
+
+    &-xs {
+        height: 1px;
+    }
+
+    &-sm {
+        height: 2px;
+    }
+
+    &-md {
+        height: 4px;
+    }
+
+    &-lg {
+        height: 5px;
+    }
+
+    &-xl {
+        height: 6px;
+    }
+
+    .fui-ProgressBar__bar {
+        width: 50%;
+        background-color: var(--colorCompoundBrandBackground);
+        transition-timing-function: ease;
+        transition-property: width;
+        transition-duration: 0.3s;
+        height: 100%;
+        border-top-left-radius: inherit;
+        border-top-right-radius: inherit;
+        border-bottom-left-radius: inherit;
+        border-bottom-right-radius: inherit;
+
+        &-success {
+            background-color: var(--colorPaletteGreenBackground3);
+        }
+
+        &-danger {
+            background-color: var(--colorPaletteRedBackground3);
+        }
+
+        &-warning {
+            background-color: var(--colorPaletteMarigoldBackground3);
+        }
+
+        &-striped {
+            background-image: linear-gradient(45deg,rgba(255,255,255,.15) 25%,transparent 25%,transparent 50%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.15) 75%,transparent 75%,transparent);
+            background-size: 1rem 1rem;
+        }
+
+        &-animated {
+            animation: 1s linear infinite progress-bar-stripes;
+        }
+
+        &-indeterminate {
+            position: relative;
+            animation-iteration-count: infinite;
+            animation-timing-function: linear;
+            animation-duration: 3s;
+            animation-name: progress-bar-indeterminate;
+            background-image: linear-gradient( to right, var(--colorNeutralBackground6) 0%, var(--colorTransparentBackground) 50%, var(--colorNeutralBackground6) 100% );
+            max-width: 33%;
+        }
+    }
+}
+
+@keyframes progress-bar-indeterminate {
+    0% {
+        left: -33%;
+    }
+
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes progress-bar-stripes {
+    0% {
+        background-position: 1rem 0;
+    }
+
+    100% {
+        background-position: 0 0;
+    }
+}

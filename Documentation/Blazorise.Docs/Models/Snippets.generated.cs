@@ -3407,6 +3407,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string IndeterminatePageProgressExample = @"<PageProgress Visible />";
 
+        public const string IndeterminateProgressExample = @"<Progress Indeterminate />";
+
         public const string MultipleProgressExample = @"<Progress>
     <ProgressBar Value=""15"" />
     <ProgressBar Color=""Color.Success"" Value=""30"" />
