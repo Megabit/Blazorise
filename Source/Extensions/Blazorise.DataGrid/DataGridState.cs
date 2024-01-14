@@ -125,37 +125,3 @@ public class DataGridState<TItem>
         return ( fieldGetter.Body as MemberExpression ).Member.Name;
     }
 }
-
-/// <summary>
-/// A DataGrid column sort state container.
-/// </summary>
-/// <typeparam name="TItem"></typeparam>
-public class DataGridColumnSortState<TItem>
-{
-    public DataGridColumnSortState( string fieldName, SortDirection sortDirection )
-    {
-        FieldName = fieldName;
-        SortDirection = sortDirection;
-    }
-
-    public string FieldName { get; }
-
-    public SortDirection SortDirection { get; }
-}
-
-/// <summary>
-/// A DataGrid column filter state container.
-/// </summary>
-/// <typeparam name="TItem"></typeparam>
-public class DataGridColumnFilterState<TItem>
-{
-    public DataGridColumnFilterState( string fieldName, object searchValue )
-    {
-        FieldName = fieldName;
-        SearchValue = searchValue;
-    }
-
-    public string FieldName { get; }
-
-    public object SearchValue { get; }
-}
