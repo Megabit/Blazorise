@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Globalization;
+using System.Text;
 #endregion
 
 namespace Blazorise.Utilities;
@@ -113,5 +114,32 @@ public static class Formaters
         {
             return string.Concat( bytes, " Bytes" );
         }
+    }
+
+    /// <summary>
+    /// Formats the supplied Pascal Case value to a friendly name with spaces.
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public static string PascalCaseToFriendlyName( string input )
+    {
+        StringBuilder result = new StringBuilder();
+        var firstUpperChar = true;
+        foreach ( char c in input )
+        {
+            if ( char.IsUpper( c ) && result.Length > 0 && !firstUpperChar )
+            {
+                result.Append( ' ' );
+            }
+
+            if ( char.IsUpper( c ) )
+            {
+                firstUpperChar = false;
+            }
+
+            result.Append( c );
+        }
+
+        return result.ToString();
     }
 }

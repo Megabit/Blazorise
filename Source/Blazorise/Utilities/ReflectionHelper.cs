@@ -39,6 +39,6 @@ public class ReflectionHelper
             return displayNameAttribute.DisplayName;
         }
 
-        return propertyInfo.Name;
+        return Formaters.PascalCaseToFriendlyName( propertyInfo.Name );
     }
 }

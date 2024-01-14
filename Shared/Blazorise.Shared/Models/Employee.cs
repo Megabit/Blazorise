@@ -32,11 +32,9 @@ public class Employee
     public int Id { get; set; }
 
     [Required]
-    [Display( Name = "First Name" )]
     public string FirstName { get; set; }
 
     [Required]
-    [Display( Name = "Last Name" )]
     public string LastName { get; set; }
 
     [Required]
@@ -88,4 +86,20 @@ public class Employee
     public decimal TaxPercentage = 0.25m;
 
     private decimal tax;
+
+    [Display( Name = "Test Status" )]
+    public TestStatus TestStatus { get; set; }
 }
+
+
+public enum TestStatus
+{
+    None,
+    Passed,
+    Failed,
+    InProgress,
+    Blocked,
+    NotApplicable,
+    NotTested
+}
+
