@@ -10,6 +10,7 @@ using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
 using Blazorise.Modules;
+using Blazorise.Utilities;
 using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -396,13 +397,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     private void AutoGenerateColumns()
     {
-        var column = new DataGridColumn<TItem>
+        var properties = ReflectionHelper.GetPublicProperties<TItem>();
+        foreach ( var property in properties )
         {
-            //TODO : This should be fine, Supress Warning.
-            Caption = "First Name",
-            Field = "FirstName",
-        };
-        this.AddColumn( column );
+            if ( !( property.PropertyType.IsValueType || property.PropertyType == typeof( string ) ) )
+            {
+                continue;
+            }
+
+            var column = new DataGridColumn<TItem>
+            {
+                Caption = ReflectionHelper.ResolveCaption( property ),
+                Field = property.Name,
+            };
+            this.AddColumn( column );
+        }
+
         StateHasChanged();
     }
 

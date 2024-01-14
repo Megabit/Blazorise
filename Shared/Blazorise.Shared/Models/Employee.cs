@@ -28,24 +28,41 @@ public class Employee
         Zip = other.Zip;
     }
 
+    [Display( Name = "Id" )]
     public int Id { get; set; }
 
     [Required]
+    [Display( Name = "First Name" )]
     public string FirstName { get; set; }
 
     [Required]
+    [Display( Name = "Last Name" )]
     public string LastName { get; set; }
 
     [Required]
     [EmailAddress]
+    [Display( Name = "Email" )]
     public string Email { get; set; }
 
+    [Display( Name = "City" )]
     public string City { get; set; }
+
+    [Display( Name = "Zip" )]
     public string Zip { get; set; }
+
+    [Display( Name = "DOB" )]
     public DateTime? DateOfBirth { get; set; }
+
+    [Display( Name = "Childrens" )]
     public int? Childrens { get; set; }
+
+    [Display( Name = "Gender" )]
     public string Gender { get; set; }
+
+    [Display( Name = "Salary" )]
     public decimal Salary { get; set; }
+
+    [Display( Name = "Tax" )]
     public decimal Tax
     {
         get
@@ -56,10 +73,13 @@ public class Employee
         }
         set { tax = value; }
     }
+
+    [Display( Name = "Active" )]
     public bool IsActive { get; set; }
 
     public List<Salary> Salaries { get; set; } = new();
 
+    [Display( Name = "Children Per Salary" )]
     public decimal ChildrensPerSalary
         => Salary == 0m
         ? 0m
