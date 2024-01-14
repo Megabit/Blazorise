@@ -369,7 +369,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( firstRender )
         {
-            if ( Columns.Count == 0 )
+            if ( Columns.IsNullOrEmpty() || Columns.Where( x => !( x.IsCommandColumn || x.IsMultiSelectColumn ) ).Count() == 0 )
             {
                 AutoGenerateColumns();
             }
