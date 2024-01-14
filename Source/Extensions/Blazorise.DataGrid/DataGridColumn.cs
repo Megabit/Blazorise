@@ -6,6 +6,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -39,26 +41,39 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         valueGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( Field ) );
         valueSetter = new( () => FunctionCompiler.CreateValueSetter<TItem>( Field ) );
         sortFieldGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( SortField ) );
+
+        currentSortDirection[DataGridSortMode.Single] = SortDirection;
+        currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
+        currentFilterMethod = FilterMethod;
+
+        Filter?.Subscribe( OnSearchValueChanged );
     }
 
     #endregion
 
     #region Methods
 
+    /// <summary>
+    /// Provides a way to generate column specific dependencies outside the Blazor engine.
+    /// </summary>
+    /// <param name="parentDataGrid"></param>
+    /// <param name="serviceProvider"></param>
+    internal void InitializeGeneratedColumn( DataGrid<TItem> parentDataGrid, IServiceProvider serviceProvider )
+    {
+        this.ParentDataGrid = parentDataGrid;
+        this.JSRuntime = serviceProvider.GetRequiredService<IJSRuntime>();
+        this.VersionProvider = serviceProvider.GetRequiredService<IVersionProvider>();
+        this.ClassProvider = serviceProvider.GetRequiredService<IClassProvider>();
+        this.IdGenerator = serviceProvider.GetRequiredService<IIdGenerator>();
+
+        base.OnInitialized();
+    }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        currentSortDirection[DataGridSortMode.Single] = SortDirection;
-        currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
-        currentFilterMethod = FilterMethod;
-
-        if ( ParentDataGrid is not null )
-        {
-            ParentDataGrid.AddColumn( this, true );
-
-            Filter?.Subscribe( OnSearchValueChanged );
-        }
+        ParentDataGrid?.AddColumn( this, true );
     }
 
     /// <inheritdoc/>
@@ -74,7 +89,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     private void DisposeSubscriptions()
     {
-        ParentDataGrid.RemoveColumn( this );
+        ParentDataGrid?.RemoveColumn( this );
 
         if ( Filter is not null )
         {

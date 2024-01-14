@@ -234,6 +234,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <param name="suppressSortChangedEvent">If <c>true</c> method will suppress the <see cref="SortChanged"/> event.</param>  
     internal void AddColumn( DataGridColumn<TItem> column, bool suppressSortChangedEvent )
     {
+        if ( column.ParentDataGrid is null )
+        {
+            column.InitializeGeneratedColumn( this, ServiceProvider );
+        }
+
         Columns.Add( column );
 
         if ( column.Grouping )
@@ -363,6 +368,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( firstRender )
         {
+            if ( Columns.Count == 0 )
+            {
+                AutoGenerateColumns();
+            }
+
             IsClientMacintoshOS = await IsUserAgentMacintoshOS();
             await JSModule.Initialize( tableRef.ElementRef, ElementId );
             paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
@@ -382,6 +392,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await HandleVirtualize();
 
         await base.OnAfterRenderAsync( firstRender );
+    }
+
+    private void AutoGenerateColumns()
+    {
+        var column = new DataGridColumn<TItem>
+        {
+            //TODO : This should be fine, Supress Warning.
+            Caption = "First Name",
+            Field = "FirstName",
+        };
+        this.AddColumn( column );
+        StateHasChanged();
     }
 
     /// <inheritdoc/>
@@ -2356,6 +2378,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the license checker for the user session.
     /// </summary>
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
+    /// Gets or sets The service provider.
+    /// </summary>
+    [Inject] internal IServiceProvider ServiceProvider { get; set; }
 
     /// <summary>
     /// Makes sure the DataGrid has columns defined as groupable.
