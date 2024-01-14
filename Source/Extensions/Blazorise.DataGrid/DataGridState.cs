@@ -53,16 +53,16 @@ public class DataGridState<TItem>
     /// <summary>
     /// Sets the DataGrid to the EditState.New.
     /// </summary>
-    public void SetNew()
+    public void SetNewState()
     {
         EditState = DataGridEditState.New;
     }
 
     /// <summary>
-    /// Sets the DataGrid to the EditState.Edit & provides the edit item.
+    /// Sets the DataGrid to the EditState.Edit and provides the edit item.
     /// </summary>
     /// <param name="editItem"></param>
-    public void SetEdit( TItem editItem )
+    public void SetEditState( TItem editItem )
     {
         EditState = DataGridEditState.Edit;
         EditItem = editItem;
