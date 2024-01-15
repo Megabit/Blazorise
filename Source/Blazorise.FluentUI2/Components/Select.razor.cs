@@ -30,11 +30,11 @@ public partial class Select<TValue>
 
         if ( ParentValidation?.Status == ValidationStatus.Error )
         {
-            builder.Append( "fui-Select__error" );
+            builder.Append( "fui-Select-error" );
         }
         else if ( ParentValidation?.Status == ValidationStatus.Success )
         {
-            builder.Append( "fui-Select__success" );
+            builder.Append( "fui-Select-success" );
         }
 
         if ( ThemeSize != Blazorise.Size.Default )

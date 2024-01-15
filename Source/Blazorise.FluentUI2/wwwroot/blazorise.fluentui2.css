@@ -2128,13 +2128,13 @@ button {
   line-height: 0;
   vertical-align: -1px;
 }
-.fui-Input.fui-Input__error + .fui-Field__validationMessage {
+.fui-Input.fui-Input-error + .fui-Field__validationMessage {
   color: var(--colorPaletteRedForeground1);
 }
-.fui-Input.fui-Input__error + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
+.fui-Input.fui-Input-error + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
   color: var(--colorPaletteRedForeground1);
 }
-.fui-Input.fui-Input__success + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
+.fui-Input.fui-Input-success + .fui-Field__validationMessage .fui-Field__validationMessageIcon {
   color: var(--colorPaletteGreenForeground1);
 }
 .fui-Input.fui-Input-xs {
@@ -2482,13 +2482,13 @@ input::file-selector-button {
   padding-left: var(--spacingHorizontalMNudge);
   padding-right: var(--spacingHorizontalMNudge);
 }
-.fui-Input__error {
+.fui-Input-error {
   border-bottom-color: var(--colorPaletteRedBorder2) !important;
   border-left-color: var(--colorPaletteRedBorder2) !important;
   border-right-color: var(--colorPaletteRedBorder2) !important;
   border-top-color: var(--colorPaletteRedBorder2) !important;
 }
-.fui-Input__success {
+.fui-Input-success {
   border-bottom-color: var(--colorPaletteGreenForeground1) !important;
   border-left-color: var(--colorPaletteGreenForeground1) !important;
   border-right-color: var(--colorPaletteGreenForeground1) !important;

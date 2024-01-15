@@ -30,11 +30,11 @@ public partial class Switch<TValue>
 
         if ( ParentValidation?.Status == ValidationStatus.Error )
         {
-            builder.Append( "fui-Switch__error" );
+            builder.Append( "fui-Switch-error" );
         }
         else if ( ParentValidation?.Status == ValidationStatus.Success )
         {
-            builder.Append( "fui-Switch__success" );
+            builder.Append( "fui-Switch-success" );
         }
 
         if ( ThemeSize != Blazorise.Size.Default )
@@ -44,7 +44,7 @@ public partial class Switch<TValue>
 
         if ( Disabled )
         {
-            builder.Append( "fui-Switch__disabled" );
+            builder.Append( "fui-Switch-disabled" );
         }
     }
 

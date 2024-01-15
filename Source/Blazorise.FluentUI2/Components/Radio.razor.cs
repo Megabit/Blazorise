@@ -30,11 +30,11 @@ public partial class Radio<TValue>
 
         if ( ParentValidation?.Status == ValidationStatus.Error )
         {
-            builder.Append( "fui-Radio__error" );
+            builder.Append( "fui-Radio-error" );
         }
         else if ( ParentValidation?.Status == ValidationStatus.Success )
         {
-            builder.Append( "fui-Radio__success" );
+            builder.Append( "fui-Radio-success" );
         }
 
         if ( Disabled )

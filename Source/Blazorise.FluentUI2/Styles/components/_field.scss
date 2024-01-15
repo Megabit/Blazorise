@@ -60,7 +60,7 @@
         }
     }
 
-    &.fui-Input__error {
+    &.fui-Input-error {
         & + .fui-Field__validationMessage {
             color: var(--colorPaletteRedForeground1);
 
@@ -70,7 +70,7 @@
         }
     }
 
-    &.fui-Input__success {
+    &.fui-Input-success {
         & + .fui-Field__validationMessage {
             .fui-Field__validationMessageIcon {
                 color: var(--colorPaletteGreenForeground1);

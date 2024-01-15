@@ -30,11 +30,11 @@ public partial class FileEdit
 
         if ( ParentValidation?.Status == ValidationStatus.Error )
         {
-            builder.Append( "fui-Input__error" );
+            builder.Append( "fui-Input-error" );
         }
         else if ( ParentValidation?.Status == ValidationStatus.Success )
         {
-            builder.Append( "fui-Input__success" );
+            builder.Append( "fui-Input-success" );
         }
 
         if ( ThemeSize != Blazorise.Size.Default )

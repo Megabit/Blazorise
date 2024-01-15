@@ -270,14 +270,14 @@
         }
     }
 
-    &__error {
+    &-error {
         border-bottom-color: var(--colorPaletteRedBorder2) !important;
         border-left-color: var(--colorPaletteRedBorder2) !important;
         border-right-color: var(--colorPaletteRedBorder2) !important;
         border-top-color: var(--colorPaletteRedBorder2) !important;
     }
 
-    &__success {
+    &-success {
         border-bottom-color: var(--colorPaletteGreenForeground1) !important;
         border-left-color: var(--colorPaletteGreenForeground1) !important;
         border-right-color: var(--colorPaletteGreenForeground1) !important;

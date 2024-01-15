@@ -30,11 +30,11 @@ public partial class Check<TValue>
 
         if ( ParentValidation?.Status == ValidationStatus.Error )
         {
-            builder.Append( "fui-Checkbox__error" );
+            builder.Append( "fui-Checkbox-error" );
         }
         else if ( ParentValidation?.Status == ValidationStatus.Success )
         {
-            builder.Append( "fui-Checkbox__success" );
+            builder.Append( "fui-Checkbox-success" );
         }
 
         if ( ThemeSize != Blazorise.Size.Default )
@@ -44,7 +44,7 @@ public partial class Check<TValue>
 
         if ( Disabled )
         {
-            builder.Append( "fui-Checkbox__disabled" );
+            builder.Append( "fui-Checkbox-disabled" );
         }
     }
 
