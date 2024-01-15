@@ -17,7 +17,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string TextEditValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string TextEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -27,7 +27,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string MemoEditSize( Size size ) => size != Size.Default ? $"fui-Textarea__input-{ToSize( size )}" : null;
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => $"fui-Textarea__input-{ToValidationStatus( validationStatus )}";
+    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Textarea__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -39,7 +39,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string SelectSize( Size size ) => size != Size.Default ? $"{Select()}-{ToSize( size )}" : null;
 
-    public override string SelectValidation( ValidationStatus validationStatus ) => $"fui-Select__select-{ToValidationStatus( validationStatus )}";
+    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Select__select-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -51,7 +51,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string NumericEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -63,7 +63,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DateEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string DateEditValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -75,7 +75,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimeEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -95,7 +95,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DatePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string DatePickerValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -107,7 +107,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string TimePickerValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -127,7 +127,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string NumericPickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericPickerValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -139,7 +139,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string InputMaskColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
-    public override string InputMaskValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -153,7 +153,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
 
-    public override string CheckValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -173,13 +173,7 @@ public class FluentUI2ClassProvider : ClassProvider
             : orientation == Orientation.Horizontal ? $"fui-RadioGroup__horizontal-{ToSize( size )}" : $"fui-RadioGroup-{ToSize( size )}";
     }
 
-    public override string RadioGroupValidation( ValidationStatus validationStatus )
-    {
-        if ( validationStatus == ValidationStatus.None )
-            return null;
-
-        return $"fui-RadioGroup-{ToValidationStatus( validationStatus )}";
-    }
+    public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-RadioGroup-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -195,7 +189,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string RadioCursor( Cursor cursor ) => $"fui-Radio__input-{ToCursor( cursor )}";
 
-    public override string RadioValidation( ValidationStatus validationStatus ) => $"fui-Radio__input-{ToValidationStatus( validationStatus )}";
+    public override string RadioValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Radio__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -211,7 +205,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
 
-    public override string SwitchValidation( ValidationStatus validationStatus ) => $"fui-Switch__input-{ToValidationStatus( validationStatus )}";
+    public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Switch__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -221,7 +215,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string FileEditSize( Size size ) => size != Size.Default ? $"{FileEdit()}-{ToSize( size )}" : null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 
@@ -231,7 +225,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string SliderColor( Color color ) => $"fui-Slider__input-{ToColor( color )}";
 
-    public override string SliderValidation( ValidationStatus validationStatus ) => $"fui-Slider__input-{ToValidationStatus( validationStatus )}";
+    public override string SliderValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Slider__input-{ToValidationStatus( validationStatus )}";
 
     #endregion
 

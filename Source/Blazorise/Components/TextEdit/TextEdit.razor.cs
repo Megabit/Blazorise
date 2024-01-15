@@ -74,7 +74,7 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
         builder.Append( ClassProvider.TextEdit( Plaintext ) );
         builder.Append( ClassProvider.TextEditColor( Color ) );
         builder.Append( ClassProvider.TextEditSize( ThemeSize ) );
-        builder.Append( ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }
