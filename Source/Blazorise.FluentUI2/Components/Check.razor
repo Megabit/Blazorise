@@ -27,41 +27,4 @@ else
             @ChildContent
         </label>
     };
-
-    string AddonClassNames
-    {
-        get
-        {
-            return "fui-Input__content";       
-        }
-    }
-
-    string InputClassNames
-    {
-        get
-        {
-            var sb = new StringBuilder( "fui-Checkbox" );
-
-            if ( ParentValidation?.Status == ValidationStatus.Error )
-            {
-                sb.Append( " fui-Checkbox__error" );
-            }
-            else if ( ParentValidation?.Status == ValidationStatus.Success )
-            {
-                sb.Append( " fui-Checkbox__success" );
-            }
-
-            if ( Size is not null && Size != Blazorise.Size.Default )
-            {
-                sb.Append( $" fui-Checkbox-{ClassProvider.ToSize( Size ?? Blazorise.Size.Default )}" );
-            }
-
-            if ( Disabled )
-            {
-                sb.Append( " fui-Checkbox__disabled" );
-            }
-
-            return sb.ToString();
-        }
-    }
 }

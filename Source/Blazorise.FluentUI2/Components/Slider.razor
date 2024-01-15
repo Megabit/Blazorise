@@ -1,80 +1,49 @@
 ﻿@using System.Text
 @typeparam TValue
 @inherits Blazorise.Slider<TValue>
-@if ( MinDefined || MaxDefined )
+@if ( ParentIsAddons )
 {
-    <div class="fui-Slider__container">
-        @if ( MinDefined )
-        {
-            <label aria-hidden="true" class="fui-Label">@MinString</label>
-        }
-        @SliderElement
-        @if ( MaxDefined )
-        {
-            <label aria-hidden="true" class="fui-Label">@MaxString</label>
-        }
+    <div class="@AddonClassNames">
+        @SliderStructure
     </div>
 }
 else
 {
-    @SliderElement
+    @SliderStructure
 }
 @ChildContent
 @Feedback
 @code {
-    private RenderFragment SliderElement => __builder =>
+    private RenderFragment SliderStructure => __builder =>
     {
-        <div class="@InputClassNames" style="@InputStyleNames">
-            <input @ref="@ElementRef" id="@ElementId" type="range" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" step="@StepString" min="@MinString" max="@MaxString" tabindex="@TabIndex" @bind-value="@CurrentValueAsString" @bind-value:event="oninput" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
-            <div class="fui-Slider__rail"></div>
-            <div class="fui-Slider__thumb"></div>
-        </div>
+        @if ( MinDefined || MaxDefined )
+        {
+            <div class="fui-Slider__container">
+                @if ( MinDefined )
+                {
+                    <label aria-hidden="true" class="fui-Label">@MinString</label>
+                }
+                <div class="@InputClassNames" style="@InputStyleNames">
+                    @SliderElement
+                </div>
+                @if ( MaxDefined )
+                {
+                    <label aria-hidden="true" class="fui-Label">@MaxString</label>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="@InputClassNames" style="@InputStyleNames">
+                @SliderElement
+            </div>
+        }
     };
 
-    string InputClassNames
+    private RenderFragment SliderElement => __builder =>
     {
-        get
-        {
-            var sb = new StringBuilder( "fui-Slider" );
-
-            if ( ParentValidation?.Status == ValidationStatus.Error )
-            {
-                sb.Append( " fui-Input__error" );
-            }
-            else if ( ParentValidation?.Status == ValidationStatus.Success )
-            {
-                sb.Append( " fui-Input__success" );
-            }
-
-            if ( Disabled )
-            {
-                sb.Append( " disabled" );
-            }
-
-            return sb.ToString();
-        }
-    }
-
-    string InputStyleNames
-    {
-        get
-        {
-            var sb = new StringBuilder( $"--fui-Slider--direction: 90deg;--fui-Slider--progress: {CurrentValueAsString}%;" );
-
-            if ( Disabled )
-            {
-                sb.Append( "--fui-Slider__thumb--color: var(--colorNeutralForegroundDisabled);" );
-                sb.Append( "--fui-Slider__progress--color: var(--colorNeutralForegroundDisabled);" );
-                sb.Append( "--fui-Slider__rail--color: var(--colorNeutralBackgroundDisabled);" );
-            }
-            else
-            {
-                sb.Append( "--fui-Slider__thumb--color: var(--colorCompoundBrandBackground);" );
-                sb.Append( "--fui-Slider__progress--color: var(--colorCompoundBrandBackground);" );
-                sb.Append( "--fui-Slider__rail--color: var(--colorNeutralStrokeAccessible);" );
-            }
-
-            return sb.ToString();
-        }
-    }
+        <input @ref="@ElementRef" id="@ElementId" type="range" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" step="@StepString" min="@MinString" max="@MaxString" tabindex="@TabIndex" @bind-value="@CurrentValueAsString" @bind-value:event="oninput" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+        <div class="fui-Slider__rail"></div>
+        <div class="fui-Slider__thumb"></div>
+    };
 }
