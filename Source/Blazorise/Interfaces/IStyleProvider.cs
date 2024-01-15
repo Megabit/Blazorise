@@ -48,7 +48,9 @@ public interface IStyleProvider
 
     #region Offcanvas
 
-    string OffcanvasAnimationDuration( bool animated, int AnimationDuration );
+    string OffcanvasAnimationDuration( bool animated, int animationDuration );
+
+    string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration );
 
     #endregion
 }

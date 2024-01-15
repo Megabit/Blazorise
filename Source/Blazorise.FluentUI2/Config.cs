@@ -58,6 +58,7 @@ public static class Config
         { typeof( Blazorise.MemoEdit ), typeof( Components.MemoEdit ) },
         { typeof( Blazorise.Modal ), typeof( Components.Modal ) },
         { typeof( Blazorise.ModalContent ), typeof( Components.ModalContent ) },
+        { typeof( Blazorise.Offcanvas ), typeof( Components.Offcanvas ) },
         { typeof( Blazorise.NumericEdit<> ), typeof( Components.NumericEdit<> ) },
         { typeof( Blazorise.TextEdit ), typeof( Components.TextEdit ) },
         { typeof( Blazorise.TimeEdit<> ), typeof( Components.TimeEdit<> ) },

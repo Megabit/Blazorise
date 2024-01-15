@@ -8,11 +8,25 @@
             </CardHeader>
             <CardBody>
                 <Row>
-                    <Column>
-                        <Switch @bind-Checked="@animation">Animation</Switch>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Animation
+                            </FieldLabel>
+                            <FieldBody>
+                                <Switch @bind-Checked="@animation">Animation</Switch>
+                            </FieldBody>
+                        </Field>
                     </Column>
-                    <Column>
-                        <NumericEdit TValue="int" @bind-Value="animationDuration">Animation Duration (ms)</NumericEdit>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Animation Duration (ms)
+                            </FieldLabel>
+                            <FieldBody>
+                                <NumericEdit TValue="int" @bind-Value="animationDuration" />
+                            </FieldBody>
+                        </Field>
                     </Column>
                 </Row>
             </CardBody>
@@ -22,9 +36,9 @@
 
 <Row>
     <Column>
-        <Card Margin="Margin.Is4.OnY">
+        <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
-                <CardTitle>Offcanvas (Default)</CardTitle>
+                <CardTitle>Offcanvas</CardTitle>
             </CardHeader>
             <CardBody>
                 <CardText>
@@ -32,53 +46,18 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Card>
-                    <CardBody>
-                        <Button Color="Color.Primary" Clicked="@(() => ShowOffcanvas(1))">Show Offcanvas 1</Button>
-                    </CardBody>
-                </Card>
-            </CardBody>
-        </Card>
-    </Column>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
-                <CardTitle>Offcanvas End</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Card>
-                    <CardBody>
-                        <Button Color="Color.Primary" Clicked="@(() => ShowOffcanvas(2))">Show Offcanvas 2</Button>
-                    </CardBody>
-                </Card>
-            </CardBody>
-        </Card>
-    </Column>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
-                <CardTitle>Offcanvas Top</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Card>
-                    <CardBody>
-                        <Button Color="Color.Primary" Clicked="@(() => ShowOffcanvas(3))">Show Offcanvas 3</Button>
-                    </CardBody>
-                </Card>
-            </CardBody>
-        </Card>
-    </Column>
-    <Column>
-        <Card Margin="Margin.Is4.OnY">
-            <CardHeader>
-                <CardTitle>Offcanvas Bottom</CardTitle>
-            </CardHeader>
-            <CardBody>
-                <Card>
-                    <CardBody>
-                        <Button Color="Color.Primary" Clicked="@(() => ShowOffcanvas(4))">Show Offcanvas 4</Button>
-                    </CardBody>
-                </Card>
+                <Button Color="Color.Primary" Clicked="@(() => offcanvasRef1.Show())">
+                    Open Left
+                </Button>
+                <Button Color="Color.Primary" Clicked="@(() => offcanvasRef2.Show())">
+                    Open Right
+                </Button>
+                <Button Color="Color.Primary" Clicked="@(() => offcanvasRef3.Show())">
+                    Open Top
+                </Button>
+                <Button Color="Color.Primary" Clicked="@(() => offcanvasRef4.Show())">
+                    Open Bottom
+                </Button>
             </CardBody>
         </Card>
     </Column>
@@ -98,7 +77,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasRef2"  Placement="Placement.End" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasRef2" Placement="Placement.End" Animated="@animation" AnimationDuration="@animationDuration">
     <OffcanvasHeader>
         Offcanvas Header
         <CloseButton Clicked="@HideOffcanvas2" />
@@ -112,7 +91,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasRef3"  Placement="Placement.Top" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasRef3" Placement="Placement.Top" Animated="@animation" AnimationDuration="@animationDuration">
     <OffcanvasHeader>
         Offcanvas Header
         <CloseButton Clicked="@HideOffcanvas3" />
@@ -126,7 +105,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
-<Offcanvas @ref="offcanvasRef4"  Placement="Placement.Bottom" Animated="@animation" AnimationDuration="@animationDuration">
+<Offcanvas @ref="offcanvasRef4" Placement="Placement.Bottom" Animated="@animation" AnimationDuration="@animationDuration">
     <OffcanvasHeader>
         Offcanvas Header
         <CloseButton Clicked="@HideOffcanvas4" />
@@ -140,7 +119,7 @@
     </OffcanvasFooter>
 </Offcanvas>
 
- @code {
+@code {
     private Offcanvas offcanvasRef1;
     private Offcanvas offcanvasRef2;
     private Offcanvas offcanvasRef3;
@@ -148,25 +127,6 @@
 
     private bool animation = true;
     private int animationDuration = 300;
-
-    private async Task ShowOffcanvas(int offcanvasNumber)
-    {
-        switch ( offcanvasNumber )
-        {
-            case 1:
-                await offcanvasRef1.Show();
-                break;
-            case 2:
-                await offcanvasRef2.Show();
-                break;
-            case 3:
-                await offcanvasRef3.Show();
-                break;
-            case 4:
-                await offcanvasRef4.Show();
-                break;
-        }
-    }
 
     private Task HideOffcanvas1()
     {

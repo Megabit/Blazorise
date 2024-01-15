@@ -991,39 +991,39 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Offcanvas
 
-    public override string Offcanvas() => "offcanvas";
+    public override string Offcanvas() => "fui-OverlayDrawer";
 
     public override string OffcanvasPlacement( Placement placement, bool visible )
     {
         return placement switch
         {
-            Placement.Start => "offcanvas-start",
-            Placement.End => "offcanvas-end",
-            Placement.Top => "offcanvas-top",
-            Placement.Bottom => "offcanvas-bottom",
-            _ => "",
+            Placement.Start => "fui-OverlayDrawer-start",
+            Placement.End => "fui-OverlayDrawer-end",
+            Placement.Top => "fui-OverlayDrawer-top",
+            Placement.Bottom => "fui-OverlayDrawer-bottom",
+            _ => null,
         };
     }
 
     public override string OffcanvasFade( bool showing, bool hiding ) => showing
-        ? "showing"
+        ? "fui-OverlayDrawer-showing"
         : hiding
-            ? "hiding"
+            ? "fui-OverlayDrawer-hiding"
             : null;
 
-    public override string OffcanvasVisible( bool visible ) => visible ? Show() : null;
+    public override string OffcanvasVisible( bool visible ) => visible ? "fui-OverlayDrawer-show" : null;
 
-    public override string OffcanvasHeader() => "offcanvas-header";
+    public override string OffcanvasHeader() => "fui-DrawerHeader";
 
-    public override string OffcanvasFooter() => "offcanvas-footer";
+    public override string OffcanvasFooter() => "fui-DrawerFooter";
 
-    public override string OffcanvasBody() => "offcanvas-body";
+    public override string OffcanvasBody() => "fui-DrawerBody";
 
-    public override string OffcanvasBackdrop() => "offcanvas-backdrop";
+    public override string OffcanvasBackdrop() => "fui-OverlayDrawer__backdrop";
 
-    public override string OffcanvasBackdropFade() => Fade();
+    public override string OffcanvasBackdropFade() => "fui-OverlayDrawer__backdrop-fade";
 
-    public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
+    public override string OffcanvasBackdropVisible( bool visible ) => visible ? "fui-OverlayDrawer__backdrop-show" : null;
 
     #endregion
 

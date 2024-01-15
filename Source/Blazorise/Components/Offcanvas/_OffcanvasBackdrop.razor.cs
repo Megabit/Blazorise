@@ -40,6 +40,14 @@ public partial class _OffcanvasBackdrop : BaseComponent
         base.BuildClasses( builder );
     }
 
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.OffcanvasAnimationDuration( Animated, AnimationDuration ) );
+
+        base.BuildStyles( builder );
+    }
+
     #endregion
 
     #region Properties
@@ -70,6 +78,16 @@ public partial class _OffcanvasBackdrop : BaseComponent
             DirtyStyles();
         }
     }
+
+    /// <summary>
+    /// Specifies whether the Offcanvas should have an animated transition.
+    /// </summary>
+    [Parameter] public bool Animated { get; set; } = true;
+
+    /// <summary>
+    /// The duration of the animation in milliseconds.
+    /// </summary>
+    [Parameter] public int AnimationDuration { get; set; } = 300;
 
     #endregion
 }

@@ -45,8 +45,13 @@ public class FluentUI2StyleProvider : StyleProvider
 
     public override string OffcanvasAnimationDuration( bool animated, int animationDuration )
         => animated
-            ? $"transition-duration: {animationDuration}ms"
-            : "transition-duration: unset";
+            ? $"--durationGentle: {animationDuration}ms"
+            : "--durationGentle: unset";
+
+    public override string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration )
+        => animated
+            ? $"--durationGentle: {animationDuration}ms"
+            : "--durationGentle: unset";
 
     #endregion
 }

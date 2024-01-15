@@ -428,6 +428,16 @@
     --shadow64Brand: 0 0 8px rgba(0,0,0,0.30), 0 32px 64px rgba(0,0,0,0.25);
 }
 
+:root {
+    --zIndexDropdown: 1000;
+    --zIndexSticky: 1020;
+    --zIndexFixed: 1030;
+    --zIndexDrawerBackdrop: 1040;
+    --zIndexDrawer: 1045;
+    --zIndexModalBackdrop: 1050;
+    --zIndexModal: 1055;
+}
+
 $spacer: var(--spacingHorizontalM) !default;
 $spacers: () !default;
 $spacers: map-merge( ( 0: 0, 1: var(--spacingHorizontalXS), 2: var(--spacingHorizontalS), 3: var(--spacingHorizontalM), 4: var(--spacingHorizontalL), 5: var(--spacingHorizontalXL) ), $spacers );

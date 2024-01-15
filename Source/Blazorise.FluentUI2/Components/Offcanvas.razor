@@ -1,0 +1,12 @@
+﻿@inherits Blazorise.Offcanvas
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        @if ( ShowBackdrop )
+        {
+            <_OffcanvasBackdrop Animated="@Animated" AnimationDuration="@AnimationDuration" />
+        }
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" aria-modal="true" tabindex="-1" @attributes="@Attributes">
+            @ChildContent
+        </div>
+    </CascadingValue>
+</CascadingValue>
