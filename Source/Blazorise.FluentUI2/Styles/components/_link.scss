@@ -1,0 +1,49 @@
+﻿.fui-Link {
+    font-size: inherit;
+    user-select: text;
+    text-overflow: inherit;
+    text-decoration-thickness: var(--strokeWidthThin);
+    text-decoration-line: none;
+    overflow-y: inherit;
+    overflow-x: inherit;
+    padding-bottom: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    color: var(--colorBrandForegroundLink);
+    box-sizing: border-box;
+    background-color: transparent;
+    cursor: pointer;
+    display: inline;
+    margin-top: 0px;
+    font-weight: var(--fontWeightRegular);
+    font-family: var(--fontFamilyBase);
+    text-align: left;
+
+    &.fui-Link-disabled {
+        &[aria-disabled="true"] {
+            color: var(--colorNeutralForegroundDisabled);
+            cursor: not-allowed;
+        }
+    }
+
+    &-unstyled {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    &-stretched {
+        &::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            content: "";
+        }
+    }
+}

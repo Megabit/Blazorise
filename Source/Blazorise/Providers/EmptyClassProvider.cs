@@ -1147,6 +1147,8 @@ class EmptyClassProvider : IClassProvider
 
     public string LinkStretched( bool stretched ) => null;
 
+    public string LinkDisabled( bool disabled ) => null;
+
     #endregion
 
     #region States

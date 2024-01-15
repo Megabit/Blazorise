@@ -1243,6 +1243,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string LinkStretched( bool stretched ) => stretched ? "ant-link-stretched" : null;
 
+    public override string LinkDisabled( bool disabled ) => disabled ? "ant-link-disabled" : null;
+
     #endregion
 
     #region States

@@ -1,6 +1,15 @@
-a.is-link-unstyled {
-    text-decoration: none;
-    color: inherit;
+a {
+    &.is-link-unstyled {
+        text-decoration: none;
+        color: inherit;
+    }
+
+    &.is-link-disabled {
+        &[aria-disabled="true"] {
+            pointer-events: none;
+            opacity: .65;
+        }
+    }
 }
 
 .is-link-stretched {

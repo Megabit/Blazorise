@@ -2670,6 +2670,10 @@ public class Gender
 
 <iframe name=""example"" src=""init_fixed.html""></iframe>";
 
+        public const string LinkDisabledExample = @"<Paragraph>
+    This is an example of a <Link To=""#"" Disabled>disabled link</Link>.
+</Paragraph>";
+
         public const string LinkStretchedExample = @"<Card Width=""Width.Rem(18)"">
     <CardImage Source=""/img/gallery/2.jpg"" Alt=""Placeholder image"" />
     <CardBody>

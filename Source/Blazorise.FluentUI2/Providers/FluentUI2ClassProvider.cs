@@ -683,7 +683,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Card() => "fui-Card";
 
-    public override string CardWhiteText() => "text-white";
+    public override string CardWhiteText() => "fui-Text-white";
 
     public override string CardActions() => "fui-CardActions";
 
@@ -703,11 +703,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string CardSubtitleSize( bool insideHeader, int size ) => null;
 
-    public override string CardText() => "card-text";
+    public override string CardText() => "fui-CardText";
 
-    public override string CardLink() => "card-link";
+    public override string CardLink() => "fuiCardLink";
 
-    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+    public override string CardLinkUnstyled( bool unstyled ) => LinkUnstyled( unstyled );
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
@@ -1321,13 +1321,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Link
 
-    public override string Link() => null;
+    public override string Link() => "fui-Link";
 
-    public override string LinkActive( bool active ) => active ? Active() : null;
+    public override string LinkActive( bool active ) => active ? "fui-Link-active" : null;
 
-    public override string LinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "fui-Link-unstyled" : null;
 
-    public override string LinkStretched( bool stretched ) => stretched ? "stretched-link" : null;
+    public override string LinkStretched( bool stretched ) => stretched ? "fui-Link-stretched" : null;
+
+    public override string LinkDisabled( bool disabled ) => disabled ? "fui-Link-disabled" : null;
 
     #endregion
 

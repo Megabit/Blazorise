@@ -42,10 +42,11 @@
         position: relative;
         margin-left: calc(var(--fui-Card--size) * -1);
         margin-right: calc(var(--fui-Card--size) * -1);
+        flex-shrink: 0;
+        width: 100%;
     }
 
     .fui-CardBody {
-        position: relative;
         margin-left: 0;
         margin-right: 0;
         padding-top: var(--fui-Card--size);
@@ -112,8 +113,8 @@
                     border-top-right-radius: 0;
                 }
 
-                .card-img-bottom,
-                .card-footer {
+                .fui-CardPreview,
+                .fui-CardFooter {
                     border-bottom-right-radius: 0;
                 }
             }

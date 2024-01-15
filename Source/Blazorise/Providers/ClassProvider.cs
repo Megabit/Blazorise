@@ -1144,6 +1144,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string LinkStretched( bool stretched );
 
+    public abstract string LinkDisabled( bool disabled );
+
     #endregion
 
     #region States

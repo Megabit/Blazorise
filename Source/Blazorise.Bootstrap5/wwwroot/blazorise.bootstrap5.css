@@ -958,6 +958,10 @@ a.link-unstyled {
   text-decoration: none;
   color: inherit;
 }
+a.link-disabled[aria-disabled=true] {
+  pointer-events: none;
+  opacity: 0.65;
+}
 
 li.list-group-item-action {
   cursor: pointer;

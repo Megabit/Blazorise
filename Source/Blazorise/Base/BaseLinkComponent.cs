@@ -209,6 +209,12 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
         }
     }
 
+    /// <summary>
+    /// Resolves the <see cref="To"/> value for the href attribute.
+    /// </summary>
+    /// <returns>Href value.</returns>
+    protected string GetTo() => Disabled ? null : To;
+
     #endregion
 
     #region Properties
@@ -227,6 +233,11 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     /// True, if the <see cref="To"/> parameter is the same as the current route uri.
     /// </summary>
     protected bool Active => active;
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Disabled"/> value for the aria-disabled attribute.
+    /// </summary>
+    protected string AriaDisabledString => Disabled ? "true" : null;
 
     /// <summary>
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
@@ -272,6 +283,11 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     /// Makes any HTML element or component clickable by “stretching” a nested link.
     /// </summary>
     [Parameter] public bool Stretched { get; set; }
+
+    /// <summary>
+    /// Makes the link look inactive by adding the disabled boolean attribute.
+    /// </summary>
+    [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
     /// Occurs when the link is clicked.

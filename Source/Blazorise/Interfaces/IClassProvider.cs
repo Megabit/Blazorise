@@ -1140,6 +1140,8 @@ public interface IClassProvider
 
     string LinkStretched( bool stretched );
 
+    string LinkDisabled( bool disabled );
+
     #endregion
 
     #region States

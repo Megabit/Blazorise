@@ -1881,6 +1881,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string LinkStretched( bool stretched ) => stretched ? "after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:z-1 after:content-['_']" : null;
 
+    public override string LinkDisabled( bool disabled ) => disabled ? "opacity-65 cursor-not-allowed" : null;
+
     #endregion
 
     #region States

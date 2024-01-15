@@ -1251,6 +1251,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string LinkStretched( bool stretched ) => stretched ? "stretched-link" : null;
 
+    public override string LinkDisabled( bool disabled ) => disabled ? "link-disabled" : null;
+
     #endregion
 
     #region States

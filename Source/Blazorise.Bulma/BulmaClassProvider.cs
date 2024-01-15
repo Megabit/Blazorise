@@ -1281,6 +1281,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string LinkStretched( bool stretched ) => stretched ? "is-link-stretched" : null;
 
+    public override string LinkDisabled( bool disabled ) => disabled ? "is-link-disabled" : null;
+
     #endregion
 
     #region States

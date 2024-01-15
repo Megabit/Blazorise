@@ -1399,9 +1399,10 @@ button {
   position: relative;
   margin-left: calc(var(--fui-Card--size) * -1);
   margin-right: calc(var(--fui-Card--size) * -1);
+  flex-shrink: 0;
+  width: 100%;
 }
 .fui-Card .fui-CardBody {
-  position: relative;
   margin-left: 0;
   margin-right: 0;
   padding-top: var(--fui-Card--size);
@@ -1461,8 +1462,8 @@ button {
   .fui-CardGroup > .fui-Card:not(:last-child) .fui-CardHeader {
     border-top-right-radius: 0;
   }
-  .fui-CardGroup > .fui-Card:not(:last-child) .card-img-bottom,
-  .fui-CardGroup > .fui-Card:not(:last-child) .card-footer {
+  .fui-CardGroup > .fui-Card:not(:last-child) .fui-CardPreview,
+  .fui-CardGroup > .fui-Card:not(:last-child) .fui-CardFooter {
     border-bottom-right-radius: 0;
   }
   .fui-CardGroup > .fui-Card:not(:first-child) {
@@ -2581,6 +2582,49 @@ input::file-selector-button {
   padding-left: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
   padding-right: calc(var(--spacingHorizontalMNudge) + var(--spacingHorizontalXXS));
   padding-top: var(--spacingVerticalSNudge);
+}
+
+.fui-Link {
+  font-size: inherit;
+  user-select: text;
+  text-overflow: inherit;
+  text-decoration-thickness: var(--strokeWidthThin);
+  text-decoration-line: none;
+  overflow-y: inherit;
+  overflow-x: inherit;
+  padding-bottom: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  color: var(--colorBrandForegroundLink);
+  box-sizing: border-box;
+  background-color: transparent;
+  cursor: pointer;
+  display: inline;
+  margin-top: 0px;
+  font-weight: var(--fontWeightRegular);
+  font-family: var(--fontFamilyBase);
+  text-align: left;
+}
+.fui-Link.fui-Link-disabled[aria-disabled=true] {
+  color: var(--colorNeutralForegroundDisabled);
+  cursor: not-allowed;
+}
+.fui-Link-unstyled {
+  text-decoration: none;
+  color: inherit;
+}
+.fui-Link-stretched::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  content: "";
 }
 
 @keyframes fadeaway {
