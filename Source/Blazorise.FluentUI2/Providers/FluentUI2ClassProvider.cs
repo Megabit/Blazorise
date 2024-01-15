@@ -1205,19 +1205,19 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Text
 
-    public override string TextColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+    public override string TextColor( TextColor textColor ) => $"fui-Text-{ToTextColor( textColor )}";
 
-    public override string TextAlignment( TextAlignment textAlignment ) => $"text-{ToTextAlignment( textAlignment )}";
+    public override string TextAlignment( TextAlignment textAlignment ) => $"fui-Text-{ToTextAlignment( textAlignment )}";
 
-    public override string TextTransform( TextTransform textTransform ) => $"text-{ToTextTransform( textTransform )}";
+    public override string TextTransform( TextTransform textTransform ) => $"fui-Text-{ToTextTransform( textTransform )}";
 
-    public override string TextWeight( TextWeight textWeight ) => $"font-weight-{ToTextWeight( textWeight )}";
+    public override string TextWeight( TextWeight textWeight ) => $"fui-Text-weight-{ToTextWeight( textWeight )}";
 
-    public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
+    public override string TextOverflow( TextOverflow textOverflow ) => $"fui-Text-{ToTextOverflow( textOverflow )}";
 
-    public override string TextSize( TextSize textSize ) => $"fs-{ToTextSize( textSize )}";
+    public override string TextSize( TextSize textSize ) => $"fui-Text-{ToTextSize( textSize )}";
 
-    public override string TextItalic() => "font-italic";
+    public override string TextItalic() => "fui-Text-italic";
 
     #endregion
 
@@ -1229,55 +1229,55 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Heading
 
-    public override string HeadingSize( HeadingSize headingSize ) => $"h{ToHeadingSize( headingSize )}";
+    public override string HeadingSize( HeadingSize headingSize ) => $"fui-Heading-{ToHeadingSize( headingSize )}";
 
     #endregion
 
     #region DisplayHeading
 
-    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"display-{ToDisplayHeadingSize( displayHeadingSize )}";
+    public override string DisplayHeadingSize( DisplayHeadingSize displayHeadingSize ) => $"fui-DisplayHeading-{ToDisplayHeadingSize( displayHeadingSize )}";
 
     #endregion
 
     #region Lead
 
-    public override string Lead() => "lead";
+    public override string Lead() => "fui-Lead";
 
     #endregion
 
     #region Paragraph
 
-    public override string Paragraph() => null;
+    public override string Paragraph() => "fui-Paragraph";
 
-    public override string ParagraphColor( TextColor textColor ) => $"text-{ToTextColor( textColor )}";
+    public override string ParagraphColor( TextColor textColor ) => $"fui-Paragraph-{ToTextColor( textColor )}";
 
     #endregion
 
     #region Blockquote
 
-    public override string Blockquote() => "blockquote";
+    public override string Blockquote() => "fui-Blockquote";
 
-    public override string BlockquoteFooter() => "blockquote-footer";
+    public override string BlockquoteFooter() => "fui-Blockquote__footer";
 
     #endregion
 
     #region Figure
 
-    public override string Figure() => "figure";
+    public override string Figure() => "fui-Figure";
 
-    public override string FigureSize( FigureSize figureSize ) => $"figure-is-{ToFigureSize( figureSize )}";
+    public override string FigureSize( FigureSize figureSize ) => $"fui-Figure-{ToFigureSize( figureSize )}";
 
-    public override string FigureImage() => "figure-img img-fluid";
+    public override string FigureImage() => "fui-Figure__image";
 
-    public override string FigureImageRounded() => "rounded";
+    public override string FigureImageRounded() => "fui-Figure-rounded";
 
-    public override string FigureCaption() => "figure-caption";
+    public override string FigureCaption() => "fui-Figure__caption";
 
     #endregion
 
     #region Image
 
-    public override string Image() => null;
+    public override string Image() => "fui-Image";
 
     public override string ImageFluid( bool fluid ) => fluid ? "img-fluid" : null;
 

@@ -4,11 +4,154 @@
     overflow-x: visible;
     white-space: normal;
     text-align: start;
-    display: inline;
     line-height: var(--lineHeightBase300);
     font-weight: var(--fontWeightRegular);
     font-size: var(--fontSizeBase300);
     font-family: var(--fontFamilyBase);
+}
+
+.fui-Heading {
+    &-1, &-2, &-3, &-4, &-5, &-6 {
+        text-overflow: clip;
+        text-align: start;
+        overflow-y: visible;
+        overflow-x: visible;
+        white-space: normal;
+        font-weight: var(--fontWeightSemibold);
+        font-family: var(--fontFamilyBase);
+        margin-bottom: var(--spacingVerticalM);
+    }
+
+    &-1 {
+        line-height: var(--lineHeightHero800);
+        font-size: var(--fontSizeHero800);
+    }
+
+    &-2 {
+        line-height: var(--lineHeightHero700);
+        font-size: var(--fontSizeHero700);
+    }
+
+    &-3 {
+        line-height: var(--lineHeightBase600);
+        font-size: var(--fontSizeBase600);
+    }
+
+    &-4 {
+        line-height: var(--lineHeightBase500);
+        font-size: var(--fontSizeBase500);
+    }
+
+    &-5 {
+        line-height: var(--lineHeightBase400);
+        font-size: var(--fontSizeBase400);
+    }
+
+    &-6 {
+        line-height: var(--lineHeightBase300);
+        font-size: var(--fontSizeBase300);
+    }
+}
+
+.fui-DisplayHeading {
+    &-1, &-2, &-3, &-4, &-5, &-6 {
+        text-overflow: clip;
+        text-align: start;
+        overflow-y: visible;
+        overflow-x: visible;
+        white-space: normal;
+        font-weight: var(--fontWeightSemibold);
+        font-family: var(--fontFamilyBase);
+        margin-bottom: var(--spacingVerticalM);
+    }
+
+    &-1 {
+        line-height: var(--lineHeightHero1000);
+        font-size: var(--fontSizeHero1000);
+    }
+
+    &-2 {
+        line-height: var(--lineHeightHero900);
+        font-size: var(--fontSizeHero900);
+    }
+
+    &-3 {
+        line-height: var(--lineHeightHero800);
+        font-size: var(--fontSizeHero800);
+    }
+
+    &-4 {
+        line-height: var(--lineHeightHero700);
+        font-size: var(--fontSizeHero700);
+    }
+}
+
+.fui-Paragraph {
+    text-overflow: clip;
+    text-align: start;
+    overflow-y: visible;
+    overflow-x: visible;
+    white-space: normal;
+    line-height: var(--lineHeightBase300);
+    font-weight: var(--fontWeightRegular);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    margin-bottom: var(--spacingVerticalM);
+}
+
+.fui-Lead {
+    text-overflow: clip;
+    text-align: start;
+    overflow-y: visible;
+    overflow-x: visible;
+    white-space: normal;
+    font-size: var(--fontSizeBase400);
+    line-height: var(--lineHeightBase400);
+    font-weight: var(--fontWeightRegular);
+    font-family: var(--fontFamilyBase);
+    margin-bottom: var(--spacingVerticalM);
+}
+
+.fui-Text {
+    &-primary {
+        color: var(--colorBrandForeground1);
+    }
+
+    &-secondary {
+        color: var(--colorNeutralForeground1);
+    }
+
+    &-success {
+        color: var(--colorPaletteGreenForeground1);
+    }
+
+    &-danger {
+        color: var(--colorPaletteRedForeground2);
+    }
+
+    &-warning {
+        color: var(--colorPaletteMarigoldForeground1);
+    }
+
+    &-info {
+        color: var(--colorNeutralForeground4);
+    }
+
+    &-light {
+        color: var(--colorPaletteRedForeground2);
+    }
+
+    &-dark {
+        color: var(--colorNeutralForeground1);
+    }
+
+    &-body {
+        color: var(--colorPaletteRedForeground2);
+    }
+
+    &-muted {
+        color: var(--colorPaletteRedForeground2);
+    }
 }
 
 code {
