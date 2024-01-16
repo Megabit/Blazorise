@@ -1283,7 +1283,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Image() => "fui-Image";
 
-    public override string ImageFluid( bool fluid ) => fluid ? "img-fluid" : null;
+    public override string ImageFluid( bool fluid ) => fluid ? "fui-Image-fluid" : null;
 
     #endregion
 
