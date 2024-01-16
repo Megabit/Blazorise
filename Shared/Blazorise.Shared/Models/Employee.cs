@@ -77,7 +77,6 @@ public class Employee
 
     public List<Salary> Salaries { get; set; } = new();
 
-    [Display( Name = "Children Per Salary" )]
     public decimal ChildrensPerSalary
         => Salary == 0m
         ? 0m
@@ -86,20 +85,6 @@ public class Employee
     public decimal TaxPercentage = 0.25m;
 
     private decimal tax;
-
-    [Display( Name = "Test Status" )]
-    public TestStatus TestStatus { get; set; }
 }
 
-
-public enum TestStatus
-{
-    None,
-    Passed,
-    Failed,
-    InProgress,
-    Blocked,
-    NotApplicable,
-    NotTested
-}
 
