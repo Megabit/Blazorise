@@ -1021,7 +1021,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "fui-OverlayDrawer__backdrop";
 
-    public override string OffcanvasBackdropFade() => "fui-OverlayDrawer__backdrop-fade";
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => showing
+        ? "fui-OverlayDrawer__backdrop-showing"
+        : hiding
+            ? "fui-OverlayDrawer__backdrop-hiding"
+            : null;
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? "fui-OverlayDrawer__backdrop-show" : null;
 

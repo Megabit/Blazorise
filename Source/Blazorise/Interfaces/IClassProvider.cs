@@ -856,7 +856,7 @@ public interface IClassProvider
 
     string OffcanvasBackdrop();
 
-    string OffcanvasBackdropFade();
+    string OffcanvasBackdropFade( bool showing, bool hiding );
 
     string OffcanvasBackdropVisible( bool visible );
 

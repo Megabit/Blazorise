@@ -860,7 +860,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string OffcanvasBackdrop();
 
-    public abstract string OffcanvasBackdropFade();
+    public abstract string OffcanvasBackdropFade( bool showing, bool hiding );
 
     public abstract string OffcanvasBackdropVisible( bool visible );
 

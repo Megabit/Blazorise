@@ -935,7 +935,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "ant-drawer-mask";
 
-    public override string OffcanvasBackdropFade() => null;
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => null;
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? null : null;
 

@@ -863,7 +863,7 @@ class EmptyClassProvider : IClassProvider
 
     public string OffcanvasBackdrop() => null;
 
-    public string OffcanvasBackdropFade() => null;
+    public string OffcanvasBackdropFade( bool showing, bool hiding ) => null;
 
     public string OffcanvasBackdropVisible( bool visible ) => null;
 

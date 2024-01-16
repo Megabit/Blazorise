@@ -34,7 +34,7 @@ public partial class _OffcanvasBackdrop : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.OffcanvasBackdrop() );
-        builder.Append( ClassProvider.OffcanvasBackdropFade() );
+        builder.Append( ClassProvider.OffcanvasBackdropFade( parentOffcanvasState.Showing, parentOffcanvasState.Hiding ) );
         builder.Append( ClassProvider.OffcanvasBackdropVisible( parentOffcanvasState.Visible ) );
 
         base.BuildClasses( builder );

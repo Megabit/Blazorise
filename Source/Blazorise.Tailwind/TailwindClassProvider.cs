@@ -1375,7 +1375,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30";
 
-    public override string OffcanvasBackdropFade() => "fade";
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => "fade";
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
 

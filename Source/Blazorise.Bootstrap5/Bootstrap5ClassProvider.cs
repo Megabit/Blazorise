@@ -936,7 +936,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "offcanvas-backdrop";
 
-    public override string OffcanvasBackdropFade() => Fade();
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => Fade();
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
 
