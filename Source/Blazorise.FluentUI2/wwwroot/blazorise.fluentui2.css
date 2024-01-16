@@ -921,11 +921,11 @@ button {
   border-bottom-right-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase400);
 }
-.fui-ButtonBlock {
+.fui-Button-block {
   display: block;
   width: 100%;
 }
-.fui-ButtonBlock + .fui-ButtonBlock {
+.fui-Button-block + .fui-ButtonBlock {
   margin-top: var(--spacingHorizontalS);
 }
 
@@ -3925,6 +3925,87 @@ input::file-selector-button {
   background-color: white;
   border-inline-start-width: 0;
   right: 0;
+}
+
+.fui-Tooltip__box[data-theme~=fluentui] {
+  filter: drop-shadow(0 0 2px var(--colorNeutralShadowAmbient)) drop-shadow(0 4px 8px var(--colorNeutralShadowKey));
+  padding-bottom: 6px;
+  padding-left: 11px;
+  padding-right: 11px;
+  padding-top: 4px;
+  border-bottom-width: 1px;
+  border-top-width: 1px;
+  overflow-wrap: break-word;
+  max-width: 240px;
+  cursor: default;
+  display: block;
+  box-sizing: border-box;
+  border-bottom-color: var(--colorTransparentStroke);
+  border-top-color: var(--colorTransparentStroke);
+  border-left-width: 1px;
+  border-right-width: 1px;
+  border-left-color: var(--colorTransparentStroke);
+  border-right-color: var(--colorTransparentStroke);
+  border-bottom-style: solid;
+  border-left-style: solid;
+  border-right-style: solid;
+  border-top-style: solid;
+  font-size: var(--fontSizeBase200);
+  border-top-left-radius: var(--borderRadiusMedium);
+  border-top-right-radius: var(--borderRadiusMedium);
+  border-bottom-left-radius: var(--borderRadiusMedium);
+  border-bottom-right-radius: var(--borderRadiusMedium);
+  line-height: var(--lineHeightBase200);
+  font-family: var(--fontFamilyBase);
+  background-color: var(--colorNeutralBackground1);
+  color: var(--colorNeutralForeground1);
+}
+.fui-Tooltip__box[data-theme~=fluentui] > .fui-Tooltip__arrow {
+  z-index: -1;
+  visibility: hidden;
+  background-color: inherit;
+  position: absolute;
+}
+.fui-Tooltip__box[data-theme~=fluentui] > .fui-Tooltip__arrow::before {
+  transform: rotate(var(--fui-positioning-angle)) translate(0, 50%) rotate(45deg);
+  border-bottom-right-radius: var(--borderRadiusSmall);
+  border-bottom-color: var(--colorTransparentStroke);
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-right-color: var(--colorTransparentStroke);
+  border-right-style: solid;
+  border-right-width: 1px;
+  background-color: inherit;
+  height: inherit;
+  width: inherit;
+  box-sizing: border-box;
+  position: absolute;
+  visibility: visible;
+  content: "";
+}
+.fui-Tooltip__box[data-theme~=fluentui][data-placement^=top] > .fui-Tooltip__arrow {
+  --fui-positioning-angle: 0;
+  bottom: -1px;
+  height: 8.484px;
+  width: 8.484px;
+}
+.fui-Tooltip__box[data-theme~=fluentui][data-placement^=bottom] > .fui-Tooltip__arrow {
+  --fui-positioning-angle: 180deg;
+  top: -1px;
+  height: 8.484px;
+  width: 8.484px;
+}
+.fui-Tooltip__box[data-theme~=fluentui][data-placement^=left] > .fui-Tooltip__arrow {
+  --fui-positioning-angle: -90deg;
+  right: -1px;
+  height: 8.484px;
+  width: 8.484px;
+}
+.fui-Tooltip__box[data-theme~=fluentui][data-placement^=right] > .fui-Tooltip__arrow {
+  --fui-positioning-angle: 90deg;
+  left: -1px;
+  height: 8.484px;
+  width: 8.484px;
 }
 
 .fui-Text {
