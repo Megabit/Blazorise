@@ -2819,18 +2819,18 @@ input::file-selector-button {
   z-index: var(--zIndexDrawerBackdrop);
   visibility: hidden;
 }
-.fui-OverlayDrawer__backdrop-show {
+.fui-OverlayDrawer__backdrop.fui-OverlayDrawer__backdrop-show {
   opacity: 1;
   visibility: visible;
 }
 
 .fui-OverlayDrawer {
+  --fui-Drawer--size: 320px;
   box-shadow: var(--shadow64);
   opacity: 0;
   will-change: transform, box-shadow, opacity, visibility;
   transition-property: transform, box-shadow, opacity, visibility;
   transition-duration: var(--durationGentle);
-  --fui-Drawer--size: 320px;
   overflow: hidden;
   max-width: 100vw;
   height: auto;
@@ -2846,7 +2846,7 @@ input::file-selector-button {
   display: flex;
   z-index: var(--zIndexDrawer);
 }
-.fui-OverlayDrawer.fui-OverlayDrawer-showing, .fui-OverlayDrawer.fui-OverlayDrawer-hiding, .fui-OverlayDrawer.fui-OverlayDrawer-show {
+.fui-OverlayDrawer.fui-OverlayDrawer-show {
   opacity: 1;
   visibility: visible;
   transform: translate3d(0px, 0px, 0px);

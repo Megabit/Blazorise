@@ -11,19 +11,19 @@
     z-index: var(--zIndexDrawerBackdrop);
     visibility: hidden;
 
-    &-show {
+    &.fui-OverlayDrawer__backdrop-show {
         opacity: 1;
         visibility: visible;
     }
 }
 
 .fui-OverlayDrawer {
+    --fui-Drawer--size: 320px;
     box-shadow: var(--shadow64);
     opacity: 0;
     will-change: transform, box-shadow, opacity, visibility;
     transition-property: transform, box-shadow, opacity, visibility;
     transition-duration: var(--durationGentle);
-    --fui-Drawer--size: 320px;
     overflow: hidden;
     max-width: 100vw;
     height: auto;
@@ -39,8 +39,6 @@
     display: flex;
     z-index: var(--zIndexDrawer);
 
-    &.fui-OverlayDrawer-showing,
-    &.fui-OverlayDrawer-hiding,
     &.fui-OverlayDrawer-show {
         opacity: 1;
         visibility: visible;
