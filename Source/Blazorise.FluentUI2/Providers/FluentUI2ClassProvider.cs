@@ -400,7 +400,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"fui-Button-{ToSize( size )}";
 
-    public override string ButtonBlock( bool outline ) => $"{Button( outline )}Block";
+    public override string ButtonBlock( bool outline ) => $"{Button( outline )}-block";
 
     public override string ButtonActive( bool outline ) => "active";
 
