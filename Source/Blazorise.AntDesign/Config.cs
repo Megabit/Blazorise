@@ -66,6 +66,7 @@ public static class Config
         { typeof( Blazorise.CardHeader ), typeof( AntDesign.CardHeader ) },
         { typeof( Blazorise.CardLink ), typeof( AntDesign.CardLink ) },
         { typeof( Blazorise.Carousel ), typeof( AntDesign.Carousel ) },
+        { typeof( Blazorise.CarouselSlide ), typeof( AntDesign.CarouselSlide ) },
         { typeof( Blazorise.CloseButton ), typeof( AntDesign.CloseButton ) },
         { typeof( Blazorise.CollapseHeader ), typeof( AntDesign.CollapseHeader ) },
         { typeof( Blazorise.Dropdown ), typeof( AntDesign.Dropdown ) },
