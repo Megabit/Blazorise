@@ -16,7 +16,7 @@ export function initialize(element, elementId, options) {
     const appendTo = determineAppendTo(options.appendTo);
 
     const defaultOptions = {
-        theme: 'blazorise',
+        theme: options.theme || 'blazorise',
         content: options.text,
         placement: options.placement,
         maxWidth: options.maxWidth ? options.maxWidth : options.multiline ? "15rem" : null,
@@ -47,6 +47,8 @@ export function initialize(element, elementId, options) {
     }
 
     _instances[elementId] = instance;
+
+    return instance;
 }
 
 export function destroy(element, elementId) {
