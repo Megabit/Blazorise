@@ -44,6 +44,7 @@ public static class Config
         { typeof( Blazorise.CardTitle ), typeof( Bulma.CardTitle ) },
         { typeof( Blazorise.CardSubtitle ), typeof( Bulma.CardSubtitle ) },
         { typeof( Blazorise.Carousel ), typeof( Bulma.Carousel ) },
+        { typeof( Blazorise.CarouselSlide ), typeof( Bulma.CarouselSlide ) },
         { typeof( Blazorise.Check<> ), typeof( Bulma.Check<> ) },
         { typeof( Blazorise.DateEdit<> ), typeof( Bulma.DateEdit<> ) },
         { typeof( Blazorise.DropdownDivider ), typeof( Bulma.DropdownDivider ) },
