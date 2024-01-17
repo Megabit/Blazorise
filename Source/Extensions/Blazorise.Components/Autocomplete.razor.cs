@@ -345,7 +345,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         if ( IsMultiple && string.IsNullOrEmpty( Search ) && eventArgs.Code == "Backspace" )
         {
-            await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
+            await RemoveMultipleTextAndValue( SelectedTexts?.LastOrDefault() );
             await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
