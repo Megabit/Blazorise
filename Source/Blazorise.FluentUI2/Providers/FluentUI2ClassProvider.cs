@@ -231,19 +231,19 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Rating
 
-    public override string Rating() => "rating";
+    public override string Rating() => "fui-Rating";
 
-    public override string RatingDisabled( bool disabled ) => disabled ? "rating-disabled" : null;
+    public override string RatingDisabled( bool disabled ) => disabled ? "fui-Rating-disabled" : null;
 
-    public override string RatingReadonly( bool @readonly ) => @readonly ? "rating-readonly" : null;
+    public override string RatingReadonly( bool @readonly ) => @readonly ? "fui-Rating-readonly" : null;
 
-    public override string RatingItem() => "rating-item";
+    public override string RatingItem() => "fui-RatingItem";
 
-    public override string RatingItemColor( Color color ) => $"rating-item-{ToColor( color )}";
+    public override string RatingItemColor( Color color ) => $"fui-RatingItem-{ToColor( color )}";
 
-    public override string RatingItemSelected( bool selected ) => null;
+    public override string RatingItemSelected( bool selected ) => selected ? "fui-RatingItem-selected" : null;
 
-    public override string RatingItemHovered( bool hover ) => hover ? "rating-item-hover" : null;
+    public override string RatingItemHovered( bool hover ) => hover ? "fui-RatingItem-hover" : null;
 
     #endregion
 

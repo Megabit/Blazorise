@@ -1,0 +1,46 @@
+﻿.fui-Rating {
+    display: flex;
+    align-items: center;
+    color: var(--colorNeutralForeground1);
+
+    &:focus,
+    &:focus-visible {
+        outline-style: none;
+    }
+
+    .fui-RatingItem {
+        height: 16px;
+        width: 16px;
+        font-size: 16px;
+        position: relative;
+
+        .fui-RatingItem__fullValueInput {
+            position: absolute;
+            inset: 0px;
+            box-sizing: border-box;
+            margin: 0px;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .fui-RatingItem__selectedIcon,
+        .fui-RatingItem__unselectedOutlineIcon {
+            display: inline-block;
+            overflow: hidden;
+            fill: currentcolor;
+            pointer-events: none;
+            position: absolute;
+            left: 0px;
+            right: 0px;
+
+            > svg {
+                display: inline;
+                line-height: 0;
+            }
+        }
+
+        .fui-RatingItem__unselectedOutlineIcon {
+            color: var(--colorNeutralForeground3);
+        }
+    }
+}

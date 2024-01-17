@@ -65,6 +65,7 @@ public static class Config
         { typeof( Blazorise.TimePicker<> ), typeof( Components.TimePicker<> ) },
         { typeof( Blazorise.ProgressBar ), typeof( Components.ProgressBar ) },
         { typeof( Blazorise.Radio<> ), typeof( Components.Radio<> ) },
+        { typeof( Blazorise.RatingItem ), typeof( Components.RatingItem ) },
         { typeof( Blazorise.Select<> ), typeof( Components.Select<> ) },
         { typeof( Blazorise.Slider<> ), typeof( Components.Slider<> ) },
         { typeof( Blazorise.Switch<> ), typeof( Components.Switch<> ) },
