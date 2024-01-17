@@ -8,11 +8,28 @@
         outline-style: none;
     }
 
+    &-disabled {
+        opacity: .65;
+    }
+
     .fui-RatingItem {
         height: 16px;
         width: 16px;
         font-size: 16px;
         position: relative;
+
+        @each $name, $value in $foreground-theme-colors {
+            $color: $value;
+
+            &-#{$name} {
+                color: $color;
+
+                .fui-RatingItem__selectedIcon,
+                .fui-RatingItem__unselectedOutlineIcon {
+                    color: $color;
+                }
+            }
+        }
 
         .fui-RatingItem__fullValueInput {
             position: absolute;
@@ -29,11 +46,10 @@
             overflow: hidden;
             fill: currentcolor;
             pointer-events: none;
-            position: absolute;
             left: 0px;
             right: 0px;
 
-            > svg {
+            > * {
                 display: inline;
                 line-height: 0;
             }

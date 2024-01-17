@@ -3241,11 +3241,77 @@ input::file-selector-button {
 .fui-Rating:focus, .fui-Rating:focus-visible {
   outline-style: none;
 }
+.fui-Rating-disabled {
+  opacity: 0.65;
+}
 .fui-Rating .fui-RatingItem {
   height: 16px;
   width: 16px;
   font-size: 16px;
   position: relative;
+}
+.fui-Rating .fui-RatingItem-primary {
+  color: var(--colorBrandForeground1);
+}
+.fui-Rating .fui-RatingItem-primary .fui-RatingItem__selectedIcon,
+.fui-Rating .fui-RatingItem-primary .fui-RatingItem__unselectedOutlineIcon {
+  color: var(--colorBrandForeground1);
+}
+.fui-Rating .fui-RatingItem-secondary {
+  color: var(--colorNeutralForeground3);
+}
+.fui-Rating .fui-RatingItem-secondary .fui-RatingItem__selectedIcon,
+.fui-Rating .fui-RatingItem-secondary .fui-RatingItem__unselectedOutlineIcon {
+  color: var(--colorNeutralForeground3);
+}
+.fui-Rating .fui-RatingItem-success {
+  color: var(--colorStatusSuccessForeground3);
+}
+.fui-Rating .fui-RatingItem-success .fui-RatingItem__selectedIcon,
+.fui-Rating .fui-RatingItem-success .fui-RatingItem__unselectedOutlineIcon {
+  color: var(--colorStatusSuccessForeground3);
+}
+.fui-Rating .fui-RatingItem-danger {
+  color: var(--colorPaletteRedForeground3);
+}
+.fui-Rating .fui-RatingItem-danger .fui-RatingItem__selectedIcon,
+.fui-Rating .fui-RatingItem-danger .fui-RatingItem__unselectedOutlineIcon {
+  color: var(--colorPaletteRedForeground3);
+}
+.fui-Rating .fui-RatingItem-warning {
+  color: var(--colorPaletteMarigoldForeground3);
+}
+.fui-Rating .fui-RatingItem-warning .fui-RatingItem__selectedIcon,
+.fui-Rating .fui-RatingItem-warning .fui-RatingItem__unselectedOutlineIcon {
+  color: var(--colorPaletteMarigoldForeground3);
+}
+.fui-Rating .fui-RatingItem-info {
+  color: var(--colorNeutralForeground3);
+}
+.fui-Rating .fui-RatingItem-info .fui-RatingItem__selectedIcon,
+.fui-Rating .fui-RatingItem-info .fui-RatingItem__unselectedOutlineIcon {
+  color: var(--colorNeutralForeground3);
+}
+.fui-Rating .fui-RatingItem-light {
+  color: var(--colorNeutralForeground3);
+}
+.fui-Rating .fui-RatingItem-light .fui-RatingItem__selectedIcon,
+.fui-Rating .fui-RatingItem-light .fui-RatingItem__unselectedOutlineIcon {
+  color: var(--colorNeutralForeground3);
+}
+.fui-Rating .fui-RatingItem-dark {
+  color: var(--colorNeutralForeground1);
+}
+.fui-Rating .fui-RatingItem-dark .fui-RatingItem__selectedIcon,
+.fui-Rating .fui-RatingItem-dark .fui-RatingItem__unselectedOutlineIcon {
+  color: var(--colorNeutralForeground1);
+}
+.fui-Rating .fui-RatingItem-link {
+  color: var(--colorBrandForegroundLink);
+}
+.fui-Rating .fui-RatingItem-link .fui-RatingItem__selectedIcon,
+.fui-Rating .fui-RatingItem-link .fui-RatingItem__unselectedOutlineIcon {
+  color: var(--colorBrandForegroundLink);
 }
 .fui-Rating .fui-RatingItem .fui-RatingItem__fullValueInput {
   position: absolute;
@@ -3261,12 +3327,11 @@ input::file-selector-button {
   overflow: hidden;
   fill: currentcolor;
   pointer-events: none;
-  position: absolute;
   left: 0px;
   right: 0px;
 }
-.fui-Rating .fui-RatingItem .fui-RatingItem__selectedIcon > svg,
-.fui-Rating .fui-RatingItem .fui-RatingItem__unselectedOutlineIcon > svg {
+.fui-Rating .fui-RatingItem .fui-RatingItem__selectedIcon > *,
+.fui-Rating .fui-RatingItem .fui-RatingItem__unselectedOutlineIcon > * {
   display: inline;
   line-height: 0;
 }

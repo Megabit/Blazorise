@@ -94,7 +94,7 @@ public partial class Rating : BaseComponent
     /// </summary>
     /// <param name="value">Item value.</param>
     /// <returns>True if item value is in the selected range.</returns>
-    internal protected bool IsSelectedRange( int value )
+    public virtual bool IsSelectedRange( int value )
         => value >= 1 && value <= SelectedValue;
 
     /// <summary>
@@ -102,7 +102,7 @@ public partial class Rating : BaseComponent
     /// </summary>
     /// <param name="value">Item value.</param>
     /// <returns>True if item value is in the hovered range.</returns>
-    internal protected bool IsHoveredRange( int value )
+    public virtual bool IsHoveredRange( int value )
         => hovering
            && (
                ( value >= SelectedValue && value <= HoveredValue )
@@ -112,6 +112,11 @@ public partial class Rating : BaseComponent
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Indicates if the mouse is hovering over the component.
+    /// </summary>
+    public bool Hovering => hovering;
 
     /// <summary>
     /// User class names for RatingItems, separated by space
