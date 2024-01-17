@@ -4055,7 +4055,7 @@ input::file-selector-button {
   font-size: var(--fontSizeBase300);
 }
 
-.fui-DisplayHeading-1, .fui-DisplayHeading-2, .fui-DisplayHeading-3, .fui-DisplayHeading-4, .fui-DisplayHeading-5, .fui-DisplayHeading-6 {
+.fui-DisplayHeading-1, .fui-DisplayHeading-2, .fui-DisplayHeading-3, .fui-DisplayHeading-4 {
   text-overflow: clip;
   text-align: start;
   overflow-y: visible;
