@@ -12,12 +12,13 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.TreeView.Internal;
 
-public partial class _TreeViewNode<TNode> : BaseComponent
+public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
 {
     #region Members
 
     private bool checkChildrenLoaded;
 
+    internal NotifyCollectionChangedEventHandler PreviousNotifyCollectionChangedEventHandler;
     #endregion
 
     #region Methods
@@ -137,7 +138,13 @@ public partial class _TreeViewNode<TNode> : BaseComponent
 
         if ( childNodes is INotifyCollectionChanged observableCollection )
         {
+            if ( PreviousNotifyCollectionChangedEventHandler is not null )
+            {
+                observableCollection.CollectionChanged -= PreviousNotifyCollectionChangedEventHandler;
+            }
+
             observableCollection.CollectionChanged += childrenChangedHandler;
+            PreviousNotifyCollectionChangedEventHandler = childrenChangedHandler;
         }
 
         if ( !nodeState.Children.Select( x => x.Node ).AreEqual( childNodes ) )
@@ -179,6 +186,23 @@ public partial class _TreeViewNode<TNode> : BaseComponent
         }
 
         StateHasChanged();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( ParentNode?.PreviousNotifyCollectionChangedEventHandler is not null )
+            {
+                if ( NodeStates is INotifyCollectionChanged observableCollection )
+                {
+                    observableCollection.CollectionChanged -= ParentNode.PreviousNotifyCollectionChangedEventHandler;
+                }
+            }
+        }
+
+        base.Dispose( disposing );
     }
 
     public async Task ExpandAll()
