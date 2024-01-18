@@ -129,7 +129,7 @@ public partial class Rating : BaseComponent
     [Parameter] public string RatingItemsStyle { get; set; }
 
     /// <summary>
-    /// Maximum rating value that is allowed to be selected.
+    /// Maximum rating value that is allowed to be selected. Default is 5.
     /// </summary>
     [Parameter] public int MaxValue { get; set; } = 5;
 

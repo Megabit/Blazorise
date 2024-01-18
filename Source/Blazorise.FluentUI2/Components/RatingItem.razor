@@ -14,11 +14,24 @@ else
 @code {
     private RenderFragment InputElement => __builder =>
     {
-        <input type="radio" name="rating-5" class="fui-RatingItem__fullValueInput" value="@Value">
+        <input type="radio" name="@RatingName" class="fui-RatingItem__fullValueInput" value="@Value">
         <div aria-hidden="true" class="@IconWrapperName">
             <Icon Class="fui-RatingItem__selectedIcon" Name="@IconName" IconStyle="@IconStyle" />
         </div>
     };
+
+    private string RatingName
+    {
+        get
+        {
+            if ( Rating is FluentUI2.Components.Rating fluentRating )
+            {
+                return fluentRating.RatingName;
+            }
+
+            return null;
+        }
+    }
 
     protected object IconWrapperName => Rating.IsSelectedRange( Value )
         ? "fui-RatingItem__selectedIcon"
