@@ -1,0 +1,91 @@
+﻿.fui-Accordion {
+    .fui-AccordionItem {
+        .fui-AccordionHeader {
+            margin-bottom: 0px;
+            margin-left: 0px;
+            margin-right: 0px;
+            margin-top: 0px;
+            border-top-left-radius: var(--borderRadiusMedium);
+            border-top-right-radius: var(--borderRadiusMedium);
+            border-bottom-left-radius: var(--borderRadiusMedium);
+            border-bottom-right-radius: var(--borderRadiusMedium);
+            background-color: var(--colorTransparentBackground);
+            color: var(--colorNeutralForeground1);
+
+            .fui-AccordionHeader__button {
+                box-sizing: border-box;
+                min-height: 44px;
+                padding-left: var(--spacingHorizontalMNudge);
+                padding-right: var(--spacingHorizontalM);
+                border-bottom-style: solid;
+                border-left-style: solid;
+                border-right-style: solid;
+                border-top-style: solid;
+                border-bottom-width: 1px;
+                border-left-width: 1px;
+                border-right-width: 1px;
+                border-top-width: 1px;
+                position: relative;
+                text-align: unset;
+                appearance: button;
+                padding-bottom: 0px;
+                padding-top: 0px;
+                overflow-y: visible;
+                overflow-x: visible;
+                color: inherit;
+                background-color: inherit;
+                cursor: pointer;
+                width: 100%;
+                align-items: center;
+                border-bottom-color: transparent;
+                border-left-color: transparent;
+                border-right-color: transparent;
+                border-top-color: transparent;
+                display: flex;
+                line-height: var(--lineHeightBase300);
+                font-weight: var(--fontWeightRegular);
+                font-size: var(--fontSizeBase300);
+                font-family: var(--fontFamilyBase);
+
+                .fui-AccordionHeader__expandIcon {
+                    height: 100%;
+                    font-size: var(--fontSizeBase500);
+                    line-height: var(--lineHeightBase500);
+                    align-items: center;
+                    padding-right: var(--spacingHorizontalS);
+                    display: flex;
+
+
+                    > svg {
+                        display: inline;
+                        line-height: 0;
+                        transition: transform 150ms ease-out;
+                    }
+                }
+
+                &[aria-expanded="true"] {
+                    .fui-AccordionHeader__expandIcon {
+
+                        > svg {
+                            transform: rotate(90deg);
+                        }
+                    }
+                }
+            }
+        }
+
+        .fui-AccordionPanel {
+            display: none;
+            margin-left: var(--spacingHorizontalM);
+            margin-right: var(--spacingHorizontalM);
+            margin-bottom: 0px;
+            margin-top: 0px;
+        }
+
+        &-active {
+            .fui-AccordionPanel {
+                display: block;
+            }
+        }
+    }
+}

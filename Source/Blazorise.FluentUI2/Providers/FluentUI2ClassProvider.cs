@@ -826,13 +826,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Accordion
 
-    public override string Accordion() => "accordion";
+    public override string Accordion() => "fui-Accordion";
 
     #endregion
 
     #region AccordionToggle
 
-    public override string AccordionToggle() => "btn";
+    public override string AccordionToggle() => "fui-AccordionHeader__button";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => null;
 
@@ -840,15 +840,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Collapse
 
-    public override string Collapse( bool accordion ) => "card";
+    public override string Collapse( bool accordion ) => "fui-AccordionItem";
 
-    public override string CollapseActive( bool accordion, bool active ) => null;
+    public override string CollapseActive( bool accordion, bool active ) => active ? "fui-AccordionItem-active" : null;
 
-    public override string CollapseHeader( bool accordion ) => "card-header";
+    public override string CollapseHeader( bool accordion ) => "fui-AccordionHeader";
 
-    public override string CollapseBody( bool accordion ) => "collapse";
+    public override string CollapseBody( bool accordion ) => "fui-AccordionPanel";
 
-    public override string CollapseBodyActive( bool accordion, bool active ) => active ? Show() : null;
+    public override string CollapseBodyActive( bool accordion, bool active ) => active ? "fui-AccordionPanel-show" : null;
 
     public override string CollapseBodyContent( bool accordion, bool firstInAccordion, bool lastInAccordion ) => "card-body";
 
