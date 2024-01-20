@@ -1,0 +1,9 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed>
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <CascadingValue Value="@Visible" Name="AccordionItemVisible">
+            @ChildContent
+        </CascadingValue>
+    </div>
+</CascadingValue>

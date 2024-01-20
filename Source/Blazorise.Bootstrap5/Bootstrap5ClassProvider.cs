@@ -743,13 +743,21 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Accordion() => "accordion";
 
-    #endregion
-
-    #region AccordionToggle
-
-    public override string AccordionToggle() => "accordion-button btn";
+    public override string AccordionToggle() => "accordion-button";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => collapsed ? null : "collapsed";
+
+    public override string AccordionItem() => "accordion-item";
+
+    public override string AccordionItemActive( bool active ) => null;
+
+    public override string AccordionHeader() => "accordion-header";
+
+    public override string AccordionBody() => "accordion-collapse collapse";
+
+    public override string AccordionBodyActive( bool active ) => active ? Show() : null;
+
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "accordion-body";
 
     #endregion
 

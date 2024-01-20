@@ -828,13 +828,21 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Accordion() => "fui-Accordion";
 
-    #endregion
-
-    #region AccordionToggle
-
     public override string AccordionToggle() => "fui-AccordionHeader__button";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    public override string AccordionItem() => "fui-AccordionItem";
+
+    public override string AccordionItemActive( bool active ) => active ? "fui-AccordionItem-active" : null;
+
+    public override string AccordionHeader() => "fui-AccordionHeader";
+
+    public override string AccordionBody() => "fui-AccordionPanel";
+
+    public override string AccordionBodyActive( bool active ) => active ? "fui-AccordionPanel-show" : null;
+
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "card-body";
 
     #endregion
 

@@ -821,41 +821,41 @@ public class Gender
 }";
 
         public const string BasicAccordionExample = @"<Accordion>
-    <Collapse Visible=""@collapse1Visible"">
-        <CollapseHeader>
+    <AccordionItem @bind-Visible=""@accordionItem1Visible"">
+        <AccordionHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <AccordionToggle>Switch 1</AccordionToggle>
+                <AccordionToggle>What is Blazorise?</AccordionToggle>
             </Heading>
-        </CollapseHeader>
-        <CollapseBody>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-        </CollapseBody>
-    </Collapse>
-    <Collapse Visible=""@collapse2Visible"">
-        <CollapseHeader>
+        </AccordionHeader>
+        <AccordionBody>
+            Blazorise is a component library built on top of Blazor, which is a framework from Microsoft for building interactive client-side web UIs using .NET. Blazorise provides a rich set of components that are easy to use and customizable, helping developers to build responsive and modern web applications more efficiently.
+        </AccordionBody>
+    </AccordionItem>
+    <AccordionItem @bind-Visible=""@accordionItem2Visible"">
+        <AccordionHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <AccordionToggle>Switch 2</AccordionToggle>
+                <AccordionToggle>What CSS  frameworks does Blazorise support?</AccordionToggle>
             </Heading>
-        </CollapseHeader>
-        <CollapseBody>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-        </CollapseBody>
-    </Collapse>
-    <Collapse Visible=""@collapse3Visible"">
-        <CollapseHeader>
+        </AccordionHeader>
+        <AccordionBody>
+            Blazorise supports several CSS frameworks, including Bootstrap (known for responsive design elements), Bulma (valued for simplicity and Flexbox base), Material (inspired by Google's Material Design), Ant Design (geared towards enterprise-level products and adapting React components' design principles), and Tailwind CSS (famous for its utility-first approach and versatility). These frameworks provide distinct styles and philosophies, offering developers a range of options to best suit their project's requirements.
+        </AccordionBody>
+    </AccordionItem>
+    <AccordionItem @bind-Visible=""@accordionItem3Visible"">
+        <AccordionHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <AccordionToggle>Switch 3</AccordionToggle>
+                <AccordionToggle>What are the benefits of Blazorise commercial license?</AccordionToggle>
             </Heading>
-        </CollapseHeader>
-        <CollapseBody>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-        </CollapseBody>
-    </Collapse>
+        </AccordionHeader>
+        <AccordionBody>
+            A Blazorise commercial license typically includes access to advanced components, priority support, options for dedicated consultations, frequent updates and bug fixes, a license for unrestricted commercial use, potential access to the source code, and opportunities for training and workshops. This package enhances functionality, offers better support, and provides operational security for commercial projects.
+        </AccordionBody>
+    </AccordionItem>
 </Accordion>
 @code {
-    bool collapse1Visible = true;
-    bool collapse2Visible = false;
-    bool collapse3Visible = false;
+    bool accordionItem1Visible = true;
+    bool accordionItem2Visible = false;
+    bool accordionItem3Visible = false;
 }";
 
         public const string AddonWithValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">

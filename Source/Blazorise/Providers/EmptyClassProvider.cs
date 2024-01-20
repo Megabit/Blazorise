@@ -723,13 +723,21 @@ class EmptyClassProvider : IClassProvider
 
     public string Accordion() => null;
 
-    #endregion
-
-    #region AccordionToggle
-
     public string AccordionToggle() => null;
 
     public string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    public string AccordionItem() => null;
+
+    public string AccordionItemActive( bool active ) => null;
+
+    public string AccordionHeader() => null;
+
+    public string AccordionBody() => null;
+
+    public string AccordionBodyActive( bool active ) => null;
+
+    public string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => null;
 
     #endregion
 

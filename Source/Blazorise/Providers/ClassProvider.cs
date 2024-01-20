@@ -719,13 +719,21 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Accordion();
 
-    #endregion
-
-    #region AccordionToggle
-
     public abstract string AccordionToggle();
 
     public abstract string AccordionToggleCollapsed( bool collapsed );
+
+    public abstract string AccordionItem();
+
+    public abstract string AccordionItemActive( bool active );
+
+    public abstract string AccordionHeader();
+
+    public abstract string AccordionBody();
+
+    public abstract string AccordionBodyActive( bool active );
+
+    public abstract string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion );
 
     #endregion
 
