@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System.Threading.Tasks;
 using Blazorise.Utilities;
 #endregion
 
@@ -46,6 +47,20 @@ public partial class ColorEdit
         {
             builder.Append( "disabled" );
         }
+    }
+
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( $"--fui-ColorInput--value: {CurrentValueAsString}" );
+
+        base.BuildStyles( builder );
+    }
+
+    protected override Task OnInternalValueChanged( string value )
+    {
+        DirtyStyles();
+
+        return base.OnInternalValueChanged( value );
     }
 
     #endregion

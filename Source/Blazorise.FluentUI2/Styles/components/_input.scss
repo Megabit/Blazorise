@@ -379,3 +379,27 @@
         padding-top: var(--spacingVerticalSNudge);
     }
 }
+
+.fui-ColorInput.fui-Input__input {
+    &[type="color"] {
+        &::-webkit-color-swatch-wrapper,
+        &::-moz-color-swatch {
+            display: inline-flex;
+            box-sizing: border-box;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 20px;
+            height: 20px;
+            padding: 0 calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
+            border-radius: var(--borderRadiusCircular);
+            border-color: var(--colorTransparentStroke);
+            background-color: var(--fui-ColorInput--value);
+            color: var(--fui-ColorInput--value);
+        }
+
+        &::-webkit-color-swatch {
+            display: none;
+        }
+    }
+}
