@@ -457,6 +457,10 @@ hr.divider.divider-text::before {
   width: 512px;
 }
 
+.b-file-picker > .input-group {
+  flex-wrap: nowrap;
+}
+
 .form-check > .form-check-input.form-check-input-pointer,
 .form-check > .form-check-label.form-check-label-pointer,
 .form-switch > .form-check-input.form-check-input-pointer,
