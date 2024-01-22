@@ -1706,6 +1706,34 @@ button {
   margin-top: calc((24x - var(--lineHeightBase300)) / 2);
 }
 
+.fui-ColorPicker {
+  display: inline-flex;
+  box-sizing: border-box;
+  justify-content: start;
+  align-items: center;
+}
+.fui-ColorPicker .fui-Input__colorPreview {
+  display: inline-flex;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  padding: 0 calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
+  border-radius: var(--borderRadiusCircular);
+  border-color: var(--colorTransparentStroke);
+}
+.fui-ColorPicker .fui-Input__colorValue {
+  font-family: var(--fontFamilyBase);
+  font-size: var(--fontSizeBase200);
+  font-weight: var(--fontWeightSemibold);
+  line-height: var(--lineHeightBase200);
+  min-width: max-content;
+  padding-left: var(--spacingHorizontalS);
+  padding-right: var(--spacingHorizontalS);
+}
+
 .fui-Dropdown {
   min-width: 250px;
   display: inline-block;
