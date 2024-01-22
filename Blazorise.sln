@@ -145,6 +145,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.FluentUI2", "Sour
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.FluentUI2", "Demos\Blazorise.Demo.FluentUI2\Blazorise.Demo.FluentUI2.csproj", "{2C519602-A6E6-4195-9D63-AA34C6978ED2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Icons.Fabric", "Source\Extensions\Blazorise.Icons.Fabric\Blazorise.Icons.Fabric.csproj", "{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -379,6 +381,10 @@ Global
 		{2C519602-A6E6-4195-9D63-AA34C6978ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C519602-A6E6-4195-9D63-AA34C6978ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C519602-A6E6-4195-9D63-AA34C6978ED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -444,6 +450,7 @@ Global
 		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8} = {5930C85A-4AE1-428B-BFEE-7A80970F7F3E}
 		{E228C1B1-DEC3-4195-978F-518BAD4D7FD7} = {73CD9574-5204-442D-A67C-CA7B038057C2}
 		{2C519602-A6E6-4195-9D63-AA34C6978ED2} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
+		{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
