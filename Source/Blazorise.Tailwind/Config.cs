@@ -65,6 +65,7 @@ public static class Config
         { typeof( Blazorise.CardImage ), typeof( Tailwind.CardImage ) },
         { typeof( Blazorise.CardText ), typeof( Tailwind.CardText ) },
         { typeof( Blazorise.Carousel ), typeof( Tailwind.Carousel ) },
+        { typeof( Blazorise.CarouselSlide ), typeof( Tailwind.CarouselSlide ) },
         { typeof( Blazorise.Check<> ), typeof( Tailwind.Check<> ) },
         { typeof( Blazorise.CloseButton ), typeof( Tailwind.CloseButton ) },
         { typeof( Blazorise.ColorPicker ), typeof( Tailwind.ColorPicker ) },
