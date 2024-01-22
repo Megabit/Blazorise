@@ -7962,38 +7962,38 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 </Paragraph>
 
 <DataGrid @ref=""dataGridRef""
-                          TItem=""Employee""
-                          Data=""inMemoryData""
-                          Responsive
-                          Editable
-                          Filterable
-                          ShowPager
-                          ShowPageSizes>
-                    <DataGridColumns>
-                        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
-                        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"">
-                        </DataGridColumn>
-                        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" />
-                        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" />
-                        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" Caption=""City"">
-                            <CaptionTemplate>
-                                <Icon Name=""IconName.City"" /> @context.Caption
-                            </CaptionTemplate>
-                        </DataGridColumn>
-                        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" Caption=""Zip"">
-                        </DataGridColumn>
-                        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
-                         <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" ReverseSorting=""true"" Editable Filterable=""false"" />
-                         <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
-                         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""140px"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"">
-                         </DataGridColumn>
-                         <DataGridCheckColumn TItem=""Employee"" Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable Filterable=""false"">
-                             <DisplayTemplate>
-                                 <Check TValue=""bool"" Checked=""context.IsActive"" Disabled ReadOnly />
-                             </DisplayTemplate>
-                         </DataGridCheckColumn>
-                     </DataGridColumns>
-                 </DataGrid>
+          TItem=""Employee""
+          Data=""inMemoryData""
+          Responsive
+          Editable
+          Filterable
+          ShowPager
+          ShowPageSizes>
+    <DataGridColumns>
+        <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"">
+        </DataGridColumn>
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.LastName )"" Caption=""Last Name"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Email )"" Caption=""Email"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.City )"" Caption=""City"">
+            <CaptionTemplate>
+                <Icon Name=""IconName.City"" /> @context.Caption
+            </CaptionTemplate>
+        </DataGridColumn>
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Zip )"" Caption=""Zip"">
+        </DataGridColumn>
+        <DataGridDateColumn TItem=""Employee"" Field=""@nameof( Employee.DateOfBirth )"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
+        <DataGridNumericColumn TItem=""Employee"" Field=""@nameof( Employee.Childrens )"" Caption=""Childrens"" ReverseSorting=""true"" Editable Filterable=""false"" />
+        <DataGridSelectColumn TItem=""Employee"" Field=""@nameof( Employee.Gender )"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+        <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.Salary )"" Caption=""Salary"" Editable Width=""140px"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"">
+        </DataGridColumn>
+        <DataGridCheckColumn TItem=""Employee"" Field=""@nameof(Employee.IsActive)"" Caption=""Active"" Editable Filterable=""false"">
+            <DisplayTemplate>
+                <Check TValue=""bool"" Checked=""context.IsActive"" Disabled ReadOnly />
+            </DisplayTemplate>
+        </DataGridCheckColumn>
+    </DataGridColumns>
+</DataGrid>
 
 @code {
     [Inject] Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
@@ -8015,17 +8015,20 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         {
             await LoadState();
         }
+
         await base.OnAfterRenderAsync( firstRender );
     }
 
     private async Task ResetState()
     {
         await LocalStorage.RemoveItemAsync( STORAGE_KEY );
+
         var state = new DataGridState<Employee>()
         {
             CurrentPage = 1,
             PageSize = 10,
         };
+
         await dataGridRef.LoadState( state );
     }
 
@@ -8036,9 +8039,9 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         if ( stateFromLocalStorage is not null )
         {
             //It is of note that we must make sure the reference is contained in the DataGrid Data collection.
-            if (stateFromLocalStorage.SelectedRow is not null )
+            if ( stateFromLocalStorage.SelectedRow is not null )
             {
-                stateFromLocalStorage.SelectedRow = inMemoryData.FirstOrDefault(x => x.Id == stateFromLocalStorage.SelectedRow.Id);
+                stateFromLocalStorage.SelectedRow = inMemoryData.FirstOrDefault( x => x.Id == stateFromLocalStorage.SelectedRow.Id );
             }
             if ( stateFromLocalStorage.EditItem is not null )
             {

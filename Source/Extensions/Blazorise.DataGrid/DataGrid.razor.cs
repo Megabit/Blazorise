@@ -191,6 +191,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         PageSize = dataGridState.PageSize;
         CurrentPage = dataGridState.CurrentPage;
+
         if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
         {
             await ResetSorting();
@@ -271,6 +272,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue ) ).ToList();
         }
+
         return Task.FromResult( dataGridState );
     }
 
@@ -361,8 +363,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// Removes an existing link of a child column with this datagrid.
-    /// <para>Returns:
-    ///     true if item is successfully removed; otherwise, false.
+    /// <para>
+    /// Returns: true if item is successfully removed; otherwise, false.
     /// </para>
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
@@ -1043,11 +1045,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             if ( CanInsertNewItem && Data is ICollection<TItem> data )
                                 data.Add( batchChange.NewItem );
                             break;
-
                         case DataGridBatchEditItemState.Edit:
                             SetItemEditedValues( batchChange.OldItem, batchChange.Values );
                             break;
-
                         case DataGridBatchEditItemState.Delete:
                             if ( Data is ICollection<TItem> data2 )
                                 data2.Remove( batchChange.OldItem );
@@ -1893,8 +1893,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         try
         {
             IsLoading = true;
+
             await InvokeAsync( StateHasChanged );
             await Task.Yield();
+
             if ( !cancellationToken.IsCancellationRequested )
                 await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, CurrentPage, PageSize, 0, 0, cancellationToken ) );
         }
@@ -2167,10 +2169,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 case DataGridColumnFilterMethod.StartsWith:
                     return searchValue.StartsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridColumnFilterMethod.EndsWith:
                     return searchValue.EndsWith( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridColumnFilterMethod.Equals:
                     if ( columnType == DataGridColumnType.Numeric )
                     {
@@ -2208,7 +2208,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     }
 
                     return searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridColumnFilterMethod.NotEquals:
                     if ( columnType == DataGridColumnType.Numeric )
                     {
@@ -2245,7 +2244,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan != compareToTimeSpan;
                     }
                     return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridColumnFilterMethod.LessThan:
                     if ( columnType == DataGridColumnType.Numeric )
                     {
@@ -2282,7 +2280,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan < compareToTimeSpan;
                     }
                     return false;
-
                 case DataGridColumnFilterMethod.LessThanOrEqual:
                     if ( columnType == DataGridColumnType.Numeric )
                     {
@@ -2319,7 +2316,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan <= compareToTimeSpan;
                     }
                     return false;
-
                 case DataGridColumnFilterMethod.GreaterThan:
                     if ( columnType == DataGridColumnType.Numeric )
                     {
@@ -2356,7 +2352,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan > compareToTimeSpan;
                     }
                     return false;
-
                 case DataGridColumnFilterMethod.GreaterThanOrEqual:
                     if ( columnType == DataGridColumnType.Numeric )
                     {
@@ -2393,7 +2388,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan >= compareToTimeSpan;
                     }
                     return false;
-
                 case DataGridColumnFilterMethod.Contains:
                 default:
                     return searchValue.Contains( compareTo, StringComparison.OrdinalIgnoreCase );
@@ -2764,12 +2758,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter]
     public RenderFragment<PopupTitleContext<TItem>> PopupTitleTemplate { get; set; } = context =>
-                                {
-                                    return builder =>
-                                    {
-                                        builder.AddContent( 0, context.EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create" );
-                                    };
-                                };
+    {
+        return builder =>
+        {
+            builder.AddContent( 0, context.EditState == DataGridEditState.Edit ? "Row Edit" : "Row Create" );
+        };
+    };
 
     /// <summary>
     /// Gets the flag which indicates if popup editor is visible.

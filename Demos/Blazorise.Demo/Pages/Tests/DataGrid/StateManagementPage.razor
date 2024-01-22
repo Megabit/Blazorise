@@ -12,7 +12,7 @@
                     You can use the <code>LoadState</code> and <code>GetState</code> methods to load and get the DataGrid state.
                 </Paragraph>
                 <Paragraph>
-                    In the following example, 
+                    In the following example,
                     <UnorderedList>
                         <UnorderedListItem>we are using the <code>LoadState</code> method to load the DataGrid state from the LocalStorage if available.</UnorderedListItem>
                         <UnorderedListItem>We are using the <code>GetState</code> method to save the DataGrid state to the LocalStorage in order to load at a later date.</UnorderedListItem>
@@ -48,23 +48,23 @@
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
-                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" ReverseSorting="true" Editable Filterable="false" />
-                         <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
-                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
-                         </DataGridColumn>
-                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
-                             <DisplayTemplate>
-                                 <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
-                             </DisplayTemplate>
-                         </DataGridCheckColumn>
-                     </DataGridColumns>
-                 </DataGrid>
-             </CardBody>
-         </Card>
-     </Column>
- </Row>
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" ReverseSorting="true" Editable Filterable="false" />
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        </DataGridColumn>
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
+                            <DisplayTemplate>
+                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                            </DisplayTemplate>
+                        </DataGridCheckColumn>
+                    </DataGridColumns>
+                </DataGrid>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
 
- @code {
+@code {
     [Inject] Blazored.LocalStorage.ILocalStorageService LocalStorage { get; set; }
     [Inject] EmployeeData EmployeeData { get; set; }
 
@@ -91,10 +91,10 @@
     {
         await LocalStorage.RemoveItemAsync( STORAGE_KEY );
         var state = new DataGridState<Employee>()
-        {
-            CurrentPage = 1,
-            PageSize = 10,
-        };
+            {
+                CurrentPage = 1,
+                PageSize = 10,
+            };
         await dataGridRef.LoadState( state );
     }
 
@@ -105,9 +105,9 @@
         if ( stateFromLocalStorage is not null )
         {
             //It is of note that we must make sure the reference is contained in the DataGrid Data collection.
-            if (stateFromLocalStorage.SelectedRow is not null )
+            if ( stateFromLocalStorage.SelectedRow is not null )
             {
-                stateFromLocalStorage.SelectedRow = inMemoryData.FirstOrDefault(x => x.Id == stateFromLocalStorage.SelectedRow.Id);
+                stateFromLocalStorage.SelectedRow = inMemoryData.FirstOrDefault( x => x.Id == stateFromLocalStorage.SelectedRow.Id );
             }
             if ( stateFromLocalStorage.EditItem is not null )
             {

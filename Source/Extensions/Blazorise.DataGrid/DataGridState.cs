@@ -1,54 +1,18 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+#endregion
 
 namespace Blazorise.DataGrid;
 
 /// <summary>
 /// A DataGrid state container.
 /// </summary>
-/// <typeparam name="TItem"></typeparam>
+/// <typeparam name="TItem">Type parameter for the model displayed in the <see cref="DataGrid{TItem}"/>.</typeparam>
 public class DataGridState<TItem>
 {
-    /// <summary>
-    /// Gets or sets the current page number.
-    /// </summary>
-    public int CurrentPage { get; set; }
-
-    /// <summary>
-    /// Gets or sets the maximum number of items for each page.
-    /// </summary>
-    public int PageSize { get; set; }
-
-    /// <summary>
-    /// Gets the current datagrid editing state.
-    /// </summary>
-    public DataGridEditState EditState { get; set; }
-
-    /// <summary>
-    /// Gets or sets the currently editing item.
-    /// </summary>
-    public TItem EditItem { get; set; }
-
-    /// <summary>
-    /// Gets or sets currently selected row.
-    /// </summary>
-    public TItem SelectedRow { get; set; }
-
-    /// <summary>
-    /// Gets or sets currently selected rows.
-    /// </summary>
-    public List<TItem> SelectedRows { get; set; }
-
-    /// <summary>
-    /// Gets or sets the sort state for the DataGrid columns.
-    /// </summary>
-    public List<DataGridColumnSortState<TItem>> ColumnSortStates { get; set; }
-
-    /// <summary>
-    /// Gets or sets the filter state for the DataGrid columns.
-    /// </summary>
-    public List<DataGridColumnFilterState<TItem>> ColumnFilterStates { get; set; }
+    #region Methods
 
     /// <summary>
     /// Sets the DataGrid to the EditState.New.
@@ -124,4 +88,50 @@ public class DataGridState<TItem>
     {
         return ( fieldGetter.Body as MemberExpression ).Member.Name;
     }
+
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// Gets or sets the current page number.
+    /// </summary>
+    public int CurrentPage { get; set; }
+
+    /// <summary>
+    /// Gets or sets the maximum number of items for each page.
+    /// </summary>
+    public int PageSize { get; set; }
+
+    /// <summary>
+    /// Gets the current datagrid editing state.
+    /// </summary>
+    public DataGridEditState EditState { get; set; }
+
+    /// <summary>
+    /// Gets or sets the currently editing item.
+    /// </summary>
+    public TItem EditItem { get; set; }
+
+    /// <summary>
+    /// Gets or sets currently selected row.
+    /// </summary>
+    public TItem SelectedRow { get; set; }
+
+    /// <summary>
+    /// Gets or sets currently selected rows.
+    /// </summary>
+    public List<TItem> SelectedRows { get; set; }
+
+    /// <summary>
+    /// Gets or sets the sort state for the DataGrid columns.
+    /// </summary>
+    public List<DataGridColumnSortState<TItem>> ColumnSortStates { get; set; }
+
+    /// <summary>
+    /// Gets or sets the filter state for the DataGrid columns.
+    /// </summary>
+    public List<DataGridColumnFilterState<TItem>> ColumnFilterStates { get; set; }
+
+    #endregion
 }
