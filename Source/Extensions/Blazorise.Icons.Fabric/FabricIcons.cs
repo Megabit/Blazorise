@@ -1932,5 +1932,4 @@ public static class FabricIcons
     public static readonly string ZoomIn = "ms-Icon--ZoomIn";
     public static readonly string ZoomOut = "ms-Icon--ZoomOut";
     public static readonly string ZoomToFit = "ms-Icon--ZoomToFit";
-
 }
