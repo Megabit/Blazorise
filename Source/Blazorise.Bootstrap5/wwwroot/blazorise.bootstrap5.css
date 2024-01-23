@@ -224,9 +224,11 @@ input[type=button].btn-block {
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
 }
+.b-is-autocomplete.b-is-autocomplete-multipleselection > input.form-control:not(.is-valid, .is-invalid) {
+  border: none;
+}
 .b-is-autocomplete.b-is-autocomplete-multipleselection > input.form-control {
   display: inline-block;
-  border: none;
   box-shadow: none;
   outline: none;
   background-color: transparent;
