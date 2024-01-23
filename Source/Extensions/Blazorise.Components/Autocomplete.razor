@@ -5,7 +5,7 @@
 @typeparam TValue
 
 <Dropdown ElementId="@ElementId" Class="@DropdownClassNames" Style="@CssStyle" Attributes="@Attributes" Visible="@(DropdownVisible || NotFoundVisible || FreeTypingNotFoundVisible)" PositionStrategy="@PositionStrategy" DropdownMenuTargetId="@InputElementId" Disabled="@Disabled">
-    <Validation Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
+    <Validation @ref=validationRef Validator="@(Validator ?? ValidationRule.None)" AsyncValidator="@AsyncValidator">
 
         @if ( IsMultiple && !SelectedTexts.IsNullOrEmpty() )
         {
