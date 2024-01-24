@@ -1,5 +1,5 @@
-﻿import "./vendors/jsencrypt.js?v=1.4.0.0";
-import "./vendors/sha512.js?v=1.4.0.0";
+﻿import "./vendors/jsencrypt.js?v=1.4.1.0";
+import "./vendors/sha512.js?v=1.4.1.0";
 
 // adds a classname to the specified element
 export function addClass(element, classname) {
@@ -119,7 +119,7 @@ export function setProperty(element, property, value) {
 }
 
 export function getElementInfo(element, elementId) {
-    if (!element) {
+    if (!element || (element && element.id !== elementId)) {
         element = document.getElementById(elementId);
     }
 
