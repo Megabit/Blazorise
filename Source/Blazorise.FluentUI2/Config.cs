@@ -42,6 +42,7 @@ public static class Config
         { typeof( Blazorise.BreadcrumbItem ), typeof( Components.BreadcrumbItem ) },
         { typeof( Blazorise.BreadcrumbLink ), typeof( Components.BreadcrumbLink ) },
         { typeof( Blazorise.CardHeader ), typeof( Components.CardHeader ) },
+        { typeof( Blazorise.Carousel ), typeof( Components.Carousel ) },
         { typeof( Blazorise.Check<> ), typeof( Components.Check<> ) },
         { typeof( Blazorise.ColorEdit ), typeof( Components.ColorEdit ) },
         { typeof( Blazorise.ColorPicker ), typeof( Components.ColorPicker ) },

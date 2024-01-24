@@ -1564,6 +1564,173 @@ button {
   }
 }
 
+.fui-Carousel {
+  position: relative;
+  display: inline-block;
+}
+.fui-Carousel .fui-Carousel__paddlescontainer {
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  top: 0px;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.fui-Carousel .fui-Carousel__paddlescontainer .fui-Carousel__paddle {
+  z-index: 1;
+  color: var(--colorNeutralForegroundOnBrand);
+  background-color: var(--colorBackgroundOverlay);
+  transition: all 100ms ease 0s;
+  border-top-width: 0px;
+  border-radius: var(--borderRadiusMedium);
+  outline-width: 0px;
+  position: relative;
+  display: inline-flex;
+  justify-content: center;
+  cursor: pointer;
+  vertical-align: middle;
+  align-items: center;
+  border-left-width: 0px;
+  border-bottom-width: 0px;
+  border-right-width: 0px;
+  padding: var(--spacingVerticalS) var(--spacingHorizontalS);
+  font-size: var(--fontSizeBase300);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase300);
+}
+.fui-Carousel .fui-Carousel__paddlescontainer .fui-Carousel__paddle:hover {
+  background-color: var(--colorScrollbarOverlay);
+}
+.fui-Carousel .fui-Carousel__paddlescontainer .fui-Carousel__paddle .fui-Carousel__paddle__icon {
+  box-sizing: content-box;
+  appearance: button;
+  background-repeat: no-repeat;
+  width: var(--fontSizeBase300);
+  height: var(--fontSizeBase300);
+  box-sizing: border-box;
+  cursor: pointer;
+  color: var(--colorNeutralForegroundOnBrand);
+  font-size: var(--fontSizeBase300);
+  font-weight: var(--fontWeightRegular);
+  line-height: var(--lineHeightBase300);
+}
+.fui-Carousel .fui-Carousel__paddlescontainer .fui-Carousel__paddle:first-child .fui-Carousel__paddle__icon {
+  margin-right: var(--spacingHorizontalXS);
+  background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' role='presentation' focusable='false' viewBox='8 8 16 16'%3E%3Cg%3E%3Cpath fill='%23fff' d='M19.5 8.97c0 .14-.03.27-.07.39-.05.12-.12.23-.21.32l-6.3 6.29 6.3 6.29c.09.09.17.2.21.32a1.036 1.036 0 0 1-.01.77c-.05.12-.13.23-.22.32s-.2.16-.32.22a.995.995 0 0 1-1.09-.21l-7-7c-.19-.19-.29-.43-.29-.71s.1-.52.29-.71l7-7a.995.995 0 0 1 1.09-.21c.12.06.23.13.32.22s.16.2.22.32c.05.12.08.25.08.38z' /%3E%3C/g%3E%3C/svg%3E");
+}
+.fui-Carousel .fui-Carousel__paddlescontainer .fui-Carousel__paddle:last-child .fui-Carousel__paddle__icon {
+  margin-left: var(--spacingHorizontalXS);
+  background-image: url("data:image/svg+xml, %3Csvg xmlns='http://www.w3.org/2000/svg' role='presentation' focusable='false' viewBox='8 8 16 16'%3E%3Cg%3E%3Cpath fill='%23fff' d='M21.5 15.97c0 .28-.1.52-.29.71l-7 7c-.19.19-.43.29-.71.29-.14 0-.26-.03-.38-.08s-.23-.13-.32-.22-.16-.2-.22-.32a1.036 1.036 0 0 1-.01-.77c.05-.12.12-.23.21-.32l6.3-6.29-6.3-6.29a.85.85 0 0 1-.21-.32c-.05-.13-.07-.26-.07-.39a.995.995 0 0 1 .3-.7c.09-.09.2-.16.32-.22.12-.05.24-.08.38-.08.28 0 .52.1.71.29l7 7c.19.19.29.43.29.71z' /%3E%3C/g%3E%3C/svg%3E");
+}
+.fui-Carousel .fui-Carousel__itemswrapper {
+  overflow-x: hidden;
+  display: flex;
+}
+.fui-Carousel .fui-Carousel__itemswrapper .fui-Carousel__itemscontainer {
+  will-change: transform;
+  list-style: none;
+  margin: 0;
+  display: flex;
+  padding: 0;
+}
+.fui-Carousel .fui-Carousel__itemswrapper .fui-Carousel__itemscontainer .fui-Carousel__item {
+  width: 100%;
+}
+.fui-Carousel .fui-Carousel__itemswrapper .fui-Carousel__itemscontainer .fui-Carousel__item-next {
+  animation-name: carousel-slide-next;
+  animation-timing-function: cubic-bezier(0, 0, 0, 1);
+  animation-fill-mode: forwards;
+  animation-duration: 200ms;
+}
+.fui-Carousel .fui-Carousel__itemswrapper .fui-Carousel__itemscontainer .fui-Carousel__item-prev {
+  animation-name: carousel-slide-prev;
+  animation-timing-function: cubic-bezier(0, 0, 0, 1);
+  animation-fill-mode: forwards;
+  animation-duration: 200ms;
+}
+.fui-Carousel .fui-Carousel__itemswrapper .fui-Carousel__itemscontainer .fui-Carousel__item > img {
+  width: 100%;
+  height: auto;
+  vertical-align: middle;
+  display: inline-block;
+}
+.fui-Carousel .fui-Carousel__navigation {
+  z-index: 2;
+  background-color: inherit;
+  min-height: 1.7143rem;
+  color: var(--colorBrandForeground1);
+  list-style-type: none;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding: 0;
+  margin: 0;
+}
+.fui-Carousel .fui-Carousel__navigation .fui-Carousel__navigationitem {
+  margin-left: var(--spacingHorizontalXXS);
+  margin-right: var(--spacingHorizontalXXS);
+  margin-bottom: var(--spacingVerticalXXS);
+  margin-top: var(--spacingVerticalXXS);
+  padding-left: var(--spacingHorizontalS);
+  padding-right: var(--spacingHorizontalS);
+  padding-bottom: var(--spacingVerticalS);
+  padding-top: var(--spacingVerticalS);
+  white-space: nowrap;
+  justify-content: center;
+  cursor: pointer;
+  align-items: center;
+  display: flex;
+  border-left-style: solid;
+  border-bottom-style: solid;
+  border-right-style: solid;
+  border-top-style: solid;
+  border-left-color: var(--colorTransparentStroke);
+  border-bottom-color: var(--colorTransparentStroke);
+  border-right-color: var(--colorTransparentStroke);
+  border-top-color: var(--colorTransparentStroke);
+  border-left-width: var(--strokeWidthThick);
+  border-right-width: var(--strokeWidthThick);
+  border-top-width: var(--strokeWidthThick);
+  border-bottom-width: var(--strokeWidthThick);
+}
+.fui-Carousel .fui-Carousel__navigation .fui-Carousel__navigationitem:not(.fui-Carousel__navigationitem-active) .fui-Carousel__navigationitem__icon {
+  background-color: var(--colorNeutralForeground2);
+}
+.fui-Carousel .fui-Carousel__navigation .fui-Carousel__navigationitem.fui-Carousel__navigationitem-active {
+  color: var(--colorBrandForeground1);
+}
+.fui-Carousel .fui-Carousel__navigation .fui-Carousel__navigationitem.fui-Carousel__navigationitem-active .fui-Carousel__navigationitem__icon {
+  background-color: var(--colorBrandBackground);
+}
+.fui-Carousel .fui-Carousel__navigation .fui-Carousel__navigationitem .fui-Carousel__navigationitem__icon {
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 50%;
+}
+
+@keyframes carousel-slide-next {
+  0% {
+    transform: translateX(200px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+@keyframes carousel-slide-prev {
+  0% {
+    transform: translateX(-200px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
 .fui-Checkbox {
   --fui-Checkbox__indicator--borderColor: var(--colorCompoundBrandBackground);
   --fui-Checkbox__indicator--color: var(--colorNeutralForegroundInverted);

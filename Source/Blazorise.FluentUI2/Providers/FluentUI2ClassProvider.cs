@@ -633,33 +633,33 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Carousel
 
-    public override string Carousel() => "carousel slide";
+    public override string Carousel() => "fui-Carousel";
 
-    public override string CarouselSlides() => "carousel-inner";
+    public override string CarouselSlides() => "fui-Carousel__itemscontainer";
 
-    public override string CarouselSlide() => "carousel-item";
+    public override string CarouselSlide() => "fui-Carousel__item";
 
-    public override string CarouselSlideActive( bool active ) => active ? Active() : null;
+    public override string CarouselSlideActive( bool active ) => active ? "fui-Carousel__item-active" : null;
 
     public override string CarouselSlideIndex( int activeSlideIndex, int slideindex, int totalSlides ) => null;
 
-    public override string CarouselSlideSlidingLeft( bool left ) => left ? "carousel-item-left" : null;
+    public override string CarouselSlideSlidingLeft( bool left ) => left ? "fui-Carousel__item-left" : null;
 
-    public override string CarouselSlideSlidingRight( bool right ) => right ? "carousel-item-right" : null;
+    public override string CarouselSlideSlidingRight( bool right ) => right ? "fui-Carousel__item-right" : null;
 
-    public override string CarouselSlideSlidingPrev( bool previous ) => previous ? "carousel-item-prev" : null;
+    public override string CarouselSlideSlidingPrev( bool previous ) => previous ? "fui-Carousel__item-prev" : null;
 
-    public override string CarouselSlideSlidingNext( bool next ) => next ? "carousel-item-next" : null;
+    public override string CarouselSlideSlidingNext( bool next ) => next ? "fui-Carousel__item-next" : null;
 
-    public override string CarouselIndicators() => "carousel-indicators";
+    public override string CarouselIndicators() => "fui-Carousel__navigation";
 
-    public override string CarouselIndicator() => null;
+    public override string CarouselIndicator() => "fui-Carousel__navigationitem";
 
-    public override string CarouselIndicatorActive( bool active ) => active ? Active() : null;
+    public override string CarouselIndicatorActive( bool active ) => active ? "fui-Carousel__navigationitem-active" : null;
 
-    public override string CarouselFade( bool fade ) => fade ? "carousel-fade" : null;
+    public override string CarouselFade( bool fade ) => fade ? "fui-Carousel-fade" : null;
 
-    public override string CarouselCaption() => "carousel-caption";
+    public override string CarouselCaption() => "fui-Carousel__caption";
 
     #endregion
 
