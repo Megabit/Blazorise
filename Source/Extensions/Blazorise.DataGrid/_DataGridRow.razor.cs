@@ -172,16 +172,15 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 
         var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, clickFromMultiSelectCheck ? DataGridSelectReason.MultiSelectClick : DataGridSelectReason.RowClick ) ) ?? true;
 
-        if ( !selectable )
+        if ( selectable )
         {
-            clickFromMultiSelectCheck = false;
-            return;
+            if ( !clickFromMultiSelectCheck )
+                await HandleSingleSelectClick( eventArgs );
+
+            await HandleMultiSelectClick( eventArgs );
         }
 
-        if ( !clickFromMultiSelectCheck )
-            await HandleSingleSelectClick( eventArgs );
-
-        await HandleMultiSelectClick( eventArgs );
+        await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
 
         clickFromMultiSelectCheck = false;
     }
@@ -227,7 +226,6 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             await ParentDataGrid.Select( Item );
         }
 
-        await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
     }
 
     protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )

@@ -10,7 +10,7 @@
                 @FileComponentFragment
             </Addon>
             <Addon AddonType="AddonType.End">
-                <Dropdown RightAligned>
+                <Dropdown RightAligned PositionStrategy="DropdownPositionStrategy.Absolute">
                     <DropdownToggle Color="Color.Light">
                         (@(FileEdit.Files?.Count() ?? 0))
                     </DropdownToggle>
