@@ -81,6 +81,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     private List<string> selectedTextsParam;
 
     private Validation validationRef;
+
     #endregion
 
     #region Methods
@@ -755,6 +756,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         await RemoveMultipleValue( GetValueByText( text ) );
 
         await validationRef.ValidateAsync();
+
         DirtyFilter();
     }
 
@@ -769,6 +771,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         await RemoveMultipleValue( value );
 
         await validationRef.ValidateAsync();
+
         DirtyFilter();
     }
 
@@ -1001,9 +1004,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         {
             return SelectedTexts.IsNullOrEmpty() ? string.Empty : string.Join( ';', SelectedTexts );
         }
-        return FreeTyping
-               ? Search?.ToString()
-               : SelectedValue?.ToString();
+
+        return FreeTyping ? Search?.ToString() : SelectedValue?.ToString();
     }
 
     private string GetItemText( TValue value )
