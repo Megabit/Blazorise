@@ -1,0 +1,68 @@
+﻿@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        .fui-Text#{$infix}-left {
+            text-align: left !important;
+        }
+
+        .fui-Text#{$infix}-right {
+            text-align: right !important;
+        }
+
+        .fui-Text#{$infix}-center {
+            text-align: center !important;
+        }
+
+        .fui-Text#{$infix}-justify {
+            text-align: justify !important;
+        }
+
+
+        .fui-Text {
+            &#{$infix}-xs {
+                font-size: 0.75rem !important;
+            }
+
+            &#{$infix}-sm {
+                font-size: 0.925rem !important;
+            }
+
+            &#{$infix}-md {
+                font-size: 1.125rem !important;
+            }
+
+            &#{$infix}-lg {
+                font-size: 1.25rem !important;
+            }
+
+            &#{$infix}-xl {
+                font-size: 1.5rem !important;
+            }
+
+            &#{$infix}-1 {
+                font-size: var(--fontSizeHero800);
+            }
+
+            &#{$infix}-2 {
+                font-size: var(--fontSizeHero700);
+            }
+
+            &#{$infix}-3 {
+                font-size: var(--fontSizeBase600);
+            }
+
+            &#{$infix}-4 {
+                font-size: var(--fontSizeBase500);
+            }
+
+            &#{$infix}-5 {
+                font-size: var(--fontSizeBase400);
+            }
+
+            &#{$infix}-6 {
+                font-size: var(--fontSizeBase400);
+            }
+        }
+    }
+}

@@ -1483,8 +1483,10 @@
 .b-is-autocomplete.b-is-autocomplete-multipleselection .field {
   flex-grow: 1;
 }
-.b-is-autocomplete.b-is-autocomplete-multipleselection input {
+.b-is-autocomplete.b-is-autocomplete-multipleselection input:not(.is-success, .is-danger) {
   border: none;
+}
+.b-is-autocomplete.b-is-autocomplete-multipleselection input {
   box-shadow: none;
   outline: none;
   background-color: transparent;

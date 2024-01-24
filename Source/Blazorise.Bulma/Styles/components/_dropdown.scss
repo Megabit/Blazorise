@@ -68,8 +68,11 @@
         flex-grow: 1;
     }
 
-    input {
+    input:not(.is-success, .is-danger) {
         border: none;
+    }
+
+    input {
         box-shadow: none;
         outline: none;
         background-color: transparent;

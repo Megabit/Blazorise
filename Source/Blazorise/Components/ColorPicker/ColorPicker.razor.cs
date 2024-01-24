@@ -121,6 +121,8 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
             Disabled,
             ReadOnly,
             Localization = Localizer.GetStrings(),
+            ColorPreviewElementSelector,
+            ColorValueElementSelector,
         } );
 
         await base.OnFirstAfterRenderAsync();
@@ -201,6 +203,16 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the CSS selector for the color preview element.
+    /// </summary>
+    protected virtual string ColorPreviewElementSelector => ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-color";
+
+    /// <summary>
+    /// Gets the CSS selector for the color value element.
+    /// </summary>
+    protected virtual string ColorValueElementSelector => ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-value";
 
     /// <inheritdoc/>
     protected override string InternalValue { get => Color; set => Color = value; }

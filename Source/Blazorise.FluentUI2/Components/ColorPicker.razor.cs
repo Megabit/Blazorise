@@ -52,11 +52,19 @@ public partial class ColorPicker
 
     #region Properties
 
+    protected override string ColorPreviewElementSelector => ":scope > .fui-Input__colorPreview";
+
+    protected override string ColorValueElementSelector => ":scope > .fui-Input__colorValue";
+
     protected ClassBuilder InputClassBuilder { get; private set; }
 
     protected string InputClassNames => InputClassBuilder.Class;
 
     protected string AddonClassNames => "fui-Input__content";
+
+    protected string ColorPreviewClassNames => "fui-Input__colorPreview";
+
+    protected string ColorValueClassNames => "fui-Input__colorValue";
 
     #endregion
 }

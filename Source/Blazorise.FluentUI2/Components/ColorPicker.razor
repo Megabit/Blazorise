@@ -17,10 +17,9 @@ else
 @code {
     private RenderFragment InputElement => __builder =>
     {
-        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" tabindex="@TabIndex" aria-disabled="@Disabled.ToString().ToLowerInvariant()" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
-            <div class="b-input-color-picker-preview">
-                <span class="b-input-color-picker-curent-color"></span>
-            </div>
-        </div>
+        <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" tabindex="@TabIndex" aria-disabled="@Disabled.ToString().ToLowerInvariant()" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+            <span class="@ColorPreviewClassNames"></span>
+            <span class="@ColorValueClassNames"></span>
+        </span>
     };
 }
