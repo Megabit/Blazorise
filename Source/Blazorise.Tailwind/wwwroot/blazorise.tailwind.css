@@ -222,9 +222,11 @@
   border: 1px solid var(--btw-color-gray-300);
   border-radius: 0.5rem;
 }
+.b-is-autocomplete.b-is-autocomplete-multipleselection > input:not(.border-green-500, .border-red-500) {
+  border: none;
+}
 .b-is-autocomplete.b-is-autocomplete-multipleselection > input {
   display: inline-block;
-  border: none;
   box-shadow: none;
   outline: none;
   background-color: transparent;
