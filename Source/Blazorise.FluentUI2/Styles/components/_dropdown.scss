@@ -335,6 +335,40 @@
         }
     }
 
+    &.fui-MenuButton-show {
+        &.fui-Menu-up {
+            .fui-MenuButton__menuIcon {
+                > svg {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
+        &.fui-Menu-down {
+            .fui-MenuButton__menuIcon {
+                > svg {
+                    transform: rotate(-180deg);
+                }
+            }
+        }
+
+        &.fui-Menu-start {
+            .fui-MenuButton__menuIcon {
+                > svg {
+                    transform: rotate(90deg);
+                }
+            }
+        }
+
+        &.fui-Menu-end {
+            .fui-MenuButton__menuIcon {
+                > svg {
+                    transform: rotate(-90deg);
+                }
+            }
+        }
+    }
+
     @keyframes fadein {
         0% {
             opacity: 0;

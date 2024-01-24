@@ -2028,6 +2028,18 @@ button {
 .fui-Menu .fui-Button.fui-MenuButton.fui-MenuButton-toggle-hidden .fui-MenuButton__menuIcon {
   display: none;
 }
+.fui-Menu.fui-MenuButton-show.fui-Menu-up .fui-MenuButton__menuIcon > svg {
+  transform: rotate(180deg);
+}
+.fui-Menu.fui-MenuButton-show.fui-Menu-down .fui-MenuButton__menuIcon > svg {
+  transform: rotate(-180deg);
+}
+.fui-Menu.fui-MenuButton-show.fui-Menu-start .fui-MenuButton__menuIcon > svg {
+  transform: rotate(90deg);
+}
+.fui-Menu.fui-MenuButton-show.fui-Menu-end .fui-MenuButton__menuIcon > svg {
+  transform: rotate(-90deg);
+}
 @keyframes fadein {
   0% {
     opacity: 0;

@@ -501,7 +501,7 @@ public class FluentUI2ClassProvider : ClassProvider
         Direction.Up => "fui-Menu-up",
         Direction.End => "fui-Menu-end",
         Direction.Start => "fui-Menu-start",
-        _ => null,
+        _ => "fui-Menu-down",
     };
 
     #endregion
