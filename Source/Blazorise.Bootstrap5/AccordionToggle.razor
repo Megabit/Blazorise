@@ -1,4 +1,7 @@
 ﻿@inherits Blazorise.AccordionToggle
-<button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" aria-expanded="@((!CollapseVisible).ToString().ToLowerInvariant())" @onclick="@ClickHandler" @attributes="@Attributes">
+<button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" aria-expanded="@AriaExpandedString" @onclick="@ClickHandler" @attributes="@Attributes">
     @ChildContent
 </button>
+@code {
+    string AriaExpandedString => ( ParentAccordionItem is not null ? AccordionItemVisible : CollapseVisible ) ? "true" : "false";
+}

@@ -760,13 +760,21 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Accordion() => "accordion";
 
-    #endregion
-
-    #region AccordionToggle
-
     public override string AccordionToggle() => "button";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    public override string AccordionItem() => "card";
+
+    public override string AccordionItemActive( bool active ) => null;
+
+    public override string AccordionHeader() => "card-header";
+
+    public override string AccordionBody() => "collapse";
+
+    public override string AccordionBodyActive( bool active ) => active ? Show() : null;
+
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "card-content";
 
     #endregion
 

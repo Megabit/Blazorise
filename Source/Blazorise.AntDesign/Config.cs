@@ -38,6 +38,7 @@ public static class Config
 
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
+        { typeof( Blazorise.AccordionHeader ), typeof( AntDesign.AccordionHeader ) },
         { typeof( Blazorise.Addons ), typeof( AntDesign.Addons ) },
         { typeof( Blazorise.Addon ), typeof( AntDesign.Addon ) },
         { typeof( Blazorise.AddonLabel ), typeof( AntDesign.AddonLabel ) },

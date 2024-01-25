@@ -24,7 +24,12 @@
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Indeterminate</Strong>: progress bars.
+            <Strong>Progress bar</Strong>: indeterminate state.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Accordion</Strong>: introduce accordion dedicated components.
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
@@ -55,12 +60,28 @@
     Fluent UI 2
 </Heading>
 
+<Paragraph>
+
+</Paragraph>
+
 <Heading Size="HeadingSize.Is3">
     Indeterminate progress bars
 </Heading>
 
 <Paragraph>
 
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Accordion dedicated components
+</Heading>
+
+<Paragraph>
+    We have introduced new components that are now used specifically within accordion. In the past for collapsible regions within the <Code>Accordion</Code> we used the <Code>Collapse</Code> component. This had several problems but mainly we had to internally wire to callapse what is not directly related to it. By making the collapse usage obsolete and introducing new accordion cimponent to replace it we are now much flexible and we can have more room for improvements in the future.
+</Paragraph>
+
+<Paragraph>
+    The Collapse will still continue to work, but in the future you should expect it to be completelly revobed from the Accordion.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="December 8th, 2023" Read="9 min" />

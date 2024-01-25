@@ -9,6 +9,13 @@
 .b-accordion > .b-collapse:not(:last-child) > .b-collapse-header .b-accordion-button {
   border-bottom-width: 0;
 }
+.b-accordion > .b-accordion-item:not(:first-child) > .b-accordion-header .b-accordion-button {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.b-accordion > .b-accordion-item:not(:last-child) > .b-accordion-header .b-accordion-button {
+  border-bottom-width: 0;
+}
 
 .b-addons > .b-addon-body:not(:last-child) > input,
 .b-addons > .b-addon-body:not(:last-child) > div.flatpickr-wrapper > input {

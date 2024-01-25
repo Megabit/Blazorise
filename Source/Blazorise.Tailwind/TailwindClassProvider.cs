@@ -1117,15 +1117,26 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Accordion() => "b-accordion";
 
-    #endregion
-
-    #region AccordionToggle
-
     public override string AccordionToggle() => "b-accordion-button flex items-center justify-between w-full p-5 font-medium text-left border border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => collapsed
         ? "b-accordion-toggle-collapsed bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
         : "b-accordion-toggle-collapsed text-gray-500 dark:text-gray-400";
+
+    public override string AccordionItem() => "b-accordion-item";
+
+    public override string AccordionItemActive( bool active ) => "b-accordion-active";
+
+    public override string AccordionHeader() => "b-accordion-header";
+
+    public override string AccordionBody() => "b-accordion-body";
+
+    public override string AccordionBodyActive( bool active ) => active ? null : "hidden";
+
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion )
+        => lastInAccordion
+        ? "p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+        : "p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900";
 
     #endregion
 

@@ -716,13 +716,21 @@ public interface IClassProvider
 
     string Accordion();
 
-    #endregion
-
-    #region AccordionButton
-
     string AccordionToggle();
 
     string AccordionToggleCollapsed( bool collapsed );
+
+    string AccordionItem();
+
+    string AccordionItemActive( bool active );
+
+    string AccordionHeader();
+
+    string AccordionBody();
+
+    string AccordionBodyActive( bool active );
+
+    string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion );
 
     #endregion
 
