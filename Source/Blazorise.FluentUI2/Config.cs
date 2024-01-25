@@ -48,6 +48,7 @@ public static class Config
         { typeof( Blazorise.ColorPicker ), typeof( Components.ColorPicker ) },
         { typeof( Blazorise.CloseButton ), typeof( Components.CloseButton ) },
         { typeof( Blazorise.DateEdit<> ), typeof( Components.DateEdit<> ) },
+        { typeof( Blazorise.Divider ), typeof( Components.Divider ) },
         { typeof( Blazorise.DatePicker<> ), typeof( Components.DatePicker<> ) },
         { typeof( Blazorise.DropdownHeader ), typeof( Components.DropdownHeader ) },
         { typeof( Blazorise.DropdownItem ), typeof( Components.DropdownItem ) },        

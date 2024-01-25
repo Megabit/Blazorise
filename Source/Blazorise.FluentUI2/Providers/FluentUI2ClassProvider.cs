@@ -1325,7 +1325,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Divider
 
-    public override string Divider() => "divider";
+    public override string Divider() => "fui-Divider";
 
     public override string DividerType( DividerType dividerType ) => $"{Divider()}-{ToDividerType( dividerType )}";
 
