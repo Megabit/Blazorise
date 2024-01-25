@@ -126,7 +126,7 @@
                                             }
                                         }
 
-                                        @if ( Filterable && column.Filterable && ( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Menu ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Menu ) )
+                                        @if ( Filterable && column.Filterable && (( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Menu ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Menu ) ))
                                         {
                                             <_DataGridMenuFilter Column="column" />
                                         }

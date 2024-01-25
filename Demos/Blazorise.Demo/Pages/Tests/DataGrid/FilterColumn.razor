@@ -15,7 +15,7 @@
                           FilterMethod="DataGridFilterMethod.Contains"
                           FilterMode="DataGridFilterMode.Menu">
                     <DataGridColumns>
-                        <DataGridNumericColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" Filterable />
+                        <DataGridNumericColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" Filterable=false />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name" FilterMode="DataGridFilterMode.Default" Filterable>
                         </DataGridColumn>
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" FilterMode="DataGridFilterMode.Default" Filterable />
