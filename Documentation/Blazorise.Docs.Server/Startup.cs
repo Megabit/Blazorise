@@ -1,6 +1,7 @@
 using System;
 using System.IO.Compression;
 using System.Linq;
+using Blazored.LocalStorage;
 using Blazorise.Bootstrap5;
 using Blazorise.Docs.Core;
 using Blazorise.Docs.Models;
@@ -17,7 +18,6 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace Blazorise.Docs.Server;
 
@@ -53,6 +53,8 @@ public class Startup
             .AddBlazoriseFluentValidation();
 
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
+
+        services.AddBlazoredLocalStorage();
 
         services.AddMemoryCache();
         services.AddScoped<Shared.Data.EmployeeData>();
