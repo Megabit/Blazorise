@@ -42,8 +42,7 @@ public partial class AccordionToggle : BaseComponent
         {
             await ParentCollapse.Toggle();
         }
-
-        if ( ParentAccordionItem is not null )
+        else if ( ParentAccordionItem is not null )
         {
             await ParentAccordionItem.Toggle();
         }
