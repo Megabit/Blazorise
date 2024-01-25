@@ -6,5 +6,5 @@
     @ChildContent
 </button>
 @code {
-    string AriaExpandedString => AccordionItemVisible ? "true" : "false";
+    string AriaExpandedString => ( ParentAccordionItem is not null ? AccordionItemVisible : CollapseVisible ) ? "true" : "false";
 }
