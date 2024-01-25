@@ -10,6 +10,7 @@ using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
 using Blazorise.Modules;
+using Blazorise.Utilities;
 using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -333,6 +334,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <param name="suppressSortChangedEvent">If <c>true</c> method will suppress the <see cref="SortChanged"/> event.</param>
     internal void AddColumn( DataGridColumn<TItem> column, bool suppressSortChangedEvent )
     {
+        if ( column.ParentDataGrid is null )
+        {
+            column.InitializeGeneratedColumn( this, ServiceProvider );
+        }
+
         Columns.Add( column );
 
         if ( column.Grouping )
@@ -462,6 +468,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( firstRender )
         {
+            if ( Columns.IsNullOrEmpty() || Columns.Where( x => !( x.IsCommandColumn || x.IsMultiSelectColumn ) ).Count() == 0 )
+            {
+                AutoGenerateColumns();
+            }
+
             IsClientMacintoshOS = await IsUserAgentMacintoshOS();
             await JSModule.Initialize( tableRef.ElementRef, ElementId );
             paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
@@ -481,6 +492,46 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await HandleVirtualize();
 
         await base.OnAfterRenderAsync( firstRender );
+    }
+
+    /// <summary>
+    /// Auto generates columns based on the <typeparamref name="TItem"/> properties.
+    /// </summary>
+    private void AutoGenerateColumns()
+    {
+        var properties = ReflectionHelper.GetPublicProperties<TItem>();
+        foreach ( var property in properties )
+        {
+            if ( !( property.PropertyType.IsValueType || property.PropertyType == typeof( string ) ) )
+            {
+                continue;
+            }
+
+            DataGridColumn<TItem> column;
+
+            if ( property.PropertyType.IsEnum )
+            {
+                var enumValues = Enum.GetValues( property.PropertyType ).Cast<object>();
+
+                column = new DataGridSelectColumn<TItem>()
+                {
+                    Data = enumValues,
+                    TextField = x => x?.ToString(),
+                    ValueField = x => x,
+                };
+            }
+            else
+            {
+                column = new DataGridColumn<TItem>();
+            }
+
+            column.Editable = property.SetMethod is not null;
+            column.Caption = ReflectionHelper.ResolveCaption( property );
+            column.Field = property.Name;
+            this.AddColumn( column );
+        }
+
+        StateHasChanged();
     }
 
     /// <inheritdoc/>
@@ -2457,6 +2508,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the license checker for the user session.
     /// </summary>
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
+    /// Gets or sets The service provider.
+    /// </summary>
+    [Inject] internal IServiceProvider ServiceProvider { get; set; }
 
     /// <summary>
     /// Makes sure the DataGrid has columns defined as groupable.

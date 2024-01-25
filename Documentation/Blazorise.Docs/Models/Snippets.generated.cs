@@ -6392,6 +6392,51 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         );
 }";
 
+        public const string DataGridAutoGenerateColumnsExample = @"@using System.ComponentModel.DataAnnotations
+
+<DataGrid TItem=""Example""
+            Data=""data""
+            Responsive
+            ShowPager
+            ShowPageSizes Editable>
+    <DataGridCommandColumn TItem=""Example"" />
+</DataGrid>
+
+@code {
+
+    public class Example
+    {
+        [Display( Name = ""Name"" )]
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+
+        public int Age { get; set; }
+
+        public decimal Balance { get; set; }
+
+        public Status Status { get; set; }
+    }
+
+    public enum Status
+    {
+        Active,
+        Inactive
+    }
+
+    private IEnumerable<Example> data = new List<Example>()
+    {
+        new(){ FirstName = ""John"", LastName = ""Doe"", Age = 30, Balance = 1000, Status = Status.Active },
+        new(){ FirstName = ""Jane"", LastName = ""Doe"", Age = 28, Balance = 2000, Status = Status.Active },
+        new(){ FirstName = ""Joe"", LastName = ""Doe"", Age = 26, Balance = 3000, Status = Status.Inactive },
+        new(){ FirstName = ""Jill"", LastName = ""Doe"", Age = 24, Balance = 4000, Status = Status.Inactive },
+        new(){ FirstName = ""Jack"", LastName = ""Doe"", Age = 22, Balance = 5000, Status = Status.Active },
+        new(){ FirstName = ""Jen"", LastName = ""Doe"", Age = 20, Balance = 6000, Status = Status.Active },
+    };
+
+}";
+
         public const string DataGridBatchEditExample = @"<Field>
     <FieldLabel>
         Edit Mode
