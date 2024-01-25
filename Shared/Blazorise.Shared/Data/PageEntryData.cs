@@ -105,6 +105,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/features/context-menu", "DataGrid Context Menu", "Right-click on any row to access options such as editing, deleting, and custom actions." ),
                 new PageEntry( "docs/extensions/datagrid/features/editing", "DataGrid Editing", "The DataGrid can perform some basic CRUD operations on the supplied Data collection." ),
                 new PageEntry( "docs/extensions/datagrid/features/filtering", "DataGrid Filtering", "Quickly search and filter by any column, or customize filter options to fit your needs." ),
+                new PageEntry( "docs/extensions/datagrid/features/auto-generate-columns", "DataGrid Auto Generate Columns", "The DataGrid can automatically generate columns based on the TItem type." ),
                 new PageEntry( "docs/extensions/datagrid/features/fixed-columns", "DataGrid Fixed Columns", "The table columns remains visible as you scroll, making it easy to identify and reference the data in your grid." ),
                 new PageEntry( "docs/extensions/datagrid/features/fixed-header", "DataGrid Fixed Header", "The table header remains visible as you scroll, making it easy to identify and reference the data in your grid." ),
                 new PageEntry( "docs/extensions/datagrid/features/grouping", "DataGrid Grouping", "Grouping feature for Blazorise DataGrid allows you to easily group and organize your data by specific columns." ),
@@ -112,6 +113,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/features/resizing", "DataGrid Resizing", "Easily adjust the size of your columns with the Blazorise DataGrid's resizing feature. Drag and drop column edges to resize, or use customized options to fit your needs." ),
                 new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Sorting", "Blazorise DataGrid offers efficient data sorting with customizable options." ),
                 new PageEntry( "docs/extensions/datagrid/features/header-group", "DataGrid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),
+                new PageEntry( "docs/extensions/datagrid/features/state-management", "DataGrid State Management", "You are able to manage the state of the DataGrid by using the provided GetState and LoadState methods." ),
 
 
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),

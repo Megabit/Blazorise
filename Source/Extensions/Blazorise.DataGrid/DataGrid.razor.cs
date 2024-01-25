@@ -10,6 +10,7 @@ using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
 using Blazorise.Modules;
+using Blazorise.Utilities;
 using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -178,6 +179,105 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #region Setup
 
     /// <summary>
+    /// Loads the state of the DataGrid.
+    /// </summary>
+    /// <param name="dataGridState">The state to be loaded, If null no action is taken.</param>
+    /// <returns></returns>
+    public async Task LoadState( DataGridState<TItem> dataGridState )
+    {
+        if ( dataGridState is null )
+        {
+            return;
+        }
+
+        PageSize = dataGridState.PageSize;
+        CurrentPage = dataGridState.CurrentPage;
+
+        if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
+        {
+            await ResetSorting();
+        }
+        else
+        {
+            foreach ( var sortState in dataGridState.ColumnSortStates )
+            {
+                await Sort( sortState.FieldName, sortState.SortDirection );
+            }
+        }
+
+        if ( dataGridState.ColumnFilterStates.IsNullOrEmpty() )
+        {
+            ResetFiltering();
+        }
+        else
+        {
+            foreach ( var filterState in dataGridState.ColumnFilterStates )
+            {
+                var column = Columns?.FirstOrDefault( x => x.Field == filterState.FieldName );
+                if ( column is not null )
+                {
+                    column.Filter.SearchValue = filterState.SearchValue;
+                }
+            }
+
+            FilterData();
+        }
+
+        SelectedRow = dataGridState.SelectedRow;
+        await SelectedRowChanged.InvokeAsync( dataGridState.SelectedRow );
+
+        SelectedRows = dataGridState.SelectedRows;
+        await SelectedRowsChanged.InvokeAsync( dataGridState.SelectedRows );
+
+        if ( dataGridState.EditState == DataGridEditState.None )
+        {
+            await Cancel();
+        }
+        else if ( dataGridState.EditState == DataGridEditState.New )
+        {
+            await New();
+        }
+        else if ( dataGridState.EditState == DataGridEditState.Edit )
+        {
+            if ( dataGridState.EditItem is not null )
+            {
+                await Edit( dataGridState.EditItem );
+            }
+        }
+
+        await ReloadInternal();
+    }
+
+    /// <summary>
+    /// Gets the current state of the DataGrid.
+    /// </summary>
+    /// <returns></returns>
+    public Task<DataGridState<TItem>> GetState()
+    {
+        var dataGridState = new DataGridState<TItem>()
+        {
+            CurrentPage = CurrentPage,
+            PageSize = PageSize,
+            EditState = EditState,
+            EditItem = editState == DataGridEditState.None ? default : editItem,
+            SelectedRow = SelectedRow,
+            SelectedRows = SelectedRows
+        };
+
+        if ( !SortByColumns.IsNullOrEmpty() )
+        {
+            dataGridState.ColumnSortStates = SortByColumns.Select( x => new DataGridColumnSortState<TItem>( x.Field, x.CurrentSortDirection ) ).ToList();
+        }
+
+        if ( Columns.Any( x => x.Filter?.SearchValue != null ) )
+        {
+            dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue ) ).ToList();
+        }
+
+        return Task.FromResult( dataGridState );
+    }
+
+    /// <summary>
     /// Inspects User Agent for a client using a Macintosh Operating System.
     /// </summary>
     /// <returns></returns>
@@ -231,9 +331,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Links the child column with this datagrid.
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
-    /// <param name="suppressSortChangedEvent">If <c>true</c> method will suppress the <see cref="SortChanged"/> event.</param>  
+    /// <param name="suppressSortChangedEvent">If <c>true</c> method will suppress the <see cref="SortChanged"/> event.</param>
     internal void AddColumn( DataGridColumn<TItem> column, bool suppressSortChangedEvent )
     {
+        if ( column.ParentDataGrid is null )
+        {
+            column.InitializeGeneratedColumn( this, ServiceProvider );
+        }
+
         Columns.Add( column );
 
         if ( column.Grouping )
@@ -264,8 +369,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
     /// <summary>
     /// Removes an existing link of a child column with this datagrid.
-    /// <para>Returns:
-    ///     true if item is successfully removed; otherwise, false. 
+    /// <para>
+    /// Returns: true if item is successfully removed; otherwise, false.
     /// </para>
     /// </summary>
     /// <param name="column">Column to link with this datagrid.</param>
@@ -363,6 +468,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( firstRender )
         {
+            if ( Columns.IsNullOrEmpty() || Columns.Where( x => !( x.IsCommandColumn || x.IsMultiSelectColumn ) ).Count() == 0 )
+            {
+                AutoGenerateColumns();
+            }
+
             IsClientMacintoshOS = await IsUserAgentMacintoshOS();
             await JSModule.Initialize( tableRef.ElementRef, ElementId );
             paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
@@ -384,6 +494,46 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await base.OnAfterRenderAsync( firstRender );
     }
 
+    /// <summary>
+    /// Auto generates columns based on the <typeparamref name="TItem"/> properties.
+    /// </summary>
+    private void AutoGenerateColumns()
+    {
+        var properties = ReflectionHelper.GetPublicProperties<TItem>();
+        foreach ( var property in properties )
+        {
+            if ( !( property.PropertyType.IsValueType || property.PropertyType == typeof( string ) ) )
+            {
+                continue;
+            }
+
+            DataGridColumn<TItem> column;
+
+            if ( property.PropertyType.IsEnum )
+            {
+                var enumValues = Enum.GetValues( property.PropertyType ).Cast<object>();
+
+                column = new DataGridSelectColumn<TItem>()
+                {
+                    Data = enumValues,
+                    TextField = x => x?.ToString(),
+                    ValueField = x => x,
+                };
+            }
+            else
+            {
+                column = new DataGridColumn<TItem>();
+            }
+
+            column.Editable = property.SetMethod is not null;
+            column.Caption = ReflectionHelper.ResolveCaption( property );
+            column.Field = property.Name;
+            this.AddColumn( column );
+        }
+
+        StateHasChanged();
+    }
+
     /// <inheritdoc/>
     protected override ValueTask DisposeAsync( bool disposing )
     {
@@ -393,7 +543,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 observableCollection.CollectionChanged -= OnCollectionChanged;
             }
-
 
             if ( paginationContext is not null )
             {
@@ -531,7 +680,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return;
         }
 
-
         if ( GroupBy is null )
         {
             var firstGroupableColumn = groupableColumns.First();
@@ -541,7 +689,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                                                                              .ToList();
             RecursiveGroup( 1, groupedData, newGroupedData );
             groupedData = newGroupedData;
-
         }
         else
         {
@@ -932,7 +1079,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Saves all the tracked batch edit changes.
     /// </summary>
-    internal protected async Task SaveBatch()
+    protected internal async Task SaveBatch()
     {
         if ( batchChanges.IsNullOrEmpty() )
             return;
@@ -978,7 +1125,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 {
                     await Paginate( ( CurrentPage - 1 ).ToString() );
                 }
-
                 else if ( newItem )
                 {
                     // If a new item is added, the data should be refreshed
@@ -996,7 +1142,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Saves an ongoing edit operation.
     /// </summary>
     /// <returns></returns>
-    internal protected async Task SaveInternal()
+    protected internal async Task SaveInternal()
     {
         if ( Data == null || editState == DataGridEditState.None )
             return;
@@ -1021,7 +1167,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Saves the internal state of the editing items to the batch edit changes.
     /// </summary>
     /// <returns></returns>
-    internal protected async Task SaveBatchItem()
+    protected internal async Task SaveBatchItem()
     {
         if ( Data == null || editState == DataGridEditState.None )
             return;
@@ -1047,7 +1193,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             batchItem = new DataGridBatchEditItem<TItem>( editItem, editItemClone, editState == DataGridEditState.New ? DataGridBatchEditItemState.New : DataGridBatchEditItemState.Edit, editedCellContextValues );
             batchChanges.Add( batchItem );
-
         }
         else
         {
@@ -1065,7 +1210,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Save the internal state of the editing items.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    internal protected async Task SaveItem()
+    protected internal async Task SaveItem()
     {
         if ( Data == null || editState == DataGridEditState.None )
             return;
@@ -1108,7 +1253,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             editState = DataGridEditState.None;
             await VirtualizeOnEditCompleteScroll().AsTask();
         }
-
     }
 
     private void SetItemEditedValues( TItem item, Dictionary<string, CellEditContext> values )
@@ -1145,7 +1289,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Cancels the editing of DataGrid item.
     /// </summary>
     /// <returns></returns>
-    internal protected async Task CancelInternal()
+    protected internal async Task CancelInternal()
     {
         editState = DataGridEditState.None;
 
@@ -1210,7 +1354,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         return Task.CompletedTask;
     }
-
 
     /// <summary>
     /// Applies a new sort to the datagrid using the provided columns, sort order, and sort direction. Replaces the current sorting.
@@ -1278,6 +1421,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         SortByColumns.Clear();
+    }
+
+    private void ResetFiltering()
+    {
+        if ( Columns.IsNullOrEmpty() )
+            return;
+
+        foreach ( var column in Columns )
+        {
+            column.Filter.SearchValue = null;
+        }
     }
 
     /// <summary>
@@ -1464,7 +1618,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             await Refresh();
         }
-
     }
 
     /// <summary>
@@ -1541,6 +1694,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         return RowMouseOver.InvokeAsync( eventArgs );
     }
+
     internal Task OnRowMouseLeaveCommand( DataGridRowMouseEventArgs<TItem> eventArgs )
     {
         return RowMouseLeave.InvokeAsync( eventArgs );
@@ -1724,7 +1878,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return true;
     }
 
-
     #endregion
 
     #region Filtering
@@ -1783,7 +1936,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Notifies the <see cref="DataGrid{TItem}"/> to refresh.
     /// </summary>
     /// <returns></returns>
-    public async virtual Task Refresh()
+    public virtual async Task Refresh()
         => await InvokeAsync( StateHasChanged );
 
     protected async Task HandleReadData( CancellationToken cancellationToken )
@@ -1791,8 +1944,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         try
         {
             IsLoading = true;
+
             await InvokeAsync( StateHasChanged );
             await Task.Yield();
+
             if ( !cancellationToken.IsCancellationRequested )
                 await ReadData.InvokeAsync( new DataGridReadDataEventArgs<TItem>( DataGridReadDataMode.Paging, Columns, SortByColumns, CurrentPage, PageSize, 0, 0, cancellationToken ) );
         }
@@ -1887,7 +2042,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 c.GetFieldToSort(),
                 c.Field,
                 c.CurrentSortDirection ) );
-
 
         if ( changeSortDirection && !suppressSortChangedEvent )
         {
@@ -2141,7 +2295,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                             return TimeSpan.TryParse( compareTo, out var compareToTimeSpan ) && TimeSpan.TryParse( searchValue, out var searchValueTimeSpan ) && searchValueTimeSpan != compareToTimeSpan;
                     }
                     return !searchValue.Equals( compareTo, StringComparison.OrdinalIgnoreCase );
-
                 case DataGridColumnFilterMethod.LessThan:
                     if ( columnType == DataGridColumnType.Numeric )
                     {
@@ -2290,7 +2443,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 default:
                     return searchValue.Contains( compareTo, StringComparison.OrdinalIgnoreCase );
             }
-
         }
 
         return FilterMethod switch
@@ -2358,6 +2510,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
+    /// Gets or sets The service provider.
+    /// </summary>
+    [Inject] internal IServiceProvider ServiceProvider { get; set; }
+
+    /// <summary>
     /// Makes sure the DataGrid has columns defined as groupable.
     /// </summary>
     /// <returns></returns>
@@ -2386,7 +2543,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Whether the DataGrid is considered in is Cell Edit Mode.
     /// </summary>
-    internal protected bool IsCellEdit
+    protected internal bool IsCellEdit
         => EditMode == DataGridEditMode.Cell;
 
     /// <summary>
@@ -2425,7 +2582,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets only columns that are available for editing.
     /// </summary>
-    internal protected IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
+    protected internal IEnumerable<DataGridColumn<TItem>> EditableColumns => Columns.Where( x => !x.ExcludeFromEdit && x.Editable );
 
     /// <summary>
     /// Gets only columns that are available for display in the grid.
@@ -2593,7 +2750,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         return insideGridEditMode && ( hasBeenBatchEditItem || item.IsEqual( editItem ) );
     }
-
 
     /// <summary>
     /// True if user is using <see cref="ReadData"/> for loading the data.
@@ -2874,7 +3030,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool Groupable { get; set; }
 
     /// <summary>
-    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active. 
+    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active.
     /// If this is defined at the DataGrid level, column grouping will not be considered.
     /// </summary>
     [Parameter] public Func<TItem, object> GroupBy { get; set; }
@@ -3072,7 +3228,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Event called after the row is removed.
     /// </summary>
     [Parameter] public EventCallback<TItem> RowRemoved { get; set; }
-
 
     /// <summary>
     /// Event called after the mouse leaves the row.
@@ -3450,7 +3605,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Custom handler for the selected cell styling.
     /// </summary>
     [Parameter] public Action<TItem, DataGridColumn<TItem>, DataGridCellStyling> SelectedCellStyling { get; set; }
-
 
     /// <summary>
     /// Custom handler for the cell styling when the cell has batch edit changes.

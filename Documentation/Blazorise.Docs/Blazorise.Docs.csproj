@@ -34,6 +34,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
     <PackageReference Include="MailKit" Version="3.1.1" />
     <PackageReference Include="MimeKit" Version="3.1.1" />
+	<PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
   </ItemGroup>
 
   <!--Binary path for the code generator-->
