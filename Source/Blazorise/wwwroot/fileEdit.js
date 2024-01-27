@@ -99,8 +99,10 @@ function mapElementFilesToFileEntries(element) {
 
 async function onDrop(e, element) {
     e.preventDefault();
-    console.log(element);
     let fileInput = element;
+
+    if (fileInput.disabled)
+        return;
 
     let _files = await getFilesAsync(e.dataTransfer, fileInput.webkitdirectory, fileInput.multiple);
     fileInput.files = _files;
