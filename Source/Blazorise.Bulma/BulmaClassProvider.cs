@@ -511,7 +511,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TabsVertical() => "is-vertical"; // this is custom class, bulma natively does not have vertical tabs
 
-    public override string TabItem() => null;
+    public override string TabItem( TabPosition tabPosition ) => null;
 
     public override string TabItemActive( bool active ) => active ? Active() : null;
 

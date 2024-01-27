@@ -73,6 +73,8 @@ public static class Config
         { typeof( Blazorise.Select<> ), typeof( Components.Select<> ) },
         { typeof( Blazorise.Slider<> ), typeof( Components.Slider<> ) },
         { typeof( Blazorise.Switch<> ), typeof( Components.Switch<> ) },
+        { typeof( Blazorise.Tab ), typeof( Components.Tab ) },
+        { typeof( Blazorise.Tabs ), typeof( Components.Tabs ) },
         { typeof( Blazorise.ValidationError ), typeof( Components.ValidationError ) },
         { typeof( Blazorise.ValidationSuccess ), typeof( Components.ValidationSuccess ) },
     };

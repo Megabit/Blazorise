@@ -575,33 +575,42 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Tabs
 
-    public override string Tabs( bool pills ) => pills ? "nav nav-pills" : "nav nav-tabs";
+    public override string Tabs( bool pills ) => "fui-TabList";
 
-    public override string TabsCards() => "card-header-tabs";
+    public override string TabsCards() => null;
 
-    public override string TabsFullWidth() => "nav-fill";
+    public override string TabsFullWidth() => "fui-TabList-fill";
 
-    public override string TabsJustified() => "nav-justified";
+    public override string TabsJustified() => "fui-TabList-justified";
 
-    public override string TabsVertical() => "flex-column";
+    public override string TabsVertical() => null;
 
-    public override string TabItem() => "nav-item";
+    public override string TabItem( TabPosition tabPosition )
+    {
+        return tabPosition switch
+        {
+            TabPosition.Start => "fui-Tab fui-Tab-start",
+            TabPosition.End => "fui-Tab fui-Tab-end",
+            TabPosition.Bottom => "fui-Tab fui-Tab-bottom",
+            _ => "fui-Tab fui-Tab-top",
+        };
+    }
 
-    public override string TabItemActive( bool active ) => null;
+    public override string TabItemActive( bool active ) => active ? "fui-Tab-active" : null;
 
-    public override string TabItemDisabled( bool disabled ) => null;
+    public override string TabItemDisabled( bool disabled ) => disabled ? "fui-Tab-disabled" : null;
 
-    public override string TabLink( TabPosition tabPosition ) => "nav-link";
+    public override string TabLink( TabPosition tabPosition ) => "fui-Tab__content";
 
-    public override string TabLinkActive( bool active ) => active ? $"{Active()} {Show()}" : null;
+    public override string TabLinkActive( bool active ) => active ? "fui-Tab__content-active" : null;
 
-    public override string TabLinkDisabled( bool disabled ) => disabled ? "disabled" : null;
+    public override string TabLinkDisabled( bool disabled ) => disabled ? "fui-Tab__content-disabled" : null;
 
-    public override string TabsContent() => "tab-content";
+    public override string TabsContent() => "fui-TabPanels";
 
-    public override string TabPanel() => "tab-pane";
+    public override string TabPanel() => "fui-TabPanel";
 
-    public override string TabPanelActive( bool active ) => active ? $"{Active()} {Show()}" : null;
+    public override string TabPanelActive( bool active ) => active ? "fui-TabPanel-active" : null;
 
     #endregion
 

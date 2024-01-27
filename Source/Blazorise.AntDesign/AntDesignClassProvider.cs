@@ -508,7 +508,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TabsVertical() => null;
 
-    public override string TabItem() => "ant-tabs-tab";
+    public override string TabItem( TabPosition tabPosition ) => "ant-tabs-tab";
 
     public override string TabItemActive( bool active ) => active ? "ant-tabs-tab-active" : null;
 

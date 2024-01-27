@@ -459,7 +459,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TabsVertical();
 
-    public abstract string TabItem();
+    public abstract string TabItem( TabPosition tabPosition );
 
     public abstract string TabItemActive( bool active );
 

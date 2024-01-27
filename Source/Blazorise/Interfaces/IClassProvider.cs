@@ -458,7 +458,7 @@ public interface IClassProvider
 
     string TabsVertical();
 
-    string TabItem();
+    string TabItem( TabPosition tabPosition );
 
     string TabItemActive( bool active );
 

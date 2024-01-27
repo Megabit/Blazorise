@@ -694,7 +694,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TabsVertical() => "flex-col";
 
-    public override string TabItem() => "mr-2";
+    public override string TabItem( TabPosition tabPosition ) => "mr-2";
 
     public override string TabItemActive( bool active ) => null;
 

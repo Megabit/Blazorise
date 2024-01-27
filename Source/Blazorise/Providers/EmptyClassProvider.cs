@@ -461,7 +461,7 @@ class EmptyClassProvider : IClassProvider
 
     public string TabsVertical() => null;
 
-    public string TabItem() => null;
+    public string TabItem( TabPosition tabPosition ) => null;
 
     public string TabItemActive( bool active ) => null;
 

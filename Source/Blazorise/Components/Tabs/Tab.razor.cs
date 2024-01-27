@@ -52,7 +52,7 @@ public partial class Tab : BaseComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.TabItem() );
+        builder.Append( ClassProvider.TabItem( ParentTabs?.TabPosition ?? TabPosition.Top ) );
         builder.Append( ClassProvider.TabItemActive( Active ) );
         builder.Append( ClassProvider.TabItemDisabled( Disabled ) );
 

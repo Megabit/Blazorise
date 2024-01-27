@@ -502,7 +502,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TabsVertical() => "flex-column";
 
-    public override string TabItem() => "nav-item";
+    public override string TabItem( TabPosition tabPosition ) => "nav-item";
 
     public override string TabItemActive( bool active ) => null;
 
