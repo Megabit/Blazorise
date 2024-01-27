@@ -20,15 +20,23 @@ export function destroy(element, elementId) {
 function initializeDropZone(element) {
     let fileInput = setFileInput(element);
     if (fileInput) {
-        element.addEventListener("dragenter", onDragHover);
-        element.addEventListener("dragover", onDragHover);
+        element.addEventListener("dragenter", async (e) => await onDragHover(e, element), false);
+        element.addEventListener("dragover", async (e) => await onDragHover(e, element), false);
         element.addEventListener("dragleave", onDragLeave);
         element.addEventListener("drop", async (e) => await onDrop(e, element), false);
         element.addEventListener('paste', (e) => onPaste(e, element));
     }
 }
 
-function onDragHover(e) {
+function onDragHover(e, element) {
+    if (element.fileInput.disabled) {
+        e.dataTransfer.dropEffect = "none";
+        if (element.fileInput == e.target){
+            //Fallback to FileEdit behavior
+            return;
+        }
+
+    }
     e.preventDefault();
 }
 
@@ -38,8 +46,10 @@ function onDragLeave(e) {
 
 async function onDrop(e, element) {
     e.preventDefault();
-    console.log(element);
     let fileInput = getFileInput(element);
+
+    if (fileInput.disabled)
+        return;
 
     let _files = await getFilesAsync(e.dataTransfer, fileInput.webkitdirectory, fileInput.multiple);
     fileInput.files = _files;
