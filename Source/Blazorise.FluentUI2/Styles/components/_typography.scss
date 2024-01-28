@@ -138,19 +138,19 @@
     }
 
     &-light {
-        color: var(--colorPaletteRedForeground2);
+        color: var(--colorNeutralBackground2);
     }
 
     &-dark {
-        color: var(--colorNeutralForeground1);
+        color: var(--colorNeutralForeground2);
     }
 
     &-body {
-        color: var(--colorPaletteRedForeground2);
+        color: var(--colorNeutralForeground1);
     }
 
     &-muted {
-        color: var(--colorPaletteRedForeground2);
+        color: var(--colorNeutralForeground3);
     }
 }
 
