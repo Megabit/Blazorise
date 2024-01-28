@@ -1226,17 +1226,17 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Text
 
-    public override string TextColor( TextColor textColor ) => $"fui-Text-{ToTextColor( textColor )}";
+    public override string TextColor( TextColor textColor ) => $"fui-TextColor-{ToTextColor( textColor )}";
 
-    public override string TextAlignment( TextAlignment textAlignment ) => $"fui-Text-{ToTextAlignment( textAlignment )}";
+    public override string TextAlignment( TextAlignment textAlignment ) => $"fui-TextAlignment-{ToTextAlignment( textAlignment )}";
 
-    public override string TextTransform( TextTransform textTransform ) => $"fui-Text-{ToTextTransform( textTransform )}";
+    public override string TextTransform( TextTransform textTransform ) => $"fui-TextTransform-{ToTextTransform( textTransform )}";
 
-    public override string TextWeight( TextWeight textWeight ) => $"fui-Text-weight-{ToTextWeight( textWeight )}";
+    public override string TextWeight( TextWeight textWeight ) => $"fui-TextWeight-{ToTextWeight( textWeight )}";
 
-    public override string TextOverflow( TextOverflow textOverflow ) => $"fui-Text-{ToTextOverflow( textOverflow )}";
+    public override string TextOverflow( TextOverflow textOverflow ) => $"fui-TextOverflow-{ToTextOverflow( textOverflow )}";
 
-    public override string TextSize( TextSize textSize ) => $"fui-Text-{ToTextSize( textSize )}";
+    public override string TextSize( TextSize textSize ) => $"fui-TextSize-{ToTextSize( textSize )}";
 
     public override string TextItalic() => "fui-Text-italic";
 
@@ -1709,6 +1709,18 @@ public class FluentUI2ClassProvider : ClassProvider
         {
             Blazorise.FlexGrowShrink.Grow => "grow",
             Blazorise.FlexGrowShrink.Shrink => "shrink",
+            _ => null,
+        };
+    }
+
+    public override string ToTextWeight( TextWeight textWeight )
+    {
+        return textWeight switch
+        {
+            Blazorise.TextWeight.Normal => "regular",
+            Blazorise.TextWeight.SemiBold => "semibold",
+            Blazorise.TextWeight.Bold => "bold",
+            Blazorise.TextWeight.Light => "light",
             _ => null,
         };
     }

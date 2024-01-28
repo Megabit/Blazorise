@@ -112,48 +112,6 @@
     margin-bottom: var(--spacingVerticalM);
 }
 
-.fui-Text {
-    &-primary {
-        color: var(--colorBrandForeground1);
-    }
-
-    &-secondary {
-        color: var(--colorNeutralForeground1);
-    }
-
-    &-success {
-        color: var(--colorPaletteGreenForeground1);
-    }
-
-    &-danger {
-        color: var(--colorPaletteRedForeground2);
-    }
-
-    &-warning {
-        color: var(--colorPaletteMarigoldForeground1);
-    }
-
-    &-info {
-        color: var(--colorNeutralForeground4);
-    }
-
-    &-light {
-        color: var(--colorNeutralBackground2);
-    }
-
-    &-dark {
-        color: var(--colorNeutralForeground2);
-    }
-
-    &-body {
-        color: var(--colorNeutralForeground1);
-    }
-
-    &-muted {
-        color: var(--colorNeutralForeground3);
-    }
-}
-
 code {
     background: #f0f0f0;
     border-radius: 4px;
