@@ -3084,6 +3084,154 @@ input::file-selector-button {
   content: "";
 }
 
+.fui-ListGroup {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0px;
+  margin-bottom: 0px;
+  margin-right: 0px;
+  margin-top: 0px;
+  padding-left: 0px;
+  padding-bottom: 0px;
+  padding-right: 0px;
+  padding-top: 0px;
+  border-radius: var(--borderRadiusMedium);
+}
+.fui-ListGroup.fui-ListGroup-scrollable {
+  overflow-y: scroll;
+}
+
+.fui-ListGroupItem {
+  position: relative;
+  display: block;
+  padding-left: var(--spacingHorizontalM);
+  padding-right: var(--spacingHorizontalM);
+  padding-top: var(--spacingVerticalM);
+  padding-bottom: var(--spacingVerticalM);
+  border: 1px solid var(--colorNeutralStroke2);
+  color: var(--colorNeutralForeground1);
+}
+.fui-ListGroupItem:first-child {
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+}
+.fui-ListGroupItem:last-child {
+  border-bottom-left-radius: inherit;
+  border-bottom-right-radius: inherit;
+}
+.fui-ListGroupItem.fui-ListGroupItem-action:hover, .fui-ListGroupItem.fui-ListGroupItem-action:focus {
+  z-index: 1;
+  cursor: pointer;
+  background-color: var(--colorNeutralBackground3Hover);
+}
+.fui-ListGroupItem.fui-ListGroupItem-action.fui-ListGroupItem-active {
+  color: var(--colorNeutralForegroundOnBrand);
+  background-color: var(--colorBrandBackground);
+}
+.fui-ListGroupItem.fui-ListGroupItem-disabled, .fui-ListGroupItem:disabled {
+  color: var(--colorNeutralForegroundDisabled);
+  cursor: not-allowed;
+}
+.fui-ListGroupItem + .fui-ListGroupItem {
+  border-top-width: 0;
+}
+.fui-ListGroupItem-primary {
+  background-color: var(--colorBrandBackground2);
+  color: var(--colorBrandForeground2);
+}
+.fui-ListGroupItem-primary.fui-ListGroupItem-action:hover, .fui-ListGroupItem-primary.fui-ListGroupItem-action:focus {
+  background-color: var(--colorBrandBackground2Hover);
+}
+.fui-ListGroupItem-primary.fui-ListGroupItem-action.fui-ListGroupItem-active {
+  background-color: var(--colorBrandBackground2Pressed);
+}
+.fui-ListGroupItem-secondary {
+  background-color: var(--colorNeutralBackground3);
+  color: var(--colorNeutralForeground3);
+}
+.fui-ListGroupItem-secondary.fui-ListGroupItem-action:hover, .fui-ListGroupItem-secondary.fui-ListGroupItem-action:focus {
+  background-color: var(--colorNeutralBackground3Hover);
+}
+.fui-ListGroupItem-secondary.fui-ListGroupItem-action.fui-ListGroupItem-active {
+  color: var(--colorNeutralForeground3);
+  background-color: var(--colorNeutralBackground3Selected);
+}
+.fui-ListGroupItem-success {
+  background-color: var(--colorStatusSuccessBackground1);
+  color: var(--colorStatusSuccessForeground1);
+}
+.fui-ListGroupItem-success.fui-ListGroupItem-action:hover, .fui-ListGroupItem-success.fui-ListGroupItem-action:focus {
+  background-color: var(--colorStatusSuccessBackground2);
+}
+.fui-ListGroupItem-success.fui-ListGroupItem-action.fui-ListGroupItem-active {
+  color: var(--colorStatusSuccessBackground1);
+  background-color: var(--colorStatusSuccessBackground3);
+}
+.fui-ListGroupItem-danger {
+  background-color: var(--colorStatusDangerBackground1);
+  color: var(--colorStatusDangerForeground1);
+}
+.fui-ListGroupItem-danger.fui-ListGroupItem-action:hover, .fui-ListGroupItem-danger.fui-ListGroupItem-action:focus {
+  background-color: var(--colorStatusDangerBackground2);
+}
+.fui-ListGroupItem-danger.fui-ListGroupItem-action.fui-ListGroupItem-active {
+  color: var(--colorStatusDangerBackground1);
+  background-color: var(--colorStatusDangerBackground3);
+}
+.fui-ListGroupItem-warning {
+  background-color: var(--colorStatusWarningBackground1);
+  color: var(--colorStatusWarningForeground3);
+}
+.fui-ListGroupItem-warning.fui-ListGroupItem-action:hover, .fui-ListGroupItem-warning.fui-ListGroupItem-action:focus {
+  background-color: var(--colorStatusWarningBackground2);
+}
+.fui-ListGroupItem-warning.fui-ListGroupItem-action.fui-ListGroupItem-active {
+  color: var(--colorStatusWarningBackground1);
+  background-color: var(--colorStatusWarningBackground3);
+}
+.fui-ListGroupItem-light {
+  background-color: var(--colorNeutralBackground1);
+}
+.fui-ListGroupItem-light.fui-ListGroupItem-action:hover, .fui-ListGroupItem-light.fui-ListGroupItem-action:focus {
+  background-color: var(--colorNeutralBackground1Hover);
+}
+.fui-ListGroupItem-light.fui-ListGroupItem-action.fui-ListGroupItem-active {
+  color: var(--colorNeutralForeground3);
+  background-color: var(--colorNeutralBackground1Selected);
+}
+.fui-ListGroupItem-dark {
+  background-color: var(--colorNeutralForeground3);
+  color: var(--colorNeutralBackground1);
+}
+.fui-ListGroupItem-dark.fui-ListGroupItem-action:hover, .fui-ListGroupItem-dark.fui-ListGroupItem-action:focus {
+  background-color: var(--colorNeutralForeground3Hover);
+}
+.fui-ListGroupItem-dark.fui-ListGroupItem-action.fui-ListGroupItem-active {
+  color: var(--colorNeutralForegroundInverted);
+  background-color: var(--colorNeutralForeground3Selected);
+}
+.fui-ListGroupItem-link {
+  background-color: var(--colorTransparentBackground);
+  color: var(--colorBrandForegroundLink);
+}
+.fui-ListGroupItem-link.fui-ListGroupItem-action:hover, .fui-ListGroupItem-link.fui-ListGroupItem-action:focus {
+  color: var(--colorBrandForegroundLinkHover);
+}
+.fui-ListGroupItem-link.fui-ListGroupItem-action.fui-ListGroupItem-active {
+  color: var(--colorBrandForegroundLinkSelected);
+}
+
+.fui-ListGroup-flush {
+  border-radius: 0;
+}
+.fui-ListGroup-flush > .fui-ListGroupItem {
+  border-radius: 0;
+  border-width: 0 0 var(--strokeWidthThin);
+}
+.fui-ListGroup-flush > .fui-ListGroupItem:last-child {
+  border-bottom-width: 0;
+}
+
 @keyframes fadeaway {
   from {
     transform: scale(1) translateZ(0px);

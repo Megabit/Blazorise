@@ -1,8 +1,8 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.FluentUI2;
@@ -724,21 +724,21 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region ListGroup
 
-    public override string ListGroup() => "list-group";
+    public override string ListGroup() => "fui-ListGroup";
 
-    public override string ListGroupFlush( bool flush ) => flush ? "list-group-flush" : null;
+    public override string ListGroupFlush( bool flush ) => flush ? "fui-ListGroup-flush" : null;
 
-    public override string ListGroupScrollable( bool scrollable ) => scrollable ? "list-group-scrollable" : null;
+    public override string ListGroupScrollable( bool scrollable ) => scrollable ? "fui-ListGroup-scrollable" : null;
 
-    public override string ListGroupItem() => "list-group-item";
+    public override string ListGroupItem() => "fui-ListGroupItem";
 
-    public override string ListGroupItemSelectable() => "list-group-item-action";
+    public override string ListGroupItemSelectable() => "fui-ListGroupItem-action";
 
-    public override string ListGroupItemActive() => Active();
+    public override string ListGroupItemActive( bool active ) => active ? "fui-ListGroupItem-active" : null;
 
-    public override string ListGroupItemDisabled() => Disabled();
+    public override string ListGroupItemDisabled( bool disabled ) => disabled ? "fui-ListGroupItem-disabled" : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"{ListGroupItem()}-{ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color.IsNullOrDefault() ? null : $"{ListGroupItem()}-{base.ToColor( color )}";
 
     #endregion
 

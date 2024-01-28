@@ -598,9 +598,9 @@ public interface IClassProvider
 
     string ListGroupItemSelectable();
 
-    string ListGroupItemActive();
+    string ListGroupItemActive( bool active );
 
-    string ListGroupItemDisabled();
+    string ListGroupItemDisabled( bool disabled );
 
     string ListGroupItemColor( Color color, bool selectable, bool active );
 

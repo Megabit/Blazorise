@@ -903,9 +903,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ListGroupItemSelectable() => "b-listgroup-item-selectable cursor-pointer focus:outline-none";
 
-    public override string ListGroupItemActive() => "b-listgroup-item-active";
+    public override string ListGroupItemActive( bool active ) => active ? "b-listgroup-item-active" : null;
 
-    public override string ListGroupItemDisabled() => "b-listgroup-item-disabled bg-gray-100 cursor-not-allowed dark:bg-gray-600 dark:text-gray-400";
+    public override string ListGroupItemDisabled( bool disabled ) => disabled ? "b-listgroup-item-disabled bg-gray-100 cursor-not-allowed dark:bg-gray-600 dark:text-gray-400" : null;
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active )
     {

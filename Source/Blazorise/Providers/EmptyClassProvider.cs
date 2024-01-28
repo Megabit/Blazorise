@@ -601,9 +601,9 @@ class EmptyClassProvider : IClassProvider
 
     public string ListGroupItemSelectable() => null;
 
-    public string ListGroupItemActive() => null;
+    public string ListGroupItemActive( bool active ) => null;
 
-    public string ListGroupItemDisabled() => null;
+    public string ListGroupItemDisabled( bool disabled ) => null;
 
     public string ListGroupItemColor( Color color, bool selectable, bool active ) => null;
 
