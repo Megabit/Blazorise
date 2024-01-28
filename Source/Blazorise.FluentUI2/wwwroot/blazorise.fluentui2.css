@@ -4554,6 +4554,15 @@ input::file-selector-button {
   flex-shrink: 0;
   display: flex;
 }
+.fui-TabList-fill .fui-Tab {
+  flex: 1 1 auto;
+  text-align: center;
+}
+.fui-TabList-justified .fui-Tab {
+  flex-basis: 0;
+  flex-grow: 1;
+  text-align: center;
+}
 .fui-TabList[aria-orientation=horizontal] {
   flex-direction: row;
 }

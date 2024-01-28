@@ -5,6 +5,21 @@
     flex-shrink: 0;
     display: flex;
 
+    &-fill {
+        .fui-Tab {
+            flex: 1 1 auto;
+            text-align: center;
+        }
+    }
+
+    &-justified {
+        .fui-Tab {
+            flex-basis: 0;
+            flex-grow: 1;
+            text-align: center;
+        }
+    }
+
     &[aria-orientation="horizontal"] {
         flex-direction: row;
     }
