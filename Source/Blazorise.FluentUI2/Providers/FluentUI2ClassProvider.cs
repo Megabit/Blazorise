@@ -1110,7 +1110,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Colors
 
-    public override string BackgroundColor( Background background ) => $"bg-{ToBackground( background )}";
+    public override string BackgroundColor( Background background ) => $"fui-Background-{ToBackground( background )}";
 
     #endregion
 
