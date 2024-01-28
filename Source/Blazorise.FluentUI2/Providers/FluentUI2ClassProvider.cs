@@ -616,27 +616,27 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Steps
 
-    public override string Steps() => "steps";
+    public override string Steps() => "fui-Steps";
 
-    public override string StepItem() => "step";
+    public override string StepItem() => "fui-Step";
 
-    public override string StepItemActive( bool active ) => active ? "step-active" : null;
+    public override string StepItemActive( bool active ) => active ? "fui-Step-active" : null;
 
-    public override string StepItemCompleted( bool completed ) => completed ? "step-completed" : null;
+    public override string StepItemCompleted( bool completed ) => completed ? "fui-Step-completed" : null;
 
     public override string StepItemColor( Color color ) => $"{StepItem()}-{ToColor( color )}";
 
-    public override string StepItemMarker() => "step-circle";
+    public override string StepItemMarker() => "fui-Step__circle";
 
     public override string StepItemMarkerColor( Color color, bool active ) => null;
 
-    public override string StepItemDescription() => "step-text";
+    public override string StepItemDescription() => "fui-Step__text";
 
-    public override string StepsContent() => "steps-content";
+    public override string StepsContent() => "fui-StepPanels";
 
-    public override string StepPanel() => "step-panel";
+    public override string StepPanel() => "fui-StepPanel";
 
-    public override string StepPanelActive( bool active ) => active ? "active" : null;
+    public override string StepPanelActive( bool active ) => active ? "fui-StepPanel-active" : null;
 
     #endregion
 
