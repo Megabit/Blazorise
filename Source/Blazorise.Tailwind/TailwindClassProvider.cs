@@ -1400,9 +1400,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string PaginationItem() => "pagination-item";
 
-    public override string PaginationItemActive() => null;
+    public override string PaginationItemActive( bool active ) => null;
 
-    public override string PaginationItemDisabled() => null;
+    public override string PaginationItemDisabled( bool disabled ) => null;
 
     public override string PaginationLink()
         => "pagination-link relative block leading-tight border rounded-lg";

@@ -995,9 +995,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string PaginationItem() => null;
 
-    public override string PaginationItemActive() => null;
+    public override string PaginationItemActive( bool active ) => active ? Active() : null;
 
-    public override string PaginationItemDisabled() => null;
+    public override string PaginationItemDisabled( bool disabled ) => null;
 
     public override string PaginationLink() => "pagination-link";
 

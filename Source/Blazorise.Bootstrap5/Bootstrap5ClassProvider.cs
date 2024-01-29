@@ -958,9 +958,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string PaginationItem() => "page-item";
 
-    public override string PaginationItemActive() => Active();
+    public override string PaginationItemActive( bool active ) => active ? Active() : null;
 
-    public override string PaginationItemDisabled() => Disabled();
+    public override string PaginationItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
     public override string PaginationLink() => "page-link";
 

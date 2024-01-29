@@ -878,9 +878,9 @@ public interface IClassProvider
 
     string PaginationItem();
 
-    string PaginationItemActive();
+    string PaginationItemActive( bool active );
 
-    string PaginationItemDisabled();
+    string PaginationItemDisabled( bool disabled );
 
     string PaginationLink();
 

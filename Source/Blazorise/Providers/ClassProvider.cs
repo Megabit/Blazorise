@@ -882,9 +882,9 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string PaginationItem();
 
-    public abstract string PaginationItemActive();
+    public abstract string PaginationItemActive( bool active );
 
-    public abstract string PaginationItemDisabled();
+    public abstract string PaginationItemDisabled( bool disabled );
 
     public abstract string PaginationLink();
 

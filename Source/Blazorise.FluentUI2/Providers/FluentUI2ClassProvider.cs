@@ -1050,23 +1050,23 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Pagination
 
-    public override string Pagination() => "pagination";
+    public override string Pagination() => "fui-Pagination";
 
     public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
 
-    public override string PaginationItem() => "page-item";
+    public override string PaginationItem() => "fui-PaginationItem";
 
-    public override string PaginationItemActive() => Active();
+    public override string PaginationItemActive( bool active ) => active ? "fui-PaginationItem-active" : null;
 
-    public override string PaginationItemDisabled() => Disabled();
+    public override string PaginationItemDisabled( bool disabled ) => disabled ? "fui-PaginationItem-disabled" : null;
 
-    public override string PaginationLink() => "page-link";
+    public override string PaginationLink() => "fui-PaginationLink";
 
     public override string PaginationLinkSize( Size size ) => null;
 
-    public override string PaginationLinkActive( bool active ) => null;
+    public override string PaginationLinkActive( bool active ) => active ? "fui-PaginationLink-active" : null;
 
-    public override string PaginationLinkDisabled( bool disabled ) => null;
+    public override string PaginationLinkDisabled( bool disabled ) => disabled ? "fui-PaginationLink-disabled" : null;
 
     #endregion
 
