@@ -172,8 +172,11 @@ public static class FabricIcons
     public static readonly string BookmarkReport = "ms-Icon--BookmarkReport";
     public static readonly string Bookmarks = "ms-Icon--Bookmarks";
     public static readonly string BookmarksMirrored = "ms-Icon--BookmarksMirrored";
+    public static readonly string BorderAll = "ms-Icon--BorderAll";
     public static readonly string BorderDash = "ms-Icon--BorderDash";
     public static readonly string BorderDot = "ms-Icon--BorderDot";
+    public static readonly string BorderNone = "ms-Icon--BorderNone";
+    public static readonly string BorderStyle = "ms-Icon--BorderStyle";
     public static readonly string BoxAdditionSolid = "ms-Icon--BoxAdditionSolid";
     public static readonly string BoxCheckmarkSolid = "ms-Icon--BoxCheckmarkSolid";
     public static readonly string BoxMultiplySolid = "ms-Icon--BoxMultiplySolid";
