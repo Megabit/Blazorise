@@ -1,5 +1,5 @@
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.4.1.0";
-import "./vendors/sigpad.js?v=1.4.1.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.4.2.0";
+import "./vendors/sigpad.js?v=1.4.2.0";
 
 const _instances = [];
 
@@ -44,6 +44,14 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     registerToEvents(dotNetAdapter, instance);
 
     resizeCanvas(sigpad, element);
+
+    // Observe the element visibily. This is needed in cases when signaturepad is placed inside of tabs.
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            resizeCanvas(sigpad, entry.target);
+        });
+    }, options);
+    observer.observe(element);
 
     _instances[elementId] = instance;
 }
