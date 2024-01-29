@@ -395,7 +395,7 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Button( bool outline ) => "fui-Button";
 
     public override string ButtonColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"{Button( outline )}Outline__{ToColor( color )}" : $"{Button( outline )}Outline"
+        ? color != Color.Default ? $"{Button( outline )}Outline-{ToColor( color )}" : $"{Button( outline )}Outline"
         : color != Color.Default ? $"{Button( outline )}-{ToColor( color )}" : null;
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"fui-Button-{ToSize( size )}";
