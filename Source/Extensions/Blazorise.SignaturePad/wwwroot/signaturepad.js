@@ -45,6 +45,14 @@ export function initialize(dotNetAdapter, element, elementId, options) {
 
     resizeCanvas(sigpad, element);
 
+    // Observe the element visibily. This is needed in cases when signaturepad is placed inside of tabs.
+    const observer = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            resizeCanvas(sigpad, entry.target);
+        });
+    }, options);
+    observer.observe(element);
+
     _instances[elementId] = instance;
 }
 
