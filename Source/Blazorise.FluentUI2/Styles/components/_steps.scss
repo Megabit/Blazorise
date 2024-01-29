@@ -21,15 +21,14 @@
             min-width: calc(1.2 * var(--fluent-wizard-circle-size));
             min-height: calc(1.2 * var(--fluent-wizard-circle-size));
 
-            .fui-Step__circle-number {
-                margin-top: calc(var(--fluent-wizard-circle-size) * -1 - 2px);
-                font-size: small;
-                color: var(--colorBrandBackground);
-                text-align: center;
-            }
-
             > svg {
                 fill: var(--colorBrandBackground);
+            }
+
+            &::after {
+                position: absolute;
+                width: calc(1.2 * var(--fluent-wizard-circle-size));
+                height: calc(1.2 * var(--fluent-wizard-circle-size));
             }
         }
 
@@ -43,10 +42,9 @@
         .fui-Step__circle-number {
             margin-top: calc(var(--fluent-wizard-circle-size) * -1 - 2px);
             font-size: small;
-            color: var(--colorBrandBackground);
             text-align: center;
             height: var(--fluent-wizard-circle-size);
-            color: var(--colorNeutralForegroundOnBrand);
+            color: var(--colorBrandBackground);
         }
 
         &:not(:last-child) {
@@ -70,15 +68,37 @@
                     > svg {
                         fill: $value;
                     }
+
+                    > .fui-Step__circle-number {
+                        color: $color;
+                    }
                 }
 
                 &.fui-Step-active,
                 &.fui-Step-completed {
                     .fui-Step__circle-number {
-                        color: $color;
+                        color: var(--colorNeutralForegroundOnBrand);
                     }
                 }
             }
+        }
+    }
+}
+
+.fui-StepPanels {
+    display: block;
+    padding: 0;
+    margin: 0;
+
+    .fui-StepPanel {
+        padding-bottom: var(--spacingVerticalM);
+        padding-left: var(--spacingHorizontalM);
+        padding-right: var(--spacingHorizontalM);
+        padding-top: var(--spacingVerticalM);
+        display: none;
+
+        &-active {
+            display: block;
         }
     }
 }

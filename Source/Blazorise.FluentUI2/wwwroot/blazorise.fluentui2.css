@@ -4121,14 +4121,13 @@ input::file-selector-button {
   min-width: calc(1.2 * var(--fluent-wizard-circle-size));
   min-height: calc(1.2 * var(--fluent-wizard-circle-size));
 }
-.fui-Steps .fui-Step .fui-Step__circle .fui-Step__circle-number {
-  margin-top: calc(var(--fluent-wizard-circle-size) * -1 - 2px);
-  font-size: small;
-  color: var(--colorBrandBackground);
-  text-align: center;
-}
 .fui-Steps .fui-Step .fui-Step__circle > svg {
   fill: var(--colorBrandBackground);
+}
+.fui-Steps .fui-Step .fui-Step__circle::after {
+  position: absolute;
+  width: calc(1.2 * var(--fluent-wizard-circle-size));
+  height: calc(1.2 * var(--fluent-wizard-circle-size));
 }
 .fui-Steps .fui-Step.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-completed .fui-Step__circle-number {
   color: var(--colorNeutralForegroundOnBrand);
@@ -4136,10 +4135,9 @@ input::file-selector-button {
 .fui-Steps .fui-Step .fui-Step__circle-number {
   margin-top: calc(var(--fluent-wizard-circle-size) * -1 - 2px);
   font-size: small;
-  color: var(--colorBrandBackground);
   text-align: center;
   height: var(--fluent-wizard-circle-size);
-  color: var(--colorNeutralForegroundOnBrand);
+  color: var(--colorBrandBackground);
 }
 .fui-Steps .fui-Step:not(:last-child)::after {
   content: "";
@@ -4154,56 +4152,99 @@ input::file-selector-button {
 .fui-Steps .fui-Step.fui-Step-primary .fui-Step__circle > svg {
   fill: var(--colorBrandBackground);
 }
-.fui-Steps .fui-Step.fui-Step-primary.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-primary.fui-Step-completed .fui-Step__circle-number {
+.fui-Steps .fui-Step.fui-Step-primary .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorBrandForeground1);
+}
+.fui-Steps .fui-Step.fui-Step-primary.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-primary.fui-Step-completed .fui-Step__circle-number {
+  color: var(--colorNeutralForegroundOnBrand);
 }
 .fui-Steps .fui-Step.fui-Step-secondary .fui-Step__circle > svg {
   fill: var(--colorNeutralBackground3);
 }
-.fui-Steps .fui-Step.fui-Step-secondary.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-secondary.fui-Step-completed .fui-Step__circle-number {
+.fui-Steps .fui-Step.fui-Step-secondary .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorNeutralForeground3);
+}
+.fui-Steps .fui-Step.fui-Step-secondary.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-secondary.fui-Step-completed .fui-Step__circle-number {
+  color: var(--colorNeutralForegroundOnBrand);
 }
 .fui-Steps .fui-Step.fui-Step-success .fui-Step__circle > svg {
   fill: var(--colorStatusSuccessBackground3);
 }
-.fui-Steps .fui-Step.fui-Step-success.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-success.fui-Step-completed .fui-Step__circle-number {
+.fui-Steps .fui-Step.fui-Step-success .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorStatusSuccessForeground3);
+}
+.fui-Steps .fui-Step.fui-Step-success.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-success.fui-Step-completed .fui-Step__circle-number {
+  color: var(--colorNeutralForegroundOnBrand);
 }
 .fui-Steps .fui-Step.fui-Step-danger .fui-Step__circle > svg {
   fill: var(--colorStatusDangerBackground3);
 }
-.fui-Steps .fui-Step.fui-Step-danger.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-danger.fui-Step-completed .fui-Step__circle-number {
+.fui-Steps .fui-Step.fui-Step-danger .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorPaletteRedForeground3);
+}
+.fui-Steps .fui-Step.fui-Step-danger.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-danger.fui-Step-completed .fui-Step__circle-number {
+  color: var(--colorNeutralForegroundOnBrand);
 }
 .fui-Steps .fui-Step.fui-Step-warning .fui-Step__circle > svg {
   fill: var(--colorPaletteMarigoldBackground3);
 }
-.fui-Steps .fui-Step.fui-Step-warning.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-warning.fui-Step-completed .fui-Step__circle-number {
+.fui-Steps .fui-Step.fui-Step-warning .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorPaletteMarigoldForeground3);
+}
+.fui-Steps .fui-Step.fui-Step-warning.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-warning.fui-Step-completed .fui-Step__circle-number {
+  color: var(--colorNeutralForegroundOnBrand);
 }
 .fui-Steps .fui-Step.fui-Step-info .fui-Step__circle > svg {
   fill: var(--colorNeutralForeground3);
 }
-.fui-Steps .fui-Step.fui-Step-info.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-info.fui-Step-completed .fui-Step__circle-number {
+.fui-Steps .fui-Step.fui-Step-info .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorNeutralForeground3);
+}
+.fui-Steps .fui-Step.fui-Step-info.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-info.fui-Step-completed .fui-Step__circle-number {
+  color: var(--colorNeutralForegroundOnBrand);
 }
 .fui-Steps .fui-Step.fui-Step-light .fui-Step__circle > svg {
   fill: var(--colorNeutralBackground2);
 }
-.fui-Steps .fui-Step.fui-Step-light.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-light.fui-Step-completed .fui-Step__circle-number {
+.fui-Steps .fui-Step.fui-Step-light .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorNeutralForeground4);
+}
+.fui-Steps .fui-Step.fui-Step-light.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-light.fui-Step-completed .fui-Step__circle-number {
+  color: var(--colorNeutralForegroundOnBrand);
 }
 .fui-Steps .fui-Step.fui-Step-dark .fui-Step__circle > svg {
   fill: var(--colorNeutralForeground1);
 }
-.fui-Steps .fui-Step.fui-Step-dark.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-dark.fui-Step-completed .fui-Step__circle-number {
+.fui-Steps .fui-Step.fui-Step-dark .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorNeutralForeground1);
+}
+.fui-Steps .fui-Step.fui-Step-dark.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-dark.fui-Step-completed .fui-Step__circle-number {
+  color: var(--colorNeutralForegroundOnBrand);
 }
 .fui-Steps .fui-Step.fui-Step-link .fui-Step__circle > svg {
   fill: var(--colorBrandForegroundLink);
 }
-.fui-Steps .fui-Step.fui-Step-link.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-link.fui-Step-completed .fui-Step__circle-number {
+.fui-Steps .fui-Step.fui-Step-link .fui-Step__circle > .fui-Step__circle-number {
   color: var(--colorBrandForegroundLink);
+}
+.fui-Steps .fui-Step.fui-Step-link.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-link.fui-Step-completed .fui-Step__circle-number {
+  color: var(--colorNeutralForegroundOnBrand);
+}
+
+.fui-StepPanels {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+.fui-StepPanels .fui-StepPanel {
+  padding-bottom: var(--spacingVerticalM);
+  padding-left: var(--spacingHorizontalM);
+  padding-right: var(--spacingHorizontalM);
+  padding-top: var(--spacingVerticalM);
+  display: none;
+}
+.fui-StepPanels .fui-StepPanel-active {
+  display: block;
 }
 
 .fui-Switch {
@@ -4878,8 +4919,8 @@ input::file-selector-button {
 }
 .fui-TabPanels .fui-TabPanel {
   padding-bottom: 0px;
-  padding-left: 10px;
-  padding-right: 10px;
+  padding-left: var(--spacingHorizontalM);
+  padding-right: var(--spacingHorizontalM);
   padding-top: 0px;
   display: none;
 }
