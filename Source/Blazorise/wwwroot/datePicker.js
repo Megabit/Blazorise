@@ -92,7 +92,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         });
 
         if (options.inputFormat) {
-            setInputMask(picker, options.inputFormat);
+            setInputMask(picker, options.inputFormat, options.placeholder);
         }
 
         if (options.validationStatus) {
@@ -248,7 +248,7 @@ export function updateOptions(element, elementId, options) {
         }
 
         if (options.inputFormat.changed) {
-            setInputMask(picker, options.inputFormat.value);
+            setInputMask(picker, options.inputFormat.value, options.placeholder.value);
         }
 
         if (options.timeAs24hr.changed) {
@@ -289,7 +289,7 @@ export function updateOptions(element, elementId, options) {
         }
 
         if (options.placeholder.changed) {
-            picker.altInput.placeholder = options.placeholder.value;
+            picker.altInput.placeholder = utilities.coalesce(options.placeholder.value, "");
         }
 
         if (options.staticPicker.changed) {
@@ -370,14 +370,14 @@ export function select(element, elementId, focus) {
     }
 }
 
-function setInputMask(picker, inputFormat) {
+function setInputMask(picker, inputFormat, placeholder) {
     if (picker && picker.altInput) {
         if (picker.inputMask && picker.inputMask.remove) {
             picker.inputMask.remove();
         }
 
         picker.inputMask = inputmask.initialize(null, picker.altInput, null, {
-            placeholder: inputFormat,
+            placeholder: utilities.coalesce(placeholder, inputFormat),
             alias: "datetime",
             inputFormat: inputFormat
         });
