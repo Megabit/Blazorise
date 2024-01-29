@@ -4446,6 +4446,10 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     </Tooltip>
 </Div>";
 
+        public const string TooltipWithHtmlExample = @"<Tooltip Text=""<span style='color: aqua;'>Hello</span>, this is a <strong>bolded content</strong>!"">
+    <Button Color=""Color.Primary"">Html content</Button>
+</Tooltip>";
+
         public const string TypographyAltDisplayHeadingExample = @"<DisplayHeading Size=""DisplayHeadingSize.Is1"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">Display 1</DisplayHeading>
 <DisplayHeading Size=""DisplayHeadingSize.Is2"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">Display 2</DisplayHeading>
 <DisplayHeading Size=""DisplayHeadingSize.Is3"" AlternativeTagName=""div"" Margin=""Margin.Is0.FromTop.Is2.FromBottom"">Display 3</DisplayHeading>
