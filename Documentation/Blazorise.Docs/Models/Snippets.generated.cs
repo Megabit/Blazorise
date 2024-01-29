@@ -4853,7 +4853,6 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 <script src=""_content/Blazorise/memoEdit.js?v=1.4.1.0"" type=""module""></script>
 <script src=""_content/Blazorise/numericPicker.js?v=1.4.1.0"" type=""module""></script>
 <script src=""_content/Blazorise/observer.js?v=1.4.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/popper.js?v=1.4.1.0"" type=""module""></script>
 <script src=""_content/Blazorise/table.js?v=1.4.1.0"" type=""module""></script>
 <script src=""_content/Blazorise/textEdit.js?v=1.4.1.0"" type=""module""></script>
 <script src=""_content/Blazorise/theme.js?v=1.4.1.0"" type=""module""></script>
