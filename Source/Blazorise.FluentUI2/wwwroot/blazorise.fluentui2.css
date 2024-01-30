@@ -3559,15 +3559,12 @@ input::file-selector-button {
   text-decoration-line: none;
   vertical-align: middle;
   margin: 0px;
+  padding: 0px;
   overflow: hidden;
   background-color: var(--colorNeutralBackground1);
   color: var(--colorNeutralForeground1);
-  border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
   font-family: var(--fontFamilyBase);
   outline-style: none;
-  padding: 5px var(--spacingHorizontalM);
-  /*min-width: 96px;*/
-  border-radius: var(--borderRadiusMedium);
   font-size: var(--fontSizeBase300);
   font-weight: var(--fontWeightSemibold);
   line-height: var(--lineHeightBase300);
@@ -3584,31 +3581,23 @@ input::file-selector-button {
   text-decoration-line: none;
   overflow-y: inherit;
   overflow-x: inherit;
-  padding-bottom: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-top: 0px;
-  margin-bottom: 0px;
-  margin-left: 0px;
-  margin-right: 0px;
+  padding: 5px var(--spacingHorizontalM);
+  margin: 0px;
   color: var(--colorBrandForegroundLink);
   box-sizing: border-box;
   background-color: transparent;
   cursor: pointer;
   display: inline;
-  margin-top: 0px;
   font-weight: var(--fontWeightSemibold);
   font-family: var(--fontFamilyBase);
   text-align: left;
+  border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+  border-radius: var(--borderRadiusMedium);
 }
 .fui-Pagination .fui-PaginationItem + .fui-PaginationItem {
   margin-left: var(--spacingHorizontalXXS);
 }
 .fui-Pagination-sm .fui-PaginationItem {
-  padding-left: var(--spacingHorizontalS);
-  padding-right: var(--spacingHorizontalS);
-  padding-top: 3px;
-  padding-bottom: 3px;
   font-weight: var(--fontWeightRegular);
   font-size: var(--fontSizeBase200);
   border-top-left-radius: var(--borderRadiusMedium);
@@ -3617,11 +3606,13 @@ input::file-selector-button {
   border-bottom-right-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase200);
 }
+.fui-Pagination-sm .fui-PaginationItem .fui-PaginationLink {
+  padding-left: var(--spacingHorizontalS);
+  padding-right: var(--spacingHorizontalS);
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
 .fui-Pagination-lg .fui-PaginationItem {
-  padding-left: var(--spacingHorizontalL);
-  padding-right: var(--spacingHorizontalL);
-  padding-top: 8px;
-  padding-bottom: 8px;
   font-weight: var(--fontWeightSemibold);
   font-size: var(--fontSizeBase400);
   border-top-left-radius: var(--borderRadiusMedium);
@@ -3629,6 +3620,12 @@ input::file-selector-button {
   border-bottom-left-radius: var(--borderRadiusMedium);
   border-bottom-right-radius: var(--borderRadiusMedium);
   line-height: var(--lineHeightBase400);
+}
+.fui-Pagination-lg .fui-PaginationItem .fui-PaginationLink {
+  padding-left: var(--spacingHorizontalL);
+  padding-right: var(--spacingHorizontalL);
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 
 .fui-ProgressBar {
