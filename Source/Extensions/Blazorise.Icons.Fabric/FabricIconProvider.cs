@@ -329,10 +329,10 @@ class FabricIconProvider : BaseIconProvider
 
     private static Dictionary<IconStyle, string> styles = new()
     {
-        { IconStyle.Solid, "ms-Icon" },
-        { IconStyle.Regular, "ms-Icon" },
-        { IconStyle.Light, "ms-Icon" },
-        { IconStyle.DuoTone, "ms-Icon" },
+        { IconStyle.Solid, "ms-Icon ms-Icon-filled" },
+        { IconStyle.Regular, "ms-Icon ms-Icon-regular" },
+        { IconStyle.Light, "ms-Icon ms-Icon-light" },
+        { IconStyle.DuoTone, "ms-Icon ms-Icon-duo" },
     };
 
     #endregion
@@ -343,18 +343,18 @@ class FabricIconProvider : BaseIconProvider
     {
         return iconSize switch
         {
-            Blazorise.IconSize.ExtraSmall => "fa-xs",
-            Blazorise.IconSize.Small => "fa-sm",
-            Blazorise.IconSize.Large => "fa-lg",
-            Blazorise.IconSize.x2 => "fa-2x",
-            Blazorise.IconSize.x3 => "fa-3x",
-            Blazorise.IconSize.x4 => "fa-4x",
-            Blazorise.IconSize.x5 => "fa-5x",
-            Blazorise.IconSize.x6 => "fa-6x",
-            Blazorise.IconSize.x7 => "fa-7x",
-            Blazorise.IconSize.x8 => "fa-8x",
-            Blazorise.IconSize.x9 => "fa-9x",
-            Blazorise.IconSize.x10 => "fa-10x",
+            Blazorise.IconSize.ExtraSmall => "ms-Icon-xs",
+            Blazorise.IconSize.Small => "ms-Icon-sm",
+            Blazorise.IconSize.Large => "ms-Icon-lg",
+            Blazorise.IconSize.x2 => "ms-Icon-2x",
+            Blazorise.IconSize.x3 => "ms-Icon-3x",
+            Blazorise.IconSize.x4 => "ms-Icon-4x",
+            Blazorise.IconSize.x5 => "ms-Icon-5x",
+            Blazorise.IconSize.x6 => "ms-Icon-6x",
+            Blazorise.IconSize.x7 => "ms-Icon-7x",
+            Blazorise.IconSize.x8 => "ms-Icon-8x",
+            Blazorise.IconSize.x9 => "ms-Icon-9x",
+            Blazorise.IconSize.x10 => "ms-Icon-10x",
             _ => null,
         };
     }
@@ -381,7 +381,7 @@ class FabricIconProvider : BaseIconProvider
 
     protected override bool ContainsStyleName( string iconName )
     {
-        return iconName.Split( ' ' ).Any( x => styles.Values.Contains( x ) || new string[] { "fab" }.Contains( x ) );
+        return iconName.Split( ' ' ).Any( x => styles.Values.Contains( x ) || new string[] { "ms-Icon-brand" }.Contains( x ) );
     }
 
     #endregion
