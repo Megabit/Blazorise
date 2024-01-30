@@ -8,8 +8,8 @@ namespace Blazorise.Icons.Fabric;
 /// </summary>
 public static class FabricIcons
 {
-    public static readonly string TwelvePointStar = "ms-Icon--TwelvePointStar";
-    public static readonly string SixPointStar = "ms-Icon--SixPointStar";
+    public static readonly string TwelvePointStar = "ms-Icon--12PointStar";
+    public static readonly string SixPointStar = "ms-Icon--6PointStar";
     public static readonly string AADLogo = "ms-Icon--AADLogo";
     public static readonly string Accept = "ms-Icon--Accept";
     public static readonly string AcceptMedium = "ms-Icon--AcceptMedium";
