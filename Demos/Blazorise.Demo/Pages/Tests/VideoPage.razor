@@ -26,9 +26,23 @@
             </CardBody>
         </Card>
     </Column>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Video player for youtube video</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Video @ref="@videoRefYoutube" Margin="Margin.Is5.FromTop" Height="Height.Is75" Width="Width.Is100" YoutubeVideoSource="@YoutubeVideoSource" />
+            </CardBody>
+        </Card>
+    </Column>
 </Row>
+
 @code {
+    string YoutubeVideoSource = "https://www.youtube.com/watch?v=7sUZbh_3m0Q";
+
     Video videoRef;
+    Video videoRefYoutube;
     VideoSource videoSource = new VideoSource()
     {
         Medias = new ValueEqualityList<VideoMedia>
