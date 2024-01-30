@@ -136,12 +136,12 @@ public partial class Rating : BaseComponent
     /// <summary>
     /// Defines the selected icon name.
     /// </summary>
-    [Parameter] public object FullIcon { get; set; } = IconName.Star;
+    [Parameter] public virtual object FullIcon { get; set; } = IconName.Star;
 
     /// <summary>
     /// Defines the non-selected icon name.
     /// </summary>
-    [Parameter] public object EmptyIcon { get; set; } = IconName.Star;
+    [Parameter] public virtual object EmptyIcon { get; set; } = IconName.Star;
 
     /// <summary>
     /// Defines the selected icon style.
