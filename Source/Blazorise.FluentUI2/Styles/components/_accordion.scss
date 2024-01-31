@@ -59,7 +59,7 @@
                     > svg {
                         display: inline;
                         line-height: 0;
-                        transition: transform 150ms ease-out;
+                        transition: transform var(--durationGentle) ease-out;
                     }
                 }
 
@@ -75,16 +75,22 @@
         }
 
         .fui-AccordionPanel {
-            display: none;
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: var(--durationGentle) grid-template-rows ease;
             margin-left: var(--spacingHorizontalM);
             margin-right: var(--spacingHorizontalM);
             margin-bottom: 0px;
             margin-top: 0px;
+
+            .fui-AccordionPanel__content {
+                overflow: hidden;
+            }
         }
 
         &-active {
             .fui-AccordionPanel {
-                display: block;
+                grid-template-rows: 1fr;
             }
         }
     }

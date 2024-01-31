@@ -497,20 +497,25 @@
 .fui-Accordion .fui-AccordionItem .fui-AccordionHeader .fui-AccordionHeader__button .fui-AccordionHeader__expandIcon > svg {
   display: inline;
   line-height: 0;
-  transition: transform 150ms ease-out;
+  transition: transform var(--durationGentle) ease-out;
 }
 .fui-Accordion .fui-AccordionItem .fui-AccordionHeader .fui-AccordionHeader__button[aria-expanded=true] .fui-AccordionHeader__expandIcon > svg {
   transform: rotate(90deg);
 }
 .fui-Accordion .fui-AccordionItem .fui-AccordionPanel {
-  display: none;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: var(--durationGentle) grid-template-rows ease;
   margin-left: var(--spacingHorizontalM);
   margin-right: var(--spacingHorizontalM);
   margin-bottom: 0px;
   margin-top: 0px;
 }
+.fui-Accordion .fui-AccordionItem .fui-AccordionPanel .fui-AccordionPanel__content {
+  overflow: hidden;
+}
 .fui-Accordion .fui-AccordionItem-active .fui-AccordionPanel {
-  display: block;
+  grid-template-rows: 1fr;
 }
 
 .fui-Input .fui-Input__contentBefore,

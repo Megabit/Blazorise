@@ -851,7 +851,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string AccordionBodyActive( bool active ) => active ? "fui-AccordionPanel-show" : null;
 
-    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "card-body";
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "fui-AccordionPanel__content";
 
     #endregion
 
