@@ -363,6 +363,11 @@ class FabricIconProvider : BaseIconProvider
     {
         if ( names.TryGetValue( iconName, out var name ) )
         {
+            if ( iconStyle == IconStyle.Solid )
+            {
+                return name.Replace( "_regular", "_filled" );
+            }
+
             return name;
         }
 
@@ -376,9 +381,6 @@ class FabricIconProvider : BaseIconProvider
 
     public override string GetStyleName( IconStyle iconStyle )
     {
-        if ( styles.TryGetValue( iconStyle, out var style ) )
-            return style;
-
         return null;
     }
 
