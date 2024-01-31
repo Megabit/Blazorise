@@ -4269,7 +4269,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ThemingColorsExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
-    <Router AppAssembly=""typeof(App).Assembly"">
+    <Router AppAssembly=""@typeof(Program).Assembly"">
         <Found>...</Found>
         <NotFound>...</NotFound>
     </Router>
@@ -4288,7 +4288,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ThemingGradientExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
-    <Router AppAssembly=""typeof(App).Assembly"">
+    <Router AppAssembly=""@typeof(Program).Assembly"">
         <Found>...</Found>
         <NotFound>...</NotFound>
     </Router>
@@ -4302,7 +4302,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ThemingRoundedExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
-    <Router AppAssembly=""typeof(App).Assembly"">
+    <Router AppAssembly=""@typeof(Program).Assembly"">
         <Found>...</Found>
         <NotFound>...</NotFound>
     </Router>
@@ -4335,7 +4335,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 }";
 
         public const string ThemingStartExample = @"<Blazorise.ThemeProvider Theme=""@theme"">
-    <Router AppAssembly=""typeof(App).Assembly"">
+    <Router AppAssembly=""@typeof(Program).Assembly"">
         <Found>...</Found>
         <NotFound>...</NotFound>
     </Router>
@@ -10278,7 +10278,7 @@ builder.Services
     }
 }";
 
-        public const string MessageServiceUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+        public const string MessageServiceUsageExample = @"<Router AppAssembly=""@typeof(Program).Assembly"">
     <Found>...</Found>
     <NotFound>...</NotFound>
 </Router>
@@ -10493,7 +10493,7 @@ builder.Services
 
         public const string NotificationServiceInstallationExample = @"Install-Package Blazorise.Components";
 
-        public const string NotificationServiceUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+        public const string NotificationServiceUsageExample = @"<Router AppAssembly=""@typeof(Program).Assembly"">
     <Found>...</Found>
     <NotFound>...</NotFound>
 </Router>
@@ -10544,7 +10544,7 @@ builder.Services
     }
 }";
 
-        public const string PageProgressServiceUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+        public const string PageProgressServiceUsageExample = @"<Router AppAssembly=""@typeof(Program).Assembly"">
     <Found>...</Found>
     <NotFound>...</NotFound>
 </Router>

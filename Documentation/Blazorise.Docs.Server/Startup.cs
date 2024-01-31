@@ -17,7 +17,6 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace Blazorise.Docs.Server;
 
@@ -53,7 +52,7 @@ public class Startup
             .AddBlazoriseRichTextEdit()
             .AddBlazoriseFluentValidation();
 
-        services.AddValidatorsFromAssembly( typeof( App ).Assembly );
+        services.AddValidatorsFromAssembly( typeof( Blazorise.Docs._Imports ).Assembly );
 
         services.AddMemoryCache();
         services.AddScoped<Shared.Data.EmployeeData>();
@@ -121,7 +120,8 @@ public class Startup
 
         app.MapRazorComponents<App>()
             .AddInteractiveServerRenderMode()
-            .AddInteractiveWebAssemblyRenderMode();
+            .AddInteractiveWebAssemblyRenderMode()
+            .AddAdditionalAssemblies( typeof( Blazorise.Docs._Imports ).Assembly );
 
         //app.UseRouting();
 

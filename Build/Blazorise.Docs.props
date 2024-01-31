@@ -2,17 +2,11 @@
 
 	<PropertyGroup>
 		<TargetFramework>net8.0</TargetFramework>
-		<OutputType>Library</OutputType>
-		<IsPackable>true</IsPackable>
-		<LangVersion>10.0</LangVersion>
-    	<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
 		<NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
 		<StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.*" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.*" />
 		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.*" />
 		<PackageReference Include="FluentValidation" Version="11.2.0" />
 		<PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.2.0" />

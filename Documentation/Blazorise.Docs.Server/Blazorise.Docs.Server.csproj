@@ -10,8 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Source\Blazorise.Bootstrap5\Blazorise.Bootstrap5.csproj" />
-    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
     <ProjectReference Include="..\Blazorise.Docs\Blazorise.Docs.csproj" />
   </ItemGroup>
 
