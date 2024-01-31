@@ -94,7 +94,7 @@ class FabricIconProvider : BaseIconProvider
         //{ IconName.Copyright, FabricIcons.Copyright },
         { IconName.CreditCard, FabricIcons.Payment },
         { IconName.Crop, FabricIcons.Crop },
-        { IconName.Dashboard, FabricIcons.TableColumnTopBottom },
+        { IconName.Dashboard, FabricIcons.LayoutColumnTwoSplitLeft },
         { IconName.Delete, FabricIcons.Delete },
         { IconName.Desktop, FabricIcons.Desktop },
         { IconName.Dice, FabricIcons.CubeQuick },
