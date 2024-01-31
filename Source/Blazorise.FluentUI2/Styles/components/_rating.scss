@@ -13,9 +13,9 @@
     }
 
     .fui-RatingItem {
-        height: 16px;
-        width: 16px;
-        font-size: 16px;
+        height: 28px;
+        width: 28px;
+        font-size: 28px;
         position: relative;
 
         @each $name, $value in $foreground-theme-colors {

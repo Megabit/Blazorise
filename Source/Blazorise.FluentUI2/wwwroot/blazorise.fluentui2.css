@@ -3905,9 +3905,9 @@ input::file-selector-button {
   opacity: 0.65;
 }
 .fui-Rating .fui-RatingItem {
-  height: 16px;
-  width: 16px;
-  font-size: 16px;
+  height: 28px;
+  width: 28px;
+  font-size: 28px;
   position: relative;
 }
 .fui-Rating .fui-RatingItem-primary {
