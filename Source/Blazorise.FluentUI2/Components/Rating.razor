@@ -20,8 +20,4 @@
         => value >= 1 && value <= HoveredValue;
 
     public string RatingName => ratingName ??= $"fui-Rating-{IdGenerator.Generate}";
-
-    [Parameter] public override object FullIcon { get; set; } = "ms-Icon--FavoriteStarFill";
-
-    [Parameter] public override object EmptyIcon { get; set; } = "ms-Icon--FavoriteStar";
 }
