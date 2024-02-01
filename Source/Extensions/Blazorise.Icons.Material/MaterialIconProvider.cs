@@ -65,6 +65,8 @@ class MaterialIconProvider : BaseIconProvider
         { IconName.CameraRetro, MaterialIcons.CameraAlt },
         { IconName.Car, MaterialIcons.DirectionsCar },
         { IconName.CaretSquareRight, MaterialIcons.Slideshow },
+        { IconName.Cart, MaterialIcons.ShoppingCart },
+        { IconName.CartMinus, MaterialIcons.RemoveShoppingCart },
         { IconName.CartPlus, MaterialIcons.AddShoppingCart },
         { IconName.Chair, MaterialIcons.EventSeat },
         { IconName.ChartPie, MaterialIcons.PieChart },

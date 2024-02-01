@@ -65,6 +65,8 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.CameraRetro, FontAwesomeIcons.CameraRetro },
         { IconName.Car, FontAwesomeIcons.Car },
         { IconName.CaretSquareRight, FontAwesomeIcons.CaretSquareRight },
+        { IconName.Cart, FontAwesomeIcons.ShoppingCart },
+        { IconName.CartMinus, FontAwesomeIcons.CartArrowDown },
         { IconName.CartPlus, FontAwesomeIcons.CartPlus },
         { IconName.Chair, FontAwesomeIcons.Chair },
         { IconName.ChartPie, FontAwesomeIcons.ChartPie },

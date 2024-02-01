@@ -65,6 +65,8 @@ class BootstrapIconProvider : BaseIconProvider
         { IconName.CameraRetro, BootstrapIcons.Camera2 },
         { IconName.Car, BootstrapIcons.CarFront },
         { IconName.CaretSquareRight, BootstrapIcons.CaretRightSquare },
+        { IconName.Cart, BootstrapIcons.Cart },
+        { IconName.CartMinus, BootstrapIcons.CartX },
         { IconName.CartPlus, BootstrapIcons.CartPlus },
         // { IconName.Chair, "fa-chair" },
         { IconName.ChartPie, BootstrapIcons.PieChart },

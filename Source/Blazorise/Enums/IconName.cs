@@ -55,6 +55,8 @@ public enum IconName
     CameraRetro,
     Car,
     CaretSquareRight,
+    Cart,
+    CartMinus,
     CartPlus,
     Chair,
     ChartPie,
