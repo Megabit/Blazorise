@@ -57,6 +57,7 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.Bug, FontAwesomeIcons.Bug },
         { IconName.Building, FontAwesomeIcons.Building },
         { IconName.Bus, FontAwesomeIcons.Bus },
+        { IconName.Calendar, FontAwesomeIcons.Calendar },
         { IconName.CalendarCheck, FontAwesomeIcons.CalendarCheck },
         { IconName.CalendarDay, FontAwesomeIcons.CalendarDay },
         { IconName.CalendarTimes, FontAwesomeIcons.CalendarTimes },

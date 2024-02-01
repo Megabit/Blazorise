@@ -57,6 +57,7 @@ class FabricIconProvider : BaseIconProvider
         { IconName.Bug, FabricIcons.Bug },
         { IconName.Building, FabricIcons.Building },
         { IconName.Bus, FabricIcons.VehicleBus },
+        { IconName.Calendar, FabricIcons.Calendar },
         { IconName.CalendarCheck, FabricIcons.CalendarCheckmark },
         { IconName.CalendarDay, FabricIcons.CalendarDay },
         { IconName.CalendarTimes, FabricIcons.CalendarAgenda },

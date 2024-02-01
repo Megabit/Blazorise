@@ -57,6 +57,7 @@ class BootstrapIconProvider : BaseIconProvider
         { IconName.Bug, BootstrapIcons.Bug },
         { IconName.Building, BootstrapIcons.Building },
         { IconName.Bus, BootstrapIcons.BusFront },
+        { IconName.Calendar, BootstrapIcons.Calendar },
         { IconName.CalendarCheck, BootstrapIcons.CalendarCheck },
         { IconName.CalendarDay, BootstrapIcons.CalendarDay },
         { IconName.CalendarTimes, BootstrapIcons.CalendarX },

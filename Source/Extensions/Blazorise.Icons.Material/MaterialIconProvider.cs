@@ -57,6 +57,7 @@ class MaterialIconProvider : BaseIconProvider
         { IconName.Bug, MaterialIcons.BugReport },
         { IconName.Building, MaterialIcons.Business },
         { IconName.Bus, MaterialIcons.DirectionsBus },
+        { IconName.Calendar, MaterialIcons.Event },
         { IconName.CalendarCheck, MaterialIcons.EventAvailable },
         { IconName.CalendarDay, MaterialIcons.ViewDay },
         { IconName.CalendarTimes, MaterialIcons.EventBusy },

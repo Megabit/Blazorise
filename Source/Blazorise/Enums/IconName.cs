@@ -47,6 +47,7 @@ public enum IconName
     Bug,
     Building,
     Bus,
+    Calendar,
     CalendarCheck,
     CalendarDay,
     CalendarTimes,
