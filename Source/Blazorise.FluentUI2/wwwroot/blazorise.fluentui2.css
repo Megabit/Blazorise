@@ -3470,6 +3470,179 @@ input::file-selector-button {
     max-width: 1140px;
   }
 }
+.fui-SpinButton {
+  display: inline-grid;
+  grid-template-columns: 1fr 24px;
+  grid-template-rows: 1fr 1fr;
+  column-gap: var(--spacingHorizontalXS);
+  row-gap: 0px;
+  position: relative;
+  isolation: isolate;
+  background-color: var(--colorNeutralBackground1);
+  min-height: 32px;
+  padding: 0 0 0 var(--spacingHorizontalMNudge);
+  border-radius: var(--borderRadiusMedium);
+  line-height: var(--lineHeightBase300);
+  font-weight: var(--fontWeightRegular);
+  font-size: var(--fontSizeBase300);
+  font-family: var(--fontFamilyBase);
+  text-align: left;
+  color: var(--colorNeutralForeground1);
+  width: 100%;
+}
+.fui-SpinButton:focus-within {
+  outline: transparent solid 2px;
+}
+.fui-SpinButton::before {
+  content: "";
+  box-sizing: border-box;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  pointer-events: none;
+  z-index: 10;
+  border-bottom-left-radius: var(--borderRadiusMedium);
+  border-bottom-right-radius: var(--borderRadiusMedium);
+  border-bottom-style: solid;
+  border-bottom-width: var(--strokeWidthThin);
+  border-left-style: solid;
+  border-left-width: var(--strokeWidthThin);
+  border-radius: var(--borderRadiusMedium);
+  border-right-style: solid;
+  border-right-width: var(--strokeWidthThin);
+  border-top-left-radius: var(--borderRadiusMedium);
+  border-top-right-radius: var(--borderRadiusMedium);
+  border-top-style: solid;
+  border-top-width: var(--strokeWidthThin);
+  border-bottom-color: var(--colorNeutralStrokeAccessible);
+  border-radius: var(--borderRadiusMedium);
+}
+.fui-SpinButton:not(.disabled)::before, .fui-SpinButton:not(:disabled)::before {
+  border-bottom-color: var(--colorNeutralStrokeAccessible);
+  border-left-color: var(--colorNeutralStroke1);
+  border-right-color: var(--colorNeutralStroke1);
+  border-top-color: var(--colorNeutralStroke1);
+}
+.fui-SpinButton:active::before, .fui-SpinButton:focus-within::before {
+  border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
+  border-left-color: var(--colorNeutralStroke1Pressed);
+  border-right-color: var(--colorNeutralStroke1Pressed);
+  border-top-color: var(--colorNeutralStroke1Pressed);
+}
+.fui-SpinButton:hover::before {
+  border-bottom-color: var(--colorNeutralStrokeAccessibleHover);
+  border-left-color: var(--colorNeutralStroke1Hover);
+  border-right-color: var(--colorNeutralStroke1Hover);
+  border-top-color: var(--colorNeutralStroke1Hover);
+}
+.fui-SpinButton::after {
+  box-sizing: border-box;
+  content: "";
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  z-index: 20;
+  height: max(2px, var(--borderRadiusMedium));
+  border-bottom-left-radius: var(--borderRadiusMedium);
+  border-bottom-right-radius: var(--borderRadiusMedium);
+  border-bottom: 2px solid var(--colorCompoundBrandStroke);
+  clip-path: inset(calc(100% - 2px) 0px 0px);
+  transform: scaleX(0);
+  transition-property: transform;
+  transition-duration: var(--durationUltraFast);
+  transition-delay: var(--curveAccelerateMid);
+}
+.fui-SpinButton:focus-within::after {
+  transform: scaleX(1);
+  transition-property: transform;
+  transition-duration: var(--durationNormal);
+  transition-delay: var(--curveDecelerateMid);
+}
+.fui-SpinButton:focus-within::after:active {
+  border-bottom-color: var(--colorCompoundBrandStrokePressed);
+}
+.fui-SpinButton.fui-SpinButton-plaintext {
+  border-left-color: var(--colorTransparentStroke);
+  border-right-color: var(--colorTransparentStroke);
+  border-top-color: var(--colorTransparentStroke);
+  border-bottom-color: var(--colorTransparentStroke);
+}
+.fui-SpinButton .fui-SpinButton__input,
+.fui-SpinButton .fui-SpinButton__input-plaintext {
+  grid-area: 1/1/3/2;
+  outline-style: none;
+  border: 0px;
+  padding: 0px;
+  color: var(--colorNeutralForeground1);
+  background-color: transparent;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  width: 100%;
+}
+.fui-SpinButton .fui-SpinButton__input:not(:disabled),
+.fui-SpinButton .fui-SpinButton__input-plaintext:not(:disabled) {
+  background-color: transparent;
+}
+.fui-SpinButton .fui-SpinButton__input:disabled,
+.fui-SpinButton .fui-SpinButton__input-plaintext:disabled {
+  cursor: not-allowed;
+  color: var(--colorNeutralForegroundDisabled);
+  background-color: var(--colorTransparentBackground);
+}
+.fui-SpinButton .fui-SpinButton__incrementButton,
+.fui-SpinButton .fui-SpinButton__decrementButton {
+  display: inline-flex;
+  width: 24px;
+  align-items: center;
+  justify-content: center;
+  border: 0px;
+  position: absolute;
+  outline-style: none;
+  height: 16px;
+  background-color: transparent;
+  color: var(--colorNeutralForeground3);
+  grid-column-start: 2;
+  border-radius: 0px;
+  padding: 0px 5px;
+}
+.fui-SpinButton .fui-SpinButton__incrementButton:enabled:active,
+.fui-SpinButton .fui-SpinButton__decrementButton:enabled:active {
+  color: var(--colorNeutralForeground3Pressed);
+  background-color: var(--colorSubtleBackgroundPressed);
+}
+.fui-SpinButton .fui-SpinButton__incrementButton:enabled:hover,
+.fui-SpinButton .fui-SpinButton__decrementButton:enabled:hover {
+  cursor: pointer;
+  color: var(--colorNeutralForeground3Hover);
+  background-color: var(--colorSubtleBackgroundHover);
+}
+.fui-SpinButton .fui-SpinButton__incrementButton:active,
+.fui-SpinButton .fui-SpinButton__decrementButton:active {
+  outline-style: none;
+}
+.fui-SpinButton .fui-SpinButton__incrementButton > svg,
+.fui-SpinButton .fui-SpinButton__decrementButton > svg {
+  display: inline;
+  line-height: 0;
+}
+.fui-SpinButton .fui-SpinButton__incrementButton {
+  padding-top: 4px;
+  grid-row-start: 1;
+  padding-bottom: 1px;
+  border-top-right-radius: var(--borderRadiusMedium);
+}
+.fui-SpinButton .fui-SpinButton__decrementButton {
+  padding-bottom: 4px;
+  grid-row-start: 2;
+  padding-top: 1px;
+  border-bottom-right-radius: var(--borderRadiusMedium);
+}
+
 .fui-OverlayDrawer__backdrop {
   will-change: opacity, visibility;
   transition-timing-function: var(--curveEasyEase);

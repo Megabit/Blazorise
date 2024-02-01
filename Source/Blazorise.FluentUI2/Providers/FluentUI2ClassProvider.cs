@@ -121,9 +121,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region NumericPicker
 
-    public override string NumericPicker( bool plaintext ) => plaintext ? "fui-NumericPicker fui-Input__input-plaintext" : "fui-NumericInput fui-Input__input";
+    public override string NumericPicker( bool plaintext ) => plaintext ? "fui-NumericPicker fui-SpinButton__input-plaintext" : "fui-NumericInput fui-SpinButton__input";
 
-    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
+    public override string NumericPickerSize( Size size ) => size != Size.Default ? $"fui-SpinButton__input-{ToSize( size )}" : null;
 
     public override string NumericPickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
 
