@@ -271,6 +271,7 @@ class FabricIconProvider : BaseIconProvider
         { IconName.Snowflake, FabricIcons.WeatherSnowflake },
         { IconName.Sort, FabricIcons.ArrowSort },
         { IconName.SortAlphaDown, FabricIcons.TextSortDescending },
+        { IconName.SortAlphaUp, FabricIcons.TextSortAscending },
         { IconName.SortAmountDownAlt, FabricIcons.TextSortAscending },
         { IconName.SortDown, FabricIcons.ArrowSortDown },
         { IconName.SortUp, FabricIcons.ArrowSortUp },

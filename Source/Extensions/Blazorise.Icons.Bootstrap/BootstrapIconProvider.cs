@@ -270,6 +270,7 @@ class BootstrapIconProvider : BaseIconProvider
         { IconName.Snowflake, BootstrapIcons.Snow },
         { IconName.Sort, BootstrapIcons.Funnel },
         { IconName.SortAlphaDown, BootstrapIcons.SortAlphaDown },
+        { IconName.SortAlphaUp, BootstrapIcons.SortAlphaUp },
         { IconName.SortAmountDownAlt, BootstrapIcons.SortAlphaDownAlt },
         { IconName.SortDown, BootstrapIcons.SortDown },
         { IconName.SortUp, BootstrapIcons.SortUp },

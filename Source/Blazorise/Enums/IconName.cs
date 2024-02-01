@@ -261,6 +261,7 @@ public enum IconName
     Snowflake,
     Sort,
     SortAlphaDown,
+    SortAlphaUp,
     SortAmountDownAlt,
     SortDown,
     SortUp,

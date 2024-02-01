@@ -271,6 +271,7 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.Snowflake, FontAwesomeIcons.Snowflake },
         { IconName.Sort, FontAwesomeIcons.Sort },
         { IconName.SortAlphaDown, FontAwesomeIcons.SortAlphaDown },
+        { IconName.SortAlphaUp, FontAwesomeIcons.SortAlphaUp },
         { IconName.SortAmountDownAlt, FontAwesomeIcons.SortAmountDownAlt },
         { IconName.SortDown, FontAwesomeIcons.SortDown },
         { IconName.SortUp, FontAwesomeIcons.SortUp },
