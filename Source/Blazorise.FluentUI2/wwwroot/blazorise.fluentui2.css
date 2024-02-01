@@ -1485,6 +1485,11 @@ button {
   font-weight: var(--fontWeightRegular);
   line-height: var(--lineHeightBase300);
 }
+.fui-Card .fui-CardFooter {
+  padding-left: var(--fui-Card--size);
+  padding-right: var(--fui-Card--size);
+  padding-bottom: var(--fui-Card--size);
+}
 .fui-Card .fui-CardPreview {
   position: relative;
   margin-left: calc(var(--fui-Card--size) * -1);

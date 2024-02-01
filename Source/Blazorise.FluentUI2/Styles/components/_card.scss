@@ -38,6 +38,12 @@
         }
     }
 
+    .fui-CardFooter {
+        padding-left: var(--fui-Card--size);
+        padding-right: var(--fui-Card--size);
+        padding-bottom: var(--fui-Card--size);
+    }
+
     .fui-CardPreview {
         position: relative;
         margin-left: calc(var(--fui-Card--size) * -1);
