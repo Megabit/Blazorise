@@ -66,7 +66,13 @@ public partial class Slider<TValue>
 
     private void BuildInputStyles( StyleBuilder builder )
     {
-        builder.Append( $"--fui-Slider--direction: 90deg;--fui-Slider--progress: {CurrentValueAsString}%;" );
+        TValue min = Converters.ChangeType<TValue>( Min );
+        TValue max = Converters.ChangeType<TValue>( Max );
+
+        var currentValue = MathUtils.Clamp( CurrentValue, min, max );
+        var valuePercent = MathUtils.GetPercent( currentValue, min, max );
+
+        builder.Append( $"--fui-Slider--direction: 90deg;--fui-Slider--progress: {valuePercent}%;" );
 
         if ( Disabled )
         {
