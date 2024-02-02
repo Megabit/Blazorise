@@ -171,6 +171,7 @@ public static class FontAwesomeIcons
     public static readonly string ChartBar = "fa-chart-bar";
     public static readonly string ChartLine = "fa-chart-line";
     public static readonly string ChartPie = "fa-chart-pie";
+    public static readonly string ChartScatter = "fa-chart-scatter";
     public static readonly string Check = "fa-check";
     public static readonly string CheckCircle = "fa-check-circle";
     public static readonly string CheckDouble = "fa-check-double";
