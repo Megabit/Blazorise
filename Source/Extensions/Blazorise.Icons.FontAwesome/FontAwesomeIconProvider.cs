@@ -256,6 +256,7 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.SearchMinus, FontAwesomeIcons.SearchMinus },
         { IconName.SearchPlus, FontAwesomeIcons.SearchPlus },
         { IconName.Seedling, FontAwesomeIcons.Seedling },
+        { IconName.Send, FontAwesomeIcons.PaperPlane },
         { IconName.Server, FontAwesomeIcons.Server },
         { IconName.Settings, FontAwesomeIcons.Cog },
         { IconName.Shapes, FontAwesomeIcons.Shapes },

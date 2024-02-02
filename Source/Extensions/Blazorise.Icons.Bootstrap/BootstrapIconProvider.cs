@@ -255,6 +255,7 @@ class BootstrapIconProvider : BaseIconProvider
         { IconName.SearchMinus, BootstrapIcons.ZoomOut },
         { IconName.SearchPlus, BootstrapIcons.ZoomIn },
         // { IconName.Seedling, "fa-seedling" },
+        { IconName.Send, BootstrapIcons.Send },
         { IconName.Server, BootstrapIcons.Server },
         { IconName.Settings, BootstrapIcons.Gear },
         { IconName.Shapes, BootstrapIcons.PentagonHalf },

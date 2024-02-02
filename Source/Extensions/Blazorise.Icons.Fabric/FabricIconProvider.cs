@@ -256,6 +256,7 @@ class FabricIconProvider : BaseIconProvider
         { IconName.SearchMinus, FabricIcons.ZoomOut },
         { IconName.SearchPlus, FabricIcons.ZoomIn },
         { IconName.Seedling, FabricIcons.PlantGrass },
+        { IconName.Send, FabricIcons.Send },
         { IconName.Server, FabricIcons.Server },
         { IconName.Settings, FabricIcons.Settings },
         { IconName.Shapes, FabricIcons.Shapes },

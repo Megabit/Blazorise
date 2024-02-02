@@ -256,6 +256,7 @@ class MaterialIconProvider : BaseIconProvider
         { IconName.SearchMinus, MaterialIcons.ZoomOut },
         { IconName.SearchPlus, MaterialIcons.ZoomIn },
         { IconName.Seedling, MaterialIcons.LocalFlorist },
+        { IconName.Send, MaterialIcons.Send },
         { IconName.Server, MaterialIcons.Dns },
         { IconName.Settings, MaterialIcons.Settings },
         { IconName.Shapes, MaterialIcons.FormatShapes },

@@ -246,6 +246,7 @@ public enum IconName
     SearchMinus,
     SearchPlus,
     Seedling,
+    Send,
     Server,
     Settings,
     Shapes,
