@@ -1,0 +1,20 @@
+﻿@using Microsoft.JSInterop
+@inherits BaseCaptcha
+
+<div id="@ElementId" />
+
+@code {
+    [Inject] public IJSRuntime JsRuntime { get; set; }
+    [Parameter] public string SiteKey { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        ElementId = ElementId ?? IdGenerator.Generate;
+        return base.OnInitializedAsync();
+    }
+
+    public override Task Render()
+    {
+        throw new NotImplementedException();
+    }
+}
