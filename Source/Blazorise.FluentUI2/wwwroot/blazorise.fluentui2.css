@@ -3546,6 +3546,8 @@ input::file-selector-button {
   left: 0px;
   pointer-events: none;
   z-index: 10;
+}
+.fui-SpinButton:not(.fui-Input .fui-SpinButton)::before {
   border-bottom-left-radius: var(--borderRadiusMedium);
   border-bottom-right-radius: var(--borderRadiusMedium);
   border-bottom-style: solid;
@@ -3562,25 +3564,25 @@ input::file-selector-button {
   border-bottom-color: var(--colorNeutralStrokeAccessible);
   border-radius: var(--borderRadiusMedium);
 }
-.fui-SpinButton:not(.disabled)::before, .fui-SpinButton:not(:disabled)::before {
+.fui-SpinButton:not(.fui-Input .fui-SpinButton):not(.disabled)::before, .fui-SpinButton:not(.fui-Input .fui-SpinButton):not(:disabled)::before {
   border-bottom-color: var(--colorNeutralStrokeAccessible);
   border-left-color: var(--colorNeutralStroke1);
   border-right-color: var(--colorNeutralStroke1);
   border-top-color: var(--colorNeutralStroke1);
 }
-.fui-SpinButton:active::before, .fui-SpinButton:focus-within::before {
+.fui-SpinButton:not(.fui-Input .fui-SpinButton):active::before, .fui-SpinButton:not(.fui-Input .fui-SpinButton):focus-within::before {
   border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
   border-left-color: var(--colorNeutralStroke1Pressed);
   border-right-color: var(--colorNeutralStroke1Pressed);
   border-top-color: var(--colorNeutralStroke1Pressed);
 }
-.fui-SpinButton:hover::before {
+.fui-SpinButton:not(.fui-Input .fui-SpinButton):hover::before {
   border-bottom-color: var(--colorNeutralStrokeAccessibleHover);
   border-left-color: var(--colorNeutralStroke1Hover);
   border-right-color: var(--colorNeutralStroke1Hover);
   border-top-color: var(--colorNeutralStroke1Hover);
 }
-.fui-SpinButton::after {
+.fui-SpinButton:not(.fui-Input .fui-SpinButton)::after {
   box-sizing: border-box;
   content: "";
   position: absolute;
@@ -3598,13 +3600,13 @@ input::file-selector-button {
   transition-duration: var(--durationUltraFast);
   transition-delay: var(--curveAccelerateMid);
 }
-.fui-SpinButton:focus-within::after {
+.fui-SpinButton:not(.fui-Input .fui-SpinButton):focus-within::after {
   transform: scaleX(1);
   transition-property: transform;
   transition-duration: var(--durationNormal);
   transition-delay: var(--curveDecelerateMid);
 }
-.fui-SpinButton:focus-within::after:active {
+.fui-SpinButton:not(.fui-Input .fui-SpinButton):focus-within::after:active {
   border-bottom-color: var(--colorCompoundBrandStrokePressed);
 }
 .fui-SpinButton.fui-SpinButton-plaintext {

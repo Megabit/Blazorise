@@ -32,77 +32,84 @@
         left: 0px;
         pointer-events: none;
         z-index: 10;
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
-        border-bottom-style: solid;
-        border-bottom-width: var(--strokeWidthThin);
-        border-left-style: solid;
-        border-left-width: var(--strokeWidthThin);
-        border-radius: var(--borderRadiusMedium);
-        border-right-style: solid;
-        border-right-width: var(--strokeWidthThin);
-        border-top-left-radius: var(--borderRadiusMedium);
-        border-top-right-radius: var(--borderRadiusMedium);
-        border-top-style: solid;
-        border-top-width: var(--strokeWidthThin);
-        border-bottom-color: var(--colorNeutralStrokeAccessible);
-        border-radius: var(--borderRadiusMedium);
     }
-
-    &:not(.disabled)::before,
-    &:not(:disabled)::before {
-        border-bottom-color: var(--colorNeutralStrokeAccessible);
-        border-left-color: var(--colorNeutralStroke1);
-        border-right-color: var(--colorNeutralStroke1);
-        border-top-color: var(--colorNeutralStroke1);
-    }
-
-    &:active,
-    &:focus-within {
+    // Don't add any borders when input is placed inside of an addon
+    &:not(.fui-Input .fui-SpinButton) {
         &::before {
-            border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
-            border-left-color: var(--colorNeutralStroke1Pressed);
-            border-right-color: var(--colorNeutralStroke1Pressed);
-            border-top-color: var(--colorNeutralStroke1Pressed);
+            border-bottom-left-radius: var(--borderRadiusMedium);
+            border-bottom-right-radius: var(--borderRadiusMedium);
+            border-bottom-style: solid;
+            border-bottom-width: var(--strokeWidthThin);
+            border-left-style: solid;
+            border-left-width: var(--strokeWidthThin);
+            border-radius: var(--borderRadiusMedium);
+            border-right-style: solid;
+            border-right-width: var(--strokeWidthThin);
+            border-top-left-radius: var(--borderRadiusMedium);
+            border-top-right-radius: var(--borderRadiusMedium);
+            border-top-style: solid;
+            border-top-width: var(--strokeWidthThin);
+            border-bottom-color: var(--colorNeutralStrokeAccessible);
+            border-radius: var(--borderRadiusMedium);
+        }
+
+        &:not(.disabled)::before,
+        &:not(:disabled)::before {
+            border-bottom-color: var(--colorNeutralStrokeAccessible);
+            border-left-color: var(--colorNeutralStroke1);
+            border-right-color: var(--colorNeutralStroke1);
+            border-top-color: var(--colorNeutralStroke1);
+        }
+
+        &:active,
+        &:focus-within {
+            &::before {
+                border-bottom-color: var(--colorNeutralStrokeAccessiblePressed);
+                border-left-color: var(--colorNeutralStroke1Pressed);
+                border-right-color: var(--colorNeutralStroke1Pressed);
+                border-top-color: var(--colorNeutralStroke1Pressed);
+            }
+        }
+
+        &:hover::before {
+            border-bottom-color: var(--colorNeutralStrokeAccessibleHover);
+            border-left-color: var(--colorNeutralStroke1Hover);
+            border-right-color: var(--colorNeutralStroke1Hover);
+            border-top-color: var(--colorNeutralStroke1Hover);
+        }
+
+        &::after {
+            box-sizing: border-box;
+            content: "";
+            position: absolute;
+            right: 0px;
+            bottom: 0px;
+            left: 0px;
+            z-index: 20;
+            height: max(2px, var(--borderRadiusMedium));
+            border-bottom-left-radius: var(--borderRadiusMedium);
+            border-bottom-right-radius: var(--borderRadiusMedium);
+            border-bottom: 2px solid var(--colorCompoundBrandStroke);
+            clip-path: inset(calc(100% - 2px) 0px 0px);
+            transform: scaleX(0);
+            transition-property: transform;
+            transition-duration: var(--durationUltraFast);
+            transition-delay: var(--curveAccelerateMid);
+        }
+
+        &:focus-within::after {
+            transform: scaleX(1);
+            transition-property: transform;
+            transition-duration: var(--durationNormal);
+            transition-delay: var(--curveDecelerateMid);
+
+            &:active {
+                border-bottom-color: var(--colorCompoundBrandStrokePressed);
+            }
         }
     }
 
-    &:hover::before {
-        border-bottom-color: var(--colorNeutralStrokeAccessibleHover);
-        border-left-color: var(--colorNeutralStroke1Hover);
-        border-right-color: var(--colorNeutralStroke1Hover);
-        border-top-color: var(--colorNeutralStroke1Hover);
-    }
 
-    &::after {
-        box-sizing: border-box;
-        content: "";
-        position: absolute;
-        right: 0px;
-        bottom: 0px;
-        left: 0px;
-        z-index: 20;
-        height: max(2px, var(--borderRadiusMedium));
-        border-bottom-left-radius: var(--borderRadiusMedium);
-        border-bottom-right-radius: var(--borderRadiusMedium);
-        border-bottom: 2px solid var(--colorCompoundBrandStroke);
-        clip-path: inset(calc(100% - 2px) 0px 0px);
-        transform: scaleX(0);
-        transition-property: transform;
-        transition-duration: var(--durationUltraFast);
-        transition-delay: var(--curveAccelerateMid);
-    }
-
-    &:focus-within::after {
-        transform: scaleX(1);
-        transition-property: transform;
-        transition-duration: var(--durationNormal);
-        transition-delay: var(--curveDecelerateMid);
-
-        &:active {
-            border-bottom-color: var(--colorCompoundBrandStrokePressed);
-        }
-    }
 
     &.fui-SpinButton-plaintext {
         border-left-color: var(--colorTransparentStroke);
