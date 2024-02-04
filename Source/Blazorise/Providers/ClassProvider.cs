@@ -643,15 +643,15 @@ public abstract class ClassProvider : IClassProvider
 
     #region Bar
 
-    public abstract string Bar();
+    public abstract string Bar( BarMode mode );
 
-    public abstract string BarInitial( bool initial );
+    public abstract string BarInitial( BarMode mode, bool initial );
 
-    public abstract string BarAlignment( Alignment alignment );
+    public abstract string BarAlignment( BarMode mode, Alignment alignment );
 
-    public abstract string BarThemeContrast( ThemeContrast themeContrast );
+    public abstract string BarThemeContrast( BarMode mode, ThemeContrast themeContrast );
 
-    public abstract string BarBreakpoint( Breakpoint breakpoint );
+    public abstract string BarBreakpoint( BarMode mode, Breakpoint breakpoint );
 
     public abstract string BarMode( BarMode mode );
 
@@ -711,7 +711,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarCollapsed( BarMode mode );
 
-    public abstract string BarLabel();
+    public abstract string BarLabel( BarMode mode );
 
     #endregion
 

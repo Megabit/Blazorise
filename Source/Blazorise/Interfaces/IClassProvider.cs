@@ -642,15 +642,15 @@ public interface IClassProvider
 
     #region Bar
 
-    string Bar();
+    string Bar( BarMode mode );
 
-    string BarInitial( bool initial );
+    string BarInitial( BarMode mode, bool initial );
 
-    string BarAlignment( Alignment alignment );
+    string BarAlignment( BarMode mode, Alignment alignment );
 
-    string BarThemeContrast( ThemeContrast themeContrast );
+    string BarThemeContrast( BarMode mode, ThemeContrast themeContrast );
 
-    string BarBreakpoint( Breakpoint breakpoint );
+    string BarBreakpoint( BarMode mode, Breakpoint breakpoint );
 
     string BarMode( BarMode mode );
 
@@ -708,7 +708,7 @@ public interface IClassProvider
 
     string BarCollapsed( BarMode mode );
 
-    string BarLabel();
+    string BarLabel( BarMode mode );
 
     #endregion
 

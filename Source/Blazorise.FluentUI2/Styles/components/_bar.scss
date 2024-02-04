@@ -1,0 +1,490 @@
+﻿.fui-NavigationBar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--spacingVerticalS) var(--spacingHorizontalS);
+    z-index: 100;
+
+    %container-flex-properties {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .fui-Container,
+    .fui-Container-fluid {
+        @extend %container-flex-properties;
+    }
+
+    @each $breakpoint, $container-max-width in $container-max-widths {
+        > .fui-Container#{breakpoint-infix($breakpoint, $container-max-widths)} {
+            @extend %container-flex-properties;
+        }
+    }
+
+    .fui-NavigationBar__start,
+    .fui-NavigationBar__end {
+        display: flex;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+    }
+
+    .fui-NavigationBar__link,
+    .fui-NavigationBar__dropdown-toggle {
+        padding-right: 0;
+        padding-left: 0;
+    }
+
+    .fui-NavigationBar__dropdown {
+        position: relative;
+
+        &.fui-NavigationBar__dropdown-show {
+            .fui-NavigationBar__toggleIcon {
+                > svg {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+
+    .fui-NavigationBar__dropdown-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        animation-name: fadein, slidein;
+        animation-timing-function: var(--curveDecelerateMid);
+        animation-duration: var(--durationSlower);
+        animation-composition: accumulate;
+        padding-bottom: 4px;
+        box-shadow: var(--shadow16);
+        width: max-content;
+        overflow-x: hidden;
+        /*max-width: 300px;
+        min-width: 138px;*/
+        padding-top: 4px;
+        border-bottom-color: var(--colorTransparentStroke);
+        border-left-color: var(--colorTransparentStroke);
+        border-right-color: var(--colorTransparentStroke);
+        border-top-color: var(--colorTransparentStroke);
+        border-bottom-style: solid;
+        border-left-style: solid;
+        border-right-style: solid;
+        border-top-style: solid;
+        border-bottom-width: 1px;
+        border-left-width: 1px;
+        border-right-width: 1px;
+        border-top-width: 1px;
+        box-sizing: border-box;
+        padding-right: 4px;
+        padding-left: 4px;
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        line-height: var(--lineHeightBase300);
+        font-weight: var(--fontWeightRegular);
+        font-size: var(--fontSizeBase300);
+        font-family: var(--fontFamilyBase);
+        background-color: var(--colorNeutralBackground1);
+        color: var(--colorNeutralForeground1);
+        display: none;
+        z-index: var(--zIndexDropdown);
+
+        &-show {
+            display: flex;
+        }
+
+        &-position-strategy {
+            z-index: 10;
+        }
+
+        &-position-strategy-absolute {
+            position: absolute;
+        }
+
+        &-position-strategy-fixed {
+            position: fixed;
+        }
+
+        &.fui-NavigationBar__dropdown-right {
+            right: 0;
+            left: auto;
+        }
+
+        .fui-NavigationBar__dropdown-menu-list {
+            height: 100%;
+            row-gap: 2px;
+            column-gap: 2px;
+            flex-direction: column;
+            display: flex;
+            z-index: +1;
+
+            .fui-NavigationBar__dropdown-group {
+                padding-bottom: var(--spacingHorizontalS);
+                padding-top: var(--spacingHorizontalS);
+                color: var(--colorNeutralForeground3);
+                display: block;
+                padding-left: var(--spacingHorizontalSNudge);
+                padding-right: var(--spacingHorizontalSNudge);
+                font-weight: var(--fontWeightSemibold);
+                font-size: var(--fontSizeBase200);
+                border-top-left-radius: var(--borderRadiusMedium);
+                border-top-right-radius: var(--borderRadiusMedium);
+                border-bottom-left-radius: var(--borderRadiusMedium);
+                border-bottom-right-radius: var(--borderRadiusMedium);
+                line-height: var(--lineHeightBase200);
+            }
+
+            .fui-NavigationBar__dropdown-divider {
+                margin-bottom: var(--spacingVerticalXS);
+                margin-left: calc(var(--spacingHorizontalXS) * -1);
+                margin-right: calc(var(--spacingHorizontalXS) * -1);
+                margin-top: 0px;
+                padding-bottom: var(--spacingHorizontalXS);
+                display: block;
+                border-bottom-color: var(--colorNeutralStroke2);
+                border-bottom-style: solid;
+                border-bottom-width: var(--strokeWidthThin);
+            }
+
+            .fui-NavigationBar__dropdown-item {
+                border-radius: var(--borderRadiusMedium);
+                position: relative;
+                color: var(--colorNeutralForeground2);
+                background-color: var(--colorNeutralBackground1);
+                padding-right: var(--spacingVerticalSNudge);
+                padding-left: var(--spacingVerticalSNudge);
+                padding-top: var(--spacingVerticalSNudge);
+                box-sizing: border-box;
+                max-width: 290px;
+                min-height: 32px;
+                flex-shrink: 0;
+                display: flex;
+                align-items: start;
+                font-size: var(--fontSizeBase300);
+                cursor: pointer;
+                gap: 4px;
+                user-select: none;
+
+                &[aria-disabled="true"] {
+                    color: var(--colorNeutralForegroundDisabled);
+
+                    .fui-NavigationBar__dropdown-item__content {
+                        color: var(--colorNeutralForegroundDisabled);
+                    }
+                }
+
+                &:not([aria-disabled="true"]) {
+                    &:focus,
+                    &:focus-visible {
+                        outline-style: none;
+                    }
+
+                    &:hover {
+                        background-color: var(--colorNeutralBackground1Hover);
+                        color: var(--colorNeutralForeground2Hover);
+
+                        &:active {
+                            background-color: var(--colorNeutralBackground1Pressed);
+                            color: var(--colorNeutralForeground2Pressed);
+                        }
+                    }
+                }
+
+                .fui-NavigationBar__dropdown-item__content {
+                    padding-left: 2px;
+                    padding-right: 2px;
+                    background-color: transparent;
+                    flex-grow: 1;
+                }
+                /*  .fui-MenuItem__submenuIndicator {
+                    width: 20px;
+                    height: 20px;
+                    font-size: 20px;
+                    line-height: 0;
+                    align-items: center;
+                    display: inline-flex;
+                    justify-content: center;
+
+                    .fui-Icon-filled {
+                        display: none;
+                        line-height: 0;
+                    }
+
+                    .fui-Icon-regular {
+                        display: inline;
+                        line-height: 0;
+                    }
+                }*/
+            }
+        }
+    }
+
+    .fui-NavigationBar__start {
+        margin-right: auto;
+    }
+
+    .fui-NavigationBar__end {
+        margin-left: auto;
+    }
+
+    .fui-NavigationBar__menu {
+        flex-basis: 100%;
+        flex-grow: 1;
+        align-items: center;
+    }
+}
+
+.fui-NavigationBar__toggler {
+    padding: var(--spacingVerticalS) var(--spacingHorizontalS);
+    font-size: var(--fontSizeBase200);
+    line-height: var(--lineHeightBase200);
+    background-color: red /*transparent*/; // remove default button style
+    /*border: $border-width solid transparent; // remove default button style*/
+    /*@include border-radius($navbar-toggler-border-radius);*/
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+    }
+}
+
+.fui-NavigationBar__toggler__icon {
+    display: inline-block;
+    width: 1.5em;
+    height: 1.5em;
+    vertical-align: middle;
+    content: "";
+    background: 50% / 100% 100% no-repeat;
+}
+
+
+.fui-NavigationBar__menu {
+    &:not(.fui-NavigationBar__menu-show) {
+        display: none;
+    }
+}
+
+.fui-NavigationBar-expand {
+    @each $breakpoint in map-keys($grid-breakpoints) {
+        $next: breakpoint-next($breakpoint, $grid-breakpoints);
+        $infix: breakpoint-infix($next, $grid-breakpoints);
+
+        &#{$infix} {
+            @include media-breakpoint-down($breakpoint) {
+                %container-navbar-expand-#{$breakpoint} {
+                    padding-right: 0;
+                    padding-left: 0;
+                }
+
+                > .fui-Container,
+                > .fui-Container-fluid {
+                    @extend %container-navbar-expand-#{$breakpoint};
+                }
+
+                @each $size, $container-max-width in $container-max-widths {
+                    > .fui-Container#{breakpoint-infix($size, $container-max-widths)} {
+                        @extend %container-navbar-expand-#{$breakpoint};
+                    }
+                }
+            }
+
+            @include media-breakpoint-up($next) {
+                flex-flow: row nowrap;
+                justify-content: flex-start;
+
+                .fui-NavigationBar__start,
+                .fui-NavigationBar__end {
+                    flex-direction: row;
+                }
+
+                .fui-NavigationBar__dropdown-menu {
+                    position: absolute;
+                }
+
+                .fui-NavigationBar__item,
+                .fui-NavigationBar__dropdown {
+                    display: flex;
+                    align-items: center;
+                    color: var(--colorNeutralForeground2);
+                    box-sizing: border-box;
+                    text-wrap: nowrap;
+
+                    .fui-NavigationBar__link,
+                    .fui-NavigationBar__dropdown-toggle {
+                        &:hover {
+                            color: var(--colorNeutralForeground2Hover);
+                            background-color: var(--colorSubtleBackgroundHover);
+                            border-bottom-color: transparent;
+                            border-left-color: transparent;
+                            border-right-color: transparent;
+                            border-top-color: transparent;
+                            background-color: var(--colorNeutralBackground1Hover);
+                            /*border-color: var(--colorNeutralStroke1Hover);*/
+                            color: var(--colorNeutralForeground1Hover);
+                            cursor: pointer;
+
+                            &:active {
+                                color: var(--colorNeutralForeground2Pressed);
+                                background-color: var(--colorSubtleBackgroundPressed);
+                                border-bottom-color: transparent;
+                                border-left-color: transparent;
+                                border-right-color: transparent;
+                                border-top-color: transparent;
+                                background-color: var(--colorNeutralBackground1Pressed);
+                                /*border-color: var(--colorNeutralStroke1Pressed);*/
+                                color: var(--colorNeutralForeground1Pressed);
+                                outline-style: none;
+                            }
+                        }
+
+                        &.fui-Link-active {
+                            font-weight: var(--fontWeightSemibold);
+
+                            &:hover {
+                                cursor: auto;
+                                color: var(--colorNeutralForeground2);
+                                background-color: var(--colorTransparentBackground);
+                                border-bottom-color: transparent;
+                                border-left-color: transparent;
+                                border-right-color: transparent;
+                                border-top-color: transparent;
+
+                                &:active {
+                                    cursor: auto;
+                                    color: var(--colorNeutralForeground2);
+                                    background-color: var(--colorTransparentBackground);
+                                    border-bottom-color: transparent;
+                                    border-left-color: transparent;
+                                    border-right-color: transparent;
+                                    border-top-color: transparent;
+                                    outline-style: none;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .fui-NavigationBar__brand {
+                    display: inline-block;
+                    padding-bottom: var(--spacingHorizontalSNudge);
+                    padding-left: var(--spacingHorizontalSNudge);
+                    padding-right: var(--spacingHorizontalSNudge);
+                    padding-top: var(--spacingHorizontalSNudge);
+                    /*margin-right: var(--spacingHorizontalS);*/
+                    font-size: var(--fontSizeBase400);
+                    line-height: inherit;
+                    white-space: nowrap;
+
+                    .fui-NavigationBar__link {
+                        font-size: inherit;
+                    }
+
+                    &:hover,
+                    &:focus {
+                        text-decoration: none;
+                    }
+                }
+
+                .fui-NavigationBar__link,
+                .fui-NavigationBar__dropdown-toggle {
+                    align-items: center;
+                    background-color: var(--colorSubtleBackground);
+                    border-bottom-color: transparent;
+                    border-left-color: transparent;
+                    border-radius: var(--borderRadiusMedium);
+                    border-right-color: transparent;
+                    border-top-color: transparent;
+                    box-sizing: border-box;
+                    color: var(--colorNeutralForeground2);
+                    display: inline-flex;
+                    font-family: var(--fontFamilyBase);
+                    font-size: var(--fontSizeBase300);
+                    font-weight: var(--fontWeightRegular);
+                    height: 32px;
+                    justify-content: center;
+                    line-height: var(--lineHeightBase300);
+                    margin: 0px;
+                    min-width: unset;
+                    outline-style: none;
+                    overflow: hidden;
+                    padding: 5px var(--spacingHorizontalM);
+                    padding-bottom: var(--spacingHorizontalSNudge);
+                    padding-left: var(--spacingHorizontalSNudge);
+                    padding-right: var(--spacingHorizontalSNudge);
+                    padding-top: var(--spacingHorizontalSNudge);
+                    text-decoration-line: none;
+                    text-wrap: nowrap;
+                    transition-duration: var(--durationFaster);
+                    transition-property: background, border, color;
+                    transition-timing-function: var(--curveEasyEase);
+                    vertical-align: middle;
+                }
+                // For nesting containers, have to redeclare for alignment purposes
+                %container-nesting-#{$breakpoint} {
+                    flex-wrap: nowrap;
+                }
+
+                > .fui-Container,
+                > .fui-Container-fluid {
+                    @extend %container-nesting-#{$breakpoint};
+                }
+
+                @each $size, $container-max-width in $container-max-widths {
+                    > .fui-Container#{breakpoint-infix($size, $container-max-widths)} {
+                        @extend %container-nesting-#{$breakpoint};
+                    }
+                }
+
+                .fui-NavigationBar-scroll {
+                    overflow: visible;
+                }
+
+                .fui-NavigationBar__menu {
+                    display: flex !important;
+                    flex-basis: auto;
+                }
+
+                .fui-NavigationBar__dropdown-toggle {
+                    .fui-NavigationBar__toggleIcon {
+                        margin-left: var(--spacingHorizontalXS);
+                        width: 12px;
+                        line-height: var(--lineHeightBase200);
+                        height: 12px;
+                        font-size: 12px;
+
+                        > svg {
+                            display: inline;
+                            line-height: 0;
+                        }
+                    }
+                }
+
+                .fui-NavigationBar__toggler {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+@keyframes fadein {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slidein {
+    0% {
+        transform: translate(var(--fui-positioning-slide-distance-x), var(--fui-positioning-slide-distance-y));
+    }
+}

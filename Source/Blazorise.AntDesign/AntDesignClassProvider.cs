@@ -667,15 +667,15 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Bar
 
-    public override string Bar() => "ant-menu ant-menu-root";
+    public override string Bar( BarMode mode ) => "ant-menu ant-menu-root";
 
-    public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( Alignment alignment ) => $"ant-menu-{ToAlignment( alignment )}";
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => $"ant-menu-{ToAlignment( alignment )}";
 
-    public override string BarThemeContrast( ThemeContrast themeContrast ) => $"ant-menu-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"ant-menu-{ToThemeContrast( themeContrast )}";
 
-    public override string BarBreakpoint( Breakpoint breakpoint ) => $"ant-menu-expand-{ToBreakpoint( breakpoint )}";
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => $"ant-menu-expand-{ToBreakpoint( breakpoint )}";
 
     public override string BarMode( BarMode mode ) => $"ant-menu-{ToBarMode( mode )} {( mode == Blazorise.BarMode.VerticalSmall ? "ant-menu-inline-collapsed" : null )}";
 
@@ -734,7 +734,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarCollapsed( BarMode mode ) => $"ant-menu-{ToBarMode( mode )}-collapsed";
 
-    public override string BarLabel() => "ant-menu-label";
+    public override string BarLabel( BarMode mode ) => "ant-menu-label";
 
     #endregion
 

@@ -647,15 +647,15 @@ class EmptyClassProvider : IClassProvider
 
     #region Bar
 
-    public string Bar() => null;
+    public string Bar( BarMode mode ) => null;
 
-    public string BarInitial( bool initial ) => null;
+    public string BarInitial( BarMode mode, bool initial ) => null;
 
-    public string BarAlignment( Alignment alignment ) => null;
+    public string BarAlignment( BarMode mode, Alignment alignment ) => null;
 
-    public string BarThemeContrast( ThemeContrast themeContrast ) => null;
+    public string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => null;
 
-    public string BarBreakpoint( Breakpoint breakpoint ) => null;
+    public string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => null;
 
     public string BarMode( BarMode mode ) => null;
 
@@ -715,7 +715,7 @@ class EmptyClassProvider : IClassProvider
 
     public string BarCollapsed( BarMode mode ) => null;
 
-    public string BarLabel() => null;
+    public string BarLabel( BarMode mode ) => null;
 
     #endregion
 
