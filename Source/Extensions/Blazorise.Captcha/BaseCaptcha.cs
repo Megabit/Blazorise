@@ -13,7 +13,7 @@ public abstract class BaseCaptcha : BaseComponent
     public CaptchaState State { get; private set; } = new();
 
     /// <summary>
-    /// A Captcha success event. May prove a response token for further validation.
+    /// A Captcha success event. May provide a response token for further validation.
     /// </summary>
     [Parameter] public EventCallback<string> OnSuccess { get; set; }
 
