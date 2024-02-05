@@ -145,7 +145,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.FluentUI2", "Sour
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.FluentUI2", "Demos\Blazorise.Demo.FluentUI2\Blazorise.Demo.FluentUI2.csproj", "{2C519602-A6E6-4195-9D63-AA34C6978ED2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Icons.Fabric", "Source\Extensions\Blazorise.Icons.Fabric\Blazorise.Icons.Fabric.csproj", "{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Icons.FluentUI", "Source\Extensions\Blazorise.Icons.FluentUI\Blazorise.Icons.FluentUI.csproj", "{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

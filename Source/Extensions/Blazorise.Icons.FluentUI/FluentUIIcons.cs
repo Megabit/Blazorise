@@ -1,12 +1,12 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Icons.Fabric;
+namespace Blazorise.Icons.FluentUI;
 
 /// <summary>
-/// Strongly-typed list of fabric icon names.
+/// Strongly-typed list of FluentUI icon names.
 /// </summary>
-public static class FabricIcons
+public static class FluentUIIcons
 {
     public static readonly string AccessTimeFilled = "icon-ic_fluent_access_time_20_filled";
     public static readonly string AccessTime = "icon-ic_fluent_access_time_20_regular";

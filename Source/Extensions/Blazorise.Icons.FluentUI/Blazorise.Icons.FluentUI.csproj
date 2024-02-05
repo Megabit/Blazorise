@@ -3,7 +3,7 @@
   <Import Project="..\..\..\Build\Blazorise.props" />
 
   <PropertyGroup>
-    <PackageTags>blazorise blazor components icons fabric</PackageTags>
+    <PackageTags>blazorise blazor components icons fluentui</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

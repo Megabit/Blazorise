@@ -1,7 +1,7 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
 using Blazorise.FluentUI2;
-using Blazorise.Icons.Fabric;
+using Blazorise.Icons.FluentUI;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 #endregion
 
@@ -16,7 +16,7 @@ public class Program
         builder.Services
             .SetupDemoServices( builder.Configuration["Licensing:ProductToken"] )
             .AddFluentUI2Providers()
-            .AddFabricIcons();
+            .AddFluentUIIcons();
 
         builder.RootComponents.Add<App>( "#app" );
         var host = builder.Build();
