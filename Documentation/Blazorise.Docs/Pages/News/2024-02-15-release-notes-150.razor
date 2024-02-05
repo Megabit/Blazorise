@@ -32,6 +32,11 @@
             <Strong>Accordion</Strong>: introduce accordion dedicated components.
         </Paragraph>
     </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Font Awesome</Strong>: updated icons to Font Awesome v6.x.
+        </Paragraph>
+    </UnorderedListItem>
 </UnorderedList>
 
 <NewsPageSubtitle>
@@ -82,6 +87,22 @@
 
 <Paragraph>
     The Collapse will still continue to work, but in the future you should expect it to be completelly revobed from the Accordion.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Font Awesome icons
+</Heading>
+
+<Paragraph>
+    We have mapped the latest icons from Font Awesome v6 branch. This enables you to use pick from larger number of icons names in your project.
+</Paragraph>
+
+<Paragraph>
+    In this version we're introducing some changes to how Font Awesome are consumed. The <Strong>Blazorise.Icons.FontAwesome</Strong> package now contains the all icons for <Strong>v5.x</Strong>, and <Strong>v6.x</Strong> FontAwesome. This change was needed because that FontAwesome doesn't have CDN for <Strong>v6.x</Strong> icons. By packaging them into Blazorise we give you a heads-up to use them. And if you want to have your own CDN you can always use it as an alternative.
+</Paragraph>
+
+<Paragraph>
+    Please be aware that after we merged <Strong>FontAWesome v6.x</Strong> some icons from the <Strong>v5.x</Strong> might not work correctly. It is adwised to update CSS link to use the latest <Strong>v6.x</Strong> CSS.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="December 8th, 2023" Read="9 min" />
