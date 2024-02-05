@@ -74,7 +74,7 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.ChartBar, FontAwesomeIcons.ChartBar },
         { IconName.ChartLine, FontAwesomeIcons.ChartLine },
         { IconName.ChartPie, FontAwesomeIcons.ChartPie },
-        { IconName.ChartScatter, FontAwesomeIcons.ChartScatter },
+        { IconName.ChartScatter, FontAwesomeIcons.ChartGantt }, // Scatter is in the PRO
         { IconName.Check, FontAwesomeIcons.Check },
         { IconName.CheckCircle, FontAwesomeIcons.CheckCircle },
         { IconName.CheckDouble, FontAwesomeIcons.CheckDouble },
