@@ -131,7 +131,7 @@ class FluentUIIconProvider : BaseIconProvider
         { IconName.ExternalLinkSquareAlt, FluentUIIcons.LinkSquare },
         { IconName.Eye, FluentUIIcons.Eye },
         { IconName.EyeSlash, FluentUIIcons.EyeOff },
-        { IconName.FastBackward, FluentUIIcons.Fast },
+        { IconName.FastBackward, FluentUIIcons.Rewind },
         { IconName.FastForward, FluentUIIcons.FastForward },
         { IconName.File, FluentUIIcons.Document },
         { IconName.FileAlt, FluentUIIcons.DocumentOnePage },
