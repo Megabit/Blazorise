@@ -1,0 +1,15 @@
+﻿.fui-Shadow {
+    box-shadow: var(--shadow4) !important;
+
+    &-sm {
+        box-shadow: var(--shadow2) !important;
+    }
+
+    &-lg {
+        box-shadow: var(--shadow8) !important;
+    }
+
+    &-none {
+        box-shadow: none !important;
+    }
+}

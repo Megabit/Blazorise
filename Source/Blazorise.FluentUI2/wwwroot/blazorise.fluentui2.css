@@ -9369,6 +9369,19 @@ code {
   overflow: scroll scroll !important;
 }
 
+.fui-Shadow {
+  box-shadow: var(--shadow4) !important;
+}
+.fui-Shadow-sm {
+  box-shadow: var(--shadow2) !important;
+}
+.fui-Shadow-lg {
+  box-shadow: var(--shadow8) !important;
+}
+.fui-Shadow-none {
+  box-shadow: none !important;
+}
+
 .fui-Margin-0 {
   margin: 0 !important;
 }

@@ -1585,9 +1585,9 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Shadow( Shadow shadow )
     {
         if ( shadow == Blazorise.Shadow.Default )
-            return "shadow";
+            return "fui-Shadow";
 
-        return $"shadow-{ToShadow( shadow )}";
+        return $"fui-Shadow-{ToShadow( shadow )}";
     }
 
     #endregion
