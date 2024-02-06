@@ -466,3 +466,6 @@ $modal-sm: 300px !default;
 $overflows: auto, hidden, visible, scroll !default;
 
 $figure-dimensions: 16 24 32 48 64 96 128 256 512 !default;
+
+$positions: static, relative, absolute, fixed, sticky !default;
+$position-values: ( 0: 0, 50: 50%, 100: 100% ) !default;

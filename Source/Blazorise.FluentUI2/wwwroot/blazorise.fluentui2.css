@@ -2116,7 +2116,7 @@ button {
   text-decoration-line: none;
   vertical-align: middle;
   margin: 0px;
-  overflow: hidden;
+  /*overflow: hidden;*/
   background-color: var(--colorNeutralBackground1);
   color: var(--colorNeutralForeground1);
   border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
@@ -9393,6 +9393,110 @@ code {
   overflow: scroll scroll !important;
 }
 
+.fui-Position-static {
+  position: static !important;
+}
+
+.fui-Position-relative {
+  position: relative !important;
+}
+
+.fui-Position-absolute {
+  position: absolute !important;
+}
+
+.fui-Position-fixed {
+  position: fixed !important;
+}
+
+.fui-Position-sticky {
+  position: sticky !important;
+}
+
+.fui-Fixed-top {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: var(--zIndexFixed);
+}
+
+.fui-Fixed-bottom {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: var(--zIndexFixed);
+}
+
+@supports (position: sticky) {
+  .fui-Sticky-top {
+    position: sticky;
+    top: 0;
+    z-index: var(--zIndexSticky);
+  }
+}
+
+.fui-Top-0 {
+  top: 0 !important;
+}
+
+.fui-Bottom-0 {
+  bottom: 0 !important;
+}
+
+.fui-Left-0 {
+  left: 0 !important;
+}
+
+.fui-Right-0 {
+  right: 0 !important;
+}
+
+.fui-Top-50 {
+  top: 50% !important;
+}
+
+.fui-Bottom-50 {
+  bottom: 50% !important;
+}
+
+.fui-Left-50 {
+  left: 50% !important;
+}
+
+.fui-Right-50 {
+  right: 50% !important;
+}
+
+.fui-Top-100 {
+  top: 100% !important;
+}
+
+.fui-Bottom-100 {
+  bottom: 100% !important;
+}
+
+.fui-Left-100 {
+  left: 100% !important;
+}
+
+.fui-Right-100 {
+  right: 100% !important;
+}
+
+.fui-Translate-middle {
+  transform: translate(-50%, -50%) !important;
+}
+
+.fui-Translate-middle-x {
+  transform: translateX(-50%) !important;
+}
+
+.fui-Translate-middle-y {
+  transform: translateY(-50%) !important;
+}
+
 .fui-Shadow {
   box-shadow: var(--shadow4) !important;
 }
@@ -12391,4 +12495,12 @@ code {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.fui-Visible {
+  visibility: visible !important;
+}
+
+.fui-Invisible {
+  visibility: hidden !important;
 }

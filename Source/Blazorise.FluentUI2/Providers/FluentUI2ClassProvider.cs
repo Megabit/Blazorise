@@ -1604,18 +1604,18 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Position( PositionType positionType, PositionEdgeType edgeType, int edgeOffset, PositionTranslateType translateType )
     {
-        return $"{ToPositionEdgeType( edgeType )}-{edgeOffset}";
+        return $"fui-{ToPositionEdgeType( edgeType )}-{edgeOffset}";
     }
 
     public override string Position( PositionType positionType, IEnumerable<(PositionEdgeType edgeType, int edgeOffset)> edges, PositionTranslateType translateType )
     {
-        var sb = new StringBuilder( $"position-{ToPositionType( positionType )}" );
+        var sb = new StringBuilder( $"fui-Position-{ToPositionType( positionType )}" );
 
         if ( edges != null && edges.Count() > 0 )
             sb.Append( ' ' ).Append( string.Join( " ", edges.Select( x => Position( positionType, x.edgeType, x.edgeOffset, translateType ) ) ) );
 
         if ( translateType != PositionTranslateType.None )
-            sb.Append( " translate-" ).Append( ToPositionTranslateType( translateType ) );
+            sb.Append( " fui-Translate-" ).Append( ToPositionTranslateType( translateType ) );
 
         return sb.ToString();
     }
@@ -1762,6 +1762,18 @@ public class FluentUI2ClassProvider : ClassProvider
             Blazorise.TextWeight.SemiBold => "semibold",
             Blazorise.TextWeight.Bold => "bold",
             Blazorise.TextWeight.Light => "light",
+            _ => null,
+        };
+    }
+
+    public override string ToPositionEdgeType( PositionEdgeType positionEdgeType )
+    {
+        return positionEdgeType switch
+        {
+            Blazorise.PositionEdgeType.Top => "Top",
+            Blazorise.PositionEdgeType.Start => "Left",
+            Blazorise.PositionEdgeType.Bottom => "Bottom",
+            Blazorise.PositionEdgeType.End => "Right",
             _ => null,
         };
     }
