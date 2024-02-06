@@ -12504,3 +12504,123 @@ code {
 .fui-Invisible {
   visibility: hidden !important;
 }
+
+.flatpickr-months {
+  margin: var(--spacingHorizontalM)/2 0;
+}
+.flatpickr-months .flatpickr-month, .flatpickr-months .flatpickr-next-month, .flatpickr-months .flatpickr-prev-month {
+  height: auto;
+  position: relative;
+}
+.flatpickr-months .flatpickr-month:hover svg, .flatpickr-months .flatpickr-next-month:hover svg, .flatpickr-months .flatpickr-prev-month:hover svg {
+  fill: var(--colorBrandBackground);
+}
+.flatpickr-months .flatpickr-month {
+  color: var(--colorNeutralForeground1);
+}
+
+.flatpickr-current-month {
+  white-space: nowrap;
+  line-height: 28px;
+  font-family: inherit;
+  font-weight: var(--fontWeightSemibold);
+  font-size: var(--fontSizeBase300);
+  color: var(--colorNeutralForeground1);
+}
+.flatpickr-current-month span.cur-month {
+  font-weight: var(--fontWeightSemibold);
+}
+.flatpickr-current-month span.cur-month:hover {
+  background: rgba(var(--colorBrandBackground), 0.15);
+}
+.flatpickr-current-month .flatpickr-monthDropdown-months {
+  font-weight: var(--fontWeightSemibold);
+}
+.flatpickr-current-month option {
+  cursor: pointer;
+  line-height: var(--lineHeightBase300);
+  font-weight: var(--fontWeightRegular);
+  font-size: var(--fontSizeBase300);
+  font-family: var(--fontFamilyBase);
+  color: var(--colorNeutralForeground1);
+}
+
+.numInputWrapper {
+  white-space: nowrap;
+  line-height: 28px;
+  font-family: inherit;
+  font-weight: var(--fontWeightSemibold);
+  font-size: var(--fontSizeBase300);
+  color: var(--colorNeutralForeground1);
+}
+.numInputWrapper .numInput,
+.numInputWrapper .numInput.cur-year,
+.numInputWrapper .numInput.flatpickr-hour,
+.numInputWrapper .numInput.flatpickr-minute {
+  white-space: nowrap;
+  line-height: 28px;
+  font-family: inherit;
+  font-weight: var(--fontWeightSemibold);
+  font-size: var(--fontSizeBase300);
+  color: var(--colorNeutralForeground1);
+}
+.numInputWrapper:hover {
+  background: rgba(var(--colorBrandBackground), 0.15);
+}
+
+.flatpickr-day {
+  max-width: 28px;
+  height: 28px;
+  line-height: 28px;
+  border-radius: 0%;
+  color: var(--colorNeutralForeground1);
+  font-size: var(--fontSizeBase200);
+  font-weight: var(--fontWeightRegular);
+}
+.flatpickr-day.today {
+  background-color: var(--colorBrandBackground);
+  border-color: var(--colorBrandBackground);
+  color: var(--colorNeutralForegroundOnBrand);
+  border-radius: 50%;
+}
+.flatpickr-day.today:hover {
+  background: var(--colorBrandBackgroundHover);
+  border-color: var(--colorBrandBackgroundHover);
+}
+.flatpickr-day:hover {
+  background-color: var(--colorBrandBackgroundInvertedHover);
+  border-color: rgba(0, 0, 0, 0);
+}
+
+span.flatpickr-weekday {
+  color: var(--colorNeutralForeground1);
+  font-weight: var(--fontWeightRegular);
+}
+
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange, .flatpickr-day.selected.inRange, .flatpickr-day.startRange.inRange, .flatpickr-day.endRange.inRange, .flatpickr-day.selected:focus, .flatpickr-day.startRange:focus, .flatpickr-day.endRange:focus, .flatpickr-day.selected:hover, .flatpickr-day.startRange:hover, .flatpickr-day.endRange:hover, .flatpickr-day.selected.prevMonthDay, .flatpickr-day.startRange.prevMonthDay, .flatpickr-day.endRange.prevMonthDay, .flatpickr-day.selected.nextMonthDay, .flatpickr-day.startRange.nextMonthDay, .flatpickr-day.endRange.nextMonthDay {
+  font-weight: var(--fontWeightSemibold);
+  background-color: var(--colorBrandBackgroundInvertedSelected);
+  border-color: var(--colorBrandBackgroundInvertedSelected);
+  color: var(--colorNeutralForeground1Static);
+}
+
+.flatpickr-day.selected.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.startRange.startRange + .endRange:not(:nth-child(7n+1)), .flatpickr-day.endRange.startRange + .endRange:not(:nth-child(7n+1)) {
+  box-shadow: -10px 0 0 var(--colorBrandBackground);
+}
+
+.flatpickr-day.selected.startRange, .flatpickr-day.startRange.startRange, .flatpickr-day.endRange.startRange {
+  /*border-radius: 50%;*/
+}
+
+.flatpickr-day.selected.endRange, .flatpickr-day.startRange.endRange, .flatpickr-day.endRange.endRange {
+  /*border-radius: 50%;*/
+}
+
+.flatpickr-monthSelect-month:hover,
+.flatpickr-monthSelect-month:focus {
+  background: rgba(var(--colorBrandBackground), 0.1);
+}
+
+.flatpickr-monthSelect-month.selected {
+  background-color: var(--colorBrandBackground);
+}
