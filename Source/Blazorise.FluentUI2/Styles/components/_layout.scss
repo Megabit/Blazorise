@@ -1,0 +1,15 @@
+﻿.b-layout-header {
+    &-fixed {
+        z-index: var(--zIndexFixed);
+    }
+}
+
+.b-layout-footer {
+    &-fixed {
+        z-index: var(--zIndexFixed);
+    }
+}
+
+.b-layout-sider-content {
+    z-index: calc(var(--zIndexFixed) + 1);
+}

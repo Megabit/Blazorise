@@ -4423,6 +4423,18 @@ input::file-selector-button {
   flex-grow: 1;
 }
 
+.b-layout-header-fixed {
+  z-index: var(--zIndexFixed);
+}
+
+.b-layout-footer-fixed {
+  z-index: var(--zIndexFixed);
+}
+
+.b-layout-sider-content {
+  z-index: calc(var(--zIndexFixed) + 1);
+}
+
 .fui-Link {
   font-size: inherit;
   user-select: text;
