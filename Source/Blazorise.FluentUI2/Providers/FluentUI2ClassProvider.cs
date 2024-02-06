@@ -745,9 +745,9 @@ public class FluentUI2ClassProvider : ClassProvider
     #region Container
 
     public override string Container( Breakpoint breakpoint )
-        => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"container-{ToBreakpoint( breakpoint )}" : "container";
+        => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"fui-Container-{ToBreakpoint( breakpoint )}" : "fui-Container";
 
-    public override string ContainerFluid() => "container-fluid";
+    public override string ContainerFluid() => "fui-Container-fluid";
 
     #endregion
 

@@ -181,3 +181,11 @@
         }
     }
 }
+
+@mixin make-container($gutter: $grid-gutter-width) {
+    width: 100%;
+    padding-right: calc($gutter * .5);
+    padding-left: calc($gutter * .5);
+    margin-right: auto;
+    margin-left: auto;
+}
