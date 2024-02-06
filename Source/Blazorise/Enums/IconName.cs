@@ -121,6 +121,7 @@ public enum IconName
     ExternalLinkSquareAlt,
     Eye,
     EyeSlash,
+    FastBackward,
     FastForward,
     File,
     FileAlt,

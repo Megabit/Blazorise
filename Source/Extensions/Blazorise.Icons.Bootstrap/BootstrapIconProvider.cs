@@ -131,6 +131,7 @@ class BootstrapIconProvider : BaseIconProvider
         { IconName.ExternalLinkSquareAlt, BootstrapIcons.BoxArrowUpRight },
         { IconName.Eye, BootstrapIcons.Eye },
         { IconName.EyeSlash, BootstrapIcons.EyeSlash },
+        { IconName.FastBackward, BootstrapIcons.SkipBackward },
         { IconName.FastForward, BootstrapIcons.SkipForward },
         { IconName.File, BootstrapIcons.File },
         { IconName.FileAlt, BootstrapIcons.FilesAlt },

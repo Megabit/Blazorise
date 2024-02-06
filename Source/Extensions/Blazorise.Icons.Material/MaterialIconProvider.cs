@@ -131,6 +131,7 @@ class MaterialIconProvider : BaseIconProvider
         { IconName.ExternalLinkSquareAlt, MaterialIcons.Publish },
         { IconName.Eye, MaterialIcons.Visibility },
         { IconName.EyeSlash, MaterialIcons.VisibilityOff },
+        { IconName.FastBackward, MaterialIcons.FastRewind },
         { IconName.FastForward, MaterialIcons.FastForward },
         { IconName.File, MaterialIcons.Description },
         { IconName.FileAlt, MaterialIcons.Description },

@@ -131,6 +131,7 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.ExternalLinkSquareAlt, FontAwesomeIcons.ExternalLinkSquareAlt },
         { IconName.Eye, FontAwesomeIcons.Eye },
         { IconName.EyeSlash, FontAwesomeIcons.EyeSlash },
+        { IconName.FastBackward, FontAwesomeIcons.FastBackward },
         { IconName.FastForward, FontAwesomeIcons.FastForward },
         { IconName.File, FontAwesomeIcons.File },
         { IconName.FileAlt, FontAwesomeIcons.FileAlt },
