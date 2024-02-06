@@ -1533,20 +1533,20 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Sizing( SizingType sizingType, SizingSize sizingSize, SizingDefinition sizingDefinition )
     {
-        var sb = new StringBuilder();
+        var sb = new StringBuilder( "fui-" );
 
         if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
-            sb.Append( "min-v" );
+            sb.Append( "MinViewport" );
         else if ( sizingDefinition.IsMax )
-            sb.Append( "m" );
+            sb.Append( "Max" );
         else if ( sizingDefinition.IsViewport )
-            sb.Append( "v" );
+            sb.Append( "Viewport" );
 
         sb.Append( sizingType == SizingType.Width
-            ? "w"
-            : "h" );
+            ? "Width"
+            : "Height" );
 
-        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+        if ( sizingDefinition.Breakpoint != Breakpoint.None )
             sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
 
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
