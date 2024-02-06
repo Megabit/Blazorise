@@ -1576,7 +1576,7 @@ public class FluentUI2ClassProvider : ClassProvider
     #region VerticalAlignment
 
     public override string VerticalAlignment( VerticalAlignment verticalAlignment )
-        => $"align-{ToVerticalAlignment( verticalAlignment )}";
+        => $"fui-Align-{ToVerticalAlignment( verticalAlignment )}";
 
     #endregion
 
