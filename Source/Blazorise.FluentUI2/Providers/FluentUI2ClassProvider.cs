@@ -1565,8 +1565,8 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         return visibility switch
         {
-            Blazorise.Visibility.Visible => "visible",
-            Blazorise.Visibility.Invisible => "invisible",
+            Blazorise.Visibility.Visible => "fui-Visible",
+            Blazorise.Visibility.Invisible => "fui-Invisible",
             _ => null,
         };
     }
