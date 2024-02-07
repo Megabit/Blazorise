@@ -1,20 +1,45 @@
 ﻿@using Microsoft.JSInterop
+@using System.ComponentModel
 @inherits BaseCaptcha
 
 <div id="@ElementId" />
 
 @code {
+    //https://www.google.com/recaptcha/about/
     [Inject] public IJSRuntime JsRuntime { get; set; }
     [Parameter] public string SiteKey { get; set; }
-
+    private DotNetObjectReference<ReCAPTCHA> _dotNetObjectReference;
     protected override Task OnInitializedAsync()
     {
+        _dotNetObjectReference = DotNetObjectReference.Create( this );
         ElementId = ElementId ?? IdGenerator.Generate;
         return base.OnInitializedAsync();
     }
 
-    public override Task Render()
+    public override async Task Render()
     {
-        throw new NotImplementedException();
+        //TODO : Set key, language, theme, size from options
+        //dark light	
+        //compact normal
+        // Set v2 or v3?
+        await JsRuntime.InvokeVoidAsync( "renderReCAPTCHA", _dotNetObjectReference, 
+        ElementId, "6LdF_GopAAAAAAbxAmHmnGQKDZF5MDjZk76_5SJU", "dark", "compact", "pt-PT" );
+    }
+
+    public override async Task Reset()
+    {
+        await JsRuntime.InvokeVoidAsync("resetReCAPTCHA");
+    }
+
+    [JSInvokable, EditorBrowsable( EditorBrowsableState.Never )]
+    public async Task OnSuccessHandler( string response )
+    {
+        await SetSolved( response );
+    }
+
+    [JSInvokable, EditorBrowsable( EditorBrowsableState.Never )]
+    public async Task OnExpiredHandler()
+    {
+        await SetExpired();
     }
 }

@@ -1,7 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 
 namespace Blazorise.Captcha;
 
@@ -13,9 +12,15 @@ public abstract class BaseCaptcha : BaseComponent
     public CaptchaState State { get; private set; } = new();
 
     /// <summary>
-    /// A Captcha success event. May provide a response token for further validation.
+    /// A Captcha solved event. 
+    /// Provides contextual information about the Captcha state after the user has solved.
     /// </summary>
-    [Parameter] public EventCallback<string> OnSuccess { get; set; }
+    [Parameter] public EventCallback<CaptchaState> OnSolved { get; set; }
+
+    /// <summary>
+    /// A Captcha validation event. Further validation may be performed here.
+    /// </summary>
+    [Parameter] public Func<CaptchaState, Task<bool>> OnValidate { get; set; }
 
     /// <summary>
     /// The Captcha expired event.
@@ -33,16 +38,23 @@ public abstract class BaseCaptcha : BaseComponent
 
     public abstract Task Render();
 
-    public async Task SetSuccess( string response )
+    public async Task SetSolved( string response )
     {
-        State.Valid = true;
         State.Response = response;
 
-        if ( OnSuccess.HasDelegate )
+        if ( OnValidate is null )
         {
-            await OnSuccess.InvokeAsync( response );
+            State.Valid = true;
+        }
+        else
+        {
+            State.Valid = await OnValidate.Invoke( State );
         }
 
+        if ( OnSolved.HasDelegate )
+        {
+            await OnSolved.InvokeAsync( State );
+        }
     }
 
     public async Task SetExpired()
@@ -56,16 +68,6 @@ public abstract class BaseCaptcha : BaseComponent
         }
     }
 
-    [JSInvokable, EditorBrowsable( EditorBrowsableState.Never )]
-    public async Task OnSuccessHandler( string response )
-    {
-        await SetSuccess( response );
-    }
-
-    [JSInvokable, EditorBrowsable( EditorBrowsableState.Never )]
-    public async Task OnExpiredHandler()
-    {
-        await SetExpired();
-    }
+    public abstract Task Reset();
 
 }

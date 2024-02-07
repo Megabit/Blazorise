@@ -1,8 +1,6 @@
 #region Using directives
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
-using Blazorise.RichTextEdit;
-using Blazorise.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -37,6 +35,7 @@ public class Startup
         {
             o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
         } );
+        services.AddHttpClient();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,4 +1,57 @@
 ﻿@page "/"
+@using Blazorise.Captcha
+@using System.Text.Json
 @inject IVersionProvider VersionProvider
 
-<ReCAPTCHA />
+<ReCAPTCHA @ref=_reCAPTCHA OnSolved="Solved" OnValidate=Validate OnExpired="Expired" />
+<Button Background="Background.Primary" Clicked="Reset">Reset</Button>
+@code {
+    [Inject] HttpClient _httpClient { get; set; }
+    private ReCAPTCHA _reCAPTCHA;
+    private void Solved( CaptchaState state )
+    {
+        Console.WriteLine( $"Success: {state.Valid}" );
+    }
+    private void Expired()
+    {
+        Console.WriteLine( "Expired" );
+    }
+    private async Task<bool> Validate( CaptchaState state )
+    {
+        //Server key =6LdF_GopAAAAAC7fRsgxYR0J6AmFaYYU9Q6-zX4_
+        //Perform server side validation
+
+        var content = new FormUrlEncodedContent( new[]
+            {
+                    new KeyValuePair<string, string>("secret", "6LdF_GopAAAAAC7fRsgxYR0J6AmFaYYU9Q6-zX4_"),
+                    new KeyValuePair<string, string>("response", state.Response),
+                } );
+
+        var response = await _httpClient.PostAsync( "https://www.google.com/recaptcha/api/siteverify",content );
+
+        var result = await response.Content.ReadAsStringAsync();
+        var googleResponse = JsonSerializer.Deserialize<GoogleResponse>( result, new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        } );
+
+
+        Console.WriteLine( "Validate" );
+        // return googleResponse.Success;
+        return false;
+    }
+
+    public class GoogleResponse
+    {
+        public bool Success { get; set; }
+        public string Challenge_ts { get; set; }
+        public string Hostname { get; set; }
+        public string ErrorCodes { get; set; }
+    }
+
+    private async Task Reset()
+    {
+        await _reCAPTCHA.Reset();
+    }
+
+}
