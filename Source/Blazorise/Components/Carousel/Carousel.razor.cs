@@ -445,8 +445,13 @@ public partial class Carousel : BaseComponent, IDisposable
         SetSlideDirection( previouslySelectedSlide );
 
         await InvokeAsync( StateHasChanged );
+        await Task.Delay( selectedSlide.AnimationTime );
 
-        ResetTransitionTimer();
+        await AnimationEnd( selectedSlide );
+        if ( AnimationRunning ) //Animation is still running for some reason, let's go ahead and setup a timer to reset it
+        {
+            ResetTransitionTimer();
+        }
     }
 
     private void SetSlideDirection( CarouselSlide slide )

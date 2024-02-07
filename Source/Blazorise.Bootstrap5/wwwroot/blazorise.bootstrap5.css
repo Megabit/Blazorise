@@ -206,9 +206,11 @@ hr.divider.divider-text::before {
   border: var(--bs-border-width) solid var(--bs-border-color);
   border-radius: var(--bs-border-radius);
 }
+.b-is-autocomplete.b-is-autocomplete-multipleselection > input.form-control:not(.is-valid, .is-invalid) {
+  border: none;
+}
 .b-is-autocomplete.b-is-autocomplete-multipleselection > input.form-control {
   display: inline-block;
-  border: none;
   box-shadow: none;
   outline: none;
   background-color: transparent;
@@ -455,6 +457,10 @@ hr.divider.divider-text::before {
 .figure.figure-is-512x512 {
   height: 512px;
   width: 512px;
+}
+
+.b-file-picker > .input-group {
+  flex-wrap: nowrap;
 }
 
 .form-check > .form-check-input.form-check-input-pointer,
