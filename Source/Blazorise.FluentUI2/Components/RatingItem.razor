@@ -1,17 +1,35 @@
 ﻿@inherits Blazorise.RatingItem
-@if ( Rating.ReadOnly )
+@{
+    var tooltipInfo = Rating?.GetItemTooltipInfo?.Invoke( Value );
+}
+
+@if ( tooltipInfo is null || !string.IsNullOrEmpty( tooltipInfo.Text ) )
 {
-    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames">
-        @InputElement
-    </span>
+    @RatingItemTemplate
 }
 else
 {
-    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @onmouseover="@HandleMouseOver" @onmouseout="@HandleMouseOut">
-        @InputElement
-    </span>
+    <Tooltip Text="@tooltipInfo.Text" Placement="@tooltipInfo.Placement" Multiline="@tooltipInfo.Multiline" ShowArrow="@tooltipInfo.ShowArrow" Inline>
+        @RatingItemTemplate
+    </Tooltip>
 }
 @code {
+    private RenderFragment RatingItemTemplate => __builder =>
+    {
+        @if ( Rating.ReadOnly )
+        {
+            <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames">
+                @InputElement
+            </span>
+        }
+        else
+        {
+            <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @onmouseover="@HandleMouseOver" @onmouseout="@HandleMouseOut">
+                @InputElement
+            </span>
+        }
+    };
+
     private RenderFragment InputElement => __builder =>
     {
         <input type="radio" name="@RatingName" class="fui-RatingItem__fullValueInput" value="@Value">
