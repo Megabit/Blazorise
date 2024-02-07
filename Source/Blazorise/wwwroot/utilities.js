@@ -119,7 +119,8 @@ export function setProperty(element, property, value) {
 }
 
 export function getElementInfo(element, elementId) {
-    if (!element) {
+
+    if (!element || (element && elementId && element.id !== elementId)) {
         element = document.getElementById(elementId);
     }
 

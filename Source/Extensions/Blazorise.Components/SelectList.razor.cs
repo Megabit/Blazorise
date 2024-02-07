@@ -26,6 +26,18 @@ public partial class SelectList<TItem, TValue> : ComponentBase
 
     #region Methods
 
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        if ( ElementId is null )
+        {
+            ElementId = IdGenerator.Generate;
+        }
+
+        base.OnInitialized();
+    }
+
+
     protected Task HandleSelectedValueChanged( TValue value )
     {
         SelectedValue = value;
@@ -53,6 +65,11 @@ public partial class SelectList<TItem, TValue> : ComponentBase
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or set the javascript runner.
+    /// </summary>
+    [Inject] protected IIdGenerator IdGenerator { get; set; }
 
     /// <summary>
     /// Gets or sets the select element id.
