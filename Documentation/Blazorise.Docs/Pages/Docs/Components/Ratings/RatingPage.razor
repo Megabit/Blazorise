@@ -38,6 +38,16 @@
     <DocsPageSectionSource Code="RatingWithBindExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Show Tooltips">
+        By defining the <Code>GetItemTooltipInfo</Code> callback you can show the extra information to the user.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <RatingWithTooltipExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="RatingWithTooltipExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
@@ -70,5 +80,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Color" Type="Color" Default="Warning">
         Defines the color or icons.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GetItemTooltipInfo" Type="Func<int?, RatingItemTooltipInfo>" Default="null">
+        Expression that allows the rating item to have additional user-friendly information.
     </DocsAttributesItem>
 </DocsAttributes>

@@ -3479,6 +3479,28 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     int SelectedValue = 7;
 }";
 
+        public const string RatingWithTooltipExample = @"<Rating Color=""Color.Primary"" @bind-SelectedValue=""@SelectedValue"" MaxValue=""10"" GetItemTooltipInfo=""@GetItemTooltipInfo"" />
+
+@code {
+    int SelectedValue = 7;
+
+    RatingItemTooltipInfo GetItemTooltipInfo( int? value )
+    {
+        if ( value <= 2 )
+            return new RatingItemTooltipInfo( ""Very bad"" );
+        else if ( value <= 4 )
+            return new RatingItemTooltipInfo( ""Bad"", TooltipPlacement.Bottom );
+        else if ( value <= 6 )
+            return new RatingItemTooltipInfo( ""Fair"" );
+        else if ( value <= 8 )
+            return new RatingItemTooltipInfo( ""Good"", TooltipPlacement.Top, false, false );
+        else if ( value <= 10 )
+            return new RatingItemTooltipInfo( ""Very good"" );
+
+        return null;
+    }
+}";
+
         public const string BasicRepeaterExample = @"<UnorderedList>
     <Repeater Items=""@items"" CollectionChanged=""@OnCollectionChanged"">
         <UnorderedListItem style=""@GetColor( context )"">@context</UnorderedListItem>
