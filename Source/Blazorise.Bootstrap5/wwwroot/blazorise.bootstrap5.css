@@ -94,6 +94,46 @@
   /*working on it*/
 }
 
+.navbar-vertical-inline[data-collapse=small] .navbar-toggler-inline {
+  position: relative;
+  width: 100%;
+}
+.navbar-vertical-inline[data-collapse=small] .collapse.navbar-collapse {
+  width: 100%;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  flex-direction: column;
+  align-self: stretch;
+}
+.navbar-vertical-inline[data-collapse=small] .nav-item .nav-link {
+  animation: b-bar-link-small forwards;
+  animation-delay: 170ms;
+  font-size: 0;
+  transition: font-size 100ms ease-out;
+  padding: 0.5rem 0.5rem 0.5rem 1.5rem;
+}
+.navbar-vertical-inline[data-collapse=small] .nav-item .nav-link .b-bar-icon {
+  font-size: 1.25rem;
+  vertical-align: middle;
+  margin: 3px;
+  display: inline-block;
+}
+.navbar-vertical-inline[data-collapse=small] .dropdown .dropdown-menu-container .dropdown-menu {
+  box-shadow: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 0 6px 16px 0 rgba(0, 0, 0, 0.08), 0 9px 28px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex: 1 100%;
+}
+
+@keyframes b-bar-link-small {
+  100% {
+    text-align: center;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+}
 .navbar.flex-column {
   display: flex;
   flex-direction: column;
@@ -107,6 +147,14 @@
   box-shadow: 2px 0 6px rgba(0, 21, 41, 0.35);
   height: 100%;
   overflow-y: auto;
+}
+.navbar.flex-column .navbar-toggler-inline {
+  height: var(--b-vertical-bar-brand-height, 64px);
+  padding: 12px;
+  display: inline-flex;
+  cursor: pointer;
+  position: absolute;
+  right: 0;
 }
 .navbar.flex-column .collapse.navbar-collapse.show {
   width: 100%;
