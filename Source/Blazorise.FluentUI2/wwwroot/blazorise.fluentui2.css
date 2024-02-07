@@ -430,7 +430,13 @@
 
 :root {
   --fontWeightLight: 300;
-  --zIndexDropdown: 1000;
+  --zIndexITableFixed: 10;
+  --zIndexITableFixed2: 11;
+  --zIndexInputBefore: 10;
+  --zIndexInput: 20;
+  --zIndexInputAfter: 30;
+  --zIndexNavigation: 1000;
+  --zIndexDropdown: 1010;
   --zIndexSticky: 1020;
   --zIndexFixed: 1030;
   --zIndexDrawerBackdrop: 1040;
@@ -776,7 +782,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--spacingVerticalS) var(--spacingHorizontalS);
-  z-index: 100;
+  z-index: var(--zIndexNavigation);
 }
 .fui-NavigationBar .fui-Container,
 .fui-NavigationBar .fui-Container-fluid,
@@ -856,7 +862,7 @@
   display: flex;
 }
 .fui-NavigationBar .fui-NavigationBar__dropdown-menu-position-strategy {
-  z-index: 10;
+  z-index: calc(var(--zIndexDropdown) + 1);
 }
 .fui-NavigationBar .fui-NavigationBar__dropdown-menu-position-strategy-absolute {
   position: absolute;
@@ -3403,7 +3409,7 @@ button {
   left: 0;
   --fui-match-target-size: 250px;
   width: var(--fui-match-target-size);
-  z-index: 10;
+  z-index: calc(var(--zIndexDropdown) + 1);
 }
 .fui-Listbox.fui-Dropdown__listbox-position-strategy-absolute {
   position: absolute;
@@ -3627,7 +3633,7 @@ button {
   display: flex;
 }
 .fui-Menu .fui-MenuPopover-position-strategy {
-  z-index: 10;
+  z-index: calc(var(--zIndexDropdown) + 1);
 }
 .fui-Menu .fui-MenuPopover-position-strategy-absolute {
   position: absolute;
@@ -4668,7 +4674,7 @@ input::file-selector-button {
   background-color: rgba(0, 0, 0, 0.4);
   position: fixed;
   will-change: opacity;
-  z-index: 10;
+  z-index: var(--zIndexModalBackdrop);
   display: none;
 }
 .fui-DialogSurface__backdrop-fade {
@@ -4713,7 +4719,7 @@ input::file-selector-button {
   box-sizing: border-box;
   background-color: var(--colorNeutralBackground1);
   color: var(--colorNeutralForeground1);
-  z-index: 20;
+  z-index: var(--zIndexModal);
 }
 .fui-DialogSurface-fade {
   transition-timing-function: var(--curveDecelerateMid);
@@ -4844,7 +4850,7 @@ input::file-selector-button {
   bottom: 0px;
   left: 0px;
   pointer-events: none;
-  z-index: 10;
+  z-index: var(--zIndexInputBefore);
 }
 .fui-SpinButton:not(.fui-Input .fui-SpinButton)::before {
   border-bottom-left-radius: var(--borderRadiusMedium);
@@ -4888,7 +4894,7 @@ input::file-selector-button {
   right: 0px;
   bottom: 0px;
   left: 0px;
-  z-index: 20;
+  z-index: var(--zIndexInputAfter);
   height: max(2px, var(--borderRadiusMedium));
   border-bottom-left-radius: var(--borderRadiusMedium);
   border-bottom-right-radius: var(--borderRadiusMedium);
@@ -6324,7 +6330,7 @@ input::file-selector-button {
 .fui-Table-fixed-header .fui-Table thead tr th {
   border-top: none;
   position: sticky !important;
-  z-index: 10;
+  z-index: var(--zIndexITableFixed);
 }
 .fui-Table-fixed-header .fui-Table thead tr:nth-child(1) th {
   top: 0;
@@ -6348,7 +6354,7 @@ input::file-selector-button {
 .fui-Table-fixed-columns .fui-Table .fui-TableCell-fixed-start {
   position: sticky !important;
   border-left: none;
-  z-index: 11;
+  z-index: var(--zIndexITableFixed2);
   background-color: white;
   border-inline-start-width: 0;
   left: 0;
@@ -6358,7 +6364,7 @@ input::file-selector-button {
 .fui-Table-fixed-columns .fui-Table .fui-TableCell-fixed-end {
   position: sticky !important;
   border-left: none;
-  z-index: 11;
+  z-index: var(--zIndexITableFixed2);
   background-color: white;
   border-inline-start-width: 0;
   right: 0;

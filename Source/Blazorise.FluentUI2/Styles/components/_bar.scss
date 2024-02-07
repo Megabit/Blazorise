@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: space-between;
     padding: var(--spacingVerticalS) var(--spacingHorizontalS);
-    z-index: 100;
+    z-index: var(--zIndexNavigation);
 
     %container-flex-properties {
         display: flex;
@@ -100,7 +100,7 @@
         }
 
         &-position-strategy {
-            z-index: 10;
+            z-index: calc(var(--zIndexDropdown) + 1);
         }
 
         &-position-strategy-absolute {

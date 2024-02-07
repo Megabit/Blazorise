@@ -7,9 +7,9 @@ public class FluentUI2StyleProvider : StyleProvider
 {
     #region Modal
 
-    public override int DefaultModalZIndex => 40;
+    public override int DefaultModalZIndex => 1055;
 
-    public override int DefaultModalBackdropZIndex => 0;
+    public override int DefaultModalBackdropZIndex => 1050;
 
     public override string ModalShow() => null;
 

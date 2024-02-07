@@ -27,7 +27,7 @@
     background-color: rgba(0, 0, 0, 0.4);
     position: fixed;
     will-change: opacity;
-    z-index: 10;
+    z-index: var(--zIndexModalBackdrop);
     display: none;
 
     &-fade {
@@ -75,7 +75,7 @@
     box-sizing: border-box;
     background-color: var(--colorNeutralBackground1);
     color: var(--colorNeutralForeground1);
-    z-index: 20;
+    z-index: var(--zIndexModal);
 
     &-fade {
         transition-timing-function: var(--curveDecelerateMid);

@@ -146,7 +146,7 @@
             left: 0;
             --fui-match-target-size: 250px;
             width: var(--fui-match-target-size);
-            z-index: 10;
+            z-index: calc(var(--zIndexDropdown) + 1);
         }
 
         &-position-strategy-absolute {
@@ -429,7 +429,7 @@
         }
 
         &-position-strategy {
-            z-index: 10;
+            z-index: calc(var(--zIndexDropdown) + 1);
         }
 
         &-position-strategy-absolute {

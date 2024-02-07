@@ -430,7 +430,13 @@
 
 :root {
     --fontWeightLight: 300;
-    --zIndexDropdown: 1000;
+    --zIndexITableFixed: 10;
+    --zIndexITableFixed2: 11;
+    --zIndexInputBefore: 10;
+    --zIndexInput: 20;
+    --zIndexInputAfter: 30;
+    --zIndexNavigation: 1000;
+    --zIndexDropdown: 1010;
     --zIndexSticky: 1020;
     --zIndexFixed: 1030;
     --zIndexDrawerBackdrop: 1040;

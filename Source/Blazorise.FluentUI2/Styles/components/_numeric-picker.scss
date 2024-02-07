@@ -31,7 +31,7 @@
         bottom: 0px;
         left: 0px;
         pointer-events: none;
-        z-index: 10;
+        z-index: var(--zIndexInputBefore);
     }
     // Don't add any borders when input is placed inside of an addon
     &:not(.fui-Input .fui-SpinButton) {
@@ -85,7 +85,7 @@
             right: 0px;
             bottom: 0px;
             left: 0px;
-            z-index: 20;
+            z-index: var(--zIndexInputAfter);
             height: max(2px, var(--borderRadiusMedium));
             border-bottom-left-radius: var(--borderRadiusMedium);
             border-bottom-right-radius: var(--borderRadiusMedium);

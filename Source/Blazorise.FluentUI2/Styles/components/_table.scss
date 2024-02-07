@@ -224,7 +224,7 @@
         thead tr th {
             border-top: none;
             position: sticky !important;
-            z-index: 10;
+            z-index: var(--zIndexITableFixed);
         }
 
         thead tr:nth-child(1) th {
@@ -252,7 +252,7 @@
             &-start {
                 position: sticky !important;
                 border-left: none;
-                z-index: 11;
+                z-index: var(--zIndexITableFixed2);
                 background-color: white;
                 border-inline-start-width: 0;
                 left: 0;
@@ -261,7 +261,7 @@
             &-end {
                 position: sticky !important;
                 border-left: none;
-                z-index: 11;
+                z-index: var(--zIndexITableFixed2);
                 background-color: white;
                 border-inline-start-width: 0;
                 right: 0;
