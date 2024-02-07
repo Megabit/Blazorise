@@ -300,3 +300,21 @@
         border-bottom-left-radius: 0;
     }
 }
+
+.fui-Button__spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: var(--spacingHorizontalXS);
+    border-width: var(--strokeWidthThick);
+    border: var(--strokeWidthThicker) solid currentColor;
+    border-right-color: transparent;
+    border-radius: var(--borderRadiusCircular);
+    animation: var(--durationUltraSlow) linear infinite spinner-border;
+}
+
+@keyframes spinner-border {
+    to {
+        transform: rotate(360deg);
+    }
+}

@@ -2678,6 +2678,23 @@ button {
   border-bottom-left-radius: 0;
 }
 
+.fui-Button__spinner {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: var(--spacingHorizontalXS);
+  border-width: var(--strokeWidthThick);
+  border: var(--strokeWidthThicker) solid currentColor;
+  border-right-color: transparent;
+  border-radius: var(--borderRadiusCircular);
+  animation: var(--durationUltraSlow) linear infinite spinner-border;
+}
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
+  }
+}
 .fui-Card {
   --fui-Card--size: 12px;
   --fui-Card--border-radius: var(--borderRadiusMedium);
@@ -12455,6 +12472,26 @@ code {
 
 .fui-TextColor-link {
   color: var(--colorBrandForegroundLink) !important;
+}
+
+.fui-TextColor-white {
+  color: #fff !important;
+}
+
+.fui-TextColor-body {
+  color: var(--colorNeutralForeground1) !important;
+}
+
+.fui-TextColor-muted {
+  color: var(--colorNeutralForeground3) !important;
+}
+
+.fui-TextColor-black-50 {
+  color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.fui-TextColor-white-50 {
+  color: rgba(255, 255, 255, 0.5) !important;
 }
 
 .fui-TextColor-body {
