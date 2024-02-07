@@ -37,7 +37,6 @@ public partial class SelectList<TItem, TValue> : ComponentBase
         base.OnInitialized();
     }
 
-
     protected Task HandleSelectedValueChanged( TValue value )
     {
         SelectedValue = value;
@@ -75,7 +74,6 @@ public partial class SelectList<TItem, TValue> : ComponentBase
     /// Gets or sets the select element id.
     /// </summary>
     [Parameter] public string ElementId { get; set; }
-
 
     /// <summary>
     /// Specifies that multiple items can be selected.
