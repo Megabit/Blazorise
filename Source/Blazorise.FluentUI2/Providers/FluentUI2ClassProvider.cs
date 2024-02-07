@@ -692,7 +692,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Card() => "fui-Card";
 
-    public override string CardWhiteText() => "fui-Text-white";
+    public override string CardWhiteText() => "fui-TextColor-white";
 
     public override string CardActions() => "fui-CardActions";
 

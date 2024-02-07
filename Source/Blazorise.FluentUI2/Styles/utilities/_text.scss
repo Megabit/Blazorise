@@ -73,6 +73,25 @@
     }
 }
 
+.fui-TextColor-white {
+    color: #fff !important;
+}
+
+.fui-TextColor-body {
+    color: var(--colorNeutralForeground1) !important;
+}
+
+.fui-TextColor-muted {
+    color: var(--colorNeutralForeground3) !important;
+}
+
+.fui-TextColor-black-50 {
+    color: rgba(#000, .5) !important;
+}
+
+.fui-TextColor-white-50 {
+    color: rgba(#fff, .5) !important;
+}
 
 .fui-TextColor {
     &-body {
