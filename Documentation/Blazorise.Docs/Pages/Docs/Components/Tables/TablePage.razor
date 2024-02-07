@@ -274,3 +274,30 @@
         Specifies the custom title content to be rendered inside the <Code>TableRowGroup</Code>. It has higher priority over the <Code>Title</Code> parameter.
     </DocsAttributesItem>
 </DocsAttributes>
+
+<DocsAttributes Title="TableRowcell">
+    <DocsAttributesItem Name="Color" Type="Color">
+        Gets or sets the cell variant color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowSpan" Type="int?" Default="null">
+        Number of rows a cell should span.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ColumnSpan" Type="int?" Default="null">
+        Number of columns a cell should span.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedPosition" Type="TableColumnFixedPosition" Default="TableColumnFixedPosition.None">
+        Defines the fixed position of the row cell within the table.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Clicked" Type="EventCallback<BLMouseEventArgs>">
+        Occurs when the row cell is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment" Default="null">
+        Specifies the content to be rendered inside this <Code>TableRowCell</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ClickPreventDefault" Type="bool" Default="false">
+        Used to prevent the default action for an <Code>OnClickHandler</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ClickStopPropagation" Type="bool" Default="false">
+        Used to stop progation of the click action event.
+    </DocsAttributesItem>
+</DocsAttributes>
