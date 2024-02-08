@@ -3,7 +3,7 @@
     var tooltipInfo = Rating?.GetTooltip?.Invoke( Value );
 }
 
-@if ( tooltipInfo is null || string.IsNullOrEmpty( tooltipInfo.Text ) )
+@if ( string.IsNullOrEmpty( tooltipInfo?.Text ) )
 {
     @RatingItemTemplate
 }
