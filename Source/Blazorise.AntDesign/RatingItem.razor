@@ -1,15 +1,15 @@
 ﻿@inherits Blazorise.RatingItem
 @{
-    var tooltipInfo = Rating?.GetTooltip?.Invoke( Value );
+    var tooltip = Rating?.GetTooltip?.Invoke( Value );
 }
 
-@if ( string.IsNullOrEmpty( tooltipInfo?.Text ) )
+@if ( string.IsNullOrEmpty( tooltip?.Text ) )
 {
     @RatingItemTemplate
 }
 else
 {
-    <Tooltip Text="@tooltipInfo.Text" Placement="@tooltipInfo.Placement" Multiline="@tooltipInfo.Multiline" ShowArrow="@tooltipInfo.ShowArrow" Inline>
+    <Tooltip Text="@tooltip.Text" Placement="@tooltip.Placement" Multiline="@tooltip.Multiline" ShowArrow="@tooltip.ShowArrow" Inline>
         @RatingItemTemplate
     </Tooltip>
 }
