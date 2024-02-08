@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -224,6 +225,14 @@ public partial class Rating : BaseComponent
     /// Occurs after the <see cref="HoveredValue"/> has changed.
     /// </summary>
     [Parameter] public EventCallback<int?> HoveredValueChanged { get; set; }
+
+    /// <summary>
+    /// Expression that provides the tooltip for the rating item to have additional user-friendly information.
+    /// </summary>
+    /// <remarks>
+    /// The expression receives the rating item <Code>Value</Code> to determine the result.
+    /// </remarks>
+    [Parameter] public Func<int, RatingTooltip> GetTooltip { get; set; }
 
     #endregion
 }

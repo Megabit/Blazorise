@@ -5,7 +5,7 @@
 <NewsPageImage Source="img/news/150/v150.png" Text="Blazorise v1.5" />
 
 <NewsPageTitle>
-    Announcing Blazorise 1.5 - 
+    Announcing Blazorise 1.5 -
 </NewsPageTitle>
 
 <NewsPageSubtitle>
@@ -70,6 +70,22 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    DataGrid improvements
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    1. State Management
+</Heading>
+
+<Paragraph>
+    We've introduced a way that allows you to save and load the DataGrid state on demand using a centralized api. You can use the new <Code>LoadState</Code> and <code>GetState</code> methods to load and get the DataGrid state.
+</Paragraph>
+
+<Paragraph>
+    Please find an example of how to use this feature in the <Link To="docs/extensions/datagrid/features/state-management">DataGrid State Management</Link> page.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     Indeterminate progress bars
 </Heading>
 
@@ -103,6 +119,14 @@
 
 <Paragraph>
     Please be aware that after we merged <Strong>FontAWesome v6.x</Strong> some icons from the <Strong>v5.x</Strong> might not work correctly. It is adwised to update CSS link to use the latest <Strong>v6.x</Strong> CSS.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Show Tooltips on Rating
+</Heading>
+
+<Paragraph>
+    Now it is possible to show an extra information on the <Code>Rating</Code> component. By defining the <Code>GetTooltip</Code> callback you can show the tooltip to indicate what is the rating value that it represents.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="December 8th, 2023" Read="9 min" />
