@@ -41,6 +41,7 @@ public static class Config
         { typeof( Blazorise.BarDropdownItem ), typeof( Components.BarDropdownItem ) },
         { typeof( Blazorise.BarDropdownMenu ), typeof( Components.BarDropdownMenu ) },
         { typeof( Blazorise.BarDropdownToggle ), typeof( Components.BarDropdownToggle ) },
+        { typeof( Blazorise.BarToggler ), typeof( Components.BarToggler ) },
         { typeof( Blazorise.Breadcrumb ), typeof( Components.Breadcrumb ) },
         { typeof( Blazorise.BreadcrumbItem ), typeof( Components.BreadcrumbItem ) },
         { typeof( Blazorise.BreadcrumbLink ), typeof( Components.BreadcrumbLink ) },
