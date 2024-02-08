@@ -86,9 +86,7 @@
             padding-bottom: 4px;
             box-shadow: var(--shadow16);
             width: max-content;
-            overflow-x: hidden;
-            /*max-width: 300px;
-        min-width: 138px;*/
+            min-width: 100px;
             padding-top: 4px;
             border-bottom-color: var(--colorTransparentStroke);
             border-left-color: var(--colorTransparentStroke);
@@ -140,6 +138,7 @@
             }
 
             .fui-NavigationBar__dropdown-menu-list {
+                width: 100%;
                 height: 100%;
                 row-gap: 2px;
                 column-gap: 2px;
@@ -164,11 +163,10 @@
                 }
 
                 .fui-NavigationBar__dropdown-divider {
-                    margin-bottom: var(--spacingVerticalXS);
+                    margin-top: var(--spacingVerticalXXS);
+                    margin-bottom: var(--spacingVerticalXXS);
                     margin-left: calc(var(--spacingHorizontalXS) * -1);
                     margin-right: calc(var(--spacingHorizontalXS) * -1);
-                    margin-top: 0px;
-                    padding-bottom: var(--spacingHorizontalXS);
                     display: block;
                     border-bottom-color: var(--colorNeutralStroke2);
                     border-bottom-style: solid;
@@ -176,6 +174,7 @@
                 }
 
                 .fui-NavigationBar__dropdown-item {
+                    width: 100%;
                     border-radius: var(--borderRadiusMedium);
                     position: relative;
                     color: var(--colorNeutralForeground2);
@@ -189,6 +188,7 @@
                     flex-shrink: 0;
                     display: flex;
                     align-items: start;
+                    justify-content: space-between;
                     font-size: var(--fontSizeBase300);
                     cursor: pointer;
                     gap: 4px;
@@ -499,7 +499,8 @@
 }
 
 .fui-NavigationBar-horizontal {
-    .fui-NavigationBar__dropdown {
+    .fui-NavigationBar__dropdown,
+    .fui-NavigationBar__subdropdown {
         > .fui-NavigationBar__dropdown-menu {
             > .fui-NavigationBar__dropdown-menu-list {
                 > .fui-NavigationBar__subdropdown {
@@ -507,8 +508,6 @@
 
                     > .fui-NavigationBar__dropdown-item {
                         border: 0;
-                        /* position: relative;
-                        width: 100%;*/
 
                         > .fui-NavigationBar__toggleIcon {
                             > svg {
@@ -529,7 +528,6 @@
                     }
 
                     .fui-NavigationBar__dropdown-menu {
-                        background-color: red;
                         position: absolute;
                         top: 0;
                         left: 100%;
