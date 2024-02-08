@@ -9829,6 +9829,27 @@ builder.Services
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
 
+        public const string FluentUI2GuideNuget1Example = @"Install-Package Blazorise.FluentUI2";
+
+        public const string FluentUI2GuideNuget2Example = @"Install-Package Blazorise.Icons.FluentUI";
+
+        public const string FluentUI2GuideRegistrationExample = @"using Blazorise;
+using Blazorise.FluentUI2;
+using Blazorise.Icons.FluentUI;
+
+builder.Services
+    .AddBlazorise()
+    .AddFluentUI2Providers()
+    .AddFluentUIIcons();";
+
+        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css"" rel=""stylesheet"" />
+
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/reboot.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css"" rel=""stylesheet"" />";
+
+        public const string FluentUI2GuideUsingExample = @"@using Blazorise";
+
         public const string LicensingGuideAddKeyExample = @"services
     .AddBlazorise( options =>
     {
