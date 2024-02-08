@@ -40,7 +40,12 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Show Tooltips">
-        By defining the <Code>GetItemTooltipInfo</Code> callback you can show the extra information to the user.
+        <Paragraph>
+            By defining the <Code>GetTooltip</Code> callback you can show the extra information to the user.
+        </Paragraph>
+        <Paragraph>
+            Along with the tooltip <Strong>Text</Strong>, it is also possible to control tooltip arrow visibility, multiline mode, and placement.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <RatingWithTooltipExample />
@@ -81,7 +86,12 @@
     <DocsAttributesItem Name="Color" Type="Color" Default="Warning">
         Defines the color or icons.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="GetItemTooltipInfo" Type="Func<int?, RatingItemTooltipInfo>" Default="null">
-        Expression that allows the rating item to have additional user-friendly information.
+    <DocsAttributesItem Name="GetTooltip" Type="Func<int?, RatingTooltip>" Default="null">
+        <Paragraph>
+            Expression that provides the tooltip for the rating item to have additional user-friendly information.
+        </Paragraph>
+        <Paragraph>
+            The expression receives the rating item <Code>Value</Code> to determine the result.
+        </Paragraph>
     </DocsAttributesItem>
 </DocsAttributes>

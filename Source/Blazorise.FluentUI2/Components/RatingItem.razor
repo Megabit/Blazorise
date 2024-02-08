@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.RatingItem
 @{
-    var tooltipInfo = Rating?.GetItemTooltipInfo?.Invoke( Value );
+    var tooltipInfo = Rating?.GetTooltip?.Invoke( Value );
 }
 
 @if ( tooltipInfo is null || string.IsNullOrEmpty( tooltipInfo.Text ) )

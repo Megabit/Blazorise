@@ -227,9 +227,12 @@ public partial class Rating : BaseComponent
     [Parameter] public EventCallback<int?> HoveredValueChanged { get; set; }
 
     /// <summary>
-    /// Expression that allows the rating item to have additional user-friendly information.
+    /// Expression that provides the tooltip for the rating item to have additional user-friendly information.
     /// </summary>
-    [Parameter] public Func<int?, RatingItemTooltipInfo> GetItemTooltipInfo { get; set; }
+    /// <remarks>
+    /// The expression receives the rating item <Code>Value</Code> to determine the result.
+    /// </remarks>
+    [Parameter] public Func<int?, RatingTooltip> GetTooltip { get; set; }
 
     #endregion
 }
