@@ -232,7 +232,7 @@ public partial class Rating : BaseComponent
     /// <remarks>
     /// The expression receives the rating item <Code>Value</Code> to determine the result.
     /// </remarks>
-    [Parameter] public Func<int?, RatingTooltip> GetTooltip { get; set; }
+    [Parameter] public Func<int, RatingTooltip> GetTooltip { get; set; }
 
     #endregion
 }

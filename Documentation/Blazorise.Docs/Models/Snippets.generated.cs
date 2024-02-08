@@ -3484,7 +3484,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 @code {
     int SelectedValue = 7;
 
-    RatingTooltip GetTooltip( int? value )
+    RatingTooltip GetTooltip( int value )
     {
         if ( value <= 2 )
             return new RatingTooltip( ""Very bad"" );
