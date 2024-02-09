@@ -1,13 +1,12 @@
 ﻿@page "/"
-@using Blazorise.Captcha
 @using System.Text.Json
 @inject IVersionProvider VersionProvider
 
-<ReCaptcha @ref=_reCAPTCHA OnSolved="Solved" OnValidate=Validate OnExpired="Expired" />
+<Captcha @ref=_captcha OnSolved="Solved" OnValidate=Validate OnExpired="Expired" />
 <Button Background="Background.Primary" Clicked="Reset">Reset</Button>
 @code {
     [Inject] HttpClient _httpClient { get; set; }
-    private ReCaptcha _reCAPTCHA;
+    private Captcha _captcha;
     private void Solved( CaptchaState state )
     {
         Console.WriteLine( $"Success: {state.Valid}" );
@@ -51,7 +50,7 @@
 
     private async Task Reset()
     {
-        await _reCAPTCHA.Reset();
+        await _captcha.Reset();
     }
 
 }

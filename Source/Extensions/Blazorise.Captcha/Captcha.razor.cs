@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Captcha;
 
-public abstract class Captcha : BaseComponent
+public partial class Captcha : BaseComponent
 {
     /// <summary>
     /// The current state of the Captcha.
@@ -66,7 +66,14 @@ public abstract class Captcha : BaseComponent
         }
     }
 
-    public abstract Task Render();
-    public abstract Task Reset();
+    public virtual Task Render()
+    {
+        return Task.CompletedTask;
+    }
+
+    public virtual Task Reset()
+    {
+        return Task.CompletedTask;
+    }
 
 }
