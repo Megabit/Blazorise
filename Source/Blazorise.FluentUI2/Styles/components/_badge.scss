@@ -36,8 +36,8 @@
     }
 
     &-warning {
-        background-color: var(--colorPaletteYellowBackground3);
-        color: var(--colorNeutralForeground1Static);
+        background-color: var(--colorStatusWarningBackground3);
+        color: var(--colorNeutralForegroundInverted);
     }
 
     &-info {
