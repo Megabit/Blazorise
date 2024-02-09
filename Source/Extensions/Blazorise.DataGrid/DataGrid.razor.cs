@@ -10,7 +10,6 @@ using Blazorise.DataGrid.Utils;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
 using Blazorise.Modules;
-using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
