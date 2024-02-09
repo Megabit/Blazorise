@@ -1,35 +1,50 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using Blazorise.Cropper;
+using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
 namespace Blazorise.Captcha.ReCaptcha;
+
 /// <summary>
 /// An implementation of Google's reCAPTCHA:
 /// <para>https://www.google.com/recaptcha/about/</para>
 /// </summary>
-public partial class ReCaptcha : Captcha
+public partial class ReCaptcha : Captcha, IAsyncDisposable
 {
-    [Inject] public IJSRuntime JsRuntime { get; set; }
+    [Inject] private IJSRuntime JSRuntime { get; set; }
+    [Inject] private IVersionProvider VersionProvider { get; set; }
     [Inject] public ReCaptchaOptions Options { get; set; }
 
     private DotNetObjectReference<ReCaptcha> _dotNetObjectReference;
+    internal JSReCaptchaModule JSModule { get; set; }
 
     protected override Task OnInitializedAsync()
     {
         _dotNetObjectReference = DotNetObjectReference.Create( this );
-        ElementId = ElementId ?? IdGenerator.Generate;
+        ElementId ??= IdGenerator.Generate;
         return base.OnInitializedAsync();
     }
 
     public override async Task Render()
     {
-        await JsRuntime.InvokeVoidAsync( "renderReCAPTCHA", _dotNetObjectReference, ElementId, Options.SiteKey, Options.Theme.ToString( "g" ), Options.Size.ToString( "g" ), Options.LanguageCode );
+        JSModule ??= new JSReCaptchaModule( JSRuntime, VersionProvider );
+
+        await JSModule.Initialize( _dotNetObjectReference, ElementRef, ElementId,
+            new
+            {
+                SiteKey = Options.SiteKey,
+                Theme = Options.Theme.ToString( "g" ),
+                Size = Options.Size.ToString( "g" ),
+                Language = Options.LanguageCode
+            } );
     }
 
     public override async Task Reset()
     {
-        await JsRuntime.InvokeVoidAsync( "resetReCAPTCHA" );
+        await JSModule.Reset( ElementRef, ElementId );
     }
 
     [JSInvokable, EditorBrowsable( EditorBrowsableState.Never )]
@@ -42,5 +57,18 @@ public partial class ReCaptcha : Captcha
     public async Task OnExpiredHandler()
     {
         await SetExpired();
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && Rendered )
+        {
+            await JSModule.SafeDestroy( ElementRef, ElementId );
+            await JSModule.SafeDisposeAsync();
+            _dotNetObjectReference?.Dispose();
+        }
+
+        await base.DisposeAsync( disposing );
     }
 }
