@@ -8,7 +8,7 @@
     //https://www.google.com/recaptcha/about/
     [Inject] public IJSRuntime JsRuntime { get; set; }
     [Parameter] public string SiteKey { get; set; }
-    private DotNetObjectReference<ReCAPTCHA> _dotNetObjectReference;
+    private DotNetObjectReference<ReCaptcha> _dotNetObjectReference;
     protected override Task OnInitializedAsync()
     {
         _dotNetObjectReference = DotNetObjectReference.Create( this );

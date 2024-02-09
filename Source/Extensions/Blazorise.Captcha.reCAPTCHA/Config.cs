@@ -3,17 +3,17 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
 
-namespace Blazorise.Captcha.reCAPTCHA;
+namespace Blazorise.Captcha.ReCaptcha;
 
 /// <summary>
-/// Extension methods for building the blazorise reCAPTCHA options.
+/// Extension methods for building the blazorise ReCaptcha options.
 /// </summary>
 public static class Config
 {
 
-    public static IServiceCollection AddGoogleReCAPTCHA( this IServiceCollection serviceCollection, Action<ReCAPTCHAOptions> configureOptions = null )
+    public static IServiceCollection AddGoogleReCaptcha( this IServiceCollection serviceCollection, Action<ReCaptchaOptions> configureOptions = null )
     {
-        var options = new ReCAPTCHAOptions();
+        var options = new ReCaptchaOptions();
         configureOptions?.Invoke( options );
 
         serviceCollection.AddScoped( sp => options );

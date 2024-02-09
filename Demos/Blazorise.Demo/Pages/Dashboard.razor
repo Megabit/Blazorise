@@ -3,11 +3,11 @@
 @using System.Text.Json
 @inject IVersionProvider VersionProvider
 
-<ReCAPTCHA @ref=_reCAPTCHA OnSolved="Solved" OnValidate=Validate OnExpired="Expired" />
+<ReCaptcha @ref=_reCAPTCHA OnSolved="Solved" OnValidate=Validate OnExpired="Expired" />
 <Button Background="Background.Primary" Clicked="Reset">Reset</Button>
 @code {
     [Inject] HttpClient _httpClient { get; set; }
-    private ReCAPTCHA _reCAPTCHA;
+    private ReCaptcha _reCAPTCHA;
     private void Solved( CaptchaState state )
     {
         Console.WriteLine( $"Success: {state.Valid}" );

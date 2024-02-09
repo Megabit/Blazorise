@@ -3,7 +3,7 @@
 	<Import Project="..\..\..\Build\Blazorise.props" />
 
 	<PropertyGroup>
-		<PackageTags>blazorise blazor components captcha reCAPTCHA</PackageTags>
+		<PackageTags>blazorise blazor components captcha recaptcha</PackageTags>
 	</PropertyGroup>
 
 	<PropertyGroup>
