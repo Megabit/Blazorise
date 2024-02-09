@@ -11,7 +11,7 @@ namespace Blazorise.Captcha.ReCaptcha;
 public static class Config
 {
 
-    public static IServiceCollection AddGoogleReCaptcha( this IServiceCollection serviceCollection, Action<ReCaptchaOptions> configureOptions = null )
+    public static IServiceCollection AddBlazoriseGoogleReCaptcha( this IServiceCollection serviceCollection, Action<ReCaptchaOptions> configureOptions )
     {
         var options = new ReCaptchaOptions();
         configureOptions?.Invoke( options );

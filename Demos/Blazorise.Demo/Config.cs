@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using Blazored.LocalStorage;
+using Blazorise.Captcha.ReCaptcha;
 using Blazorise.FluentValidation;
 using Blazorise.LoadingIndicator;
 using Blazorise.RichTextEdit;
@@ -25,7 +26,14 @@ public static class Config
                 options.UseShowTheme = true;
             } )
             .AddLoadingIndicator()
-            .AddBlazoriseFluentValidation();
+            .AddBlazoriseFluentValidation()
+            .AddBlazoriseGoogleReCaptcha( options =>
+            {
+                options.SiteKey = "6LdF_GopAAAAAAbxAmHmnGQKDZF5MDjZk76_5SJU";
+                options.Size = ReCaptchaSize.Compact;
+                options.Theme = ReCaptchaTheme.Dark;
+                options.LanguageCode = "pt-PT";
+            } );
 
         services.AddBlazoredLocalStorage();
 
