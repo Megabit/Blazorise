@@ -143,7 +143,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Tests.bUnit", "So
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Captcha", "Source\Extensions\Blazorise.Captcha\Blazorise.Captcha.csproj", "{88EA3F49-1CA8-4F2E-825E-1B2A450AA374}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Captcha.ReCaptcha", "Source\Extensions\Blazorise.Captcha.reCAPTCHA\Blazorise.Captcha.ReCaptcha.csproj", "{B75D844B-FC5D-4B17-A8CC-31F9B5165C34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Captcha.ReCaptcha", "Source\Extensions\Blazorise.Captcha.ReCaptcha\Blazorise.Captcha.ReCaptcha.csproj", "{B75D844B-FC5D-4B17-A8CC-31F9B5165C34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
