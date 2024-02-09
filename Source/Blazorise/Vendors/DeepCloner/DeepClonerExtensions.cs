@@ -2,7 +2,7 @@
 using System.Security;
 using Blazorise.DeepCloner.Helpers;
 
-namespace Blazorise;
+namespace Blazorise.DeepCloner;
 
 /// <summary>
 /// Extensions for object cloning

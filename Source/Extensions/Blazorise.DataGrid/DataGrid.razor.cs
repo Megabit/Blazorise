@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
+using Blazorise.DeepCloner;
 using Blazorise.Extensions;
 using Blazorise.Licensing;
 using Blazorise.Modules;

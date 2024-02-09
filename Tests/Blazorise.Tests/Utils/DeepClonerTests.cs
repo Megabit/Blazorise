@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using Blazorise.DeepCloner;
+using Xunit;
 
 namespace Blazorise.Tests.Utils;
 
