@@ -36,6 +36,11 @@ public partial class Captcha : BaseComponent
         }
     }
 
+    /// <summary>
+    /// Sets the Captcha as Solved, and invokes the OnSolved event.
+    /// </summary>
+    /// <param name="response">The contextual captcha response.</param>
+    /// <returns></returns>
     public async Task SetSolved( string response )
     {
         State.Response = response;
@@ -55,6 +60,10 @@ public partial class Captcha : BaseComponent
         }
     }
 
+    /// <summary>
+    /// Sets the Captcha as Expired, and invokes the OnExpired event.
+    /// </summary>
+    /// <returns></returns>
     public async Task SetExpired()
     {
         State.Valid = false;
@@ -66,13 +75,32 @@ public partial class Captcha : BaseComponent
         }
     }
 
+    /// <summary>
+    /// Submits the Captcha.
+    /// </summary>
+    /// <returns></returns>
+    public virtual Task Submit()
+    {
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Renders the Captcha.
+    /// </summary>
+    /// <returns></returns>
     public virtual Task Render()
     {
         return Task.CompletedTask;
     }
 
+    /// <summary>
+    /// Resets the Captcha.
+    /// </summary>
+    /// <returns></returns>
     public virtual Task Reset()
     {
+        State.Valid = false;
+        State.Response = string.Empty;
         return Task.CompletedTask;
     }
 

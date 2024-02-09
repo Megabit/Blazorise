@@ -29,10 +29,12 @@ public static class Config
             .AddBlazoriseFluentValidation()
             .AddBlazoriseGoogleReCaptcha( options =>
             {
-                options.SiteKey = "6LdF_GopAAAAAAbxAmHmnGQKDZF5MDjZk76_5SJU";
-                options.Size = ReCaptchaSize.Compact;
+                //options.SiteKey = "6LdF_GopAAAAAAbxAmHmnGQKDZF5MDjZk76_5SJU"; //checkbox
+                options.SiteKey = "6LfqW20pAAAAAC9xJUNgc4z5D3OkR6MGI_d1s5PH"; //invisible
+                options.Size = ReCaptchaSize.Invisible;
                 options.Theme = ReCaptchaTheme.Dark;
                 options.LanguageCode = "pt-PT";
+                options.Badge = ReCaptchaBadge.BottomRight;
             } );
 
         services.AddBlazoredLocalStorage();

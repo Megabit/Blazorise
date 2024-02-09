@@ -36,14 +36,22 @@ public partial class ReCaptcha : Captcha, IAsyncDisposable
             new
             {
                 SiteKey = Options.SiteKey,
-                Theme = Options.Theme.ToString( "g" ),
-                Size = Options.Size.ToString( "g" ),
+                Theme = Options.Theme.ToString( "g" ).ToLowerInvariant(),
+                Size = Options.Size.ToString( "g" ).ToLowerInvariant(),
+                Badge = Options.Badge.ToString( "g" ).ToLowerInvariant(),
                 Language = Options.LanguageCode
             } );
     }
 
+    public override async Task Submit()
+    {
+        await JSModule.Submit( ElementRef, ElementId );
+    }
+
     public override async Task Reset()
     {
+        State.Valid = false;
+        State.Response = string.Empty;
         await JSModule.Reset( ElementRef, ElementId );
     }
 

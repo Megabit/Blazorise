@@ -3,7 +3,9 @@
 @inject IVersionProvider VersionProvider
 
 <Captcha @ref=_captcha OnSolved="Solved" OnValidate=Validate OnExpired="Expired" />
-<Button Background="Background.Primary" Clicked="Reset">Reset</Button>
+<Button Background="Background.Warning" Clicked="Reset">Reset</Button>
+<Button Background="Background.Primary" Clicked="Submit">Submit</Button>
+
 @code {
     [Inject] HttpClient _httpClient { get; set; }
     private Captcha _captcha;
@@ -22,7 +24,8 @@
 
         var content = new FormUrlEncodedContent( new[]
             {
-                    new KeyValuePair<string, string>("secret", "6LdF_GopAAAAAC7fRsgxYR0J6AmFaYYU9Q6-zX4_"),
+                    // new KeyValuePair<string, string>("secret", "6LdF_GopAAAAAC7fRsgxYR0J6AmFaYYU9Q6-zX4_"), //checkbox
+                    new KeyValuePair<string, string>("secret", "6LfqW20pAAAAAD9RvtJTF_Z-3B5pJzXGc9MYHbmr"), //invisible
                     new KeyValuePair<string, string>("response", state.Response),
                 } );
 
@@ -51,6 +54,11 @@
     private async Task Reset()
     {
         await _captcha.Reset();
+    }
+
+    private async Task Submit()
+    {
+        await _captcha.Submit();
     }
 
 }

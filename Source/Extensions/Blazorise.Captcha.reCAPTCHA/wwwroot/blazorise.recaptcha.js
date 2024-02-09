@@ -18,12 +18,22 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
             'expired-callback': () => { dotNetObjectRef.invokeMethodAsync('OnExpiredHandler'); },
             'theme': options.theme,
             'size': options.size,
+            'badge': options.badge,
             'hl': options.language
         });
     });
 
     _instances[elementId] = instance;
 };
+
+export function execute(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (!instance)
+        return;
+
+    grecaptcha.execute(instance.grecaptchaId);
+}
 
 export function reset(element, elementId) {
     const instance = _instances[elementId];
