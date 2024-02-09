@@ -165,7 +165,7 @@
 }
 
 .fui-Button-warning {
-    @include button-variant(var(--colorPaletteMarigoldBackground3), var(--colorPaletteMarigoldForeground1), var(--colorPaletteMarigoldForeground2), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1));
+    @include button-variant(var(--colorStatusWarningBackground3), var(--colorPaletteMarigoldForeground1), var(--colorPaletteMarigoldForeground2), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1));
 }
 
 .fui-Button-info {

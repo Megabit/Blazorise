@@ -2476,7 +2476,7 @@ button {
 }
 
 .fui-Button-warning {
-  background-color: var(--colorPaletteMarigoldBackground3);
+  background-color: var(--colorStatusWarningBackground3);
   color: var(--colorPaletteMarigoldBackground1);
   border-color: transparent;
 }
@@ -5635,11 +5635,11 @@ input::file-selector-button {
   color: var(--colorPaletteRedForeground3);
 }
 .fui-Rating .fui-RatingItem-warning {
-  color: var(--colorPaletteMarigoldForeground3);
+  color: var(--colorStatusWarningBackground3);
 }
 .fui-Rating .fui-RatingItem-warning .fui-RatingItem__selectedIcon,
 .fui-Rating .fui-RatingItem-warning .fui-RatingItem__unselectedOutlineIcon {
-  color: var(--colorPaletteMarigoldForeground3);
+  color: var(--colorStatusWarningBackground3);
 }
 .fui-Rating .fui-RatingItem-info {
   color: var(--colorNeutralForeground3);
@@ -6028,10 +6028,10 @@ input::file-selector-button {
   color: var(--colorNeutralForegroundOnBrand);
 }
 .fui-Steps .fui-Step.fui-Step-warning .fui-Step__circle > svg {
-  fill: var(--colorPaletteMarigoldBackground3);
+  fill: var(--colorStatusWarningBackground3);
 }
 .fui-Steps .fui-Step.fui-Step-warning .fui-Step__circle > .fui-Step__circle-number {
-  color: var(--colorPaletteMarigoldForeground3);
+  color: var(--colorStatusWarningBackground3);
 }
 .fui-Steps .fui-Step.fui-Step-warning.fui-Step-active .fui-Step__circle-number, .fui-Steps .fui-Step.fui-Step-warning.fui-Step-completed .fui-Step__circle-number {
   color: var(--colorNeutralForegroundOnBrand);
@@ -7014,7 +7014,7 @@ code {
 }
 
 .fui-Background-warning {
-  background-color: var(--colorPaletteMarigoldBackground3) !important;
+  background-color: var(--colorStatusWarningBackground3) !important;
 }
 
 .fui-Background-info {
@@ -12641,7 +12641,7 @@ code {
 }
 
 .fui-TextColor-warning {
-  color: var(--colorPaletteMarigoldForeground3) !important;
+  color: var(--colorStatusWarningBackground3) !important;
 }
 
 .fui-TextColor-info {

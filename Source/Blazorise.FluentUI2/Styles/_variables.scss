@@ -445,8 +445,8 @@
     --zIndexModal: 1055;
 }
 
-$background-theme-colors: ( "primary": var(--colorBrandBackground), "secondary": var(--colorNeutralBackground3), "success": var(--colorStatusSuccessBackground3), "danger": var(--colorStatusDangerBackground3), "warning": var(--colorPaletteMarigoldBackground3), "info": var(--colorNeutralForeground3), "light": var(--colorNeutralBackground2), "dark": var(--colorNeutralForeground1), "link": var(--colorBrandForegroundLink)) !default;
-$foreground-theme-colors: ( "primary": var(--colorBrandForeground1), "secondary": var(--colorNeutralForeground3), "success": var(--colorStatusSuccessForeground3), "danger": var(--colorPaletteRedForeground3), "warning": var(--colorPaletteMarigoldForeground3), "info": var(--colorNeutralForeground3), "light": var(--colorNeutralForeground4), "dark": var(--colorNeutralForeground1), "link": var(--colorBrandForegroundLink)) !default;
+$background-theme-colors: ( "primary": var(--colorBrandBackground), "secondary": var(--colorNeutralBackground3), "success": var(--colorStatusSuccessBackground3), "danger": var(--colorStatusDangerBackground3), "warning": var(--colorStatusWarningBackground3), "info": var(--colorNeutralForeground3), "light": var(--colorNeutralBackground2), "dark": var(--colorNeutralForeground1), "link": var(--colorBrandForegroundLink)) !default;
+$foreground-theme-colors: ( "primary": var(--colorBrandForeground1), "secondary": var(--colorNeutralForeground3), "success": var(--colorStatusSuccessForeground3), "danger": var(--colorPaletteRedForeground3), "warning": var(--colorStatusWarningBackground3), "info": var(--colorNeutralForeground3), "light": var(--colorNeutralForeground4), "dark": var(--colorNeutralForeground1), "link": var(--colorBrandForegroundLink)) !default;
 
 $spacer: var(--spacingHorizontalM) !default;
 $spacers: () !default;
