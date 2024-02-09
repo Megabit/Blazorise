@@ -11,7 +11,6 @@ using Blazorise.Extensions;
 using Blazorise.Licensing;
 using Blazorise.Modules;
 using Blazorise.Utilities;
-using Force.DeepCloner;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
