@@ -146,5 +146,15 @@ public partial class TableRowCell : BaseDraggableComponent
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// Used to prevent the default action for an <see cref="OnClickHandler"/> event.
+    /// </summary>
+    [Parameter] public bool ClickPreventDefault { get; set; }
+
+    /// <summary>
+    /// Used to stop progation of the click action event.
+    /// </summary>
+    [Parameter] public bool ClickStopPropagation { get; set; }
+
     #endregion
 }

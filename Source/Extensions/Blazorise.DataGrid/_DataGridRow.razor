@@ -81,6 +81,7 @@
                 {
                     <TableRowCell @key=column
                                   @onclick=@(ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, GetCurrentItem()) : default)
+                                  ClickStopPropagation=@column.PreventRowClick
                                   TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"
                                   Style="@GetCellStyle(column, styling, selectedStyling, cellBatchEditStyling)" Class="@GetCellClass(column, styling, selectedStyling, cellBatchEditStyling)"
                                   Background="@GetCellBackground(styling, selectedStyling, cellBatchEditStyling)" Color="@GetCellColor(styling, selectedStyling, cellBatchEditStyling)" TextColor="@GetCellTextColor(styling, selectedStyling, cellBatchEditStyling)">
