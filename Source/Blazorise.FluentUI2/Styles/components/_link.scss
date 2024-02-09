@@ -23,10 +23,45 @@
     font-family: var(--fontFamilyBase);
     text-align: left;
 
-    &.fui-Link-disabled {
-        &[aria-disabled="true"] {
+    &:not([aria-disabled="true"]) {
+        &:active {
+            color: var(--colorBrandForegroundLinkPressed);
+            text-decoration-line: underline;
+        }
+
+        &:hover {
+            color: var(--colorBrandForegroundLinkHover);
+            text-decoration-line: underline;
+        }
+
+        &:focus-visible {
+            outline-style: none;
+            text-decoration-style: double;
+            text-decoration-line: underline;
+            text-decoration-color: var(--colorStrokeFocus2);
+        }
+
+        &:visited {
+            pointer-events: none;
+        }
+    }
+
+    &[aria-disabled="true"] {
+        color: var(--colorNeutralForegroundDisabled);
+        cursor: not-allowed;
+
+        &:active {
             color: var(--colorNeutralForegroundDisabled);
-            cursor: not-allowed;
+            text-decoration-line: none;
+        }
+
+        &:hover {
+            text-decoration-line: none;
+            color: var(--colorNeutralForegroundDisabled);
+        }
+
+        &:focus-visible {
+            outline-style: none;
         }
     }
 

@@ -4623,9 +4623,37 @@ input::file-selector-button {
   font-family: var(--fontFamilyBase);
   text-align: left;
 }
-.fui-Link.fui-Link-disabled[aria-disabled=true] {
+.fui-Link:not([aria-disabled=true]):active {
+  color: var(--colorBrandForegroundLinkPressed);
+  text-decoration-line: underline;
+}
+.fui-Link:not([aria-disabled=true]):hover {
+  color: var(--colorBrandForegroundLinkHover);
+  text-decoration-line: underline;
+}
+.fui-Link:not([aria-disabled=true]):focus-visible {
+  outline-style: none;
+  text-decoration-style: double;
+  text-decoration-line: underline;
+  text-decoration-color: var(--colorStrokeFocus2);
+}
+.fui-Link:not([aria-disabled=true]):visited {
+  pointer-events: none;
+}
+.fui-Link[aria-disabled=true] {
   color: var(--colorNeutralForegroundDisabled);
   cursor: not-allowed;
+}
+.fui-Link[aria-disabled=true]:active {
+  color: var(--colorNeutralForegroundDisabled);
+  text-decoration-line: none;
+}
+.fui-Link[aria-disabled=true]:hover {
+  text-decoration-line: none;
+  color: var(--colorNeutralForegroundDisabled);
+}
+.fui-Link[aria-disabled=true]:focus-visible {
+  outline-style: none;
 }
 .fui-Link-unstyled {
   text-decoration: none;
