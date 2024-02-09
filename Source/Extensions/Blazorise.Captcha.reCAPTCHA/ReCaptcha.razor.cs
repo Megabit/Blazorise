@@ -8,7 +8,7 @@ namespace Blazorise.Captcha.ReCaptcha;
 /// An implementation of Google's reCAPTCHA:
 /// <para>https://www.google.com/recaptcha/about/</para>
 /// </summary>
-public partial class ReCaptcha : BaseCaptcha
+public partial class ReCaptcha : Captcha
 {
     [Inject] public IJSRuntime JsRuntime { get; set; }
     [Inject] public ReCaptchaOptions Options { get; set; }
