@@ -6,6 +6,7 @@ namespace Blazorise;
 
 /// <summary>
 /// Extensions for object cloning
+/// <para>This is based on the original implementation of DeepCloner from https://github.com/force-net/DeepCloner</para>
 /// </summary>
 public static class DeepClonerExtensions
 {
