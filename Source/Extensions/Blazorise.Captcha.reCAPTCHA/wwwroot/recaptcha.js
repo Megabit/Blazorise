@@ -1,5 +1,4 @@
 function renderReCAPTCHA(dotNetObjectRef, selector, sitekey, theme, size, language) {
-
     grecaptcha.ready(function () {
         grecaptcha.render(selector, {
             'sitekey': sitekey,

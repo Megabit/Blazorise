@@ -24,7 +24,7 @@ public partial class ReCaptcha : BaseCaptcha
 
     public override async Task Render()
     {
-        await JsRuntime.InvokeVoidAsync( "renderReCAPTCHA", _dotNetObjectReference, ElementId, Options.SiteKey, Options.Theme, Options.Size, Options.LanguageCode );
+        await JsRuntime.InvokeVoidAsync( "renderReCAPTCHA", _dotNetObjectReference, ElementId, Options.SiteKey, Options.Theme.ToString( "g" ), Options.Size.ToString( "g" ), Options.LanguageCode );
     }
 
     public override async Task Reset()
