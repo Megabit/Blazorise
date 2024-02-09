@@ -9,6 +9,22 @@
     .fui-TableHeader {
         display: table-row-group;
 
+        &.fui-TableHeader__theme {
+            &.fui-TableHeader__theme-light {
+                th {
+                    color: var(--colorNeutralForeground1);
+                    background-color: var(--colorNeutralBackground1);
+                }
+            }
+
+            &.fui-TableHeader__theme-dark {
+                th {
+                    color: var(--colorNeutralForegroundInverted);
+                    background-color: var(--colorNeutralBackgroundInverted);
+                }
+            }
+        }
+
         .fui-TableRow {
             display: table-row;
             border-bottom-color: var(--colorNeutralStroke2);
@@ -218,7 +234,7 @@
         border-spacing: 0;
 
         thead:not(.fui-TableHeader__theme) th {
-            background: white;
+            background-color: white;
         }
 
         thead tr th {

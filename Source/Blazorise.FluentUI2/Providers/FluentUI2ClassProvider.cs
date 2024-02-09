@@ -1177,7 +1177,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableHeaderCell() => "fui-TableHeaderCell";
 
-    public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
+    public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"fui-Cursor-{ToCursor( cursor )}" : null;
 
     public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition )
     {

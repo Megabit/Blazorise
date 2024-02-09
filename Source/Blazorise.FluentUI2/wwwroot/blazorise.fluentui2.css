@@ -6266,6 +6266,14 @@ input::file-selector-button {
 .fui-Table .fui-TableHeader {
   display: table-row-group;
 }
+.fui-Table .fui-TableHeader.fui-TableHeader__theme.fui-TableHeader__theme-light th {
+  color: var(--colorNeutralForeground1);
+  background-color: var(--colorNeutralBackground1);
+}
+.fui-Table .fui-TableHeader.fui-TableHeader__theme.fui-TableHeader__theme-dark th {
+  color: var(--colorNeutralForegroundInverted);
+  background-color: var(--colorNeutralBackgroundInverted);
+}
 .fui-Table .fui-TableHeader .fui-TableRow {
   display: table-row;
   border-bottom-color: var(--colorNeutralStroke2);
@@ -6465,7 +6473,7 @@ input::file-selector-button {
   border-spacing: 0;
 }
 .fui-Table-fixed-header .fui-Table thead:not(.fui-TableHeader__theme) th {
-  background: white;
+  background-color: white;
 }
 .fui-Table-fixed-header .fui-Table thead tr th {
   border-top: none;
@@ -7003,6 +7011,10 @@ code {
 
 .fui-Background-transparent {
   background-color: var(--colorTransparentBackground) !important;
+}
+
+.fui-Cursor-pointer {
+  cursor: pointer;
 }
 
 .fui-Display-flex {
