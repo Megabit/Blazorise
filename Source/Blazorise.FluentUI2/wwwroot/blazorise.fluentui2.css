@@ -4961,7 +4961,6 @@ input::file-selector-button {
 .fui-Media {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
 }
 
 .fui-Media-left {
