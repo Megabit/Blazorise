@@ -94,10 +94,27 @@ public class ModalService : IModalService
     }
 
     /// <inheritdoc/>
+    public Task Show( ModalInstance modalInstance )
+        => ModalProvider.Show( modalInstance );
+
+    /// <inheritdoc/>
     public Task Hide()
         => ModalProvider.Hide();
 
     /// <inheritdoc/>
     public Task Hide( ModalInstance modalInstance )
         => ModalProvider.Hide( modalInstance );
+
+    /// <inheritdoc/>
+    public IEnumerable<ModalInstance> GetInstances()
+        => ModalProvider.GetInstances();
+
+    /// <inheritdoc/>
+    public Task Reset()
+        => ModalProvider.Reset();
+
+
+    /// <inheritdoc/>
+    public Task Remove( ModalInstance modalInstance )
+        => ModalProvider.Remove( modalInstance );
 }

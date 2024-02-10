@@ -4,11 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
-using Blazorise.Modules;
-using Blazorise.States;
-using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -36,13 +32,30 @@ public partial class ModalProvider : BaseComponent
 
     internal async Task<ModalInstance> Show( string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions )
     {
+        var newModalInstance = new ModalInstance( this, IdGenerator.Generate, title, childContent, modalInstanceOptions );
+        return await Show( newModalInstance );
+    }
+
+    internal async Task<ModalInstance> Show( ModalInstance modalInstance )
+    {
         modalInstances ??= new();
 
-        var newModalInstance = new ModalInstance( this, IdGenerator.Generate, title, childContent, modalInstanceOptions );
-        modalInstances.Add( newModalInstance );
+        var existingModalInstance = modalInstances.FirstOrDefault( x => x.ModalId == modalInstance.ModalId );
+        if ( existingModalInstance is not null )
+        {
+            existingModalInstance.Visible = true;
+        }
+        else if ( modalInstances.Contains( modalInstance ) )
+        {
+            modalInstance.Visible = true;
+        }
+        else
+        {
+            modalInstances.Add( modalInstance );
+        }
 
         await InvokeAsync( StateHasChanged );
-        return newModalInstance;
+        return existingModalInstance ?? modalInstance;
     }
 
     /// <summary>
@@ -60,13 +73,49 @@ public partial class ModalProvider : BaseComponent
         => modalInstances?.FirstOrDefault( x => x.IsEqual( modalInstance ) )?.ModalRef?.Hide() ?? Task.CompletedTask;
 
     /// <summary>
+    /// Returns all the modal instances.
+    /// </summary>
+    internal IEnumerable<ModalInstance> GetInstances()
+        => modalInstances;
+
+    /// <summary>
+    /// Resets the state of the ModalProvider.
+    /// Any existing instances will be cleared.
+    /// </summary>
+    /// <returns></returns>
+    internal async Task Reset()
+    {
+        modalInstances = null;
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Explicitly removes the modal instance from the ModalProvider.
+    /// </summary>
+    /// <param name="modalInstance">The modal instance</param>
+    /// <returns></returns>
+    internal async Task Remove( ModalInstance modalInstance )
+    {
+        if ( !modalInstances.IsNullOrEmpty() )
+        {
+            modalInstances.Remove( modalInstance );
+        }
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
     /// Handles the closing of the modal.
     /// </summary>
     /// <returns></returns>
     protected async Task OnModalClosed( ModalInstance modalInstance )
     {
         await modalInstance.Closed.InvokeAsync();
-        modalInstances.Remove( modalInstance );
+
+        var removeInstance = !modalInstance.Stateful;
+        if ( removeInstance )
+        {
+            modalInstances.Remove( modalInstance );
+        }
     }
 
     #endregion
@@ -84,6 +133,12 @@ public partial class ModalProvider : BaseComponent
     /// Global Option.
     /// </summary>
     [Parameter] public bool UseModalStructure { get; set; } = true;
+
+    /// <summary>
+    /// Keeps the ModalInstance in memory after it has been closed.
+    /// Defaults to false.
+    /// </summary>
+    [Parameter] public bool Stateful { get; set; } = false;
 
     /// <summary>
     /// If true modal will scroll to top when opened.

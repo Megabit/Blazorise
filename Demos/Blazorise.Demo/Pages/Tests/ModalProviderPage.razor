@@ -34,6 +34,19 @@
                 </Card>
             </CardBody>
 
+            <CardBody>
+                <Card>
+                    <CardHeader>
+                        Keeps the state even after being closed.
+                    </CardHeader>
+                    <CardBody>
+                        <Paragraph>
+                            Example shows a Modal that keeps the state even after being closed.
+                        </Paragraph>
+                        <Button Color="Color.Primary" Clicked="ShowStateful">Show</Button>
+                    </CardBody>
+                </Card>
+            </CardBody>
 
             <CardBody>
                 <Card>
@@ -71,6 +84,7 @@
 @code {
 
     [Inject] public IModalService ModalService { get; set; }
+    private ModalInstance statefulModalInstance;
     private static int id = 1;
     private int componentId;
 
@@ -94,7 +108,22 @@
 
     public Task ShowRenderFragment()
     {
-        return ModalService.Show( "My Custom RenderFragment!", customFragment);
+        return ModalService.Show( "My Custom RenderFragment!", customFragment );
+    }
+
+    public async Task ShowStateful()
+    {
+        if ( statefulModalInstance is null )
+        {
+            statefulModalInstance = await ModalService.Show<Counter>( "My Stateful content", new ModalInstanceOptions()
+            {
+                Stateful = true,
+                RenderMode = ModalRenderMode.LazyLoad
+            } );
+            return;
+        }
+
+        await ModalService.Show( statefulModalInstance );
     }
 
     public Task ShowFormulary()

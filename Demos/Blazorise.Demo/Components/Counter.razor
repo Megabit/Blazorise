@@ -3,8 +3,12 @@
 <Heading>Counter</Heading>
 
 <Paragraph>@Value</Paragraph>
+    <Button Color=Color.Success Clicked="IncrementCount">Increment</Button>
 
 @code {
     [Parameter ] public long Value { get; set; }
-
+    private void IncrementCount()
+    {
+        Value++;
+    }
 }
