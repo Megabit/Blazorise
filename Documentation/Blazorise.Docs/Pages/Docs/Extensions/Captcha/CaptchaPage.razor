@@ -1,0 +1,71 @@
+﻿@page "/docs/extensions/captcha"
+
+<Seo Canonical="/docs/extensions/captcha" Title="Blazorise Captcha component" Description="Learn to use and work with the Blazorise Captcha extension components, which are used to prevent fake users or malicious software from taking action on your website." />
+
+<DocsPageTitle Path="Extensions/Captcha">
+    Blazorise Captcha component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Simple captcha integrations.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The captcha extension may provide several different captcha providers. Each of the captcha provider may have it’s own settings.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Supported captcha providers are:
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem><Code>Google reCAPTCHA</Code></UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install the captcha provider extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="CaptchaNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="CaptchaImportsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Static Files - Google reCAPTCHA">
+        Add the google <Code>reCAPTCHA</Code> js to your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReCaptchaResourcesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ReCaptcha Checkbox Example">
+
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ReCaptchaExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="" Type="" Default="">
+    </DocsAttributesItem>
+</DocsAttributes>
