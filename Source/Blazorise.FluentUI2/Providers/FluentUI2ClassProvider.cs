@@ -674,13 +674,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Jumbotron
 
-    public override string Jumbotron() => "jumbotron";
+    public override string Jumbotron() => "fui-Jumbotron";
 
-    public override string JumbotronBackground( Background background ) => $"jumbotron-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => $"fui-Jumbotron-{ToBackground( background )}";
 
-    public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
+    public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"fui-Jumbotron__title-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 
-    public override string JumbotronSubtitle() => "lead";
+    public override string JumbotronSubtitle() => "fui-Jumbotron__subtitle";
 
     #endregion
 
