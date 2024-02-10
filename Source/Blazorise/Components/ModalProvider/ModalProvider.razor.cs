@@ -96,10 +96,12 @@ public partial class ModalProvider : BaseComponent
     /// <returns></returns>
     internal async Task Remove( ModalInstance modalInstance )
     {
-        if ( !modalInstances.IsNullOrEmpty() )
+        if ( modalInstances.IsNullOrEmpty() )
         {
-            modalInstances.Remove( modalInstance );
+            return;
         }
+
+        modalInstances.Remove( modalInstance );
         await InvokeAsync( StateHasChanged );
     }
 
@@ -114,7 +116,7 @@ public partial class ModalProvider : BaseComponent
         var removeInstance = !modalInstance.Stateful;
         if ( removeInstance )
         {
-            modalInstances.Remove( modalInstance );
+            await Remove( modalInstance );
         }
     }
 
