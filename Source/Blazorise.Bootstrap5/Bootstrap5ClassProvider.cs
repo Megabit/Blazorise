@@ -888,6 +888,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ModalSize( ModalSize modalSize ) => null;
 
+    public override string ModalCentered( bool centered ) => null;
+
     public override string ModalBackdrop() => "modal-backdrop";
 
     public override string ModalBackdropFade() => Fade();

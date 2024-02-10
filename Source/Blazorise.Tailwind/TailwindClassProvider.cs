@@ -1311,6 +1311,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalSize( ModalSize modalSize ) => null;
 
+    public override string ModalCentered( bool centered ) => null;
+
     public override string ModalBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40";
 
     public override string ModalBackdropFade() => "b-modal-fade";

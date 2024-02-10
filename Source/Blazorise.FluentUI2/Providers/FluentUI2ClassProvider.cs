@@ -1023,6 +1023,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ModalSize( ModalSize modalSize ) => modalSize == Blazorise.ModalSize.Default ? null : $"fui-DialogSurface-{ToModalSize( modalSize )}";
 
+    public override string ModalCentered( bool centered ) => centered ? "fui-DialogSurface-centered" : null;
+
     public override string ModalBackdrop() => "fui-DialogSurface__backdrop";
 
     public override string ModalBackdropFade() => "fui-DialogSurface__backdrop-fade";
@@ -1031,9 +1033,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ModalContent( bool dialog ) => "fui-DialogBody";
 
-    public override string ModalContentSize( ModalSize modalSize ) => null;
+    public override string ModalContentSize( ModalSize modalSize ) => modalSize == Blazorise.ModalSize.Default ? null : $"fui-DialogBody-{ToModalSize( modalSize )}";
 
-    public override string ModalContentCentered( bool centered ) => null;
+    public override string ModalContentCentered( bool centered ) => "fui-DialogBody-centered";
 
     public override string ModalContentScrollable( bool scrollable ) => null;
 

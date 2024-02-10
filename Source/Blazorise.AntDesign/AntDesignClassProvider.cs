@@ -885,6 +885,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ModalSize( ModalSize modalSize ) => null;
 
+    public override string ModalCentered( bool centered ) => null;
+
     public override string ModalBackdrop() => "ant-modal-mask";
 
     public override string ModalBackdropFade() => null;

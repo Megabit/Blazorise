@@ -54,7 +54,7 @@
     box-shadow: var(--shadow64);
     inset: 0px;
     padding: 24px;
-    margin: auto;
+    margin: var(--spacingVerticalXXXL) auto;
     border-style: solid;
     overflow: unset;
     border-width: 1px;
@@ -76,6 +76,10 @@
     background-color: var(--colorNeutralBackground1);
     color: var(--colorNeutralForeground1);
     z-index: var(--zIndexModal);
+
+    &-centered {
+        margin: auto;
+    }
 
     &-fade {
         transition-timing-function: var(--curveDecelerateMid);

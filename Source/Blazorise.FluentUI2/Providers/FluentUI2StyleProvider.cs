@@ -16,10 +16,10 @@ public class FluentUI2StyleProvider : StyleProvider
     int ModalZIndexDiff => DefaultModalZIndex - DefaultModalBackdropZIndex;
 
     public override string ModalZIndex( int modalOpenIndex )
-        => modalOpenIndex > 1 ? $"z-index: {DefaultModalZIndex + ModalZIndexDiff}" : null;
+          => modalOpenIndex > 1 ? $"z-index: {DefaultModalZIndex + ( ModalZIndexDiff * ( modalOpenIndex - 1 ) ) + ModalZIndexDiff}" : null;
 
     public override string ModalBackdropZIndex( int modalOpenIndex )
-        => null;
+        => modalOpenIndex > 1 ? $"z-index: {DefaultModalZIndex + ( ModalZIndexDiff * ( modalOpenIndex - 1 ) )}" : null;
 
     #endregion
 

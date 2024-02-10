@@ -822,6 +822,8 @@ public interface IClassProvider
 
     string ModalSize( ModalSize modalSize );
 
+    string ModalCentered( bool centered );
+
     string ModalBackdrop();
 
     string ModalBackdropFade();

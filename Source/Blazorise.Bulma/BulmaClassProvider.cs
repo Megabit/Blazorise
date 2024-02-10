@@ -916,6 +916,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ModalSize( ModalSize modalSize ) => null;
 
+    public override string ModalCentered( bool centered ) => null;
+
     public override string ModalBackdrop() => "modal-background";
 
     public override string ModalBackdropFade() => Fade();

@@ -826,6 +826,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ModalSize( ModalSize modalSize );
 
+    public abstract string ModalCentered( bool centered );
+
     public abstract string ModalBackdrop();
 
     public abstract string ModalBackdropFade();

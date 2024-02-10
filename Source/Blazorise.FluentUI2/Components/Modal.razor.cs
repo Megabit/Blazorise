@@ -8,6 +8,8 @@ public partial class Modal
 
     private ModalSize modalSize;
 
+    private bool centered;
+
     #endregion
 
     #region Methods
@@ -16,6 +18,7 @@ public partial class Modal
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ModalSize( modalSize ) );
+        builder.Append( ClassProvider.ModalCentered( centered ) );
 
         base.BuildClasses( builder );
     }
@@ -23,6 +26,17 @@ public partial class Modal
     protected internal void NotifyModalSizeChanged( ModalSize modalSize )
     {
         this.modalSize = modalSize;
+
+        ExecuteAfterRender( async () =>
+        {
+            DirtyClasses();
+            await InvokeAsync( StateHasChanged );
+        } );
+    }
+
+    protected internal void NotifyModalCenteredChanged( bool centered )
+    {
+        this.centered = centered;
 
         ExecuteAfterRender( async () =>
         {
