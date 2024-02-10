@@ -16,6 +16,7 @@ export function initialize(dotNetObjectRef, element, elementId, options) {
             'sitekey': options.siteKey,
             'callback': (response) => { dotNetObjectRef.invokeMethodAsync('OnSuccessHandler', response); },
             'expired-callback': () => { dotNetObjectRef.invokeMethodAsync('OnExpiredHandler'); },
+            'action': elementId,
             'theme': options.theme,
             'size': options.size,
             'badge': options.badge,
