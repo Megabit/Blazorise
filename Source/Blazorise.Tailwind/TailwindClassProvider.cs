@@ -849,7 +849,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardGroup() => "b-card-group flex flex-row gap-x-0";
 
-    public override string Card() => "b-card max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ";
+    public override string Card() => "b-card relative max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ";
 
     public override string CardWhiteText() => "text-white";
 
@@ -1890,7 +1890,7 @@ public class TailwindClassProvider : ClassProvider
         }
     }
 
-    public override string LinkStretched( bool stretched ) => stretched ? "after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:z-1 after:content-['_']" : null;
+    public override string LinkStretched( bool stretched ) => stretched ? "after:absolute after:inset-0" : null;
 
     public override string LinkDisabled( bool disabled ) => disabled ? "opacity-65 cursor-not-allowed" : null;
 
