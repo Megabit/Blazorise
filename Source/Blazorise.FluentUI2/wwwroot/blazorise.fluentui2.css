@@ -2670,8 +2670,8 @@ button {
 }
 
 .fui-ButtonOutline-warning {
-  color: var(--colorPaletteMarigoldBackground3);
-  border-color: var(--colorPaletteMarigoldBackground3);
+  color: var(--colorStatusWarningBackground3);
+  border-color: var(--colorStatusWarningBackground3);
 }
 .fui-ButtonOutline-warning.disabled, .fui-ButtonOutline-warning:disabled {
   cursor: not-allowed;
@@ -2682,12 +2682,12 @@ button {
   background-color: var(--colorNeutralBackgroundDisabled);
 }
 .fui-ButtonOutline-warning:not(:disabled):not(.disabled):hover, .fui-ButtonOutline-warning:not(:disabled):not(.disabled):hover {
-  border-color: var(--colorPaletteMarigoldForeground1);
-  color: var(--colorPaletteMarigoldForeground1);
+  border-color: var(--colorStatusWarningForeground1);
+  color: var(--colorStatusWarningForeground1);
 }
 .fui-ButtonOutline-warning:not(:disabled):not(.disabled):active, .fui-ButtonOutline-warning:not(:disabled):not(.disabled).active, .fui-ButtonOutline-warning:not(:disabled):not(.disabled):active, .fui-ButtonOutline-warning:not(:disabled):not(.disabled).active {
-  border-color: var(--colorPaletteMarigoldForeground2);
-  color: var(--colorPaletteMarigoldForeground2);
+  border-color: var(--colorStatusWarningForeground2);
+  color: var(--colorStatusWarningForeground2);
 }
 
 .fui-ButtonOutline-info {

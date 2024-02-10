@@ -227,7 +227,7 @@
 }
 
 .fui-ButtonOutline-warning {
-    @include button-outline-variant(var(--colorPaletteMarigoldBackground3), var(--colorPaletteMarigoldForeground1), var(--colorPaletteMarigoldForeground2));
+    @include button-outline-variant(var(--colorStatusWarningBackground3), var(--colorStatusWarningForeground1), var(--colorStatusWarningForeground2));
 }
 
 .fui-ButtonOutline-info {
