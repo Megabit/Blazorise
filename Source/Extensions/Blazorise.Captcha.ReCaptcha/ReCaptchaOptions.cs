@@ -24,7 +24,7 @@ public class ReCaptchaOptions
     /// Reposition the reCAPTCHA badge. 'inline' lets you position it with CSS.
     /// <para>This option is only available for invisible reCAPTCHA.</para>
     /// </summary>
-    public ReCaptchaBadgePosition Badge { get; set; } = ReCaptchaBadgePosition.BottomEnd;
+    public ReCaptchaBadgePosition BadgePosition { get; set; } = ReCaptchaBadgePosition.BottomEnd;
 
     /// <summary>
     /// Refer to: https://developers.google.com/recaptcha/docs/language

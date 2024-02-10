@@ -13,7 +13,7 @@ public partial class Captcha : BaseComponent
 
     /// <summary>
     /// A Captcha solved event. 
-    /// Provides contextual information about the Captcha state after the user has solved.
+    /// <para>Provides contextual information about the Captcha state after the user has solved.</para>
     /// </summary>
     [Parameter] public EventCallback<CaptchaState> Solved { get; set; }
 
@@ -41,7 +41,7 @@ public partial class Captcha : BaseComponent
     /// </summary>
     /// <param name="response">The contextual captcha response.</param>
     /// <returns></returns>
-    public async Task SetSolved( string response )
+    protected async Task SetSolved( string response )
     {
         State.Response = response;
 
@@ -64,7 +64,7 @@ public partial class Captcha : BaseComponent
     /// Sets the Captcha as Expired, and invokes the OnExpired event.
     /// </summary>
     /// <returns></returns>
-    public async Task SetExpired()
+    protected async Task SetExpired()
     {
         State.Valid = false;
         State.Response = string.Empty;
@@ -88,7 +88,7 @@ public partial class Captcha : BaseComponent
     /// Initialize the Captcha.
     /// </summary>
     /// <returns></returns>
-    public virtual Task Initialize()
+    protected virtual Task Initialize()
     {
         return Task.CompletedTask;
     }

@@ -1,0 +1,17 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+using Blazorise.Captcha.ReCaptcha;
+
+
+builder.Services
+.AddBlazorise( options =&gt;
+{
+	options.Immediate = true;
+} )
+.AddBlazoriseGoogleReCaptcha( reCaptchaOptions =&gt;
+{
+	reCaptchaOptions.SiteKey = Configuration[&quot;ReCaptchaSiteKey&quot;]
+	//Set any other ReCaptcha options here...
+});
+</pre></div>
+</div>

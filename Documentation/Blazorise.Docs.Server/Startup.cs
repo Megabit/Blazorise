@@ -3,6 +3,7 @@ using System.IO.Compression;
 using System.Linq;
 using Blazored.LocalStorage;
 using Blazorise.Bootstrap5;
+using Blazorise.Captcha.ReCaptcha;
 using Blazorise.Docs.Core;
 using Blazorise.Docs.Models;
 using Blazorise.Docs.Options;
@@ -50,8 +51,11 @@ public class Startup
             .AddBootstrap5Providers()
             .AddFontAwesomeIcons()
             .AddBlazoriseRichTextEdit()
-            .AddBlazoriseFluentValidation();
+            .AddBlazoriseFluentValidation()
+            .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] );
 
+        services.Configure<AppSettings>( options => Configuration.Bind( options ) );
+        services.AddHttpClient();
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
 
         services.AddBlazoredLocalStorage();

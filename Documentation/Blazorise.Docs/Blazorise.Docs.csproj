@@ -10,6 +10,8 @@
     <ProjectReference Include="..\..\Shared\Blazorise.Shared\Blazorise.Shared.csproj" />
     <ProjectReference Include="..\..\Source\Blazorise\Blazorise.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Animate\Blazorise.Animate.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Captcha.ReCaptcha\Blazorise.Captcha.ReCaptcha.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Captcha\Blazorise.Captcha.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Streaming\Blazorise.Charts.Streaming.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Trendline\Blazorise.Charts.Trendline.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.DataLabels\Blazorise.Charts.DataLabels.csproj" />
@@ -33,6 +35,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
     <PackageReference Include="MailKit" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageReference Include="MimeKit" Version="3.1.1" />
 	<PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
   </ItemGroup>

@@ -85,7 +85,7 @@ public class PageEntryData
 
                 new PageEntry( "docs/extensions/animate", "Animate", "" ),
                 new PageEntry( "docs/extensions/autocomplete", "Autocomplete", "The Autocomplete component offers simple and flexible type-ahead functionality." ),
-                new PageEntry( "docs/extensions/captcha", "Captcha", "Learn to use and work with the Blazorise Captcha extension components, which are used to prevent fake users or malicious software from taking action on your website." ),
+                new PageEntry( "docs/extensions/captcha", "Captcha", "Learn to use and work with the Blazorise Captcha extension components, which are used to help prevent fake users or malicious software from taking action on your website." ),
                 new PageEntry( "docs/extensions/chart", "Chart", "Simple yet flexible charting for designers & developers." ),
                 new PageEntry( "docs/extensions/chart-datalabels", "Chart DataLabels", "Display labels on data for any type of charts." ),
                 new PageEntry( "docs/extensions/chart-live", "Chart Streaming", "Chart plugin for live streaming data." ),

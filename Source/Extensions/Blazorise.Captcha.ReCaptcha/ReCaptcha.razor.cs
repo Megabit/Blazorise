@@ -28,7 +28,7 @@ public partial class ReCaptcha : Captcha, IAsyncDisposable
         return base.OnInitializedAsync();
     }
 
-    public override async Task Initialize()
+    protected override async Task Initialize()
     {
         JSModule ??= new JSReCaptchaModule( JSRuntime, VersionProvider );
 
@@ -38,7 +38,7 @@ public partial class ReCaptcha : Captcha, IAsyncDisposable
                 SiteKey = Options.SiteKey,
                 Theme = Options.Theme.ToString( "g" ).ToLowerInvariant(),
                 Size = Options.Size.ToString( "g" ).ToLowerInvariant(),
-                Badge = Options.Badge.ToString( "g" ).ToLowerInvariant(),
+                Badge = Options.BadgePosition.ToString( "g" ).ToLowerInvariant(),
                 Language = Options.LanguageCode
             } );
     }

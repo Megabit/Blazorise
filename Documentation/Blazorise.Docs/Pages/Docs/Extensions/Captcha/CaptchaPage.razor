@@ -1,6 +1,6 @@
 ﻿@page "/docs/extensions/captcha"
 
-<Seo Canonical="/docs/extensions/captcha" Title="Blazorise Captcha component" Description="Learn to use and work with the Blazorise Captcha extension components, which are used to prevent fake users or malicious software from taking action on your website." />
+<Seo Canonical="/docs/extensions/captcha" Title="Blazorise Captcha component" Description="Learn to use and work with the Blazorise Captcha extension components, which are used to help prevent fake users or malicious software from taking action on your website." />
 
 <DocsPageTitle Path="Extensions/Captcha">
     Blazorise Captcha component
@@ -19,7 +19,7 @@
 </DocsPageParagraph>
 
 <UnorderedList>
-    <UnorderedListItem><Code>Google reCAPTCHA</Code></UnorderedListItem>
+    <UnorderedListItem><Code>Google reCAPTCHA</Code> | <Code>Blazorise.Captcha.ReCaptcha</Code></UnorderedListItem>
 </UnorderedList>
 
 <DocsPageSubtitle>
@@ -28,9 +28,23 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="NuGet">
-        Install the captcha provider extension from NuGet.
+        Install the captcha extension from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="CaptchaNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet - ReCaptcha">
+        Install the captcha ReCaptcha provider extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReCaptchaNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Register Services - ReCaptcha">
+        Add the following lines to the relevant sections of <Code>Program.cs</Code>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReCaptchaRegisterServicesExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -41,18 +55,20 @@
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Static Files - Google reCAPTCHA">
+    <DocsPageSectionHeader Title="Static Files - ReCaptcha">
         Add the google <Code>reCAPTCHA</Code> js to your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
+        <Code>reCAPTCHA</Code> docs recommend adding the script to the end of the <Code>head</Code> tag with async and defer attributes.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ReCaptchaResourcesExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="ReCaptcha Checkbox Example">
-
+    <DocsPageSectionHeader Title="ReCaptcha Checkbox">
+        The following example demonstrates how to use the <Code>ReCaptcha</Code> integration.
+        You can use the <Code>ReCaptchaOptions</Code> to configure the widget according to your needs.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        
+        <ReCaptchaExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="ReCaptchaExample" />
 </DocsPageSection>
@@ -66,6 +82,54 @@
 </Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="" Type="" Default="">
+    <DocsAttributesItem Name="State" Type="CaptchaState">
+        The current state of the Captcha.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Solved" Type="EventCallback<CaptchaState>">
+        A Captcha solved event. Provides contextual information about the Captcha state after the user has solved.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Validate" Type="Func<CaptchaState, Task<bool>>">
+        A Captcha validation event. Further validation may be performed here.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Expired" Type="EventCallback">
+        The Captcha expired event.
+    </DocsAttributesItem>
+
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    Methods
+</Heading>
+
+<DocsMethods>
+    <DocsMethodsItem Name="Submit" ReturnType="Task">
+        Submits the Captcha.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Reset" ReturnType="Task">
+        Resets the Captcha.
+    </DocsMethodsItem>
+</DocsMethods>
+        
+<Heading Size="HeadingSize.Is3">
+    ReCaptchaOptions
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="SiteKey" Type="string">
+        The client side api key for google reCAPTCHA.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="ReCaptchaSize" Default="ReCaptchaSize.Normal">
+        The size of the widget.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Theme" Type="ReCaptchaTheme" Default="ReCaptchaTheme.Light">
+        The color theme of the widget.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BadgePosition" Type="ReCaptchaBadgePosition" Default="ReCaptchaBadgePosition.BottomEnd">
+        Reposition the reCAPTCHA badge. 'inline' lets you position it with CSS.
+        This option is only available for invisible reCAPTCHA.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LanguageCode" Type="string" Default="en">
+        Refer to: https://developers.google.com/recaptcha/docs/language
+        Defaults to: 'en' (English (US))
     </DocsAttributesItem>
 </DocsAttributes>
