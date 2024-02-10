@@ -2,7 +2,7 @@
 @using System.Text.Json
 @inject IVersionProvider VersionProvider
 
-<Captcha @ref=_captcha OnSolved="Solved" OnValidate=Validate OnExpired="Expired" />
+<Captcha @ref=_captcha Solved="Solved" Validate=Validate Expired="Expired" />
 <Button Background="Background.Warning" Clicked="Reset">Reset</Button>
 <Button Background="Background.Primary" Clicked="Submit">Submit</Button>
 

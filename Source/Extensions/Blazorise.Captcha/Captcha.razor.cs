@@ -15,17 +15,17 @@ public partial class Captcha : BaseComponent
     /// A Captcha solved event. 
     /// Provides contextual information about the Captcha state after the user has solved.
     /// </summary>
-    [Parameter] public EventCallback<CaptchaState> OnSolved { get; set; }
+    [Parameter] public EventCallback<CaptchaState> Solved { get; set; }
 
     /// <summary>
     /// A Captcha validation event. Further validation may be performed here.
     /// </summary>
-    [Parameter] public Func<CaptchaState, Task<bool>> OnValidate { get; set; }
+    [Parameter] public Func<CaptchaState, Task<bool>> Validate { get; set; }
 
     /// <summary>
     /// The Captcha expired event.
     /// </summary>
-    [Parameter] public EventCallback OnExpired { get; set; }
+    [Parameter] public EventCallback Expired { get; set; }
 
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -45,18 +45,18 @@ public partial class Captcha : BaseComponent
     {
         State.Response = response;
 
-        if ( OnValidate is null )
+        if ( Validate is null )
         {
             State.Valid = true;
         }
         else
         {
-            State.Valid = await OnValidate.Invoke( State );
+            State.Valid = await Validate.Invoke( State );
         }
 
-        if ( OnSolved.HasDelegate )
+        if ( Solved.HasDelegate )
         {
-            await OnSolved.InvokeAsync( State );
+            await Solved.InvokeAsync( State );
         }
     }
 
@@ -69,9 +69,9 @@ public partial class Captcha : BaseComponent
         State.Valid = false;
         State.Response = string.Empty;
 
-        if ( OnExpired.HasDelegate )
+        if ( Expired.HasDelegate )
         {
-            await OnExpired.InvokeAsync();
+            await Expired.InvokeAsync();
         }
     }
 
