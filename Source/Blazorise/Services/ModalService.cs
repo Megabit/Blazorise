@@ -113,7 +113,6 @@ public class ModalService : IModalService
     public Task Reset()
         => ModalProvider.Reset();
 
-
     /// <inheritdoc/>
     public Task Remove( ModalInstance modalInstance )
         => ModalProvider.Remove( modalInstance );
