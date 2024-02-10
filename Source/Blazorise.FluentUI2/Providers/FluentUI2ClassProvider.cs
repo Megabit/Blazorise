@@ -777,9 +777,9 @@ public class FluentUI2ClassProvider : ClassProvider
             : "fui-NavigationBar__item"
         : "b-bar-item";
 
-    public override string BarItemActive( BarMode mode ) => Active();
+    public override string BarItemActive( BarMode mode ) => "fui-NavigationBar__item-active";
 
-    public override string BarItemDisabled( BarMode mode ) => Disabled();
+    public override string BarItemDisabled( BarMode mode ) => "fui-NavigationBar__item-disabled";
 
     public override string BarItemHasDropdown( BarMode mode ) => null;
 
