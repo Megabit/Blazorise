@@ -3,7 +3,7 @@
     color: $color;
     border-color: transparent;
 
-    &.disabled,
+    &.fui-Button-disabled,
     &:disabled {
         cursor: not-allowed;
         border-bottom-color: var(--colorNeutralStrokeDisabled);
@@ -13,27 +13,26 @@
         background-color: var(--colorNeutralBackgroundDisabled);
     }
 
-    &:not(:disabled):not(.disabled),
-    &:not(:disabled):not(.disabled) {
+    &:not(:disabled):not(.fui-Button-disabled),
+    &:not(:disabled):not(.fui-Button-disabled) {
         &:hover {
             background-color: $background-hover;
             color: $color-hover;
         }
 
         &:active,
-        &.active {
+        &.fui-Button-active {
             background-color: $background-active;
             color: $color-active;
         }
     }
 }
 
-
 @mixin button-outline-variant($color, $color-hover, $color-active) {
     color: $color;
     border-color: $color;
 
-    &.disabled,
+    &.fui-Button-disabled,
     &:disabled {
         cursor: not-allowed;
         border-bottom-color: var(--colorNeutralStrokeDisabled);
@@ -43,15 +42,15 @@
         background-color: var(--colorNeutralBackgroundDisabled);
     }
 
-    &:not(:disabled):not(.disabled),
-    &:not(:disabled):not(.disabled) {
+    &:not(:disabled):not(.fui-Button-disabled),
+    &:not(:disabled):not(.fui-Button-disabled) {
         &:hover {
             border-color: $color-hover;
             color: $color-hover;
         }
 
         &:active,
-        &.active {
+        &.fui-Button-active {
             border-color: $color-active;
             color: $color-active;
         }

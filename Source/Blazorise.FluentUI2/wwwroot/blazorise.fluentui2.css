@@ -2285,13 +2285,13 @@ button {
   color: var(--colorNeutralForeground1Hover);
   cursor: pointer;
 }
-.fui-Button:hover:active {
+.fui-Button:hover:active, .fui-Button:hover.fui-Button-active {
   background-color: var(--colorNeutralBackground1Pressed);
   border-color: var(--colorNeutralStroke1Pressed);
   color: var(--colorNeutralForeground1Pressed);
   outline-style: none;
 }
-.fui-Button.disabled, .fui-Button:disabled {
+.fui-Button.fui-Button-disabled, .fui-Button:disabled {
   cursor: not-allowed;
   color: var(--colorNeutralForegroundDisabled);
   border-bottom-color: var(--colorNeutralStrokeDisabled);
@@ -2300,7 +2300,7 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button.disabled:active, .fui-Button.disabled.active, .fui-Button:disabled:active, .fui-Button:disabled.active {
+.fui-Button.fui-Button-disabled:active, .fui-Button.fui-Button-disabled.fui-Button-active, .fui-Button:disabled:active, .fui-Button:disabled.fui-Button-active {
   color: var(--colorNeutralForegroundDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
   border-bottom-color: transparent;
@@ -2385,13 +2385,22 @@ button {
 .fui-Button-block + .fui-ButtonBlock {
   margin-top: var(--spacingHorizontalS);
 }
+.fui-Button-link-stretched::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  content: "";
+}
 
 .fui-Button-primary {
   background-color: var(--colorBrandBackground);
   color: var(--colorNeutralForegroundOnBrand);
   border-color: transparent;
 }
-.fui-Button-primary.disabled, .fui-Button-primary:disabled {
+.fui-Button-primary.fui-Button-disabled, .fui-Button-primary:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2399,11 +2408,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-primary:not(:disabled):not(.disabled):hover, .fui-Button-primary:not(:disabled):not(.disabled):hover {
+.fui-Button-primary:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-primary:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorBrandBackgroundHover);
   color: var(--colorNeutralForegroundOnBrand);
 }
-.fui-Button-primary:not(:disabled):not(.disabled):active, .fui-Button-primary:not(:disabled):not(.disabled).active, .fui-Button-primary:not(:disabled):not(.disabled):active, .fui-Button-primary:not(:disabled):not(.disabled).active {
+.fui-Button-primary:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-primary:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-primary:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-primary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorBrandBackgroundPressed);
   color: var(--colorNeutralForegroundOnBrand);
 }
@@ -2414,7 +2423,7 @@ button {
   border-color: transparent;
   border-color: var(--colorNeutralStroke1);
 }
-.fui-Button-secondary.disabled, .fui-Button-secondary:disabled {
+.fui-Button-secondary.fui-Button-disabled, .fui-Button-secondary:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2422,11 +2431,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-secondary:not(:disabled):not(.disabled):hover, .fui-Button-secondary:not(:disabled):not(.disabled):hover {
+.fui-Button-secondary:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-secondary:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorNeutralBackground3Hover);
   color: var(--colorNeutralForeground3Hover);
 }
-.fui-Button-secondary:not(:disabled):not(.disabled):active, .fui-Button-secondary:not(:disabled):not(.disabled).active, .fui-Button-secondary:not(:disabled):not(.disabled):active, .fui-Button-secondary:not(:disabled):not(.disabled).active {
+.fui-Button-secondary:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-secondary:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-secondary:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-secondary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorNeutralBackground3Pressed);
   color: var(--colorNeutralForeground3Hover);
 }
@@ -2436,7 +2445,7 @@ button {
   color: var(--colorNeutralForegroundOnBrand);
   border-color: transparent;
 }
-.fui-Button-success.disabled, .fui-Button-success:disabled {
+.fui-Button-success.fui-Button-disabled, .fui-Button-success:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2444,11 +2453,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-success:not(:disabled):not(.disabled):hover, .fui-Button-success:not(:disabled):not(.disabled):hover {
+.fui-Button-success:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-success:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorStatusSuccessForeground1);
   color: var(--colorNeutralForegroundOnBrand);
 }
-.fui-Button-success:not(:disabled):not(.disabled):active, .fui-Button-success:not(:disabled):not(.disabled).active, .fui-Button-success:not(:disabled):not(.disabled):active, .fui-Button-success:not(:disabled):not(.disabled).active {
+.fui-Button-success:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-success:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-success:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-success:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorStatusSuccessForeground2);
   color: var(--colorNeutralForegroundOnBrand);
 }
@@ -2458,7 +2467,7 @@ button {
   color: var(--colorNeutralForegroundOnBrand);
   border-color: transparent;
 }
-.fui-Button-danger.disabled, .fui-Button-danger:disabled {
+.fui-Button-danger.fui-Button-disabled, .fui-Button-danger:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2466,11 +2475,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-danger:not(:disabled):not(.disabled):hover, .fui-Button-danger:not(:disabled):not(.disabled):hover {
+.fui-Button-danger:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-danger:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorStatusDangerForeground1);
   color: var(--colorNeutralForegroundOnBrand);
 }
-.fui-Button-danger:not(:disabled):not(.disabled):active, .fui-Button-danger:not(:disabled):not(.disabled).active, .fui-Button-danger:not(:disabled):not(.disabled):active, .fui-Button-danger:not(:disabled):not(.disabled).active {
+.fui-Button-danger:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-danger:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-danger:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-danger:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorStatusDangerForeground2);
   color: var(--colorNeutralForegroundOnBrand);
 }
@@ -2480,7 +2489,7 @@ button {
   color: var(--colorPaletteMarigoldBackground1);
   border-color: transparent;
 }
-.fui-Button-warning.disabled, .fui-Button-warning:disabled {
+.fui-Button-warning.fui-Button-disabled, .fui-Button-warning:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2488,11 +2497,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-warning:not(:disabled):not(.disabled):hover, .fui-Button-warning:not(:disabled):not(.disabled):hover {
+.fui-Button-warning:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-warning:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorStatusWarningForeground1);
   color: var(--colorPaletteMarigoldBackground1);
 }
-.fui-Button-warning:not(:disabled):not(.disabled):active, .fui-Button-warning:not(:disabled):not(.disabled).active, .fui-Button-warning:not(:disabled):not(.disabled):active, .fui-Button-warning:not(:disabled):not(.disabled).active {
+.fui-Button-warning:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-warning:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-warning:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-warning:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorStatusWarningForeground2);
   color: var(--colorPaletteMarigoldBackground1);
 }
@@ -2502,7 +2511,7 @@ button {
   color: var(--colorNeutralBackground3);
   border-color: transparent;
 }
-.fui-Button-info.disabled, .fui-Button-info:disabled {
+.fui-Button-info.fui-Button-disabled, .fui-Button-info:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2510,11 +2519,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-info:not(:disabled):not(.disabled):hover, .fui-Button-info:not(:disabled):not(.disabled):hover {
+.fui-Button-info:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-info:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorNeutralForeground3Hover);
   color: var(--colorNeutralBackground3Hover);
 }
-.fui-Button-info:not(:disabled):not(.disabled):active, .fui-Button-info:not(:disabled):not(.disabled).active, .fui-Button-info:not(:disabled):not(.disabled):active, .fui-Button-info:not(:disabled):not(.disabled).active {
+.fui-Button-info:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-info:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-info:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-info:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorNeutralForeground3Pressed);
   color: var(--colorNeutralBackground3Pressed);
 }
@@ -2524,7 +2533,7 @@ button {
   color: var(--colorNeutralBackground1);
   border-color: transparent;
 }
-.fui-Button-dark.disabled, .fui-Button-dark:disabled {
+.fui-Button-dark.fui-Button-disabled, .fui-Button-dark:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2532,11 +2541,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-dark:not(:disabled):not(.disabled):hover, .fui-Button-dark:not(:disabled):not(.disabled):hover {
+.fui-Button-dark:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-dark:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorNeutralForeground2);
   color: var(--colorNeutralBackground1);
 }
-.fui-Button-dark:not(:disabled):not(.disabled):active, .fui-Button-dark:not(:disabled):not(.disabled).active, .fui-Button-dark:not(:disabled):not(.disabled):active, .fui-Button-dark:not(:disabled):not(.disabled).active {
+.fui-Button-dark:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-dark:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-dark:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-dark:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorNeutralForeground3);
   color: var(--colorNeutralBackground1);
 }
@@ -2546,7 +2555,7 @@ button {
   color: var(--colorNeutralForeground2);
   border-color: transparent;
 }
-.fui-Button-light.disabled, .fui-Button-light:disabled {
+.fui-Button-light.fui-Button-disabled, .fui-Button-light:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2554,11 +2563,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-light:not(:disabled):not(.disabled):hover, .fui-Button-light:not(:disabled):not(.disabled):hover {
+.fui-Button-light:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-light:not(:disabled):not(.fui-Button-disabled):hover {
   background-color: var(--colorNeutralBackground2Hover);
   color: var(--colorNeutralForeground2Hover);
 }
-.fui-Button-light:not(:disabled):not(.disabled):active, .fui-Button-light:not(:disabled):not(.disabled).active, .fui-Button-light:not(:disabled):not(.disabled):active, .fui-Button-light:not(:disabled):not(.disabled).active {
+.fui-Button-light:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-light:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   background-color: var(--colorNeutralBackground2Pressed);
   color: var(--colorNeutralForeground2Pressed);
 }
@@ -2569,7 +2578,7 @@ button {
   border: none;
   text-decoration: none;
 }
-.fui-Button-link.disabled, .fui-Button-link:disabled {
+.fui-Button-link.fui-Button-disabled, .fui-Button-link:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2577,11 +2586,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-Button-link:not(:disabled):not(.disabled):hover, .fui-Button-link:not(:disabled):not(.disabled):hover {
+.fui-Button-link:not(:disabled):not(.fui-Button-disabled):hover, .fui-Button-link:not(:disabled):not(.fui-Button-disabled):hover {
   color: var(--colorBrandForegroundLinkHover);
   text-decoration: underline;
 }
-.fui-Button-link:not(:disabled):not(.disabled):active, .fui-Button-link:not(:disabled):not(.disabled).active, .fui-Button-link:not(:disabled):not(.disabled):active, .fui-Button-link:not(:disabled):not(.disabled).active {
+.fui-Button-link:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-link:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-Button-link:not(:disabled):not(.fui-Button-disabled):active, .fui-Button-link:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   color: var(--colorBrandForegroundLinkPressed);
 }
 
@@ -2589,7 +2598,7 @@ button {
   color: var(--colorBrandBackground);
   border-color: var(--colorBrandBackground);
 }
-.fui-ButtonOutline-primary.disabled, .fui-ButtonOutline-primary:disabled {
+.fui-ButtonOutline-primary.fui-Button-disabled, .fui-ButtonOutline-primary:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2597,11 +2606,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-primary:not(:disabled):not(.disabled):hover, .fui-ButtonOutline-primary:not(:disabled):not(.disabled):hover {
+.fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorBrandBackgroundHover);
   color: var(--colorBrandBackgroundHover);
 }
-.fui-ButtonOutline-primary:not(:disabled):not(.disabled):active, .fui-ButtonOutline-primary:not(:disabled):not(.disabled).active, .fui-ButtonOutline-primary:not(:disabled):not(.disabled):active, .fui-ButtonOutline-primary:not(:disabled):not(.disabled).active {
+.fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-primary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorBrandBackgroundPressed);
   color: var(--colorBrandBackgroundPressed);
 }
@@ -2610,7 +2619,7 @@ button {
   color: var(--colorNeutralForeground3);
   border-color: var(--colorNeutralForeground3);
 }
-.fui-ButtonOutline-secondary.disabled, .fui-ButtonOutline-secondary:disabled {
+.fui-ButtonOutline-secondary.fui-Button-disabled, .fui-ButtonOutline-secondary:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2618,11 +2627,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-secondary:not(:disabled):not(.disabled):hover, .fui-ButtonOutline-secondary:not(:disabled):not(.disabled):hover {
+.fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorNeutralForeground3Hover);
   color: var(--colorNeutralForeground3Hover);
 }
-.fui-ButtonOutline-secondary:not(:disabled):not(.disabled):active, .fui-ButtonOutline-secondary:not(:disabled):not(.disabled).active, .fui-ButtonOutline-secondary:not(:disabled):not(.disabled):active, .fui-ButtonOutline-secondary:not(:disabled):not(.disabled).active {
+.fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-secondary:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorNeutralForeground3Pressed);
   color: var(--colorNeutralForeground3Pressed);
 }
@@ -2631,7 +2640,7 @@ button {
   color: var(--colorStatusSuccessBackground3);
   border-color: var(--colorStatusSuccessBackground3);
 }
-.fui-ButtonOutline-success.disabled, .fui-ButtonOutline-success:disabled {
+.fui-ButtonOutline-success.fui-Button-disabled, .fui-ButtonOutline-success:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2639,11 +2648,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-success:not(:disabled):not(.disabled):hover, .fui-ButtonOutline-success:not(:disabled):not(.disabled):hover {
+.fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorStatusSuccessForeground1);
   color: var(--colorStatusSuccessForeground1);
 }
-.fui-ButtonOutline-success:not(:disabled):not(.disabled):active, .fui-ButtonOutline-success:not(:disabled):not(.disabled).active, .fui-ButtonOutline-success:not(:disabled):not(.disabled):active, .fui-ButtonOutline-success:not(:disabled):not(.disabled).active {
+.fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-success:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorStatusSuccessForeground2);
   color: var(--colorStatusSuccessForeground2);
 }
@@ -2652,7 +2661,7 @@ button {
   color: var(--colorStatusDangerBackground3);
   border-color: var(--colorStatusDangerBackground3);
 }
-.fui-ButtonOutline-danger.disabled, .fui-ButtonOutline-danger:disabled {
+.fui-ButtonOutline-danger.fui-Button-disabled, .fui-ButtonOutline-danger:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2660,11 +2669,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-danger:not(:disabled):not(.disabled):hover, .fui-ButtonOutline-danger:not(:disabled):not(.disabled):hover {
+.fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorStatusDangerForeground1);
   color: var(--colorStatusDangerForeground1);
 }
-.fui-ButtonOutline-danger:not(:disabled):not(.disabled):active, .fui-ButtonOutline-danger:not(:disabled):not(.disabled).active, .fui-ButtonOutline-danger:not(:disabled):not(.disabled):active, .fui-ButtonOutline-danger:not(:disabled):not(.disabled).active {
+.fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-danger:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorStatusDangerForeground2);
   color: var(--colorStatusDangerForeground2);
 }
@@ -2673,7 +2682,7 @@ button {
   color: var(--colorStatusWarningBackground3);
   border-color: var(--colorStatusWarningBackground3);
 }
-.fui-ButtonOutline-warning.disabled, .fui-ButtonOutline-warning:disabled {
+.fui-ButtonOutline-warning.fui-Button-disabled, .fui-ButtonOutline-warning:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2681,11 +2690,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-warning:not(:disabled):not(.disabled):hover, .fui-ButtonOutline-warning:not(:disabled):not(.disabled):hover {
+.fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorStatusWarningForeground1);
   color: var(--colorStatusWarningForeground1);
 }
-.fui-ButtonOutline-warning:not(:disabled):not(.disabled):active, .fui-ButtonOutline-warning:not(:disabled):not(.disabled).active, .fui-ButtonOutline-warning:not(:disabled):not(.disabled):active, .fui-ButtonOutline-warning:not(:disabled):not(.disabled).active {
+.fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-warning:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorStatusWarningForeground2);
   color: var(--colorStatusWarningForeground2);
 }
@@ -2694,7 +2703,7 @@ button {
   color: var(--colorNeutralForeground3);
   border-color: var(--colorNeutralForeground3);
 }
-.fui-ButtonOutline-info.disabled, .fui-ButtonOutline-info:disabled {
+.fui-ButtonOutline-info.fui-Button-disabled, .fui-ButtonOutline-info:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2702,11 +2711,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-info:not(:disabled):not(.disabled):hover, .fui-ButtonOutline-info:not(:disabled):not(.disabled):hover {
+.fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorNeutralForeground3Hover);
   color: var(--colorNeutralForeground3Hover);
 }
-.fui-ButtonOutline-info:not(:disabled):not(.disabled):active, .fui-ButtonOutline-info:not(:disabled):not(.disabled).active, .fui-ButtonOutline-info:not(:disabled):not(.disabled):active, .fui-ButtonOutline-info:not(:disabled):not(.disabled).active {
+.fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-info:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorNeutralForeground3Pressed);
   color: var(--colorNeutralForeground3Pressed);
 }
@@ -2715,7 +2724,7 @@ button {
   color: var(--colorNeutralForeground1);
   border-color: var(--colorNeutralForeground1);
 }
-.fui-ButtonOutline-dark.disabled, .fui-ButtonOutline-dark:disabled {
+.fui-ButtonOutline-dark.fui-Button-disabled, .fui-ButtonOutline-dark:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2723,11 +2732,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-dark:not(:disabled):not(.disabled):hover, .fui-ButtonOutline-dark:not(:disabled):not(.disabled):hover {
+.fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorNeutralForeground2);
   color: var(--colorNeutralForeground2);
 }
-.fui-ButtonOutline-dark:not(:disabled):not(.disabled):active, .fui-ButtonOutline-dark:not(:disabled):not(.disabled).active, .fui-ButtonOutline-dark:not(:disabled):not(.disabled):active, .fui-ButtonOutline-dark:not(:disabled):not(.disabled).active {
+.fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-dark:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorNeutralForeground3);
   color: var(--colorNeutralForeground3);
 }
@@ -2736,7 +2745,7 @@ button {
   color: var(--colorNeutralBackground2);
   border-color: var(--colorNeutralBackground2);
 }
-.fui-ButtonOutline-light.disabled, .fui-ButtonOutline-light:disabled {
+.fui-ButtonOutline-light.fui-Button-disabled, .fui-ButtonOutline-light:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2744,11 +2753,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-light:not(:disabled):not(.disabled):hover, .fui-ButtonOutline-light:not(:disabled):not(.disabled):hover {
+.fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorNeutralBackground2Hover);
   color: var(--colorNeutralBackground2Hover);
 }
-.fui-ButtonOutline-light:not(:disabled):not(.disabled):active, .fui-ButtonOutline-light:not(:disabled):not(.disabled).active, .fui-ButtonOutline-light:not(:disabled):not(.disabled):active, .fui-ButtonOutline-light:not(:disabled):not(.disabled).active {
+.fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorNeutralBackground2Pressed);
   color: var(--colorNeutralBackground2Pressed);
 }
@@ -2757,7 +2766,7 @@ button {
   color: var(--colorBrandForegroundLink);
   border-color: var(--colorBrandForegroundLink);
 }
-.fui-ButtonOutline-link.disabled, .fui-ButtonOutline-link:disabled {
+.fui-ButtonOutline-link.fui-Button-disabled, .fui-ButtonOutline-link:disabled {
   cursor: not-allowed;
   border-bottom-color: var(--colorNeutralStrokeDisabled);
   border-left-color: var(--colorNeutralStrokeDisabled);
@@ -2765,11 +2774,11 @@ button {
   border-top-color: var(--colorNeutralStrokeDisabled);
   background-color: var(--colorNeutralBackgroundDisabled);
 }
-.fui-ButtonOutline-link:not(:disabled):not(.disabled):hover, .fui-ButtonOutline-link:not(:disabled):not(.disabled):hover {
+.fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled):hover {
   border-color: var(--colorBrandForegroundLinkHover);
   color: var(--colorBrandForegroundLinkHover);
 }
-.fui-ButtonOutline-link:not(:disabled):not(.disabled):active, .fui-ButtonOutline-link:not(:disabled):not(.disabled).active, .fui-ButtonOutline-link:not(:disabled):not(.disabled):active, .fui-ButtonOutline-link:not(:disabled):not(.disabled).active {
+.fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-link:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
   border-color: var(--colorBrandForegroundLinkPressed);
   color: var(--colorBrandForegroundLinkPressed);
 }
