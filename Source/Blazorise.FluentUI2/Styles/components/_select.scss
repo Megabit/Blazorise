@@ -31,6 +31,24 @@
         transition-duration: var(--durationNormal);
         transition-delay: var(--curveDecelerateMid);
     }
+
+    &-error {
+        .fui-Select__select {
+            border-bottom-color: var(--colorPaletteRedBorder2) !important;
+            border-left-color: var(--colorPaletteRedBorder2) !important;
+            border-right-color: var(--colorPaletteRedBorder2) !important;
+            border-top-color: var(--colorPaletteRedBorder2) !important;
+        }
+    }
+
+    &-success {
+        .fui-Select__select {
+            border-bottom-color: var(--colorPaletteGreenForeground1) !important;
+            border-left-color: var(--colorPaletteGreenForeground1) !important;
+            border-right-color: var(--colorPaletteGreenForeground1) !important;
+            border-top-color: var(--colorPaletteGreenForeground1) !important;
+        }
+    }
 }
 
 .fui-Select__select {

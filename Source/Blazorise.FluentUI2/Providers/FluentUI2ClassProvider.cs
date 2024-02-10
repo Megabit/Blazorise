@@ -15,7 +15,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string TextEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string TextEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
@@ -49,7 +49,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string NumericEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string NumericEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
@@ -61,7 +61,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DateEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string DateEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string DateEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
@@ -73,7 +73,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimeEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string TimeEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
@@ -93,7 +93,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
@@ -105,7 +105,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
@@ -125,7 +125,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"fui-SpinButton__input-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
@@ -137,7 +137,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
@@ -267,7 +267,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Help
 
-    public override string Help() => "form-text text-muted";
+    public override string Help() => "fui-Field__hint fui-TextColor-muted";
 
     #endregion
 
@@ -275,17 +275,17 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ValidationSuccess() => "fui-Field__validationMessage";
 
-    public override string ValidationSuccessTooltip() => "valid-tooltip";
+    public override string ValidationSuccessTooltip() => "fui-Field__validationTooltip";
 
     public override string ValidationError() => "fui-Field__validationMessage";
 
-    public override string ValidationErrorTooltip() => "invalid-tooltip";
+    public override string ValidationErrorTooltip() => "fui-Field__validationTooltip";
 
-    public override string ValidationNone() => "form-text text-muted";
+    public override string ValidationNone() => "fui-Field__hint fui-TextColor-muted";
 
-    public override string ValidationSummary() => "text-danger";
+    public override string ValidationSummary() => "fui-TextColor-danger";
 
-    public override string ValidationSummaryError() => "text-danger";
+    public override string ValidationSummaryError() => "fui-TextColor-danger";
 
     #endregion
 

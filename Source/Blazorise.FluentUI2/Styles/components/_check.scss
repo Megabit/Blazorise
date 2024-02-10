@@ -12,6 +12,10 @@
     &:hover {
         --fui-Checkbox__indicator--borderColor: var(--colorNeutralStrokeAccessibleHover);
     }
+
+    &-error {
+        color: var(--colorPaletteRedBorder2) !important;
+    }
 }
 
 .fui-Checkbox__input {

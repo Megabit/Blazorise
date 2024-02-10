@@ -40,7 +40,11 @@
     line-height: var(--lineHeightBase200);
 }
 
-.fui-Input {
+.fui-Input,
+.fui-Select,
+.fui-SpinButton,
+.fui-Checkbox,
+.fui-ColorPicker {
     & + .fui-Field__validationMessage {
         margin-top: var(--spacingVerticalXXS);
         color: var(--colorNeutralForeground3);
@@ -60,7 +64,11 @@
         }
     }
 
-    &.fui-Input-error {
+    &.fui-Input-error,
+    &.fui-Select-error,
+    &.fui-SpinButton-error,
+    &.fui-Checkbox-error,
+    &.fui-ColorPicker-error {
         & + .fui-Field__validationMessage {
             color: var(--colorPaletteRedForeground1);
 
@@ -70,7 +78,11 @@
         }
     }
 
-    &.fui-Input-success {
+    &.fui-Input-success,
+    &.fui-Select-success,
+    &.fui-SpinButton-success,
+    &.fui-Checkbox-success,
+    &.fui-ColorPicker-success {
         & + .fui-Field__validationMessage {
             .fui-Field__validationMessageIcon {
                 color: var(--colorPaletteGreenForeground1);
