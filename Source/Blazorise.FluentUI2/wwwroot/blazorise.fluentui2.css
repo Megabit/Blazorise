@@ -2489,11 +2489,11 @@ button {
   background-color: var(--colorNeutralBackgroundDisabled);
 }
 .fui-Button-warning:not(:disabled):not(.disabled):hover, .fui-Button-warning:not(:disabled):not(.disabled):hover {
-  background-color: var(--colorPaletteMarigoldForeground1);
+  background-color: var(--colorStatusWarningForeground1);
   color: var(--colorPaletteMarigoldBackground1);
 }
 .fui-Button-warning:not(:disabled):not(.disabled):active, .fui-Button-warning:not(:disabled):not(.disabled).active, .fui-Button-warning:not(:disabled):not(.disabled):active, .fui-Button-warning:not(:disabled):not(.disabled).active {
-  background-color: var(--colorPaletteMarigoldForeground2);
+  background-color: var(--colorStatusWarningForeground2);
   color: var(--colorPaletteMarigoldBackground1);
 }
 
@@ -2556,11 +2556,11 @@ button {
 }
 .fui-Button-light:not(:disabled):not(.disabled):hover, .fui-Button-light:not(:disabled):not(.disabled):hover {
   background-color: var(--colorNeutralBackground2Hover);
-  color: var(--colorNeutralBackground2Hover);
+  color: var(--colorNeutralForeground2Hover);
 }
 .fui-Button-light:not(:disabled):not(.disabled):active, .fui-Button-light:not(:disabled):not(.disabled).active, .fui-Button-light:not(:disabled):not(.disabled):active, .fui-Button-light:not(:disabled):not(.disabled).active {
   background-color: var(--colorNeutralBackground2Pressed);
-  color: var(--colorNeutralBackground2Hover);
+  color: var(--colorNeutralForeground2Pressed);
 }
 
 .fui-Button-link {

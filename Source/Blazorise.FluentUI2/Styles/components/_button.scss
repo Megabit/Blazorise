@@ -165,7 +165,7 @@
 }
 
 .fui-Button-warning {
-    @include button-variant(var(--colorStatusWarningBackground3), var(--colorPaletteMarigoldForeground1), var(--colorPaletteMarigoldForeground2), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1));
+    @include button-variant(var(--colorStatusWarningBackground3), var(--colorStatusWarningForeground1), var(--colorStatusWarningForeground2), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1));
 }
 
 .fui-Button-info {
@@ -177,7 +177,7 @@
 }
 
 .fui-Button-light {
-    @include button-variant(var(--colorNeutralBackground2), var(--colorNeutralBackground2Hover), var(--colorNeutralBackground2Pressed), var(--colorNeutralForeground2), var(--colorNeutralBackground2Hover), var(--colorNeutralBackground2Hover));
+    @include button-variant(var(--colorNeutralBackground2), var(--colorNeutralBackground2Hover), var(--colorNeutralBackground2Pressed), var(--colorNeutralForeground2), var(--colorNeutralForeground2Hover), var(--colorNeutralForeground2Pressed));
 }
 
 .fui-Button-link {
