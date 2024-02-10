@@ -32,7 +32,7 @@ public partial class Captcha : BaseComponent
     {
         if ( firstRender )
         {
-            await Render();
+            await Initialize();
         }
     }
 
@@ -85,10 +85,10 @@ public partial class Captcha : BaseComponent
     }
 
     /// <summary>
-    /// Renders the Captcha.
+    /// Initialize the Captcha.
     /// </summary>
     /// <returns></returns>
-    public virtual Task Render()
+    public virtual Task Initialize()
     {
         return Task.CompletedTask;
     }

@@ -28,7 +28,7 @@ public partial class ReCaptcha : Captcha, IAsyncDisposable
         return base.OnInitializedAsync();
     }
 
-    public override async Task Render()
+    public override async Task Initialize()
     {
         JSModule ??= new JSReCaptchaModule( JSRuntime, VersionProvider );
 
