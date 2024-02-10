@@ -346,13 +346,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check";
+    public override string ControlCheck() => null;
 
-    public override string ControlRadio() => UseCustomInputStyles ? "custom-control custom-radio" : "form-check";
+    public override string ControlRadio() => null;
 
-    public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
+    public override string ControlSwitch() => null;
 
-    public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
+    public override string ControlFile() => null;
 
     public override string ControlText() => null;
 
