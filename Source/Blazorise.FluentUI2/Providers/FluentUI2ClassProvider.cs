@@ -1039,11 +1039,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ModalBody() => "fui-DialogContent";
 
-    public override string ModalHeader() => "fui-DialogTitle";
+    public override string ModalHeader() => "fui-DialogHeader";
 
     public override string ModalFooter() => "fui-DialogActions";
 
-    public override string ModalTitle() => "modal-title";
+    public override string ModalTitle() => "fui-DialogTitle";
 
     #endregion
 
