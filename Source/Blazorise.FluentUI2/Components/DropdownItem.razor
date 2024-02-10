@@ -1,38 +1,22 @@
 ﻿@inherits Blazorise.DropdownItem
 
-<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="menuitem" aria-disabled="@DisabledString" tabindex="0" @onmouseup="@ClickHandler" @onmousedown="@EventCallback.Empty" @onmousedown:preventDefault @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="@Role" aria-disabled="@DisabledString" aria-checked="@AriaChecked" tabindex="0" @onmouseup="@ClickHandler" @onmousedown="@EventCallback.Empty" @onmousedown:preventDefault @attributes="@Attributes">
+    @if ( ShowCheckbox )
+    {
+        <span class="fui-MenuItem__checkmark fui-MenuItemCheckbox__checkmark">
+            <svg fill="currentColor" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.05 3.49c.28.3.27.77-.04 1.06l-7.93 7.47A.85.85 0 0 1 4.9 12L2.22 9.28a.75.75 0 1 1 1.06-1.06l2.24 2.27 7.47-7.04a.75.75 0 0 1 1.06.04Z" fill="currentColor"></path></svg>
+        </span>
+    }
     <span class="fui-MenuItem__content">
         @ChildContent
     </span>
 </div>
 @code {
-    string Role => ShowCheckbox ? "menuitemcheckbox" : null;
+    string Role => ShowCheckbox ? "menuitemcheckbox" : "menuitem";
 
-    string CheckedString => @checked ? "true" : null;
+    string CheckedString => @checked ? "true" : "false";
 
     string DisabledString => Disabled ? "true" : null;
+
+    string AriaChecked => ShowCheckbox ? CheckedString : null;
 }
-
-@* <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onmouseup="@ClickHandler" @onmousedown="@EventCallback.Empty" @onmousedown:preventDefault @attributes="@Attributes">
-    @if ( ShowCheckbox )
-    {
-        <span aria-hidden="true" class="fui-Option__checkIcon" aria-checked="@CheckedString" @onclick="@(()=>CheckedChangedHandler(!@checked))">
-            @if ( @checked )
-            {
-                <svg fill="currentColor" aria-hidden="true" width="12" height="12" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg"><path d="M9.76 3.2c.3.29.32.76.04 1.06l-4.25 4.5a.75.75 0 0 1-1.08.02L2.22 6.53a.75.75 0 0 1 1.06-1.06l1.7 1.7L8.7 3.24a.75.75 0 0 1 1.06-.04Z" fill="currentColor"></path></svg>
-            }
-        </span>
-    }
-    else
-    {
-        <span aria-hidden="true" class="fui-Option__checkIcon" aria-checked="@CheckedString">
-            <svg fill="currentColor" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M7.03 13.9 3.56 10a.75.75 0 0 0-1.12 1l4 4.5c.29.32.79.34 1.09.03l10.5-10.5a.75.75 0 0 0-1.06-1.06l-9.94 9.94Z" fill="currentColor"></path></svg>
-        </span>
-        @ChildContent
-    }
-</div>
-@code {
-    string Role => ShowCheckbox ? "menuitemcheckbox" : null;
-
-    string CheckedString => @checked ? "true" : null;
-} *@

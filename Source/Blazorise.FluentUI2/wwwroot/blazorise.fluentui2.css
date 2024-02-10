@@ -3884,6 +3884,19 @@ button {
   background-color: transparent;
   flex-grow: 1;
 }
+.fui-Menu .fui-MenuPopover .fui-MenuList .fui-MenuItem .fui-MenuItem__checkmark {
+  margin-top: 2px;
+  visibility: hidden;
+  width: 16px;
+  height: 16px;
+}
+.fui-Menu .fui-MenuPopover .fui-MenuList .fui-MenuItem .fui-MenuItem__checkmark > svg {
+  display: inline;
+  line-height: 0;
+}
+.fui-Menu .fui-MenuPopover .fui-MenuList .fui-MenuItem[aria-checked=true] .fui-MenuItem__checkmark {
+  visibility: visible;
+}
 .fui-Menu .fui-MenuPopover .fui-MenuList .fui-MenuItem .fui-MenuItem__submenuIndicator {
   width: 20px;
   height: 20px;

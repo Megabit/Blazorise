@@ -527,7 +527,23 @@
                     flex-grow: 1;
                 }
 
+                .fui-MenuItem__checkmark {
+                    margin-top: 2px;
+                    visibility: hidden;
+                    width: 16px;
+                    height: 16px;
 
+                    > svg {
+                        display: inline;
+                        line-height: 0;
+                    }
+                }
+
+                &[aria-checked="true"] {
+                    .fui-MenuItem__checkmark {
+                        visibility: visible;
+                    }
+                }
 
                 .fui-MenuItem__submenuIndicator {
                     width: 20px;
