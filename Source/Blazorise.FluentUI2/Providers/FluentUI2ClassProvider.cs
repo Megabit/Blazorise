@@ -1359,17 +1359,17 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Tooltip
 
-    public override string Tooltip() => "b-tooltip";
+    public override string Tooltip() => "fui-Tooltip";
 
-    public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
+    public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"fui-Tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
-    public override string TooltipMultiline() => "b-tooltip-multiline";
+    public override string TooltipMultiline() => "fui-Tooltip-multiline";
 
-    public override string TooltipAlwaysActive() => "b-tooltip-active";
+    public override string TooltipAlwaysActive() => "fui-Tooltip-active";
 
-    public override string TooltipFade() => "b-tooltip-fade";
+    public override string TooltipFade() => "fui-Tooltip-fade";
 
-    public override string TooltipInline() => "b-tooltip-inline";
+    public override string TooltipInline() => "fui-Tooltip-inline";
 
     #endregion
 

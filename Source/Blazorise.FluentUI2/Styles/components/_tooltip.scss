@@ -1,4 +1,10 @@
-﻿.fui-Tooltip__box {
+﻿.fui-Tooltip {
+    &-inline {
+        display: inline-block;
+    }
+}
+
+.fui-Tooltip__box {
     &[data-theme~='fluentui'] {
         filter: drop-shadow(0 0 2px var(--colorNeutralShadowAmbient)) drop-shadow(0 4px 8px var(--colorNeutralShadowKey));
         padding-bottom: 6px;
