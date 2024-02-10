@@ -34,7 +34,7 @@ public static class Config
                 options.Size = ReCaptchaSize.Invisible;
                 options.Theme = ReCaptchaTheme.Dark;
                 options.LanguageCode = "pt-PT";
-                options.Badge = ReCaptchaBadge.BottomRight;
+                options.Badge = ReCaptchaBadgePosition.BottomEnd;
             } );
 
         services.AddBlazoredLocalStorage();

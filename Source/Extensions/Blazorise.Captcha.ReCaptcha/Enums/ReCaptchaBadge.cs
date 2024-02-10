@@ -4,17 +4,18 @@
 /// Reposition the reCAPTCHA badge. 'inline' lets you position it with CSS.
 /// <para>This option is only available for invisible reCAPTCHA.</para>
 /// </summary>
-public enum ReCaptchaBadge
+public enum ReCaptchaBadgePosition
+
 {
     /// <summary>
-    /// Repositions the reCAPTCHA badge to the bottom right.
+    /// Repositions the reCAPTCHA badge to the bottom end.
     /// </summary>
-    BottomRight,
+    BottomEnd,
 
     /// <summary>
-    /// Repositions the reCAPTCHA badge to the bottom left.
+    /// Repositions the reCAPTCHA badge to the bottom start.
     /// </summary>
-    BottomLeft,
+    BottomStart,
 
     /// <summary>
     /// Repositions the reCAPTCHA badge inline.
