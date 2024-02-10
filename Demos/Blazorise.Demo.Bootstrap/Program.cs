@@ -4,7 +4,6 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
-using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -18,7 +17,7 @@ public class Program
         var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
         builder.Services
-            .SetupDemoServices( builder.Configuration["Licensing:ProductToken"] )
+            .SetupDemoServices( builder.Configuration["Licensing:ProductToken"], builder.Configuration["ReCaptchaSiteKey"] )
             .AddBootstrapProviders()
             .AddFontAwesomeIcons();
 

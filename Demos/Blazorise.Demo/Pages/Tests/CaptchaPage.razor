@@ -1,0 +1,44 @@
+﻿@page "/tests/captcha"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Google Recaptcha</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use our <Anchor To="https://www.google.com/recaptcha/about/" Target="Target.Blank">google reCAPTCHA</Anchor> 'integration' to make sure fake users will be blocked.</CardText>
+            </CardBody>
+            <CardBody>
+                <Captcha @ref=_captcha Solved="Solved" Validate=Validate Expired="Expired" />
+                <Button Background="Background.Primary" Clicked="Reset">Reset</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private Captcha _captcha;
+    private void Solved( CaptchaState state )
+    {
+        Console.WriteLine( $"Success: {state.Valid}" );
+    }
+
+    private void Expired()
+    {
+        Console.WriteLine( "Expired" );
+    }
+
+    private Task<bool> Validate( CaptchaState state )
+    {
+        Console.WriteLine( "Validate" );
+        //You should make sure to implement server side validation
+        //https://developers.google.com/recaptcha/docs/verify
+        return Task.FromResult(true);
+    }
+
+    private async Task Reset()
+    {
+        await _captcha.Reset();
+    }
+
+}

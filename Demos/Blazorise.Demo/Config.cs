@@ -12,7 +12,7 @@ namespace Blazorise.Demo;
 
 public static class Config
 {
-    public static IServiceCollection SetupDemoServices( this IServiceCollection services, string licenseKey )
+    public static IServiceCollection SetupDemoServices( this IServiceCollection services, string licenseKey, string reCaptchaSiteKey )
     {
         services
             .AddBlazorise( options =>
@@ -29,13 +29,7 @@ public static class Config
             .AddBlazoriseFluentValidation()
             .AddBlazoriseGoogleReCaptcha( options =>
             {
-                //options.SiteKey = "6LdF_GopAAAAAAbxAmHmnGQKDZF5MDjZk76_5SJU"; //checkbox
-                //options.SiteKey = "6LfqW20pAAAAAC9xJUNgc4z5D3OkR6MGI_d1s5PH"; //invisible
-                options.SiteKey = "6LeALm4pAAAAAFl2GqcmFGxbJ0wUHKbk5mIZ3RX_"; //v3
-                options.Size = ReCaptchaSize.Invisible;
-                options.Theme = ReCaptchaTheme.Dark;
-                options.LanguageCode = "pt-PT";
-                options.Badge = ReCaptchaBadgePosition.BottomEnd;
+                options.SiteKey = reCaptchaSiteKey;
             } );
 
         services.AddBlazoredLocalStorage();

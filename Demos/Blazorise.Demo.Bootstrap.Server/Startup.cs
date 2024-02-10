@@ -24,7 +24,7 @@ public class Startup
     public void ConfigureServices( IServiceCollection services )
     {
         services
-            .SetupDemoServices( Configuration["Licensing:ProductToken"] )
+            .SetupDemoServices( Configuration["Licensing:ProductToken"], Configuration["ReCaptchaSiteKey"] )
             .AddBootstrapProviders()
             .AddFontAwesomeIcons();
 
@@ -35,7 +35,6 @@ public class Startup
         {
             o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
         } );
-        services.AddHttpClient();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
