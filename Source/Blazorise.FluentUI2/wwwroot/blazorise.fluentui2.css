@@ -14267,7 +14267,7 @@ code {
   font-size: var(--fontSizeBase400);
 }
 .fui-TextSize-6 {
-  font-size: var(--fontSizeBase400);
+  font-size: var(--fontSizeBase300);
 }
 
 @media (min-width: 600px) {
@@ -14314,7 +14314,7 @@ code {
     font-size: var(--fontSizeBase400);
   }
   .fui-TextSize-sm-6 {
-    font-size: var(--fontSizeBase400);
+    font-size: var(--fontSizeBase300);
   }
 }
 @media (min-width: 960px) {
@@ -14361,7 +14361,7 @@ code {
     font-size: var(--fontSizeBase400);
   }
   .fui-TextSize-md-6 {
-    font-size: var(--fontSizeBase400);
+    font-size: var(--fontSizeBase300);
   }
 }
 @media (min-width: 1280px) {
@@ -14408,7 +14408,7 @@ code {
     font-size: var(--fontSizeBase400);
   }
   .fui-TextSize-lg-6 {
-    font-size: var(--fontSizeBase400);
+    font-size: var(--fontSizeBase300);
   }
 }
 @media (min-width: 1920px) {
@@ -14455,7 +14455,7 @@ code {
     font-size: var(--fontSizeBase400);
   }
   .fui-TextSize-xl-6 {
-    font-size: var(--fontSizeBase400);
+    font-size: var(--fontSizeBase300);
   }
 }
 @media (min-width: 2560px) {
@@ -14502,7 +14502,7 @@ code {
     font-size: var(--fontSizeBase400);
   }
   .fui-TextSize-xxl-6 {
-    font-size: var(--fontSizeBase400);
+    font-size: var(--fontSizeBase300);
   }
 }
 .fui-TextColor-primary {
