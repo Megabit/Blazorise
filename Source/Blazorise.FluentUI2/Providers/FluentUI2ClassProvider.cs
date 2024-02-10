@@ -1255,13 +1255,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Media
 
-    public override string Media() => "media";
+    public override string Media() => "fui-Media";
 
-    public override string MediaLeft() => "media-left";
+    public override string MediaLeft() => "fui-Media-left";
 
-    public override string MediaRight() => "media-right";
+    public override string MediaRight() => "fui-Media-right";
 
-    public override string MediaBody() => "media-body";
+    public override string MediaBody() => "fui-Media-body";
 
     #endregion
 

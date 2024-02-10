@@ -4958,6 +4958,30 @@ input::file-selector-button {
   border-bottom-width: 0;
 }
 
+.fui-Media {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.fui-Media-left {
+  flex-shrink: 0 !important;
+}
+.fui-Media-left + .fui-Media-body {
+  margin-left: var(--spacingHorizontalM) !important;
+}
+
+.fui-Media-right {
+  flex-shrink: 0 !important;
+}
+
+.fui-Media-body {
+  flex-grow: 1 !important;
+}
+.fui-Media-body + .fui-Media-right {
+  margin-left: var(--spacingHorizontalM) !important;
+}
+
 @keyframes fadeaway {
   from {
     transform: scale(1) translateZ(0px);
