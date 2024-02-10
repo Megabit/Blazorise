@@ -1447,7 +1447,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Border( BorderSize borderSize, BorderSide borderSide, BorderColor borderColor )
     {
-        var sb = new StringBuilder( "border" );
+        var sb = new StringBuilder( "fui-Border" );
 
         if ( borderSide != BorderSide.All )
             sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
@@ -1456,7 +1456,7 @@ public class FluentUI2ClassProvider : ClassProvider
             sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
 
         if ( borderColor != BorderColor.None )
-            sb.Append( " border-" ).Append( ToBorderColor( borderColor ) );
+            sb.Append( " fui-Border-" ).Append( ToBorderColor( borderColor ) );
 
         return sb.ToString();
     }
@@ -1774,6 +1774,33 @@ public class FluentUI2ClassProvider : ClassProvider
             Blazorise.PositionEdgeType.Start => "Left",
             Blazorise.PositionEdgeType.Bottom => "Bottom",
             Blazorise.PositionEdgeType.End => "Right",
+            _ => null,
+        };
+    }
+
+    public override string ToBorderSide( BorderSide borderSide )
+    {
+        return borderSide switch
+        {
+            Blazorise.BorderSide.Bottom => "bottom",
+            Blazorise.BorderSide.Start => "start",
+            Blazorise.BorderSide.End => "end",
+            _ => "top",
+        };
+    }
+
+    public override string ToBorderRadius( BorderRadius borderRadius )
+    {
+        return borderRadius switch
+        {
+            Blazorise.BorderRadius.Rounded => "fui-Rounded",
+            Blazorise.BorderRadius.RoundedTop => "fui-Rounded-top",
+            Blazorise.BorderRadius.RoundedEnd => "fui-Rounded-end",
+            Blazorise.BorderRadius.RoundedBottom => "fui-Rounded-bottom",
+            Blazorise.BorderRadius.RoundedStart => "fui-Rounded-start",
+            Blazorise.BorderRadius.RoundedCircle => "fui-Rounded-circle",
+            Blazorise.BorderRadius.RoundedPill => "fui-Rounded-pill",
+            Blazorise.BorderRadius.RoundedZero => "fui-Rounded-0",
             _ => null,
         };
     }

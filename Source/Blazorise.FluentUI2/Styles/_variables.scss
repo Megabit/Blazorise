@@ -429,7 +429,10 @@
 }
 
 :root {
+    --borderRadiusPill: 50rem;
     --fontWeightLight: 300;
+    --strokeWidthNone: 0px;
+    --strokeWidthMax: 5px;
     --zIndexITableFixed: 10;
     --zIndexITableFixed2: 11;
     --zIndexInputBefore: 10;

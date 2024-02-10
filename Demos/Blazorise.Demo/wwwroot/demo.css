@@ -48,7 +48,8 @@
     margin-top: 2rem
 }
 
-.b-example-border-utils [class*="border"] {
+.b-example-border-utils [class*="border"],
+.b-example-border-utils [class*="fui-Border"] {
     display: inline-block;
     width: 5rem;
     height: 5rem;
@@ -59,7 +60,8 @@
     align-items: center;
 }
 
-.b-example-border-utils [class*="rounded"] {
+.b-example-border-utils [class*="rounded"],
+.b-example-border-utils [class*="fui-Rounded"] {
     display: inline-block;
     width: 5rem;
     height: 5rem;
@@ -71,7 +73,8 @@
     align-items: center;
 }
 
-.b-example-border-utils-0 [class*="border"] {
+.b-example-border-utils-0 [class*="border"],
+.b-example-border-utils-0 [class*="fui-Border"] {
     border: 1px solid #dee2e6;
 }
 
