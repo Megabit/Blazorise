@@ -5,7 +5,6 @@
 /// <para>This option is only available for invisible reCAPTCHA.</para>
 /// </summary>
 public enum ReCaptchaBadgePosition
-
 {
     /// <summary>
     /// Repositions the reCAPTCHA badge to the bottom end.
