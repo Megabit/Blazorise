@@ -650,3 +650,60 @@
         }
     }
 }
+
+.b-bar-vertical-inline,
+.b-bar-vertical-popout,
+.b-bar-vertical-small {
+    &.b-bar-dark {
+        .b-bar-brand {
+            .b-bar-link {
+                &.fui-Link-active {
+                    color: #fff;
+                    background: inherit;
+                }
+            }
+        }
+
+        .b-bar-dropdown-menu {
+            .b-bar-dropdown-item {
+                &.fui-Link-active {
+                    color: var(--b-bar-item-dark-active-color, #fff);
+                    background: var(--b-bar-item-dark-active-background, #0288D1);
+                }
+            }
+        }
+
+        .b-bar-link {
+            &.fui-Link-active {
+                color: var(--b-bar-item-dark-active-color, #fff);
+                background: var(--b-bar-item-dark-active-background, #0288D1);
+            }
+        }
+    }
+
+    &.b-bar-light {
+        .b-bar-brand {
+            .b-bar-link {
+                &.fui-Link-active {
+                    background: inherit;
+                }
+            }
+        }
+
+        .b-bar-dropdown-menu {
+            .b-bar-dropdown-item {
+                &.fui-Link-active {
+                    color: var(--b-bar-item-light-active-color, #000);
+                    background: var(--b-bar-item-light-active-background, #0288D1);
+                }
+            }
+        }
+
+        .b-bar-link {
+            &.fui-Link-active {
+                color: var(--b-bar-item-light-active-color, #000);
+                background: var(--b-bar-item-light-active-background, #0288D1);
+            }
+        }
+    }
+}

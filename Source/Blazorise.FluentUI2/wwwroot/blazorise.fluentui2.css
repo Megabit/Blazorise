@@ -2155,6 +2155,42 @@
   z-index: 10000000000000000;
 }
 
+.b-bar-vertical-inline.b-bar-dark .b-bar-brand .b-bar-link.fui-Link-active,
+.b-bar-vertical-popout.b-bar-dark .b-bar-brand .b-bar-link.fui-Link-active,
+.b-bar-vertical-small.b-bar-dark .b-bar-brand .b-bar-link.fui-Link-active {
+  color: #fff;
+  background: inherit;
+}
+.b-bar-vertical-inline.b-bar-dark .b-bar-dropdown-menu .b-bar-dropdown-item.fui-Link-active,
+.b-bar-vertical-popout.b-bar-dark .b-bar-dropdown-menu .b-bar-dropdown-item.fui-Link-active,
+.b-bar-vertical-small.b-bar-dark .b-bar-dropdown-menu .b-bar-dropdown-item.fui-Link-active {
+  color: var(--b-bar-item-dark-active-color, #fff);
+  background: var(--b-bar-item-dark-active-background, #0288D1);
+}
+.b-bar-vertical-inline.b-bar-dark .b-bar-link.fui-Link-active,
+.b-bar-vertical-popout.b-bar-dark .b-bar-link.fui-Link-active,
+.b-bar-vertical-small.b-bar-dark .b-bar-link.fui-Link-active {
+  color: var(--b-bar-item-dark-active-color, #fff);
+  background: var(--b-bar-item-dark-active-background, #0288D1);
+}
+.b-bar-vertical-inline.b-bar-light .b-bar-brand .b-bar-link.fui-Link-active,
+.b-bar-vertical-popout.b-bar-light .b-bar-brand .b-bar-link.fui-Link-active,
+.b-bar-vertical-small.b-bar-light .b-bar-brand .b-bar-link.fui-Link-active {
+  background: inherit;
+}
+.b-bar-vertical-inline.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item.fui-Link-active,
+.b-bar-vertical-popout.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item.fui-Link-active,
+.b-bar-vertical-small.b-bar-light .b-bar-dropdown-menu .b-bar-dropdown-item.fui-Link-active {
+  color: var(--b-bar-item-light-active-color, #000);
+  background: var(--b-bar-item-light-active-background, #0288D1);
+}
+.b-bar-vertical-inline.b-bar-light .b-bar-link.fui-Link-active,
+.b-bar-vertical-popout.b-bar-light .b-bar-link.fui-Link-active,
+.b-bar-vertical-small.b-bar-light .b-bar-link.fui-Link-active {
+  color: var(--b-bar-item-light-active-color, #000);
+  background: var(--b-bar-item-light-active-background, #0288D1);
+}
+
 .fui-Breadcrumb .fui-Breadcrumb__list {
   list-style-type: none;
   display: flex;
