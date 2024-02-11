@@ -1,39 +1,40 @@
-﻿using System;
+﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+#endregion
 
 namespace Blazorise.Captcha;
 
 public partial class Captcha : BaseComponent
 {
+    #region Members
+
     /// <summary>
     /// The current state of the Captcha.
     /// </summary>
     public CaptchaState State { get; private set; } = new();
 
-    /// <summary>
-    /// A Captcha solved event. 
-    /// <para>Provides contextual information about the Captcha state after the user has solved.</para>
-    /// </summary>
-    [Parameter] public EventCallback<CaptchaState> Solved { get; set; }
+    #endregion
 
-    /// <summary>
-    /// A Captcha validation event. Further validation may be performed here.
-    /// </summary>
-    [Parameter] public Func<CaptchaState, Task<bool>> Validate { get; set; }
+    #region Methods
 
-    /// <summary>
-    /// The Captcha expired event.
-    /// </summary>
-    [Parameter] public EventCallback Expired { get; set; }
-
-
+    /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {
         if ( firstRender )
         {
             await Initialize();
         }
+    }
+
+    /// <summary>
+    /// Initialize the Captcha.
+    /// </summary>
+    /// <returns></returns>
+    protected virtual Task Initialize()
+    {
+        return Task.CompletedTask;
     }
 
     /// <summary>
@@ -85,15 +86,6 @@ public partial class Captcha : BaseComponent
     }
 
     /// <summary>
-    /// Initialize the Captcha.
-    /// </summary>
-    /// <returns></returns>
-    protected virtual Task Initialize()
-    {
-        return Task.CompletedTask;
-    }
-
-    /// <summary>
     /// Resets the Captcha.
     /// </summary>
     /// <returns></returns>
@@ -101,7 +93,29 @@ public partial class Captcha : BaseComponent
     {
         State.Valid = false;
         State.Response = string.Empty;
+
         return Task.CompletedTask;
     }
 
+    #endregion
+
+    #region Properties
+
+    /// <summary>
+    /// A Captcha solved event. 
+    /// <para>Provides contextual information about the Captcha state after the user has solved.</para>
+    /// </summary>
+    [Parameter] public EventCallback<CaptchaState> Solved { get; set; }
+
+    /// <summary>
+    /// A Captcha validation event. Further validation may be performed here.
+    /// </summary>
+    [Parameter] public Func<CaptchaState, Task<bool>> Validate { get; set; }
+
+    /// <summary>
+    /// The Captcha expired event.
+    /// </summary>
+    [Parameter] public EventCallback Expired { get; set; }
+
+    #endregion
 }
