@@ -485,8 +485,8 @@
             </CardBody>
             <CardBody>
                 <Table Bordered FixedColumns>
-                     <TableHeader>
-                         <TableRow>
+                    <TableHeader>
+                        <TableRow>
                             <TableHeaderCell Width="@Width.Px(50)" FixedPosition="TableColumnFixedPosition.Start">#</TableHeaderCell>
                             <TableHeaderCell Width="@Width.Px(200)">Column heading</TableHeaderCell>
                             <TableHeaderCell Width="@Width.Px(150)" FixedPosition="TableColumnFixedPosition.Start">Fixed heading</TableHeaderCell>
@@ -598,19 +598,23 @@
                                 <Column>
                                     <Switch @bind-Checked="@fixedHeader">Fixed header</Switch>
                                 </Column>
-                                @if ( fixedHeader )
-                                {
-                                    <Column>
-                                        <Addons>
-                                            <Addon AddonType="AddonType.Body">
-                                                <NumericEdit TValue="int" @bind-Value="scrollToValue" />
-                                            </Addon>
-                                            <Addon AddonType="AddonType.End">
-                                                <Button Color="Color.Primary" Clicked="@ScrollToRow"> Scroll To Row </Button>
-                                            </Addon>
-                                        </Addons>
-                                    </Column>
-                                }
+                            </Row>
+                            <Row>
+                                <Column>
+                                    @if ( fixedHeader )
+                                    {
+                                        <Column>
+                                            <Addons>
+                                                <Addon AddonType="AddonType.Body">
+                                                    <NumericEdit TValue="int" @bind-Value="scrollToValue" />
+                                                </Addon>
+                                                <Addon AddonType="AddonType.End">
+                                                    <Button Color="Color.Primary" Clicked="@ScrollToRow"> Scroll To Row </Button>
+                                                </Addon>
+                                            </Addons>
+                                        </Column>
+                                    }
+                                </Column>
                             </Row>
                         </Field>
                         <Field>
