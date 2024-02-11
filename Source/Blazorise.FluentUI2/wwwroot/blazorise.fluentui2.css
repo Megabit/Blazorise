@@ -7239,6 +7239,9 @@ input::file-selector-button {
   height: 8.484px;
   width: 8.484px;
 }
+.fui-Tooltip__box[data-theme~=fluentui][data-animation=fade][data-state=hidden] {
+  opacity: 0;
+}
 
 .fui-Text {
   text-overflow: clip;

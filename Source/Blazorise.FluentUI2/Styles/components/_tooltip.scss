@@ -98,5 +98,9 @@
                 width: 8.484px;
             }
         }
+
+        &[data-animation='fade'][data-state='hidden'] {
+            opacity: 0;
+        }
     }
 }
