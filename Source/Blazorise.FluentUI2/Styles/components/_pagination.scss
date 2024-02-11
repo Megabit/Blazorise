@@ -51,6 +51,28 @@
         + .fui-PaginationItem {
             margin-left: var(--spacingHorizontalXXS);
         }
+
+        &.fui-PaginationItem-active {
+            .fui-PaginationLink.fui-PaginationLink-active {
+                z-index: 3;
+                color: var(--colorNeutralForegroundOnBrand);
+                background-color: var(--colorBrandBackground);
+                border-color: var(--colorBrandBackground);
+            }
+        }
+
+        &.fui-PaginationItem-disabled {
+            .fui-PaginationLink.fui-PaginationLink-disabled {
+                z-index: 3;
+                color: var(--colorNeutralForegroundDisabled);
+                border-bottom-color: var(--colorNeutralStrokeDisabled);
+                border-left-color: var(--colorNeutralStrokeDisabled);
+                border-right-color: var(--colorNeutralStrokeDisabled);
+                border-top-color: var(--colorNeutralStrokeDisabled);
+                background-color: var(--colorNeutralBackgroundDisabled);
+                cursor: not-allowed;
+            }
+        }
     }
 
     &-sm {

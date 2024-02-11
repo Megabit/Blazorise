@@ -96,7 +96,7 @@
                     {
                         var pageIndex = i.ToString();
 
-                        <PaginationItem Active="@(i == 2)">
+                        <PaginationItem Active="@(i == 2)" Disabled=@(i == 4)>
                             <PaginationLink>
                                 @pageIndex
                             </PaginationLink>
