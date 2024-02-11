@@ -1089,8 +1089,9 @@
   line-height: inherit;
   white-space: nowrap;
 }
-.fui-NavigationBar__brand .fui-Link.fui-NavigationBar__link {
+.fui-NavigationBar__brand .fui-NavigationBar__item .fui-Link.fui-NavigationBar__link {
   font-size: inherit;
+  cursor: pointer;
 }
 .fui-NavigationBar__brand:hover, .fui-NavigationBar__brand:focus {
   text-decoration: none;
@@ -1229,8 +1230,9 @@
     line-height: inherit;
     white-space: nowrap;
   }
-  .fui-NavigationBar-expand-sm .fui-NavigationBar__brand .fui-NavigationBar__link {
+  .fui-NavigationBar-expand-sm .fui-NavigationBar__brand .fui-NavigationBar__item .fui-Link.fui-NavigationBar__link {
     font-size: inherit;
+    cursor: pointer;
   }
   .fui-NavigationBar-expand-sm .fui-NavigationBar__brand:hover, .fui-NavigationBar-expand-sm .fui-NavigationBar__brand:focus {
     text-decoration: none;
@@ -1393,8 +1395,9 @@
     line-height: inherit;
     white-space: nowrap;
   }
-  .fui-NavigationBar-expand-md .fui-NavigationBar__brand .fui-NavigationBar__link {
+  .fui-NavigationBar-expand-md .fui-NavigationBar__brand .fui-NavigationBar__item .fui-Link.fui-NavigationBar__link {
     font-size: inherit;
+    cursor: pointer;
   }
   .fui-NavigationBar-expand-md .fui-NavigationBar__brand:hover, .fui-NavigationBar-expand-md .fui-NavigationBar__brand:focus {
     text-decoration: none;
@@ -1557,8 +1560,9 @@
     line-height: inherit;
     white-space: nowrap;
   }
-  .fui-NavigationBar-expand-lg .fui-NavigationBar__brand .fui-NavigationBar__link {
+  .fui-NavigationBar-expand-lg .fui-NavigationBar__brand .fui-NavigationBar__item .fui-Link.fui-NavigationBar__link {
     font-size: inherit;
+    cursor: pointer;
   }
   .fui-NavigationBar-expand-lg .fui-NavigationBar__brand:hover, .fui-NavigationBar-expand-lg .fui-NavigationBar__brand:focus {
     text-decoration: none;
@@ -1721,8 +1725,9 @@
     line-height: inherit;
     white-space: nowrap;
   }
-  .fui-NavigationBar-expand-xl .fui-NavigationBar__brand .fui-NavigationBar__link {
+  .fui-NavigationBar-expand-xl .fui-NavigationBar__brand .fui-NavigationBar__item .fui-Link.fui-NavigationBar__link {
     font-size: inherit;
+    cursor: pointer;
   }
   .fui-NavigationBar-expand-xl .fui-NavigationBar__brand:hover, .fui-NavigationBar-expand-xl .fui-NavigationBar__brand:focus {
     text-decoration: none;
@@ -1885,8 +1890,9 @@
     line-height: inherit;
     white-space: nowrap;
   }
-  .fui-NavigationBar-expand-xxl .fui-NavigationBar__brand .fui-NavigationBar__link {
+  .fui-NavigationBar-expand-xxl .fui-NavigationBar__brand .fui-NavigationBar__item .fui-Link.fui-NavigationBar__link {
     font-size: inherit;
+    cursor: pointer;
   }
   .fui-NavigationBar-expand-xxl .fui-NavigationBar__brand:hover, .fui-NavigationBar-expand-xxl .fui-NavigationBar__brand:focus {
     text-decoration: none;
@@ -2046,8 +2052,9 @@
   line-height: inherit;
   white-space: nowrap;
 }
-.fui-NavigationBar-expand .fui-NavigationBar__brand .fui-NavigationBar__link {
+.fui-NavigationBar-expand .fui-NavigationBar__brand .fui-NavigationBar__item .fui-Link.fui-NavigationBar__link {
   font-size: inherit;
+  cursor: pointer;
 }
 .fui-NavigationBar-expand .fui-NavigationBar__brand:hover, .fui-NavigationBar-expand .fui-NavigationBar__brand:focus {
   text-decoration: none;

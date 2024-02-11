@@ -342,8 +342,11 @@
     line-height: inherit;
     white-space: nowrap;
 
-    .fui-Link.fui-NavigationBar__link {
-        font-size: inherit;
+    .fui-NavigationBar__item {
+        .fui-Link.fui-NavigationBar__link {
+            font-size: inherit;
+            cursor: pointer;
+        }
     }
 
     &:hover,
@@ -497,8 +500,11 @@
                     line-height: inherit;
                     white-space: nowrap;
 
-                    .fui-NavigationBar__link {
-                        font-size: inherit;
+                    .fui-NavigationBar__item {
+                        .fui-Link.fui-NavigationBar__link {
+                            font-size: inherit;
+                            cursor: pointer;
+                        }
                     }
 
                     &:hover,
