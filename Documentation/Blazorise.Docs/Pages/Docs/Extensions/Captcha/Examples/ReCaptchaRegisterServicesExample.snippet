@@ -1,13 +1,12 @@
 ﻿using Blazorise.Captcha.ReCaptcha;
 
-
 builder.Services
-.AddBlazorise( options =>
-{
-	options.Immediate = true;
-} )
-.AddBlazoriseGoogleReCaptcha( reCaptchaOptions =>
-{
-	reCaptchaOptions.SiteKey = Configuration["ReCaptchaSiteKey"]
-	//Set any other ReCaptcha options here...
-});
+	.AddBlazorise( options =>
+	{
+		options.Immediate = true;
+	} )
+	.AddBlazoriseGoogleReCaptcha( reCaptchaOptions =>
+	{
+		reCaptchaOptions.SiteKey = Configuration["ReCaptchaSiteKey"]
+		//Set any other ReCaptcha options here...
+	});

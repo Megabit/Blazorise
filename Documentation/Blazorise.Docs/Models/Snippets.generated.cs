@@ -5219,26 +5219,35 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public const string ReCaptchaExample = @"@using Microsoft.Extensions.Options
 @using System.Text.Json
 
-<Captcha @ref=_captcha Solved=""Solved"" Validate=Validate Expired=""Expired"" />
-<Button Background=""Background.Primary"" Clicked=""Reset"">Reset</Button>
+<Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"">
+    <Captcha @ref=""@captcha"" Solved=""@Solved"" Validate=""@Validate"" Expired=""Expired"" />
+
+    <Button Background=""Background.Primary"" Clicked=""@Reset"">
+        Reset
+    </Button>
+</Div>
 
 @code {
     [Inject] IOptions<AppSettings> AppSettings { get; set; }
+
     [Inject] IHttpClientFactory HttpClientFactory { get; set; }
-    private Captcha _captcha;
+
+    private Captcha captcha;
+
     private void Solved( CaptchaState state )
     {
-        Console.WriteLine( $""Success: {state.Valid}"" );
+        Console.WriteLine( $""Captcha Success: {state.Valid}"" );
     }
 
     private void Expired()
     {
-        Console.WriteLine( ""Expired"" );
+        Console.WriteLine( ""Captcha Expired"" );
     }
 
     private async Task<bool> Validate( CaptchaState state )
     {
-        Console.WriteLine( ""Validate"" );
+        Console.WriteLine( ""Captcha Validate"" );
+
         //Perform server side validation
         //You should make sure to implement server side validation
         //https://developers.google.com/recaptcha/docs/verify
@@ -5248,21 +5257,22 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
             new KeyValuePair<string, string>(""secret"", AppSettings.Value.ReCaptchaServerKey),
             new KeyValuePair<string, string>(""response"", state.Response),
          } );
+
         var httpClient = HttpClientFactory.CreateClient();
         var response = await httpClient.PostAsync( ""https://www.google.com/recaptcha/api/siteverify"", content );
 
         var result = await response.Content.ReadAsStringAsync();
         var googleResponse = JsonSerializer.Deserialize<GoogleResponse>( result, new JsonSerializerOptions()
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-        } );
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            } );
 
         return googleResponse.Success;
     }
 
     private async Task Reset()
     {
-        await _captcha.Reset();
+        await captcha.Reset();
     }
 
     public class GoogleResponse
@@ -5274,24 +5284,22 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
         public string Hostname { get; set; }
         public string ErrorCodes { get; set; }
     }
-
 }";
 
         public const string ReCaptchaNugetInstallExample = @"Install-Package Blazorise.Captcha.ReCaptcha";
 
         public const string ReCaptchaRegisterServicesExample = @"using Blazorise.Captcha.ReCaptcha;
 
-
 builder.Services
-.AddBlazorise( options =>
-{
-	options.Immediate = true;
-} )
-.AddBlazoriseGoogleReCaptcha( reCaptchaOptions =>
-{
-	reCaptchaOptions.SiteKey = Configuration[""ReCaptchaSiteKey""]
-	//Set any other ReCaptcha options here...
-});";
+	.AddBlazorise( options =>
+	{
+		options.Immediate = true;
+	} )
+	.AddBlazoriseGoogleReCaptcha( reCaptchaOptions =>
+	{
+		reCaptchaOptions.SiteKey = Configuration[""ReCaptchaSiteKey""]
+		//Set any other ReCaptcha options here...
+	});";
 
         public const string ReCaptchaResourcesExample = @"<script src=""https://www.google.com/recaptcha/api.js"" async defer></script>";
 
