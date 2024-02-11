@@ -18,5 +18,5 @@ public enum ReCaptchaSize
     /// <summary>
     /// Used to create an invisible widget bound to a div and programmatically executed.
     /// </summary>
-    Invisible
+    Invisible,
 }

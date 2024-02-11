@@ -17,6 +17,7 @@ public static class Config
 
         serviceCollection.AddScoped( sp => options );
         serviceCollection.AddTransient( typeof( Blazorise.Captcha.Captcha ), typeof( Blazorise.Captcha.ReCaptcha.ReCaptcha ) );
+       
         return serviceCollection;
     }
 }

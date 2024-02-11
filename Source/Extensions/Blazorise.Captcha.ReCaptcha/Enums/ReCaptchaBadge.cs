@@ -21,5 +21,5 @@ public enum ReCaptchaBadgePosition
     /// Repositions the reCAPTCHA badge inline.
     /// <para>This option lets you position it with CSS</para>
     /// </summary>
-    Inline
+    Inline,
 }

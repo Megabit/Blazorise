@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Components;
 
 namespace Blazorise.Captcha;
 
+/// <summary>
+/// Component that acts as a wrapper for all Captcha implementations.
+/// </summary>
 public partial class Captcha : BaseComponent
 {
     #region Members

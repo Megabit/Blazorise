@@ -17,10 +17,13 @@ internal class JSReCaptchaModule : BaseJSModule, IJSDestroyableModule
 
     public ValueTask Initialize( DotNetObjectReference<ReCaptcha> dotNetObjectReference, ElementReference elementRef, string elementId, object options )
         => InvokeSafeVoidAsync( "initialize", dotNetObjectReference, elementRef, elementId, options );
+
     public ValueTask Destroy( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "destroy", elementRef, elementId );
+
     public ValueTask Submit( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "execute", elementRef, elementId );
+
     public ValueTask Reset( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "reset", elementRef, elementId );
 
