@@ -533,8 +533,8 @@
   color: var(--colorNeutralForeground3);
   display: flex;
 }
-.fui-Input .fui-Input__contentBefore button,
-.fui-Input .fui-Input__contentAfter button {
+.fui-Input .fui-Input__contentBefore button.fui-Button,
+.fui-Input .fui-Input__contentAfter button.fui-Button {
   background-color: var(--colorNeutralBackground1);
   color: var(--colorNeutralForeground1);
   border: none;
@@ -544,8 +544,53 @@
   line-height: var(--lineHeightBase300);
   cursor: pointer;
 }
-.fui-Input .fui-Input__contentBefore button:hover,
-.fui-Input .fui-Input__contentAfter button:hover {
+.fui-Input .fui-Input__contentBefore button.fui-Button:hover,
+.fui-Input .fui-Input__contentAfter button.fui-Button:hover {
+  background-color: var(--colorTransparentBackgroundHover);
+  color: var(--colorNeutralForeground2BrandHover);
+}
+.fui-Input .fui-Input__contentBefore button.fui-Button-primary:hover,
+.fui-Input .fui-Input__contentAfter button.fui-Button-primary:hover {
+  background-color: var(--colorTransparentBackgroundHover);
+  color: var(--colorNeutralForeground2BrandHover);
+}
+.fui-Input .fui-Input__contentBefore button.fui-Button-secondary:hover,
+.fui-Input .fui-Input__contentAfter button.fui-Button-secondary:hover {
+  background-color: var(--colorTransparentBackgroundHover);
+  color: var(--colorNeutralForeground2BrandHover);
+}
+.fui-Input .fui-Input__contentBefore button.fui-Button-success:hover,
+.fui-Input .fui-Input__contentAfter button.fui-Button-success:hover {
+  background-color: var(--colorTransparentBackgroundHover);
+  color: var(--colorNeutralForeground2BrandHover);
+}
+.fui-Input .fui-Input__contentBefore button.fui-Button-danger:hover,
+.fui-Input .fui-Input__contentAfter button.fui-Button-danger:hover {
+  background-color: var(--colorTransparentBackgroundHover);
+  color: var(--colorNeutralForeground2BrandHover);
+}
+.fui-Input .fui-Input__contentBefore button.fui-Button-warning:hover,
+.fui-Input .fui-Input__contentAfter button.fui-Button-warning:hover {
+  background-color: var(--colorTransparentBackgroundHover);
+  color: var(--colorNeutralForeground2BrandHover);
+}
+.fui-Input .fui-Input__contentBefore button.fui-Button-info:hover,
+.fui-Input .fui-Input__contentAfter button.fui-Button-info:hover {
+  background-color: var(--colorTransparentBackgroundHover);
+  color: var(--colorNeutralForeground2BrandHover);
+}
+.fui-Input .fui-Input__contentBefore button.fui-Button-light:hover,
+.fui-Input .fui-Input__contentAfter button.fui-Button-light:hover {
+  background-color: var(--colorTransparentBackgroundHover);
+  color: var(--colorNeutralForeground2BrandHover);
+}
+.fui-Input .fui-Input__contentBefore button.fui-Button-dark:hover,
+.fui-Input .fui-Input__contentAfter button.fui-Button-dark:hover {
+  background-color: var(--colorTransparentBackgroundHover);
+  color: var(--colorNeutralForeground2BrandHover);
+}
+.fui-Input .fui-Input__contentBefore button.fui-Button-link:hover,
+.fui-Input .fui-Input__contentAfter button.fui-Button-link:hover {
   background-color: var(--colorTransparentBackgroundHover);
   color: var(--colorNeutralForeground2BrandHover);
 }
