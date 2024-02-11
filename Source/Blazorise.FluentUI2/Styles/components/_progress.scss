@@ -94,3 +94,15 @@
         background-position: 0 0;
     }
 }
+
+.b-page-progress {
+    .b-page-progress-indicator {
+        @each $name, $value in $background-theme-colors {
+            $color: $value;
+
+            &.b-page-progress-indicator-#{$name} {
+                background-color: $color;
+            }
+        }
+    }
+}

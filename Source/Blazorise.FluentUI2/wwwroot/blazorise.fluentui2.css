@@ -5713,6 +5713,34 @@ input::file-selector-button {
     background-position: 0 0;
   }
 }
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-primary {
+  background-color: var(--colorBrandBackground);
+}
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-secondary {
+  background-color: var(--colorNeutralBackground3);
+}
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-success {
+  background-color: var(--colorStatusSuccessBackground3);
+}
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-danger {
+  background-color: var(--colorStatusDangerBackground3);
+}
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-warning {
+  background-color: var(--colorStatusWarningBackground3);
+}
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-info {
+  background-color: var(--colorNeutralForeground3);
+}
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-light {
+  background-color: var(--colorNeutralBackground2);
+}
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-dark {
+  background-color: var(--colorNeutralForeground1);
+}
+.b-page-progress .b-page-progress-indicator.b-page-progress-indicator-link {
+  background-color: var(--colorBrandForegroundLink);
+}
+
 .fui-RadioGroup {
   align-items: flex-start;
   flex-direction: column;
