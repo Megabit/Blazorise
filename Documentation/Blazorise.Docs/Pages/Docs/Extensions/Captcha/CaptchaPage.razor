@@ -7,60 +7,87 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Simple captcha integrations.
+    Integrate simple captchas into your Blazor applications with the Blazorise Captcha component.
 </DocsPageLead>
 
 <DocsPageParagraph>
-    The captcha extension may provide several different captcha providers. Each of the captcha provider may have it’s own settings.
+    This extension supports multiple captcha providers, enabling the addition of captcha functionality with provider-specific settings.
 </DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Supported Captcha providers
+</DocsPageSubtitle>
 
 <DocsPageParagraph>
-    Supported captcha providers are:
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Google reCAPTCHA</Strong> Implemented via <Strong>Blazorise.Captcha.ReCaptcha</Strong>
+        </UnorderedListItem>
+    </UnorderedList>
 </DocsPageParagraph>
-
-<UnorderedList>
-    <UnorderedListItem><Code>Google reCAPTCHA</Code> | <Code>Blazorise.Captcha.ReCaptcha</Code></UnorderedListItem>
-</UnorderedList>
 
 <DocsPageSubtitle>
     Installation
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="NuGet">
-        Install the captcha extension from NuGet.
+    <DocsPageSectionHeader Title="1. General Installation">
+        Install the base captcha extension from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="CaptchaNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="NuGet - ReCaptcha">
-        Install the captcha ReCaptcha provider extension from NuGet.
+    <DocsPageSectionHeader Title="2. Provider-Specific Installation">
+        Install the ReCaptcha provider extension from NuGet.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ReCaptchaNugetInstallExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Register Services - ReCaptcha">
-        Add the following lines to the relevant sections of <Code>Program.cs</Code>.
+    <DocsPageSectionHeader Title="3. Registering Services for reCAPTCHA">
+        Incorporate ReCaptcha services by adding the following code to the relevant sections of <Strong>Program.cs</Strong>.
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ReCaptchaRegisterServicesExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Imports">
-        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    <DocsPageSectionHeader Title="4. Imports">
+        In your main <Strong>_Imports.razor</Strong>, ensure you include:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="CaptchaImportsExample" />
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Static Files - ReCaptcha">
-        Add the google <Code>reCAPTCHA</Code> js to your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file, depending if you’re using a Blazor WebAssembly or Blazor Server side project.
-        <Code>reCAPTCHA</Code> docs recommend adding the script to the end of the <Code>head</Code> tag with async and defer attributes.
+    <DocsPageSectionHeader Title="5. Static Files - ReCaptcha">
+        <Paragraph>
+            Modify your project's HTML template to include the google <Strong>reCAPTCHA</Strong> js files. The files you add depend on whether you're working with a WebAssembly or Server project:
+        </Paragraph>
+
+        <Paragraph>
+            <DocsPageUnorderedList>
+                <DocsPageUnorderedListItem>
+                    For <Strong>WebAssembly</Strong>, update <Strong>index.html</Strong>.
+                </DocsPageUnorderedListItem>
+                <DocsPageUnorderedListItem>
+                    For <Strong>Server</Strong>, update <Strong>_Layout.cshtml</Strong> or <Strong>_Host.cshtml</Strong>.
+                </DocsPageUnorderedListItem>
+                <DocsPageUnorderedListItem>
+                    For <Strong>.NET 8</Strong>, update <Strong>App.razor</Strong>.
+                </DocsPageUnorderedListItem>
+            </DocsPageUnorderedList>
+        </Paragraph>
+
+        <Paragraph>
+            Google <Strong>reCAPTCHA</Strong> docs recommend adding the script to the end of the <Code Tag>head</Code> tag with <Code>async</Code> and <Code>defer</Code> attributes.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="ReCaptchaResourcesExample" />
 </DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="ReCaptcha Checkbox">
