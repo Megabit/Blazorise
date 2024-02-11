@@ -2,6 +2,10 @@
     @include media-breakpoint-up($breakpoint) {
         $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
+        .fui-Display-none#{$infix} {
+            display: none;
+        }
+
         .fui-Display-flex#{$infix} {
             display: flex;
         }

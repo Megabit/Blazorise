@@ -1,4 +1,15 @@
-﻿.fui-MessageBar {
+﻿@keyframes alert-slide-away {
+    from {
+        display: block;
+    }
+
+    to {
+        transform: translateY(-1rem);
+        opacity: 0;
+    }
+}
+
+.fui-MessageBar {
     position: relative;
     align-items: center;
     padding-left: var(--spacingHorizontalM);
@@ -27,12 +38,8 @@
         padding-right: 4rem;
     }
 
-    &-fade {
-        transition: opacity .15s linear;
-
-        &:not(.fui-MessageBar-show) {
-            opacity: 0;
-        }
+    &.fui-Display-none {
+        animation: alert-slide-away var(--durationNormal);
     }
 
     .fui-MessageBar__description {
