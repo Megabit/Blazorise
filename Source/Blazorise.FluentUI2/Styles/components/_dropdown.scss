@@ -440,6 +440,11 @@
             position: fixed;
         }
 
+        &-scrollable {
+            max-height: var(--dropdown-list-menu-max-height, 200px);
+            overflow-y: scroll;
+        }
+
         .fui-MenuList {
             height: 100%;
             row-gap: 2px;

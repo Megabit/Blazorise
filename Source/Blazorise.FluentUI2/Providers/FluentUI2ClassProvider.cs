@@ -467,15 +467,15 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string DropdownFixedHeaderVisible( bool visible )
         => visible ? "dropdown-table-fixed-header-visible" : null;
 
-    public override string DropdownMenuSelector() => "dropdown-menu";
+    public override string DropdownMenuSelector() => "fui-MenuPopover";
 
-    public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
+    public override string DropdownMenuScrollable() => "fui-MenuPopover-scrollable";
 
     //public override string DropdownMenuBody() => null;
 
     public override string DropdownMenuVisible( bool visible ) => visible ? "fui-MenuPopover-show" : null;
 
-    public override string DropdownMenuRight() => "dropdown-menu-right";
+    public override string DropdownMenuRight() => "fui-MenuPopover-right";
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
         ? "fui-MenuItem"

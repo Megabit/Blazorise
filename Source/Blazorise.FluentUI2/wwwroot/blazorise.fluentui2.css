@@ -3850,6 +3850,10 @@ button {
 .fui-Menu .fui-MenuPopover-position-strategy-fixed {
   position: fixed;
 }
+.fui-Menu .fui-MenuPopover-scrollable {
+  max-height: var(--dropdown-list-menu-max-height, 200px);
+  overflow-y: scroll;
+}
 .fui-Menu .fui-MenuPopover .fui-MenuList {
   height: 100%;
   row-gap: 2px;
