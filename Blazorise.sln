@@ -40,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.runsettings = .runsettings
 		DotnetWatchRunAll.bat = DotnetWatchRunAll.bat
+		CREDITS.md = CREDITS.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts.Streaming", "Source\Extensions\Blazorise.Charts.Streaming\Blazorise.Charts.Streaming.csproj", "{9AA305DA-A667-49E6-BDDA-7C976AD5BB3B}"
