@@ -10532,8 +10532,14 @@ builder.Services
 
 <Paragraph>@Value</Paragraph>
 
+<Button Color=""Color.Primary"" Clicked=""Increment"">Increment</Button>
 @code {
     [Parameter] public long Value { get; set; }
+
+    private void Increment()
+    {
+        Value++;
+    }
 }";
 
         public const string CustomStructureModalExample = @"<ModalHeader>
@@ -10700,6 +10706,22 @@ builder.Services
 </Router>
 
 <ModalProvider UseModalStructure Animated Size=""ModalSize.Fullscreen"" />";
+
+        public const string ModalProviderStatefulExample = @"<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    public Task ShowStateful()
+    {
+        return ModalService.Show<CounterExample>( ""My Stateful content"", new ModalInstanceOptions()
+        {
+            Stateful = true,
+            ElementId = ""Stateful"",
+            RenderMode = ModalRenderMode.LazyLoad
+        } );
+    }
+}";
 
         public const string ModalProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
     <Found>...</Found>

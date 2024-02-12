@@ -76,6 +76,33 @@
     </DocsPageSectionHeader>
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Stateful Instantied Modals">
+        <Paragraph>
+            <Code Tag>ModalProvider</Code> can keep the state of the modals even after they have been closed.
+        </Paragraph>
+        <Paragraph>
+            To do this you will need to:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    Set <Code>Stateful</Code> to true in the <Code>ModalProvider</Code> or in the <Code>ModalInstanceOptions</Code>.
+                    The reason why you need to explicitly opt-in for this feature is because the instances you open will be kept in memory, and you should be mindful that you need to properly manage these.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Provide a unique Id so the instance can be tracked and reopen. This can be set in <Code>ModalInstanceOptions.ElementId</Code>.
+                    Optionally you may keep track of the <Code>ModalInstance</Code> returned by the <Code>IModalService.Show()</Code> method to reopen the same instance.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    Control how the modal renders, by setting the <Code>RenderMode</Code>.
+                    If you'd like the state to be kept, use: <Code>ModalRenderMode.Default</Code> or <Code>ModalRenderMode.LazyLoad</Code>.
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Examples
 </DocsPageSubtitle>
@@ -153,6 +180,15 @@
     <DocsPageSectionSource Code="FormularyModalExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Instantiate a stateful modal">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ModalProviderStatefulExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ModalProviderStatefulExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
@@ -168,6 +204,9 @@
 <DocsAttributes Title="ModalProvider">
     <DocsAttributesItem Name="UseModalStructure" Type="boolean" Default="true">
         Uses the modal standard structure, by setting this to true you are only in charge of providing the custom content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Stateful" Type="boolean" Default="false">
+        Keeps the ModalInstance in memory after it has been closed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Visible" Type="boolean" Default="false">
         Handles the visibility of modal dialog.

@@ -1,0 +1,20 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">ShowStateful</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Show Stateful<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    [Inject] <span class="keyword">public</span> IModalService ModalService { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    <span class="keyword">public</span> Task ShowStateful()
+    {
+        <span class="keyword">return</span> ModalService.Show&lt;CounterExample&gt;( <span class="string">&quot;My Stateful content&quot;</span>, <span class="keyword">new</span> ModalInstanceOptions()
+        {
+            Stateful = <span class="keyword">true</span>,
+            ElementId = <span class="string">&quot;Stateful&quot;</span>,
+            RenderMode = ModalRenderMode.LazyLoad
+        } );
+    }
+}
+</pre></div>
+</div>
