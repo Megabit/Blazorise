@@ -446,6 +446,8 @@
   --zIndexDrawer: 1045;
   --zIndexModalBackdrop: 1050;
   --zIndexModal: 1055;
+  --zIndexPopover: 1060;
+  --zIndexTooltip: 1070;
 }
 
 .fui-Accordion .fui-AccordionItem .fui-AccordionHeader {
@@ -14963,4 +14965,17 @@ span.flatpickr-weekday {
 
 .flatpickr-monthSelect-month.selected {
   background-color: var(--colorBrandBackground);
+}
+
+.snackbar {
+  z-index: calc(var(--zIndexPopover) + 1) !important;
+}
+
+.snackbar-stack-top-end,
+.snackbar-stack-top-start,
+.snackbar-stack-top,
+.snackbar-stack-bottom-end,
+.snackbar-stack-bottom-start,
+.snackbar-stack-bottom {
+  z-index: var(--zIndexPopover) !important;
 }

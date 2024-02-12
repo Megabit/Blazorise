@@ -1,7 +1,7 @@
 import { initialize as baseInitialize, destroy, updateContent } from "../Blazorise/tooltip.js?v=1.4.2.0";
 
 export function initialize(element, elementId, options) {
-    options = Object.assign({}, options, { theme: "fluentui" });
+    options = Object.assign({}, options, { theme: "fluentui", zIndex: "var(--zIndexTooltip)" });
 
     const tippyInstance = baseInitialize(element, elementId, options);
 

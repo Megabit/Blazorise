@@ -446,6 +446,8 @@
     --zIndexDrawer: 1045;
     --zIndexModalBackdrop: 1050;
     --zIndexModal: 1055;
+    --zIndexPopover: 1060;
+    --zIndexTooltip: 1070;
 }
 
 $background-theme-colors: ( "primary": var(--colorBrandBackground), "secondary": var(--colorNeutralBackground3), "success": var(--colorStatusSuccessBackground3), "danger": var(--colorStatusDangerBackground3), "warning": var(--colorStatusWarningBackground3), "info": var(--colorNeutralForeground3), "light": var(--colorNeutralBackground2), "dark": var(--colorNeutralForeground1), "link": var(--colorBrandForegroundLink)) !default;
