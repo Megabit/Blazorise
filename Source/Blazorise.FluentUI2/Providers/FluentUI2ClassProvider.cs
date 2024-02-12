@@ -1451,14 +1451,14 @@ public class FluentUI2ClassProvider : ClassProvider
     {
         var sb = new StringBuilder( "fui-Border" );
 
+        if ( borderColor != BorderColor.None )
+            sb.Append( '-' ).Append( ToBorderColor( borderColor ) );
+
         if ( borderSide != BorderSide.All )
             sb.Append( '-' ).Append( ToBorderSide( borderSide ) );
 
         if ( borderSize != BorderSize.Default )
             sb.Append( '-' ).Append( ToBorderSize( borderSize ) );
-
-        if ( borderColor != BorderColor.None )
-            sb.Append( " fui-Border-" ).Append( ToBorderColor( borderColor ) );
 
         return sb.ToString();
     }

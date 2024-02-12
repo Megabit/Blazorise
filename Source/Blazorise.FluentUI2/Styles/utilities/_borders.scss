@@ -26,7 +26,7 @@ $border-sizes: (0: var(--strokeWidthNone), 1: var(--strokeWidthThin), 2: var(--s
         border: #{$size-value} solid var(--colorNeutralStroke1) !important;
 
         @each $color-name, $color-value in $background-theme-colors {
-            &.border-#{$color-name} {
+            &.fui-Border-#{$color-name} {
                 border-color: $color-value !important;
             }
         }
