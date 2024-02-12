@@ -16,7 +16,7 @@ public class Program
         var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
         builder.Services
-            .SetupDemoServices( builder.Configuration["Licensing:ProductToken"] )
+            .SetupDemoServices( builder.Configuration["Licensing:ProductToken"], builder.Configuration["ReCaptchaSiteKey"] )
             .AddBulmaProviders()
             .AddFontAwesomeIcons();
 

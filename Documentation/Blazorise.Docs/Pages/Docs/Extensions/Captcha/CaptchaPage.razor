@@ -1,0 +1,161 @@
+﻿@page "/docs/extensions/captcha"
+
+<Seo Canonical="/docs/extensions/captcha" Title="Blazorise Captcha component" Description="Learn to use and work with the Blazorise Captcha extension components, which are used to help prevent fake users or malicious software from taking action on your website." />
+
+<DocsPageTitle Path="Extensions/Captcha">
+    Blazorise Captcha component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Integrate simple captchas into your Blazor applications with the Blazorise Captcha component.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    This extension supports multiple captcha providers, enabling the addition of captcha functionality with provider-specific settings.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Supported Captcha providers
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Strong>Google reCAPTCHA</Strong> Implemented via <Strong>Blazorise.Captcha.ReCaptcha</Strong>
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="1. General Installation">
+        Install the base captcha extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="CaptchaNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="2. Provider-Specific Installation">
+        Install the ReCaptcha provider extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReCaptchaNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="3. Registering Services for reCAPTCHA">
+        Incorporate ReCaptcha services by adding the following code to the relevant sections of <Strong>Program.cs</Strong>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReCaptchaRegisterServicesExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="4. Imports">
+        In your main <Strong>_Imports.razor</Strong>, ensure you include:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="CaptchaImportsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="5. Static Files - ReCaptcha">
+        <Paragraph>
+            Modify your project's HTML template to include the google <Strong>reCAPTCHA</Strong> js files. The files you add depend on whether you're working with a WebAssembly or Server project:
+        </Paragraph>
+
+        <Paragraph>
+            <DocsPageUnorderedList>
+                <DocsPageUnorderedListItem>
+                    For <Strong>WebAssembly</Strong>, update <Strong>index.html</Strong>.
+                </DocsPageUnorderedListItem>
+                <DocsPageUnorderedListItem>
+                    For <Strong>Server</Strong>, update <Strong>_Layout.cshtml</Strong> or <Strong>_Host.cshtml</Strong>.
+                </DocsPageUnorderedListItem>
+                <DocsPageUnorderedListItem>
+                    For <Strong>.NET 8</Strong>, update <Strong>App.razor</Strong>.
+                </DocsPageUnorderedListItem>
+            </DocsPageUnorderedList>
+        </Paragraph>
+
+        <Paragraph>
+            Google <Strong>reCAPTCHA</Strong> docs recommend adding the script to the end of the <Code Tag>head</Code> tag with <Code>async</Code> and <Code>defer</Code> attributes.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ReCaptchaResourcesExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ReCaptcha Checkbox">
+        The following example demonstrates how to use the <Code>ReCaptcha</Code> integration.
+        You can use the <Code>ReCaptchaOptions</Code> to configure the widget according to your needs.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ReCaptchaExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ReCaptchaExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="State" Type="CaptchaState">
+        The current state of the Captcha.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Solved" Type="EventCallback<CaptchaState>">
+        A Captcha solved event. Provides contextual information about the Captcha state after the user has solved.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Validate" Type="Func<CaptchaState, Task<bool>>">
+        A Captcha validation event. Further validation may be performed here.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Expired" Type="EventCallback">
+        The Captcha expired event.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    Methods
+</Heading>
+
+<DocsMethods>
+    <DocsMethodsItem Name="Submit" ReturnType="Task">
+        Submits the Captcha.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Reset" ReturnType="Task">
+        Resets the Captcha.
+    </DocsMethodsItem>
+</DocsMethods>
+
+<Heading Size="HeadingSize.Is3">
+    ReCaptchaOptions
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="SiteKey" Type="string">
+        The client side api key for google reCAPTCHA.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Size" Type="ReCaptchaSize" Default="ReCaptchaSize.Normal">
+        The size of the widget.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Theme" Type="ReCaptchaTheme" Default="ReCaptchaTheme.Light">
+        The color theme of the widget.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BadgePosition" Type="ReCaptchaBadgePosition" Default="ReCaptchaBadgePosition.BottomEnd">
+        Reposition the reCAPTCHA badge. 'inline' lets you position it with CSS.
+        This option is only available for invisible reCAPTCHA.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="LanguageCode" Type="string" Default="en">
+        Refer to: https://developers.google.com/recaptcha/docs/language
+        Defaults to: 'en' (English (US))
+    </DocsAttributesItem>
+</DocsAttributes>

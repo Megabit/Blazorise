@@ -5240,6 +5240,97 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     public string selectedSearchValue { get; set; }
 }";
 
+        public const string CaptchaImportsExample = @"@using Blazorise.Captcha";
+
+        public const string CaptchaNugetInstallExample = @"Install-Package Blazorise.Captcha";
+
+        public const string ReCaptchaExample = @"@using Microsoft.Extensions.Options
+@using System.Text.Json
+
+<Div Flex=""Flex.AlignItems.Center"" Gap=""Gap.Is3"">
+    <Captcha @ref=""@captcha"" Solved=""@Solved"" Validate=""@Validate"" Expired=""Expired"" />
+
+    <Button Background=""Background.Primary"" Clicked=""@Reset"">
+        Reset
+    </Button>
+</Div>
+
+@code {
+    [Inject] IOptions<AppSettings> AppSettings { get; set; }
+
+    [Inject] IHttpClientFactory HttpClientFactory { get; set; }
+
+    private Captcha captcha;
+
+    private void Solved( CaptchaState state )
+    {
+        Console.WriteLine( $""Captcha Success: {state.Valid}"" );
+    }
+
+    private void Expired()
+    {
+        Console.WriteLine( ""Captcha Expired"" );
+    }
+
+    private async Task<bool> Validate( CaptchaState state )
+    {
+        Console.WriteLine( ""Captcha Validate"" );
+
+        //Perform server side validation
+        //You should make sure to implement server side validation
+        //https://developers.google.com/recaptcha/docs/verify
+        //Here's a simple example:
+        var content = new FormUrlEncodedContent( new[]
+        {
+            new KeyValuePair<string, string>(""secret"", AppSettings.Value.ReCaptchaServerKey),
+            new KeyValuePair<string, string>(""response"", state.Response),
+         } );
+
+        var httpClient = HttpClientFactory.CreateClient();
+        var response = await httpClient.PostAsync( ""https://www.google.com/recaptcha/api/siteverify"", content );
+
+        var result = await response.Content.ReadAsStringAsync();
+        var googleResponse = JsonSerializer.Deserialize<GoogleResponse>( result, new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+            } );
+
+        return googleResponse.Success;
+    }
+
+    private async Task Reset()
+    {
+        await captcha.Reset();
+    }
+
+    public class GoogleResponse
+    {
+        public bool Success { get; set; }
+        public double Score { get; set; } //V3 only - The score for this request (0.0 - 1.0)
+        public string Action { get; set; } //v3 only - An identifier
+        public string Challenge_ts { get; set; }
+        public string Hostname { get; set; }
+        public string ErrorCodes { get; set; }
+    }
+}";
+
+        public const string ReCaptchaNugetInstallExample = @"Install-Package Blazorise.Captcha.ReCaptcha";
+
+        public const string ReCaptchaRegisterServicesExample = @"using Blazorise.Captcha.ReCaptcha;
+
+builder.Services
+	.AddBlazorise( options =>
+	{
+		options.Immediate = true;
+	} )
+	.AddBlazoriseGoogleReCaptcha( reCaptchaOptions =>
+	{
+		reCaptchaOptions.SiteKey = Configuration[""ReCaptchaSiteKey""]
+		//Set any other ReCaptcha options here...
+	});";
+
+        public const string ReCaptchaResourcesExample = @"<script src=""https://www.google.com/recaptcha/api.js"" async defer></script>";
+
         public const string ChartComplexDataExample = @"<LineChart @ref=""lineChart"" TItem=""WatcherEvent"" Options=""@lineChartOptions"" />
 
 @code {
@@ -9760,7 +9851,7 @@ builder.Services
 	<div id=""app""></div>
 
 	<!-- inside of body section and after the div/app tag  -->
-	<!-- These are the standard js dependencies this provider tipically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
+	<!-- These are the standard js dependencies this provider typically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
 	<script src=""https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"" integrity=""sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"" crossorigin=""anonymous""></script>
 	<script src=""https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"" integrity=""sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"" crossorigin=""anonymous""></script>
 	<script src=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"" integrity=""sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"" crossorigin=""anonymous""></script>
@@ -9798,7 +9889,7 @@ builder.Services
   <div id=""app""></div>
 
   <!-- inside of body section and after the div/app tag  -->
-  <!-- These are the standard js dependencies this provider tipically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
+  <!-- These are the standard js dependencies this provider typically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
   <script src=""https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"" integrity=""sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"" crossorigin=""anonymous""></script>
 </body>
 </html>";
@@ -9889,7 +9980,7 @@ builder.Services
 <link href=""_content/Blazorise.Icons.Material/blazorise.icons.material.css"" rel=""stylesheet"" />
 
 <!-- Optional JavaScript -->
-<!-- These are the standard js dependencies this provider tipically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
+<!-- These are the standard js dependencies this provider typically dependes upon, but Blazorise deems these as optional as Blazorise Components should work correctly without these  -->
 <!-- jQuery first, then Popper.js, then Material JS -->
 <script src=""https://code.jquery.com/jquery-3.5.0.slim.min.js""></script>
 <script src=""https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js""></script>
@@ -10490,8 +10581,14 @@ builder.Services
 
 <Paragraph>@Value</Paragraph>
 
+<Button Color=""Color.Primary"" Clicked=""Increment"">Increment</Button>
 @code {
     [Parameter] public long Value { get; set; }
+
+    private void Increment()
+    {
+        Value++;
+    }
 }";
 
         public const string CustomStructureModalExample = @"<ModalHeader>
@@ -10658,6 +10755,22 @@ builder.Services
 </Router>
 
 <ModalProvider UseModalStructure Animated Size=""ModalSize.Fullscreen"" />";
+
+        public const string ModalProviderStatefulExample = @"<Button Color=""Color.Primary"" Clicked=""ShowStateful"">Show Stateful</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    public Task ShowStateful()
+    {
+        return ModalService.Show<CounterExample>( ""My Stateful content"", new ModalInstanceOptions()
+        {
+            Stateful = true,
+            ElementId = ""Stateful"",
+            RenderMode = ModalRenderMode.LazyLoad
+        } );
+    }
+}";
 
         public const string ModalProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
     <Found>...</Found>

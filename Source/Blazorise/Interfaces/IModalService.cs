@@ -133,6 +133,12 @@ public interface IModalService
     public Task<ModalInstance> Show( string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions = null );
 
     /// <summary>
+    /// Shows the modal from a given modal instance.
+    /// </summary>
+    /// <returns></returns>
+    public Task Show( ModalInstance modalInstance );
+
+    /// <summary>
     /// Hides currently opened modal.
     /// </summary>
     /// <returns></returns>
@@ -143,4 +149,24 @@ public interface IModalService
     /// </summary>
     /// <returns></returns>
     public Task Hide( ModalInstance modalInstance );
+
+    /// <summary>
+    /// Returns all the modal instances.
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<ModalInstance> GetInstances();
+
+    /// <summary>
+    /// Explicitly removes the modal instance from the ModalProvider.
+    /// </summary>
+    /// <returns></returns>
+    public Task Remove( ModalInstance modalInstance );
+
+    /// <summary>
+    /// Resets the state of the ModalProvider.
+    /// Any existing instances will be cleared.
+    /// </summary>
+    /// <returns></returns>
+    public Task Reset();
+
 }
