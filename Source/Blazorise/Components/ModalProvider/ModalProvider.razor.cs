@@ -30,10 +30,11 @@ public partial class ModalProvider : BaseComponent
         return base.OnInitializedAsync();
     }
 
-    internal async Task<ModalInstance> Show( string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions )
+    internal Task<ModalInstance> Show( string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions )
     {
         var newModalInstance = new ModalInstance( this, IdGenerator.Generate, title, childContent, modalInstanceOptions );
-        return await Show( newModalInstance );
+
+        return Show( newModalInstance );
     }
 
     internal async Task<ModalInstance> Show( ModalInstance modalInstance )
@@ -41,6 +42,7 @@ public partial class ModalProvider : BaseComponent
         modalInstances ??= new();
 
         var existingModalInstance = modalInstances.FirstOrDefault( x => x.ModalId == modalInstance.ModalId );
+
         if ( existingModalInstance is not null )
         {
             existingModalInstance.Visible = true;
@@ -55,6 +57,7 @@ public partial class ModalProvider : BaseComponent
         }
 
         await InvokeAsync( StateHasChanged );
+
         return existingModalInstance ?? modalInstance;
     }
 
@@ -86,6 +89,7 @@ public partial class ModalProvider : BaseComponent
     internal async Task Reset()
     {
         modalInstances = null;
+
         await InvokeAsync( StateHasChanged );
     }
 
@@ -102,6 +106,7 @@ public partial class ModalProvider : BaseComponent
         }
 
         modalInstances.Remove( modalInstance );
+
         await InvokeAsync( StateHasChanged );
     }
 
@@ -114,6 +119,7 @@ public partial class ModalProvider : BaseComponent
         await modalInstance.Closed.InvokeAsync();
 
         var removeInstance = !modalInstance.Stateful;
+
         if ( removeInstance )
         {
             await Remove( modalInstance );

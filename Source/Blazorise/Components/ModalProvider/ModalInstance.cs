@@ -80,7 +80,7 @@ public class ModalInstance
     public bool UseModalStructure => ModalInstanceOptions?.UseModalStructure ?? ModalProvider.UseModalStructure;
 
     /// <summary>
-    /// Keeps the ModalInstance in memory after it has been closed.
+    /// Determines if the ModalInstance should be kept in memory after it has been closed.
     /// Defaults to false.
     /// </summary>
     public bool Stateful => ModalInstanceOptions?.Stateful ?? ModalProvider.Stateful;
