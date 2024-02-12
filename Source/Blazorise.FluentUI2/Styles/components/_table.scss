@@ -285,3 +285,26 @@
         }
     }
 }
+
+.b-table.fui-Table {
+    position: relative;
+
+    .b-table-resizer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 5px;
+        cursor: col-resize;
+        user-select: none;
+        z-index: 1;
+    }
+
+    .b-table-resizer:hover, .b-table-resizing {
+        cursor: col-resize !important;
+        border-right: 2px solid var(--b-theme-primary, blue);
+    }
+
+    .b-table-resizing {
+        cursor: col-resize !important;
+    }
+}
