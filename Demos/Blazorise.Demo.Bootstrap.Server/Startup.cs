@@ -1,8 +1,6 @@
 #region Using directives
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
-using Blazorise.RichTextEdit;
-using Blazorise.Shared;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +24,7 @@ public class Startup
     public void ConfigureServices( IServiceCollection services )
     {
         services
-            .SetupDemoServices( Configuration["Licensing:ProductToken"] )
+            .SetupDemoServices( Configuration["Licensing:ProductToken"], Configuration["ReCaptchaSiteKey"] )
             .AddBootstrapProviders()
             .AddFontAwesomeIcons();
 
