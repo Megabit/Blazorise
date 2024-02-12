@@ -306,6 +306,7 @@ class FluentUIIconProvider : BaseIconProvider
         { IconName.SwimmingPool, FluentUIIcons.SwimmingPool },
         { IconName.Sync, FluentUIIcons.ArrowSync },
         { IconName.SyncAlt, FluentUIIcons.FolderSync },
+        { IconName.Table, FluentUIIcons.Table },
         { IconName.Tablet, FluentUIIcons.Tablet },
         { IconName.Tag, FluentUIIcons.Tag },
         { IconName.Taxi, FluentUIIcons.VehicleCab },

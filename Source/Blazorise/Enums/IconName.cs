@@ -296,6 +296,7 @@ public enum IconName
     SwimmingPool,
     Sync,
     SyncAlt,
+    Table,
     Tablet,
     Tag,
     Taxi,

@@ -306,6 +306,7 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.SwimmingPool, FontAwesomeIcons.SwimmingPool },
         { IconName.Sync, FontAwesomeIcons.Sync },
         { IconName.SyncAlt, FontAwesomeIcons.SyncAlt },
+        { IconName.Table, FontAwesomeIcons.Table },
         { IconName.Tablet, FontAwesomeIcons.Tablet },
         { IconName.Tag, FontAwesomeIcons.Tag },
         { IconName.Taxi, FontAwesomeIcons.Taxi },

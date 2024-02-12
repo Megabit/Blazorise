@@ -305,6 +305,7 @@ class BootstrapIconProvider : BaseIconProvider
         { IconName.SwimmingPool, BootstrapIcons.Ladder },
         { IconName.Sync, BootstrapIcons.CloudArrowDown },
         { IconName.SyncAlt, BootstrapIcons.CloudArrowDownFill },
+        { IconName.Table, BootstrapIcons.Table },
         { IconName.Tablet, BootstrapIcons.Tablet },
         { IconName.Tag, BootstrapIcons.Tag },
         { IconName.Taxi, BootstrapIcons.TaxiFront },
