@@ -61,4 +61,14 @@
 		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.*" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.*" />
 	</ItemGroup>
+
+	<Target Name="ReplaceVersionPlaceholderInJsFiles" BeforeTargets="Build">
+
+		<PropertyGroup>
+			<Placeholder>\?v=([\d.]+)</Placeholder>
+			<Replacement>?v=$(Version)</Replacement>
+		</PropertyGroup>
+		
+		<Exec Command="PowerShell -Command &quot;if (Test-Path 'wwwroot') { Get-ChildItem -Path 'wwwroot' -Filter *.js | ForEach-Object { (Get-Content $_.FullName) -replace '$(Placeholder)', '$(Replacement)' | Set-Content $_.FullName }}&quot;" />
+	</Target>
 </Project>

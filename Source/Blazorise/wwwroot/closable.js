@@ -1,4 +1,4 @@
-﻿let closableComponents = [];
+let closableComponents = [];
 let closableLightComponents = [];
 let lastClickedDocumentElement = null;
 

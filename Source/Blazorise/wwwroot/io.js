@@ -1,4 +1,4 @@
-﻿export async function readFileDataStream(elem, fileId) {
+export async function readFileDataStream(elem, fileId) {
     const file = getFileById(elem, fileId);
     return file.blob;
 }

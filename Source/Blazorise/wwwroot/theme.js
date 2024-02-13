@@ -1,4 +1,4 @@
-﻿export function addVariable(name, value) {
+export function addVariable(name, value) {
     const themeVariablesElement = document.getElementById("b-theme-variables");
 
     // make sure that themeVariables element exists and that we don't have the variable already defined

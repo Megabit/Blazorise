@@ -1,5 +1,5 @@
-import { getRequiredElement } from "./utilities.js?v=1.4.2.0";
-import { createFloatingUiAutoUpdate } from './floatingUi.js?v=1.4.2.0';
+import { getRequiredElement } from "./utilities.js?v=1.4.2";
+import { createFloatingUiAutoUpdate } from './floatingUi.js?v=1.4.2';
 
 const _instances = [];
 
