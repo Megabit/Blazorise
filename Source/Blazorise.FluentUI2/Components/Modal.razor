@@ -2,9 +2,9 @@
 @inherits Blazorise.Modal
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        @if ( ShowBackdrop && BackdropVisible )
+        @if ( ShowBackdrop )
         {
-            <_ModalBackdrop />
+            <_ModalBackdrop Animated="@Animated" AnimationDuration="@AnimationDuration" />
         }
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" tabindex="-1" @attributes="@Attributes">
             @if ( ShouldRenderContent )
