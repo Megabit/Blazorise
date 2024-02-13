@@ -62,18 +62,8 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.*" />
 	</ItemGroup>
 
-	<!--<Target Name="ReplaceVersionPlaceholderInJsFiles" BeforeTargets="Build">
-
-		<PropertyGroup>
-			<Placeholder>\?v=([\d.]+)</Placeholder>
-			<Replacement>?v=$(Version)</Replacement>
-		</PropertyGroup>
-		
-		<Exec Command="PowerShell -Command &quot;if (Test-Path 'wwwroot') { Get-ChildItem -Path 'wwwroot' -Filter *.js | ForEach-Object { (Get-Content $_.FullName) -replace '$(Placeholder)', '$(Replacement)' | Set-Content $_.FullName }}&quot;" />
-	</Target>-->
-
 	<UsingTask
-	  TaskName="ReplaceVersionPlaceholderInJsFiles"
+	  TaskName="ReplaceVersionInJsFiles"
 	  TaskFactory="RoslynCodeTaskFactory"
 	  AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
 		<ParameterGroup>
@@ -88,13 +78,13 @@
 			<Code Type="Fragment" Language="cs">
 				<![CDATA[  
 				
-				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : [{SourceFiles.Count()}] files ------");
-				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : Match : [{MatchExpression}] | Replace : [{ReplacementText}] ------");
+				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : [{SourceFiles.Count()}] files ------");
+				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : Match : [{MatchExpression}] | Replace : [{ReplacementText}] ------");
 				try {
 					foreach (ITaskItem item in SourceFiles)
 					{
 						string fileName = item.ItemSpec;
-						Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : Updating File '{0}'.", fileName);
+						Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionInJsFiles : Updating File '{0}'.", fileName);
 					
 						File.WriteAllText(
 						fileName,
@@ -104,7 +94,7 @@
 				}
 				catch (Exception ex)
 				{
-					Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : Exception : [{ex.Message}] ------");
+					Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : Exception : [{ex.Message}] ------");
 				}
         ]]>
 			</Code>
@@ -115,8 +105,8 @@
 		<ItemGroup>
 			<JsFiles Include='wwwroot\*.js' />
 		</ItemGroup>
-		
-		<ReplaceVersionPlaceholderInJsFiles
+
+		<ReplaceVersionInJsFiles
 		   SourceFiles="@(JsFiles)"
 		   MatchExpression="\?v=([\d.]*)"
 		   ReplacementText="?v=$(Version)" />
