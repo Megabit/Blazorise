@@ -8,7 +8,6 @@ on:
 
 env:
   BUILD_VERSION: '1.5.0.0'
-  PACKAGE_VERSION: $BUILD_VERSION-dev-${{ github.run_number }}
 
 jobs:
   build:
@@ -50,7 +49,8 @@ jobs:
 
     - name: Pack - Release
       run: dotnet pack --configuration Release --no-restore -o ./Packages /p:Version=$BUILD_VERSION /p:PackageVersion=$PACKAGE_VERSION
-    
+    env:
+      PACKAGE_VERSION: $BUILD_VERSION-dev-${{ github.run_number }}
     # - name: Push - Release
     #   run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorise/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
 
