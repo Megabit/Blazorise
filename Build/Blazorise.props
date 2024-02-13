@@ -88,6 +88,7 @@
 			<Code Type="Fragment" Language="cs">
 				<![CDATA[  
 				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : [{SourceFiles.Count()}] files ------");
+				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : Match : [{MatchExpression}] | Replace : [{ReplacementText}] ------");
                 foreach (ITaskItem item in SourceFiles)
                 {
 					string fileName = item.ItemSpec;
