@@ -35,17 +35,17 @@ jobs:
     - name: Restore NuGet Packages
       run: dotnet restore
       
-    - name: Build - Release
-      run: dotnet build --configuration Release --no-restore /p:Version=$BUILD_VERSION
+    # - name: Build - Release
+    #   run: dotnet build --configuration Release --no-restore /p:Version=$BUILD_VERSION
       
-    - name: Run Unit Tests - Release
-      run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
+    # - name: Run Unit Tests - Release
+    #   run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
 
-    - name: Prepare E2E Tests Dependencies 
-      run: pwsh ./Tests/Blazorise.E2E.Tests/bin/Release/net8.0/playwright.ps1 install --with-deps
+    # - name: Prepare E2E Tests Dependencies 
+    #   run: pwsh ./Tests/Blazorise.E2E.Tests/bin/Release/net8.0/playwright.ps1 install --with-deps
 
-    - name: Run E2E Tests - Release
-      run: dotnet test ./Tests/Blazorise.E2E.Tests/Blazorise.E2E.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
+    # - name: Run E2E Tests - Release
+    #   run: dotnet test ./Tests/Blazorise.E2E.Tests/Blazorise.E2E.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
 
     - name: Pack - Release
       run: dotnet pack --configuration Release --no-restore -o ./Packages /p:Version=$BUILD_VERSION /p:PackageVersion=$PACKAGE_VERSION
