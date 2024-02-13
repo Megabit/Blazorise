@@ -10,11 +10,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-          
-    - name: Echo - Latest Version Tag
-      id: latest_tag
-      run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
-      
+               
     - name: Setup .NET 6
       uses: actions/setup-dotnet@v3
       with:
