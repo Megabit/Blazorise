@@ -54,11 +54,11 @@ jobs:
       env:
         VERSION: ${{ steps.latest_tag.outputs.VERSION }}
     
-    - name: Push - Release
-      run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorise/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
+    # - name: Push - Release
+    #   run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorise/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
 
-    - name: Upload Blazorise.Components
-      uses: actions/upload-artifact@v1
-      with:
-        name: Blazorise-Packages
-        path: ./Packages/
+    # - name: Upload Blazorise.Components
+    #   uses: actions/upload-artifact@v1
+    #   with:
+    #     name: Blazorise-Packages
+    #     path: ./Packages/
