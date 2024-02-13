@@ -11,6 +11,7 @@ public partial class Radio<TValue>
     public Radio()
     {
         InputClassBuilder = new ClassBuilder( BuildInputClasses );
+        LabelButonClassBuilder = new ClassBuilder( BuildLabelButonClasses );
     }
 
     #endregion
@@ -19,7 +20,14 @@ public partial class Radio<TValue>
 
     protected internal override void DirtyClasses()
     {
-        InputClassBuilder.Dirty();
+        if ( AsButton )
+        {
+            LabelButonClassBuilder.Dirty();
+        }
+        else
+        {
+            InputClassBuilder.Dirty();
+        }
 
         base.DirtyClasses();
     }
@@ -43,13 +51,25 @@ public partial class Radio<TValue>
         }
     }
 
+    private void BuildLabelButonClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.Button( false ) );
+        builder.Append( ClassProvider.ButtonColor( ButtonColor, false ) );
+        builder.Append( ClassProvider.ButtonActive( false ), Checked );
+        builder.Append( ClassProvider.ButtonDisabled( false ), Disabled );
+    }
+
     #endregion
 
     #region Properties
 
     protected ClassBuilder InputClassBuilder { get; private set; }
 
+    protected ClassBuilder LabelButonClassBuilder { get; private set; }
+
     protected string InputClassNames => InputClassBuilder.Class;
+
+    protected string LabelButonClassNames => LabelButonClassBuilder.Class;
 
     protected string AddonClassNames => "fui-Input__content";
 

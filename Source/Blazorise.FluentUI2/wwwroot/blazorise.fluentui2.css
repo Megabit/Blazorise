@@ -5969,6 +5969,42 @@ input::file-selector-button {
   color: var(--colorNeutralForeground1);
 }
 
+.fui-Button .fui-Radio__input {
+  cursor: pointer;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  width: calc(16px + 2 * var(--spacingHorizontalS));
+  height: 100%;
+  box-sizing: border-box;
+  margin: 0px;
+  opacity: 0;
+}
+
+.fui-RadioGroup__horizontal-buttons {
+  vertical-align: middle;
+  justify-content: stretch;
+  display: inline-flex;
+  position: relative;
+}
+.fui-RadioGroup__horizontal-buttons .fui-Button:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.fui-RadioGroup__horizontal-buttons .fui-Button:not(:last-child):not(.fui-MenuButton) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.fui-RadioGroup__horizontal-buttons > .fui-ButtonGroup:not(:first-child),
+.fui-RadioGroup__horizontal-buttons > .fui-Button:not(:first-child) {
+  margin-left: -1px;
+}
+.fui-RadioGroup__horizontal-buttons > .fui-ButtonGroup:not(:first-child) > .fui-Button,
+.fui-RadioGroup__horizontal-buttons .fui-ButtonGroup > .fui-Button:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
 .fui-Rating {
   display: flex;
   align-items: center;
