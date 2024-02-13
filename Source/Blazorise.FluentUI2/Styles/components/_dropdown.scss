@@ -573,3 +573,18 @@
         }
     }
 }
+
+.b-is-autocomplete .fui-MenuPopover {
+    width: 100%;
+    max-height: var(--autocomplete-menu-max-height, 200px);
+    overflow-y: scroll;
+
+    .fui-MenuList {
+        width: 100%;
+
+        .fui-MenuItem.b-is-autocomplete-suggestion {
+            width: 100%;
+            display: contents;
+        }
+    }
+}

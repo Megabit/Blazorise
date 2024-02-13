@@ -2956,8 +2956,6 @@ button {
   position: relative;
   display: flex;
   flex-direction: column;
-  overflow-x: hidden;
-  overflow-y: hidden;
   max-width: 100%;
   column-gap: var(--fui-Card--size);
   border-top-left-radius: var(--fui-Card--border-radius);
@@ -4013,6 +4011,19 @@ button {
 .fui-Menu .fui-MenuPopover .fui-MenuList .fui-MenuItem .fui-MenuItem__submenuIndicator .fui-Icon-regular {
   display: inline;
   line-height: 0;
+}
+
+.b-is-autocomplete .fui-MenuPopover {
+  width: 100%;
+  max-height: var(--autocomplete-menu-max-height, 200px);
+  overflow-y: scroll;
+}
+.b-is-autocomplete .fui-MenuPopover .fui-MenuList {
+  width: 100%;
+}
+.b-is-autocomplete .fui-MenuPopover .fui-MenuList .fui-MenuItem.b-is-autocomplete-suggestion {
+  width: 100%;
+  display: contents;
 }
 
 .fui-Field {
