@@ -3,6 +3,7 @@ name: NuGet Build
 on: 
   schedule:
     - cron: "0 20 * * 5"
+  workflow_dispatch:
 
 env:
   BUILD_VERSION: '1.5.0'
