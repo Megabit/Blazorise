@@ -52,7 +52,8 @@ jobs:
     - name: Pack - Release
       run: dotnet pack --configuration Release --no-restore -o ./Packages /p:Version=$VERSION /p:PackageVersion=$VERSION
       env:
-        VERSION: ${{ env.BUILD_VERSION }}-dev-${{ github.run_number }}
+        VERSION: ${{ env.BUILD_VERSION }}
+        PACKAGE-VERSION: ${{ env.BUILD_VERSION }}-dev-${{ github.run_number }}
     
     # - name: Push - Release
     #   run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorise/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
