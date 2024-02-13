@@ -4,7 +4,6 @@ on:
   schedule:
     - cron: "0 20 * * 5"
   workflow_dispatch:
-  push:
   
 env:
   BUILD_VERSION: '1.5.0.0'
