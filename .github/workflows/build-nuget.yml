@@ -4,6 +4,7 @@ on:
   schedule:
     - cron: "0 20 * * 5"
   workflow_dispatch:
+  push:  
 
 env:
   BUILD_VERSION: '1.5.0'
@@ -53,11 +54,11 @@ jobs:
       env:
         VERSION: ${{ env.BUILD_VERSION }}-dev-${{ github.run_number }}
     
-    - name: Push - Release
-      run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorise/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
+    # - name: Push - Release
+    #   run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorise/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
 
-    - name: Upload Blazorise.Components
-      uses: actions/upload-artifact@v3
-      with:
-        name: Blazorise-Packages
-        path: ./Packages/
+    # - name: Upload Blazorise.Components
+    #   uses: actions/upload-artifact@v3
+    #   with:
+    #     name: Blazorise-Packages
+    #     path: ./Packages/
