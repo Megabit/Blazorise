@@ -108,7 +108,7 @@
 
 		<ReplaceVersionInJsFiles
 		   SourceFiles="@(JsFiles)"
-		   MatchExpression="\?v=([\d.]*)"
+		   MatchExpression="\?v=([\d.]*-?\w+-?\d*)"
 		   ReplacementText="?v=$(Version)" />
 	</Target>
 </Project>
