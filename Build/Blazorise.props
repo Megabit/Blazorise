@@ -90,15 +90,21 @@
 				
 				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : [{SourceFiles.Count()}] files ------");
 				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : Match : [{MatchExpression}] | Replace : [{ReplacementText}] ------");
-                foreach (ITaskItem item in SourceFiles)
-                {
-					string fileName = item.ItemSpec;
-					Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : Updating File '{0}'.", fileName);
+				try {
+					foreach (ITaskItem item in SourceFiles)
+					{
+						string fileName = item.ItemSpec;
+						Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : Updating File '{0}'.", fileName);
 					
-					File.WriteAllText(
-					fileName,
-					Regex.Replace(File.ReadAllText(fileName), MatchExpression, ReplacementText)
-					);
+						File.WriteAllText(
+						fileName,
+						Regex.Replace(File.ReadAllText(fileName), MatchExpression, ReplacementText)
+						);
+					}
+				}
+				catch (Exception ex)
+				{
+					Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : Exception : [{ex.Message}] ------");
 				}
         ]]>
 			</Code>
@@ -112,7 +118,7 @@
 		
 		<ReplaceVersionPlaceholderInJsFiles
 		   SourceFiles="@(JsFiles)"
-		   MatchExpression="\?v=([\d.]+)"
+		   MatchExpression="\?v=([\d.]*)"
 		   ReplacementText="?v=$(Version)" />
 	</Target>
 </Project>
