@@ -8,6 +8,7 @@ on:
 
 env:
   BUILD_VERSION: '1.5.0.0'
+  PACKAGE_VERSION: ${{ env.BUILD_VERSION }}-dev-${{ github.run_number }}
 
 jobs:
   build:
@@ -36,9 +37,7 @@ jobs:
       run: dotnet restore
       
     - name: Build - Release
-      run: dotnet build --configuration Release --no-restore /p:Version=$VERSION
-      env:
-        VERSION: ${{ env.BUILD_VERSION }}
+      run: dotnet build --configuration Release --no-restore /p:Version=$BUILD_VERSION
       
     - name: Run Unit Tests - Release
       run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
@@ -50,10 +49,7 @@ jobs:
       run: dotnet test ./Tests/Blazorise.E2E.Tests/Blazorise.E2E.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
 
     - name: Pack - Release
-      run: dotnet pack --configuration Release --no-restore -o ./Packages /p:Version=$VERSION /p:PackageVersion=$VERSION
-      env:
-        VERSION: ${{ env.BUILD_VERSION }}
-        PACKAGE-VERSION: ${{ env.BUILD_VERSION }}-dev-${{ github.run_number }}
+      run: dotnet pack --configuration Release --no-restore -o ./Packages /p:Version=$BUILD_VERSION /p:PackageVersion=$PACKAGE_VERSION
     
     # - name: Push - Release
     #   run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorise/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
