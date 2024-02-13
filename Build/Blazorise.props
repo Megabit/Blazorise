@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version>1.4.2</Version>
+		<Version>1.4.2.0</Version>
 		<PackageVersion>1.4.2</PackageVersion>
 
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
@@ -87,6 +87,7 @@
 			<Using Namespace="System.Text.RegularExpressions" />
 			<Code Type="Fragment" Language="cs">
 				<![CDATA[  
+				
 				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : [{SourceFiles.Count()}] files ------");
 				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : Match : [{MatchExpression}] | Replace : [{ReplacementText}] ------");
                 foreach (ITaskItem item in SourceFiles)
@@ -112,6 +113,6 @@
 		<ReplaceVersionPlaceholderInJsFiles
 		   SourceFiles="@(JsFiles)"
 		   MatchExpression="\?v=([\d.]+)"
-		   ReplacementText="?v=$(Version).0" />
+		   ReplacementText="?v=$(Version)" />
 	</Target>
 </Project>
