@@ -34,7 +34,7 @@ jobs:
     - name: Build - Release
       run: dotnet build --configuration Release --no-restore /p:Version=$VERSION
       env:
-        VERSION: ${{ env.BUILD_VERSION }}.${{ github.run_number }}
+        VERSION: ${{ env.BUILD_VERSION }}
       
     - name: Run Unit Tests - Release
       run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
@@ -48,7 +48,7 @@ jobs:
     - name: Pack - Release
       run: dotnet pack --configuration Release --no-restore -o ./Packages /p:Version=$VERSION /p:PackageVersion=$VERSION
       env:
-        VERSION: ${{ env.BUILD_VERSION }}.${{ github.run_number }}
+        VERSION: ${{ env.BUILD_VERSION }}-dev-${{ github.run_number }}
     
     # - name: Push - Release
     #   run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorise/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
