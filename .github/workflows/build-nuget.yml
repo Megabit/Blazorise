@@ -1,9 +1,7 @@
 name: NuGet Build
 
 on:
-  push:
-    tags:
-      - '1.*'
+  workflow_dispatch:
 
 jobs:
   build:
