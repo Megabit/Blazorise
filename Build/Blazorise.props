@@ -62,7 +62,7 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.*" />
 	</ItemGroup>
 
-	<Target Name="ReplaceVersionPlaceholderInJsFiles" BeforeTargets="Build">
+	<!--<Target Name="ReplaceVersionPlaceholderInJsFiles" BeforeTargets="Build">
 
 		<PropertyGroup>
 			<Placeholder>\?v=([\d.]+)</Placeholder>
@@ -70,5 +70,47 @@
 		</PropertyGroup>
 		
 		<Exec Command="PowerShell -Command &quot;if (Test-Path 'wwwroot') { Get-ChildItem -Path 'wwwroot' -Filter *.js | ForEach-Object { (Get-Content $_.FullName) -replace '$(Placeholder)', '$(Replacement)' | Set-Content $_.FullName }}&quot;" />
+	</Target>-->
+
+	<UsingTask
+	  TaskName="ReplaceVersionPlaceholderInJsFiles"
+	  TaskFactory="RoslynCodeTaskFactory"
+	  AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<SourceFiles ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+			<MatchExpression ParameterType="System.String" Required="true" />
+			<ReplacementText ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System"/>
+			<Using Namespace="System.IO"/>
+			<Using Namespace="System.Text.RegularExpressions" />
+			<Code Type="Fragment" Language="cs">
+				<![CDATA[  
+				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : [{SourceFiles.Count()}] files ------");
+                foreach (ITaskItem item in SourceFiles)
+                {
+					string fileName = item.ItemSpec;
+					Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionPlaceholderInJsFiles : Updating File '{0}'.", fileName);
+					
+					File.WriteAllText(
+					fileName,
+					Regex.Replace(File.ReadAllText(fileName), MatchExpression, ReplacementText)
+					);
+				}
+        ]]>
+			</Code>
+		</Task>
+	</UsingTask>
+
+	<Target Name="BeforeBuildStep" BeforeTargets="Build">
+		<ItemGroup>
+			<JsFiles Include='wwwroot\*.js' />
+		</ItemGroup>
+		
+		<ReplaceVersionPlaceholderInJsFiles
+		   SourceFiles="@(JsFiles)"
+		   MatchExpression="\?v=([\d.]+)"
+		   ReplacementText="?v=$(Version).0" />
 	</Target>
 </Project>
