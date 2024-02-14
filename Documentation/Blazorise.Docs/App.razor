@@ -62,5 +62,30 @@
     <script src="_content/Blazorise.Docs/blazorise.docs.min.js?v=1.4.2.0"></script>
 
     <script src="_framework/blazor.web.js" suppress-error="BL9992"></script>
+
+    <script>
+        Blazor.start({
+            reconnectionHandler: {
+                onConnectionDown: (options, error) => {
+                    var isReloading = false;
+                    async function attemptReload() {
+                        if (!isReloading) {
+                            isReloading = true;
+                            var request = new Request({
+                                url: '/healthcheck',
+                                method: 'GET'
+                            });
+                            var result = await fetch(request);
+                            if (result.status == 200) {
+                                document.location.reload();
+                            }
+                            isReloading = false;
+                        }
+                    }
+                    setInterval(attemptReload, 1500);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
