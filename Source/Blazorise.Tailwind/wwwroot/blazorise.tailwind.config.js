@@ -1,4 +1,4 @@
-tailwind.config = {
+﻿tailwind.config = {
     content: ["**/*.razor", "**/*.cshtml", "**/*.html"],
     theme: {
         container: {

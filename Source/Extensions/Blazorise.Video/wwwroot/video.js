@@ -1,4 +1,4 @@
-import "./vendors/plyr.js?v=1.4.2.0";
+﻿import "./vendors/plyr.js?v=1.4.2.0";
 import "./vendors/dash.js?v=1.4.2.0";
 import "./vendors/hls.js?v=1.4.2.0";
 

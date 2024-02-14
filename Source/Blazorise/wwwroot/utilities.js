@@ -1,4 +1,4 @@
-import "./vendors/jsencrypt.js?v=1.4.2.0";
+﻿import "./vendors/jsencrypt.js?v=1.4.2.0";
 import "./vendors/sha512.js?v=1.4.2.0";
 
 // adds a classname to the specified element

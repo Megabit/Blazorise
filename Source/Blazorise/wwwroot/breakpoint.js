@@ -1,4 +1,4 @@
-// holds the list of components that are triggers to breakpoint
+﻿// holds the list of components that are triggers to breakpoint
 const breakpointComponents = [];
 let lastBreakpoint = null;
 
