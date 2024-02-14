@@ -256,6 +256,7 @@
     position: relative;
 
     .fui-Table {
+        table-layout: fixed;
         overflow-x: auto;
         white-space: nowrap;
         border-collapse: separate;

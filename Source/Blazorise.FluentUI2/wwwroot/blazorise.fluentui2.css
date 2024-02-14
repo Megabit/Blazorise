@@ -6942,6 +6942,7 @@ input::file-selector-button {
   position: relative;
 }
 .fui-Table-fixed-columns .fui-Table {
+  table-layout: fixed;
   overflow-x: auto;
   white-space: nowrap;
   border-collapse: separate;
