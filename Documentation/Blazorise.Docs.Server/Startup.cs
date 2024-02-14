@@ -37,7 +37,10 @@ public class Startup
         // Add services to the container.
         services
             .AddRazorComponents()
-            .AddInteractiveServerComponents();
+            .AddInteractiveServerComponents().AddHubOptions( options =>
+            {
+                options.MaximumReceiveMessageSize = 1024 * 1024 * 100;
+            } );
 
         services.AddHttpContextAccessor();
 
