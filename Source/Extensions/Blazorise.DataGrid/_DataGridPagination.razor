@@ -175,7 +175,7 @@
                     var pageNumberString = i.ToString();
                     var pageActive = pageNumber == PaginationContext.CurrentPage;
 
-                    <PaginationItem Display="Blazorise.Display.None.OnMobile.InlineBlock.OnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
+                    <PaginationItem Display="Blazorise.Display.None.OnMobile.InlineFlex.Row.OnTablet" Disabled="@(pageNumber == PaginationContext.CurrentPage)" Active="@pageActive">
                         <PaginationLink Page="@pageNumberString" Clicked="@OnPaginationItemClick">
                             @if ( PageButtonTemplate is not null )
                             {
@@ -188,7 +188,7 @@
                         </PaginationLink>
                     </PaginationItem>
                 }
-                <PaginationItem Display="Blazorise.Display.InlineBlock.None.OnTablet">
+                <PaginationItem Display="Blazorise.Display.InlineFlex.Row.None.OnTablet">
                     @if ( PageSelectorTemplate is not null )
                     {
                         @PageSelectorTemplate( PaginationContext )
@@ -245,7 +245,7 @@
                             </Select>
                         }
                     </PaginationItem>
-                    <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart" Display="Blazorise.Display.None.OnMobile.InlineBlock.OnDesktop">
+                    <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart" Display="Blazorise.Display.None.OnMobile.InlineFlex.Row.OnDesktop">
                         @if ( ItemsPerPageTemplate is not null )
                         {
                             @ItemsPerPageTemplate
