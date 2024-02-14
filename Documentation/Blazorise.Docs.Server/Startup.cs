@@ -99,7 +99,10 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure( WebApplication app )
     {
-        app.UseResponseCompression();
+        if ( !app.Environment.IsDevelopment() )
+        {
+            app.UseResponseCompression();
+        }
 
         if ( !app.Environment.IsDevelopment() )
         {
