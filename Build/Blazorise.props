@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version>1.4.2.0</Version>
+		<Version>1.4.3.0</Version>
 		<PackageVersion>1.4.2</PackageVersion>
 
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
@@ -84,12 +84,15 @@
 					foreach (ITaskItem item in SourceFiles)
 					{
 						string fileName = item.ItemSpec;
-						Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionInJsFiles : Updating File '{0}'.", fileName);
-					
-						File.WriteAllText(
-						fileName,
-						Regex.Replace(File.ReadAllText(fileName), MatchExpression, ReplacementText).Trim()
-						);
+						Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionInJsFiles : Evaluating File '{0}'.", fileName);
+		
+						var fileContent = File.ReadAllText(fileName);
+						var regexMatch = Regex.Match(fileContent, MatchExpression);
+					    if (regexMatch.Success && regexMatch.Value != ReplacementText)
+						{
+							Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionInJsFiles : Updating File '{0}'.", fileName);
+							File.WriteAllText(fileName, Regex.Replace(File.ReadAllText(fileName), MatchExpression, ReplacementText).Trim());
+						}
 					}
 				}
 				catch (Exception ex)
