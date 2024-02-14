@@ -1,6 +1,6 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 	<PropertyGroup>
-		<Version>1.4.2.0</Version>
+		<Version>1.4.2</Version>
 		<PackageVersion>1.4.2</PackageVersion>
 
 		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
@@ -13,7 +13,7 @@
 		<Authors>Megabit</Authors>
 		<Company>Megabit</Company>
 		<Copyright>Copyright 2018-2024 Megabit</Copyright>
-		
+
 		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<IsPackable>true</IsPackable>
@@ -24,13 +24,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<SupportedPlatform Include="browser" />		
+		<SupportedPlatform Include="browser" />
 	</ItemGroup>
 
-    <ItemGroup>
-        <Content Remove="package.json" />
-        <None Include="package.json" />
-    </ItemGroup>
+	<ItemGroup>
+		<Content Remove="package.json" />
+		<None Include="package.json" />
+	</ItemGroup>
 
 	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
 		<DefineConstants>$(DefineConstants);NET6_0</DefineConstants>
@@ -68,8 +68,7 @@
 	  AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
 		<ParameterGroup>
 			<SourceFiles ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
-			<MatchExpression ParameterType="System.String" Required="true" />
-			<ReplacementText ParameterType="System.String" Required="true" />
+			<Version ParameterType="System.String" Required="true" />
 		</ParameterGroup>
 		<Task>
 			<Using Namespace="System"/>
@@ -77,9 +76,46 @@
 			<Using Namespace="System.Text.RegularExpressions" />
 			<Code Type="Fragment" Language="cs">
 				<![CDATA[  
-				
 				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : [{SourceFiles.Count()}] files ------");
-				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : Match : [{MatchExpression}] | Replace : [{ReplacementText}] ------");
+				
+				var matchExpression = @"\?v=([\d.]*-?\w+-?\d*)";
+				var expectedVersion = string.Empty;;
+				try {
+					string[] versionGroups = Version.Split('.');
+					if (versionGroups.Length < 4)
+					{
+						expectedVersion = string.Empty;
+						for (int i = 0; i < 4; i++)
+						{
+							if (i>0)
+							{
+								expectedVersion += ".";
+							}
+						
+							if (versionGroups.Length > i)
+							{
+								expectedVersion += $"{versionGroups[i]}";
+							}
+							else
+							{
+								expectedVersion += $"0";
+							}
+						}
+					}
+					else
+					{
+						expectedVersion = Version;
+					}
+				}
+				catch (Exception ex)
+				{
+					Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : Unable to resolve version : Exception : [{ex.Message}] ------");
+					return false;
+				}
+				
+				var replacementText = $"?v={expectedVersion}";
+				
+				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : Match : [{matchExpression}] | Replace : [{replacementText}] ------");
 				try {
 					foreach (ITaskItem item in SourceFiles)
 					{
@@ -87,11 +123,11 @@
 						Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionInJsFiles : Evaluating File '{0}'.", fileName);
 		
 						var fileContent = File.ReadAllText(fileName);
-						var regexMatch = Regex.Match(fileContent, MatchExpression);
-					    if (regexMatch.Success && regexMatch.Value != ReplacementText)
+						var regexMatch = Regex.Match(fileContent, matchExpression);
+					    if (regexMatch.Success && regexMatch.Value != replacementText)
 						{
 							Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionInJsFiles : Updating File '{0}'.", fileName);
-							File.WriteAllText(fileName, Regex.Replace(File.ReadAllText(fileName), MatchExpression, ReplacementText).Trim());
+							File.WriteAllText(fileName, Regex.Replace(File.ReadAllText(fileName), matchExpression, replacementText).Trim());
 						}
 					}
 				}
@@ -111,7 +147,6 @@
 
 		<ReplaceVersionInJsFiles
 		   SourceFiles="@(JsFiles)"
-		   MatchExpression="\?v=([\d.]*-?\w+-?\d*)"
-		   ReplacementText="?v=$(Version)" />
+		   Version="$(Version)" />
 	</Target>
 </Project>
