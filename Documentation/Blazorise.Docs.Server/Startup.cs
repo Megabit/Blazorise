@@ -38,7 +38,10 @@ public class Startup
         // Add services to the container.
         services
             .AddRazorComponents()
-            .AddInteractiveServerComponents();
+            .AddInteractiveServerComponents().AddHubOptions( options =>
+            {
+                options.MaximumReceiveMessageSize = 1024 * 1024 * 100;
+            } );
 
         services.AddHttpContextAccessor();
 
@@ -105,7 +108,10 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure( WebApplication app )
     {
-        app.UseResponseCompression();
+        if ( !app.Environment.IsDevelopment() )
+        {
+            app.UseResponseCompression();
+        }
 
         if ( !app.Environment.IsDevelopment() )
         {
