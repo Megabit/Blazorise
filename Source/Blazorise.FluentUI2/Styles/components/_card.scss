@@ -11,7 +11,6 @@
     border-top-right-radius: var(--fui-Card--border-radius);
     border-bottom-left-radius: var(--fui-Card--border-radius);
     border-bottom-right-radius: var(--fui-Card--border-radius);
-    margin: auto;
     row-gap: var(--fui-Card--size);
     column-gap: var(--fui-Card--size);
 
@@ -44,8 +43,6 @@
 
     .fui-CardPreview {
         position: relative;
-        margin-left: calc(var(--fui-Card--size) * -1);
-        margin-right: calc(var(--fui-Card--size) * -1);
         flex-shrink: 0;
         width: 100%;
     }
