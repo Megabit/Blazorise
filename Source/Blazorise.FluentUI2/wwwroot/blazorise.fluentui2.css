@@ -2853,12 +2853,10 @@ button {
   background-color: var(--colorNeutralBackgroundDisabled);
 }
 .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):hover, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):hover {
-  border-color: var(--colorNeutralBackground2Hover);
-  color: var(--colorNeutralBackground2Hover);
+  color: var(--colorNeutralForeground2Hover);
 }
 .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled):active, .fui-ButtonOutline-light:not(:disabled):not(.fui-Button-disabled).fui-Button-active {
-  border-color: var(--colorNeutralBackground2Pressed);
-  color: var(--colorNeutralBackground2Pressed);
+  color: var(--colorNeutralForeground2Pressed);
 }
 
 .fui-ButtonOutline-link {

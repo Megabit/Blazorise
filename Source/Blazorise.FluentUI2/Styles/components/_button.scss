@@ -252,7 +252,30 @@
 }
 
 .fui-ButtonOutline-light {
-    @include button-outline-variant(var(--colorNeutralBackground2), var(--colorNeutralBackground2Hover), var(--colorNeutralBackground2Pressed));
+    color: var(--colorNeutralBackground2);
+    border-color: var(--colorNeutralBackground2);
+
+    &.fui-Button-disabled,
+    &:disabled {
+        cursor: not-allowed;
+        border-bottom-color: var(--colorNeutralStrokeDisabled);
+        border-left-color: var(--colorNeutralStrokeDisabled);
+        border-right-color: var(--colorNeutralStrokeDisabled);
+        border-top-color: var(--colorNeutralStrokeDisabled);
+        background-color: var(--colorNeutralBackgroundDisabled);
+    }
+
+    &:not(:disabled):not(.fui-Button-disabled),
+    &:not(:disabled):not(.fui-Button-disabled) {
+        &:hover {
+            color: var(--colorNeutralForeground2Hover);
+        }
+
+        &:active,
+        &.fui-Button-active {
+            color: var(--colorNeutralForeground2Pressed);
+        }
+    }
 }
 
 .fui-ButtonOutline-link {
