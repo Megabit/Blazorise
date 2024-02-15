@@ -1,0 +1,19 @@
+﻿.b-datagrid.fui-Table {
+    .fui-TableHeader {
+        .fui-TableRow:first-child {
+            .fui-TableHeaderCell {
+                > div {
+                    align-items: center;
+
+                    .fui-Menu {
+                        .fui-Button.fui-MenuButton {
+                            border: 0;
+                            padding-left: 0;
+                            padding-right: 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

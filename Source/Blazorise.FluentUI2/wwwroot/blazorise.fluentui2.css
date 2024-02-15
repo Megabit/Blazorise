@@ -15060,6 +15060,15 @@ span.flatpickr-weekday {
   color: var(--colorNeutralForeground2Pressed);
 }
 
+.b-datagrid.fui-Table .fui-TableHeader .fui-TableRow:first-child .fui-TableHeaderCell > div {
+  align-items: center;
+}
+.b-datagrid.fui-Table .fui-TableHeader .fui-TableRow:first-child .fui-TableHeaderCell > div .fui-Menu .fui-Button.fui-MenuButton {
+  border: 0;
+  padding-left: 0;
+  padding-right: 0;
+}
+
 .snackbar {
   z-index: calc(var(--zIndexPopover) + 1) !important;
 }
