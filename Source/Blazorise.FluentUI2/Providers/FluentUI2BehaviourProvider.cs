@@ -4,7 +4,7 @@ public class FluentUI2BehaviourProvider : BehaviourProvider
 {
     #region DataGrid
 
-    public override bool DataGridRowMultiSelectPreventClick => true;
+    public override bool DataGridRowMultiSelectPreventClick => false;
 
     #endregion
 }
