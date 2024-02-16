@@ -33,9 +33,13 @@ public class MaterialClassProvider : Bootstrap.BootstrapClassProvider
 
     public override string TabPanel() => "tab-pane fade";
 
-    public override string Bar() => "navbar navbar-full";
+    public override string Bar( BarMode mode ) => "navbar navbar-full";
 
     public override string BarItemHasDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : null;
+
+    public override string AccordionToggle() => "btn btn-link btn-block text-left";
+
+    public override string AccordionToggleCollapsed( bool collapsed ) => collapsed ? null : "collapsed";
 
     public override string Provider => "Material";
 }

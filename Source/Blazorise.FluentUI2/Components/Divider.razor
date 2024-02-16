@@ -1,0 +1,7 @@
+﻿@inherits Blazorise.Divider
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-content="@Text">
+    @if ( Text is not null )
+    {
+        <div class="fui-Divider__wrapper">@Text</div>
+    }
+</div>

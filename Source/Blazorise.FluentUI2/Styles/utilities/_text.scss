@@ -1,0 +1,164 @@
+﻿@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        .fui-TextAlignment#{$infix}-left {
+            text-align: left !important;
+        }
+
+        .fui-TextAlignment#{$infix}-right {
+            text-align: right !important;
+        }
+
+        .fui-TextAlignment#{$infix}-center {
+            text-align: center !important;
+        }
+
+        .fui-TextAlignment#{$infix}-justify {
+            text-align: justify !important;
+        }
+
+
+        .fui-TextSize {
+            &#{$infix}-xs {
+                font-size: var(--fontSizeBase100) !important;
+            }
+
+            &#{$infix}-sm {
+                font-size: var(--fontSizeBase200) !important;
+            }
+
+            &#{$infix}-md {
+                font-size: var(--fontSizeBase400) !important;
+            }
+
+            &#{$infix}-lg {
+                font-size: var(--fontSizeBase500) !important;
+            }
+
+            &#{$infix}-xl {
+                font-size: var(--fontSizeBase600) !important;
+            }
+
+            &#{$infix}-1 {
+                font-size: var(--fontSizeHero800);
+            }
+
+            &#{$infix}-2 {
+                font-size: var(--fontSizeHero700);
+            }
+
+            &#{$infix}-3 {
+                font-size: var(--fontSizeBase600);
+            }
+
+            &#{$infix}-4 {
+                font-size: var(--fontSizeBase500);
+            }
+
+            &#{$infix}-5 {
+                font-size: var(--fontSizeBase400);
+            }
+
+            &#{$infix}-6 {
+                font-size: var(--fontSizeBase300);
+            }
+        }
+    }
+}
+
+@each $color, $value in $foreground-theme-colors {
+    .fui-TextColor-#{$color} {
+        color: $value !important;
+    }
+}
+
+.fui-TextColor-white {
+    color: #fff !important;
+}
+
+.fui-TextColor-body {
+    color: var(--colorNeutralForeground1) !important;
+}
+
+.fui-TextColor-muted {
+    color: var(--colorNeutralForeground3) !important;
+}
+
+.fui-TextColor-black-50 {
+    color: rgba(#000, .5) !important;
+}
+
+.fui-TextColor-white-50 {
+    color: rgba(#fff, .5) !important;
+}
+
+.fui-TextColor {
+    &-body {
+        color: var(--colorNeutralForeground1);
+    }
+
+    &-muted {
+        color: var(--colorNeutralForeground3);
+    }
+}
+
+.fui-TextTransform {
+    &-lowercase {
+        text-transform: lowercase !important;
+    }
+
+    &-uppercase {
+        text-transform: uppercase !important;
+    }
+
+    &-capitalize {
+        text-transform: capitalize !important;
+    }
+}
+
+.fui-TextWeight {
+    &-light {
+        font-weight: var(--fontWeightLight);
+    }
+
+    &-regular {
+        font-weight: var(--fontWeightRegular);
+    }
+
+    &-medium {
+        font-weight: var(--fontWeightMedium);
+    }
+
+    &-semibold {
+        font-weight: var(--fontWeightSemibold);
+    }
+
+    &-bold {
+        font-weight: var(--fontWeightBold);
+    }
+}
+
+.fui-Text-italic {
+    font-style: italic !important;
+}
+
+.fui-TextOverflow {
+    &-justify {
+        text-align: justify !important;
+    }
+
+    &-wrap {
+        white-space: normal !important;
+    }
+
+    &-nowrap {
+        white-space: nowrap !important;
+    }
+
+    &-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

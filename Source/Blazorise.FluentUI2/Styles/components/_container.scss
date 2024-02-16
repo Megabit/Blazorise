@@ -1,0 +1,31 @@
+﻿.fui-Container,
+.fui-Container-fluid {
+    @include make-container();
+}
+
+// Responsive containers that are 100% wide until a breakpoint
+@each $breakpoint, $container-max-width in $container-max-widths {
+    .fui-Container-#{$breakpoint} {
+        @extend .fui-Container-fluid;
+    }
+
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        %responsive-container-#{$breakpoint} {
+            max-width: $container-max-width;
+        }
+        // Extend each breakpoint which is smaller or equal to the current breakpoint
+        $extend-breakpoint: true;
+
+        @each $name, $width in $grid-breakpoints {
+            @if ($extend-breakpoint) {
+                .fui-Container#{breakpoint-infix($name, $grid-breakpoints)} {
+                    @extend %responsive-container-#{$breakpoint};
+                }
+                // Once the current breakpoint is reached, stop extending
+                @if ($breakpoint == $name) {
+                    $extend-breakpoint: false;
+                }
+            }
+        }
+    }
+}

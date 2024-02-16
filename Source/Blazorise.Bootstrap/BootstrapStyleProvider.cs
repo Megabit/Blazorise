@@ -48,5 +48,10 @@ public class BootstrapStyleProvider : StyleProvider
             ? $"transition-duration: {animationDuration}ms"
             : "transition-duration: unset";
 
+    public override string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration )
+        => animated
+            ? $"transition-duration: {animationDuration}ms"
+            : "transition-duration: unset";
+
     #endregion
 }

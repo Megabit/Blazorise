@@ -5,7 +5,7 @@
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="dialog" @attributes="@Attributes">
             @if ( ShowBackdrop && BackdropVisible )
             {
-                <_OffcanvasBackdrop />
+                <_OffcanvasBackdrop Animated="@Animated" AnimationDuration="@AnimationDuration" />
             }
             <div tabindex="0" aria-hidden="true" data-sentinel="start" style="width: 0px; height: 0px; overflow: hidden; outline: none; position: absolute;"></div>
             <div class="@GetClass()" style="@GetStyle()">

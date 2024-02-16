@@ -300,6 +300,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string FieldColumn() => "col";
 
+    public override string FieldSize( Size size ) => null;
+
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
     public override string FieldValidation( ValidationStatus validationStatus ) => null;
@@ -500,7 +502,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TabsVertical() => "flex-column";
 
-    public override string TabItem() => "nav-item";
+    public override string TabItem( TabPosition tabPosition ) => "nav-item";
 
     public override string TabItemActive( bool active ) => null;
 
@@ -640,9 +642,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ListGroupItemSelectable() => "list-group-item-action";
 
-    public override string ListGroupItemActive() => Active();
+    public override string ListGroupItemActive( bool active ) => active ? Active() : null;
 
-    public override string ListGroupItemDisabled() => Disabled();
+    public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"{ListGroupItem()}-{ToColor( color )}";
 
@@ -659,15 +661,15 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region Bar
 
-    public override string Bar() => "navbar";
+    public override string Bar( BarMode mode ) => "navbar";
 
-    public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
 
-    public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
 
-    public override string BarBreakpoint( Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
 
     public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
 
@@ -733,7 +735,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string BarCollapsed( BarMode mode ) => null;
 
-    public override string BarLabel() => "b-bar-label";
+    public override string BarLabel( BarMode mode ) => "b-bar-label";
 
     #endregion
 
@@ -741,13 +743,21 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Accordion() => "accordion";
 
-    #endregion
-
-    #region AccordionToggle
-
-    public override string AccordionToggle() => "accordion-button btn";
+    public override string AccordionToggle() => "accordion-button";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => collapsed ? null : "collapsed";
+
+    public override string AccordionItem() => "accordion-item";
+
+    public override string AccordionItemActive( bool active ) => null;
+
+    public override string AccordionHeader() => "accordion-header";
+
+    public override string AccordionBody() => "accordion-collapse collapse";
+
+    public override string AccordionBodyActive( bool active ) => active ? Show() : null;
+
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "accordion-body";
 
     #endregion
 
@@ -876,6 +886,10 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ModalVisible( bool visible ) => visible ? Show() : null;
 
+    public override string ModalSize( ModalSize modalSize ) => null;
+
+    public override string ModalCentered( bool centered ) => null;
+
     public override string ModalBackdrop() => "modal-backdrop";
 
     public override string ModalBackdropFade() => Fade();
@@ -932,7 +946,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "offcanvas-backdrop";
 
-    public override string OffcanvasBackdropFade() => Fade();
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => Fade();
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
 
@@ -946,9 +960,9 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string PaginationItem() => "page-item";
 
-    public override string PaginationItemActive() => Active();
+    public override string PaginationItemActive( bool active ) => active ? Active() : null;
 
-    public override string PaginationItemDisabled() => Disabled();
+    public override string PaginationItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
     public override string PaginationLink() => "page-link";
 
@@ -972,6 +986,8 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ProgressAnimated() => null;
 
+    public override string ProgressIndeterminate() => "progress-indeterminate";
+
     public override string ProgressWidth( int width ) => null;
 
     public override string ProgressBar() => "progress-bar";
@@ -983,6 +999,8 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string ProgressBarStriped() => "progress-bar-striped";
 
     public override string ProgressBarAnimated() => "progress-bar-animated";
+
+    public override string ProgressBarIndeterminate() => "progress-bar-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 
@@ -1235,6 +1253,8 @@ public class Bootstrap5ClassProvider : ClassProvider
     public override string LinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
 
     public override string LinkStretched( bool stretched ) => stretched ? "stretched-link" : null;
+
+    public override string LinkDisabled( bool disabled ) => disabled ? "link-disabled" : null;
 
     #endregion
 

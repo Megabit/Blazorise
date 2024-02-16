@@ -1912,6 +1912,10 @@ a.is-link-unstyled {
   text-decoration: none;
   color: inherit;
 }
+a.is-link-disabled[aria-disabled=true] {
+  pointer-events: none;
+  opacity: 0.65;
+}
 
 .is-link-stretched::after {
   position: absolute;

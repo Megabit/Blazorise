@@ -302,6 +302,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string FieldColumn() => "column";
 
+    public override string FieldSize( Size size ) => null;
+
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
     public override string FieldValidation( ValidationStatus validationStatus ) => null;
@@ -509,7 +511,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TabsVertical() => "is-vertical"; // this is custom class, bulma natively does not have vertical tabs
 
-    public override string TabItem() => null;
+    public override string TabItem( TabPosition tabPosition ) => null;
 
     public override string TabItemActive( bool active ) => active ? Active() : null;
 
@@ -649,9 +651,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ListGroupItemSelectable() => "list-group-item-action";
 
-    public override string ListGroupItemActive() => Active();
+    public override string ListGroupItemActive( bool active ) => active ? Active() : null;
 
-    public override string ListGroupItemDisabled() => Disabled();
+    public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"is-{ToColor( color )}";
 
@@ -668,15 +670,15 @@ public class BulmaClassProvider : ClassProvider
 
     #region Bar
 
-    public override string Bar() => "navbar";
+    public override string Bar( BarMode mode ) => "navbar";
 
-    public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
 
-    public override string BarThemeContrast( ThemeContrast themeContrast ) => $"b-bar-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"b-bar-{ToThemeContrast( themeContrast )}";
 
-    public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
 
     public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
 
@@ -749,7 +751,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string BarCollapsed( BarMode mode ) => null;
 
-    public override string BarLabel() => "b-bar-label";
+    public override string BarLabel( BarMode mode ) => "b-bar-label";
 
 
     #endregion
@@ -758,13 +760,21 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Accordion() => "accordion";
 
-    #endregion
-
-    #region AccordionToggle
-
     public override string AccordionToggle() => "button";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    public override string AccordionItem() => "card";
+
+    public override string AccordionItemActive( bool active ) => null;
+
+    public override string AccordionHeader() => "card-header";
+
+    public override string AccordionBody() => "collapse";
+
+    public override string AccordionBodyActive( bool active ) => active ? Show() : null;
+
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "card-content";
 
     #endregion
 
@@ -904,6 +914,10 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ModalVisible( bool visible ) => visible ? Active() : null;
 
+    public override string ModalSize( ModalSize modalSize ) => null;
+
+    public override string ModalCentered( bool centered ) => null;
+
     public override string ModalBackdrop() => "modal-background";
 
     public override string ModalBackdropFade() => Fade();
@@ -914,10 +928,10 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ModalContentSize( ModalSize modalSize )
     {
-        if ( modalSize == ModalSize.Default )
+        if ( modalSize == Blazorise.ModalSize.Default )
             return null;
 
-        if ( modalSize == ModalSize.Fullscreen )
+        if ( modalSize == Blazorise.ModalSize.Fullscreen )
             return "modal-fullscreen";
 
         return $"modal-{ToModalSize( modalSize )}";
@@ -969,7 +983,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "offcanvas-backdrop";
 
-    public override string OffcanvasBackdropFade() => null;
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => null;
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Active() : null;
 
@@ -983,9 +997,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string PaginationItem() => null;
 
-    public override string PaginationItemActive() => null;
+    public override string PaginationItemActive( bool active ) => active ? Active() : null;
 
-    public override string PaginationItemDisabled() => null;
+    public override string PaginationItemDisabled( bool disabled ) => null;
 
     public override string PaginationLink() => "pagination-link";
 
@@ -1009,6 +1023,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ProgressAnimated() => "progress-animated";
 
+    public override string ProgressIndeterminate() => "progress-indeterminate";
+
     public override string ProgressWidth( int width ) => null;
 
     public override string ProgressBar() => "progress-bar";
@@ -1020,6 +1036,8 @@ public class BulmaClassProvider : ClassProvider
     public override string ProgressBarStriped() => "progress-striped";
 
     public override string ProgressBarAnimated() => "progress-animated";
+
+    public override string ProgressBarIndeterminate() => "progress-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 
@@ -1272,6 +1290,8 @@ public class BulmaClassProvider : ClassProvider
     public override string LinkUnstyled( bool unstyled ) => unstyled ? "is-link-unstyled" : null;
 
     public override string LinkStretched( bool stretched ) => stretched ? "is-link-stretched" : null;
+
+    public override string LinkDisabled( bool disabled ) => disabled ? "is-link-disabled" : null;
 
     #endregion
 
@@ -1549,21 +1569,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ToBreakpoint( Breakpoint breakpoint )
     {
-        switch ( breakpoint )
+        return breakpoint switch
         {
-            case Blazorise.Breakpoint.Mobile:
-                return "mobile";
-            case Blazorise.Breakpoint.Tablet:
-                return "tablet";
-            case Blazorise.Breakpoint.Desktop:
-                return "desktop";
-            case Blazorise.Breakpoint.Widescreen:
-                return "widescreen";
-            case Blazorise.Breakpoint.FullHD:
-                return "fullhd";
-            default:
-                return null;
-        }
+            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "mobile",
+            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "tablet",
+            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "desktop",
+            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "widescreen",
+            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "fullhd",
+            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "full24",
+            _ => null,
+        };
     }
 
     public override string ToDisplayType( DisplayType displayType )

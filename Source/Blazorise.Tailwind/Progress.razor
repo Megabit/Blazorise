@@ -58,6 +58,11 @@
                 sb.Append( " bg-striped-animated" );
             }
 
+            if ( Indeterminate )
+            {
+                sb.Append( " progress-bar-indeterminate" );
+            }
+
             return sb.ToString();
         }
     }

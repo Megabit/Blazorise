@@ -1,0 +1,149 @@
+﻿@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        .fui-Flex#{$infix} {
+            display: flex;
+        }
+
+        .fui-InlineFlex#{$infix} {
+            display: inline-flex;
+        }
+
+        .fui-Flex#{$infix}-row {
+            flex-direction: row !important;
+        }
+
+        .fui-Flex#{$infix}-column {
+            flex-direction: column !important;
+        }
+
+        .fui-Flex#{$infix}-row-reverse {
+            flex-direction: row-reverse !important;
+        }
+
+        .fui-Flex#{$infix}-column-reverse {
+            flex-direction: column-reverse !important;
+        }
+
+        .fui-Flex#{$infix}-wrap {
+            flex-wrap: wrap !important;
+        }
+
+        .fui-Flex#{$infix}-nowrap {
+            flex-wrap: nowrap !important;
+        }
+
+        .fui-Flex#{$infix}-wrap-reverse {
+            flex-wrap: wrap-reverse !important;
+        }
+
+        .fui-Flex#{$infix}-fill {
+            flex: 1 1 auto !important;
+        }
+
+        .fui-Flex#{$infix}-grow-0 {
+            flex-grow: 0 !important;
+        }
+
+        .fui-Flex#{$infix}-grow-1 {
+            flex-grow: 1 !important;
+        }
+
+        .fui-Flex#{$infix}-shrink-0 {
+            flex-shrink: 0 !important;
+        }
+
+        .fui-Flex#{$infix}-shrink-1 {
+            flex-shrink: 1 !important;
+        }
+
+        .fui-JustifyContent#{$infix}-start {
+            justify-content: flex-start !important;
+        }
+
+        .fui-JustifyContent#{$infix}-end {
+            justify-content: flex-end !important;
+        }
+
+        .fui-JustifyContent#{$infix}-center {
+            justify-content: center !important;
+        }
+
+        .fui-JustifyContent#{$infix}-between {
+            justify-content: space-between !important;
+        }
+
+        .fui-JustifyContent#{$infix}-around {
+            justify-content: space-around !important;
+        }
+
+        .fui-AlignItems#{$infix}-start {
+            align-items: flex-start !important;
+        }
+
+        .fui-AlignItems#{$infix}-end {
+            align-items: flex-end !important;
+        }
+
+        .fui-AlignItems#{$infix}-center {
+            align-items: center !important;
+        }
+
+        .fui-AlignItems#{$infix}-baseline {
+            align-items: baseline !important;
+        }
+
+        .fui-AlignItems#{$infix}-stretch {
+            align-items: stretch !important;
+        }
+
+        .fui-AlignContent#{$infix}-start {
+            align-content: flex-start !important;
+        }
+
+        .fui-AlignContent#{$infix}-end {
+            align-content: flex-end !important;
+        }
+
+        .fui-AlignContent#{$infix}-center {
+            align-content: center !important;
+        }
+
+        .fui-AlignContent#{$infix}-between {
+            align-content: space-between !important;
+        }
+
+        .fui-AlignContent#{$infix}-around {
+            align-content: space-around !important;
+        }
+
+        .fui-AlignContent#{$infix}-stretch {
+            align-content: stretch !important;
+        }
+
+        .fui-AlignSelf#{$infix}-auto {
+            align-self: auto !important;
+        }
+
+        .fui-AlignSelf#{$infix}-start {
+            align-self: flex-start !important;
+        }
+
+        .fui-AlignSelf#{$infix}-end {
+            align-self: flex-end !important;
+        }
+
+        .fui-AlignSelf#{$infix}-center {
+            align-self: center !important;
+        }
+
+        .fui-AlignSelf#{$infix}-baseline {
+            align-self: baseline !important;
+        }
+
+        .fui-AlignSelf#{$infix}-stretch {
+            align-self: stretch !important;
+        }
+    }
+}

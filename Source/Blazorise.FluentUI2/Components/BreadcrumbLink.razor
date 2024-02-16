@@ -1,0 +1,13 @@
+﻿@inherits Blazorise.BreadcrumbLink
+@if ( IsActive )
+{
+    <a id="@ElementId" class="@ClassNames" style="@StyleNames" tabindex="0" aria-current="page" aria-disabled="true" @attributes="@Attributes">
+        @ChildContent
+    </a>
+}
+else
+{
+    <Anchor ElementId="@ElementId" Class="@ClassNames" Style="@StyleNames" To="@To" Target="@Target" Title="@Title" Match="@Match" Clicked="@ClickHandler" Attributes="@Attributes">
+        @ChildContent
+    </Anchor>
+}

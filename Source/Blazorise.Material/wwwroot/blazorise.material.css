@@ -688,6 +688,10 @@ a.link-unstyled {
   text-decoration: none;
   color: inherit;
 }
+a.link-disabled[aria-disabled=true] {
+  pointer-events: none;
+  opacity: 0.65;
+}
 
 .list-group-scrollable {
   overflow-y: scroll;

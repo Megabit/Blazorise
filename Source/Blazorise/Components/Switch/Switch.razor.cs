@@ -75,7 +75,7 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
     /// <summary>
     /// Returns true id switch is in checked state.
     /// </summary>
-    protected bool IsChecked => Checked?.ToString()?.ToLowerInvariant() == TrueValueName;
+    protected bool IsChecked => string.Compare( Checked?.ToString(), TrueValueName, StringComparison.InvariantCultureIgnoreCase ) == 0;
 
     /// <summary>
     /// Defines the switch named color.

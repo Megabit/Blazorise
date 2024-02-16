@@ -76,6 +76,8 @@ public abstract class StyleProvider : IStyleProvider
 
     public abstract string OffcanvasAnimationDuration( bool animated, int AnimationDuration );
 
+    public abstract string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration );
+
     #endregion
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

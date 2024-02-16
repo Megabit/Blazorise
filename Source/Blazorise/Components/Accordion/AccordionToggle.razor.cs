@@ -16,6 +16,8 @@ public partial class AccordionToggle : BaseComponent
 
     bool collapseVisible;
 
+    bool accordionItemVisible;
+
     #endregion
 
     #region Methods
@@ -24,7 +26,7 @@ public partial class AccordionToggle : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.AccordionToggle() );
-        builder.Append( ClassProvider.AccordionToggleCollapsed( CollapseVisible ) );
+        builder.Append( ClassProvider.AccordionToggleCollapsed( ParentAccordionItem is not null ? AccordionItemVisible : CollapseVisible ) );
 
         base.BuildClasses( builder );
     }
@@ -39,6 +41,10 @@ public partial class AccordionToggle : BaseComponent
         if ( ParentCollapse is not null )
         {
             await ParentCollapse.Toggle();
+        }
+        else if ( ParentAccordionItem is not null )
+        {
+            await ParentAccordionItem.Toggle();
         }
 
         await Clicked.InvokeAsync( eventArgs );
@@ -59,6 +65,11 @@ public partial class AccordionToggle : BaseComponent
     [CascadingParameter] protected Collapse ParentCollapse { get; set; }
 
     /// <summary>
+    /// Gets or sets the cascaded parent accordion item component.
+    /// </summary>
+    [CascadingParameter] public AccordionItem ParentAccordionItem { get; set; }
+
+    /// <summary>
     /// Gets or sets the content visibility.
     /// </summary>
     [CascadingParameter( Name = "CollapseVisible" )]
@@ -71,6 +82,24 @@ public partial class AccordionToggle : BaseComponent
                 return;
 
             collapseVisible = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the content visibility.
+    /// </summary>
+    [CascadingParameter( Name = "AccordionItemVisible" )]
+    public bool AccordionItemVisible
+    {
+        get => accordionItemVisible;
+        set
+        {
+            if ( accordionItemVisible == value )
+                return;
+
+            accordionItemVisible = value;
 
             DirtyClasses();
         }

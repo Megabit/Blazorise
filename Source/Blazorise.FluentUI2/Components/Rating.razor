@@ -1,0 +1,23 @@
+﻿@inherits Blazorise.Rating
+<CascadingValue Value="@this" IsFixed>
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes">
+        @for ( int i = 1; i <= MaxValue; i++ )
+        {
+            <Blazorise.RatingItem @key="@i"
+                                  Class="@RatingItemsClass"
+                                  Style="@RatingItemsStyle"
+                                  Value="@i"
+                                  Color="Color"
+                                  ItemClicked="HandleItemClicked"
+                                  ItemHovered="HandleItemHovered" />
+        }
+    </div>
+</CascadingValue>
+@code {
+    string ratingName;
+
+    public override bool IsHoveredRange( int value )
+        => value >= 1 && value <= HoveredValue;
+
+    public string RatingName => ratingName ??= $"fui-Rating-{IdGenerator.Generate}";
+}

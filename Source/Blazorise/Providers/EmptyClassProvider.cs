@@ -287,6 +287,8 @@ class EmptyClassProvider : IClassProvider
 
     public string FieldColumn() => null;
 
+    public string FieldSize( Size size ) => null;
+
     public string FieldJustifyContent( JustifyContent justifyContent ) => null;
 
     public string FieldValidation( ValidationStatus validationStatus ) => null;
@@ -459,7 +461,7 @@ class EmptyClassProvider : IClassProvider
 
     public string TabsVertical() => null;
 
-    public string TabItem() => null;
+    public string TabItem( TabPosition tabPosition ) => null;
 
     public string TabItemActive( bool active ) => null;
 
@@ -599,9 +601,9 @@ class EmptyClassProvider : IClassProvider
 
     public string ListGroupItemSelectable() => null;
 
-    public string ListGroupItemActive() => null;
+    public string ListGroupItemActive( bool active ) => null;
 
-    public string ListGroupItemDisabled() => null;
+    public string ListGroupItemDisabled( bool disabled ) => null;
 
     public string ListGroupItemColor( Color color, bool selectable, bool active ) => null;
 
@@ -645,15 +647,15 @@ class EmptyClassProvider : IClassProvider
 
     #region Bar
 
-    public string Bar() => null;
+    public string Bar( BarMode mode ) => null;
 
-    public string BarInitial( bool initial ) => null;
+    public string BarInitial( BarMode mode, bool initial ) => null;
 
-    public string BarAlignment( Alignment alignment ) => null;
+    public string BarAlignment( BarMode mode, Alignment alignment ) => null;
 
-    public string BarThemeContrast( ThemeContrast themeContrast ) => null;
+    public string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => null;
 
-    public string BarBreakpoint( Breakpoint breakpoint ) => null;
+    public string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => null;
 
     public string BarMode( BarMode mode ) => null;
 
@@ -713,7 +715,7 @@ class EmptyClassProvider : IClassProvider
 
     public string BarCollapsed( BarMode mode ) => null;
 
-    public string BarLabel() => null;
+    public string BarLabel( BarMode mode ) => null;
 
     #endregion
 
@@ -721,13 +723,21 @@ class EmptyClassProvider : IClassProvider
 
     public string Accordion() => null;
 
-    #endregion
-
-    #region AccordionToggle
-
     public string AccordionToggle() => null;
 
     public string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    public string AccordionItem() => null;
+
+    public string AccordionItemActive( bool active ) => null;
+
+    public string AccordionHeader() => null;
+
+    public string AccordionBody() => null;
+
+    public string AccordionBodyActive( bool active ) => null;
+
+    public string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => null;
 
     #endregion
 
@@ -817,6 +827,10 @@ class EmptyClassProvider : IClassProvider
 
     public string ModalVisible( bool visible ) => null;
 
+    public string ModalSize( ModalSize modalSize ) => null;
+
+    public string ModalCentered( bool centered ) => null;
+
     public string ModalBackdrop() => null;
 
     public string ModalBackdropFade() => null;
@@ -859,7 +873,7 @@ class EmptyClassProvider : IClassProvider
 
     public string OffcanvasBackdrop() => null;
 
-    public string OffcanvasBackdropFade() => null;
+    public string OffcanvasBackdropFade( bool showing, bool hiding ) => null;
 
     public string OffcanvasBackdropVisible( bool visible ) => null;
 
@@ -873,9 +887,9 @@ class EmptyClassProvider : IClassProvider
 
     public string PaginationItem() => null;
 
-    public string PaginationItemActive() => null;
+    public string PaginationItemActive( bool active ) => null;
 
-    public string PaginationItemDisabled() => null;
+    public string PaginationItemDisabled( bool disabled ) => null;
 
     public string PaginationLink() => null;
 
@@ -899,6 +913,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ProgressAnimated() => null;
 
+    public string ProgressIndeterminate() => null;
+
     public string ProgressWidth( int width ) => null;
 
     public string ProgressBar() => null;
@@ -910,6 +926,8 @@ class EmptyClassProvider : IClassProvider
     public string ProgressBarStriped() => null;
 
     public string ProgressBarAnimated() => null;
+
+    public string ProgressBarIndeterminate() => null;
 
     public string ProgressBarWidth( int width ) => null;
 
@@ -1138,6 +1156,8 @@ class EmptyClassProvider : IClassProvider
     public string LinkUnstyled( bool unstyled ) => null;
 
     public string LinkStretched( bool stretched ) => null;
+
+    public string LinkDisabled( bool disabled ) => null;
 
     #endregion
 

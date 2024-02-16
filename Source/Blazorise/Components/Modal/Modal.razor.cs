@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
@@ -124,7 +123,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     {
         builder.Append( StyleProvider.ModalShow(), IsVisible );
         builder.Append( StyleProvider.ModalZIndex( OpenIndex ) );
-        builder.Append( $"--modal-animation-duration: {AnimationDuration}ms" );
+        builder.Append( $"--modal-animation-duration: {( Animated ? AnimationDuration : 0 )}ms" );
 
         base.BuildStyles( builder );
     }

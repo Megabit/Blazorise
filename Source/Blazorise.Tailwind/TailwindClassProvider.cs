@@ -365,6 +365,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string FieldColumn() => "relative basis-0 grow pl-2 pr-2 w-full max-w-full";
 
+    public override string FieldSize( Size size ) => null;
+
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
     public override string FieldValidation( ValidationStatus validationStatus ) => null;
@@ -692,7 +694,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TabsVertical() => "flex-col";
 
-    public override string TabItem() => "mr-2";
+    public override string TabItem( TabPosition tabPosition ) => "mr-2";
 
     public override string TabItemActive( bool active ) => null;
 
@@ -847,7 +849,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardGroup() => "b-card-group flex flex-row gap-x-0";
 
-    public override string Card() => "b-card max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ";
+    public override string Card() => "b-card relative max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ";
 
     public override string CardWhiteText() => "text-white";
 
@@ -901,9 +903,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ListGroupItemSelectable() => "b-listgroup-item-selectable cursor-pointer focus:outline-none";
 
-    public override string ListGroupItemActive() => "b-listgroup-item-active";
+    public override string ListGroupItemActive( bool active ) => active ? "b-listgroup-item-active" : null;
 
-    public override string ListGroupItemDisabled() => "b-listgroup-item-disabled bg-gray-100 cursor-not-allowed dark:bg-gray-600 dark:text-gray-400";
+    public override string ListGroupItemDisabled( bool disabled ) => disabled ? "b-listgroup-item-disabled bg-gray-100 cursor-not-allowed dark:bg-gray-600 dark:text-gray-400" : null;
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active )
     {
@@ -1008,15 +1010,15 @@ public class TailwindClassProvider : ClassProvider
 
     #region Bar
 
-    public override string Bar() => "b-bar";
+    public override string Bar( BarMode mode ) => "b-bar";
 
-    public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
 
-    public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
 
-    public override string BarBreakpoint( Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
         ? $"navbar-expand-{ToBreakpoint( breakpoint )}"
         : null;
 
@@ -1107,7 +1109,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarCollapsed( BarMode mode ) => null;
 
-    public override string BarLabel() => "b-bar-label";
+    public override string BarLabel( BarMode mode ) => "b-bar-label";
 
     #endregion
 
@@ -1115,15 +1117,26 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Accordion() => "b-accordion";
 
-    #endregion
-
-    #region AccordionToggle
-
     public override string AccordionToggle() => "b-accordion-button flex items-center justify-between w-full p-5 font-medium text-left border border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => collapsed
         ? "b-accordion-toggle-collapsed bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
         : "b-accordion-toggle-collapsed text-gray-500 dark:text-gray-400";
+
+    public override string AccordionItem() => "b-accordion-item";
+
+    public override string AccordionItemActive( bool active ) => "b-accordion-active";
+
+    public override string AccordionHeader() => "b-accordion-header";
+
+    public override string AccordionBody() => "b-accordion-body";
+
+    public override string AccordionBodyActive( bool active ) => active ? null : "hidden";
+
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion )
+        => lastInAccordion
+        ? "p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+        : "p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900";
 
     #endregion
 
@@ -1296,6 +1309,10 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalVisible( bool visible ) => visible ? "flex" : null;
 
+    public override string ModalSize( ModalSize modalSize ) => null;
+
+    public override string ModalCentered( bool centered ) => null;
+
     public override string ModalBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40";
 
     public override string ModalBackdropFade() => "b-modal-fade";
@@ -1306,7 +1323,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalContentSize( ModalSize modalSize )
     {
-        if ( modalSize == ModalSize.Fullscreen )
+        if ( modalSize == Blazorise.ModalSize.Fullscreen )
             return "h-screen w-screen max-w-none h-full m-0 rounded-none border-none border-0";
 
         return null;
@@ -1371,7 +1388,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30";
 
-    public override string OffcanvasBackdropFade() => "fade";
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => "fade";
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
 
@@ -1385,9 +1402,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string PaginationItem() => "pagination-item";
 
-    public override string PaginationItemActive() => null;
+    public override string PaginationItemActive( bool active ) => null;
 
-    public override string PaginationItemDisabled() => null;
+    public override string PaginationItemDisabled( bool disabled ) => null;
 
     public override string PaginationLink()
         => "pagination-link relative block leading-tight border rounded-lg";
@@ -1438,6 +1455,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ProgressAnimated() => null;
 
+    public override string ProgressIndeterminate() => "overflow-hidden";
+
     public override string ProgressWidth( int width ) => null;
 
     public override string ProgressBar() => "text-xs shadow-none flex flex-col text-center whitespace-nowrap justify-center";
@@ -1465,6 +1484,8 @@ public class TailwindClassProvider : ClassProvider
     public override string ProgressBarStriped() => "progress-bar-striped";
 
     public override string ProgressBarAnimated() => "progress-bar-animated";
+
+    public override string ProgressBarIndeterminate() => "progress-bar-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 
@@ -1871,7 +1892,9 @@ public class TailwindClassProvider : ClassProvider
         }
     }
 
-    public override string LinkStretched( bool stretched ) => stretched ? "after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:z-1 after:content-['_']" : null;
+    public override string LinkStretched( bool stretched ) => stretched ? "after:absolute after:inset-0" : null;
+
+    public override string LinkDisabled( bool disabled ) => disabled ? "opacity-65 cursor-not-allowed" : null;
 
     #endregion
 
@@ -2322,11 +2345,12 @@ public class TailwindClassProvider : ClassProvider
     {
         return breakpoint switch
         {
-            Blazorise.Breakpoint.Mobile => "sm",
-            Blazorise.Breakpoint.Tablet => "md",
-            Blazorise.Breakpoint.Desktop => "lg",
-            Blazorise.Breakpoint.Widescreen => "xl",
-            Blazorise.Breakpoint.FullHD => "2xl",
+            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "sm",
+            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "md",
+            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "lg",
+            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "xl",
+            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "2xl",
+            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "3xl",
             _ => null,
         };
     }

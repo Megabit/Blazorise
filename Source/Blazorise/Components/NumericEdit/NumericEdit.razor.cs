@@ -72,8 +72,6 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
         minDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
         maxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
 
-
-
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation is not null )

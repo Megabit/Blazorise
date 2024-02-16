@@ -821,41 +821,41 @@ public class Gender
 }";
 
         public const string BasicAccordionExample = @"<Accordion>
-    <Collapse Visible=""@collapse1Visible"">
-        <CollapseHeader>
+    <AccordionItem @bind-Visible=""@accordionItem1Visible"">
+        <AccordionHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <AccordionToggle>Switch 1</AccordionToggle>
+                <AccordionToggle>What is Blazorise?</AccordionToggle>
             </Heading>
-        </CollapseHeader>
-        <CollapseBody>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-        </CollapseBody>
-    </Collapse>
-    <Collapse Visible=""@collapse2Visible"">
-        <CollapseHeader>
+        </AccordionHeader>
+        <AccordionBody>
+            Blazorise is a component library built on top of Blazor, which is a framework from Microsoft for building interactive client-side web UIs using .NET. Blazorise provides a rich set of components that are easy to use and customizable, helping developers to build responsive and modern web applications more efficiently.
+        </AccordionBody>
+    </AccordionItem>
+    <AccordionItem @bind-Visible=""@accordionItem2Visible"">
+        <AccordionHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <AccordionToggle>Switch 2</AccordionToggle>
+                <AccordionToggle>What CSS  frameworks does Blazorise support?</AccordionToggle>
             </Heading>
-        </CollapseHeader>
-        <CollapseBody>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-        </CollapseBody>
-    </Collapse>
-    <Collapse Visible=""@collapse3Visible"">
-        <CollapseHeader>
+        </AccordionHeader>
+        <AccordionBody>
+            Blazorise supports several CSS frameworks, including Bootstrap (known for responsive design elements), Bulma (valued for simplicity and Flexbox base), Material (inspired by Google's Material Design), Ant Design (geared towards enterprise-level products and adapting React components' design principles), and Tailwind CSS (famous for its utility-first approach and versatility). These frameworks provide distinct styles and philosophies, offering developers a range of options to best suit their project's requirements.
+        </AccordionBody>
+    </AccordionItem>
+    <AccordionItem @bind-Visible=""@accordionItem3Visible"">
+        <AccordionHeader>
             <Heading Size=""HeadingSize.Is5"">
-                <AccordionToggle>Switch 3</AccordionToggle>
+                <AccordionToggle>What are the benefits of Blazorise commercial license?</AccordionToggle>
             </Heading>
-        </CollapseHeader>
-        <CollapseBody>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-        </CollapseBody>
-    </Collapse>
+        </AccordionHeader>
+        <AccordionBody>
+            A Blazorise commercial license typically includes access to advanced components, priority support, options for dedicated consultations, frequent updates and bug fixes, a license for unrestricted commercial use, potential access to the source code, and opportunities for training and workshops. This package enhances functionality, offers better support, and provides operational security for commercial projects.
+        </AccordionBody>
+    </AccordionItem>
 </Accordion>
 @code {
-    bool collapse1Visible = true;
-    bool collapse2Visible = false;
-    bool collapse3Visible = false;
+    bool accordionItem1Visible = true;
+    bool accordionItem2Visible = false;
+    bool accordionItem3Visible = false;
 }";
 
         public const string AddonWithValidationExample = @"<Validation Validator=""ValidationRule.IsNotEmpty"">
@@ -2670,6 +2670,10 @@ public class Gender
 
 <iframe name=""example"" src=""init_fixed.html""></iframe>";
 
+        public const string LinkDisabledExample = @"<Paragraph>
+    This is an example of a <Link To=""#"" Disabled>disabled link</Link>.
+</Paragraph>";
+
         public const string LinkStretchedExample = @"<Card Width=""Width.Rem(18)"">
     <CardImage Source=""/img/gallery/2.jpg"" Alt=""Placeholder image"" />
     <CardBody>
@@ -3407,6 +3411,8 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string IndeterminatePageProgressExample = @"<PageProgress Visible />";
 
+        public const string IndeterminateProgressExample = @"<Progress Indeterminate />";
+
         public const string MultipleProgressExample = @"<Progress>
     <ProgressBar Value=""15"" />
     <ProgressBar Color=""Color.Success"" Value=""30"" />
@@ -3471,6 +3477,28 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
 @code{
     int SelectedValue = 7;
+}";
+
+        public const string RatingWithTooltipExample = @"<Rating Color=""Color.Primary"" @bind-SelectedValue=""@SelectedValue"" MaxValue=""10"" GetTooltip=""@GetTooltip"" />
+
+@code {
+    int SelectedValue = 7;
+
+    RatingTooltip GetTooltip( int value )
+    {
+        if ( value <= 2 )
+            return new RatingTooltip( ""Very bad"" );
+        else if ( value <= 4 )
+            return new RatingTooltip( ""Bad"", TooltipPlacement.Bottom );
+        else if ( value <= 6 )
+            return new RatingTooltip( ""Fair"" );
+        else if ( value <= 8 )
+            return new RatingTooltip( ""Good"", TooltipPlacement.Top, false, false );
+        else if ( value <= 10 )
+            return new RatingTooltip( ""Very good"" );
+
+        return null;
+    }
 }";
 
         public const string BasicRepeaterExample = @"<UnorderedList>
@@ -8482,7 +8510,7 @@ builder.Services
 
 services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
-        public const string FontAwesomeCSSExample = @"<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />";
+        public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
         public const string FontAwesomeNugetInstallExample = @"Install-Package Blazorise.Icons.FontAwesome";
 
@@ -9787,7 +9815,7 @@ builder.Services
     .AddFontAwesomeIcons();";
 
         public const string AntDesignGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdnjs.cloudflare.com/ajax/libs/antd/4.0.0/antd.css"" integrity=""sha256-nzhI/tsi9npc5ir08wCgBpg43SEIrc7crRJLsHE0/60="" crossorigin=""anonymous"" />
-<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"">
+<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
 <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.AntDesign/blazorise.antdesign.css"" rel=""stylesheet"" />";
@@ -9814,7 +9842,7 @@ builder.Services
 <head>
 	<!-- inside of head section -->
 	<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
-	<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"">
+	<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
 	<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
 	<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css"" rel=""stylesheet"" />
@@ -9852,7 +9880,7 @@ builder.Services
 <head>
   <!-- inside of head section -->
   <link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"" crossorigin=""anonymous"">
-  <link href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" rel=""stylesheet"">
+  <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
   <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
   <link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css"" rel=""stylesheet"" />
@@ -9888,9 +9916,30 @@ builder.Services
 <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Bulma/blazorise.bulma.css"" rel=""stylesheet"" />
 
-<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />";
+<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
         public const string BulmaGuideUsingExample = @"@using Blazorise";
+
+        public const string FluentUI2GuideNuget1Example = @"Install-Package Blazorise.FluentUI2";
+
+        public const string FluentUI2GuideNuget2Example = @"Install-Package Blazorise.Icons.FluentUI";
+
+        public const string FluentUI2GuideRegistrationExample = @"using Blazorise;
+using Blazorise.FluentUI2;
+using Blazorise.Icons.FluentUI;
+
+builder.Services
+    .AddBlazorise()
+    .AddFluentUI2Providers()
+    .AddFluentUIIcons();";
+
+        public const string FluentUI2GuideSourceFiles1Example = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css"" rel=""stylesheet"" />
+
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/reboot.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.FluentUI2/blazorise.fluentui2.css"" rel=""stylesheet"" />";
+
+        public const string FluentUI2GuideUsingExample = @"@using Blazorise";
 
         public const string LicensingGuideAddKeyExample = @"services
     .AddBlazorise( options =>
@@ -9958,7 +10007,7 @@ builder.Services
 
         public const string TailwindGuideSourceFiles1Example = @"<link href=""https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap"" rel=""stylesheet"">
 <link rel=""stylesheet"" href=""https://unpkg.com/flowbite@1.5.4/dist/flowbite.min.css"" />
-<link rel=""stylesheet"" href=""https://use.fontawesome.com/releases/v5.15.4/css/all.css"" />
+<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
 <script src=""https://cdn.tailwindcss.com""></script>
 <script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.4.2.0""></script>

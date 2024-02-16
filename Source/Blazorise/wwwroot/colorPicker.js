@@ -67,14 +67,16 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
     const hexColor = options.default ? options.default : "#000000";
 
-    const previewElement = element.querySelector(":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-color");
+    const colorPreviewElement = element.querySelector(options.colorPreviewElementSelector || ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-color");
+    const colorValueElement = element.querySelector(options.colorValueElementSelector || ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-value");
 
     const instanceInfo = {
         picker: picker,
         dotnetAdapter: dotnetAdapter,
         element: element,
         elementId: elementId,
-        previewElement: previewElement,
+        colorPreviewElement: colorPreviewElement,
+        colorValueElement: colorValueElement,
         hexColor: hexColor,
         palette: options.palette || [],
         showPalette: options.showPalette || true,
@@ -195,8 +197,12 @@ export function applyHexColor(instanceInfo, hexColor, force = false) {
     if (instanceInfo.hexColor !== hexColor || force) {
         instanceInfo.hexColor = hexColor;
 
-        if (instanceInfo.previewElement) {
-            instanceInfo.previewElement.style.backgroundColor = hexColor;
+        if (instanceInfo.colorPreviewElement) {
+            instanceInfo.colorPreviewElement.style.backgroundColor = hexColor;
+        }
+
+        if (instanceInfo.colorValueElement) {
+            instanceInfo.colorValueElement.innerText = hexColor;
         }
 
         if (instanceInfo.element) {

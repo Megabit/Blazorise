@@ -284,6 +284,8 @@ public interface IClassProvider
 
     string FieldColumn();
 
+    string FieldSize( Size size );
+
     string FieldValidation( ValidationStatus validationStatus );
 
     string FieldJustifyContent( JustifyContent justifyContent );
@@ -456,7 +458,7 @@ public interface IClassProvider
 
     string TabsVertical();
 
-    string TabItem();
+    string TabItem( TabPosition tabPosition );
 
     string TabItemActive( bool active );
 
@@ -596,9 +598,9 @@ public interface IClassProvider
 
     string ListGroupItemSelectable();
 
-    string ListGroupItemActive();
+    string ListGroupItemActive( bool active );
 
-    string ListGroupItemDisabled();
+    string ListGroupItemDisabled( bool disabled );
 
     string ListGroupItemColor( Color color, bool selectable, bool active );
 
@@ -640,15 +642,15 @@ public interface IClassProvider
 
     #region Bar
 
-    string Bar();
+    string Bar( BarMode mode );
 
-    string BarInitial( bool initial );
+    string BarInitial( BarMode mode, bool initial );
 
-    string BarAlignment( Alignment alignment );
+    string BarAlignment( BarMode mode, Alignment alignment );
 
-    string BarThemeContrast( ThemeContrast themeContrast );
+    string BarThemeContrast( BarMode mode, ThemeContrast themeContrast );
 
-    string BarBreakpoint( Breakpoint breakpoint );
+    string BarBreakpoint( BarMode mode, Breakpoint breakpoint );
 
     string BarMode( BarMode mode );
 
@@ -706,7 +708,7 @@ public interface IClassProvider
 
     string BarCollapsed( BarMode mode );
 
-    string BarLabel();
+    string BarLabel( BarMode mode );
 
     #endregion
 
@@ -714,13 +716,21 @@ public interface IClassProvider
 
     string Accordion();
 
-    #endregion
-
-    #region AccordionButton
-
     string AccordionToggle();
 
     string AccordionToggleCollapsed( bool collapsed );
+
+    string AccordionItem();
+
+    string AccordionItemActive( bool active );
+
+    string AccordionHeader();
+
+    string AccordionBody();
+
+    string AccordionBodyActive( bool active );
+
+    string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion );
 
     #endregion
 
@@ -810,6 +820,10 @@ public interface IClassProvider
 
     string ModalVisible( bool visible );
 
+    string ModalSize( ModalSize modalSize );
+
+    string ModalCentered( bool centered );
+
     string ModalBackdrop();
 
     string ModalBackdropFade();
@@ -852,7 +866,7 @@ public interface IClassProvider
 
     string OffcanvasBackdrop();
 
-    string OffcanvasBackdropFade();
+    string OffcanvasBackdropFade( bool showing, bool hiding );
 
     string OffcanvasBackdropVisible( bool visible );
 
@@ -866,9 +880,9 @@ public interface IClassProvider
 
     string PaginationItem();
 
-    string PaginationItemActive();
+    string PaginationItemActive( bool active );
 
-    string PaginationItemDisabled();
+    string PaginationItemDisabled( bool disabled );
 
     string PaginationLink();
 
@@ -892,6 +906,8 @@ public interface IClassProvider
 
     string ProgressAnimated();
 
+    string ProgressIndeterminate();
+
     string ProgressWidth( int width );
 
     string ProgressBar();
@@ -903,6 +919,8 @@ public interface IClassProvider
     string ProgressBarStriped();
 
     string ProgressBarAnimated();
+
+    string ProgressBarIndeterminate();
 
     string ProgressBarWidth( int width );
 
@@ -1131,6 +1149,8 @@ public interface IClassProvider
     string LinkUnstyled( bool unstyled );
 
     string LinkStretched( bool stretched );
+
+    string LinkDisabled( bool disabled );
 
     #endregion
 

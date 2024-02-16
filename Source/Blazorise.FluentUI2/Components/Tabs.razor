@@ -1,0 +1,54 @@
+﻿@inherits Blazorise.Tabs
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        @if ( TabPosition == TabPosition.Top )
+        {
+            @ItemsRenderFragment
+            @ContentRenderFragment
+        }
+        else if ( TabPosition == TabPosition.Start )
+        {
+            <Row>
+                <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
+                    @ItemsRenderFragment
+                </Column>
+                <Column>
+                    @ContentRenderFragment
+                </Column>
+            </Row>
+        }
+        else if ( TabPosition == TabPosition.End )
+        {
+            <Row>
+                <Column>
+                    @ContentRenderFragment
+                </Column>
+                <Column ColumnSize="@(VerticalItemsColumnSize ?? ColumnSize.IsAuto)">
+                    @ItemsRenderFragment
+                </Column>
+            </Row>
+        }
+    </CascadingValue>
+</CascadingValue>
+@code {
+    private RenderFragment ItemsRenderFragment => __builder =>
+    {
+        @if ( Items != null )
+        {
+            <div @ref="@ElementRef" id="@ElementId" role="tablist" aria-orientation="@AriaOrientation" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+                @Items
+            </div>
+        }
+    };
+    private RenderFragment ContentRenderFragment => __builder =>
+    {
+        @if ( Content != null )
+        {
+            <div class="@ContentClassNames" @attributes="@Attributes">
+                @Content
+            </div>
+        }
+    };
+
+    string AriaOrientation => TabPosition == TabPosition.Start || TabPosition == TabPosition.End ? "vertical" : "horizontal";
+}

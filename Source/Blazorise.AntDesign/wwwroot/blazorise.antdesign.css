@@ -2050,6 +2050,10 @@ a.ant-link-unstyled {
   text-decoration: none;
   color: inherit;
 }
+a.ant-link-disabled[aria-disabled=true] {
+  pointer-events: none;
+  opacity: 0.65;
+}
 
 .ant-link-unstyled a {
   text-decoration: none;
@@ -2568,6 +2572,52 @@ li.ant-list-item-actionable {
   display: inline-flex;
 }
 
+.ant-progress-indeterminate {
+  position: relative;
+}
+.ant-progress-indeterminate .ant-progress-inner .ant-progress-bar-indeterminate {
+  width: 100%;
+  background-color: inherit !important;
+}
+.ant-progress-indeterminate .ant-progress-inner .ant-progress-bar-indeterminate:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #1890ff !important;
+  animation: animation-indeterminate 2s ease infinite;
+}
+.ant-progress-indeterminate .ant-progress-inner .ant-progress-bar-indeterminate:after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  background-color: #1890ff !important;
+  animation: animation-indeterminate-short 2s ease 0.5s infinite;
+}
+
+@keyframes animation-indeterminate {
+  0% {
+    left: -5%;
+    width: 5%;
+  }
+  100% {
+    left: 130%;
+    width: 100%;
+  }
+}
+@keyframes animation-indeterminate-short {
+  0% {
+    left: -80%;
+    width: 80%;
+  }
+  100% {
+    left: 110%;
+    width: 10%;
+  }
+}
 .b-ant-progress-text {
   text-align: center;
   display: flex;

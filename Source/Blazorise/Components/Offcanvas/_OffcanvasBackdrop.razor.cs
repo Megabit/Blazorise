@@ -34,10 +34,18 @@ public partial class _OffcanvasBackdrop : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.OffcanvasBackdrop() );
-        builder.Append( ClassProvider.OffcanvasBackdropFade() );
+        builder.Append( ClassProvider.OffcanvasBackdropFade( parentOffcanvasState.Showing, parentOffcanvasState.Hiding ) );
         builder.Append( ClassProvider.OffcanvasBackdropVisible( parentOffcanvasState.Visible ) );
 
         base.BuildClasses( builder );
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.OffcanvasAnimationDuration( Animated, AnimationDuration ) );
+
+        base.BuildStyles( builder );
     }
 
     #endregion
@@ -70,6 +78,16 @@ public partial class _OffcanvasBackdrop : BaseComponent
             DirtyStyles();
         }
     }
+
+    /// <summary>
+    /// Specifies whether the Offcanvas should have an animated transition.
+    /// </summary>
+    [Parameter] public bool Animated { get; set; } = true;
+
+    /// <summary>
+    /// The duration of the animation in milliseconds.
+    /// </summary>
+    [Parameter] public int AnimationDuration { get; set; } = 300;
 
     #endregion
 }

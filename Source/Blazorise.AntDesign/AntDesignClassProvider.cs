@@ -287,6 +287,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string FieldColumn() => "ant-col";
 
+    public override string FieldSize( Size size ) => null;
+
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
     public override string FieldValidation( ValidationStatus validationStatus )
@@ -506,7 +508,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TabsVertical() => null;
 
-    public override string TabItem() => "ant-tabs-tab";
+    public override string TabItem( TabPosition tabPosition ) => "ant-tabs-tab";
 
     public override string TabItemActive( bool active ) => active ? "ant-tabs-tab-active" : null;
 
@@ -646,9 +648,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ListGroupItemSelectable() => "ant-list-item-actionable";
 
-    public override string ListGroupItemActive() => Active();
+    public override string ListGroupItemActive( bool active ) => active ? Active() : null;
 
-    public override string ListGroupItemDisabled() => Disabled();
+    public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"ant-list-item-{ToColor( color )}";
 
@@ -665,15 +667,15 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Bar
 
-    public override string Bar() => "ant-menu ant-menu-root";
+    public override string Bar( BarMode mode ) => "ant-menu ant-menu-root";
 
-    public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( Alignment alignment ) => $"ant-menu-{ToAlignment( alignment )}";
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => $"ant-menu-{ToAlignment( alignment )}";
 
-    public override string BarThemeContrast( ThemeContrast themeContrast ) => $"ant-menu-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"ant-menu-{ToThemeContrast( themeContrast )}";
 
-    public override string BarBreakpoint( Breakpoint breakpoint ) => $"ant-menu-expand-{ToBreakpoint( breakpoint )}";
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => $"ant-menu-expand-{ToBreakpoint( breakpoint )}";
 
     public override string BarMode( BarMode mode ) => $"ant-menu-{ToBarMode( mode )} {( mode == Blazorise.BarMode.VerticalSmall ? "ant-menu-inline-collapsed" : null )}";
 
@@ -732,7 +734,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarCollapsed( BarMode mode ) => $"ant-menu-{ToBarMode( mode )}-collapsed";
 
-    public override string BarLabel() => "ant-menu-label";
+    public override string BarLabel( BarMode mode ) => "ant-menu-label";
 
     #endregion
 
@@ -740,13 +742,21 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Accordion() => "ant-collapse";
 
-    #endregion
-
-    #region AccordionToggle
-
     public override string AccordionToggle() => "ant-btn";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    public override string AccordionItem() => "ant-collapse-item";
+
+    public override string AccordionItemActive( bool active ) => active ? "ant-collapse-item-active" : null;
+
+    public override string AccordionHeader() => "ant-collapse-header";
+
+    public override string AccordionBody() => "ant-collapse-content";
+
+    public override string AccordionBodyActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
+
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "ant-collapse-content-box";
 
     #endregion
 
@@ -873,6 +883,10 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ModalVisible( bool visible ) => null;
 
+    public override string ModalSize( ModalSize modalSize ) => null;
+
+    public override string ModalCentered( bool centered ) => null;
+
     public override string ModalBackdrop() => "ant-modal-mask";
 
     public override string ModalBackdropFade() => null;
@@ -881,7 +895,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ModalContent( bool dialog ) => "ant-modal-content";
 
-    public override string ModalContentSize( ModalSize modalSize ) => modalSize == ModalSize.Fullscreen
+    public override string ModalContentSize( ModalSize modalSize ) => modalSize == Blazorise.ModalSize.Fullscreen
         ? "ant-modal-content-fullscreen"
         : null;
 
@@ -931,7 +945,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "ant-drawer-mask";
 
-    public override string OffcanvasBackdropFade() => null;
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => null;
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? null : null;
 
@@ -945,9 +959,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string PaginationItem() => "ant-pagination-item";
 
-    public override string PaginationItemActive() => "ant-pagination-item-active";
+    public override string PaginationItemActive( bool active ) => active ? "ant-pagination-item-active" : null;
 
-    public override string PaginationItemDisabled() => "ant-pagination-disabled";
+    public override string PaginationItemDisabled( bool disabled ) => disabled ? "ant-pagination-disabled" : null;
 
     public override string PaginationLink() => "ant-pagination-link";
 
@@ -971,6 +985,8 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ProgressAnimated() => null;
 
+    public override string ProgressIndeterminate() => "ant-progress-indeterminate";
+
     public override string ProgressWidth( int width ) => null;
 
     public override string ProgressBar() => "ant-progress-bg b-ant-progress-text";
@@ -982,6 +998,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string ProgressBarStriped() => "ant-progress-bar-striped";
 
     public override string ProgressBarAnimated() => "ant-progress-bar-animated";
+
+    public override string ProgressBarIndeterminate() => "ant-progress-bar-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 
@@ -1234,6 +1252,8 @@ public class AntDesignClassProvider : ClassProvider
     public override string LinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
 
     public override string LinkStretched( bool stretched ) => stretched ? "ant-link-stretched" : null;
+
+    public override string LinkDisabled( bool disabled ) => disabled ? "ant-link-disabled" : null;
 
     #endregion
 

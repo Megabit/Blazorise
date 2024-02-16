@@ -285,6 +285,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string FieldColumn();
 
+    public abstract string FieldSize( Size size );
+
     public abstract string FieldJustifyContent( JustifyContent justifyContent );
 
     public abstract string FieldValidation( ValidationStatus validationStatus );
@@ -457,7 +459,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TabsVertical();
 
-    public abstract string TabItem();
+    public abstract string TabItem( TabPosition tabPosition );
 
     public abstract string TabItemActive( bool active );
 
@@ -597,9 +599,9 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ListGroupItemSelectable();
 
-    public abstract string ListGroupItemActive();
+    public abstract string ListGroupItemActive( bool active );
 
-    public abstract string ListGroupItemDisabled();
+    public abstract string ListGroupItemDisabled( bool disabled );
 
     public abstract string ListGroupItemColor( Color color, bool selectable, bool active );
 
@@ -641,15 +643,15 @@ public abstract class ClassProvider : IClassProvider
 
     #region Bar
 
-    public abstract string Bar();
+    public abstract string Bar( BarMode mode );
 
-    public abstract string BarInitial( bool initial );
+    public abstract string BarInitial( BarMode mode, bool initial );
 
-    public abstract string BarAlignment( Alignment alignment );
+    public abstract string BarAlignment( BarMode mode, Alignment alignment );
 
-    public abstract string BarThemeContrast( ThemeContrast themeContrast );
+    public abstract string BarThemeContrast( BarMode mode, ThemeContrast themeContrast );
 
-    public abstract string BarBreakpoint( Breakpoint breakpoint );
+    public abstract string BarBreakpoint( BarMode mode, Breakpoint breakpoint );
 
     public abstract string BarMode( BarMode mode );
 
@@ -709,7 +711,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarCollapsed( BarMode mode );
 
-    public abstract string BarLabel();
+    public abstract string BarLabel( BarMode mode );
 
     #endregion
 
@@ -717,13 +719,21 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Accordion();
 
-    #endregion
-
-    #region AccordionToggle
-
     public abstract string AccordionToggle();
 
     public abstract string AccordionToggleCollapsed( bool collapsed );
+
+    public abstract string AccordionItem();
+
+    public abstract string AccordionItemActive( bool active );
+
+    public abstract string AccordionHeader();
+
+    public abstract string AccordionBody();
+
+    public abstract string AccordionBodyActive( bool active );
+
+    public abstract string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion );
 
     #endregion
 
@@ -814,6 +824,10 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ModalVisible( bool visible );
 
+    public abstract string ModalSize( ModalSize modalSize );
+
+    public abstract string ModalCentered( bool centered );
+
     public abstract string ModalBackdrop();
 
     public abstract string ModalBackdropFade();
@@ -856,7 +870,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string OffcanvasBackdrop();
 
-    public abstract string OffcanvasBackdropFade();
+    public abstract string OffcanvasBackdropFade( bool showing, bool hiding );
 
     public abstract string OffcanvasBackdropVisible( bool visible );
 
@@ -870,9 +884,9 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string PaginationItem();
 
-    public abstract string PaginationItemActive();
+    public abstract string PaginationItemActive( bool active );
 
-    public abstract string PaginationItemDisabled();
+    public abstract string PaginationItemDisabled( bool disabled );
 
     public abstract string PaginationLink();
 
@@ -896,6 +910,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ProgressAnimated();
 
+    public abstract string ProgressIndeterminate();
+
     public abstract string ProgressWidth( int width );
 
     public abstract string ProgressBar();
@@ -907,6 +923,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string ProgressBarStriped();
 
     public abstract string ProgressBarAnimated();
+
+    public abstract string ProgressBarIndeterminate();
 
     public abstract string ProgressBarWidth( int width );
 
@@ -1136,6 +1154,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string LinkStretched( bool stretched );
 
+    public abstract string LinkDisabled( bool disabled );
+
     #endregion
 
     #region States
@@ -1284,11 +1304,12 @@ public abstract class ClassProvider : IClassProvider
     {
         return breakpoint switch
         {
-            Blazorise.Breakpoint.Mobile => "xs",
-            Blazorise.Breakpoint.Tablet => "sm",
-            Blazorise.Breakpoint.Desktop => "md",
-            Blazorise.Breakpoint.Widescreen => "lg",
-            Blazorise.Breakpoint.FullHD => "xl",
+            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "xs",
+            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "sm",
+            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "md",
+            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "lg",
+            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "xl",
+            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "xxl",
             _ => null,
         };
     }

@@ -1,0 +1,11 @@
+﻿@inherits Blazorise.Addon
+@if ( AddonType == AddonType.Start || AddonType == AddonType.End )
+{
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </div>
+}
+else
+{
+    @ChildContent
+}

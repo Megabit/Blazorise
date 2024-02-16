@@ -1,0 +1,22 @@
+﻿@inherits Blazorise.DropdownItem
+
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="@Role" aria-disabled="@DisabledString" aria-checked="@AriaChecked" tabindex="0" @onmouseup="@ClickHandler" @onmousedown="@EventCallback.Empty" @onmousedown:preventDefault @attributes="@Attributes">
+    @if ( ShowCheckbox )
+    {
+        <span class="fui-MenuItem__checkmark fui-MenuItemCheckbox__checkmark">
+            <svg fill="currentColor" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><path d="M14.05 3.49c.28.3.27.77-.04 1.06l-7.93 7.47A.85.85 0 0 1 4.9 12L2.22 9.28a.75.75 0 1 1 1.06-1.06l2.24 2.27 7.47-7.04a.75.75 0 0 1 1.06.04Z" fill="currentColor"></path></svg>
+        </span>
+    }
+    <span class="fui-MenuItem__content">
+        @ChildContent
+    </span>
+</div>
+@code {
+    string Role => ShowCheckbox ? "menuitemcheckbox" : "menuitem";
+
+    string CheckedString => @checked ? "true" : "false";
+
+    string DisabledString => Disabled ? "true" : null;
+
+    string AriaChecked => ShowCheckbox ? CheckedString : null;
+}
