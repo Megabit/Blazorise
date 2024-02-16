@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 #endregion
 
-namespace Blazorise.FluentUI2.Models;
+namespace Blazorise.FluentUI2;
 
 public class FluentUI2DesignTokens
 {
