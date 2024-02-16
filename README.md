@@ -188,6 +188,12 @@ builder.Services
 }
 ```
 
+## Development version
+
+We release a development version of Blazorise on a regular basis. This version is available on the [MyGet](https://www.myget.org/gallery/blazorise) feed. 
+This release is not recommended for production use, but it's a great way to test the latest features, bug fixes and gives us some feedback ahead of the upcoming release.
+
+
 ## Contributing
 
 We welcome contributions and any suggestions or feature requests you might have. Contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. This will be signed once you submit a PullRequest on our repository. For details about our CLA, please visit: [Contributor License Agreement](https://gist.github.com/stsrki/abfa5ce0f4a5cf1e6ac67b92f8eb5d63).
