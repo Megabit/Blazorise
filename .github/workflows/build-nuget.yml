@@ -1,0 +1,54 @@
+name: NuGet Build
+
+on: 
+  schedule:
+    - cron: "0 20 * * 5"
+  workflow_dispatch:
+  
+env:
+  BUILD_VERSION: '1.5.0.0'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+               
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: |
+            6.0.x
+            7.0.x
+            8.0.x
+
+    - name: Restore NuGet Packages
+      run: dotnet restore
+      
+    - name: Build - Release
+      run: dotnet build --configuration Release --no-restore /p:Version=$BUILD_VERSION
+      
+    - name: Run Unit Tests - Release
+      run: dotnet test ./Tests/Blazorise.Tests/Blazorise.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
+
+    - name: Prepare E2E Tests Dependencies 
+      run: pwsh ./Tests/Blazorise.E2E.Tests/bin/Release/net8.0/playwright.ps1 install --with-deps
+
+    - name: Run E2E Tests - Release
+      run: dotnet test ./Tests/Blazorise.E2E.Tests/Blazorise.E2E.Tests.csproj --configuration Release --no-restore --no-build --verbosity normal
+
+    - name: Pack - Release
+      run: dotnet pack --configuration Release --no-restore -o ./Packages /p:Version=$BUILD_VERSION /p:PackageVersion=$PACKAGE_VERSION
+      env:
+        PACKAGE_VERSION: ${{ env.BUILD_VERSION }}-dev-${{ github.run_number }}
+    
+    - name: Push - Release
+      run: dotnet nuget push ./Packages/ -s https://www.myget.org/F/blazorise/api/v3/index.json -k ${{ secrets.MYGET_API_KEY }}
+
+    - name: Upload Blazorise.Components
+      uses: actions/upload-artifact@v3
+      with:
+        name: Blazorise-Packages
+        path: ./Packages/

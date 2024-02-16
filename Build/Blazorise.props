@@ -1,64 +1,152 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<PropertyGroup>
-		<Version>1.4.2</Version>
-		<PackageVersion>1.4.2</PackageVersion>
+  <PropertyGroup>
+    <Version>1.4.2</Version>
+    <PackageVersion>1.4.2</PackageVersion>
 
-		<PackageLicenseFile>LICENSE.md</PackageLicenseFile>
-		<PackageIcon>Blazorise.png</PackageIcon>
-		<PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
-		<RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>
-		<RepositoryType>git</RepositoryType>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageIcon>Blazorise.png</PackageIcon>
+    <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
 
-		<Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
-		<Authors>Megabit</Authors>
-		<Company>Megabit</Company>
-		<Copyright>Copyright 2018-2024 Megabit</Copyright>
+    <Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
+    <Authors>Megabit</Authors>
+    <Company>Megabit</Company>
+    <Copyright>Copyright 2018-2024 Megabit</Copyright>
+
+    <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <IsPackable>true</IsPackable>
+    <LangVersion>10.0</LangVersion>
+
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="package.json" />
+    <None Include="package.json" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+    <DefineConstants>$(DefineConstants);NET6_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+    <DefineConstants>$(DefineConstants);NET7_0</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
+    <DefineConstants>$(DefineConstants);NET8_0</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.*" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.*" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
+    <PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.*" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.*" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.*" />
+  </ItemGroup>
+
+  <UsingTask
+	  TaskName="ReplaceVersionInJsFiles"
+	  TaskFactory="RoslynCodeTaskFactory"
+	  AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <SourceFiles ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+      <Version ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System"/>
+      <Using Namespace="System.IO"/>
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[  
+				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : [{SourceFiles.Count()}] files ------");
+				
+				var matchExpression = @"\?v=([\d.]*-?\w+-?\d*)";
+				var expectedVersion = string.Empty;;
+				try {
+					string[] versionGroups = Version.Split('.');
+					if (versionGroups.Length < 4)
+					{
+						expectedVersion = string.Empty;
+						for (int i = 0; i < 4; i++)
+						{
+							if (i>0)
+							{
+								expectedVersion += ".";
+							}
+						
+							if (versionGroups.Length > i)
+							{
+								expectedVersion += $"{versionGroups[i]}";
+							}
+							else
+							{
+								expectedVersion += $"0";
+							}
+						}
+					}
+					else
+					{
+						expectedVersion = Version;
+					}
+				}
+				catch (Exception ex)
+				{
+					Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : Unable to resolve version : Exception : [{ex.Message}] ------");
+					return false;
+				}
+				
+				var replacementText = $"?v={expectedVersion}";
+				
+				Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : Match : [{matchExpression}] | Replace : [{replacementText}] ------");
+				try {
+					foreach (ITaskItem item in SourceFiles)
+					{
+						string fileName = item.ItemSpec;
+						Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionInJsFiles : Evaluating File '{0}'.", fileName);
 		
-		<TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
-		<OutputType>Library</OutputType>
-		<IsPackable>true</IsPackable>
-		<LangVersion>10.0</LangVersion>
+						var fileContent = File.ReadAllText(fileName);
+						var regexMatch = Regex.Match(fileContent, matchExpression);
+					    if (regexMatch.Success && regexMatch.Value != replacementText)
+						{
+							Log.LogMessage(MessageImportance.High, "------ Custom Build Step : ReplaceVersionInJsFiles : Updating File '{0}'.", fileName);
+							File.WriteAllText(fileName, Regex.Replace(File.ReadAllText(fileName), matchExpression, replacementText).Trim());
+						}
+					}
+				}
+				catch (Exception ex)
+				{
+					Log.LogMessage(MessageImportance.High, $"------ Custom Build Step : ReplaceVersionInJsFiles : Exception : [{ex.Message}] ------");
+				}
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
 
-		<GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-		<AddRazorSupportForMvc>true</AddRazorSupportForMvc>
-	</PropertyGroup>
-
-	<ItemGroup>
-		<SupportedPlatform Include="browser" />		
-	</ItemGroup>
-
+  <Target Name="BeforeBuildStep" BeforeTargets="Build">
     <ItemGroup>
-        <Content Remove="package.json" />
-        <None Include="package.json" />
+      <JsFiles Include='wwwroot\*.js' />
     </ItemGroup>
 
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-		<DefineConstants>$(DefineConstants);NET6_0</DefineConstants>
-	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
-		<DefineConstants>$(DefineConstants);NET7_0</DefineConstants>
-	</PropertyGroup>
-
-	<PropertyGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-		<DefineConstants>$(DefineConstants);NET8_0</DefineConstants>
-	</PropertyGroup>
-
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.*" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.*" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.*" />
-	</ItemGroup>
-
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net7.0' ">
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="7.0.*" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.*" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.*" />
-	</ItemGroup>
-
-	<ItemGroup Condition=" '$(TargetFramework)' == 'net8.0' ">
-		<PackageReference Include="Microsoft.AspNetCore.Components" Version="8.0.*" />
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.*" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.*" />
-	</ItemGroup>
+    <ReplaceVersionInJsFiles
+		   SourceFiles="@(JsFiles)"
+		   Version="$(Version)" />
+  </Target>
 </Project>
