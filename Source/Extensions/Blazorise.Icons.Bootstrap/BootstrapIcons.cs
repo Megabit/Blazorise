@@ -1,7 +1,7 @@
 namespace Blazorise.Icons.Bootstrap;
 
 /// <summary>
-/// Strongly-typed list of bootstrap icon names.
+/// Strongly-typed list of bootstrap icon names. (v1.11.0)
 /// </summary>
 public static class BootstrapIcons
 {

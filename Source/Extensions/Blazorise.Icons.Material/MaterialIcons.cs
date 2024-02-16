@@ -4,7 +4,7 @@
 namespace Blazorise.Icons.Material;
 
 /// <summary>
-/// Strongly-typed list of material icon names.
+/// Strongly-typed list of material icon names. (v4.0.0)
 /// </summary>
 public static class MaterialIcons
 {

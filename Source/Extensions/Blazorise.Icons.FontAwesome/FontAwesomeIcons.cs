@@ -4,7 +4,7 @@
 namespace Blazorise.Icons.FontAwesome;
 
 /// <summary>
-/// Strongly-typed list of font-awesome icon names.
+/// Strongly-typed list of font-awesome icon names. (v6.5.1)
 /// </summary>
 public static class FontAwesomeIcons
 {
