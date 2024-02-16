@@ -1,9 +1,0 @@
-{
-  "version": "1.0.0",
-  "name": "blazorise.trendline",
-  "private": true,
-  "devDependencies": {},
-  "dependencies": {
-    "chartjs-plugin-trendline": "2.0.0"
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "version": "1.0.0",
-  "name": "blazorise.lottieanimation",
-  "private": true,
-  "devDependencies": {},
-  "dependencies": {
-    "lottie-web": "5.10.0"
-  }
-}

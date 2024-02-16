@@ -1,9 +1,0 @@
-{
-  "version": "1.0.0",
-  "name": "blazorise.icons.fontawesome",
-  "private": true,
-  "devDependencies": {},
-  "dependencies": {
-    "@fortawesome/fontawesome-free": "5.15.4"
-  }
-}

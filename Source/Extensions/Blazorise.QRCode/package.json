@@ -1,9 +1,0 @@
-{
-  "version": "1.0.0",
-  "name": "blazorise.qrcode",
-  "private": true,
-  "devDependencies": {},
-  "dependencies": {
-    "qr-code-styling-v2": "1.5.1"
-  }
-}
