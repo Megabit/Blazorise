@@ -1,4 +1,4 @@
-name: NuGet Build
+name: Dev Release
 
 on: 
   schedule:
