@@ -94,16 +94,16 @@ public class FluentUI2DesignTokens
     public string FontFamilyNumeric { get; set; } = "Bahnschrift, 'Segoe UI', 'Segoe UI Web (West European)', -apple-system, BlinkMacSystemFont, Roboto, 'Helvetica Neue', sans-serif";
 
     [JsonPropertyName( "fontWeightRegular" )]
-    public int FontWeightRegular { get; set; } = 400;
+    public string FontWeightRegular { get; set; } = "400";
 
     [JsonPropertyName( "fontWeightMedium" )]
-    public int FontWeightMedium { get; set; } = 500;
+    public string FontWeightMedium { get; set; } = "500";
 
     [JsonPropertyName( "fontWeightSemibold" )]
-    public int FontWeightSemibold { get; set; } = 600;
+    public string FontWeightSemibold { get; set; } = "600";
 
     [JsonPropertyName( "fontWeightBold" )]
-    public int FontWeightBold { get; set; } = 700;
+    public string FontWeightBold { get; set; } = "700";
 
     [JsonPropertyName( "strokeWidthThin" )]
     public string StrokeWidthThin { get; set; } = "1px";
@@ -1286,4 +1286,4 @@ public class FluentUI2DesignTokens
 
     [JsonPropertyName( "shadow64Brand" )]
     public string Shadow64Brand { get; set; } = "0 0 8px rgba(0,0,0,0.30), 0 32px 64px rgba(0,0,0,0.25)";
-};
+}
