@@ -4,7 +4,7 @@
 namespace Blazorise.Icons.FluentUI;
 
 /// <summary>
-/// Strongly-typed list of FluentUI icon names.
+/// Strongly-typed list of FluentUI icon names. (v1.1.227)
 /// </summary>
 public static class FluentUIIcons
 {
@@ -799,10 +799,14 @@ public static class FluentUIIcons
     public static readonly string CalendarSettings = "icon-ic_fluent_calendar_settings_20_regular";
     public static readonly string CalendarShieldFilled = "icon-ic_fluent_calendar_shield_20_filled";
     public static readonly string CalendarShield = "icon-ic_fluent_calendar_shield_20_regular";
+    public static readonly string CalendarSparkleFilled = "icon-ic_fluent_calendar_sparkle_20_filled";
+    public static readonly string CalendarSparkle = "icon-ic_fluent_calendar_sparkle_20_regular";
     public static readonly string CalendarStarFilled = "icon-ic_fluent_calendar_star_20_filled";
     public static readonly string CalendarStar = "icon-ic_fluent_calendar_star_20_regular";
     public static readonly string CalendarSyncFilled = "icon-ic_fluent_calendar_sync_20_filled";
     public static readonly string CalendarSync = "icon-ic_fluent_calendar_sync_20_regular";
+    public static readonly string CalendarTemplateFilled = "icon-ic_fluent_calendar_template_20_filled";
+    public static readonly string CalendarTemplate = "icon-ic_fluent_calendar_template_20_regular";
     public static readonly string CalendarTodayFilled = "icon-ic_fluent_calendar_today_20_filled";
     public static readonly string CalendarToday = "icon-ic_fluent_calendar_today_20_regular";
     public static readonly string CalendarToolboxFilled = "icon-ic_fluent_calendar_toolbox_20_filled";
@@ -2402,6 +2406,8 @@ public static class FluentUIIcons
     public static readonly string KeyboardTab = "icon-ic_fluent_keyboard_tab_20_regular";
     public static readonly string LaptopFilled = "icon-ic_fluent_laptop_20_filled";
     public static readonly string Laptop = "icon-ic_fluent_laptop_20_regular";
+    public static readonly string LaptopBriefcaseFilled = "icon-ic_fluent_laptop_briefcase_20_filled";
+    public static readonly string LaptopBriefcase = "icon-ic_fluent_laptop_briefcase_20_regular";
     public static readonly string LaptopDismissFilled = "icon-ic_fluent_laptop_dismiss_20_filled";
     public static readonly string LaptopDismiss = "icon-ic_fluent_laptop_dismiss_20_regular";
     public static readonly string LaptopSettingsFilled = "icon-ic_fluent_laptop_settings_20_filled";
@@ -2422,6 +2428,8 @@ public static class FluentUIIcons
     public static readonly string LayerDiagonalAdd = "icon-ic_fluent_layer_diagonal_add_20_regular";
     public static readonly string LayerDiagonalPersonFilled = "icon-ic_fluent_layer_diagonal_person_20_filled";
     public static readonly string LayerDiagonalPerson = "icon-ic_fluent_layer_diagonal_person_20_regular";
+    public static readonly string LayerDiagonalSparkleFilled = "icon-ic_fluent_layer_diagonal_sparkle_20_filled";
+    public static readonly string LayerDiagonalSparkle = "icon-ic_fluent_layer_diagonal_sparkle_20_regular";
     public static readonly string LayoutCellFourFilled = "icon-ic_fluent_layout_cell_four_20_filled";
     public static readonly string LayoutCellFour = "icon-ic_fluent_layout_cell_four_20_regular";
     public static readonly string LayoutCellFourFocusBottomLeftFilled = "icon-ic_fluent_layout_cell_four_focus_bottom_left_20_filled";
@@ -2985,6 +2993,8 @@ public static class FluentUIIcons
     public static readonly string PauseSettings = "icon-ic_fluent_pause_settings_20_regular";
     public static readonly string PaymentFilled = "icon-ic_fluent_payment_20_filled";
     public static readonly string Payment = "icon-ic_fluent_payment_20_regular";
+    public static readonly string PaymentWirelessFilled = "icon-ic_fluent_payment_wireless_20_filled";
+    public static readonly string PaymentWireless = "icon-ic_fluent_payment_wireless_20_regular";
     public static readonly string PenFilled = "icon-ic_fluent_pen_20_filled";
     public static readonly string Pen = "icon-ic_fluent_pen_20_regular";
     public static readonly string PenDismissFilled = "icon-ic_fluent_pen_dismiss_20_filled";
