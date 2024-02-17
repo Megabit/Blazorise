@@ -83,6 +83,15 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private Validation validationRef;
 
+    /// <summary>
+    /// Workaround for the issue where the dropdown closes when clicking on the checkbox
+    /// </summary>
+    private bool clickFromCheck;
+    /// <summary>
+    /// Workaround for the issue where the dropdown closes when clicking on the checkbox
+    /// </summary>
+    private bool focusFromCheck;
+
     #endregion
 
     #region Methods
@@ -398,6 +407,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
     {
+        if ( focusFromCheck )
+        {
+            focusFromCheck = false;
+            return;
+        }
+
         TextFocused = true;
         if ( ManualReadMode || MinLength <= 0 )
             await Reload();
@@ -413,28 +428,48 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
     {
-        await Close();
-
-        if ( IsMultiple )
+        if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
         {
-            await ResetSelected();
-            await ResetCurrentSearch();
+            //Workaround for the issue where the dropdown closes when clicking on the checkbox
+            ExecuteAfterRender( HandleBlurHandler );
         }
         else
         {
-            if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
+            await HandleBlurHandler();
+        }
+
+        async Task HandleBlurHandler()
+        {
+            if ( clickFromCheck )
+            {
+                clickFromCheck = false;
+                focusFromCheck = true;
+                await textEditRef.Focus();
+                return;
+            }
+            await Close();
+
+            if ( IsMultiple )
             {
                 await ResetSelected();
                 await ResetCurrentSearch();
-                return;
+            }
+            else
+            {
+                if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
+                {
+                    await ResetSelected();
+                    await ResetCurrentSearch();
+                    return;
+                }
+
+                await SelectedOrResetOnCommit();
             }
 
-            await SelectedOrResetOnCommit();
+            TextFocused = false;
+
+            await SearchBlur.InvokeAsync( eventArgs );
         }
-
-        TextFocused = false;
-
-        await SearchBlur.InvokeAsync( eventArgs );
     }
 
     private async Task InvokeSearchChanged( string searchValue )
@@ -473,8 +508,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
     }
 
+
     private async Task OnDropdownItemSelected( object value )
     {
+        clickFromCheck = ( SelectionMode == AutocompleteSelectionMode.Checkbox );
+
         //TODO : Once Multiple is deprecated we may remove the && !IsMultiple condition
         if ( SelectionMode == AutocompleteSelectionMode.Default && !IsMultiple )
         {

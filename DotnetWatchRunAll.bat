@@ -73,4 +73,18 @@ if %status% == 200 (
 cd "%BASE%\Demos\Blazorise.Demo.AntDesign"
 start dotnetwatchrun
 
+:antdesign
+SET URL="http://localhost:17715"
+SET curlCommand=curl -LI %URL% -o /dev/null -w "%%{http_code}" -s 
+@for /f %%R in ('%curlCommand%') do ( Set status=%%R )
+
+if %status% == 200 (
+    echo  next
+) else (
+    goto antdesign
+)
+
+cd "%BASE%\Demos\Blazorise.Demo.FluentUI2"
+start dotnetwatchrun
+
 exit
