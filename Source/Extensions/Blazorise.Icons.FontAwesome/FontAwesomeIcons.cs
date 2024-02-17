@@ -728,7 +728,9 @@ public static class FontAwesomeIcons
     public static readonly string EnvelopesBulk = "fa-envelopes-bulk";
     public static readonly string EnvelopeSquare = "fa-square-envelope";
     public static readonly string Envira = "fa-envira";
+#pragma warning disable CS0108 // Member hides inherited member; missing new keyword
     public static readonly string Equals = "fa-equals";
+#pragma warning restore CS0108 // Member hides inherited member; missing new keyword
     public static readonly string Eraser = "fa-eraser";
     public static readonly string Erlang = "fa-erlang";
     public static readonly string Ethereum = "fa-ethereum";
