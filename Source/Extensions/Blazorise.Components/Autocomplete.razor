@@ -20,7 +20,7 @@
                     var item = GetItemByText( selectedText );
                     var value = GetItemValue( selectedText );
                     var removeCallback = EventCallback.Factory.Create( this, async () => await RemoveMultipleTextAndValue( selectedText ) );
-                    @TagTemplate(new (item, value, selectedText, removeCallback))
+                    @TagTemplate( new( item, value, selectedText, removeCallback ) )
                 }
             }
         }
@@ -59,20 +59,20 @@
             @if ( VirtualizeManualReadMode )
             {
                 <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" ItemsProvider="VirtualizeItemsProviderHandler">
-                    @itemFragment(item)
+                    @itemFragment( item )
                 </Virtualize>
             }
             else if ( Virtualize )
             {
                 <Virtualize @ref="virtualizeRef" TItem="TItem" Context="item" Items="@FilteredData">
-                    @itemFragment(item)
+                    @itemFragment( item )
                 </Virtualize>
             }
             else
             {
                 @foreach ( var item in FilteredData ?? Enumerable.Empty<TItem>() )
                 {
-                    @itemFragment(item)
+                    @itemFragment( item )
                 }
             }
         }
@@ -97,58 +97,27 @@
         var itemIndex = FilteredData.IndexOf( item );
         var isFocusedItem = itemIndex == ActiveItemIndex;
 
+        var isCheckbox = SelectionMode == AutocompleteSelectionMode.Checkbox;
+
         var text = GetItemText( item );
         var value = GetItemValue( item );
 
-        <DropdownItem @key="@item" ElementId="@DropdownItemId(itemIndex)" Active="@isActiveItem" Class="@DropdownItemClassNames(itemIndex)" Value="@value" Clicked="() => OnDropdownItemSelected(value)">
-            @if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
+        <DropdownItem @key="@item" ElementId="@DropdownItemId(itemIndex)" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames(itemIndex)" Value="@value"
+                      Clicked="() => isCheckbox ? Task.CompletedTask : OnDropdownItemSelected(value)"
+                      CheckedChanged="() => isCheckbox ? OnDropdownItemSelected(value) : Task.CompletedTask">
+            @if ( ItemContent is not null )
             {
-                <Div Flex="Flex.JustifyContent.Start" Margin="Margin.Is1.OnY" Class="@DropdownCheckboxItemClassNames">
-                    <Div Margin="Margin.Is1">
-                        @if ( isActiveItem )
-                        {
-                            <Icon Name="IconName.CheckSquare" TextColor="isFocusedItem ? TextColor.Primary : TextColor.White"></Icon>
-                        }
-                        else
-                        {
-                            <Icon Name="IconName.Square" TextColor="TextColor.Primary"></Icon>
-                        }
-                    </Div>
-                    <Div Margin="Margin.Is1.OnY">
-                        @if ( ItemContent is not null )
-                        {
-                            @ItemContent(new (item, value, text))
-                        }
-                        else
-                        {
-                            @if ( HighlightSearch && Search?.Length > 0 )
-                            {
-                                <Highlighter Text="@text" HighlightedText="@Search" />
-                            }
-                            else
-                            {
-                                @text
-                            }
-                        }
-                    </Div>
-                </Div>
+                @ItemContent( new( item, value, text ) )
             }
             else
             {
-                @if ( ItemContent is not null )
+                @if ( HighlightSearch && Search?.Length > 0 )
                 {
-                    @ItemContent(new (item, value, text))
+                    <Highlighter Text="@text" HighlightedText="@Search" />
                 }
                 else
                 {
-                    @if ( HighlightSearch && Search?.Length > 0 )
-                    {
-                        <Highlighter Text="@text" HighlightedText="@Search" />
-                    }
-                    else
-                    {
-                        @text
-                    }
+                    @text
                 }
             }
         </DropdownItem>
