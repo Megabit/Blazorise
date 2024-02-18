@@ -56,4 +56,10 @@ class EmptyStyleProvider : IStyleProvider
     public string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration ) => null;
 
     #endregion
+
+    #region Toast
+
+    public string ToastAnimationDuration( bool animated, int animationDuration ) => null;
+
+    #endregion
 }

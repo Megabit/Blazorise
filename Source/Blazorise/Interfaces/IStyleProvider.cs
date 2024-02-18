@@ -53,5 +53,11 @@ public interface IStyleProvider
     string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration );
 
     #endregion
+
+    #region Toast
+
+    string ToastAnimationDuration( bool animated, int animationDuration );
+
+    #endregion
 }
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

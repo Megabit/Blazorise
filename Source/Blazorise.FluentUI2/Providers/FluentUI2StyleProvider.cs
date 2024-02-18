@@ -54,4 +54,13 @@ public class FluentUI2StyleProvider : StyleProvider
             : "--durationGentle: 0ms";
 
     #endregion
+
+    #region Toast
+
+    public override string ToastAnimationDuration( bool animated, int animationDuration )
+        => animated
+            ? $"--durationGentle: {animationDuration}ms"
+            : "--durationGentle: 0ms";
+
+    #endregion
 }

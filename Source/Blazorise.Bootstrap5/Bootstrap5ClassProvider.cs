@@ -952,6 +952,30 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #endregion
 
+    #region Toast
+
+    public override string Toast() => "toast";
+
+    public override string ToastPlacement( ToastPlacement placement, bool visible ) => null;
+
+    public override string ToastFade( bool showing, bool hiding ) => showing
+        ? "showing"
+        : hiding
+            ? "hiding"
+            : null;
+
+    public override string ToastVisible( bool visible ) => visible ? Show() : null;
+
+    public override string ToastHeader() => "toast-header";
+
+    public override string ToastBody() => "toast-body";
+
+    public override string ToastContainer() => "position-fixed bottom-0 right-0 p-3";
+
+    public override string ToastContainerPlacement( ToastPlacement placement, bool visible ) => null;
+
+    #endregion
+
     #region Pagination
 
     public override string Pagination() => "pagination";

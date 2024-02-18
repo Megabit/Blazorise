@@ -7246,6 +7246,124 @@ input::file-selector-button {
   display: block;
 }
 
+@keyframes toast-enter-1 {
+  0% {
+    max-height: 0px;
+    opacity: 0;
+    margin-top: 0px;
+  }
+  100% {
+    margin-top: 16px;
+    opacity: 0;
+    max-height: var(--fui-toast-height);
+  }
+}
+@keyframes toast-enter-2 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes toast-exit-1 {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes toast-exit-2 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+    margin-top: 0px;
+    max-height: 0px;
+  }
+}
+.fui-ToastContainer {
+  --fui-toast-height: 117px;
+  box-sizing: border-box;
+  margin-top: 16px;
+  min-height: 44px;
+  pointer-events: all;
+  border-bottom-right-radius: var(--borderRadiusMedium);
+  border-bottom-left-radius: var(--borderRadiusMedium);
+  border-top-right-radius: var(--borderRadiusMedium);
+  border-top-left-radius: var(--borderRadiusMedium);
+  --fui-toast-height: 44px;
+}
+.fui-ToastContainer.fui-ToastContainer-showing {
+  animation-name: toast-enter-1, toast-enter-2;
+  animation-delay: 0ms, 200ms;
+  animation-duration: 200ms, 400ms;
+}
+.fui-ToastContainer.fui-ToastContainer-hiding {
+  animation-name: toast-exit-1, toast-exit-2;
+  animation-delay: 0ms, 400ms;
+  animation-duration: 400ms, 200ms;
+}
+.fui-ToastContainer .fui-Toast {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform, box-shadow, opacity, visibility;
+  transition-property: transform, box-shadow, opacity, visibility;
+  padding: 12px;
+  border-bottom-right-radius: var(--borderRadiusMedium);
+  border-bottom-left-radius: var(--borderRadiusMedium);
+  border-top-right-radius: var(--borderRadiusMedium);
+  border-top-left-radius: var(--borderRadiusMedium);
+  border-width: 1px;
+  border-style: solid;
+  border-top-color: var(--colorTransparentStroke);
+  border-right-color: var(--colorTransparentStroke);
+  border-bottom-color: var(--colorTransparentStroke);
+  border-left-color: var(--colorTransparentStroke);
+  box-shadow: var(--shadow8);
+  font-size: var(--fontSizeBase300);
+  line-height: 20px;
+  font-weight: var(--fontWeightSemibold);
+  color: var(--colorNeutralForeground1);
+  background-color: var(--colorNeutralBackground1);
+  animation-duration: 300ms;
+  animation-play-state: paused;
+}
+.fui-ToastContainer .fui-Toast.fui-Toast-showing {
+  /*animation-name: toast-enter;*/
+  /*opacity: 1;*/
+  animation-play-state: running;
+}
+.fui-ToastContainer .fui-Toast.fui-Toast-hiding {
+  /*animation-name: toast-exit;*/
+  /*opacity: 0;*/
+  animation-play-state: running;
+}
+.fui-ToastContainer .fui-Toast.fui-Toast-show {
+  /*display: grid;*/
+  opacity: 1;
+  visibility: visible;
+}
+.fui-ToastContainer .fui-Toast .fui-ToastHeader {
+  display: flex;
+  grid-column-end: 3;
+  color: var(--colorNeutralForeground1);
+  word-break: break-word;
+}
+.fui-ToastContainer .fui-Toast .fui-ToastBody {
+  grid-column: 2/3;
+  padding-top: 6px;
+  font-size: var(--fontSizeBase300);
+  line-height: var(--fontSizeBase300);
+  font-weight: var(--fontWeightRegular);
+  color: var(--colorNeutralForeground1);
+  word-break: break-word;
+}
+
 .fui-Tooltip-inline {
   display: inline-block;
 }

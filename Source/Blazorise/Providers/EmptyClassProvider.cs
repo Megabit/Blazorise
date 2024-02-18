@@ -879,6 +879,26 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Toast
+
+    public string Toast() => null;
+
+    public string ToastPlacement( ToastPlacement placement, bool visible ) => null;
+
+    public string ToastFade( bool showing, bool hiding ) => null;
+
+    public string ToastVisible( bool visible ) => null;
+
+    public string ToastHeader() => null;
+
+    public string ToastBody() => null;
+
+    public string ToastContainer() => null;
+
+    public string ToastContainerPlacement( ToastPlacement placement, bool visible ) => null;
+
+    #endregion
+
     #region Pagination
 
     public string Pagination() => null;

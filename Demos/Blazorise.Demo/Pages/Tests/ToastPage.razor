@@ -1,0 +1,78 @@
+﻿@page "/tests/toasts";
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Toast (Configuration)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Animation
+                            </FieldLabel>
+                            <FieldBody>
+                                <Switch @bind-Checked="@animation">Animation</Switch>
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Animation Duration (ms)
+                            </FieldLabel>
+                            <FieldBody>
+                                <NumericEdit TValue="int" @bind-Value="animationDuration" />
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Modals (Default)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    A rendered modal with header, body, and set of actions in the footer.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>toastRef.Show())">
+                    Show Toast
+                </Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<ToastContainer>
+    <Toast @ref="toastRef" Animated="@animation" AnimationDuration="@animationDuration">
+        <ToastHeader>
+            <Span>Toast Header</Span>
+            <CloseButton Clicked="@HideToast" />
+        </ToastHeader>
+        <ToastBody>
+            Hello, world! This is a toast message.
+        </ToastBody>
+    </Toast>
+</ToastContainer>
+@code {
+    Toast toastRef;
+
+    private bool animation = true;
+    private int animationDuration = 300;
+
+    private Task HideToast()
+    {
+        return toastRef.Hide();
+    }
+}

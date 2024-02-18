@@ -1394,6 +1394,26 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Toast
+
+    public override string Toast() => null;
+
+    public override string ToastPlacement( ToastPlacement placement, bool visible ) => null;
+
+    public override string ToastFade( bool showing, bool hiding ) => null;
+
+    public override string ToastVisible( bool visible ) => null;
+
+    public override string ToastHeader() => null;
+
+    public override string ToastBody() => null;
+
+    public override string ToastContainer() => null;
+
+    public override string ToastContainerPlacement( ToastPlacement placement, bool visible ) => null;
+
+    #endregion
+
     #region Pagination
 
     public override string Pagination() => "pagination flex -space-x-px mb-3";

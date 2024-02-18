@@ -876,6 +876,26 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Toast
+
+    public abstract string Toast();
+
+    public abstract string ToastPlacement( ToastPlacement placement, bool visible );
+
+    public abstract string ToastFade( bool showing, bool hiding );
+
+    public abstract string ToastVisible( bool visible );
+
+    public abstract string ToastHeader();
+
+    public abstract string ToastBody();
+
+    public abstract string ToastContainer();
+
+    public abstract string ToastContainerPlacement( ToastPlacement placement, bool visible );
+
+    #endregion
+
     #region Pagination
 
     public abstract string Pagination();

@@ -872,6 +872,26 @@ public interface IClassProvider
 
     #endregion
 
+    #region Toast
+
+    string Toast();
+
+    string ToastPlacement( ToastPlacement placement, bool visible );
+
+    string ToastFade( bool showing, bool hiding );
+
+    string ToastVisible( bool visible );
+
+    string ToastHeader();
+
+    string ToastBody();
+
+    string ToastContainer();
+
+    string ToastContainerPlacement( ToastPlacement placement, bool visible );
+
+    #endregion
+
     #region Pagination
 
     string Pagination();

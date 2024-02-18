@@ -1091,6 +1091,30 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region Toast
+
+    public override string Toast() => "fui-Toast";
+
+    public override string ToastPlacement( ToastPlacement placement, bool visible ) => null;
+
+    public override string ToastFade( bool showing, bool hiding ) => showing
+        ? "fui-Toast-showing"
+        : hiding
+            ? "fui-Toast-hiding"
+            : null;
+
+    public override string ToastVisible( bool visible ) => visible ? "fui-Toast-show" : null;
+
+    public override string ToastHeader() => "fui-ToastHeader";
+
+    public override string ToastBody() => "fui-ToastBody";
+
+    public override string ToastContainer() => "fui-ToastContainer";
+
+    public override string ToastContainerPlacement( ToastPlacement placement, bool visible ) => null;
+
+    #endregion
+
     #region Pagination
 
     public override string Pagination() => "fui-Pagination";
