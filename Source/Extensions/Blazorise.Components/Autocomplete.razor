@@ -105,21 +105,21 @@
         <DropdownItem @key="@item" ElementId="@DropdownItemId(itemIndex)" Active="@isActiveItem" Checked=@isActiveItem ShowCheckbox=@isCheckbox Class="@DropdownItemClassNames(itemIndex)" Value="@value"
                       Clicked="() => isCheckbox ? Task.CompletedTask : OnDropdownItemSelected(value)"
                       CheckedChanged="() => isCheckbox ? OnDropdownItemSelected(value) : Task.CompletedTask">
-            @if ( ItemContent is not null )
-            {
-                @ItemContent( new( item, value, text ) )
-            }
-            else
-            {
-                @if ( HighlightSearch && Search?.Length > 0 )
+                @if ( ItemContent is not null )
                 {
-                    <Highlighter Text="@text" HighlightedText="@Search" />
+                    @ItemContent( new( item, value, text ) )
                 }
                 else
                 {
-                    @text
+                    @if ( HighlightSearch && Search?.Length > 0 )
+                    {
+                        <Highlighter Text="@text" HighlightedText="@Search" />
+                    }
+                    else
+                    {
+                        @text
+                    }
                 }
-            }
         </DropdownItem>
     };
 }
