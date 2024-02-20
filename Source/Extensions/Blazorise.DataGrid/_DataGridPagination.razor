@@ -50,77 +50,80 @@
 @code {
     private RenderFragment buttonRowFragment => __builder =>
     {
-        <Field Display="Blazorise.Display.InlineBlock">
+        
             @if ( ShowButtonRow() )
             {
+                <Field Display="Blazorise.Display.InlineBlock">
+                    @{
+                        var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
+                        var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
+                        var deleteButtonString = Localizer.Localize( ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete" );
+                        var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
+                        var saveBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveBatchButtonLocalizer, "Save Changes" );
+                        var cancelBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelBatchButtonLocalizer, "Cancel Changes" );
 
-                var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
-                var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
-                var deleteButtonString = Localizer.Localize( ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete" );
-                var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
-                var saveBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveBatchButtonLocalizer, "Save Changes" );
-                var cancelBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelBatchButtonLocalizer, "Cancel Changes" );
-
-                @ButtonRowTemplate( new()
-                   {
-                       NewCommand = new()
-                       {
-                           Clicked = NewClick,
-                           LocalizationString = newButtonString,
-                       },
-                       EditCommand = new()
-                       {
-                           Clicked = EditClick,
-                           LocalizationString = editButtonString,
-                           Item = SelectedRow
-                       },
-                       DeleteCommand = new()
-                       {
-                           Clicked = DeleteClick,
-                           LocalizationString = deleteButtonString,
-                           Item = SelectedRow
-                       },
-                       ClearFilterCommand = new()
-                       {
-                           Clicked = ClearFilterClick,
-                           LocalizationString = clearFilterButtonString,
-                       },
-                       SaveBatchCommand = new()
-                       {
-                           Clicked = SaveBatchClick,
-                           LocalizationString = saveBatchButtonString,
-                       },
-                       CancelBatchCommand = new()
-                       {
-                           Clicked = CancelBatchClick,
-                           LocalizationString = cancelBatchButtonString,
-                       }
-                   } );
+                        @ButtonRowTemplate( new()
+                           {
+                               NewCommand = new()
+                               {
+                                   Clicked = NewClick,
+                                   LocalizationString = newButtonString,
+                               },
+                               EditCommand = new()
+                               {
+                                   Clicked = EditClick,
+                                   LocalizationString = editButtonString,
+                                   Item = SelectedRow
+                               },
+                               DeleteCommand = new()
+                               {
+                                   Clicked = DeleteClick,
+                                   LocalizationString = deleteButtonString,
+                                   Item = SelectedRow
+                               },
+                               ClearFilterCommand = new()
+                               {
+                                   Clicked = ClearFilterClick,
+                                   LocalizationString = clearFilterButtonString,
+                               },
+                               SaveBatchCommand = new()
+                               {
+                                   Clicked = SaveBatchClick,
+                                   LocalizationString = saveBatchButtonString,
+                               },
+                               CancelBatchCommand = new()
+                               {
+                                   Clicked = CancelBatchClick,
+                                   LocalizationString = cancelBatchButtonString,
+                               }
+                           } );
+                    }
+                </Field>
             }
-
-            <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
-                <DropdownToggle @onclick:stopPropagation>
-                    <Icon Name="@IconName.Table" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" /> Columns
-                </DropdownToggle>
-                <DropdownMenu MaxMenuHeight="200px">
-                        @if ( true ) //Template is null
-                        {
-                            @foreach ( var column in ParentDataGrid.GetColumns() )
+            <Field Display="Blazorise.Display.InlineBlock">
+                <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
+                    <DropdownToggle @onclick:stopPropagation>
+                        <Icon Name="@IconName.Table" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" /> Columns
+                    </DropdownToggle>
+                    <DropdownMenu MaxMenuHeight="200px">
+                            @if ( true ) //Template is null
                             {
-                                <Row Margin="Blazorise.Margin.Is0" @onclick:stopPropagation @onmouseup:stopPropagation>
-                                    <Column>
-                                        <Check TValue="bool" Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged(column,value))">@column.Caption</Check>
-                                    </Column>
-                                </Row>
+                                @foreach ( var column in ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn) )
+                                {
+                                    <Row Margin="Blazorise.Margin.Is0" @onclick:stopPropagation @onmouseup:stopPropagation>
+                                        <Column>
+                                            <Check TValue="bool" Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged(column,value))">@column.Caption</Check>
+                                        </Column>
+                                    </Row>
+                                }
                             }
-                        }
-                        else //Template
-                        {
+                            else //Template
+                            {
 
-                        }
-                </DropdownMenu>
-            </Dropdown>
-        </Field>
+                            }
+                    </DropdownMenu>
+                </Dropdown>
+            </Field>
 
     };
 

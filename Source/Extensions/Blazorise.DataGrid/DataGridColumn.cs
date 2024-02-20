@@ -451,11 +451,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     internal bool IsDisplayable => ( ColumnType == DataGridColumnType.Command && ParentDataGrid.EditMode == DataGridEditMode.Inline );
 
-    internal bool ExcludeFromFilter => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+    internal bool IsRegularColumn => !( ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect );
 
-    internal bool ExcludeFromEdit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+    internal bool ExcludeFromFilter => !IsRegularColumn;
 
-    internal bool ExcludeFromInit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+    internal bool ExcludeFromEdit => !IsRegularColumn;
+
+    internal bool ExcludeFromInit => !IsRegularColumn;
 
     /// <summary>
     /// Tracks whether the dropdown filter is visible for this column.
