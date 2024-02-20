@@ -2592,7 +2592,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         get
         {
             var orderedDisplayColumns = Columns
-                .Where( x => x.IsDisplayable || x.Displayable )
+                .Where( x => x.IsDisplayable || x.Displaying )
                 .OrderBy( x => x.DisplayOrder );
 
             if ( !IsGroupHeaderCaptionsEnabled )
@@ -2635,7 +2635,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         get
         {
             var orderedDisplayColumns = Columns
-                .Where( x => x.IsDisplayable || x.Displayable )
+                .Where( x => x.IsDisplayable || x.Displaying )
                 .OrderBy( x => x.DisplayOrder )
                 .ToList();
 

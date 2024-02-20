@@ -53,6 +53,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     private void InitializeDefaults()
     {
+        Displaying = Displayable;
         currentSortDirection[DataGridSortMode.Single] = SortDirection;
         currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
         currentFilterMethod = FilterMethod;
@@ -315,6 +316,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     #region Properties
 
+    /// <summary>
+    /// Gets or sets whether column is displaying.
+    /// </summary>
+    public bool Displaying { get; internal set; }
 
     /// <summary>
     /// Whether the cell is currently being edited.

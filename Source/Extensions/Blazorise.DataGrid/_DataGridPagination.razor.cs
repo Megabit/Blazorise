@@ -10,6 +10,12 @@ namespace Blazorise.DataGrid;
 
 partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
 {
+    #region Members 
+
+    private bool dropdownColumnChooserVisible;
+
+    #endregion
+
     #region Methods
 
     private bool ShowButtonRow()
@@ -43,6 +49,12 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
         }
 
         base.Dispose( disposing );
+    }
+
+    private async Task ColumnDisplayingChanged( DataGridColumn<TItem> dataGridColumn, bool displaying )
+    {
+        dataGridColumn.Displaying = displaying;
+        await ParentDataGrid.Refresh();
     }
 
     private async void OnLocalizationChanged( object sender, EventArgs e )

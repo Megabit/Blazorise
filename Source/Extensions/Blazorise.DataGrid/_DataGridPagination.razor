@@ -50,55 +50,78 @@
 @code {
     private RenderFragment buttonRowFragment => __builder =>
     {
-        @if ( ShowButtonRow() )
-        {
-            <Field Display="Blazorise.Display.InlineBlock">
-                @{
-                    var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
-                    var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
-                    var deleteButtonString = Localizer.Localize( ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete" );
-                    var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
-                    var saveBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveBatchButtonLocalizer, "Save Changes" );
-                    var cancelBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelBatchButtonLocalizer, "Cancel Changes" );
+        <Field Display="Blazorise.Display.InlineBlock">
+            @if ( ShowButtonRow() )
+            {
 
-                    @ButtonRowTemplate( new()
-                    {
-                        NewCommand = new()
+                var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
+                var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
+                var deleteButtonString = Localizer.Localize( ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete" );
+                var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
+                var saveBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveBatchButtonLocalizer, "Save Changes" );
+                var cancelBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelBatchButtonLocalizer, "Cancel Changes" );
+
+                @ButtonRowTemplate( new()
+                   {
+                       NewCommand = new()
+                       {
+                           Clicked = NewClick,
+                           LocalizationString = newButtonString,
+                       },
+                       EditCommand = new()
+                       {
+                           Clicked = EditClick,
+                           LocalizationString = editButtonString,
+                           Item = SelectedRow
+                       },
+                       DeleteCommand = new()
+                       {
+                           Clicked = DeleteClick,
+                           LocalizationString = deleteButtonString,
+                           Item = SelectedRow
+                       },
+                       ClearFilterCommand = new()
+                       {
+                           Clicked = ClearFilterClick,
+                           LocalizationString = clearFilterButtonString,
+                       },
+                       SaveBatchCommand = new()
+                       {
+                           Clicked = SaveBatchClick,
+                           LocalizationString = saveBatchButtonString,
+                       },
+                       CancelBatchCommand = new()
+                       {
+                           Clicked = CancelBatchClick,
+                           LocalizationString = cancelBatchButtonString,
+                       }
+                   } );
+            }
+
+            <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
+                <DropdownToggle @onclick:stopPropagation>
+                    <Icon Name="@IconName.Table" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" /> Columns
+                </DropdownToggle>
+                <DropdownMenu MaxMenuHeight="200px">
+                        @if ( true ) //Template is null
                         {
-                            Clicked = NewClick,
-                            LocalizationString = newButtonString,
-                        },
-                        EditCommand = new()
-                        {
-                            Clicked = EditClick,
-                            LocalizationString = editButtonString,
-                            Item = SelectedRow
-                        },
-                        DeleteCommand = new()
-                        {
-                            Clicked = DeleteClick,
-                            LocalizationString = deleteButtonString,
-                            Item = SelectedRow
-                        },
-                        ClearFilterCommand = new()
-                        {
-                            Clicked = ClearFilterClick,
-                            LocalizationString = clearFilterButtonString,
-                        },
-                        SaveBatchCommand = new ()
-                        {
-                            Clicked = SaveBatchClick,
-                            LocalizationString = saveBatchButtonString,
-                        },
-                        CancelBatchCommand = new()
-                        {
-                            Clicked = CancelBatchClick,
-                            LocalizationString = cancelBatchButtonString,
+                            @foreach ( var column in ParentDataGrid.GetColumns() )
+                            {
+                                <Row Margin="Blazorise.Margin.Is0" @onclick:stopPropagation @onmouseup:stopPropagation>
+                                    <Column>
+                                        <Check TValue="bool" Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged(column,value))">@column.Caption</Check>
+                                    </Column>
+                                </Row>
+                            }
                         }
-                    } );
-                }
-            </Field>
-        }
+                        else //Template
+                        {
+
+                        }
+                </DropdownMenu>
+            </Dropdown>
+        </Field>
+
     };
 
     private RenderFragment totalItemsFragment => __builder =>
