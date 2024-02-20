@@ -1,0 +1,11 @@
+﻿@using System.Text
+@inherits Blazorise.Toast
+<div class="@WrapperClassNames">
+    <div @ref="@ElementRef" id="@ElementId" role="alert" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <CascadingValue Value="@this" IsFixed>
+            <CascadingValue Value="@State">
+                @ChildContent
+            </CascadingValue>
+        </CascadingValue>
+    </div>
+</div>

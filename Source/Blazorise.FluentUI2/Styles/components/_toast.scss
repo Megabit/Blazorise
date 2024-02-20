@@ -44,6 +44,12 @@
     }
 }
 
+.fui-Toaster {
+    position: fixed;
+    bottom: 16px;
+    right: 20px;
+}
+
 .fui-ToastContainer {
     --fui-toast-height: 117px;
     box-sizing: border-box;
@@ -56,23 +62,23 @@
     border-top-left-radius: var(--borderRadiusMedium);
     --fui-toast-height: 44px;
 
-    &.fui-ToastContainer-showing {
-        animation-name: toast-enter-1, toast-enter-2;
-        animation-delay: 0ms, 200ms;
-        animation-duration: 200ms, 400ms;
-    }
-
-    &.fui-ToastContainer-hiding {
+    &.fui-ToastContainer-hide {
         animation-name: toast-exit-1, toast-exit-2;
         animation-delay: 0ms, 400ms;
         animation-duration: 400ms, 200ms;
+        opacity: 0;
+    }
+
+    &.fui-ToastContainer-show {
+        animation-name: toast-enter-1, toast-enter-2;
+        animation-delay: 0ms, 200ms;
+        animation-duration: 200ms, 400ms;
+        opacity: 1;
     }
 
     .fui-Toast {
         display: grid;
         grid-template-columns: auto 1fr auto;
-        opacity: 0;
-        visibility: hidden;
         will-change: transform, box-shadow, opacity, visibility;
         transition-property: transform, box-shadow, opacity, visibility;
         padding: 12px;
@@ -96,21 +102,11 @@
         animation-play-state: paused;
 
         &.fui-Toast-showing {
-            /*animation-name: toast-enter;*/
-            /*opacity: 1;*/
             animation-play-state: running;
         }
 
         &.fui-Toast-hiding {
-            /*animation-name: toast-exit;*/
-            /*opacity: 0;*/
             animation-play-state: running;
-        }
-
-        &.fui-Toast-show {
-            /*display: grid;*/
-            opacity: 1;
-            visibility: visible;
         }
 
         .fui-ToastHeader {

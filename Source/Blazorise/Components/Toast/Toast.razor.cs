@@ -14,7 +14,7 @@ namespace Blazorise;
 /// <summary>
 /// A Toast displays temporary content to the user.
 /// </summary>
-public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent, IHideableComponent, IAsyncDisposable
+public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent, IAsyncDisposable
 {
     #region Members
 
