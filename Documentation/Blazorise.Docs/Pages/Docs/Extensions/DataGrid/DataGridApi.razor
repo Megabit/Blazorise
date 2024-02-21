@@ -286,7 +286,7 @@
         Gets or sets the calculated aggregate data.
         Used only in manual read mode along with the <Code>ReadData</Code> handler.
     </DocsAttributesItem>
-        <DocsAttributesItem Name="Navigable" Type="bool" Default="false">
+    <DocsAttributesItem Name="Navigable" Type="bool" Default="false">
         Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
     </DocsAttributesItem>
     <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod" Default="DataGridFilterMethod.Contains">
@@ -318,6 +318,12 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="RowBatchEditStyling" Type="Action<DataGridBatchEditItem<TItem>, DataGridRowStyling>">
         Custom handler for the row that has batch edit changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowColumnChooser" Type="bool" Default="false">
+        Gets or sets whether the column chooser is visible.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ColumnChooserTemplate" Type="RenderFragment<ColumnChooserContext<TItem>>">
+        Gets or sets content of column chooser of pager.
     </DocsAttributesItem>
 </DocsAttributes>
 

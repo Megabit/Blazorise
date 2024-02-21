@@ -108,7 +108,6 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     public RenderFragment<ColumnChooserContext<TItem>> ColumnChooserTemplate
         => ParentDataGrid?.ColumnChooserTemplate;
 
-
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 
     [Inject] protected ITextLocalizer<DataGrid<TItem>> Localizer { get; set; }

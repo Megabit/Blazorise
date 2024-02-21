@@ -3616,6 +3616,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     [Parameter] public Action<DataGridBatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling> BatchEditCellStyling { get; set; }
 
+    /// <summary>
+    /// Gets or sets whether the column chooser is visible.
+    /// </summary>
     [Parameter] public bool ShowColumnChooser { get; set; }
 
     #endregion
