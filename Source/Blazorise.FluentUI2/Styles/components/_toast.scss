@@ -6,7 +6,7 @@
     }
 
     100% {
-        margin-top: 16px;
+        margin-top: var(--spacingVerticalL);
         opacity: 0;
         max-height: var(--fui-toast-height);
     }
@@ -46,14 +46,14 @@
 
 .fui-Toaster {
     position: fixed;
-    bottom: 16px;
-    right: 20px;
+    bottom: var(--spacingVerticalL);
+    right: var(--spacingHorizontalXL);
 }
 
 .fui-ToastContainer {
     --fui-toast-height: 117px;
     box-sizing: border-box;
-    margin-top: 16px;
+    margin-top: var(--spacingVerticalL);
     min-height: 44px;
     pointer-events: all;
     border-bottom-right-radius: var(--borderRadiusMedium);
@@ -69,6 +69,10 @@
         opacity: 0;
     }
 
+    &.fui-ToastContainer-hide:not(.fui-ToastContainer-hiding) {
+        display: none;
+    }
+
     &.fui-ToastContainer-show {
         animation-name: toast-enter-1, toast-enter-2;
         animation-delay: 0ms, 200ms;
@@ -81,12 +85,12 @@
         grid-template-columns: auto 1fr auto;
         will-change: transform, box-shadow, opacity, visibility;
         transition-property: transform, box-shadow, opacity, visibility;
-        padding: 12px;
+        padding: var(--spacingVerticalM) var(--spacingHorizontalM);
         border-bottom-right-radius: var(--borderRadiusMedium);
         border-bottom-left-radius: var(--borderRadiusMedium);
         border-top-right-radius: var(--borderRadiusMedium);
         border-top-left-radius: var(--borderRadiusMedium);
-        border-width: 1px;
+        border-width: var(--strokeWidthThin);
         border-style: solid;
         border-top-color: var(--colorTransparentStroke);
         border-right-color: var(--colorTransparentStroke);
@@ -94,7 +98,7 @@
         border-left-color: var(--colorTransparentStroke);
         box-shadow: var(--shadow8);
         font-size: var(--fontSizeBase300);
-        line-height: 20px;
+        line-height: var(--lineHeightBase300);
         font-weight: var(--fontWeightSemibold);
         color: var(--colorNeutralForeground1);
         background-color: var(--colorNeutralBackground1);
@@ -111,6 +115,8 @@
 
         .fui-ToastHeader {
             display: flex;
+            align-items: center;
+            justify-content: space-between;
             grid-column-end: 3;
             color: var(--colorNeutralForeground1);
             word-break: break-word;
@@ -118,7 +124,7 @@
 
         .fui-ToastBody {
             grid-column: 2 / 3;
-            padding-top: 6px;
+            padding-top: var(--spacingVerticalSNudge);
             font-size: var(--fontSizeBase300);
             line-height: var(--fontSizeBase300);
             font-weight: var(--fontWeightRegular);
