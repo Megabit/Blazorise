@@ -891,9 +891,9 @@ class EmptyClassProvider : IClassProvider
 
     public string ToastBody() => null;
 
-    public string ToastContainer() => null;
+    public string Toaster() => null;
 
-    public string ToastContainerPlacement( ToastPlacement placement, bool visible ) => null;
+    public string ToasterPlacement( ToastPlacement placement, bool visible ) => null;
 
     #endregion
 

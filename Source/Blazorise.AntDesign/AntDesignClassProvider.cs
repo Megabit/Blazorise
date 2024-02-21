@@ -963,9 +963,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ToastBody() => null;
 
-    public override string ToastContainer() => null;
+    public override string Toaster() => null;
 
-    public override string ToastContainerPlacement( ToastPlacement placement, bool visible ) => null;
+    public override string ToasterPlacement( ToastPlacement placement, bool visible ) => null;
 
     #endregion
 

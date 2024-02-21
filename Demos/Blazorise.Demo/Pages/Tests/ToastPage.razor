@@ -54,7 +54,7 @@
     </Column>
 </Row>
 
-<ToastContainer>
+<Toaster>
     <Toast @ref="toastRef" Animated="@animation" AnimationDuration="@animationDuration">
         <ToastHeader>
             <Span>Toast Header</Span>
@@ -64,7 +64,7 @@
             Hello, world! This is a toast message.
         </ToastBody>
     </Toast>
-</ToastContainer>
+</Toaster>
 @code {
     Toast toastRef;
 

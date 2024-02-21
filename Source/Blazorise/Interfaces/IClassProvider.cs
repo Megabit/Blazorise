@@ -884,9 +884,9 @@ public interface IClassProvider
 
     string ToastBody();
 
-    string ToastContainer();
+    string Toaster();
 
-    string ToastContainerPlacement( ToastPlacement placement, bool visible );
+    string ToasterPlacement( ToastPlacement placement, bool visible );
 
     #endregion
 

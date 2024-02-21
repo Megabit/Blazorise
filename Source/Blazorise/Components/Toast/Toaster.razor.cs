@@ -14,15 +14,15 @@ namespace Blazorise;
 /// <summary>
 /// A container for placing the <see cref="Toast"/> component on the UI.
 /// </summary>
-public partial class ToastContainer : BaseComponent
+public partial class Toaster : BaseComponent
 {
     #region Methods
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.ToastContainer() );
-        builder.Append( ClassProvider.ToastContainerPlacement( Placement, true ) );
+        builder.Append( ClassProvider.Toaster() );
+        builder.Append( ClassProvider.ToasterPlacement( Placement, true ) );
 
         base.BuildClasses( builder );
     }

@@ -888,9 +888,9 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ToastBody();
 
-    public abstract string ToastContainer();
+    public abstract string Toaster();
 
-    public abstract string ToastContainerPlacement( ToastPlacement placement, bool visible );
+    public abstract string ToasterPlacement( ToastPlacement placement, bool visible );
 
     #endregion
 

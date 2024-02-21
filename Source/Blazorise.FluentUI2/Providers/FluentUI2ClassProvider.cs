@@ -1107,9 +1107,9 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ToastBody() => "fui-ToastBody";
 
-    public override string ToastContainer() => "fui-Toaster";
+    public override string Toaster() => "fui-Toaster";
 
-    public override string ToastContainerPlacement( ToastPlacement placement, bool visible ) => null;
+    public override string ToasterPlacement( ToastPlacement placement, bool visible ) => null;
 
     #endregion
 
