@@ -16,6 +16,11 @@ public class DataGridPagerOptions
     public PagerElementPosition ButtonRowPosition { get; set; } = PagerElementPosition.Default;
 
     /// <summary>
+    /// Column Chooser Position. 
+    /// </summary>
+    public PagerElementPosition ColumnChooserPosition { get; set; } = PagerElementPosition.Default;
+
+    /// <summary>
     /// Pagination Position. 
     /// </summary>
     public PagerElementPosition PaginationPosition { get; set; } = PagerElementPosition.Default;

@@ -3105,6 +3105,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public RenderFragment<ButtonRowContext<TItem>> ButtonRowTemplate { get; set; }
 
     /// <summary>
+    /// Gets or sets content of column chooser of pager.
+    /// </summary>
+    [Parameter] public RenderFragment<ColumnChooserContext<TItem>> ColumnChooserTemplate { get; set; }
+
+    /// <summary>
     /// Gets or sets content of first button of pager.
     /// </summary>
     [Parameter] public RenderFragment FirstPageButtonTemplate { get => paginationTemplates.FirstPageButtonTemplate; set => paginationTemplates.FirstPageButtonTemplate = value; }
@@ -3610,6 +3615,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Custom handler for the cell styling when the cell has batch edit changes.
     /// </summary>
     [Parameter] public Action<DataGridBatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling> BatchEditCellStyling { get; set; }
+
+    [Parameter] public bool ShowColumnChooser { get; set; }
 
     #endregion
 }

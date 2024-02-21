@@ -1,0 +1,72 @@
+﻿@page "/tests/datagrid/column-chooser"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Datagrid: Column Chooser</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Paragraph>
+                    Enable Column Chooser to allow users to show or hide columns in the DataGrid. 
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <DataGrid TItem="Employee"
+                          Data="inMemoryData"
+                          Responsive
+                          ShowColumnChooser
+                          PagerPosition="DataGridPagerPosition.Top"
+                          ShowPager
+                          ShowPageSizes>
+                    <DataGridColumns>
+                        <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.LastName )" Caption="Last Name" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Email )" Caption="Email" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.City )" Caption="City">
+                            <CaptionTemplate>
+                                <Icon Name="IconName.City" /> @context.Caption
+                            </CaptionTemplate>
+                        </DataGridColumn>
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Zip )" Caption="Zip">
+                        </DataGridColumn>
+                        <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
+                        <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" ReverseSorting="true" Editable Filterable="false" />
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
+                        <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
+                        </DataGridColumn>
+                        <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
+                            <DisplayTemplate>
+                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                            </DisplayTemplate>
+                        </DataGridCheckColumn>
+                    </DataGridColumns>
+                    <ColumnChooserTemplate>
+                        @foreach ( var column in context.Columns )
+                        {
+                            <Row Margin="Blazorise.Margin.Is0">
+                                <Column>
+                                    <Check TValue="bool" Checked=@column.Displaying CheckedChanged="@(value => context.ColumnDisplayChanged.InvokeAsync(new Blazorise.DataGrid.EventArguments.ColumnDisplayChangedEventArgs<Employee>(column, value)))">@column.Caption</Check>
+                                </Column>
+                            </Row>
+                        }
+                    </ColumnChooserTemplate>
+                </DataGrid>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private IEnumerable<Employee> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+        await base.OnInitializedAsync();
+    }
+}

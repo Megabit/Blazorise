@@ -21,8 +21,14 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     private bool ShowButtonRow()
         => ButtonRowTemplate is not null && ParentDataGrid.IsButtonRowVisible;
 
+    private bool ShowColumnChooser()
+        => ParentDataGrid.ShowColumnChooser;
+
     private PagerElementPosition GetButtonRowPosition()
         => ParentDataGrid.PagerOptions?.ButtonRowPosition ?? PagerElementPosition.Default;
+
+    private PagerElementPosition GetColumnChooserPosition()
+        => ParentDataGrid.PagerOptions?.ColumnChooserPosition ?? PagerElementPosition.Default;
 
     private PagerElementPosition GetPaginationPosition()
         => ParentDataGrid.PagerOptions?.PaginationPosition ?? PagerElementPosition.Default;
@@ -93,7 +99,15 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     /// <summary>
     /// Gets or sets content of button row of pager.
     /// </summary>
-    public RenderFragment<ButtonRowContext<TItem>> ButtonRowTemplate => ParentDataGrid?.ButtonRowTemplate;
+    public RenderFragment<ButtonRowContext<TItem>> ButtonRowTemplate
+        => ParentDataGrid?.ButtonRowTemplate;
+
+    /// <summary>
+    /// Gets or sets content of column chooser of pager.
+    /// </summary>
+    public RenderFragment<ColumnChooserContext<TItem>> ColumnChooserTemplate
+        => ParentDataGrid?.ColumnChooserTemplate;
+
 
     [Inject] protected ITextLocalizerService LocalizerService { get; set; }
 

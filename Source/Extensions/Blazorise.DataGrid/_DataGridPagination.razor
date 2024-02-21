@@ -1,10 +1,15 @@
-﻿@typeparam TItem
+﻿@using Blazorise.DataGrid.EventArguments
+@typeparam TItem
 @inherits BaseComponent
 <Row class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
         @if ( GetButtonRowPosition() == PagerElementPosition.Start || GetButtonRowPosition() == PagerElementPosition.Default )
         {
             @buttonRowFragment
+        }
+        @if ( GetColumnChooserPosition() == PagerElementPosition.Start || GetColumnChooserPosition() == PagerElementPosition.Default )
+        {
+            @columnChooserFragment
         }
         @if ( GetPaginationPosition() == PagerElementPosition.Start || ( GetPaginationPosition() == PagerElementPosition.Default && !ShowButtonRow() ) )
         {
@@ -21,6 +26,10 @@
         {
             @buttonRowFragment
         }
+        @if ( GetColumnChooserPosition() == PagerElementPosition.Center )
+        {
+            @columnChooserFragment
+        }
         @if ( GetPaginationPosition() == PagerElementPosition.Center || ( GetPaginationPosition() == PagerElementPosition.Default && ShowButtonRow() ) )
         {
             @paginationFragment
@@ -35,6 +44,10 @@
         @if ( GetButtonRowPosition() == PagerElementPosition.End )
         {
             @buttonRowFragment
+        }
+        @if ( GetColumnChooserPosition() == PagerElementPosition.End )
+        {
+            @columnChooserFragment
         }
         @if ( GetPaginationPosition() == PagerElementPosition.End )
         {
@@ -100,31 +113,41 @@
                     }
                 </Field>
             }
+            
+
+    };
+
+    private RenderFragment columnChooserFragment => __builder =>
+    {
+        @if ( ShowColumnChooser() )
+        {
             <Field Display="Blazorise.Display.InlineBlock">
                 <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
                     <DropdownToggle @onclick:stopPropagation>
                         <Icon Name="@IconName.Table" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" /> Columns
                     </DropdownToggle>
                     <DropdownMenu MaxMenuHeight="200px">
-                            @if ( true ) //Template is null
+                        @if ( ParentDataGrid.ColumnChooserTemplate is null ) 
+                        {
+                            @foreach ( var column in ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ) )
                             {
-                                @foreach ( var column in ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn) )
-                                {
-                                    <Row Margin="Blazorise.Margin.Is0" @onclick:stopPropagation @onmouseup:stopPropagation>
-                                        <Column>
-                                            <Check TValue="bool" Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged(column,value))">@column.Caption</Check>
-                                        </Column>
-                                    </Row>
-                                }
+                                <Row Margin="Blazorise.Margin.Is0">
+                                    <Column>
+                                        <Check TValue="bool" Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged(column,value))">@column.Caption</Check>
+                                    </Column>
+                                </Row>
                             }
-                            else //Template
-                            {
-
-                            }
+                        }
+                        else 
+                        {
+                            @ParentDataGrid.ColumnChooserTemplate(new(
+                                ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ),
+                                 EventCallback.Factory.Create<ColumnDisplayChangedEventArgs<TItem>>( this, ( x ) => ColumnDisplayingChanged( x.Column, x.Display ) ) ) );
+                        }
                     </DropdownMenu>
                 </Dropdown>
             </Field>
-
+        }
     };
 
     private RenderFragment totalItemsFragment => __builder =>
