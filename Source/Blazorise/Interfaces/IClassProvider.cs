@@ -876,8 +876,6 @@ public interface IClassProvider
 
     string Toast();
 
-    string ToastPlacement( ToastPlacement placement, bool visible );
-
     string ToastFade( bool showing, bool hiding );
 
     string ToastVisible( bool visible );

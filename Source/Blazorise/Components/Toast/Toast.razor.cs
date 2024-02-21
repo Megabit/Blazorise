@@ -111,7 +111,6 @@ public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent,
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Toast() );
-        builder.Append( ClassProvider.ToastPlacement( Placement, IsVisible ) );
         builder.Append( ClassProvider.ToastFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( ClassProvider.ToastVisible( IsVisible ) );
 
@@ -471,11 +470,6 @@ public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// Event callback for when the Toast has been closed.
     /// </summary>
     [Parameter] public EventCallback Closed { get; set; }
-
-    /// <summary>
-    /// Specifies the position of the Toast.
-    /// </summary>
-    [Parameter] public ToastPlacement Placement { get; set; } = ToastPlacement.BottomEnd;
 
     /// <summary>
     /// Specifies whether the Toast should have an animated transition.

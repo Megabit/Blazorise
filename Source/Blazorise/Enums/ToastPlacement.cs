@@ -15,7 +15,6 @@ public enum ToastPlacement
     /// </summary>
     TopStart,
 
-
     /// <summary>
     /// Top end side.
     /// </summary>

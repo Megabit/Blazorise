@@ -956,8 +956,6 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Toast() => "toast";
 
-    public override string ToastPlacement( ToastPlacement placement, bool visible ) => null;
-
     public override string ToastFade( bool showing, bool hiding ) => showing
         ? "showing"
         : hiding

@@ -883,8 +883,6 @@ class EmptyClassProvider : IClassProvider
 
     public string Toast() => null;
 
-    public string ToastPlacement( ToastPlacement placement, bool visible ) => null;
-
     public string ToastFade( bool showing, bool hiding ) => null;
 
     public string ToastVisible( bool visible ) => null;

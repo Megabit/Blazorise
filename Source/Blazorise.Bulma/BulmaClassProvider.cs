@@ -993,8 +993,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Toast() => null;
 
-    public override string ToastPlacement( ToastPlacement placement, bool visible ) => null;
-
     public override string ToastFade( bool showing, bool hiding ) => null;
 
     public override string ToastVisible( bool visible ) => null;
