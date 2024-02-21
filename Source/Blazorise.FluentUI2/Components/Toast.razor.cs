@@ -11,6 +11,7 @@ public partial class Toast
     public Toast()
     {
         WrapperClassBuilder = new ClassBuilder( BuildWrapperClasses );
+        WrapperStyleBuilder = new StyleBuilder( BuildWrapperStyles );
     }
 
     #endregion
@@ -24,11 +25,23 @@ public partial class Toast
         base.DirtyClasses();
     }
 
+    protected override void DirtyStyles()
+    {
+        WrapperStyleBuilder.Dirty();
+
+        base.DirtyStyles();
+    }
+
     private void BuildWrapperClasses( ClassBuilder builder )
     {
         builder.Append( "fui-ToastContainer" );
         builder.Append( WrapperFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( WrapperVisible( IsVisible ) );
+    }
+
+    private void BuildWrapperStyles( StyleBuilder builder )
+    {
+        builder.Append( StyleProvider.ToastAnimationDuration( Animated, AnimationDuration ) );
     }
 
     private static string WrapperVisible( bool visible ) => visible
@@ -47,7 +60,11 @@ public partial class Toast
 
     protected ClassBuilder WrapperClassBuilder { get; private set; }
 
+    protected StyleBuilder WrapperStyleBuilder { get; private set; }
+
     protected string WrapperClassNames => WrapperClassBuilder.Class;
+
+    protected string WrapperStyleNames => WrapperStyleBuilder.Styles;
 
     #endregion
 }

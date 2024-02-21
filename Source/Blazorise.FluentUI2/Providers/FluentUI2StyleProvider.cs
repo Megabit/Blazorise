@@ -59,8 +59,8 @@ public class FluentUI2StyleProvider : StyleProvider
 
     public override string ToastAnimationDuration( bool animated, int animationDuration )
         => animated
-            ? $"--durationGentle: {animationDuration}ms"
-            : "--durationGentle: 0ms";
+            ? $"--fui-toast-animation-duration: {animationDuration}ms"
+            : "--fui-toast-animation-duration: 0ms";
 
     #endregion
 }

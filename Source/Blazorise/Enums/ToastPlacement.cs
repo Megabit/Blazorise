@@ -6,6 +6,11 @@
 public enum ToastPlacement
 {
     /// <summary>
+    /// Top side.
+    /// </summary>
+    Top,
+
+    /// <summary>
     /// Top start side.
     /// </summary>
     TopStart,
@@ -15,6 +20,11 @@ public enum ToastPlacement
     /// Top end side.
     /// </summary>
     TopEnd,
+
+    /// <summary>
+    /// Bottom side.
+    /// </summary>
+    Bottom,
 
     /// <summary>
     /// Bottom start side.

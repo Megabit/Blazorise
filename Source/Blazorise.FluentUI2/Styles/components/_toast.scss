@@ -51,7 +51,7 @@
 }
 
 .fui-ToastContainer {
-    --fui-toast-height: 117px;
+    --fui-toast-height: 44px;
     box-sizing: border-box;
     margin-top: var(--spacingVerticalL);
     min-height: 44px;
@@ -59,13 +59,12 @@
     border-bottom-right-radius: var(--borderRadiusMedium);
     border-bottom-left-radius: var(--borderRadiusMedium);
     border-top-right-radius: var(--borderRadiusMedium);
-    border-top-left-radius: var(--borderRadiusMedium);
-    --fui-toast-height: 44px;
+    border-top-left-radius: var(--borderRadiusMedium);    
 
     &.fui-ToastContainer-hide {
         animation-name: toast-exit-1, toast-exit-2;
-        animation-delay: 0ms, 400ms;
-        animation-duration: 400ms, 200ms;
+        animation-delay: 0ms, var(--fui-toast-animation-duration);
+        animation-duration: var(--fui-toast-animation-duration), calc(var(--fui-toast-animation-duration) / 2);
         opacity: 0;
     }
 
@@ -75,8 +74,8 @@
 
     &.fui-ToastContainer-show {
         animation-name: toast-enter-1, toast-enter-2;
-        animation-delay: 0ms, 200ms;
-        animation-duration: 200ms, 400ms;
+        animation-delay: 0ms, calc(var(--fui-toast-animation-duration) / 2);
+        animation-duration: calc(var(--fui-toast-animation-duration) / 2), var(--fui-toast-animation-duration);
         opacity: 1;
     }
 
@@ -102,7 +101,7 @@
         font-weight: var(--fontWeightSemibold);
         color: var(--colorNeutralForeground1);
         background-color: var(--colorNeutralBackground1);
-        animation-duration: 300ms;
+        animation-duration: var(--fui-toast-animation-duration);
         animation-play-state: paused;
 
         &.fui-Toast-showing {
