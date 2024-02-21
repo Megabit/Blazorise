@@ -1109,7 +1109,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Toaster() => "fui-Toaster";
 
-    public override string ToasterPlacement( ToastPlacement placement, bool visible ) => null;
+    public override string ToasterPlacement( ToasterPlacement placement, bool visible ) => null;
 
     #endregion
 

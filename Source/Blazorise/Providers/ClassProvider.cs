@@ -890,7 +890,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Toaster();
 
-    public abstract string ToasterPlacement( ToastPlacement placement, bool visible );
+    public abstract string ToasterPlacement( ToasterPlacement placement, bool visible );
 
     #endregion
 

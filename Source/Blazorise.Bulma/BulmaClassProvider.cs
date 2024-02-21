@@ -1003,7 +1003,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Toaster() => null;
 
-    public override string ToasterPlacement( ToastPlacement placement, bool visible ) => null;
+    public override string ToasterPlacement( ToasterPlacement placement, bool visible ) => null;
 
     #endregion
 

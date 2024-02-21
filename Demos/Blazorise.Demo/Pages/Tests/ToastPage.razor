@@ -46,7 +46,7 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Clicked="@(()=>toastRef.Show())">
+                <Button Color="Color.Primary" Clicked="@(()=>toasterRef.Show("Toast Header","Hello, world! This is a toast message."))">
                     Show Toast
                 </Button>
             </CardBody>
@@ -54,25 +54,10 @@
     </Column>
 </Row>
 
-<Toaster>
-    <Toast @ref="toastRef" Animated="@animation" AnimationDuration="@animationDuration">
-        <ToastHeader>
-            <Span>Toast Header</Span>
-            <CloseButton Clicked="@HideToast" />
-        </ToastHeader>
-        <ToastBody>
-            Hello, world! This is a toast message.
-        </ToastBody>
-    </Toast>
-</Toaster>
+<Toaster @ref="toasterRef" />
 @code {
-    Toast toastRef;
+    Toaster toasterRef;
 
     private bool animation = true;
     private int animationDuration = 300;
-
-    private Task HideToast()
-    {
-        return toastRef.Hide();
-    }
 }

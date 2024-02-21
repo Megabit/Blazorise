@@ -975,9 +975,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ToastBody() => "toast-body";
 
-    public override string Toaster() => "position-fixed bottom-0 right-0 p-3";
+    public override string Toaster() => "toast-container";
 
-    public override string ToasterPlacement( ToastPlacement placement, bool visible ) => null;
+    public override string ToasterPlacement( ToasterPlacement placement, bool visible ) => "position-fixed bottom-0 right-0 p-3";
 
     #endregion
 

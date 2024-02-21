@@ -893,7 +893,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Toaster() => null;
 
-    public string ToasterPlacement( ToastPlacement placement, bool visible ) => null;
+    public string ToasterPlacement( ToasterPlacement placement, bool visible ) => null;
 
     #endregion
 

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -16,6 +17,15 @@ namespace Blazorise;
 /// </summary>
 public partial class Toaster : BaseComponent
 {
+    #region Members
+
+    /// <summary>
+    /// 
+    /// </summary>
+    private List<ToastInstance> toastInstances;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -27,6 +37,48 @@ public partial class Toaster : BaseComponent
         base.BuildClasses( builder );
     }
 
+    public Task Show( string title, string message )
+    {
+        var toastInstance = new ToastInstance( this, IdGenerator.Generate, title, message, new ToastInstanceOptions() );
+
+        return Show( toastInstance );
+    }
+
+    internal async Task Show( ToastInstance toastInstance )
+    {
+        toastInstances ??= new();
+
+        toastInstance.Visible = true;
+
+        toastInstances.Add( toastInstance );
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Explicitly removes the toast instance from the <see cref="Toaster"/>.
+    /// </summary>
+    /// <param name="modalInstance">The modal instance</param>
+    /// <returns></returns>
+    internal async Task Remove( ToastInstance toastInstance )
+    {
+        if ( toastInstances.IsNullOrEmpty() )
+        {
+            return;
+        }
+
+        toastInstances.Remove( toastInstance );
+
+        await InvokeAsync( StateHasChanged );
+    }
+
+    protected async Task OnToastClosed( ToastInstance toastInstance )
+    {
+        await toastInstance.Closed.InvokeAsync();
+
+        await Remove( toastInstance );
+    }
+
     #endregion
 
     #region Properties
@@ -34,7 +86,24 @@ public partial class Toaster : BaseComponent
     /// <summary>
     /// Specifies the position of the Toasts.
     /// </summary>
-    [Parameter] public ToastPlacement Placement { get; set; } = ToastPlacement.BottomEnd;
+    [Parameter] public ToasterPlacement Placement { get; set; } = ToasterPlacement.BottomEnd;
+
+    /// <summary>
+    /// Specifies the visibility of the close button.
+    /// </summary>
+    [Parameter] public bool ShowCloseButton { get; set; } = true;
+
+    /// <summary>
+    /// Occurs after the toast has opened.
+    /// Global Option.
+    /// </summary>
+    [Parameter] public EventCallback Opened { get; set; }
+
+    /// <summary>
+    /// Occurs after the toast has closed.
+    /// Global Option.
+    /// </summary>
+    [Parameter] public EventCallback Closed { get; set; }
 
     /// <summary>
     /// The content to be rendered inside the Toast.
