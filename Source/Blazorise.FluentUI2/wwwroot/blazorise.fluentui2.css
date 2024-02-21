@@ -7286,8 +7286,32 @@ input::file-selector-button {
 }
 .fui-Toaster {
   position: fixed;
+}
+.fui-Toaster-top {
+  top: var(--spacingVerticalL);
+  left: calc(50% + var(--spacingHorizontalXL));
+  transform: translateX(-50%);
+}
+.fui-Toaster-top-end {
+  top: var(--spacingVerticalL);
+  right: var(--spacingHorizontalXL);
+}
+.fui-Toaster-top-start {
+  top: var(--spacingVerticalL);
+  left: var(--spacingHorizontalXL);
+}
+.fui-Toaster-bottom {
+  bottom: var(--spacingVerticalL);
+  left: calc(50% + var(--spacingHorizontalXL));
+  transform: translateX(-50%);
+}
+.fui-Toaster-bottom-end {
   bottom: var(--spacingVerticalL);
   right: var(--spacingHorizontalXL);
+}
+.fui-Toaster-bottom-start {
+  bottom: var(--spacingVerticalL);
+  left: var(--spacingHorizontalXL);
 }
 
 .fui-ToastContainer {
@@ -7350,7 +7374,6 @@ input::file-selector-button {
 .fui-ToastContainer .fui-Toast .fui-ToastHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   grid-column-end: 3;
   color: var(--colorNeutralForeground1);
   word-break: break-word;

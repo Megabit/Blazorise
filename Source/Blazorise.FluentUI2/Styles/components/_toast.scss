@@ -46,8 +46,38 @@
 
 .fui-Toaster {
     position: fixed;
-    bottom: var(--spacingVerticalL);
-    right: var(--spacingHorizontalXL);
+
+    &-top {
+        top: var(--spacingVerticalL);
+        left: calc(50% + var(--spacingHorizontalXL));
+        transform: translateX(-50%);
+    }
+
+    &-top-end {
+        top: var(--spacingVerticalL);
+        right: var(--spacingHorizontalXL);
+    }
+
+    &-top-start {
+        top: var(--spacingVerticalL);
+        left: var(--spacingHorizontalXL);
+    }
+
+    &-bottom {
+        bottom: var(--spacingVerticalL);
+        left: calc(50% + var(--spacingHorizontalXL));
+        transform: translateX(-50%);
+    }
+
+    &-bottom-end {
+        bottom: var(--spacingVerticalL);
+        right: var(--spacingHorizontalXL);
+    }
+
+    &-bottom-start {
+        bottom: var(--spacingVerticalL);
+        left: var(--spacingHorizontalXL);
+    }
 }
 
 .fui-ToastContainer {
@@ -59,7 +89,7 @@
     border-bottom-right-radius: var(--borderRadiusMedium);
     border-bottom-left-radius: var(--borderRadiusMedium);
     border-top-right-radius: var(--borderRadiusMedium);
-    border-top-left-radius: var(--borderRadiusMedium);    
+    border-top-left-radius: var(--borderRadiusMedium);
 
     &.fui-ToastContainer-hide {
         animation-name: toast-exit-1, toast-exit-2;
@@ -115,7 +145,6 @@
         .fui-ToastHeader {
             display: flex;
             align-items: center;
-            justify-content: space-between;
             grid-column-end: 3;
             color: var(--colorNeutralForeground1);
             word-break: break-word;

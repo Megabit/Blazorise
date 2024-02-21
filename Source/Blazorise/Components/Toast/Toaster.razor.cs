@@ -32,7 +32,7 @@ public partial class Toaster : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Toaster() );
-        builder.Append( ClassProvider.ToasterPlacement( Placement, true ) );
+        builder.Append( ClassProvider.ToasterPlacement( Placement, toastInstances?.Count > 0 ) );
 
         base.BuildClasses( builder );
     }
@@ -52,13 +52,16 @@ public partial class Toaster : BaseComponent
 
         toastInstances.Add( toastInstance );
 
+        DirtyClasses();
+        DirtyStyles();  
+
         await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
     /// Explicitly removes the toast instance from the <see cref="Toaster"/>.
     /// </summary>
-    /// <param name="modalInstance">The modal instance</param>
+    /// <param name="toastInstance">The modal instance</param>
     /// <returns></returns>
     internal async Task Remove( ToastInstance toastInstance )
     {
@@ -68,6 +71,9 @@ public partial class Toaster : BaseComponent
         }
 
         toastInstances.Remove( toastInstance );
+
+        DirtyClasses();
+        DirtyStyles();
 
         await InvokeAsync( StateHasChanged );
     }
