@@ -80,14 +80,14 @@ public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<bool>( nameof( Visible ), out var visibleResult ) && state.Visible != visibleResult )
+        if ( parameters.TryGetValue<bool>( nameof( Visible ), out var paramVisible ) && state.Visible != paramVisible )
         {
-            if ( visibleResult && await IsSafeToOpen() )
+            if ( paramVisible && await IsSafeToOpen() )
             {
                 await base.SetParametersAsync( parameters );
                 await SetVisibleState( true );
             }
-            else if ( !visibleResult && await IsSafeToClose() )
+            else if ( !paramVisible && await IsSafeToClose() )
             {
                 await base.SetParametersAsync( parameters );
                 await SetVisibleState( false );
