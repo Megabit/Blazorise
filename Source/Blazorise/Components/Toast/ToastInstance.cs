@@ -7,9 +7,9 @@ namespace Blazorise;
 /// </summary>
 public class ToastInstance
 {
-    public ToastInstance( Toaster toaster, string toastId, string title, string message, ToastInstanceOptions toastInstanceOptions )
+    public ToastInstance( ToastProvider toastProvider, string toastId, string title, string message, ToastInstanceOptions toastInstanceOptions )
     {
-        Toaster = toaster;
+        ToastProvider = toastProvider;
         ToastId = toastId;
         Visible = true;
         Title = title;
@@ -20,7 +20,7 @@ public class ToastInstance
     /// <summary>
     /// The Toast provider.
     /// </summary>
-    public Toaster Toaster { get; private set; }
+    public ToastProvider ToastProvider { get; private set; }
 
     /// <summary>
     /// Tracks the Toast reference.
@@ -48,17 +48,17 @@ public class ToastInstance
     public string Message { get; set; }
 
     /// <summary>
-    /// Sets the options for Toaster.
+    /// Sets the options for ToastProvider.
     /// </summary>
     public ToastInstanceOptions ToastInstanceOptions { get; private set; }
 
     /// <summary>
     /// Occurs after the toast has opened.
     /// </summary>
-    public EventCallback Opened => ToastInstanceOptions?.Opened ?? Toaster.Opened;
+    public EventCallback Opened => ToastInstanceOptions?.Opened ?? ToastProvider.Opened;
 
     /// <summary>
     /// Occurs after the toast has closed.
     /// </summary>
-    public EventCallback Closed => ToastInstanceOptions?.Closed ?? Toaster.Closed;
+    public EventCallback Closed => ToastInstanceOptions?.Closed ?? ToastProvider.Closed;
 }

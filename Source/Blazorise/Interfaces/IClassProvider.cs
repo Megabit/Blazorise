@@ -886,7 +886,7 @@ public interface IClassProvider
 
     string Toaster();
 
-    string ToasterPlacement( ToasterPlacement placement, bool visible );
+    string ToasterPlacement( ToasterPlacement placement );
 
     #endregion
 

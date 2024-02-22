@@ -1109,22 +1109,16 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Toaster() => "fui-Toaster";
 
-    public override string ToasterPlacement( ToasterPlacement placement, bool visible )
+    public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
     {
-        if ( !visible )
-            return null;
-
-        return placement switch
-        {
-            Blazorise.ToasterPlacement.Top => "fui-Toaster-top",
-            Blazorise.ToasterPlacement.TopStart => "fui-Toaster-top-start",
-            Blazorise.ToasterPlacement.TopEnd => "fui-Toaster-top-end",
-            Blazorise.ToasterPlacement.Bottom => "fui-Toaster-bottom",
-            Blazorise.ToasterPlacement.BottomStart => "fui-Toaster-bottom-start",
-            Blazorise.ToasterPlacement.BottomEnd => "fui-Toaster-bottom-end",
-            _ => null,
-        };
-    }
+        Blazorise.ToasterPlacement.Top => "fui-Toaster-top",
+        Blazorise.ToasterPlacement.TopStart => "fui-Toaster-top-start",
+        Blazorise.ToasterPlacement.TopEnd => "fui-Toaster-top-end",
+        Blazorise.ToasterPlacement.Bottom => "fui-Toaster-bottom",
+        Blazorise.ToasterPlacement.BottomStart => "fui-Toaster-bottom-start",
+        Blazorise.ToasterPlacement.BottomEnd => "fui-Toaster-bottom-end",
+        _ => null,
+    };
 
     #endregion
 

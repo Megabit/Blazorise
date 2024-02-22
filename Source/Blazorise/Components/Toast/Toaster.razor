@@ -3,28 +3,6 @@
 @inherits BaseComponent
 <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
     <CascadingValue Value="@this" IsFixed>
-        @if ( !toastInstances.IsNullOrEmpty() )
-        {
-            @foreach ( var toastInstance in toastInstances )
-            {
-                <Toast @key="@toastInstance.ToastId" @ref="toastInstance.ToastRef" @bind-Visible="@toastInstance.Visible"
-                    Opened="@toastInstance.Opened"
-                    Closed="@(() => OnToastClosed(toastInstance))">
-                    <ToastHeader>
-                        <Span>
-                            @toastInstance.Title
-                        </Span>
-                        @if ( ShowCloseButton )
-                        {
-                            <CloseButton Clicked="@toastInstance.ToastRef.Hide" Margin="Blazorise.Margin.IsAuto.FromStart" />
-                        }
-                    </ToastHeader>
-                    <ToastBody>
-                        @toastInstance.Message
-                    </ToastBody>
-                </Toast>
-            }
-        }
         @ChildContent
     </CascadingValue>
 </div>

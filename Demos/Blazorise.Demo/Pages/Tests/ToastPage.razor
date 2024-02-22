@@ -46,7 +46,7 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Clicked="@(()=>toasterRef.Show("Toast Header","Hello, world! This is a toast message."))">
+                <Button Color="Color.Primary" Clicked="@(()=>toastProviderRef.Show("Toast Header","Hello, world! This is a toast message."))">
                     Show Toast
                 </Button>
             </CardBody>
@@ -54,9 +54,9 @@
     </Column>
 </Row>
 
-<Toaster @ref="toasterRef" Placement="ToasterPlacement.Bottom" />
+<ToastProvider @ref="toastProviderRef" Placement="ToasterPlacement.Bottom" Animated="@animation" AnimationDuration="@animationDuration" />
 @code {
-    Toaster toasterRef;
+    ToastProvider toastProviderRef;
 
     private bool animation = true;
     private int animationDuration = 300;

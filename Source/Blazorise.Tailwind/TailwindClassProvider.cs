@@ -1408,7 +1408,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Toaster() => null;
 
-    public override string ToasterPlacement( ToasterPlacement placement, bool visible ) => null;
+    public override string ToasterPlacement( ToasterPlacement placement ) => null;
 
     #endregion
 
