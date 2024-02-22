@@ -991,19 +991,34 @@ public class BulmaClassProvider : ClassProvider
 
     #region Toast
 
-    public override string Toast() => null;
+    public override string Toast() => "toast";
 
-    public override string ToastFade( bool showing, bool hiding ) => null;
+    public override string ToastFade( bool showing, bool hiding ) => showing
+        ? "toast-showing"
+        : hiding
+            ? "toast-hiding"
+            : null;
 
-    public override string ToastVisible( bool visible ) => null;
+    public override string ToastVisible( bool visible ) => visible
+        ? "toast-show"
+        : "toast-hide";
 
-    public override string ToastHeader() => null;
+    public override string ToastHeader() => "toast-header";
 
-    public override string ToastBody() => null;
+    public override string ToastBody() => "toast-body";
 
-    public override string Toaster() => null;
+    public override string Toaster() => "toast-container";
 
-    public override string ToasterPlacement( ToasterPlacement placement ) => null;
+    public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
+    {
+        Blazorise.ToasterPlacement.Top => "toast-container-top",
+        Blazorise.ToasterPlacement.TopStart => "toast-container-top-start",
+        Blazorise.ToasterPlacement.TopEnd => "toast-container-top-end",
+        Blazorise.ToasterPlacement.Bottom => "toast-container-bottom",
+        Blazorise.ToasterPlacement.BottomStart => "toast-container-bottom-start",
+        Blazorise.ToasterPlacement.BottomEnd => "toast-container-bottom-end",
+        _ => null,
+    };
 
     #endregion
 

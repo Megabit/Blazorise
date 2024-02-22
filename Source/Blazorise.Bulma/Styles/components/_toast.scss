@@ -1,0 +1,118 @@
+﻿.toast-container {
+    width: 100%;
+    z-index: 99999;
+    position: fixed;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    padding: 15px;
+
+
+    &-top {
+        left: 0;
+        right: 0;
+        top: 0;
+        align-items: center;
+    }
+
+    &-top-left {
+        left: 0;
+        top: 0;
+        text-align: left;
+        align-items: flex-start;
+    }
+
+    &-top-right {
+        right: 0;
+        top: 0;
+        text-align: right;
+        align-items: flex-end;
+    }
+
+    &-bottom {
+        left: 0;
+        right: 0;
+        bottom: 0;
+        align-items: center;
+    }
+
+    &-bottom-left {
+        left: 0;
+        bottom: 0;
+        text-align: left;
+        align-items: flex-start;
+    }
+
+    &-bottom-right {
+        right: 0;
+        bottom: 0;
+        text-align: right;
+        align-items: flex-end;
+    }
+}
+
+.toast {
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    position: relative;
+    width: auto;
+    pointer-events: auto;
+    display: flex;
+    flex-direction: column;
+    white-space: pre-wrap;
+    /*background-color: #3273dc;*/
+    /*color: #fff;*/
+    animation-fill-mode: both;
+    padding: 1.25rem;
+
+    &-show {
+        opacity: 1;
+    }
+
+    &-hide {
+        opacity: 0;
+    }
+
+    &-showing {
+        animation-name: toast-fadeIn
+    }
+
+    &-hiding {
+        animation-name: toast-fadeOut
+    }
+
+    .toast-header {
+        display: flex;
+        align-items: center;
+        font-weight: 700;
+        padding-bottom: .75rem;
+    }
+
+    .toast-body {
+        /*padding-top: .75rem;*/
+    }
+
+    &:not(:last-child) {
+        margin-bottom: 1.5rem;
+    }
+}
+
+@keyframes toast-fadeIn {
+    0% {
+        opacity: 0
+    }
+
+    to {
+        opacity: 1
+    }
+}
+
+@keyframes toast-fadeOut {
+    0% {
+        opacity: 1
+    }
+
+    to {
+        opacity: 0
+    }
+}
