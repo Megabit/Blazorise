@@ -92,6 +92,7 @@ public static class Config
         { typeof( INotificationService ), typeof( NotificationService ) },
         { typeof( IPageProgressService ), typeof( PageProgressService ) },
         { typeof( IModalService ), typeof( ModalService ) },
+        { typeof( IToastService ), typeof( ToastService ) },
     };
 
     /// <summary>

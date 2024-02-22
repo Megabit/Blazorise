@@ -46,8 +46,13 @@
                 </CardText>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Clicked="@(()=>toastProviderRef.Show("Toast Header","Hello, world! This is a toast message."))">
+                <Button Color="Color.Primary" Clicked="@(()=>toastProviderRef.Show("Toast Header", "Hello, world! This is a toast message."))">
                     Show Toast
+                </Button>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>ToastService.Info("Info message", "Hello, world! This is a toast message from the info."))">
+                    Show Toast through service
                 </Button>
             </CardBody>
         </Card>
@@ -56,6 +61,8 @@
 
 <ToastProvider @ref="toastProviderRef" Placement="ToasterPlacement.Bottom" Animated="@animation" AnimationDuration="@animationDuration" />
 @code {
+    [Inject] IToastService ToastService { get; set; }
+
     ToastProvider toastProviderRef;
 
     private bool animation = true;

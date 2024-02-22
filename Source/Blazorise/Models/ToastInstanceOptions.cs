@@ -16,4 +16,12 @@ public class ToastInstanceOptions
     /// Occurs after the toast has closed.
     /// </summary>
     public EventCallback? Closed { get; set; }
+
+    /// <summary>
+    /// Creates the default toast options.
+    /// </summary>
+    /// <returns>Default toast options.</returns>
+    public static ToastInstanceOptions Default => new()
+    {
+    };
 }
