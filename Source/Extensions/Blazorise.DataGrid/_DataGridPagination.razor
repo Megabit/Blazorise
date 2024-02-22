@@ -11,7 +11,7 @@
         {
             @columnChooserFragment
         }
-        @if ( GetPaginationPosition() == PagerElementPosition.Start || ( GetPaginationPosition() == PagerElementPosition.Default && !ShowButtonRow() ) )
+        @if ( GetPaginationPosition() == PagerElementPosition.Start || ( GetPaginationPosition() == PagerElementPosition.Default && !ShowButtonRow ) )
         {
             @paginationFragment
         }
@@ -30,7 +30,7 @@
         {
             @columnChooserFragment
         }
-        @if ( GetPaginationPosition() == PagerElementPosition.Center || ( GetPaginationPosition() == PagerElementPosition.Default && ShowButtonRow() ) )
+        @if ( GetPaginationPosition() == PagerElementPosition.Center || ( GetPaginationPosition() == PagerElementPosition.Default && ShowButtonRow ) )
         {
             @paginationFragment
         }
@@ -63,7 +63,7 @@
 @code {
     private RenderFragment buttonRowFragment => __builder =>
     {
-        @if ( ShowButtonRow() )
+        @if ( ShowButtonRow )
         {
             <Field Display="Blazorise.Display.InlineBlock">
                 @{
@@ -116,7 +116,7 @@
 
     private RenderFragment columnChooserFragment => __builder =>
     {
-        @if ( ShowColumnChooser() )
+        @if ( ShowColumnChooser )
         {
             <Field Display="Blazorise.Display.InlineBlock">
                 <Dropdown @bind-Visible="@dropdownColumnChooserVisible">

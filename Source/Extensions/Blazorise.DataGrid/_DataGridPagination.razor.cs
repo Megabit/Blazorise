@@ -18,10 +18,10 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
 
     #region Methods
 
-    private bool ShowButtonRow()
+    private bool ShowButtonRow
         => ButtonRowTemplate is not null && ParentDataGrid.IsButtonRowVisible;
 
-    private bool ShowColumnChooser()
+    private bool ShowColumnChooser
         => ParentDataGrid.ShowColumnChooser;
 
     private PagerElementPosition GetButtonRowPosition()
