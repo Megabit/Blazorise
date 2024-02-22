@@ -63,58 +63,55 @@
 @code {
     private RenderFragment buttonRowFragment => __builder =>
     {
-        
-            @if ( ShowButtonRow() )
-            {
-                <Field Display="Blazorise.Display.InlineBlock">
-                    @{
-                        var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
-                        var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
-                        var deleteButtonString = Localizer.Localize( ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete" );
-                        var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
-                        var saveBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveBatchButtonLocalizer, "Save Changes" );
-                        var cancelBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelBatchButtonLocalizer, "Cancel Changes" );
+        @if ( ShowButtonRow() )
+        {
+            <Field Display="Blazorise.Display.InlineBlock">
+                @{
+                    var newButtonString = Localizer.Localize( ParentDataGrid.Localizers?.NewButtonLocalizer, "New" );
+                    var editButtonString = Localizer.Localize( ParentDataGrid.Localizers?.EditButtonLocalizer, "Edit" );
+                    var deleteButtonString = Localizer.Localize( ParentDataGrid.Localizers?.DeleteButtonLocalizer, "Delete" );
+                    var clearFilterButtonString = Localizer.Localize( ParentDataGrid.Localizers?.ClearFilterButtonLocalizer, "Clear Filter" );
+                    var saveBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.SaveBatchButtonLocalizer, "Save Changes" );
+                    var cancelBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelBatchButtonLocalizer, "Cancel Changes" );
 
-                        @ButtonRowTemplate( new()
-                           {
-                               NewCommand = new()
-                               {
-                                   Clicked = NewClick,
-                                   LocalizationString = newButtonString,
-                               },
-                               EditCommand = new()
-                               {
-                                   Clicked = EditClick,
-                                   LocalizationString = editButtonString,
-                                   Item = SelectedRow
-                               },
-                               DeleteCommand = new()
-                               {
-                                   Clicked = DeleteClick,
-                                   LocalizationString = deleteButtonString,
-                                   Item = SelectedRow
-                               },
-                               ClearFilterCommand = new()
-                               {
-                                   Clicked = ClearFilterClick,
-                                   LocalizationString = clearFilterButtonString,
-                               },
-                               SaveBatchCommand = new()
-                               {
-                                   Clicked = SaveBatchClick,
-                                   LocalizationString = saveBatchButtonString,
-                               },
-                               CancelBatchCommand = new()
-                               {
-                                   Clicked = CancelBatchClick,
-                                   LocalizationString = cancelBatchButtonString,
-                               }
-                           } );
-                    }
-                </Field>
-            }
-            
-
+                    @ButtonRowTemplate( new()
+                        {
+                            NewCommand = new()
+                            {
+                                Clicked = NewClick,
+                                LocalizationString = newButtonString,
+                            },
+                            EditCommand = new()
+                            {
+                                Clicked = EditClick,
+                                LocalizationString = editButtonString,
+                                Item = SelectedRow
+                            },
+                            DeleteCommand = new()
+                            {
+                                Clicked = DeleteClick,
+                                LocalizationString = deleteButtonString,
+                                Item = SelectedRow
+                            },
+                            ClearFilterCommand = new()
+                            {
+                                Clicked = ClearFilterClick,
+                                LocalizationString = clearFilterButtonString,
+                            },
+                            SaveBatchCommand = new()
+                            {
+                                Clicked = SaveBatchClick,
+                                LocalizationString = saveBatchButtonString,
+                            },
+                            CancelBatchCommand = new()
+                            {
+                                Clicked = CancelBatchClick,
+                                LocalizationString = cancelBatchButtonString,
+                            }
+                        } );
+                }
+            </Field>
+        }
     };
 
     private RenderFragment columnChooserFragment => __builder =>
@@ -131,11 +128,7 @@
                         {
                             @foreach ( var column in ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ) )
                             {
-                                <Row Margin="Blazorise.Margin.Is0">
-                                    <Column>
-                                        <Check TValue="bool" Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged(column,value))">@column.Caption</Check>
-                                    </Column>
-                                </Row>
+                                <DropdownItem ShowCheckbox Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged(column,value))">@column.Caption</DropdownItem>
                             }
                         }
                         else 
