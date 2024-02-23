@@ -10,6 +10,10 @@ public record ModalState
     /// </summary>
     public bool Visible { get; init; }
 
+    public bool Showing { get; init; }
+
+    public bool Hiding { get; init; }
+
     /// <summary>
     /// Defines the open state of the modal dialog.
     /// </summary>

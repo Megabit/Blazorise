@@ -1017,7 +1017,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ModalFade() => "fui-DialogSurface-fade";
 
-    public override string ModalFade( bool animation ) => animation ? "fui-DialogSurface-fade" : null;
+    public override string ModalFade( bool showing, bool hiding ) => showing || hiding ? "fui-DialogSurface-fade" : null;
 
     public override string ModalVisible( bool visible ) => visible ? "fui-DialogSurface-show" : "fui-DialogSurface-hide";
 

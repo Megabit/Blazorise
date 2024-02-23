@@ -816,7 +816,7 @@ public interface IClassProvider
 
     string ModalFade();
 
-    string ModalFade( bool animation );
+    string ModalFade( bool showing, bool hiding );
 
     string ModalVisible( bool visible );
 

@@ -1305,7 +1305,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalFade() => "b-modal-fade";
 
-    public override string ModalFade( bool animation ) => animation ? "b-modal-fade" : null;
+    public override string ModalFade( bool showing, bool hiding ) => hiding ? "b-modal-fade" : null;
 
     public override string ModalVisible( bool visible ) => visible ? "flex" : null;
 

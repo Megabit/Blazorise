@@ -112,7 +112,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Modal() );
-        builder.Append( ClassProvider.ModalFade( Animated ) );
+        builder.Append( ClassProvider.ModalFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( ClassProvider.ModalVisible( IsVisible ) );
 
         base.BuildClasses( builder );
@@ -408,11 +408,17 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     {
         if ( visible )
         {
+            state = state with { Showing = true };
+
             BackdropVisible = ShowBackdrop;
-            DirtyStyles();
         }
         else
-            DirtyClasses();
+        {
+            state = state with { Hiding = true };
+        }
+
+        DirtyClasses();
+        DirtyStyles();
 
         return InvokeAsync( StateHasChanged );
     }
@@ -421,9 +427,16 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     public Task EndAnimation( bool visible )
     {
         if ( visible )
-            DirtyClasses();
+        {
+            state = state with { Showing = false };
+        }
         else
-            DirtyStyles();
+        {
+            state = state with { Hiding = false };
+        }
+
+        DirtyClasses();
+        DirtyStyles();
 
         BackdropVisible = ShowBackdrop && visible;
 
