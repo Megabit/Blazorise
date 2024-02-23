@@ -953,19 +953,32 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Toast
 
-    public override string Toast() => null;
-
-    public override string ToastFade( bool showing, bool hiding ) => null;
+    public override string Toast() => "ant-notification-notice ant-notification-notice-closable";
+    //
+    public override string ToastFade( bool showing, bool hiding ) => showing
+        ? "ant-notification-fade-enter ant-notification-fade-enter-active ant-notification-fade-appear ant-notification-fade-appear-start ant-notification-fade-appear-active ant-notification-fade"
+        : hiding
+            ? "ant-notification-fade-leave ant-notification-fade-leave-start ant-notification-fade-leave-active ant-notification-fade"
+            : null;
 
     public override string ToastVisible( bool visible ) => null;
 
-    public override string ToastHeader() => null;
+    public override string ToastHeader() => "ant-notification-notice-message";
 
-    public override string ToastBody() => null;
+    public override string ToastBody() => "ant-notification-notice-description";
 
-    public override string Toaster() => null;
+    public override string Toaster() => "ant-notification";
 
-    public override string ToasterPlacement( ToasterPlacement placement ) => null;
+    public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
+    {
+        Blazorise.ToasterPlacement.Top => "ant-notification-top",
+        Blazorise.ToasterPlacement.TopStart => "ant-notification-topLeft",
+        Blazorise.ToasterPlacement.TopEnd => "ant-notification-topRight",
+        Blazorise.ToasterPlacement.Bottom => "ant-notification-bottom",
+        Blazorise.ToasterPlacement.BottomStart => "ant-notification-bottomLeft",
+        Blazorise.ToasterPlacement.BottomEnd => "ant-notification-bottomRight",
+        _ => null,
+    };
 
     #endregion
 

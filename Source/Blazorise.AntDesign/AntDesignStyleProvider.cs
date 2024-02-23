@@ -70,8 +70,8 @@ public class AntDesignStyleProvider : StyleProvider
 
     public override string ToastAnimationDuration( bool animated, int animationDuration )
         => animated
-            ? $"transition-duration: {animationDuration}ms"
-            : "transition-duration: unset";
+            ? $"animation-duration: {animationDuration}ms"
+            : "animation-duration: unset";
 
     #endregion
 }

@@ -20,6 +20,9 @@ public partial class CloseButton : Blazorise.CloseButton
         if ( ParentModal != null )
             builder.Append( "ant-modal-close" );
 
+        if ( ParentToast != null )
+            builder.Append( "ant-notification-notice-close" );
+
         base.BuildClasses( builder );
     }
 

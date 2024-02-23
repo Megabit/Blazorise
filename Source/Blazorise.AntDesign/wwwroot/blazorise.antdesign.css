@@ -3492,6 +3492,35 @@ tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   overflow-x: auto;
 }
 
+.ant-notification-top {
+  inset: 24px auto auto 50%;
+  transform: translateX(-50%);
+}
+.ant-notification-topLeft {
+  left: 0px;
+  top: 24px;
+  bottom: auto;
+}
+.ant-notification-topRight {
+  right: 0px;
+  top: 24px;
+  bottom: auto;
+}
+.ant-notification-bottom {
+  inset: auto auto 24px 50%;
+  transform: translateX(-50%);
+}
+.ant-notification-bottomLeft {
+  left: 0px;
+  top: auto;
+  bottom: 24px;
+}
+.ant-notification-bottomRight {
+  right: 0px;
+  top: auto;
+  bottom: 24px;
+}
+
 .snackbar-stack {
   z-index: 1009 !important;
 }

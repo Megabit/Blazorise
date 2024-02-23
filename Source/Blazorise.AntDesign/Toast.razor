@@ -1,0 +1,13 @@
+﻿@using System.Text
+@inherits Blazorise.Toast
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <div class="ant-notification-notice-content">
+        <div role="alert">
+            <CascadingValue Value="@this" IsFixed>
+                <CascadingValue Value="@State">
+                    @ChildContent
+                </CascadingValue>
+            </CascadingValue>
+        </div>
+    </div>
+</div>

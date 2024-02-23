@@ -1,0 +1,35 @@
+﻿.ant-notification {
+    &-top {
+        inset: 24px auto auto 50%;
+        transform: translateX(-50%);
+    }
+
+    &-topLeft {
+        left: 0px;
+        top: 24px;
+        bottom: auto;
+    }
+
+    &-topRight {
+        right: 0px;
+        top: 24px;
+        bottom: auto;
+    }
+
+    &-bottom {
+        inset: auto auto 24px 50%;
+        transform: translateX(-50%);
+    }
+
+    &-bottomLeft {
+        left: 0px;
+        top: auto;
+        bottom: 24px;
+    }
+
+    &-bottomRight {
+        right: 0px;
+        top: auto;
+        bottom: 24px;
+    }
+}
