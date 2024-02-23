@@ -877,13 +877,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Modal() => "ant-modal-root";
 
-    public override string ModalFade() => Fade();
-
-    public override string ModalFade( bool showing, bool hiding ) => showing
-        ? Show()
-        : hiding
-            ? Fade()
-            : null;
+    public override string ModalFade( bool showing, bool hiding ) => showing || hiding ? Fade() : null;
 
     public override string ModalVisible( bool visible ) => null;
 

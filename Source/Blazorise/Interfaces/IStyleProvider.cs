@@ -8,7 +8,11 @@ public interface IStyleProvider
 
     int DefaultModalBackdropZIndex { get; }
 
-    string ModalShow();
+    string ModalShow( bool visible );
+
+    string ModalFade( bool showing, bool hiding );
+
+    string ModalAnimationDuration( bool animated, int animationDuration );
 
     string ModalZIndex( int modalOpenIndex );
 

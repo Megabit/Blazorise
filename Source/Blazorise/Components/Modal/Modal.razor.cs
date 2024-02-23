@@ -121,9 +121,10 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( StyleProvider.ModalShow(), IsVisible );
+        builder.Append( StyleProvider.ModalShow( IsVisible ) );
+        builder.Append( StyleProvider.ModalFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( StyleProvider.ModalZIndex( OpenIndex ) );
-        builder.Append( $"--modal-animation-duration: {( Animated ? AnimationDuration : 0 )}ms" );
+        builder.Append( StyleProvider.ModalAnimationDuration( Animated, AnimationDuration ) );
 
         base.BuildStyles( builder );
     }

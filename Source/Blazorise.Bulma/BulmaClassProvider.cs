@@ -908,13 +908,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Modal() => "modal";
 
-    public override string ModalFade() => Fade();
-
-    public override string ModalFade( bool showing, bool hiding ) => showing
-        ? Show()
-        : hiding
-            ? Fade()
-            : null;
+    public override string ModalFade( bool showing, bool hiding ) => showing || hiding ? Fade() : null;
 
     public override string ModalVisible( bool visible ) => visible ? Active() : null;
 

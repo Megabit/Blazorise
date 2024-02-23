@@ -11,7 +11,11 @@ class EmptyStyleProvider : IStyleProvider
 
     public int DefaultModalBackdropZIndex => 0;
 
-    public string ModalShow() => null;
+    public string ModalShow( bool visible ) => null;
+
+    public string ModalFade( bool showing, bool hiding ) => null;
+
+    public string ModalAnimationDuration( bool animated, int animationDuration ) => null;
 
     public string ModalZIndex( int modalOpenIndex ) => null;
 

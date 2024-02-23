@@ -880,12 +880,10 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Modal() => "modal";
 
-    public override string ModalFade() => Fade();
-
     public override string ModalFade( bool showing, bool hiding ) => showing
-        ? Show()
+        ? "showing"
         : hiding
-            ? Fade()
+            ? "hiding"
             : null;
 
     public override string ModalVisible( bool visible ) => visible ? Show() : null;

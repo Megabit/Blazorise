@@ -12,7 +12,11 @@ public abstract class StyleProvider : IStyleProvider
 
     public abstract int DefaultModalBackdropZIndex { get; }
 
-    public abstract string ModalShow();
+    public abstract string ModalShow( bool visible );
+
+    public abstract string ModalFade( bool showing, bool hiding );
+
+    public abstract string ModalAnimationDuration( bool animated, int animationDuration );
 
     public abstract string ModalZIndex( int modalOpenIndex );
 

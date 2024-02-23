@@ -24,14 +24,41 @@
         }
     }
 
+    display: block;
+    visibility: hidden;
+
+    &:not(.show) {
+        .modal-dialog {
+            opacity: 0;
+        }
+    }
+
+    &.showing,
+    &.show {
+        .modal-dialog {
+            opacity: 1;
+        }
+
+        visibility: visible;
+    }
+
+    .modal-dialog {
+        transition-property: opacity visibility transform;
+        transition-duration: var(--modal-animation-duration, 300ms);
+        transition-timing-function: cubic-bezier(0,0,.2,1);
+        transform: scale(.8)
+    }
+
     &.fade {
         transition: opacity var(--modal-animation-duration, 300ms) cubic-bezier(0,0,.2,1);
     }
 
     &.show {
         .modal-dialog {
-            transition: opacity,-webkit-transform var(--modal-animation-duration, 300ms) cubic-bezier(0,0,.2,1);
-            transition: opacity,transform var(--modal-animation-duration, 300ms) cubic-bezier(0,0,.2,1);
+            transition-property: opacity visibility transform;
+            transition-duration: var(--modal-animation-duration, 300ms);
+            transition-timing-function: cubic-bezier(0,0,.2,1);
+            transform: scale(1);
         }
     }
 

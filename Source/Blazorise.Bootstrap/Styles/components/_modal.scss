@@ -24,12 +24,38 @@
         }
     }
 
-    &.fade {
-        transition: opacity var(--modal-animation-duration, 300ms) linear;
+    display: block;
+    visibility: hidden;
 
+    &:not(.show) {
         .modal-dialog {
-            transition: -webkit-transform var(--modal-animation-duration, 300ms) ease-out;
-            transition: transform var(--modal-animation-duration, 300ms) ease-out;
+            opacity: 0;
         }
     }
+
+    &.showing,
+    &.show {
+        .modal-dialog {
+            opacity: 1;
+        }
+
+        visibility: visible;
+    }
+
+    transition-property: opacity visibility;
+    transition-duration: var(--modal-animation-duration, 300ms);
+    transition-timing-function: linear;
+
+    .modal-dialog {
+        transition-property: opacity visibility transform;
+        transition-duration: var(--modal-animation-duration, 300ms);
+        transition-timing-function: ease-out;
+        transform: translate(0,-50px);
+    }
+}
+
+.modal-backdrop.fade {
+    transition-property: opacity;
+    transition-duration: var(--modal-animation-duration, 300ms);
+    transition-timing-function: linear;
 }
