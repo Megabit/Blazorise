@@ -1,31 +1,22 @@
 ﻿.modal {
-    display: block;
-    visibility: hidden;
-
-    &:not(.show) {
-        .modal-dialog {
-            opacity: 0;
-        }
-    }
-
     &.showing,
     &.show {
-        .modal-dialog {
-            opacity: 1;
-        }
-
-        visibility: visible;
+        display: block;
     }
 
-    transition-property: opacity visibility;
-    transition-duration: var(--modal-animation-duration, 300ms);
-    transition-timing-function: linear;
+    &.show {
+        .modal-dialog {
+            animation: modal-slidein var(--modal-animation-duration, 300ms);
+        }
+    }
 
-    .modal-dialog {
-        transition-property: opacity visibility transform;
-        transition-duration: var(--modal-animation-duration, 300ms);
-        transition-timing-function: ease-out;
-        transform: translate(0,-50px);
+    &:not(.show) {
+        display: none;
+        animation: modal-slideaway var(--modal-animation-duration, 300ms);
+
+        .modal-dialog {
+            animation: modal-slideaway var(--modal-animation-duration, 300ms);
+        }
     }
 }
 
@@ -33,4 +24,32 @@
     transition-property: opacity;
     transition-duration: var(--modal-animation-duration, 300ms);
     transition-timing-function: linear;
+}
+
+@keyframes modal-slidein {
+    0% {
+        display: none;
+        opacity: 0;
+        transform: translate(0,-50px);
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes modal-slideaway {
+    from {
+        display: block;
+    }
+
+    to {
+        transform: translate(0,-50px);
+        opacity: 0;
+    }
 }
