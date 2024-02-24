@@ -92,6 +92,18 @@ public class ModalService : IModalService
     public Task Hide( ModalInstance modalInstance )
         => ModalProvider.Hide( modalInstance );
 
+    /// <inheritdoc/>
+    public IEnumerable<ModalInstance> GetInstances()
+        => ModalProvider.GetInstances();
+
+    /// <inheritdoc/>
+    public Task Reset()
+        => ModalProvider.Reset();
+
+    /// <inheritdoc/>
+    public Task Remove( ModalInstance modalInstance )
+        => ModalProvider.Remove( modalInstance );
+
     private static RenderFragment BuildParameterfulContent( Type componentType, Dictionary<string, object> componentParameters )
     {
         return new RenderFragment( __builder =>
@@ -127,16 +139,4 @@ public class ModalService : IModalService
             __builder.CloseComponent();
         } );
     }
-
-    /// <inheritdoc/>
-    public IEnumerable<ModalInstance> GetInstances()
-        => ModalProvider.GetInstances();
-
-    /// <inheritdoc/>
-    public Task Reset()
-        => ModalProvider.Reset();
-
-    /// <inheritdoc/>
-    public Task Remove( ModalInstance modalInstance )
-        => ModalProvider.Remove( modalInstance );
 }
