@@ -9,14 +9,14 @@
             @if ( Virtualize && Data is ICollection<TItem> collectionableData )
             {
                 <Virtualize TItem="TItem" Context="item" Items="@collectionableData">
-                    @itemFragment(item)
+                    @itemFragment( item )
                 </Virtualize>
             }
             else
             {
                 @foreach ( var item in Data ?? Enumerable.Empty<TItem>() )
                 {
-                    @itemFragment(item)
+                    @itemFragment( item )
                 }
             }
         }
@@ -25,10 +25,11 @@
 @code {
     protected RenderFragment<TItem> itemFragment => item => __builder =>
     {
-        var text = TextField?.Invoke( item );
-        var value = ValueField != null ? ValueField.Invoke( item ) : default;
+        var text = GetItemText( item );
+        var value = GetItemValue( item );
+        var disabled = GetItemDisabled( item );
 
-        <DropdownItem @key="@item" Clicked="@HandleDropdownItemClicked" Value="@value"
+        <DropdownItem @key="@item" Clicked="@HandleDropdownItemClicked" Value="@value" Disabled="@disabled"
                       ShowCheckbox="@(SelectionMode == DropdownListSelectionMode.Checkbox)"
                       Checked="IsSelected(value)"
                       CheckedChanged="@((isChecked) => HandleDropdownItemChecked(isChecked, value))">@text</DropdownItem>
