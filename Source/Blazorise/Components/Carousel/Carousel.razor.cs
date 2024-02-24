@@ -383,6 +383,9 @@ public partial class Carousel : BaseComponent, IDisposable
     {
         var selectedSlide = GetSelectedCarouselSlide();
 
+        if ( selectedSlide is null )
+            return;
+
         if ( slide.Name == selectedSlide.Name )
         {
             AnimationRunning = false;
