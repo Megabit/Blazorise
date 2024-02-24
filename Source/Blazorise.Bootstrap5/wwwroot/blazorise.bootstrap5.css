@@ -986,18 +986,24 @@ li.list-group-item-action {
   flex: 1;
 }
 
-.modal.showing, .modal.show {
+.modal.show {
   display: block;
 }
-.modal.show .modal-dialog {
-  animation: modal-slidein var(--modal-animation-duration, 300ms);
+.modal.show .modal-dialog:not(.modal-dialog-centered) {
+  animation: modal-slidein var(--modal-animation-duration, 300ms) ease-out;
+}
+.modal.show .modal-dialog.modal-dialog-centered {
+  animation: modal-slidein, modal-slidein-centered var(--modal-animation-duration, 300ms) ease-out;
 }
 .modal:not(.show) {
   display: none;
-  animation: modal-slideaway var(--modal-animation-duration, 300ms);
+  animation: modal-slideaway var(--modal-animation-duration, 300ms) linear;
 }
-.modal:not(.show) .modal-dialog {
-  animation: modal-slideaway var(--modal-animation-duration, 300ms);
+.modal:not(.show) .modal-dialog:not(.modal-dialog-centered) {
+  animation: modal-slideaway var(--modal-animation-duration, 300ms) ease-out;
+}
+.modal:not(.show) .modal-dialog.modal-dialog-centered {
+  animation: modal-slideaway, modal-slideaway-centered var(--modal-animation-duration, 300ms) ease-out;
 }
 
 .modal-backdrop.fade {
@@ -1020,9 +1026,33 @@ li.list-group-item-action {
     opacity: 1;
   }
 }
+@keyframes modal-slidein-centered {
+  0% {
+    display: none;
+    opacity: 0;
+    transform: translate(0, -50px);
+  }
+  100% {
+    display: flex;
+    align-items: center;
+    opacity: 1;
+  }
+}
 @keyframes modal-slideaway {
   from {
     display: block;
+    opacity: 1;
+  }
+  to {
+    transform: translate(0, -50px);
+    opacity: 0;
+  }
+}
+@keyframes modal-slideaway-centered {
+  from {
+    display: flex;
+    align-items: center;
+    opacity: 1;
   }
   to {
     transform: translate(0, -50px);
