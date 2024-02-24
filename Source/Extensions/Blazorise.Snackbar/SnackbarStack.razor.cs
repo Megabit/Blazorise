@@ -42,7 +42,9 @@ public partial class SnackbarStack : BaseComponent
             ShowActionButton = showActionButton;
             ActionButtonText = actionButtonText;
             ActionButtonIcon = actionButtonIcon;
-            IntervalBeforeClose = intervalBeforeClose + animationDuration;
+            IntervalBeforeClose = intervalBeforeClose is null
+                                    ? null
+                                    : intervalBeforeClose + ( animationDuration ?? 0 );
             AnimationDuration = animationDuration;
             Multiline = multiline;
         }
