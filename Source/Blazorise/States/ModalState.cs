@@ -1,21 +1,31 @@
 ﻿namespace Blazorise.States;
 
 /// <summary>
-/// Holds the information about the current state of the <see cref="Modal"/> component.
+/// Represents the state of a modal dialog, including visibility and animation states.
 /// </summary>
 public record ModalState
 {
     /// <summary>
-    /// Defines the visibility of modal dialog.
+    /// Gets a value indicating whether the modal is currently visible.
     /// </summary>
+    /// <value><c>true</c> if the modal is visible; otherwise, <c>false</c>.</value>
     public bool Visible { get; init; }
 
+    /// <summary>
+    /// Gets a value indicating whether the modal is currently being shown (animating into view).
+    /// </summary>
+    /// <value><c>true</c> if the modal is showing; otherwise, <c>false</c>.</value>
     public bool Showing { get; init; }
 
+    /// <summary>
+    /// Gets a value indicating whether the modal is currently being hidden (animating out of view).
+    /// </summary>
+    /// <value><c>true</c> if the modal is hiding; otherwise, <c>false</c>.</value>
     public bool Hiding { get; init; }
 
     /// <summary>
-    /// Defines the open state of the modal dialog.
+    /// Gets the index indicating the order in which this modal was opened relative to other modals.
     /// </summary>
+    /// <value>The open index of the modal.</value>
     public int OpenIndex { get; init; }
 }
