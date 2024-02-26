@@ -2,28 +2,29 @@
 @using Blazorise.Extensions
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
-    @if ( !toastInstances.IsNullOrEmpty() )
-    {
-        <Toaster Placement="@Placement">
-            @foreach ( var toastInstance in toastInstances )
-            {
-                <Toast @key="@toastInstance.ToastId" @ref="toastInstance.ToastRef" @bind-Visible="@toastInstance.Visible"
-                       Opened="@toastInstance.Opened"
-                       Closed="@(() => OnToastClosed(toastInstance))">
-                    <ToastHeader>
-                        <Span>
-                            @toastInstance.Title
-                        </Span>
-                        @if ( ShowCloseButton )
-                        {
-                            <CloseButton Clicked="@toastInstance.ToastRef.Hide" Margin="Blazorise.Margin.IsAuto.FromStart" />
-                        }
-                    </ToastHeader>
-                    <ToastBody>
-                        @toastInstance.Message
-                    </ToastBody>
-                </Toast>
-            }
-        </Toaster>
-    }
+    <Toaster Placement="@Placement">
+        @foreach ( var toastInstance in toastInstances ?? Enumerable.Empty<ToastInstance>() )
+        {
+            <Toast @key="@toastInstance.ToastId" @ref="toastInstance.ToastRef" @bind-Visible="@toastInstance.Visible"
+                   Opened="@toastInstance.Opened"
+                   Closed="@(() => OnToastClosed(toastInstance))"
+                   Animated="@Animated"
+                   AnimationDuration="@AnimationDuration"
+                   Autohide="@Autohide"
+                   AutohideDelay="@AutohideDelay">
+                <ToastHeader>
+                    <Span>
+                        @toastInstance.Title
+                    </Span>
+                    @if ( ShowCloseButton )
+                    {
+                        <CloseButton Clicked="@toastInstance.ToastRef.Hide" Margin="Blazorise.Margin.IsAuto.FromStart" />
+                    }
+                </ToastHeader>
+                <ToastBody>
+                    @toastInstance.Message
+                </ToastBody>
+            </Toast>
+        }
+    </Toaster>
 </CascadingValue>
