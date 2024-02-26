@@ -1,12 +1,10 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -14,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// A Toast displays temporary content to the user.
 /// </summary>
-public partial class Toast : BaseComponent, IAnimatedComponent
+public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
 {
     #region Members
 
@@ -45,6 +43,11 @@ public partial class Toast : BaseComponent, IAnimatedComponent
     /// Internal event that is triggered when the Toast is closed.
     ///</summary>
     internal event Action _Closed;
+
+    /// <summary>
+    /// Timer used to countdown the close event.
+    /// </summary>
+    private CountdownTimer countdownTimer;
 
     #endregion
 
@@ -85,9 +88,31 @@ public partial class Toast : BaseComponent, IAnimatedComponent
     }
 
     /// <inheritdoc/>
-    protected override Task OnFirstAfterRenderAsync()
+    protected override void OnInitialized()
     {
-        return base.OnFirstAfterRenderAsync();
+        if ( Autohide && AutohideDelay > 0 && countdownTimer is null )
+        {
+            countdownTimer = new( AutohideDelay );
+
+            countdownTimer.Elapsed += OnCountdownTimerElapsed;
+        }
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( countdownTimer is not null )
+            {
+                countdownTimer.Dispose();
+                countdownTimer = null;
+            }
+        }
+
+        base.Dispose( disposing );
     }
 
     /// <inheritdoc/>
@@ -106,6 +131,11 @@ public partial class Toast : BaseComponent, IAnimatedComponent
         base.BuildStyles( builder );
 
         builder.Append( StyleProvider.ToastAnimationDuration( Animated, AnimationDuration ) );
+    }
+
+    private void OnCountdownTimerElapsed( object sender, EventArgs e )
+    {
+        InvokeAsync( () => Hide( CloseReason.None ) );
     }
 
     /// <summary>
@@ -233,6 +263,13 @@ public partial class Toast : BaseComponent, IAnimatedComponent
 
         if ( visible )
         {
+            ExecuteAfterRender( () =>
+            {
+                countdownTimer?.Start();
+
+                return Task.CompletedTask;
+            } );
+
             _Opened?.Invoke();
 
             await Opened.InvokeAsync();
