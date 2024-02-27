@@ -99,6 +99,11 @@ public partial class CloseButton : BaseComponent
     [CascadingParameter] protected Modal ParentModal { get; set; }
 
     /// <summary>
+    /// Cascaded <see cref="Toast"/> component in which this <see cref="CloseButton"/> is placed.
+    /// </summary>
+    [CascadingParameter] protected Toast ParentToast { get; set; }
+
+    /// <summary>
     /// Specifies the content to be rendered inside this <see cref="CloseButton"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }

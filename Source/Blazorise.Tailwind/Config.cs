@@ -85,5 +85,6 @@ public static class Config
         { typeof( Blazorise.RadioGroup<> ), typeof( Tailwind.RadioGroup<> ) },
         { typeof( Blazorise.Step ), typeof( Tailwind.Step ) },
         { typeof( Blazorise.Switch<> ), typeof( Tailwind.Switch<> ) },
+        { typeof( Blazorise.Toast ), typeof( Tailwind.Toast ) },
     };
 }

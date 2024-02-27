@@ -1,12 +1,10 @@
 ﻿#region Using directives
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -14,7 +12,7 @@ namespace Blazorise;
 /// <summary>
 /// A Toast displays temporary content to the user.
 /// </summary>
-public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent, IAsyncDisposable
+public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
 {
     #region Members
 
@@ -32,34 +30,24 @@ public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent,
     private CloseReason closeReason = CloseReason.None;
 
     ///<summary>
-    /// Indicates whether the Toast has been registered with JavaScript.
-    ///</summary>
-    private bool jsRegistered;
-
-    ///<summary>
-    /// Reference to the .NET object adapter for the CloseActivator.
-    ///</summary>
-    private DotNetObjectReference<CloseActivatorAdapter> dotNetObjectRef;
-
-    ///<summary>
-    /// List of element IDs that act as close activators for the Toast.
-    ///</summary>
-    private readonly List<string> closeActivatorElementIds = new();
-
-    ///<summary>
     /// Adapter for the Closeable interface to handle close events.
     ///</summary>
     private CloseableAdapter closeableAdapter;
 
     ///<summary>
-    /// Event that is triggered when the Toast is opened.
+    /// Internal event that is triggered when the Toast is opened.
     ///</summary>
     internal event Action _Opened;
 
     ///<summary>
-    /// Event that is triggered when the Toast is closed.
+    /// Internal event that is triggered when the Toast is closed.
     ///</summary>
     internal event Action _Closed;
+
+    /// <summary>
+    /// Timer used to countdown the close event.
+    /// </summary>
+    private CountdownTimer countdownTimer;
 
     #endregion
 
@@ -100,11 +88,31 @@ public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent,
     }
 
     /// <inheritdoc/>
-    protected override Task OnFirstAfterRenderAsync()
+    protected override void OnInitialized()
     {
-        dotNetObjectRef ??= CreateDotNetObjectRef( new CloseActivatorAdapter( this ) );
+        if ( Autohide && AutohideDelay > 0 && countdownTimer is null )
+        {
+            countdownTimer = new( AutohideDelay );
 
-        return base.OnFirstAfterRenderAsync();
+            countdownTimer.Elapsed += OnCountdownTimerElapsed;
+        }
+
+        base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( countdownTimer is not null )
+            {
+                countdownTimer.Dispose();
+                countdownTimer = null;
+            }
+        }
+
+        base.Dispose( disposing );
     }
 
     /// <inheritdoc/>
@@ -125,35 +133,9 @@ public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent,
         builder.Append( StyleProvider.ToastAnimationDuration( Animated, AnimationDuration ) );
     }
 
-    /// <inheritdoc/>
-    protected override async ValueTask DisposeAsync( bool disposing )
+    private void OnCountdownTimerElapsed( object sender, EventArgs e )
     {
-        if ( disposing && Rendered )
-        {
-            // make sure to unregister listener
-            if ( jsRegistered )
-            {
-                jsRegistered = false;
-
-                var unregisterClosableTask = JSClosableModule.Unregister( this );
-
-                try
-                {
-                    await unregisterClosableTask;
-                }
-                catch when ( unregisterClosableTask.IsCanceled )
-                {
-                }
-                catch ( Microsoft.JSInterop.JSDisconnectedException )
-                {
-                }
-            }
-
-            DisposeDotNetObjectRef( dotNetObjectRef );
-            dotNetObjectRef = null;
-        }
-
-        await base.DisposeAsync( disposing );
+        InvokeAsync( () => Hide( CloseReason.None ) );
     }
 
     /// <summary>
@@ -268,25 +250,6 @@ public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// <param name="visible">Toast visibility flag.</param>
     protected virtual async Task HandleVisibilityStyles( bool visible )
     {
-        if ( visible )
-        {
-            jsRegistered = true;
-
-            ExecuteAfterRender( async () =>
-            {
-                await JSClosableModule.Register( dotNetObjectRef, ElementRef );
-            } );
-        }
-        else
-        {
-            jsRegistered = false;
-
-            ExecuteAfterRender( async () =>
-            {
-                await JSClosableModule.Unregister( this );
-            } );
-        }
-
         await closeableAdapter.Run( visible );
     }
 
@@ -300,6 +263,13 @@ public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent,
 
         if ( visible )
         {
+            ExecuteAfterRender( () =>
+            {
+                countdownTimer?.Start();
+
+                return Task.CompletedTask;
+            } );
+
             _Opened?.Invoke();
 
             await Opened.InvokeAsync();
@@ -310,32 +280,6 @@ public partial class Toast : BaseComponent, ICloseActivator, IAnimatedComponent,
 
             await Closed.InvokeAsync();
         }
-    }
-
-    /// <summary>
-    /// Registers a new element that can close the toast.
-    /// </summary>
-    /// <param name="elementId">Element id.</param>
-    internal void NotifyCloseActivatorIdInitialized( string elementId )
-    {
-        if ( !closeActivatorElementIds.Contains( elementId ) )
-            closeActivatorElementIds.Add( elementId );
-    }
-
-    /// <summary>
-    /// Removes the element that can close the toast.
-    /// </summary>
-    /// <param name="elementId">Element id.</param>
-    internal void NotifyCloseActivatorIdRemoved( string elementId )
-    {
-        if ( closeActivatorElementIds.Contains( elementId ) )
-            closeActivatorElementIds.Remove( elementId );
-    }
-
-    /// <inheritdoc/>
-    public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChildClicked )
-    {
-        return Task.FromResult( ElementId == elementId || closeActivatorElementIds.Contains( elementId ) );
     }
 
     /// <inheritdoc/>
