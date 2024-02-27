@@ -118,7 +118,7 @@
     {
         @if ( ShowColumnChooser )
         {
-            <Field Display="Blazorise.Display.InlineBlock">
+            <Field Display="Blazorise.Display.InlineBlock" Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart">
                 <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
                     <DropdownToggle @onclick:stopPropagation>
                         <Icon Name="@IconName.Table" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" /> Columns

@@ -17,7 +17,8 @@
                           ShowColumnChooser
                           PagerPosition="DataGridPagerPosition.Top"
                           ShowPager
-                          ShowPageSizes>
+                          ShowPageSizes
+                PagerOptions="new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
