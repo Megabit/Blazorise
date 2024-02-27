@@ -818,9 +818,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Modal();
 
-    public abstract string ModalFade();
-
-    public abstract string ModalFade( bool animation );
+    public abstract string ModalFade( bool showing, bool hiding );
 
     public abstract string ModalVisible( bool visible );
 

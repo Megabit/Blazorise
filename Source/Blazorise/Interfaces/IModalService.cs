@@ -27,7 +27,7 @@ public interface IModalService
     /// Shows a Modal where the content is TComponent.
     /// </summary>
     /// <typeparam name="TComponent"></typeparam>
-    public Task<ModalInstance> Show<TComponent>();
+    public Task<ModalInstance> Show<TComponent>() where TComponent : notnull, IComponent;
 
     /// <summary>
     /// Shows a Modal where the content is TComponent.
@@ -35,7 +35,7 @@ public interface IModalService
     /// <typeparam name="TComponent"></typeparam>
     /// <param name="title"></param>
     /// <returns></returns>
-    public Task<ModalInstance> Show<TComponent>( string title );
+    public Task<ModalInstance> Show<TComponent>( string title ) where TComponent : notnull, IComponent;
 
     /// <summary>
     /// Shows a Modal where the content is TComponent.
@@ -43,44 +43,44 @@ public interface IModalService
     /// <typeparam name="TComponent"></typeparam>
     /// <param name="parameters"></param>
     /// <returns></returns>
-    public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters );
+    public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters ) where TComponent : notnull, IComponent;
 
     /// <summary>
     /// Shows a Modal where the content is TComponent.
     /// </summary>
     /// <typeparam name="TComponent"></typeparam>
-    /// <param name="parameters"></param>
-    /// <param name="modalInstanceOptions"></param>
-    /// <returns></returns>
-    public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalInstanceOptions modalInstanceOptions );
-
-    /// <summary>
-    /// Shows a Modal where the content is TComponent.
-    /// </summary>
-    /// <typeparam name="TComponent"></typeparam>
-    /// <param name="title"></param>
-    /// <param name="parameters"></param>
-    /// <returns></returns>
-    public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters );
-
-    /// <summary>
-    /// Shows a Modal where the content is TComponent.
-    /// </summary>
-    /// <typeparam name="TComponent"></typeparam>
-    /// <param name="title"></param>
-    /// <param name="modalInstanceOptions"></param>
-    /// <returns></returns>
-    public Task<ModalInstance> Show<TComponent>( string title, ModalInstanceOptions modalInstanceOptions );
-
-    /// <summary>
-    /// Shows a Modal where the content is TComponent.
-    /// </summary>
-    /// <typeparam name="TComponent"></typeparam>
-    /// <param name="title"></param>
     /// <param name="parameters"></param>
     /// <param name="modalInstanceOptions"></param>
     /// <returns></returns>
-    public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalInstanceOptions modalInstanceOptions );
+    public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalInstanceOptions modalInstanceOptions ) where TComponent : notnull, IComponent;
+
+    /// <summary>
+    /// Shows a Modal where the content is TComponent.
+    /// </summary>
+    /// <typeparam name="TComponent"></typeparam>
+    /// <param name="title"></param>
+    /// <param name="parameters"></param>
+    /// <returns></returns>
+    public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters ) where TComponent : notnull, IComponent;
+
+    /// <summary>
+    /// Shows a Modal where the content is TComponent.
+    /// </summary>
+    /// <typeparam name="TComponent"></typeparam>
+    /// <param name="title"></param>
+    /// <param name="modalInstanceOptions"></param>
+    /// <returns></returns>
+    public Task<ModalInstance> Show<TComponent>( string title, ModalInstanceOptions modalInstanceOptions ) where TComponent : notnull, IComponent;
+
+    /// <summary>
+    /// Shows a Modal where the content is TComponent.
+    /// </summary>
+    /// <typeparam name="TComponent"></typeparam>
+    /// <param name="title"></param>
+    /// <param name="parameters"></param>
+    /// <param name="modalInstanceOptions"></param>
+    /// <returns></returns>
+    public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalInstanceOptions modalInstanceOptions ) where TComponent : notnull, IComponent;
 
     /// <summary>
     /// Shows a Modal where the content is of componentType.

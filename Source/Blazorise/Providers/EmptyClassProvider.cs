@@ -821,9 +821,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Modal() => null;
 
-    public string ModalFade() => null;
-
-    public string ModalFade( bool animation ) => null;
+    public string ModalFade( bool showing, bool hiding ) => null;
 
     public string ModalVisible( bool visible ) => null;
 

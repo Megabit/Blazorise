@@ -11,7 +11,13 @@ public class BulmaStyleProvider : StyleProvider
 
     public override int DefaultModalBackdropZIndex => 0;
 
-    public override string ModalShow() => null;
+    public override string ModalShow( bool visible ) => null;
+
+    public override string ModalFade( bool showing, bool hiding ) => null;
+
+    public override string ModalAnimationDuration( bool animated, int animationDuration ) => animated
+        ? $"--modal-animation-duration: {animationDuration}ms"
+        : "--modal-animation-duration: 0ms";
 
     int ModalZIndexDiff => DefaultModalZIndex - DefaultModalBackdropZIndex;
 
