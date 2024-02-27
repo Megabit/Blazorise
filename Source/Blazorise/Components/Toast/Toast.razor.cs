@@ -47,7 +47,7 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
     /// <summary>
     /// Timer used to countdown the close event.
     /// </summary>
-    private CountdownTimer countdownTimer;
+    private AsyncCountdownTimer countdownTimer;
 
     #endregion
 
@@ -92,9 +92,8 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
     {
         if ( Autohide && AutohideDelay > 0 && countdownTimer is null )
         {
-            countdownTimer = new( AutohideDelay );
-
-            countdownTimer.Elapsed += OnCountdownTimerElapsed;
+            countdownTimer = new AsyncCountdownTimer( AutohideDelay )
+                .Elapsed( OnCountdownTimerElapsed );
         }
 
         base.OnInitialized();
@@ -133,9 +132,9 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
         builder.Append( StyleProvider.ToastAnimationDuration( Animated, AnimationDuration ) );
     }
 
-    private void OnCountdownTimerElapsed( object sender, EventArgs e )
+    private Task OnCountdownTimerElapsed()
     {
-        InvokeAsync( () => Hide( CloseReason.None ) );
+        return Hide( CloseReason.None );
     }
 
     /// <summary>
