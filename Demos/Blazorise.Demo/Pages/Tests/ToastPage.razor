@@ -11,6 +11,23 @@
                     <Column ColumnSize="ColumnSize.IsAuto">
                         <Field>
                             <FieldLabel>
+                                Placement
+                            </FieldLabel>
+                            <FieldBody>
+                                <Select @bind-SelectedValue="@toasterPlacement">
+                                    <SelectItem Value="ToasterPlacement.Top">Top</SelectItem>
+                                    <SelectItem Value="ToasterPlacement.TopStart">TopStart</SelectItem>
+                                    <SelectItem Value="ToasterPlacement.TopEnd">TopEnd</SelectItem>
+                                    <SelectItem Value="ToasterPlacement.Bottom">Bottom</SelectItem>
+                                    <SelectItem Value="ToasterPlacement.BottomStart">BottomStart</SelectItem>
+                                    <SelectItem Value="ToasterPlacement.BottomEnd">BottomEnd</SelectItem>
+                                </Select>
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
                                 Animation
                             </FieldLabel>
                             <FieldBody>
@@ -24,24 +41,27 @@
                                 Animation Duration (ms)
                             </FieldLabel>
                             <FieldBody>
-                                <NumericEdit TValue="int" @bind-Value="animationDuration" />
+                                <NumericEdit @bind-Value="animationDuration" />
                             </FieldBody>
                         </Field>
                     </Column>
                     <Column ColumnSize="ColumnSize.IsAuto">
                         <Field>
                             <FieldLabel>
-                                Placement
+                                Autohide
                             </FieldLabel>
                             <FieldBody>
-                                <Select @bind-SelectedValue="@toasterPlacement">
-                                    <SelectItem Value="ToasterPlacement.Top">Top</SelectItem>
-                                    <SelectItem Value="ToasterPlacement.TopStart">TopStart</SelectItem>
-                                    <SelectItem Value="ToasterPlacement.TopEnd">TopEnd</SelectItem>
-                                    <SelectItem Value="ToasterPlacement.Bottom">Bottom</SelectItem>
-                                    <SelectItem Value="ToasterPlacement.BottomStart">BottomStart</SelectItem>
-                                    <SelectItem Value="ToasterPlacement.BottomEnd">BottomEnd</SelectItem>
-                                </Select>
+                                <Switch @bind-Checked="@autohide">Autohide</Switch>
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Autohide Delay (ms)
+                            </FieldLabel>
+                            <FieldBody>
+                                <NumericEdit @bind-Value="autohideDelay" />
                             </FieldBody>
                         </Field>
                     </Column>
@@ -76,7 +96,7 @@
     </Column>
 </Row>
 
-<ToastProvider @ref="toastProviderRef" Placement="@toasterPlacement" Animated="@animation" AnimationDuration="@animationDuration" Autohide="false" />
+<ToastProvider @ref="toastProviderRef" Placement="@toasterPlacement" Animated="@animation" AnimationDuration="@animationDuration" Autohide="@autohide" AutohideDelay="@autohideDelay" />
 @code {
     [Inject] IToastService ToastService { get; set; }
 
@@ -85,4 +105,6 @@
     ToasterPlacement toasterPlacement = ToasterPlacement.BottomEnd;
     private bool animation = true;
     private int animationDuration = 300;
+    private bool autohide = true;
+    private int autohideDelay = 5000;
 }
