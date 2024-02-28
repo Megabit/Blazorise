@@ -1,12 +1,18 @@
 ﻿.toast-container {
     width: 100%;
     z-index: 99999;
-    position: fixed;
     pointer-events: none;
     display: flex;
     flex-direction: column;
     padding: 15px;
 
+    &-fixed {
+        position: fixed;
+    }
+
+    &-absolute {
+        position: absolute;
+    }
 
     &-top {
         left: 0;

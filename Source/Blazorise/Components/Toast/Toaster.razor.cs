@@ -14,6 +14,8 @@ public partial class Toaster : BaseComponent
 
     private ToasterPlacement placement = ToasterPlacement.BottomEnd;
 
+    private ToasterPlacementStrategy placementStrategy = ToasterPlacementStrategy.Fixed;
+
     #endregion
 
     #region Methods
@@ -23,6 +25,7 @@ public partial class Toaster : BaseComponent
     {
         builder.Append( ClassProvider.Toaster() );
         builder.Append( ClassProvider.ToasterPlacement( Placement ) );
+        builder.Append( ClassProvider.ToasterPlacementStrategy( PlacementStrategy ) );
 
         base.BuildClasses( builder );
     }
@@ -48,6 +51,25 @@ public partial class Toaster : BaseComponent
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Specifies the placement strategy of the <see cref="Toaster" /> component.
+    /// </summary>
+    [Parameter]
+    public ToasterPlacementStrategy PlacementStrategy
+    {
+        get => placementStrategy;
+        set
+        {
+            if ( placementStrategy == value )
+                return;
+
+            placementStrategy = value;
+
+            DirtyClasses();
+        }
+    }
+
     /// <summary>
     /// The content to be rendered inside the <see cref="Toaster" /> component.
     /// </summary>

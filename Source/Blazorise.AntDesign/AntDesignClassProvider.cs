@@ -978,6 +978,12 @@ public class AntDesignClassProvider : ClassProvider
         _ => null,
     };
 
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Absolute => "ant-notification-absolute",
+        _ => null,
+    };
+
     #endregion
 
     #region Pagination

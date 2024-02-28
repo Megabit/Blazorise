@@ -1404,7 +1404,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ToastBody() => "text-sm font-normal";
 
-    public override string Toaster() => "fixed z-50";
+    public override string Toaster() => "z-50";
 
     public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
     {
@@ -1414,6 +1414,13 @@ public class TailwindClassProvider : ClassProvider
         Blazorise.ToasterPlacement.Bottom => "top-auto right-auto bottom-5 left-1/2 -translate-x-1/2",
         Blazorise.ToasterPlacement.BottomStart => "left-5 top-auto bottom-5",
         Blazorise.ToasterPlacement.BottomEnd => "right-5 top-auto bottom-5",
+        _ => null,
+    };
+
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Fixed => "fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "absolute",
         _ => null,
     };
 

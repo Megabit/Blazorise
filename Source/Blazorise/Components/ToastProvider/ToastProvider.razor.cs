@@ -138,9 +138,14 @@ public partial class ToastProvider : BaseComponent, IDisposable
     [Inject] protected IToastService ToastService { get; set; }
 
     /// <summary>
-    /// Specifies the position of the Toasts.
+    /// Specifies the position of the <see cref="Toaster" /> component.
     /// </summary>
     [Parameter] public ToasterPlacement Placement { get; set; } = ToasterPlacement.BottomEnd;
+
+    /// <summary>
+    /// Specifies the placement strategy of the <see cref="Toaster" /> component.
+    /// </summary>
+    [Parameter] public ToasterPlacementStrategy PlacementStrategy { get; set; } = ToasterPlacementStrategy.Fixed;
 
     /// <summary>
     /// Specifies the visibility of the close button.

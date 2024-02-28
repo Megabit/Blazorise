@@ -2,7 +2,7 @@
 @using Blazorise.Extensions
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
-    <Toaster Placement="@Placement">
+    <Toaster Placement="@Placement" PlacementStrategy="@PlacementStrategy">
         @foreach ( var toastInstance in toastInstances ?? Enumerable.Empty<ToastInstance>() )
         {
             <Toast @key="@toastInstance.ToastId" @ref="toastInstance.ToastRef" @bind-Visible="@toastInstance.Visible"

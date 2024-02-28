@@ -1118,6 +1118,13 @@ public class FluentUI2ClassProvider : ClassProvider
         _ => null,
     };
 
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Fixed => "fui-Toaster-fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "fui-Toaster-absolute",
+        _ => null,
+    };
+
     #endregion
 
     #region Pagination

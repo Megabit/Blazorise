@@ -886,6 +886,8 @@ public interface IClassProvider
 
     string ToasterPlacement( ToasterPlacement placement );
 
+    string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy );
+
     #endregion
 
     #region Pagination

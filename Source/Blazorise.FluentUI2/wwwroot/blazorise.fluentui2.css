@@ -7284,8 +7284,11 @@ input::file-selector-button {
     max-height: 0px;
   }
 }
-.fui-Toaster {
+.fui-Toaster-fixed {
   position: fixed;
+}
+.fui-Toaster-absolute {
+  position: absolute;
 }
 .fui-Toaster-top {
   top: var(--spacingVerticalL);

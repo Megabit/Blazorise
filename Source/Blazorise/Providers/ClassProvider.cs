@@ -890,6 +890,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ToasterPlacement( ToasterPlacement placement );
 
+    public abstract string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy );
+
     #endregion
 
     #region Pagination

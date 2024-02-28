@@ -3278,11 +3278,16 @@ tr.table-row-selectable:focus[tabindex="0"] {
 .toast-container {
   width: 100%;
   z-index: 99999;
-  position: fixed;
   pointer-events: none;
   display: flex;
   flex-direction: column;
   padding: 15px;
+}
+.toast-container-fixed {
+  position: fixed;
+}
+.toast-container-absolute {
+  position: absolute;
 }
 .toast-container-top {
   left: 0;

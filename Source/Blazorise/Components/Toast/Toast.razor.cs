@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// A Toast displays temporary content to the user.
+/// A component to displays temporary content to the user.
 /// </summary>
 public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
 {

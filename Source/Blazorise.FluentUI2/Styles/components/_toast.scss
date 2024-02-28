@@ -45,7 +45,13 @@
 }
 
 .fui-Toaster {
-    position: fixed;
+    &-fixed {
+        position: fixed;
+    }
+
+    &-absolute {
+        position: absolute;
+    }
 
     &-top {
         top: var(--spacingVerticalL);

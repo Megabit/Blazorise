@@ -1,7 +1,7 @@
 ﻿namespace Blazorise;
 
 /// <summary>
-/// Defines the placement of a toast element.
+/// Defines the placement of a toaster container element.
 /// </summary>
 public enum ToasterPlacement
 {

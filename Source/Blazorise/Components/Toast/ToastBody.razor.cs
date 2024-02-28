@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise;
 
+/// <summary>
+/// A Toast subcomponent to show the toast content.
+/// </summary>
 public partial class ToastBody : BaseComponent
 {
     #region Members

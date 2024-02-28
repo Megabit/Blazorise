@@ -893,6 +893,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ToasterPlacement( ToasterPlacement placement ) => null;
 
+    public string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => null;
+
     #endregion
 
     #region Pagination

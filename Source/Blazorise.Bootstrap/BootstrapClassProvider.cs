@@ -977,7 +977,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ToastBody() => "toast-body";
 
-    public override string Toaster() => "toast-container position-fixed";
+    public override string Toaster() => "toast-container";
 
     public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
     {
@@ -987,6 +987,13 @@ public class BootstrapClassProvider : ClassProvider
         Blazorise.ToasterPlacement.Bottom => "p-3 bottom-0 left-50 translate-middle-x",
         Blazorise.ToasterPlacement.BottomStart => "p-3 bottom-0 left-0",
         Blazorise.ToasterPlacement.BottomEnd => "p-3 bottom-0 right-0",
+        _ => null,
+    };
+
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Fixed => "position-fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "position-absolute",
         _ => null,
     };
 

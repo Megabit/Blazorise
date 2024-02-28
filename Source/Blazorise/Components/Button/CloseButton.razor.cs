@@ -42,6 +42,10 @@ public partial class CloseButton : BaseComponent
             {
                 await ParentAlert.Hide();
             }
+            else if ( ParentToast is not null )
+            {
+                await ParentToast.Hide();
+            }
             else if ( ParentModal is not null )
             {
                 await ParentModal.Hide();

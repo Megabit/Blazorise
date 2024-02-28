@@ -1018,6 +1018,13 @@ public class BulmaClassProvider : ClassProvider
         _ => null,
     };
 
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Fixed => "toast-container-fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "toast-container-absolute",
+        _ => null,
+    };
+
     #endregion
 
     #region Pagination
