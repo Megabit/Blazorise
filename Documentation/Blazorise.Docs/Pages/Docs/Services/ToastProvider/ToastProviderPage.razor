@@ -1,0 +1,69 @@
+﻿@page "/docs/services/toast-provider"
+
+<Seo Canonical="/docs/services/toast-provider" Title="Blazorise ToastProvider component" Description="The ToastProvider is a powerful helper component built on top of Toast component and is used for showing simple alerts and notifications." />
+
+<DocsPageTitle Path="Services/Toast provider">
+    Blazorise ToastProvider component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Programatically instantiate toasts with custom messages.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    The toast provider component provides an abstraction on top of Blazorize's <Anchor To="docs/components/toast">Toast component</Anchor>, enabling you to programatically instantiate toasts with custom messages.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Setup
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        <Paragraph>
+            You need to place <Code Tag>ToastProvider</Code> somewhere in your application razor code. It can be placed anywhere, but a good approach is to place it in <Code>App.razor</Code>(.NET 7 and prior), or <Code>Routes.razor</Code>(.NET 8) like in the following example.
+        </Paragraph>
+        <Paragraph>
+            A <Code>IToastService</Code> will be registered by Blazorise providing you with an API to programatically instantiate toasts. Examples are provided further below.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ToastProviderUsageExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        Once you’re done you can start using it by injecting the <Code>IToastService</Code> in your page and then simple calling the built-in methods.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <ToastProviderBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ToastProviderBasicExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Use Sparingly
+</Heading>
+
+<DocsPageParagraph>
+    Notifications are disruptive by design and should be used sparingly. Use fewer notifications by reserving them for more important information that may otherwise go unnoticed by the user.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Less urgent notifications can be provided through a link or drop-down in the application header or footer, instead of immediate notifications.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Limit Content Length
+</Heading>
+
+<DocsPageParagraph>
+    Aim for one or two lines of content. Notifications should be brief and to the point. More information can be provided through an embedded link or Button.
+</DocsPageParagraph>

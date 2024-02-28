@@ -1,0 +1,28 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Div Position="Position.Relative" Width="Width.Is100" Height="Height.Rem(20)">
+    @ToastRenderFragment( ToasterPlacement.TopStart )
+
+    @ToastRenderFragment( ToasterPlacement.TopEnd )
+
+    @ToastRenderFragment( ToasterPlacement.BottomStart )
+
+    @ToastRenderFragment( ToasterPlacement.BottomEnd )
+</Div>
+@code {
+    private RenderFragment ToastRenderFragment( ToasterPlacement placement ) => __builder =>
+    {
+        <Toaster Placement="@placement" PlacementStrategy="ToasterPlacementStrategy.Absolute">
+            <Toast Visible Autohide="false">
+                <ToastHeader>
+                    <Strong Margin="Margin.IsAuto.FromEnd">Blazorise</Strong>
+                    <Small>11 mins ago</Small>
+                    <CloseButton />
+                </ToastHeader>
+                <ToastBody>
+                    Hello, world! This is a toast message.
+                </ToastBody>
+            </Toast>
+        </Toaster>
+    };
+}
