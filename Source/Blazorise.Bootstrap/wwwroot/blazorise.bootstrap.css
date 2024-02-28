@@ -2089,6 +2089,10 @@ tr.table-row-selectable:focus[tabindex="0"] {
   right: 0;
 }
 
+.toast-container {
+  z-index: 1060;
+}
+
 .snackbar-stack {
   z-index: 1009 !important;
 }
