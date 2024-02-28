@@ -507,8 +507,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
                 await Revalidate();
             }
-
-            await ResyncText();
+            else
+            {
+                await ResyncText();
+            }
 
             return;
         }
