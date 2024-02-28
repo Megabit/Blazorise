@@ -15191,6 +15191,9 @@ span.flatpickr-weekday {
 }
 .b-is-autocomplete .fui-MenuPopover .fui-MenuList .fui-MenuItem.b-is-autocomplete-suggestion {
   width: 100%;
+  display: flex;
+}
+.b-is-autocomplete .fui-MenuPopover .fui-MenuList .fui-MenuItem.b-is-autocomplete-suggestion:not(.b-is-autocomplete-suggestion-checkbox) {
   display: contents;
 }
 .b-is-autocomplete .fui-MenuPopover .fui-MenuList .fui-MenuItem.b-is-autocomplete-suggestion .fui-MenuItem__content:not([aria-disabled=true]):focus, .b-is-autocomplete .fui-MenuPopover .fui-MenuList .fui-MenuItem.b-is-autocomplete-suggestion .fui-MenuItem__content:not([aria-disabled=true]):focus-visible {

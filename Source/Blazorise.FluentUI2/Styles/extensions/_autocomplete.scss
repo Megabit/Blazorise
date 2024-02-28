@@ -8,7 +8,11 @@
 
         .fui-MenuItem.b-is-autocomplete-suggestion {
             width: 100%;
-            display: contents;
+            display: flex;
+
+            &:not(.b-is-autocomplete-suggestion-checkbox) {
+                display: contents;
+            }
 
             .fui-MenuItem__content {
                 &:not([aria-disabled="true"]) {
