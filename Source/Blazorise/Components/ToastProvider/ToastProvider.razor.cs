@@ -48,7 +48,7 @@ public partial class ToastProvider : BaseComponent, IDisposable
         if ( e is null )
             return;
 
-        await Show( e.Title, e.Message );
+        await Show( e.Title, e.Message, e.Intent, e.Options );
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ public partial class ToastProvider : BaseComponent, IDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task Show( string title, string message, ToastIntent intent = ToastIntent.Info )
     {
-        return Show( title, (MarkupString)message, intent );
+        return Show( title, (MarkupString)message, intent, ToastInstanceOptions.Default );
     }
 
     /// <summary>
@@ -69,10 +69,11 @@ public partial class ToastProvider : BaseComponent, IDisposable
     /// <param name="title">Toast title.</param>
     /// <param name="message">Info toast to show.</param>
     /// <param name="intent">Intent of the toast message.</param>
+    /// <param name="options">Toast options.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task Show( string title, MarkupString message, ToastIntent intent = ToastIntent.Info )
+    public Task Show( string title, MarkupString message, ToastIntent intent, ToastInstanceOptions options )
     {
-        var toastInstance = new ToastInstance( this, IdGenerator.Generate, title, message, ToastInstanceOptions.Default );
+        var toastInstance = new ToastInstance( this, IdGenerator.Generate, title, message, intent, options );
 
         return AddToastInstance( toastInstance );
     }
@@ -128,6 +129,32 @@ public partial class ToastProvider : BaseComponent, IDisposable
         await RemoveToastInstance( toastInstance );
     }
 
+    /// <summary>
+    /// Gets the icon name based on a toast intent.
+    /// </summary>
+    /// <param name="intent">Toast intent</param>
+    /// <returns>Returns the icon name.</returns>
+    private static IconName GetIconName( ToastIntent intent ) => intent switch
+    {
+        ToastIntent.Success => IconName.CheckCircle,
+        ToastIntent.Warning => IconName.ExclamationCircle,
+        ToastIntent.Error => IconName.Stop,
+        _ => IconName.InfoCircle,
+    };
+
+    /// <summary>
+    /// Gets the icon color based on a toast intent.
+    /// </summary>
+    /// <param name="intent">Toast intent</param>
+    /// <returns>Returns the icon color.</returns>
+    private static TextColor GetIconColor( ToastIntent intent ) => intent switch
+    {
+        ToastIntent.Success => TextColor.Success,
+        ToastIntent.Warning => TextColor.Warning,
+        ToastIntent.Error => TextColor.Danger,
+        _ => null,
+    };
+
     #endregion
 
     #region Properties
@@ -151,6 +178,11 @@ public partial class ToastProvider : BaseComponent, IDisposable
     /// Specifies the visibility of the close button.
     /// </summary>
     [Parameter] public bool ShowCloseButton { get; set; } = true;
+
+    /// <summary>
+    /// Specifies the visibility of the intent icon.
+    /// </summary>
+    [Parameter] public bool ShowIntentIcon { get; set; } = true;
 
     /// <summary>
     /// Occurs after the toast has opened. This is a Global Option.

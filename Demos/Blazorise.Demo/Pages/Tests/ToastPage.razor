@@ -88,8 +88,22 @@
                 </Button>
             </CardBody>
             <CardBody>
-                <Button Color="Color.Primary" Clicked="@(()=>ToastService.Info("Info message", "Hello, world! This is a toast message from the info."))">
-                    Show Toast through service
+                <CardText>
+                    Show Toasts through service
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Info" Clicked="@(()=>ToastService.Info("This is a toast message from the toast provider.", "Info message"))">
+                    Info
+                </Button>
+                <Button Color="Color.Success" Clicked="@(()=>ToastService.Success("This is a toast message from the toast provider.", "Success message"))">
+                    Success
+                </Button>
+                <Button Color="Color.Warning" Clicked="@(()=>ToastService.Warning("This is a toast message from the toast provider.", "Warning message"))">
+                    Warning
+                </Button>
+                <Button Color="Color.Danger" Clicked="@(()=>ToastService.Error("This is a toast message from the toast provider.", "Error message"))">
+                    Error
                 </Button>
             </CardBody>
         </Card>

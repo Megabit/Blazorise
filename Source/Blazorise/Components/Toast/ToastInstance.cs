@@ -7,13 +7,23 @@ namespace Blazorise;
 /// </summary>
 public class ToastInstance
 {
-    public ToastInstance( ToastProvider toastProvider, string toastId, string title, MarkupString message, ToastInstanceOptions toastInstanceOptions )
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="toastProvider"></param>
+    /// <param name="toastId"></param>
+    /// <param name="title"></param>
+    /// <param name="message"></param>
+    /// <param name="intent"></param>
+    /// <param name="toastInstanceOptions"></param>
+    public ToastInstance( ToastProvider toastProvider, string toastId, string title, MarkupString message, ToastIntent intent, ToastInstanceOptions toastInstanceOptions )
     {
         ToastProvider = toastProvider;
         ToastId = toastId;
         Visible = true;
         Title = title;
         Message = message;
+        Intent = intent;
         ToastInstanceOptions = toastInstanceOptions;
     }
 
@@ -46,6 +56,11 @@ public class ToastInstance
     /// Text to show in the toast body.
     /// </summary>
     public MarkupString Message { get; set; }
+
+    /// <summary>
+    /// Intent of the toast message.
+    /// </summary>
+    public ToastIntent Intent { get; set; }
 
     /// <summary>
     /// Sets the options for ToastProvider.

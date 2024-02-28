@@ -13,9 +13,11 @@
                    Autohide="@Autohide"
                    AutohideDelay="@AutohideDelay">
                 <ToastHeader>
-                    <Span>
-                        @toastInstance.Title
-                    </Span>
+                    @if ( ShowIntentIcon )
+                    {
+                        <Icon Name="@GetIconName( toastInstance.Intent )" TextColor="@GetIconColor( toastInstance.Intent )" Margin="Blazorise.Margin.Is2.FromEnd" />
+                    }
+                    <Strong>@toastInstance.Title</Strong>
                     @if ( ShowCloseButton )
                     {
                         <CloseButton Clicked="@toastInstance.ToastRef.Hide" Margin="Blazorise.Margin.IsAuto.FromStart" />
