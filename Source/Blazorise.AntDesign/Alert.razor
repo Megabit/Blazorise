@@ -1,0 +1,10 @@
+@inherits Blazorise.Alert
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" role="alert" @attributes="@Attributes">
+            <div class="ant-alert-content">
+                @ChildContent
+            </div>
+        </div>
+    </CascadingValue>
+</CascadingValue>

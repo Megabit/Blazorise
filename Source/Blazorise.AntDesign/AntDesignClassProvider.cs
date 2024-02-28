@@ -425,7 +425,7 @@ public class AntDesignClassProvider : ClassProvider
 
     #region CloseButton
 
-    public override string CloseButton() => "ant-close";
+    public override string CloseButton() => "";
 
     #endregion
 

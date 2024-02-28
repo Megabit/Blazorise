@@ -42,6 +42,7 @@ public static class Config
         { typeof( Blazorise.Addons ), typeof( AntDesign.Addons ) },
         { typeof( Blazorise.Addon ), typeof( AntDesign.Addon ) },
         { typeof( Blazorise.AddonLabel ), typeof( AntDesign.AddonLabel ) },
+        { typeof( Blazorise.Alert ), typeof( AntDesign.Alert ) },
         { typeof( Blazorise.AlertMessage ), typeof( AntDesign.AlertMessage ) },
         { typeof( Blazorise.AlertDescription ), typeof( AntDesign.AlertDescription ) },
         { typeof( Blazorise.Badge ), typeof( AntDesign.Badge ) },
