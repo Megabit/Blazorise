@@ -1783,6 +1783,17 @@ tr.table-row-selectable:focus[tabindex="0"] {
   cursor: pointer;
 }
 
+.toast-container {
+  left: unset;
+  right: unset;
+  bottom: unset;
+  top: unset;
+  flex-direction: column;
+}
+.toast-container .toast:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
 .snackbar-stack {
   z-index: 1059 !important;
 }
