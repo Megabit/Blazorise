@@ -2,7 +2,7 @@
 @typeparam TItem
 @inherits BaseComponent
 <Row class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
+    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row.AlignItems.Center">
         @if ( GetButtonRowPosition() == PagerElementPosition.Start || GetButtonRowPosition() == PagerElementPosition.Default )
         {
             @buttonRowFragment
@@ -21,7 +21,7 @@
         }
     </Column>
 
-    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row" Margin="Blazorise.Margin.IsAuto.OnX">
+    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row.AlignItems.Center" Margin="Blazorise.Margin.IsAuto.OnX">
         @if ( GetButtonRowPosition() == PagerElementPosition.Center )
         {
             @buttonRowFragment
@@ -40,7 +40,7 @@
         }
     </Column>
 
-    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex" Margin="Blazorise.Margin.IsAuto.FromStart">
+    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row.AlignItems.Center.JustifyContent.End" Margin="Blazorise.Margin.IsAuto.FromStart">
         @if ( GetButtonRowPosition() == PagerElementPosition.End )
         {
             @buttonRowFragment
