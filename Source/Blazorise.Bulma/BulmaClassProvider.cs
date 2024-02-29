@@ -1000,11 +1000,11 @@ public class BulmaClassProvider : ClassProvider
     public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
     {
         Blazorise.ToasterPlacement.Top => "toast-container-top",
-        Blazorise.ToasterPlacement.TopStart => "toast-container-top-start",
-        Blazorise.ToasterPlacement.TopEnd => "toast-container-top-end",
+        Blazorise.ToasterPlacement.TopStart => "toast-container-top-left",
+        Blazorise.ToasterPlacement.TopEnd => "toast-container-top-right",
         Blazorise.ToasterPlacement.Bottom => "toast-container-bottom",
-        Blazorise.ToasterPlacement.BottomStart => "toast-container-bottom-start",
-        Blazorise.ToasterPlacement.BottomEnd => "toast-container-bottom-end",
+        Blazorise.ToasterPlacement.BottomStart => "toast-container-bottom-left",
+        Blazorise.ToasterPlacement.BottomEnd => "toast-container-bottom-right",
         _ => null,
     };
 
