@@ -1345,6 +1345,8 @@ public interface IClassProvider
 
     string ToJustifyContent( JustifyContent justifyContent );
 
+    string ToJustifyContent( FlexJustifyContent justifyContent );
+
     string ToScreenreader( Screenreader screenreader );
 
     string ToHeadingSize( HeadingSize headingSize );
@@ -1366,8 +1368,6 @@ public interface IClassProvider
     string ToBarCollapsedMode( BarCollapseMode collapseMode );
 
     string ToDirection( FlexDirection direction );
-
-    string ToJustifyContent( FlexJustifyContent justifyContent );
 
     string ToAlignItems( FlexAlignItems alignItems );
 

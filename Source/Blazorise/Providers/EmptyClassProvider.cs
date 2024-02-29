@@ -1345,6 +1345,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ToJustifyContent( JustifyContent justifyContent ) => null;
 
+    public string ToJustifyContent( FlexJustifyContent justifyContent ) => null;
+
     public string ToScreenreader( Screenreader screenreader ) => null;
 
     public string ToHeadingSize( HeadingSize headingSize ) => null;
@@ -1366,8 +1368,6 @@ class EmptyClassProvider : IClassProvider
     public string ToBarCollapsedMode( BarCollapseMode collapseMode ) => null;
 
     public string ToDirection( FlexDirection direction ) => null;
-
-    public string ToJustifyContent( FlexJustifyContent justifyContent ) => null;
 
     public string ToAlignItems( FlexAlignItems alignItems ) => null;
 

@@ -939,7 +939,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string OffcanvasBackdropFade( bool showing, bool hiding ) => null;
 
-    public override string OffcanvasBackdropVisible( bool visible ) => visible ? null : null;
+    public override string OffcanvasBackdropVisible( bool visible ) => null;
 
     #endregion
 

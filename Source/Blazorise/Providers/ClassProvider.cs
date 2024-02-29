@@ -1633,19 +1633,6 @@ public abstract class ClassProvider : IClassProvider
         };
     }
 
-    public virtual string ToJustifyContent( JustifyContent justifyContent )
-    {
-        return justifyContent switch
-        {
-            Blazorise.JustifyContent.Start => "justify-content-start",
-            Blazorise.JustifyContent.End => "justify-content-end",
-            Blazorise.JustifyContent.Center => "justify-content-center",
-            Blazorise.JustifyContent.Between => "justify-content-between",
-            Blazorise.JustifyContent.Around => "justify-content-around",
-            _ => null,
-        };
-    }
-
     public virtual string ToScreenreader( Screenreader screenreader )
     {
         return screenreader switch
@@ -1842,6 +1829,19 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.FlexDirection.ReverseRow => "row-reverse",
             Blazorise.FlexDirection.Column => "column",
             Blazorise.FlexDirection.ReverseColumn => "column-reverse",
+            _ => null,
+        };
+    }
+
+    public virtual string ToJustifyContent( JustifyContent justifyContent )
+    {
+        return justifyContent switch
+        {
+            Blazorise.JustifyContent.Start => "justify-content-start",
+            Blazorise.JustifyContent.End => "justify-content-end",
+            Blazorise.JustifyContent.Center => "justify-content-center",
+            Blazorise.JustifyContent.Between => "justify-content-between",
+            Blazorise.JustifyContent.Around => "justify-content-around",
             _ => null,
         };
     }
