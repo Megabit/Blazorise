@@ -45,6 +45,8 @@
 }
 
 .fui-Toaster {
+    z-index: var(--zIndexPopover);
+
     &-fixed {
         position: fixed;
     }

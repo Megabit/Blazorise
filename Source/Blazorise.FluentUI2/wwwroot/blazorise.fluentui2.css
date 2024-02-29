@@ -7284,6 +7284,9 @@ input::file-selector-button {
     max-height: 0px;
   }
 }
+.fui-Toaster {
+  z-index: var(--zIndexPopover);
+}
 .fui-Toaster-fixed {
   position: fixed;
 }
