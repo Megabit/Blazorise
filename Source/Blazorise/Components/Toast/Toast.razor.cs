@@ -292,7 +292,7 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
     /// Handles the internal visibility states.
     /// </summary>
     /// <param name="visible">Visible state.</param>
-    private async Task SetVisibleState( bool visible )
+    protected virtual async Task SetVisibleState( bool visible )
     {
         state = state with { Visible = visible };
 
@@ -378,7 +378,7 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
     /// <summary>
     /// Gets the reference to state object for this Toast.
     /// </summary>
-    protected internal ToastState State => state;
+    protected internal ToastState State { get => state; set => state = value; }
 
     /// <summary>
     /// The injected JavaScript module for closable operations.
