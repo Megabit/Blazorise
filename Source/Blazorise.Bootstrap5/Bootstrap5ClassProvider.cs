@@ -954,13 +954,11 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Toast() => "toast";
 
-    public override string ToastFade( bool showing, bool hiding ) => showing
-        ? "showing"
-        : hiding
-            ? "hiding"
-            : null;
+    public override string ToastAnimated( bool animated ) => animated ? "fade" : null;
 
-    public override string ToastVisible( bool visible ) => visible ? Show() : null;
+    public override string ToastFade( bool showing, bool hiding ) => showing || hiding ? "showing" : null;
+
+    public override string ToastVisible( bool visible ) => visible ? "show" : "hide";
 
     public override string ToastHeader() => "toast-header";
 

@@ -870,6 +870,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Toast();
 
+    public abstract string ToastAnimated( bool animated );
+
     public abstract string ToastFade( bool showing, bool hiding );
 
     public abstract string ToastVisible( bool visible );

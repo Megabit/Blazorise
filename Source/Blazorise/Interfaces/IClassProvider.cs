@@ -868,6 +868,8 @@ public interface IClassProvider
 
     string Toast();
 
+    string ToastAnimated( bool animated );
+
     string ToastFade( bool showing, bool hiding );
 
     string ToastVisible( bool visible );

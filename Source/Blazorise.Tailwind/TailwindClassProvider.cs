@@ -1392,6 +1392,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Toast() => "p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 [&:not(:last-child)]:mb-4";
 
+    public override string ToastAnimated( bool animated ) => null;
+
     public override string ToastFade( bool showing, bool hiding ) => null;
 
     public override string ToastVisible( bool visible ) => visible ? "flex" : "hidden";

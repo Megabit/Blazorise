@@ -961,6 +961,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Toast() => "toast";
 
+    public override string ToastAnimated( bool animated ) => null;
+
     public override string ToastFade( bool showing, bool hiding ) => showing
         ? "showing"
         : hiding

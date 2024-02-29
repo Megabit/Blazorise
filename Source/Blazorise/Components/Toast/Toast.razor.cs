@@ -118,6 +118,7 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Toast() );
+        builder.Append( ClassProvider.ToastAnimated( Animated ) );
         builder.Append( ClassProvider.ToastFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( ClassProvider.ToastVisible( IsVisible ) );
 
