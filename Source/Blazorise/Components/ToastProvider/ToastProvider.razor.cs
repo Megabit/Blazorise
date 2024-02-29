@@ -136,10 +136,11 @@ public partial class ToastProvider : BaseComponent, IDisposable
     /// <returns>Returns the icon name.</returns>
     private static IconName GetIconName( ToastIntent intent ) => intent switch
     {
+        ToastIntent.Info => IconName.InfoCircle,
         ToastIntent.Success => IconName.CheckCircle,
-        ToastIntent.Warning => IconName.ExclamationCircle,
-        ToastIntent.Error => IconName.Stop,
-        _ => IconName.InfoCircle,
+        ToastIntent.Warning => IconName.ExclamationTriangle,
+        ToastIntent.Error => IconName.ExclamationCircle,
+        _ => IconName.Comment,
     };
 
     /// <summary>
@@ -149,6 +150,7 @@ public partial class ToastProvider : BaseComponent, IDisposable
     /// <returns>Returns the icon color.</returns>
     private static TextColor GetIconColor( ToastIntent intent ) => intent switch
     {
+        ToastIntent.Info => TextColor.Info,
         ToastIntent.Success => TextColor.Success,
         ToastIntent.Warning => TextColor.Warning,
         ToastIntent.Error => TextColor.Danger,

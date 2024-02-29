@@ -6,22 +6,27 @@
 public enum ToastIntent
 {
     /// <summary>
-    /// Shows an info message.
+    /// Shows as a regular message.
+    /// </summary>
+    Default,
+
+    /// <summary>
+    /// Shows as an info message.
     /// </summary>
     Info,
 
     /// <summary>
-    /// Shows a success message.
+    /// Shows as a success message.
     /// </summary>
     Success,
 
     /// <summary>
-    /// Shows a warning message.
+    /// Shows as a warning message.
     /// </summary>
     Warning,
 
     /// <summary>
-    /// Shows an error message.
+    /// Shows as an error message.
     /// </summary>
     Error,
 }

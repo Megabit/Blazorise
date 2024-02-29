@@ -23,6 +23,14 @@ class ToastService : IToastService
     }
 
     /// <inheritdoc/>
+    public Task Show( string message, string title = null, Action<ToastInstanceOptions> options = null )
+        => Show( (MarkupString)message, title, options );
+
+    /// <inheritdoc/>
+    public Task Show( MarkupString message, string title = null, Action<ToastInstanceOptions> options = null )
+        => RaiseMessage( ToastIntent.Default, message, title, options );
+
+    /// <inheritdoc/>
     public Task Info( string message, string title = null, Action<ToastInstanceOptions> options = null )
         => Info( (MarkupString)message, title, options );
 

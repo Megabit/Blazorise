@@ -93,6 +93,9 @@
                 </CardText>
             </CardBody>
             <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>ToastService.Show("This is a toast message from the toast provider.", "Default message"))">
+                    Default
+                </Button>
                 <Button Color="Color.Info" Clicked="@(()=>ToastService.Info("This is a toast message from the toast provider.", "Info message"))">
                     Info
                 </Button>
