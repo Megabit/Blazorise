@@ -290,8 +290,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string FieldsColumn() => "column";
 
-    //public override string FieldsColumnSize( ColumnSize columnSize ) => $"is-{ColumnSize( columnSize )}";
-
     #endregion
 
     #region Field
@@ -376,8 +374,6 @@ public class BulmaClassProvider : ClassProvider
     public override string AddonSize( Size size ) => null;
 
     public override string AddonLabel() => "button is-static";
-
-    //public override string AddonContainer() => "control";
 
     #endregion
 
@@ -467,8 +463,6 @@ public class BulmaClassProvider : ClassProvider
     public override string DropdownMenuSelector() => "dropdown-menu";
 
     public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
-
-    //public override string DropdownMenuBody() => "dropdown-content";
 
     public override string DropdownMenuVisible( bool visible ) => null;
 
@@ -700,8 +694,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
-    //public override string BarCollapse() => "navbar-menu";
-
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-burger" :
@@ -717,8 +709,6 @@ public class BulmaClassProvider : ClassProvider
     public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-start" : "b-bar-start";
 
     public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-end" : "b-bar-end";
-
-    //public override string BarHasDropdown() => "has-dropdown";
 
     public override string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal && isBarDropDownSubmenu
         ? "dropdown"

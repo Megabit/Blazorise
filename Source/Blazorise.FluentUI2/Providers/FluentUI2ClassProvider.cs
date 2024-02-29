@@ -380,8 +380,6 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string AddonLabel() => "fui-Text";
 
-    //public override string AddonContainer() => null;
-
     #endregion
 
     #region Inline
@@ -470,8 +468,6 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string DropdownMenuSelector() => "fui-MenuPopover";
 
     public override string DropdownMenuScrollable() => "fui-MenuPopover-scrollable";
-
-    //public override string DropdownMenuBody() => null;
 
     public override string DropdownMenuVisible( bool visible ) => visible ? "fui-MenuPopover-show" : null;
 

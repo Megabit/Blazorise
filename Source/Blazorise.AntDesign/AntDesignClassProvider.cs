@@ -374,8 +374,6 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string AddonLabel() => null;
 
-    //public override string AddonContainer() => null;
-
     #endregion
 
     #region Inline
@@ -464,8 +462,6 @@ public class AntDesignClassProvider : ClassProvider
     public override string DropdownMenuSelector() => "ant-dropdown";
 
     public override string DropdownMenuScrollable() => "ant-dropdown-menu-scrollable";
-
-    //public override string DropdownMenuBody() => null;
 
     public override string DropdownMenuVisible( bool visible ) => visible ? null : "ant-dropdown-hidden";
 
@@ -692,8 +688,6 @@ public class AntDesignClassProvider : ClassProvider
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-link" : null;
 
     public override string BarLinkDisabled( BarMode mode ) => Disabled();
-
-    //public override string BarCollapse() => "navbar-collapse";
 
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-item" : "ant-menu-item ant-bar-brand";
 
@@ -952,7 +946,7 @@ public class AntDesignClassProvider : ClassProvider
     #region Toast
 
     public override string Toast() => "ant-notification-notice ant-notification-notice-closable";
-    //
+
     public override string ToastFade( bool showing, bool hiding ) => showing
         ? "ant-notification-fade-enter ant-notification-fade-enter-active ant-notification-fade-appear ant-notification-fade-appear-start ant-notification-fade-appear-active ant-notification-fade"
         : hiding

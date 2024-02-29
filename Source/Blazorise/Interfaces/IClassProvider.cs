@@ -346,8 +346,6 @@ public interface IClassProvider
 
     string AddonLabel();
 
-    //string AddonContainer();
-
     #endregion
 
     #region Inline
@@ -423,8 +421,6 @@ public interface IClassProvider
     string DropdownMenuSelector();
 
     string DropdownMenuScrollable();
-
-    //string DropdownMenuBody();
 
     string DropdownMenuVisible( bool visible );
 
@@ -681,8 +677,6 @@ public interface IClassProvider
     string BarStart( BarMode mode );
 
     string BarEnd( BarMode mode );
-
-    //string BarHasDropdown();
 
     string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
 

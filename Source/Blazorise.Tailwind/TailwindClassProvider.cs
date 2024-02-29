@@ -451,8 +451,6 @@ public class TailwindClassProvider : ClassProvider
 
     public override string AddonLabel() => "b-addon-label block px-3 font-medium text-gray-900 dark:text-white";
 
-    //public override string AddonContainer() => null;
-
     #endregion
 
     #region Inline
@@ -588,8 +586,6 @@ public class TailwindClassProvider : ClassProvider
     public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
     public override string DropdownMenuScrollable() => "b-dropdown-menu-scrollable max-h-[var(--dropdown-list-menu-max-height)] overflow-y-scroll";
-
-    //public override string DropdownMenuBody() => null;
 
     public override string DropdownMenuVisible( bool visible ) => visible
         ? "b-dropdown-menu-show block"

@@ -349,8 +349,6 @@ class EmptyClassProvider : IClassProvider
 
     public string AddonLabel() => null;
 
-    //public string AddonContainer() => null;
-
     #endregion
 
     #region Inline
@@ -426,8 +424,6 @@ class EmptyClassProvider : IClassProvider
     public string DropdownMenuSelector() => null;
 
     public string DropdownMenuScrollable() => null;
-
-    //public string DropdownMenuBody() => null;
 
     public string DropdownMenuVisible( bool visible ) => null;
 
@@ -673,8 +669,6 @@ class EmptyClassProvider : IClassProvider
 
     public string BarLinkDisabled( BarMode mode ) => null;
 
-    //public  string BarCollapse() => null;
-
     public string BarBrand( BarMode mode ) => null;
 
     public string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => null;
@@ -688,8 +682,6 @@ class EmptyClassProvider : IClassProvider
     public string BarStart( BarMode mode ) => null;
 
     public string BarEnd( BarMode mode ) => null;
-
-    //public  string BarHasDropdown() => null;
 
     public string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => null;
 

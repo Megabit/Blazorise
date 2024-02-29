@@ -347,8 +347,6 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string AddonLabel();
 
-    //public abstract string AddonContainer();
-
     #endregion
 
     #region Inline
@@ -424,8 +422,6 @@ public abstract class ClassProvider : IClassProvider
     public abstract string DropdownMenuSelector();
 
     public abstract string DropdownMenuScrollable();
-
-    //public abstract string DropdownMenuBody();
 
     public abstract string DropdownMenuVisible( bool visible );
 
@@ -669,8 +665,6 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarLinkDisabled( BarMode mode );
 
-    //public abstract string BarCollapse();
-
     public abstract string BarBrand( BarMode mode );
 
     public abstract string BarToggler( BarMode mode, BarTogglerMode togglerMode );
@@ -684,8 +678,6 @@ public abstract class ClassProvider : IClassProvider
     public abstract string BarStart( BarMode mode );
 
     public abstract string BarEnd( BarMode mode );
-
-    //public abstract string BarHasDropdown();
 
     public abstract string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
 
