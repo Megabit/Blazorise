@@ -21,7 +21,7 @@
         }
     </Column>
 
-    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
+    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row" Margin="Blazorise.Margin.IsAuto.OnX">
         @if ( GetButtonRowPosition() == PagerElementPosition.Center )
         {
             @buttonRowFragment
@@ -40,14 +40,10 @@
         }
     </Column>
 
-    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.ReverseRow">
+    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex" Margin="Blazorise.Margin.IsAuto.FromStart">
         @if ( GetButtonRowPosition() == PagerElementPosition.End )
         {
             @buttonRowFragment
-        }
-        @if ( GetColumnChooserPosition() == PagerElementPosition.End )
-        {
-            @columnChooserFragment
         }
         @if ( GetPaginationPosition() == PagerElementPosition.End )
         {
@@ -56,6 +52,10 @@
         @if ( GetTotalItemsPosition() == PagerElementPosition.End || GetTotalItemsPosition() == PagerElementPosition.Default )
         {
             @totalItemsFragment
+        }
+        @if ( GetColumnChooserPosition() == PagerElementPosition.End )
+        {
+            @columnChooserFragment
         }
     </Column>
 </Row>
