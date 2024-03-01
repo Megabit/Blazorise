@@ -965,18 +965,10 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ToastFade( bool visible, bool showing, bool hiding )
     {
-        var sb = new StringBuilder();
-
-        if ( visible )
-            sb.Append( "show" );
-
         if ( showing || hiding )
-            sb.Append( "showing" );
+            return null;
 
-        if ( !visible )
-            sb.Append( "hide" );
-
-        return sb.ToString();
+        return visible ? "show" : "hide";
     }
 
     public override string ToastVisible( bool visible ) => null;
