@@ -1091,7 +1091,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ToastAnimated( bool animated ) => null;
 
-    public override string ToastFade( bool showing, bool hiding ) => showing
+    public override string ToastFade( bool visible, bool showing, bool hiding ) => showing
         ? "fui-Toast-showing"
         : hiding
             ? "fui-Toast-hiding"

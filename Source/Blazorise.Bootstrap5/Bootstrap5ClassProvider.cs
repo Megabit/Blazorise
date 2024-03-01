@@ -956,9 +956,18 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ToastAnimated( bool animated ) => animated ? "fade" : null;
 
-    public override string ToastFade( bool showing, bool hiding ) => showing || hiding ? "showing" : null;
+    public override string ToastFade( bool visible, bool showing, bool hiding )
+    {
+        if ( showing || hiding )
+            return "show showing";
 
-    public override string ToastVisible( bool visible ) => visible ? "show" : "hide";
+        if ( visible )
+            return "show";
+
+        return "hide";
+    }
+
+    public override string ToastVisible( bool visible ) => null;
 
     public override string ToastHeader() => "toast-header";
 

@@ -119,7 +119,7 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
     {
         builder.Append( ClassProvider.Toast() );
         builder.Append( ClassProvider.ToastAnimated( Animated ) );
-        builder.Append( ClassProvider.ToastFade( Animated && State.Showing, Animated && State.Hiding ) );
+        builder.Append( ClassProvider.ToastFade( IsVisible, Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( ClassProvider.ToastVisible( IsVisible ) );
 
         base.BuildClasses( builder );

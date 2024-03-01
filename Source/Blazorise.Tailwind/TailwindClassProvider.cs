@@ -1394,7 +1394,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ToastAnimated( bool animated ) => null;
 
-    public override string ToastFade( bool showing, bool hiding ) => null;
+    public override string ToastFade( bool visible, bool showing, bool hiding ) => null;
 
     public override string ToastVisible( bool visible ) => visible ? "flex" : "hidden";
 

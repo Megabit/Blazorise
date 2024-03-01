@@ -68,6 +68,5 @@ public static class Config
         { typeof( Blazorise.Radio<> ), typeof( Bootstrap5.Radio<> ) },
         { typeof( Blazorise.Switch<> ), typeof( Bootstrap5.Switch<> ) },
         { typeof( Blazorise.Step ), typeof( Bootstrap5.Step ) },
-        { typeof( Blazorise.Toast ), typeof( Bootstrap5.Toast ) },
     };
 }

@@ -870,7 +870,7 @@ public interface IClassProvider
 
     string ToastAnimated( bool animated );
 
-    string ToastFade( bool showing, bool hiding );
+    string ToastFade( bool visible, bool showing, bool hiding );
 
     string ToastVisible( bool visible );
 
