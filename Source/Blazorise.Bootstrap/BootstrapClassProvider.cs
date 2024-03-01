@@ -961,15 +961,25 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Toast() => "toast";
 
-    public override string ToastAnimated( bool animated ) => null;
+    public override string ToastAnimated( bool animated ) => animated ? "fade" : null;
 
-    public override string ToastFade( bool visible, bool showing, bool hiding ) => showing
-        ? "showing"
-        : hiding
-            ? "hiding"
-            : null;
+    public override string ToastFade( bool visible, bool showing, bool hiding )
+    {
+        var sb = new StringBuilder();
 
-    public override string ToastVisible( bool visible ) => visible ? Show() : null;
+        if ( visible )
+            sb.Append( "show" );
+
+        if ( showing || hiding )
+            sb.Append( "showing" );
+
+        if ( !visible )
+            sb.Append( "hide" );
+
+        return sb.ToString();
+    }
+
+    public override string ToastVisible( bool visible ) => null;
 
     public override string ToastHeader() => "toast-header";
 
