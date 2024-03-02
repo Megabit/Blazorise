@@ -1,0 +1,41 @@
+﻿.b-toast {
+    display: none;
+
+    &.b-toast-fade {
+        &.flex {
+            animation: toast-slidein var(--toast-animation-duration, 300ms) linear;
+        }
+
+        &:not(.flex) {
+            animation: toast-slideaway var(--toast-animation-duration, 300ms) linear;
+        }
+    }
+}
+
+
+@keyframes toast-slidein {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: flex;
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes toast-slideaway {
+    from {
+        display: flex;
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

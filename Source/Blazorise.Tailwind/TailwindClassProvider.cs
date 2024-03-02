@@ -1390,13 +1390,13 @@ public class TailwindClassProvider : ClassProvider
 
     #region Toast
 
-    public override string Toast() => "p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 [&:not(:last-child)]:mb-4";
+    public override string Toast() => "b-toast p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 [&:not(:last-child)]:mb-4";
 
-    public override string ToastAnimated( bool animated ) => animated ? "transition-opacity ease-out" : null;
+    public override string ToastAnimated( bool animated ) => null;
 
-    public override string ToastFade( bool visible, bool showing, bool hiding ) => showing || hiding ? "opacity-0" : null;
+    public override string ToastFade( bool visible, bool showing, bool hiding ) => showing || hiding ? "b-toast-fade" : null;
 
-    public override string ToastVisible( bool visible ) => visible ? "flex" : "hidden";
+    public override string ToastVisible( bool visible ) => visible ? "flex" : null;
 
     public override string ToastHeader() => "flex items-center mb-1 text-sm font-semibold text-gray-900 dark:text-white";
 

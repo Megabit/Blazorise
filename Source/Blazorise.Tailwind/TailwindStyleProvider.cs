@@ -65,8 +65,8 @@ public class TailwindStyleProvider : StyleProvider
 
     public override string ToastAnimationDuration( bool animated, int animationDuration )
         => animated
-            ? $"transition-duration: {animationDuration}ms"
-            : "transition-duration: unset";
+            ? $"--toast-animation-duration: {animationDuration}ms"
+            : "--toast-animation-duration: unset";
 
     #endregion
 }

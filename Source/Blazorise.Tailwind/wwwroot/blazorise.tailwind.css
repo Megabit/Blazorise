@@ -396,6 +396,38 @@ tr.b-table-row.b-table-row-selectable:focus[tabindex="0"] {
   border: 0;
 }
 
+.b-toast {
+  display: none;
+}
+.b-toast.b-toast-fade.flex {
+  animation: toast-slidein var(--toast-animation-duration, 300ms) linear;
+}
+.b-toast.b-toast-fade:not(.flex) {
+  animation: toast-slideaway var(--toast-animation-duration, 300ms) linear;
+}
+
+@keyframes toast-slidein {
+  0% {
+    display: none;
+    opacity: 0;
+  }
+  1% {
+    display: flex;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes toast-slideaway {
+  from {
+    display: flex;
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
 p {
   --tw-text-opacity: 1;
   color: rgb(75 85 99/var(--tw-text-opacity));
