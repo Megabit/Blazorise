@@ -102,7 +102,11 @@ public partial class Validations : ComponentBase
         return validated;
     }
 
-    internal void NotifyValidationInitialized( IValidation validation )
+    /// <summary>
+    /// Notifies the validation system that a new validation component has been initialized and adds it to the list of validations if not already present.
+    /// </summary>
+    /// <param name="validation">The validation component to add.</param>
+    public void NotifyValidationInitialized( IValidation validation )
     {
         if ( !validations.Contains( validation ) )
         {
@@ -110,7 +114,11 @@ public partial class Validations : ComponentBase
         }
     }
 
-    internal void NotifyValidationRemoved( IValidation validation )
+    /// <summary>
+    /// Notifies the validation system that a validation component is being removed and removes it from the list of validations if present.
+    /// </summary>
+    /// <param name="validation">The validation component to remove.</param>
+    public void NotifyValidationRemoved( IValidation validation )
     {
         if ( validations.Contains( validation ) )
         {
@@ -118,7 +126,17 @@ public partial class Validations : ComponentBase
         }
     }
 
-    internal void NotifyValidationStatusChanged( IValidation validation )
+    /// <summary>
+    /// Notifies the validation system that the status of a validation component has changed. This method handles the logic for updating the overall validation status based on the mode (Auto or Manual) and the current validation results.
+    /// </summary>
+    /// <param name="validation">The validation component whose status has changed.</param>
+    /// <remarks>
+    /// In Auto mode, this method triggers the aggregation of validation results and potentially raises a status changed event.
+    /// It is designed to minimize the number of status changed events by aggregating validation results.
+    /// Special consideration is needed to ensure that the status changed event is raised only once per validation cycle,
+    /// even if multiple validations fail.
+    /// </remarks>
+    public void NotifyValidationStatusChanged( IValidation validation )
     {
         // Here we need to call ValidatedAll only when in Auto mode. Manual call is already called through ValidateAll()
         if ( Mode == ValidationMode.Manual )
