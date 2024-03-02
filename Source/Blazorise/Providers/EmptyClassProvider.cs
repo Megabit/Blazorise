@@ -349,8 +349,6 @@ class EmptyClassProvider : IClassProvider
 
     public string AddonLabel() => null;
 
-    //public string AddonContainer() => null;
-
     #endregion
 
     #region Inline
@@ -426,8 +424,6 @@ class EmptyClassProvider : IClassProvider
     public string DropdownMenuSelector() => null;
 
     public string DropdownMenuScrollable() => null;
-
-    //public string DropdownMenuBody() => null;
 
     public string DropdownMenuVisible( bool visible ) => null;
 
@@ -673,8 +669,6 @@ class EmptyClassProvider : IClassProvider
 
     public string BarLinkDisabled( BarMode mode ) => null;
 
-    //public  string BarCollapse() => null;
-
     public string BarBrand( BarMode mode ) => null;
 
     public string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => null;
@@ -688,8 +682,6 @@ class EmptyClassProvider : IClassProvider
     public string BarStart( BarMode mode ) => null;
 
     public string BarEnd( BarMode mode ) => null;
-
-    //public  string BarHasDropdown() => null;
 
     public string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => null;
 
@@ -821,9 +813,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Modal() => null;
 
-    public string ModalFade() => null;
-
-    public string ModalFade( bool animation ) => null;
+    public string ModalFade( bool showing, bool hiding ) => null;
 
     public string ModalVisible( bool visible ) => null;
 
@@ -876,6 +866,28 @@ class EmptyClassProvider : IClassProvider
     public string OffcanvasBackdropFade( bool showing, bool hiding ) => null;
 
     public string OffcanvasBackdropVisible( bool visible ) => null;
+
+    #endregion
+
+    #region Toast
+
+    public string Toast() => null;
+
+    public string ToastAnimated( bool animated ) => null;
+
+    public string ToastFade( bool visible, bool showing, bool hiding ) => null;
+
+    public string ToastVisible( bool visible ) => null;
+
+    public string ToastHeader() => null;
+
+    public string ToastBody() => null;
+
+    public string Toaster() => null;
+
+    public string ToasterPlacement( ToasterPlacement placement ) => null;
+
+    public string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => null;
 
     #endregion
 
@@ -1335,6 +1347,8 @@ class EmptyClassProvider : IClassProvider
 
     public string ToJustifyContent( JustifyContent justifyContent ) => null;
 
+    public string ToJustifyContent( FlexJustifyContent justifyContent ) => null;
+
     public string ToScreenreader( Screenreader screenreader ) => null;
 
     public string ToHeadingSize( HeadingSize headingSize ) => null;
@@ -1356,8 +1370,6 @@ class EmptyClassProvider : IClassProvider
     public string ToBarCollapsedMode( BarCollapseMode collapseMode ) => null;
 
     public string ToDirection( FlexDirection direction ) => null;
-
-    public string ToJustifyContent( FlexJustifyContent justifyContent ) => null;
 
     public string ToAlignItems( FlexAlignItems alignItems ) => null;
 

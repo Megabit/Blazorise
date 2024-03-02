@@ -290,8 +290,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string FieldsColumn() => "column";
 
-    //public override string FieldsColumnSize( ColumnSize columnSize ) => $"is-{ColumnSize( columnSize )}";
-
     #endregion
 
     #region Field
@@ -376,8 +374,6 @@ public class BulmaClassProvider : ClassProvider
     public override string AddonSize( Size size ) => null;
 
     public override string AddonLabel() => "button is-static";
-
-    //public override string AddonContainer() => "control";
 
     #endregion
 
@@ -467,8 +463,6 @@ public class BulmaClassProvider : ClassProvider
     public override string DropdownMenuSelector() => "dropdown-menu";
 
     public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
-
-    //public override string DropdownMenuBody() => "dropdown-content";
 
     public override string DropdownMenuVisible( bool visible ) => null;
 
@@ -700,8 +694,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
-    //public override string BarCollapse() => "navbar-menu";
-
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-burger" :
@@ -717,8 +709,6 @@ public class BulmaClassProvider : ClassProvider
     public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-start" : "b-bar-start";
 
     public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-end" : "b-bar-end";
-
-    //public override string BarHasDropdown() => "has-dropdown";
 
     public override string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal && isBarDropDownSubmenu
         ? "dropdown"
@@ -908,9 +898,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Modal() => "modal";
 
-    public override string ModalFade() => Fade();
-
-    public override string ModalFade( bool animation ) => animation ? Fade() : null;
+    public override string ModalFade( bool showing, bool hiding ) => showing || hiding ? Fade() : null;
 
     public override string ModalVisible( bool visible ) => visible ? Active() : null;
 
@@ -986,6 +974,48 @@ public class BulmaClassProvider : ClassProvider
     public override string OffcanvasBackdropFade( bool showing, bool hiding ) => null;
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Active() : null;
+
+    #endregion
+
+    #region Toast
+
+    public override string Toast() => "toast";
+
+    public override string ToastAnimated( bool animated ) => null;
+
+    public override string ToastFade( bool visible, bool showing, bool hiding ) => showing
+        ? "toast-showing"
+        : hiding
+            ? "toast-hiding"
+            : null;
+
+    public override string ToastVisible( bool visible ) => visible
+        ? "toast-show"
+        : "toast-hide";
+
+    public override string ToastHeader() => "toast-header";
+
+    public override string ToastBody() => "toast-body";
+
+    public override string Toaster() => "toast-container";
+
+    public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
+    {
+        Blazorise.ToasterPlacement.Top => "toast-container-top",
+        Blazorise.ToasterPlacement.TopStart => "toast-container-top-left",
+        Blazorise.ToasterPlacement.TopEnd => "toast-container-top-right",
+        Blazorise.ToasterPlacement.Bottom => "toast-container-bottom",
+        Blazorise.ToasterPlacement.BottomStart => "toast-container-bottom-left",
+        Blazorise.ToasterPlacement.BottomEnd => "toast-container-bottom-right",
+        _ => null,
+    };
+
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Fixed => "toast-container-fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "toast-container-absolute",
+        _ => null,
+    };
 
     #endregion
 

@@ -82,6 +82,7 @@ public static class Config
         { typeof( Blazorise.Step ), typeof( Components.Step ) },
         { typeof( Blazorise.Tab ), typeof( Components.Tab ) },
         { typeof( Blazorise.Tabs ), typeof( Components.Tabs ) },
+        { typeof( Blazorise.Toast ), typeof( Components.Toast ) },
         { typeof( Blazorise.ValidationError ), typeof( Components.ValidationError ) },
         { typeof( Blazorise.ValidationSuccess ), typeof( Components.ValidationSuccess ) },
     };

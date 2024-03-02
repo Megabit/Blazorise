@@ -373,8 +373,6 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string AddonLabel() => "input-group-text";
 
-    //public override string AddonContainer() => null;
-
     #endregion
 
     #region Inline
@@ -463,8 +461,6 @@ public class BootstrapClassProvider : ClassProvider
     public override string DropdownMenuSelector() => "dropdown-menu";
 
     public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
-
-    //public override string DropdownMenuBody() => null;
 
     public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
@@ -887,9 +883,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Modal() => "modal";
 
-    public override string ModalFade() => Fade();
-
-    public override string ModalFade( bool animation ) => animation ? Fade() : null;
+    public override string ModalFade( bool showing, bool hiding ) => showing
+        ? "showing"
+        : hiding
+            ? "hiding"
+            : null;
 
     public override string ModalVisible( bool visible ) => visible ? Show() : null;
 
@@ -956,6 +954,48 @@ public class BootstrapClassProvider : ClassProvider
     public override string OffcanvasBackdropFade( bool showing, bool hiding ) => Fade();
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
+
+    #endregion
+
+    #region Toast
+
+    public override string Toast() => "toast";
+
+    public override string ToastAnimated( bool animated ) => animated ? "fade" : null;
+
+    public override string ToastFade( bool visible, bool showing, bool hiding )
+    {
+        if ( showing || hiding )
+            return null;
+
+        return visible ? "show" : "hide";
+    }
+
+    public override string ToastVisible( bool visible ) => null;
+
+    public override string ToastHeader() => "toast-header";
+
+    public override string ToastBody() => "toast-body";
+
+    public override string Toaster() => "toast-container";
+
+    public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
+    {
+        Blazorise.ToasterPlacement.Top => "p-3 top-0 left-50 translate-middle-x",
+        Blazorise.ToasterPlacement.TopStart => "p-3 top-0 left-0",
+        Blazorise.ToasterPlacement.TopEnd => "p-3 top-0 right-0",
+        Blazorise.ToasterPlacement.Bottom => "p-3 bottom-0 left-50 translate-middle-x",
+        Blazorise.ToasterPlacement.BottomStart => "p-3 bottom-0 left-0",
+        Blazorise.ToasterPlacement.BottomEnd => "p-3 bottom-0 right-0",
+        _ => null,
+    };
+
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Fixed => "position-fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "position-absolute",
+        _ => null,
+    };
 
     #endregion
 

@@ -451,8 +451,6 @@ public class TailwindClassProvider : ClassProvider
 
     public override string AddonLabel() => "b-addon-label block px-3 font-medium text-gray-900 dark:text-white";
 
-    //public override string AddonContainer() => null;
-
     #endregion
 
     #region Inline
@@ -588,8 +586,6 @@ public class TailwindClassProvider : ClassProvider
     public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
     public override string DropdownMenuScrollable() => "b-dropdown-menu-scrollable max-h-[var(--dropdown-list-menu-max-height)] overflow-y-scroll";
-
-    //public override string DropdownMenuBody() => null;
 
     public override string DropdownMenuVisible( bool visible ) => visible
         ? "b-dropdown-menu-show block"
@@ -1303,9 +1299,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Modal() => "b-modal fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full justify-center items-center";
 
-    public override string ModalFade() => "b-modal-fade";
-
-    public override string ModalFade( bool animation ) => animation ? "b-modal-fade" : null;
+    public override string ModalFade( bool showing, bool hiding ) => showing || hiding ? "b-modal-fade" : null;
 
     public override string ModalVisible( bool visible ) => visible ? "flex" : null;
 
@@ -1391,6 +1385,42 @@ public class TailwindClassProvider : ClassProvider
     public override string OffcanvasBackdropFade( bool showing, bool hiding ) => "fade";
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
+
+    #endregion
+
+    #region Toast
+
+    public override string Toast() => "b-toast p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 [&:not(:last-child)]:mb-4";
+
+    public override string ToastAnimated( bool animated ) => null;
+
+    public override string ToastFade( bool visible, bool showing, bool hiding ) => showing || hiding ? "b-toast-fade" : null;
+
+    public override string ToastVisible( bool visible ) => visible ? "flex" : null;
+
+    public override string ToastHeader() => "flex items-center mb-1 text-sm font-semibold text-gray-900 dark:text-white";
+
+    public override string ToastBody() => "text-sm font-normal";
+
+    public override string Toaster() => "z-50";
+
+    public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
+    {
+        Blazorise.ToasterPlacement.Top => "top-5 right-auto bottom-auto left-1/2 -translate-x-1/2",
+        Blazorise.ToasterPlacement.TopStart => "left-5 top-5",
+        Blazorise.ToasterPlacement.TopEnd => "right-5 top-5",
+        Blazorise.ToasterPlacement.Bottom => "top-auto right-auto bottom-5 left-1/2 -translate-x-1/2",
+        Blazorise.ToasterPlacement.BottomStart => "left-5 top-auto bottom-5",
+        Blazorise.ToasterPlacement.BottomEnd => "right-5 top-auto bottom-5",
+        _ => null,
+    };
+
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Fixed => "fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "absolute",
+        _ => null,
+    };
 
     #endregion
 
