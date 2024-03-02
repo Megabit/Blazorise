@@ -80,6 +80,9 @@ public partial class Toast : BaseComponent, IAnimatedComponent, IDisposable
                 await base.SetParametersAsync( parameters );
                 await SetVisibleState( false );
             }
+
+            if ( Rendered )
+                await InvokeAsync( StateHasChanged );
         }
         else
         {
