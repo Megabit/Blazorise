@@ -58,7 +58,7 @@ public partial class ToastProvider : BaseComponent, IDisposable
     /// <param name="message">Info toast to show.</param>
     /// <param name="intent">Intent of the toast message.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task Show( string title, string message, ToastIntent intent = ToastIntent.Info )
+    public Task Show( string title, string message, ToastIntent intent = ToastIntent.Default )
     {
         return Show( title, (MarkupString)message, intent, ToastInstanceOptions.Default );
     }
