@@ -7,7 +7,7 @@
             </CardHeader>
             <CardBody>
                 <Paragraph>
-                    Enable Column Chooser to allow users to show or hide columns in the DataGrid. 
+                    Enable Column Chooser to allow users to show or hide columns in the DataGrid.
                 </Paragraph>
             </CardBody>
             <CardBody>
@@ -18,7 +18,7 @@
                           PagerPosition="DataGridPagerPosition.Top"
                           ShowPager
                           ShowPageSizes
-                PagerOptions="new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }">
+                          PagerOptions="new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.FirstName )" Caption="First Name">
@@ -43,16 +43,6 @@
                             </DisplayTemplate>
                         </DataGridCheckColumn>
                     </DataGridColumns>
-@*                     <ColumnChooserTemplate>
-                        @foreach ( var column in context.Columns )
-                        {
-                            <Row Margin="Blazorise.Margin.Is0">
-                                <Column>
-                                    <Check TValue="bool" Checked=@column.Displaying CheckedChanged="@(value => context.ColumnDisplayChanged.InvokeAsync(new Blazorise.DataGrid.EventArguments.ColumnDisplayChangedEventArgs<Employee>(column, value)))">@column.Caption</Check>
-                                </Column>
-                            </Row>
-                        }
-                    </ColumnChooserTemplate> *@
                 </DataGrid>
             </CardBody>
         </Card>
