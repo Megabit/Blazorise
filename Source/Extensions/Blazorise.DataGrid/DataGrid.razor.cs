@@ -2592,7 +2592,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         get
         {
             var orderedDisplayColumns = Columns
-                .Where( x => x.IsDisplayable || x.Displayable )
+                .Where( x => x.IsDisplayable || x.Displaying )
                 .OrderBy( x => x.DisplayOrder );
 
             if ( !IsGroupHeaderCaptionsEnabled )
@@ -2635,7 +2635,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         get
         {
             var orderedDisplayColumns = Columns
-                .Where( x => x.IsDisplayable || x.Displayable )
+                .Where( x => x.IsDisplayable || x.Displaying )
                 .OrderBy( x => x.DisplayOrder )
                 .ToList();
 
@@ -3103,6 +3103,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets content of button row of pager.
     /// </summary>
     [Parameter] public RenderFragment<ButtonRowContext<TItem>> ButtonRowTemplate { get; set; }
+
+    /// <summary>
+    /// Gets or sets content of column chooser of pager.
+    /// </summary>
+    [Parameter] public RenderFragment<ColumnChooserContext<TItem>> ColumnChooserTemplate { get; set; }
 
     /// <summary>
     /// Gets or sets content of first button of pager.
@@ -3610,6 +3615,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Custom handler for the cell styling when the cell has batch edit changes.
     /// </summary>
     [Parameter] public Action<DataGridBatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling> BatchEditCellStyling { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the column chooser is visible.
+    /// </summary>
+    [Parameter] public bool ShowColumnChooser { get; set; }
 
     #endregion
 }

@@ -53,6 +53,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     private void InitializeDefaults()
     {
+        Displaying = Displayable;
         currentSortDirection[DataGridSortMode.Single] = SortDirection;
         currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
         currentFilterMethod = FilterMethod;
@@ -315,6 +316,10 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     #region Properties
 
+    /// <summary>
+    /// Gets or sets whether column is displaying.
+    /// </summary>
+    public bool Displaying { get; internal set; }
 
     /// <summary>
     /// Whether the cell is currently being edited.
@@ -446,11 +451,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     internal bool IsDisplayable => ( ColumnType == DataGridColumnType.Command && ParentDataGrid.EditMode == DataGridEditMode.Inline );
 
-    internal bool ExcludeFromFilter => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+    internal bool IsRegularColumn => !( ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect );
 
-    internal bool ExcludeFromEdit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+    internal bool ExcludeFromFilter => !IsRegularColumn;
 
-    internal bool ExcludeFromInit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+    internal bool ExcludeFromEdit => !IsRegularColumn;
+
+    internal bool ExcludeFromInit => !IsRegularColumn;
 
     /// <summary>
     /// Tracks whether the dropdown filter is visible for this column.

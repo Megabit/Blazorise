@@ -6699,6 +6699,28 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
+        public const string DataGridColumnChooserExample = @"<DataGrid TItem=""Employee""
+          Data=""inMemoryData""
+          Responsive
+          ShowColumnChooser
+          PagerPosition=""DataGridPagerPosition.Top""
+          ShowPager
+          ShowPageSizes>
+</DataGrid>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private IEnumerable<Employee> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string DataGridColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
         <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
         <DataGridCommandColumn />

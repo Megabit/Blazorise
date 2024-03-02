@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -196,7 +195,7 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         get
         {
             return Columns
-                .Where( column => column.IsDisplayable || column.Displayable )
+                .Where( column => column.IsDisplayable || column.Displaying )
                 .OrderBy( column => column.DisplayOrder );
         }
     }

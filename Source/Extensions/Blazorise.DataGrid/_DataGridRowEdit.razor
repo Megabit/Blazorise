@@ -126,7 +126,7 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                         </TableRowCell>
                     }
                 }
-                else if ( column.Displayable )
+                else if ( column.Displaying )
                 {
                     <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)"
                                   @onkeydown="@(ParentDataGrid.IsCellEdit ? async (args) =>  await HandleCellKeyDown(args, column) : default)"
