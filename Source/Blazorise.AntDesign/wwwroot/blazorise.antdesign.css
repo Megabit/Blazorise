@@ -442,6 +442,13 @@
   margin-right: 0.1rem;
 }
 
+.ant-breadcrumb > span:last-child {
+  color: rgba(0, 0, 0, 0.65);
+}
+.ant-breadcrumb > span:last-child .ant-breadcrumb-separator {
+  display: none;
+}
+
 .ant-btn-secondary {
   color: #fff;
   background-color: #6c757d;
