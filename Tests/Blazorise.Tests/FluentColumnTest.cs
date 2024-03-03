@@ -99,6 +99,18 @@ public class FluentColumnTest
     [InlineData( "col-xl-10", ColumnWidth.Is10, Breakpoint.FullHD )]
     [InlineData( "col-xl-11", ColumnWidth.Is11, Breakpoint.FullHD )]
     [InlineData( "col-xl-12", ColumnWidth.Is12, Breakpoint.FullHD )]
+    [InlineData( "col-xxl-1", ColumnWidth.Is1, Breakpoint.Full2K )]
+    [InlineData( "col-xxl-2", ColumnWidth.Is2, Breakpoint.Full2K )]
+    [InlineData( "col-xxl-3", ColumnWidth.Is3, Breakpoint.Full2K )]
+    [InlineData( "col-xxl-4", ColumnWidth.Is4, Breakpoint.Full2K )]
+    [InlineData( "col-xxl-5", ColumnWidth.Is5, Breakpoint.Full2K )]
+    [InlineData( "col-xxl-6", ColumnWidth.Is6, Breakpoint.Full2K )]
+    [InlineData( "col-xxl-7", ColumnWidth.Is7, Breakpoint.Full2K )]
+    [InlineData( "col-xxl-8", ColumnWidth.Is8, Breakpoint.Full2K )]
+    [InlineData( "col-xxl-9", ColumnWidth.Is9, Breakpoint.Full2K )]
+    [InlineData( "col-xxl-10", ColumnWidth.Is10, Breakpoint.Full2K )]
+    [InlineData( "col-xxl-11", ColumnWidth.Is11, Breakpoint.Full2K )]
+    [InlineData( "col-xxl-12", ColumnWidth.Is12, Breakpoint.Full2K )]
     public void AreBreakpoints_OnAll( string expected, ColumnWidth columnWidth, Breakpoint breakpoint )
     {
         var columnsSize = new FluentColumn();
