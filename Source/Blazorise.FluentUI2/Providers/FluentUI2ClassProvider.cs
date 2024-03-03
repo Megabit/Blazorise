@@ -1680,20 +1680,6 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Enums
 
-    public override string ToBreakpoint( Breakpoint breakpoint )
-    {
-        return breakpoint switch
-        {
-            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "xs",
-            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "sm",
-            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "md",
-            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "lg",
-            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "xl",
-            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "xxl",
-            _ => null,
-        };
-    }
-
     public override string ToSize( Size size )
     {
         return size switch
