@@ -113,6 +113,11 @@ public interface IFluentSpacingOnBreakpoint :
     /// Breakpoint on large desktops (extra large).
     /// </summary>
     IFluentSpacingOnBreakpointWithSideAndSize OnFullHD { get; }
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    IFluentSpacingOnBreakpointWithSideAndSize OnFull2K { get; }
 }
 
 /// <summary>
@@ -404,6 +409,11 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
     /// Breakpoint on large desktops (extra large).
     /// </summary>
     public IFluentSpacingOnBreakpointWithSideAndSize OnFullHD => WithBreakpoint( Breakpoint.FullHD );
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    public IFluentSpacingOnBreakpointWithSideAndSize OnFull2K => WithBreakpoint( Breakpoint.Full2K );
 
     #endregion
 }

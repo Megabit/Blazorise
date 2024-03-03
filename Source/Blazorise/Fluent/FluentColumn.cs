@@ -66,6 +66,11 @@ public interface IFluentColumnOnBreakpoint :
     /// Breakpoint on large desktops (extra large).
     /// </summary>
     IFluentColumnWithSize OnFullHD { get; }
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    IFluentColumnWithSize OnFull2K { get; }
 }
 
 /// <summary>
@@ -365,6 +370,11 @@ public class FluentColumn :
     /// Breakpoint on large desktops (extra large).
     /// </summary>
     public IFluentColumnWithSize OnFullHD => WithBreakpoint( Breakpoint.FullHD );
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    public IFluentColumnWithSize OnFull2K => WithBreakpoint( Breakpoint.Full2K );
 
     /// <summary>
     /// Move columns to the right.

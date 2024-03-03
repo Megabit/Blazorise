@@ -86,6 +86,11 @@ public interface IFluentSizingOnBreakpoint :
     /// Breakpoint on large desktops (extra large).
     /// </summary>
     IFluentSizingWithSizeWithMinMaxWithViewportAll OnFullHD { get; }
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    IFluentSizingWithSizeWithMinMaxWithViewportAll OnFull2K { get; }
 }
 
 /// <summary>
@@ -509,6 +514,9 @@ public class FluentSizing :
 
     /// <inheritdoc/>
     public IFluentSizingWithSizeWithMinMaxWithViewportAll OnFullHD => WithBreakpoint( Breakpoint.FullHD );
+
+    /// <inheritdoc/>
+    public IFluentSizingWithSizeWithMinMaxWithViewportAll OnFull2K => WithBreakpoint( Breakpoint.Full2K );
 
     #endregion
 }

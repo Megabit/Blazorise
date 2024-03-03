@@ -54,6 +54,11 @@ public interface IFluentGridColumnsBreakpoint :
     /// Breakpoint on large desktops (extra large).
     /// </summary>
     IFluentGridColumnsSize OnFullHD { get; }
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    IFluentGridColumnsSize OnFull2K { get; }
 }
 
 /// <summary>
@@ -285,6 +290,9 @@ public class FluentGridColumns :
 
     /// <inheritdoc/>
     public IFluentGridColumnsSize OnFullHD => WithBreakpoint( Breakpoint.FullHD );
+
+    /// <inheritdoc/>
+    public IFluentGridColumnsSize OnFull2K => WithBreakpoint( Breakpoint.Full2K );
 
     #endregion
 }

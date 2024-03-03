@@ -60,6 +60,11 @@ public interface IFluentDisplayOnBreakpoint :
     /// Breakpoint on large desktops (extra large).
     /// </summary>
     IFluentDisplayWithDisplay OnFullHD { get; }
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    IFluentDisplayWithDisplay OnFull2K { get; }
 }
 
 /// <summary>
@@ -344,6 +349,11 @@ public class FluentDisplay :
     /// Breakpoint on large desktops (extra large).
     /// </summary>
     public IFluentDisplayWithDisplay OnFullHD => WithBreakpoint( Breakpoint.FullHD );
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    public IFluentDisplayWithDisplay OnFull2K => WithBreakpoint( Breakpoint.Full2K );
 
     /// <summary>
     /// Display will not be applied, meaning an element will be visible.
