@@ -754,7 +754,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string AccordionBody() => "ant-collapse-content";
 
-    public override string AccordionBodyActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
+    public override string AccordionBodyActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive ant-collapse-content-hidden";
 
     public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "ant-collapse-content-box";
 
