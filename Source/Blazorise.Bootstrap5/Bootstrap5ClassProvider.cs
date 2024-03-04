@@ -1183,7 +1183,16 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
 
-    public override string TextSize( TextSize textSize ) => $"fs-{ToTextSize( textSize )}";
+    public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
+    {
+        if ( textSizeType == TextSizeType.Default )
+            return null;
+
+        if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"fs-{ToBreakpoint( textSizeDefinition.Breakpoint )}-{ToTextSizeType( textSizeType )}";
+
+        return $"fs-{ToTextSizeType( textSizeType )}";
+    }
 
     public override string TextItalic() => "fst-italic";
 

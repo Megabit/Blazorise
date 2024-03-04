@@ -37,6 +37,8 @@ $font-size-xs: $font-size-base * .75 !default;
 $font-size-md: $font-size-base * 1.125 !default;
 $font-size-xl: $font-size-base * 1.5 !default;
 
+$font-sizes: ( xs: $font-size-xs, sm: $font-size-sm, md: $font-size-md, lg: $font-size-lg, xl: $font-size-xl, 1: $h1-font-size, 2: $h2-font-size, 3: $h3-font-size, 4: $h4-font-size, 5: $h5-font-size, 6: $h6-font-size ) !default;
+
 
 // Buttons + Forms
 //
