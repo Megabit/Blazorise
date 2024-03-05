@@ -117,10 +117,13 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Text size">
         <Paragraph>
-            The <Code>TextSize</Code> enum utility in Blazorise provides an easy way to control the size of the text in your Blazor components. It comes with a range of predefined sizes and also supports heading sizes.
+            The <Code>TextSize</Code> fluent utility in Blazorise provides an easy way to control the size of the text in your Blazor components. It comes with a range of predefined sizes and also supports heading sizes.
         </Paragraph>
         <Paragraph>
-            The usage of the <Code>TextSize</Code> enum is quite straightforward. You just need to set the <Code>TextSize</Code> property of the Paragraph component (or any other component supporting this attribute) to one of the available enum values.
+            The usage of the <Code>TextSize</Code> fluent utility is quite straightforward. You just need to set the <Code>TextSize</Code> property of the Paragraph component (or any other component supporting this attribute) to one of the available enum values.
+        </Paragraph>
+        <Paragraph>
+            Also, as most of Blazorise fluent-based utilities, you can define different text sizes for different screens, eg. <Code>TextSize="TextSize.IsLarge.OnMobile.IsSmall.OnDesktop"</Code>.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -153,7 +156,7 @@
     <DocsAttributesItem Name="TextOverflow" Type="TextOverflow" Default="Default">
         Determines how the text will behave when it is larger than a parent container.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="TextSize" Type="TextSize" Default="Default">
+    <DocsAttributesItem Name="TextSize" Type="IFluentTextSize" Default="null">
         Determines the font size of an element.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Italic" Type="bool" Default="false">
