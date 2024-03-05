@@ -1522,6 +1522,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( !IsCellEdit )
             return;
 
+        var batchEditItem = BatchEdit
+            ? GetBatchEditItemByLastEditItem( item ) ?? GetBatchEditItemByOriginal( item )
+            : null;
+
+
         await SaveInternal();
 
         if ( EditState == DataGridEditState.Edit )
@@ -1533,6 +1538,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 editableColumn.CellEditing = false;
 
             column.CellEditing = true;
+            if ( BatchEdit )
+            {
+                batchEditItem = batchEditItem ??
+                    GetBatchEditItemByLastEditItem( item ) ??
+                    GetBatchEditItemByOriginal( item );
+
+                if ( batchEditItem is not null )
+                {
+                    await Edit( batchEditItem.NewItem );
+                    return;
+                }
+            }
             await Edit( item );
         }
     }
