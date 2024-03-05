@@ -1522,7 +1522,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( !IsCellEdit )
             return;
 
-        var batchEditItem = BatchEdit ? GetBatchEditItemByLastEditItem( item ) ?? GetBatchEditItemByOriginal( item ) : null;
+        var batchEditItem = BatchEdit
+            ? GetBatchEditItemByLastEditItem( item ) ?? GetBatchEditItemByOriginal( item )
+            : null;
+
 
         await SaveInternal();
 
