@@ -65,13 +65,13 @@ public partial class Validations : ComponentBase
 
         if ( result )
         {
-            RaiseStatusChanged( ValidationStatus.Success, null );
+            RaiseStatusChanged( ValidationStatus.Success, null, null );
 
             await InvokeAsync( () => ValidatedAll.InvokeAsync() );
         }
         else if ( HasFailedValidations )
         {
-            RaiseStatusChanged( ValidationStatus.Error, FailedValidations );
+            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, null );
         }
 
         return result;
@@ -84,7 +84,7 @@ public partial class Validations : ComponentBase
     {
         ClearingAll?.Invoke();
 
-        RaiseStatusChanged( ValidationStatus.None, null );
+        RaiseStatusChanged( ValidationStatus.None, null, null );
 
         return Task.CompletedTask;
     }
@@ -148,25 +148,27 @@ public partial class Validations : ComponentBase
 
         if ( AllValidationsSuccessful )
         {
-            RaiseStatusChanged( ValidationStatus.Success, null );
+            RaiseStatusChanged( ValidationStatus.Success, null, validation );
 
             ValidatedAll.InvokeAsync();
         }
         else if ( HasFailedValidations )
         {
-            RaiseStatusChanged( ValidationStatus.Error, FailedValidations );
+            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, validation );
         }
         else
         {
-            RaiseStatusChanged( ValidationStatus.None, null );
+            RaiseStatusChanged( ValidationStatus.None, null, validation );
         }
     }
 
-    private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages )
+    private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages, IValidation validation )
     {
-        _StatusChanged?.Invoke( new( status, messages ) );
+        var eventArgs = new ValidationsStatusChangedEventArgs( status, messages, validation );
 
-        InvokeAsync( () => StatusChanged.InvokeAsync( new( status, messages ) ) );
+        _StatusChanged?.Invoke( eventArgs );
+
+        InvokeAsync( () => StatusChanged.InvokeAsync( eventArgs ) );
     }
 
     #endregion
