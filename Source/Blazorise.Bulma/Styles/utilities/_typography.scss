@@ -4,24 +4,14 @@
     margin-bottom: 1rem;
 }
 
-.is-size {
-    &-xs {
-        font-size: 0.75rem !important;
-    }
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-    &-sm {
-        font-size: 0.925rem !important;
-    }
-
-    &-md {
-        font-size: 1.125rem !important;
-    }
-
-    &-lg {
-        font-size: 1.25rem !important;
-    }
-
-    &-xl {
-        font-size: 1.5rem !important;
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        @each $name, $fs in $font-sizes {
+            .is-size-#{$name}#{$infix} {
+                font-size: $fs !important;
+            }
+        }
     }
 }

@@ -1207,7 +1207,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"has-text-{ToTextOverflow( textOverflow )}";
 
-    public override string TextSize( TextSize textSize ) => $"is-size-{ToTextSize( textSize )}";
+    public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
+    {
+        if ( textSizeType == TextSizeType.Default )
+            return null;
+
+        if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"is-size-{ToTextSizeType( textSizeType )}-{ToBreakpoint( textSizeDefinition.Breakpoint )}";
+
+        return $"is-size-{ToTextSizeType( textSizeType )}";
+    }
 
     public override string TextItalic() => "is-italic";
 

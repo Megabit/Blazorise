@@ -4068,6 +4068,146 @@ h6.card-title,
   font-size: 1rem !important;
 }
 
+@media (min-width: 576px) {
+  .fs-sm-xs {
+    font-size: 0.75rem !important;
+  }
+  .fs-sm-sm {
+    font-size: 0.925rem !important;
+  }
+  .fs-sm-md {
+    font-size: 1.125rem !important;
+  }
+  .fs-sm-lg {
+    font-size: 1.25rem !important;
+  }
+  .fs-sm-xl {
+    font-size: 1.5rem !important;
+  }
+  .fs-sm-1 {
+    font-size: 2.5rem !important;
+  }
+  .fs-sm-2 {
+    font-size: 2rem !important;
+  }
+  .fs-sm-3 {
+    font-size: 1.75rem !important;
+  }
+  .fs-sm-4 {
+    font-size: 1.5rem !important;
+  }
+  .fs-sm-5 {
+    font-size: 1.25rem !important;
+  }
+  .fs-sm-6 {
+    font-size: 1rem !important;
+  }
+}
+@media (min-width: 768px) {
+  .fs-md-xs {
+    font-size: 0.75rem !important;
+  }
+  .fs-md-sm {
+    font-size: 0.925rem !important;
+  }
+  .fs-md-md {
+    font-size: 1.125rem !important;
+  }
+  .fs-md-lg {
+    font-size: 1.25rem !important;
+  }
+  .fs-md-xl {
+    font-size: 1.5rem !important;
+  }
+  .fs-md-1 {
+    font-size: 2.5rem !important;
+  }
+  .fs-md-2 {
+    font-size: 2rem !important;
+  }
+  .fs-md-3 {
+    font-size: 1.75rem !important;
+  }
+  .fs-md-4 {
+    font-size: 1.5rem !important;
+  }
+  .fs-md-5 {
+    font-size: 1.25rem !important;
+  }
+  .fs-md-6 {
+    font-size: 1rem !important;
+  }
+}
+@media (min-width: 992px) {
+  .fs-lg-xs {
+    font-size: 0.75rem !important;
+  }
+  .fs-lg-sm {
+    font-size: 0.925rem !important;
+  }
+  .fs-lg-md {
+    font-size: 1.125rem !important;
+  }
+  .fs-lg-lg {
+    font-size: 1.25rem !important;
+  }
+  .fs-lg-xl {
+    font-size: 1.5rem !important;
+  }
+  .fs-lg-1 {
+    font-size: 2.5rem !important;
+  }
+  .fs-lg-2 {
+    font-size: 2rem !important;
+  }
+  .fs-lg-3 {
+    font-size: 1.75rem !important;
+  }
+  .fs-lg-4 {
+    font-size: 1.5rem !important;
+  }
+  .fs-lg-5 {
+    font-size: 1.25rem !important;
+  }
+  .fs-lg-6 {
+    font-size: 1rem !important;
+  }
+}
+@media (min-width: 1200px) {
+  .fs-xl-xs {
+    font-size: 0.75rem !important;
+  }
+  .fs-xl-sm {
+    font-size: 0.925rem !important;
+  }
+  .fs-xl-md {
+    font-size: 1.125rem !important;
+  }
+  .fs-xl-lg {
+    font-size: 1.25rem !important;
+  }
+  .fs-xl-xl {
+    font-size: 1.5rem !important;
+  }
+  .fs-xl-1 {
+    font-size: 2.5rem !important;
+  }
+  .fs-xl-2 {
+    font-size: 2rem !important;
+  }
+  .fs-xl-3 {
+    font-size: 1.75rem !important;
+  }
+  .fs-xl-4 {
+    font-size: 1.5rem !important;
+  }
+  .fs-xl-5 {
+    font-size: 1.25rem !important;
+  }
+  .fs-xl-6 {
+    font-size: 1rem !important;
+  }
+}
 .font-weight-semibold {
   font-weight: 600 !important;
 }
