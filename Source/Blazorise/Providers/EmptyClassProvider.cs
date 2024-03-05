@@ -1055,7 +1055,7 @@ class EmptyClassProvider : IClassProvider
 
     public string TextOverflow( TextOverflow textOverflow ) => null;
 
-    public string TextSize( TextSize textSize ) => null;
+    public string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition ) => null;
 
     public string TextItalic() => null;
 
@@ -1331,7 +1331,7 @@ class EmptyClassProvider : IClassProvider
 
     public string ToTextOverflow( TextOverflow textOverflow ) => null;
 
-    public string ToTextSize( TextSize textSize ) => null;
+    public string ToTextSizeType( TextSizeType textSizeType ) => null;
 
     public string ToColumnWidth( ColumnWidth columnWidth ) => null;
 

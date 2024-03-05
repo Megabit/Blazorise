@@ -1050,7 +1050,7 @@ public interface IClassProvider
 
     string TextOverflow( TextOverflow textOverflow );
 
-    string TextSize( TextSize textSize );
+    string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition );
 
     string TextItalic();
 
@@ -1331,7 +1331,7 @@ public interface IClassProvider
 
     string ToTextOverflow( TextOverflow textOverflow );
 
-    string ToTextSize( TextSize textSize );
+    string ToTextSizeType( TextSizeType textSizeType );
 
     string ToColumnWidth( ColumnWidth columnWidth );
 

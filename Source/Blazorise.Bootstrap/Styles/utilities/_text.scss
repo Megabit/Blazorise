@@ -1,47 +1,12 @@
-﻿
-.fs {
-    &-xs {
-        font-size: 0.75rem !important;
-    }
+﻿@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-    &-sm {
-        font-size: 0.925rem !important;
-    }
-
-    &-md {
-        font-size: 1.125rem !important;
-    }
-
-    &-lg {
-        font-size: 1.25rem !important;
-    }
-
-    &-xl {
-        font-size: 1.5rem !important;
-    }
-
-    &-1 {
-        font-size: 2.5rem !important;
-    }
-
-    &-2 {
-        font-size: 2rem !important;
-    }
-
-    &-3 {
-        font-size: 1.75rem !important;
-    }
-
-    &-4 {
-        font-size: 1.5rem !important;
-    }
-
-    &-5 {
-        font-size: 1.25rem !important;
-    }
-
-    &-6 {
-        font-size: 1rem !important;
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        @each $name, $value in $font-sizes {
+            .fs#{$infix}-#{$name} {
+                font-size: $value !important;
+            }
+        }
     }
 }
 

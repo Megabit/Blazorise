@@ -8438,21 +8438,224 @@ ol.is-ordered-list-upper-roman {
 }
 
 .is-size-xs {
+  font-size: 0.65rem !important;
+}
+
+.is-size-sm {
   font-size: 0.75rem !important;
 }
-.is-size-sm {
-  font-size: 0.925rem !important;
-}
+
 .is-size-md {
-  font-size: 1.125rem !important;
-}
-.is-size-lg {
   font-size: 1.25rem !important;
 }
-.is-size-xl {
+
+.is-size-lg {
   font-size: 1.5rem !important;
 }
 
+.is-size-xl {
+  font-size: 2rem !important;
+}
+
+.is-size-1 {
+  font-size: 3rem !important;
+}
+
+.is-size-2 {
+  font-size: 2.5rem !important;
+}
+
+.is-size-3 {
+  font-size: 2.5rem !important;
+}
+
+.is-size-4 {
+  font-size: 1.5rem !important;
+}
+
+.is-size-5 {
+  font-size: 1.25rem !important;
+}
+
+.is-size-6 {
+  font-size: 1rem !important;
+}
+
+@media (min-width: 576px) {
+  .is-size-xs-mobile {
+    font-size: 0.65rem !important;
+  }
+  .is-size-sm-mobile {
+    font-size: 0.75rem !important;
+  }
+  .is-size-md-mobile {
+    font-size: 1.25rem !important;
+  }
+  .is-size-lg-mobile {
+    font-size: 1.5rem !important;
+  }
+  .is-size-xl-mobile {
+    font-size: 2rem !important;
+  }
+  .is-size-1-mobile {
+    font-size: 3rem !important;
+  }
+  .is-size-2-mobile {
+    font-size: 2.5rem !important;
+  }
+  .is-size-3-mobile {
+    font-size: 2.5rem !important;
+  }
+  .is-size-4-mobile {
+    font-size: 1.5rem !important;
+  }
+  .is-size-5-mobile {
+    font-size: 1.25rem !important;
+  }
+  .is-size-6-mobile {
+    font-size: 1rem !important;
+  }
+}
+@media (min-width: 1023px) {
+  .is-size-xs-tablet {
+    font-size: 0.65rem !important;
+  }
+  .is-size-sm-tablet {
+    font-size: 0.75rem !important;
+  }
+  .is-size-md-tablet {
+    font-size: 1.25rem !important;
+  }
+  .is-size-lg-tablet {
+    font-size: 1.5rem !important;
+  }
+  .is-size-xl-tablet {
+    font-size: 2rem !important;
+  }
+  .is-size-1-tablet {
+    font-size: 3rem !important;
+  }
+  .is-size-2-tablet {
+    font-size: 2.5rem !important;
+  }
+  .is-size-3-tablet {
+    font-size: 2.5rem !important;
+  }
+  .is-size-4-tablet {
+    font-size: 1.5rem !important;
+  }
+  .is-size-5-tablet {
+    font-size: 1.25rem !important;
+  }
+  .is-size-6-tablet {
+    font-size: 1rem !important;
+  }
+}
+@media (min-width: 1215px) {
+  .is-size-xs-desktop {
+    font-size: 0.65rem !important;
+  }
+  .is-size-sm-desktop {
+    font-size: 0.75rem !important;
+  }
+  .is-size-md-desktop {
+    font-size: 1.25rem !important;
+  }
+  .is-size-lg-desktop {
+    font-size: 1.5rem !important;
+  }
+  .is-size-xl-desktop {
+    font-size: 2rem !important;
+  }
+  .is-size-1-desktop {
+    font-size: 3rem !important;
+  }
+  .is-size-2-desktop {
+    font-size: 2.5rem !important;
+  }
+  .is-size-3-desktop {
+    font-size: 2.5rem !important;
+  }
+  .is-size-4-desktop {
+    font-size: 1.5rem !important;
+  }
+  .is-size-5-desktop {
+    font-size: 1.25rem !important;
+  }
+  .is-size-6-desktop {
+    font-size: 1rem !important;
+  }
+}
+@media (min-width: 1407px) {
+  .is-size-xs-widescreen {
+    font-size: 0.65rem !important;
+  }
+  .is-size-sm-widescreen {
+    font-size: 0.75rem !important;
+  }
+  .is-size-md-widescreen {
+    font-size: 1.25rem !important;
+  }
+  .is-size-lg-widescreen {
+    font-size: 1.5rem !important;
+  }
+  .is-size-xl-widescreen {
+    font-size: 2rem !important;
+  }
+  .is-size-1-widescreen {
+    font-size: 3rem !important;
+  }
+  .is-size-2-widescreen {
+    font-size: 2.5rem !important;
+  }
+  .is-size-3-widescreen {
+    font-size: 2.5rem !important;
+  }
+  .is-size-4-widescreen {
+    font-size: 1.5rem !important;
+  }
+  .is-size-5-widescreen {
+    font-size: 1.25rem !important;
+  }
+  .is-size-6-widescreen {
+    font-size: 1rem !important;
+  }
+}
+@media (min-width: 1907px) {
+  .is-size-xs-hd {
+    font-size: 0.65rem !important;
+  }
+  .is-size-sm-hd {
+    font-size: 0.75rem !important;
+  }
+  .is-size-md-hd {
+    font-size: 1.25rem !important;
+  }
+  .is-size-lg-hd {
+    font-size: 1.5rem !important;
+  }
+  .is-size-xl-hd {
+    font-size: 2rem !important;
+  }
+  .is-size-1-hd {
+    font-size: 3rem !important;
+  }
+  .is-size-2-hd {
+    font-size: 2.5rem !important;
+  }
+  .is-size-3-hd {
+    font-size: 2.5rem !important;
+  }
+  .is-size-4-hd {
+    font-size: 1.5rem !important;
+  }
+  .is-size-5-hd {
+    font-size: 1.25rem !important;
+  }
+  .is-size-6-hd {
+    font-size: 1rem !important;
+  }
+}
 .is-visible {
   visibility: visible !important;
 }

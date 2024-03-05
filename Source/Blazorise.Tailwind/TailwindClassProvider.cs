@@ -1757,7 +1757,16 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string TextSize( TextSize textSize ) => $"text-{ToTextSize( textSize )}";
+    public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
+    {
+        if ( textSizeType == TextSizeType.Default )
+            return null;
+
+        if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"!{ToBreakpoint( textSizeDefinition.Breakpoint )}:text-{ToTextSizeType( textSizeType )}";
+
+        return $"text-{ToTextSizeType( textSizeType )}";
+    }
 
     public override string TextItalic() => "italic";
 
@@ -2385,21 +2394,21 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string ToTextSize( TextSize textSize )
+    public override string ToTextSizeType( TextSizeType textSizeType )
     {
-        return textSize switch
+        return textSizeType switch
         {
-            Blazorise.TextSize.ExtraSmall => "xs",
-            Blazorise.TextSize.Small => "sm",
-            Blazorise.TextSize.Medium => "md",
-            Blazorise.TextSize.Large => "lg",
-            Blazorise.TextSize.ExtraLarge => "xl",
-            Blazorise.TextSize.Heading1 => "5xl",
-            Blazorise.TextSize.Heading2 => "4xl",
-            Blazorise.TextSize.Heading3 => "3xl",
-            Blazorise.TextSize.Heading4 => "2xl",
-            Blazorise.TextSize.Heading5 => "xl",
-            Blazorise.TextSize.Heading6 => "lg",
+            Blazorise.TextSizeType.ExtraSmall => "xs",
+            Blazorise.TextSizeType.Small => "sm",
+            Blazorise.TextSizeType.Medium => "md",
+            Blazorise.TextSizeType.Large => "lg",
+            Blazorise.TextSizeType.ExtraLarge => "xl",
+            Blazorise.TextSizeType.Heading1 => "5xl",
+            Blazorise.TextSizeType.Heading2 => "4xl",
+            Blazorise.TextSizeType.Heading3 => "3xl",
+            Blazorise.TextSizeType.Heading4 => "2xl",
+            Blazorise.TextSizeType.Heading5 => "xl",
+            Blazorise.TextSizeType.Heading6 => "lg",
             _ => null,
         };
     }

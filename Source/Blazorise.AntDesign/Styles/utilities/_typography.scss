@@ -88,60 +88,18 @@
     margin-bottom: 1rem;
 }
 
-.ant-font-size {
-    &-xs {
-        font-size: 10px;
-        line-height: 18px;
-    }
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-    &-sm {
-        font-size: 12px;
-        line-height: 20px;
-    }
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        @each $name, $fs in $font-sizes {
+            $lh: map-get($line-heights, $name);
 
-    &-md {
-        font-size: 16px;
-        line-height: 24px;
-    }
-
-    &-lg {
-        font-size: 20px;
-        line-height: 28px;
-    }
-
-    &-xl {
-        font-size: 24px;
-        line-height: 32px;
-    }
-
-    &-1 {
-        font-size: 38px;
-        line-height: 46px;
-    }
-
-    &-2 {
-        font-size: 30px;
-        line-height: 38px;
-    }
-
-    &-3 {
-        font-size: 24px;
-        line-height: 32px;
-    }
-
-    &-4 {
-        font-size: 20px;
-        line-height: 28px;
-    }
-
-    &-5 {
-        font-size: 16px;
-        line-height: 24px;
-    }
-
-    &-6 {
-        font-size: 14px;
-        line-height: 22px;
+            .ant-font-size#{$infix}-#{$name} {
+                font-size: $fs;
+                line-height: $lh;
+            }
+        }
     }
 }
 
