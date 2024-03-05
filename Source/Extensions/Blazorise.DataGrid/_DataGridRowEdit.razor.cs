@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
@@ -92,6 +91,10 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
         if ( args.Code == "Tab" )
         {
+            var batchEditItem = ParentDataGrid.BatchEdit
+                ? ParentDataGrid.GetBatchEditItemByLastEditItem( Item ) ?? ParentDataGrid.GetBatchEditItemByOriginal( Item )
+                : null;
+
             await Save();
 
             if ( ParentDataGrid.EditState == DataGridEditState.Edit )
@@ -99,23 +102,26 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
             if ( args.ShiftKey )
             {
-                await HandleCellEditSelectPreviousColumn( column );
+                await HandleCellEditSelectPreviousColumn( column, batchEditItem );
             }
             else
             {
-                await HandleCellEditSelectNextColumn( column );
+                await HandleCellEditSelectNextColumn( column, batchEditItem );
             }
         }
     }
 
-    private async Task HandleCellEditSelectNextColumn( DataGridColumn<TItem> currentColumn )
+    private async Task HandleCellEditSelectNextColumn( DataGridColumn<TItem> currentColumn, DataGridBatchEditItem<TItem> batchEditItem )
     {
         var currentIdx = OrderedColumnsForEditing?.Index( x => x.IsEqual( currentColumn ) ) ?? -1;
         var nextColumn = OrderedColumnsForEditing.ElementAtOrDefault( currentIdx + 1 );
 
         if ( nextColumn is not null )
         {
-            await ParentDataGrid.HandleCellEdit( nextColumn, Item );
+            if ( batchEditItem is not null )
+                await ParentDataGrid.HandleCellEdit( nextColumn, batchEditItem.NewItem );
+            else
+                await ParentDataGrid.HandleCellEdit( nextColumn, Item );
         }
         else
         {
@@ -132,14 +138,17 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         }
     }
 
-    private async Task HandleCellEditSelectPreviousColumn( DataGridColumn<TItem> currentColumn )
+    private async Task HandleCellEditSelectPreviousColumn( DataGridColumn<TItem> currentColumn, DataGridBatchEditItem<TItem> batchEditItem )
     {
         var currentIdx = OrderedColumnsForEditing?.Index( x => x.IsEqual( currentColumn ) ) ?? -1;
         var previousColumn = OrderedColumnsForEditing?.ElementAtOrDefault( currentIdx - 1 );
 
         if ( previousColumn is not null )
         {
-            await ParentDataGrid.HandleCellEdit( previousColumn, Item );
+            if ( batchEditItem is not null )
+                await ParentDataGrid.HandleCellEdit( previousColumn, batchEditItem.NewItem );
+            else
+                await ParentDataGrid.HandleCellEdit( previousColumn, Item );
         }
         else
         {
