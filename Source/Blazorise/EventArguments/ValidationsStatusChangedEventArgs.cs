@@ -13,12 +13,12 @@ public class ValidationsStatusChangedEventArgs : EventArgs
     /// <summary>
     /// Gets the default <see cref="ValidationsStatusChangedEventArgs"/>.
     /// </summary>
-    public static new readonly ValidationsStatusChangedEventArgs Empty = new( ValidationStatus.None, null );
+    public static new readonly ValidationsStatusChangedEventArgs Empty = new( ValidationStatus.None, null, null );
 
     /// <summary>
     /// A default <see cref="ValidationsStatusChangedEventArgs"/> constructor.
     /// </summary>
-    public ValidationsStatusChangedEventArgs( ValidationStatus status, IReadOnlyCollection<string> messages )
+    public ValidationsStatusChangedEventArgs( ValidationStatus status, IReadOnlyCollection<string> messages, IValidation validation )
     {
         Status = status;
         Messages = messages;
@@ -33,4 +33,10 @@ public class ValidationsStatusChangedEventArgs : EventArgs
     /// Gets the custom validation message.
     /// </summary>
     public IReadOnlyCollection<string> Messages { get; }
+
+    /// <summary>
+    /// Gets the <see cref="IValidation"/> reference that initiated status changed event. If <c>null</c>, it means the 
+    /// raise happened from the parent <see cref="Validations"/> component.
+    /// </summary>
+    public IValidation Validation { get; }
 }

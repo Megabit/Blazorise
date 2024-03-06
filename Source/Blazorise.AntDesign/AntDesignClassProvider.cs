@@ -1170,7 +1170,16 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"ant-typography-{ToTextOverflow( textOverflow )}";
 
-    public override string TextSize( TextSize textSize ) => $"ant-font-size-{ToTextSize( textSize )}";
+    public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
+    {
+        if ( textSizeType == TextSizeType.Default )
+            return null;
+
+        if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"ant-font-size-{ToBreakpoint( textSizeDefinition.Breakpoint )}-{ToTextSizeType( textSizeType )}";
+
+        return $"ant-font-size-{ToTextSizeType( textSizeType )}";
+    }
 
     public override string TextItalic() => "font-italic";
 

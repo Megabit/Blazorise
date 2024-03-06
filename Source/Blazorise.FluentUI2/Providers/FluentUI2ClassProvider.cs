@@ -1313,7 +1313,16 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"fui-TextOverflow-{ToTextOverflow( textOverflow )}";
 
-    public override string TextSize( TextSize textSize ) => $"fui-TextSize-{ToTextSize( textSize )}";
+    public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
+    {
+        if ( textSizeType == TextSizeType.Default )
+            return null;
+
+        if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"fui-TextSize-{ToBreakpoint( textSizeDefinition.Breakpoint )}-{ToTextSizeType( textSizeType )}";
+
+        return $"fui-TextSize-{ToTextSizeType( textSizeType )}";
+    }
 
     public override string TextItalic() => "fui-Text-italic";
 

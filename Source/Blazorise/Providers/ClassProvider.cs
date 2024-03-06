@@ -1052,7 +1052,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TextOverflow( TextOverflow textOverflow );
 
-    public abstract string TextSize( TextSize textSize );
+    public abstract string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition );
 
     public abstract string TextItalic();
 
@@ -1468,21 +1468,21 @@ public abstract class ClassProvider : IClassProvider
         };
     }
 
-    public virtual string ToTextSize( TextSize textSize )
+    public virtual string ToTextSizeType( TextSizeType textSizeType )
     {
-        return textSize switch
+        return textSizeType switch
         {
-            Blazorise.TextSize.ExtraSmall => "xs",
-            Blazorise.TextSize.Small => "sm",
-            Blazorise.TextSize.Medium => "md",
-            Blazorise.TextSize.Large => "lg",
-            Blazorise.TextSize.ExtraLarge => "xl",
-            Blazorise.TextSize.Heading1 => "1",
-            Blazorise.TextSize.Heading2 => "2",
-            Blazorise.TextSize.Heading3 => "3",
-            Blazorise.TextSize.Heading4 => "4",
-            Blazorise.TextSize.Heading5 => "5",
-            Blazorise.TextSize.Heading6 => "6",
+            Blazorise.TextSizeType.ExtraSmall => "xs",
+            Blazorise.TextSizeType.Small => "sm",
+            Blazorise.TextSizeType.Medium => "md",
+            Blazorise.TextSizeType.Large => "lg",
+            Blazorise.TextSizeType.ExtraLarge => "xl",
+            Blazorise.TextSizeType.Heading1 => "1",
+            Blazorise.TextSizeType.Heading2 => "2",
+            Blazorise.TextSizeType.Heading3 => "3",
+            Blazorise.TextSizeType.Heading4 => "4",
+            Blazorise.TextSizeType.Heading5 => "5",
+            Blazorise.TextSizeType.Heading6 => "6",
             _ => null,
         };
     }

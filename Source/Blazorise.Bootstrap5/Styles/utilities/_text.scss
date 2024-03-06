@@ -1,21 +1,34 @@
-﻿.fs {
-    &-xs {
-        font-size: 0.75rem !important;
-    }
+﻿$utilities: map-merge(
+  $utilities,
+  (
+    "font-size": map-merge(
+      map-get($utilities, "font-size"),
+      (
+        responsive: true,
+        values: map-merge(
+          map-get(map-get($utilities, "font-size"), "values"),
+          (xs: 0.75rem, sm: 0.925rem, md: 1.125rem, lg: 1.25rem, xl: 1.5rem),
+        ),
+      ),
+    ),
+  )
+);
 
-    &-sm {
-        font-size: 0.925rem !important;
-    }
+// Loop over each breakpoint
+@each $breakpoint in map-keys($grid-breakpoints) {
+    // Generate media query if needed
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
 
-    &-md {
-        font-size: 1.125rem !important;
-    }
-
-    &-lg {
-        font-size: 1.25rem !important;
-    }
-
-    &-xl {
-        font-size: 1.5rem !important;
+        // Loop over each utility property
+        @each $key, $utility in $utilities {
+            @if($key == "font-size" ) {
+                // The utility can be disabled with `false`, thus check if the utility is a map first
+                // Only proceed if responsive media queries are enabled or if it's the base media query
+                @if type-of($utility) == "map" and (map-get($utility, responsive) or $infix == "") {
+                    @include generate-utility($utility, $infix);
+                }
+            }
+        }
     }
 }

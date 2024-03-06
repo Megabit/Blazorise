@@ -59,7 +59,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
     private TextOverflow textOverflow = TextOverflow.Default;
 
-    private TextSize textSize = TextSize.Default;
+    private IFluentTextSize textSize;
 
     private VerticalAlignment verticalAlignment = VerticalAlignment.Default;
 
@@ -237,8 +237,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( TextOverflow != TextOverflow.Default )
             builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
 
-        if ( TextSize != TextSize.Default )
-            builder.Append( ClassProvider.TextSize( TextSize ) );
+        if ( TextSize is not null )
+            builder.Append( TextSize.Class( ClassProvider ) );
 
         if ( Background != Background.Default )
             builder.Append( ClassProvider.BackgroundColor( Background ) );
@@ -726,11 +726,14 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// Determines the font size of an element.
     /// </summary>
     [Parameter]
-    public TextSize TextSize
+    public IFluentTextSize TextSize
     {
         get => textSize;
         set
         {
+            if ( textSize == value )
+                return;
+
             textSize = value;
 
             DirtyClasses();
