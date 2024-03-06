@@ -48,7 +48,10 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
-        ParentBarItem?.NotifyBarDropdownInitialized( this );
+        if ( ParentBarDropdown is null ) //BarItem tracks the first direct menu. Ignore submenus
+        {
+            ParentBarItem?.NotifyBarDropdownInitialized( this );
+        }
         ParentBarDropdown?.NotifyChildDropdownInitialized( this );
 
         return base.OnInitializedAsync();
@@ -264,6 +267,13 @@ public partial class BarDropdown : BaseComponent, IDisposable
                 return;
 
             state = state with { Visible = value };
+
+            if ( value )
+            {
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                ParentBarItem.OnDropdownVisible();
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            }
 
             VisibleChanged.InvokeAsync( value );
 

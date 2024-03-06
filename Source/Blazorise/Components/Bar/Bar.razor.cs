@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
@@ -174,9 +175,49 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
             await Toggle();
     }
 
+
+    internal async Task HideOtherBarItems( BarItem barItem )
+    {
+        foreach ( var item in BarItems )
+        {
+            if ( item != barItem )
+            {
+                await item.HideDropdown();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Notifies the <see cref="Bar"/> of a new BarItem.
+    /// </summary>
+    /// <param name="barItem">Reference to the <see cref="BarItem"/> that is placed inside of this <see cref="Bar"/>.</param>
+    internal void NotifyBarItemInitialized( BarItem barItem )
+    {
+        BarItems ??= new();
+        if ( barItem is not null )
+        {
+            BarItems.Add( barItem );
+        }
+    }
+
+    /// <summary>
+    /// Notifies the <see cref="Bar"/> of a BarItem to be removed.
+    /// </summary>
+    /// <param name="barItem">Reference to the <see cref="BarItem"/> that is placed inside of this <see cref="Bar"/>.</param>
+    internal void NotifyBarItemRemoved( BarItem barItem )
+    {
+        BarItems.Remove( barItem );
+    }
+
     #endregion
 
     #region Properties
+
+
+    /// <summary>
+    /// The Bar Items
+    /// </summary>
+    protected List<BarItem> BarItems { get; set; }
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
@@ -352,6 +393,11 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     /// Cascaded layour header component.
     /// </summary>
     [CascadingParameter] protected LayoutHeader LayoutHeader { get; set; }
+
+    /// <summary>
+    /// Keeps a single bar item open at a time.
+    /// </summary>
+    [Parameter] public bool ToggleSingle { get; set; }
 
     #endregion
 }
