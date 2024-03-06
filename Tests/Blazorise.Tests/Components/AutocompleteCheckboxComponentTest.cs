@@ -1,9 +1,9 @@
 ﻿#region Using directives
+
 using System.Threading.Tasks;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
+
 #endregion
 
 namespace Blazorise.Tests.Components;
@@ -12,13 +12,13 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
 {
     public AutocompleteCheckboxComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddEmptyIconProvider().AddTestData();
+        JSInterop
+            .AddBlazoriseTextEdit()
+            .AddBlazoriseUtilities()
+            .AddBlazoriseClosable()
+            .AddBlazoriseDropdown();
     }
-
 
     [Fact]
     public void Suggestions_ShouldShow_Checkboxes()
@@ -32,7 +32,7 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
 
         var suggestions = comp.FindAll( ".b-is-autocomplete-suggestion" );
 
-        Assert.All( suggestions, ( x ) => Assert.True( x.InnerHtml.Contains( "b-is-autocomplete-suggestion-checkbox" ) && x.InnerHtml.Contains( "</i>" ) ) );
+        Assert.All( suggestions, ( x ) => Assert.Contains( "input", x.InnerHtml ) );
     }
 
     [Fact]
@@ -40,7 +40,6 @@ public class AutocompleteCheckboxComponentTest : AutocompleteMultipleBaseCompone
     {
         TestInitialSelectedValues<AutocompleteCheckboxComponent>( ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
     }
-
 
     [Theory]
     [InlineData( new[] { "PT", "HR" }, new[] { "Portugal", "Croatia" } )]

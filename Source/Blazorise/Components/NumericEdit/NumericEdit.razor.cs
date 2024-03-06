@@ -22,12 +22,12 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// <summary>
     /// True if the TValue is an integer type.
     /// </summary>
-    private bool isIntegerType;
+    private readonly bool isIntegerType;
 
     /// <summary>
     /// Contains the correct inputmode for the input element, based in the TValue.
     /// </summary>
-    private string inputMode;
+    private readonly string inputMode;
 
     /// <summary>
     /// Indicates if <see cref="Min"/> parameter is defined.
@@ -72,11 +72,9 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
         minDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
         maxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
 
-
-
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -164,7 +162,7 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// <returns>Returns the awaitable task.</returns>
     protected virtual Task ProcessNumber( TValue number )
     {
-        if ( number is IComparable comparableNumber && comparableNumber != null )
+        if ( number is IComparable comparableNumber && comparableNumber is not null )
         {
             if ( maxDefined && Max is IComparable comparableMax && comparableNumber.CompareTo( comparableMax ) >= 0 )
             {
@@ -196,6 +194,21 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
 
     /// <inheritdoc/>
     protected override TValue InternalValue { get => Value; set => Value = value; }
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Step"/> value.
+    /// </summary>
+    protected string StepString => Step.ToCultureInvariantString();
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Min"/> value.
+    /// </summary>
+    protected string MinString => Min.ToCultureInvariantString();
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Max"/> value.
+    /// </summary>
+    protected string MaxString => Max.ToCultureInvariantString();
 
     /// <summary>
     /// Gets the culture info defined on the input field.

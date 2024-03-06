@@ -1,7 +1,7 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-<i id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes">
-    @if ( IconProvider.IconNameAsContent && Name != null )
+<i @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@OnClickHandler" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler" @attributes="@Attributes">
+    @if ( IconProvider.IconNameAsContent && Name is not null )
     {
         if ( Name is IconName )
         {

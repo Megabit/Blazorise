@@ -3,8 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -20,7 +22,7 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
     protected bool isInvalid;
 
     protected EventCallback Cancel
-        => EventCallback.Factory.Create( this, ParentDataGrid.Cancel );
+        => EventCallback.Factory.Create( this, ParentDataGrid.CancelInternal );
 
     protected static readonly IFluentFlex DefaultFlex = Flex.InlineFlex;
 
@@ -61,7 +63,97 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
     internal protected async Task Save()
     {
-        await ParentDataGrid.Save();
+        await ParentDataGrid.SaveInternal();
+    }
+
+    protected async Task HandleCellClick( DataGridColumn<TItem> column )
+    {
+        await ParentDataGrid.HandleCellEdit( column, Item );
+    }
+
+    protected async Task HandleCellKeyDown( KeyboardEventArgs args, DataGridColumn<TItem> column )
+    {
+        var isCellEdit = ParentDataGrid.IsCellEdit && column.CellEditing;
+        if ( !isCellEdit )
+            return;
+
+        if ( args.Code == "Escape" )
+        {
+            await Cancel.InvokeAsync();
+            return;
+        }
+
+        if ( args.Code == "Enter" || args.Code == "NumpadEnter" )
+        {
+            await Save();
+            return;
+        }
+
+        if ( args.Code == "Tab" )
+        {
+            await Save();
+
+            if ( ParentDataGrid.EditState == DataGridEditState.Edit )
+                return;
+
+            if ( args.ShiftKey )
+            {
+                await HandleCellEditSelectPreviousColumn( column );
+            }
+            else
+            {
+                await HandleCellEditSelectNextColumn( column );
+            }
+        }
+    }
+
+    private async Task HandleCellEditSelectNextColumn( DataGridColumn<TItem> currentColumn )
+    {
+        var currentIdx = OrderedColumnsForEditing?.Index( x => x.IsEqual( currentColumn ) ) ?? -1;
+        var nextColumn = OrderedColumnsForEditing.ElementAtOrDefault( currentIdx + 1 );
+
+        if ( nextColumn is not null )
+        {
+            await ParentDataGrid.HandleCellEdit( nextColumn, Item );
+        }
+        else
+        {
+            if ( !ParentDataGrid.DisplayData.IsNullOrEmpty() )
+            {
+                var currentEditRowIdx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( Item ) );
+                var nextVisibleRow = ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx + 1 );
+                var nextRowFirstColumn = OrderedColumnsForEditing.FirstOrDefault();
+                if ( nextVisibleRow is not null && nextRowFirstColumn is not null )
+                {
+                    await ParentDataGrid.HandleCellEdit( nextRowFirstColumn, nextVisibleRow );
+                }
+            }
+        }
+    }
+
+    private async Task HandleCellEditSelectPreviousColumn( DataGridColumn<TItem> currentColumn )
+    {
+        var currentIdx = OrderedColumnsForEditing?.Index( x => x.IsEqual( currentColumn ) ) ?? -1;
+        var previousColumn = OrderedColumnsForEditing?.ElementAtOrDefault( currentIdx - 1 );
+
+        if ( previousColumn is not null )
+        {
+            await ParentDataGrid.HandleCellEdit( previousColumn, Item );
+        }
+        else
+        {
+            if ( !ParentDataGrid.DisplayData.IsNullOrEmpty() )
+            {
+                var currentEditRowIdx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( Item ) );
+                var previousVisibleRow = ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx - 1 );
+                var previousRowLastColumn = OrderedColumnsForEditing.LastOrDefault();
+                if ( previousVisibleRow is not null && previousRowLastColumn is not null )
+                {
+                    await ParentDataGrid.HandleCellEdit( previousRowLastColumn, previousVisibleRow );
+                }
+            }
+
+        }
     }
 
     #endregion
@@ -88,12 +180,22 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
         }
     }
 
+    protected IEnumerable<DataGridColumn<TItem>> OrderedColumnsForEditing
+    {
+        get
+        {
+            return ParentDataGrid
+                .EditableColumns
+                .OrderBy( column => column.EditOrder ?? column.DisplayOrder );
+        }
+    }
+
     protected IEnumerable<DataGridColumn<TItem>> DisplayableColumns
     {
         get
         {
             return Columns
-                .Where( column => column.IsDisplayable || column.Displayable )
+                .Where( column => column.IsDisplayable || column.Displaying )
                 .OrderBy( column => column.DisplayOrder );
         }
     }

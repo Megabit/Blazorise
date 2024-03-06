@@ -1,0 +1,85 @@
+﻿h1.card-title,
+.h1.card-title {
+    font-size: 2.5rem;
+}
+
+h2.card-title,
+.h2.card-title {
+    font-size: 2rem;
+}
+
+h3.card-title,
+.h3.card-title {
+    font-size: 1.75rem;
+}
+
+h4.card-title,
+.h4.card-title {
+    font-size: 1.5rem;
+}
+
+h5.card-title,
+.h5.card-title {
+    font-size: 1.25rem;
+}
+
+h6.card-title,
+.h6.card-title {
+    font-size: 1rem;
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        .fs {
+            &#{$infix}-xs {
+                font-size: 0.75rem !important;
+            }
+
+            &#{$infix}-sm {
+                font-size: 0.925rem !important;
+            }
+
+            &#{$infix}-md {
+                font-size: 1.125rem !important;
+            }
+
+            &#{$infix}-lg {
+                font-size: 1.25rem !important;
+            }
+
+            &#{$infix}-xl {
+                font-size: 1.5rem !important;
+            }
+
+            &#{$infix}-1 {
+                font-size: 2.5rem !important;
+            }
+
+            &#{$infix}-2 {
+                font-size: 2rem !important;
+            }
+
+            &#{$infix}-3 {
+                font-size: 1.75rem !important;
+            }
+
+            &#{$infix}-4 {
+                font-size: 1.5rem !important;
+            }
+
+            &#{$infix}-5 {
+                font-size: 1.25rem !important;
+            }
+
+            &#{$infix}-6 {
+                font-size: 1rem !important;
+            }
+        }
+    }
+}
+
+.font-weight-semibold {
+    font-weight: 600 !important;
+}

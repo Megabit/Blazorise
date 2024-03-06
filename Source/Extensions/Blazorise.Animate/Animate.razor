@@ -1,6 +1,6 @@
 ﻿@if ( Auto || manuallyExecuted )
 {
-    <div id="@ElementId" data-aos="@AnimationName" data-aos-easing="@EasingName" data-aos-delay="@DelayString" data-aos-duration="@DurationString" data-aos-mirror="@MirrorString" data-aos-once="@OnceString" data-aos-offset="@Offset" data-aos-anchor="@Anchor" data-aos-anchor-placement="@AnchorPlacement" @attributes="@Attributes">
+    <div @ref="@ElementRef" id="@ElementId" data-aos="@AnimationName" data-aos-easing="@EasingName" data-aos-delay="@DelayString" data-aos-duration="@DurationString" data-aos-mirror="@MirrorString" data-aos-once="@OnceString" data-aos-offset="@Offset" data-aos-anchor="@Anchor" data-aos-anchor-placement="@AnchorPlacement" @attributes="@Attributes">
         @ChildContent
     </div>
 }

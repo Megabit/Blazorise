@@ -10,7 +10,7 @@
         }
         else
         {
-            <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
                 <div class="@InnerClassNames" style="@($"width: {Percentage}%;")">@ChildContent</div>
             </div>
         }
@@ -56,6 +56,11 @@
             if ( Animated )
             {
                 sb.Append( " bg-striped-animated" );
+            }
+
+            if ( Indeterminate )
+            {
+                sb.Append( " progress-bar-indeterminate" );
             }
 
             return sb.ToString();

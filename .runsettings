@@ -9,6 +9,7 @@
 		<EnvironmentVariables>
 			<!-- For debugging selectors, it's recommend to set the following environment variable -->
 			<!--<DEBUG>pw:api</DEBUG>-->
+			<!--<DEBUG>pw:channel:response,pw:channel:event</DEBUG>-->
 		</EnvironmentVariables>
 	</RunConfiguration>
 	

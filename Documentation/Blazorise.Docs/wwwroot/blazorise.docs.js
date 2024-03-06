@@ -17,6 +17,10 @@
         },
 
         generateToc: (targetElement, options) => {
+            if (!document.getElementById('TableOfContents')) {
+                return;
+            }
+
             document.querySelectorAll('.b-docs-page>h2, .b-docs-page>h3, .b-docs-page>h4, .b-docs-page-section-header>h3').forEach(function (el) {
                 if (el && !el.id && el.textContent) {
                     const textContent = el.textContent.trim();
@@ -100,6 +104,8 @@ window.myComponent = {
 window.blazorisePRO = {
     paddle: {
         openCheckout: (product, quantity, upsell) => {
+            const referral = window.Rewardful && window.Rewardful.referral;
+
             if (upsell) {
                 Paddle.Checkout.open({
                     product: product,
@@ -108,30 +114,15 @@ window.blazorisePRO = {
                     upsellTitle: upsell.title,
                     upsellText: upsell.text,
                     upsellAction: upsell.action,
+                    passthrough: JSON.stringify({ rewardful: { referral: referral } })
                 });
             }
             else {
                 Paddle.Checkout.open({
                     product: product,
-                    quantity: quantity
+                    quantity: quantity,
+                    passthrough: JSON.stringify({ rewardful: { referral: referral } })
                 });
-            }
-        }
-    },
-    wspay: {
-        submit: (elementId, data) => {
-            const form = document.getElementById(elementId);
-
-            if (form) {
-                const shoppingCartIDInput = document.getElementsByName("ShoppingCartID")[0];
-                const signatureInput = document.getElementsByName("Signature")[0];
-
-                if (shoppingCartIDInput && signatureInput) {
-                    shoppingCartIDInput.value = data.shoppingCartID;
-                    signatureInput.value = data.signature;
-
-                    form.submit();
-                }
             }
         }
     }

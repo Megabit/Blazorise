@@ -65,16 +65,6 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     ///</summary>
     internal event Action _Closed;
 
-    /// <summary>
-    /// Flag that indicates that the showing animation is currently active.
-    /// </summary>
-    private bool showing;
-
-    /// <summary>
-    /// Flag that indicates that the hiding animation is currently active.
-    /// </summary>
-    private bool hiding;
-
     #endregion
 
     #region Constructors
@@ -126,7 +116,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     {
         builder.Append( ClassProvider.Offcanvas() );
         builder.Append( ClassProvider.OffcanvasPlacement( Placement, IsVisible ) );
-        builder.Append( ClassProvider.OffcanvasFade( Animated && showing, Animated && hiding ) );
+        builder.Append( ClassProvider.OffcanvasFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( ClassProvider.OffcanvasVisible( IsVisible ) );
 
         base.BuildClasses( builder );
@@ -249,7 +239,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     {
         var safeToOpen = true;
 
-        if ( Opening != null )
+        if ( Opening is not null )
         {
             var eventArgs = new OffcanvasOpeningEventArgs( false );
 
@@ -272,7 +262,7 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     {
         var safeToClose = true;
 
-        if ( Closing != null )
+        if ( Closing is not null )
         {
             var eventArgs = new OffcanvasClosingEventArgs( false, closeReason );
 
@@ -386,13 +376,13 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     {
         if ( visible )
         {
-            showing = true;
+            state = state with { Showing = true };
 
             BackdropVisible = ShowBackdrop;
         }
         else
         {
-            hiding = true;
+            state = state with { Hiding = true };
         }
 
         DirtyClasses();
@@ -406,11 +396,11 @@ public partial class Offcanvas : BaseComponent, ICloseActivator, IAnimatedCompon
     {
         if ( visible )
         {
-            showing = false;
+            state = state with { Showing = false };
         }
         else
         {
-            hiding = false;
+            state = state with { Hiding = false };
         }
 
         DirtyClasses();

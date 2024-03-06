@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Reflection;
-using System.Runtime.Serialization;
 #endregion
 
 namespace Blazorise.DataGrid.Utils;
@@ -29,7 +28,7 @@ public static class RecursiveObjectActivator
     public static TItem CreateInstance<TItem>()
     {
         var objType = typeof( TItem );
-        var obj = (TItem)FormatterServices.GetUninitializedObject( objType );
+        var obj = (TItem)Instantiate( objType );
         var properties = objType.GetProperties( BindingFlags.Public | BindingFlags.Instance );
         CreateInstanceRecursive( obj, properties, (null, objType) );
 
@@ -57,7 +56,7 @@ public static class RecursiveObjectActivator
                 var instanced = property.GetValue( currObjInstance );
                 if ( instanced is null )
                 {
-                    instanced = FormatterServices.GetUninitializedObject( currType );
+                    instanced = Instantiate( currType );
                     property.SetValue( currObjInstance, instanced );
                 }
                 if ( typeTracker.parentType == currType || typeTracker.previousParentType == currType )
@@ -66,6 +65,11 @@ public static class RecursiveObjectActivator
                 CreateInstanceRecursive( instanced, currType.GetProperties( BindingFlags.Public | BindingFlags.Instance ), (typeTracker.parentType, currType), ++depthLevel, propertyCircularReferenceLevel );
             }
         }
+    }
+
+    private static object Instantiate( Type type )
+    {
+        return System.Runtime.CompilerServices.RuntimeHelpers.GetUninitializedObject( type );
     }
 
     #endregion

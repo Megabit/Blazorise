@@ -1,0 +1,34 @@
+﻿.fui-Label {
+    line-height: var(--lineHeightBase300);
+    font-size: var(--fontSizeBase300);
+    font-family: var(--fontFamilyBase);
+    color: var(--colorNeutralForeground1);
+
+    &.fui-Label-strong {
+        font-weight: var(--fontWeightSemibold);
+    }
+
+    &.fui-Label-pointer {
+        cursor: pointer;
+    }
+
+    &.fui-Label-xs {
+        font-size: var(--fontSizeBase100);
+        line-height: var(--lineHeightBase100);
+    }
+
+    &.fui-Label-sm {
+        font-size: var(--fontSizeBase200);
+        line-height: var(--lineHeightBase200);
+    }
+
+    &.fui-Label-lg {
+        font-size: var(--fontSizeBase400);
+        line-height: var(--lineHeightBase400);
+    }
+
+    &.fui-Label-xl {
+        font-size: var(--fontSizeBase500);
+        line-height: var(--lineHeightBase500);
+    }
+}

@@ -1,6 +1,4 @@
-﻿using System;
-using Blazorise.Tests.Helpers;
-using Blazorise.Tests.TestServices;
+﻿using Blazorise.Tests.TestServices;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -14,8 +12,10 @@ public class BarLinkComponentTest : TestContext
     public BarLinkComponentTest()
     {
         var testServices = new TestServiceProvider( Services.AddSingleton<NavigationManager, TestNavigationManager>() );
-        BlazoriseConfig.AddBootstrapProviders( testServices );
-        BlazoriseConfig.JSInterop.AddButton( JSInterop );
+
+        testServices.AddBlazoriseTests().AddBootstrapProviders();
+        JSInterop
+            .AddBlazoriseButton();
     }
 
     [Fact]

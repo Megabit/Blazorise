@@ -1,0 +1,114 @@
+﻿@page "/docs/usage/fluent2"
+
+<Seo Canonical="/docs/usage/fluent2" Title="Blazorise Fluent 2 Usage" Description="Learn all the steps on how to quickly install and setup Blazorise for Fluent 2 design system and Fluent icons." />
+
+<DocsPageTitle Path="Usage/Fluent 2">
+    Blazorise Fluent 2 Usage Guide
+</DocsPageTitle>
+
+<DocsPageLead>
+    Quickly install Blazorise with Fluent 2 design system, one of the world's most popular Blazor UI framework.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Welcome to the quick start guide for integrating the Blazorise Fluent 2 design system into your Blazor applications. Blazorise is among the most popular UI frameworks for Blazor, and with the Fluent 2 provider, you can leverage the modern and intuitive design language of <Anchor To="https://fluent2.microsoft.design/" Title="Link to Microsoft's Fluent 2">Microsoft's Fluent 2</Anchor>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <Alert Color="Color.Info" Visible>
+        <AlertDescription>
+            <Strong>Note:</Strong> Before you begin, ensure you have an existing Blazor project. If you're new to Blazor or need to create a project from scratch, visit the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor">official Blazor documentation</Blazorise.Link> for comprehensive guides on getting started..
+        </AlertDescription>
+    </Alert>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation Steps
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    1. Install Required Packages
+</Heading>
+
+<DocsPageParagraph>
+    To integrate Fluent 2 design with Blazorise, you need to install two NuGet packages:
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Fluent 2 Provider for Blazorise:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="FluentUI2GuideNuget1Example" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Fluent Icon Package for Blazorise:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="FluentUI2GuideNuget2Example" />
+</DocsPageSection>
+
+<Heading Size="HeadingSize.Is3">
+    2. Include Static Files
+</Heading>
+
+<DocsPageParagraph>
+    Modify your project's HTML template to include the necessary CSS files. The files you add depend on whether you're working with a WebAssembly or Server project:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <DocsPageUnorderedList>
+        <DocsPageUnorderedListItem>
+            For <Strong>WebAssembly</Strong>, update <Strong>index.html</Strong>.
+        </DocsPageUnorderedListItem>
+        <DocsPageUnorderedListItem>
+            For <Strong>Server</Strong>, update <Strong>_Layout.cshtml</Strong> or <Strong>_Host.cshtml</Strong>.
+        </DocsPageUnorderedListItem>
+        <DocsPageUnorderedListItem>
+            For <Strong>.NET 8</Strong>, update <Strong>App.razor</Strong>.
+        </DocsPageUnorderedListItem>
+    </DocsPageUnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Add these lines inside the <Code Tag>head</Code> section:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="FluentUI2GuideSourceFiles1Example" />
+</DocsPageSection>
+
+<Alert Color="Color.Info" Visible>
+    <AlertDescription>
+        <Strong>Important:</Strong> Remove any Bootstrap JS and CSS references that come by default with the Blazor project template to avoid conflicts.
+    </AlertDescription>
+</Alert>
+
+<Heading Size="HeadingSize.Is3">
+    3. Update Imports
+</Heading>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        In the <Strong>_Imports.razor</Strong> file at the root of your project, add the following namespace declarations:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="FluentUI2GuideUsingExample" />
+</DocsPageSection>
+
+<Heading Size="HeadingSize.Is3">
+    4. Register Blazorise Services
+</Heading>
+
+<DocsPageSection>
+    <DocsPageSectionHeader>
+        Configure your <Strong>Program.cs</Strong> to register Blazorise services, including the Fluent 2 providers and icons:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="FluentUI2GuideRegistrationExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Optional: PWA & Offline Support
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    To enhance your application with Progressive Web App (PWA) capabilities and offline support, refer to our <Anchor To="docs/pwa" Title="Link to PWA documentation">PWA documentation</Anchor>. This step is optional but recommended for applications intended to offer a rich, offline-capable user experience.
+</DocsPageParagraph>

@@ -22,6 +22,12 @@
     "Starts With": "Begint met",
     "Ends With": "Eindigt met",
     "Equals": "Gelijk aan",
-    "Not Equals": "Niet gelijk"
+    "Not Equals": "Niet gelijk",
+    "Greater Than": "Groter dan",
+    "Greater Than or Equal": "Groter dan of gelijk aan",
+    "Less Than": "Minder dan",
+    "Less Than or Equal": "Minder dan of gelijk",
+    "Save Changes": "Wijzigingen opslaan",
+    "Cancel Changes": "Stop veranderingen"
   }
 }

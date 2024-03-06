@@ -24,6 +24,9 @@ public partial class Link : BaseLinkComponent, IDisposable
     {
         builder.Append( ClassProvider.Link() );
         builder.Append( ClassProvider.LinkActive( Active ) );
+        builder.Append( ClassProvider.LinkUnstyled( Unstyled ) );
+        builder.Append( ClassProvider.LinkStretched( Stretched ) );
+        builder.Append( ClassProvider.LinkDisabled( Disabled ) );
 
         base.BuildClasses( builder );
     }

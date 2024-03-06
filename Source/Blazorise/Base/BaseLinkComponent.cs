@@ -45,10 +45,10 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
         PreventDefault = false;
 
         // in case the user has specified href instead of To we need to use that instead
-        if ( Attributes != null && Attributes.TryGetValue( "href", out var href ) )
+        if ( Attributes is not null && Attributes.TryGetValue( "href", out var href ) )
             To = $"{href}";
 
-        if ( To != null && To.StartsWith( "#" ) )
+        if ( To is not null && To.StartsWith( "#" ) )
         {
             // If the href contains an anchor link we don't want the default click action to occur, but
             // rather take care of the click in our own method.
@@ -76,7 +76,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
         if ( disposing )
         {
             // To avoid leaking memory, it's important to detach any event handlers in Dispose()
-            if ( NavigationManager != null )
+            if ( NavigationManager is not null )
             {
                 NavigationManager.LocationChanged -= OnLocationChanged;
             }
@@ -146,7 +146,7 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     {
         try
         {
-            if ( relativeUri == null )
+            if ( relativeUri is null )
                 return string.Empty;
 
             if ( relativeUri.StartsWith( "mailto:", StringComparison.OrdinalIgnoreCase ) )
@@ -209,6 +209,12 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
         }
     }
 
+    /// <summary>
+    /// Resolves the <see cref="To"/> value for the href attribute.
+    /// </summary>
+    /// <returns>Href value.</returns>
+    protected string GetTo() => Disabled ? null : To;
+
     #endregion
 
     #region Properties
@@ -227,6 +233,11 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     /// True, if the <see cref="To"/> parameter is the same as the current route uri.
     /// </summary>
     protected bool Active => active;
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Disabled"/> value for the aria-disabled attribute.
+    /// </summary>
+    protected string AriaDisabledString => Disabled ? "true" : null;
 
     /// <summary>
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
@@ -262,6 +273,21 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     /// Specify extra information about the element.
     /// </summary>
     [Parameter] public string Title { get; set; }
+
+    /// <summary>
+    /// Removes default color styles from the link.
+    /// </summary>
+    [Parameter] public bool Unstyled { get; set; }
+
+    /// <summary>
+    /// Makes any HTML element or component clickable by “stretching” a nested link.
+    /// </summary>
+    [Parameter] public bool Stretched { get; set; }
+
+    /// <summary>
+    /// Makes the link look inactive by adding the disabled boolean attribute.
+    /// </summary>
+    [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
     /// Occurs when the link is clicked.

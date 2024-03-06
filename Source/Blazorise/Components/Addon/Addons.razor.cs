@@ -28,7 +28,7 @@ public partial class Addons : BaseComponent, IDisposable
     {
         await base.OnInitializedAsync();
 
-        if ( Theme != null )
+        if ( Theme is not null )
         {
             Theme.Changed += OnThemeChanged;
         }
@@ -52,7 +52,7 @@ public partial class Addons : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( Theme != null )
+            if ( Theme is not null )
             {
                 Theme.Changed -= OnThemeChanged;
             }
@@ -77,7 +77,7 @@ public partial class Addons : BaseComponent, IDisposable
     /// <param name="button">A button reference that is placed inside of the addons.</param>
     internal void NotifyButtonInitialized( Button button )
     {
-        if ( button == null )
+        if ( button is null )
             return;
 
         registeredButtons ??= new();
@@ -94,10 +94,10 @@ public partial class Addons : BaseComponent, IDisposable
     /// <param name="button">A button reference that is placed inside of the addons.</param>
     internal void NotifyButtonRemoved( Button button )
     {
-        if ( button == null )
+        if ( button is null )
             return;
 
-        if ( registeredButtons != null && registeredButtons.Contains( button ) )
+        if ( registeredButtons is not null && registeredButtons.Contains( button ) )
         {
             registeredButtons.Remove( button );
         }

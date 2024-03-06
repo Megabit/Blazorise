@@ -1,0 +1,17 @@
+﻿.fui-Image {
+    display: inline-block;
+    box-sizing: border-box;
+    border-bottom-color: var(--colorNeutralStroke1);
+    border-left-color: var(--colorNeutralStroke1);
+    border-right-color: var(--colorNeutralStroke1);
+    border-top-color: var(--colorNeutralStroke1);
+    border-top-left-radius: var(--borderRadiusNone);
+    border-top-right-radius: var(--borderRadiusNone);
+    border-bottom-left-radius: var(--borderRadiusNone);
+    border-bottom-right-radius: var(--borderRadiusNone);
+
+    &-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+}

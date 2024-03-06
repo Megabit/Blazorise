@@ -57,7 +57,7 @@ public partial class DocsLayout : IDisposable
         await JSRuntime.InvokeVoidAsync( "blazoriseDocs.navigation.scrollToTop" );
     }
 
-    private async void ComponentSearchSelectedValueChanged( string value )
+    private async Task ComponentSearchSelectedValueChanged( string value )
     {
         if ( !string.IsNullOrWhiteSpace( value ) )
         {

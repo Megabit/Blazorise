@@ -43,14 +43,14 @@ public partial class Validations : ComponentBase
     /// <inheritdoc/>
     protected override void OnParametersSet()
     {
-        if ( hasSetEditContextExplicitly && Model != null )
+        if ( hasSetEditContextExplicitly && Model is not null )
         {
             throw new InvalidOperationException( $"{nameof( Validations )} requires a {nameof( Model )} parameter, or an {nameof( EditContext )} parameter, but not both." );
         }
 
         // Update editContext if we don't have one yet, or if they are supplying a
         // potentially new EditContext, or if they are supplying a different Model
-        if ( Model != null && Model != editContext?.Model )
+        if ( Model is not null && Model != editContext?.Model )
         {
             editContext = new( Model );
         }
@@ -65,13 +65,13 @@ public partial class Validations : ComponentBase
 
         if ( result )
         {
-            RaiseStatusChanged( ValidationStatus.Success, null );
+            RaiseStatusChanged( ValidationStatus.Success, null, null );
 
             await InvokeAsync( () => ValidatedAll.InvokeAsync() );
         }
         else if ( HasFailedValidations )
         {
-            RaiseStatusChanged( ValidationStatus.Error, FailedValidations );
+            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, null );
         }
 
         return result;
@@ -84,7 +84,7 @@ public partial class Validations : ComponentBase
     {
         ClearingAll?.Invoke();
 
-        RaiseStatusChanged( ValidationStatus.None, null );
+        RaiseStatusChanged( ValidationStatus.None, null, null );
 
         return Task.CompletedTask;
     }
@@ -102,7 +102,11 @@ public partial class Validations : ComponentBase
         return validated;
     }
 
-    internal void NotifyValidationInitialized( IValidation validation )
+    /// <summary>
+    /// Notifies the validation system that a new validation component has been initialized and adds it to the list of validations if not already present.
+    /// </summary>
+    /// <param name="validation">The validation component to add.</param>
+    public void NotifyValidationInitialized( IValidation validation )
     {
         if ( !validations.Contains( validation ) )
         {
@@ -110,7 +114,11 @@ public partial class Validations : ComponentBase
         }
     }
 
-    internal void NotifyValidationRemoved( IValidation validation )
+    /// <summary>
+    /// Notifies the validation system that a validation component is being removed and removes it from the list of validations if present.
+    /// </summary>
+    /// <param name="validation">The validation component to remove.</param>
+    public void NotifyValidationRemoved( IValidation validation )
     {
         if ( validations.Contains( validation ) )
         {
@@ -118,7 +126,17 @@ public partial class Validations : ComponentBase
         }
     }
 
-    internal void NotifyValidationStatusChanged( IValidation validation )
+    /// <summary>
+    /// Notifies the validation system that the status of a validation component has changed. This method handles the logic for updating the overall validation status based on the mode (Auto or Manual) and the current validation results.
+    /// </summary>
+    /// <param name="validation">The validation component whose status has changed.</param>
+    /// <remarks>
+    /// In Auto mode, this method triggers the aggregation of validation results and potentially raises a status changed event.
+    /// It is designed to minimize the number of status changed events by aggregating validation results.
+    /// Special consideration is needed to ensure that the status changed event is raised only once per validation cycle,
+    /// even if multiple validations fail.
+    /// </remarks>
+    public void NotifyValidationStatusChanged( IValidation validation )
     {
         // Here we need to call ValidatedAll only when in Auto mode. Manual call is already called through ValidateAll()
         if ( Mode == ValidationMode.Manual )
@@ -130,25 +148,27 @@ public partial class Validations : ComponentBase
 
         if ( AllValidationsSuccessful )
         {
-            RaiseStatusChanged( ValidationStatus.Success, null );
+            RaiseStatusChanged( ValidationStatus.Success, null, validation );
 
             ValidatedAll.InvokeAsync();
         }
         else if ( HasFailedValidations )
         {
-            RaiseStatusChanged( ValidationStatus.Error, FailedValidations );
+            RaiseStatusChanged( ValidationStatus.Error, FailedValidations, validation );
         }
         else
         {
-            RaiseStatusChanged( ValidationStatus.None, null );
+            RaiseStatusChanged( ValidationStatus.None, null, validation );
         }
     }
 
-    private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages )
+    private void RaiseStatusChanged( ValidationStatus status, IReadOnlyCollection<string> messages, IValidation validation )
     {
-        _StatusChanged?.Invoke( new( status, messages ) );
+        var eventArgs = new ValidationsStatusChangedEventArgs( status, messages, validation );
 
-        InvokeAsync( () => StatusChanged.InvokeAsync( new( status, messages ) ) );
+        _StatusChanged?.Invoke( eventArgs );
+
+        InvokeAsync( () => StatusChanged.InvokeAsync( eventArgs ) );
     }
 
     #endregion
@@ -184,7 +204,7 @@ public partial class Validations : ComponentBase
         {
             editContext = value;
 
-            hasSetEditContextExplicitly = value != null;
+            hasSetEditContextExplicitly = value is not null;
         }
     }
 
@@ -244,7 +264,7 @@ public partial class Validations : ComponentBase
                 .Concat(
                     // In case there are some fields that do not have error message we need to combine them all under one message.
                     validations.Any( v => v.Status == ValidationStatus.Error
-                                          && ( v.Messages == null || v.Messages.Count() == 0 )
+                                          && ( v.Messages is null || v.Messages.Count() == 0 )
                                           && !validations.Where( v2 => v2.Status == ValidationStatus.Error && v2.Messages?.Count() > 0 ).Contains( v ) )
                         ? new string[] { MissingFieldsErrorMessage ?? "One or more fields have an error. Please check and try again." }
                         : Array.Empty<string>() )

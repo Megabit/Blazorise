@@ -1,0 +1,62 @@
+﻿.fui-Rating {
+    display: flex;
+    align-items: center;
+    color: var(--colorNeutralForeground1);
+
+    &:focus,
+    &:focus-visible {
+        outline-style: none;
+    }
+
+    &-disabled {
+        opacity: .65;
+    }
+
+    .fui-RatingItem {
+        height: 28px;
+        width: 28px;
+        font-size: 28px;
+        position: relative;
+
+        @each $name, $value in $foreground-theme-colors {
+            $color: $value;
+
+            &-#{$name} {
+                color: $color;
+
+                .fui-RatingItem__selectedIcon,
+                .fui-RatingItem__unselectedOutlineIcon {
+                    color: $color;
+                }
+            }
+        }
+
+        .fui-RatingItem__fullValueInput {
+            position: absolute;
+            inset: 0px;
+            box-sizing: border-box;
+            margin: 0px;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .fui-RatingItem__selectedIcon,
+        .fui-RatingItem__unselectedOutlineIcon {
+            display: inline-block;
+            overflow: hidden;
+            fill: currentcolor;
+            pointer-events: none;
+            left: 0px;
+            right: 0px;
+
+            > * {
+                display: inline;
+                line-height: 0;
+            }
+        }
+
+        .fui-RatingItem__unselectedOutlineIcon {
+            color: var(--colorNeutralForeground3);
+        }
+    }
+}

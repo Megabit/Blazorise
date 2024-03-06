@@ -34,7 +34,7 @@ public partial class CardSubtitle : BaseTypographyComponent
     /// <summary>
     /// Indicates if the subtitle is placed inside if card header.
     /// </summary>
-    protected bool InsideHeader => ParentCardHeader != null;
+    protected bool InsideHeader => ParentCardHeader is not null;
 
     /// <summary>
     /// Number from 1 to 6 that defines the subtitle size where the smaller number means larger text.

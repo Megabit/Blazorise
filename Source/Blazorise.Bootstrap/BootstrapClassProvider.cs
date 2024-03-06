@@ -300,6 +300,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string FieldColumn() => "col";
 
+    public override string FieldSize( Size size ) => null;
+
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
     public override string FieldValidation( ValidationStatus validationStatus ) => null;
@@ -371,8 +373,6 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string AddonLabel() => "input-group-text";
 
-    //public override string AddonContainer() => null;
-
     #endregion
 
     #region Inline
@@ -398,6 +398,8 @@ public class BootstrapClassProvider : ClassProvider
     public override string ButtonDisabled( bool outline ) => "disabled";
 
     public override string ButtonLoading( bool outline ) => null;
+
+    public override string ButtonStretchedLink( bool stretched ) => stretched ? "stretched-link" : null;
 
     #endregion
 
@@ -460,8 +462,6 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
 
-    //public override string DropdownMenuBody() => null;
-
     public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
     public override string DropdownMenuRight() => "dropdown-menu-right";
@@ -503,7 +503,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TabsVertical() => "flex-column";
 
-    public override string TabItem() => "nav-item";
+    public override string TabItem( TabPosition tabPosition ) => "nav-item";
 
     public override string TabItemActive( bool active ) => null;
 
@@ -625,6 +625,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string CardLink() => "card-link";
 
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
     #endregion
@@ -641,9 +643,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ListGroupItemSelectable() => "list-group-item-action";
 
-    public override string ListGroupItemActive() => Active();
+    public override string ListGroupItemActive( bool active ) => active ? Active() : null;
 
-    public override string ListGroupItemDisabled() => Disabled();
+    public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"{ListGroupItem()}-{ToColor( color )}";
 
@@ -660,15 +662,15 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Bar
 
-    public override string Bar() => "navbar";
+    public override string Bar( BarMode mode ) => "navbar";
 
-    public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
 
-    public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
 
-    public override string BarBreakpoint( Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
 
     public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
 
@@ -736,7 +738,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string BarCollapsed( BarMode mode ) => null;
 
-    public override string BarLabel() => "b-bar-label";
+    public override string BarLabel( BarMode mode ) => "b-bar-label";
 
     #endregion
 
@@ -744,13 +746,21 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Accordion() => "accordion";
 
-    #endregion
-
-    #region AccordionToggle
-
     public override string AccordionToggle() => "btn";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    public override string AccordionItem() => "card";
+
+    public override string AccordionItemActive( bool active ) => null;
+
+    public override string AccordionHeader() => "card-header";
+
+    public override string AccordionBody() => "collapse";
+
+    public override string AccordionBodyActive( bool active ) => active ? Show() : null;
+
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "card-body";
 
     #endregion
 
@@ -873,11 +883,17 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Modal() => "modal";
 
-    public override string ModalFade() => Fade();
-
-    public override string ModalFade( bool animation ) => animation ? Fade() : null;
+    public override string ModalFade( bool showing, bool hiding ) => showing
+        ? "showing"
+        : hiding
+            ? "hiding"
+            : null;
 
     public override string ModalVisible( bool visible ) => visible ? Show() : null;
+
+    public override string ModalSize( ModalSize modalSize ) => null;
+
+    public override string ModalCentered( bool centered ) => null;
 
     public override string ModalBackdrop() => "modal-backdrop";
 
@@ -935,9 +951,51 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "offcanvas-backdrop";
 
-    public override string OffcanvasBackdropFade() => Fade();
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => Fade();
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
+
+    #endregion
+
+    #region Toast
+
+    public override string Toast() => "toast";
+
+    public override string ToastAnimated( bool animated ) => animated ? "fade" : null;
+
+    public override string ToastFade( bool visible, bool showing, bool hiding )
+    {
+        if ( showing || hiding )
+            return null;
+
+        return visible ? "show" : "hide";
+    }
+
+    public override string ToastVisible( bool visible ) => null;
+
+    public override string ToastHeader() => "toast-header";
+
+    public override string ToastBody() => "toast-body";
+
+    public override string Toaster() => "toast-container";
+
+    public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
+    {
+        Blazorise.ToasterPlacement.Top => "p-3 top-0 left-50 translate-middle-x",
+        Blazorise.ToasterPlacement.TopStart => "p-3 top-0 left-0",
+        Blazorise.ToasterPlacement.TopEnd => "p-3 top-0 right-0",
+        Blazorise.ToasterPlacement.Bottom => "p-3 bottom-0 left-50 translate-middle-x",
+        Blazorise.ToasterPlacement.BottomStart => "p-3 bottom-0 left-0",
+        Blazorise.ToasterPlacement.BottomEnd => "p-3 bottom-0 right-0",
+        _ => null,
+    };
+
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Fixed => "position-fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "position-absolute",
+        _ => null,
+    };
 
     #endregion
 
@@ -949,9 +1007,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string PaginationItem() => "page-item";
 
-    public override string PaginationItemActive() => Active();
+    public override string PaginationItemActive( bool active ) => active ? Active() : null;
 
-    public override string PaginationItemDisabled() => Disabled();
+    public override string PaginationItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
     public override string PaginationLink() => "page-link";
 
@@ -975,6 +1033,8 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ProgressAnimated() => null;
 
+    public override string ProgressIndeterminate() => "progress-indeterminate";
+
     public override string ProgressWidth( int width ) => null;
 
     public override string ProgressBar() => "progress-bar";
@@ -986,6 +1046,8 @@ public class BootstrapClassProvider : ClassProvider
     public override string ProgressBarStriped() => "progress-bar-striped";
 
     public override string ProgressBarAnimated() => "progress-bar-animated";
+
+    public override string ProgressBarIndeterminate() => "progress-bar-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 
@@ -1027,6 +1089,16 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
+    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "table-header-cell-fixed-start",
+            TableColumnFixedPosition.End => "table-header-cell-fixed-end",
+            _ => null,
+        };
+    }
+
     public override string TableFooter() => null;
 
     public override string TableBody() => null;
@@ -1041,9 +1113,29 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableRowHeader() => null;
 
+    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "table-row-header-fixed-start",
+            TableColumnFixedPosition.End => "table-row-header-fixed-end",
+            _ => null,
+        };
+    }
+
     public override string TableRowCell() => null;
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
+
+    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "table-row-cell-fixed-start",
+            TableColumnFixedPosition.End => "table-row-cell-fixed-end",
+            _ => null,
+        };
+    }
 
     public override string TableRowGroup( bool expanded ) => "table-group";
 
@@ -1051,9 +1143,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableRowGroupIndentCell() => "table-group-indentcell";
 
-    public override string TableResponsive() => "table-responsive";
+    public override string TableResponsive( bool responsive ) => responsive ? "table-responsive" : null;
 
-    public override string TableFixedHeader() => "table-fixed-header";
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "table-fixed-header" : null;
+
+    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "table-fixed-columns" : null;
 
     #endregion
 
@@ -1093,7 +1187,16 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"text-{ToTextOverflow( textOverflow )}";
 
-    public override string TextSize( TextSize textSize ) => $"fs-{ToTextSize( textSize )}";
+    public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
+    {
+        if ( textSizeType == TextSizeType.Default )
+            return null;
+
+        if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"fs-{ToBreakpoint( textSizeDefinition.Breakpoint )}-{ToTextSizeType( textSizeType )}";
+
+        return $"fs-{ToTextSizeType( textSizeType )}";
+    }
 
     public override string TextItalic() => "font-italic";
 
@@ -1202,6 +1305,12 @@ public class BootstrapClassProvider : ClassProvider
     public override string Link() => null;
 
     public override string LinkActive( bool active ) => active ? Active() : null;
+
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "link-unstyled" : null;
+
+    public override string LinkStretched( bool stretched ) => stretched ? "stretched-link" : null;
+
+    public override string LinkDisabled( bool disabled ) => disabled ? "link-disabled" : null;
 
     #endregion
 
@@ -1352,10 +1461,16 @@ public class BootstrapClassProvider : ClassProvider
             ? "w"
             : "h" );
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
+
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+         => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 

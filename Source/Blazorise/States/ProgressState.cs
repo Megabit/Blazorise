@@ -26,6 +26,11 @@ public record ProgressState
     public bool Animated { get; init; }
 
     /// <summary>
+    /// Set to true to show that an operation is being executed.
+    /// </summary>
+    public bool Indeterminate { get; init; }
+
+    /// <summary>
     /// Minimum value of the progress bar.
     /// </summary>
     public int Min { get; init; }

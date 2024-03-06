@@ -1,12 +1,9 @@
 @using System.Reflection;
+@using Blazorise.Utilities
 @typeparam TItem
 @inherits ComponentBase
 
-@if ( valueType == typeof( decimal ) || valueType == typeof( decimal? )
-   || valueType == typeof( double ) || valueType == typeof( double? )
-   || valueType == typeof( float ) || valueType == typeof( float? )
-   || valueType == typeof( int ) || valueType == typeof( int? )
-   || valueType == typeof( long ) || valueType == typeof( long? ) )
+@if ( TypeHelper.IsNumeric(valueType) )
 {
     @NumericPickerFragment
 }
@@ -52,6 +49,7 @@
         builder.AddAttribute( 7, nameof( NumericPicker<object>.Culture ), Column.Culture );
         builder.AddAttribute( 8, nameof( NumericPicker<object>.ShowStepButtons ), Column.ShowStepButtons );
         builder.AddAttribute( 9, nameof( NumericPicker<object>.EnableStep ), Column.EnableStep );
+        builder.AddAttribute( 10, nameof( NumericPicker<object>.ElementId ), elementId );
         builder.CloseComponent();
     };
 }

@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using BasicTestApp.Client;
-using Blazorise.Tests.Extensions;
-using Blazorise.Tests.Helpers;
 using Blazorise.TreeView;
 using Bunit;
-using FluentAssertions;
 using Xunit;
 using static BasicTestApp.Client.TreeViewComponent;
 #endregion
@@ -18,8 +14,8 @@ public class TreeViewComponentTest : TestContext
 {
     public TreeViewComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddDataGrid( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseButton();
     }
 
     [Fact]

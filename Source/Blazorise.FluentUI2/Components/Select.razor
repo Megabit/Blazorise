@@ -1,0 +1,33 @@
+﻿@using System.Text
+@typeparam TValue
+@inherits Blazorise.Select<TValue>
+@attribute [CascadingTypeParameter( nameof( TValue ) )]
+<CascadingValue Value="@this" IsFixed>
+    @if ( ParentIsAddons )
+    {
+        <span class="@AddonClassNames">
+            @InputElement
+        </span>
+    }
+    else
+    {
+        <span class="@InputClassNames">
+            @InputElement
+        </span>
+    }
+</CascadingValue>
+@Feedback
+@code {
+    private RenderFragment InputElement => __builder =>
+    {
+        <select @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" multiple="@Multiple" size="@MaxVisibleItems" value="@CurrentValueAsString" tabindex="@TabIndex" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+            @ChildContent
+        </select>
+        @if ( !Multiple )
+        {
+            <span class="fui-Select__icon">
+                <svg fill="currentColor" class="" aria-hidden="true" width="1em" height="1em" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M15.85 7.65c.2.2.2.5 0 .7l-5.46 5.49a.55.55 0 0 1-.78 0L4.15 8.35a.5.5 0 1 1 .7-.7L10 12.8l5.15-5.16c.2-.2.5-.2.7 0Z" fill="currentColor"></path></svg>
+            </span>
+        }
+    };
+}

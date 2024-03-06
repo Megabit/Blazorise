@@ -1,14 +1,33 @@
 ﻿@namespace Blazorise
 @inherits BaseComponent
-@if ( Rating.ReadOnly )
+@{
+    var tooltip = Rating?.GetTooltip?.Invoke( Value );
+}
+
+@if ( string.IsNullOrEmpty( tooltip?.Text ) )
 {
-    <span id="@ElementId" class="@ClassNames" style="@StyleNames">
-        <Icon Name="@IconName" IconStyle="@IconStyle" />
-    </span>
+    @RatingItemTemplate
 }
 else
 {
-    <span id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @onmouseover="@HandleMouseOver" @onmouseout="@HandleMouseOut">
-        <Icon Name="@IconName" IconStyle="@IconStyle" />
-    </span>
+    <Tooltip Text="@tooltip.Text" Placement="@tooltip.Placement" Multiline="@tooltip.Multiline" ShowArrow="@tooltip.ShowArrow" Inline>
+        @RatingItemTemplate
+    </Tooltip>
+}
+@code {
+    private RenderFragment RatingItemTemplate => __builder =>
+    {
+        @if ( Rating.ReadOnly )
+        {
+            <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames">
+                <Icon Name="@IconName" IconStyle="@IconStyle" />
+            </span>
+        }
+        else
+        {
+            <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @onmouseover="@HandleMouseOver" @onmouseout="@HandleMouseOut">
+                <Icon Name="@IconName" IconStyle="@IconStyle" />
+            </span>
+        }
+    };
 }

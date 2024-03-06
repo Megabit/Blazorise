@@ -9,6 +9,7 @@ dotnet pack ../Source/Blazorise.Bootstrap5/Blazorise.Bootstrap5.csproj -o . -c R
 dotnet pack ../Source/Blazorise.Bulma/Blazorise.Bulma.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Blazorise.Material/Blazorise.Material.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Blazorise.Tailwind/Blazorise.Tailwind.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Blazorise.FluentUI2/Blazorise.FluentUI2.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
 dotnet pack ../Source/Extensions/Blazorise.Animate/Blazorise.Animate.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Charts/Blazorise.Charts.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
@@ -36,5 +37,8 @@ dotnet pack ../Source/Extensions/Blazorise.Video/Blazorise.Video.csproj -o . -c 
 dotnet pack ../Source/Extensions/Blazorise.Icons.Bootstrap/Blazorise.Icons.Bootstrap.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Icons.FontAwesome/Blazorise.Icons.FontAwesome.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Icons.Material/Blazorise.Icons.Material.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Icons.FluentUI/Blazorise.Icons.FluentUI.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+
+dotnet pack ../Source/Helpers/Blazorise.Tests.bUnit/Blazorise.Tests.bUnit.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
 dotnet pack ../Source/SourceGenerators/Blazorise.Generator.Features/Blazorise.Generator.Features.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg

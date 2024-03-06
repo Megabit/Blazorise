@@ -1,6 +1,4 @@
 ﻿using AngleSharp.Dom;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
@@ -12,12 +10,14 @@ public class ValidateAnnotationsComponentTest : TestContext
     private const string NameRequired = "The Name field is required.";
     private const string PasswordLength = "The field Password must be a string with a minimum length of 5 and a maximum length of 8.";
     private const string PasswordWithDisplayLength = "The field DisplayName:Some.Custom.Name must be a string with a minimum length of 5 and a maximum length of 8.";
+    private const string ErrorOverride = "error override message";
 
     public ValidateAnnotationsComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop
+            .AddBlazoriseButton()
+            .AddBlazoriseTextEdit();
     }
 
     [Fact]
@@ -207,6 +207,29 @@ public class ValidateAnnotationsComponentTest : TestContext
         edit.Input( "a" );
         Assert.Contains( "is-invalid", edit.ClassList );
         btn.Click();
+        Assert.Contains( "is-valid", edit.ClassList );
+    }
+
+    [Fact]
+    public void CanAutoValidateName_InitiallyPopulated_ErrorOverride()
+    {
+        // setup
+        var comp = RenderComponent<ValidateAnnotationsComponent>();
+        var edit = comp.Find( "#auto-validate-name-initially-populated-error-override input" );
+
+        Assert.Contains( "is-valid", edit.ClassList );
+
+        // test 1
+        edit.Input( string.Empty );
+        Assert.Contains( "is-invalid", edit.ClassList );
+
+        var feedback = comp.Find( "#auto-validate-name-initially-populated-error-override .invalid-feedback" );
+
+        Assert.NotNull( feedback );
+        Assert.Contains( ErrorOverride, feedback.TextContent );
+
+        // test 2
+        edit.Input( "b" );
         Assert.Contains( "is-valid", edit.ClassList );
     }
 }

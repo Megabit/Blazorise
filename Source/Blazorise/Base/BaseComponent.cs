@@ -59,7 +59,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
     private TextOverflow textOverflow = TextOverflow.Default;
 
-    private TextSize textSize = TextSize.Default;
+    private IFluentTextSize textSize;
 
     private VerticalAlignment verticalAlignment = VerticalAlignment.Default;
 
@@ -103,12 +103,12 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
             Attributes ??= new();
 
-            if ( widthAttribute != null && parametersDictionary.Remove( "width" ) )
+            if ( widthAttribute is not null && parametersDictionary.Remove( "width" ) )
             {
                 Attributes.Add( "width", widthAttribute );
             }
 
-            if ( heightAttribute != null && parametersDictionary.Remove( "height" ) )
+            if ( heightAttribute is not null && parametersDictionary.Remove( "height" ) )
             {
                 Attributes.Add( "height", heightAttribute );
             }
@@ -122,7 +122,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ShouldAutoGenerateId && ElementId == null )
+        if ( ShouldAutoGenerateId && ElementId is null )
         {
             ElementId = IdGenerator.Generate;
         }
@@ -174,31 +174,31 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <param name="builder">Class builder used to append the classnames.</param>
     protected virtual void BuildClasses( ClassBuilder builder )
     {
-        if ( Class != null )
+        if ( Class is not null )
             builder.Append( Class );
 
-        if ( Margin != null )
+        if ( Margin is not null )
             builder.Append( Margin.Class( ClassProvider ) );
 
-        if ( Padding != null )
+        if ( Padding is not null )
             builder.Append( Padding.Class( ClassProvider ) );
 
-        if ( Gap != null )
+        if ( Gap is not null )
             builder.Append( Gap.Class( ClassProvider ) );
 
-        if ( Display != null )
+        if ( Display is not null )
             builder.Append( Display.Class( ClassProvider ) );
 
-        if ( Border != null )
+        if ( Border is not null )
             builder.Append( Border.Class( ClassProvider ) );
 
-        if ( Flex != null )
+        if ( Flex is not null )
             builder.Append( Flex.Class( ClassProvider ) );
 
-        if ( Position != null )
+        if ( Position is not null )
             builder.Append( Position.Class( ClassProvider ) );
 
-        if ( Overflow != null )
+        if ( Overflow is not null )
             builder.Append( Overflow.Class( ClassProvider ) );
 
         if ( Float != Float.Default )
@@ -213,10 +213,10 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( VerticalAlignment != VerticalAlignment.Default )
             builder.Append( ClassProvider.VerticalAlignment( VerticalAlignment ) );
 
-        if ( Width != null )
+        if ( Width is not null )
             builder.Append( Width.Class( ClassProvider ) );
 
-        if ( Height != null )
+        if ( Height is not null )
             builder.Append( Height.Class( ClassProvider ) );
 
         if ( Casing != CharacterCasing.Normal )
@@ -237,8 +237,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( TextOverflow != TextOverflow.Default )
             builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
 
-        if ( TextSize != TextSize.Default )
-            builder.Append( ClassProvider.TextSize( TextSize ) );
+        if ( TextSize is not null )
+            builder.Append( TextSize.Class( ClassProvider ) );
 
         if ( Background != Background.Default )
             builder.Append( ClassProvider.BackgroundColor( Background ) );
@@ -254,8 +254,14 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <param name="builder">Style builder used to append the styles.</param>
     protected virtual void BuildStyles( StyleBuilder builder )
     {
-        if ( Style != null )
+        if ( Style is not null )
             builder.Append( Style );
+
+        if ( Width != null )
+            builder.Append( Width.Style( StyleProvider ) );
+
+        if ( Height != null )
+            builder.Append( Height.Style( StyleProvider ) );
     }
 
     /// <summary>
@@ -280,7 +286,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <typeparam name="T">Type of the object.</typeparam>
     /// <param name="value">The reference of the tracked object.</param>
     /// <returns>An instance of <see cref="DotNetObjectReference{T}"/>.</returns>
-    protected DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
+    protected static DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
     {
         return DotNetObjectReference.Create( value );
     }
@@ -290,7 +296,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// </summary>
     /// <typeparam name="T">Type of the object.</typeparam>
     /// <param name="value">The reference of the tracked object.</param>
-    protected void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
+    protected static void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
     {
         value?.Dispose();
     }
@@ -720,11 +726,14 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// Determines the font size of an element.
     /// </summary>
     [Parameter]
-    public TextSize TextSize
+    public IFluentTextSize TextSize
     {
         get => textSize;
         set
         {
+            if ( textSize == value )
+                return;
+
             textSize = value;
 
             DirtyClasses();

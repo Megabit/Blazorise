@@ -18,7 +18,7 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
     #region Members
 
     private string selectorElementId;
-
+    
     private string inputElementId;
 
     /// <summary>

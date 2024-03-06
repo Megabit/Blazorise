@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -40,6 +41,16 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
         base.OnInitialized();
     }
 
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        var selectedValuesChanged = parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !paramSelectedValues.AreEqual( SelectedValues );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( selectedValuesChanged )
+            selectedValues = paramSelectedValues?.ToList();
+    }
+
     protected Task HandleDropdownItemClicked( object value )
     {
         SelectedValue = Converters.ChangeType<TValue>( value );
@@ -68,6 +79,30 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
         return dropdownToggleRef.Focus( scrollToElement );
     }
 
+    private string GetItemText( TItem item )
+    {
+        if ( TextField is null )
+            return string.Empty;
+
+        return TextField.Invoke( item );
+    }
+
+    private TValue GetItemValue( TItem item )
+    {
+        if ( ValueField is null )
+            return default;
+
+        return ValueField.Invoke( item );
+    }
+
+    private bool GetItemDisabled( TItem item )
+    {
+        if ( DisabledItem is null )
+            return false;
+
+        return DisabledItem.Invoke( item );
+    }
+
     #endregion
 
     #region Properties
@@ -87,6 +122,11 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Defines the color of toggle button.
     /// </summary>
     [Parameter] public Color Color { get; set; }
+
+    /// <summary>
+    /// Defines the size of toggle button.
+    /// </summary>
+    [Parameter] public Size DropdownToggleSize { get; set; }
 
     /// <summary>
     /// If true, a dropdown menu will be right aligned.
@@ -178,6 +218,11 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Occurs after the selected item values have changed.
     /// </summary>
     [Parameter] public EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
+
+    /// <summary>
+    /// Method used to get the disabled items from the supplied data source.
+    /// </summary>
+    [Parameter] public Func<TItem, bool> DisabledItem { get; set; }
 
     #endregion
 }

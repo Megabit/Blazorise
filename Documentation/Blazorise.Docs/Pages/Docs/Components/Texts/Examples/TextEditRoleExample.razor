@@ -1,4 +1,20 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<TextEdit Role="TextRole.Email" />
-<TextEdit Role="TextRole.Password" />
+<Fields>
+    <Field ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <FieldLabel>
+            Email
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit Role="TextRole.Email" />
+        </FieldBody>
+    </Field>
+    <Field ColumnSize="ColumnSize.Is6.OnDesktop.Is12.OnMobile">
+        <FieldLabel>
+            Password
+        </FieldLabel>
+        <FieldBody>
+            <TextEdit Role="TextRole.Password" autocomplete="new-password" />
+        </FieldBody>
+    </Field>
+</Fields>

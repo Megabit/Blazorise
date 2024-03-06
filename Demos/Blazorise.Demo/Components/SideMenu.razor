@@ -24,13 +24,14 @@
                         UI Elements
                     </BarDropdownToggle>
                     <BarDropdownMenu>
+                        <BarDropdownItem To="tests/accordion">Accordion</BarDropdownItem>
                         <BarDropdownItem To="tests/alerts">Alerts</BarDropdownItem>
                         <BarDropdownItem To="tests/badges">Badges</BarDropdownItem>
                         <BarDropdownItem To="tests/buttons">Buttons</BarDropdownItem>
                         <BarDropdownItem To="tests/breadcrumbs">Breadcrumbs</BarDropdownItem>
                         <BarDropdownItem To="tests/cards">Cards</BarDropdownItem>
                         <BarDropdownItem To="tests/carousel">Carousel</BarDropdownItem>
-                        <BarDropdownItem To="tests/collapse">Collapse</BarDropdownItem>
+                        <BarDropdownItem To="tests/dividers">Dividers</BarDropdownItem>
                         <BarDropdownItem To="tests/dragdrop">Drag & Drop</BarDropdownItem>
                         <BarDropdownItem To="tests/dropdowns">Dropdowns</BarDropdownItem>
                         <BarDropdownItem To="tests/figures">Figures</BarDropdownItem>
@@ -47,6 +48,7 @@
                         <BarDropdownItem To="tests/steps">Steps</BarDropdownItem>
                         <BarDropdownItem To="tests/tables">Tables</BarDropdownItem>
                         <BarDropdownItem To="tests/tabs">Tabs</BarDropdownItem>
+                        <BarDropdownItem To="tests/toasts">Toasts</BarDropdownItem>
                         <BarDropdownItem To="tests/tooltips">Tooltips</BarDropdownItem>
                         <BarDropdownItem To="tests/typography">Typography</BarDropdownItem>
                     </BarDropdownMenu>
@@ -93,7 +95,7 @@
             <BarItem>
                 <BarDropdown @bind-Visible="@datagridVisible">
                     <BarDropdownToggle>
-                        <BarIcon IconName="IconName.CompactDisc" />
+                        <BarIcon IconName="IconName.Table" />
                         Datagrid
                     </BarDropdownToggle>
                     <BarDropdownMenu>
@@ -101,8 +103,16 @@
                             Aggregates
                         </BarDropdownItem>
 
+                        <BarDropdownItem To="tests/datagrid/auto-generate-columns">
+                            Auto Generate Columns
+                        </BarDropdownItem>
+
                         <BarDropdownItem To="tests/datagrid/columns">
                             Columns
+                        </BarDropdownItem>
+
+                        <BarDropdownItem To="tests/datagrid/column-chooser">
+                            Column Chooser
                         </BarDropdownItem>
 
                         <BarDropdown>
@@ -124,6 +134,9 @@
                                 Editing
                             </BarDropdownToggle>
                             <BarDropdownMenu>
+                                <BarDropdownItem To="tests/datagrid/editing/batch-editing">
+                                    Batch Editing
+                                </BarDropdownItem>
                                 <BarDropdownItem To="tests/datagrid/editing/button-row">
                                     Button Row
                                 </BarDropdownItem>
@@ -132,6 +145,9 @@
                                 </BarDropdownItem>
                                 <BarDropdownItem To="tests/datagrid/editing/update-cell">
                                     Update Cell
+                                </BarDropdownItem>
+                                <BarDropdownItem To="tests/datagrid/editing/rapid-editing">
+                                    Rapid Editing
                                 </BarDropdownItem>
                             </BarDropdownMenu>
                         </BarDropdown>
@@ -188,6 +204,10 @@
                             Resize
                         </BarDropdownItem>
 
+                        <BarDropdownItem To="tests/datagrid/fixed-columns">
+                            Fixed Columns
+                        </BarDropdownItem>
+
                         <BarDropdown>
                             <BarDropdownToggle>
                                 Selection
@@ -228,6 +248,10 @@
                             </BarDropdownMenu>
                         </BarDropdown>
 
+                        <BarDropdownItem To="tests/datagrid/state">
+                            State Management
+                        </BarDropdownItem>
+
                         <BarDropdownItem To="tests/datagrid/validations">
                             Validations
                         </BarDropdownItem>
@@ -265,6 +289,7 @@
                         <BarDropdownItem To="tests/autocomplete">
                             Autocomplete
                         </BarDropdownItem>
+                        <BarDropdownItem To="tests/captcha">Captcha</BarDropdownItem>
                         <BarDropdownItem To="tests/charts">
                             Charts
                         </BarDropdownItem>
@@ -321,6 +346,9 @@
                         </BarDropdownItem>
                         <BarDropdownItem To="tests/treeview">
                             TreeView
+                        </BarDropdownItem>
+                        <BarDropdownItem To="tests/transferlist">
+                            Transfer List
                         </BarDropdownItem>
                         <BarDropdownItem To="tests/video">
                             Video

@@ -31,7 +31,7 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( TimeExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );

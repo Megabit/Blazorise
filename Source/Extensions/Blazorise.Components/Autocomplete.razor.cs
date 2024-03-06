@@ -1,4 +1,5 @@
 #region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Components.Autocomplete;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.Web.Virtualization;
+
 #endregion
 
 namespace Blazorise.Components;
@@ -23,10 +26,12 @@ namespace Blazorise.Components;
 /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
 public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAsyncDisposable
 {
-    class NullableT<T>
+    private class NullableT<T>
     {
         public NullableT( T t ) => Value = t;
+
         public T Value;
+
         public static implicit operator T( NullableT<T> nullable ) => nullable == null ? default : nullable.Value;
     }
 
@@ -65,16 +70,27 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Allow dropdown visibility
     /// </summary>
-    bool canShowDropDown;
+    private bool canShowDropDown;
 
-    string currentSearch;
-    string currentSearchParam;
+    private string currentSearch;
+    private string currentSearchParam;
 
-    NullableT<TValue> selectedValue;
-    TValue selectedValueParam;
+    private NullableT<TValue> selectedValue;
+    private TValue selectedValueParam;
 
-    List<TValue> selectedValuesParam;
-    List<string> selectedTextsParam;
+    private List<TValue> selectedValuesParam;
+    private List<string> selectedTextsParam;
+
+    private Validation validationRef;
+
+    /// <summary>
+    /// Workaround for the issue where the dropdown closes when clicking on the checkbox
+    /// </summary>
+    private bool clickFromCheck;
+    /// <summary>
+    /// Workaround for the issue where the dropdown closes when clicking on the checkbox
+    /// </summary>
+    private bool focusFromCheck;
 
     #endregion
 
@@ -104,7 +120,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         var selectedTextsParamChanged = parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
             && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts );
 
-
         await base.SetParametersAsync( parameters );
 
         await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged );
@@ -129,7 +144,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         else
             return new( Data.ToList(), TotalItems.HasValue ? TotalItems.Value : default );
     }
-
 
     private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
     {
@@ -238,6 +252,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
+        InputElementId = IdGenerator.Generate;
+
         ExecuteAfterRender( async () => await JSClosableModule.RegisterLight( ElementRef ) );
 
         if ( ManualReadMode )
@@ -260,8 +276,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         await base.OnInitializedAsync();
     }
-
-
 
     /// <summary>
     /// Handles the search field onchange or oninput event.
@@ -333,7 +347,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextKeyDownHandler( KeyboardEventArgs eventArgs )
     {
-
         if ( eventArgs.Code == "Escape" )
         {
             await Close();
@@ -343,7 +356,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         if ( IsMultiple && string.IsNullOrEmpty( Search ) && eventArgs.Code == "Backspace" )
         {
-            await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
+            await RemoveMultipleTextAndValue( SelectedTexts?.LastOrDefault() );
             await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
@@ -394,6 +407,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
     {
+        if ( focusFromCheck )
+        {
+            focusFromCheck = false;
+            return;
+        }
+
         TextFocused = true;
         if ( ManualReadMode || MinLength <= 0 )
             await Reload();
@@ -409,28 +428,48 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
     {
-        await Close();
-
-        if ( IsMultiple )
+        if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
         {
-            await ResetSelected();
-            await ResetCurrentSearch();
+            //Workaround for the issue where the dropdown closes when clicking on the checkbox
+            ExecuteAfterRender( HandleBlurHandler );
         }
         else
         {
-            if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
+            await HandleBlurHandler();
+        }
+
+        async Task HandleBlurHandler()
+        {
+            if ( clickFromCheck )
+            {
+                clickFromCheck = false;
+                focusFromCheck = true;
+                await textEditRef.Focus();
+                return;
+            }
+            await Close();
+
+            if ( IsMultiple )
             {
                 await ResetSelected();
                 await ResetCurrentSearch();
-                return;
+            }
+            else
+            {
+                if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
+                {
+                    await ResetSelected();
+                    await ResetCurrentSearch();
+                    return;
+                }
+
+                await SelectedOrResetOnCommit();
             }
 
-            await SelectedOrResetOnCommit();
+            TextFocused = false;
+
+            await SearchBlur.InvokeAsync( eventArgs );
         }
-
-        TextFocused = false;
-
-        await SearchBlur.InvokeAsync( eventArgs );
     }
 
     private async Task InvokeSearchChanged( string searchValue )
@@ -469,8 +508,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
     }
 
+
     private async Task OnDropdownItemSelected( object value )
     {
+        clickFromCheck = ( SelectionMode == AutocompleteSelectionMode.Checkbox );
+
         //TODO : Once Multiple is deprecated we may remove the && !IsMultiple condition
         if ( SelectionMode == AutocompleteSelectionMode.Default && !IsMultiple )
         {
@@ -752,6 +794,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         await RemoveMultipleText( text );
         await RemoveMultipleValue( GetValueByText( text ) );
 
+        await validationRef.ValidateAsync();
+
         DirtyFilter();
     }
 
@@ -764,6 +808,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         await RemoveMultipleText( GetItemText( value ) );
         await RemoveMultipleValue( value );
+
+        await validationRef.ValidateAsync();
+
         DirtyFilter();
     }
 
@@ -811,7 +858,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             }
         }
 
-        filteredData = query.ToList();
+        var maxRowsLimit = LicenseChecker.GetAutoCompleteRowsLimit();
+
+        if ( maxRowsLimit.HasValue )
+        {
+            filteredData = query.Take( maxRowsLimit.Value ).ToList();
+        }
+        else
+        {
+            filteredData = query.ToList();
+        }
 
         dirtyFilter = false;
     }
@@ -825,7 +881,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         await ResetSelectedText();
         await ResetSelectedValue();
     }
-
 
     /// <summary>
     /// Clears the selected value and the search field.
@@ -914,7 +969,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Determines if Autocomplete can be closed
     /// </summary>
     /// <returns>True if Autocomplete can be closed.</returns>
-    /// 
+    ///
     [Obsolete( "IsSafeToClose is deprecated. This API now always returns true." )]
     public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
     {
@@ -993,11 +1048,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private string GetValidationValue()
     {
-        return FreeTyping
-                ? IsMultiple
-                    ? SelectedTexts.IsNullOrEmpty() ? string.Empty : string.Join( ';', SelectedTexts )
-                    : Search?.ToString()
-                : SelectedValue?.ToString();
+        if ( IsMultiple )
+        {
+            return SelectedTexts.IsNullOrEmpty() ? string.Empty : string.Join( ';', SelectedTexts );
+        }
+
+        return FreeTyping ? Search?.ToString() : SelectedValue?.ToString();
     }
 
     private string GetItemText( TValue value )
@@ -1100,7 +1156,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Gets the Element Id
     /// </summary>
-    public string InputElementId => textEditRef?.ElementId;
+    public string InputElementId { get; private set; }
 
     /// <summary>
     /// Gets the dropdown CSS styles.
@@ -1172,12 +1228,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets the custom class-names for dropdown element.
     /// </summary>
     protected string DropdownItemClassNames( int index )
-        => $"b-is-autocomplete-suggestion {( ActiveItemIndex == index ? "focus" : string.Empty )}";
-
-    /// <summary>
-    /// Gets the custom class-names for checkbox element.
-    /// </summary>
-    protected string DropdownCheckboxItemClassNames = $"b-is-autocomplete-suggestion-checkbox";
+        => $"b-is-autocomplete-suggestion {( ActiveItemIndex == index ? "focus" : string.Empty )} {( SelectionMode == AutocompleteSelectionMode.Checkbox ? "b-is-autocomplete-suggestion-checkbox" : string.Empty )}";
 
     /// <summary>
     /// Provides an index based id for the dropdown suggestion items.
@@ -1201,6 +1252,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
     /// </summary>
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    /// <summary>
+    /// Gets or set the IdGenerator.
+    /// </summary>
+    [Inject] public IIdGenerator IdGenerator { get; set; }
+
+    /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
 
     /// <summary>
     /// Gets or sets the dropdown element id.
@@ -1275,7 +1336,6 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Event handler used to detect when the autocomplete is opened.
     /// </summary>
     [Parameter] public EventCallback Opened { get; set; }
-
 
     /// <summary>
     /// Gets the data after all of the filters have being applied.
@@ -1382,6 +1442,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Defines the text color of the search field.
     /// </summary>
     [Parameter] public TextColor SearchTextColor { get; set; }
+
+    /// <summary>
+    /// Defines class for search field.
+    /// </summary>
+    [Parameter] public string SearchClass { get; set; }
+
+    /// <summary>
+    /// Defines style for search field.
+    /// </summary>
+    [Parameter] public string SearchStyle { get; set; }
 
     /// <summary>
     /// Currently selected items values.

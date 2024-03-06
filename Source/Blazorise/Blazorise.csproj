@@ -41,13 +41,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazorise.Licensing" Version="1.1.0" />
-    <PackageReference Include="DeepCloner" Version="0.10.4" />
+    <PackageReference Include="Blazorise.Licensing" Version="1.2.0" />
   </ItemGroup>
 
   <PropertyGroup>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>__SOURCEGENERATED__</CompilerGeneratedFilesOutputPath>
+    <SonarQubeExclude>True</SonarQubeExclude>
   </PropertyGroup>
 
 </Project>

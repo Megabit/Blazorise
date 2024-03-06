@@ -1,6 +1,4 @@
-﻿using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
-using Bunit;
+﻿using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -9,9 +7,10 @@ public class ComponentRenderingTest : TestContext
 {
     public ComponentRenderingTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop
+            .AddBlazoriseTextEdit()
+            .AddBlazoriseButton();
     }
 
     [Fact]

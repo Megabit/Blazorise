@@ -57,7 +57,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
 
             if ( autofocus )
             {
-                if ( ParentFocusableContainer != null )
+                if ( ParentFocusableContainer is not null )
                 {
                     ParentFocusableContainer.NotifyFocusableComponentInitialized( this );
                 }
@@ -76,7 +76,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( Theme != null )
+        if ( Theme is not null )
         {
             Theme.Changed += OnThemeChanged;
         }
@@ -111,7 +111,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     protected virtual void ReleaseResources()
     {
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             // To avoid leaking memory, it's important to detach any event handlers in Dispose()
             ParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
@@ -119,7 +119,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
 
         ParentFocusableContainer?.NotifyFocusableComponentRemoved( this );
 
-        if ( Theme != null )
+        if ( Theme is not null )
         {
             Theme.Changed -= OnThemeChanged;
         }
@@ -166,7 +166,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
             }
         }
         // send the value to the validation for processing
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             await ParentValidation.NotifyInputChanged<TValue>( default );
         }
@@ -294,7 +294,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     public Task Revalidate()
     {
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
             return ParentValidation.NotifyInputChanged<TValue>( default );
 
         return Task.CompletedTask;
@@ -334,14 +334,19 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     protected override bool ShouldAutoGenerateId => true;
 
     /// <inheritdoc/>
-    public virtual object ValidationValue => CustomValidationValue != null
+    public virtual object ValidationValue => CustomValidationValue is not null
         ? CustomValidationValue.Invoke()
         : InternalValue;
 
     /// <summary>
     /// Returns true if input belong to a <see cref="FieldBody"/>.
     /// </summary>
-    protected bool ParentIsFieldBody => ParentFieldBody != null;
+    protected bool ParentIsFieldBody => ParentFieldBody is not null;
+
+    /// <summary>
+    /// Returns true if input belong to a <see cref="Addons"/>.
+    /// </summary>
+    protected bool ParentIsAddons => ParentAddons is not null;
 
     /// <summary>
     /// Returns the default value for the <typeparamref name="TValue"/> type.

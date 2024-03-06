@@ -30,7 +30,7 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( TextExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -74,7 +74,7 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
         builder.Append( ClassProvider.TextEdit( Plaintext ) );
         builder.Append( ClassProvider.TextEditColor( Color ) );
         builder.Append( ClassProvider.TextEditSize( ThemeSize ) );
-        builder.Append( ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.TextEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }

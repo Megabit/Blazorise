@@ -13,7 +13,7 @@ public class FilterColumnContext<TItem>
     /// <summary>
     /// Constructor for context.
     /// </summary>
-    public FilterColumnContext( DataGridColumn<TItem> column, Func<DataGridFilterMethod> getFilterMethod, Func<object> getSearchValue, EventCallback<object> filterChanged, EventCallback<DataGridFilterMethod?> filterMethodChanged, EventCallback filter, EventCallback clearFilter )
+    public FilterColumnContext( DataGridColumn<TItem> column, Func<DataGridColumnFilterMethod> getFilterMethod, Func<object> getSearchValue, EventCallback<object> filterChanged, EventCallback<DataGridColumnFilterMethod?> filterMethodChanged, EventCallback filter, EventCallback clearFilter )
     {
         Column = column;
         GetFilterMethod = getFilterMethod;
@@ -36,7 +36,7 @@ public class FilterColumnContext<TItem>
     /// <summary>
     /// Gets the filter method that is being used.
     /// </summary>
-    public Func<DataGridFilterMethod> GetFilterMethod { get; set; }
+    public Func<DataGridColumnFilterMethod> GetFilterMethod { get; set; }
 
     /// <summary>
     /// Gets the current search value
@@ -51,7 +51,7 @@ public class FilterColumnContext<TItem>
     /// <summary>
     /// Triggers filter method changed event.
     /// </summary>
-    public EventCallback<DataGridFilterMethod?> FilterMethodChanged { get; set; }
+    public EventCallback<DataGridColumnFilterMethod?> FilterMethodChanged { get; set; }
 
     /// <summary>
     /// Triggers filter event for this column.

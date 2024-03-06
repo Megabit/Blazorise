@@ -35,7 +35,7 @@ public partial class Card : BaseComponent
     /// <summary>
     /// True if card is placed inside of a deck.
     /// </summary>
-    protected bool InsideDeck => ParentCardDeck != null;
+    protected bool InsideDeck => ParentCardDeck is not null;
 
     /// <summary>
     /// Sets the white text when using the darker background.

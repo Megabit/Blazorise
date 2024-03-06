@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -53,8 +54,10 @@ public class EmployeeData
         }
     };
 
-    public Task<List<Employee>> GetDataAsync()
-        => cache.GetOrCreateAsync( employeesCacheKey, LoadData );
+    public async Task<List<Employee>> GetDataAsync()
+        => ( await cache.GetOrCreateAsync( employeesCacheKey, LoadData ) )
+        .Select( x => new Employee(x) ) //new() is used so we make sure that we are not returning the same item references avoiding an application wide "data corruption".
+        .ToList(); 
 
     private Task<List<Employee>> LoadData( ICacheEntry cacheEntry )
     {

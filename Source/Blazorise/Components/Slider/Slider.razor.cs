@@ -16,6 +16,20 @@ namespace Blazorise;
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="Value"/> property.</typeparam>
 public partial class Slider<TValue> : BaseInputComponent<TValue>
 {
+    #region Members
+
+    /// <summary>
+    /// Indicates if <see cref="Min"/> parameter is defined.
+    /// </summary>
+    private bool minDefined = false;
+
+    /// <summary>
+    /// Indicates if <see cref="Max"/> parameter is defined.
+    /// </summary>
+    private bool maxDefined = false;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -29,9 +43,14 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
             }
         }
 
+        // This make sure we know that Min or Max parameters are defined and can be checked against the current value.
+        // Without we cannot determine if Min or Max has a default value when TValue is non-nullable type.
+        minDefined = parameters.TryGetValue<TValue>( nameof( Min ), out var min );
+        maxDefined = parameters.TryGetValue<TValue>( nameof( Max ), out var max );
+
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -98,6 +117,31 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
 
     /// <inheritdoc/>
     protected override TValue InternalValue { get => Value; set => Value = value; }
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Step"/> value.
+    /// </summary>
+    protected string StepString => Step.ToCultureInvariantString();
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Min"/> value.
+    /// </summary>
+    protected string MinString => Min.ToCultureInvariantString();
+
+    /// <summary>
+    /// Gets the string representation of the <see cref="Max"/> value.
+    /// </summary>
+    protected string MaxString => Max.ToCultureInvariantString();
+
+    /// <summary>
+    /// Indicates if <see cref="Min"/> parameter is defined.
+    /// </summary>
+    protected bool MinDefined => minDefined;
+
+    /// <summary>
+    /// Indicates if <see cref="Max"/> parameter is defined.
+    /// </summary>
+    protected bool MaxDefined => maxDefined;
 
     /// <summary>
     /// Specifies the interval between valid values.

@@ -365,6 +365,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string FieldColumn() => "relative basis-0 grow pl-2 pr-2 w-full max-w-full";
 
+    public override string FieldSize( Size size ) => null;
+
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
     public override string FieldValidation( ValidationStatus validationStatus ) => null;
@@ -379,7 +381,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string FieldLabelRequiredIndicator( bool requiredIndicator )
         => requiredIndicator
-            ? "after:content-[' *'] after:[color:var(--b-theme-danger, --btw-color-danger-500)]"
+            ? "after:content-['_*'] after:[color:var(--b-theme-danger,--btw-color-danger-500)]"
             : null;
 
     #endregion
@@ -448,8 +450,6 @@ public class TailwindClassProvider : ClassProvider
     }
 
     public override string AddonLabel() => "b-addon-label block px-3 font-medium text-gray-900 dark:text-white";
-
-    //public override string AddonContainer() => null;
 
     #endregion
 
@@ -522,6 +522,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ButtonLoading( bool outline ) => null;
 
+    public override string ButtonStretchedLink( bool stretched ) => stretched ? "after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:z-1 after:content-['_']" : null;
+
     #endregion
 
     #region Buttons
@@ -585,17 +587,25 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownMenuScrollable() => "b-dropdown-menu-scrollable max-h-[var(--dropdown-list-menu-max-height)] overflow-y-scroll";
 
-    //public override string DropdownMenuBody() => null;
-
     public override string DropdownMenuVisible( bool visible ) => visible
         ? "b-dropdown-menu-show block"
         : "b-dropdown-menu-hide hidden";
 
     public override string DropdownMenuRight() => "b-dropdown-menu-right";
 
-    public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
-        ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-        : "b-button b-dropdown-toggle focus:ring-4 focus:outline-none font-medium text-sm text-center inline-flex items-center";
+    public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
+    {
+        var sb = new StringBuilder( isDropdownSubmenu
+            ? "b-dropdown-toggle-submenu block flex flex-row justify-between w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            : "b-button b-dropdown-toggle focus:outline-none font-medium text-sm text-center inline-flex items-center" );
+
+        if ( outline )
+        {
+            sb.Append( " focus:ring-4" );
+        }
+
+        return sb.ToString();
+    }
 
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu
         ? "b-dropdown-toggle-submenu"
@@ -680,7 +690,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TabsVertical() => "flex-col";
 
-    public override string TabItem() => "mr-2";
+    public override string TabItem( TabPosition tabPosition ) => "mr-2";
 
     public override string TabItemActive( bool active ) => null;
 
@@ -835,7 +845,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardGroup() => "b-card-group flex flex-row gap-x-0";
 
-    public override string Card() => "b-card max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ";
+    public override string Card() => "b-card relative max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ";
 
     public override string CardWhiteText() => "text-white";
 
@@ -859,7 +869,19 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CardText() => "b-card-text mb-3 font-normal text-inherit";
 
-    public override string CardLink() => "b-card-link inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
+    public override string CardLink() => "";
+
+    public override string CardLinkUnstyled( bool unstyled )
+    {
+        if ( unstyled )
+        {
+            return "inline-flex items-center dark:text-primary-500 hover:underline";
+        }
+        else
+        {
+            return "b-card-link inline-flex items-center text-primary-600 dark:text-primary-500 hover:underline";
+        }
+    }
 
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
@@ -877,9 +899,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ListGroupItemSelectable() => "b-listgroup-item-selectable cursor-pointer focus:outline-none";
 
-    public override string ListGroupItemActive() => "b-listgroup-item-active";
+    public override string ListGroupItemActive( bool active ) => active ? "b-listgroup-item-active" : null;
 
-    public override string ListGroupItemDisabled() => "b-listgroup-item-disabled bg-gray-100 cursor-not-allowed dark:bg-gray-600 dark:text-gray-400";
+    public override string ListGroupItemDisabled( bool disabled ) => disabled ? "b-listgroup-item-disabled bg-gray-100 cursor-not-allowed dark:bg-gray-600 dark:text-gray-400" : null;
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active )
     {
@@ -984,15 +1006,15 @@ public class TailwindClassProvider : ClassProvider
 
     #region Bar
 
-    public override string Bar() => "b-bar";
+    public override string Bar( BarMode mode ) => "b-bar";
 
-    public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
 
-    public override string BarThemeContrast( ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
 
-    public override string BarBreakpoint( Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
         ? $"navbar-expand-{ToBreakpoint( breakpoint )}"
         : null;
 
@@ -1083,7 +1105,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BarCollapsed( BarMode mode ) => null;
 
-    public override string BarLabel() => "b-bar-label";
+    public override string BarLabel( BarMode mode ) => "b-bar-label";
 
     #endregion
 
@@ -1091,15 +1113,26 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Accordion() => "b-accordion";
 
-    #endregion
-
-    #region AccordionToggle
-
     public override string AccordionToggle() => "b-accordion-button flex items-center justify-between w-full p-5 font-medium text-left border border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => collapsed
         ? "b-accordion-toggle-collapsed bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
         : "b-accordion-toggle-collapsed text-gray-500 dark:text-gray-400";
+
+    public override string AccordionItem() => "b-accordion-item";
+
+    public override string AccordionItemActive( bool active ) => "b-accordion-active";
+
+    public override string AccordionHeader() => "b-accordion-header";
+
+    public override string AccordionBody() => "b-accordion-body";
+
+    public override string AccordionBodyActive( bool active ) => active ? null : "hidden";
+
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion )
+        => lastInAccordion
+        ? "p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900"
+        : "p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900";
 
     #endregion
 
@@ -1266,11 +1299,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Modal() => "b-modal fixed top-0 left-0 right-0 z-50 w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-modal md:h-full justify-center items-center";
 
-    public override string ModalFade() => "b-modal-fade";
-
-    public override string ModalFade( bool animation ) => animation ? "b-modal-fade" : null;
+    public override string ModalFade( bool showing, bool hiding ) => showing || hiding ? "b-modal-fade" : null;
 
     public override string ModalVisible( bool visible ) => visible ? "flex" : null;
+
+    public override string ModalSize( ModalSize modalSize ) => null;
+
+    public override string ModalCentered( bool centered ) => null;
 
     public override string ModalBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-40";
 
@@ -1282,7 +1317,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ModalContentSize( ModalSize modalSize )
     {
-        if ( modalSize == ModalSize.Fullscreen )
+        if ( modalSize == Blazorise.ModalSize.Fullscreen )
             return "h-screen w-screen max-w-none h-full m-0 rounded-none border-none border-0";
 
         return null;
@@ -1347,9 +1382,45 @@ public class TailwindClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "bg-gray-900 bg-opacity-50 dark:bg-opacity-80 fixed inset-0 z-30";
 
-    public override string OffcanvasBackdropFade() => "fade";
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => "fade";
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Show() : null;
+
+    #endregion
+
+    #region Toast
+
+    public override string Toast() => "b-toast p-4 text-gray-500 bg-white rounded-lg shadow dark:text-gray-400 dark:bg-gray-800 [&:not(:last-child)]:mb-4";
+
+    public override string ToastAnimated( bool animated ) => null;
+
+    public override string ToastFade( bool visible, bool showing, bool hiding ) => showing || hiding ? "b-toast-fade" : null;
+
+    public override string ToastVisible( bool visible ) => visible ? "flex" : null;
+
+    public override string ToastHeader() => "flex items-center mb-1 text-sm font-semibold text-gray-900 dark:text-white";
+
+    public override string ToastBody() => "text-sm font-normal";
+
+    public override string Toaster() => "z-50";
+
+    public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
+    {
+        Blazorise.ToasterPlacement.Top => "top-5 right-auto bottom-auto left-1/2 -translate-x-1/2",
+        Blazorise.ToasterPlacement.TopStart => "left-5 top-5",
+        Blazorise.ToasterPlacement.TopEnd => "right-5 top-5",
+        Blazorise.ToasterPlacement.Bottom => "top-auto right-auto bottom-5 left-1/2 -translate-x-1/2",
+        Blazorise.ToasterPlacement.BottomStart => "left-5 top-auto bottom-5",
+        Blazorise.ToasterPlacement.BottomEnd => "right-5 top-auto bottom-5",
+        _ => null,
+    };
+
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Fixed => "fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "absolute",
+        _ => null,
+    };
 
     #endregion
 
@@ -1361,9 +1432,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string PaginationItem() => "pagination-item";
 
-    public override string PaginationItemActive() => null;
+    public override string PaginationItemActive( bool active ) => null;
 
-    public override string PaginationItemDisabled() => null;
+    public override string PaginationItemDisabled( bool disabled ) => null;
 
     public override string PaginationLink()
         => "pagination-link relative block leading-tight border rounded-lg";
@@ -1414,6 +1485,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ProgressAnimated() => null;
 
+    public override string ProgressIndeterminate() => "overflow-hidden";
+
     public override string ProgressWidth( int width ) => null;
 
     public override string ProgressBar() => "text-xs shadow-none flex flex-col text-center whitespace-nowrap justify-center";
@@ -1442,6 +1515,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ProgressBarAnimated() => "progress-bar-animated";
 
+    public override string ProgressBarIndeterminate() => "progress-bar-indeterminate";
+
     public override string ProgressBarWidth( int width ) => null;
 
     #endregion
@@ -1460,17 +1535,17 @@ public class TailwindClassProvider : ClassProvider
 
         return name switch
         {
-            "primary" => "bg-primary-500",
-            "secondary" => "bg-secondary-500",
-            "success" => "bg-success-500",
-            "danger" => "bg-danger-500",
-            "warning" => "bg-warning-400",
-            "info" => "bg-info",
-            "light" => "bg-light",
-            "dark" => "bg-dark",
-            "white" => "bg-white",
-            "transparent" => "bg-transparent",
-            "body" => "bg-body",
+            "primary" => "!bg-primary-500",
+            "secondary" => "!bg-secondary-500",
+            "success" => "!bg-success-500",
+            "danger" => "!bg-danger-500",
+            "warning" => "!bg-warning-400",
+            "info" => "!bg-info",
+            "light" => "!bg-light",
+            "dark" => "!bg-dark",
+            "white" => "!bg-white",
+            "transparent" => "!bg-transparent",
+            "body" => "!bg-body",
             _ => name,
         };
     }
@@ -1505,6 +1580,16 @@ public class TailwindClassProvider : ClassProvider
     public override string TableHeaderCell() => "py-4 px-4";
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
+
+    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "sticky border-l-0 border-s-0 z-10 bg-white left-0",
+            TableColumnFixedPosition.End => "sticky border-l-0 border-s-0 z-10 bg-white right-0",
+            _ => null,
+        };
+    }
 
     public override string TableFooter() => "b-table-footer";
 
@@ -1549,9 +1634,29 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowHeader() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
 
+    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "sticky border-l-0 border-s-0 z-10 bg-white left-0",
+            TableColumnFixedPosition.End => "sticky border-l-0 border-s-0 z-10 bg-white right-0",
+            _ => null,
+        };
+    }
+
     public override string TableRowCell() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4";
 
     public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
+
+    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "sticky border-l-0 border-s-0 z-10 bg-white left-0",
+            TableColumnFixedPosition.End => "sticky border-l-0 border-s-0 z-10 bg-white right-0",
+            _ => null,
+        };
+    }
 
     public override string TableRowGroup( bool expanded ) => "b-table-group bg-gray-50 group-[:not(.border-0)]:border-b dark:bg-gray-800 group-[:not(.border-0)]:dark:border-gray-700 font-bold cursor-pointer";
 
@@ -1559,9 +1664,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowGroupIndentCell() => "b-table-group-indentcell";
 
-    public override string TableResponsive() => "b-table-responsive overflow-x-auto relative shadow-md sm:rounded-lg";
+    public override string TableResponsive( bool responsive ) => responsive ? "b-table-responsive overflow-x-auto relative shadow-md sm:rounded-lg" : null;
 
-    public override string TableFixedHeader() => "b-table-fixed-header";
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "b-table-fixed-header" : null;
+
+    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns
+        ? "b-table-fixed-columns w-full overflow-x-auto whitespace-nowrap relative" :
+        null;
 
     #endregion
 
@@ -1648,7 +1757,16 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string TextSize( TextSize textSize ) => $"text-{ToTextSize( textSize )}";
+    public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
+    {
+        if ( textSizeType == TextSizeType.Default )
+            return null;
+
+        if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"!{ToBreakpoint( textSizeDefinition.Breakpoint )}:text-{ToTextSizeType( textSizeType )}";
+
+        return $"text-{ToTextSizeType( textSizeType )}";
+    }
 
     public override string TextItalic() => "italic";
 
@@ -1702,7 +1820,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Paragraph
 
-    public override string Paragraph() => "b-paragraph mb-3 font-light";
+    public override string Paragraph() => "b-paragraph";
 
     public override string ParagraphColor( TextColor textColor )
     {
@@ -1797,9 +1915,25 @@ public class TailwindClassProvider : ClassProvider
 
     #region Link
 
-    public override string Link() => "font-medium text-primary-600 dark:text-primary-500 hover:underline";
+    public override string Link() => "";
 
     public override string LinkActive( bool active ) => active ? "font-medium active" : null;
+
+    public override string LinkUnstyled( bool unstyled )
+    {
+        if ( unstyled )
+        {
+            return "font-medium text-inherit hover:underline";
+        }
+        else
+        {
+            return "font-medium text-primary-600 dark:text-primary-500 hover:underline";
+        }
+    }
+
+    public override string LinkStretched( bool stretched ) => stretched ? "after:absolute after:inset-0" : null;
+
+    public override string LinkDisabled( bool disabled ) => disabled ? "opacity-65 cursor-not-allowed" : null;
 
     #endregion
 
@@ -1940,6 +2074,9 @@ public class TailwindClassProvider : ClassProvider
     {
         var sb = new StringBuilder();
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"{ToBreakpoint( sizingDefinition.Breakpoint )}:" );
+
         if ( sizingDefinition.IsMin )
             sb.Append( "min-" );
         else if ( sizingDefinition.IsMax )
@@ -1956,6 +2093,9 @@ public class TailwindClassProvider : ClassProvider
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 
@@ -2111,7 +2251,7 @@ public class TailwindClassProvider : ClassProvider
     {
         return modalSize switch
         {
-            Blazorise.ModalSize.Small => "max-w-md md:h-aut",
+            Blazorise.ModalSize.Small => "max-w-md md:h-auto",
             Blazorise.ModalSize.Large => "max-w-4xl md:h-auto",
             Blazorise.ModalSize.ExtraLarge => "max-w-7xl md:h-auto",
             _ => "max-w-2xl md:h-auto",
@@ -2185,7 +2325,9 @@ public class TailwindClassProvider : ClassProvider
         return sizingSize switch
         {
             Blazorise.SizingSize.Is25 => "1/4",
+            Blazorise.SizingSize.Is33 => "1/3",
             Blazorise.SizingSize.Is50 => "1/2",
+            Blazorise.SizingSize.Is66 => "2/3",
             Blazorise.SizingSize.Is75 => "3/4",
             Blazorise.SizingSize.Is100 => "full",
             Blazorise.SizingSize.Auto => "auto",
@@ -2242,33 +2384,36 @@ public class TailwindClassProvider : ClassProvider
     {
         return breakpoint switch
         {
-            Blazorise.Breakpoint.Mobile => "sm",
-            Blazorise.Breakpoint.Tablet => "md",
-            Blazorise.Breakpoint.Desktop => "lg",
-            Blazorise.Breakpoint.Widescreen => "xl",
-            Blazorise.Breakpoint.FullHD => "2xl",
+            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "sm",
+            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "md",
+            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "lg",
+            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "xl",
+            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "2xl",
+            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "3xl",
             _ => null,
         };
     }
 
-    public override string ToTextSize( TextSize textSize )
+    public override string ToTextSizeType( TextSizeType textSizeType )
     {
-        return textSize switch
+        return textSizeType switch
         {
-            Blazorise.TextSize.ExtraSmall => "xs",
-            Blazorise.TextSize.Small => "sm",
-            Blazorise.TextSize.Medium => "md",
-            Blazorise.TextSize.Large => "lg",
-            Blazorise.TextSize.ExtraLarge => "xl",
-            Blazorise.TextSize.Heading1 => "5xl",
-            Blazorise.TextSize.Heading2 => "4xl",
-            Blazorise.TextSize.Heading3 => "3xl",
-            Blazorise.TextSize.Heading4 => "2xl",
-            Blazorise.TextSize.Heading5 => "xl",
-            Blazorise.TextSize.Heading6 => "lg",
+            Blazorise.TextSizeType.ExtraSmall => "xs",
+            Blazorise.TextSizeType.Small => "sm",
+            Blazorise.TextSizeType.Medium => "md",
+            Blazorise.TextSizeType.Large => "lg",
+            Blazorise.TextSizeType.ExtraLarge => "xl",
+            Blazorise.TextSizeType.Heading1 => "5xl",
+            Blazorise.TextSizeType.Heading2 => "4xl",
+            Blazorise.TextSizeType.Heading3 => "3xl",
+            Blazorise.TextSizeType.Heading4 => "2xl",
+            Blazorise.TextSizeType.Heading5 => "xl",
+            Blazorise.TextSizeType.Heading6 => "lg",
             _ => null,
         };
     }
+
+    public override string ToTableColumnFixedPosition( TableColumnFixedPosition tableColumnFixedPosition ) => null;
 
     #endregion
 

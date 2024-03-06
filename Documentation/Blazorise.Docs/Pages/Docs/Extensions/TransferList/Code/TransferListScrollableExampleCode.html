@@ -1,0 +1,33 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TransferList</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">string</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Items</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>list</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">SelectionMode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ListGroupSelectionMode</span><span class="enumValue">.Single</span><span class="quot">&quot;</span>
+              <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ListGroupMode</span><span class="enumValue">.Selectable</span><span class="quot">&quot;</span>
+                <span class="htmlAttributeName">Scrollable</span>
+               <span class="htmlAttributeName">MaxHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">500px</span><span class="quot">&quot;</span>
+               <span class="htmlAttributeName">ShowMoveAll</span><span class="htmlOperator">=</span><span class="htmlAttributeValue">false</span>
+               <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ItemsStart</span><span class="htmlOperator">=</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>listStart</span>
+               <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-ItemsEnd</span><span class="htmlOperator">=</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>listEnd</span>
+               <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">item =&gt; item</span><span class="quot">&quot;</span>
+               <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">item =&gt; item</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+ <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">TransferList</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    <span class="keyword">private</span> List&lt;<span class="keyword">string</span>&gt; list = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; {
+        <span class="string">&quot;Apple&quot;</span>, <span class="string">&quot;Banana&quot;</span>, <span class="string">&quot;Cherry&quot;</span>, <span class="string">&quot;Grapes&quot;</span>, <span class="string">&quot;Orange&quot;</span>, <span class="string">&quot;Pear&quot;</span>, <span class="string">&quot;Strawberry&quot;</span>,
+        <span class="string">&quot;Watermelon&quot;</span>, <span class="string">&quot;Pineapple&quot;</span>, <span class="string">&quot;Mango&quot;</span>, <span class="string">&quot;Blueberry&quot;</span>, <span class="string">&quot;Raspberry&quot;</span>,
+        <span class="string">&quot;Kiwi&quot;</span>, <span class="string">&quot;Peach&quot;</span>, <span class="string">&quot;Plum&quot;</span>, <span class="string">&quot;Pomegranate&quot;</span>, <span class="string">&quot;Coconut&quot;</span>, <span class="string">&quot;Lemon&quot;</span>,
+        <span class="string">&quot;Lime&quot;</span>, <span class="string">&quot;Cantaloupe&quot;</span>, <span class="string">&quot;Honeydew&quot;</span>, <span class="string">&quot;Avocado&quot;</span>, <span class="string">&quot;Fig&quot;</span>, <span class="string">&quot;Guava&quot;</span>,
+        <span class="string">&quot;Passion Fruit&quot;</span>, <span class="string">&quot;Papaya&quot;</span>, <span class="string">&quot;Apricot&quot;</span>, <span class="string">&quot;Cranberry&quot;</span>, <span class="string">&quot;Blackberry&quot;</span>,
+        <span class="string">&quot;Currant&quot;</span>, <span class="string">&quot;Lychee&quot;</span>, <span class="string">&quot;Dragon Fruit&quot;</span>, <span class="string">&quot;Tangerine&quot;</span>, <span class="string">&quot;Nectarine&quot;</span>,
+        <span class="string">&quot;Persimmon&quot;</span>, <span class="string">&quot;Star Fruit&quot;</span>, <span class="string">&quot;Quince&quot;</span>, <span class="string">&quot;Kumquat&quot;</span>, <span class="string">&quot;Elderberry&quot;</span>
+    };
+
+    <span class="keyword">private</span> List&lt;<span class="keyword">string</span>&gt; listStart = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; { <span class="string">&quot;Cherry&quot;</span>, <span class="string">&quot;Strawberry&quot;</span> };
+    <span class="keyword">private</span> List&lt;<span class="keyword">string</span>&gt; listEnd;
+
+}
+</pre></div>
+</div>

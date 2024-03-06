@@ -1,0 +1,36 @@
+﻿figure {
+    margin: 0 0 1rem;
+}
+
+.fui-Figure {
+    display: inline-block;
+
+    @each $dimension in $figure-dimensions {
+        &-#{$dimension}x#{$dimension} {
+            height: $dimension * 1px;
+            width: $dimension * 1px;
+        }
+    }
+
+    &-rounded {
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+    }
+}
+
+.fui-Figure__image {
+    margin-bottom: calc(var(--spacingHorizontalM) * .5);
+    line-height: 1;
+    max-width: 100%;
+    height: auto;
+}
+
+.fui-Figure__caption {
+    color: var(--colorNeutralForeground3);
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase200);
+    font-weight: var(--fontWeightRegular);
+    line-height: var(--lineHeightBase200);
+}

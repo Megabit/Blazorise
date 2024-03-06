@@ -67,8 +67,14 @@
     <DocsAttributesItem Name="SelectedRow" Type="TItem">
         Currently selected row.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedRows" Type="List<TItem>">
+        Gets or sets currently selected rows.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedRowChanged" Type="EventCallback">
         Occurs after the selected row has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedRowsChanged" Type="EventCallback<List<TItem>>">
+        Occurs after multi selection has changed.
     </DocsAttributesItem>
     <DocsAttributesItem Name="RowSelectable" Type="Func<TItem,bool>">
         Handles the selection of the DataGrid row. If not set it will default to always true.
@@ -172,6 +178,9 @@
     <DocsAttributesItem Name="FixedHeader" Type="bool">
         Makes Datagrid have a fixed header and enabling a scrollbar in the Datagrid body.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedColumns" Type="bool">
+        Makes Datagrid have a fixed set of columns. This will make it so that the table columns could be fixed to the side of the table.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="FixedHeaderDataGridHeight" Type="string" Default="500px">
         Sets the Datagrid height when FixedHeader feature is enabled (defaults to 500px).
     </DocsAttributesItem>
@@ -189,6 +198,132 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="RowContextMenuPreventDefault" Type="bool" Default="false">
         Used to prevent the default action for an <Code>RowContextMenu</Code> event.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowStyling" Type="Action<TItem, DataGridRowStyling>">
+        Custom handler for each row in the datagrid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedRowStyling" Type="Action<TItem, DataGridRowStyling>">
+        Custom handler for currently selected row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CustomFilter" Type="DataGridCustomFilter<TItem> ">
+        Handler for custom filtering on datagrid item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HeaderRowStyling" Type="DataGridRowStyling">
+        Custom styles for header row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterRowStyling" Type="DataGridRowStyling">
+        Custom styles for filter row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupRowStyling" Type="DataGridRowStyling">
+        Custom styles for aggregate row. The GroupRowStyling parameter is deprecated, please use the AggregateRowStyling parameter instead.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AggregateRowStyling" Type="DataGridRowStyling">
+        Custom styles for aggregate row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowOverlayPosition" Type="DataGridRowOverlayPosition" Default="End">
+        Defines the position of the row overlay.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowOverlayBackground" Type="Background" Default="Light">
+        Defines the background of the row overlay.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Padding" Type="IFluentSpacing">
+        Defines the element padding spacing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Margin" Type="IFluentSpacing">
+        Defines the element margin spacing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Style" Type="string">
+        Custom html style.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Class" Type="string">
+        Custom css classname.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="EditItemCreator" Type="Func<TItem, TItem>">
+        Function that, if set, is called to create a instance of the selected item to edit. If left null the selected item will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CloneItemCreator" Type="Func<TItem, TItem>">
+        Function that, if set, is called to clone an instance of the saving item. If left null the built-in DeepClone method will be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ValidationItemCreator" Type="Func<TItem>">
+        Function that, if set, is called to create a validation instance of an item that it's used as a separate instance for Datagrid's internal processing of validation. If left null, Datagrid will try to use it's own implementation to instantiate.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowDoubleClicked" Type="EventCallback<DataGridRowMouseEventArgs<TItem>>">
+        Event called after the row is double clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowClicked" Type="EventCallback<DataGridRowMouseEventArgs<TItem>>">
+        Event called after the row is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowMouseOver" Type="EventCallback<DataGridRowMouseEventArgs<TItem>>">
+        Event called after the mouse is over the row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowMouseLeave" Type="EventCallback<DataGridRowMouseEventArgs<TItem>>">
+        Event called after the mouse leaves the row.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxPaginationLinks" Type="int">
+        Gets or sets the maximum number of visible pagination links. It has to be odd for well look.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PageSizes" Type="IEnumerable<int>">
+        Gets or sets the chooseable page sizes of the datagrid.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Groupable" Type="bool" Default="false">
+        Gets or sets whether the data will be grouped. Column groups need to be configured.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GroupBy" Type="Func<TItem, object>">
+        Gets or sets a custom GroupBy function. Groupable needs to be active.
+        If this is defined at the DataGrid level, column grouping will not be considered.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMode" Type="DataGridFilterMode" Default="Default">
+        Gets or sets the filter mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilteredDataChanged" Type="Action<DataGridFilteredDataEventArgs<TItem>>">
+        Raises an event every time that filtered data is refreshed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TotalItems" Type="int?">
+        Gets or sets the total number of items. Used only when <Code>ReadData</Code> is used to load the data.
+        This field must be set only when <Code>ReadData</Code> is used to load the data.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AggregateData" Type="IEnumerable<TItem>">
+        Gets or sets the calculated aggregate data.
+        Used only in manual read mode along with the <Code>ReadData</Code> handler.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Navigable" Type="bool" Default="false">
+        Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod" Default="DataGridFilterMethod.Contains">
+        Defines the filter method when searching the cell values.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowHeaderGroupCaptions" Type="bool" Default="false">
+        Gets or sets whether user can see defined header group captions.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BatchEdit" Type="bool" Default="false">
+        Whether the DataGrid will be in batch edit mode. This will make it so every change will only be saved when Save is called.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BatchSaving" Type="EventCallback<DataGridBatchSavingEventArgs<TItem>>">
+        Cancelable event before batch edit is saved.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BatchSaved" Type="EventCallback<DataGridBatchSavedEventArgs<TItem>>">
+        Event called after the batch edit is saved.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BatchChange" Type="EventCallback<DataGridBatchChangeEventArgs<TItem>>">
+        Event called after a batch change is made.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CellStyling" Type="Action<TItem, DataGridColumn<TItem>, DataGridCellStyling>">
+        Custom handler for the cell styling.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedCellStyling" Type="Action<TItem, DataGridColumn<TItem>, DataGridCellStyling>">
+        Custom handler for the selected cell styling.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BatchEditCellStyling" Type="Action<DataGridBatchEditItem<TItem>, DataGridColumn<TItem>, DataGridCellStyling>">
+        Custom handler for the cell styling when the cell has batch edit changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowBatchEditStyling" Type="Action<DataGridBatchEditItem<TItem>, DataGridRowStyling>">
+        Custom handler for the row that has batch edit changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowColumnChooser" Type="bool" Default="false">
+        Gets or sets whether the column chooser is visible.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ColumnChooserTemplate" Type="RenderFragment<ColumnChooserContext<TItem>>">
+        Gets or sets content of column chooser of pager.
     </DocsAttributesItem>
 </DocsAttributes>
 
@@ -268,6 +403,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="FilterMenuTemplate" Type="FilterColumnContext<TItem>">
         Template for the filter menu. When filter mode is set to DataGridFilterMode.Menu, this template will be used to render the filter content.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowOverlayTemplate" Type="RenderFragment<RowOverlayContext<TItem>>">
+        Template for mouse hover overlay display formatting.
     </DocsAttributesItem>
 </DocsAttributes>
 
@@ -474,13 +612,20 @@
     <DocsAttributesItem Name="ShowGrouping" Type="bool" Default="false">
         Gets or sets whether user can see and edit column grouping.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="FilterMethod" Type="DataGridFilterMethod?" Default="null">
+    <DocsAttributesItem Name="FilterMethod" Type="DataGridColumnFilterMethod?" Default="null">
         Sets the filter method to be used for filtering the column.
         If null, uses the DataGrid's FilterMethod.
     </DocsAttributesItem>
     <DocsAttributesItem Name="HeaderGroupCaption" Type="string">
         Defines the caption to be displayed for a group header.
         If set, all the column headers that are part of the group will be grouped under this caption.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HelpText" Type="string">
+        Sets the help-text positioned below the field input when editing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FilterMode" Type="DataGridFilterMode" Default="DataGridFilterMode.Default">
+        Gets or sets the filter mode for the column.
+        If set, this overrides the DataGrid FilterMethod.
     </DocsAttributesItem>
 </DocsAttributes>
 
@@ -573,5 +718,20 @@
         Toggles the specified groups.
         For regular single column groups, the group key should be easy to determine, i.e: for a column grouped by Gender the key could be something like : "Male"
         For complex GroupBy operations, you will need to specify the full group key, i.e: for a group composed of Childrens and Gender, the group key would be something like: "{ Childrens = 1, Gender = M }"
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ValidateAll" ReturnType="Task<bool>">
+        Validates the current edit operation.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetBatchEditItemByOriginal" ReturnType="DataGridBatchEditItem<TItem>">
+        Gets the corresponding batch edit item by the original if it exists.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetBatchEditItemByLastEditItem" ReturnType="DataGridBatchEditItem<TItem>">
+        Gets the corresponding batch edit item by the last edited item if it exists.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="GetState" ReturnType="Task<DataGridState<TItem>>">
+        Gets the current state of the DataGrid.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="LoadState" ReturnType="Task" Parameters="DataGridState<TItem> dataGridState">
+        Loads the state of the DataGrid.
     </DocsMethodsItem>
 </DocsMethods>

@@ -1,0 +1,49 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using System.ComponentModel.DataAnnotations
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Example</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">data</span><span class="quot">&quot;</span>
+            <span class="htmlAttributeName">Responsive</span>
+            <span class="htmlAttributeName">ShowPager</span>
+            <span class="htmlAttributeName">ShowPageSizes</span> <span class="htmlAttributeName">Editable</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Example</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+
+    <span class="keyword">public</span> <span class="keyword">class</span> Example
+    {
+        [Display( Name = <span class="string">&quot;Name&quot;</span> )]
+        <span class="keyword">public</span> <span class="keyword">string</span> FirstName { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">string</span> LastName { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+
+        <span class="keyword">public</span> <span class="keyword">int</span> Age { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> <span class="keyword">decimal</span> Balance { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> Status Status { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    }
+
+    <span class="keyword">public</span> <span class="keyword">enum</span> Status
+    {
+        Active,
+        Inactive
+    }
+
+    <span class="keyword">private</span> IEnumerable&lt;Example&gt; data = <span class="keyword">new</span> List&lt;Example&gt;()
+    {
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;John&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">30</span>, Balance = <span class="number">1000</span>, Status = Status.Active },
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jane&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">28</span>, Balance = <span class="number">2000</span>, Status = Status.Active },
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Joe&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">26</span>, Balance = <span class="number">3000</span>, Status = Status.Inactive },
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jill&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">24</span>, Balance = <span class="number">4000</span>, Status = Status.Inactive },
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jack&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">22</span>, Balance = <span class="number">5000</span>, Status = Status.Active },
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jen&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">20</span>, Balance = <span class="number">6000</span>, Status = Status.Active },
+    };
+
+}
+</pre></div>
+</div>

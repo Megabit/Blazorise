@@ -1,0 +1,356 @@
+﻿button {
+    font: inherit;
+}
+
+.fui-Button {
+    align-items: center;
+    box-sizing: border-box;
+    display: inline-flex;
+    justify-content: center;
+    text-decoration-line: none;
+    vertical-align: middle;
+    margin: 0px;
+    /*overflow: hidden;*/
+    background-color: var(--colorNeutralBackground1);
+    color: var(--colorNeutralForeground1);
+    border: var(--strokeWidthThin) solid var(--colorNeutralStroke1);
+    font-family: var(--fontFamilyBase);
+    outline-style: none;
+    padding: 5px var(--spacingHorizontalM);
+    /*min-width: 96px;*/
+    border-radius: var(--borderRadiusMedium);
+    font-size: var(--fontSizeBase300);
+    font-weight: var(--fontWeightSemibold);
+    line-height: var(--lineHeightBase300);
+    transition-duration: var(--durationFaster);
+    transition-property: background, border, color;
+    transition-timing-function: var(--curveEasyEase);
+
+    &:hover {
+        color: var(--colorNeutralForegroundOnBrand);
+        background-color: var(--colorNeutralBackground1Hover);
+        border-color: var(--colorNeutralStroke1Hover);
+        color: var(--colorNeutralForeground1Hover);
+        cursor: pointer;
+
+        &:active,
+        &.fui-Button-active {
+            background-color: var(--colorNeutralBackground1Pressed);
+            border-color: var(--colorNeutralStroke1Pressed);
+            color: var(--colorNeutralForeground1Pressed);
+            outline-style: none;
+        }
+    }
+
+    &.fui-Button-disabled,
+    &:disabled {
+        cursor: not-allowed;
+        color: var(--colorNeutralForegroundDisabled);
+        border-bottom-color: var(--colorNeutralStrokeDisabled);
+        border-left-color: var(--colorNeutralStrokeDisabled);
+        border-right-color: var(--colorNeutralStrokeDisabled);
+        border-top-color: var(--colorNeutralStrokeDisabled);
+        background-color: var(--colorNeutralBackgroundDisabled);
+
+        &:active,
+        &.fui-Button-active {
+            color: var(--colorNeutralForegroundDisabled);
+            background-color: var(--colorNeutralBackgroundDisabled);
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-top-color: transparent;
+        }
+    }
+
+    &.fui-Button-xs {
+        padding-left: var(--spacingHorizontalXS);
+        padding-right: var(--spacingHorizontalXS);
+        padding-top: 1px;
+        padding-bottom: 1px;
+        font-weight: var(--fontWeightRegular);
+        font-size: var(--fontSizeBase100);
+        /*min-width: 64px;*/
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        line-height: var(--lineHeightBase100);
+    }
+
+    &.fui-Button-sm {
+        padding-left: var(--spacingHorizontalS);
+        padding-right: var(--spacingHorizontalS);
+        padding-top: 3px;
+        padding-bottom: 3px;
+        font-weight: var(--fontWeightRegular);
+        font-size: var(--fontSizeBase200);
+        /*min-width: 64px;*/
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        line-height: var(--lineHeightBase200);
+    }
+
+    &.fui-Button-md {
+        padding-left: var(--spacingHorizontalM);
+        padding-right: var(--spacingHorizontalM);
+        padding-top: 6px;
+        padding-bottom: 6px;
+        font-weight: var(--fontWeightSemibold);
+        font-size: var(--fontSizeBase400);
+        /*min-width: 96px;*/
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        line-height: var(--lineHeightBase400);
+    }
+
+    &.fui-Button-lg {
+        padding-left: var(--spacingHorizontalL);
+        padding-right: var(--spacingHorizontalL);
+        padding-top: 8px;
+        padding-bottom: 8px;
+        font-weight: var(--fontWeightSemibold);
+        font-size: var(--fontSizeBase400);
+        /*min-width: 96px;*/
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        line-height: var(--lineHeightBase400);
+    }
+
+    &.fui-Button-xl {
+        padding-left: var(--spacingHorizontalXL);
+        padding-right: var(--spacingHorizontalXL);
+        padding-top: 12px;
+        padding-bottom: 12px;
+        font-weight: var(--fontWeightSemibold);
+        font-size: var(--fontSizeBase400);
+        /*min-width: 96px;*/
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        line-height: var(--lineHeightBase400);
+    }
+
+    &-block {
+        display: block;
+        width: 100%;
+
+        + .fui-ButtonBlock {
+            margin-top: var(--spacingHorizontalS);
+        }
+    }
+
+    &-link-stretched {
+        &::after {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1;
+            content: "";
+        }
+    }
+}
+
+.fui-Button-primary {
+    @include button-variant(var(--colorBrandBackground), var(--colorBrandBackgroundHover), var(--colorBrandBackgroundPressed), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
+}
+
+.fui-Button-secondary {
+    @include button-variant(var(--colorNeutralBackground3), var(--colorNeutralBackground3Hover), var(--colorNeutralBackground3Pressed), var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Hover));
+    border-color: var(--colorNeutralStroke1);
+}
+
+.fui-Button-success {
+    @include button-variant(var(--colorStatusSuccessBackground3), var(--colorStatusSuccessForeground1), var(--colorStatusSuccessForeground2), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
+}
+
+.fui-Button-danger {
+    @include button-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerForeground1), var(--colorStatusDangerForeground2), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand), var(--colorNeutralForegroundOnBrand));
+}
+
+.fui-Button-warning {
+    @include button-variant(var(--colorStatusWarningBackground3), var(--colorStatusWarningForeground1), var(--colorStatusWarningForeground2), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1), var(--colorPaletteMarigoldBackground1));
+}
+
+.fui-Button-info {
+    @include button-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed), var(--colorNeutralBackground3), var(--colorNeutralBackground3Hover), var(--colorNeutralBackground3Pressed));
+}
+
+.fui-Button-dark {
+    @include button-variant(var(--colorNeutralForeground1), var(--colorNeutralForeground2), var(--colorNeutralForeground3), var(--colorNeutralBackground1), var(--colorNeutralBackground1), var(--colorNeutralBackground1));
+}
+
+.fui-Button-light {
+    @include button-variant(var(--colorNeutralBackground2), var(--colorNeutralBackground2Hover), var(--colorNeutralBackground2Pressed), var(--colorNeutralForeground2), var(--colorNeutralForeground2Hover), var(--colorNeutralForeground2Pressed));
+}
+
+.fui-Button-link {
+    background-color: var(--colorSubtleBackground);
+    color: var(--colorBrandForegroundLink);
+    border: none;
+    text-decoration: none;
+
+    &.fui-Button-disabled,
+    &:disabled {
+        cursor: not-allowed;
+        border-bottom-color: var(--colorNeutralStrokeDisabled);
+        border-left-color: var(--colorNeutralStrokeDisabled);
+        border-right-color: var(--colorNeutralStrokeDisabled);
+        border-top-color: var(--colorNeutralStrokeDisabled);
+        background-color: var(--colorNeutralBackgroundDisabled);
+    }
+
+    &:not(:disabled):not(.fui-Button-disabled),
+    &:not(:disabled):not(.fui-Button-disabled) {
+        &:hover {
+            color: var(--colorBrandForegroundLinkHover);
+            text-decoration: underline;
+        }
+
+        &:active,
+        &.fui-Button-active {
+            color: var(--colorBrandForegroundLinkPressed);
+        }
+    }
+}
+
+.fui-ButtonOutline-primary {
+    @include button-outline-variant(var(--colorBrandBackground), var(--colorBrandBackgroundHover), var(--colorBrandBackgroundPressed));
+}
+
+.fui-ButtonOutline-secondary {
+    @include button-outline-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed));
+}
+
+.fui-ButtonOutline-success {
+    @include button-outline-variant(var(--colorStatusSuccessBackground3), var(--colorStatusSuccessForeground1), var(--colorStatusSuccessForeground2));
+}
+
+.fui-ButtonOutline-danger {
+    @include button-outline-variant(var(--colorStatusDangerBackground3), var(--colorStatusDangerForeground1), var(--colorStatusDangerForeground2));
+}
+
+.fui-ButtonOutline-warning {
+    @include button-outline-variant(var(--colorStatusWarningBackground3), var(--colorStatusWarningForeground1), var(--colorStatusWarningForeground2));
+}
+
+.fui-ButtonOutline-info {
+    @include button-outline-variant(var(--colorNeutralForeground3), var(--colorNeutralForeground3Hover), var(--colorNeutralForeground3Pressed));
+}
+
+.fui-ButtonOutline-dark {
+    @include button-outline-variant(var(--colorNeutralForeground1), var(--colorNeutralForeground2), var(--colorNeutralForeground3));
+}
+
+.fui-ButtonOutline-light {
+    color: var(--colorNeutralBackground2);
+    border-color: var(--colorNeutralBackground2);
+
+    &.fui-Button-disabled,
+    &:disabled {
+        cursor: not-allowed;
+        border-bottom-color: var(--colorNeutralStrokeDisabled);
+        border-left-color: var(--colorNeutralStrokeDisabled);
+        border-right-color: var(--colorNeutralStrokeDisabled);
+        border-top-color: var(--colorNeutralStrokeDisabled);
+        background-color: var(--colorNeutralBackgroundDisabled);
+    }
+
+    &:not(:disabled):not(.fui-Button-disabled),
+    &:not(:disabled):not(.fui-Button-disabled) {
+        &:hover {
+            color: var(--colorNeutralForeground2Hover);
+        }
+
+        &:active,
+        &.fui-Button-active {
+            color: var(--colorNeutralForeground2Pressed);
+        }
+    }
+}
+
+.fui-ButtonOutline-link {
+    @include button-outline-variant(var(--colorBrandForegroundLink), var(--colorBrandForegroundLinkHover), var(--colorBrandForegroundLinkPressed));
+}
+
+.fui-CloseButton {
+    overflow: visible;
+    padding: 0px;
+    border-style: none;
+    position: relative;
+    box-sizing: content-box;
+    background-color: inherit;
+    color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    cursor: pointer;
+    line-height: 0;
+    appearance: button;
+    text-align: unset;
+
+    .fui-CloseButton__icon {
+        display: inline;
+        line-height: 0;
+    }
+}
+
+.fui-ButtonGroup-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+
+.fui-ButtonGroup {
+    vertical-align: middle;
+    justify-content: stretch;
+    display: inline-flex;
+    position: relative;
+
+    .fui-Button:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .fui-Button:not(:last-child):not(.fui-MenuButton) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    > .fui-ButtonGroup:not(:first-child),
+    > .fui-Button:not(:first-child) {
+        margin-left: -1px;
+    }
+
+    > .fui-ButtonGroup:not(:first-child) > .fui-Button,
+    .fui-ButtonGroup > .fui-Button:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}
+
+.fui-Button__spinner {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: var(--spacingHorizontalXS);
+    border-width: var(--strokeWidthThick);
+    border: var(--strokeWidthThicker) solid currentColor;
+    border-right-color: transparent;
+    border-radius: var(--borderRadiusCircular);
+    animation: var(--durationUltraSlow) linear infinite spinner-border;
+}
+
+@keyframes spinner-border {
+    to {
+        transform: rotate(360deg);
+    }
+}

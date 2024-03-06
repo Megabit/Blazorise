@@ -20,6 +20,12 @@ public class ModalInstanceOptions
     /// </summary>
     public bool? UseModalStructure { get; set; }
 
+    /// <summary>
+    /// Keeps the ModalInstance in memory after it has been closed.
+    /// Defaults to false.
+    /// </summary>
+    public bool? Stateful { get; set; }
+
     #region Modal
 
     /// <summary>

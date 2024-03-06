@@ -1,17 +1,36 @@
 ﻿@inherits Blazorise.RatingItem
-@if ( Rating.ReadOnly )
+@{
+    var tooltip = Rating?.GetTooltip?.Invoke( Value );
+}
+
+@if ( string.IsNullOrEmpty( tooltip?.Text ) )
 {
-    <li id="@ElementId" class="@ClassNames" style="@StyleNames">
-        <div role="radio" aria-checked="@(IsSelected.ToString().ToLowerInvariant())" aria-posinset="@Value" aria-setsize="5" tabindex="0">
-            <Icon Name="@IconName" IconStyle="@IconStyle" Style="width: 1em; height: 1em;" />
-        </div>
-    </li>
+    @RatingItemTemplate
 }
 else
 {
-    <li id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @onmouseover="@HandleMouseOver" @onmouseout="@HandleMouseOut">
-        <div role="radio" aria-checked="@(IsSelected.ToString().ToLowerInvariant())" aria-posinset="@Value" aria-setsize="5" tabindex="0">
-            <Icon Name="@IconName" IconStyle="@IconStyle" Style="width: 1em; height: 1em;" />
-        </div>
-    </li>
+    <Tooltip Text="@tooltip.Text" Placement="@tooltip.Placement" Multiline="@tooltip.Multiline" ShowArrow="@tooltip.ShowArrow" Inline>
+        @RatingItemTemplate
+    </Tooltip>
+}
+@code {
+    private RenderFragment RatingItemTemplate => __builder =>
+    {
+        @if ( Rating.ReadOnly )
+        {
+            <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames">
+                <div role="radio" aria-checked="@(IsSelected.ToString().ToLowerInvariant())" aria-posinset="@Value" aria-setsize="5" tabindex="0">
+                    <Icon Name="@IconName" IconStyle="@IconStyle" Style="width: 1em; height: 1em;" />
+                </div>
+            </li>
+        }
+        else
+        {
+            <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @onmouseover="@HandleMouseOver" @onmouseout="@HandleMouseOut">
+                <div role="radio" aria-checked="@(IsSelected.ToString().ToLowerInvariant())" aria-posinset="@Value" aria-setsize="5" tabindex="0">
+                    <Icon Name="@IconName" IconStyle="@IconStyle" Style="width: 1em; height: 1em;" />
+                </div>
+            </li>
+        }
+    };
 }

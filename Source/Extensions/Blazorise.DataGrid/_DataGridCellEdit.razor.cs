@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -12,6 +13,32 @@ namespace Blazorise.DataGrid;
 /// <typeparam name="TItem"></typeparam>
 public partial class _DataGridCellEdit<TItem> : ComponentBase
 {
+    protected string elementId;
+
+    protected override void OnInitialized()
+    {
+        elementId = IdGenerator.Generate;
+        base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
+            {
+                await Task.Yield();
+                await Focus();
+            }
+        }
+        await base.OnAfterRenderAsync( firstRender );
+    }
+
+    public async Task Focus()
+    {
+        await JSUtilitiesModule.Focus( default, elementId, true );
+    }
+
     /// <summary>
     /// Updated the internal cell values.
     /// </summary>
@@ -27,6 +54,14 @@ public partial class _DataGridCellEdit<TItem> : ComponentBase
 
         return CellValueChanged.InvokeAsync( value );
     }
+
+    [CascadingParameter] public DataGrid<TItem> ParentDataGrid { get; set; }
+
+    [Inject] public IIdGenerator IdGenerator { get; set; }
+    /// <summary>
+    /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.
+    /// </summary>
+    [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
     /// Column that this cell belongs to.

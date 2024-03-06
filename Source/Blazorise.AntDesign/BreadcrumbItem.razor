@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.BreadcrumbItem
 <CascadingValue Value="@this" IsFixed>
-    <span id="@ElementId" class="@ClassNames" style="@StyleNames">
+    <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames">
         @ChildContent
     </span>
 </CascadingValue>

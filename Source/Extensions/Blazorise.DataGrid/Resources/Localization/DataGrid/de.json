@@ -22,6 +22,12 @@
     "Starts With": "Beginnt mit",
     "Ends With": "Endet mit",
     "Equals": "Gleich",
-    "Not Equals": "Nicht gleich"
+    "Not Equals": "Nicht gleich",
+    "Greater Than": "Größer als",
+    "Greater Than or Equal": "Größer als oder gleich",
+    "Less Than": "Weniger als",
+    "Less Than or Equal": "Weniger als oder gleich",
+    "Save Changes": "Änderungen speichern",
+    "Cancel Changes": "Änderungen abbrechen"
   }
 }

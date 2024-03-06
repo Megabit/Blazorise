@@ -35,6 +35,7 @@
                 <UnorderedListItem><Code>Form</Code> editing is done in the internal DataGrid form</UnorderedListItem>
                 <UnorderedListItem><Code>Inline</Code> editing is done in the current row</UnorderedListItem>
                 <UnorderedListItem><Code>Popup</Code> editing is done in the the modal dialog</UnorderedListItem>
+                <UnorderedListItem><Code>Cell</Code> any cell value can be edited directly allowing for rapid editing of data.</UnorderedListItem>
             </UnorderedList>
         </Paragraph>
     </DocsPageSectionHeader>
@@ -42,6 +43,18 @@
         <DataGridEditModeExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridEditModeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Batch Edit">
+        <Paragraph>
+            The grid can be set to batch edit mode by setting <Code>BatchEdit</Code> to true. This allows the user to edit multiple rows and then save all the changes at once.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridBatchEditExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridBatchEditExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -72,3 +85,4 @@
 <DocsPageApi>
     <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
 </DocsPageApi>
+

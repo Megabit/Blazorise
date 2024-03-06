@@ -24,7 +24,9 @@ public class ModalInstance
     /// <param name="modalInstanceOptions">Modal options.</param>
     public ModalInstance( ModalProvider modalProvider, string id, string title, RenderFragment childContent, ModalInstanceOptions modalInstanceOptions )
     {
-        ModalId = id;
+        ModalId = string.IsNullOrWhiteSpace( modalInstanceOptions?.ElementId )
+            ? id
+            : modalInstanceOptions.ElementId;
         ModalProvider = modalProvider;
         Title = title;
         ChildContent = childContent;
@@ -76,6 +78,12 @@ public class ModalInstance
     /// Defaults to true.
     /// </summary>
     public bool UseModalStructure => ModalInstanceOptions?.UseModalStructure ?? ModalProvider.UseModalStructure;
+
+    /// <summary>
+    /// Determines if the ModalInstance should be kept in memory after it has been closed.
+    /// Defaults to false.
+    /// </summary>
+    public bool Stateful => ModalInstanceOptions?.Stateful ?? ModalProvider.Stateful;
 
     #region Modal
 

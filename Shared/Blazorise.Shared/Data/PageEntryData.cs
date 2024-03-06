@@ -78,6 +78,7 @@ public class PageEntryData
                 new PageEntry( "docs/components/table", "Table", "Basic table is just for data display." ),
                 new PageEntry( "docs/components/time", "Time Edit", "A native time input component build around the <input type=\"time\">." ),
                 new PageEntry( "docs/components/time-picker", "Time Picker", "A customizable time input component with an option to manually write time or choose from a menu." ),
+                new PageEntry( "docs/components/toast", "Toast", "Toasts are lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems." ),
                 new PageEntry( "docs/components/tooltip", "Tooltip", "Tooltips display additional information based on a specific action." ),
                 new PageEntry( "docs/components/text", "Text Edit", "The TextEdit allows the user to input and edit text." ),
                 new PageEntry( "docs/components/typography", "Typography", "Control text size, alignment, wrapping, overflow, transforms and more." ),
@@ -85,6 +86,7 @@ public class PageEntryData
 
                 new PageEntry( "docs/extensions/animate", "Animate", "" ),
                 new PageEntry( "docs/extensions/autocomplete", "Autocomplete", "The Autocomplete component offers simple and flexible type-ahead functionality." ),
+                new PageEntry( "docs/extensions/captcha", "Captcha", "Learn to use and work with the Blazorise Captcha extension components, which are used to help prevent fake users or malicious software from taking action on your website." ),
                 new PageEntry( "docs/extensions/chart", "Chart", "Simple yet flexible charting for designers & developers." ),
                 new PageEntry( "docs/extensions/chart-datalabels", "Chart DataLabels", "Display labels on data for any type of charts." ),
                 new PageEntry( "docs/extensions/chart-live", "Chart Streaming", "Chart plugin for live streaming data." ),
@@ -105,12 +107,16 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/features/context-menu", "DataGrid Context Menu", "Right-click on any row to access options such as editing, deleting, and custom actions." ),
                 new PageEntry( "docs/extensions/datagrid/features/editing", "DataGrid Editing", "The DataGrid can perform some basic CRUD operations on the supplied Data collection." ),
                 new PageEntry( "docs/extensions/datagrid/features/filtering", "DataGrid Filtering", "Quickly search and filter by any column, or customize filter options to fit your needs." ),
+                new PageEntry( "docs/extensions/datagrid/features/auto-generate-columns", "DataGrid Auto Generate Columns", "The DataGrid can automatically generate columns based on the TItem type." ),
+                new PageEntry( "docs/extensions/datagrid/features/column-chooser", "DataGrid Column Chooser", "Enable Column Chooser to allow users to show or hide columns in the DataGrid." ),
+                new PageEntry( "docs/extensions/datagrid/features/fixed-columns", "DataGrid Fixed Columns", "The table columns remains visible as you scroll, making it easy to identify and reference the data in your grid." ),
                 new PageEntry( "docs/extensions/datagrid/features/fixed-header", "DataGrid Fixed Header", "The table header remains visible as you scroll, making it easy to identify and reference the data in your grid." ),
                 new PageEntry( "docs/extensions/datagrid/features/grouping", "DataGrid Grouping", "Grouping feature for Blazorise DataGrid allows you to easily group and organize your data by specific columns." ),
                 new PageEntry( "docs/extensions/datagrid/features/paging", "DataGrid Paging", "Paginate your data with customizable page size options and intuitive navigation controls." ),
                 new PageEntry( "docs/extensions/datagrid/features/resizing", "DataGrid Resizing", "Easily adjust the size of your columns with the Blazorise DataGrid's resizing feature. Drag and drop column edges to resize, or use customized options to fit your needs." ),
                 new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Sorting", "Blazorise DataGrid offers efficient data sorting with customizable options." ),
                 new PageEntry( "docs/extensions/datagrid/features/header-group", "DataGrid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),
+                new PageEntry( "docs/extensions/datagrid/features/state-management", "DataGrid State Management", "You are able to manage the state of the DataGrid by using the provided GetState and LoadState methods." ),
 
 
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),
@@ -141,6 +147,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/sidebar", "Sidebar", "The Sidebar component is an expandable and collapsible container area that holds primary and secondary information placed alongside the main content of a webpage." ),
                 new PageEntry( "docs/extensions/snackbar", "Snackbar", "Snackbar provide brief messages about app processes. The component is also known as a toast." ),
                 new PageEntry( "docs/extensions/spinkit", "SpinKit", "A component used to show loading indicators animated with CSS." ),
+                new PageEntry( "docs/extensions/transferlist", "TransferList", "The TransferList component is a versatile control element in Blazor that facilitates transferring items between two lists within applications." ),
                 new PageEntry( "docs/extensions/treeview", "TreeView", "The TreeView component is a graphical control element that presents a hierarchical view of information." ),
                 new PageEntry( "docs/extensions/video", "Video", "A Video component used to play a regular or streaming media." ),
                 new PageEntry( "docs/extensions/qrcode", "QRCode", "A component used to generate QR codes." ),
@@ -179,6 +186,7 @@ public class PageEntryData
             new PageEntry( "docs/services/modal-provider", "Modal Provider", "Programatically instantiate modals with custom content." ),
             new PageEntry( "docs/services/notification-provider", "Notification Provider", "Notification service is used to provide feedback to the user." ),
             new PageEntry( "docs/services/page-progress-provider", "Page Progress Provider", "Page Progress service is used to provide a page loading indicator to the user." ),
+            new PageEntry( "docs/services/toast-provider", "Toast Provider", "Programatically instantiate toasts with custom messages." ),
             new PageEntry( "docs/faq", "FAQ" ),
             new PageEntry( "license", "License" ),
         }.ToArray() );

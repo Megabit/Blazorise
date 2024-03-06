@@ -2,7 +2,7 @@
 @inherits BaseComponent
 <CascadingValue Value="@this" IsFixed>
     <CascadingValue Value="@State">
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" data-visible="@VisibleString">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" data-visible="@VisibleString">
             @ChildContent
         </div>
     </CascadingValue>

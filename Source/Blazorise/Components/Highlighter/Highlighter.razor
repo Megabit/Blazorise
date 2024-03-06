@@ -5,7 +5,7 @@
 {
     if ( !string.IsNullOrWhiteSpace( HighlightedText ) && Regex.IsMatch( fragment, Regex.Escape( HighlightedText ), CaseSensitive ? RegexOptions.None : RegexOptions.IgnoreCase ) )
     {
-        <mark id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">@fragment</mark>
+        <mark @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">@fragment</mark>
     }
     else
     {

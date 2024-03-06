@@ -45,7 +45,7 @@ public partial class CarouselSlide : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ParentCarousel != null )
+        if ( ParentCarousel is not null )
         {
             ParentCarousel.AddSlide( this );
 
@@ -121,6 +121,11 @@ public partial class CarouselSlide : BaseComponent, IDisposable
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// The time it takes to animate the carousel slide transition.
+    /// </summary>
+    internal protected virtual int AnimationTime { get; set; } = 600;
 
     bool IndicatorActive
     {

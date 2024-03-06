@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
@@ -113,7 +112,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Modal() );
-        builder.Append( ClassProvider.ModalFade( Animated ) );
+        builder.Append( ClassProvider.ModalFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( ClassProvider.ModalVisible( IsVisible ) );
 
         base.BuildClasses( builder );
@@ -122,9 +121,10 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( StyleProvider.ModalShow(), IsVisible );
+        builder.Append( StyleProvider.ModalShow( IsVisible ) );
+        builder.Append( StyleProvider.ModalFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( StyleProvider.ModalZIndex( OpenIndex ) );
-        builder.Append( $"--modal-animation-duration: {AnimationDuration}ms" );
+        builder.Append( StyleProvider.ModalAnimationDuration( Animated, AnimationDuration ) );
 
         base.BuildStyles( builder );
     }
@@ -253,7 +253,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     {
         var safeToOpen = true;
 
-        if ( Opening != null )
+        if ( Opening is not null )
         {
             var eventArgs = new ModalOpeningEventArgs( false );
 
@@ -276,7 +276,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     {
         var safeToClose = true;
 
-        if ( Closing != null )
+        if ( Closing is not null )
         {
             var eventArgs = new ModalClosingEventArgs( false, closeReason );
 
@@ -409,11 +409,17 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     {
         if ( visible )
         {
+            state = state with { Showing = true };
+
             BackdropVisible = ShowBackdrop;
-            DirtyStyles();
         }
         else
-            DirtyClasses();
+        {
+            state = state with { Hiding = true };
+        }
+
+        DirtyClasses();
+        DirtyStyles();
 
         return InvokeAsync( StateHasChanged );
     }
@@ -422,9 +428,16 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     public Task EndAnimation( bool visible )
     {
         if ( visible )
-            DirtyClasses();
+        {
+            state = state with { Showing = false };
+        }
         else
-            DirtyStyles();
+        {
+            state = state with { Hiding = false };
+        }
+
+        DirtyClasses();
+        DirtyStyles();
 
         BackdropVisible = ShowBackdrop && visible;
 

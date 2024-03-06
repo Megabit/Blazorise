@@ -103,6 +103,15 @@ $size-6: 1rem !default;
 $size-7: 0.75rem !default;
 $size-8: 0.65rem !default;
 
+$size-extra-small: $size-8 !default;
+$size-small: $size-7 !default;
+$size-normal: $size-6 !default;
+$size-medium: $size-5 !default;
+$size-large: $size-4 !default;
+$size-extra-large: $size-3 !default;
+
+$font-sizes: ( xs: $size-extra-small, sm: $size-small, md: $size-medium, lg: $size-large, xl: $size-extra-large, 1: $size-1, 2: $size-2, 3: $size-2, 4: $size-4, 5: $size-5, 6: $size-6 ) !default;
+
 $weight-light: 300 !default;
 $weight-normal: 400 !default;
 $weight-medium: 500 !default;
@@ -112,13 +121,6 @@ $weight-bold: 700 !default;
 // Spacing
 
 $block-spacing: 1.5rem !default;
-
-$size-extra-small: $size-8 !default;
-$size-small: $size-7 !default;
-$size-normal: $size-6 !default;
-$size-medium: $size-5 !default;
-$size-large: $size-4 !default;
-$size-extra-large: $size-3 !default;
 
 $switch-background: rgba(0,0,0,.125) !default;
 $switch-border: .1rem solid transparent !default;
@@ -177,7 +179,7 @@ $steps-active-color: $primary !default;
 $steps-divider-height: .2em !default;
 
 $sizes: () !default;
-$sizes: map-merge( ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, auto: auto ), $sizes );
+$sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
 
 $box-shadow-sm: 0 .125rem .25rem rgba($black, .075) !default;
 $box-shadow: 0 .5rem 1rem rgba($black, .15) !default;

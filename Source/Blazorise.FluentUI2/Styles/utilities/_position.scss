@@ -1,0 +1,59 @@
+﻿@each $position in $positions {
+    .fui-Position-#{$position} {
+        position: $position !important;
+    }
+}
+
+.fui-Fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: var(--zIndexFixed);
+}
+
+.fui-Fixed-bottom {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: var(--zIndexFixed);
+}
+
+.fui-Sticky-top {
+    @supports (position: sticky) {
+        position: sticky;
+        top: 0;
+        z-index: var(--zIndexSticky);
+    }
+}
+
+@each $name, $value in $position-values {
+    .fui-Top-#{$name} {
+        top: #{$value} !important;
+    }
+
+    .fui-Bottom-#{$name} {
+        bottom: #{$value} !important;
+    }
+
+    .fui-Left-#{$name} {
+        left: #{$value} !important;
+    }
+
+    .fui-Right-#{$name} {
+        right: #{$value} !important;
+    }
+}
+
+.fui-Translate-middle {
+    transform: translate(-50%, -50%) !important;
+}
+
+.fui-Translate-middle-x {
+    transform: translateX(-50%) !important;
+}
+
+.fui-Translate-middle-y {
+    transform: translateY(-50%) !important;
+}

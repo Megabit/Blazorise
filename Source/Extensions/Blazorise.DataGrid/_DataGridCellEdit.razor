@@ -1,58 +1,99 @@
+@using Blazorise.Modules;
 @typeparam TItem
 @inherits ComponentBase
 @if ( ValueType == typeof( string ) )
 {
-    <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
+    <TextEdit ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
+}
+else if ( ValueType == typeof( decimal ) )
+{
+    <NumericPicker TValue="decimal" Value="@((decimal)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
+}
+else if ( ValueType == typeof( decimal? ) )
+{
+    <NumericPicker TValue="decimal?" Value="@((decimal?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
+}
+else if ( ValueType == typeof( double ) )
+{
+    <NumericPicker TValue="double" Value="@((double)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
+}
+else if ( ValueType == typeof( double? ) )
+{
+    <NumericPicker TValue="double?" Value="@(( double?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
+}
+else if ( ValueType == typeof( float ) )
+{
+    <NumericPicker TValue="float" Value="@((float)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
+}
+else if ( ValueType == typeof( float? ) )
+{
+    <NumericPicker TValue="float?" Value="@((float?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
+}
+else if ( ValueType == typeof( int ) )
+{
+    <NumericPicker TValue="int" Value="@((int)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
+}
+else if ( ValueType == typeof( int? ) )
+{
+    <NumericPicker TValue="int?" Value="@((int?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
+}
+else if ( ValueType == typeof( long ) )
+{
+    <NumericPicker TValue="long" Value="@((long)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
+}
+else if ( ValueType == typeof( long? ) )
+{
+    <NumericPicker TValue="long?" Value="@((long?)CellEditContext.CellValue)" ValueChanged="@OnEditValueChanged" ReadOnly="@Readonly" Step="@Step" Decimals="@Decimals" DecimalSeparator="@DecimalSeparator" Culture="@Culture" ShowStepButtons="@ShowStepButtons" EnableStep="@EnableStep" />
 }
 else if ( ValueType == typeof( bool ) )
 {
-    <Check TValue="bool" Checked="@((bool)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <Check ElementId="@elementId" TValue="bool" Checked="@((bool)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( bool? ) )
 {
-    <Check TValue="bool?" Checked="@((bool?)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <Check ElementId="@elementId" TValue="bool?" Checked="@((bool?)CellEditContext.CellValue)" CheckedChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( DateTime ) )
 {
-    <DateEdit TValue="DateTime" Date="@((DateTime)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateTime" Date="@((DateTime)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateTime? ) )
 {
-    <DateEdit TValue="DateTime?" Date="@((DateTime?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateTime?" Date="@((DateTime?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateOnly ) )
 {
-    <DateEdit TValue="DateOnly" Date="@((DateOnly)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateOnly" Date="@((DateOnly)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateOnly? ) )
 {
-    <DateEdit TValue="DateOnly?" Date="@((DateOnly?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateOnly?" Date="@((DateOnly?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateTimeOffset ) )
 {
-    <DateEdit TValue="DateTimeOffset" Date="@((DateTimeOffset)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateTimeOffset" Date="@((DateTimeOffset)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( DateTimeOffset? ) )
 {
-    <DateEdit TValue="DateTimeOffset?" Date="@((DateTimeOffset?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
+    <DateEdit ElementId="@elementId" TValue="DateTimeOffset?" Date="@((DateTimeOffset?)CellEditContext.CellValue)" DateChanged="@OnEditValueChanged" ReadOnly="@Readonly" InputMode="@DateInputMode" />
 }
 else if ( ValueType == typeof( TimeSpan ) )
 {
-    <TimeEdit TValue="TimeSpan" Time="@((TimeSpan)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeEdit ElementId="@elementId" TValue="TimeSpan" Time="@((TimeSpan)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( TimeSpan? ) )
 {
-    <TimeEdit TValue="TimeSpan?" Time="@((TimeSpan?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeEdit ElementId="@elementId" TValue="TimeSpan?" Time="@((TimeSpan?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( TimeOnly ) )
 {
-    <TimeEdit TValue="TimeOnly" Time="@((TimeOnly)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeEdit ElementId="@elementId" TValue="TimeOnly" Time="@((TimeOnly)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else if ( ValueType == typeof( TimeSpan? ) )
 {
-    <TimeEdit TValue="TimeOnly?" Time="@((TimeOnly?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
+    <TimeEdit ElementId="@elementId" TValue="TimeOnly?" Time="@((TimeOnly?)CellEditContext.CellValue)" TimeChanged="@OnEditValueChanged" ReadOnly="@Readonly" />
 }
 else
 {
-    <TextEdit Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
+    <TextEdit ElementId="@elementId" Text="@CellEditContext.CellValue?.ToString()" TextChanged="@OnEditValueChanged" ReadOnly="@Column.Readonly" />
 }

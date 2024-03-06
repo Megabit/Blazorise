@@ -1,0 +1,56 @@
+﻿@inherits Blazorise.Step
+<CascadingValue Value="@this" IsFixed>
+    <li @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" @attributes="@Attributes">
+        @if ( Marker is not null || Caption is not null )
+        {
+            @if ( Marker is not null )
+            {
+                <div class="@MarkerClassNames">
+                    <svg style="width: 24px; width: var(--fluent-wizard-circle-size);" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                        @if ( Completed || Active )
+                        {
+                            <path d="M2 12a10 10 0 1120 0 10 10 0 01-20 0z"></path>
+                        }
+                        else
+                        {
+                            <path d="M12 3.5a8.5 8.5 0 100 17 8.5 8.5 0 000-17zM2 12a10 10 0 1120 0 10 10 0 01-20 0z"></path>
+                        }
+                    </svg>
+                    <div class="fui-Step__circle-number" status="@StatusString">
+                        @Marker
+                    </div>
+                </div>
+            }
+            @if ( Caption is not null )
+            {
+                <div class="@DescriptionClassNames">
+                    @Caption
+                </div>
+            }
+        }
+        else
+        {
+            <div class="@MarkerClassNames">
+                <svg style="width: 24px; width: var(--fluent-wizard-circle-size);" focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                    @if ( Completed || Active )
+                    {
+                        <path d="M2 12a10 10 0 1120 0 10 10 0 01-20 0z"></path>
+                    }
+                    else
+                    {
+                        <path d="M12 3.5a8.5 8.5 0 100 17 8.5 8.5 0 000-17zM2 12a10 10 0 1120 0 10 10 0 01-20 0z"></path>
+                    }
+                </svg>
+                <div class="fui-Step__circle-number" status="@StatusString">
+                    @CalculatedIndex
+                </div>
+            </div>
+            <div class="@DescriptionClassNames">
+                @ChildContent
+            </div>
+        }
+    </li>
+</CascadingValue>
+@code {
+    string StatusString => Active ? "current" : null;
+}

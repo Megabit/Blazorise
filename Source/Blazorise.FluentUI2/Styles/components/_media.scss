@@ -1,0 +1,24 @@
+﻿.fui-Media {
+    display: flex;
+    align-items: flex-start;
+}
+
+.fui-Media-left {
+    flex-shrink: 0 !important;
+
+    & + .fui-Media-body {
+        margin-left: var(--spacingHorizontalM) !important;
+    }
+}
+
+.fui-Media-right {
+    flex-shrink: 0 !important;
+}
+
+.fui-Media-body {
+    flex-grow: 1 !important;
+
+    & + .fui-Media-right {
+        margin-left: var(--spacingHorizontalM) !important;
+    }
+}

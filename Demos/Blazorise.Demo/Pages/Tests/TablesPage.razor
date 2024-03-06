@@ -478,6 +478,51 @@
     <Column>
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
+                <CardTitle>Fixed columns</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Use <code>FixedColumns</code> to lock some columns.</CardText> Try to drag the horizontal scrollbar to see it in action.
+            </CardBody>
+            <CardBody>
+                <Table Bordered FixedColumns>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHeaderCell Width="@Width.Px(50)" FixedPosition="TableColumnFixedPosition.Start">#</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Px(200)">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Px(150)" FixedPosition="TableColumnFixedPosition.Start">Fixed heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Px(200)">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Px(850)">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Px(330)">Column heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Px(420)" FixedPosition="TableColumnFixedPosition.End">Fixed end heading</TableHeaderCell>
+                            <TableHeaderCell Width="@Width.Px(400)" FixedPosition="TableColumnFixedPosition.End">Fixed end heading</TableHeaderCell>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        @for ( int i = 1; i <= 3; ++i )
+                        {
+                            var index = i.ToString();
+
+                            <TableRow @key="@index">
+                                <TableRowHeader Width="@Width.Px(50)" FixedPosition="TableColumnFixedPosition.Start">@index</TableRowHeader>
+                                <TableRowCell Width="@Width.Px(200)">Column content</TableRowCell>
+                                <TableRowCell Width="@Width.Px(150)" FixedPosition="TableColumnFixedPosition.Start">Fixed column</TableRowCell>
+                                <TableRowCell Width="@Width.Px(200)">Column content</TableRowCell>
+                                <TableRowCell Width="@Width.Px(850)">Column content</TableRowCell>
+                                <TableRowCell Width="@Width.Px(330)">Column content</TableRowCell>
+                                <TableRowCell Width="@Width.Px(420)" FixedPosition="TableColumnFixedPosition.End">Fixed end content</TableRowCell>
+                                <TableRowCell Width="@Width.Px(400)" FixedPosition="TableColumnFixedPosition.End">Fixed end content</TableRowCell>
+                            </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
                 <CardTitle>Responsive</CardTitle>
             </CardHeader>
             <CardBody>
@@ -553,19 +598,23 @@
                                 <Column>
                                     <Switch @bind-Checked="@fixedHeader">Fixed header</Switch>
                                 </Column>
-                                @if ( fixedHeader )
-                                {
-                                    <Column>
-                                        <Addons>
-                                            <Addon AddonType="AddonType.Body">
-                                                <NumericEdit TValue="int" @bind-Value="scrollToValue" />
-                                            </Addon>
-                                            <Addon AddonType="AddonType.End">
-                                                <Button Color="Color.Primary" Clicked="@ScrollToRow"> Scroll To Row </Button>
-                                            </Addon>
-                                        </Addons>
-                                    </Column>
-                                }
+                            </Row>
+                            <Row>
+                                <Column>
+                                    @if ( fixedHeader )
+                                    {
+                                        <Column>
+                                            <Addons>
+                                                <Addon AddonType="AddonType.Body">
+                                                    <NumericEdit TValue="int" @bind-Value="scrollToValue" />
+                                                </Addon>
+                                                <Addon AddonType="AddonType.End">
+                                                    <Button Color="Color.Primary" Clicked="@ScrollToRow"> Scroll To Row </Button>
+                                                </Addon>
+                                            </Addons>
+                                        </Column>
+                                    }
+                                </Column>
                             </Row>
                         </Field>
                         <Field>

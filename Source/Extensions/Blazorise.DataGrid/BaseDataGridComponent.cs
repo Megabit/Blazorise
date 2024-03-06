@@ -17,12 +17,12 @@ public class BaseDataGridComponent : BaseAfterRenderComponent, IAsyncDisposable
 
     protected override void OnInitialized()
     {
+        base.OnInitialized();
+
         if ( JSModule is null )
         {
             JSModule = new JSDataGridModule( JSRuntime, VersionProvider );
         }
-
-        base.OnInitialized();
 
         ElementId ??= IdGenerator.Generate;
     }
@@ -46,12 +46,12 @@ public class BaseDataGridComponent : BaseAfterRenderComponent, IAsyncDisposable
     /// <summary>
     /// Gets or sets the JS runtime.
     /// </summary>
-    [Inject] private IJSRuntime JSRuntime { get; set; }
+    [Inject] protected IJSRuntime JSRuntime { get; set; }
 
     /// <summary>
     /// Gets or sets the version provider.
     /// </summary>
-    [Inject] private IVersionProvider VersionProvider { get; set; }
+    [Inject] protected IVersionProvider VersionProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the classname provider.

@@ -19,6 +19,8 @@ public partial class ProgressBar : BaseComponent
 
     private bool animated;
 
+    private bool indeterminate;
+
     private int? value;
 
     #endregion
@@ -51,7 +53,7 @@ public partial class ProgressBar : BaseComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( Percentage != null )
+        if ( Percentage is not null )
             builder.Append( StyleProvider.ProgressBarValue( Percentage ?? 0 ) );
 
         builder.Append( StyleProvider.ProgressBarSize( ParentProgress?.ThemeSize ?? Size.Default ) );
@@ -79,7 +81,7 @@ public partial class ProgressBar : BaseComponent
     /// Calculates the percentage based on the current value and max parameters.
     /// </summary>
     protected int? Percentage
-        => Max == 0 ? 0 : (int?)( Value / (float?)Max * 100f );
+        => Indeterminate ? null : Max == 0 ? 0 : (int?)( Value / (float?)Max * 100f );
 
     /// <summary>
     /// If true, the value will be showed within the progress bar.
@@ -130,6 +132,22 @@ public partial class ProgressBar : BaseComponent
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Set to true to show that an operation is being executed.
+    /// </summary>
+    [Parameter]
+    public bool Indeterminate
+    {
+        get => indeterminate;
+        set
+        {
+            indeterminate = value;
+
+            DirtyClasses();
+        }
+    }
+
 
     /// <summary>
     /// Minimum value of the progress bar.

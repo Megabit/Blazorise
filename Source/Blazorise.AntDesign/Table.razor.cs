@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Blazorise.Utilities;
+﻿using Blazorise.Utilities;
 
 namespace Blazorise.AntDesign;
 
@@ -9,7 +8,7 @@ public partial class Table
     {
         base.BuildClasses( builder );
 
-        builder.Append( ClassProvider.TableFixedHeader(), FixedHeader );
+        builder.Append( ClassProvider.TableFixedHeader( FixedHeader ) );
+        builder.Append( ClassProvider.TableFixedColumns( FixedColumns ) );
     }
-
 }

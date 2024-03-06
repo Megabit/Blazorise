@@ -290,8 +290,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string FieldsColumn() => "column";
 
-    //public override string FieldsColumnSize( ColumnSize columnSize ) => $"is-{ColumnSize( columnSize )}";
-
     #endregion
 
     #region Field
@@ -301,6 +299,8 @@ public class BulmaClassProvider : ClassProvider
     public override string FieldHorizontal() => "is-horizontal";
 
     public override string FieldColumn() => "column";
+
+    public override string FieldSize( Size size ) => null;
 
     public override string FieldJustifyContent( JustifyContent justifyContent ) => ToJustifyContent( justifyContent );
 
@@ -375,8 +375,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string AddonLabel() => "button is-static";
 
-    //public override string AddonContainer() => "control";
-
     #endregion
 
     #region Inline
@@ -402,6 +400,8 @@ public class BulmaClassProvider : ClassProvider
     public override string ButtonDisabled( bool outline ) => "is-disabled";
 
     public override string ButtonLoading( bool outline ) => "is-loading";
+
+    public override string ButtonStretchedLink( bool stretched ) => stretched ? "is-link-stretched" : null;
 
     #endregion
 
@@ -464,8 +464,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
 
-    //public override string DropdownMenuBody() => "dropdown-content";
-
     public override string DropdownMenuVisible( bool visible ) => null;
 
     public override string DropdownMenuRight() => null;
@@ -475,7 +473,7 @@ public class BulmaClassProvider : ClassProvider
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"is-{ToColor( color )} is-outlined" : null
+        ? color != Color.Default ? $"is-{ToColor( color )}" : $"is-outlined"
         : color != Color.Default ? $"is-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )
@@ -507,7 +505,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TabsVertical() => "is-vertical"; // this is custom class, bulma natively does not have vertical tabs
 
-    public override string TabItem() => null;
+    public override string TabItem( TabPosition tabPosition ) => null;
 
     public override string TabItemActive( bool active ) => active ? Active() : null;
 
@@ -629,6 +627,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string CardLink() => null;
 
+    public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "is-link-unstyled" : null;
+
     public override string CardLinkActive( bool active ) => LinkActive( active );
 
     #endregion
@@ -645,9 +645,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ListGroupItemSelectable() => "list-group-item-action";
 
-    public override string ListGroupItemActive() => Active();
+    public override string ListGroupItemActive( bool active ) => active ? Active() : null;
 
-    public override string ListGroupItemDisabled() => Disabled();
+    public override string ListGroupItemDisabled( bool disabled ) => disabled ? Disabled() : null;
 
     public override string ListGroupItemColor( Color color, bool selectable, bool active ) => $"is-{ToColor( color )}";
 
@@ -664,15 +664,15 @@ public class BulmaClassProvider : ClassProvider
 
     #region Bar
 
-    public override string Bar() => "navbar";
+    public override string Bar( BarMode mode ) => "navbar";
 
-    public override string BarInitial( bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( Alignment alignment ) => FlexAlignment( alignment );
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
 
-    public override string BarThemeContrast( ThemeContrast themeContrast ) => $"b-bar-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"b-bar-{ToThemeContrast( themeContrast )}";
 
-    public override string BarBreakpoint( Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
 
     public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
 
@@ -694,8 +694,6 @@ public class BulmaClassProvider : ClassProvider
 
     public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
-    //public override string BarCollapse() => "navbar-menu";
-
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-burger" :
@@ -711,8 +709,6 @@ public class BulmaClassProvider : ClassProvider
     public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-start" : "b-bar-start";
 
     public override string BarEnd( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-end" : "b-bar-end";
-
-    //public override string BarHasDropdown() => "has-dropdown";
 
     public override string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal && isBarDropDownSubmenu
         ? "dropdown"
@@ -745,7 +741,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string BarCollapsed( BarMode mode ) => null;
 
-    public override string BarLabel() => "b-bar-label";
+    public override string BarLabel( BarMode mode ) => "b-bar-label";
 
 
     #endregion
@@ -754,13 +750,21 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Accordion() => "accordion";
 
-    #endregion
-
-    #region AccordionToggle
-
     public override string AccordionToggle() => "button";
 
     public override string AccordionToggleCollapsed( bool collapsed ) => null;
+
+    public override string AccordionItem() => "card";
+
+    public override string AccordionItemActive( bool active ) => null;
+
+    public override string AccordionHeader() => "card-header";
+
+    public override string AccordionBody() => "collapse";
+
+    public override string AccordionBodyActive( bool active ) => active ? Show() : null;
+
+    public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "card-content";
 
     #endregion
 
@@ -894,11 +898,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Modal() => "modal";
 
-    public override string ModalFade() => Fade();
-
-    public override string ModalFade( bool animation ) => animation ? Fade() : null;
+    public override string ModalFade( bool showing, bool hiding ) => showing || hiding ? Fade() : null;
 
     public override string ModalVisible( bool visible ) => visible ? Active() : null;
+
+    public override string ModalSize( ModalSize modalSize ) => null;
+
+    public override string ModalCentered( bool centered ) => null;
 
     public override string ModalBackdrop() => "modal-background";
 
@@ -910,10 +916,10 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ModalContentSize( ModalSize modalSize )
     {
-        if ( modalSize == ModalSize.Default )
+        if ( modalSize == Blazorise.ModalSize.Default )
             return null;
 
-        if ( modalSize == ModalSize.Fullscreen )
+        if ( modalSize == Blazorise.ModalSize.Fullscreen )
             return "modal-fullscreen";
 
         return $"modal-{ToModalSize( modalSize )}";
@@ -965,9 +971,51 @@ public class BulmaClassProvider : ClassProvider
 
     public override string OffcanvasBackdrop() => "offcanvas-backdrop";
 
-    public override string OffcanvasBackdropFade() => null;
+    public override string OffcanvasBackdropFade( bool showing, bool hiding ) => null;
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? Active() : null;
+
+    #endregion
+
+    #region Toast
+
+    public override string Toast() => "toast";
+
+    public override string ToastAnimated( bool animated ) => null;
+
+    public override string ToastFade( bool visible, bool showing, bool hiding ) => showing
+        ? "toast-showing"
+        : hiding
+            ? "toast-hiding"
+            : null;
+
+    public override string ToastVisible( bool visible ) => visible
+        ? "toast-show"
+        : "toast-hide";
+
+    public override string ToastHeader() => "toast-header";
+
+    public override string ToastBody() => "toast-body";
+
+    public override string Toaster() => "toast-container";
+
+    public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
+    {
+        Blazorise.ToasterPlacement.Top => "toast-container-top",
+        Blazorise.ToasterPlacement.TopStart => "toast-container-top-left",
+        Blazorise.ToasterPlacement.TopEnd => "toast-container-top-right",
+        Blazorise.ToasterPlacement.Bottom => "toast-container-bottom",
+        Blazorise.ToasterPlacement.BottomStart => "toast-container-bottom-left",
+        Blazorise.ToasterPlacement.BottomEnd => "toast-container-bottom-right",
+        _ => null,
+    };
+
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Fixed => "toast-container-fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "toast-container-absolute",
+        _ => null,
+    };
 
     #endregion
 
@@ -979,9 +1027,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string PaginationItem() => null;
 
-    public override string PaginationItemActive() => null;
+    public override string PaginationItemActive( bool active ) => active ? Active() : null;
 
-    public override string PaginationItemDisabled() => null;
+    public override string PaginationItemDisabled( bool disabled ) => null;
 
     public override string PaginationLink() => "pagination-link";
 
@@ -1005,6 +1053,8 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ProgressAnimated() => "progress-animated";
 
+    public override string ProgressIndeterminate() => "progress-indeterminate";
+
     public override string ProgressWidth( int width ) => null;
 
     public override string ProgressBar() => "progress-bar";
@@ -1016,6 +1066,8 @@ public class BulmaClassProvider : ClassProvider
     public override string ProgressBarStriped() => "progress-striped";
 
     public override string ProgressBarAnimated() => "progress-animated";
+
+    public override string ProgressBarIndeterminate() => "progress-indeterminate";
 
     public override string ProgressBarWidth( int width ) => null;
 
@@ -1057,6 +1109,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableHeaderCellCursor( Cursor cursor ) => cursor != Cursor.Default ? $"is-cursor-{ToCursor( cursor )}" : null;
 
+    public override string TableHeaderCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "is-header-cell-fixed-start",
+            TableColumnFixedPosition.End => "is-header-cell-fixed-end",
+            _ => null,
+        };
+    }
+
     public override string TableFooter() => null;
 
     public override string TableBody() => null;
@@ -1071,9 +1133,29 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRowHeader() => null;
 
+    public override string TableRowHeaderFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "is-row-header-fixed-start",
+            TableColumnFixedPosition.End => "is-row-header-fixed-end",
+            _ => null,
+        };
+    }
+
     public override string TableRowCell() => null;
 
     public override string TableRowCellColor( Color color ) => $"has-background-{ToColor( color )}";
+
+    public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
+    {
+        return fixedPosition switch
+        {
+            TableColumnFixedPosition.Start => "is-row-cell-fixed-start",
+            TableColumnFixedPosition.End => "is-row-cell-fixed-end",
+            _ => null,
+        };
+    }
 
     public override string TableRowGroup( bool expanded ) => "table-group";
 
@@ -1081,9 +1163,11 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRowGroupIndentCell() => "table-group-indentcell";
 
-    public override string TableResponsive() => "table-container";
+    public override string TableResponsive( bool responsive ) => responsive ? "table-container" : null;
 
-    public override string TableFixedHeader() => "table-container-fixed-header";
+    public override string TableFixedHeader( bool fixedHeader ) => fixedHeader ? "table-container-fixed-header" : null;
+
+    public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "table-container-fixed-columns" : null;
 
     #endregion
 
@@ -1123,7 +1207,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"has-text-{ToTextOverflow( textOverflow )}";
 
-    public override string TextSize( TextSize textSize ) => $"is-size-{ToTextSize( textSize )}";
+    public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
+    {
+        if ( textSizeType == TextSizeType.Default )
+            return null;
+
+        if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"is-size-{ToTextSizeType( textSizeType )}-{ToBreakpoint( textSizeDefinition.Breakpoint )}";
+
+        return $"is-size-{ToTextSizeType( textSizeType )}";
+    }
 
     public override string TextItalic() => "is-italic";
 
@@ -1232,6 +1325,12 @@ public class BulmaClassProvider : ClassProvider
     public override string Link() => null;
 
     public override string LinkActive( bool active ) => active ? Active() : null;
+
+    public override string LinkUnstyled( bool unstyled ) => unstyled ? "is-link-unstyled" : null;
+
+    public override string LinkStretched( bool stretched ) => stretched ? "is-link-stretched" : null;
+
+    public override string LinkDisabled( bool disabled ) => disabled ? "is-link-disabled" : null;
 
     #endregion
 
@@ -1372,7 +1471,7 @@ public class BulmaClassProvider : ClassProvider
         var sb = new StringBuilder( "is-" );
 
         if ( sizingDefinition.IsMin && sizingDefinition.IsViewport )
-            sb.Append( "min-wiewport-" );
+            sb.Append( "min-viewport-" );
         else if ( sizingDefinition.IsMax )
             sb.Append( "max-" );
         else if ( sizingDefinition.IsViewport )
@@ -1382,10 +1481,16 @@ public class BulmaClassProvider : ClassProvider
             ? "width"
             : "height" );
 
+        if ( sizingDefinition.Breakpoint != Breakpoint.None && sizingDefinition.Breakpoint != Breakpoint.Mobile )
+            sb.Append( $"-{ToBreakpoint( sizingDefinition.Breakpoint )}" );
+
         sb.Append( $"-{ToSizingSize( sizingSize )}" );
 
         return sb.ToString();
     }
+
+    public override string Sizing( SizingType sizingType, SizingSize sizingSize, IEnumerable<SizingDefinition> rules )
+        => string.Join( " ", rules.Select( x => Sizing( sizingType, sizingSize, x ) ) );
 
     #endregion
 
@@ -1503,21 +1608,16 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ToBreakpoint( Breakpoint breakpoint )
     {
-        switch ( breakpoint )
+        return breakpoint switch
         {
-            case Blazorise.Breakpoint.Mobile:
-                return "mobile";
-            case Blazorise.Breakpoint.Tablet:
-                return "tablet";
-            case Blazorise.Breakpoint.Desktop:
-                return "desktop";
-            case Blazorise.Breakpoint.Widescreen:
-                return "widescreen";
-            case Blazorise.Breakpoint.FullHD:
-                return "fullhd";
-            default:
-                return null;
-        }
+            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "mobile",
+            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "tablet",
+            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "desktop",
+            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "widescreen",
+            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "fullhd",
+            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "full24",
+            _ => null,
+        };
     }
 
     public override string ToDisplayType( DisplayType displayType )

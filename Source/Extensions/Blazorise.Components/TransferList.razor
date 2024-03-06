@@ -1,0 +1,58 @@
+﻿@using Blazorise.Extensions
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+@typeparam TItem
+
+<Div Display="Display.Flex">
+    <Div Flex="Flex.Grow.Is1" Width="Width.Is50">
+        <ListView TItem="TItem"
+                  Data="@ItemsStart"
+                  ValueField="@ValueField"
+                  TextField="@TextField"
+                  DisabledItem="@IsMoveToEndDisabled"
+                  Mode="@Mode"
+                  SelectionMode="@SelectionMode"
+                  Scrollable="@Scrollable"
+                  MaxHeight="@MaxHeight"
+                  ItemTemplate="@ItemStartTemplate"
+                  @bind-SelectedItem="@SelectedItemStart"
+                  @bind-SelectedItems="@SelectedItemsStart">
+        </ListView>
+    </Div>
+
+    <Div Flex="Flex.Column.JustifyContent.Center" Margin="Margin.Is3.OnX" Gap="Gap.Is3">
+        @if ( ShowMoveAll )
+        {
+            <Button Color="@MoveButtonsColor" Clicked="@MoveAllEnd" Disabled="@IsMoveAllEndDisabled">
+                @(">>")
+            </Button>
+        }
+        <Button Color="@MoveButtonsColor" Clicked="@MoveSelectedEnd" Disabled="@IsMoveEndDisabled">
+            @(">")
+        </Button>
+        <Button Color="@MoveButtonsColor" Clicked="@MoveSelectedStart" Disabled="@IsMoveStartDisabled">
+            @("<")
+        </Button>
+        @if ( ShowMoveAll )
+        {
+            <Button Color="@MoveButtonsColor" Clicked="@MoveAllStart" Disabled="@IsMoveAllStartDisabled">
+                @("<<")
+            </Button>
+        }
+    </Div>
+
+    <Div Flex="Flex.Grow.Is1" Width="Width.Is50">
+        <ListView TItem="TItem"
+                  Data="@ItemsEnd"
+                  ValueField="@ValueField"
+                  TextField="@TextField"
+                  DisabledItem="@IsMoveToStartDisabled"
+                  Mode="@Mode"
+                  SelectionMode="@SelectionMode"
+                  Scrollable="@Scrollable"
+                  MaxHeight="@MaxHeight"
+                  ItemTemplate="@ItemEndTemplate"
+                  @bind-SelectedItem="@SelectedItemEnd"
+                  @bind-SelectedItems="@SelectedItemsEnd">
+        </ListView>
+    </Div>
+</Div>

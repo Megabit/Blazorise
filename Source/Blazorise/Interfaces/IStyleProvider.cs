@@ -8,7 +8,11 @@ public interface IStyleProvider
 
     int DefaultModalBackdropZIndex { get; }
 
-    string ModalShow();
+    string ModalShow( bool visible );
+
+    string ModalFade( bool showing, bool hiding );
+
+    string ModalAnimationDuration( bool animated, int animationDuration );
 
     string ModalZIndex( int modalOpenIndex );
 
@@ -48,7 +52,15 @@ public interface IStyleProvider
 
     #region Offcanvas
 
-    string OffcanvasAnimationDuration( bool animated, int AnimationDuration );
+    string OffcanvasAnimationDuration( bool animated, int animationDuration );
+
+    string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration );
+
+    #endregion
+
+    #region Toast
+
+    string ToastAnimationDuration( bool animated, int animationDuration );
 
     #endregion
 }

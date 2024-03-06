@@ -1,0 +1,46 @@
+﻿.has-text-wrap {
+    white-space: normal !important;
+}
+
+.has-text-nowrap {
+    white-space: nowrap !important;
+}
+
+.has-text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.is-unordered-list-unstyled {
+    padding-left: 0;
+    list-style: none;
+}
+
+ol.is-ordered-list {
+    &:not(.is-ordered-list-unstyled) {
+        margin-left: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    &-unstyled {
+        padding-left: 0;
+        list-style: none;
+    }
+
+    &-lower-alpha {
+        list-style-type: lower-alpha;
+    }
+
+    &-lower-roman {
+        list-style-type: lower-roman;
+    }
+
+    &-upper-alpha {
+        list-style-type: upper-alpha;
+    }
+
+    &-upper-roman {
+        list-style-type: upper-roman;
+    }
+}

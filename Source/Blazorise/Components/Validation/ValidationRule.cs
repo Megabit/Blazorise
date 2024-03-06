@@ -29,7 +29,7 @@ public static class ValidationRule
     /// <param name="min">Minimum length allowed.</param>
     /// <param name="max">Maximum length allowed.</param>
     /// <returns>True if string length is in the range.</returns>
-    public static bool IsLength( string value, int min, int max ) => value != null && value.Length >= min && value.Length <= max;
+    public static bool IsLength( string value, int min, int max ) => value is not null && value.Length >= min && value.Length <= max;
 
     /// <summary>
     /// Check if the string is null or empty.
@@ -50,28 +50,28 @@ public static class ValidationRule
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool IsEmail( string value ) => value != null && Regex.IsMatch( value, @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$", RegexOptions.IgnoreCase );
+    public static bool IsEmail( string value ) => value is not null && Regex.IsMatch( value, @"^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,6}$", RegexOptions.IgnoreCase );
 
     /// <summary>
     /// Check if the string contains only letters (a-zA-Z).
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool IsAlpha( string value ) => value != null && Regex.IsMatch( value, @"^[a-zA-Z]+$" );
+    public static bool IsAlpha( string value ) => value is not null && Regex.IsMatch( value, @"^[a-zA-Z]+$" );
 
     /// <summary>
     /// Check if the string contains only letters and numbers.
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool IsAlphanumeric( string value ) => value != null && Regex.IsMatch( value, @"^[a-zA-Z0-9]+$" );
+    public static bool IsAlphanumeric( string value ) => value is not null && Regex.IsMatch( value, @"^[a-zA-Z0-9]+$" );
 
     /// <summary>
     /// Check if the string contains only letters, numbers and underscore.
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    public static bool IsAlphanumericWithUnderscore( string value ) => value != null && Regex.IsMatch( value, "^[a-zA-Z0-9_]+$" );
+    public static bool IsAlphanumericWithUnderscore( string value ) => value is not null && Regex.IsMatch( value, "^[a-zA-Z0-9_]+$" );
 
     /// <summary>
     /// Check if the string is uppercase.
@@ -166,6 +166,20 @@ public static class ValidationRule
         var value = e.Value?.ToString();
 
         e.Status = string.IsNullOrEmpty( value ) || value == "0" ? ValidationStatus.Error : ValidationStatus.Success;
+    }
+
+    /// <summary>
+    /// Checks if the file is selected.
+    /// </summary>
+    /// <param name="e"></param>
+    public static void IsFileSelected( ValidatorEventArgs e )
+    {
+        var value = e.Value as IFileEntry[];
+
+        if ( value is not null )
+        {
+            e.Status = value.Count() == 0 ? ValidationStatus.Error : ValidationStatus.Success;
+        }
     }
 
     #endregion

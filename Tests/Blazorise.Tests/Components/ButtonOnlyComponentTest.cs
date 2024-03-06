@@ -1,6 +1,4 @@
 ﻿#region Using directives
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 #endregion
@@ -11,8 +9,9 @@ public class ButtonOnlyComponentTest : TestContext
 {
     public ButtonOnlyComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddButton( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop
+            .AddBlazoriseButton();
     }
 
     [Fact]

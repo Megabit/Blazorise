@@ -1,0 +1,27 @@
+﻿.ant-rate {
+    &:not(.ant-rate-disabled):not(.ant-rate-readonly):hover {
+        .ant-rate-star {
+            cursor: pointer;
+        }
+    }
+
+    &.ant-rate-disabled {
+        opacity: .65;
+    }
+
+    .ant-rate-star {
+        cursor: default;
+
+        @each $name, $value in $theme-colors {
+            $color: $value;
+
+            &.ant-rate-star-#{$name} {
+                color: $color;
+            }
+        }
+
+        &.ant-rate-star-focused {
+            opacity: 0.7;
+        }
+    }
+}

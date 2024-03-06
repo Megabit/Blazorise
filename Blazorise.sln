@@ -40,6 +40,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.runsettings = .runsettings
 		DotnetWatchRunAll.bat = DotnetWatchRunAll.bat
+		CREDITS.md = CREDITS.md
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts.Streaming", "Source\Extensions\Blazorise.Charts.Streaming\Blazorise.Charts.Streaming.csproj", "{9AA305DA-A667-49E6-BDDA-7C976AD5BB3B}"
@@ -136,6 +138,20 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Splitter", "Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj", "{EC28D772-D69F-418B-9720-3977850E2FDA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts.Annotation", "Source\Extensions\Blazorise.Charts.Annotation\Blazorise.Charts.Annotation.csproj", "{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Helpers", "Helpers", "{5930C85A-4AE1-428B-BFEE-7A80970F7F3E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Tests.bUnit", "Source\Helpers\Blazorise.Tests.bUnit\Blazorise.Tests.bUnit.csproj", "{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.FluentUI2", "Source\Blazorise.FluentUI2\Blazorise.FluentUI2.csproj", "{E228C1B1-DEC3-4195-978F-518BAD4D7FD7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Demo.FluentUI2", "Demos\Blazorise.Demo.FluentUI2\Blazorise.Demo.FluentUI2.csproj", "{2C519602-A6E6-4195-9D63-AA34C6978ED2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Icons.FluentUI", "Source\Extensions\Blazorise.Icons.FluentUI\Blazorise.Icons.FluentUI.csproj", "{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Captcha", "Source\Extensions\Blazorise.Captcha\Blazorise.Captcha.csproj", "{D24EA4EF-0AEC-43B2-BCDC-56229D60C285}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Captcha.ReCaptcha", "Source\Extensions\Blazorise.Captcha.ReCaptcha\Blazorise.Captcha.ReCaptcha.csproj", "{2B4FD79A-42E2-4B81-828B-0799E4744ADA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -359,6 +375,30 @@ Global
 		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E228C1B1-DEC3-4195-978F-518BAD4D7FD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E228C1B1-DEC3-4195-978F-518BAD4D7FD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E228C1B1-DEC3-4195-978F-518BAD4D7FD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E228C1B1-DEC3-4195-978F-518BAD4D7FD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C519602-A6E6-4195-9D63-AA34C6978ED2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C519602-A6E6-4195-9D63-AA34C6978ED2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C519602-A6E6-4195-9D63-AA34C6978ED2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C519602-A6E6-4195-9D63-AA34C6978ED2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D24EA4EF-0AEC-43B2-BCDC-56229D60C285}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D24EA4EF-0AEC-43B2-BCDC-56229D60C285}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D24EA4EF-0AEC-43B2-BCDC-56229D60C285}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D24EA4EF-0AEC-43B2-BCDC-56229D60C285}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B4FD79A-42E2-4B81-828B-0799E4744ADA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B4FD79A-42E2-4B81-828B-0799E4744ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B4FD79A-42E2-4B81-828B-0799E4744ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B4FD79A-42E2-4B81-828B-0799E4744ADA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -420,6 +460,13 @@ Global
 		{96334C18-5A3B-4C90-9C48-B06043AF0C68} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{EC28D772-D69F-418B-9720-3977850E2FDA} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{4AEA29BB-7EB8-4B3D-B2E1-76E0C473EB02} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{5930C85A-4AE1-428B-BFEE-7A80970F7F3E} = {73CD9574-5204-442D-A67C-CA7B038057C2}
+		{0A35F4EC-57C3-4220-9FB7-A5C2437ECBF8} = {5930C85A-4AE1-428B-BFEE-7A80970F7F3E}
+		{E228C1B1-DEC3-4195-978F-518BAD4D7FD7} = {73CD9574-5204-442D-A67C-CA7B038057C2}
+		{2C519602-A6E6-4195-9D63-AA34C6978ED2} = {C2D0A89F-530E-413F-9D0E-9EE2129A2275}
+		{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{D24EA4EF-0AEC-43B2-BCDC-56229D60C285} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{2B4FD79A-42E2-4B81-828B-0799E4744ADA} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}

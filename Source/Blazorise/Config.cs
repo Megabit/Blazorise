@@ -8,6 +8,8 @@ using Blazorise.Modules;
 using Blazorise.Providers;
 using Blazorise.Themes;
 using Blazorise.Utilities;
+using Blazorise.Utilities.Vendors;
+using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -43,7 +45,8 @@ public static class Config
         serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
         serviceCollection.AddSingleton<IThemeCache, ThemeCache>();
         serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
-        serviceCollection.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
+        serviceCollection.AddSingleton<IFlatPickrDateTimeDisplayFormatConverter, FlatPickrDateTimeDisplayFormatConverter>();
+        serviceCollection.AddSingleton<IInputMaskDateTimeInputFormatConverter, InputMaskDateTimeInputFormatConverter>();
 
         foreach ( var mapping in LocalizationMap
                      .Concat( ValidationMap )
@@ -89,6 +92,7 @@ public static class Config
         { typeof( INotificationService ), typeof( NotificationService ) },
         { typeof( IPageProgressService ), typeof( PageProgressService ) },
         { typeof( IModalService ), typeof( ModalService ) },
+        { typeof( IToastService ), typeof( ToastService ) },
     };
 
     /// <summary>
