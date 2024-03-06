@@ -5103,6 +5103,41 @@ h6.card-title,
     font-size: 1rem !important;
   }
 }
+@media (min-width: 1400px) {
+  .fs-xxl-xs {
+    font-size: 0.75rem !important;
+  }
+  .fs-xxl-sm {
+    font-size: 0.925rem !important;
+  }
+  .fs-xxl-md {
+    font-size: 1.125rem !important;
+  }
+  .fs-xxl-lg {
+    font-size: 1.25rem !important;
+  }
+  .fs-xxl-xl {
+    font-size: 1.5rem !important;
+  }
+  .fs-xxl-1 {
+    font-size: 2.5rem !important;
+  }
+  .fs-xxl-2 {
+    font-size: 2rem !important;
+  }
+  .fs-xxl-3 {
+    font-size: 1.75rem !important;
+  }
+  .fs-xxl-4 {
+    font-size: 1.5rem !important;
+  }
+  .fs-xxl-5 {
+    font-size: 1.25rem !important;
+  }
+  .fs-xxl-6 {
+    font-size: 1rem !important;
+  }
+}
 .font-weight-semibold {
   font-weight: 600 !important;
 }

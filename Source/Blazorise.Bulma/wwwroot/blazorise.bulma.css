@@ -9257,6 +9257,41 @@ ol.is-ordered-list-upper-roman {
     font-size: 1rem !important;
   }
 }
+@media (min-width: 2560px) {
+  .is-size-xs-2k {
+    font-size: 0.65rem !important;
+  }
+  .is-size-sm-2k {
+    font-size: 0.75rem !important;
+  }
+  .is-size-md-2k {
+    font-size: 1.25rem !important;
+  }
+  .is-size-lg-2k {
+    font-size: 1.5rem !important;
+  }
+  .is-size-xl-2k {
+    font-size: 2rem !important;
+  }
+  .is-size-1-2k {
+    font-size: 3rem !important;
+  }
+  .is-size-2-2k {
+    font-size: 2.5rem !important;
+  }
+  .is-size-3-2k {
+    font-size: 2.5rem !important;
+  }
+  .is-size-4-2k {
+    font-size: 1.5rem !important;
+  }
+  .is-size-5-2k {
+    font-size: 1.25rem !important;
+  }
+  .is-size-6-2k {
+    font-size: 1rem !important;
+  }
+}
 .is-visible {
   visibility: visible !important;
 }
