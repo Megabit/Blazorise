@@ -443,6 +443,14 @@
   z-index: 1000;
   color: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));
 }
+.navbar.flex-column .collapse.navbar-collapse.show .navbar-start .nav-item .dropdown .dropdown-toggle.nav-link, .navbar.flex-column .collapse.navbar-collapse.show .navbar-end .nav-item .dropdown .dropdown-toggle.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.navbar.flex-column .collapse.navbar-collapse.show .navbar-start .nav-item .dropdown .dropdown-toggle::after, .navbar.flex-column .collapse.navbar-collapse.show .navbar-end .nav-item .dropdown .dropdown-toggle::after {
+  margin-left: auto;
+}
 .navbar.flex-column .collapse.navbar-collapse.show .navbar-start .nav-item .dropdown .dropdown-toggle:before .nav-link, .navbar.flex-column .collapse.navbar-collapse.show .navbar-end .nav-item .dropdown .dropdown-toggle:before .nav-link {
   display: block;
   width: 100%;

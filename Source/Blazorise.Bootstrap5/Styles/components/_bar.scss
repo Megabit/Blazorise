@@ -433,6 +433,19 @@
                     z-index: 1000;
                     color: var(--b-bar-dark-color, rgba(255, 255, 255, 0.5));
 
+
+                    .dropdown-toggle {
+                        &.nav-link {
+                            display: flex;
+                            align-items: center;
+                            gap: $spacer * 0.5;
+                        }
+
+                        &::after {
+                            margin-left: auto;
+                        }
+                    }
+
                     .dropdown-toggle:before .nav-link {
                         display: block;
                         width: 100%;
