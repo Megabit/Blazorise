@@ -100,7 +100,16 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         cancellationTokenSource = null;
     }
 
-    internal async Task InitializeInput( IValidationInput inputComponent )
+    /// <summary>
+    /// Initializes the input component with the specified validation input. It performs an initial validation
+    /// if the mode is set to auto validation and validation on load is enabled.
+    /// </summary>
+    /// <param name="inputComponent">The validation input component to initialize.</param>
+    /// <remarks>
+    /// This method sets the input component and, based on the configuration, may asynchronously validate
+    /// the component's validation value. It also marks the component as initialized.
+    /// </remarks>
+    public async Task InitializeInput( IValidationInput inputComponent )
     {
         this.inputComponent = inputComponent;
 
@@ -110,7 +119,18 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         initialized = true;
     }
 
-    internal async Task InitializeInputPattern<T>( string patternString, T value )
+    /// <summary>
+    /// Initializes or updates the input validation pattern. If the pattern string changes,
+    /// a new regex pattern is created, and the input is re-validated if applicable.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to validate against the pattern.</typeparam>
+    /// <param name="patternString">The regex pattern string for validation.</param>
+    /// <param name="value">The current value of the input to validate against the new pattern.</param>
+    /// <remarks>
+    /// This method optimizes performance by avoiding re-instantiation of the regex pattern if it has not changed.
+    /// It ensures that validation is only re-triggered if the component has been initialized and validation conditions are met.
+    /// </remarks>
+    public async Task InitializeInputPattern<T>( string patternString, T value )
     {
         if ( !string.IsNullOrEmpty( patternString ) )
         {
@@ -133,7 +153,16 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         }
     }
 
-    internal async Task InitializeInputExpression<T>( Expression<Func<T>> expression )
+    /// <summary>
+    /// Initializes or updates the input based on a specified expression. This is primarily used for data-annotation validation.
+    /// </summary>
+    /// <typeparam name="T">The type of the model the expression evaluates to.</typeparam>
+    /// <param name="expression">The expression used to identify the field for validation.</param>
+    /// <remarks>
+    /// This method is designed to work with models and edit contexts, allowing for dynamic validation based on expressions.
+    /// It ensures that validation is only re-triggered if the component has been initialized and validation conditions are met.
+    /// </remarks>
+    public async Task InitializeInputExpression<T>( Expression<Func<T>> expression )
     {
         // Data-Annotation validation can only work if parent validationa and expression are defined.
         if ( ( ParentValidations is not null || EditContext is not null ) && expression is not null )
@@ -162,7 +191,18 @@ public partial class Validation : ComponentBase, IValidation, IDisposable
         }
     }
 
-    internal Task NotifyInputChanged<T>( T newExpressionValue, bool overrideNewValue = false )
+    /// <summary>
+    /// Notifies that an input's value has changed and optionally re-validates the input.
+    /// </summary>
+    /// <typeparam name="T">The type of the new value.</typeparam>
+    /// <param name="newExpressionValue">The new value of the expression.</param>
+    /// <param name="overrideNewValue">Determines whether to use the new value for validation or the current input component's validation value.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    /// <remarks>
+    /// If the edit context is set and a field identifier has been established, this method notifies the edit context
+    /// of the field change. It then conditionally triggers validation based on the component's mode.
+    /// </remarks>
+    public Task NotifyInputChanged<T>( T newExpressionValue, bool overrideNewValue = false )
     {
         var newValidationValue = overrideNewValue
             ? newExpressionValue
