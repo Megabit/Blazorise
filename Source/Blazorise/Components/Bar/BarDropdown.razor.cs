@@ -68,18 +68,20 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        var visibleChanged = parameters.TryGetValue<bool>( nameof( Visible ), out var newVisible )
-            && Visible != newVisible;
-
-        // This is needed for the two-way binding to work properly.
-        // Otherwise the internal value would not be set in the right order.
-        state = state with { Visible = newVisible };
+        var visibleChanged = parameters.TryGetValue<bool>( nameof( Visible ), out var paramVisible ) && Visible != paramVisible;
 
         await base.SetParametersAsync( parameters );
 
-        if ( visibleChanged && newVisible )
+        if ( visibleChanged )
         {
-            await ParentBarItem.OnDropdownVisible();
+            // This is needed for the two-way binding to work properly.
+            // Otherwise the internal value would not be set in the right order.
+            state = state with { Visible = paramVisible };
+
+            if ( paramVisible )
+            {
+                await ParentBarItem.OnDropdownVisible();
+            }
         }
     }
 
@@ -89,10 +91,10 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task Show()
     {
-        if ( Visible )
+        if ( IsVisible )
             return Task.CompletedTask;
 
-        Visible = true;
+        state = state with { Visible = true };
 
         return InvokeAsync( StateHasChanged );
     }
@@ -104,13 +106,13 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public async Task Hide( bool hideAll = false )
     {
-        if ( !Visible )
+        if ( !IsVisible )
             return;
 
         if ( ParentBarDropdown is not null && ( ParentBarDropdown.ShouldClose || hideAll ) )
             await ParentBarDropdown.Hide( hideAll );
 
-        Visible = false;
+        state = state with { Visible = false };
 
         await InvokeAsync( StateHasChanged );
     }
@@ -119,19 +121,24 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// Toggles the visibility of the dropdown menu.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task Toggle( string dropdownToggleElementId )
+    public async Task Toggle( string dropdownToggleElementId )
     {
         // Don't allow Toggle when menu is in a vertical "popout" style mode.
         // This will be handled by mouse over actions below.
         if ( ParentBarItemState is not null && ParentBarItemState.Mode != BarMode.Horizontal && !State.IsInlineDisplay )
-            return Task.CompletedTask;
+            return;
 
         SetWasJustToggled( true );
         SetSelectedDropdownElementId( dropdownToggleElementId );
 
-        Visible = !Visible;
+        state = state with { Visible = !state.Visible };
 
-        return InvokeAsync( StateHasChanged );
+        if ( IsVisible )
+        {
+            await ParentBarItem.OnDropdownVisible();
+        }
+
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -240,6 +247,11 @@ public partial class BarDropdown : BaseComponent, IDisposable
     internal bool WasJustToggled { get; set; } = false;
 
     /// <summary>
+    /// Indicates if the dropdown is visible.
+    /// </summary>
+    internal bool IsVisible => state.Visible;
+
+    /// <summary>
     /// Gets the reference to the state object for this <see cref="BarDropdown"/> component.
     /// </summary>
     protected BarDropdownState State => state;
@@ -267,23 +279,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// <summary>
     /// Sets a value indicating whether the dropdown menu and all its child controls are visible.
     /// </summary>
-    [Parameter]
-    public bool Visible
-    {
-        get => state.Visible;
-        set
-        {
-            // prevent dropdown from calling the same code multiple times
-            if ( value == state.Visible )
-                return;
-
-            state = state with { Visible = value };
-
-            VisibleChanged.InvokeAsync( value );
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public bool Visible { get; set; }
 
     /// <summary>
     /// Occurs when the component visibility changes.
@@ -327,7 +323,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
             state = state with { Mode = parentBarItemState.Mode, BarVisible = parentBarItemState.BarVisible };
 
             if ( !state.BarVisible )
-                Visible = false;
+                state = state with { Visible = false };
 
             DirtyClasses();
         }

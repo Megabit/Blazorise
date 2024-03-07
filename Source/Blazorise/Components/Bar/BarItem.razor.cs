@@ -52,8 +52,9 @@ public partial class BarItem : BaseComponent, IAsyncDisposable
     {
         if ( ParentBar.MenuToggleBehavior == BarMenuToggleBehavior.AllowSingleMenu )
         {
-            ExecuteAfterRender( async () => await ParentBar.HideAllExcept( this ) );
+            return ParentBar.HideAllExcept( this );
         }
+
         return Task.CompletedTask;
     }
 
@@ -63,10 +64,11 @@ public partial class BarItem : BaseComponent, IAsyncDisposable
     /// <returns></returns>
     internal protected Task HideDropdown()
     {
-        if ( HasDropdown && barDropdown.Visible )
+        if ( HasDropdown && barDropdown.IsVisible )
         {
             return barDropdown.Hide();
         }
+
         return Task.CompletedTask;
     }
 
