@@ -76,12 +76,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
         {
             // This is needed for the two-way binding to work properly.
             // Otherwise the internal value would not be set in the right order.
-            state = state with { Visible = paramVisible };
-
-            if ( paramVisible )
-            {
-                await ParentBarItem.OnDropdownVisible();
-            }
+            await SetVisibleState( paramVisible );
         }
     }
 
@@ -89,14 +84,14 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// Shows the dropdown menu.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public Task Show()
+    public async Task Show()
     {
         if ( IsVisible )
-            return Task.CompletedTask;
+            return;
 
-        state = state with { Visible = true };
+        await SetVisibleState( true );
 
-        return InvokeAsync( StateHasChanged );
+        await InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -112,7 +107,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
         if ( ParentBarDropdown is not null && ( ParentBarDropdown.ShouldClose || hideAll ) )
             await ParentBarDropdown.Hide( hideAll );
 
-        state = state with { Visible = false };
+        await SetVisibleState( false );
 
         await InvokeAsync( StateHasChanged );
     }
@@ -131,14 +126,34 @@ public partial class BarDropdown : BaseComponent, IDisposable
         SetWasJustToggled( true );
         SetSelectedDropdownElementId( dropdownToggleElementId );
 
-        state = state with { Visible = !state.Visible };
+        await SetVisibleState( !state.Visible );
 
-        if ( IsVisible )
+        await InvokeAsync( StateHasChanged );
+    }
+
+    /// <summary>
+    /// Handles the internal visibility states.
+    /// </summary>
+    /// <param name="visible">Visible state.</param>
+    private async Task SetVisibleState( bool visible )
+    {
+        state = state with { Visible = visible };
+
+        if ( visible )
         {
             await ParentBarItem.OnDropdownVisible();
         }
 
-        await InvokeAsync( StateHasChanged );
+        await RaiseEvents( visible );
+    }
+
+    /// <summary>
+    /// Fires all the events for this dropdown.
+    /// </summary>
+    /// <param name="visible"></param>
+    protected virtual Task RaiseEvents( bool visible )
+    {
+        return VisibleChanged.InvokeAsync( visible );
     }
 
     /// <summary>
