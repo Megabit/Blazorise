@@ -61,9 +61,9 @@ public enum Breakpoint
     ExtraLarge,
 
     /// <summary>
-    /// Breakpoint on large desktops (extra extra large).
+    /// Breakpoint on large 2k desktops (extra extra large).
     /// </summary>
-    Full2K,
+    QuadHD,
 
     /// <summary>
     /// Breakpoint on large desktops.

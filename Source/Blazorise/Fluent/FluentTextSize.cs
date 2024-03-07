@@ -53,7 +53,7 @@ public interface IFluentTextSizeOnBreakpoint :
     /// <summary>
     /// Breakpoint on extra large desktops (extra extra large).
     /// </summary>
-    IFluentTextSizeWithSize OnFull2K { get; }
+    IFluentTextSizeWithSize OnQuadHD { get; }
 }
 
 /// <summary>
@@ -233,7 +233,7 @@ public class FluentTextSize :
     public IFluentTextSizeWithSize OnFullHD => WithBreakpoint( Breakpoint.FullHD );
 
     /// <inheritdoc/>
-    public IFluentTextSizeWithSize OnFull2K => WithBreakpoint( Breakpoint.Full2K );
+    public IFluentTextSizeWithSize OnQuadHD => WithBreakpoint( Breakpoint.QuadHD );
 
     /// <inheritdoc/>
     public IFluentTextSizeOnBreakpoint Default => WithSize( TextSizeType.Default );

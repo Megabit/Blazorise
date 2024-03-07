@@ -46,6 +46,8 @@ $enable-ripple: true !default; // Enable ripple effect on components (Buttons, m
 @import "utilities/animations";
 @import "utilities/border";
 @import "utilities/cursor";
+@import "utilities/display";
+@import "utilities/flex";
 @import "utilities/grid";
 @import "utilities/list";
 @import "utilities/overflow";
