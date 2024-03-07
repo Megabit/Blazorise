@@ -55,3 +55,6 @@
 
     @include make-cssgrid();
 }
+
+// only generate xxl that is not available in native Bootstrap 4
+@include make-grid-columns($grid-columns, $grid-gutter-width, ( xxl: 1400px ));

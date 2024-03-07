@@ -1,0 +1,13 @@
+﻿.toast-container {
+    left: unset;
+    right: unset;
+    bottom: unset;
+    top: unset;
+    flex-direction: column;
+
+    .toast {
+        &:not(:last-child) {
+            margin-bottom: 1rem;
+        }
+    }
+}

@@ -47,6 +47,7 @@
   <PropertyGroup>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>__SOURCEGENERATED__</CompilerGeneratedFilesOutputPath>
+    <SonarQubeExclude>True</SonarQubeExclude>
   </PropertyGroup>
 
 </Project>

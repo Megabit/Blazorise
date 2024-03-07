@@ -1,0 +1,32 @@
+﻿@namespace Blazorise
+@using Blazorise.Extensions
+@inherits BaseComponent
+<CascadingValue Value="@this" IsFixed>
+    <Toaster Placement="@Placement" PlacementStrategy="@PlacementStrategy">
+        @foreach ( var toastInstance in toastInstances ?? Enumerable.Empty<ToastInstance>() )
+        {
+            <Toast @key="@toastInstance.ToastId" @ref="toastInstance.ToastRef" @bind-Visible="@toastInstance.Visible"
+                   Opened="@toastInstance.Opened"
+                   Closed="@(() => OnToastClosed(toastInstance))"
+                   Animated="@Animated"
+                   AnimationDuration="@AnimationDuration"
+                   Autohide="@Autohide"
+                   AutohideDelay="@AutohideDelay">
+                <ToastHeader>
+                    @if ( ShowIntentIcon )
+                    {
+                        <Icon Name="@GetIconName( toastInstance.Intent )" TextColor="@GetIconColor( toastInstance.Intent )" Margin="Blazorise.Margin.Is2.FromEnd" />
+                    }
+                    <Strong>@toastInstance.Title</Strong>
+                    @if ( ShowCloseButton )
+                    {
+                        <CloseButton Clicked="@toastInstance.ToastRef.Hide" Margin="Blazorise.Margin.IsAuto.FromStart" />
+                    }
+                </ToastHeader>
+                <ToastBody>
+                    @toastInstance.Message
+                </ToastBody>
+            </Toast>
+        }
+    </Toaster>
+</CascadingValue>

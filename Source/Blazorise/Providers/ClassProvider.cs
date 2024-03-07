@@ -347,8 +347,6 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string AddonLabel();
 
-    //public abstract string AddonContainer();
-
     #endregion
 
     #region Inline
@@ -424,8 +422,6 @@ public abstract class ClassProvider : IClassProvider
     public abstract string DropdownMenuSelector();
 
     public abstract string DropdownMenuScrollable();
-
-    //public abstract string DropdownMenuBody();
 
     public abstract string DropdownMenuVisible( bool visible );
 
@@ -669,8 +665,6 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarLinkDisabled( BarMode mode );
 
-    //public abstract string BarCollapse();
-
     public abstract string BarBrand( BarMode mode );
 
     public abstract string BarToggler( BarMode mode, BarTogglerMode togglerMode );
@@ -684,8 +678,6 @@ public abstract class ClassProvider : IClassProvider
     public abstract string BarStart( BarMode mode );
 
     public abstract string BarEnd( BarMode mode );
-
-    //public abstract string BarHasDropdown();
 
     public abstract string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
 
@@ -818,9 +810,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Modal();
 
-    public abstract string ModalFade();
-
-    public abstract string ModalFade( bool animation );
+    public abstract string ModalFade( bool showing, bool hiding );
 
     public abstract string ModalVisible( bool visible );
 
@@ -873,6 +863,28 @@ public abstract class ClassProvider : IClassProvider
     public abstract string OffcanvasBackdropFade( bool showing, bool hiding );
 
     public abstract string OffcanvasBackdropVisible( bool visible );
+
+    #endregion
+
+    #region Toast
+
+    public abstract string Toast();
+
+    public abstract string ToastAnimated( bool animated );
+
+    public abstract string ToastFade( bool visible, bool showing, bool hiding );
+
+    public abstract string ToastVisible( bool visible );
+
+    public abstract string ToastHeader();
+
+    public abstract string ToastBody();
+
+    public abstract string Toaster();
+
+    public abstract string ToasterPlacement( ToasterPlacement placement );
+
+    public abstract string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy );
 
     #endregion
 
@@ -1040,7 +1052,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TextOverflow( TextOverflow textOverflow );
 
-    public abstract string TextSize( TextSize textSize );
+    public abstract string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition );
 
     public abstract string TextItalic();
 
@@ -1309,7 +1321,7 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "md",
             Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "lg",
             Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "xl",
-            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "xxl",
+            Blazorise.Breakpoint.QuadHD or Blazorise.Breakpoint.ExtraExtraLarge => "xxl",
             _ => null,
         };
     }
@@ -1456,21 +1468,21 @@ public abstract class ClassProvider : IClassProvider
         };
     }
 
-    public virtual string ToTextSize( TextSize textSize )
+    public virtual string ToTextSizeType( TextSizeType textSizeType )
     {
-        return textSize switch
+        return textSizeType switch
         {
-            Blazorise.TextSize.ExtraSmall => "xs",
-            Blazorise.TextSize.Small => "sm",
-            Blazorise.TextSize.Medium => "md",
-            Blazorise.TextSize.Large => "lg",
-            Blazorise.TextSize.ExtraLarge => "xl",
-            Blazorise.TextSize.Heading1 => "1",
-            Blazorise.TextSize.Heading2 => "2",
-            Blazorise.TextSize.Heading3 => "3",
-            Blazorise.TextSize.Heading4 => "4",
-            Blazorise.TextSize.Heading5 => "5",
-            Blazorise.TextSize.Heading6 => "6",
+            Blazorise.TextSizeType.ExtraSmall => "xs",
+            Blazorise.TextSizeType.Small => "sm",
+            Blazorise.TextSizeType.Medium => "md",
+            Blazorise.TextSizeType.Large => "lg",
+            Blazorise.TextSizeType.ExtraLarge => "xl",
+            Blazorise.TextSizeType.Heading1 => "1",
+            Blazorise.TextSizeType.Heading2 => "2",
+            Blazorise.TextSizeType.Heading3 => "3",
+            Blazorise.TextSizeType.Heading4 => "4",
+            Blazorise.TextSizeType.Heading5 => "5",
+            Blazorise.TextSizeType.Heading6 => "6",
             _ => null,
         };
     }
@@ -1619,19 +1631,6 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.GapSize.Is3 => "3",
             Blazorise.GapSize.Is4 => "4",
             Blazorise.GapSize.Is5 => "5",
-            _ => null,
-        };
-    }
-
-    public virtual string ToJustifyContent( JustifyContent justifyContent )
-    {
-        return justifyContent switch
-        {
-            Blazorise.JustifyContent.Start => "justify-content-start",
-            Blazorise.JustifyContent.End => "justify-content-end",
-            Blazorise.JustifyContent.Center => "justify-content-center",
-            Blazorise.JustifyContent.Between => "justify-content-between",
-            Blazorise.JustifyContent.Around => "justify-content-around",
             _ => null,
         };
     }
@@ -1832,6 +1831,19 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.FlexDirection.ReverseRow => "row-reverse",
             Blazorise.FlexDirection.Column => "column",
             Blazorise.FlexDirection.ReverseColumn => "column-reverse",
+            _ => null,
+        };
+    }
+
+    public virtual string ToJustifyContent( JustifyContent justifyContent )
+    {
+        return justifyContent switch
+        {
+            Blazorise.JustifyContent.Start => "justify-content-start",
+            Blazorise.JustifyContent.End => "justify-content-end",
+            Blazorise.JustifyContent.Center => "justify-content-center",
+            Blazorise.JustifyContent.Between => "justify-content-between",
+            Blazorise.JustifyContent.Around => "justify-content-around",
             _ => null,
         };
     }

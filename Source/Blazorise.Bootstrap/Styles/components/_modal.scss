@@ -24,12 +24,94 @@
         }
     }
 
-    &.fade {
-        transition: opacity var(--modal-animation-duration, 300ms) linear;
+    &.show {
+        display: block;
 
         .modal-dialog {
-            transition: -webkit-transform var(--modal-animation-duration, 300ms) ease-out;
-            transition: transform var(--modal-animation-duration, 300ms) ease-out;
+            &:not(.modal-dialog-centered) {
+                animation: modal-slidein var(--modal-animation-duration, 300ms) ease-out;
+            }
+
+            &.modal-dialog-centered {
+                animation: modal-slidein, modal-slidein-centered var(--modal-animation-duration, 300ms) ease-out;
+            }
         }
+    }
+
+    &:not(.show) {
+        display: none;
+        animation: modal-slideaway var(--modal-animation-duration, 300ms) linear;
+
+        .modal-dialog {
+            &:not(.modal-dialog-centered) {
+                animation: modal-slideaway var(--modal-animation-duration, 300ms) ease-out;
+            }
+
+            &.modal-dialog-centered {
+                animation: modal-slideaway, modal-slideaway-centered var(--modal-animation-duration, 300ms) ease-out;
+            }
+        }
+    }
+}
+
+.modal-backdrop.fade {
+    transition-property: opacity;
+    transition-duration: var(--modal-animation-duration, 300ms);
+    transition-timing-function: linear;
+}
+
+@keyframes modal-slidein {
+    0% {
+        display: none;
+        opacity: 0;
+        transform: $modal-fade-transform;
+    }
+
+    1% {
+        display: block;
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes modal-slidein-centered {
+    0% {
+        display: none;
+        opacity: 0;
+        transform: $modal-fade-transform;
+    }
+
+    100% {
+        display: flex;
+        align-items: center;
+        opacity: 1;
+    }
+}
+
+@keyframes modal-slideaway {
+    from {
+        display: block;
+        opacity: 1;
+    }
+
+    to {
+        transform: $modal-fade-transform;
+        opacity: 0;
+    }
+}
+
+@keyframes modal-slideaway-centered {
+    from {
+        display: flex;
+        align-items: center;
+        opacity: 1;
+    }
+
+    to {
+        transform: $modal-fade-transform;
+        opacity: 0;
     }
 }

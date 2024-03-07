@@ -3492,6 +3492,35 @@ tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   overflow-x: auto;
 }
 
+.ant-notification-top {
+  inset: 24px auto auto 50%;
+  transform: translateX(-50%);
+}
+.ant-notification-topLeft {
+  left: 0px;
+  top: 24px;
+  bottom: auto;
+}
+.ant-notification-topRight {
+  right: 0px;
+  top: 24px;
+  bottom: auto;
+}
+.ant-notification-bottom {
+  inset: auto auto 24px 50%;
+  transform: translateX(-50%);
+}
+.ant-notification-bottomLeft {
+  left: 0px;
+  top: auto;
+  bottom: 24px;
+}
+.ant-notification-bottomRight {
+  right: 0px;
+  top: auto;
+  bottom: 24px;
+}
+
 .snackbar-stack {
   z-index: 1009 !important;
 }
@@ -9999,47 +10028,287 @@ tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   font-size: 10px;
   line-height: 18px;
 }
+
 .ant-font-size-sm {
   font-size: 12px;
   line-height: 20px;
 }
+
 .ant-font-size-md {
   font-size: 16px;
   line-height: 24px;
 }
+
 .ant-font-size-lg {
   font-size: 20px;
   line-height: 28px;
 }
+
 .ant-font-size-xl {
   font-size: 24px;
   line-height: 32px;
 }
+
 .ant-font-size-1 {
   font-size: 38px;
   line-height: 46px;
 }
+
 .ant-font-size-2 {
   font-size: 30px;
   line-height: 38px;
 }
+
 .ant-font-size-3 {
   font-size: 24px;
   line-height: 32px;
 }
+
 .ant-font-size-4 {
   font-size: 20px;
   line-height: 28px;
 }
+
 .ant-font-size-5 {
   font-size: 16px;
   line-height: 24px;
 }
+
 .ant-font-size-6 {
   font-size: 14px;
   line-height: 22px;
 }
 
+@media (min-width: 576px) {
+  .ant-font-size-xs-xs {
+    font-size: 10px;
+    line-height: 18px;
+  }
+  .ant-font-size-xs-sm {
+    font-size: 12px;
+    line-height: 20px;
+  }
+  .ant-font-size-xs-md {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .ant-font-size-xs-lg {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .ant-font-size-xs-xl {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .ant-font-size-xs-1 {
+    font-size: 38px;
+    line-height: 46px;
+  }
+  .ant-font-size-xs-2 {
+    font-size: 30px;
+    line-height: 38px;
+  }
+  .ant-font-size-xs-3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .ant-font-size-xs-4 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .ant-font-size-xs-5 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .ant-font-size-xs-6 {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+@media (min-width: 768px) {
+  .ant-font-size-sm-xs {
+    font-size: 10px;
+    line-height: 18px;
+  }
+  .ant-font-size-sm-sm {
+    font-size: 12px;
+    line-height: 20px;
+  }
+  .ant-font-size-sm-md {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .ant-font-size-sm-lg {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .ant-font-size-sm-xl {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .ant-font-size-sm-1 {
+    font-size: 38px;
+    line-height: 46px;
+  }
+  .ant-font-size-sm-2 {
+    font-size: 30px;
+    line-height: 38px;
+  }
+  .ant-font-size-sm-3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .ant-font-size-sm-4 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .ant-font-size-sm-5 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .ant-font-size-sm-6 {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+@media (min-width: 992px) {
+  .ant-font-size-md-xs {
+    font-size: 10px;
+    line-height: 18px;
+  }
+  .ant-font-size-md-sm {
+    font-size: 12px;
+    line-height: 20px;
+  }
+  .ant-font-size-md-md {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .ant-font-size-md-lg {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .ant-font-size-md-xl {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .ant-font-size-md-1 {
+    font-size: 38px;
+    line-height: 46px;
+  }
+  .ant-font-size-md-2 {
+    font-size: 30px;
+    line-height: 38px;
+  }
+  .ant-font-size-md-3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .ant-font-size-md-4 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .ant-font-size-md-5 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .ant-font-size-md-6 {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+@media (min-width: 1200px) {
+  .ant-font-size-lg-xs {
+    font-size: 10px;
+    line-height: 18px;
+  }
+  .ant-font-size-lg-sm {
+    font-size: 12px;
+    line-height: 20px;
+  }
+  .ant-font-size-lg-md {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .ant-font-size-lg-lg {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .ant-font-size-lg-xl {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .ant-font-size-lg-1 {
+    font-size: 38px;
+    line-height: 46px;
+  }
+  .ant-font-size-lg-2 {
+    font-size: 30px;
+    line-height: 38px;
+  }
+  .ant-font-size-lg-3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .ant-font-size-lg-4 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .ant-font-size-lg-5 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .ant-font-size-lg-6 {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
+@media (min-width: 1600px) {
+  .ant-font-size-xl-xs {
+    font-size: 10px;
+    line-height: 18px;
+  }
+  .ant-font-size-xl-sm {
+    font-size: 12px;
+    line-height: 20px;
+  }
+  .ant-font-size-xl-md {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .ant-font-size-xl-lg {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .ant-font-size-xl-xl {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .ant-font-size-xl-1 {
+    font-size: 38px;
+    line-height: 46px;
+  }
+  .ant-font-size-xl-2 {
+    font-size: 30px;
+    line-height: 38px;
+  }
+  .ant-font-size-xl-3 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  .ant-font-size-xl-4 {
+    font-size: 20px;
+    line-height: 28px;
+  }
+  .ant-font-size-xl-5 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+  .ant-font-size-xl-6 {
+    font-size: 14px;
+    line-height: 22px;
+  }
+}
 .ant-typography-wrap {
   white-space: normal !important;
 }

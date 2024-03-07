@@ -77,6 +77,7 @@ $tablet: 1023px;
 $desktop: 1215px;
 $widescreen: 1407px;
 $fullhd: 1907px;
+$quadhd: 2560px;
 
 $spacer: 1rem !default;
 $spacers: () !default;
@@ -86,7 +87,7 @@ $spacers: map-merge(( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4
 $grid-columns: 12 !default;
 $grid-rows: 12 !default;
 $grid-row-columns: 6 !default;
-$grid-breakpoints: ( xs: 0, mobile: $mobile, tablet: $tablet, desktop: $desktop, widescreen: $widescreen, hd: $fullhd ) !default;
+$grid-breakpoints: ( xs: 0, mobile: $mobile, tablet: $tablet, desktop: $desktop, widescreen: $widescreen, fullhd: $fullhd, quadhd: $quadhd ) !default;
 
 $dimensions: 256 512 !default;
 
@@ -103,6 +104,15 @@ $size-6: 1rem !default;
 $size-7: 0.75rem !default;
 $size-8: 0.65rem !default;
 
+$size-extra-small: $size-8 !default;
+$size-small: $size-7 !default;
+$size-normal: $size-6 !default;
+$size-medium: $size-5 !default;
+$size-large: $size-4 !default;
+$size-extra-large: $size-3 !default;
+
+$font-sizes: ( xs: $size-extra-small, sm: $size-small, md: $size-medium, lg: $size-large, xl: $size-extra-large, 1: $size-1, 2: $size-2, 3: $size-2, 4: $size-4, 5: $size-5, 6: $size-6 ) !default;
+
 $weight-light: 300 !default;
 $weight-normal: 400 !default;
 $weight-medium: 500 !default;
@@ -112,13 +122,6 @@ $weight-bold: 700 !default;
 // Spacing
 
 $block-spacing: 1.5rem !default;
-
-$size-extra-small: $size-8 !default;
-$size-small: $size-7 !default;
-$size-normal: $size-6 !default;
-$size-medium: $size-5 !default;
-$size-large: $size-4 !default;
-$size-extra-large: $size-3 !default;
 
 $switch-background: rgba(0,0,0,.125) !default;
 $switch-border: .1rem solid transparent !default;

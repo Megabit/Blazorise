@@ -11,7 +11,13 @@ public class Bootstrap5StyleProvider : StyleProvider
 
     public override int DefaultModalBackdropZIndex => 1050;
 
-    public override string ModalShow() => "display: block;";
+    public override string ModalShow( bool visible ) => null;
+
+    public override string ModalFade( bool showing, bool hiding ) => null;
+
+    public override string ModalAnimationDuration( bool animated, int animationDuration ) => animated
+        ? $"--modal-animation-duration: {animationDuration}ms"
+        : "--modal-animation-duration: 0ms";
 
     int ModalZIndexDiff => DefaultModalZIndex - DefaultModalBackdropZIndex;
 
@@ -49,6 +55,15 @@ public class Bootstrap5StyleProvider : StyleProvider
             : "transition-duration: unset";
 
     public override string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration )
+        => animated
+            ? $"transition-duration: {animationDuration}ms"
+            : "transition-duration: unset";
+
+    #endregion
+
+    #region Toast
+
+    public override string ToastAnimationDuration( bool animated, int animationDuration )
         => animated
             ? $"transition-duration: {animationDuration}ms"
             : "transition-duration: unset";

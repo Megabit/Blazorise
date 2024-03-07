@@ -39,12 +39,15 @@ $enable-ripple: true !default; // Enable ripple effect on components (Buttons, m
 @import "components/switch";
 @import "components/table";
 @import "components/tabs";
+@import "components/toast";
 
 @import "extensions/snackbar";
 
 @import "utilities/animations";
 @import "utilities/border";
 @import "utilities/cursor";
+@import "utilities/display";
+@import "utilities/flex";
 @import "utilities/grid";
 @import "utilities/list";
 @import "utilities/overflow";

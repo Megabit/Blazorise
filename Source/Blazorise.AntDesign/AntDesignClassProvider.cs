@@ -374,8 +374,6 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string AddonLabel() => null;
 
-    //public override string AddonContainer() => null;
-
     #endregion
 
     #region Inline
@@ -464,8 +462,6 @@ public class AntDesignClassProvider : ClassProvider
     public override string DropdownMenuSelector() => "ant-dropdown";
 
     public override string DropdownMenuScrollable() => "ant-dropdown-menu-scrollable";
-
-    //public override string DropdownMenuBody() => null;
 
     public override string DropdownMenuVisible( bool visible ) => visible ? null : "ant-dropdown-hidden";
 
@@ -693,8 +689,6 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarLinkDisabled( BarMode mode ) => Disabled();
 
-    //public override string BarCollapse() => "navbar-collapse";
-
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-item" : "ant-menu-item ant-bar-brand";
 
     public override string BarToggler( BarMode mode, BarTogglerMode togglerMode ) => mode == Blazorise.BarMode.Horizontal ? null :
@@ -877,9 +871,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Modal() => "ant-modal-root";
 
-    public override string ModalFade() => Fade();
-
-    public override string ModalFade( bool animation ) => animation ? Fade() : null;
+    public override string ModalFade( bool showing, bool hiding ) => showing || hiding ? Fade() : null;
 
     public override string ModalVisible( bool visible ) => null;
 
@@ -947,7 +939,46 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string OffcanvasBackdropFade( bool showing, bool hiding ) => null;
 
-    public override string OffcanvasBackdropVisible( bool visible ) => visible ? null : null;
+    public override string OffcanvasBackdropVisible( bool visible ) => null;
+
+    #endregion
+
+    #region Toast
+
+    public override string Toast() => "ant-notification-notice ant-notification-notice-closable";
+
+    public override string ToastAnimated( bool animated ) => null;
+
+    public override string ToastFade( bool visible, bool showing, bool hiding ) => showing
+        ? "ant-notification-fade-enter ant-notification-fade-enter-active ant-notification-fade-appear ant-notification-fade-appear-start ant-notification-fade-appear-active ant-notification-fade"
+        : hiding
+            ? "ant-notification-fade-leave ant-notification-fade-leave-start ant-notification-fade-leave-active ant-notification-fade"
+            : null;
+
+    public override string ToastVisible( bool visible ) => null;
+
+    public override string ToastHeader() => "ant-notification-notice-message";
+
+    public override string ToastBody() => "ant-notification-notice-description";
+
+    public override string Toaster() => "ant-notification";
+
+    public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
+    {
+        Blazorise.ToasterPlacement.Top => "ant-notification-top",
+        Blazorise.ToasterPlacement.TopStart => "ant-notification-topLeft",
+        Blazorise.ToasterPlacement.TopEnd => "ant-notification-topRight",
+        Blazorise.ToasterPlacement.Bottom => "ant-notification-bottom",
+        Blazorise.ToasterPlacement.BottomStart => "ant-notification-bottomLeft",
+        Blazorise.ToasterPlacement.BottomEnd => "ant-notification-bottomRight",
+        _ => null,
+    };
+
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Absolute => "ant-notification-absolute",
+        _ => null,
+    };
 
     #endregion
 
@@ -1139,7 +1170,16 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"ant-typography-{ToTextOverflow( textOverflow )}";
 
-    public override string TextSize( TextSize textSize ) => $"ant-font-size-{ToTextSize( textSize )}";
+    public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
+    {
+        if ( textSizeType == TextSizeType.Default )
+            return null;
+
+        if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"ant-font-size-{ToBreakpoint( textSizeDefinition.Breakpoint )}-{ToTextSizeType( textSizeType )}";
+
+        return $"ant-font-size-{ToTextSizeType( textSizeType )}";
+    }
 
     public override string TextItalic() => "font-italic";
 

@@ -24,6 +24,11 @@
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
+            <Strong>Toast</Strong>: component to show push notifications.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
             <Strong>Progress bar</Strong>: indeterminate state.
         </Paragraph>
     </UnorderedListItem>
@@ -35,6 +40,11 @@
     <UnorderedListItem>
         <Paragraph>
             <Strong>Font Awesome</Strong>: updated icons to Font Awesome v6.x.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Breakpoints</Strong>: introduced new XXL, or QuadHD size.
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
@@ -70,6 +80,18 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
+    Toast component
+</Heading>
+
+<Paragraph>
+    We have introduced a new Toast component. Toasts are brief alerts made to resemble push notifications, which are more common on desktop and mobile devices. Since they are flexbox-built, they are simple to align and reposition.
+</Paragraph>
+
+<Paragraph>
+    Please find an example of how to use this component in the <Anchor To="docs/components/toast" Title="Link to Toast page">Toast</Anchor> page.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     DataGrid improvements
 </Heading>
 
@@ -82,7 +104,7 @@
 </Paragraph>
 
 <Paragraph>
-    Please find an example of how to use this feature in the <Link To="docs/extensions/datagrid/features/state-management">DataGrid State Management</Link> page.
+    Please find an example of how to use this feature in the <Anchor To="docs/extensions/datagrid/features/state-management" Title="Link to DataGrid State Management">DataGrid State Management</Anchor> page.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
@@ -95,6 +117,14 @@
 
 <Paragraph>
     Resolved an issue where the DataGrid PreventRowClick was not working as expected.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    3. Column Chooser
+</Heading>
+
+<Paragraph>
+    Enable Column Chooser by setting <Code>ColumnChooser</Code> to true to allow users to show or hide columns in the DataGrid.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -147,6 +177,42 @@
 
 <Paragraph>
     Added a new Parameter <Code>DisabledItem</Code>. By defining this, you can set the disabled items from the supplied data source.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Autocomplete
+</Heading>
+
+<Paragraph>
+    We've reworked the <Code>Autocomplete</Code> <Code>SelectionMode.Checkbox</Code> so it more closely follows the standard look of the checkboxes across the application.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Responsive font sizes
+</Heading>
+
+<Paragraph>
+    Adjusting font sizes for multiple screen sizes can be challenging. That's why we have made it possible to define different sizes for different screen sizes. This is made possible with out flexible "fluent-based" utilities.
+</Paragraph>
+
+<Paragraph>
+    Defining the font size follows the same pattern as all out fluent-based utilties, eg. <Code>TextSize="TextSize.IsLarge.OnMobile.IsSmall.OnDesktop"</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Validation API
+</Heading>
+
+<Paragraph>
+    To make it easier to customize Blazorise behavior, we have exposed some internal <Code>Validation</Code>, and <Code>Validations</Code> component APIs and made them public. This will enable more customization to your forms and make it possible to implement new validation methods.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    New Breakpoints
+</Heading>
+
+<Paragraph>
+    We have introduced new XXL Breakpoints(QuadHD alias) that is supposed to be used on extra large screens, like 2K and above. This will enable more fine control over what can be visible on screen for thos large screens.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="February 29th, 2024" Read="9 min" />

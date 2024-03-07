@@ -11,7 +11,13 @@ public class AntDesignStyleProvider : StyleProvider
 
     public override int DefaultModalBackdropZIndex => 1000;
 
-    public override string ModalShow() => "display: block;";
+    public override string ModalShow( bool visible ) => visible ? "display: block" : null;
+
+    public override string ModalFade( bool showing, bool hiding ) => null;
+
+    public override string ModalAnimationDuration( bool animated, int animationDuration ) => animated
+        ? $"--modal-animation-duration: {animationDuration}ms"
+        : "--modal-animation-duration: 0ms";
 
     int ModalZIndexDiff => DefaultModalZIndex - DefaultModalBackdropZIndex;
 
@@ -63,6 +69,15 @@ public class AntDesignStyleProvider : StyleProvider
         => animated
             ? $"transition-duration: {animationDuration}ms"
             : "transition-duration: unset";
+
+    #endregion
+
+    #region Toast
+
+    public override string ToastAnimationDuration( bool animated, int animationDuration )
+        => animated
+            ? $"animation-duration: {animationDuration}ms"
+            : "animation-duration: unset";
 
     #endregion
 }

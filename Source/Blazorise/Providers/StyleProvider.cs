@@ -12,7 +12,11 @@ public abstract class StyleProvider : IStyleProvider
 
     public abstract int DefaultModalBackdropZIndex { get; }
 
-    public abstract string ModalShow();
+    public abstract string ModalShow( bool visible );
+
+    public abstract string ModalFade( bool showing, bool hiding );
+
+    public abstract string ModalAnimationDuration( bool animated, int animationDuration );
 
     public abstract string ModalZIndex( int modalOpenIndex );
 
@@ -77,6 +81,12 @@ public abstract class StyleProvider : IStyleProvider
     public abstract string OffcanvasAnimationDuration( bool animated, int AnimationDuration );
 
     public abstract string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration );
+
+    #endregion
+
+    #region Toast
+
+    public abstract string ToastAnimationDuration( bool animated, int animationDuration );
 
     #endregion
 }

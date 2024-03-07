@@ -1,0 +1,21 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Clicked="@(() => toastVisible = true)">
+    Show live toast
+</Button>
+
+<Toaster>
+    <Toast @bind-Visible="@toastVisible">
+        <ToastHeader>
+            <Strong Margin="Margin.IsAuto.FromEnd">Blazorise</Strong>
+            <Small>11 mins ago</Small>
+            <CloseButton />
+        </ToastHeader>
+        <ToastBody>
+            Hello, world! This is a toast message.
+        </ToastBody>
+    </Toast>
+</Toaster>
+@code {
+    bool toastVisible = false;
+}

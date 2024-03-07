@@ -346,8 +346,6 @@ public interface IClassProvider
 
     string AddonLabel();
 
-    //string AddonContainer();
-
     #endregion
 
     #region Inline
@@ -423,8 +421,6 @@ public interface IClassProvider
     string DropdownMenuSelector();
 
     string DropdownMenuScrollable();
-
-    //string DropdownMenuBody();
 
     string DropdownMenuVisible( bool visible );
 
@@ -682,8 +678,6 @@ public interface IClassProvider
 
     string BarEnd( BarMode mode );
 
-    //string BarHasDropdown();
-
     string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
 
     string BarDropdownShow( BarMode mode );
@@ -814,9 +808,7 @@ public interface IClassProvider
 
     string Modal();
 
-    string ModalFade();
-
-    string ModalFade( bool animation );
+    string ModalFade( bool showing, bool hiding );
 
     string ModalVisible( bool visible );
 
@@ -869,6 +861,28 @@ public interface IClassProvider
     string OffcanvasBackdropFade( bool showing, bool hiding );
 
     string OffcanvasBackdropVisible( bool visible );
+
+    #endregion
+
+    #region Toast
+
+    string Toast();
+
+    string ToastAnimated( bool animated );
+
+    string ToastFade( bool visible, bool showing, bool hiding );
+
+    string ToastVisible( bool visible );
+
+    string ToastHeader();
+
+    string ToastBody();
+
+    string Toaster();
+
+    string ToasterPlacement( ToasterPlacement placement );
+
+    string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy );
 
     #endregion
 
@@ -1036,7 +1050,7 @@ public interface IClassProvider
 
     string TextOverflow( TextOverflow textOverflow );
 
-    string TextSize( TextSize textSize );
+    string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition );
 
     string TextItalic();
 
@@ -1317,7 +1331,7 @@ public interface IClassProvider
 
     string ToTextOverflow( TextOverflow textOverflow );
 
-    string ToTextSize( TextSize textSize );
+    string ToTextSizeType( TextSizeType textSizeType );
 
     string ToColumnWidth( ColumnWidth columnWidth );
 
@@ -1332,6 +1346,8 @@ public interface IClassProvider
     string ToGapSize( GapSize gapSize );
 
     string ToJustifyContent( JustifyContent justifyContent );
+
+    string ToJustifyContent( FlexJustifyContent justifyContent );
 
     string ToScreenreader( Screenreader screenreader );
 
@@ -1354,8 +1370,6 @@ public interface IClassProvider
     string ToBarCollapsedMode( BarCollapseMode collapseMode );
 
     string ToDirection( FlexDirection direction );
-
-    string ToJustifyContent( FlexJustifyContent justifyContent );
 
     string ToAlignItems( FlexAlignItems alignItems );
 

@@ -1,12 +1,17 @@
-﻿@typeparam TItem
+﻿@using Blazorise.DataGrid.EventArguments
+@typeparam TItem
 @inherits BaseComponent
 <Row class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
+    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row.AlignItems.Center">
         @if ( GetButtonRowPosition() == PagerElementPosition.Start || GetButtonRowPosition() == PagerElementPosition.Default )
         {
             @buttonRowFragment
         }
-        @if ( GetPaginationPosition() == PagerElementPosition.Start || ( GetPaginationPosition() == PagerElementPosition.Default && !ShowButtonRow() ) )
+        @if ( GetColumnChooserPosition() == PagerElementPosition.Start || GetColumnChooserPosition() == PagerElementPosition.Default )
+        {
+            @columnChooserFragment
+        }
+        @if ( GetPaginationPosition() == PagerElementPosition.Start || ( GetPaginationPosition() == PagerElementPosition.Default && !ShowButtonRow ) )
         {
             @paginationFragment
         }
@@ -16,12 +21,16 @@
         }
     </Column>
 
-    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.Row">
+    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row.AlignItems.Center" Margin="Blazorise.Margin.IsAuto.OnX">
         @if ( GetButtonRowPosition() == PagerElementPosition.Center )
         {
             @buttonRowFragment
         }
-        @if ( GetPaginationPosition() == PagerElementPosition.Center || ( GetPaginationPosition() == PagerElementPosition.Default && ShowButtonRow() ) )
+        @if ( GetColumnChooserPosition() == PagerElementPosition.Center )
+        {
+            @columnChooserFragment
+        }
+        @if ( GetPaginationPosition() == PagerElementPosition.Center || ( GetPaginationPosition() == PagerElementPosition.Default && ShowButtonRow ) )
         {
             @paginationFragment
         }
@@ -31,7 +40,7 @@
         }
     </Column>
 
-    <Column ColumnSize="ColumnSize.IsAuto" Display="Blazorise.Display.Flex.ReverseRow">
+    <Column ColumnSize="ColumnSize.IsAuto" Flex="Blazorise.Flex.Row.AlignItems.Center.JustifyContent.End" Margin="Blazorise.Margin.IsAuto.FromStart">
         @if ( GetButtonRowPosition() == PagerElementPosition.End )
         {
             @buttonRowFragment
@@ -44,13 +53,17 @@
         {
             @totalItemsFragment
         }
+        @if ( GetColumnChooserPosition() == PagerElementPosition.End )
+        {
+            @columnChooserFragment
+        }
     </Column>
 </Row>
 
 @code {
     private RenderFragment buttonRowFragment => __builder =>
     {
-        @if ( ShowButtonRow() )
+        @if ( ShowButtonRow )
         {
             <Field Display="Blazorise.Display.InlineBlock">
                 @{
@@ -62,41 +75,70 @@
                     var cancelBatchButtonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelBatchButtonLocalizer, "Cancel Changes" );
 
                     @ButtonRowTemplate( new()
-                    {
-                        NewCommand = new()
                         {
-                            Clicked = NewClick,
-                            LocalizationString = newButtonString,
-                        },
-                        EditCommand = new()
-                        {
-                            Clicked = EditClick,
-                            LocalizationString = editButtonString,
-                            Item = SelectedRow
-                        },
-                        DeleteCommand = new()
-                        {
-                            Clicked = DeleteClick,
-                            LocalizationString = deleteButtonString,
-                            Item = SelectedRow
-                        },
-                        ClearFilterCommand = new()
-                        {
-                            Clicked = ClearFilterClick,
-                            LocalizationString = clearFilterButtonString,
-                        },
-                        SaveBatchCommand = new ()
-                        {
-                            Clicked = SaveBatchClick,
-                            LocalizationString = saveBatchButtonString,
-                        },
-                        CancelBatchCommand = new()
-                        {
-                            Clicked = CancelBatchClick,
-                            LocalizationString = cancelBatchButtonString,
-                        }
-                    } );
+                            NewCommand = new()
+                            {
+                                Clicked = NewClick,
+                                LocalizationString = newButtonString,
+                            },
+                            EditCommand = new()
+                            {
+                                Clicked = EditClick,
+                                LocalizationString = editButtonString,
+                                Item = SelectedRow
+                            },
+                            DeleteCommand = new()
+                            {
+                                Clicked = DeleteClick,
+                                LocalizationString = deleteButtonString,
+                                Item = SelectedRow
+                            },
+                            ClearFilterCommand = new()
+                            {
+                                Clicked = ClearFilterClick,
+                                LocalizationString = clearFilterButtonString,
+                            },
+                            SaveBatchCommand = new()
+                            {
+                                Clicked = SaveBatchClick,
+                                LocalizationString = saveBatchButtonString,
+                            },
+                            CancelBatchCommand = new()
+                            {
+                                Clicked = CancelBatchClick,
+                                LocalizationString = cancelBatchButtonString,
+                            }
+                        } );
                 }
+            </Field>
+        }
+    };
+
+    private RenderFragment columnChooserFragment => __builder =>
+    {
+        @if ( ShowColumnChooser )
+        {
+            <Field Display="Blazorise.Display.InlineBlock" Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart">
+                <Dropdown @bind-Visible="@dropdownColumnChooserVisible">
+                    <DropdownToggle @onclick:stopPropagation>
+                        <Icon Name="@IconName.Table" Margin="Blazorise.Margin.Is1.FromStart" Clicked="() => {}" /> Columns
+                    </DropdownToggle>
+                    <DropdownMenu MaxMenuHeight="200px">
+                        @if ( ParentDataGrid.ColumnChooserTemplate is null ) 
+                        {
+                            @foreach ( var column in ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ) )
+                            {
+                                <DropdownItem ShowCheckbox Checked=@column.Displaying CheckedChanged="@(value => ColumnDisplayingChanged(column,value))">@column.Caption</DropdownItem>
+                            }
+                        }
+                        else 
+                        {
+                            @ParentDataGrid.ColumnChooserTemplate(new(
+                                ParentDataGrid.GetColumns().Where( x => x.IsRegularColumn ),
+                                 EventCallback.Factory.Create<ColumnDisplayChangedEventArgs<TItem>>( this, ( x ) => ColumnDisplayingChanged( x.Column, x.Display ) ) ) );
+                        }
+                    </DropdownMenu>
+                </Dropdown>
             </Field>
         }
     };

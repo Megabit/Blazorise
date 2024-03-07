@@ -1,9 +1,9 @@
 ﻿namespace Blazorise;
 
 /// <summary>
-/// Defines the font size.
+/// Defines the text size.
 /// </summary>
-public enum TextSize
+public enum TextSizeType
 {
     /// <summary>
     /// No particular size rule will be applied, meaning a default size will be used.

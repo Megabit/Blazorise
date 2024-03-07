@@ -986,14 +986,79 @@ li.list-group-item-action {
   flex: 1;
 }
 
-.modal.fade {
-  transition: opacity var(--modal-animation-duration, 300ms) linear;
+.modal.show {
+  display: block;
 }
-.modal.fade .modal-dialog {
-  transition: -webkit-transform var(--modal-animation-duration, 300ms) ease-out;
-  transition: transform var(--modal-animation-duration, 300ms) ease-out;
+.modal.show .modal-dialog:not(.modal-dialog-centered) {
+  animation: modal-slidein var(--modal-animation-duration, 300ms) ease-out;
+}
+.modal.show .modal-dialog.modal-dialog-centered {
+  animation: modal-slidein, modal-slidein-centered var(--modal-animation-duration, 300ms) ease-out;
+}
+.modal:not(.show) {
+  display: none;
+  animation: modal-slideaway var(--modal-animation-duration, 300ms) linear;
+}
+.modal:not(.show) .modal-dialog:not(.modal-dialog-centered) {
+  animation: modal-slideaway var(--modal-animation-duration, 300ms) ease-out;
+}
+.modal:not(.show) .modal-dialog.modal-dialog-centered {
+  animation: modal-slideaway, modal-slideaway-centered var(--modal-animation-duration, 300ms) ease-out;
 }
 
+.modal-backdrop.fade {
+  transition-property: opacity;
+  transition-duration: var(--modal-animation-duration, 300ms);
+  transition-timing-function: linear;
+}
+
+@keyframes modal-slidein {
+  0% {
+    display: none;
+    opacity: 0;
+    transform: translate(0, -50px);
+  }
+  1% {
+    display: block;
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes modal-slidein-centered {
+  0% {
+    display: none;
+    opacity: 0;
+    transform: translate(0, -50px);
+  }
+  100% {
+    display: flex;
+    align-items: center;
+    opacity: 1;
+  }
+}
+@keyframes modal-slideaway {
+  from {
+    display: block;
+    opacity: 1;
+  }
+  to {
+    transform: translate(0, -50px);
+    opacity: 0;
+  }
+}
+@keyframes modal-slideaway-centered {
+  from {
+    display: flex;
+    align-items: center;
+    opacity: 1;
+  }
+  to {
+    transform: translate(0, -50px);
+    opacity: 0;
+  }
+}
 .offcanvas-footer {
   position: sticky;
   bottom: 0;
@@ -4066,22 +4131,225 @@ ol.ordered-list-upper-roman {
   column-gap: 3rem !important;
 }
 
+.fs-1 {
+  font-size: calc(1.375rem + 1.5vw) !important;
+}
+
+.fs-2 {
+  font-size: calc(1.325rem + 0.9vw) !important;
+}
+
+.fs-3 {
+  font-size: calc(1.3rem + 0.6vw) !important;
+}
+
+.fs-4 {
+  font-size: calc(1.275rem + 0.3vw) !important;
+}
+
+.fs-5 {
+  font-size: 1.25rem !important;
+}
+
+.fs-6 {
+  font-size: 1rem !important;
+}
+
 .fs-xs {
   font-size: 0.75rem !important;
 }
+
 .fs-sm {
   font-size: 0.925rem !important;
 }
+
 .fs-md {
   font-size: 1.125rem !important;
 }
+
 .fs-lg {
   font-size: 1.25rem !important;
 }
+
 .fs-xl {
-  font-size: 1.5rem !important;
+  font-size: calc(1.275rem + 0.3vw) !important;
 }
 
+@media (min-width: 576px) {
+  .fs-sm-1 {
+    font-size: calc(1.375rem + 1.5vw) !important;
+  }
+  .fs-sm-2 {
+    font-size: calc(1.325rem + 0.9vw) !important;
+  }
+  .fs-sm-3 {
+    font-size: calc(1.3rem + 0.6vw) !important;
+  }
+  .fs-sm-4 {
+    font-size: calc(1.275rem + 0.3vw) !important;
+  }
+  .fs-sm-5 {
+    font-size: 1.25rem !important;
+  }
+  .fs-sm-6 {
+    font-size: 1rem !important;
+  }
+  .fs-sm-xs {
+    font-size: 0.75rem !important;
+  }
+  .fs-sm-sm {
+    font-size: 0.925rem !important;
+  }
+  .fs-sm-md {
+    font-size: 1.125rem !important;
+  }
+  .fs-sm-lg {
+    font-size: 1.25rem !important;
+  }
+  .fs-sm-xl {
+    font-size: calc(1.275rem + 0.3vw) !important;
+  }
+}
+@media (min-width: 768px) {
+  .fs-md-1 {
+    font-size: calc(1.375rem + 1.5vw) !important;
+  }
+  .fs-md-2 {
+    font-size: calc(1.325rem + 0.9vw) !important;
+  }
+  .fs-md-3 {
+    font-size: calc(1.3rem + 0.6vw) !important;
+  }
+  .fs-md-4 {
+    font-size: calc(1.275rem + 0.3vw) !important;
+  }
+  .fs-md-5 {
+    font-size: 1.25rem !important;
+  }
+  .fs-md-6 {
+    font-size: 1rem !important;
+  }
+  .fs-md-xs {
+    font-size: 0.75rem !important;
+  }
+  .fs-md-sm {
+    font-size: 0.925rem !important;
+  }
+  .fs-md-md {
+    font-size: 1.125rem !important;
+  }
+  .fs-md-lg {
+    font-size: 1.25rem !important;
+  }
+  .fs-md-xl {
+    font-size: calc(1.275rem + 0.3vw) !important;
+  }
+}
+@media (min-width: 992px) {
+  .fs-lg-1 {
+    font-size: calc(1.375rem + 1.5vw) !important;
+  }
+  .fs-lg-2 {
+    font-size: calc(1.325rem + 0.9vw) !important;
+  }
+  .fs-lg-3 {
+    font-size: calc(1.3rem + 0.6vw) !important;
+  }
+  .fs-lg-4 {
+    font-size: calc(1.275rem + 0.3vw) !important;
+  }
+  .fs-lg-5 {
+    font-size: 1.25rem !important;
+  }
+  .fs-lg-6 {
+    font-size: 1rem !important;
+  }
+  .fs-lg-xs {
+    font-size: 0.75rem !important;
+  }
+  .fs-lg-sm {
+    font-size: 0.925rem !important;
+  }
+  .fs-lg-md {
+    font-size: 1.125rem !important;
+  }
+  .fs-lg-lg {
+    font-size: 1.25rem !important;
+  }
+  .fs-lg-xl {
+    font-size: calc(1.275rem + 0.3vw) !important;
+  }
+}
+@media (min-width: 1200px) {
+  .fs-xl-1 {
+    font-size: calc(1.375rem + 1.5vw) !important;
+  }
+  .fs-xl-2 {
+    font-size: calc(1.325rem + 0.9vw) !important;
+  }
+  .fs-xl-3 {
+    font-size: calc(1.3rem + 0.6vw) !important;
+  }
+  .fs-xl-4 {
+    font-size: calc(1.275rem + 0.3vw) !important;
+  }
+  .fs-xl-5 {
+    font-size: 1.25rem !important;
+  }
+  .fs-xl-6 {
+    font-size: 1rem !important;
+  }
+  .fs-xl-xs {
+    font-size: 0.75rem !important;
+  }
+  .fs-xl-sm {
+    font-size: 0.925rem !important;
+  }
+  .fs-xl-md {
+    font-size: 1.125rem !important;
+  }
+  .fs-xl-lg {
+    font-size: 1.25rem !important;
+  }
+  .fs-xl-xl {
+    font-size: calc(1.275rem + 0.3vw) !important;
+  }
+}
+@media (min-width: 1400px) {
+  .fs-xxl-1 {
+    font-size: calc(1.375rem + 1.5vw) !important;
+  }
+  .fs-xxl-2 {
+    font-size: calc(1.325rem + 0.9vw) !important;
+  }
+  .fs-xxl-3 {
+    font-size: calc(1.3rem + 0.6vw) !important;
+  }
+  .fs-xxl-4 {
+    font-size: calc(1.275rem + 0.3vw) !important;
+  }
+  .fs-xxl-5 {
+    font-size: 1.25rem !important;
+  }
+  .fs-xxl-6 {
+    font-size: 1rem !important;
+  }
+  .fs-xxl-xs {
+    font-size: 0.75rem !important;
+  }
+  .fs-xxl-sm {
+    font-size: 0.925rem !important;
+  }
+  .fs-xxl-md {
+    font-size: 1.125rem !important;
+  }
+  .fs-xxl-lg {
+    font-size: 1.25rem !important;
+  }
+  .fs-xxl-xl {
+    font-size: calc(1.275rem + 0.3vw) !important;
+  }
+}
 .flatpickr-months {
   margin: 0.5rem 0;
 }

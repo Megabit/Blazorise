@@ -4450,6 +4450,68 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     TimeSpan? value;
 }";
 
+        public const string ToastBasicExample = @"<Div Position=""Position.Relative"" Width=""Width.Is100"" Height=""Height.Rem(20)"">
+    <Toaster PlacementStrategy=""ToasterPlacementStrategy.Absolute"">
+        <Toast Visible Autohide=""false"">
+            <ToastHeader>
+                <Strong Margin=""Margin.IsAuto.FromEnd"">Blazorise</Strong>
+                <Small>11 mins ago</Small>
+                <CloseButton />
+            </ToastHeader>
+            <ToastBody>
+                Hello, world! This is a toast message.
+            </ToastBody>
+        </Toast>
+    </Toaster>
+</Div>";
+
+        public const string ToastLiveExample = @"<Button Color=""Color.Primary"" Clicked=""@(() => toastVisible = true)"">
+    Show live toast
+</Button>
+
+<Toaster>
+    <Toast @bind-Visible=""@toastVisible"">
+        <ToastHeader>
+            <Strong Margin=""Margin.IsAuto.FromEnd"">Blazorise</Strong>
+            <Small>11 mins ago</Small>
+            <CloseButton />
+        </ToastHeader>
+        <ToastBody>
+            Hello, world! This is a toast message.
+        </ToastBody>
+    </Toast>
+</Toaster>
+@code {
+    bool toastVisible = false;
+}";
+
+        public const string ToastPlacementExample = @"<Div Position=""Position.Relative"" Width=""Width.Is100"" Height=""Height.Rem(20)"">
+    @ToastRenderFragment( ToasterPlacement.TopStart )
+
+    @ToastRenderFragment( ToasterPlacement.TopEnd )
+
+    @ToastRenderFragment( ToasterPlacement.BottomStart )
+
+    @ToastRenderFragment( ToasterPlacement.BottomEnd )
+</Div>
+@code {
+    private RenderFragment ToastRenderFragment( ToasterPlacement placement ) => __builder =>
+    {
+        <Toaster Placement=""@placement"" PlacementStrategy=""ToasterPlacementStrategy.Absolute"">
+            <Toast Visible Autohide=""false"">
+                <ToastHeader>
+                    <Strong Margin=""Margin.IsAuto.FromEnd"">Blazorise</Strong>
+                    <Small>11 mins ago</Small>
+                    <CloseButton />
+                </ToastHeader>
+                <ToastBody>
+                    Hello, world! This is a toast message.
+                </ToastBody>
+            </Toast>
+        </Toaster>
+    };
+}";
+
         public const string BasicTooltipExample = @"<Tooltip Text=""Hello tooltip"">
     <Button Color=""Color.Primary"">Hover me</Button>
 </Tooltip>";
@@ -6695,6 +6757,28 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     protected override async Task OnInitializedAsync()
     {
         employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridColumnChooserExample = @"<DataGrid TItem=""Employee""
+          Data=""inMemoryData""
+          Responsive
+          ShowColumnChooser
+          PagerPosition=""DataGridPagerPosition.Top""
+          ShowPager
+          ShowPageSizes>
+</DataGrid>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private IEnumerable<Employee> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
         await base.OnInitializedAsync();
     }
 }";
@@ -10864,6 +10948,24 @@ builder.Services
 </Router>
 
 <PageProgressProvider />";
+
+        public const string ToastProviderBasicExample = @"<Button Color=""Color.Primary"" Clicked=""@ShowToast"">Show toast message!</Button>
+
+@code {
+    [Inject] IToastService ToastService { get; set; }
+
+    Task ShowToast()
+    {
+        return ToastService.Info( ""This is a simple toast message!"", ""Hello"" );
+    }
+}";
+
+        public const string ToastProviderUsageExample = @"<Router AppAssembly=""typeof(App).Assembly"">
+    <Found>...</Found>
+    <NotFound>...</NotFound>
+</Router>
+
+<ToastProvider />";
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 

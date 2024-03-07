@@ -380,8 +380,6 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string AddonLabel() => "fui-Text";
 
-    //public override string AddonContainer() => null;
-
     #endregion
 
     #region Inline
@@ -470,8 +468,6 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string DropdownMenuSelector() => "fui-MenuPopover";
 
     public override string DropdownMenuScrollable() => "fui-MenuPopover-scrollable";
-
-    //public override string DropdownMenuBody() => null;
 
     public override string DropdownMenuVisible( bool visible ) => visible ? "fui-MenuPopover-show" : null;
 
@@ -1015,9 +1011,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Modal() => "fui-DialogSurface";
 
-    public override string ModalFade() => "fui-DialogSurface-fade";
-
-    public override string ModalFade( bool animation ) => animation ? "fui-DialogSurface-fade" : null;
+    public override string ModalFade( bool showing, bool hiding ) => showing || hiding ? "fui-DialogSurface-fade" : null;
 
     public override string ModalVisible( bool visible ) => visible ? "fui-DialogSurface-show" : "fui-DialogSurface-hide";
 
@@ -1088,6 +1082,46 @@ public class FluentUI2ClassProvider : ClassProvider
             : null;
 
     public override string OffcanvasBackdropVisible( bool visible ) => visible ? "fui-OverlayDrawer__backdrop-show" : null;
+
+    #endregion
+
+    #region Toast
+
+    public override string Toast() => "fui-Toast";
+
+    public override string ToastAnimated( bool animated ) => null;
+
+    public override string ToastFade( bool visible, bool showing, bool hiding ) => showing
+        ? "fui-Toast-showing"
+        : hiding
+            ? "fui-Toast-hiding"
+            : null;
+
+    public override string ToastVisible( bool visible ) => visible ? "fui-Toast-show" : null;
+
+    public override string ToastHeader() => "fui-ToastHeader";
+
+    public override string ToastBody() => "fui-ToastBody";
+
+    public override string Toaster() => "fui-Toaster";
+
+    public override string ToasterPlacement( ToasterPlacement placement ) => placement switch
+    {
+        Blazorise.ToasterPlacement.Top => "fui-Toaster-top",
+        Blazorise.ToasterPlacement.TopStart => "fui-Toaster-top-start",
+        Blazorise.ToasterPlacement.TopEnd => "fui-Toaster-top-end",
+        Blazorise.ToasterPlacement.Bottom => "fui-Toaster-bottom",
+        Blazorise.ToasterPlacement.BottomStart => "fui-Toaster-bottom-start",
+        Blazorise.ToasterPlacement.BottomEnd => "fui-Toaster-bottom-end",
+        _ => null,
+    };
+
+    public override string ToasterPlacementStrategy( ToasterPlacementStrategy placementStrategy ) => placementStrategy switch
+    {
+        Blazorise.ToasterPlacementStrategy.Fixed => "fui-Toaster-fixed",
+        Blazorise.ToasterPlacementStrategy.Absolute => "fui-Toaster-absolute",
+        _ => null,
+    };
 
     #endregion
 
@@ -1279,7 +1313,16 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"fui-TextOverflow-{ToTextOverflow( textOverflow )}";
 
-    public override string TextSize( TextSize textSize ) => $"fui-TextSize-{ToTextSize( textSize )}";
+    public override string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition )
+    {
+        if ( textSizeType == TextSizeType.Default )
+            return null;
+
+        if ( textSizeDefinition.Breakpoint != Breakpoint.None && textSizeDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"fui-TextSize-{ToBreakpoint( textSizeDefinition.Breakpoint )}-{ToTextSizeType( textSizeType )}";
+
+        return $"fui-TextSize-{ToTextSizeType( textSizeType )}";
+    }
 
     public override string TextItalic() => "fui-Text-italic";
 
@@ -1645,20 +1688,6 @@ public class FluentUI2ClassProvider : ClassProvider
     #endregion
 
     #region Enums
-
-    public override string ToBreakpoint( Breakpoint breakpoint )
-    {
-        return breakpoint switch
-        {
-            Blazorise.Breakpoint.Mobile or Blazorise.Breakpoint.ExtraSmall => "xs",
-            Blazorise.Breakpoint.Tablet or Blazorise.Breakpoint.Small => "sm",
-            Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "md",
-            Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "lg",
-            Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "xl",
-            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "xxl",
-            _ => null,
-        };
-    }
 
     public override string ToSize( Size size )
     {

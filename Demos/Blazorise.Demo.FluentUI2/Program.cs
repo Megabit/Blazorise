@@ -1,8 +1,11 @@
 ﻿#region Using directives
+using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise.FluentUI2;
 using Blazorise.Icons.FluentUI;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 #endregion
 
 namespace Blazorise.Demo.FluentUI2;
@@ -19,8 +22,8 @@ public class Program
             .AddFluentUIIcons();
 
         builder.RootComponents.Add<App>( "#app" );
-        var host = builder.Build();
+        builder.Services.AddScoped( sp => new HttpClient { BaseAddress = new Uri( builder.HostEnvironment.BaseAddress ) } );
 
-        await host.RunAsync();
+        await builder.Build().RunAsync();
     }
 }

@@ -2,9 +2,8 @@
 using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Blazorise.Tailwind;
 using Blazorise.Icons.FontAwesome;
-using Blazorise.RichTextEdit;
+using Blazorise.Tailwind;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
