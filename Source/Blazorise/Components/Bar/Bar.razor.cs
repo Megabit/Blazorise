@@ -398,7 +398,7 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     [CascadingParameter] protected LayoutHeader LayoutHeader { get; set; }
 
     /// <summary>
-    /// Keeps a single bar item open at a time.
+    /// Defines how the bar menu will behave when toggled.
     /// </summary>
     [Parameter] public BarMenuToggleBehavior MenuToggleBehavior { get; set; } = BarMenuToggleBehavior.AllowMultipleMenus;
 
