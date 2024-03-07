@@ -1,6 +1,7 @@
 ﻿@typeparam TValue
 @inherits Blazorise.Switch<TValue>
 <button @ref="@ElementRef" id="@ElementId" type="button" role="switch" class="@ClassNames" style="@StyleNames" disabled="@Disabled" aria-checked="@CurrentValueAsString?.ToLowerInvariant()" ant-click-animating="true" tabindex="@TabIndex" @onclick="@HandleButtonClick" @attributes="@Attributes">
+    <div class="ant-switch-handle"></div>
     <span class="ant-switch-inner">@ChildContent</span>
     <div class="ant-click-animating-node"></div>
 </button>

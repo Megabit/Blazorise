@@ -3099,6 +3099,10 @@ li.ant-list-item-actionable {
   margin-left: 18px;
   font-size: 10px;
 }
+.ant-switch-xs .ant-switch-handle {
+  width: 8px;
+  height: 8px;
+}
 .ant-switch-xs::after {
   width: 8px;
   height: 8px;
@@ -3118,6 +3122,9 @@ li.ant-list-item-actionable {
   left: 100%;
   margin-left: -9px;
 }
+.ant-switch-xs.ant-switch-checked .ant-switch-handle {
+  left: calc(100% - 12px);
+}
 .ant-switch-xs.ant-switch-loading .ant-switch-loading-icon {
   font-weight: bold;
   transform: scale(0.66667);
@@ -3131,6 +3138,10 @@ li.ant-list-item-actionable {
   margin-right: 3px;
   margin-left: 18px;
   font-size: 12px;
+}
+.ant-switch-sm .ant-switch-handle {
+  width: 12px;
+  height: 12px;
 }
 .ant-switch-sm::after {
   width: 12px;
@@ -3151,6 +3162,9 @@ li.ant-list-item-actionable {
   left: 100%;
   margin-left: -13px;
 }
+.ant-switch-sm.ant-switch-checked .ant-switch-handle {
+  left: calc(100% - 16px);
+}
 .ant-switch-sm.ant-switch-loading .ant-switch-loading-icon {
   font-weight: bold;
   transform: scale(0.66667);
@@ -3164,6 +3178,10 @@ li.ant-list-item-actionable {
   margin-right: 3px;
   margin-left: 18px;
   font-size: 12px;
+}
+.ant-switch-md .ant-switch-handle {
+  width: 20px;
+  height: 20px;
 }
 .ant-switch-md::after {
   width: 20px;
@@ -3184,6 +3202,9 @@ li.ant-list-item-actionable {
   left: 100%;
   margin-left: -21px;
 }
+.ant-switch-md.ant-switch-checked .ant-switch-handle {
+  left: calc(100% - 24px);
+}
 .ant-switch-md.ant-switch-loading .ant-switch-loading-icon {
   font-weight: bold;
   transform: scale(0.66667);
@@ -3197,6 +3218,10 @@ li.ant-list-item-actionable {
   margin-right: 3px;
   margin-left: 18px;
   font-size: 12px;
+}
+.ant-switch-lg .ant-switch-handle {
+  width: 24px;
+  height: 24px;
 }
 .ant-switch-lg::after {
   width: 24px;
@@ -3217,6 +3242,9 @@ li.ant-list-item-actionable {
   left: 100%;
   margin-left: -25px;
 }
+.ant-switch-lg.ant-switch-checked .ant-switch-handle {
+  left: calc(100% - 28px);
+}
 .ant-switch-lg.ant-switch-loading .ant-switch-loading-icon {
   font-weight: bold;
   transform: scale(0.66667);
@@ -3230,6 +3258,10 @@ li.ant-list-item-actionable {
   margin-right: 3px;
   margin-left: 18px;
   font-size: 12px;
+}
+.ant-switch-xl .ant-switch-handle {
+  width: 28px;
+  height: 28px;
 }
 .ant-switch-xl::after {
   width: 28px;
@@ -3250,9 +3282,15 @@ li.ant-list-item-actionable {
   left: 100%;
   margin-left: -29px;
 }
+.ant-switch-xl.ant-switch-checked .ant-switch-handle {
+  left: calc(100% - 32px);
+}
 .ant-switch-xl.ant-switch-loading .ant-switch-loading-icon {
   font-weight: bold;
   transform: scale(0.66667);
+}
+.ant-switch .ant-switch-handle {
+  border-radius: 1000px;
 }
 
 .ant-table-primary,

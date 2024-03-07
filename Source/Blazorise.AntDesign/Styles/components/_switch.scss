@@ -30,6 +30,11 @@
             font-size: $font-size;
         }
 
+        .ant-switch-handle {
+            width: $height - 4px;
+            height: $height - 4px;
+        }
+
         &::after {
             width: $height - 4px;
             height: $height - 4px;
@@ -58,9 +63,12 @@
         margin-left: $checked-margin-left;
     }
 
+    &-#{$size}.ant-switch-checked .ant-switch-handle {
+        left: calc(100% - $height);
+    }
+
     &-#{$size}.ant-switch-loading .ant-switch-loading-icon {
         font-weight: bold;
-        // animation: AntSwitchSmallLoadingCircle 1s infinite linear;
         transform: scale(0.66667);
     }
 }
@@ -71,4 +79,8 @@
     @include switch('md',$switch-md-height, $switch-md-min-width, $switch-md-checked-margin-left, $switch-md-font-size);
     @include switch('lg',$switch-lg-height, $switch-lg-min-width, $switch-lg-checked-margin-left, $switch-lg-font-size);
     @include switch('xl',$switch-xl-height, $switch-xl-min-width, $switch-xl-checked-margin-left, $switch-xl-font-size);
+
+    .ant-switch-handle {
+        border-radius: 1000px;
+    }
 }
