@@ -175,8 +175,12 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
             await Toggle();
     }
 
-
-    internal async Task HideOtherBarItems( BarItem barItem )
+    /// <summary>
+    /// Hides all items except the one that is passed as a parameter.
+    /// </summary>
+    /// <param name="barItem">A bar item</param>
+    /// <returns></returns>
+    internal async Task HideAllExcept( BarItem barItem )
     {
         foreach ( var item in BarItems )
         {
@@ -206,7 +210,7 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     /// <param name="barItem">Reference to the <see cref="BarItem"/> that is placed inside of this <see cref="Bar"/>.</param>
     internal void NotifyBarItemRemoved( BarItem barItem )
     {
-        BarItems.Remove( barItem );
+        BarItems?.Remove( barItem );
     }
 
     #endregion

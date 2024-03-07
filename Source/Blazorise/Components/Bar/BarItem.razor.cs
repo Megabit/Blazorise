@@ -52,7 +52,7 @@ public partial class BarItem : BaseComponent, IAsyncDisposable
     {
         if ( ParentBar.ToggleSingle )
         {
-            await ParentBar.HideOtherBarItems( this );
+            await ParentBar.HideAllExcept( this );
         }
     }
 
