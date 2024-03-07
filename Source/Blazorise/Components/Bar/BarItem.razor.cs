@@ -48,12 +48,13 @@ public partial class BarItem : BaseComponent, IAsyncDisposable
     /// The dropdown menu has been shown.
     /// </summary>
     /// <returns></returns>
-    internal async Task OnDropdownVisible()
+    internal Task OnDropdownVisible()
     {
         if ( ParentBar.MenuToggleBehavior == BarMenuToggleBehavior.AllowSingleMenu )
         {
-            await ParentBar.HideAllExcept( this );
+            ExecuteAfterRender( async () => await ParentBar.HideAllExcept( this ) );
         }
+        return Task.CompletedTask;
     }
 
     /// <summary>

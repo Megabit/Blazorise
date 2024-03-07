@@ -66,16 +66,21 @@ public partial class BarDropdown : BaseComponent, IDisposable
     }
 
     /// <inheritdoc/>
-    public override Task SetParametersAsync( ParameterView parameters )
+    public override async Task SetParametersAsync( ParameterView parameters )
     {
+        var visibleChanged = parameters.TryGetValue<bool>( nameof( Visible ), out var newVisible )
+            && Visible != newVisible;
+
         // This is needed for the two-way binding to work properly.
         // Otherwise the internal value would not be set in the right order.
-        if ( parameters.TryGetValue<bool>( nameof( Visible ), out var newVisible ) )
-        {
-            state = state with { Visible = newVisible };
-        }
+        state = state with { Visible = newVisible };
 
-        return base.SetParametersAsync( parameters );
+        await base.SetParametersAsync( parameters );
+
+        if ( visibleChanged && newVisible )
+        {
+            await ParentBarItem.OnDropdownVisible();
+        }
     }
 
     /// <summary>
@@ -273,13 +278,6 @@ public partial class BarDropdown : BaseComponent, IDisposable
                 return;
 
             state = state with { Visible = value };
-
-            if ( value )
-            {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                ParentBarItem.OnDropdownVisible();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            }
 
             VisibleChanged.InvokeAsync( value );
 
