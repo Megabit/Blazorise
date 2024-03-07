@@ -64,7 +64,7 @@ public interface IFluentDisplayOnBreakpoint :
     /// <summary>
     /// Breakpoint on large desktops (extra extra large).
     /// </summary>
-    IFluentDisplayWithDisplay OnFull2K { get; }
+    IFluentDisplayWithDisplay OnQuadHD { get; }
 }
 
 /// <summary>
@@ -353,7 +353,7 @@ public class FluentDisplay :
     /// <summary>
     /// Breakpoint on large desktops (extra extra large).
     /// </summary>
-    public IFluentDisplayWithDisplay OnFull2K => WithBreakpoint( Breakpoint.Full2K );
+    public IFluentDisplayWithDisplay OnQuadHD => WithBreakpoint( Breakpoint.QuadHD );
 
     /// <summary>
     /// Display will not be applied, meaning an element will be visible.

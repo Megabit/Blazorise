@@ -1615,7 +1615,7 @@ public class BulmaClassProvider : ClassProvider
             Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "desktop",
             Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "widescreen",
             Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "fullhd",
-            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "full2k",
+            Blazorise.Breakpoint.QuadHD or Blazorise.Breakpoint.ExtraExtraLarge => "quadhd",
             _ => null,
         };
     }

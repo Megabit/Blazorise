@@ -51,7 +51,7 @@ public interface IFluentBarCollapseModeOnBreakpoint :
     /// <summary>
     /// Breakpoint on large desktops (extra extra large).
     /// </summary>
-    IFluentBarCollapseModeWithMode OnFull2K { get; }
+    IFluentBarCollapseModeWithMode OnQuadHD { get; }
 }
 
 /// <summary>
@@ -157,7 +157,7 @@ public class FluentBarCollapseMode :
     /// <summary>
     /// Breakpoint on large desktops (extra extra large).
     /// </summary>
-    public IFluentBarCollapseModeWithMode OnFull2K => WithBreakpoint( Breakpoint.Full2K );
+    public IFluentBarCollapseModeWithMode OnQuadHD => WithBreakpoint( Breakpoint.QuadHD );
 
     /// <summary>
     /// 

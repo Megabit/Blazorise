@@ -1321,7 +1321,7 @@ public abstract class ClassProvider : IClassProvider
             Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "md",
             Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "lg",
             Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "xl",
-            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "xxl",
+            Blazorise.Breakpoint.QuadHD or Blazorise.Breakpoint.ExtraExtraLarge => "xxl",
             _ => null,
         };
     }

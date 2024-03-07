@@ -70,7 +70,7 @@ public interface IFluentColumnOnBreakpoint :
     /// <summary>
     /// Breakpoint on large desktops (extra extra large).
     /// </summary>
-    IFluentColumnWithSize OnFull2K { get; }
+    IFluentColumnWithSize OnQuadHD { get; }
 }
 
 /// <summary>
@@ -374,7 +374,7 @@ public class FluentColumn :
     /// <summary>
     /// Breakpoint on large desktops (extra extra large).
     /// </summary>
-    public IFluentColumnWithSize OnFull2K => WithBreakpoint( Breakpoint.Full2K );
+    public IFluentColumnWithSize OnQuadHD => WithBreakpoint( Breakpoint.QuadHD );
 
     /// <summary>
     /// Move columns to the right.

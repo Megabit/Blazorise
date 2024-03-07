@@ -77,7 +77,7 @@ $tablet: 1023px;
 $desktop: 1215px;
 $widescreen: 1407px;
 $fullhd: 1907px;
-$full2k: 2560px;
+$quadhd: 2560px;
 
 $spacer: 1rem !default;
 $spacers: () !default;
@@ -87,7 +87,7 @@ $spacers: map-merge(( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4
 $grid-columns: 12 !default;
 $grid-rows: 12 !default;
 $grid-row-columns: 6 !default;
-$grid-breakpoints: ( xs: 0, mobile: $mobile, tablet: $tablet, desktop: $desktop, widescreen: $widescreen, hd: $fullhd, 2k: $full2k ) !default;
+$grid-breakpoints: ( xs: 0, mobile: $mobile, tablet: $tablet, desktop: $desktop, widescreen: $widescreen, fullhd: $fullhd, quadhd: $quadhd ) !default;
 
 $dimensions: 256 512 !default;
 

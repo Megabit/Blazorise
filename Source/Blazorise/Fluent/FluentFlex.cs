@@ -72,7 +72,7 @@ public interface IFluentFlexBreakpoint :
     /// <summary>
     /// Breakpoint on large desktops (extra extra large).
     /// </summary>
-    IFluentFlexAll OnFull2K { get; }
+    IFluentFlexAll OnQuadHD { get; }
 }
 
 /// <summary>
@@ -955,7 +955,7 @@ public class FluentFlex :
     public IFluentFlexAll OnFullHD => WithBreakpoint( Breakpoint.FullHD );
 
     /// <inheritdoc/>
-    public IFluentFlexAll OnFull2K => WithBreakpoint( Breakpoint.Full2K );
+    public IFluentFlexAll OnQuadHD => WithBreakpoint( Breakpoint.QuadHD );
 
     /// <inheritdoc/>
     public IFluentFlexAll Row => WithDirection( FlexDirection.Row );
