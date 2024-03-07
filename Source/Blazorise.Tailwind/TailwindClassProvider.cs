@@ -2389,7 +2389,7 @@ public class TailwindClassProvider : ClassProvider
             Blazorise.Breakpoint.Desktop or Blazorise.Breakpoint.Medium => "lg",
             Blazorise.Breakpoint.Widescreen or Blazorise.Breakpoint.Large => "xl",
             Blazorise.Breakpoint.FullHD or Blazorise.Breakpoint.ExtraLarge => "2xl",
-            Blazorise.Breakpoint.Full2K or Blazorise.Breakpoint.ExtraExtraLarge => "3xl",
+            Blazorise.Breakpoint.QuadHD or Blazorise.Breakpoint.ExtraExtraLarge => "3xl",
             _ => null,
         };
     }
