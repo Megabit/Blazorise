@@ -180,7 +180,7 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     /// </summary>
     /// <param name="barItem">A bar item</param>
     /// <returns></returns>
-    internal async Task HideAllExcept( BarItem barItem )
+    public async Task HideAllExcept( BarItem barItem )
     {
         foreach ( var item in BarItems )
         {
@@ -400,7 +400,7 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     /// <summary>
     /// Keeps a single bar item open at a time.
     /// </summary>
-    [Parameter] public bool ToggleSingle { get; set; }
+    [Parameter] public BarMenuToggleBehavior MenuToggleBehavior { get; set; } = BarMenuToggleBehavior.AllowMultipleMenus;
 
     #endregion
 }

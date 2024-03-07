@@ -50,7 +50,7 @@ public partial class BarItem : BaseComponent, IAsyncDisposable
     /// <returns></returns>
     internal async Task OnDropdownVisible()
     {
-        if ( ParentBar.ToggleSingle )
+        if ( ParentBar.MenuToggleBehavior == BarMenuToggleBehavior.AllowSingleMenu )
         {
             await ParentBar.HideAllExcept( this );
         }
