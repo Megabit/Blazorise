@@ -217,7 +217,6 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
 
     #region Properties
 
-
     /// <summary>
     /// The Bar Items
     /// </summary>

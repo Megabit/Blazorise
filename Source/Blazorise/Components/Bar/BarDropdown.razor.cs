@@ -48,7 +48,7 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
-        if ( ParentBarDropdown is null ) //BarItem tracks the first direct menu. Ignore submenus
+        if ( IsUnderFirstMenu )
         {
             ParentBarItem?.NotifyBarDropdownInitialized( this );
         }
@@ -214,6 +214,12 @@ public partial class BarDropdown : BaseComponent, IDisposable
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Whether the dropdown is the first menu in the bar.
+    /// </summary>
+    protected bool IsUnderFirstMenu
+        => ParentBarDropdown is null;
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
