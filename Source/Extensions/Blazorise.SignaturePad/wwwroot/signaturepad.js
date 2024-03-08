@@ -219,7 +219,7 @@ function resizeCanvas(sigpad, canvas) {
     // and only part of the canvas is cleared then.
     const ratio = Math.max(window.devicePixelRatio || 1, 1);
 
-    const context = canvas.getContext("2d");
+    const context = canvas.getContext("2d", { willReadFrequently: true });
 
     const imageData = context.getImageData(0, 0, canvas.width, canvas.height, { colorSpace: 'srgb' });
 
