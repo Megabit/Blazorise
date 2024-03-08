@@ -27,7 +27,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     });
 
     if (options.dataUrl) {
-        sigpad.fromDataURL(options.dataUrl);
+        sigpad.fromDataURL(options.dataUrl, { ratio: 1 });
     }
 
     if (options.readOnly === true) {
@@ -74,7 +74,7 @@ export function updateOptions(element, elementId, options) {
     if (instance && instance.sigpad && options) {
         if (options.dataUrl.changed) {
             if (options.dataUrl.value) {
-                instance.sigpad.fromDataURL(options.dataUrl.value);
+                instance.sigpad.fromDataURL(options.dataUrl.value, { ratio: 1 });
             } else {
                 instance.sigpad.clear();
             }
@@ -221,10 +221,13 @@ function resizeCanvas(sigpad, canvas) {
 
     const context = canvas.getContext("2d");
 
+    const imageData = context.getImageData(0, 0, canvas.width, canvas.height, { colorSpace: 'srgb' });
+
     // This part causes the canvas to be cleared
     canvas.width = canvas.offsetWidth * ratio;
     canvas.height = canvas.offsetHeight * ratio;
     context.scale(ratio, ratio);
 
-    sigpad.fromData(sigpad.toData());
+    sigpad.clear();
+    context.putImageData(imageData,0,0);
 }
