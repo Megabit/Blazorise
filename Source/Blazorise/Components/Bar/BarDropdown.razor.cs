@@ -150,8 +150,8 @@ public partial class BarDropdown : BaseComponent, IDisposable
     /// <summary>
     /// Fires all the events for this dropdown.
     /// </summary>
-    /// <param name="visible"></param>
-    protected virtual Task RaiseEvents( bool visible )
+    /// <param name="visible">Visible state.</param>
+    private Task RaiseEvents( bool visible )
     {
         return VisibleChanged.InvokeAsync( visible );
     }
