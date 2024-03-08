@@ -338,7 +338,9 @@ public partial class BarDropdown : BaseComponent, IDisposable
             state = state with { Mode = parentBarItemState.Mode, BarVisible = parentBarItemState.BarVisible };
 
             if ( !state.BarVisible )
+            {
                 state = state with { Visible = false };
+            }
 
             DirtyClasses();
         }
