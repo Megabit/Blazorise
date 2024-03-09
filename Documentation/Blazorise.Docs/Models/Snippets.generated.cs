@@ -7181,6 +7181,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         public const string DataGridGroupingExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive
+          ShowPager
           Groupable
           GroupBy=""(x=> new { x.Childrens, x.Gender} )"">
     <DataGridCommandColumn />
@@ -7229,6 +7230,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           TItem=""Employee""
           Data=""@employeeList""
           Responsive
+          ShowPager
           Groupable
           GroupBy=""(x=> new { x.Childrens, x.Gender} )"">
     <DataGridCommandColumn />
@@ -7456,6 +7458,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         public const string DataGridMultipleGroupingExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive
+          ShowPager
           Groupable>
     <DataGridCommandColumn />
     <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
@@ -7840,6 +7843,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         public const string DataGridShowGroupingExample = @"<DataGrid TItem=""Employee""
           Data=""@employeeList""
           Responsive
+          ShowPager
           Groupable
           ShowGrouping>
     <DataGridCommandColumn />
