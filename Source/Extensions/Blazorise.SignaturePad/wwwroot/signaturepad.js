@@ -24,6 +24,9 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         dotSize: options.dotSize || 0,
         throttle: options.throttle || 16,
         minPointDistance: options.minPointDistance || 0.5,
+        canvasContextOptions: {
+            willReadFrequently: true
+        }
     });
 
     if (options.dataUrl) {
@@ -229,5 +232,5 @@ function resizeCanvas(sigpad, canvas) {
     context.scale(ratio, ratio);
 
     sigpad.clear();
-    context.putImageData(imageData,0,0);
+    context.putImageData(imageData, 0, 0);
 }
