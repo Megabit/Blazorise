@@ -520,7 +520,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TabPanel() => "ant-tabs-tabpane";
 
-    public override string TabPanelActive( bool active ) => active ? "ant-tabs-tabpane-active" : "ant-tabs-tabpane-inactive";
+    public override string TabPanelActive( bool active ) => active ? "ant-tabs-tabpane-active" : "ant-tabs-tabpane-hidden";
 
     #endregion
 
