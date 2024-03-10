@@ -624,7 +624,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CardText() => "ant-card-text";
 
-    public override string CardLink() => "ant-card-extra";
+    public override string CardLink() => "ant-card-link";
 
     public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
 

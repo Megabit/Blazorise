@@ -1477,6 +1477,10 @@
   margin-left: 0px;
 }
 
+.ant-card-link + .ant-card-link {
+  margin-left: 1.25rem;
+}
+
 .ant-table-fixed-header thead tr th.ant-dropdown-table-fixed-header-visible {
   z-index: 2;
 }
