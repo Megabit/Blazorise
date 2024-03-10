@@ -466,3 +466,15 @@
         }
     }
 }
+
+.ant-menu-inline {
+    &.ant-menu-root {
+        .ant-menu-item {
+            display: block;
+
+            > a {
+                display: block;
+            }
+        }
+    }
+}

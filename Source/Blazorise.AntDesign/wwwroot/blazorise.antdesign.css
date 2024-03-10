@@ -442,6 +442,13 @@
   margin-right: 0.1rem;
 }
 
+.ant-menu-inline.ant-menu-root .ant-menu-item {
+  display: block;
+}
+.ant-menu-inline.ant-menu-root .ant-menu-item > a {
+  display: block;
+}
+
 .ant-btn-secondary {
   color: #fff;
   background-color: #6c757d;
