@@ -6,16 +6,23 @@
     {
         @if ( column.ColumnType == DataGridColumnType.Command )
         {
-            @if ( ParentDataGrid.IsCommandVisible )
-            {
-                <TableRowCell></TableRowCell>
-            }
+            <TableRowCell Class="@column.AggregateCellClass" Style="@column.BuildAggregateCellStyle()" TextAlignment="@column.AggregateCellTextAlignment" VerticalAlignment="@column.AggregateCellVerticalAlignment" Display="@column.AggregateCellDisplay" Flex="@column.AggregateCellFlex" Gap="@column.AggregateCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
+                @if(column.AggregateTemplate is not null )
+                {
+                    @column.AggregateTemplate( new( column.Field, null ) )
+                }
+            </TableRowCell>
         }
         else if ( column.ColumnType == DataGridColumnType.MultiSelect )
         {
             @if ( ParentDataGrid.MultiSelect )
             {
-                <TableRowCell></TableRowCell>
+                <TableRowCell Class="@column.AggregateCellClass" Style="@column.BuildAggregateCellStyle()" TextAlignment="@column.AggregateCellTextAlignment" VerticalAlignment="@column.AggregateCellVerticalAlignment" Display="@column.AggregateCellDisplay" Flex="@column.AggregateCellFlex" Gap="@column.AggregateCellGap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
+                    @if ( column.AggregateTemplate is not null )
+                    {
+                        @column.AggregateTemplate( new( column.Field, null ) )
+                    }
+                </TableRowCell>
             }
         }
         else
@@ -28,7 +35,11 @@
                     {
                         var aggregateValue = Calculate( aggregateColumn, column );
 
-                        @if ( aggregateColumn.DisplayTemplate != null )
+                        @if ( column.AggregateTemplate is not null )
+                        {
+                            @column.AggregateTemplate( new( column.Field, aggregateValue ) );
+                        }
+                        else if ( aggregateColumn.DisplayTemplate != null )
                         {
                             @aggregateColumn.DisplayTemplate( new( column.Field, aggregateValue ) )
                         }
