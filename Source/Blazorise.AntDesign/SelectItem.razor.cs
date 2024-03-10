@@ -65,5 +65,7 @@ public partial class SelectItem<TValue> : Blazorise.SelectItem<TValue>
 
     bool Active { get; set; }
 
+    string ActiveString => Active ? "true" : "false";
+
     #endregion
 }

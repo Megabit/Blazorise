@@ -1,6 +1,6 @@
 ﻿@typeparam TValue
 @inherits Blazorise.SelectItem<TValue>
-<div @ref="@ElementRef" id="@ElementId" aria-selected="false" class="@SelectItemClassNames" style="@StyleNames" hidden="@Hidden" @onclick="@OnClickHandler" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler">
+<div @ref="@ElementRef" id="@ElementId" aria-selected="@ActiveString" class="@SelectItemClassNames" style="@StyleNames" hidden="@Hidden" @onclick="@OnClickHandler" @onmouseover="@OnMouseOverHandler" @onmouseout="@OnMouseOutHandler">
     <div class="ant-select-item-option-content">@ChildContent</div>
     <span class="ant-select-item-option-state" unselectable="on" aria-hidden="true" style="user-select: none;"></span>
 </div>
