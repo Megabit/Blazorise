@@ -47,6 +47,11 @@
   background-color: #d6e3f8;
   border-color: #c6d8f5;
 }
+.ant-alert .ant-close {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+}
 
 .ant-tag-pill {
   padding-right: 0.6em;
