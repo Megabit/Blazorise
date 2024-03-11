@@ -1,16 +1,12 @@
 ﻿.ant-row {
-    margin-left: -($grid-gutter-width / 2);
-    margin-right: -($grid-gutter-width / 2);
-}
+    margin-left: -$grid-gutter-width;
+    margin-right: -$grid-gutter-width;
 
-.ant-col {
-    flex-grow: 1;
-    padding-left: $grid-gutter-width / 2;
-    padding-right: $grid-gutter-width / 2;
-}
-
-.ant-col.ant-form-item {
-    flex-basis: 0;
+    > .ant-col {
+        flex-grow: 1;
+        padding-left: $grid-gutter-width;
+        padding-right: $grid-gutter-width;
+    }
 }
 
 .ant-container {

@@ -1431,7 +1431,7 @@
 }
 
 .ant-card-group > .ant-card {
-  margin-bottom: 15px;
+  margin-bottom: 4px;
 }
 @media (min-width: 768px) {
   .ant-card-group {
@@ -1449,20 +1449,20 @@
 }
 
 .ant-card-deck .ant-card {
-  margin-bottom: 15px;
+  margin-bottom: 4px;
 }
 @media (min-width: 768px) {
   .ant-card-deck {
     display: flex;
     flex-flow: row wrap;
-    margin-right: -15px;
-    margin-left: -15px;
+    margin-right: -4px;
+    margin-left: -4px;
   }
   .ant-card-deck .ant-card {
     flex: 1 0 0%;
-    margin-right: 15px;
+    margin-right: 4px;
     margin-bottom: 0;
-    margin-left: 15px;
+    margin-left: 4px;
   }
 }
 
@@ -5767,18 +5767,13 @@ tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   }
 }
 .ant-row {
-  margin-left: -15px;
-  margin-right: -15px;
+  margin-left: -8px;
+  margin-right: -8px;
 }
-
-.ant-col {
+.ant-row > .ant-col {
   flex-grow: 1;
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-.ant-col.ant-form-item {
-  flex-basis: 0;
+  padding-left: 8px;
+  padding-right: 8px;
 }
 
 .ant-container {
@@ -5991,7 +5986,7 @@ tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   display: grid;
   grid-template-rows: repeat(1, 1fr);
   grid-template-columns: repeat(12, 1fr);
-  gap: 30px;
+  gap: 8px;
 }
 .ant-grid.ant-grid-rows-1 {
   grid-template-rows: repeat(1, minmax(0, 1fr));
