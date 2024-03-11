@@ -101,5 +101,6 @@ public static class Config
         { typeof( Blazorise.TabsContent ), typeof( AntDesign.TabsContent ) },
         { typeof( Blazorise.TextEdit ), typeof( AntDesign.TextEdit ) },
         { typeof( Blazorise.Toast ), typeof( AntDesign.Toast ) },
+        { typeof( Blazorise.ValidationError ), typeof( AntDesign.ValidationError ) },
     };
 }

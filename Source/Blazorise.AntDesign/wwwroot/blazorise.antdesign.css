@@ -10385,6 +10385,22 @@ tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   list-style: none;
 }
 
+.ant-typography-lowercase {
+  text-transform: lowercase !important;
+}
+
+.ant-typography-uppercase {
+  text-transform: uppercase !important;
+}
+
+.ant-typography-capitalize {
+  text-transform: capitalize !important;
+}
+
+.ant-typography-italic {
+  font-style: italic !important;
+}
+
 ol.ant-ordered-list-unstyled {
   padding-left: 0;
   list-style: none;
