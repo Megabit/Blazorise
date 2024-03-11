@@ -3312,6 +3312,26 @@ li.ant-list-item-actionable {
   border-radius: 1000px;
 }
 
+.b-table.ant-table table {
+  position: relative;
+}
+.b-table.ant-table table .b-table-resizer {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5px;
+  cursor: col-resize;
+  user-select: none;
+  z-index: 1;
+}
+.b-table.ant-table table .b-table-resizer:hover, .b-table.ant-table table .b-table-resizing {
+  cursor: col-resize !important;
+  border-right: 2px solid var(--b-theme-primary, blue);
+}
+.b-table.ant-table table .b-table-resizing {
+  cursor: col-resize !important;
+}
+
 .ant-table-primary,
 .ant-table-primary > th,
 .ant-table-primary > td {
