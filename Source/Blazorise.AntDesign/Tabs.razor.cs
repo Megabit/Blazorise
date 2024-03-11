@@ -46,21 +46,5 @@ public partial class Tabs : Blazorise.Tabs
         _ => "ant-tabs-content-top",
     };
 
-    protected string StyleOfSelectedTab
-    {
-        get
-        {
-            var negativeIndex = IndexOfSelectedTab > 0
-                ? IndexOfSelectedTab * -100
-                : 0;
-
-            var margin = TabPosition == TabPosition.Start || TabPosition == TabPosition.End
-                ? "margin-top"
-                : "margin-left";
-
-            return $"{margin}: {negativeIndex}%;";
-        }
-    }
-
     #endregion
 }
