@@ -5827,162 +5827,162 @@ tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   padding-left: 0;
 }
 
-.are-columns-1 > * {
+.ant-row-columns-1 > * {
   flex: 0 0 100%;
   max-width: 100%;
 }
 
-.are-columns-2 > * {
+.ant-row-columns-2 > * {
   flex: 0 0 50%;
   max-width: 50%;
 }
 
-.are-columns-3 > * {
+.ant-row-columns-3 > * {
   flex: 0 0 33.3333333333%;
   max-width: 33.3333333333%;
 }
 
-.are-columns-4 > * {
+.ant-row-columns-4 > * {
   flex: 0 0 25%;
   max-width: 25%;
 }
 
-.are-columns-5 > * {
+.ant-row-columns-5 > * {
   flex: 0 0 20%;
   max-width: 20%;
 }
 
-.are-columns-6 > * {
+.ant-row-columns-6 > * {
   flex: 0 0 16.6666666667%;
   max-width: 16.6666666667%;
 }
 
 @media (min-width: 576px) {
-  .are-columns-xs-1 > * {
+  .ant-row-columns-xs-1 > * {
     flex: 0 0 100%;
     max-width: 100%;
   }
-  .are-columns-xs-2 > * {
+  .ant-row-columns-xs-2 > * {
     flex: 0 0 50%;
     max-width: 50%;
   }
-  .are-columns-xs-3 > * {
+  .ant-row-columns-xs-3 > * {
     flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
   }
-  .are-columns-xs-4 > * {
+  .ant-row-columns-xs-4 > * {
     flex: 0 0 25%;
     max-width: 25%;
   }
-  .are-columns-xs-5 > * {
+  .ant-row-columns-xs-5 > * {
     flex: 0 0 20%;
     max-width: 20%;
   }
-  .are-columns-xs-6 > * {
+  .ant-row-columns-xs-6 > * {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
   }
 }
 @media (min-width: 768px) {
-  .are-columns-sm-1 > * {
+  .ant-row-columns-sm-1 > * {
     flex: 0 0 100%;
     max-width: 100%;
   }
-  .are-columns-sm-2 > * {
+  .ant-row-columns-sm-2 > * {
     flex: 0 0 50%;
     max-width: 50%;
   }
-  .are-columns-sm-3 > * {
+  .ant-row-columns-sm-3 > * {
     flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
   }
-  .are-columns-sm-4 > * {
+  .ant-row-columns-sm-4 > * {
     flex: 0 0 25%;
     max-width: 25%;
   }
-  .are-columns-sm-5 > * {
+  .ant-row-columns-sm-5 > * {
     flex: 0 0 20%;
     max-width: 20%;
   }
-  .are-columns-sm-6 > * {
+  .ant-row-columns-sm-6 > * {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
   }
 }
 @media (min-width: 992px) {
-  .are-columns-md-1 > * {
+  .ant-row-columns-md-1 > * {
     flex: 0 0 100%;
     max-width: 100%;
   }
-  .are-columns-md-2 > * {
+  .ant-row-columns-md-2 > * {
     flex: 0 0 50%;
     max-width: 50%;
   }
-  .are-columns-md-3 > * {
+  .ant-row-columns-md-3 > * {
     flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
   }
-  .are-columns-md-4 > * {
+  .ant-row-columns-md-4 > * {
     flex: 0 0 25%;
     max-width: 25%;
   }
-  .are-columns-md-5 > * {
+  .ant-row-columns-md-5 > * {
     flex: 0 0 20%;
     max-width: 20%;
   }
-  .are-columns-md-6 > * {
+  .ant-row-columns-md-6 > * {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
   }
 }
 @media (min-width: 1200px) {
-  .are-columns-lg-1 > * {
+  .ant-row-columns-lg-1 > * {
     flex: 0 0 100%;
     max-width: 100%;
   }
-  .are-columns-lg-2 > * {
+  .ant-row-columns-lg-2 > * {
     flex: 0 0 50%;
     max-width: 50%;
   }
-  .are-columns-lg-3 > * {
+  .ant-row-columns-lg-3 > * {
     flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
   }
-  .are-columns-lg-4 > * {
+  .ant-row-columns-lg-4 > * {
     flex: 0 0 25%;
     max-width: 25%;
   }
-  .are-columns-lg-5 > * {
+  .ant-row-columns-lg-5 > * {
     flex: 0 0 20%;
     max-width: 20%;
   }
-  .are-columns-lg-6 > * {
+  .ant-row-columns-lg-6 > * {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
   }
 }
 @media (min-width: 1600px) {
-  .are-columns-xl-1 > * {
+  .ant-row-columns-xl-1 > * {
     flex: 0 0 100%;
     max-width: 100%;
   }
-  .are-columns-xl-2 > * {
+  .ant-row-columns-xl-2 > * {
     flex: 0 0 50%;
     max-width: 50%;
   }
-  .are-columns-xl-3 > * {
+  .ant-row-columns-xl-3 > * {
     flex: 0 0 33.3333333333%;
     max-width: 33.3333333333%;
   }
-  .are-columns-xl-4 > * {
+  .ant-row-columns-xl-4 > * {
     flex: 0 0 25%;
     max-width: 25%;
   }
-  .are-columns-xl-5 > * {
+  .ant-row-columns-xl-5 > * {
     flex: 0 0 20%;
     max-width: 20%;
   }
-  .are-columns-xl-6 > * {
+  .ant-row-columns-xl-6 > * {
     flex: 0 0 16.6666666667%;
     max-width: 16.6666666667%;
   }

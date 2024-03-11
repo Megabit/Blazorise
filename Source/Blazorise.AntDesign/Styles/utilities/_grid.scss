@@ -70,7 +70,7 @@
 
         @if $grid-row-columns > 0 {
             @for $i from 1 through $grid-row-columns {
-                .are-columns#{$infix}-#{$i} {
+                .ant-row-columns#{$infix}-#{$i} {
                     @include row-cols($i);
                 }
             }
