@@ -3,7 +3,7 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.AntDesign;
+namespace Blazorise.AntDesign.Components;
 
 public partial class Bar : Blazorise.Bar
 {

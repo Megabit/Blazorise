@@ -1,7 +1,7 @@
 ﻿using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 
-namespace Blazorise.AntDesign;
+namespace Blazorise.AntDesign.Components;
 
 public partial class DropdownMenu : Blazorise.DropdownMenu
 {
@@ -11,7 +11,7 @@ public partial class DropdownMenu : Blazorise.DropdownMenu
     {
         ExecuteAfterRender( async () =>
         {
-            if ( ParentDropdown != null && ParentDropdown is AntDesign.Dropdown dropdown )
+            if ( ParentDropdown != null && ParentDropdown is AntDesign.Components.Dropdown dropdown )
             {
                 var dropdownMenuElementInfo = await JSUtilitiesModule.GetElementInfo( ElementRef, ElementId );
 

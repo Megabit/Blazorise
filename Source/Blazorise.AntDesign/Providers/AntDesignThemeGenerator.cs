@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 #endregion
 
-namespace Blazorise.AntDesign;
+namespace Blazorise.AntDesign.Providers;
 
 public class AntDesignThemeGenerator : ThemeGenerator
 {

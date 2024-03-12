@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 #endregion
 
-namespace Blazorise.AntDesign;
+namespace Blazorise.AntDesign.Components;
 
 public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator, IAsyncDisposable
 {

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 #endregion
 
-namespace Blazorise.AntDesign;
+namespace Blazorise.AntDesign.Components;
 
 public partial class Tabs : Blazorise.Tabs
 {

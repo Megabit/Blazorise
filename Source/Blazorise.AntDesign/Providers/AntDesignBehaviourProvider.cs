@@ -1,4 +1,4 @@
-﻿namespace Blazorise.AntDesign;
+﻿namespace Blazorise.AntDesign.Providers;
 
 public class AntDesignBehaviourProvider : BehaviourProvider
 {

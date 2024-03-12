@@ -1,7 +1,7 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.AntDesign;
+namespace Blazorise.AntDesign.Providers;
 
 public class AntDesignStyleProvider : StyleProvider
 {

@@ -4,7 +4,7 @@ using Blazorise.Modules;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.AntDesign;
+namespace Blazorise.AntDesign.Components;
 
 public partial class Dropdown : Blazorise.Dropdown
 {

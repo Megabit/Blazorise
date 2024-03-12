@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
-namespace Blazorise.AntDesign;
+namespace Blazorise.AntDesign.Components;
 
 public partial class SelectItem<TValue> : Blazorise.SelectItem<TValue>
 {
@@ -12,7 +12,7 @@ public partial class SelectItem<TValue> : Blazorise.SelectItem<TValue>
 
     protected Task OnClickHandler()
     {
-        if ( ParentSelect != null && ParentSelect is AntDesign.Select<TValue> select )
+        if ( ParentSelect != null && ParentSelect is AntDesign.Components.Select<TValue> select )
         {
             return select.NotifySelectValueChanged( Value );
         }

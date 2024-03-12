@@ -3,7 +3,7 @@ using System;
 using Blazorise.Utilities;
 #endregion
 
-namespace Blazorise.AntDesign;
+namespace Blazorise.AntDesign.Components;
 
 public partial class ModalContent : Blazorise.ModalContent, IDisposable
 {

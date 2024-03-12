@@ -1,6 +1,6 @@
 ﻿using Blazorise.Utilities;
 
-namespace Blazorise.AntDesign;
+namespace Blazorise.AntDesign.Components;
 
 public partial class Table
 {

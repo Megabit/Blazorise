@@ -34,7 +34,7 @@ public partial class Addon : Blazorise.Addon
         await base.OnFirstAfterRenderAsync();
     }
 
-    internal void Register( AntDesign.Dropdown dropdown )
+    internal void Register( AntDesign.Components.Dropdown dropdown )
     {
         if ( dropdown != null )
             hasDropdown = true;
