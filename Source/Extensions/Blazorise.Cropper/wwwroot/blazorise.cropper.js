@@ -163,7 +163,7 @@ export async function cropBase64(element, elementId, options) {
             const croppedCanvas = cropperSelection.$toCanvas(options);
 
             return await croppedCanvas.then((canvas) => {
-                return canvas.toDataURL();
+                return canvas.toDataURL(options.imageType, options.imageQuality);
             });
         }
     }
