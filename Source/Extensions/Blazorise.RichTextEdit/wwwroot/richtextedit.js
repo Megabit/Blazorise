@@ -6,13 +6,11 @@ var rteSheetsLoaded = false;
 export function loadStylesheets(styles, version) {
     if (rteSheetsLoaded) return;
 
-    styles.split(',').forEach(sheet => {
+    styles.forEach(sheet => {
         var link = "<link rel=\"stylesheet\" href=\"_content/Blazorise.RichTextEdit/vendors/quill.{sheet}.css?v={version}\"/>";
         link = link.replace("{sheet}", sheet).replace("{version}", version);
 
-        document
-            .getElementsByTagName("head")[0]
-            .insertAdjacentHTML("beforeend", link);
+        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", link);
     });
 
     rteSheetsLoaded = true;

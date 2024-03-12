@@ -166,7 +166,7 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
             var @ref = await jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName );
             if ( ModuleLoaded is not null )
             {
-                _ = Task.Run( () => ModuleLoaded( @ref ) );
+                await ModuleLoaded( @ref );
             }
 
             return @ref;

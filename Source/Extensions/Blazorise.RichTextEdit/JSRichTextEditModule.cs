@@ -45,7 +45,7 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
 
         if ( styles.Count > 0 )
         {
-            await @ref.InvokeVoidAsync( "loadStylesheets", string.Join( ',', styles ), VersionProvider.Version );
+            await @ref.InvokeVoidAsync( "loadStylesheets", styles, VersionProvider.Version );
         }
     }
 
