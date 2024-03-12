@@ -172,10 +172,12 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
     }
 
     /// <summary>
-    /// Called after the js <see cref="Module"/> has been loaded.
+    /// Called after the JS <see cref="Module"/> has been loaded.
     /// </summary>
-    /// <param name="jsObjectReference">the loade JS module</param>
-    protected virtual ValueTask OnModuleLoaded( IJSObjectReference jsObjectReference ) => ValueTask.CompletedTask;
+    /// <param name="jsObjectReference">The loaded JS module reference.</param>
+    protected virtual ValueTask OnModuleLoaded( IJSObjectReference jsObjectReference )
+        => ValueTask.CompletedTask;
+
     #endregion
 
     #region Properties

@@ -34,8 +34,9 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
     #endregion
 
     #region Methods
+
     /// <inheritdoc />
-    protected override async ValueTask OnModuleLoaded( IJSObjectReference @ref )
+    protected override async ValueTask OnModuleLoaded( IJSObjectReference jsObjectReference )
     {
         List<string> styles = new();
 
@@ -47,7 +48,7 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
 
         if ( styles.Count > 0 )
         {
-            await @ref.InvokeVoidAsync( "loadStylesheets", styles, VersionProvider.Version );
+            await jsObjectReference.InvokeVoidAsync( "loadStylesheets", styles, VersionProvider.Version );
         }
     }
 
