@@ -1,9 +1,10 @@
 ﻿#region Using directives
 using System.Text;
 using Blazorise.Bootstrap;
+using Blazorise.Bootstrap.Providers;
 #endregion
 
-namespace Blazorise.Material;
+namespace Blazorise.Material.Providers;
 
 public class MaterialThemeGenerator : BootstrapThemeGenerator
 {

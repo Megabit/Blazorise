@@ -1,4 +1,4 @@
-﻿namespace Blazorise.Material;
+﻿namespace Blazorise.Material.Providers;
 
 public class MaterialBehaviourProvider : BehaviourProvider
 {

@@ -1,7 +1,7 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Material;
+namespace Blazorise.Material.Components;
 
 public class CarouselSlide : Blazorise.CarouselSlide
 {

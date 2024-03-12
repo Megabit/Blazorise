@@ -1,9 +1,8 @@
-﻿#region Using directives
-#endregion
+﻿using Blazorise.Bootstrap.Providers;
 
-namespace Blazorise.Material;
+namespace Blazorise.Material.Providers;
 
-public class MaterialClassProvider : Bootstrap.BootstrapClassProvider
+public class MaterialClassProvider : BootstrapClassProvider
 {
     #region Steps
 

@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.Material.Providers;
 using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -34,10 +35,10 @@ public static class Config
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>( Bootstrap.Config.ComponentMap )
     {
         // material overrides
-        [typeof( Blazorise.CarouselSlide )] = typeof( Material.CarouselSlide ),
-        [typeof( Blazorise.NumericPicker<> )] = typeof( Material.NumericPicker<> ),
-        [typeof( Blazorise.Switch<> )] = typeof( Material.Switch<> ),
-        [typeof( Blazorise.Step )] = typeof( Material.Step ),
-        [typeof( Blazorise.Steps )] = typeof( Material.Steps )
+        [typeof( Blazorise.CarouselSlide )] = typeof( Components.CarouselSlide ),
+        [typeof( Blazorise.NumericPicker<> )] = typeof( Components.NumericPicker<> ),
+        [typeof( Blazorise.Switch<> )] = typeof( Components.Switch<> ),
+        [typeof( Blazorise.Step )] = typeof( Components.Step ),
+        [typeof( Blazorise.Steps )] = typeof( Components.Steps )
     };
 }
