@@ -1,4 +1,23 @@
-﻿import { getRequiredElement } from "../Blazorise/utilities.js?v=1.4.2.0";
+﻿import "./vendors/quill.js?v=1.4.2.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.4.2.0";
+
+var rteSheetsLoaded = false;
+
+export function loadStylesheets(styles, version) {
+    console.log(styles);
+    if (rteSheetsLoaded) return;
+
+    styles.split(',').forEach(sheet => {
+        var link = "<link rel=\"stylesheet\" href=\"_content/Blazorise.RichTextEdit/vendors/quill.{sheet}.css?v={version}\"/>";
+        link = link.replace("{sheet}", sheet).replace("{version}", version);
+
+        document
+            .getElementsByTagName("head")[0]
+            .insertAdjacentHTML("beforeend", link);
+    });
+
+    rteSheetsLoaded = true;
+}
 
 export function initialize(dotnetAdapter, element, elementId, readOnly, placeholder, theme, bindEnter, configureQuillJsMethod) {
     element = getRequiredElement(element, elementId);

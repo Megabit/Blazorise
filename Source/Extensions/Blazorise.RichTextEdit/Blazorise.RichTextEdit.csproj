@@ -20,4 +20,8 @@
     <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\vendors\" />
+  </ItemGroup>
+
 </Project>
