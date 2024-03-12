@@ -2,7 +2,7 @@
 using Blazorise.Utilities;
 #endregion
 
-namespace Blazorise.Bootstrap;
+namespace Blazorise.Bootstrap.Components;
 
 public partial class Field : Blazorise.Field
 {

@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using Blazorise.Bootstrap.Providers;
 using Blazorise.Modules;
 using Microsoft.Extensions.DependencyInjection;
 #endregion
@@ -45,25 +46,25 @@ public static class Config
 
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
-        { typeof( Blazorise.Addon ), typeof( Bootstrap.Addon ) },
-        { typeof( Blazorise.BarToggler ), typeof( Bootstrap.BarToggler ) },
-        { typeof( Blazorise.BarDropdown ), typeof( Bootstrap.BarDropdown ) },
-        { typeof( Blazorise.BarDropdownMenu ), typeof( Bootstrap.BarDropdownMenu ) },
-        { typeof( Blazorise.CardTitle ), typeof( Bootstrap.CardTitle ) },
-        { typeof( Blazorise.CardSubtitle ), typeof( Bootstrap.CardSubtitle ) },
-        { typeof( Blazorise.Carousel ), typeof( Bootstrap.Carousel ) },
-        { typeof( Blazorise.CloseButton ), typeof( Bootstrap.CloseButton ) },
-        { typeof( Blazorise.Check<> ), typeof( Bootstrap.Check<> ) },
-        { typeof( Blazorise.DropdownToggle ), typeof( Bootstrap.DropdownToggle ) },
-        { typeof( Blazorise.Field ), typeof( Bootstrap.Field ) },
-        { typeof( Blazorise.FieldBody ), typeof( Bootstrap.FieldBody ) },
-        { typeof( Blazorise.FileEdit ), typeof( Bootstrap.FileEdit ) },
-        { typeof( Blazorise.Modal ), typeof( Bootstrap.Modal ) },
-        { typeof( Blazorise.ModalContent ), typeof( Bootstrap.ModalContent) },
-        { typeof( Blazorise.NumericPicker<> ), typeof( Bootstrap.NumericPicker<> ) },
-        { typeof( Blazorise.Button ), typeof( Bootstrap.Button ) },
-        { typeof( Blazorise.Radio<> ), typeof( Bootstrap.Radio<> ) },
-        { typeof( Blazorise.Switch<> ), typeof( Bootstrap.Switch<> ) },
-        { typeof( Blazorise.Step ), typeof( Bootstrap.Step ) },
+        { typeof( Blazorise.Addon ), typeof( Components.Addon ) },
+        { typeof( Blazorise.BarToggler ), typeof( Components.BarToggler ) },
+        { typeof( Blazorise.BarDropdown ), typeof( Components.BarDropdown ) },
+        { typeof( Blazorise.BarDropdownMenu ), typeof( Components.BarDropdownMenu ) },
+        { typeof( Blazorise.CardTitle ), typeof( Components.CardTitle ) },
+        { typeof( Blazorise.CardSubtitle ), typeof( Components.CardSubtitle ) },
+        { typeof( Blazorise.Carousel ), typeof( Components.Carousel ) },
+        { typeof( Blazorise.CloseButton ), typeof( Components.CloseButton ) },
+        { typeof( Blazorise.Check<> ), typeof( Components.Check<> ) },
+        { typeof( Blazorise.DropdownToggle ), typeof( Components.DropdownToggle ) },
+        { typeof( Blazorise.Field ), typeof( Components.Field ) },
+        { typeof( Blazorise.FieldBody ), typeof( Components.FieldBody ) },
+        { typeof( Blazorise.FileEdit ), typeof( Components.FileEdit ) },
+        { typeof( Blazorise.Modal ), typeof( Components.Modal ) },
+        { typeof( Blazorise.ModalContent ), typeof( Components.ModalContent) },
+        { typeof( Blazorise.NumericPicker<> ), typeof( Components.NumericPicker<> ) },
+        { typeof( Blazorise.Button ), typeof( Components.Button ) },
+        { typeof( Blazorise.Radio<> ), typeof( Components.Radio<> ) },
+        { typeof( Blazorise.Switch<> ), typeof( Components.Switch<> ) },
+        { typeof( Blazorise.Step ), typeof( Components.Step ) },
     };
 }

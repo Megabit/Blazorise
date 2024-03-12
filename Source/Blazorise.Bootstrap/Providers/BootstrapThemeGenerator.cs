@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 #endregion
 
-namespace Blazorise.Bootstrap;
+namespace Blazorise.Bootstrap.Providers;
 
 public class BootstrapThemeGenerator : ThemeGenerator
 {

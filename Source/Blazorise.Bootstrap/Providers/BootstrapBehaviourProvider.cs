@@ -1,4 +1,4 @@
-﻿namespace Blazorise.Bootstrap;
+﻿namespace Blazorise.Bootstrap.Providers;
 
 public class BootstrapBehaviourProvider : BehaviourProvider
 {

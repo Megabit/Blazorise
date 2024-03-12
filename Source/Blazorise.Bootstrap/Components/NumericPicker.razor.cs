@@ -5,7 +5,7 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Bootstrap;
+namespace Blazorise.Bootstrap.Components;
 
 public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 {
