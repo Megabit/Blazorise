@@ -2,7 +2,7 @@
 
 #endregion
 
-namespace Blazorise.Bulma;
+namespace Blazorise.Bulma.Components;
 
 public partial class Dropdown : Blazorise.Dropdown
 {

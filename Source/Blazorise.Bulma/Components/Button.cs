@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
-namespace Blazorise.Bulma;
+namespace Blazorise.Bulma.Components;
 
 public partial class Button : Blazorise.Button
 {

@@ -1,4 +1,4 @@
-﻿namespace Blazorise.Bulma;
+﻿namespace Blazorise.Bulma.Providers;
 
 public class BulmaBehaviourProvider : BehaviourProvider
 {

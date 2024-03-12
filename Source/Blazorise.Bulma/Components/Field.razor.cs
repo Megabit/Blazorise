@@ -2,7 +2,7 @@
 using Blazorise.Utilities;
 #endregion
 
-namespace Blazorise.Bulma;
+namespace Blazorise.Bulma.Components;
 
 public partial class Field : Blazorise.Field
 {

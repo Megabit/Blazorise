@@ -1,9 +1,9 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Bulma;
+namespace Blazorise.Bulma.Components;
 
-public partial class FieldLabel : Blazorise.FieldLabel
+public partial class FieldBody : Blazorise.FieldBody
 {
     #region Members
 

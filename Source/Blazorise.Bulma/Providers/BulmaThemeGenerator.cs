@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 #endregion
 
-namespace Blazorise.Bulma;
+namespace Blazorise.Bulma.Providers;
 
 public class BulmaThemeGenerator : ThemeGenerator
 {

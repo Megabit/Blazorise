@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Blazorise.Utilities;
 #endregion
 
-namespace Blazorise.Bulma;
+namespace Blazorise.Bulma.Components;
 
 public class ModalContent : Blazorise.ModalContent
 {

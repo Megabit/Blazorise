@@ -1,7 +1,7 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Bulma;
+namespace Blazorise.Bulma.Components;
 
 public class CarouselSlide : Blazorise.CarouselSlide
 {
