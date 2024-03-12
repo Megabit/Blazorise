@@ -1,5 +1,4 @@
 ﻿#region Using directives
-
 using System;
 using System.Collections.Generic;
 #endregion
@@ -24,18 +23,18 @@ public sealed class RichTextEditOptions
     /// <summary>
     /// The QuillJs version to load
     /// </summary>
-    [Obsolete( "Dynamic loading no longer used" )]
+    [Obsolete( "Dynamic loading no longer used." )]
     public string QuillJsVersion { get; set; } = "2.0.0-rc.2";
 
     /// <summary>
     /// Load the RichTextEdit scripts and stylesheets on demand.
     /// </summary>
-    [Obsolete( "Dynamic loading no longer used" )]
+    [Obsolete( "Dynamic loading no longer used." )]
     public bool DynamicallyLoadReferences { get; set; } = false;
 
     /// <summary>
     /// Dynamic references to be loaded when initializing the RichTextEdit component.
     /// </summary>
-    [Obsolete( "Dynamic loading no longer used" )]
+    [Obsolete( "Dynamic loading no longer used." )]
     public List<DynamicReference> DynamicReferences { get; set; } = new();
 }

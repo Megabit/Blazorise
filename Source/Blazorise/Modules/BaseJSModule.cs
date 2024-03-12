@@ -163,13 +163,14 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
 
         async Task<IJSObjectReference> InitializeModule()
         {
-            var @ref = await jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName );
+            var jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName );
+
             if ( ModuleLoaded is not null )
             {
-                await ModuleLoaded( @ref );
+                await ModuleLoaded( jsObjectReference );
             }
 
-            return @ref;
+            return jsObjectReference;
         }
     }
 
@@ -207,5 +208,6 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
     /// Runs once after the module has been loaded.
     /// </summary>
     protected Func<IJSObjectReference, ValueTask> ModuleLoaded { get; set; }
+
     #endregion
 }

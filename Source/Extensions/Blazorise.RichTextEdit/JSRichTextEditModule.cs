@@ -29,6 +29,7 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
         : base( jsRuntime, versionProvider )
     {
         this.options = options;
+
         ModuleLoaded = OnModuleLoaded;
     }
 
@@ -38,8 +39,10 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
     private async ValueTask OnModuleLoaded( IJSObjectReference @ref )
     {
         List<string> styles = new();
+
         if ( options.UseBubbleTheme )
             styles.Add( "bubble" );
+
         if ( options.UseBubbleTheme )
             styles.Add( "snow" );
 
