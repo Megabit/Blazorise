@@ -26,5 +26,5 @@ public class CropperCropOptions
     /// <remarks>
     /// A user agent will use its default quality value if this option is not specified, or if the number is outside the allowed range.
     /// </remarks>
-    public double ImageQuality { get; set; } = 1d;
+    public double? ImageQuality { get; set; } = 1d;
 }
