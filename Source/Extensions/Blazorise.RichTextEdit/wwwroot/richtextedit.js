@@ -4,7 +4,6 @@ import { getRequiredElement } from "../Blazorise/utilities.js?v=1.4.2.0";
 var rteSheetsLoaded = false;
 
 export function loadStylesheets(styles, version) {
-    console.log(styles);
     if (rteSheetsLoaded) return;
 
     styles.split(',').forEach(sheet => {
