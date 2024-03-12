@@ -173,7 +173,7 @@
 
     private async Task GetCroppedImage()
     {
-        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250 } );
+        result = await cropper.CropAsBase64ImageAsync( new() { Width = 250, Height = 250, ImageType = "image/jpeg", ImageQuality = 1 } );
     }
 
     private async Task ResetSelection()

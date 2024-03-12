@@ -32,6 +32,8 @@ internal class JSCropperModule : BaseJSModule, IJSDestroyableModule
         {
             width = options.Width,
             height = options.Height,
+            imageType = options.ImageType,
+            imageQuality = options.ImageQuality,
         };
 
         return InvokeSafeAsync<string>( "cropBase64", elementRef, elementId, cropOptions );
