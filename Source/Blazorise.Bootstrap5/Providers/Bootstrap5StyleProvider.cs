@@ -1,7 +1,7 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Bootstrap5;
+namespace Blazorise.Bootstrap5.Providers;
 
 public class Bootstrap5StyleProvider : StyleProvider
 {

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
-namespace Blazorise.Bootstrap5;
+namespace Blazorise.Bootstrap5.Components;
 
 public class Button : Blazorise.Button
 {

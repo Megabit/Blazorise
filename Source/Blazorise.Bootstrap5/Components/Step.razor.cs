@@ -2,7 +2,7 @@
 using Blazorise.Utilities;
 #endregion
 
-namespace Blazorise.Bootstrap5;
+namespace Blazorise.Bootstrap5.Components;
 
 public partial class Step : Blazorise.Step
 {
