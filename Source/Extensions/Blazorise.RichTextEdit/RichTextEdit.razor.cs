@@ -55,6 +55,9 @@ public partial class RichTextEdit : BaseRichTextEditComponent, IAsyncDisposable
     /// <summary>
     /// Sets the editor content as html asynchronous.
     /// </summary>
+    /// <remarks>
+    /// Improper handling of HTML can lead to cross site scripting (XSS) make sure the html has been sanatized.
+    /// </remarks>
     public async ValueTask SetHtmlAsync( string html )
     {
         if ( Rendered )
