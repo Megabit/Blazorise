@@ -766,6 +766,11 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public IFluentGap AggregateGap { get; set; }
 
     /// <summary>
+    /// Template for aggregate values.
+    /// </summary>
+    [Parameter] public RenderFragment<AggregateContext<TItem>> AggregateTemplate { get; set; }
+
+    /// <summary>
     /// Template for custom cell display formatting.
     /// </summary>
     [Parameter] public RenderFragment<TItem> DisplayTemplate { get; set; }

@@ -127,6 +127,15 @@
     Enable Column Chooser by setting <Code>ColumnChooser</Code> to true to allow users to show or hide columns in the DataGrid.
 </Paragraph>
 
+<Heading Size="HeadingSize.Is4">
+    4. DataGridColumn AggregateTemplate
+</Heading>
+
+<Paragraph>
+    Introduced an <Code>AggregateTemplate</Code> Parameter to the <Code>DataGridColumn</Code>.
+    This new Parameter fixes a gap in functionality where it was not possible to set an aggregate template for the <Code>DataGridColumn</Code> and <Code>DataGridMultiSelectColumn</Code>
+</Paragraph>
+
 <Heading Size="HeadingSize.Is3">
     Indeterminate progress bars
 </Heading>
@@ -223,6 +232,14 @@
     Introduced a new <Code>BarMenuToggleBehavior</Code>. 
     By default, it is set to <Code>BarMenuToggleBehavior.AllowMultipleMenus</Code> which will keep all the menus you toggle open.
     You can also set it to <Code>BarMenuToggleBehavior.AllowSingleMenu</Code> to only keep a menu open at a time.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    RichTextEdit
+</Heading>
+
+<Paragraph>
+    As with many other features in this release we have updated internals of RichTextEdit to work with the latest version of <Anchor To="https://github.com/quilljs/quill" Title="Link to Quill JS">Quill JS</Anchor> library. This update means there will be less security risks that were reported by using an older version.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="February 29th, 2024" Read="9 min" />
