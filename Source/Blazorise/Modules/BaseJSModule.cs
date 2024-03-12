@@ -165,15 +165,17 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
         {
             var jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName );
 
-            if ( ModuleLoaded is not null )
-            {
-                await ModuleLoaded( jsObjectReference );
-            }
+            await OnModuleLoaded( jsObjectReference ).ConfigureAwait( false );
 
             return jsObjectReference;
         }
     }
 
+    /// <summary>
+    /// Called after the js <see cref="Module"/> has been loaded.
+    /// </summary>
+    /// <param name="jsObjectReference">the loade JS module</param>
+    protected virtual ValueTask OnModuleLoaded( IJSObjectReference jsObjectReference ) => ValueTask.CompletedTask;
     #endregion
 
     #region Properties
@@ -203,11 +205,6 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
     /// Gets the version provider instance.
     /// </summary>
     protected IVersionProvider VersionProvider => versionProvider;
-
-    /// <summary>
-    /// Runs once after the module has been loaded.
-    /// </summary>
-    protected Func<IJSObjectReference, ValueTask> ModuleLoaded { get; set; }
 
     #endregion
 }

@@ -29,14 +29,13 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
         : base( jsRuntime, versionProvider )
     {
         this.options = options;
-
-        ModuleLoaded = OnModuleLoaded;
     }
 
     #endregion
 
     #region Methods
-    private async ValueTask OnModuleLoaded( IJSObjectReference @ref )
+    /// <inheritdoc />
+    protected override async ValueTask OnModuleLoaded( IJSObjectReference @ref )
     {
         List<string> styles = new();
 
