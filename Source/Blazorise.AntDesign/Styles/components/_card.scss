@@ -49,3 +49,7 @@
     width: 100%;
     margin-left: 0px;
 }
+
+.ant-card-link + .ant-card-link {
+    margin-left: 1.25rem;
+}

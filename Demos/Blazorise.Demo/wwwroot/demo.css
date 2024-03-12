@@ -115,11 +115,13 @@ code {
 }
 
 .grid.b-demo-cssgrid-columns:not(:first-child),
+.ant-grid.b-demo-cssgrid-columns:not(:first-child)
 .fui-Grid.b-demo-cssgrid-columns:not(:first-child) {
     margin-top: 1rem;
 }
 
 .grid.b-demo-cssgrid-columns > div > div:first-child,
+.ant-grid.b-demo-cssgrid-columns > div > div:first-child,
 .fui-Grid.b-demo-cssgrid-columns > div > div:first-child {
     padding: 0.75rem;
     background-color: rgba(var(--b-theme-primary-r, 112), var(--b-theme-primary-g, 44), var(--b-theme-primary-b, 248), 0.15);
@@ -127,6 +129,7 @@ code {
 }
 
 .grid.b-demo-cssgrid-columns + .grid.b-demo-cssgrid-columns > div:last-child > div,
+.ant-grid.b-demo-cssgrid-columns + .ant-grid.b-demo-cssgrid-columns > div:last-child > div,
 .fui-Grid.b-demo-cssgrid-columns + .fui-Grid.b-demo-cssgrid-columns > div:last-child > div {
     padding: 0.75rem;
     background-color: rgba(var(--b-theme-secondary-r, 128), var(--b-theme-secondary-g, 128), var(--b-theme-secondary-b, 128), 0.15);
@@ -134,6 +137,7 @@ code {
 }
 
 .grid.b-demo-cssgrid-divs > div,
+.ant-grid.b-demo-cssgrid-divs > div,
 .fui-Grid.b-demo-cssgrid-divs > div {
     padding: 0.75rem;
     background-color: rgba(var(--b-theme-primary-r, 112), var(--b-theme-primary-g, 44), var(--b-theme-primary-b, 248), 0.15);

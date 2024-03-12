@@ -1,4 +1,9 @@
 ﻿@inherits Blazorise.TabPanel
-<div @ref="@ElementRef" id="@ElementId" role="tabpanel" class="@ClassNames" style="@StyleNames" aria-hidden="@(Active ? "false" : "true")" @attributes="@Attributes">
+<div @ref="@ElementRef" id="@ElementId" role="tabpanel" tabindex="@TabIndex" class="@ClassNames" style="@StyleNames" aria-hidden="@AriaHidden" @attributes="@Attributes">
     @ChildContent
 </div>
+@code {
+    int TabIndex => Active ? 0 : -1;
+
+    string AriaHidden => Active ? "false" : "true";
+}

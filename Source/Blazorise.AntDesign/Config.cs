@@ -42,6 +42,7 @@ public static class Config
         { typeof( Blazorise.Addon ), typeof( AntDesign.Addon ) },
         { typeof( Blazorise.AddonLabel ), typeof( AntDesign.AddonLabel ) },
         { typeof( Blazorise.Addons ), typeof( AntDesign.Addons ) },
+        { typeof( Blazorise.Alert ), typeof( AntDesign.Alert ) },
         { typeof( Blazorise.AlertDescription ), typeof( AntDesign.AlertDescription ) },
         { typeof( Blazorise.AlertMessage ), typeof( AntDesign.AlertMessage ) },
         { typeof( Blazorise.Badge ), typeof( AntDesign.Badge ) },
@@ -100,5 +101,6 @@ public static class Config
         { typeof( Blazorise.TabsContent ), typeof( AntDesign.TabsContent ) },
         { typeof( Blazorise.TextEdit ), typeof( AntDesign.TextEdit ) },
         { typeof( Blazorise.Toast ), typeof( AntDesign.Toast ) },
+        { typeof( Blazorise.ValidationError ), typeof( AntDesign.ValidationError ) },
     };
 }

@@ -3,25 +3,22 @@
     <CascadingValue Value="@State">
         <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             <div role="tablist" class="@TabsBarClassNames">
-                <div class="ant-tabs-nav-container">
-                    <div class="ant-tabs-nav-wrap">
-                        <div class="ant-tabs-nav-scroll">
-                            <div class="ant-tabs-nav ant-tabs-nav-animated">
-                                <div>
-                                    @if ( Items != null )
-                                    {
-                                        @Items
-                                    }
-                                </div>
-                            </div>
-                        </div>
+                <div class="ant-tabs-nav-wrap">
+                    <div class="ant-tabs-nav-list ant-tabs-nav-animated">
+                        @if ( Items != null )
+                        {
+                            @Items
+                        }
+                        <div class="ant-tabs-ink-bar ant-tabs-ink-bar-animated"></div>
                     </div>
                 </div>
             </div>
             @if ( Content != null )
             {
-                <div class="@($"{ContentClassNames} {ContentPositionClassNames}")" @attributes="@Attributes" style="@StyleOfSelectedTab">
-                    @Content
+                <div class="ant-tabs-content-holder">
+                    <div class="@($"{ContentClassNames} {ContentPositionClassNames}")" @attributes="@Attributes">
+                        @Content
+                    </div>
                 </div>
             }
         </div>

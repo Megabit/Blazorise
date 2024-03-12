@@ -312,7 +312,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string FieldLabelRequiredIndicator( bool requiredIndicator )
         => requiredIndicator
-            ? "ant-form-item-label-required"
+            ? "ant-form-item-required"
             : null;
 
     #endregion
@@ -520,7 +520,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TabPanel() => "ant-tabs-tabpane";
 
-    public override string TabPanelActive( bool active ) => active ? "ant-tabs-tabpane-active" : "ant-tabs-tabpane-inactive";
+    public override string TabPanelActive( bool active ) => active ? "ant-tabs-tabpane-active" : "ant-tabs-tabpane-hidden";
 
     #endregion
 
@@ -624,7 +624,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CardText() => "ant-card-text";
 
-    public override string CardLink() => "ant-card-extra";
+    public override string CardLink() => "ant-card-link";
 
     public override string CardLinkUnstyled( bool unstyled ) => unstyled ? "ant-link-unstyled" : null;
 
@@ -748,7 +748,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string AccordionBody() => "ant-collapse-content";
 
-    public override string AccordionBodyActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive";
+    public override string AccordionBodyActive( bool active ) => active ? "ant-collapse-content-active" : "ant-collapse-content-inactive ant-collapse-content-hidden";
 
     public override string AccordionBodyContent( bool firstInAccordion, bool lastInAccordion ) => "ant-collapse-content-box";
 
@@ -1181,7 +1181,7 @@ public class AntDesignClassProvider : ClassProvider
         return $"ant-font-size-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic() => "font-italic";
+    public override string TextItalic() => "ant-typography-italic";
 
     #endregion
 
@@ -1650,6 +1650,16 @@ public class AntDesignClassProvider : ClassProvider
             Blazorise.FlexAlignContent.Between => "space-between",
             Blazorise.FlexAlignContent.Around => "space-around",
             Blazorise.FlexAlignContent.Stretch => "stretch",
+            _ => null,
+        };
+    }
+
+    public override string ToValidationStatus( ValidationStatus validationStatus )
+    {
+        return validationStatus switch
+        {
+            Blazorise.ValidationStatus.Success => "ant-input-status-success",
+            Blazorise.ValidationStatus.Error => "ant-input-status-error",
             _ => null,
         };
     }
