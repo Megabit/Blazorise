@@ -25,7 +25,7 @@ public sealed class RichTextEditOptions
     /// <summary>
     /// The QuillJs version to load
     /// </summary>
-    public string QuillJsVersion { get; set; } = "1.3.7";
+    public string QuillJsVersion { get; set; } = "2.0.0-rc.2";
 
     /// <summary>
     /// Load the RichTextEdit scripts and stylesheets on demand.
@@ -45,18 +45,18 @@ public sealed class RichTextEditOptions
     {
         List<DynamicReference> references = new()
         {
-            new( $@"https://cdn.quilljs.com/{QuillJsVersion}/quill.js", Script ),
+            new( $@"https://cdn.jsdelivr.net/npm/quill@{QuillJsVersion}/dist/quill.js", Script ),
             new( @"_content/Blazorise.RichTextEdit/blazorise.richtextedit.bundle.scp.css", Stylesheet )
         };
 
         if ( UseBubbleTheme )
         {
-            references.Add( new( $@"https://cdn.quilljs.com/{QuillJsVersion}/quill.bubble.css", Stylesheet ) );
+            references.Add( new( $@"https://cdn.jsdelivr.net/npm/quill@{QuillJsVersion}/dist/quill.bubble.css", Stylesheet ) );
         }
 
         if ( UseShowTheme )
         {
-            references.Add( new( $@"https://cdn.quilljs.com/{QuillJsVersion}/quill.snow.css", Stylesheet ) );
+            references.Add( new( $@"https://cdn.jsdelivr.net/npm/quill@{QuillJsVersion}/dist/quill.snow.css", Stylesheet ) );
         }
 
         return references;
