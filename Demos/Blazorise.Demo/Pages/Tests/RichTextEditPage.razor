@@ -142,6 +142,7 @@
             </CardBody>
             <CardFooter>
                 <Button Clicked="OnUpdateContent">Update content</Button>
+                <Button Clicked="@(async () => await richTextEditRef2.ClearAsync())">Clear</Button>
             </CardFooter>
         </Card>
     </Column>
