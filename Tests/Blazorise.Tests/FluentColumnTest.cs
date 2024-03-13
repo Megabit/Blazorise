@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using Blazorise.Bootstrap.Providers;
 using Xunit;
 #endregion
 
@@ -10,7 +11,7 @@ public class FluentColumnTest
 
     public FluentColumnTest()
     {
-        classProvider = new Bootstrap.BootstrapClassProvider();
+        classProvider = new BootstrapClassProvider();
     }
 
     [Theory]
