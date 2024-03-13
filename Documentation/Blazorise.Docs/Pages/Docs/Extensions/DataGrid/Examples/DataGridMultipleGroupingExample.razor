@@ -3,6 +3,7 @@
 <DataGrid TItem="Employee"
           Data="@employeeList"
           Responsive
+          ShowPager
           Groupable>
     <DataGridCommandColumn />
     <DataGridColumn Field="@nameof(Employee.Id)" Caption="#" Sortable="false" />

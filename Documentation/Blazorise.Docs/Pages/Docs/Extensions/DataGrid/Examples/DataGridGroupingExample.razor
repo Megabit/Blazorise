@@ -3,6 +3,7 @@
 <DataGrid TItem="Employee"
           Data="@employeeList"
           Responsive
+          ShowPager
           Groupable
           GroupBy="(x=> new { x.Childrens, x.Gender} )">
     <DataGridCommandColumn />

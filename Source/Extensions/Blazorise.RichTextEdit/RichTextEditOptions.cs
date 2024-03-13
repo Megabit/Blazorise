@@ -1,6 +1,6 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
-using static Blazorise.RichTextEdit.DynamicReferenceType;
 #endregion
 
 namespace Blazorise.RichTextEdit;
@@ -10,8 +10,6 @@ namespace Blazorise.RichTextEdit;
 /// </summary>
 public sealed class RichTextEditOptions
 {
-    private List<DynamicReference> dynamicReferences;
-
     /// <summary>
     /// Load the QuillJs snow theme related resources
     /// </summary>
@@ -25,40 +23,18 @@ public sealed class RichTextEditOptions
     /// <summary>
     /// The QuillJs version to load
     /// </summary>
+    [Obsolete( "Dynamic loading no longer used." )]
     public string QuillJsVersion { get; set; } = "2.0.0-rc.2";
 
     /// <summary>
     /// Load the RichTextEdit scripts and stylesheets on demand.
     /// </summary>
-    public bool DynamicallyLoadReferences { get; set; } = true;
+    [Obsolete( "Dynamic loading no longer used." )]
+    public bool DynamicallyLoadReferences { get; set; } = false;
 
     /// <summary>
     /// Dynamic references to be loaded when initializing the RichTextEdit component.
     /// </summary>
-    public List<DynamicReference> DynamicReferences
-    {
-        get => dynamicReferences ?? GetDefaultReferences();
-        set => dynamicReferences = value;
-    }
-
-    private List<DynamicReference> GetDefaultReferences()
-    {
-        List<DynamicReference> references = new()
-        {
-            new( $@"https://cdn.jsdelivr.net/npm/quill@{QuillJsVersion}/dist/quill.js", Script ),
-            new( @"_content/Blazorise.RichTextEdit/blazorise.richtextedit.bundle.scp.css", Stylesheet )
-        };
-
-        if ( UseBubbleTheme )
-        {
-            references.Add( new( $@"https://cdn.jsdelivr.net/npm/quill@{QuillJsVersion}/dist/quill.bubble.css", Stylesheet ) );
-        }
-
-        if ( UseShowTheme )
-        {
-            references.Add( new( $@"https://cdn.jsdelivr.net/npm/quill@{QuillJsVersion}/dist/quill.snow.css", Stylesheet ) );
-        }
-
-        return references;
-    }
+    [Obsolete( "Dynamic loading no longer used." )]
+    public List<DynamicReference> DynamicReferences { get; set; } = new();
 }

@@ -72,7 +72,7 @@
             @if($key == "width" or $key == "height" or $key == "max-width" or $key == "max-height" or $key == "viewport-width" or $key == "viewport-height" or $key == "min-viewport-width" or $key == "min-viewport-height") {
                 // The utility can be disabled with `false`, thus check if the utility is a map first
                 // Only proceed if responsive media queries are enabled or if it's the base media query
-                @if type-of($utility) == "map" and (map-get($utility, responsive) and $infix != "") {
+                @if type-of($utility) == "map" and (map-get($utility, responsive)) {
                     @include generate-utility($utility, $infix);
                 }
             }

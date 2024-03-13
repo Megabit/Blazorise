@@ -1,7 +1,7 @@
-﻿import "./vendors/flatpickr.js?v=1.4.2.0";
-import * as utilities from "./utilities.js?v=1.4.2.0";
-import * as inputmask from "./inputMask.js?v=1.4.2.0";
-import { ClassWatcher } from "./observer.js?v=1.4.2.0";
+﻿import "./vendors/flatpickr.js?v=1.4.3.0";
+import * as utilities from "./utilities.js?v=1.4.3.0";
+import * as inputmask from "./inputMask.js?v=1.4.3.0";
+import { ClassWatcher } from "./observer.js?v=1.4.3.0";
 
 const _pickers = [];
 
@@ -110,19 +110,19 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 
                     picker.errorClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.errorClass, errorClassAddHandler, errorClassRemoveHandler);
                 }
-            }
-        }
 
-        if (options.validationStatus.successClass) {
-            function successClassAddHandler() {
-                flatpickrWrapper.classList.add(options.validationStatus.successClass);
-            }
+                if (options.validationStatus.successClass) {
+                    function successClassAddHandler() {
+                        flatpickrWrapper.classList.add(options.validationStatus.successClass);
+                    }
 
-            function successClassRemoveHandler() {
-                flatpickrWrapper.classList.remove(options.validationStatus.successClass);
-            }
+                    function successClassRemoveHandler() {
+                        flatpickrWrapper.classList.remove(options.validationStatus.successClass);
+                    }
 
-            picker.successClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.successClass, successClassAddHandler, successClassRemoveHandler);
+                    picker.successClassWatcher = new ClassWatcher(picker.altInput, options.validationStatus.successClass, successClassAddHandler, successClassRemoveHandler);
+                }
+            }
         }
     }
 
