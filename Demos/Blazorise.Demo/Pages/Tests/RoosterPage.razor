@@ -1,5 +1,6 @@
 ﻿@page "/tests/rooster"
 @using Blazorise.RichTextEdit.Rooster
+@using Markdig.Extensions.SmartyPants
 
 <Row>
     <Column>
@@ -10,15 +11,19 @@
             <CardBody>
                 <Buttons Role="ButtonsRole.Toolbar">
                     <Buttons Margin="Margin.Is2.FromEnd">
-                        <Button Command="editor.Format.ToggleBold"><Icon Name="IconName.Bold" /></Button>
-                        <Button Command="editor.Format.ToggleItalic"><Icon Name="IconName.Italic" /></Button>
-                        <Button Command="editor.Format.ToggleUnderline"><Icon Name="IconName.Underline" /></Button>
+                        <Button Command="editor.Editor.Undo"><Icon Name="IconName.Undo" /></Button>
+                        <Button Command="editor.Editor.Redo"><Icon Name="IconName.Redo" /></Button>
+                    </Buttons>
+                    <Buttons Margin="Margin.Is2.FromEnd">
+                        <Button Command="editor.Format.ToggleBold"><Icon Name="IconName.Bold"/></Button>
+                        <Button Command="editor.Format.ToggleItalic"><Icon Name="IconName.Italic"/></Button>
+                        <Button Command="editor.Format.ToggleUnderline"><Icon Name="IconName.Underline"/></Button>
                         <Button Command="editor.Format.ChangeFontSize" CommandParameter="FontSizeChange.Increase">A⁺</Button>
                         <Button Command="editor.Format.ChangeFontSize" CommandParameter="FontSizeChange.Decrease">A⁻</Button>
-                        <Button Command="editor.Format.SetIndentation" CommandParameter="Indentation.Increase">→</Button>
                         <Button Command="editor.Format.SetIndentation" CommandParameter="Indentation.Decrease">←</Button>
-                        <Button Command="editor.Format.SetTextColor" CommandParameter="Indentation.Decrease">←</Button>
-                        <ColorPicker Width="Width.Px(48)" ColorChanged="editor.Format.SetTextColor" />
+                        <Button Command="editor.Format.SetIndentation" CommandParameter="Indentation.Increase">→</Button>
+                        Text: <ColorPicker Width="Width.Px(40)" ColorChanged="editor.Format.SetTextColor"/>
+                        Bg: <ColorPicker Width="Width.Px(40)" ColorChanged="editor.Format.SetBackgroundColor"/>
                         <Dropdown>
                             <DropdownToggle>Font</DropdownToggle>
                             <DropdownMenu>
@@ -42,6 +47,12 @@
                                 <DropdownItem Clicked="editor.Format.SetFontSize" Value="36">36</DropdownItem>
                                 <DropdownItem Clicked="editor.Format.SetFontSize" Value="48">48</DropdownItem>
                                 <DropdownItem Clicked="editor.Format.SetFontSize" Value="72">72</DropdownItem>
+                                <Divider/>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="@("1rem")">1rem</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="@("2rem")">2rem</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="@("4rem")">4rem</DropdownItem>
+                                <Divider/>
+                                <DropdownItem Clicked="editor.Format.SetFontSize">Default</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                         <Dropdown>
@@ -53,13 +64,40 @@
                                 <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is4">Heading 4</DropdownItem>
                                 <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is5">Heading 5</DropdownItem>
                                 <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is6">Heading 6</DropdownItem>
-                                <Divider />                  
+                                <Divider/>
                                 <DropdownItem Clicked="editor.Format.SetHeadingLevel">No heading</DropdownItem>
                             </DropdownMenu>
                         </Dropdown>
                     </Buttons>
                 </Buttons>
-                <Blazorise.RichTextEdit.Rooster.RichTextEdit @ref="editor"/>
+
+                <Blazorise.RichTextEdit.Rooster.RichTextEdit 
+                    @ref="editor" 
+                    @bind-Content="contentAsHtml" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card>
+            <CardHeader>
+                <CardTitle>Content Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                @((MarkupString)contentAsHtml)
+            </CardBody>
+        </Card>
+    </Column>
+    <Column>
+        <Card>
+            <CardHeader>
+                <CardTitle>Actions</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Command="editor.Editor.Focus">Focus</Button>
+                <Button Command="editor.Editor.Clear">Clear</Button>
+                <Button Clicked="SetContent">Set content</Button>
             </CardBody>
         </Card>
     </Column>
@@ -67,4 +105,12 @@
 
 @code {
     private Blazorise.RichTextEdit.Rooster.RichTextEdit editor;
+    private string contentAsHtml = "<p>Welcome to the <b>Rooster.js</b> RichTextEdit!</p>";
+
+    private void SetContent()
+    {
+        contentAsHtml = $"Content from code <b>{DateTime.Now:g}</b>";
+        InvokeAsync(StateHasChanged);
+    }
+
 }

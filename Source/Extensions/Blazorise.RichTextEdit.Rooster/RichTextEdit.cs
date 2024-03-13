@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.RichTextEdit.Rooster.Commands;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
@@ -13,11 +14,8 @@ namespace Blazorise.RichTextEdit.Rooster;
 public class RichTextEdit : BaseComponent
 {
     private DotNetObjectReference<RoosterAdapter> adapter;
-
-    public RichTextEdit()
-    {
-        Format = new( this );
-    }
+    private Format formatCommands;
+    private Editor editorCommands;
 
     /// <inheritdoc/>
     protected override void BuildRenderTree( RenderTreeBuilder builder )
@@ -41,8 +39,22 @@ public class RichTextEdit : BaseComponent
             JSModule ??= new JSRoosterModule( JSRuntime, VersionProvider );
             adapter = DotNetObjectReference.Create( new RoosterAdapter( this ) );
 
-            await JSModule.Initialize( adapter, ElementRef, ElementId, default );
+            await JSModule.Initialize( adapter, ElementRef, ElementId, new
+            {
+                Content
+            } );
         }
+    }
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( Rendered && parameters.TryGetValue<string>( nameof( Content ), out var newValue ) && newValue != Content )
+        {
+            ExecuteAfterRender( () => JSModule.SetContent( ElementRef, ElementId, newValue ) );
+        }
+
+        await base.SetParametersAsync( parameters );
     }
 
     /// <inheritdoc/>
@@ -72,10 +84,33 @@ public class RichTextEdit : BaseComponent
         await base.DisposeAsync( disposing );
     }
 
+    internal Task UpdateInternalContent( string content )
+    {
+        Content = content;
+        return ContentChanged.InvokeAsync( content );
+    }
+
     internal JSRoosterModule JSModule { get; set; }
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
     [Inject] private IVersionProvider VersionProvider { get; set; }
 
-    public Commands.Format Format { get; }
+    public Format Format
+    {
+        get => formatCommands ??= new( this );
+        private set => formatCommands = value;
+    }
+
+    public Editor Editor
+    {
+        get => editorCommands ??= new( this );
+        private set => editorCommands = value;
+    }
+
+    /// <summary>
+    /// The html content of the editor
+    /// </summary>
+    [Parameter] public string Content { get; set; }
+
+    [Parameter] public EventCallback<string> ContentChanged { get; set; }
 }

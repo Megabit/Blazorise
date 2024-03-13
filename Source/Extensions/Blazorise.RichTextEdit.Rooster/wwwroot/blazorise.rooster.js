@@ -14,16 +14,21 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         await loadRoosterJs();
     }
 
-   const instance = {
+    const instance = {
         options: options,
         adapter: dotNetAdapter,
         editor: null,
     };
 
-    instance.editor = roosterjs.createEditor(element);
-    window.niek = instance.editor;
+    let plugins = [
+        new BlazoriseRichTextEditPlugin(dotNetAdapter)
+    ];
 
-    instance.editor.setContent('Welcome to <b>RoosterJs</b>!');
+    instance.editor = roosterjs.createEditor(element, plugins);    
+
+    if (options.content) {
+        instance.editor.setContent(options.content);
+    }
 
     _instances[elementId] = instance;
 }
@@ -39,14 +44,39 @@ export function destroy(element, elementId) {
     delete instances[elementId];
 }
 
-export function format(element, elementId, action, args) {
+export function roosterApi(element, elementId, action, args) {
     const instances = _instances || {};
     const instance = instances[elementId];
 
     if (!instance)
         return;
 
-    roosterjs[action](instance.editor, args);
+    if (typeof roosterjs[action] == 'function') {
+        roosterjs[action](instance.editor, args);
+    }
+    else {
+        instance.editor[action](args);
+    }
+}
+
+export function setContent(element, elementId, content) {
+    const instances = _instances || {};
+    const instance = instances[elementId];
+
+    if (!instance)
+        return;
+
+    instance.editor.setContent(content);
+}
+
+export function getContent(element, elementId, mode) {
+    const instances = _instances || {};
+    const instance = instances[elementId];
+
+    if (!instance)
+        return;
+
+    return instance.editor.getContent(mode);
 }
 
 function loadRoosterJs() {
@@ -73,4 +103,87 @@ function loadRoosterJs() {
             reject(error);
         }
     });
+}
+
+// Throttle function => utilities.js?
+function throttle(cb, delay) {
+    let wait = false;
+    let storedArgs = null;
+
+    function checkStoredArgs() {
+        if (storedArgs == null) {
+            wait = false;
+        } else {
+            cb(...storedArgs);
+            storedArgs = null;
+            setTimeout(checkStoredArgs, delay);
+        }
+    }
+
+    return (...args) => {
+        if (wait) {
+            storedArgs = args;
+            return;
+        }
+
+        cb(...args);
+        wait = true;
+        setTimeout(checkStoredArgs, delay);
+    }
+}
+
+class BlazoriseRichTextEditPlugin {
+    constructor(dotNetAdapter) {
+        this.dotNetAdapter = dotNetAdapter;
+    }
+
+    getName() {
+        return "BlazoriseRichTextEditPlugin"
+    }
+
+    initialize(editor) {
+        this.editor = editor
+        this.changeDisposer = this.editor.addDomEventHandler(
+            "input",
+            this.onChangeEvent
+        )
+        this.textInputDisposer = this.editor.addDomEventHandler(
+            "textinput",
+            this.onChangeEvent
+        )
+        this.pasteDisposer = this.editor.addDomEventHandler(
+            "paste",
+            this.onChangeEvent
+        )
+
+        // Throttle changed event otherwise blazor gets bombed
+        this.eventHandler = throttle(() => this.dotNetAdapter
+            .invokeMethodAsync('OnContentChanged', this.editor.getContent())
+            .then(null, err => { throw new Error(err); }), 250);
+   }
+
+    onPluginEvent(event) {
+        if (event && event.eventType === roosterjs.PluginEventType.ContentChanged) {
+            this.onChangeEvent()
+        }
+    }
+
+    dispose() {
+        if (this.changeDisposer) {
+            this.changeDisposer()
+            this.changeDisposer = null
+        }
+        if (this.textInputDisposer) {
+            this.textInputDisposer()
+            this.textInputDisposer = null
+        }
+        if (this.pasteDisposer) {
+            this.pasteDisposer()
+            this.pasteDisposer = null
+        }
+
+        this.editor = null
+    }
+
+    onChangeEvent = () => this.eventHandler();
 }

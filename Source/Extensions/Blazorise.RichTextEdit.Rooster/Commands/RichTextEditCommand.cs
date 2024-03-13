@@ -59,7 +59,7 @@ public class RichTextEditCommand : ICommand
     public virtual async void Execute( object parameter )
     {
         var argument = TransformArgument( parameter );
-        await editor.JSModule.Format( editor.ElementRef, editor.ElementId, action, argument );
+        await editor.JSModule.InvokeRoosterApi( editor.ElementRef, editor.ElementId, action, argument );
     }
 
     /// <summary>

@@ -1,4 +1,7 @@
-﻿namespace Blazorise.RichTextEdit.Rooster;
+﻿using System.Threading.Tasks;
+using Microsoft.JSInterop;
+
+namespace Blazorise.RichTextEdit.Rooster;
 
 internal class RoosterAdapter
 {
@@ -8,4 +11,8 @@ internal class RoosterAdapter
     {
         this.rte = rte;
     }
+
+    [JSInvokable]
+    public Task OnContentChanged( string html )
+        => rte.UpdateInternalContent( html );
 }

@@ -48,6 +48,11 @@ public sealed class Format
     // /// </summary>
     // TODO public RichTextEditCommand CreateLink => new(editor, "createLink");
 
+    // /// <summary>
+    // /// Edit table with given operation. If there is no table at cursor then no op.
+    // /// </summary>
+    // TODO public RichTextEditCommand EditTable => new(editor, "editTable");
+
     /// <summary>
     /// Set background color at current selection
     /// </summary>
@@ -61,7 +66,7 @@ public sealed class Format
     /// <summary>
     /// Set font size at selection.
     /// </summary>
-    public RichTextEditCommand SetFontSize => new( editor, "setFontSize" );
+    public SetFontSizeCommand SetFontSize => new( editor );
 
     /// <summary>
     /// Set heading level at selection
