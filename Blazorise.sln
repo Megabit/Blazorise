@@ -39,8 +39,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		.runsettings = .runsettings
-		DotnetWatchRunAll.bat = DotnetWatchRunAll.bat
 		CREDITS.md = CREDITS.md
+		DotnetWatchRunAll.bat = DotnetWatchRunAll.bat
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -153,7 +153,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Captcha", "Source
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Captcha.ReCaptcha", "Source\Extensions\Blazorise.Captcha.ReCaptcha\Blazorise.Captcha.ReCaptcha.csproj", "{2B4FD79A-42E2-4B81-828B-0799E4744ADA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.RichTextEdit.Rooster", "Source\Extensions\Blazorise.RichTextEdit.Rooster\Blazorise.RichTextEdit.Rooster.csproj", "{D03708E9-0E38-4AD1-87DF-DA349E7DC271}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.RichTextEdit.Rooster", "Source\Extensions\Blazorise.RichTextEdit.Rooster\Blazorise.RichTextEdit.Rooster.csproj", "{D03708E9-0E38-4AD1-87DF-DA349E7DC271}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -401,6 +401,10 @@ Global
 		{2B4FD79A-42E2-4B81-828B-0799E4744ADA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B4FD79A-42E2-4B81-828B-0799E4744ADA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B4FD79A-42E2-4B81-828B-0799E4744ADA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D03708E9-0E38-4AD1-87DF-DA349E7DC271}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D03708E9-0E38-4AD1-87DF-DA349E7DC271}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D03708E9-0E38-4AD1-87DF-DA349E7DC271}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D03708E9-0E38-4AD1-87DF-DA349E7DC271}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -469,6 +473,7 @@ Global
 		{FE5BCD94-0215-4BF1-8CF7-0F97C20B0054} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{D24EA4EF-0AEC-43B2-BCDC-56229D60C285} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{2B4FD79A-42E2-4B81-828B-0799E4744ADA} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{D03708E9-0E38-4AD1-87DF-DA349E7DC271} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}

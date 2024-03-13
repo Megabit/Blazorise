@@ -1,8 +1,8 @@
-﻿import { getRequiredElement, loadScript } from "../Blazorise/utilities.js?v=1.2.2.0";
+﻿import { getRequiredElement } from "../Blazorise/utilities.js?v=1.4.2.0";
 
 const _instances = [];
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.RichTextEdit.Rooster/blazorise.rooster.css?v=1.2.2.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.RichTextEdit.Rooster/blazorise.rooster.css?v=1.4.2.0\" />");
 
 export async function initialize(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
@@ -11,10 +11,10 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         return;
 
     if (typeof roosterjs === 'undefined') {
-        await loadScript("_content/Blazorise.RichTextEdit.Rooster/vendors/rooster.js?v=4.88.0");
+        await loadRoosterJs();
     }
 
-    const instance = {
+   const instance = {
         options: options,
         adapter: dotNetAdapter,
         editor: null,
@@ -48,3 +48,28 @@ export function format(element, elementId, action, args) {
     roosterjs[action](instance.editor, args);
 }
 
+function loadRoosterJs() {
+    return new Promise((resolve, reject) => {
+        try {
+            const scriptEle = document.createElement("script");
+            scriptEle.type = "text/javascript";
+            scriptEle.async = true;
+            scriptEle.src = "_content/Blazorise.RichTextEdit.Rooster/vendors/rooster.js?v=1.4.2.0";
+
+            scriptEle.addEventListener("load", (ev) => {
+                resolve({ status: true });
+            });
+
+            scriptEle.addEventListener("error", (ev) => {
+                reject({
+                    status: false,
+                    message: `Failed to load roosterjs`
+                });
+            });
+
+            document.body.appendChild(scriptEle);
+        } catch (error) {
+            reject(error);
+        }
+    });
+}
