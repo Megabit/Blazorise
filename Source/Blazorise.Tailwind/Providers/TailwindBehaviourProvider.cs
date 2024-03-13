@@ -1,4 +1,4 @@
-﻿namespace Blazorise.Tailwind;
+﻿namespace Blazorise.Tailwind.Providers;
 
 public class TailwindBehaviourProvider : BehaviourProvider
 {

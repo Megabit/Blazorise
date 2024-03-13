@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 #endregion
 
-namespace Blazorise.Tailwind;
+namespace Blazorise.Tailwind.Providers;
 
 public class TailwindClassProvider : ClassProvider
 {

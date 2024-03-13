@@ -6,7 +6,7 @@ using System.Text;
 using Blazorise.Utilities;
 #endregion
 
-namespace Blazorise.Tailwind;
+namespace Blazorise.Tailwind.Providers;
 
 public class TailwindThemeGenerator : ThemeGenerator
 {

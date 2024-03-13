@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
-namespace Blazorise.Tailwind;
+namespace Blazorise.Tailwind.Components;
 
 public class Button : Blazorise.Button
 {

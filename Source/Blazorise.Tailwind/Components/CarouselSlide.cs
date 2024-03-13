@@ -1,7 +1,7 @@
 ﻿#region Using directives
 #endregion
 
-namespace Blazorise.Tailwind;
+namespace Blazorise.Tailwind.Components;
 
 public class CarouselSlide : Blazorise.CarouselSlide
 {

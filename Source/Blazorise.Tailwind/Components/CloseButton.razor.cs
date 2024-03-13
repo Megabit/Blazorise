@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.Tailwind;
+namespace Blazorise.Tailwind.Components;
 
 public partial class CloseButton
 {

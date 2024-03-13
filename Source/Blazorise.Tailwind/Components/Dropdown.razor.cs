@@ -2,7 +2,7 @@
 
 #endregion
 
-namespace Blazorise.Tailwind;
+namespace Blazorise.Tailwind.Components;
 
 public partial class Dropdown : Blazorise.Dropdown
 {
