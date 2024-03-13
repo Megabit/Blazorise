@@ -1,5 +1,5 @@
 ﻿@page "/tests/rooster"
-@using RichTextEditAction = Blazorise.RichTextEdit.Rooster.RichTextEditAction
+@using Blazorise.RichTextEdit.Rooster
 
 <Row>
     <Column>
@@ -10,13 +10,53 @@
             <CardBody>
                 <Buttons Role="ButtonsRole.Toolbar">
                     <Buttons Margin="Margin.Is2.FromEnd">
-                        <Button Clicked="() => editor.Format(RichTextEditAction.Bold)" Style="font-weight: bold">B</Button>
-                        <Button Clicked="() => editor.Format(RichTextEditAction.Italic)" Style="font-style: initial">I</Button>
-                        <Button Clicked="() => editor.Format(RichTextEditAction.Underline)" Style="text-decoration: underline">U</Button>
-                    </Buttons>
-                    <Buttons Margin="Margin.Is2.FromEnd">
-                        <Button Clicked="() => editor.Format(RichTextEditAction.Header, 1)">H1</Button>
-                        <Button Clicked="() => editor.Format(RichTextEditAction.Header, 2)">H2</Button>
+                        <Button Command="editor.Format.ToggleBold"><Icon Name="IconName.Bold" /></Button>
+                        <Button Command="editor.Format.ToggleItalic"><Icon Name="IconName.Italic" /></Button>
+                        <Button Command="editor.Format.ToggleUnderline"><Icon Name="IconName.Underline" /></Button>
+                        <Button Command="editor.Format.ChangeFontSize" CommandParameter="FontSizeChange.Increase">A⁺</Button>
+                        <Button Command="editor.Format.ChangeFontSize" CommandParameter="FontSizeChange.Decrease">A⁻</Button>
+                        <Button Command="editor.Format.SetIndentation" CommandParameter="Indentation.Increase">→</Button>
+                        <Button Command="editor.Format.SetIndentation" CommandParameter="Indentation.Decrease">←</Button>
+                        <Button Command="editor.Format.SetTextColor" CommandParameter="Indentation.Decrease">←</Button>
+                        <ColorPicker Width="Width.Px(48)" ColorChanged="editor.Format.SetTextColor" />
+                        <Dropdown>
+                            <DropdownToggle>Font</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Arial")">Arial</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Calibri")">Calibri</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Comic Sans MS")">Comic Sans MS</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Courier New")">Courier New</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Times New Roman")">Times New Roman</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Verdana")">Verdana</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                        <Dropdown>
+                            <DropdownToggle>Size</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="8">8</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="9">9</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="10">10</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="11">11</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="12">12</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="20">20</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="36">36</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="48">48</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="72">72</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                        <Dropdown>
+                            <DropdownToggle>H1</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is1">Heading 1</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is2">Heading 2</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is3">Heading 3</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is4">Heading 4</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is5">Heading 5</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is6">Heading 6</DropdownItem>
+                                <Divider />                  
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel">No heading</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
                     </Buttons>
                 </Buttons>
                 <Blazorise.RichTextEdit.Rooster.RichTextEdit @ref="editor"/>

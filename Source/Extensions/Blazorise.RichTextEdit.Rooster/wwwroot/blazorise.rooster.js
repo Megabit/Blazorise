@@ -21,6 +21,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     };
 
     instance.editor = roosterjs.createEditor(element);
+    window.niek = instance.editor;
 
     instance.editor.setContent('Welcome to <b>RoosterJs</b>!');
 
