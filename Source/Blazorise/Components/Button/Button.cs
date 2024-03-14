@@ -67,7 +67,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.ButtonSize( ThemeSize, Outline ) );
         builder.Append( ClassProvider.ButtonBlock( Outline ), Block );
         builder.Append( ClassProvider.ButtonActive( Outline ), Active );
-        builder.Append( ClassProvider.ButtonDisabled( Outline ), Disabled );
+        builder.Append( ClassProvider.ButtonDisabled( Outline ), IsDisabled );
         builder.Append( ClassProvider.ButtonLoading( Outline ), Loading && LoadingTemplate is null );
         builder.Append( ClassProvider.ButtonStretchedLink( StretchedLink ) );
 
