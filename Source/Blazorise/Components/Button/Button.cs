@@ -360,17 +360,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// <summary>
     /// When set to 'true', disables the component's functionality and places it in a disabled state.
     /// </summary>
-    [Parameter]
-    public bool Disabled
-    {
-        get => disabled || !canExecuteCommand.GetValueOrDefault( true );
-        set
-        {
-            disabled = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
     /// When set to 'true', places the component in the active state with active styling.

@@ -19,7 +19,7 @@ public class Button : Blazorise.Button
             .Type( Type.ToButtonTypeString() )
             .Class( ClassNames )
             .Style( StyleNames )
-            .Disabled( Disabled )
+            .Disabled( IsDisabled )
             .AriaPressed( Active )
             .TabIndex( TabIndex );
 
@@ -30,7 +30,7 @@ public class Button : Blazorise.Button
                 .Href( To )
                 .Target( Target );
 
-            if ( Disabled )
+            if ( IsDisabled )
             {
                 builder
                     .TabIndex( -1 )
