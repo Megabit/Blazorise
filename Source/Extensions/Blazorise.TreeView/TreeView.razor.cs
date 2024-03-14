@@ -10,6 +10,7 @@ using Blazorise.TreeView.Extensions;
 using Blazorise.TreeView.Internal;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.TreeView;
@@ -392,6 +393,16 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     /// Gets or sets node styling.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
+
+    /// <summary>
+    /// The event is fired when the node is right clicked to show the context menu.
+    /// </summary>
+    [Parameter] public EventCallback<TreeViewNodeMouseEventArgs<TNode>> NodeContextMenu { get; set; }
+
+    /// <summary>
+    /// Used to prevent the default action for a <see cref="NodeContextMenu"/> event.
+    /// </summary>
+    [Parameter] public bool NodeContextMenuPreventDefault { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="TreeView{TNode}"/>.
