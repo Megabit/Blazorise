@@ -8,8 +8,8 @@ public class Editor
 {
     internal Editor( RichTextEdit editor )
     {
-        Undo = new( editor, "undo", x => new( x.CanUndo ) );
-        Redo = new( editor, "redo", x => new( x.CanRedo ) );
+        Undo = new( editor, "undo", x => x.FormatState.CanUndo );
+        Redo = new( editor, "redo", x => x.FormatState.CanRedo );
         Focus = new( editor, "focus" );
         DeleteSelectedContent = new( editor, "deleteSelectedContent" );
         SetZoomScale = new( editor, "setZoomScale" );

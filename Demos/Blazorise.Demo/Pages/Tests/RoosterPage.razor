@@ -2,6 +2,7 @@
 @using Blazorise.RichTextEdit.Rooster
 @using Markdig.Extensions.SmartyPants
 @using System.Text.Json
+@using System.Text.Json.Serialization
 
 <Row>
     <Column>
@@ -16,17 +17,17 @@
                         <Button Command="editor.Editor.Redo"><Icon Name="IconName.Redo" /></Button>
                     </Buttons>
                     <Buttons Margin="Margin.Is2.FromEnd">
-                        <Button Command="editor.Format.ToggleBold"><Icon Name="IconName.Bold"/></Button>
-                        <Button Command="editor.Format.ToggleItalic"><Icon Name="IconName.Italic"/></Button>
-                        <Button Command="editor.Format.ToggleUnderline"><Icon Name="IconName.Underline"/></Button>
+                        <Button Command="editor.Format.ToggleBold" Active="@(editor.FormatState.IsBold ?? false)"><Icon Name="IconName.Bold"/></Button>
+                        <Button Command="editor.Format.ToggleItalic" Active="@(editor.FormatState.IsItalic ?? false)"><Icon Name="IconName.Italic" /></Button>
+                        <Button Command="editor.Format.ToggleUnderline" Active="@(editor.FormatState.IsUnderline ?? false)"><Icon Name="IconName.Underline" /></Button>
                         <Button Command="editor.Format.ChangeFontSize" CommandParameter="FontSizeChange.Increase">A⁺</Button>
                         <Button Command="editor.Format.ChangeFontSize" CommandParameter="FontSizeChange.Decrease">A⁻</Button>
                         <Button Command="editor.Format.SetIndentation" CommandParameter="Indentation.Decrease">←</Button>
                         <Button Command="editor.Format.SetIndentation" CommandParameter="Indentation.Increase">→</Button>
-                        Text: <ColorPicker Width="Width.Px(40)" ColorChanged="editor.Format.SetTextColor"/>
-                        Bg: <ColorPicker Width="Width.Px(40)" ColorChanged="editor.Format.SetBackgroundColor"/>
+                        Text: <ColorPicker Width="Width.Px(40)" Color="@editor.FormatState.TextColor" ColorChanged="editor.Format.SetTextColor"/>
+                        Bg: <ColorPicker Width="Width.Px(40)" Color="@editor.FormatState.BackgroundColor" ColorChanged="editor.Format.SetBackgroundColor"/>
                         <Dropdown>
-                            <DropdownToggle>Font</DropdownToggle>
+                            <DropdownToggle>@GetFontLabel()</DropdownToggle>
                             <DropdownMenu>
                                 <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Arial")">Arial</DropdownItem>
                                 <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Calibri")">Calibri</DropdownItem>
@@ -121,7 +122,8 @@
 
     private static readonly JsonSerializerOptions SerializerOptions = new(JsonSerializerDefaults.Web)
     {
-        WriteIndented = true
+        WriteIndented = true,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
     };
 
     private void SetContent()
@@ -134,5 +136,15 @@
     {
         formatStateJson = JsonSerializer.Serialize(state, SerializerOptions);
         InvokeAsync(StateHasChanged);
+    }
+
+    private string GetFontLabel()
+    {
+        if (string.IsNullOrWhiteSpace(editor.FormatState.FontName)) return "Select Font";
+
+        return editor.FormatState.FontName
+            .Split(',')
+            .Select(x => x.Trim('"'))
+            .FirstOrDefault();
     }
 }
