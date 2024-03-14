@@ -1,15 +1,19 @@
 ﻿@page "/news/release-notes/150"
 
-<Seo Canonical="news/release-notes/150" Title="Blazorise v1.5" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.5 release." ImageUrl="img/news/empty.png" />
+<Seo Canonical="news/release-notes/150" Title="Blazorise v1.5" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.5 release." ImageUrl="img/news/150/v150.png" />
 
-<NewsPageImage Source="img/news/empty.png" Text="Blazorise v1.5" />
+<NewsPageImage Source="img/news/150/v150.png" Text="Blazorise v1.5" />
 
 <NewsPageTitle>
     Announcing Blazorise 1.5 -
 </NewsPageTitle>
 
+<Paragraph>
+    We're excited to unveil the latest iteration of Blazorise, version 1.5, packed with new features, improvements, and upgrades to enhance your development experience. Let's dive into the highlights and guide you through upgrading your existing projects.
+</Paragraph>
+
 <NewsPageSubtitle>
-    Blazorise 1.5 Highlights 💡
+    Key Blazorise 1.5 Highlights 💡
 </NewsPageSubtitle>
 
 <Paragraph>
@@ -19,58 +23,61 @@
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Fluent UI 2</Strong>: CSS provider.
+            <Strong>Fluent UI 2</Strong>: Adoption of CSS provider based on the Microsoft Fluent 2 design system.
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Toast</Strong>: component to show push notifications.
+            <Strong>Toast Component</Strong>: New component for displaying push notifications with ease.
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Progress bar</Strong>: indeterminate state.
+            <Strong>Progress Bar</Strong>: Introduction of an indeterminate state for more dynamic UI feedback.
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Accordion</Strong>: introduce accordion dedicated components.
+            <Strong>Accordion Components</Strong>: Dedicated components for a more flexible and efficient accordion implementation.
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Font Awesome</Strong>: updated icons to Font Awesome v6.x.
+            <Strong>Font Awesome Update</Strong>: Enhanced iconography with Font Awesome v6.x integration.
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Breakpoints</Strong>: introduced new XXL, or QuadHD size.
+            <Strong>Extended Breakpoints</Strong>: Introduction of XXL (QuadHD) size for superior control on larger screens.
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>AntDesign</Strong>: upgrade to latest 4.x version
+            <Strong>AntDesign Update</Strong>: Transition to the latest 4.x version of AntDesign, enhancing UI capabilities.
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
 
 <NewsPageSubtitle>
-    Upgrade an existing project 👨‍🔧
+    Upgrading from 1.4.x to 1.5 👨‍🔧
 </NewsPageSubtitle>
 
 <Paragraph>
-    To upgrade an existing Blazorise applications from <Strong>1.4.x</Strong> to <Strong>1.5</Strong>:
+    Upgrade your Blazorise application seamlessly with the following steps:
 </Paragraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.5</Strong>.
-    </UnorderedListItem>
-</UnorderedList>
-
-<Paragraph>
-    You should now be able to use Blazorise without any breaking changes to the API.
-</Paragraph>
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.5</Strong>.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            Enjoy the latest features without any breaking changes to the API.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
 
 <NewsPageSubtitle>
     New Features & Enhancements 🚀
@@ -81,7 +88,7 @@
 </Heading>
 
 <Paragraph>
-
+    The introduction of the new Blazorise Fluent provider stands as the centerpiece of this release, marking a significant milestone in our ongoing development efforts. It required three months of focused work to complete this feature, and we are now able to offer it to our users. This provider is based on the Microsoft Fluent 2 design system, and we have invested considerable effort to integrate it across all Blazorise components, ensuring a consistent and modern user interface experience.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -97,56 +104,11 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    DataGrid improvements
-</Heading>
-
-<Heading Size="HeadingSize.Is4">
-    1. State Management
+    Progress Bar: Indeterminate State
 </Heading>
 
 <Paragraph>
-    We've introduced a way that allows you to save and load the DataGrid state on demand using a centralized api. You can use the new <Code>LoadState</Code> and <code>GetState</code> methods to load and get the DataGrid state.
-</Paragraph>
-
-<Paragraph>
-    Please find an example of how to use this feature in the <Anchor To="docs/extensions/datagrid/features/state-management" Title="Link to DataGrid State Management">DataGrid State Management</Anchor> page.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is4">
-    2. PreventRowClick
-</Heading>
-
-<Paragraph>
-    Added support for TableRowCell to preventDefault and stopPropagation events on cell click, ClickPreventDefault and ClickStopPropagation respectively.
-</Paragraph>
-
-<Paragraph>
-    Resolved an issue where the DataGrid PreventRowClick was not working as expected.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is4">
-    3. Column Chooser
-</Heading>
-
-<Paragraph>
-    Enable Column Chooser by setting <Code>ColumnChooser</Code> to true to allow users to show or hide columns in the DataGrid.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is4">
-    4. DataGridColumn AggregateTemplate
-</Heading>
-
-<Paragraph>
-    Introduced an <Code>AggregateTemplate</Code> Parameter to the <Code>DataGridColumn</Code>.
-    This new Parameter fixes a gap in functionality where it was not possible to set an aggregate template for the <Code>DataGridColumn</Code> and <Code>DataGridMultiSelectColumn</Code>
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    Indeterminate progress bars
-</Heading>
-
-<Paragraph>
-
+    The Progress Bar now features an indeterminate state, designed to indicate ongoing processes whose duration cannot be predicted. This enhancement improves the user interface by providing a visual indicator for operations that are in progress, enhancing the overall user experience.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -154,27 +116,82 @@
 </Heading>
 
 <Paragraph>
-    We have introduced new components that are now used specifically within accordion. In the past for collapsible regions within the <Code>Accordion</Code> we used the <Code>Collapse</Code> component. This had several problems but mainly we had to internally wire to callapse what is not directly related to it. By making the collapse usage obsolete and introducing new accordion cimponent to replace it we are now much flexible and we can have more room for improvements in the future.
+    The Accordion functionality has been enhanced with the introduction of dedicated components. This change aims to improve the performance and flexibility of accordions within applications. It addresses previous limitations by replacing the use of the Collapse component, facilitating a more efficient and straightforward implementation.
 </Paragraph>
 
 <Paragraph>
-    The Collapse will still continue to work, but in the future you should expect it to be completelly revobed from the Accordion.
+    The Collapse will still continue to work, but in the future you should expect it to be completelly removed from the Accordion.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    Font Awesome icons
+    AntDesign upgrade to latest 4.24 version
 </Heading>
 
 <Paragraph>
-    We have mapped the latest icons from Font Awesome v6 branch. This enables you to use pick from larger number of icons names in your project.
+    In this update, the AntDesign provider has been upgraded. Before this, we utilized the earlier 4.0 version of AntDesign, which was not fully leveraging the capabilities of this advanced framework. While our goal is to transition to the newer AntDesign 5.1 version in a future Blazorise release, the current upgrade resolves numerous challenges encountered during the development of Blazorise 1.5.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Icon Updates and Additions
+</Heading>
+
+<Paragraph>
+    We're excited to announce the introduction of the <Strong>Blazorise.Icons.Fluent</Strong> package, featuring a new collection of icons derived from the Microsoft Fluent Icons library. This addition enriches the variety of icons available for your projects.
 </Paragraph>
 
 <Paragraph>
-    In this version we're introducing some changes to how Font Awesome are consumed. The <Strong>Blazorise.Icons.FontAwesome</Strong> package now contains the all icons for <Strong>v5.x</Strong>, and <Strong>v6.x</Strong> FontAwesome. This change was needed because that FontAwesome doesn't have CDN for <Strong>v6.x</Strong> icons. By packaging them into Blazorise we give you a heads-up to use them. And if you want to have your own CDN you can always use it as an alternative.
+    Furthermore, we've integrated the most recent icons from the Font Awesome v6 branch, significantly expanding the selection of icon names at your disposal.
 </Paragraph>
 
 <Paragraph>
-    Please be aware that after we merged <Strong>FontAWesome v6.x</Strong> some icons from the <Strong>v5.x</Strong> might not work correctly. It is adwised to update CSS link to use the latest <Strong>v6.x</Strong> CSS.
+    With this update, we've also adjusted how Font Awesome icons are utilized. The <Strong>Blazorise.Icons.FontAwesome</Strong> package now encompasses all icons from both the <Strong>v5.x</Strong>, and <Strong>v6.x</Strong> branches of Font Awesome. This modification was necessary due to the lack of a Content Delivery Network (CDN) for the <Strong>v6.x</Strong> icons. By incorporating these icons directly into Blazorise, we offer a direct path to leverage them in your projects. Should you prefer using your own CDN, that option remains available as an alternative.
+</Paragraph>
+
+<Paragraph>
+    It's important to note that following the integration of <Strong>FontAWesome v6.x</Strong>, certain icons from the <Strong>v5.x</Strong> collection may not function as expected. We recommend updating your CSS link to the latest <Strong>v6.x</Strong> version to ensure optimal compatibility and performance.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Enhancements to DataGrid
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    1. State Management
+</Heading>
+
+<Paragraph>
+    A new feature has been added for the efficient management of DataGrid states, allowing the saving and loading of DataGrid states as needed through a centralized API. Utilize the newly introduced <Code>LoadState</Code> and <code>GetState</code> methods for managing the DataGrid's state efficiently.
+</Paragraph>
+
+<Paragraph>
+    For practical applications of this feature, refer to the <Anchor To="docs/extensions/datagrid/features/state-management" Title="Link to DataGrid State Management">DataGrid State Management</Anchor> page.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    2. PreventRowClick
+</Heading>
+
+<Paragraph>
+    We've implemented enhancements to <Strong>TableRowCell</Strong>, introducing the ability to halt default actions and stop propagation of events upon cell clicks, through <Strong>ClickPreventDefault</Strong> and <Strong>ClickStopPropagation</Strong> functionalities. This update also addresses and resolves previous issues with the DataGrid's <Strong>PreventRowClick</Strong> feature not functioning as intended.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    3. Column Chooser
+</Heading>
+
+<Paragraph>
+    The introduction of the Column Chooser feature, activated by setting <Strong>ColumnChooser</Strong> to true, empowers users to dynamically show or hide columns within the DataGrid, enhancing the customization and flexibility of data presentation.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    4. Aggregate Template for DataGrid Columns
+</Heading>
+
+<Paragraph>
+    The addition of the <Strong>AggregateTemplate</Strong> parameter to DataGridColumn represents a significant enhancement, addressing previous limitations by enabling the assignment of aggregate templates to both DataGridColumn and DataGridMultiSelectColumn, thus expanding the framework's data aggregation capabilities.
+    
+    Introduced an <Code>AggregateTemplate</Code> Parameter to the <Code>DataGridColumn</Code>.
+    This new Parameter fixes a gap in functionality where it was not possible to set an aggregate template for the <Code>DataGridColumn</Code> and <Code>DataGridMultiSelectColumn</Code>
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -249,14 +266,6 @@
 
 <Paragraph>
     We also made dynamic loading of RichTextEdit JS obsolete, and made it work similar to all other Blazorise components. JavaScript is now loaded as a JS module.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    AntDesign upgrade to latest 4.x version
-</Heading>
-
-<Paragraph>
-    In this release, we've updated our AntDesign provider. Previously, we were using the older 4.0 version of AntDesign, which didn't do justice to this exceptional framework. Although we aim to upgrade to the latest AntDesign 5.1 version in the upcoming Blazorise milestone, this update addresses several issues identified while developing Blazorise 1.5.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="February 29th, 2024" Read="9 min" />
