@@ -18,7 +18,7 @@ public static class ParameterViewExtensions
     /// <param name="parameterName">The name of the parameter.</param>
     /// <param name="currentValue">Last known parameter value.</param>
     /// <param name="result">Receives the result, if any.</param>
-    public static void TryGetParameter<T>( this ParameterView parameters, string parameterName, T currentValue, out ComponentParameterInfo<T> result )
+    public static bool TryGetParameter<T>( this ParameterView parameters, string parameterName, T currentValue, out ComponentParameterInfo<T> result )
     {
         if ( parameters.TryGetValue<T>( parameterName, out var paramNewValue ) )
         {
@@ -30,5 +30,7 @@ public static class ParameterViewExtensions
         }
         else
             result = new ComponentParameterInfo<T>( default );
+
+        return result.Received;
     }
 }
