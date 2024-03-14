@@ -201,6 +201,12 @@
     <DocsAttributesItem Name="CollapseIconSize" Type="IconSize?" Default="null">
         Defines the size of the treenode collapse icon.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="NodeContextMenu" Type="EventCallback<TreeViewNodeMouseEventArgs<TNode>>">
+        The event is fired when the node is right clicked to show the context menu.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="NodeContextMenuPreventDefault" Type="bool" Default="false">
+        Used to prevent the default action for a NodeContextMenu event.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 <Heading Size="HeadingSize.Is3">
