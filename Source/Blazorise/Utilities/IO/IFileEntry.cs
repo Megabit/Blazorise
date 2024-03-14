@@ -26,6 +26,11 @@ public interface IFileEntry
     /// Returns the name of the file.
     /// </summary>
     string Name { get; }
+    
+    /// <summary>
+    /// Returns the relative path of the file.
+    /// </summary>
+    string RelativePath { get; }
 
     /// <summary>
     /// Returns the size of the file in bytes.
@@ -88,4 +93,9 @@ public interface IFileEntry
     /// Cancels any ongoing FileEntry operation.
     /// </summary>
     public Task Cancel();
+
+    /// <summary>
+    /// Provides a completion source to delay completion until after the file operation has been fully completed.
+    /// </summary>
+    TaskCompletionSource FileUploadEndedCallback { get; set; }
 }

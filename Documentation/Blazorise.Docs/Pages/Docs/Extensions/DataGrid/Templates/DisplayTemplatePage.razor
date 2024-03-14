@@ -1,0 +1,25 @@
+﻿@page "/docs/extensions/datagrid/templates/display"
+
+<Seo Canonical="/docs/extensions/datagrid/templates/display" Title="Blazorise DataGrid Display Template" Description="Learn Blazorise by the example. Customize how your data is displayed in each cell using the Blazorise DataGrid's display template feature. Assign custom templates to individual columns, allowing for more control over how your data is displayed." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Templates/Display">
+    Blazorise DataGrid: Display Template
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Blazor includes templated components that can accept one or more UI segments as input and render them as part of the component during component rendering. DataGrid is a templated Blazor component that lets you customize various parts of the user interface with template parameters. It enables you to generate custom components or content using your own logic.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DisplayTemplate">
+        Display template is using <Code>TItem</Code> as a context value.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridDisplayTemplateExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridDisplayTemplateExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>

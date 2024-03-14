@@ -1,5 +1,4 @@
-﻿using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
+﻿using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 
@@ -9,12 +8,12 @@ public class TextEditComponentTest : TestContext
 {
     public TextEditComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseTextEdit();
     }
 
     [Fact]
-    public void CanChangeText()
+    public async Task CanChangeText()
     {
         // setup
         var comp = RenderComponent<TextEditComponent>();
@@ -24,14 +23,14 @@ public class TextEditComponentTest : TestContext
         Assert.Null( text.GetAttribute( "value" ) );
 
         // test
-        text.Input( "abc" );
+        await text.InputAsync( new Microsoft.AspNetCore.Components.ChangeEventArgs() { Value = "abc" } );
 
         // validate
         Assert.Contains( "abc", text.GetAttribute( "value" ) );
     }
 
     [Fact]
-    public void CanChangeTextUsingEvent()
+    public async Task CanChangeTextUsingEvent()
     {
         // setup
         var comp = RenderComponent<TextEditComponent>();
@@ -42,11 +41,11 @@ public class TextEditComponentTest : TestContext
         Assert.Equal( string.Empty, result.InnerHtml );
 
         // test initial
-        text.Input( "abcde" );
+        await text.InputAsync( new Microsoft.AspNetCore.Components.ChangeEventArgs() { Value = "abcde" } );
         Assert.Equal( "abcde", result.InnerHtml );
 
         // test additional text
-        text.Input( "abcdefghijklmnopqrstuvwxyz" );
+        await text.InputAsync( new Microsoft.AspNetCore.Components.ChangeEventArgs() { Value = "abcdefghijklmnopqrstuvwxyz" } );
         Assert.Equal( "abcdefghijklmnopqrstuvwxyz", result.InnerHtml );
 
         // text backspace.
@@ -56,7 +55,7 @@ public class TextEditComponentTest : TestContext
     }
 
     [Fact]
-    public void CanChangeTextUsingBind()
+    public async Task CanChangeTextUsingBind()
     {
         // setup
         var comp = RenderComponent<TextEditComponent>();
@@ -67,7 +66,7 @@ public class TextEditComponentTest : TestContext
         Assert.Equal( string.Empty, result.InnerHtml );
 
         // test additional text
-        text.Input( "abcdefghijklmnopqrstuvwxyz" );
+        await text.InputAsync( new Microsoft.AspNetCore.Components.ChangeEventArgs() { Value = "abcdefghijklmnopqrstuvwxyz" } );
         Assert.Equal( "abcdefghijklmnopqrstuvwxyz", result.InnerHtml );
 
         // text backspace.

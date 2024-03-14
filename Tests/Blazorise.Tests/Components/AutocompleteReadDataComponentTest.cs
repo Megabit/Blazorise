@@ -1,8 +1,6 @@
 ﻿#region Using directives
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
+using System.Threading.Tasks;
 using Xunit;
-using static System.Net.Mime.MediaTypeNames;
 #endregion
 
 namespace Blazorise.Tests.Components;
@@ -11,23 +9,24 @@ public class AutocompleteReadDataComponentTest : AutocompleteBaseComponentTest
 {
     public AutocompleteReadDataComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop
+            .AddBlazoriseTextEdit()
+            .AddBlazoriseUtilities()
+            .AddBlazoriseClosable()
+            .AddBlazoriseDropdown();
     }
 
     [Fact]
-    public void Focus_ShouldFocus()
+    public Task Focus_ShouldFocus()
     {
-        TestFocus<AutocompleteReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
+        return TestFocus<AutocompleteReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
     }
 
     [Fact]
-    public void Clear_ShouldReset()
+    public Task Clear_ShouldReset()
     {
-        TestClear<AutocompleteReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedText );
+        return TestClear<AutocompleteReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedText );
     }
 
 
@@ -36,16 +35,16 @@ public class AutocompleteReadDataComponentTest : AutocompleteBaseComponentTest
     [InlineData( "Antarctica" )]
     [InlineData( "United Kingdom" )]
     [InlineData( "China" )]
-    public void SelectValue_ShouldSet( string expectedText )
+    public Task SelectValue_ShouldSet( string expectedText )
     {
-        TestSelectValue<AutocompleteReadDataComponent>( expectedText, ( comp ) => comp.Instance.SelectedText );
+        return TestSelectValue<AutocompleteReadDataComponent>( expectedText, ( comp ) => comp.Instance.SelectedText );
     }
 
     [Theory]
     [InlineData( "MyCustomValue" )]
-    public void FreeTypedValue_ShouldSet( string freeTyped )
+    public Task FreeTypedValue_ShouldSet( string freeTyped )
     {
-        TestFreeTypedValue<AutocompleteReadDataComponent>( freeTyped, ( comp ) => comp.Instance.SelectedText );
+        return TestFreeTypedValue<AutocompleteReadDataComponent>( freeTyped, ( comp ) => comp.Instance.SelectedText );
     }
 
     [Theory]
@@ -55,34 +54,34 @@ public class AutocompleteReadDataComponentTest : AutocompleteBaseComponentTest
     [InlineData( false, "Portuga", "Portuga" )]
     [InlineData( false, "Chin", "Chin" )]
     [InlineData( false, "United King", "United King" )]
-    public void FreeTypedValue_AutoPreSelect_ShouldSet( bool autoPreSelect, string freeTyped, string expectedText )
+    public Task FreeTypedValue_AutoPreSelect_ShouldSet( bool autoPreSelect, string freeTyped, string expectedText )
     {
-        TestFreeTypedValue_AutoPreSelect<AutocompleteReadDataComponent>( autoPreSelect, freeTyped, expectedText, ( comp ) => comp.Instance.SelectedText );
+        return TestFreeTypedValue_AutoPreSelect<AutocompleteReadDataComponent>( autoPreSelect, freeTyped, expectedText, ( comp ) => comp.Instance.SelectedText );
     }
 
 
     [Fact]
-    public void AutoPreSelect_True_Should_AutoPreSelectFirstItem()
+    public Task AutoPreSelect_True_Should_AutoPreSelectFirstItem()
     {
-        TestHasPreselection<AutocompleteReadDataComponent>();
+        return TestHasPreselection<AutocompleteReadDataComponent>();
     }
 
     [Fact]
-    public void AutoPreSelect_False_ShouldNot_AutoPreSelectFirstItem()
+    public Task AutoPreSelect_False_ShouldNot_AutoPreSelectFirstItem()
     {
-        TestHasNotPreselection<AutocompleteReadDataComponent>();
+        return TestHasNotPreselection<AutocompleteReadDataComponent>();
     }
 
     [Fact]
-    public void MinLength_0_ShouldShowOptions_OnFocus()
+    public Task MinLength_0_ShouldShowOptions_OnFocus()
     {
-        TestMinLen0ShowsOptions<AutocompleteReadDataComponent>();
+        return TestMinLen0ShowsOptions<AutocompleteReadDataComponent>();
     }
 
     [Fact]
-    public void MinLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
+    public Task MinLength_BiggerThen0_ShouldNotShowOptions_OnFocus()
     {
-        TestMinLenBiggerThen0DoesNotShowOptions<AutocompleteReadDataComponent>();
+        return TestMinLenBiggerThen0DoesNotShowOptions<AutocompleteReadDataComponent>();
     }
 
 }

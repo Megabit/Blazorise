@@ -1,455 +1,54 @@
 ﻿@page "/"
 
-<Seo Canonical="/" Title="Blazorise Component Library" Description="Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Bulma, AntDesign and Material." />
+<Seo Canonical="/" Title="Blazorise - Blazor Component Library" Description="Blazorise is a component library built on top of Blazor with support for CSS frameworks like Bootstrap, Tailwind, Bulma, AntDesign and Material." />
 
-<Div Class="home-banner" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
-    <Container>
-        <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is4.FromTop.Is4.FromBottom" Source="/img/logos/blazorise-small.svg" Text="Blazorise logo" Style="width: 120px; height: 120px;" />
-        <DisplayHeading Size="DisplayHeadingSize.Is4" TextWeight="TextWeight.Bold" Padding="Padding.Is3.OnY">
-            The modern UI components for Blazor
-        </DisplayHeading>
-        <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
-            A set of <Strong>80+</Strong> free and open source native Blazor UI controls.
-        </Heading>
-        <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
-            Blazorise is a <Strong>component library</Strong> built on top of Blazor with support for <Strong>multiple CSS frameworks</Strong> like Bootstrap, Bulma, AntDesign and Material.
-        </Heading>
-        <Div>
-            <Button Type="ButtonType.Link" To="docs" Color="Color.Primary" Size="Size.Large" Margin="Margin.Is2.OnY">
-                <Icon Name="IconName.Book" />
-                Get Started
-            </Button>
-            <Button Type="ButtonType.Link" To="https://github.com/Megabit/Blazorise" Target="Target.Blank" Color="Color.Secondary" Size="Size.Large" Margin="Margin.Is2.OnY">
-                <Icon Name="@("fab fa-github")" />
-                Star On GitHub
-            </Button>
-        </Div>
-    </Container>
-</Div>
+<PageHeader>
+    <Title>
+        @* Developer Focused <Span Class="gradient-commercial">Blazor Component</Span> Library *@
+        @* CSS <Span Class="gradient-commercial">framework independent</Span> development in C# *@
+        Make UI building <Span Class="gradient-commercial">our problem</Span>. Not yours.
+    </Title>
+    <Subtitle>
+        @* UI component that enables CSS framework <Strong>independent</Strong> development in C#. *@
+        @* Build Blazor web applications <Strong>from scratch</Strong> with a set of <Strong>80+</Strong> native Blazor UI components. *@
+        We manage the complexities of user interface design, freeing you to focus on the creative and functional aspects of your projects.
+    </Subtitle>
+    <Actions>
+        <Button Class="btn-primary-gradient" Type="ButtonType.Link" To="docs" Color="Color.Primary" Size="Size.Large">
+            Get Started
+            <Icon Name="IconName.ArrowRight" Margin="Margin.Is2.FromStart" />
+        </Button>
+        <Button Type="ButtonType.Link" To="book-a-demo" Color="Color.Secondary" Size="Size.Large">
+            <Icon Name="IconName.Microphone" />
+            Book a Demo
+        </Button>
+    </Actions>
+</PageHeader>
 
 <Div Padding="Padding.Is5.OnY">
     <Container>
         <section class="home-logos" id="logos-section">
-            <Row>
-                <Column TextAlignment="TextAlignment.Center">
-                    <Anchor To="https://www.pebble.tv/" Target="Target.Blank" Title="pebble">
-                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/pebble.svg" Text="pebble" />
-                    </Anchor>
-                </Column>
-                <Column TextAlignment="TextAlignment.Center">
-                    <Anchor To="https://www.ge.com/" Target="Target.Blank" Title="ge">
-                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/ge.svg" Text="ge" />
-                    </Anchor>
-                </Column>
-                <Column TextAlignment="TextAlignment.Center">
-                    <Anchor To="https://abp.io/" Target="Target.Blank" Title="abp">
-                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/abp.svg" Text="abp" />
-                    </Anchor>
-                </Column>
-                <Column TextAlignment="TextAlignment.Center">
-                    <Anchor To="https://www.daimlertruck.com/en/" Target="Target.Blank" Title="daimler">
-                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/daimler.svg" Text="daimler" />
-                    </Anchor>
-                </Column>
-                <Column TextAlignment="TextAlignment.Center">
-                    <Anchor To="https://www.telekom.com/en" Target="Target.Blank" Title="Deutsche Telekom">
-                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/deutsche-telekom.svg" Text="Deutsche Telekom" />
-                    </Anchor>
-                </Column>
-                <Column TextAlignment="TextAlignment.Center">
-                    <Anchor To="https://bluepanda.pt/" Target="Target.Blank" Title="bluepanda">
-                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/bluepanda.svg" Text="bluepanda" />
-                    </Anchor>
-                </Column>
-                <Column TextAlignment="TextAlignment.Center">
-                    <Anchor To="https://corptrade.se/" Target="Target.Blank" Title="corptrade">
-                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/corptrade.svg" Text="corptrade" />
-                    </Anchor>
-                </Column>
-                <Column TextAlignment="TextAlignment.Center">
-                    <Anchor To="https://www.microsoft.com/" Target="Target.Blank" Title="microsoft">
-                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/microsoft.svg" Text="microsoft" />
-                    </Anchor>
-                </Column>
-                <Column TextAlignment="TextAlignment.Center">
-                    <Anchor To="https://fitabase.com/" Target="Target.Blank" Title="fitabase">
-                        <Image Source="_content/Blazorise.Docs/assets/img/logos/users/fitabase.svg" Text="fitabase" />
-                    </Anchor>
-                </Column>
-            </Row>
+            <HomeClientLogos />
             <Row>
                 <Column>
                     <Paragraph Margin="Margin.Is4.FromTop" TextColor="TextColor.Muted" TextAlignment="TextAlignment.Center">
-                        The world's best product teams trust Blazorise to deliver an unrivaled experience for both developers and users.
+                        Yes, it's true – the world's best product teams trust Blazorise to deliver an unrivaled experience for both developers and users.
                     </Paragraph>
                 </Column>
             </Row>
         </section>
         <Divider Margin="Margin.Is5.OnY" />
-        <section class="home-features" id="features-section">
-            <HomeFeatureInfo Title="Multiple CSS Frameworks" To="docs/usage" ImageSource="img/illustrations/home/CSS_Two Color.svg" ImageText="Multiple CSS Frameworks image">
-                <TextContent>
-                    Blazorise is built from the ground up to support any favorite CSS framework without sacrificing speed or features.
-                </TextContent>
-                <BoldContent>
-                    Have a try at <Anchor To="https://bootstrapdemo.blazorise.com/" Target="Target.Blank">Bootstrap</Anchor>, <Anchor To="https://bulmademo.blazorise.com/" Target="Target.Blank">Bulma</Anchor>, <Anchor To="https://materialdemo.blazorise.com/" Target="Target.Blank">Material</Anchor>, or <Anchor To="https://antdesigndemo.blazorise.com/" Target="Target.Blank">AntDesign</Anchor>.
-                </BoldContent>
-            </HomeFeatureInfo>
-
-            <HomeFeatureInfo Title="80+ Components" To="docs" ImageSource="img/illustrations/home/User interface_Two Color.svg" ImageText="80+ Components image" Reverse>
-                <TextContent>
-                    Blazorise comes with 80+ <Anchor To="docs/components" Title="Link to Blazor UI components">Blazor UI components</Anchor> that help you build consistent UIs fast. The theme can be customized to match your brand.
-                </TextContent>
-                <BoldContent>
-                    <Anchor To="docs/extensions" Title="Link to Extensions">Extensions</Anchor> component are built upon the core components to extend and bring even more features.
-                </BoldContent>
-            </HomeFeatureInfo>
-
-            <HomeFeatureInfo Title="Open Source" To="https://github.com/Megabit/Blazorise" ImageSource="img/illustrations/home/Coding _Two Color.svg" ImageText="Open source image">
-                <TextContent>
-                    Blazorise is open-source and free to use under our Community License. You can install it from nuget or build your own copy from source.
-                </TextContent>
-                <BoldContent>
-                    You can contribute directly to <Anchor To="https://github.com/Megabit/Blazorise">Blazorise</Anchor> by submiting a PR, reporting an issue, or asking for a feature.
-                </BoldContent>
-            </HomeFeatureInfo>
-
-            <HomeFeatureInfo Title="For Enterprises" To="https://commercial.blazorise.com/" ImageSource="img/illustrations/home/Finance analytics _Two Color.svg" ImageText="Commercial image" Reverse>
-                <TextContent>
-                    Priority feature updates, support, and bug fixes are available as part of our commercial licensing.
-                </TextContent>
-                <BoldContent>
-                    Get guaranteed development support directly from the team that built Blazorise with a <Anchor To="https://commercial.blazorise.com/">Blazorise Professional</Anchor> subscription.
-                </BoldContent>
-            </HomeFeatureInfo>
-
-            <HomeFeatureInfo Title="Less code. More speed" To="docs/start" ImageSource="img/illustrations/home/Web development _Two Color.svg" ImageText="Less code. More speed image">
-                <TextContent>
-                    Spend less time writing UI code and more time building a great experience for your customers.
-                </TextContent>
-                <BoldContent>
-                    Develop rich web applications using C# code on both the server and client-side(WASM).
-                </BoldContent>
-            </HomeFeatureInfo>
-        </section>
+        <HomeCSSFrameworksSection />
         <Divider Margin="Margin.Is5.OnY" />
-        <section class="home-case-studies" id="case-studies-section">
-            <Row>
-                <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
-                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Why Should You Blazorise?</Heading>
-                    <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                        Blazorise component library offers cutting-edge solutions for startups and enterprises, and we strive to keep up with the latest technological developments on a daily basis. Blazorise began as an open-source system.
-                    </Heading>
-                    <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                        Second, our project has a commercial side that allows us to grow in a sustainable manner and develop more easily and quickly as technology advances. As a result, some of our components include features that are unique to Blazorise.
-                    </Heading>
-                </Column>
-
-                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is3.OnWidescreen" Margin="Margin.Is3.FromBottom.Is0.FromBottom.OnWidescreen" Class="stretch-card aos-init aos-animate" data-aos-delay="100">
-                    <Card Class="color-cards" Border="Border.Is0">
-                        <CardBody Padding="Padding.Is0">
-                            <Div Background="Background.Primary" TextAlignment="TextAlignment.Center" Class="card-contents" Shadow="Shadow.Default">
-                                <CardImage Source="img/illustrations/home/User interface_Two Color.svg" Alt="Case study 1 image" Class="case-studies-card-img" />
-                                <Div Class="card-desc-box" Flex="Flex.AlignItems.Center.JustifyContent.Around">
-                                    <Div>
-                                        <Anchor To="docs/faq"><Button Color="Color.Light">Read More</Button></Anchor>
-                                    </Div>
-                                </Div>
-                            </Div>
-                            <Div Class="card-details" TextAlignment="TextAlignment.Center" Padding="Padding.Is4.FromTop">
-                                <Heading Size="HeadingSize.Is6" Margin="Margin.Is0" Padding="Padding.Is1.FromBottom">Easy to use</Heading>
-                                <Paragraph>Our components are intuitive and easy to use, and you will find many standard APIs among them.</Paragraph>
-                            </Div>
-                        </CardBody>
-                    </Card>
-                </Column>
-
-                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is3.OnWidescreen" Margin="Margin.Is3.FromBottom.Is0.FromBottom.OnWidescreen" Class="stretch-card aos-init aos-animate" data-aos-delay="100">
-                    <Card Class="color-cards" Border="Border.Is0">
-                        <CardBody Padding="Padding.Is0">
-                            <Div Background="Background.Light" TextAlignment="TextAlignment.Center" Class="card-contents" Shadow="Shadow.Default">
-                                <CardImage Source="img/illustrations/home/Mobile Testing_Two Color.svg" Alt="Case study 2 image" Class="case-studies-card-img" />
-                                <Div Class="card-desc-box" Flex="Flex.AlignItems.Center.JustifyContent.Around">
-                                    <Div>
-                                        <Anchor To="docs/usage"><Button Color="Color.Light">Read More</Button></Anchor>
-                                    </Div>
-                                </Div>
-                            </Div>
-                            <Div Class="card-details" TextAlignment="TextAlignment.Center" Padding="Padding.Is4.FromTop">
-                                <Heading Size="HeadingSize.Is6" Margin="Margin.Is0" Padding="Padding.Is1.FromBottom">Responsive</Heading>
-                                <Paragraph>Our components are based on responsive css frameworks, and as such made to be fully responsive, whether your on a desktop or mobile our components will render accordingly.</Paragraph>
-                            </Div>
-                        </CardBody>
-                    </Card>
-                </Column>
-
-                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is3.OnWidescreen" Margin="Margin.Is3.FromBottom.Is0.FromBottom.OnWidescreen" Class="stretch-card aos-init aos-animate" data-aos-delay="100">
-                    <Card Class="color-cards" Border="Border.Is0">
-                        <CardBody Padding="Padding.Is0">
-                            <Div Background="Background.Secondary" TextAlignment="TextAlignment.Center" Class="card-contents" Shadow="Shadow.Default">
-                                <CardImage Source="img/illustrations/home/Reading a book_Two Color.svg" Alt="Case study 3 image" Class="case-studies-card-img" />
-                                <Div Class="card-desc-box" Flex="Flex.AlignItems.Center.JustifyContent.Around">
-                                    <Div>
-                                        <Anchor To="docs/helpers/localization"><Button Color="Color.Light">Read More</Button></Anchor>
-                                    </Div>
-                                </Div>
-                            </Div>
-                            <Div Class="card-details" TextAlignment="TextAlignment.Center" Padding="Padding.Is4.FromTop">
-                                <Heading Size="HeadingSize.Is6" Margin="Margin.Is0" Padding="Padding.Is1.FromBottom">Localization</Heading>
-                                <Paragraph>Our components are provided with localization for various languages.</Paragraph>
-                            </Div>
-                        </CardBody>
-                    </Card>
-                </Column>
-
-                <Column ColumnSize="ColumnSize.Is12.Is6.OnDesktop.Is3.OnWidescreen" Margin="Margin.Is3.FromBottom.Is0.FromBottom.OnWidescreen" Class="stretch-card aos-init aos-animate" data-aos-delay="100">
-                    <Card Class="color-cards" Border="Border.Is0">
-                        <CardBody Padding="Padding.Is0">
-                            <Div Background="Background.Light" TextAlignment="TextAlignment.Center" Class="card-contents" Shadow="Shadow.Default">
-                                <CardImage Source="img/illustrations/home/Calendar_Two Color.svg" Alt="Case study 4 image" Class="case-studies-card-img" />
-                                <Div Class="card-desc-box" Flex="Flex.AlignItems.Center.JustifyContent.Around">
-                                    <Div>
-                                        <Anchor To="news"><Button Color="Color.Light">Read More</Button></Anchor>
-                                    </Div>
-                                </Div>
-                            </Div>
-                            <Div Class="card-details" TextAlignment="TextAlignment.Center" Padding="Padding.Is4.FromTop">
-                                <Heading Size="HeadingSize.Is6" Margin="Margin.Is0" Padding="Padding.Is1.FromBottom">Best practices</Heading>
-                                <Paragraph>We keep updated with the latest technology changes for you. Whether there's a new feature in .NET or we figure out improved ways to solve problems, we'll keep up to date.</Paragraph>
-                            </Div>
-                        </CardBody>
-                    </Card>
-                </Column>
-            </Row>
-        </section>
+        <HomeCaseStudiesSection />
         <Divider Margin="Margin.Is5.OnY" />
-        <section class="home-popular-components" id="popular-components-section">
-            <Row>
-                <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
-                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Most Popular Components</Heading>
-                </Column>
-                <Column>
-                    <Tabs @bind-SelectedTab="@selectedPopularComponentsTab" FullWidth Pills>
-                        <Items>
-                            <Tab Name="DataGrid"><Text TextWeight="TextWeight.Bold">DataGrid</Text></Tab>
-                            <Tab Name="Charts"><Text TextWeight="TextWeight.Bold">Charts</Text></Tab>
-                            <Tab Name="Validation"><Text TextWeight="TextWeight.Bold">Validation</Text></Tab>
-                            <Tab Name="Autocomplete"><Text TextWeight="TextWeight.Bold">Autocomplete</Text></Tab>
-                            <Tab Name="Video"><Text TextWeight="TextWeight.Bold">Video</Text></Tab>
-                        </Items>
-                        <Content>
-                            <TabPanel Name="DataGrid">
-                                <Row>
-                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
-                                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.OnY">
-                                            Feature-rich grid control for Blazor.
-                                        </Heading>
-                                        <Paragraph Padding="Padding.Is4.FromBottom">
-                                            <Anchor To="docs/extensions/datagrid/getting-started" Title="Link to Blazorise DataGrid's component">Blazorise DataGrid's component</Anchor> main features include robust data layer, fast data processing, client-side data validation, and many more. The component leverages the power of Blazor, to provide the best UX while manipulating an unlimited set of data. It comes with an intuitive API for real-time updates, accessibility, as well as theming and custom templates, all with blazing fast performance.
-                                        </Paragraph>
-                                    </Column>
-                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
-                                        <Image Source="img/gallery/popular/01-datagrid.png" Text="DataGrid image" Margin="Margin.Is3.OnY" Width="Width.Is100" Height="Height.Is100" />
-                                    </Column>
-                                </Row>
-                            </TabPanel>
-                            <TabPanel Name="Charts">
-                                <Row>
-                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
-                                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.OnY">
-                                            Charts
-                                        </Heading>
-                                        <Paragraph Padding="Padding.Is4.FromBottom">
-                                            The <Anchor To="docs/extensions/chart" Title="Link to Blazorise Chart component">Blazorise Chart component</Anchor> can plot a wide range of chart types, ranging from line charts to specialized financial charts. Its rich feature set includes functionalities like data binding, multiple axes, legends, animation, data labels, annotations, trackballs, tooltips, and zooming.
-                                        </Paragraph>
-                                    </Column>
-                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
-                                        <Image Source="img/gallery/popular/charts.png" Text="Charts image" Margin="Margin.Is3.OnY" Width="Width.Is100" Height="Height.Is100" />
-                                    </Column>
-                                </Row>
-                            </TabPanel>
-                            <TabPanel Name="Validation">
-                                <Row>
-                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
-                                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.OnY">
-                                            Validation components provide a simple form validation for Blazorise input components.
-                                        </Heading>
-                                        <Paragraph Padding="Padding.Is4.FromBottom">
-                                            The <Anchor To="docs/components/validation" Title="Link to Blazorise Validation system">Blazorise Validation system</Anchor> is built from the ground up to support various validation scenarios. It supports data-annotation, validation handler methods, and regex patterns. One of the its advanced features is the ability to do the async validation which can be used to validate a field by calling an external API.
-                                        </Paragraph>
-                                        <Paragraph>
-                                            Manual and automatic validations are also supported, along with the fully custom localization system.
-                                        </Paragraph>
-                                    </Column>
-                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
-                                        <Image Source="img/gallery/popular/02-validation.png" Text="Validation image" Margin="Margin.Is3.OnY" Width="Width.Is100" Height="Height.Is100" />
-                                    </Column>
-                                </Row>
-                            </TabPanel>
-                            <TabPanel Name="Autocomplete">
-                                <Row>
-                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
-                                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.OnY">
-                                            High performance autocomplete can load and query large amounts of data at high speeds.
-                                        </Heading>
-                                        <Paragraph Padding="Padding.Is4.FromBottom">
-                                            The <Anchor To="docs/extensions/autocomplete" Title="Link to Blazorise Autocomplete component">Blazorise Autocomplete component</Anchor> looks like a textbox and delivers a list of suggestions as the user inputs. It comes with a number of features out of the box, like data binding, filtering, UI customization, accessibility, and more.
-                                        </Paragraph>
-                                    </Column>
-                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
-                                        <Image Source="img/gallery/popular/autocomplete.png" Text="Autocomplete image" Margin="Margin.Is3.OnY" Width="Width.Is100" Height="Height.Is100" />
-                                    </Column>
-                                </Row>
-                            </TabPanel>
-                            <TabPanel Name="Video">
-                                <Row>
-                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
-                                        <Heading Size="HeadingSize.Is4" Margin="Margin.Is3.OnY">
-                                            Advanced video player can handle live streaming video feeds or video files.
-                                        </Heading>
-                                        <Paragraph Padding="Padding.Is4.FromBottom">
-                                            The <Anchor To="docs/extensions/video" Title="Link to Blazorise Video component">Blazorise Video component</Anchor> is built to support almost any media which includes DASH or HLS encoded videos, be it coming from a static video file or a live stream. It can also support DRM protected videos.
-                                        </Paragraph>
-                                    </Column>
-                                    <Column ColumnSize="ColumnSize.Is12.Is6.OnTablet">
-                                        <Image Source="img/gallery/popular/video.png" Text="Video image" Margin="Margin.Is3.OnY" Width="Width.Is100" Height="Height.Is100" />
-                                    </Column>
-                                </Row>
-                            </TabPanel>
-                        </Content>
-                    </Tabs>
-                </Column>
-            </Row>
-        </section>
+        <HomePopularComponentsSection />
         <Divider Margin="Margin.Is5.OnY" />
-        <section class="home-testimonials" id="testimonials-section">
-            <Row>
-                <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
-                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Loved by 100,000+ developers and relied on by Fortune 500 businesses.</Heading>
-                    <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                        No better way to describe Blazorise, then actually using it in real world scenarios.
-                        Here's what our clients have to say about Blazorise:
-                    </Heading>
-                </Column>
-            </Row>
-            <Row>
-                <Column ColumnSize="ColumnSize.Is4.OnWidescreen.Is6.OnDesktop">
-                    <Div Padding="Padding.Is4" Shadow="Shadow.Large">
-                        <Rating SelectedValue="5" ReadOnly />
-                        <Div>
-                            <Paragraph>
-                                <Blockquote>
-                                    “Blazorise has been a key framework which allowed us to quickly build new products while focusing on distinguishing features. The diverse offering of components and compelling documentation made thinking about new features and visualising them much quicker. The customisation layer offered is also excellent and allows us to really make our products and solutions feel coherent and in line with the company brand.”
-                                </Blockquote>
-                            </Paragraph>
-                        </Div>
-                        <Div Class="home-testimonial-meta">
-                            <Heading>Cristian Recoseanu</Heading>
-                            <Paragraph>
-                                <Anchor To="https://www.pebble.tv/" Target="Target.Blank">@@Pebble</Anchor>
-                            </Paragraph>
-                        </Div>
-                    </Div>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is4.OnWidescreen.Is6.OnDesktop">
-                    <Div Padding="Padding.Is4" Shadow="Shadow.Large">
-                        <Rating SelectedValue="5" ReadOnly />
-                        <Div>
-                            <Paragraph>
-                                <Blockquote>
-                                    “We moved from Radzen to Blazorise a year ago and never looked back.  Being able to target Boostrap on the desktop and Material for mobile with the same markup is amazing.”
-                                </Blockquote>
-                            </Paragraph>
-                        </Div>
-                        <Div Class="home-testimonial-meta">
-                            <Heading>Mark Davis</Heading>
-                            <Paragraph>
-                                <Anchor To="https://darkmatter.consulting/" Target="Target.Blank">@@Dark Matter Consulting</Anchor>
-                            </Paragraph>
-                        </Div>
-                    </Div>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is4.OnWidescreen.Is6.OnDesktop">
-                    <Div Padding="Padding.Is4" Shadow="Shadow.Large">
-                        <Rating SelectedValue="5" ReadOnly />
-                        <Div>
-                            <Paragraph>
-                                <Blockquote>
-                                    “Blazorise is one of the most complete Blazor component libraries. It provides built-in solutions for all the essential UI requirements. It is easy to learn, use and customize. We trust it in our solutions, and it is highly recommended.”
-                                </Blockquote>
-                            </Paragraph>
-                        </Div>
-                        <Div Class="home-testimonial-meta">
-                            <Heading>Halil İbrahim Kalkan</Heading>
-                            <Paragraph>
-                                <Anchor To="https://abp.io/" Target="Target.Blank">@@ABP Framework</Anchor>
-                            </Paragraph>
-                        </Div>
-                    </Div>
-                </Column>
-            </Row>
-        </section>
+        <HomeTestimonialsSection />
         <Divider Margin="Margin.Is5.OnY" />
-        <section id="action-section">
-            <Row>
-                <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.FromBottom">
-                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Start Building With Blazorise Now!</Heading>
-                    <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                        We are here to help you succeed. Our specialists are happy to answer any questions you may have, and our technical documentation includes tutorials and copy-paste code examples on the different Blazorise features.
-                    </Heading>
-                </Column>
-            </Row>
-            <Row>
-                <Column>
-                    <Div TextAlignment="TextAlignment.Center">
-                        <Button Type="ButtonType.Link" To="https://commercial.blazorise.com/contact" Color="Color.Primary" Size="Size.Large" Margin="Margin.Is2.OnY">
-                            Contact us
-                        </Button>
-                        <Button Type="ButtonType.Link" To="docs" Color="Color.Primary" Outline Size="Size.Large" Margin="Margin.Is2.OnY">
-                            Read documentation
-                        </Button>
-                    </Div>
-                </Column>
-            </Row>
-        </section>
+        <HomeSpecialistsSection />
         <Divider Margin="Margin.Is5.OnY" />
-        <section class="home-community" id="community-section">
-            <Row>
-                <Column ColumnSize="ColumnSize.Is12" TextAlignment="TextAlignment.Center">
-                    <Heading Size="HeadingSize.Is2" Padding="Padding.Is3.FromBottom">Join Our Community</Heading>
-                    <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.FromBottom" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted">
-                        Great systems have a great community behind it. We open sourced Blazorise early in our journey because we believe in the importance of community. It is foundational to our story. We are open about our roadmap and priorities. We are proud of what we have running under the hood. Check out our Github and take a look at our priority list, our code, our documentation, and join our community.
-                    </Heading>
-                </Column>
-            </Row>
-
-            <Row>
-                <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
-                    <Image Source="img/logos/icons8-twitter.svg" Text="Twitter icon" Class="home-community-img-icons" />
-                    <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Twitter</Heading>
-                    <Paragraph TextColor="TextColor.Muted">For announcements, blog posts, and general Blazorise stuff.</Paragraph>
-                    <Anchor To="https://twitter.com/Blazorise" Title="Link to Blazorise Twitter" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">Follow us</Paragraph></Anchor>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
-                    <Image Source="img/logos/icons8-discord.svg" Text="Discord icon" Class="home-img-icons" />
-                    <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Discord</Heading>
-                    <Paragraph TextColor="TextColor.Muted">Get help over chat from community members. A maintainer is usually online.</Paragraph>
-                    <Anchor To="https://discord.io/blazorise" Title="Link to Blazorise Discord" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">Chat now</Paragraph></Anchor>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
-                    <Image Source="img/logos/icons8-reddit.svg" Text="Reddit icon" Class="home-community-img-icons" />
-                    <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">Reddit</Heading>
-                    <Paragraph TextColor="TextColor.Muted">Subscribe to be notified of any Blazorise news or announcements.</Paragraph>
-                    <Anchor To="https://www.reddit.com/r/Blazorise/" Title="Link to Blazorise Reddit" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">Subscribe</Paragraph></Anchor>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is12.Is3.OnDesktop">
-                    <Image Source="img/logos/icons8-github.svg" Text="GitHub icon" Class="home-community-img-icons" />
-                    <Heading Size="HeadingSize.Is5" Padding="Padding.Is3.OnY">GitHub</Heading>
-                    <Paragraph TextColor="TextColor.Muted">If you encounter an issue, do us a favor and report it. Someone else may have the same issue.</Paragraph>
-                    <Anchor To="https://github.com/Megabit/Blazorise" Title="Link to Blazorise GitHub" Target="Target.Blank"><Paragraph Class="home-community-readmore-link">View GitHub issues</Paragraph></Anchor>
-                </Column>
-            </Row>
-        </section>
+        <HomeCommunitySection />
         <Divider Margin="Margin.Is5.OnY" />
         <section class="home-newsletter" id="newsletter-section">
             <Container>
@@ -458,6 +57,3 @@
         </section>
     </Container>
 </Div>
-@code {
-    string selectedPopularComponentsTab = "DataGrid";
-}

@@ -1,0 +1,42 @@
+﻿@page "/tests/breadcrumbs";
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Breadcrumbs</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Indicate the current page’s location within a navigational hierarchy.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Breadcrumb>
+                    <BreadcrumbItem Active>
+                        <BreadcrumbLink To="#">Home</BreadcrumbLink>
+                    </BreadcrumbItem>
+                </Breadcrumb>
+                <Breadcrumb>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink To="#">Home</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem Active>
+                        <BreadcrumbLink To="#">Library</BreadcrumbLink>
+                    </BreadcrumbItem>
+                </Breadcrumb>
+                <Breadcrumb>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink To="#">Home</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink To="#">Library</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem Active>
+                        <BreadcrumbLink To="#">Data</BreadcrumbLink>
+                    </BreadcrumbItem>
+                </Breadcrumb>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

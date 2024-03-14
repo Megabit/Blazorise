@@ -11,20 +11,29 @@
               Placeholder="Search..."
               FreeTyping="@FreeTyping"
               MinLength="@MinLength"
-              AutoPreSelect="@AutoPreSelect">
+              AutoPreSelect="@AutoPreSelect"
+              Closed="Closed"
+              Opened="Opened"
+              SearchFocus="SearchFocus"
+              SearchBlur="SearchBlur"
+              SearchTextChanged="SearchTextChanged"
+              SearchKeyDown="SearchKeyDown"
+              >
     <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+    <FreeTypingNotFoundTemplate> Add "@context"</FreeTypingNotFoundTemplate>
 </Autocomplete>
 
 @code {
     [Inject] public CountryData CountryData { get; set; }
 
-    public IEnumerable<Country> Countries;
+    [Parameter] public IEnumerable<Country> Countries { get; set; }
 
     public Autocomplete<Country, string> AutoCompleteRef { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Countries = await CountryData.GetDataAsync();
+        if (Countries is null)
+            Countries = await CountryData.GetDataAsync();
         await base.OnInitializedAsync();
     }
 
@@ -60,4 +69,15 @@
 
     [Parameter]
     public bool AutoPreSelect { get; set; } = true;
+    
+    [Parameter]
+    public EventCallback<AutocompleteClosedEventArgs> Closed { get; set; }
+    
+    [Parameter]
+    public EventCallback Opened { get; set; }
+
+    [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
+    [Parameter] public EventCallback<KeyboardEventArgs> SearchKeyDown { get; set; }
+    [Parameter] public EventCallback<FocusEventArgs> SearchFocus { get; set; }
+    [Parameter] public EventCallback<FocusEventArgs> SearchBlur { get; set; }
 }

@@ -1,0 +1,81 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(async () =&gt; await HandleRedraw())</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Redraw<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">BarChart</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">barChart</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">double</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>options</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    BarChart&lt;<span class="keyword">double</span>&gt; barChart;
+
+    BarChartOptions options = <span class="keyword">new</span>()
+    {
+        IndexAxis = <span class="string">&quot;y&quot;</span>,
+        Elements = <span class="keyword">new</span>()
+        {
+            Bar = <span class="keyword">new</span>()
+            {
+                BorderWidth = <span class="number">2</span>,
+            }
+        },
+        Responsive = <span class="keyword">true</span>,
+        Plugins = <span class="keyword">new</span>()
+        {
+            Legend = <span class="keyword">new</span>()
+            {
+                Position = <span class="string">&quot;right&quot;</span>
+            },
+            Title = <span class="keyword">new</span>()
+            {
+                Display = <span class="keyword">true</span>,
+                    Text = <span class="string">&quot;Chart.js Horizontal Bar Chart&quot;</span>
+            }
+        }
+    };
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
+    {
+        <span class="keyword">if</span> ( firstRender )
+        {
+            <span class="keyword">await</span> HandleRedraw();
+        }
+    }
+
+    <span class="keyword">async</span> Task HandleRedraw()
+    {
+        <span class="keyword">await</span> barChart.Clear();
+
+        <span class="keyword">await</span> barChart.AddLabelsDatasetsAndUpdate( Labels,
+            GetBarChartDataset( <span class="string">&quot;Dataset 1&quot;</span> ),
+            GetBarChartDataset( <span class="string">&quot;Dataset 2&quot;</span> ) );
+    }
+
+    BarChartDataset&lt;<span class="keyword">double</span>&gt; GetBarChartDataset( <span class="keyword">string</span> label )
+    {
+        <span class="keyword">return</span> <span class="keyword">new</span> BarChartDataset&lt;<span class="keyword">double</span>&gt;
+        {
+            Label = label,
+            Data = RandomizeData(),
+            BackgroundColor = backgroundColors,
+            BorderColor = borderColors,
+        };
+    }
+
+    <span class="keyword">string</span>[] Labels = { <span class="string">&quot;Red&quot;</span>, <span class="string">&quot;Blue&quot;</span>, <span class="string">&quot;Yellow&quot;</span>, <span class="string">&quot;Green&quot;</span>, <span class="string">&quot;Purple&quot;</span>, <span class="string">&quot;Orange&quot;</span> };
+    List&lt;<span class="keyword">string</span>&gt; backgroundColors = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; { ChartColor.FromRgba( <span class="number">255</span>, <span class="number">99</span>, <span class="number">132</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">54</span>, <span class="number">162</span>, <span class="number">235</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">206</span>, <span class="number">86</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">75</span>, <span class="number">192</span>, <span class="number">192</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">153</span>, <span class="number">102</span>, <span class="number">255</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">159</span>, <span class="number">64</span>, <span class="number">0</span>.2f ) };
+    List&lt;<span class="keyword">string</span>&gt; borderColors = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; { ChartColor.FromRgba( <span class="number">255</span>, <span class="number">99</span>, <span class="number">132</span>, 1f ), ChartColor.FromRgba( <span class="number">54</span>, <span class="number">162</span>, <span class="number">235</span>, 1f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">206</span>, <span class="number">86</span>, 1f ), ChartColor.FromRgba( <span class="number">75</span>, <span class="number">192</span>, <span class="number">192</span>, 1f ), ChartColor.FromRgba( <span class="number">153</span>, <span class="number">102</span>, <span class="number">255</span>, 1f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">159</span>, <span class="number">64</span>, 1f ) };
+    Random random = <span class="keyword">new</span> Random( DateTime.Now.Millisecond );
+
+    List&lt;<span class="keyword">double</span>&gt; RandomizeData()
+    {
+        <span class="keyword">return</span> <span class="keyword">new</span> List&lt;<span class="keyword">double</span>&gt; {
+            random.Next( -<span class="number">50</span>, <span class="number">50</span> ) * random.NextDouble(),
+            random.Next( -<span class="number">50</span>, <span class="number">50</span> ) * random.NextDouble(),
+            random.Next( -<span class="number">50</span>, <span class="number">50</span> ) * random.NextDouble(),
+            random.Next( -<span class="number">50</span>, <span class="number">50</span> ) * random.NextDouble(),
+            random.Next( -<span class="number">50</span>, <span class="number">50</span> ) * random.NextDouble(),
+            random.Next( -<span class="number">50</span>, <span class="number">50</span> ) * random.NextDouble() };
+    }
+}
+</pre></div>
+</div>

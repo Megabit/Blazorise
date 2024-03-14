@@ -27,6 +27,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     #region Members
 
     private bool multiple;
+    private bool directory;
 
     // taken from https://github.com/aspnet/AspNetCore/issues/11159
     private DotNetObjectReference<FileEditAdapter> dotNetObjectRef;
@@ -49,7 +50,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     {
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             await InitializeValidation();
         }
@@ -71,7 +72,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
     {
         // no need to refresh if we're using custom localization
-        if ( BrowseButtonLocalizer != null )
+        if ( BrowseButtonLocalizer is not null )
             return;
 
         await InvokeAsync( StateHasChanged );
@@ -143,7 +144,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
         InternalValue = updatedFiles.ToArray();
 
         // send the value to the validation for processing
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
             await ParentValidation.NotifyInputChanged<IFileEntry[]>( files );
 
         await Changed.InvokeAsync( new( files ) );
@@ -319,11 +320,13 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     {
         get
         {
-            var localizationString = Multiple
-                ? "Choose files"
-                : "Choose file";
+            var uploadTypeString = Directory ? "folder" : "file";
 
-            if ( BrowseButtonLocalizer != null )
+            var localizationString = Multiple
+                ? $"Choose {uploadTypeString}s"
+                : $"Choose {uploadTypeString}";
+
+            if ( BrowseButtonLocalizer is not null )
                 return BrowseButtonLocalizer.Invoke( localizationString );
 
             return Localizer[localizationString];
@@ -344,7 +347,28 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
         get => multiple;
         set
         {
+            if ( multiple == value )
+                return;
+
             multiple = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Gets or Sets whether file picker should upload directories.
+    /// </summary>
+    [Parameter]
+    public bool Directory
+    {
+        get => directory;
+        set
+        {
+            if ( directory == value )
+                return;
+
+            directory = value;
 
             DirtyClasses();
         }

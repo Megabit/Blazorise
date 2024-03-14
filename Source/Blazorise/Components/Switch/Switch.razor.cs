@@ -2,6 +2,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -25,9 +26,24 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<TValue>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( Checked ) )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    await Revalidate();
+
+                    // Some providers may require that we define classname based on a switch state so we need to reset classes.
+                    DirtyClasses();
+                    await InvokeAsync( StateHasChanged );
+                } );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -59,7 +75,7 @@ public partial class Switch<TValue> : BaseCheckComponent<TValue>
     /// <summary>
     /// Returns true id switch is in checked state.
     /// </summary>
-    protected bool IsChecked => Checked?.ToString()?.ToLowerInvariant() == TrueValueName;
+    protected bool IsChecked => string.Compare( Checked?.ToString(), TrueValueName, StringComparison.InvariantCultureIgnoreCase ) == 0;
 
     /// <summary>
     /// Defines the switch named color.

@@ -1,0 +1,189 @@
+﻿@keyframes alert-slide-away {
+    from {
+        display: block;
+    }
+
+    to {
+        transform: translateY(-1rem);
+        opacity: 0;
+    }
+}
+
+.fui-MessageBar {
+    position: relative;
+    align-items: center;
+    padding-left: var(--spacingHorizontalM);
+    padding-right: var(--spacingHorizontalM);
+    padding-top: var(--spacingVerticalS);
+    padding-bottom: var(--spacingVerticalS);
+    border-top-width: var(--strokeWidthThin);
+    border-right-width: var(--strokeWidthThin);
+    border-bottom-width: var(--strokeWidthThin);
+    border-left-width: var(--strokeWidthThin);
+    border-style: solid;
+    border-top-color: var(--colorNeutralStroke1);
+    border-right-color: var(--colorNeutralStroke1);
+    border-bottom-color: var(--colorNeutralStroke1);
+    border-left-color: var(--colorNeutralStroke1);
+    border-bottom-right-radius: var(--borderRadiusMedium);
+    border-bottom-left-radius: var(--borderRadiusMedium);
+    border-top-right-radius: var(--borderRadiusMedium);
+    border-top-left-radius: var(--borderRadiusMedium);
+    min-height: 36px;
+    box-sizing: border-box;
+    background-color: var(--colorNeutralBackground3);
+    margin-bottom: var(--spacingVerticalM);
+
+    &-closable {
+        padding-right: 4rem;
+    }
+
+    &.fui-Display-none {
+        animation: alert-slide-away var(--durationNormal);
+    }
+
+    .fui-MessageBar__description {
+        display: inline-flex;
+        align-items: center;
+        font-family: var(--fontFamilyBase);
+        font-size: var(--fontSizeBase300);
+        font-weight: var(--fontWeightRegular);
+        line-height: var(--lineHeightBase300);
+        padding-right: var(--spacingHorizontalS);
+    }
+
+    .fui-MessageBar__message {
+        display: inline-flex;
+        align-items: center;
+        font-family: var(--fontFamilyBase);
+        font-size: var(--fontSizeBase300);
+        font-weight: var(--fontWeightRegular);
+        line-height: var(--lineHeightBase300);
+        padding-right: var(--spacingHorizontalS);
+    }
+
+    .fui-MessageBar__title {
+        font-family: var(--fontFamilyBase);
+        font-size: var(--fontSizeBase300);
+        font-weight: var(--fontWeightSemibold);
+        line-height: var(--lineHeightBase300);
+    }
+
+    .fui-MessageBar__icon {
+        font-size: var(--fontSizeBase500);
+        margin-right: var(--spacingHorizontalS);
+        color: var(--colorNeutralForeground3);
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .fui-MessageBarActions {
+        display: flex;
+        column-gap: var(--spacingHorizontalM);
+        padding-right: var(--spacingHorizontalM);
+    }
+
+    .fui-MessageBarActions__containerAction {
+        padding-right: var(--spacingHorizontalM);
+        position: absolute;
+        top: var(--spacingVerticalS);
+        right: 0;
+    }
+
+    &-primary {
+        border-bottom-color: var(--colorBrandStroke2);
+        border-left-color: var(--colorBrandStroke2);
+        border-right-color: var(--colorBrandStroke2);
+        border-top-color: var(--colorBrandStroke2);
+        background-color: var(--colorBrandBackground2);
+
+        .fui-MessageBar__icon {
+            color: var(--colorBrandForeground2)
+        }
+    }
+
+    &-secondary {
+        border-bottom-color: var(--colorNeutralStroke1);
+        border-left-color: var(--colorNeutralStroke1);
+        border-right-color: var(--colorNeutralStroke1);
+        border-top-color: var(--colorNeutralStroke1);
+        background-color: var(--colorNeutralBackground3);
+
+        .fui-MessageBar__icon {
+            color: var(--colorNeutralForeground3)
+        }
+    }
+
+    &-success {
+        border-bottom-color: var(--colorStatusSuccessBorder1);
+        border-left-color: var(--colorStatusSuccessBorder1);
+        border-right-color: var(--colorStatusSuccessBorder1);
+        border-top-color: var(--colorStatusSuccessBorder1);
+        background-color: var(--colorStatusSuccessBackground1);
+
+        .fui-MessageBar__icon {
+            color: var(--colorStatusSuccessForeground1);
+        }
+    }
+
+    &-danger {
+        border-bottom-color: var(--colorStatusDangerBorder1);
+        border-left-color: var(--colorStatusDangerBorder1);
+        border-right-color: var(--colorStatusDangerBorder1);
+        border-top-color: var(--colorStatusDangerBorder1);
+        background-color: var(--colorStatusDangerBackground1);
+
+        .fui-MessageBar__icon {
+            color: var(--colorStatusDangerForeground1);
+        }
+    }
+
+    &-warning {
+        border-bottom-color: var(--colorStatusWarningBorder1);
+        border-left-color: var(--colorStatusWarningBorder1);
+        border-right-color: var(--colorStatusWarningBorder1);
+        border-top-color: var(--colorStatusWarningBorder1);
+        background-color: var(--colorStatusWarningBackground1);
+
+        .fui-MessageBar__icon {
+            color: var(--colorStatusWarningForeground3);
+        }
+    }
+
+    &-info {
+    }
+
+    &-light {
+        border-bottom-color: var(--colorNeutralStroke1);
+        border-left-color: var(--colorNeutralStroke1);
+        border-right-color: var(--colorNeutralStroke1);
+        border-top-color: var(--colorNeutralStroke1);
+        background-color: var(--colorNeutralBackground1);
+    }
+
+    &-dark {
+        border-bottom-color: var(--colorNeutralStroke2);
+        border-left-color: var(--colorNeutralStroke2);
+        border-right-color: var(--colorNeutralStroke2);
+        border-top-color: var(--colorNeutralStroke2);
+        background-color: var(--colorNeutralForeground3);
+        color: var(--colorNeutralBackground1);
+
+        .fui-MessageBar__icon {
+            color: var(--colorNeutralBackground1);
+        }
+    }
+
+    &-link {
+        border-top-color: var(--colorTransparentStroke);
+        border-right-color: var(--colorTransparentStroke);
+        border-bottom-color: var(--colorTransparentStroke);
+        border-left-color: var(--colorTransparentStroke);
+        background-color: var(--colorTransparentBackground);
+        color: var(--colorBrandForegroundLink);
+
+        .fui-MessageBar__icon {
+            color: var(--colorBrandForegroundLink);
+        }
+    }
+}

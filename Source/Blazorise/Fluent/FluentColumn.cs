@@ -14,9 +14,10 @@ public interface IFluentColumn
     /// <summary>
     /// Builds and returns the classnames for column sizes.
     /// </summary>
+    /// <param name="grid">If true, column is the child of the <see cref="Grid"/> component.</param>
     /// <param name="classProvider">Class provider used by the current framework provider.</param>
     /// <returns>Return list of css classnames.</returns>
-    string Class( IClassProvider classProvider );
+    string Class( bool grid, IClassProvider classProvider );
 
     /// <summary>
     /// True if there are column sizes defined.
@@ -65,6 +66,11 @@ public interface IFluentColumnOnBreakpoint :
     /// Breakpoint on large desktops (extra large).
     /// </summary>
     IFluentColumnWithSize OnFullHD { get; }
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    IFluentColumnWithSize OnQuadHD { get; }
 }
 
 /// <summary>
@@ -178,6 +184,27 @@ public interface IFluentColumnWithSize :
 }
 
 /// <summary>
+/// Holds the build information for current column rules.
+/// </summary>
+public class ColumnDefinition
+{
+    /// <summary>
+    /// Gets or sets the column size.
+    /// </summary>
+    public ColumnWidth ColumnWidth { get; set; }
+
+    /// <summary>
+    /// Gets or sets the breakpoint rule.
+    /// </summary>
+    public Breakpoint Breakpoint { get; set; }
+
+    /// <summary>
+    /// Gets or sets the flag to indicate we want to offset column by the <see cref="ColumnWidth"/>.
+    /// </summary>
+    public bool Offset { get; set; }
+}
+
+/// <summary>
 /// Default implementation of fluent column builder.
 /// </summary>
 public class FluentColumn :
@@ -189,16 +216,9 @@ public class FluentColumn :
 {
     #region Members
 
-    private class ColumnDefinition
-    {
-        public Breakpoint Breakpoint { get; set; }
+    private ColumnDefinition currentColumnDefinition;
 
-        public bool Offset { get; set; }
-    }
-
-    private ColumnDefinition currentColumn;
-
-    private readonly Dictionary<ColumnWidth, List<ColumnDefinition>> rules = new();
+    private readonly List<ColumnDefinition> columnDefinitions = new();
 
     private List<string> customRules;
 
@@ -211,14 +231,16 @@ public class FluentColumn :
     #region Methods
 
     /// <inheritdoc/>
-    public string Class( IClassProvider classProvider )
+    public string Class( bool grid, IClassProvider classProvider )
     {
         if ( dirty )
         {
             void BuildClasses( ClassBuilder builder )
             {
-                if ( rules.Count( x => x.Key != ColumnWidth.Default ) > 0 )
-                    builder.Append( rules.Select( r => classProvider.Column( r.Key, r.Value.Select( v => (v.Breakpoint, v.Offset) ) ) ) );
+                if ( HasSizes && columnDefinitions?.Count > 0 )
+                {
+                    builder.Append( classProvider.Column( grid, columnDefinitions.Where( x => x.ColumnWidth != ColumnWidth.Default ) ) );
+                }
 
                 if ( customRules?.Count > 0 )
                     builder.Append( customRules );
@@ -234,6 +256,27 @@ public class FluentColumn :
         return classNames;
     }
 
+    private static int GetUsedSpace( ColumnWidth columnWidth )
+    {
+        return columnWidth switch
+        {
+            Blazorise.ColumnWidth.Is1 => 1,
+            Blazorise.ColumnWidth.Is2 => 2,
+            Blazorise.ColumnWidth.Is3 or Blazorise.ColumnWidth.Quarter => 3,
+            Blazorise.ColumnWidth.Is4 or Blazorise.ColumnWidth.Third => 4,
+            Blazorise.ColumnWidth.Is5 => 5,
+            Blazorise.ColumnWidth.Is6 or Blazorise.ColumnWidth.Half => 6,
+            Blazorise.ColumnWidth.Is7 => 7,
+            Blazorise.ColumnWidth.Is8 => 8,
+            Blazorise.ColumnWidth.Is9 => 9,
+            Blazorise.ColumnWidth.Is10 => 10,
+            Blazorise.ColumnWidth.Is11 => 11,
+            Blazorise.ColumnWidth.Is12 or Blazorise.ColumnWidth.Full => 12,
+            Blazorise.ColumnWidth.Auto => 0,
+            _ => 0,
+        };
+    }
+
     private void Dirty()
     {
         dirty = true;
@@ -246,16 +289,13 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnOnBreakpointWithOffsetAndSize WithColumnSize( ColumnWidth columnSize )
     {
-        HasSizes = true;
+        if ( columnSize != ColumnWidth.Default )
+            HasSizes = true;
 
-        var columnDefinition = new ColumnDefinition { Breakpoint = Breakpoint.None };
+        currentColumnDefinition = new ColumnDefinition { ColumnWidth = columnSize, Breakpoint = Breakpoint.None };
 
-        if ( rules.TryGetValue( columnSize, out var rule ) )
-            rule.Add( columnDefinition );
-        else
-            rules.Add( columnSize, new() { columnDefinition } );
+        columnDefinitions.Add( currentColumnDefinition );
 
-        currentColumn = columnDefinition;
         Dirty();
 
         return this;
@@ -268,7 +308,7 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnWithSize WithColumnSize( string value )
     {
-        if ( customRules == null )
+        if ( customRules is null )
             customRules = new() { value };
         else
             customRules.Add( value );
@@ -285,7 +325,7 @@ public class FluentColumn :
     /// <returns>Next rule reference.</returns>
     public IFluentColumnWithSize WithBreakpoint( Breakpoint breakpoint )
     {
-        currentColumn.Breakpoint = breakpoint;
+        currentColumnDefinition.Breakpoint = breakpoint;
         Dirty();
 
         return this;
@@ -332,9 +372,14 @@ public class FluentColumn :
     public IFluentColumnWithSize OnFullHD => WithBreakpoint( Breakpoint.FullHD );
 
     /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    public IFluentColumnWithSize OnQuadHD => WithBreakpoint( Breakpoint.QuadHD );
+
+    /// <summary>
     /// Move columns to the right.
     /// </summary>
-    public IFluentColumnOnBreakpoint WithOffset { get { currentColumn.Offset = true; Dirty(); return this; } }
+    public IFluentColumnOnBreakpoint WithOffset { get { currentColumnDefinition.Offset = true; Dirty(); return this; } }
 
     /// <summary>
     /// One column width.

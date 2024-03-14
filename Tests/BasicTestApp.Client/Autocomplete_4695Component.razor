@@ -1,0 +1,39 @@
+﻿<Autocomplete Data="Projects"
+              TItem="ProjectListItem"
+              TValue="string"
+              Immediate="true"
+              Debounce="true"
+              MinLength="0"
+              TextField="o => o?.ProjectID"
+              ValueField="o => o?.ProjectID"
+                FreeTyping
+              @bind-SelectedValue="SelectedProjectID"
+              @bind-SelectedText="SelectedProjectIDText"
+              Filter="AutocompleteFilter.StartsWith">
+    <ItemContent>
+        <Text>@(context.Item is null ? null : $"{context.Item?.ProjectID}{( !string.IsNullOrWhiteSpace( context.Item?.Customer ) ? $" - {context.Item?.Customer}" : null )} - {context.Item?.Description}")</Text>
+    </ItemContent>
+</Autocomplete>
+@code {
+    private List<ProjectListItem> Projects = new()
+    {
+        new()
+        {
+            Description = "Test1",
+            ProjectID = "1"
+        },
+        new()
+        {
+            Description = "Test2",
+            ProjectID = "2"
+        }
+    };
+    private string SelectedProjectID { get; set; }
+    private string SelectedProjectIDText { get; set; }
+    private class ProjectListItem
+    {
+        public string ProjectID { get; set; }
+        public string Customer { get; set; }
+        public string Description { get; set; }
+    }
+}

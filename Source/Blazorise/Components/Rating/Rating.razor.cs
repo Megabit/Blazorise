@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
@@ -94,7 +95,7 @@ public partial class Rating : BaseComponent
     /// </summary>
     /// <param name="value">Item value.</param>
     /// <returns>True if item value is in the selected range.</returns>
-    internal protected bool IsSelectedRange( int value )
+    public virtual bool IsSelectedRange( int value )
         => value >= 1 && value <= SelectedValue;
 
     /// <summary>
@@ -102,7 +103,7 @@ public partial class Rating : BaseComponent
     /// </summary>
     /// <param name="value">Item value.</param>
     /// <returns>True if item value is in the hovered range.</returns>
-    internal protected bool IsHoveredRange( int value )
+    public virtual bool IsHoveredRange( int value )
         => hovering
            && (
                ( value >= SelectedValue && value <= HoveredValue )
@@ -112,6 +113,11 @@ public partial class Rating : BaseComponent
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Indicates if the mouse is hovering over the component.
+    /// </summary>
+    public bool Hovering => hovering;
 
     /// <summary>
     /// User class names for RatingItems, separated by space
@@ -124,19 +130,19 @@ public partial class Rating : BaseComponent
     [Parameter] public string RatingItemsStyle { get; set; }
 
     /// <summary>
-    /// Maximum rating value that is allowed to be selected.
+    /// Maximum rating value that is allowed to be selected. Default is 5.
     /// </summary>
     [Parameter] public int MaxValue { get; set; } = 5;
 
     /// <summary>
     /// Defines the selected icon name.
     /// </summary>
-    [Parameter] public object FullIcon { get; set; } = IconName.Star;
+    [Parameter] public virtual object FullIcon { get; set; } = IconName.Star;
 
     /// <summary>
     /// Defines the non-selected icon name.
     /// </summary>
-    [Parameter] public object EmptyIcon { get; set; } = IconName.Star;
+    [Parameter] public virtual object EmptyIcon { get; set; } = IconName.Star;
 
     /// <summary>
     /// Defines the selected icon style.
@@ -219,6 +225,14 @@ public partial class Rating : BaseComponent
     /// Occurs after the <see cref="HoveredValue"/> has changed.
     /// </summary>
     [Parameter] public EventCallback<int?> HoveredValueChanged { get; set; }
+
+    /// <summary>
+    /// Expression that provides the tooltip for the rating item to have additional user-friendly information.
+    /// </summary>
+    /// <remarks>
+    /// The expression receives the rating item <Code>Value</Code> to determine the result.
+    /// </remarks>
+    [Parameter] public Func<int, RatingTooltip> GetTooltip { get; set; }
 
     #endregion
 }

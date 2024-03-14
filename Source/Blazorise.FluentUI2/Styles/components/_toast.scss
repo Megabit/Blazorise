@@ -1,0 +1,171 @@
+﻿@keyframes toast-enter-1 {
+    0% {
+        max-height: 0px;
+        opacity: 0;
+        margin-top: 0px;
+    }
+
+    100% {
+        margin-top: var(--spacingVerticalL);
+        opacity: 0;
+        max-height: var(--fui-toast-height);
+    }
+}
+
+@keyframes toast-enter-2 {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes toast-exit-1 {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes toast-exit-2 {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 0;
+        margin-top: 0px;
+        max-height: 0px;
+    }
+}
+
+.fui-Toaster {
+    z-index: var(--zIndexPopover);
+
+    &-fixed {
+        position: fixed;
+    }
+
+    &-absolute {
+        position: absolute;
+    }
+
+    &-top {
+        top: var(--spacingVerticalL);
+        left: calc(50% + var(--spacingHorizontalXL));
+        transform: translateX(-50%);
+    }
+
+    &-top-end {
+        top: var(--spacingVerticalL);
+        right: var(--spacingHorizontalXL);
+    }
+
+    &-top-start {
+        top: var(--spacingVerticalL);
+        left: var(--spacingHorizontalXL);
+    }
+
+    &-bottom {
+        bottom: var(--spacingVerticalL);
+        left: calc(50% + var(--spacingHorizontalXL));
+        transform: translateX(-50%);
+    }
+
+    &-bottom-end {
+        bottom: var(--spacingVerticalL);
+        right: var(--spacingHorizontalXL);
+    }
+
+    &-bottom-start {
+        bottom: var(--spacingVerticalL);
+        left: var(--spacingHorizontalXL);
+    }
+}
+
+.fui-ToastContainer {
+    --fui-toast-height: 44px;
+    box-sizing: border-box;
+    margin-top: var(--spacingVerticalL);
+    min-height: 44px;
+    pointer-events: all;
+    border-bottom-right-radius: var(--borderRadiusMedium);
+    border-bottom-left-radius: var(--borderRadiusMedium);
+    border-top-right-radius: var(--borderRadiusMedium);
+    border-top-left-radius: var(--borderRadiusMedium);
+
+    &.fui-ToastContainer-hide {
+        animation-name: toast-exit-1, toast-exit-2;
+        animation-delay: 0ms, var(--fui-toast-animation-duration);
+        animation-duration: var(--fui-toast-animation-duration), calc(var(--fui-toast-animation-duration) / 2);
+        opacity: 0;
+    }
+
+    &.fui-ToastContainer-hide:not(.fui-ToastContainer-hiding) {
+        display: none;
+    }
+
+    &.fui-ToastContainer-show {
+        animation-name: toast-enter-1, toast-enter-2;
+        animation-delay: 0ms, calc(var(--fui-toast-animation-duration) / 2);
+        animation-duration: calc(var(--fui-toast-animation-duration) / 2), var(--fui-toast-animation-duration);
+        opacity: 1;
+    }
+
+    .fui-Toast {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        will-change: transform, box-shadow, opacity, visibility;
+        transition-property: transform, box-shadow, opacity, visibility;
+        padding: var(--spacingVerticalM) var(--spacingHorizontalM);
+        border-bottom-right-radius: var(--borderRadiusMedium);
+        border-bottom-left-radius: var(--borderRadiusMedium);
+        border-top-right-radius: var(--borderRadiusMedium);
+        border-top-left-radius: var(--borderRadiusMedium);
+        border-width: var(--strokeWidthThin);
+        border-style: solid;
+        border-top-color: var(--colorTransparentStroke);
+        border-right-color: var(--colorTransparentStroke);
+        border-bottom-color: var(--colorTransparentStroke);
+        border-left-color: var(--colorTransparentStroke);
+        box-shadow: var(--shadow8);
+        font-size: var(--fontSizeBase300);
+        line-height: var(--lineHeightBase300);
+        font-weight: var(--fontWeightSemibold);
+        color: var(--colorNeutralForeground1);
+        background-color: var(--colorNeutralBackground1);
+        animation-duration: var(--fui-toast-animation-duration);
+        animation-play-state: paused;
+
+        &.fui-Toast-showing {
+            animation-play-state: running;
+        }
+
+        &.fui-Toast-hiding {
+            animation-play-state: running;
+        }
+
+        .fui-ToastHeader {
+            display: flex;
+            align-items: center;
+            grid-column-end: 3;
+            color: var(--colorNeutralForeground1);
+            word-break: break-word;
+        }
+
+        .fui-ToastBody {
+            grid-column: 2 / 3;
+            padding-top: var(--spacingVerticalSNudge);
+            font-size: var(--fontSizeBase300);
+            line-height: var(--fontSizeBase300);
+            font-weight: var(--fontWeightRegular);
+            color: var(--colorNeutralForeground1);
+            word-break: break-word;
+        }
+    }
+}

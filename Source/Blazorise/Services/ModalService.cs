@@ -21,36 +21,34 @@ public class ModalService : IModalService
         => ModalProvider = modalProvider;
 
     /// <inheritdoc/>
-    public Task<ModalInstance> Show<TComponent>()
+    public Task<ModalInstance> Show<TComponent>() where TComponent : notnull, IComponent
         => Show( typeof( TComponent ) );
 
     /// <inheritdoc/>
-    public Task<ModalInstance> Show<TComponent>( string title )
+    public Task<ModalInstance> Show<TComponent>( string title ) where TComponent : notnull, IComponent
         => Show( title, typeof( TComponent ) );
 
     /// <inheritdoc/>
-    public Task<ModalInstance> Show<TComponent>( string title, ModalInstanceOptions modalProviderOptions )
+    public Task<ModalInstance> Show<TComponent>( string title, ModalInstanceOptions modalProviderOptions ) where TComponent : notnull, IComponent
         => Show<TComponent>( title, null, modalProviderOptions );
 
     /// <inheritdoc/>
-    public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters )
+    public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters ) where TComponent : notnull, IComponent
         => Show<TComponent>( string.Empty, parameters, null );
 
     /// <inheritdoc/>
-    public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalInstanceOptions modalInstanceOptions )
+    public Task<ModalInstance> Show<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalInstanceOptions modalInstanceOptions ) where TComponent : notnull, IComponent
         => Show<TComponent>( string.Empty, parameters, modalInstanceOptions );
 
     /// <inheritdoc/>
-    public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters )
+    public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters ) where TComponent : notnull, IComponent
         => Show<TComponent>( title, parameters, null );
 
     /// <inheritdoc/>
-    public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalInstanceOptions modalInstanceOptions )
+    public Task<ModalInstance> Show<TComponent>( string title, Action<ModalProviderParameterBuilder<TComponent>> parameters, ModalInstanceOptions modalInstanceOptions ) where TComponent : notnull, IComponent
     {
-        ModalProviderParameterBuilder<TComponent> builder = new();
-        if ( parameters is not null )
-            parameters( builder );
-        return Show( title, typeof( TComponent ), builder.Parameters, modalInstanceOptions );
+        RenderFragment childContent = BuildParameterfulContent<TComponent>( parameters );
+        return Show( title, childContent, modalInstanceOptions );
     }
 
     /// <inheritdoc/>
@@ -72,18 +70,7 @@ public class ModalService : IModalService
     /// <inheritdoc/>
     public Task<ModalInstance> Show( string title, Type componentType, Dictionary<string, object> componentParameters = null, ModalInstanceOptions modalInstanceOptions = null )
     {
-        var childContent = new RenderFragment( __builder =>
-        {
-            __builder.OpenComponent( componentType );
-
-            if ( componentParameters is not null )
-            {
-                __builder.Attributes( componentParameters );
-            }
-
-            __builder.CloseComponent();
-        } );
-
+        RenderFragment childContent = BuildParameterfulContent( componentType, componentParameters );
         return Show( title, childContent, modalInstanceOptions );
     }
 
@@ -94,10 +81,62 @@ public class ModalService : IModalService
     }
 
     /// <inheritdoc/>
+    public Task Show( ModalInstance modalInstance )
+        => ModalProvider.Show( modalInstance );
+
+    /// <inheritdoc/>
     public Task Hide()
         => ModalProvider.Hide();
 
     /// <inheritdoc/>
     public Task Hide( ModalInstance modalInstance )
         => ModalProvider.Hide( modalInstance );
+
+    /// <inheritdoc/>
+    public IEnumerable<ModalInstance> GetInstances()
+        => ModalProvider.GetInstances();
+
+    /// <inheritdoc/>
+    public Task Reset()
+        => ModalProvider.Reset();
+
+    /// <inheritdoc/>
+    public Task Remove( ModalInstance modalInstance )
+        => ModalProvider.Remove( modalInstance );
+
+    private static RenderFragment BuildParameterfulContent( Type componentType, Dictionary<string, object> componentParameters )
+    {
+        return new RenderFragment( __builder =>
+        {
+            __builder.OpenComponent( componentType );
+
+            if ( componentParameters is not null )
+            {
+                __builder.Attributes( componentParameters, 1 );
+            }
+
+            __builder.CloseComponent();
+        } );
+    }
+
+    private static RenderFragment BuildParameterfulContent<TComponent>( Action<ModalProviderParameterBuilder<TComponent>> parameters ) where TComponent : notnull, IComponent
+    {
+        return new RenderFragment( __builder =>
+        {
+            __builder.OpenComponent<TComponent>();
+
+            if ( parameters is not null )
+            {
+                ModalProviderParameterBuilder<TComponent> parameterBuilder = new();
+                parameters( parameterBuilder );
+
+                if ( parameterBuilder.Parameters is not null )
+                {
+                    __builder.Attributes( parameterBuilder.Parameters, 1 );
+                }
+            }
+
+            __builder.CloseComponent();
+        } );
+    }
 }

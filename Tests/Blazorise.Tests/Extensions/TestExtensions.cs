@@ -1,17 +1,24 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AngleSharp.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazorise.Tests.Extensions;
 
 internal static class TestExtensions
 {
     public static TimeSpan WaitTime = TimeSpan.FromSeconds( 5 );
+
+    public static IServiceCollection AddTestData( this IServiceCollection services )
+    {
+        services.AddMemoryCache();
+        services.AddScoped<Blazorise.Shared.Data.EmployeeData>();
+        services.AddScoped<Blazorise.Shared.Data.CountryData>();
+        return services;
+    }
 
     public static void Click<T>( this IRenderedComponent<T> comp, string selector ) where T : IComponent
     {
@@ -24,5 +31,11 @@ internal static class TestExtensions
         if ( action is not null )
             action( element );
         element.Input( value );
+    }
+
+    public static Task ClickOnAsync<T>( this IRenderedComponent<T> cut, string selector, MouseEventArgs mouseEventArgs = null ) where T : IComponent
+    {
+        var element = cut.WaitForElement( selector, WaitTime );
+        return element.ClickAsync( mouseEventArgs ?? new() );
     }
 }

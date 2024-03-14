@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<RunSettings>
+
+	<NUnit>
+		<NumberOfTestWorkers>4</NumberOfTestWorkers>
+	</NUnit>
+	
+	<RunConfiguration>
+		<EnvironmentVariables>
+			<!-- For debugging selectors, it's recommend to set the following environment variable -->
+			<!--<DEBUG>pw:api</DEBUG>-->
+			<!--<DEBUG>pw:channel:response,pw:channel:event</DEBUG>-->
+		</EnvironmentVariables>
+	</RunConfiguration>
+	
+	<Playwright>
+		<BrowserName>chromium</BrowserName>
+		<LaunchOptions>
+			<Headless>true</Headless>
+			<Args>--disable-gpu --no-sandbox</Args>
+			<Channel>msedge</Channel>
+		</LaunchOptions>
+	</Playwright>
+</RunSettings>

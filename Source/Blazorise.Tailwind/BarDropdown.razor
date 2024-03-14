@@ -1,0 +1,23 @@
+﻿@inherits Blazorise.BarDropdown
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        @if ( ParentBar?.Mode == BarMode.Horizontal )
+        {
+            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" data-visible="@VisibleString">
+                @ChildContent
+            </div>
+        }
+        else
+        {
+            <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes" data-visible="@VisibleString">
+                @ChildContent
+            </div>
+        }
+    </CascadingValue>
+</CascadingValue>
+@code {
+    /// <summary>
+    /// Gets or sets the reference to the parent <see cref="Bar"/> component.
+    /// </summary>
+    [CascadingParameter] protected Bar ParentBar { get; set; }
+}

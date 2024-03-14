@@ -38,11 +38,15 @@ public partial class CloseButton : BaseComponent
         // And we don't want to close both Alert and Modal in that case.
         if ( IsAutoClose )
         {
-            if ( ParentAlert != null )
+            if ( ParentAlert is not null )
             {
                 await ParentAlert.Hide();
             }
-            else if ( ParentModal != null )
+            else if ( ParentToast is not null )
+            {
+                await ParentToast.Hide();
+            }
+            else if ( ParentModal is not null )
             {
                 await ParentModal.Hide();
             }
@@ -97,6 +101,11 @@ public partial class CloseButton : BaseComponent
     /// Cascaded <see cref="Modal"/> component in which this <see cref="CloseButton"/> is placed.
     /// </summary>
     [CascadingParameter] protected Modal ParentModal { get; set; }
+
+    /// <summary>
+    /// Cascaded <see cref="Toast"/> component in which this <see cref="CloseButton"/> is placed.
+    /// </summary>
+    [CascadingParameter] protected Toast ParentToast { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="CloseButton"/>.

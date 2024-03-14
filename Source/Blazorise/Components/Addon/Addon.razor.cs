@@ -22,6 +22,7 @@ public partial class Addon : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Addon( AddonType ) );
+        builder.Append( ClassProvider.AddonSize( ParentAddons?.Size ?? Size.Default ) );
 
         base.BuildClasses( builder );
     }
@@ -49,6 +50,11 @@ public partial class Addon : BaseComponent
     /// Specifies the content to be rendered inside this <see cref="Accordion"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the reference to the parent addons.
+    /// </summary>
+    [CascadingParameter] protected Addons ParentAddons { get; set; }
 
     #endregion
 }

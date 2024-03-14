@@ -1,0 +1,392 @@
+﻿@page "/news/release-notes/120"
+
+<Seo Canonical="news/release-notes/120" Title="Blazorise v1.2" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.2 release." ImageUrl="img/news/120/v120.png" />
+
+<NewsPageImage Source="img/news/120/v120.png" Text="Blazorise v1.2" />
+
+<NewsPageTitle>
+    Announcing Blazorise 1.2
+</NewsPageTitle>
+
+<Paragraph>
+    We are excited to announce the release of Blazorise v1.2, which brings a number of new features, improvements, and bug fixes to the framework. This release marks a significant milestone for Blazorise and we are confident that it will provide an even better experience for our users.
+</Paragraph>
+
+<Paragraph>
+    Some of the highlights of this release include the addition of a new Tailwind CSS provider, improved DataGrid UI, and an introduction of several new extension components. We have also made a number of other updates and enhancements to the framework to improve stability and reliability.
+</Paragraph>
+
+<Paragraph>
+    We hope you enjoy this new release and we can't wait to see what you build with it!
+</Paragraph>
+
+<NewsPageSubtitle>
+    Blazorise 1.2 Highlights 💡
+</NewsPageSubtitle>
+
+<UnorderedList>
+    <UnorderedListItem>
+        New <Strong>Tailwind CSS</Strong> provider.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>Chart DataLabels</Strong> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>LottieAnimation</Strong> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>Cropper</Strong> component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>Groupable</Strong> feature in <Strong>DataGrid</Strong>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Improvements on <Strong>TreeView</Strong>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        Improvements on <Strong>Autocomplete</Strong>.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        New <Strong>Licensing System</Strong>.
+    </UnorderedListItem>
+</UnorderedList>
+
+<NewsPageSubtitle>
+    Upgrade an existing Blazorise project 👨‍🔧
+</NewsPageSubtitle>
+
+<Paragraph>
+    To upgrade an existing Blazorise applications from <Strong>1.1.x</Strong> to <Strong>1.2</Strong>:
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.2</Strong>.
+    </UnorderedListItem>
+</UnorderedList>
+
+<Paragraph>
+    You should now be able to use Blazorise without any breaking changes.
+</Paragraph>
+
+<NewsPageSubtitle>
+    New Features 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Tailwind CSS Provider <Image Source="img/news/120/tailwind-logo.svg" Text="Tailwind logo" Style="height: 1.5rem;" />
+</Heading>
+
+<Paragraph>
+    As part of our ongoing efforts to improve and enhance the functionality of Blazorise, we are excited to announce the release of a new <Link To="https://tailwindcss.com/" Title="Tailwind CSS">Tailwind CSS</Link> provider for Blazorise, which was created on top of <Link To="https://flowbite.com/" Title="Link to Flowbite">Flowbite</Link> with the courtesy of their creators.
+</Paragraph>
+
+<Paragraph>
+    For those unfamiliar with Tailwind CSS, it is a utility-first CSS framework that allows developers to easily style their applications by providing a wide range of pre-designed classes that can be applied directly to HTML elements. It is a popular choice for many developers because of its simplicity and flexibility.
+</Paragraph>
+
+<Paragraph>
+    With the new Tailwind CSS provider for Blazorise, you can easily apply Tailwind styles to your Blazor components and take advantage of all the benefits that Tailwind has to offer. This provider is fully integrated with Blazorise and allows you to use all the features of Blazorise while still benefiting from the power of Tailwind.
+</Paragraph>
+
+<Paragraph>
+    To get started with the new Tailwind CSS provider, simply install the latest version of Blazorise and add the Tailwind CSS provider to your project by following our <Link To="docs/usage/tailwind" Title="Link to Tailwind Guide">startup guide</Link>.
+</Paragraph>
+
+<Paragraph>
+    We would like to extend a special thank you to the creators of <Link To="https://flowbite.com/" Title="Link to Flowbite">Flowbite</Link> for their contribution in making this provider possible.
+</Paragraph>
+
+<Paragraph>
+    We hope you enjoy this new feature and we can't wait to see what you build with it!
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Chart DataLabels
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/120/feature-datalabels.png" ImageTitle="Feature Image Chart DataLabels component" />
+
+<Paragraph>
+    The Chart DataLabels is a new feature that provides users with the ability to display data values for each data point in a chart. The Blazorise Chart DataLabels can be customized to suit individual needs, with options for font size, color, and position, allowing for a high degree of flexibility and control. With this new feature, Blazorise charts are now even more powerful and easier to use.
+</Paragraph>
+
+<Paragraph>
+    The usage of new DataLabels component with examples can be see at <Anchor To="docs/extensions/chart-datalabels">DataLabels page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    LottieAnimation extension
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/120/feature-lottie.png" ImageTitle="Feature Lottie component" />
+
+<Paragraph>
+    The LottieAnimation component allows you to easily incorporate beautiful, customizable animations into your Blazor applications using the <Link To="https://github.com/airbnb/lottie-web">Lottie</Link> Javascript library. The library's purpose is to allow applications to directly render animations exported from Adobe After Effects without needing to recreate the animation by hand in the HTML. It is simple to use and provides a seamless integration with Blazorise.
+</Paragraph>
+
+<Paragraph>
+    We are grateful to <Link To="https://github.com/smfields">smfields</Link> for their contribution to the Blazorise community and for bringing this exciting new feature to our users.
+</Paragraph>
+
+<Paragraph>
+    To get started with the LottieAnimation component simply folllow the guide on our <Anchor To="docs/extensions/lottie-animation">LottieAnimation page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    QRCode Icon
+</Heading>
+
+<Paragraph>
+    It is now possible to add custom icons within the QRCode.
+</Paragraph>
+
+<Paragraph>
+    The usage of new icon can be see on <Anchor To="docs/extensions/qrcode">QRCode page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Cropper Component
+</Heading>
+
+<Paragraph>
+    When building an application, best practice requires reducing an image's surrounding noise and directing a user's attention to a specific part of the image. Image cropping is a method for manipulating images to remove any unwanted elements. By changing the aspect ratio or orientation, we can draw viewers' eyes to the photograph's primary subject and improve the overall composition. This applies to profile pictures or uploading images with specific dimensions.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/120/feature-cropper.png" ImageTitle="Feature Cropper component" />
+
+<Paragraph>
+    The new <Code>Cropper</Code> component handles all of that. You can now upload an image and then select part of it, rotate, scale, and crop it. You can also add a preview by adding a <Code>CropperViewer</Code> whenever on a page, and it will automatically synchronize with the latest selection.
+</Paragraph>
+
+<Paragraph>
+    As with many other components, the Cropper component is also created with the help of our community member <Link To="https://github.com/njannink">njannink</Link>. We will need to send him a larger MVC award gift next year 😊.
+</Paragraph>
+
+<Paragraph>
+    The usage of new cropper component can be see on <Anchor To="docs/extensions/cropper">Cropper page</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Gap Utility
+</Heading>
+
+<Paragraph>
+    Blazorise Gap Utility is a new feature that provides users with the ability to create gaps between elements in a responsive and flexible manner. This utility allows developers to easily manage spacing between elements and to ensure consistency in their layouts. With the Blazorise Gap Utility, users can control the size and behavior of gaps between elements with ease, making it simple to create beautiful, responsive designs.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Typography Lead component
+</Heading>
+
+<Paragraph>
+    This component allows users to easily apply a larger, bolder font style to important text on their web pages, making it stand out and draw the reader's attention.
+</Paragraph>
+
+<Paragraph>
+    This new component can be used to wrap any text element, and includes customization options for font size, font weight, and text color.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    AccordionToggle component
+</Heading>
+
+<Paragraph>
+    We have introduced a new AccordionToggle component that should be used instead of the Button component when building an Accordion.
+</Paragraph>
+
+<Paragraph>
+    The Button component is no longer recommended for use inside an Accordion and may cause unexpected behavior. Using the AccordionToggle component will ensure that your Accordion functions as intended.
+</Paragraph>
+
+<Paragraph>
+    To update your code, simply replace any instances of <Code Tag>Button</Code> inside your Accordion with <Code Tag>AccordionToggle</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    TreeView improvements
+</Heading>
+
+<Paragraph>
+    The TreeView component now supports a multiple selection mode, which allows users to select multiple nodes at the same time. To enable this mode, set the <Code>SelectionMode</Code> property to <Code>Multiple</Code>. When this mode is enabled, each node in the TreeView will display a checkbox next to its label. Users can then select or deselect nodes by clicking on the checkboxes. The selected nodes can be accessed through the <Code>SelectedNodes</Code> property, which returns a list of the selected nodes. You can also use the <Code>SelectedNodesChanged</Code> event to be notified when the selection changes.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/120/feature-treeview.png" ImageTitle="Feature TreeView component" />
+
+<Paragraph>
+    Several new APIs for the Blazorise TreeView component have also included in this release! These APIs include:
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Code>GetChildNodesAsync</Code>: allows you to retrieve the child nodes of a specific node asynchronously.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>HasChildNodesAsync</Code>: allows you to check if a specific node has child nodes asynchronously.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>ExpandAll</Code>: expands all nodes in the tree.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>CollapseAll</Code>: collapses all nodes in the tree.
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    In addition to these new APIs, we've also added a new feature called <Code>AutoExpandAll</Code>. This feature will automatically expand all nodes in the tree on the first load only.
+</Paragraph>
+
+<Paragraph>
+    We hope this new features will make it easier for users to work with the TreeView component.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Autocomplete improvements
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Highlight search
+</Heading>
+
+<Paragraph>
+    Blazorise Autocomplete now includes a search highlight feature that allows users to easily locate items in the dropdown list. When a search value is entered, the matching items in the dropdown will be highlighted, making it easier to find and select the desired item. This feature is particularly useful when working with large lists of items and helps improve the overall user experience.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/120/feature-autocomplete.png" ImageTitle="Feature Autocomplete Highlight" />
+
+<Heading Size="HeadingSize.Is4">
+    Virtualize mode
+</Heading>
+
+<Paragraph>
+    The <Code>Virtualize</Code> feature allows for loading data on demand while scrolling, which greatly improves the performance of the component when working with large datasets.
+</Paragraph>
+
+<Paragraph>
+    With <Code>Virtualize</Code>, the Autocomplete component only loads the items that are currently visible in the list, and as the user scrolls, more items are loaded in the background. This allows for a much faster and smoother user experience, especially when working with large lists of items.
+</Paragraph>
+
+<Paragraph>
+    To use the Virtualize feature, simply set the <Code>Virtualize</Code> property to <Code>"true"</Code> on the Autocomplete component.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    Grouping
+</Heading>
+
+<NewsPageImageModal ImageSource="img/news/120/feature-datagrid-grouping.png" ImageTitle="Feature Image DataGrid grouping" />
+
+<Paragraph>
+    The new grouping feature for <Link To="docs/extensions/datagrid">Blazorise DataGrid</Link> allows you to easily group and organize your data by specific columns. This can be useful for analyzing large sets of data and finding patterns or trends.
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            The <Code>Groupable</Code> and <Code>Grouping</Code> parameters allow you to specify which columns can be grouped and which should be used for grouping. You can also provide a custom <Code>GroupBy</Code> function to define how the data should be grouped.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            The <Code>ShowGrouping</Code> on DataGrid feature allows you to drag and drop groupable columns onto a designated group area, making it easy to rearrange and experiment with different groupings. This feature is helpful for creating ad-hoc analysis and reporting.
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    Overall, this new grouping feature provides more flexibility and control over how you organize and analyze your data within the Blazorise DataGrid.
+</Paragraph>
+
+<Paragraph>
+    The group feature can be seen on the <Anchor To="docs/extensions/datagrid/features/grouping">DataGrid grouping page</Anchor> with various examples.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    New PageSelectorTemplate & PageSizesTemplate
+</Heading>
+
+<Paragraph>
+    The new Blazorise DataGrid features include a PageSelectorTemplate and PageSizesTemplate. The PageSelectorTemplate allows users to customize the look and feel of the page selector, while the PageSizesTemplate allows users to customize the options for the number of items per page. These new templates provide increased flexibility and customization for the DataGrid, allowing developers to tailor the user experience to their specific needs.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Navigable
+</Heading>
+
+<Paragraph>
+    The new <code>Navigable</code> feature for <Link To="docs/extensions/datagrid">Blazorise DataGrid</Link> allows you to navigate the grid by using the Arrow Up and Arrow Down Keys on your keyboard.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Utilities
+</Heading>
+
+<Paragraph>
+    We have also introduced various new APIs for controlling the text alignment, vertical alignment, flex, and gap utilities of DataGrid header, filter, and group cells. This will make it easier to customize the UI of the DataGrid.
+</Paragraph>
+
+<NewsPageSubtitle>
+    New Licensing System
+</NewsPageSubtitle>
+
+<Paragraph>
+    We are pleased to announce a new licensing system for Blazorise 1.2, designed to enhance the security of your Blazor applications. To begin using the new system, simply log in to your account on the Blazorise website and generate your unique <Strong>Product Token</Strong>. Once generated, you will need to define this token in your Blazor application during startup.
+</Paragraph>
+
+<Paragraph>
+    Please be advised that, at present, the ability to generate the product token is only available to our commercial users. However, we are working diligently to make this feature accessible to all users in the near future.
+</Paragraph>
+
+<Paragraph>
+    We want to assure you that the new licensing system will have no impact on the features and functionality of Blazorise. The only difference you may notice is a "free license message" printed in the console.
+</Paragraph>
+
+<Paragraph>
+    We believe that the new licensing system will provide a more secure and efficient experience for our users. If you have any questions or require assistance, please do not hesitate to contact us.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Thanks to Contributors 💌
+</NewsPageSubtitle>
+
+<Paragraph>
+    We would like to extend our sincerest thanks to everyone who has contributed to the Blazorise codebase. Your support and dedication to the project has helped to make it what it is today. From reporting bugs to submitting pull requests, every contribution has made a difference and we are grateful for your involvement.
+</Paragraph>
+
+<Paragraph>
+    Thank you again for your continued support and we look forward to working with you to further improve Blazorise.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Support 📞
+</NewsPageSubtitle>
+
+<Paragraph>
+    We would also like to remind our community that we offer commercial support for businesses and organizations looking for expert assistance with their Blazorise projects. As a commercial organization, we are committed to providing our customers with the highest quality support and services.
+</Paragraph>
+
+<Paragraph>
+    Please don't hesitate to reach out to us if you have any questions or would like to learn more about our commercial support options.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Final notes 🤝
+</NewsPageSubtitle>
+
+<Paragraph>
+    We hope you find this release of Blazorise to be valuable and look forward to hearing your feedback. If you encounter any issues, please don't hesitate to reach out to us through our support channels.
+</Paragraph>
+
+<Paragraph>
+    Thank you for your continued support and we look forward to continuing to work together to improve Blazorise.
+</Paragraph>
+
+<Paragraph>
+    The Blazorise Team
+</Paragraph>
+
+<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="February 1st, 2023" Read="7 min" />

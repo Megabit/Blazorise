@@ -144,6 +144,34 @@
         }
     }
 
+    .b-docs-methods {
+        tbody {
+            tr {
+                td:first-child code {
+                    color: #1867c0;
+                }
+
+                td:nth-child(2) code {
+                    color: #690;
+                }
+
+                .b-method-token {
+                    &.boolean code {
+                        color: #905;
+                    }
+
+                    &.keyword code {
+                        color: #07a;
+                    }
+
+                    &.string code {
+                        color: #690
+                    }
+                }
+            }
+        }
+    }
+
     .b-docs-example {
         position: relative;
         padding: 1rem;

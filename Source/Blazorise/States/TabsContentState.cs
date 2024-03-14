@@ -9,4 +9,9 @@ public record TabsContentState
     /// Gets or sets currently selected panel name.
     /// </summary>
     public string SelectedPanel { get; init; }
+
+    /// <summary>
+    /// Gets or sets the tabs rendering mode.
+    /// </summary>
+    public TabsRenderMode RenderMode { get; init; }
 }

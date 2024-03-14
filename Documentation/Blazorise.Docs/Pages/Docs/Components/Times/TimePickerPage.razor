@@ -26,11 +26,22 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic example">
+        In the following example, the Blazorise TimePicker is easily set up and bound to a value by setting the <Code>@@bind-</Code> directive.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicTimePickerExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="BasicTimePickerExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="DateTime example">
+        In the following example, the Blazorise TimePicker component is easily configured to bind with a <Code>DateTime?</Code> type, demonstrating its versatility.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimePickerWithDateTimeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimePickerWithDateTimeExample" />
 </DocsPageSection>
 
 <DocsPageSection>
@@ -53,7 +64,26 @@
     <DocsPageSectionSource Code="InlineTimePickerExample" />
 </DocsPageSection>
 
-<Heading Size="HeadingSize.Is2">
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Non Static example">
+        <Paragraph>
+            By default, the time menu will position statically. This means that it will also keep its position relative to the page when you scroll.
+        </Paragraph>
+        <Paragraph>
+            If you want to disable this behavior, you should assign the value false to the <Code>StaticPicker</Code> parameter.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TimePickerNonStaticExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TimePickerNonStaticExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
     Attributes
 </Heading>
 
@@ -84,5 +114,8 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Inline" Type="bool" Default="false">
         Display the time menu in an always-open state with the inline option.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="StaticPicker" Type="bool" Default="true">
+        If enabled, the time menu will be positioned as static.
     </DocsAttributesItem>
 </DocsAttributes>

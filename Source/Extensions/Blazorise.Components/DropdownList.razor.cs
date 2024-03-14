@@ -1,8 +1,9 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -28,14 +29,44 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// </summary>
     protected DropdownToggle dropdownToggleRef;
 
+    private List<TValue> selectedValues;
+
     #endregion
 
     #region Methods
+
+    protected override void OnInitialized()
+    {
+        selectedValues = SelectedValues?.ToList();
+        base.OnInitialized();
+    }
+
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        var selectedValuesChanged = parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !paramSelectedValues.AreEqual( SelectedValues );
+
+        await base.SetParametersAsync( parameters );
+
+        if ( selectedValuesChanged )
+            selectedValues = paramSelectedValues?.ToList();
+    }
 
     protected Task HandleDropdownItemClicked( object value )
     {
         SelectedValue = Converters.ChangeType<TValue>( value );
         return SelectedValueChanged.InvokeAsync( SelectedValue );
+    }
+
+    protected Task HandleDropdownItemChecked( bool isChecked, TValue value )
+    {
+        selectedValues ??= new();
+
+        if ( isChecked )
+            selectedValues.Add( value );
+        else
+            selectedValues.Remove( value );
+
+        return SelectedValuesChanged.InvokeAsync( selectedValues );
     }
 
     /// <summary>
@@ -48,9 +79,39 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
         return dropdownToggleRef.Focus( scrollToElement );
     }
 
+    private string GetItemText( TItem item )
+    {
+        if ( TextField is null )
+            return string.Empty;
+
+        return TextField.Invoke( item );
+    }
+
+    private TValue GetItemValue( TItem item )
+    {
+        if ( ValueField is null )
+            return default;
+
+        return ValueField.Invoke( item );
+    }
+
+    private bool GetItemDisabled( TItem item )
+    {
+        if ( DisabledItem is null )
+            return false;
+
+        return DisabledItem.Invoke( item );
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Whether the value is currently selected.
+    /// </summary>
+    protected bool IsSelected( TValue value )
+        => selectedValues?.Any( x => x.Equals( value ) ) ?? false;
 
     /// <summary>
     /// Gets or sets the dropdown element id.
@@ -61,6 +122,11 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Defines the color of toggle button.
     /// </summary>
     [Parameter] public Color Color { get; set; }
+
+    /// <summary>
+    /// Defines the size of toggle button.
+    /// </summary>
+    [Parameter] public Size DropdownToggleSize { get; set; }
 
     /// <summary>
     /// If true, a dropdown menu will be right aligned.
@@ -123,6 +189,11 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     [Parameter] public string MaxMenuHeight { get; set; }
 
     /// <summary>
+    /// Gets or sets whether the dropdown will use the Virtualize functionality.
+    /// </summary>
+    [Parameter] public bool Virtualize { get; set; }
+
+    /// <summary>
     /// Captures all the custom attribute that are not part of Blazorise component.
     /// </summary>
     [Parameter( CaptureUnmatchedValues = true )]
@@ -132,6 +203,26 @@ public partial class DropdownList<TItem, TValue> : ComponentBase
     /// Specifies the content to be rendered inside this <see cref="DropdownList{TItem, TValue}"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the <see cref="DropdownList{TItem, TValue}"/> Selection Mode.
+    /// </summary>
+    [Parameter] public DropdownListSelectionMode SelectionMode { get; set; } = DropdownListSelectionMode.Default;
+
+    /// <summary>
+    /// Currently selected item values.
+    /// </summary>
+    [Parameter] public IReadOnlyList<TValue> SelectedValues { get; set; }
+
+    /// <summary>
+    /// Occurs after the selected item values have changed.
+    /// </summary>
+    [Parameter] public EventCallback<IReadOnlyList<TValue>> SelectedValuesChanged { get; set; }
+
+    /// <summary>
+    /// Method used to get the disabled items from the supplied data source.
+    /// </summary>
+    [Parameter] public Func<TItem, bool> DisabledItem { get; set; }
 
     #endregion
 }

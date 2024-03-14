@@ -1,0 +1,104 @@
+﻿.fui-Steps {
+    --fluent-wizard-circle-size: 24px;
+    --fluent-wizard-spacing: 4px;
+    display: flex;
+    padding-inline-start: 0px;
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+    padding: 10px;
+    flex-direction: row;
+    justify-content: center;
+
+    .fui-Step {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        text-align: center;
+        max-width: 100%;
+
+        .fui-Step__circle {
+            min-width: calc(1.2 * var(--fluent-wizard-circle-size));
+            min-height: calc(1.2 * var(--fluent-wizard-circle-size));
+
+            > svg {
+                fill: var(--colorBrandBackground);
+            }
+
+            &::after {
+                position: absolute;
+                width: calc(1.2 * var(--fluent-wizard-circle-size));
+                height: calc(1.2 * var(--fluent-wizard-circle-size));
+            }
+        }
+
+        &.fui-Step-active,
+        &.fui-Step-completed {
+            .fui-Step__circle-number {
+                color: var(--colorNeutralForegroundOnBrand);
+            }
+        }
+
+        .fui-Step__circle-number {
+            margin-top: calc(var(--fluent-wizard-circle-size) * -1 - 2px);
+            font-size: small;
+            text-align: center;
+            height: var(--fluent-wizard-circle-size);
+            color: var(--colorBrandBackground);
+        }
+
+        &:not(:last-child) {
+            &::after {
+                content: "";
+                position: absolute;
+                left: calc(50% + calc(var(--fluent-wizard-circle-size) / 2 + var(--fluent-wizard-spacing)));
+                top: calc(var(--fluent-wizard-circle-size) / 2);
+                width: calc(100% - var(--fluent-wizard-circle-size) - calc(var(--fluent-wizard-spacing) * 2));
+                height: var(--strokeWidthThick);
+                order: -1;
+                background-color: var(--colorNeutralStroke1);
+            }
+        }
+
+        @each $bgcolor, $value in $background-theme-colors {
+            $color: map-get($foreground-theme-colors, $bgcolor);
+
+            &.fui-Step-#{$bgcolor} {
+                .fui-Step__circle {
+                    > svg {
+                        fill: $value;
+                    }
+
+                    > .fui-Step__circle-number {
+                        color: $color;
+                    }
+                }
+
+                &.fui-Step-active,
+                &.fui-Step-completed {
+                    .fui-Step__circle-number {
+                        color: var(--colorNeutralForegroundOnBrand);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.fui-StepPanels {
+    display: block;
+    padding: 0;
+    margin: 0;
+
+    .fui-StepPanel {
+        padding-bottom: var(--spacingVerticalM);
+        padding-left: var(--spacingHorizontalM);
+        padding-right: var(--spacingHorizontalM);
+        padding-top: var(--spacingVerticalM);
+        display: none;
+
+        &-active {
+            display: block;
+        }
+    }
+}

@@ -1,0 +1,12 @@
+﻿.snackbar {
+    z-index: calc(var(--zIndexPopover) + 1) !important;
+}
+
+.snackbar-stack-top-end,
+.snackbar-stack-top-start,
+.snackbar-stack-top,
+.snackbar-stack-bottom-end,
+.snackbar-stack-bottom-start,
+.snackbar-stack-bottom {
+    z-index: var(--zIndexPopover) !important;
+}

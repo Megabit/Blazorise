@@ -39,4 +39,9 @@ public record BarState
     /// Defines the alignment within bar.
     /// </summary>
     public Alignment Alignment { get; init; }
+
+    /// <summary>
+    /// Tracks the <see cref="BarToggler"/> State.
+    /// </summary>
+    public BarTogglerState BarTogglerState { get; set; }
 }

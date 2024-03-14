@@ -1,4 +1,4 @@
-﻿#region Using directives
+#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,10 @@ using Blazorise.Extensions;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
+using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -18,8 +20,14 @@ namespace Blazorise;
 /// An editor that displays a date value and allows a user to edit the value.
 /// </summary>
 /// <typeparam name="TValue">Data-type to be binded by the <see cref="DatePicker{TValue}"/> property.</typeparam>
-public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, IAsyncDisposable
+public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, IAsyncDisposable, IDatePicker
 {
+    #region Members
+
+    private DotNetObjectReference<DatePickerAdapter> dotNetObjectRef;
+
+    #endregion
+
     #region Methods
 
     /// <inheritdoc/>
@@ -33,12 +41,16 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             var maxChanged = parameters.TryGetValue( nameof( Max ), out DateTimeOffset? paramMax ) && !Max.IsEqual( paramMax );
             var firstDayOfWeekChanged = parameters.TryGetValue( nameof( FirstDayOfWeek ), out DayOfWeek paramFirstDayOfWeek ) && !FirstDayOfWeek.IsEqual( paramFirstDayOfWeek );
             var displayFormatChanged = parameters.TryGetValue( nameof( DisplayFormat ), out string paramDisplayFormat ) && DisplayFormat != paramDisplayFormat;
+            var inputFormatChanged = parameters.TryGetValue( nameof( InputFormat ), out string paramInputFormat ) && InputFormat != paramInputFormat;
             var timeAs24hrChanged = parameters.TryGetValue( nameof( TimeAs24hr ), out bool paramTimeAs24hr ) && TimeAs24hr != paramTimeAs24hr;
             var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool paramDisabled ) && Disabled != paramDisabled;
             var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool paramReadOnly ) && ReadOnly != paramReadOnly;
             var disabledDatesChanged = parameters.TryGetValue( nameof( DisabledDates ), out IEnumerable<TValue> paramDisabledDates ) && !DisabledDates.AreEqual( paramDisabledDates );
             var selectionModeChanged = parameters.TryGetValue( nameof( SelectionMode ), out DateInputSelectionMode paramSelectionMode ) && !SelectionMode.IsEqual( paramSelectionMode );
             var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
+            var disableMobileChanged = parameters.TryGetValue( nameof( DisableMobile ), out bool paramDisableMobile ) && DisableMobile != paramDisableMobile;
+            var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
+            var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
 
             if ( dateChanged || datesChanged )
             {
@@ -58,17 +70,22 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                  || maxChanged
                  || firstDayOfWeekChanged
                  || displayFormatChanged
+                 || inputFormatChanged
                  || timeAs24hrChanged
                  || disabledChanged
                  || readOnlyChanged
                  || disabledDatesChanged
                  || selectionModeChanged
-                 || inlineChanged )
+                 || inlineChanged
+                 || disableMobileChanged
+                 || placeholderChanged
+                 || staticPickerChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
                     FirstDayOfWeek = new { Changed = firstDayOfWeekChanged, Value = (int)paramFirstDayOfWeek },
-                    DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( paramDisplayFormat ) },
+                    DisplayFormat = new { Changed = displayFormatChanged, Value = DisplayFormatConverter.Convert( paramDisplayFormat ) },
+                    InputFormat = new { Changed = inputFormatChanged, Value = InputFormatConverter.Convert( paramInputFormat ) },
                     TimeAs24hr = new { Changed = timeAs24hrChanged, Value = paramTimeAs24hr },
                     Min = new { Changed = minChanged, Value = paramMin?.ToString( DateFormat ) },
                     Max = new { Changed = maxChanged, Value = paramMax?.ToString( DateFormat ) },
@@ -77,6 +94,9 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     DisabledDates = new { Changed = disabledDatesChanged, Value = paramDisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ) },
                     SelectionMode = new { Changed = selectionModeChanged, Value = paramSelectionMode },
                     Inline = new { Changed = inlineChanged, Value = paramInline },
+                    DisableMobile = new { Changed = disableMobileChanged, Value = paramDisableMobile },
+                    Placeholder = new { Changed = placeholderChanged, Value = paramPlaceholder },
+                    StaticPicker = new { Changed = staticPickerChanged, Value = paramSaticPicker },
                 } ) );
             }
         }
@@ -84,7 +104,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         // Let blazor do its thing!
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -114,6 +134,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <inheritdoc/>
     protected override async Task OnFirstAfterRenderAsync()
     {
+        dotNetObjectRef ??= CreateDotNetObjectRef( new DatePickerAdapter( this ) );
         object defaultDate = null;
 
         // for multiple mode default dates must be set as array
@@ -122,12 +143,13 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         else
             defaultDate = FormatValueAsString( new TValue[] { Date } );
 
-        await JSModule.Initialize( ElementRef, ElementId, new
+        await JSModule.Initialize( dotNetObjectRef, ElementRef, ElementId, new
         {
             InputMode,
             SelectionMode = SelectionMode.ToDateInputSelectionMode(),
             FirstDayOfWeek = (int)FirstDayOfWeek,
-            DisplayFormat = DateTimeFormatConverter.Convert( DisplayFormat ),
+            DisplayFormat = DisplayFormatConverter.Convert( DisplayFormat ),
+            InputFormat = InputFormatConverter.Convert( InputFormat ),
             TimeAs24hr,
             DefaultDate = defaultDate,
             Min = Min?.ToString( DateFormat ),
@@ -137,6 +159,14 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             DisabledDates = DisabledDates?.Select( x => FormatValueAsString( new TValue[] { x } ) ),
             Localization = GetLocalizationObject(),
             Inline,
+            DisableMobile,
+            Placeholder,
+            StaticPicker,
+            ValidationStatus = new
+            {
+                SuccessClass = ClassProvider.DatePickerValidation( ValidationStatus.Success ),
+                ErrorClass = ClassProvider.DatePickerValidation( ValidationStatus.Error ),
+            }
         } );
 
         await base.OnFirstAfterRenderAsync();
@@ -149,6 +179,9 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         {
             await JSModule.SafeDestroy( ElementRef, ElementId );
 
+            DisposeDotNetObjectRef( dotNetObjectRef );
+            dotNetObjectRef = null;
+
             LocalizerService.LocalizationChanged -= OnLocalizationChanged;
         }
 
@@ -159,8 +192,8 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.DatePicker( Plaintext ) );
-        builder.Append( ClassProvider.DatePickerSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.DatePickerColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.DatePickerSize( ThemeSize ) );
+        builder.Append( ClassProvider.DatePickerColor( Color ) );
         builder.Append( ClassProvider.DatePickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );
@@ -173,6 +206,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     }
 
     /// <inheritdoc/>
+    [JSInvokable]
     protected async Task OnClickHandler( MouseEventArgs e )
     {
         if ( Disabled || ReadOnly )
@@ -187,13 +221,13 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         if ( SelectionMode != DateInputSelectionMode.Single )
             return DatesChanged.InvokeAsync( value );
         else
-            return DateChanged.InvokeAsync( value == null ? default : value.FirstOrDefault() );
+            return DateChanged.InvokeAsync( value is null ? default : value.FirstOrDefault() );
     }
 
     /// <inheritdoc/>
     protected override string FormatValueAsString( IReadOnlyList<TValue> values )
     {
-        if ( values == null || values.Count == 0 )
+        if ( values is null || values.Count == 0 )
             return null;
 
         if ( SelectionMode != DateInputSelectionMode.Single )
@@ -209,7 +243,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
         }
         else
         {
-            if ( values[0] == null )
+            if ( values[0] is null )
                 return null;
 
             return Formaters.FormatDateValueAsString( values[0], DateFormat );
@@ -252,16 +286,52 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             }
         }
     }
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnKeyDownHandler( KeyboardEventArgs eventArgs )
+    {
+        return KeyDown.InvokeAsync( eventArgs );
+    }
 
     /// <inheritdoc/>
-    protected override Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
+    [JSInvokable]
+    public new virtual Task OnKeyUpHandler( KeyboardEventArgs eventArgs )
+    {
+        return KeyUp.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnFocusHandler( FocusEventArgs eventArgs )
+    {
+        return OnFocus.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnFocusInHandler( FocusEventArgs eventArgs )
+    {
+        return FocusIn.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnFocusOutHandler( FocusEventArgs eventArgs )
+    {
+        return FocusOut.InvokeAsync( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    [JSInvokable]
+    public new virtual Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
     {
         // just call eventcallback without using debouncer in BaseTextInput
         return KeyPress.InvokeAsync( eventArgs );
     }
 
     /// <inheritdoc/>
-    protected override Task OnBlurHandler( FocusEventArgs eventArgs )
+    [JSInvokable]
+    public new virtual Task OnBlurHandler( FocusEventArgs eventArgs )
     {
         // just call eventcallback without using debouncer in BaseTextInput
         return Blur.InvokeAsync( eventArgs );
@@ -341,7 +411,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     Localizer["Monday"],
                     Localizer["Tuesday"],
                     Localizer["Wednesday"],
-                    Localizer["Thurday"],
+                    Localizer["Thursday"],
                     Localizer["Friday"],
                     Localizer["Saturday"]
                 },
@@ -369,7 +439,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
                     Localizer["February"],
                     Localizer["March"],
                     Localizer["April"],
-                    Localizer["May!"],
+                    Localizer["May"],
                     Localizer["June"],
                     Localizer["July"],
                     Localizer["August"],
@@ -406,7 +476,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
             }
             else
             {
-                Date = value == null ? default : value.FirstOrDefault();
+                Date = value is null ? default : value.FirstOrDefault();
             }
         }
     }
@@ -442,9 +512,14 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     [Inject] protected ITextLocalizer<DatePicker<TValue>> Localizer { get; set; }
 
     /// <summary>
-    /// Converts the supplied date format into the internal date format.
+    /// Converts the supplied date format into the internal date format used by the <see cref="DisplayFormat"/> mask.
     /// </summary>
-    [Inject] protected IDateTimeFormatConverter DateTimeFormatConverter { get; set; }
+    [Inject] protected IFlatPickrDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
+
+    /// <summary>
+    /// Converts the supplied date format into the internal date format used by the <see cref="InputFormat"/> mask.
+    /// </summary>
+    [Inject] protected IInputMaskDateTimeInputFormatConverter InputFormatConverter { get; set; }
 
     /// <summary>
     /// Hints at the type of data that might be entered by the user while editing the element or its contents.
@@ -512,6 +587,11 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     [Parameter] public string DisplayFormat { get; set; }
 
     /// <summary>
+    /// Defines the input format mask of the date input.
+    /// </summary>
+    [Parameter] public string InputFormat { get; set; }
+
+    /// <summary>
     /// Displays time picker in 24 hour mode without AM/PM selection when enabled.
     /// </summary>
     [Parameter] public bool TimeAs24hr { get; set; }
@@ -525,6 +605,16 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// Display the calendar in an always-open state with the inline option.
     /// </summary>
     [Parameter] public bool Inline { get; set; }
+
+    /// <summary>
+    /// If enabled, it disables the native input on mobile devices.
+    /// </summary>
+    [Parameter] public bool DisableMobile { get; set; } = true;
+
+    /// <summary>
+    /// If enabled, the calendar menu will be positioned as static.
+    /// </summary>
+    [Parameter] public bool StaticPicker { get; set; } = true;
 
     #endregion
 }

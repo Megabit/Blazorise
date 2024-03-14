@@ -1,0 +1,65 @@
+﻿.fui-Badge {
+    display: inline-flex;
+    box-sizing: border-box;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    font-family: var(--fontFamilyBase);
+    font-size: var(--fontSizeBase200);
+    font-weight: var(--fontWeightSemibold);
+    line-height: var(--lineHeightBase200);
+    height: 20px;
+    width: 20px;
+    min-width: max-content;
+    padding: 0 calc(var(--spacingHorizontalXS) + var(--spacingHorizontalXXS));
+    border-radius: var(--borderRadiusMedium);
+    border-color: var(--colorTransparentStroke);
+
+    &-primary {
+        background-color: var(--colorBrandBackground);
+        color: var(--colorNeutralForegroundOnBrand);
+    }
+
+    &-secondary {
+        background-color: var(--colorNeutralBackground3);
+        color: var(--colorNeutralForeground3);
+    }
+
+    &-success {
+        background-color: var(--colorPaletteGreenBackground3);
+        color: var(--colorNeutralForegroundOnBrand);
+    }
+
+    &-danger {
+        background-color: var(--colorPaletteRedBackground3);
+        color: var(--colorNeutralForegroundOnBrand);
+    }
+
+    &-warning {
+        background-color: var(--colorStatusWarningBackground3);
+        color: var(--colorNeutralForegroundInverted);
+    }
+
+    &-info {
+        background-color: var(--colorNeutralBackground5);
+        color: var(--colorNeutralForeground3);
+    }
+
+    &-light {
+        background-color: var(--colorNeutralBackground1);
+        color: var(--colorNeutralForeground1);
+    }
+
+    &-dark {
+        background-color: var(--colorNeutralForeground1);
+        color: var(--colorNeutralBackground1);
+    }
+
+    &-pill {
+        border-radius: var(--borderRadiusCircular);
+    }
+
+    &__close {
+        cursor: pointer;
+    }
+}

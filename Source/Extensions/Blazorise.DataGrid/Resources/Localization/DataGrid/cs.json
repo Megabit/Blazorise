@@ -16,6 +16,18 @@
     "{0} - {1} of {2} items": "{0} – {1} z {2} položek",
     "Row Edit": "Úpravit řádek",
     "Row Create": "Vytvořit řádek",
-    "Create": "Vytvořit"
+    "Create": "Vytvořit",
+    "Drag a column header here to group by that column": "Přetáhněte záhlaví sloupce sem, chcete-li seskupit podle tohoto sloupce",
+    "Contains": "Obsahuje",
+    "Starts With": "Začíná s",
+    "Ends With": "Končí s",
+    "Equals": "Rovná se",
+    "Not Equals": "Nerovná se",
+    "Greater Than": "Větší než",
+    "Greater Than or Equal": "Větší než nebo rovno",
+    "Less Than": "Méně než",
+    "Less Than or Equal": "Menší než nebo rovno",
+    "Save Changes": "Uložit změny",
+    "Cancel Changes": "Zrušit změny"
   }
 }

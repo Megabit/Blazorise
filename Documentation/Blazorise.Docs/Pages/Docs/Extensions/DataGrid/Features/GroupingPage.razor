@@ -1,0 +1,83 @@
+﻿@page "/docs/extensions/datagrid/features/grouping"
+
+<Seo Canonical="/docs/extensions/datagrid/features/grouping" Title="Blazorise DataGrid Grouping" Description="Learn Blazorise by the example. Grouping feature for Blazorise DataGrid allows you to easily group and organize your data by specific columns." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Features/Grouping">
+    Blazorise DataGrid: Grouping
+</DocsPageTitle>
+
+<DocsPageLead>
+    Grouping feature for Blazorise DataGrid allows you to easily group and organize your data by specific columns.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    This Blazorise DataGrid Grouping can be useful for analyzing large sets of data and finding patterns or trends.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Column Grouping">
+        <Paragraph>
+            You can define columns that can be grouped by assigning the <Code>Groupable</Code> and <Code>Grouping</Code> parameters parameters. This will allow you to specify which columns can be grouped and which should be used for grouping.
+        </Paragraph>
+        <Paragraph>
+            By default grouping occurs on the column <Code>Field</Code>. However you may also provide a custom group Function.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DataGridMultipleGroupingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridMultipleGroupingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Custom GroupBy Function">
+        In addition to the <Code>Groupable</Code> and <Code>Grouping</Code> parameters, you can also provide a custom <Code>GroupBy</Code> function. This function allows you to define how the data should be grouped, providing even more flexibility and control over how your data is organized.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DataGridGroupingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridGroupingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Drag and Drop Grouping">
+        <Paragraph>
+            The <Code>ShowGrouping</Code> parameter, allows you to drag and drop groupable columns on a group area. This feature makes it easy to rearrange and experiment with different groupings, providing more flexibility and control over how you organize and analyze your data within the DataGrid.
+        </Paragraph>
+        <Paragraph>
+            Columns should be eligible for grouping by enabling <Code>Groupable</Code>. Once enabled, the columns that are draggable will show the "grip" icon next to the column title.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DataGridShowGroupingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridShowGroupingExample" />
+</DocsPageSection>
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Grouping Methods">
+        <Paragraph>
+            You can programatically control whether a group is expanded or collapsed by utilizing the provided
+
+            <UnorderedList>
+                <UnorderedListItem><Code>ExpandAllGroups</Code></UnorderedListItem>
+                <UnorderedListItem><Code>CollapseAllGroups</Code></UnorderedListItem>
+                <UnorderedListItem><Code>ExpandGroups</Code></UnorderedListItem>
+                <UnorderedListItem><Code>CollapseGroups</Code></UnorderedListItem>
+                <UnorderedListItem><Code>ToggleGroups</Code></UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
+            Please note, that these methods may require you to know the produced group keys beforehand. Either you are intimate with the data and know the possible produced keys beforehand, or you may access the <Code>DisplayGroupedData</Code> in order to obtain these from the Data that has been grouped.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DataGridGroupingMethodsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridGroupingMethodsExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>

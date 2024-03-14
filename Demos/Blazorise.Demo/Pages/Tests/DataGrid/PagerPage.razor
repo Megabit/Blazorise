@@ -8,11 +8,10 @@
             <CardBody>
                 <DataGrid TItem="Employee"
                           Data="inMemoryData"
+                          Responsive
                           ShowPager
                           ShowPageSizes
                           PagerPosition="DataGridPagerPosition.TopAndBottom"
-                          CurrentPage="2"
-                          PageSize="10"
                           PagerOptions="new(){ ButtonSize=Size.Small }">
                     <DataGridColumns>
                         <DataGridColumn TextAlignment="TextAlignment.Center" TItem="Employee" Field="@nameof( Employee.Id )" Caption="#" Width="60px" SortDirection="SortDirection.Descending" />
@@ -29,26 +28,7 @@
                         </DataGridColumn>
                         <DataGridDateColumn TItem="Employee" Field="@nameof( Employee.DateOfBirth )" DisplayFormat="{0:dd.MM.yyyy}" Caption="Date Of Birth" Editable />
                         <DataGridNumericColumn TItem="Employee" Field="@nameof( Employee.Childrens )" Caption="Childrens" Editable Filterable="false" />
-                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable>
-                            <DisplayTemplate>
-                                @{
-                                    var gender = ( context as Employee )?.Gender;
-
-                                    @if ( gender == "M" )
-                                    {
-                                        @("Male")
-                                    }
-                                    else if ( gender == "F" )
-                                    {
-                                        @("Female")
-                                    }
-                                    else if ( gender == "D" )
-                                    {
-                                        @("Diverse")
-                                    }
-                                }
-                            </DisplayTemplate>
-                        </DataGridSelectColumn>
+                        <DataGridSelectColumn TItem="Employee" Field="@nameof( Employee.Gender )" Caption="Gender" Editable Data="EmployeeData.Genders" ValueField="(x) => ((Gender)x).Code" TextField="(x) => ((Gender)x).Description" />
                         <DataGridColumn TItem="Employee" Field="@nameof( Employee.Salary )" Caption="Salary" Editable Width="140px" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" TextAlignment="TextAlignment.End">
                         </DataGridColumn>
                         <DataGridCheckColumn TItem="Employee" Field="@nameof(Employee.IsActive)" Caption="Active" Editable Filterable="false">
@@ -69,6 +49,23 @@
                     <TotalItemsTemplate><Badge Color="Color.Success">@context.TotalItems total items</Badge></TotalItemsTemplate>
                     <TotalItemsShortTemplate><Badge Color="Color.Success">@context.TotalItems</Badge></TotalItemsShortTemplate>
                     <ItemsPerPageTemplate></ItemsPerPageTemplate>
+                    <PageSelectorTemplate>
+                        <Select TextColor="TextColor.Success" @bind-SelectedValue="@context.CurrentPage" Size="Size.Small">
+                            @for ( int i = context.FirstVisiblePage; i <= context.LastVisiblePage; ++i )
+                            {
+                                var pageNumber = i;
+                                <SelectItem Value="@pageNumber">@pageNumber</SelectItem>
+                            }
+                        </Select>
+                    </PageSelectorTemplate>
+                    <PageSizesTemplate>
+                        <Select TextColor="TextColor.Success" @bind-SelectedValue="@context.CurrentPageSize" Size="Size.Small">
+                            @foreach ( var curPageSize in context.PageSizes )
+                            {
+                                <SelectItem Value="@curPageSize">@curPageSize</SelectItem>
+                            }
+                        </Select>
+                    </PageSizesTemplate>
                 </DataGrid>
             </CardBody>
         </Card>

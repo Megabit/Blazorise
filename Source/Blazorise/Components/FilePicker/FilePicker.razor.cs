@@ -317,6 +317,19 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     protected override bool ShouldAutoGenerateId => true;
 
     /// <summary>
+    /// Gets the localized browse button text.
+    /// </summary>
+    protected string DragAndDropString
+    {
+        get
+        {
+            var localizationString = Directory ? "Or drop files or folders here" : "Or drop files here";
+
+            return GetLocalizedString( localizationString );
+        }
+    }
+
+    /// <summary>
     /// Gets or sets the <see cref="IJSFilePickerModule"/> instance.
     /// </summary>
     [Inject] public IJSFilePickerModule JSFilePickerModule { get; set; }
@@ -433,6 +446,21 @@ public partial class FilePicker : BaseComponent, IAsyncDisposable
     /// <para>This setting can speed up file transfer considerably.</para>
     /// </summary>
     [Parameter] public bool DisableProgressReport { get; set; } = false;
+
+    /// <summary>
+    /// Gets or Sets whether file picker should upload directories.
+    /// </summary>
+    [Parameter] public bool Directory { get; set; }
+
+    /// <summary>
+    /// Add the readonly boolean attribute on an input to prevent modification of the input’s value.
+    /// </summary>
+    [Parameter] public bool ReadOnly { get; set; }
+
+    /// <summary>
+    /// Add the disabled boolean attribute on an input to prevent user interactions and make it appear lighter.
+    /// </summary>
+    [Parameter] public bool Disabled { get; set; }
 
     #endregion
 }

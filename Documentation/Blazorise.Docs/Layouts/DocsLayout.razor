@@ -4,7 +4,7 @@
     <LayoutSider>
         <LayoutSiderContent>
             <Bar @ref="@sideBar" Breakpoint="Breakpoint.Desktop" NavigationBreakpoint="Breakpoint.Tablet" ThemeContrast="ThemeContrast.Light" Shadow="Shadow.Default"
-                 Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Hide">
+                 Mode="BarMode.VerticalInline" CollapseMode="BarCollapseMode.Hide" MenuToggleBehavior="BarMenuToggleBehavior.AllowSingleMenu">
                 <BarBrand>
                     <BarItem>
                         <BarLink To="docs">
@@ -15,7 +15,7 @@
                 </BarBrand>
                 <BarMenu>
                     <BarStart>
-                        <BarItem Margin="Margin.Is1.OnAll">
+                        <BarItem Margin="Margin.Is2.OnAll">
                             <Autocomplete TItem="PageEntry"
                                           TValue="string"
                                           Data="@SearchEntries"
@@ -47,16 +47,26 @@
                                 <BarIcon IconName="IconName.BookReader" /> Usage
                             </BarLink>
                         </BarItem>
-                         <BarItem>
-                            <BarLink To="docs/templates">
-                                <BarIcon IconName="IconName.FileAlt" /> Templates
+                        <BarItem>
+                            <BarLink To="docs/testing">
+                                <BarIcon IconName="IconName.CheckDouble" /> Testing
                             </BarLink>
                         </BarItem>
                         <BarItem>
+                            <BarLink To="docs/templates">
+                                <BarIcon IconName="IconName.File" /> Templates
+                            </BarLink>
+                        </BarItem>
+                        <BarItem>
+                            <BarLink To="docs/usage/licensing/register-product-token">
+                                <BarIcon IconName="IconName.Key" /> Licensing
+                            </BarLink>
+                            </BarItem>
+                            <BarItem>
                             <BarLink To="docs/theming">
                                 <BarIcon IconName="IconName.Brush" /> Theming
                             </BarLink>
-                        </BarItem>
+                            </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarComponentsMenuVisible">
                                 <BarDropdownToggle>
@@ -86,8 +96,8 @@
                                     <BarDropdownItem To="docs/components/file">File Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/file-picker">File Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/focus-trap">FocusTrap</BarDropdownItem>
-                                    <BarDropdownItem To="docs/components/grid">Grid</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/highlighter">Highlighter</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/image">Image</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/jumbotron">Jumbotron</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/layout">Layout</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/link">Link</BarDropdownItem>
@@ -95,6 +105,10 @@
                                     <BarDropdownItem To="docs/components/input-mask">Mask</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/memo">Memo Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/modal">Modal</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/offcanvas" Flex="Flex.JustifyContent.Between">
+                                        <Span>Offcanvas</Span>
+                                        <Span Background="Background.Dark" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/numeric">Numeric Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/numeric-picker">Numeric Picker</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/pagination">Pagination</BarDropdownItem>
@@ -110,6 +124,10 @@
                                     <BarDropdownItem To="docs/components/table">Table</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/time">Time Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/time-picker">Time Picker</BarDropdownItem>
+                                    <BarDropdownItem To="docs/components/toast" Flex="Flex.JustifyContent.Between">
+                                        <Span>Toast</Span>
+                                        <Span Background="Background.Primary" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/components/tooltip">Tooltip</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/text">Text Edit</BarDropdownItem>
                                     <BarDropdownItem To="docs/components/typography">Typography</BarDropdownItem>
@@ -125,10 +143,12 @@
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/extensions/autocomplete">Autocomplete</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/animate">Animate</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/captcha">Captcha</BarDropdownItem>
                                     <BarDropdown>
                                         <BarDropdownToggle>Chart</BarDropdownToggle>
                                         <BarDropdownMenu>
                                             <BarDropdownItem To="docs/extensions/chart">Start Here</BarDropdownItem>
+                                            <BarDropdownItem To="docs/extensions/chart-annotation">Annotation</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-datalabels">DataLabels</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-live">Live Chart</BarDropdownItem>
                                             <BarDropdownItem To="docs/extensions/chart-trendline">Trendline</BarDropdownItem>
@@ -138,12 +158,63 @@
                                         <BarDropdownToggle>DataGrid</BarDropdownToggle>
                                         <BarDropdownMenu>
                                             <BarDropdownItem To="docs/extensions/datagrid/getting-started">Getting Started</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/binding-data">Binding Data</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/selection">Selection</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/validations">Validations</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/features">Features</BarDropdownItem>
-                                            <BarDropdownItem To="docs/extensions/datagrid/templates">Templates</BarDropdownItem>
+
+                                            <BarDropdown>
+                                                <BarDropdownToggle>Binding Data</BarDropdownToggle>
+                                                <BarDropdownMenu>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/binding-data/in-memory">In Memory</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/binding-data/large-data">From an External Source</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/binding-data/virtualize">Virtualize</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/binding-data/observable">Observable Collections</BarDropdownItem>
+                                                </BarDropdownMenu>
+                                            </BarDropdown>
+
                                             <BarDropdownItem To="docs/extensions/datagrid/aggregates">Aggregates</BarDropdownItem>
+
+                                            <BarDropdownItem To="docs/extensions/datagrid/columns">Columns</BarDropdownItem>
+
+                                            <BarDropdown>
+                                                <BarDropdownToggle>Features</BarDropdownToggle>
+                                                <BarDropdownMenu>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/paging">Paging</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/sorting">Sorting</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/editing">Editing</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/filtering">Filtering</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/resizing">Resizing</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/auto-generate-columns">Auto Generate Columns</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/column-chooser">Column Chooser</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/fixed-columns">Fixed Columns</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/fixed-header">Fixed Header</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/context-menu">Context Menu</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/grouping">Grouping</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/header-group">Header Group</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/features/state-management">State Management</BarDropdownItem>
+                                                </BarDropdownMenu>
+                                            </BarDropdown>
+
+                                            <BarDropdown>
+                                                <BarDropdownToggle>Selection</BarDropdownToggle>
+                                                <BarDropdownMenu>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/single">Single</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/multiple">Multiple</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/selection/custom-row-colors">Custom Row Colors</BarDropdownItem>
+                                                </BarDropdownMenu>
+                                            </BarDropdown>
+
+                                            <BarDropdown>
+                                                <BarDropdownToggle>Templates</BarDropdownToggle>
+                                                <BarDropdownMenu>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/display">Display</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/edit">Edit</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/detail-row">Detail Row</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/commands">Commands</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/loading">Loading</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/button-row">Button Row</BarDropdownItem>
+                                                    <BarDropdownItem To="docs/extensions/datagrid/templates/row-overlay">Row Overlay</BarDropdownItem>
+                                                </BarDropdownMenu>
+                                            </BarDropdown>
+
+                                            <BarDropdownItem To="docs/extensions/datagrid/validations">Validations</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
                                     <BarDropdownItem To="docs/extensions/dropdownlist">DropdownList</BarDropdownItem>
@@ -154,19 +225,31 @@
                                             <BarDropdownItem To="docs/extensions/icons-available">Available Icons</BarDropdownItem>
                                         </BarDropdownMenu>
                                     </BarDropdown>
+                                    <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/fluent-validation">FluentValidation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/list-view">ListView</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/loadingindicator">LoadingIndicator</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/lottie-animation">LottieAnimation</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/markdown">Markdown</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/qrcode">QRCode</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/richtextedit">RichTextEdit</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/selectlist">SelectList</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/sidebar">Sidebar</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/signaturepad" Flex="Flex.JustifyContent.Between">
+                                        <Span>SignaturePad</Span>
+                                        <Span Background="Background.Dark" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/snackbar">Snackbar</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/spinkit">SpinKit</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/cropper">Cropper</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/loadingindicator">LoadingIndicator</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/qrcode">QRCode</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/splitter" Flex="Flex.JustifyContent.Between">
+                                        <Span>Splitter</Span>
+                                        <Span Background="Background.Dark" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/treeview">TreeView</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/transferlist" Flex="Flex.JustifyContent.Between">
+                                        <Span>TransferList</Span>
+                                        <Span Background="Background.Primary" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                    </BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/video">Video</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
@@ -181,6 +264,10 @@
                                     <BarDropdownItem To="docs/services/modal-provider">Modal Provider</BarDropdownItem>
                                     <BarDropdownItem To="docs/services/notification-provider">Notification Provider</BarDropdownItem>
                                     <BarDropdownItem To="docs/services/page-progress-provider">PageProgress Provider</BarDropdownItem>
+                                    <BarDropdownItem To="docs/services/toast-provider" Flex="Flex.JustifyContent.Between">
+                                        <Span>Toast Provider</Span>
+                                        <Span Background="Background.Primary" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                    </BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -192,6 +279,11 @@
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/helpers/colors">Colors</BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/css-grid" Flex="Flex.JustifyContent.Between">
+                                        <Span>CSS Grid</Span>
+                                        <Span Background="Background.Primary" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/helpers/utilities/grid">Grid</BarDropdownItem>
                                     <BarDropdown>
                                         <BarDropdownToggle>Enums</BarDropdownToggle>
                                         <BarDropdownMenu>
@@ -239,7 +331,7 @@
                                 </BarDropdownToggle>
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/faq">FAQ</BarDropdownItem>
-                                    <BarDropdownItem To="https://commercial.blazorise.com/license" Target="Target.Blank">License</BarDropdownItem>
+                                    <BarDropdownItem To="license">License</BarDropdownItem>
                                 </BarDropdownMenu>
                             </BarDropdown>
                         </BarItem>
@@ -260,6 +352,8 @@
                                 Home
                             </BarLink>
                         </BarItem>
+                        <DocsVersionMenu />
+                        <TopMenuStart />
                     </BarStart>
                     <BarEnd>
                         <TopMenuEnd />
@@ -267,11 +361,20 @@
                 </BarMenu>
             </Bar>
         </LayoutHeader>
-        <LayoutContent Padding="Padding.Is0.OnX.Is4.OnY.Is4.OnWidescreen" Class="b-docs-page">
-            <Container Breakpoint="Breakpoint.Widescreen">
-                @Body
-            </Container>
-        </LayoutContent>
+        <CascadingValue Value="@this" IsFixed>
+            <LayoutContent Padding="Padding.Is0.OnX.Is4.OnY.Is4.OnWidescreen">
+                <Container Breakpoint="Breakpoint.Widescreen">
+                    <Row>
+                        <Column ColumnSize="ColumnSize.Is12.Is10.OnDesktop" Class="b-docs-page">
+                            @Body
+                        </Column>
+                        <Column ColumnSize="ColumnSize.Is2.OnDesktop">
+                            <Toc />
+                        </Column>
+                    </Row>
+                </Container>
+            </LayoutContent>
+        </CascadingValue>
     </Layout>
 </Layout>
 @code {

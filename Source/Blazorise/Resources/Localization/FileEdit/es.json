@@ -2,6 +2,8 @@
   "culture": "es",
   "translations": {
     "Choose file": "Elija el archivo",
-    "Choose files": "Seleccionar archivos"
+    "Choose files": "Seleccionar archivos",
+    "Choose folder": "elegir la carpeta",
+    "Choose folders": "elegir carpetas"
   }
 }

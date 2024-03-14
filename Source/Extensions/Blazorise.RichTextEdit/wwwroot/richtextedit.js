@@ -1,4 +1,20 @@
-﻿import { getRequiredElement } from "../Blazorise/utilities.js?v=1.1.4.1";
+﻿import "./vendors/quill.js?v=1.4.3.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.4.3.0";
+
+var rteSheetsLoaded = false;
+
+export function loadStylesheets(styles, version) {
+    if (rteSheetsLoaded) return;
+
+    styles.forEach(sheet => {
+        var link = "<link rel=\"stylesheet\" href=\"_content/Blazorise.RichTextEdit/vendors/quill.{sheet}.css?v={version}\"/>";
+        link = link.replace("{sheet}", sheet).replace("{version}", version);
+
+        document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", link);
+    });
+
+    rteSheetsLoaded = true;
+}
 
 export function initialize(dotnetAdapter, element, elementId, readOnly, placeholder, theme, bindEnter, configureQuillJsMethod) {
     element = getRequiredElement(element, elementId);
@@ -66,8 +82,7 @@ export function initialize(dotnetAdapter, element, elementId, readOnly, placehol
     function setContent() {
         if (contentUpdating) return;
 
-        const content = quill.clipboard.convert(contentRef.innerHTML);
-        quill.setContents(content);
+        quill.clipboard.dangerouslyPasteHTML(contentRef.innerHTML);
     }
 
     // create an observer for content changes
@@ -125,8 +140,8 @@ export function setHtml(editorRef, html) {
     const editor = editorRef.quill;
     if (!editor)
         return;
-    const delta = editor.clipboard.convert(html);
-    editor.setContents(delta);
+
+    editor.clipboard.dangerouslyPasteHTML(html);
 }
 
 export function getDelta(editorRef) {

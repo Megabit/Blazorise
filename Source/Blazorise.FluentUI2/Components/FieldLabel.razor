@@ -1,0 +1,8 @@
+﻿@inherits Blazorise.FieldLabel
+<label @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" for="@For" @attributes="@Attributes">
+    @ChildContent
+    @if ( RequiredIndicator )
+    {
+        <span class="fui-Label__required" aria-hidden="true">*</span>
+    }
+</label>

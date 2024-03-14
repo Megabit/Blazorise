@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
@@ -94,7 +94,7 @@ public class EditContextValidator : IEditContextValidator
     /// <inheritdoc/>
     public virtual void ValidateField( EditContext editContext, ValidationMessageStore messages, in FieldIdentifier fieldIdentifier, Func<string, IEnumerable<string>, string> messageLocalizer )
     {
-        if ( TryGetValidatableProperty( fieldIdentifier, out var validationPropertyInfo, messageLocalizer != null ) )
+        if ( TryGetValidatableProperty( fieldIdentifier, out var validationPropertyInfo, messageLocalizer is not null ) )
         {
             var propertyValue = validationPropertyInfo.PropertyInfo.GetValue( fieldIdentifier.Model );
             var validationContext = new ValidationContext( fieldIdentifier.Model, serviceProvider, null )
@@ -106,7 +106,10 @@ public class EditContextValidator : IEditContextValidator
 
             messages.Clear( fieldIdentifier );
 
-            if ( messageLocalizer != null )
+            // Clear any previous message for the given field.
+            editContext.ClearValidationMessages( fieldIdentifier );
+
+            if ( messageLocalizer is not null )
             {
                 // In this case we need to validate by using TryValidateValue because we need
                 // to have custom messages on validation attributes
@@ -141,6 +144,18 @@ public class EditContextValidator : IEditContextValidator
                 Validator.TryValidateProperty( propertyValue, validationContext, results );
 
                 messages.Add( fieldIdentifier, results.Select( x => x.ErrorMessage ) );
+
+                // We don't know what fields user can validate in the Model. So we need to run the IValidatableObject.Validate every time
+                // and then check if any of the validated fields matches the current field name.
+                if ( editContext.Model is IValidatableObject validatableObject )
+                {
+                    var validateResult = validatableObject.Validate( validationContext );
+
+                    if ( validateResult is not null && validateResult.Any( x => x.MemberNames.Contains( validationContext.MemberName ) ) )
+                    {
+                        messages.Add( fieldIdentifier, validateResult.Where( x => x.MemberNames.Contains( validationContext.MemberName ) ).Select( x => x.ErrorMessage ) );
+                    }
+                }
             }
 
             // We have to notify even if there were no messages before and are still no messages now,
@@ -183,7 +198,7 @@ public class EditContextValidator : IEditContextValidator
                         // is also set.
                         // In case a custom ErrorMessage in the DataAnnotation like [Required(ErrorMessage="{0} is very important"]
                         // the ErrorMessage is not initialized with null.
-                        if ( validationAttribute.ErrorMessageResourceName == null )
+                        if ( validationAttribute.ErrorMessageResourceName is null )
                         {
                             ValidationAttributeHelper.SetDefaultErrorMessage( validationAttribute );
                         }
@@ -202,7 +217,7 @@ public class EditContextValidator : IEditContextValidator
             }
         }
 
-        return validationPropertyInfo != null;
+        return validationPropertyInfo is not null;
     }
 
     #endregion

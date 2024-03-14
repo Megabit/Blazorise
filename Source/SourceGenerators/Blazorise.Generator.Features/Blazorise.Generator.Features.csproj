@@ -1,9 +1,26 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <Version>1.1.4.1</Version>
-    <PackageVersion>1.1.4.1</PackageVersion>
+    <Version>1.4.3</Version>
+    <PackageVersion>1.4.3</PackageVersion>
+
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageIcon>Blazorise.png</PackageIcon>
+    <PackageProjectUrl>https://blazorise.com/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Megabit/Blazorise</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+
+    <Description>Blazorise is a component library built on top of Blazor and CSS frameworks like Bootstrap, Bulma and Material.</Description>
+    <Authors>Megabit</Authors>
+    <Company>Megabit</Company>
+    <Copyright>Copyright 2018-2024 Megabit</Copyright>
+
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\..\LICENSE.md" Pack="true" Visible="false" PackagePath="" />
+    <None Include="..\..\..\NuGet\Blazorise.png" Pack="true" Visible="false" PackagePath="" />
+  </ItemGroup>
 
 </Project>

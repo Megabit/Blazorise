@@ -2,6 +2,8 @@
   "culture": "zh",
   "translations": {
     "Choose file": "选择文件",
-    "Choose files": "选择多个文件"
+    "Choose files": "选择多个文件",
+    "Choose folder": "选择文件夹",
+    "Choose folders": "选择文件夹"
   }
 }

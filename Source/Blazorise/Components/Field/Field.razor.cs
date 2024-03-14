@@ -11,13 +11,11 @@ namespace Blazorise;
 /// <summary>
 /// Wrapper for form input components like label, text, button, etc.
 /// </summary>
-public partial class Field : BaseComponent, IDisposable
+public partial class Field : BaseColumnComponent, IDisposable
 {
     #region Members
 
     private bool horizontal;
-
-    private IFluentColumn columnSize;
 
     private JustifyContent justifyContent = JustifyContent.Default;
 
@@ -26,17 +24,6 @@ public partial class Field : BaseComponent, IDisposable
     private Validation previousParentValidation;
 
     private ValidationStatus previousValidationStatus;
-
-    #endregion
-
-    #region Constructors
-
-    /// <summary>
-    /// A default constructor for <see cref="Field"/>.
-    /// </summary>
-    public Field()
-    {
-    }
 
     #endregion
 
@@ -82,7 +69,7 @@ public partial class Field : BaseComponent, IDisposable
     /// </summary>
     private void DetachValidationStatusChangedListener()
     {
-        if ( previousParentValidation != null )
+        if ( previousParentValidation is not null )
         {
             previousParentValidation.ValidationStatusChanged -= OnValidationStatusChanged;
         }
@@ -94,7 +81,7 @@ public partial class Field : BaseComponent, IDisposable
         builder.Append( ClassProvider.Field() );
         builder.Append( ClassProvider.FieldHorizontal(), Horizontal );
         builder.Append( ClassProvider.FieldJustifyContent( JustifyContent ), JustifyContent != JustifyContent.Default );
-        builder.Append( ClassProvider.FieldValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation != null );
+        builder.Append( ClassProvider.FieldValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation is not null );
 
         base.BuildClasses( builder );
     }
@@ -127,6 +114,11 @@ public partial class Field : BaseComponent, IDisposable
         hookables.Add( component );
     }
 
+    internal void UnHook( BaseComponent component )
+    {
+        hookables?.Remove( component );
+    }
+
     #endregion
 
     #region Properties
@@ -134,7 +126,7 @@ public partial class Field : BaseComponent, IDisposable
     /// <summary>
     /// Determines if the field is inside of <see cref="Fields"/> component.
     /// </summary>
-    protected bool IsFields => ParentFields != null;
+    protected bool IsFields => ParentFields is not null;
 
     /// <summary>
     /// Aligns the controls for horizontal form.
@@ -154,21 +146,6 @@ public partial class Field : BaseComponent, IDisposable
     }
 
     /// <summary>
-    /// Determines how much space will be used by the field inside of the grid row.
-    /// </summary>
-    [Parameter]
-    public IFluentColumn ColumnSize
-    {
-        get => columnSize;
-        set
-        {
-            columnSize = value;
-
-            DirtyClasses();
-        }
-    }
-
-    /// <summary>
     /// Aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally).
     /// </summary>
     [Parameter]
@@ -182,11 +159,6 @@ public partial class Field : BaseComponent, IDisposable
             DirtyClasses();
         }
     }
-
-    /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="Field"/>.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
 
     /// <summary>
     /// Gets or sets the reference to the parent <see cref="Fields"/> component.

@@ -1,0 +1,17 @@
+﻿@inherits Blazorise.BarMenu
+@if ( ParentBar?.Mode == BarMode.Horizontal )
+{
+    @ChildContent
+}
+else
+{
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @ChildContent
+    </div>
+}
+@code {
+    /// <summary>
+    /// Gets or sets the reference to the parent <see cref="Bar"/> component.
+    /// </summary>
+    [CascadingParameter] protected Bar ParentBar { get; set; }
+}

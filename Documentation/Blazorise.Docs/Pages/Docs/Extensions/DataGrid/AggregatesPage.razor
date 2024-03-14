@@ -3,37 +3,56 @@
 <Seo Canonical="/docs/extensions/datagrid/aggregates" Title="Blazorise DataGrid aggregates" Description="Learn to use and work with the Blazorise DataGrid aggregates, that helps you to calculate and summarize data to better represent it in the UI." />
 
 <DocsPageTitle>
-    DataGrid: Aggregates
+    Blazorise DataGrid: Aggregates
 </DocsPageTitle>
 
-<DocsPageSection>
-    <DocsPageSectionHeader Title="Aggregates">
-        The <Code>DataGrid</Code> provider several built-in aggregates for column values. Supported aggregate functions are:
-        <UnorderedList>
-            <UnorderedListItem><Code>Sum</Code> Calculate total(sum) value of the collection.</UnorderedListItem>
-            <UnorderedListItem><Code>Average</Code> Calculates the average of the numeric items in the collection.</UnorderedListItem>
-            <UnorderedListItem><Code>Min</Code> Finds the smallest value in the collection.</UnorderedListItem>
-            <UnorderedListItem><Code>Max</Code> Finds the largest value in the collection.</UnorderedListItem>
-            <UnorderedListItem><Code>Count</Code> Counts the elements in a collection.</UnorderedListItem>
-            <UnorderedListItem><Code>TrueCount</Code> Counts boolean elements with true value.</UnorderedListItem>
-            <UnorderedListItem><Code>FalseCount</Code> Counts boolean elements with false value.</UnorderedListItem>
-        </UnorderedList>
-    </DocsPageSectionHeader>
-</DocsPageSection>
+<DocsPageLead>
+    Show aggregate values in the footer of the grid.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The <Code>DataGrid</Code> provider several built-in aggregates for column values. Supported aggregate functions are:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem><Code>Sum</Code> Calculate total(sum) value of the collection.</UnorderedListItem>
+        <UnorderedListItem><Code>Average</Code> Calculates the average of the numeric items in the collection.</UnorderedListItem>
+        <UnorderedListItem><Code>Min</Code> Finds the smallest value in the collection.</UnorderedListItem>
+        <UnorderedListItem><Code>Max</Code> Finds the largest value in the collection.</UnorderedListItem>
+        <UnorderedListItem><Code>Count</Code> Counts the elements in a collection.</UnorderedListItem>
+        <UnorderedListItem><Code>TrueCount</Code> Counts boolean elements with true value.</UnorderedListItem>
+        <UnorderedListItem><Code>FalseCount</Code> Counts boolean elements with false value.</UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Aggregates">
         DataGrid will automatically generate necessary group cells based on the defined <Code>DataGridAggregate</Code> options.
     </DocsPageSectionHeader>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth>
         <DataGridAggregatesExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="DataGridAggregatesExample" />
-    <DocsPageSectionContent>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Large Data">
         By default all aggregate operations are run on in-memory <Code>Data</Code>. When working with large datasets that is not possible. So just as in the previous examples for large datasets you need to work with <Code>ReadData</Code> and set the <Code>AggregateData</Code> property.
-    </DocsPageSectionContent>
-    <DocsPageSectionContent>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
         <DataGridAggregatesLargeDataExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridAggregatesLargeDataExample" />
 </DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>

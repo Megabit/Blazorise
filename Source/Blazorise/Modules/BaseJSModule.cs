@@ -92,7 +92,7 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
 
                 if ( disposing )
                 {
-                    if ( moduleTask != null )
+                    if ( moduleTask is not null )
                     {
                         var moduleInstance = await moduleTask;
                         await moduleInstance.SafeDisposeAsync();
@@ -159,8 +159,24 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
 
     private Task<IJSObjectReference> GetModule()
     {
-        return moduleTask ??= jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName ).AsTask();
+        return moduleTask ??= InitializeModule();
+
+        async Task<IJSObjectReference> InitializeModule()
+        {
+            var jsObjectReference = await jsRuntime.InvokeAsync<IJSObjectReference>( "import", ModuleFileName );
+
+            await OnModuleLoaded( jsObjectReference ).ConfigureAwait( false );
+
+            return jsObjectReference;
+        }
     }
+
+    /// <summary>
+    /// Called after the JS <see cref="Module"/> has been loaded.
+    /// </summary>
+    /// <param name="jsObjectReference">The loaded JS module reference.</param>
+    protected virtual ValueTask OnModuleLoaded( IJSObjectReference jsObjectReference )
+        => ValueTask.CompletedTask;
 
     #endregion
 
@@ -169,7 +185,7 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
     /// <summary>
     /// Returns true if module was already being destroyed.
     /// </summary>
-    protected bool IsUnsafe => AsyncDisposed || moduleTask == null;
+    protected bool IsUnsafe => AsyncDisposed || moduleTask is null;
 
     /// <summary>
     /// Indicates if the component is already fully disposed (asynchronously).

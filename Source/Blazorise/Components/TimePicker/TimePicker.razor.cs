@@ -6,6 +6,7 @@ using Blazorise.Extensions;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Utilities;
+using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
@@ -31,6 +32,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         var disabledChanged = parameters.TryGetValue( nameof( Disabled ), out bool disabled ) && Disabled != disabled;
         var readOnlyChanged = parameters.TryGetValue( nameof( ReadOnly ), out bool readOnly ) && ReadOnly != readOnly;
         var inlineChanged = parameters.TryGetValue( nameof( Inline ), out bool paramInline ) && Inline != paramInline;
+        var placeholderChanged = parameters.TryGetValue( nameof( Placeholder ), out string paramPlaceholder ) && Placeholder != paramPlaceholder;
+        var staticPickerChanged = parameters.TryGetValue( nameof( StaticPicker ), out bool paramSaticPicker ) && StaticPicker != paramSaticPicker;
 
         if ( timeChanged )
         {
@@ -50,24 +53,28 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
                            || timeAs24hrChanged
                            || disabledChanged
                            || readOnlyChanged
-                           || inlineChanged ) )
+                           || inlineChanged
+                           || placeholderChanged
+                           || staticPickerChanged ) )
         {
             ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
             {
-                DisplayFormat = new { Changed = displayFormatChanged, Value = DateTimeFormatConverter.Convert( displayFormat ) },
+                DisplayFormat = new { Changed = displayFormatChanged, Value = DisplayFormatConverter.Convert( displayFormat ) },
                 TimeAs24hr = new { Changed = timeAs24hrChanged, Value = timeAs24hr },
                 Min = new { Changed = minChanged, Value = min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) },
                 Max = new { Changed = maxChanged, Value = max?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ) },
                 Disabled = new { Changed = disabledChanged, Value = disabled },
                 ReadOnly = new { Changed = readOnlyChanged, Value = readOnly },
                 Inline = new { Changed = inlineChanged, Value = paramInline },
+                Placeholder = new { Changed = placeholderChanged, Value = paramPlaceholder },
+                StaticPicker = new { Changed = staticPickerChanged, Value = paramSaticPicker },
             } ) );
         }
 
         // Let blazor do its thing!
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( TimeExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -99,7 +106,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     {
         await JSModule.Initialize( ElementRef, ElementId, new
         {
-            DisplayFormat = DateTimeFormatConverter.Convert( DisplayFormat ),
+            DisplayFormat = DisplayFormatConverter.Convert( DisplayFormat ),
             TimeAs24hr,
             Default = FormatValueAsString( Time ),
             Min = Min?.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
@@ -108,6 +115,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
             ReadOnly,
             Localization = GetLocalizationObject(),
             Inline,
+            Placeholder,
+            StaticPicker,
         } );
 
         await base.OnFirstAfterRenderAsync();
@@ -130,8 +139,8 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TimePicker( Plaintext ) );
-        builder.Append( ClassProvider.TimePickerSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.TimePickerColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.TimePickerSize( ThemeSize ) );
+        builder.Append( ClassProvider.TimePickerColor( Color ) );
         builder.Append( ClassProvider.TimePickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );
@@ -168,7 +177,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         {
             null => null,
             TimeSpan timeSpan => timeSpan.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
-            TimeOnly timeOnly => timeOnly.ToString( Parsers.InternalTimeFormat.ToLowerInvariant() ),
+            TimeOnly timeOnly => timeOnly.ToString( Parsers.InternalTimeFormat ),
             DateTime datetime => datetime.ToString( Parsers.InternalTimeFormat ),
             _ => throw new InvalidOperationException( $"Unsupported type {value.GetType()}" ),
         };
@@ -290,7 +299,7 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// <summary>
     /// Converts the supplied time format into the internal time format.
     /// </summary>
-    [Inject] protected IDateTimeFormatConverter DateTimeFormatConverter { get; set; }
+    [Inject] protected IFlatPickrDateTimeDisplayFormatConverter DisplayFormatConverter { get; set; }
 
     /// <summary>
     /// Gets or sets the input time value.
@@ -331,6 +340,11 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
     /// Display the time menu in an always-open state with the inline option.
     /// </summary>
     [Parameter] public bool Inline { get; set; }
+
+    /// <summary>
+    /// If enabled, the calendar menu will be positioned as static.
+    /// </summary>
+    [Parameter] public bool StaticPicker { get; set; } = true;
 
     #endregion
 }

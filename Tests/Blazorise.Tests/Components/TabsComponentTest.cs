@@ -1,6 +1,4 @@
-﻿using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
-using Bunit;
+﻿using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
@@ -9,7 +7,8 @@ public class TabsComponentTest : TestContext
 {
     public TabsComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseUtilities();
     }
 
     [Fact]

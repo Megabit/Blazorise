@@ -49,6 +49,10 @@ public class JSMemoEditModule : BaseJSModule, IJSMemoEditModule
         await InvokeSafeVoidAsync( "updateOptions", elementRef, elementId, options );
     }
 
+    /// <inheritdoc/>
+    public virtual ValueTask RecalculateAutoHeight( ElementReference elementRef, string elementId )
+        => InvokeSafeVoidAsync( "recalculateAutoHeight", elementRef, elementId );
+
     #endregion
 
     #region Properties

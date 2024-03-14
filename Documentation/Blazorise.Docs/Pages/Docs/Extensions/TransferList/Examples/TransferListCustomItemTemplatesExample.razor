@@ -1,0 +1,35 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<TransferList TItem="string"
+              Items="@list"
+              SelectionMode="ListGroupSelectionMode.Single"
+              Mode="ListGroupMode.Selectable"
+              Scrollable
+              ShowMoveAll=false
+              ValueField="item => item"
+              TextField="item => item">
+    <ItemStartTemplate>
+        @(transferListItemContent( context ))
+    </ItemStartTemplate>
+    <ItemEndTemplate>
+        @(transferListItemContent( context ))
+    </ItemEndTemplate>
+</TransferList>
+
+@code {
+    private List<string> list = new List<string> { "Apple", "Bananas", "Lemon", "Broccoli", "Strawberry", "Cherry", "Cabbage" };
+    private List<string> listStart = new List<string>() { "Cabbage", "Broccoli" };
+
+    private RenderFragment<Blazorise.Components.ListView.ItemContext<string>> transferListItemContent => item => __builder =>
+    {
+        <Card Background=Background.Info Shadow="Shadow.Default">
+            <CardBody>
+                @{
+                    var imageSource = $"img/fruit/{item.Value.ToLower()}.png";
+                }
+                <Image Source="@imageSource" Style="width:24px;height:24px;" Text="Small image" />
+                @item.Value
+            </CardBody>
+        </Card>
+    };
+}

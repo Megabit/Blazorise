@@ -1,0 +1,47 @@
+﻿@inherits Blazorise.Carousel
+<CascadingValue Value="@this" IsFixed>
+    <CascadingValue Value="@State">
+        @ChildContent
+
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @if ( ShowControls )
+            {
+                <div class="fui-Carousel__paddlescontainer">
+                    <button class="fui-Carousel__paddle" @onclick="@SelectPrevious" role="button" tabindex="-1" aria-hidden="true">
+                        <span class="fui-Carousel__paddle__icon" aria-hidden="true"></span>
+                        <span class="fui-Carousel__paddle__content" aria-hidden="true">@PreviousButtonString</span>
+                    </button>
+                    <button class="fui-Carousel__paddle" @onclick="@SelectNext" role="button" tabindex="-1" aria-hidden="true">
+                        <span class="fui-Carousel__paddle__content" aria-hidden="true">@NextButtonString</span>
+                        <span class="fui-Carousel__paddle__icon" aria-hidden="true"></span>
+                    </button>
+                </div>
+            }
+
+            <div aria-live="off" class="fui-Carousel__itemswrapper">
+                <div role="region" aria-roledescription="carousel" aria-label="Carousel container" class="@SlidesClassNames">
+                    @{
+                        var selectedSlide = carouselSlides.FirstOrDefault( x => x.Name == SelectedSlide );
+
+                        <div role="tabpanel" aria-hidden="false" tabindex="0" class="@selectedSlide?.ClassNames" style="@selectedSlide?.StyleNames" @attributes="@selectedSlide?.Attributes">
+                            @selectedSlide?.ChildContent
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @if ( ShowIndicators )
+            {
+                <ul role="tablist" class="@IndicatorsClassNames">
+                    @for ( int i = 0; i < carouselSlides.Count; ++i )
+                    {
+                        int index = i;
+                        <li role="tab" @onclick="@carouselSlides[index].Activate" class="@carouselSlides[index].IndicatorClassNames" style="@carouselSlides[index].IndicatorStyleNames">
+                            <div class="fui-Carousel__navigationitem__icon"></div>
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
+    </CascadingValue>
+</CascadingValue>

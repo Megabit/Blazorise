@@ -22,17 +22,31 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Basic">
-        Click the red area to activate the color picker. This is the basic variation of it.
+        In this Blazorise example, a <Code>ColorPicker</Code> component is bound to a colorValue variable using the <Code>@@bind-Color</Code> directive. Initially set to red (<Strong>#ff0000</Strong>), the <Code>colorValue</Code> updates automatically when a user selects a new color through the <Code>ColorPicker</Code>, demonstrating an interactive color selection tool in a Blazor application.
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
-        <BasicColorPickerExample />
+        <ColorPickerExample />
     </DocsPageSectionContent>
-    <DocsPageSectionSource Code="BasicColorPickerExample" />
+    <DocsPageSectionSource Code="ColorPickerExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Show Hue Slider">
+        In this Blazorise example, the <Code>ColorPicker</Code> component is enhanced with a hue slider, as indicated by the <Code>ShowHueSlider</Code> attribute.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ColorPickerShowHueExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ColorPickerShowHueExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="Color" Type="string" Default="null">
@@ -55,5 +69,14 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ShowCancelButton" Type="bool" Default="true">
         Controls the visibility of the cancel buttons.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowOpacitySlider" Type="bool" Default="true">
+        Controls the visibility of the opacity slider.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowHueSlider" Type="bool" Default="false">
+        Controls the visibility of the hue slider.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowInputField" Type="bool" Default="true">
+        Controls the visibility of the textbox which shows the selected color value.
     </DocsAttributesItem>
 </DocsAttributes>

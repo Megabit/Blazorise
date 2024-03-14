@@ -1,0 +1,82 @@
+﻿@page "/tests/dropdownlist"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Dropdown List</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <DropdownList TItem="Country"
+                                      TValue="string"
+                                      Data="@Countries"
+                                      TextField="@(( item ) => item.Name)"
+                                      ValueField="@((item) => item.Iso)"
+                                      DisabledItem="@(item => item.Name == "Armenia")"
+                                      @bind-SelectedValue="@selectedDropValue"
+                                      Color="Color.Primary"
+                                      MaxMenuHeight="200px"
+                                     DropdownToggleSize="Size.Large">
+                            Select item
+                        </DropdownList>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @selectedDropValue
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Dropdown List : Checkbox</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <DropdownList TItem="Country"
+                                      TValue="string"
+                                      Data="@Countries"
+                                      TextField="@(( item ) => item.Name)"
+                                      ValueField="@((item) => item.Iso)"
+                                      DisabledItem="@(item => item.Name == "Armenia")"
+                                      @bind-SelectedValues="@selectedDropValues"
+                                      SelectionMode="DropdownListSelectionMode.Checkbox"
+                                      Color="Color.Primary"
+                                      MaxMenuHeight="200px">
+                            Select items
+                        </DropdownList>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected values: @(selectedDropValues is not null ? string.Join( ',', selectedDropValues ) : "");
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    private string selectedDropValue { get; set; } = "AF";
+    private IReadOnlyList<string> selectedDropValues { get; set; } = new[] { "AM", "AF" };
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = (await CountryData.GetDataAsync()).Take(50);
+        await base.OnInitializedAsync();
+    }
+}

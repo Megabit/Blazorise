@@ -1,13 +1,13 @@
 ﻿<Column ColumnSize="ColumnSize.Is12.OnMobile.Is6.OnTablet.Is4.OnDesktop">
-    <Card Margin="Margin.Is4.FromBottom" Shadow="Shadow.Default">
+    <Card Margin="Margin.Is4.FromBottom" Shadow="Shadow.Default" Border="Border.Is0">
         <CardImage Source="@ImageSource" Alt="News post image"></CardImage>
-        <CardBody>
+        <CardBody Padding="Padding.Is0.FromBottom">
             <CardTitle>
-                @if (To != null)
+                @if ( To != null )
                 {
-                    <Blazorise.Link To="@To">
+                    <Anchor To="@To" Title="News post image" Stretched>
                         @ToText
-                    </Blazorise.Link>
+                    </Anchor>
                 }
             </CardTitle>
             <CardText>
@@ -20,6 +20,9 @@
                 </article>
             </CardText>
         </CardBody>
+        @*<CardBody Padding="Padding.Is0.OnY">
+            <NewsPagePostInfo UserName="@AuthorName" ImageName="@AuthorImage" PostedOn="@PostedOn" Read="@ReadTime" />
+        </CardBody>*@
     </Card>
 </Column>
 @code {
@@ -30,4 +33,12 @@
     [Parameter] public string ImageSource { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public string AuthorName { get; set; }
+
+    [Parameter] public string AuthorImage { get; set; }
+
+    [Parameter] public string PostedOn { get; set; }
+
+    [Parameter] public string ReadTime { get; set; }
 }

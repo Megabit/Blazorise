@@ -4,7 +4,7 @@
     <section @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @if ( Loading )
         {
-            @if ( LoadingTemplate != null )
+            @if ( LoadingTemplate is not null )
             {
                 @LoadingTemplate
             }

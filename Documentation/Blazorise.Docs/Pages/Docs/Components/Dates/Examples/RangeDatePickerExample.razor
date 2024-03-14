@@ -1,3 +1,7 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
 
-<DatePicker TValue="DateTime?" InputMode="DateInputMode.Date" SelectionMode="DateInputSelectionMode.Range" />
+<DatePicker TValue="DateTime?" @bind-Dates="selectedDates" InputMode="DateInputMode.Date" SelectionMode="DateInputSelectionMode.Range" />
+
+@code {
+    IReadOnlyList<DateTime?> selectedDates;
+}

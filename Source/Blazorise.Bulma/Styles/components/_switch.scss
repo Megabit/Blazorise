@@ -1,0 +1,46 @@
+﻿.switch[type="checkbox"] {
+    outline: 0;
+    user-select: none;
+    display: inline-block;
+    position: absolute;
+    opacity: 0;
+
+    @include switch-size($size-normal);
+
+    &.is-extra-small {
+        @include switch-size($size-extra-small);
+    }
+
+    &.is-small {
+        @include switch-size($size-small);
+    }
+
+    &.is-medium {
+        @include switch-size($size-medium);
+    }
+
+    &.is-large {
+        @include switch-size($size-large);
+    }
+
+    &.is-extra-large {
+        @include switch-size($size-extra-large);
+    }
+}
+
+@each $name, $value in $theme-colors {
+    $color: $value;
+
+    .switch[type="checkbox"] {
+        &.is-#{$name}:checked + label::before,
+        &.is-#{$name}:checked + label:before {
+            background-color: $color;
+        }
+
+        &:disabled {
+            &.is-#{$name}:checked + label::before {
+                background-color: rgba($color,.5);
+            }
+        }
+    }
+}

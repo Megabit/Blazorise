@@ -92,12 +92,19 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes Title="ListGroup">
     <DocsAttributesItem Name="Flush" Type="bool" Default="false">
         Remove some borders and rounded corners to render list group items edge-to-edge in a parent container (e.g., cards).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Scrollable" Type="bool" Default="false">
+        Makes the list group scrollable by adding a vertical scrollbar. (Note: you also must define max height on a list group).
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedItem" Type="string" Default="null">
         Gets or sets currently selected item name.
@@ -107,6 +114,15 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Mode" Type="ListGroupMode" Default="Static">
         Defines the list-group behavior mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectionMode" Type="ListGroupSelectionMode" Default="ListGroupSelectionMode.Single">
+        Defines the list-group selection mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItems" Type="List<string>">
+        Gets or sets currently selected items names.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedItemsChanged" Type="EventCallback<List<string>>">
+        An event raised when SelectedItems are changed.
     </DocsAttributesItem>
 </DocsAttributes>
 

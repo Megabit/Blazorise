@@ -1,12 +1,9 @@
 ﻿#region Using directives
+using System.Collections.Generic;
 using System.Linq;
-using AngleSharp.Dom;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
+using System.Threading.Tasks;
 using Bunit;
-using Castle.DynamicProxy.Generators.Emitters;
 using Xunit;
-using static System.Net.Mime.MediaTypeNames;
 #endregion
 
 namespace Blazorise.Tests.Components;
@@ -15,29 +12,79 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
 {
     public AutocompleteMultipleComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop
+            .AddBlazoriseTextEdit()
+            .AddBlazoriseUtilities()
+            .AddBlazoriseClosable()
+            .AddBlazoriseDropdown();
     }
 
     [Fact]
-    public void Focus_ShouldFocus()
+    public Task TagTemplate_Should_BeAbleTo_Remove()
     {
-        TestFocus<AutocompleteMultipleComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
+        var comp = RenderComponent<AutocompleteMultipleComponent>( parameters =>
+        {
+            parameters.Add( x => x.UseBadgeTemplate, true );
+            parameters.Add( x => x.SelectedTexts, new List<string>() { "Portugal", "Croatia" } );
+        } );
+
+        var tags = comp.FindAll( ".badge" );
+        comp.WaitForAssertion( () =>
+        {
+            tags.Refresh();
+            tags.Count.Should().Be( 2 );
+        } );
+
+        comp.Find( ".badge .badge-close" ).Click();
+
+        comp.WaitForAssertion( () =>
+        {
+            tags.Refresh();
+            tags.Count.Should().Be( 1 );
+        } );
+
+        return Task.CompletedTask;
     }
 
     [Fact]
-    public void Clear_ShouldReset()
+    public Task TagTemplate_Should_Render()
     {
-        TestClear<AutocompleteMultipleComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
+        var comp = RenderComponent<AutocompleteMultipleComponent>( parameters =>
+        {
+            parameters.Add( x => x.UseBadgeTemplate, true );
+            parameters.Add( x => x.SelectedTexts, new List<string>() { "Portugal", "Croatia" } );
+        } );
+
+        var tags = comp.FindAll( ".badge" );
+        comp.WaitForAssertion( () =>
+        {
+            tags.Refresh();
+            tags.Count.Should().Be( 2 );
+            //The x represents the close button.
+            tags.Select( x => x.TextContent ).Should().BeEquivalentTo( new[] { "Portugal×", "Croatia×" } );
+        } );
+
+        return Task.CompletedTask;
     }
 
     [Fact]
-    public void InitialSelectedValues_ShouldSet_SelectedTexts()
+    public Task Focus_ShouldFocus()
     {
-        TestInitialSelectedValues<AutocompleteMultipleComponent>( ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
+        return TestFocus<AutocompleteMultipleComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
+    }
+
+    [Fact]
+
+    public Task Clear_ShouldReset()
+    {
+        return TestClear<AutocompleteMultipleComponent>( async ( comp ) => await comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
+    }
+
+    [Fact]
+    public Task InitialSelectedValues_ShouldSet_SelectedTexts()
+    {
+        return TestInitialSelectedValues<AutocompleteMultipleComponent>( ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
     }
 
 
@@ -48,24 +95,24 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
             "AQ", "AE", "AF", "CA", "US", "AO", "AR", "CH", "CN", "GB", "PT", "HR" },
         new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "United States", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" } )]
     [InlineData( null, null )]
-    public void ProgramaticallySetSelectedValues_ShouldSet_SelectedTexts( string[] selectedValues, string[] expectedSelectedTexts )
+    public Task ProgramaticallySetSelectedValues_ShouldSet_SelectedTexts( string[] selectedValues, string[] expectedSelectedTexts )
     {
-        TestProgramaticallySetSelectedValues<AutocompleteMultipleComponent>( ( comp ) => comp.Instance.SelectedTexts?.ToArray(), selectedValues, expectedSelectedTexts );
+        return TestProgramaticallySetSelectedValues<AutocompleteMultipleComponent>( ( comp ) => comp.Instance.SelectedTexts?.ToArray(), selectedValues, expectedSelectedTexts );
     }
 
     [Theory]
     [InlineData( new[] { "Portugal", "Croatia" }, "" )]
     [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }, "" )]
-    public void SelectValues_ShouldSet( string[] expectedTexts, string dummy )
+    public Task SelectValues_ShouldSet( string[] expectedTexts, string dummy )
     {
-        TestSelectValues<AutocompleteMultipleComponent>( expectedTexts );
+        return TestSelectValues<AutocompleteMultipleComponent>( expectedTexts );
     }
 
     [Theory]
     [InlineData( new[] { "Portugal", "Croatia" }, new[] { "MyCustomValue", "YetAnotherCustomValue" }, new[] { "Portugal", "Croatia", "MyCustomValue", "YetAnotherCustomValue" } )]
-    public void FreeTypedValue_ShouldSet( string[] startTexts, string[] addTexts, string[] expectedTexts )
+    public Task FreeTypedValue_ShouldSet( string[] startTexts, string[] addTexts, string[] expectedTexts )
     {
-        TestFreeTypedValue<AutocompleteMultipleComponent>( startTexts, addTexts, expectedTexts );
+        return TestFreeTypedValue<AutocompleteMultipleComponent>( startTexts, addTexts, expectedTexts );
     }
 
     [Theory]
@@ -74,8 +121,8 @@ public class AutocompleteMultipleComponentTest : AutocompleteMultipleBaseCompone
     [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }
         , new[] { "Antarctica", "Argentina", "United Kingdom", "Canada" }
         , new[] { "United Arab Emirates", "Afghanistan", "Angola", "Switzerland", "China", "Portugal", "Croatia" } )]
-    public void RemoveValues_ShouldRemove( string[] startTexts, string[] removeTexts, string[] expectedTexts )
+    public Task RemoveValues_ShouldRemove( string[] startTexts, string[] removeTexts, string[] expectedTexts )
     {
-        TestRemoveValues<AutocompleteMultipleComponent>( startTexts, removeTexts, expectedTexts );
+        return TestRemoveValues<AutocompleteMultipleComponent>( startTexts, removeTexts, expectedTexts );
     }
 }

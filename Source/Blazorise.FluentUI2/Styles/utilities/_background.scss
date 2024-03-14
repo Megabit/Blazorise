@@ -1,0 +1,13 @@
+﻿@each $color, $value in $background-theme-colors {
+    .fui-Background-#{$color} {
+        background-color: $value !important;
+    }
+}
+
+.fui-Background-white {
+    background-color: var(--colorNeutralBackground1) !important;
+}
+
+.fui-Background-transparent {
+    background-color: var(--colorTransparentBackground) !important;
+}

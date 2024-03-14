@@ -2,21 +2,17 @@
 <CascadingValue Value="@this" IsFixed>
     @if ( FixedHeader )
     {
-        <div id="@ElementId" class="@ClassNames" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" @attributes="@Attributes">
             <div class="ant-table-container" style="@ContainerStyleNames">
                 <div class="ant-table-header">
                     <table @ref="@ElementRef" style="table-layout: fixed;"
                            draggable="@DraggableString"
-                           @ondrag="@OnDragHandler"
-                           @ondrag:preventDefault="@DragPreventDefault"
                            @ondragend="@OnDragEndHandler"
                            @ondragend:preventDefault="@DragEndPreventDefault"
                            @ondragenter="@OnDragEnterHandler"
                            @ondragenter:preventDefault="@DragEnterPreventDefault"
                            @ondragleave="@OnDragLeaveHandler"
                            @ondragleave:preventDefault="@DragLeavePreventDefault"
-                           @ondragover="@OnDragOverHandler"
-                           @ondragover:preventDefault="@DragOverPreventDefault"
                            @ondragstart="@OnDragStartHandler"
                            @ondragstart:preventDefault="@DragStartPreventDefault"
                            @ondrop="@OnDropHandler"
@@ -29,21 +25,17 @@
     }
     else
     {
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             <div class="ant-table-container">
                 <div class="ant-table-content">
                     <table @ref="@ElementRef" style="table-layout: auto;"
                            draggable="@DraggableString"
-                           @ondrag="@OnDragHandler"
-                           @ondrag:preventDefault="@DragPreventDefault"
                            @ondragend="@OnDragEndHandler"
                            @ondragend:preventDefault="@DragEndPreventDefault"
                            @ondragenter="@OnDragEnterHandler"
                            @ondragenter:preventDefault="@DragEnterPreventDefault"
                            @ondragleave="@OnDragLeaveHandler"
                            @ondragleave:preventDefault="@DragLeavePreventDefault"
-                           @ondragover="@OnDragOverHandler"
-                           @ondragover:preventDefault="@DragOverPreventDefault"
                            @ondragstart="@OnDragStartHandler"
                            @ondragstart:preventDefault="@DragStartPreventDefault"
                            @ondrop="@OnDropHandler"

@@ -81,6 +81,10 @@ public class FluentFlexTest
     [InlineData( "d-flex flex-xl-row-reverse", FlexDirection.ReverseRow, Breakpoint.FullHD )]
     [InlineData( "d-flex flex-xl-column", FlexDirection.Column, Breakpoint.FullHD )]
     [InlineData( "d-flex flex-xl-column-reverse", FlexDirection.ReverseColumn, Breakpoint.FullHD )]
+    [InlineData( "d-flex flex-xxl-row", FlexDirection.Row, Breakpoint.QuadHD )]
+    [InlineData( "d-flex flex-xxl-row-reverse", FlexDirection.ReverseRow, Breakpoint.QuadHD )]
+    [InlineData( "d-flex flex-xxl-column", FlexDirection.Column, Breakpoint.QuadHD )]
+    [InlineData( "d-flex flex-xxl-column-reverse", FlexDirection.ReverseColumn, Breakpoint.QuadHD )]
     public void AreDirection_With_Breakpoints( string expected, FlexDirection direction, Breakpoint breakpoint )
     {
         var flex = new FluentFlex();
@@ -139,6 +143,11 @@ public class FluentFlexTest
     [InlineData( "d-flex justify-content-xl-center", FlexJustifyContent.Center, Breakpoint.FullHD )]
     [InlineData( "d-flex justify-content-xl-between", FlexJustifyContent.Between, Breakpoint.FullHD )]
     [InlineData( "d-flex justify-content-xl-around", FlexJustifyContent.Around, Breakpoint.FullHD )]
+    [InlineData( "d-flex justify-content-xxl-start", FlexJustifyContent.Start, Breakpoint.QuadHD )]
+    [InlineData( "d-flex justify-content-xxl-end", FlexJustifyContent.End, Breakpoint.QuadHD )]
+    [InlineData( "d-flex justify-content-xxl-center", FlexJustifyContent.Center, Breakpoint.QuadHD )]
+    [InlineData( "d-flex justify-content-xxl-between", FlexJustifyContent.Between, Breakpoint.QuadHD )]
+    [InlineData( "d-flex justify-content-xxl-around", FlexJustifyContent.Around, Breakpoint.QuadHD )]
     public void AreJustifyContent_With_Breakpoints( string expected, FlexJustifyContent justifyContent, Breakpoint breakpoint )
     {
         var flex = new FluentFlex();
@@ -196,6 +205,11 @@ public class FluentFlexTest
     [InlineData( "d-flex align-items-xl-center", FlexAlignItems.Center, Breakpoint.FullHD )]
     [InlineData( "d-flex align-items-xl-baseline", FlexAlignItems.Baseline, Breakpoint.FullHD )]
     [InlineData( "d-flex align-items-xl-stretch", FlexAlignItems.Stretch, Breakpoint.FullHD )]
+    [InlineData( "d-flex align-items-xxl-start", FlexAlignItems.Start, Breakpoint.QuadHD )]
+    [InlineData( "d-flex align-items-xxl-end", FlexAlignItems.End, Breakpoint.QuadHD )]
+    [InlineData( "d-flex align-items-xxl-center", FlexAlignItems.Center, Breakpoint.QuadHD )]
+    [InlineData( "d-flex align-items-xxl-baseline", FlexAlignItems.Baseline, Breakpoint.QuadHD )]
+    [InlineData( "d-flex align-items-xxl-stretch", FlexAlignItems.Stretch, Breakpoint.QuadHD )]
     public void AreAlignItems_With_Breakpoints( string expected, FlexAlignItems alignItems, Breakpoint breakpoint )
     {
         var flex = new FluentFlex();
@@ -257,6 +271,12 @@ public class FluentFlexTest
     [InlineData( "align-self-xl-center", FlexAlignSelf.Center, Breakpoint.FullHD )]
     [InlineData( "align-self-xl-baseline", FlexAlignSelf.Baseline, Breakpoint.FullHD )]
     [InlineData( "align-self-xl-stretch", FlexAlignSelf.Stretch, Breakpoint.FullHD )]
+    [InlineData( "align-self-xxl-auto", FlexAlignSelf.Auto, Breakpoint.QuadHD )]
+    [InlineData( "align-self-xxl-start", FlexAlignSelf.Start, Breakpoint.QuadHD )]
+    [InlineData( "align-self-xxl-end", FlexAlignSelf.End, Breakpoint.QuadHD )]
+    [InlineData( "align-self-xxl-center", FlexAlignSelf.Center, Breakpoint.QuadHD )]
+    [InlineData( "align-self-xxl-baseline", FlexAlignSelf.Baseline, Breakpoint.QuadHD )]
+    [InlineData( "align-self-xxl-stretch", FlexAlignSelf.Stretch, Breakpoint.QuadHD )]
     public void AreAlignSelf_With_Breakpoints( string expected, FlexAlignSelf alignSelf, Breakpoint breakpoint )
     {
         var flex = new FluentFlex();
@@ -319,6 +339,12 @@ public class FluentFlexTest
     [InlineData( "d-flex align-content-xl-between", FlexAlignContent.Between, Breakpoint.FullHD )]
     [InlineData( "d-flex align-content-xl-around", FlexAlignContent.Around, Breakpoint.FullHD )]
     [InlineData( "d-flex align-content-xl-stretch", FlexAlignContent.Stretch, Breakpoint.FullHD )]
+    [InlineData( "d-flex align-content-xxl-start", FlexAlignContent.Start, Breakpoint.QuadHD )]
+    [InlineData( "d-flex align-content-xxl-end", FlexAlignContent.End, Breakpoint.QuadHD )]
+    [InlineData( "d-flex align-content-xxl-center", FlexAlignContent.Center, Breakpoint.QuadHD )]
+    [InlineData( "d-flex align-content-xxl-between", FlexAlignContent.Between, Breakpoint.QuadHD )]
+    [InlineData( "d-flex align-content-xxl-around", FlexAlignContent.Around, Breakpoint.QuadHD )]
+    [InlineData( "d-flex align-content-xxl-stretch", FlexAlignContent.Stretch, Breakpoint.QuadHD )]
     public void AreAlignContent_With_Breakpoints( string expected, FlexAlignContent alignContent, Breakpoint breakpoint )
     {
         var flex = new FluentFlex();
@@ -350,6 +376,7 @@ public class FluentFlexTest
     [InlineData( "flex-md-fill", Breakpoint.Desktop )]
     [InlineData( "flex-lg-fill", Breakpoint.Widescreen )]
     [InlineData( "flex-xl-fill", Breakpoint.FullHD )]
+    [InlineData( "flex-xxl-fill", Breakpoint.QuadHD )]
     public void AreFill_With_Breakpoint( string expected, Breakpoint breakpoint )
     {
         var flex = new FluentFlex();
@@ -394,6 +421,9 @@ public class FluentFlexTest
     [InlineData( "d-flex flex-xl-wrap", FlexWrap.Wrap, Breakpoint.FullHD )]
     [InlineData( "d-flex flex-xl-wrap-reverse", FlexWrap.ReverseWrap, Breakpoint.FullHD )]
     [InlineData( "d-flex flex-xl-nowrap", FlexWrap.NoWrap, Breakpoint.FullHD )]
+    [InlineData( "d-flex flex-xxl-wrap", FlexWrap.Wrap, Breakpoint.QuadHD )]
+    [InlineData( "d-flex flex-xxl-wrap-reverse", FlexWrap.ReverseWrap, Breakpoint.QuadHD )]
+    [InlineData( "d-flex flex-xxl-nowrap", FlexWrap.NoWrap, Breakpoint.QuadHD )]
     public void AreWrap_With_Breakpoint( string expected, FlexWrap wrap, Breakpoint breakpoint )
     {
         var flex = new FluentFlex();

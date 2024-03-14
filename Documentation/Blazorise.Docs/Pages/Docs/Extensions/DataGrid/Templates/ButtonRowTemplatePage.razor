@@ -1,0 +1,41 @@
+﻿@page "/docs/extensions/datagrid/templates/button-row"
+
+<Seo Canonical="/docs/extensions/datagrid/templates/button-row" Title="Blazorise DataGrid Button Row Template" Description="Learn Blazorise by the example. Easily customize the action buttons shown with the Blazorise DataGrid's button row template feature." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Templates/Button Row">
+    Blazorise DataGrid: Button Row Template
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Blazor includes templated components that can accept one or more UI segments as input and render them as part of the component during component rendering. DataGrid is a templated Blazor component that lets you customize various parts of the user interface with template parameters. It enables you to generate custom components or content using your own logic.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ButtonRow Template">
+        <Paragraph>
+            Provide a <Code>ButtonRowTemplate</Code> and have the <Code>DataGridCommandMode</Code> set to either <Code>Default</Code> or <Code>ButtonRow</Code>.
+        </Paragraph>
+
+        <Paragraph>
+            The template has access to the internal commands so you’re also able to construct your own buttons on the pager that can also trigger the Datagrid’s CRUD and clear filter operations as shown in the example below:
+        </Paragraph>
+
+        <Alert Visible Color="Color.Info">
+            <AlertMessage>Note:</AlertMessage>
+            <AlertDescription>If you'd like to setup New and/or Edit buttons inside the Button Row or if <Code>DataGridEditMode</Code> is set to <Code>Inline</Code>, you should take note that if you'd like to customize the Save/Cancel buttons, you should do so by using the <Code>DataGridCommandColumn</Code> as the Save/Cancel buttons are configured/rendered in this column.</AlertDescription>
+        </Alert>
+
+        <Alert Visible Color="Color.Info">
+            <AlertMessage>Note:</AlertMessage>
+            <AlertDescription><Code>ButtonRowTemplate</Code> is located inside the Datagrid's <Code>Pager</Code>, as such the <Code>ShowPager</Code> Parameter should be set to true.</AlertDescription>
+        </Alert>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridButtonRowExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridButtonRowExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>

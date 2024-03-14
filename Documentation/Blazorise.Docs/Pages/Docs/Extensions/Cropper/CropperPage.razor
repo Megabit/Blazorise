@@ -36,6 +36,13 @@
     <DocsPageSectionSource Code="ImportCropperExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Message Size">
+        This step is recommended for Blazor Server only. In a default Blazor Server project template, the SignalR settings might be too small for some components like Cropper. To make it work, you should increase the <Code>MaximumReceiveMessageSize</Code> in your projects <Strong>Startup.cs</Strong>.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="CropperMessageSizeExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     Examples
 </DocsPageSubtitle>
@@ -60,11 +67,15 @@
     <DocsPageSectionSource Code="CropperViewerExample" />
 </DocsPageSection>
 
-<Heading Size="HeadingSize.Is2">
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
     Attributes
 </Heading>
 
-<DocsAttributes>
+<DocsAttributes Title="Cropper">
     <DocsAttributesItem Name="Ratio" Type="CropperAspectRatio" Default="Is1x1">
         Defines the aspect ratio of the image cropper.
     </DocsAttributesItem>
@@ -94,5 +105,32 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="CropperState" Type="CropperState" Default="null">
         Provides a shared state and syncronization context between the cropper and cropper viewer.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CrossOrigin" Type="string" Default="null">
+        The cross-origin attribute of the image.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageReady" Type="Func<Task>" Default="null">
+        This event fires when the image is ready / loaded.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="CropperViewer">
+    <DocsAttributesItem Name="CropperState" Type="CropperState">
+        Provides a shared state and syncronization context between the cropper and cropper viewer.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="CropperCropOptions">
+    <DocsAttributesItem Name="Width" Type="int" Default="0">
+        The destination width of the output canvas.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Height" Type="int" Default="0">
+        The destination height  of the output canvas.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageType" Type="string" Default="image/png">
+        A string indicating the image format. The default type is <Code>image/png</Code> this image format will be also used if the specified type is not supported.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ImageQuality" Type="double?" Default="1.0">
+        A Number between 0 and 1 indicating the image quality to be used when creating images using file formats that support lossy compression (such as image/jpeg or image/webp).
     </DocsAttributesItem>
 </DocsAttributes>

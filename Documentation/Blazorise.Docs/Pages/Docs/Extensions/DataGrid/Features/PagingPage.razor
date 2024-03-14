@@ -1,0 +1,60 @@
+﻿@page "/docs/extensions/datagrid/features/paging"
+
+<Seo Canonical="/docs/extensions/datagrid/features/paging" Title="Blazorise DataGrid Paging" Description="Learn Blazorise by the example. Paginate your data with customizable page size options and intuitive navigation controls." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Features/Paging">
+    Blazorise DataGrid: Paging
+</DocsPageTitle>
+
+<DocsPageLead>
+    Paging provides an option to display DataGrid data in pages.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    With the paging enabled, users can easily navigate the DataGrid by clicking on a page button. This can be particularly useful when working with large sets of data.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Paging">
+        <Paragraph>
+            Paging is handled automatically by the <Code>DataGrid</Code>. To show the pager you need to enable the <Code>ShowPager</Code> parameter.
+        </Paragraph>
+        <Paragraph>
+            To show the pager you need to enable the <Code>ShowPager</Code> parameter.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem><Code>PageSize</Code> the maximum number of items for each page.</UnorderedListItem>
+                <UnorderedListItem><Code>CurrentPage</Code> current page number.</UnorderedListItem>
+                <UnorderedListItem><Code>PreviousPageButtonTemplate</Code> template for previous page button</UnorderedListItem>
+                <UnorderedListItem><Code>NextPageButtonTemplate</Code> template for next page button</UnorderedListItem>
+                <UnorderedListItem><Code>FirstPageButtonTemplate</Code> template for first page button</UnorderedListItem>
+                <UnorderedListItem><Code>LastPageButtonTemplate</Code> template for last page button</UnorderedListItem>
+                <UnorderedListItem><Code>PageButtonTemplate</Code> template for explicated page button with <Code>PageButtonContext</Code> as parameter</UnorderedListItem>
+                <UnorderedListItem><Code>PagerOptions</Code> will provide you with additional settings to customize your pager.</UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Pager Customization Example">
+        Below you will find a fully customized pager.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridPagerExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridPagerExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>

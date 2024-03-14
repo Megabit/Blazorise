@@ -140,6 +140,16 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Fixed columns">
+        Implementing this feature involves setting the <Code>FixedPosition</Code> attribute to <Code>TableColumnFixedPosition.Start</Code> for anchoring to the left, or <Code>TableColumnFixedPosition.End</Code> for anchoring to the right, on a cell. Additionally, you must enable fixed columns on a table with the <Code>FixedColumns</Code> attribute.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableFixedColumnsExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableFixedColumnsExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Scroll To a Row Or Pixel Offset">
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
@@ -150,6 +160,25 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Resizable">
+        <Paragraph>
+            The <Code>Resizable</Code> property of the Blazorise <Code>Table</Code> component determines whether the columns of the table can be resized by the user. When <Code>Resizable</Code> is set to <Code>true</Code>, the user can click and drag the edges of the column headers to adjust the width of the columns. When <Code>Resizable</Code> is set to <Code>false</Code>, the columns are fixed in size and cannot be resized by the user.
+        </Paragraph>
+        <Paragraph>
+            The <Code>ResizeMode</Code> property of the Table component in Blazorise can have two modes: <Code>Header</Code> and <Code>Columns</Code>.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    <Code>Header</Code>: When <Code>ResizeMode</Code> is set to <Code>Header</Code>, the user can resize the columns by dragging the edges of the column headers. This means that the user can only adjust the width of the columns by interacting with the header row of the table.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Code>Columns</Code>: When <Code>ResizeMode</Code> is set to <Code>Columns</Code>, the user can resize the columns by dragging the edges of the entire column, including the header and the body cells. This means that the user can adjust the width of the columns by interacting with any part of the column, not just the header.
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
+            To set the <Code>Resizable</Code> property of a <Code>Table</Code> component in Blazorise, you can use the following syntax:
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <TableResizableExample />
@@ -157,9 +186,28 @@
     <DocsPageSectionSource Code="TableResizableExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Grouping">
+        <Paragraph>
+            To use the grouping feature in the <Code>Table</Code> component from Blazorise, you must manually define the groups using the <Code>TableRowGroup</Code> component. This component wraps the rows that belong to a specific group and allows you to customize the appearance and behavior of the group.
+        </Paragraph>
+        <Paragraph>
+            In this example, the <Code>Table</Code> component is grouped by the "Category" column, and the rows are organized into two groups: "Fruits" and "Vegetables". The <Code>TableRowGroup</Code> component specifies the value of the grouped column (e.g. "Fruits" or "Vegetables") and wraps the rows that belong to that group.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TableGroupingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TableGroupingExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes Title="Table">
     <DocsAttributesItem Name="FullWidth" Type="bool" Default="false">
@@ -186,6 +234,9 @@
     <DocsAttributesItem Name="FixedHeader" Type="bool" Default="false">
         Makes table have a fixed header and enables a scrollbar in the table body.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedColumns" Type="bool" Default="false">
+        Makes table have a fixed set of columns. This will make it so that the table columns could be fixed to the side of the table.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="FixedHeaderTableHeight" Type="string" Default="300px">
         Sets the table height when FixedHeader feature is enabled (defaults to 300px).
     </DocsAttributesItem>
@@ -197,5 +248,56 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ResizeMode" Type="TableResizeMode" Default="Header">
         Defines the resize mode of the Table’s columns.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="TableRowGroup">
+    <DocsAttributesItem Name="Expanded" Type="bool" Default="false">
+        Defines if the group is expanded.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Toggleable" Type="bool" Default="true">
+        Defines if the group <Code>Expanded</Code> property can be toggled by clicking. It is still possible to toggle it programatically.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ColumnSpan" Type="int" Default="1000">
+        Determines the column span for the inner table cell.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Clicked" Type="EventCallback<BLMouseEventArgs>">
+        Occurs when the row is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DoubleClicked" Type="EventCallback<BLMouseEventArgs>">
+        Occurs when the row is double clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Title" Type="string" Default="null">
+        Specifies the title to be rendered inside the <Code>TableRowGroup</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TitleTemplate" Type="RenderFragment" Default="null">
+        Specifies the custom title content to be rendered inside the <Code>TableRowGroup</Code>. It has higher priority over the <Code>Title</Code> parameter.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="TableRowcell">
+    <DocsAttributesItem Name="Color" Type="Color">
+        Gets or sets the cell variant color.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="RowSpan" Type="int?" Default="null">
+        Number of rows a cell should span.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ColumnSpan" Type="int?" Default="null">
+        Number of columns a cell should span.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FixedPosition" Type="TableColumnFixedPosition" Default="TableColumnFixedPosition.None">
+        Defines the fixed position of the row cell within the table.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Clicked" Type="EventCallback<BLMouseEventArgs>">
+        Occurs when the row cell is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment" Default="null">
+        Specifies the content to be rendered inside this <Code>TableRowCell</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ClickPreventDefault" Type="bool" Default="false">
+        Used to prevent the default action for an <Code>OnClickHandler</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ClickStopPropagation" Type="bool" Default="false">
+        Used to stop progation of the click action event.
     </DocsAttributesItem>
 </DocsAttributes>

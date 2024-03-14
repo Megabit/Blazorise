@@ -31,6 +31,13 @@ public partial class DisplayHeading : BaseTypographyComponent
     #region Properties
 
     /// <summary>
+    /// Gets the name of the heading element based on current <see cref="Size"/> parameter.
+    /// </summary>
+    protected string TagName => string.IsNullOrEmpty( AlternativeTagName )
+        ? "h1"
+        : AlternativeTagName;
+
+    /// <summary>
     /// Gets or sets the display heading size.
     /// </summary>
     [Parameter]
@@ -39,11 +46,19 @@ public partial class DisplayHeading : BaseTypographyComponent
         get => displayHeadingSize;
         set
         {
+            if ( displayHeadingSize == value )
+                return;
+
             displayHeadingSize = value;
 
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Defines the alternative tag name for the heading element. Default is set to <c>h1</c>.
+    /// </summary>
+    [Parameter] public string AlternativeTagName { get; set; }
 
     #endregion
 }

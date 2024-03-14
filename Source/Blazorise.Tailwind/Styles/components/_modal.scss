@@ -1,0 +1,41 @@
+﻿.b-modal {
+    display: none;
+
+    &.b-modal-fade {
+        &.flex {
+            animation: modal-slidein var(--modal-animation-duration, 300ms) linear;
+        }
+
+        &:not(.flex) {
+            animation: modal-slideaway var(--modal-animation-duration, 300ms) linear;
+        }
+    }
+}
+
+
+@keyframes modal-slidein {
+    0% {
+        display: none;
+        opacity: 0;
+    }
+
+    1% {
+        display: flex;
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes modal-slideaway {
+    from {
+        display: flex;
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}

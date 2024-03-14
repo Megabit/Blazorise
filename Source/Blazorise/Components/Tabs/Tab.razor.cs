@@ -52,7 +52,7 @@ public partial class Tab : BaseComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.TabItem() );
+        builder.Append( ClassProvider.TabItem( ParentTabs?.TabPosition ?? TabPosition.Top ) );
         builder.Append( ClassProvider.TabItemActive( Active ) );
         builder.Append( ClassProvider.TabItemDisabled( Disabled ) );
 
@@ -65,7 +65,7 @@ public partial class Tab : BaseComponent
     /// <param name="builder">Class builder used to append the classnames.</param>
     private void BuildLinkClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.TabLink() );
+        builder.Append( ClassProvider.TabLink( ParentTabs?.TabPosition ?? TabPosition.Top ) );
         builder.Append( ClassProvider.TabLinkActive( Active ) );
         builder.Append( ClassProvider.TabLinkDisabled( Disabled ) );
     }
@@ -92,7 +92,7 @@ public partial class Tab : BaseComponent
 
         await Clicked.InvokeAsync( eventArgs );
 
-        if ( ParentTabs != null )
+        if ( ParentTabs is not null )
             await ParentTabs.SelectTab( Name );
     }
 

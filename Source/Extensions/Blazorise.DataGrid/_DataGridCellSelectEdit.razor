@@ -1,0 +1,30 @@
+@typeparam TItem
+@inherits ComponentBase
+<Select TValue="object" ElementId="@elementId" SelectedValue="@CellValue" SelectedValueChanged="@OnSelectedValueChanged" SelectedValueExpression="@(() => CellValue )"
+        Class="@Column.Class" Style="@Column.Style" Size="@Column.Size" MaxVisibleItems="@Column.MaxVisibleItems" TabIndex="@Column.TabIndex" Disabled="@Column.Disabled" Attributes="@Column.Attributes">
+    <ChildContent>
+        @if ( Column.DefaultItemText is not null )
+        {
+            <SelectItem @key="@Column.DefaultItemValue" Value="@Column.DefaultItemValue" Disabled="@Column.DefaultItemDisabled" Hidden="@Column.DefaultItemHidden">@Column.DefaultItemText</SelectItem>
+        }
+        @if ( Column.Data is not null && selectItems is not null )
+        {
+            @foreach ( var selectItem in selectItems )
+            {
+                @itemFragment( selectItem )
+            }
+        }
+    </ChildContent>
+    <Feedback>
+        @if ( ShowValidationFeedback )
+        {
+            <ValidationError />
+        }
+    </Feedback>
+</Select>
+@code {
+    private RenderFragment<SelectItem> itemFragment => item => __builder =>
+    {
+        <SelectItem @key="@item.Value" Value="@item.Value" Disabled="@item.Disabled">@item.Text</SelectItem>
+    };
+}

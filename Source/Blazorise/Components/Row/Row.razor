@@ -1,7 +1,9 @@
 ﻿@namespace Blazorise
-@inherits BaseComponent
-<div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <CascadingValue Value="@GutterState">
-        @ChildContent
+@inherits BaseRowComponent
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <CascadingValue Value="@this" IsFixed>
+        <CascadingValue Value="@GutterState">
+            @ChildContent
+        </CascadingValue>
     </CascadingValue>
 </div>

@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 #endregion
 
@@ -20,10 +21,10 @@ public static class ObjectExtensions
     /// <returns>True if the specified objects are equal; otherwise, false.</returns>
     public static bool IsEqual<T>( this T x, T y )
     {
-        if ( x == null && y == null )
+        if ( x is null && y is null )
             return true;
 
-        if ( x == null || y == null )
+        if ( x is null || y is null )
             return false;
 
         return EqualityComparer<T>.Default.Equals( x, y );
@@ -48,5 +49,21 @@ public static class ObjectExtensions
         catch ( Microsoft.JSInterop.JSDisconnectedException )
         {
         }
+    }
+
+    /// <summary>
+    /// Converts the value to a culture-invariant string representation.
+    /// </summary>
+    /// <typeparam name="T">The type of the value to convert.</typeparam>
+    /// <param name="value">The value to convert to a culture-invariant string.</param>
+    /// <returns>A culture-invariant string representation of the value. If the value implements <see cref="IFormattable"/>, it uses <see cref="IFormattable.ToString(string, IFormatProvider)"/> with <see cref="CultureInfo.InvariantCulture"/>; otherwise, it uses <see cref="object.ToString()"/>.</returns>
+    public static string ToCultureInvariantString<T>( this T value )
+    {
+        if ( value is IFormattable formattable )
+        {
+            return formattable.ToString( null, CultureInfo.InvariantCulture );
+        }
+
+        return value?.ToString();
     }
 }

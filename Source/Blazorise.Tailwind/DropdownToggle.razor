@@ -1,0 +1,29 @@
+﻿@using System.Text
+@inherits Blazorise.DropdownToggle
+<button @ref="@ElementRef" id="@ElementId" type="button" class="@ClassNames" style="@StyleNames" data-boundary="@DataBoundary" disabled="@IsDisabled" tabindex="@TabIndex" aria-expanded="@(ParentDropdownState?.Visible.ToString().ToLowerInvariant())" @onclick="@ClickHandler" @attributes="@Attributes">
+    <span>@ChildContent</span>
+    <svg class="@DropdownToggleArrowClassNames" aria-hidden="true" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+</button>
+@code {
+    string DropdownToggleArrowClassNames
+    {
+        get
+        {
+            var sb = new StringBuilder( "b-dropdown-toggle-arrow" );
+
+            if ( !IsToggleIconVisible )
+            {
+                sb.Append( " hidden" );
+            }
+
+            sb.Append( " w-4 h-4 ml-1" );
+
+            return sb.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the reference to the parent <see cref="Bar"/> component.
+    /// </summary>
+    [CascadingParameter] protected Bar ParentBar { get; set; }
+}

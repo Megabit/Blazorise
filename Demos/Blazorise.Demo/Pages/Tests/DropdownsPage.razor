@@ -1,0 +1,210 @@
+﻿@page "/tests/dropdowns"
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Dropdown direction</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Choose from four different dropdown menu directions.</CardText>
+            </CardBody>
+            <CardBody>
+                <Dropdown Display="Display.InlineBlock">
+                    <DropdownToggle Color="Color.Secondary">Menu Down</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown Direction="Direction.Up" Display="Display.InlineBlock">
+                    <DropdownToggle Color="Color.Secondary">Menu Up</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown Direction="Direction.Start" Display="Display.InlineBlock">
+                    <DropdownToggle Color="Color.Secondary">Menu Left</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown Direction="Direction.End" Display="Display.InlineBlock">
+                    <DropdownToggle Color="Color.Secondary">Menu Right</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
+                        <DropdownItem>Item 1</DropdownItem>
+                        <DropdownItem>Item 2</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Dropdown</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Turn a button into a dropdown.</CardText>
+            </CardBody>
+            <CardBody>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Primary">
+                        Dropdown button
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
+                        <DropdownItem>Action</DropdownItem>
+                        <DropdownItem Active>Active item</DropdownItem>
+                        <DropdownItem Disabled>Disabled item</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem>Another Action</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown>
+                    <Button Color="Color.Secondary">Split dropdown button</Button>
+                    <DropdownToggle Color="Color.Secondary" Split></DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
+                        <DropdownItem>Action</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem>Another Action</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown>
+                    <DropdownToggle Color="Color.Danger" ToggleIconVisible="false">
+                        Hidden toggle button
+                    </DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownHeader>Dropdown header</DropdownHeader>
+                        <DropdownItem>Action</DropdownItem>
+                        <DropdownDivider />
+                        <DropdownItem>Another Action</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Dropdown nesting</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Nesting multiple dropdowns inside of another dropdown is also supported.</CardText>
+            </CardBody>
+            <CardBody>
+                <Dropdown Display="Display.InlineBlock">
+                    <DropdownToggle Color="Color.Primary">Multi level dropdown</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1.1</DropdownItem>
+                        <Dropdown>
+                            <DropdownToggle>Level 2</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem>Item 2.1</DropdownItem>
+                                <DropdownItem>Item 2.2</DropdownItem>
+                                <Dropdown>
+                                    <DropdownToggle>Level 3</DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem>Item 3.1</DropdownItem>
+                                        <DropdownItem>Item 3.2</DropdownItem>
+                                        <Dropdown>
+                                            <DropdownToggle>Level 4</DropdownToggle>
+                                            <DropdownMenu>
+                                                <DropdownItem>Item 4.1</DropdownItem>
+                                                <DropdownItem>Item 4.2</DropdownItem>
+                                            </DropdownMenu>
+                                        </Dropdown>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </DropdownMenu>
+                </Dropdown>
+                <Dropdown Display="Display.InlineBlock">
+                    <DropdownToggle Color="Color.Primary">Multi level dropdown</DropdownToggle>
+                    <DropdownMenu>
+                        <DropdownItem>Item 1.1</DropdownItem>
+                        <Dropdown Direction="Direction.Up">
+                            <DropdownToggle>Menu Up</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem>Item 2.1</DropdownItem>
+                                <DropdownItem>Item 2.2</DropdownItem>
+                                <Dropdown Direction="Direction.Down">
+                                    <DropdownToggle>Menu Down</DropdownToggle>
+                                    <DropdownMenu>
+                                        <DropdownItem>Item 3.1</DropdownItem>
+                                        <DropdownItem>Item 3.2</DropdownItem>
+                                        <Dropdown Direction="Direction.Start">
+                                            <DropdownToggle>Menu Left</DropdownToggle>
+                                            <DropdownMenu>
+                                                <DropdownItem>Item 4.1</DropdownItem>
+                                                <DropdownItem>Item 4.2</DropdownItem>
+                                            </DropdownMenu>
+                                        </Dropdown>
+                                    </DropdownMenu>
+                                </Dropdown>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </DropdownMenu>
+                </Dropdown>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Button group</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>You can also combine dropdown with regular buttons inside of a button group.</CardText>
+            </CardBody>
+            <CardBody>
+                <Buttons>
+                    <Button Color="Color.Secondary">Action</Button>
+                    <Button Color="Color.Secondary">Settings</Button>
+                    <Dropdown>
+                        <DropdownToggle Color="Color.Secondary">Dropdown</DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem>Item 1</DropdownItem>
+                            <DropdownItem>Item 2</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </Buttons>
+            </CardBody>
+        </Card>
+    </Column>
+
+    <Column ColumnSize="ColumnSize.Is12.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Checkbox</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Able to set dropdown items to have a checkbox.</CardText>
+            </CardBody>
+            <CardBody>
+                <Buttons>
+                    <Dropdown>
+                        <DropdownToggle Color="Color.Secondary">Dropdown</DropdownToggle>
+                        <DropdownMenu>
+                            <DropdownItem ShowCheckbox>Item 1</DropdownItem>
+                            <DropdownItem>Item 2</DropdownItem>
+                            <DropdownItem ShowCheckbox Disabled>Item 3 Disabled</DropdownItem>
+                            <DropdownItem ShowCheckbox>Item 4</DropdownItem>
+                        </DropdownMenu>
+                    </Dropdown>
+                </Buttons>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

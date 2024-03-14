@@ -7,8 +7,12 @@
 </DocsPageTitle>
 
 <DocsPageLead>
-    Build vertically collapsing accordions in combination with our <Code>Collapse</Code> component.
+    An accordion allows users to toggle the display of sections of content.
 </DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
 
 <DocsPageParagraph>
     Accordion is a vertically stacked set of expandable panels. It reduces clutter and helps maintain the user's focus by showing only the relevant content at any time.
@@ -19,7 +23,7 @@
 </DocsPageSubtitle>
 
 <DocsPageParagraph>
-    The <Code>Accordion</Code> and <Code>Collapse</Code> structure is very simple:
+    The <Code>Accordion</Code> structure is very simple:
 </DocsPageParagraph>
 
 <UnorderedList>
@@ -27,13 +31,18 @@
         <Code Tag>Accordion</Code> the main container
         <UnorderedList>
             <UnorderedListItem>
-                <Code Tag>Collapse</Code> defines an collapsible element - controls the <Code>Visible</Code> state.
+                <Code Tag>AccordionItem</Code> defines a collapsible element - controled by the <Code>Visible</Code> state.
                 <UnorderedList>
                     <UnorderedListItem>
-                        <Code Tag>CollapseHeader</Code> the header that will always be shown - this is where you would put a toggle element (such as a <Code>Button</Code>).
+                        <Code Tag>AccordionHeader</Code> the header that will always be shown - this is where you would put a toggle element (such as a <Code>Button</Code>).
+                        <UnorderedList>
+                            <UnorderedListItem>
+                                <Code Tag>AccordionToggle</Code> The specialized button used to toggle the state of accordion and the accordion item components.
+                            </UnorderedListItem>
+                        </UnorderedList>
                     </UnorderedListItem>
                     <UnorderedListItem>
-                        <Code Tag>CollapseBody</Code> the main content that will be toggled.
+                        <Code Tag>AccordionBody</Code> the main content if the accordion item.
                     </UnorderedListItem>
                 </UnorderedList>
             </UnorderedListItem>
@@ -46,8 +55,10 @@
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Basic">
-        Here is an example of how to use the Accordion with the Collapse components.
+    <DocsPageSectionHeader Title="Default accordion">
+        <Paragraph>
+            Use the <Code>@@bind-Visible</Code> parameter to properly keep previously opened accordion elements unchanged.
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent Outlined FullWidth>
         <BasicAccordionExample />
@@ -55,12 +66,70 @@
     <DocsPageSectionSource Code="BasicAccordionExample" />
 </DocsPageSection>
 
+<Paragraph>
+    <Alert Color="Color.Warning" Visible>
+        <AlertMessage>
+            Please note the changes starting from 1.5 versions:
+        </AlertMessage>
+        <AlertDescription>
+            <UnorderedList>
+                <UnorderedListItem>
+                    <Strong>Button is obsolete:</Strong> Placing a regular <Link To="docs/components/button">Button</Link> component inside of Accordion is no longer recommended and should be replaced with new <Code Tag>AccordionToggle</Code> component.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Strong>Collapse is obsolete:</Strong> Placing a regular <Code Tag>Collapse</Code> component inside of Accordion is no longer recommended and should be replaced with the new <Code Tag>AccordionHeader</Code>, and <Code Tag>AccordionBody</Code>, <Code Tag>AccordionItem</Code> components.
+                </UnorderedListItem>
+            </UnorderedList>
+        </AlertDescription>
+    </Alert>
+</Paragraph>
+
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
 
-<DocsAttributes Title="Collapse">
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes Title="Accordion">
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment" Default="null">
+        Specifies the content to be rendered insidethe accordion.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="AccordionToggle">
+    <DocsAttributesItem Name="Clicked" Type="EventCallback<MouseEventArgs>" Default="null">
+        Occurs when the toggle button is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment" Default="null">
+        Specifies the content to be rendered insidethe accordion toggle.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="AccordionItem">
     <DocsAttributesItem Name="Visible" Type="bool" Default="false">
-        Defines the collapse visibility.
+        Defines the collapse state of the accordion item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="VisibleChanged" Type="EventCallback<bool>">
+        Occurs when the accordion item visibility state changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment" Default="null">
+        Specifies the content to be rendered inside the accordion item.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="AccordionHeader">
+    <DocsAttributesItem Name="Clicked" Type="EventCallback<MouseEventArgs>">
+        Occurs when the accordion header is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment" Default="null">
+        Specifies the content to be rendered inside the accordion body.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="AccordionBody">
+    <DocsAttributesItem Name="ChildContent" Type="RenderFragment" Default="null">
+        Specifies the content to be rendered inside the accordion body.
     </DocsAttributesItem>
 </DocsAttributes>

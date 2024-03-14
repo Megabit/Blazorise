@@ -61,3 +61,64 @@ public static class MathUtils<T>
         return subtractFunc.Value( a, b );
     }
 }
+
+/// <summary>
+/// Helper class for running math calculations on known types.
+/// </summary>
+public static class MathUtils
+{
+    /// <summary>
+    /// Rounds a double value to the nearest integer or to a specified number of decimal places.
+    /// </summary>
+    /// <param name="value">The value to round.</param>
+    /// <param name="precision">The number of decimal places to round to. If not specified, the value will be rounded to the nearest integer.</param>
+    /// <returns>The rounded value.</returns>
+    public static double Round( double value, int precision = 0 )
+    {
+        var multiplier = Math.Pow( 10, precision );
+        return Math.Round( value * multiplier ) / multiplier;
+    }
+
+    /// <summary>
+    /// Returns value clamped to the inclusive range of min and max.
+    /// </summary>
+    /// <typeparam name="TValue">Type-parameter of the values being calculated.</typeparam>
+    /// <param name="value">The value to be clamped.</param>
+    /// <param name="min">The upper bound of the result.</param>
+    /// <param name="max">The lower bound of the result.</param>
+    /// <returns>Returns value clamped to the inclusive range of min and max.</returns>
+    public static TValue Clamp<TValue>( TValue value, TValue min, TValue max )
+    {
+        TValue result = value;
+
+        if ( value is IComparable v )
+        {
+            if ( v.CompareTo( min ) < 0 )
+                result = min;
+
+            if ( v.CompareTo( max ) > 0 )
+                result = max;
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Calculates the percentage of provided number in the range of min and max.
+    /// </summary>
+    /// <remarks>
+    /// Note: internally numbers will be converted to <c>double</c> type.
+    /// </remarks>
+    /// <param name="value">The value to be calculated.</param>
+    /// <param name="min">The upper bound of the result.</param>
+    /// <param name="max">The lower bound of the result.</param>
+    /// <returns>Returns the percentage of provided number in the range of min and max.</returns>
+    public static object GetPercent( object value, object min, object max )
+    {
+        double valueD = Converters.ChangeType<double>( value );
+        double minD = Converters.ChangeType<double>( min );
+        double maxD = Converters.ChangeType<double>( max );
+
+        return maxD == minD ? 0 : ( ( valueD - minD ) / ( maxD - minD ) ) * 100;
+    }
+}

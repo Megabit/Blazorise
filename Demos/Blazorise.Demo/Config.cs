@@ -1,4 +1,6 @@
 ﻿#region Using directives
+using Blazored.LocalStorage;
+using Blazorise.Captcha.ReCaptcha;
 using Blazorise.FluentValidation;
 using Blazorise.LoadingIndicator;
 using Blazorise.RichTextEdit;
@@ -10,11 +12,12 @@ namespace Blazorise.Demo;
 
 public static class Config
 {
-    public static IServiceCollection SetupDemoServices( this IServiceCollection services )
+    public static IServiceCollection SetupDemoServices( this IServiceCollection services, string licenseKey, string reCaptchaSiteKey )
     {
         services
             .AddBlazorise( options =>
             {
+                options.ProductToken = licenseKey;
                 options.Immediate = true;
             } )
             .AddBlazoriseRichTextEdit( options =>
@@ -23,7 +26,13 @@ public static class Config
                 options.UseShowTheme = true;
             } )
             .AddLoadingIndicator()
-            .AddBlazoriseFluentValidation();
+            .AddBlazoriseFluentValidation()
+            .AddBlazoriseGoogleReCaptcha( options =>
+            {
+                options.SiteKey = reCaptchaSiteKey;
+            } );
+
+        services.AddBlazoredLocalStorage();
 
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
 

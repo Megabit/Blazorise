@@ -1,11 +1,8 @@
 ﻿#region Using directives
-using System.Net.Http;
 using System.Threading.Tasks;
 using Blazorise.Icons.Material;
 using Blazorise.Material;
-using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 #endregion
 
 namespace Blazorise.Demo.Material;
@@ -17,7 +14,7 @@ public class Program
         var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
         builder.Services
-            .SetupDemoServices()
+            .SetupDemoServices( builder.Configuration["Licensing:ProductToken"], builder.Configuration["ReCaptchaSiteKey"] )
             .AddMaterialProviders()
             .AddMaterialIcons();
 

@@ -53,7 +53,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ParentDropdown != null )
+        if ( ParentDropdown is not null )
         {
             ParentDropdown.NotifyChildDropdownInitialized( this );
         }
@@ -67,17 +67,16 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
         if ( firstRender )
         {
             JSModule.Initialize( ElementRef, ElementId,
-                targetElementId: childrenDropdownToggles?.FirstOrDefault()?.ElementId,
-                altTargetElementId: childrenButtonList?.FirstOrDefault()?.ElementId,
+                targetElementId: DropdownMenuTargetId ?? childrenDropdownToggles?.FirstOrDefault()?.ElementId ?? childrenButtonList?.FirstOrDefault()?.ElementId,
                 menuElementId: childrenDropdownMenus?.FirstOrDefault()?.ElementId,
-                showElementId: GetShowElementId(),
                 options: new
                 {
                     Direction = GetDropdownDirection().ToString( "g" ),
                     RightAligned = RightAligned,
-                    DropdownToggleClassNames = ClassProvider.DropdownToggle( IsDropdownSubmenu ),
-                    DropdownMenuClassNames = ClassProvider.DropdownMenu(),
-                    DropdownShowClassName = ClassProvider.DropdownObserverShow()
+                    DropdownToggleClassNames = ClassProvider.DropdownToggleSelector( IsDropdownSubmenu ),
+                    DropdownMenuClassNames = ClassProvider.DropdownMenuSelector(),
+                    DropdownShowClassName = ClassProvider.DropdownObserverShow(),
+                    Strategy = PositionStrategy == DropdownPositionStrategy.Fixed ? "fixed" : "absolute",
                 } );
 
             if ( childrenButtonList?.Count > 0 )
@@ -94,13 +93,6 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
         base.OnAfterRender( firstRender );
     }
 
-    /// <summary>
-    /// Overridable Id for the target element that will be listening to the 'show event'.
-    /// </summary>
-    /// <returns></returns>
-    protected virtual string GetShowElementId()
-        => childrenDropdownMenus?.FirstOrDefault()?.ElementId;
-
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
@@ -108,6 +100,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.DropdownGroup(), IsGroup );
         builder.Append( ClassProvider.DropdownShow(), Visible );
         builder.Append( ClassProvider.DropdownRight(), RightAligned );
+        builder.Append( ClassProvider.DropdownDisabled(), Disabled );
         builder.Append( ClassProvider.DropdownDirection( GetDropdownDirection() ), Direction != Direction.Down );
 
         base.BuildClasses( builder );
@@ -133,7 +126,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     {
         if ( disposing )
         {
-            if ( ParentDropdown != null )
+            if ( ParentDropdown is not null )
             {
                 ParentDropdown.NotifyChildDropdownRemoved( this );
             }
@@ -252,7 +245,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <param name="button">Reference to the <see cref="Button"/> that is placed inside of this <see cref="Dropdown"/>.</param>
     internal protected void NotifyButtonInitialized( Button button )
     {
-        if ( button == null )
+        if ( button is null )
             return;
 
         childrenButtonList ??= new();
@@ -269,10 +262,10 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <param name="button">Reference to the <see cref="Button"/> that is placed inside of this <see cref="Dropdown"/>.</param>
     internal protected void NotifyButtonRemoved( Button button )
     {
-        if ( button == null )
+        if ( button is null )
             return;
 
-        if ( childrenButtonList != null && childrenButtonList.Contains( button ) )
+        if ( childrenButtonList is not null && childrenButtonList.Contains( button ) )
         {
             childrenButtonList.Remove( button );
         }
@@ -284,7 +277,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <param name="dropdown">Reference to the <see cref="Dropdown"/> that is placed inside of this <see cref="Dropdown"/>.</param>
     internal protected void NotifyChildDropdownInitialized( Dropdown dropdown )
     {
-        if ( childDropdown == null )
+        if ( childDropdown is null )
             childDropdown = dropdown;
     }
 
@@ -303,7 +296,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <param name="dropdownMenu">Reference to the <see cref="DropdownMenu"/> that is placed inside of this <see cref="Dropdown"/>.</param>
     internal protected void NotifyDropdownMenuInitialized( DropdownMenu dropdownMenu )
     {
-        if ( dropdownMenu == null )
+        if ( dropdownMenu is null )
             return;
 
         childrenDropdownMenus ??= new();
@@ -323,7 +316,7 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <param name="dropdownToggle">Reference to the <see cref="DropdownToggle"/> that is placed inside of this <see cref="Dropdown"/>.</param>
     internal protected void NotifyDropdownToggleInitialized( DropdownToggle dropdownToggle )
     {
-        if ( dropdownToggle == null )
+        if ( dropdownToggle is null )
             return;
 
         childrenDropdownToggles ??= new();
@@ -389,17 +382,17 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Makes the drop down to behave as a group for buttons(used for the split-button behaviour).
     /// </summary>
-    protected internal bool IsGroup => ParentButtons != null || childrenButtonList?.Count >= 1;
+    protected internal bool IsGroup => ParentButtons is not null || childrenButtonList?.Count >= 1;
 
     /// <summary>
     /// Returns true if the dropdown is placed inside of another dropdown.
     /// </summary>
-    protected internal bool IsDropdownSubmenu => ParentDropdown != null;
+    protected internal bool IsDropdownSubmenu => ParentDropdown is not null;
 
     /// <summary>
     /// Returns true if this dropdown contains any child dropdown.
     /// </summary>
-    protected internal bool HasSubmenu => childDropdown != null;
+    protected internal bool HasSubmenu => childDropdown is not null;
 
     /// <summary>
     /// Tracks the last DropdownToggle Element Id that acted.
@@ -500,6 +493,17 @@ public partial class Dropdown : BaseComponent, IAsyncDisposable
     /// Specifies the content to be rendered inside this <see cref="Dropdown"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Defines the positioning strategy of the dropdown menu as a 'floating' element.
+    /// </summary>
+    [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Fixed;
+
+    /// <summary>
+    /// Provides an alternative, or custom anchor element id for the dropdown menu.
+    /// <para>This is useful when you want the dropdown menu to be anchored from a different element than the toggle.</para>
+    /// </summary>
+    [Parameter] public string DropdownMenuTargetId { get; set; }
 
     #endregion
 }

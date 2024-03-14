@@ -2,6 +2,8 @@
   "culture": "sk",
   "translations": {
     "Choose file": "Vybrať súbor",
-    "Choose files": "Vybrať súbory"
+    "Choose files": "Vybrať súbory",
+    "Choose folder": "Vyberte priečinok",
+    "Choose folders": "Vyberte priečinky"
   }
 }

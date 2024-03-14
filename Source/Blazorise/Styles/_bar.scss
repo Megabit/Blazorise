@@ -55,17 +55,17 @@
     .b-bar-dropdown-toggle {
         &:before {
             @include b-bar-dropdown-arrow;
-            -webkit-transform: rotate(315deg);
-            transform: rotate(315deg);
+            -webkit-transform: rotate(135deg);
+            transform: rotate(135deg);
+            right: 0.8rem;
         }
     }
 
     &:not([data-visible=true]) {
         .b-bar-dropdown-toggle {
             &:before {
-                -webkit-transform: rotate(135deg);
-                transform: rotate(135deg);
-                right: 0.8rem;
+                -webkit-transform: rotate(315deg);
+                transform: rotate(315deg);
             }
         }
     }
@@ -213,6 +213,14 @@
         width: 100%;
         padding-top: 1rem;
         display: block;
+
+        .b-bar-dropdown {
+            position: relative;
+        }
+
+        .b-bar-dropdown-menu-container {
+            bottom: 0;
+        }
     }
 
     .b-bar-link {

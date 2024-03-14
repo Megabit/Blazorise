@@ -53,6 +53,16 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Dropdown checkboxes">
+        Set Checkbox to true to render a checkbox by each dropdown item.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined>
+        <DropdownCheckboxExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DropdownCheckboxExample" />
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Split Dropdown">
         Just add another Button to have a split dropdown.
     </DocsPageSectionHeader>
@@ -144,8 +154,12 @@
 </Table>
 
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes Title="Dropdown">
     <DocsAttributesItem Name="Visible" Type="bool" Default="false">
@@ -162,6 +176,13 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="VisibleChanged" Type="EventCallback">
         Occurs after the dropdown menu visibility has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PositionStrategy" Type="DropdownPositionStrategy" Default="DropdownPositionStrategy.Fixed">
+        Defines the positioning strategy of the dropdown menu as a 'floating' element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DropdownMenuTargetId" Type="string">
+        Provides a custom anchor element id for the dropdown menu.
+        This is useful when you want the dropdown menu to be anchored from a different element than the toggle.
     </DocsAttributesItem>
 </DocsAttributes>
 
@@ -183,6 +204,15 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
         Marks the item with disabled state and doesn’t allow the click event.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowCheckbox" Type="bool" Default="false">
+        The dropdown renders a checkbox.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Checked" Type="bool" Default="false">
+        Tracks the Checked state whenever the DropdownItem is in checkbox mode.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CheckedChanged" Type="EventCallback<bool>">
+        Occurs after the Checked state is changed, whenever the DropdownItem is in checkbox mode.
     </DocsAttributesItem>
 </DocsAttributes>
 

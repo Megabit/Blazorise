@@ -1,0 +1,25 @@
+﻿@using System.Text
+@inherits Blazorise.ColorPicker
+@if ( ParentIsAddons )
+{
+    <div class="@AddonClassNames">
+        @InputElement
+    </div>
+}
+else
+{
+    <div class="@InputClassNames">
+        @InputElement
+    </div>
+}
+@ChildContent
+@Feedback
+@code {
+    private RenderFragment InputElement => __builder =>
+    {
+        <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" value="@CurrentValueAsString" tabindex="@TabIndex" aria-disabled="@Disabled.ToString().ToLowerInvariant()" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+            <span class="@ColorPreviewClassNames"></span>
+            <span class="@ColorValueClassNames"></span>
+        </span>
+    };
+}

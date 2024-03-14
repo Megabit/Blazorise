@@ -3,7 +3,7 @@
 @using Blazorise.Extensions
 <CascadingValue Value="@this" IsFixed>
     <div @ref="@ElementRef" id="@ElementId" class="@ContainerClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" @attributes="@Attributes">
-        <div id="@SelectorElementId" class="ant-select-selector" @onclick="@OnSelectorClickHandler">
+        <div @ref="@ElementRef" id="@SelectorElementId" class="ant-select-selector" @onclick="@OnSelectorClickHandler">
             @if ( Multiple )
             {
                 @foreach ( var selectedValue in SelectedValues ?? Enumerable.Empty<TValue>() )
@@ -29,7 +29,7 @@
             else
             {
                 <span class="ant-select-selection-search">
-                    <input id="@InputElementId" class="ant-select-selection-search-input" role="combobox" tabindex="@TabIndex" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" readonly="true" multiple="@Multiple" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="false" autocomplete="off" aria-autocomplete="list" unselectable="on">
+                    <input @ref="@ElementRef" id="@InputElementId" class="ant-select-selection-search-input" role="combobox" tabindex="@TabIndex" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" readonly="true" multiple="@Multiple" aria-haspopup="listbox" aria-owns="@SelectListId" aria-controls="@SelectListId" aria-expanded="@InputAriaExpanded" autocomplete="off" aria-autocomplete="list" unselectable="on">
                 </span>
                 <span class="ant-select-selection-item">
                     @SelectedItem

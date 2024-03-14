@@ -22,7 +22,7 @@ public partial class ThemeProvider : ComponentBase, IDisposable
     /// <inheritdoc/>
     public void Dispose()
     {
-        if ( theme != null )
+        if ( theme is not null )
         {
             theme.Changed -= OnOptionsChanged;
         }
@@ -94,14 +94,14 @@ public partial class ThemeProvider : ComponentBase, IDisposable
                 return;
             }
 
-            if ( theme != null )
+            if ( theme is not null )
             {
                 theme.Changed -= OnOptionsChanged;
             }
 
             theme = value;
 
-            if ( theme != null )
+            if ( theme is not null )
             {
                 theme.Changed += OnOptionsChanged;
             }

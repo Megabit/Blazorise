@@ -27,7 +27,7 @@ public partial class ModalContent : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ParentModal != null )
+        if ( ParentModal is not null )
         {
             ParentModal._Opened += OnModalOpened;
         }
@@ -40,7 +40,7 @@ public partial class ModalContent : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( ParentModal != null )
+            if ( ParentModal is not null )
             {
                 ParentModal._Opened -= OnModalOpened;
             }
@@ -53,8 +53,7 @@ public partial class ModalContent : BaseComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ModalContent( AsDialog ) );
-        builder.Append( ClassProvider.ModalContentSize( Size ), Size != ModalSize.Default && Size != ModalSize.Fullscreen );
-        builder.Append( ClassProvider.ModalContentFullscreen( Size == ModalSize.Fullscreen ) );
+        builder.Append( ClassProvider.ModalContentSize( Size ) );
         builder.Append( ClassProvider.ModalContentCentered( Centered ) );
         builder.Append( ClassProvider.ModalContentScrollable( Scrollable ) );
 

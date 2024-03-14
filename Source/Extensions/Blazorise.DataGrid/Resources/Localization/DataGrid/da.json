@@ -1,0 +1,33 @@
+{
+  "culture": "da",
+  "translations": {
+    "New": "Ny",
+    "Edit": "Rediger",
+    "Delete": "Slet",
+    "Save": "Gem",
+    "Cancel": "Annuller",
+    "Clear Filter": "Fjern filter",
+    "First": "Første",
+    "Last": "Sidste",
+    "Prev": "Forrige",
+    "Next": "Næste",
+    "items": "poster",
+    "items per page": "poster pr side",
+    "{0} - {1} of {2} items": "{0} - {1} af {2} poster",
+    "Row Edit": "Redigér række",
+    "Row Create": "Opret række",
+    "Create": "Opret",
+    "Drag a column header here to group by that column": "Træk en kolonneoverskrift hertil for at gruppere efter den kolonne",
+    "Contains": "Indeholder",
+    "Starts With": "Starter med",
+    "Ends With": "Ender med",
+    "Equals": "Lige med",
+    "Not Equals": "Ikke Lige",
+    "Greater Than": "Bedre end",
+    "Greater Than or Equal": "Større end eller lige",
+    "Less Than": "Mindre end",
+    "Less Than or Equal": "Mindre end eller lige",
+    "Save Changes": "Gem ændringer",
+    "Cancel Changes": "Annuller ændringer"
+  }
+}

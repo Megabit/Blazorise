@@ -1,4 +1,6 @@
-﻿namespace Blazorise.States;
+﻿using System.Collections.Generic;
+
+namespace Blazorise.States;
 
 /// <summary>
 /// Holds the information about the current state of the <see cref="ListGroup"/> component.
@@ -11,12 +13,27 @@ public record ListGroupState
     public bool Flush { get; init; }
 
     /// <summary>
+    /// Makes the list group scrollable by adding a vertical scrollbar.
+    /// </summary>
+    public bool Scrollable { get; init; }
+
+    /// <summary>
     /// Defines the list-group behaviour mode.
     /// </summary>
     public ListGroupMode Mode { get; init; }
 
     /// <summary>
+    /// Defines the list-group selection mode.
+    /// </summary>
+    public ListGroupSelectionMode SelectionMode { get; init; }
+
+    /// <summary>
     /// Gets or sets currently selected item name.
     /// </summary>
     public string SelectedItem { get; init; }
+
+    /// <summary>
+    /// Gets or sets currently selected items.
+    /// </summary>
+    public List<string> SelectedItems { get; init; }
 }

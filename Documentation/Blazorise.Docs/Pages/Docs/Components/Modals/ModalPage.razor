@@ -103,6 +103,51 @@
     Modal dialogs are disruptive by nature and should be used sparingly. Do not use them to communicate nonessential information, such as success messages like "Logged in", "Copied", etc. Instead, use <Anchor To="docs/services/notification-provider">Notifications</Anchor> when appropriate.
 </DocsPageParagraph>
 
+<Heading Size="HeadingSize.Is3">
+    Fullscreen Mode
+</Heading>
+
+<DocsPageParagraph>
+    When using the Fullscreen mode for the Modal component, it's crucial to be aware of how you structure your layout within the <Strong>ModalBody</Strong>.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    If the <Strong>ModalBody</Strong> is wrapped within a container that has the CSS property <Code>'display'</Code> set to <Code>'block'</Code>, this can cause issues with the overflow behavior in the Fullscreen mode. Specifically, the <Code>'display: block'</Code> CSS property can interfere with the automatic adjustments that are applied to the <Strong>Modal</Strong> in Fullscreen mode.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is4">
+    Impact:
+</Heading>
+
+<DocsPageParagraph>
+    This interference could lead to the loss of smooth scrolling, content being cut off, or the display not fitting correctly within the viewport dimensions.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is4">
+    Solution:
+</Heading>
+
+<DocsPageParagraph>
+    To avoid such problems
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <OrderedList>
+        <OrderedListItem>
+            Refrain from using <Code>'display: block'</Code> style with containers within <Strong>ModalBody</Strong> when working in Fullscreen mode.
+        </OrderedListItem>
+        <OrderedListItem>
+            <Paragraph>
+                As an alternative, consider using a container with the CSS property <Code>'display'</Code> set to <Code>'contents'</Code>, eg. <Code>'display: contents;'</Code>. This property value allows the container to behave as though it's replaced by its children. This way, you can ensure the structure and style of your content are compatible with the Fullscreen modal settings.
+            </Paragraph>
+        </OrderedListItem>
+    </OrderedList>
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Please take this warning into consideration when implementing your Modals to ensure an optimal user experience and accurate content display.
+</DocsPageParagraph>
+
 <DocsPageSubtitle>
     Functions
 </DocsPageSubtitle>
@@ -127,8 +172,12 @@
 </Table>
 
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes Title="Modal">
     <DocsAttributesItem Name="Visible" Type="boolean" Default="false">

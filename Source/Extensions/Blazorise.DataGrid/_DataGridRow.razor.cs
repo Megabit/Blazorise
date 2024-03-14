@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.DataGrid.Models;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -13,6 +13,10 @@ namespace Blazorise.DataGrid;
 public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 {
     #region Members
+
+    protected DataGridBatchEditItem<TItem> BatchEditItem;
+
+    protected bool mouseIsOver = false;
 
     /// <summary>
     /// List of columns used to build this row.
@@ -39,6 +43,13 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// Holds information about the current Row.
     /// </summary>
     protected DataGridRowInfo<TItem> RowInfo;
+
+    /// <summary>
+    /// The Table Row Reference
+    /// </summary>
+    protected TableRow TableRowRef;
+
+    protected bool cellEditing;
 
     #endregion
 
@@ -70,6 +81,8 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             }
         }
 
+        BatchEditItem = ParentDataGrid.GetBatchEditItemByOriginal( Item );
+
         return base.SetParametersAsync( ParameterView.Empty );
     }
 
@@ -90,20 +103,66 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     {
         if ( firstRender )
         {
+            RowInfo.SetTableRow( TableRowRef );
+
             // initialise all internal cell values
             foreach ( var column in Columns )
             {
                 if ( column.ExcludeFromInit )
                     continue;
 
-                cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, ParentDataGrid.UpdateCellEditValue, ParentDataGrid.ReadCellEditValue )
-                {
-                    CellValue = column.GetValue( Item ),
-                } );
+                cellValues.Add( column.ElementId, new CellEditContext<TItem>( Item, column.GetValue( Item ), ParentDataGrid.UpdateCellEditValue, ParentDataGrid.ReadCellEditValue ) );
             }
         }
 
         return base.OnAfterRenderAsync( firstRender );
+    }
+
+    protected internal async Task HandleKeyDown( KeyboardEventArgs eventArgs )
+    {
+        if ( eventArgs.Code == "Enter" || eventArgs.Code == "NumpadEnter" )
+        {
+            if ( !ParentDataGrid.SelectedRow.IsEqual( this.Item ) )
+                await ParentDataGrid.Select( this.Item );
+            return;
+        }
+
+        if ( eventArgs.Code == "ArrowUp" )
+        {
+            var idx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( this.Item ) );
+            if ( idx > 0 )
+            {
+                await ParentDataGrid.Select( ParentDataGrid.DisplayData.ElementAt( idx - 1 ) );
+                return;
+            }
+        }
+
+        if ( eventArgs.Code == "ArrowDown" )
+        {
+            var idx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( this.Item ) );
+            if ( idx < ParentDataGrid.DisplayData.Count() - 1 )
+            {
+                await ParentDataGrid.Select( ParentDataGrid.DisplayData.ElementAt( idx + 1 ) );
+                return;
+            }
+        }
+    }
+
+    protected bool BindMouseLeave()
+        => ParentDataGrid.RowMouseLeave.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
+
+    protected bool BindMouseOver()
+        => ParentDataGrid.RowMouseOver.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
+
+    protected internal async Task HandleMouseLeave( BLMouseEventArgs eventArgs )
+    {
+        mouseIsOver = false;
+        await ParentDataGrid.OnRowMouseLeaveCommand( new( Item, eventArgs ) );
+    }
+    protected internal async Task HandleMouseOver( BLMouseEventArgs eventArgs )
+    {
+        mouseIsOver = true;
+        await ParentDataGrid.OnRowMouseOverCommand( new( Item, eventArgs ) );
     }
 
     protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
@@ -113,16 +172,15 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 
         var selectable = ParentDataGrid.RowSelectable?.Invoke( new( Item, clickFromMultiSelectCheck ? DataGridSelectReason.MultiSelectClick : DataGridSelectReason.RowClick ) ) ?? true;
 
-        if ( !selectable )
+        if ( selectable )
         {
-            clickFromMultiSelectCheck = false;
-            return;
+            if ( !clickFromMultiSelectCheck )
+                await HandleSingleSelectClick( eventArgs );
+
+            await HandleMultiSelectClick( eventArgs );
         }
 
-        if ( !clickFromMultiSelectCheck )
-            await HandleSingleSelectClick( eventArgs );
-
-        await HandleMultiSelectClick( eventArgs );
+        await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
 
         clickFromMultiSelectCheck = false;
     }
@@ -168,7 +226,6 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             await ParentDataGrid.Select( Item );
         }
 
-        await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
     }
 
     protected internal Task HandleDoubleClick( BLMouseEventArgs eventArgs )
@@ -207,6 +264,13 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         return base.DisposeAsync( disposing );
     }
 
+    protected TItem GetCurrentItem()
+    {
+        return BatchEditItem is null
+            ? Item
+            : BatchEditItem.NewItem;
+    }
+
     #endregion
 
     #region Properties
@@ -222,30 +286,87 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets the row background color.
     /// </summary>
-    protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
+    protected Background GetBackground( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => ( IsSelected
         ? selectedStyling?.Background
-        : styling?.Background ) ?? Blazorise.Background.Default;
+        : batchEditSelectedStyling?.Background
+            ?? styling?.Background ) ?? Blazorise.Background.Default;
 
     /// <summary>
     /// Gets the row color.
     /// </summary>
-    protected Color GetColor( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => ( IsSelected
+    protected Color GetColor( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => ( IsSelected
         ? selectedStyling?.Color
-        : styling?.Color ) ?? Blazorise.Color.Default;
+        : batchEditSelectedStyling?.Color
+            ?? styling?.Color ) ?? Blazorise.Color.Default;
 
     /// <summary>
-    /// Gets the row classnames.
+    /// Gets the row class names.
     /// </summary>
-    protected string GetClass( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => IsSelected
+    protected string GetClass( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => IsSelected
         ? selectedStyling?.Class
-        : styling?.Class;
+        : batchEditSelectedStyling?.Class
+            ?? styling?.Class;
 
     /// <summary>
     /// Gets the row styles.
     /// </summary>
-    protected string GetStyle( DataGridRowStyling styling, DataGridRowStyling selectedStyling ) => IsSelected
+    protected string GetStyle( DataGridRowStyling styling, DataGridRowStyling selectedStyling, DataGridRowStyling batchEditSelectedStyling ) => IsSelected
         ? selectedStyling?.Style
-        : styling?.Style;
+        : batchEditSelectedStyling?.Style
+            ?? styling?.Style;
+
+    /// <summary>
+    /// Gets the cell background color.
+    /// </summary>
+    protected string GetCellStyle( DataGridColumn<TItem> column, DataGridCellStyling styling, DataGridCellStyling selectedStyling, DataGridCellStyling batchEditStyling )
+    {
+        var cellStyle = column.BuildCellStyle( GetCurrentItem() );
+
+        var styleFromStyling = selectedStyling?.Style ?? batchEditStyling?.Style ?? styling.Style;
+
+        if ( !string.IsNullOrEmpty( styleFromStyling ) )
+        {
+            cellStyle += $";{styleFromStyling}";
+        }
+
+        return cellStyle;
+    }
+
+    /// <summary>
+    /// Gets the cell background color.
+    /// </summary>
+    protected string GetCellClass( DataGridColumn<TItem> column, DataGridCellStyling styling, DataGridCellStyling selectedStyling, DataGridCellStyling batchEditStyling )
+    {
+#pragma warning disable CS0618 // Type or member is obsolete : Temporary retro compatibility usage
+        var cellClass = column.CellClass?.Invoke( GetCurrentItem() ) ?? string.Empty;
+#pragma warning restore CS0618 // Type or member is obsolete
+        var classFromStyling = selectedStyling?.Class ?? batchEditStyling?.Class ?? styling.Class;
+
+        if ( !string.IsNullOrEmpty( classFromStyling ) )
+        {
+            cellClass += $" {classFromStyling}";
+        }
+
+        return cellClass;
+    }
+
+    /// <summary>
+    /// Gets the cell background color.
+    /// </summary>
+    protected Background GetCellBackground( DataGridCellStyling styling, DataGridCellStyling selectedStyling, DataGridCellStyling batchEditStyling )
+        => selectedStyling?.Background ?? batchEditStyling?.Background ?? styling.Background ?? Blazorise.Background.Default;
+
+    /// <summary>
+    /// Gets the cell color.
+    /// </summary>
+    protected Color GetCellColor( DataGridCellStyling styling, DataGridCellStyling selectedStyling, DataGridCellStyling batchEditStyling )
+        => selectedStyling?.Color ?? batchEditStyling?.Color ?? styling.Color ?? Blazorise.Color.Default;
+
+    /// <summary>
+    /// Gets the cell text color.
+    /// </summary>
+    protected TextColor GetCellTextColor( DataGridCellStyling styling, DataGridCellStyling selectedStyling, DataGridCellStyling batchEditStyling )
+        => selectedStyling?.TextColor ?? batchEditStyling?.TextColor ?? styling.TextColor ?? Blazorise.TextColor.Default;
 
     /// <summary>
     /// Gets or sets the parent <see cref="DataGrid{TItem}"/> of the this component.

@@ -1,0 +1,341 @@
+﻿.fui-Table {
+    /*table-layout: fixed;*/
+    vertical-align: middle;
+    display: table;
+    border-collapse: collapse;
+    width: 100%;
+    background-color: var(--colorSubtleBackground);
+
+    .fui-TableHeader {
+        display: table-row-group;
+
+        &.fui-TableHeader__theme {
+            &.fui-TableHeader__theme-light {
+                th {
+                    color: var(--colorNeutralForeground1);
+                    background-color: var(--colorNeutralBackground1);
+                }
+            }
+
+            &.fui-TableHeader__theme-dark {
+                th {
+                    color: var(--colorNeutralForegroundInverted);
+                    background-color: var(--colorNeutralBackgroundInverted);
+                }
+            }
+        }
+
+        .fui-TableRow {
+            display: table-row;
+            border-bottom-color: var(--colorNeutralStroke2);
+            border-bottom-style: solid;
+            border-bottom-width: var(--strokeWidthThin);
+            box-sizing: border-box;
+            color: var(--colorNeutralForeground1);
+
+            .fui-TableHeaderCell {
+                display: table-cell;
+                padding-bottom: 0px;
+                padding-top: 0px;
+                vertical-align: middle;
+                position: relative;
+                padding-left: var(--spacingHorizontalS);
+                padding-right: var(--spacingHorizontalS);
+                font-weight: var(--fontWeightRegular);
+                height: 32px;
+            }
+        }
+    }
+
+    .fui-TableBody {
+        display: table-row-group;
+
+        .fui-TableRow {
+            display: table-row;
+            border-bottom-color: var(--colorNeutralStroke2);
+            border-bottom-style: solid;
+            border-bottom-width: var(--strokeWidthThin);
+            box-sizing: border-box;
+            color: var(--colorNeutralForeground1);
+
+            .fui-TableCell {
+                height: 44px;
+                display: table-cell;
+                padding-bottom: 0px;
+                padding-top: 0px;
+                vertical-align: middle;
+                position: relative;
+                padding-left: var(--spacingHorizontalS);
+                padding-right: var(--spacingHorizontalS);
+            }
+
+            th.fui-TableRowHeader {
+                font-weight: var(--fontWeightSemibold);
+                padding-bottom: 0px;
+                padding-top: 0px;
+                vertical-align: middle;
+                position: relative;
+                padding-left: var(--spacingHorizontalS);
+                padding-right: var(--spacingHorizontalS);
+            }
+
+
+
+            &.fui-TableRow-selectable {
+                cursor: pointer;
+
+                &:active {
+                    color: var(--colorNeutralForeground1Pressed);
+                    background-color: var(--colorSubtleBackgroundPressed);
+                }
+            }
+
+            &.fui-TableRow-selected,
+            &.fui-TableRow-primary {
+                background-color: var(--colorBrandBackground2);
+                border-bottom-color: var(--colorTransparentStrokeInteractive);
+                border-left-color: var(--colorTransparentStrokeInteractive);
+                border-right-color: var(--colorTransparentStrokeInteractive);
+                border-top-color: var(--colorTransparentStrokeInteractive);
+            }
+        }
+
+        .fui-TableGroup {
+            display: table-row;
+            border-bottom-color: var(--colorNeutralStroke2);
+            border-bottom-style: solid;
+            border-bottom-width: var(--strokeWidthThin);
+            box-sizing: border-box;
+            color: var(--colorNeutralForeground1);
+            cursor: pointer;
+            background-color: var(--colorNeutralBackground3);
+            font-weight: 700;
+
+            &:hover {
+                background-color: var(--colorNeutralBackground3Hover);
+            }
+
+            .fui-TableGroupCell {
+                height: 44px;
+                display: table-cell;
+                padding-bottom: 0px;
+                padding-top: 0px;
+                vertical-align: middle;
+                position: relative;
+                padding-left: var(--spacingHorizontalS);
+                padding-right: var(--spacingHorizontalS);
+            }
+        }
+    }
+
+    &.fui-Table-narrow {
+        .fui-TableBody {
+            .fui-TableRow {
+
+                .fui-TableCell {
+                    height: 34px;
+                }
+            }
+        }
+    }
+
+    &.fui-Table-hoverable {
+        .fui-TableBody {
+            .fui-TableRow {
+                &:hover {
+                    color: var(--colorNeutralForeground1Hover);
+                    background-color: var(--colorSubtleBackgroundHover);
+                }
+
+                &.fui-TableRow-selectable {
+                    &:active {
+                        color: var(--colorNeutralForeground1Pressed);
+                        background-color: var(--colorSubtleBackgroundPressed);
+                    }
+                }
+            }
+        }
+    }
+
+    &.fui-Table-striped {
+        .fui-TableBody {
+            .fui-TableRow:nth-of-type(odd) {
+                background-color: var(--colorSubtleBackgroundHover);
+
+                &.fui-TableRow-selectable {
+                    &:active {
+                        color: var(--colorNeutralForeground1Pressed);
+                        background-color: var(--colorSubtleBackgroundPressed);
+                    }
+                }
+
+                &.fui-TableRow-selected,
+                &.fui-TableRow-primary {
+                    background-color: var(--colorBrandBackground2);
+                    border-bottom-color: var(--colorTransparentStrokeInteractive);
+                    border-left-color: var(--colorTransparentStrokeInteractive);
+                    border-right-color: var(--colorTransparentStrokeInteractive);
+                    border-top-color: var(--colorTransparentStrokeInteractive);
+                }
+            }
+        }
+    }
+
+    &.fui-Table-bordered {
+        border: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
+
+        th,
+        td {
+            border: var(--strokeWidthThin) solid var(--colorNeutralStroke2);
+        }
+    }
+
+    &.fui-Table-borderless {
+        .fui-TableHeader {
+            .fui-TableRow {
+                border: 0;
+            }
+        }
+
+        .fui-TableBody {
+            .fui-TableRow {
+                border: 0;
+            }
+        }
+    }
+}
+
+
+.fui-Table-responsive {
+    @each $breakpoint in map-keys($grid-breakpoints) {
+        $next: breakpoint-next($breakpoint, $grid-breakpoints);
+        $infix: breakpoint-infix($next, $grid-breakpoints);
+
+        &#{$infix} {
+            @include media-breakpoint-down($breakpoint) {
+                display: block;
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                // Prevent double border on horizontal scroll due to use of `display: block;`
+                > .fui-Table-bordered {
+                    border: 0;
+                }
+            }
+        }
+    }
+}
+
+.fui-Table-fixed-header {
+    overflow-y: auto;
+
+    .fui-Table {
+        border-collapse: separate;
+        border-spacing: 0;
+
+        thead:not(.fui-TableHeader__theme) th {
+            background-color: white;
+        }
+
+        thead tr th {
+            border-top: none;
+            position: sticky !important;
+            z-index: var(--zIndexITableFixed);
+        }
+
+        thead tr:nth-child(1) th {
+            top: 0;
+        }
+    }
+}
+
+.fui-Table-fixed-columns {
+    width: 100%;
+    overflow-x: auto;
+    white-space: nowrap;
+    position: relative;
+
+    .fui-Table {
+        table-layout: fixed;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 0;
+
+        .fui-TableHeaderCell-fixed,
+        .fui-TableRowHeader-fixed,
+        .fui-TableCell-fixed {
+            &-start {
+                position: sticky !important;
+                border-left: none;
+                z-index: var(--zIndexITableFixed2);
+                background-color: white;
+                border-inline-start-width: 0;
+                left: 0;
+            }
+
+            &-end {
+                position: sticky !important;
+                border-left: none;
+                z-index: var(--zIndexITableFixed2);
+                background-color: white;
+                border-inline-start-width: 0;
+                right: 0;
+            }
+        }
+
+        .fui-TableRow-selectable {
+            &:active {
+                .fui-TableHeaderCell-fixed,
+                .fui-TableRowHeader-fixed,
+                .fui-TableCell-fixed {
+                    &-start,
+                    &-end {
+                        color: var(--colorNeutralForeground1Pressed);
+                        background-color: var(--colorSubtleBackgroundPressed);
+                    }
+                }
+            }
+        }
+
+        .fui-TableRow-selected,
+        .fui-TableRow-primary {
+            .fui-TableHeaderCell-fixed,
+            .fui-TableRowHeader-fixed,
+            .fui-TableCell-fixed {
+                &-start,
+                &-end {
+                    background-color: var(--colorBrandBackground2);
+                    border-bottom-color: var(--colorTransparentStrokeInteractive);
+                    border-left-color: var(--colorTransparentStrokeInteractive);
+                    border-right-color: var(--colorTransparentStrokeInteractive);
+                    border-top-color: var(--colorTransparentStrokeInteractive);
+                }
+            }
+        }
+    }
+}
+
+.b-table.fui-Table {
+    position: relative;
+
+    .b-table-resizer {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 5px;
+        cursor: col-resize;
+        user-select: none;
+        z-index: 1;
+    }
+
+    .b-table-resizer:hover, .b-table-resizing {
+        cursor: col-resize !important;
+        border-right: 2px solid var(--b-theme-primary, blue);
+    }
+
+    .b-table-resizing {
+        cursor: col-resize !important;
+    }
+}

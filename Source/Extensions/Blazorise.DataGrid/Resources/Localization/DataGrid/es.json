@@ -16,6 +16,18 @@
     "{0} - {1} of {2} items": "{0} - {1} de {2} elementos",
     "Row Edit": "Editar fila",
     "Row Create": "Fila Crear",
-    "Create": "Crear"
+    "Create": "Crear",
+    "Drag a column header here to group by that column": "Arrastre un encabezado de columna aquí para agrupar por esa columna",
+    "Contains": "Contiene",
+    "Starts With": "Comienza con",
+    "Ends With": "Termina con",
+    "Equals": "Igual",
+    "Not Equals": "No es igual",
+    "Greater Than": "Mas grande que",
+    "Greater Than or Equal": "Mayor que o igual",
+    "Less Than": "Menos que",
+    "Less Than or Equal": "Menor o igual",
+    "Save Changes": "Guardar cambios",
+    "Cancel Changes": "Cancelar cambios"
   }
 }

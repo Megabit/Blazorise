@@ -1,0 +1,9 @@
+﻿@using System.Text
+@inherits Blazorise.ModalContent
+<CascadingValue Value="@this" IsFixed>
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <FocusTrap @ref="@FocusTrapRef" Active="@IsFocusTrap">
+            @ChildContent
+        </FocusTrap>
+    </div>
+</CascadingValue>

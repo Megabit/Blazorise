@@ -1,0 +1,51 @@
+﻿.b-table .b-table-resizer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    cursor: col-resize;
+    user-select: none;
+    z-index: 1;
+}
+
+tr.b-table-row {
+    &.b-table-row-selectable {
+        &:focus[tabindex="0"] {
+            outline: none;
+        }
+    }
+}
+
+.b-table-fixed-header {
+    overflow-y: auto;
+
+    > .b-table {
+        border-collapse: separate;
+        border-spacing: 0;
+
+        > thead:not(.table-thead-theme) > tr > th {
+            background: white;
+        }
+
+        > thead > tr > th {
+            border-top: none;
+            position: sticky;
+            z-index: 10;
+        }
+
+        > thead > tr:nth-child(1) > th {
+            top: 0;
+        }
+    }
+}
+
+.b-table-fixed-columns {
+    .b-table {
+        table-layout: fixed;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-collapse: separate;
+        border-spacing: 0;
+        border: 0;
+    }
+}

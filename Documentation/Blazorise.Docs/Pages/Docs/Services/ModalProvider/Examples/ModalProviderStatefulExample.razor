@@ -1,0 +1,17 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Button Color="Color.Primary" Clicked="ShowStateful">Show Stateful</Button>
+
+@code {
+    [Inject] public IModalService ModalService { get; set; }
+
+    public Task ShowStateful()
+    {
+        return ModalService.Show<CounterExample>( "My Stateful content", new ModalInstanceOptions()
+        {
+            Stateful = true,
+            ElementId = "Stateful",
+            RenderMode = ModalRenderMode.LazyLoad
+        } );
+    }
+}

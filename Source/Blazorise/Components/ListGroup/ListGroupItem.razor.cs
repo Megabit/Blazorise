@@ -39,9 +39,9 @@ public partial class ListGroupItem : BaseComponent
     {
         builder.Append( ClassProvider.ListGroupItem() );
         builder.Append( ClassProvider.ListGroupItemSelectable(), ParentListGroupState?.Mode == ListGroupMode.Selectable );
-        builder.Append( ClassProvider.ListGroupItemActive(), Active );
-        builder.Append( ClassProvider.ListGroupItemDisabled(), Disabled );
-        builder.Append( ClassProvider.ListGroupItemColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.ListGroupItemActive( Active ) );
+        builder.Append( ClassProvider.ListGroupItemDisabled( Disabled ) );
+        builder.Append( ClassProvider.ListGroupItemColor( Color, ParentListGroupState?.Mode == ListGroupMode.Selectable, Active ) );
 
         base.BuildClasses( builder );
     }
@@ -56,7 +56,7 @@ public partial class ListGroupItem : BaseComponent
         if ( Disabled )
             return;
 
-        if ( ParentListGroup != null )
+        if ( ParentListGroup is not null )
             await ParentListGroup.SelectItem( Name );
 
         await Clicked.InvokeAsync( eventArgs );
@@ -74,7 +74,9 @@ public partial class ListGroupItem : BaseComponent
     /// <summary>
     /// Gets the flag indicating the item is selected.
     /// </summary>
-    protected bool Active => parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItem == Name;
+    protected bool Active => parentListGroupState.SelectionMode == ListGroupSelectionMode.Single
+        ? parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItem == Name
+        : parentListGroupState.Mode == ListGroupMode.Selectable && parentListGroupState.SelectedItems?.Contains( Name ) == true;
 
     /// <summary>
     /// Defines the item name.

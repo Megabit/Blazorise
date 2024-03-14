@@ -2,14 +2,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Blazorise.Licensing;
 using Blazorise.Localization;
 using Blazorise.Modules;
 using Blazorise.Providers;
 using Blazorise.Themes;
 using Blazorise.Utilities;
+using Blazorise.Utilities.Vendors;
+using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 #endregion
 
 namespace Blazorise;
@@ -30,6 +32,9 @@ public static class Config
         serviceCollection.AddScoped<IComponentActivator, ComponentActivator>();
         serviceCollection.AddScoped<IComponentDisposer, ComponentDisposer>();
 
+        // Shared component context. Must be defined as scoped as we want to make it available for the user session.
+        serviceCollection.AddScoped<IModalSharedContext, ModalSharedContext>();
+
         // If options handler is not defined we will get an exception so
         // we need to initialize an empty action.
         configureOptions ??= _ => { };
@@ -40,16 +45,19 @@ public static class Config
         serviceCollection.AddSingleton<IIdGenerator, IdGenerator>();
         serviceCollection.AddSingleton<IThemeCache, ThemeCache>();
         serviceCollection.AddSingleton<IValidationMessageLocalizerAttributeFinder, ValidationMessageLocalizerAttributeFinder>();
-        serviceCollection.AddSingleton<IDateTimeFormatConverter, DateTimeFormatConverter>();
+        serviceCollection.AddSingleton<IFlatPickrDateTimeDisplayFormatConverter, FlatPickrDateTimeDisplayFormatConverter>();
+        serviceCollection.AddSingleton<IInputMaskDateTimeInputFormatConverter, InputMaskDateTimeInputFormatConverter>();
 
         foreach ( var mapping in LocalizationMap
                      .Concat( ValidationMap )
                      .Concat( ServiceMap )
                      .Concat( JSModuleMap ) )
         {
-
             serviceCollection.AddScoped( mapping.Key, mapping.Value );
         }
+
+        serviceCollection.AddScoped<BlazoriseLicenseProvider>();
+        serviceCollection.AddScoped<BlazoriseLicenseChecker>();
 
         return serviceCollection;
     }
@@ -84,6 +92,7 @@ public static class Config
         { typeof( INotificationService ), typeof( NotificationService ) },
         { typeof( IPageProgressService ), typeof( PageProgressService ) },
         { typeof( IModalService ), typeof( ModalService ) },
+        { typeof( IToastService ), typeof( ToastService ) },
     };
 
     /// <summary>

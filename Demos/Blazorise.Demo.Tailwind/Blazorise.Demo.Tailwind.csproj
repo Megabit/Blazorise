@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+
+  <PropertyGroup>
+    <UserSecretsId>fc0aa134-0281-4ad7-bddc-53b9c74483c4</UserSecretsId>
+  </PropertyGroup>
+
+  <Import Project="..\..\Build\Blazorise.Client.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Source\Blazorise.Tailwind\Blazorise.Tailwind.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Icons.FontAwesome\Blazorise.Icons.FontAwesome.csproj" />
+    <ProjectReference Include="..\Blazorise.Demo\Blazorise.Demo.csproj" />
+  </ItemGroup>
+
+</Project>

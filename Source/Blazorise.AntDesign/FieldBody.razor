@@ -1,6 +1,6 @@
 ﻿@inherits Blazorise.FieldBody
 <CascadingValue Value="@this" IsFixed>
-    <div id="@ElementId" class="@ContainerClassNames">
+    <div @ref="@ElementRef" id="@ElementId" class="@ContainerClassNames">
         <div class="ant-form-item-control-input">
             <div class="ant-form-item-control-input-content">
                 @ChildContent

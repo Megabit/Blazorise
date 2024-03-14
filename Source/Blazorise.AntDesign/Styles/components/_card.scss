@@ -1,0 +1,55 @@
+﻿.ant-card-group {
+    > .ant-card {
+        margin-bottom: $card-group-margin;
+    }
+
+    @include media-breakpoint-up(sm) {
+        display: flex;
+        flex-flow: row wrap;
+
+        > .ant-card {
+            flex: 1 0 0%;
+            margin-bottom: 0;
+
+            + .ant-card {
+                margin-left: 0;
+                border-left: 0;
+            }
+        }
+    }
+}
+
+.ant-card-deck {
+    .ant-card {
+        margin-bottom: $card-deck-margin;
+    }
+
+    @include media-breakpoint-up(sm) {
+        display: flex;
+        flex-flow: row wrap;
+        margin-right: -$card-deck-margin;
+        margin-left: -$card-deck-margin;
+
+        .ant-card {
+            flex: 1 0 0%;
+            margin-right: $card-deck-margin;
+            margin-bottom: 0; // Override the default
+            margin-left: $card-deck-margin;
+        }
+    }
+}
+
+.ant-card-head-subtitle {
+    margin-top: -.375rem;
+    margin-bottom: 0;
+}
+
+.ant-card-cover {
+    display: block;
+    width: 100%;
+    margin-left: 0px;
+}
+
+.ant-card-link + .ant-card-link {
+    margin-left: 1.25rem;
+}

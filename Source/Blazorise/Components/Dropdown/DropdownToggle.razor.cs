@@ -40,7 +40,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
             ParentDropdown.NotifyDropdownToggleInitialized( this );
         }
 
-        if ( Theme != null )
+        if ( Theme is not null )
         {
             Theme.Changed += OnThemeChanged;
         }
@@ -59,11 +59,10 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.DropdownToggle( ParentDropdown?.IsDropdownSubmenu == true ) );
-        builder.Append( ClassProvider.DropdownToggleColor( Color ), Color != Color.Default && !Outline );
-        builder.Append( ClassProvider.DropdownToggleOutline( Color ), Color != Color.Default && Outline );
-        builder.Append( ClassProvider.DropdownToggleSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.DropdownToggleSplit(), Split );
+        builder.Append( ClassProvider.DropdownToggle( ParentDropdown?.IsDropdownSubmenu == true, Outline ) );
+        builder.Append( ClassProvider.DropdownToggleColor( Color, Outline ) );
+        builder.Append( ClassProvider.DropdownToggleSize( ThemeSize, Outline ) );
+        builder.Append( ClassProvider.DropdownToggleSplit( Split ) );
         builder.Append( ClassProvider.DropdownToggleIcon( IsToggleIconVisible ) );
 
         base.BuildClasses( builder );
@@ -104,7 +103,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
                 ParentDropdown.NotifyDropdownToggleRemoved( this );
             }
 
-            if ( Theme != null )
+            if ( Theme is not null )
             {
                 Theme.Changed -= OnThemeChanged;
             }
@@ -123,7 +122,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
         if ( Disabled )
             return;
 
-        if ( ParentDropdown != null )
+        if ( ParentDropdown is not null )
             await ParentDropdown.Toggle( ElementId );
 
         await Clicked.InvokeAsync( eventArgs );
@@ -151,7 +150,7 @@ public partial class DropdownToggle : BaseComponent, ICloseActivator, IAsyncDisp
     /// <returns>Returns the awaitable task.</returns>
     public Task Close( CloseReason closeReason )
     {
-        if ( ParentDropdown != null )
+        if ( ParentDropdown is not null )
             return ParentDropdown.Hide();
 
         return Task.CompletedTask;

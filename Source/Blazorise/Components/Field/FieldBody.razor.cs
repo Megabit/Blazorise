@@ -21,13 +21,4 @@ public partial class FieldBody : BaseSizableFieldComponent
     }
 
     #endregion
-
-    #region Properties
-
-    /// <summary>
-    /// Specifies the content to be rendered inside this <see cref="FieldBody"/>.
-    /// </summary>
-    [Parameter] public RenderFragment ChildContent { get; set; }
-
-    #endregion
 }

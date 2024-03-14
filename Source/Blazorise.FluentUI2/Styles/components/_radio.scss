@@ -1,0 +1,193 @@
+﻿.fui-RadioGroup {
+    align-items: flex-start;
+    flex-direction: column;
+    display: flex;
+}
+
+.fui-RadioGroup__horizontal {
+    align-items: flex-start;
+    display: flex;
+}
+
+.fui-Radio {
+    display: inline-flex;
+    position: relative;
+
+    .fui-Radio__input {
+        cursor: pointer;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: calc(16px + 2 * var(--spacingHorizontalS));
+        height: 100%;
+        box-sizing: border-box;
+        margin: 0px;
+        opacity: 0;
+
+        &:enabled:not(:checked) ~ .fui-Radio__indicator {
+            border-color: var(--colorNeutralStrokeAccessible);
+        }
+
+        &:not(:checked) ~ .fui-Radio__indicator > * {
+            opacity: 0;
+        }
+
+        &:enabled:not(:checked) ~ .fui-Radio__indicator {
+            border-color: var(--colorNeutralStrokeAccessible);
+        }
+
+        &:enabled ~ .fui-Radio__label {
+            cursor: pointer;
+        }
+
+        &:disabled {
+            ~ .fui-Radio__indicator {
+                border-color: var(--colorNeutralStrokeDisabled);
+                color: var(--colorNeutralForegroundDisabled);
+            }
+
+            ~ .fui-Radio__label {
+                color: var(--colorNeutralForegroundDisabled);
+                cursor: default;
+            }
+        }
+
+        &.fui-Radio__input-xs {
+            ~ .fui-Radio__indicator {
+                width: 10px;
+                height: 10px;
+                font-size: 8px;
+
+                + .fui-Radio__label {
+                    padding: 0;
+                }
+            }
+        }
+
+        &.fui-Radio__input-sm {
+            ~ .fui-Radio__indicator {
+                width: 12px;
+                height: 12px;
+                font-size: 10px;
+
+                + .fui-Radio__label {
+                    padding: 0;
+                }
+            }
+        }
+
+        &.fui-Radio__input-md {
+            ~ .fui-Radio__indicator {
+                width: 18px;
+                height: 18px;
+                font-size: 14px;
+            }
+        }
+
+        &.fui-Radio__input-lg {
+            ~ .fui-Radio__indicator {
+                width: 20px;
+                height: 20px;
+                font-size: 16px;
+
+                + .fui-Radio__label {
+                    margin-bottom: calc((20px - var(--lineHeightBase300)) / 2);
+                    margin-top: calc((20x - var(--lineHeightBase300)) / 2);
+                }
+            }
+        }
+
+        &.fui-Radio__input-xl {
+            ~ .fui-Radio__indicator {
+                width: 24px;
+                height: 24px;
+                font-size: 20px;
+
+                + .fui-Radio__label {
+                    margin-bottom: calc((24px - var(--lineHeightBase300)) / 2);
+                    margin-top: calc((24x - var(--lineHeightBase300)) / 2);
+                }
+            }
+        }
+    }
+
+    .fui-Radio__indicator {
+        width: 16px;
+        height: 16px;
+        font-size: 12px;
+        box-sizing: border-box;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        border: var(--strokeWidthThin) solid;
+        border-radius: var(--borderRadiusCircular);
+        margin: var(--spacingVerticalS) var(--spacingHorizontalS);
+        fill: currentcolor;
+        pointer-events: none;
+        border-color: var(--colorCompoundBrandStroke);
+        color: var(--colorCompoundBrandForeground1);
+
+        .fui-Radio__indicator-icon {
+            display: inline;
+            line-height: 0;
+        }
+    }
+
+    .fui-Radio__label {
+        margin-bottom: calc((16px - var(--lineHeightBase300)) / 2);
+        margin-top: calc((16px - var(--lineHeightBase300)) / 2);
+        align-self: center;
+        padding-left: var(--spacingHorizontalXS);
+        padding-bottom: var(--spacingVerticalS);
+        padding-top: var(--spacingVerticalS);
+        padding-right: var(--spacingHorizontalS);
+        line-height: var(--lineHeightBase300);
+        font-size: var(--fontSizeBase300);
+        font-family: var(--fontFamilyBase);
+        color: var(--colorNeutralForeground1);
+    }
+}
+
+.fui-Button {
+    .fui-Radio__input {
+        cursor: pointer;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: calc(16px + 2 * var(--spacingHorizontalS));
+        height: 100%;
+        box-sizing: border-box;
+        margin: 0px;
+        opacity: 0;
+    }
+}
+
+.fui-RadioGroup__horizontal-buttons {
+    vertical-align: middle;
+    justify-content: stretch;
+    display: inline-flex;
+    position: relative;
+
+    .fui-Button:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .fui-Button:not(:last-child):not(.fui-MenuButton) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+    }
+
+    > .fui-ButtonGroup:not(:first-child),
+    > .fui-Button:not(:first-child) {
+        margin-left: -1px;
+    }
+
+    > .fui-ButtonGroup:not(:first-child) > .fui-Button,
+    .fui-ButtonGroup > .fui-Button:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+}

@@ -13,17 +13,32 @@ public class AutocompleteReadDataEventArgs
     /// Initializes a new instance of read-data event argument.
     /// </summary>
     /// <param name="searchValue">The value to search.</param>
+    /// <param name="virtualizeOffset">Requested data start index by Virtualize.</param>
+    /// <param name="virtualizeCount">Max number of items requested by Virtualize.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    public AutocompleteReadDataEventArgs( string searchValue, CancellationToken cancellationToken = default )
+    public AutocompleteReadDataEventArgs( string searchValue, int virtualizeOffset = 0,
+        int virtualizeCount = 0, CancellationToken cancellationToken = default )
     {
         CancellationToken = cancellationToken;
         SearchValue = searchValue;
+        VirtualizeOffset = virtualizeOffset;
+        VirtualizeCount = virtualizeCount;
     }
 
     /// <summary>
     /// Gets the search value.
     /// </summary>
     public string SearchValue { get; private set; }
+
+    /// <summary>
+    /// Gets the requested data start index by Virtualize.
+    /// </summary>
+    public int VirtualizeOffset { get; }
+
+    /// <summary>
+    /// Gets the max number of items requested by Virtualize.
+    /// </summary>
+    public int VirtualizeCount { get; }
 
     /// <summary>
     /// Gets the CancellationToken.

@@ -26,11 +26,19 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<bool>( nameof( Checked ), out var paramChecked ) && !paramChecked.IsEqual( Checked ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         // Individual Radio can have validation ONLY of it's not placed inside
         // of a RadioGroup
-        if ( ParentValidation != null && ParentRadioGroup == null )
+        if ( ParentValidation is not null && ParentRadioGroup is null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( CheckedExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -42,7 +50,7 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ParentRadioGroup != null )
+        if ( ParentRadioGroup is not null )
         {
             Checked = ParentRadioGroup.CheckedValue.IsEqual( Value );
 
@@ -75,7 +83,7 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     {
         if ( disposing )
         {
-            if ( ParentRadioGroup != null )
+            if ( ParentRadioGroup is not null )
             {
                 ParentRadioGroup.RadioCheckedChanged -= OnRadioChanged;
             }
@@ -87,7 +95,7 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     /// <inheritdoc/>
     protected override Task OnChangeHandler( ChangeEventArgs eventArgs )
     {
-        if ( ParentRadioGroup != null )
+        if ( ParentRadioGroup is not null )
             return ParentRadioGroup.NotifyRadioChanged( this );
 
         // Radio should always be inside of RadioGroup or otherwise it's "checked" state will not
@@ -120,7 +128,7 @@ public partial class Radio<TValue> : BaseCheckComponent<bool>, IDisposable
     /// <summary>
     /// True if radio belongs to the <see cref="RadioGroup{TValue}"/>.
     /// </summary>
-    protected bool ParentIsRadioGroup => ParentRadioGroup != null;
+    protected bool ParentIsRadioGroup => ParentRadioGroup is not null;
 
     /// <summary>
     /// True if radio should look as a regular button.

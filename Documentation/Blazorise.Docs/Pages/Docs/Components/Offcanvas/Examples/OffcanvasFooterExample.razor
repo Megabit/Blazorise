@@ -1,0 +1,30 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Offcanvas @ref="offcanvasRef" ShowBackdrop>
+    <OffcanvasHeader>
+        Offcanvas Start
+        <CloseButton Clicked="@HideOffcanvas" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        Offcanvas Content
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@HideOffcanvas">Close Offcanvas</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Button Color="Color.Primary" Clicked="@ShowOffcanvas">Show Offcanvas</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        return offcanvasRef.Hide();
+    }
+}

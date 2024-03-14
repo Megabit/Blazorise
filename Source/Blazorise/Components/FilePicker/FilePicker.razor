@@ -10,7 +10,7 @@
                 @FileComponentFragment
             </Addon>
             <Addon AddonType="AddonType.End">
-                <Dropdown RightAligned>
+                <Dropdown RightAligned PositionStrategy="DropdownPositionStrategy.Absolute">
                     <DropdownToggle Color="Color.Light">
                         (@(FileEdit.Files?.Count() ?? 0))
                     </DropdownToggle>
@@ -20,7 +20,7 @@
                         <DropdownMenu Class="b-file-picker-files">
                             @foreach ( var file in FileEdit.Files )
                             {
-                                <DropdownItem @key="@file" Class="b-file-picker-file">
+                                <DropdownItem @key="file.Id" Class="b-file-picker-file">
                                     @FileContentFragment(file)
                                 </DropdownItem>
                             }
@@ -35,7 +35,7 @@
         @FileComponentFragment
     }
 
-    <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@GetLocalizedString("Or drop files here")</Span>
+    <Span Class="b-text-drop" Display="Blazorise.Display.Block" TextAlignment="TextAlignment.Center" Margin="Blazorise.Margin.Is2.FromTop">@DragAndDropString</Span>
 
     @if ( !FileEdit?.Files?.IsNullOrEmpty() ?? false )
     {
@@ -76,8 +76,7 @@
 @code {
     private RenderFragment FileComponentFragment => __builder =>
     {
-        <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Placeholder="@Placeholder" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout"
-              Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" DisableProgressReport="@DisableProgressReport" BrowseButtonLocalizer="@FilePickerLocalizer" @attributes="@Attributes">
+        <FileEdit @ref="FileEdit" ElementId="@ElementId" Multiple="@Multiple" Directory="@Directory" Placeholder="@Placeholder" Disabled="@Disabled" ReadOnly="@ReadOnly" Filter="@Filter" MaxChunkSize="@MaxChunkSize" MaxFileSize="@MaxFileSize" SegmentFetchTimeout="@SegmentFetchTimeout" Changed="@OnChanged" Started="@OnStarted" Ended="@OnEnded" Written="@Written" Progressed="@OnProgressed" AutoReset="@AutoReset" DisableProgressReport="@DisableProgressReport" BrowseButtonLocalizer="@FilePickerLocalizer" Attributes="@Attributes">
             <ChildContent>
                 @ChildTemplate
             </ChildContent>
@@ -98,6 +97,7 @@
             <Row>
                 <Column>
                     <Span Class="b-file-picker-file-name">@file.Name</Span>
+                    <Span Class="b-file-picker-file-relativepath">@file.RelativePath</Span>
                     <Span Class="b-file-picker-file-size">@GetFileSizeReadable(file)</Span>
                     @if ( IsFileBeingUploaded( file ) && !DisableProgressReport )
                     {

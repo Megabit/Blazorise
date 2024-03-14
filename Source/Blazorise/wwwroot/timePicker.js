@@ -1,5 +1,5 @@
-﻿import "./vendors/flatpickr.js?v=1.1.4.1";
-import * as utilities from "./utilities.js?v=1.1.4.1";
+﻿import "./vendors/flatpickr.js?v=1.4.3.0";
+import * as utilities from "./utilities.js?v=1.4.3.0";
 
 const _pickers = [];
 
@@ -49,12 +49,24 @@ export function initialize(element, elementId, options) {
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
         clickOpens: !(options.readOnly || false),
         locale: options.localization || {},
-        inline: options.inline || false
+        inline: options.inline || false,
+        static: options.staticPicker
     });
 
     if (options) {
         picker.altInput.disabled = options.disabled || false;
         picker.altInput.readOnly = options.readOnly || false;
+        picker.altInput.placeholder = utilities.coalesce(options.placeholder, "");
+
+        picker.altInput.addEventListener("blur", (e) => {
+            const isInput = e.target === picker._input;
+
+            // Workaround for: onchange does not fire when user writes the time and then click outside of the input area.
+            if (isInput && picker.isOpen === false) {
+                picker.input.dispatchEvent(utilities.createEvent("change"));
+                picker.input.dispatchEvent(utilities.createEvent("input"));
+            }
+        });
     }
 
     _pickers[elementId] = picker;
@@ -62,6 +74,13 @@ export function initialize(element, elementId, options) {
 
 export function destroy(element, elementId) {
     const instances = _pickers || {};
+
+    const instance = instances[elementId];
+
+    if (instance) {
+        instance.destroy();
+    }
+
     delete instances[elementId];
 }
 
@@ -104,6 +123,14 @@ export function updateOptions(element, elementId, options) {
 
         if (options.inline.changed) {
             picker.set("inline", options.inline.value || false);
+        }
+
+        if (options.placeholder.changed) {
+            picker.altInput.placeholder = options.placeholder.value;
+        }
+
+        if (options.staticPicker.changed) {
+            picker.set("static", options.staticPicker.value);
         }
     }
 }

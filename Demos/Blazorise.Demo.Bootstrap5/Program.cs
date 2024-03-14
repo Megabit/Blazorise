@@ -2,9 +2,7 @@
 using System.Threading.Tasks;
 using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
-using Blazorise.RichTextEdit;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 #endregion
 
 namespace Blazorise.Demo.Bootstrap5;
@@ -16,7 +14,7 @@ public class Program
         var builder = WebAssemblyHostBuilder.CreateDefault( args );
 
         builder.Services
-            .SetupDemoServices()
+            .SetupDemoServices( builder.Configuration["Licensing:ProductToken"], builder.Configuration["ReCaptchaSiteKey"] )
             .AddBootstrap5Providers()
             .AddFontAwesomeIcons();
 

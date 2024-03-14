@@ -1,0 +1,394 @@
+﻿@page "/tests/autocomplete"
+@using System.Collections.ObjectModel
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@autocompleteFreeTyping">FreeTyping</Check>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete TItem="Country"
+                                      TValue="string"
+                                      Data="@Countries"
+                                      TextField="@(( item ) => item.Name)"
+                                      ValueField="@((item) => item.Iso)"
+                                      @bind-SelectedValue="selectedAutoCompleteSearchValue"
+                                      @bind-SelectedText="selectedAutoCompleteText"
+                                      Placeholder="Search..."
+                                      Filter="AutocompleteFilter.StartsWith"
+                                      FreeTyping="autocompleteFreeTyping"
+                                      CustomFilter="@(( item, searchValue ) => searchValue == null ? false : item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <ItemContent>
+                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                    <Small>@context.Item.Capital</Small>
+                                </Div>
+                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                            </ItemContent>
+                        </Autocomplete>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @selectedAutoCompleteSearchValue
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected text value: @selectedAutoCompleteText
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete Multiple Selection</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@multipleAutocompleteFreeTyping">FreeTyping</Check>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Values</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete TItem="Country"
+                                      TValue="string"
+                                      Data="@Countries"
+                                      TextField="@(( item ) => item.Name)"
+                                      ValueField="@((item) => item.Iso)"
+                                      Placeholder="Search..."
+                                      FreeTyping="multipleAutocompleteFreeTyping"
+                                      CloseOnSelection="false"
+                                      MinLength="1"
+                                      SelectionMode="AutocompleteSelectionMode.Checkbox"
+                        @bind-SelectedValues="multipleSelectionData"
+                        @bind-SelectedTexts="multipleSelectionTexts">
+                        </Autocomplete>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected Values: @(multipleSelectionData != null ? string.Join( ',', multipleSelectionData ) : "");
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected Texts: @(multipleSelectionTexts != null ? string.Join( ',', multipleSelectionTexts ) : "");
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete : ReadData</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@autocompleteReadDataFreeTyping">FreeTyping</Check>
+                    </FieldBody>
+                </Field>
+
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete TItem="Country"
+                                      TValue="string"
+                                      Data="@ReadDataCountries"
+                                      ReadData="HandleReadData"
+                        @bind-SelectedValue="selectedAutoCompleteReadDataSearchValue"
+                        @bind-SelectedText="selectedAutoCompleteReadDataText"
+                                      FreeTyping="autocompleteReadDataFreeTyping"
+                                      TextField="@(( item ) => item.Name)"
+                                      ValueField="@((item) => item.Iso)"
+                                      Placeholder="Search...">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <ItemContent>
+                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                    <Small>@context.Item.Capital</Small>
+                                </Div>
+                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                            </ItemContent>
+                        </Autocomplete>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @selectedAutoCompleteReadDataSearchValue
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected text value: @selectedAutoCompleteReadDataText
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete Multiple : ReadData</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@multipleAutocompleteReadDataFreeTyping">FreeTyping</Check>
+                    </FieldBody>
+                </Field>
+
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete TItem="Country"
+                                      TValue="string"
+                                      Data="@ReadDataCountries"
+                                      ReadData="HandleMultipleReadData"
+                                      TextField="@((item ) => item.Name)"
+                                      ValueField="@((item) => item.Iso)"
+                                      Placeholder="Search..." MinLength="0"
+                                      SelectionMode="AutocompleteSelectionMode.Multiple"
+                                      CloseOnSelection="false"
+                                      @bind-SelectedValues="multipleReadDataSelectionData"
+                                      @bind-SelectedTexts="multipleReadDataSelectionTexts"
+                                      FreeTyping="multipleAutocompleteReadDataFreeTyping">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <ItemContent>
+                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                    <Small>@context.Item.Capital</Small>
+                                </Div>
+                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                            </ItemContent>
+                        </Autocomplete>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected Values: @(multipleReadDataSelectionData != null ? string.Join( ',', multipleReadDataSelectionData ) : "");
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected Texts: @(multipleReadDataSelectionTexts != null ? string.Join( ',', multipleReadDataSelectionTexts ) : "");
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row Margin="Margin.Is5.OnY.FromBottom">
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete : Virtualize</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@autocompleteVirtualizeFreeTyping">FreeTyping</Check>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete TItem="Country"
+                                      TValue="string"
+                                      Data="@Countries"
+                                      TextField="@(( item ) => item.Name)"
+                                      ValueField="@((item) => item.Iso)"
+                                      @bind-SelectedValue="selectedAutoCompleteVirtualizeSearchValue"
+                                      @bind-SelectedText="selectedAutoCompleteVirtualizeText"
+                                      Placeholder="Search..."
+                                      Virtualize
+                                      Filter="AutocompleteFilter.StartsWith"
+                                      FreeTyping="autocompleteFreeTyping"
+                                      CustomFilter="@(( item, searchValue ) => searchValue == null ? false : item.Name.IndexOf( searchValue, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0 )">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <ItemContent>
+                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                    <Small>@context.Item.Capital</Small>
+                                </Div>
+                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                            </ItemContent>
+                        </Autocomplete>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @selectedAutoCompleteVirtualizeSearchValue
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected text value: @selectedAutoCompleteVirtualizeText
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Autocomplete : Virtualize ReadData</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Field>
+                    <FieldBody>
+                        <Check @bind-Checked="@autocompleteVirtualizeReadDataFreeTyping">FreeTyping</Check>
+                    </FieldBody>
+                </Field>
+
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldLabel ColumnSize="ColumnSize.Is2">Select Value</FieldLabel>
+                    <FieldBody ColumnSize="ColumnSize.Is10">
+                        <Autocomplete TItem="Country"
+                                      TValue="string"
+                                      Data="@VirtualizeReadDataCountries"
+                                      TotalItems="@VirtualizeTotalReadDataCountries"
+                                      ReadData="HandleVirtualizeReadData"
+                                      @bind-SelectedValue="selectedAutoCompleteVirtualizeReadDataSearchValue"
+                                      @bind-SelectedText="selectedAutoCompleteVirtualizeReadDataText"
+                                      FreeTyping="autocompleteVirtualizeReadDataFreeTyping"
+                                      TextField="@(( item ) => item.Name)"
+                                      ValueField="@((item) => item.Iso)"
+                                      Virtualize
+                                      Placeholder="Search...">
+                            <NotFoundContent> Sorry... @context was not found! :( </NotFoundContent>
+                            <ItemContent>
+                                <Div Flex="Flex.InlineFlex.JustifyContent.Between" Width="Width.Is100">
+                                    <Heading Margin="Margin.Is2.FromBottom">@context.Value</Heading>
+                                    <Small>@context.Item.Capital</Small>
+                                </Div>
+                                <Paragraph Margin="Margin.Is2.FromBottom">@context.Text</Paragraph>
+                            </ItemContent>
+                        </Autocomplete>
+                    </FieldBody>
+                </Field>
+                <Field Horizontal JustifyContent="JustifyContent.End">
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected value: @selectedAutoCompleteVirtualizeReadDataSearchValue
+                    </FieldBody>
+                    <FieldBody ColumnSize="ColumnSize.Is10.Is2.WithOffset">
+                        Selected text value: @selectedAutoCompleteVirtualizeReadDataText
+                    </FieldBody>
+                </Field>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+    public IEnumerable<Country> ReadDataCountries;
+    public IEnumerable<Country> VirtualizeReadDataCountries;
+    public int VirtualizeTotalReadDataCountries;
+
+    private string selectedAutoCompleteSearchValue { get; set; }
+    private string selectedAutoCompleteText { get; set; }
+
+    private string selectedAutoCompleteReadDataSearchValue { get; set; }
+    private string selectedAutoCompleteReadDataText { get; set; }
+
+    private string selectedAutoCompleteVirtualizeSearchValue { get; set; }
+    private string selectedAutoCompleteVirtualizeText { get; set; }
+
+    private string selectedAutoCompleteVirtualizeReadDataSearchValue { get; set; }
+    private string selectedAutoCompleteVirtualizeReadDataText { get; set; }
+
+    private bool autocompleteFreeTyping = false;
+    private bool autocompleteReadDataFreeTyping = false;
+    private bool autocompleteVirtualizeFreeTyping = false;
+    private bool autocompleteVirtualizeReadDataFreeTyping = false;
+
+    private List<string> multipleReadDataSelectionData = new();
+    private List<string> multipleReadDataSelectionTexts;
+
+    private List<string> multipleSelectionData;
+    private List<string> multipleSelectionTexts;
+    private bool multipleAutocompleteFreeTyping = false;
+    private bool multipleAutocompleteReadDataFreeTyping = false;
+
+    private Random random = new();
+
+    private async Task HandleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = ( await CountryData.GetDataAsync() ).Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) );
+            }
+        }
+    }
+
+    private async Task HandleVirtualizeReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            IEnumerable<Country> response = ( await GetDataFromExternalSource( autocompleteReadDataEventArgs.SearchValue, autocompleteReadDataEventArgs.VirtualizeOffset, autocompleteReadDataEventArgs.VirtualizeCount ) );
+
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                VirtualizeReadDataCountries = response;
+                VirtualizeTotalReadDataCountries = await GetTotalFromExternalSource( autocompleteReadDataEventArgs.SearchValue );
+            }
+        }
+    }
+
+    /// <summary>
+    /// Simplied version of getting Data from an external source.
+    /// On a real world scenario, you should also handle filtering and sorting, please check our corresponding sections for further examples
+    /// </summary>
+    /// <param name="page"></param>
+    /// <param name="pageSize"></param>
+    /// <returns></returns>
+    private async Task<IEnumerable<Country>> GetDataFromExternalSource( string searchValue, int virtualizeOffset, int virtualizeCount )
+    {
+        await Task.Delay( random.Next( 100 ) );
+        return ( await CountryData.GetDataAsync() ).Where( x => x.Name.StartsWith( searchValue, StringComparison.InvariantCultureIgnoreCase ) ).Skip( virtualizeOffset ).Take( virtualizeCount );
+    }
+
+    /// <summary>
+    /// Simplified version of getting Total from an external source.
+    /// On a real world scenario, you should also handle filtering and sorting, please check our corresponding sections for further examples
+    /// </summary>
+    /// <returns></returns>
+    private async Task<int> GetTotalFromExternalSource( string searchValue )
+        => ( await CountryData.GetDataAsync() ).Where( x => x.Name.StartsWith( searchValue, StringComparison.InvariantCultureIgnoreCase ) ).Count();
+
+    private async Task HandleMultipleReadData( AutocompleteReadDataEventArgs autocompleteReadDataEventArgs )
+    {
+        if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+        {
+            await Task.Delay( random.Next( 100 ) );
+            if ( !autocompleteReadDataEventArgs.CancellationToken.IsCancellationRequested )
+            {
+                ReadDataCountries = ( await CountryData.GetDataAsync() ).Where( x => x.Name.StartsWith( autocompleteReadDataEventArgs.SearchValue, StringComparison.InvariantCultureIgnoreCase ) && !( multipleReadDataSelectionTexts?.Contains( x.Name ) ?? false ) );
+            }
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = await CountryData.GetDataAsync();
+        multipleSelectionData = new List<string>() { Countries.ElementAt( 1 ).Iso.ToString(), Countries.ElementAt( 3 ).Iso.ToString() };
+        await base.OnInitializedAsync();
+    }
+}

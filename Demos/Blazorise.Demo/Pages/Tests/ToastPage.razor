@@ -1,0 +1,127 @@
+﻿@page "/tests/toasts";
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Toast (Configuration)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Placement
+                            </FieldLabel>
+                            <FieldBody>
+                                <Select @bind-SelectedValue="@toasterPlacement">
+                                    <SelectItem Value="ToasterPlacement.Top">Top</SelectItem>
+                                    <SelectItem Value="ToasterPlacement.TopStart">TopStart</SelectItem>
+                                    <SelectItem Value="ToasterPlacement.TopEnd">TopEnd</SelectItem>
+                                    <SelectItem Value="ToasterPlacement.Bottom">Bottom</SelectItem>
+                                    <SelectItem Value="ToasterPlacement.BottomStart">BottomStart</SelectItem>
+                                    <SelectItem Value="ToasterPlacement.BottomEnd">BottomEnd</SelectItem>
+                                </Select>
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Animation
+                            </FieldLabel>
+                            <FieldBody>
+                                <Switch @bind-Checked="@animation">Animation</Switch>
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Animation Duration (ms)
+                            </FieldLabel>
+                            <FieldBody>
+                                <NumericEdit @bind-Value="animationDuration" />
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Autohide
+                            </FieldLabel>
+                            <FieldBody>
+                                <Switch @bind-Checked="@autohide">Autohide</Switch>
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Autohide Delay (ms)
+                            </FieldLabel>
+                            <FieldBody>
+                                <NumericEdit @bind-Value="autohideDelay" />
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Modals (Default)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    A rendered modal with header, body, and set of actions in the footer.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>toastProviderRef.Show("Toast Header", "Hello, world! This is a toast message."))">
+                    Show Toast
+                </Button>
+            </CardBody>
+            <CardBody>
+                <CardText>
+                    Show Toasts through service
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>ToastService.Show("This is a toast message from the toast provider.", "Default message"))">
+                    Default
+                </Button>
+                <Button Color="Color.Info" Clicked="@(()=>ToastService.Info("This is a toast message from the toast provider.", "Info message"))">
+                    Info
+                </Button>
+                <Button Color="Color.Success" Clicked="@(()=>ToastService.Success("This is a toast message from the toast provider.", "Success message"))">
+                    Success
+                </Button>
+                <Button Color="Color.Warning" Clicked="@(()=>ToastService.Warning("This is a toast message from the toast provider.", "Warning message"))">
+                    Warning
+                </Button>
+                <Button Color="Color.Danger" Clicked="@(()=>ToastService.Error("This is a toast message from the toast provider.", "Error message"))">
+                    Error
+                </Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<ToastProvider @ref="toastProviderRef" Placement="@toasterPlacement" Animated="@animation" AnimationDuration="@animationDuration" Autohide="@autohide" AutohideDelay="@autohideDelay" />
+@code {
+    [Inject] IToastService ToastService { get; set; }
+
+    ToastProvider toastProviderRef;
+
+    ToasterPlacement toasterPlacement = ToasterPlacement.BottomEnd;
+    private bool animation = true;
+    private int animationDuration = 300;
+    private bool autohide = true;
+    private int autohideDelay = 5000;
+}

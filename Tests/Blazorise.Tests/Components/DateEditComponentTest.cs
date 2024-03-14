@@ -1,6 +1,4 @@
 ﻿using System;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
 using Bunit;
 using Xunit;
 
@@ -10,8 +8,8 @@ public class DateEditComponentTest : TestContext
 {
     public DateEditComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseUtilities();
     }
 
     [Fact]
@@ -51,7 +49,7 @@ public class DateEditComponentTest : TestContext
         var dateOpen = "<input";
         var dateClose = "</input>";
         var dateType = @"type=""date""";
-        var dateOutput = @"<span id=""date-only-event-initially-undefined-result"">" + defDate.ToString().Replace( "+", "&#x2B;" ) + "</span>";
+        var dateOutput = @"<span id=""date-only-event-initially-undefined-result"">" + defDate.ToString() + "</span>";
         var nullableOutput = @"<span id=""nullable-date-only-event-initially-null-result""></span>";
 
         // test
@@ -80,7 +78,7 @@ public class DateEditComponentTest : TestContext
         var dateOpen = "<input";
         var dateClose = "</input>";
         var dateType = @"type=""date""";
-        var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + defDate.ToString().Replace( "+", "&#x2B;" ) + "</span>";
+        var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + defDate.ToString() + "</span>";
         var nullableOutput = @"<span id=""nullable-date-offset-event-initially-null-result""></span>";
 
         // test
@@ -136,7 +134,7 @@ public class DateEditComponentTest : TestContext
     {
         // setup
         var dateonly = new DateOnly( 2020, 4, 13 );
-        var dateOutput = @"<span id=""date-only-event-initially-undefined-result"">" + dateonly.ToString().Replace( "+", "&#x2B;" ) + "</span>";
+        var dateOutput = @"<span id=""date-only-event-initially-undefined-result"">" + dateonly.ToString() + "</span>";
         var comp = RenderComponent<DateEditComponent>();
 
         // test
@@ -152,7 +150,7 @@ public class DateEditComponentTest : TestContext
     {
         // setup
         var dateonly = new DateOnly( 2020, 4, 13 );
-        var dateOutput = @"<span id=""nullable-date-only-event-initially-null-result"">" + dateonly.ToString().Replace( "+", "&#x2B;" ) + "</span>";
+        var dateOutput = @"<span id=""nullable-date-only-event-initially-null-result"">" + dateonly.ToString() + "</span>";
         var comp = RenderComponent<DateEditComponent>();
 
         // test
@@ -168,7 +166,7 @@ public class DateEditComponentTest : TestContext
     {
         // setup
         var offset = new DateTimeOffset( new( 2020, 4, 13 ) );
-        var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + offset.ToString().Replace( "+", "&#x2B;" ) + "</span>";
+        var dateOutput = @"<span id=""date-offset-event-initially-undefined-result"">" + offset.ToString() + "</span>";
         var comp = RenderComponent<DateEditComponent>();
 
         // test
@@ -184,7 +182,7 @@ public class DateEditComponentTest : TestContext
     {
         // setup
         var offset = new DateTimeOffset( new( 2020, 4, 13 ) );
-        var dateOutput = @"<span id=""nullable-date-offset-event-initially-null-result"">" + offset.ToString().Replace( "+", "&#x2B;" ) + "</span>";
+        var dateOutput = @"<span id=""nullable-date-offset-event-initially-null-result"">" + offset.ToString() + "</span>";
         var comp = RenderComponent<DateEditComponent>();
 
         // test

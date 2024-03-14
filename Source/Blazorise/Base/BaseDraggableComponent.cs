@@ -1,8 +1,11 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise;
@@ -10,16 +13,75 @@ namespace Blazorise;
 /// <summary>
 /// Base component for all the components that needs to have drag and drop support.
 /// </summary>
-public abstract class BaseDraggableComponent : BaseComponent
+public abstract class BaseDraggableComponent : BaseComponent, IDisposable, IAsyncDisposable
 {
+    #region Members
+
+    /// <summary>
+    /// Object reference that can be accessed through the JSInterop.
+    /// </summary>
+    private DotNetObjectReference<BaseDraggableComponent> dotNetObjectRef;
+
+    /// <summary>
+    /// Is <c>true</c> if the component needs to clean up the JS ThrottleDragEvent handler on <see cref="Dispose"/> or <see cref="DisposeAsync"/>.
+    /// </summary>
+    private bool jsEventsInitialized;
+
+    #endregion
+
     #region Methods
+
+    /// <inheritdoc/>
+    protected override async Task OnFirstAfterRenderAsync()
+    {
+        if ( Draggable && ( Drag.HasDelegate || DragOver.HasDelegate ) )
+        {
+            dotNetObjectRef = CreateDotNetObjectRef( this );
+            await JSDragDropModule.InitializeThrottledDragEvents( ElementRef, ElementId, dotNetObjectRef );
+            jsEventsInitialized = true;
+        }
+        await base.OnFirstAfterRenderAsync();
+    }
+
+    /// <inheritdoc/>
+    protected override void Dispose( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( jsEventsInitialized )
+            {
+                JSDragDropModule.DestroyThrottledDragEvents( ElementRef, ElementId );
+            }
+
+            DisposeDotNetObjectRef( dotNetObjectRef );
+        }
+
+        base.Dispose( disposing );
+    }
+
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing )
+        {
+            if ( jsEventsInitialized )
+            {
+                await JSDragDropModule.DestroyThrottledDragEvents( ElementRef, ElementId );
+            }
+
+            DisposeDotNetObjectRef( dotNetObjectRef );
+        }
+
+        await base.DisposeAsync( disposing );
+    }
 
     /// <summary>
     /// Event handler for <see cref="Drag"/> event callback.
     /// </summary>
     /// <param name="eventArgs">Supplies information about an drag event that is being raised.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected virtual Task OnDragHandler( DragEventArgs eventArgs )
+    [JSInvokable]
+    public virtual Task OnDragHandler( DragEventArgs eventArgs )
     {
         return Drag.InvokeAsync( eventArgs );
     }
@@ -59,7 +121,8 @@ public abstract class BaseDraggableComponent : BaseComponent
     /// </summary>
     /// <param name="eventArgs">Supplies information about an drag event that is being raised.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    protected virtual Task OnDragOverHandler( DragEventArgs eventArgs )
+    [JSInvokable]
+    public virtual Task OnDragOverHandler( DragEventArgs eventArgs )
     {
         return DragOver.InvokeAsync( eventArgs );
     }
@@ -102,6 +165,11 @@ public abstract class BaseDraggableComponent : BaseComponent
     /// Gets the valid draggable attribute value if <see cref="Draggable"/> is enabled.
     /// </summary>
     protected string DraggableString => Draggable ? "true" : null;
+
+    /// <summary>
+    /// Gets or sets the <see cref="JSDragDropModule"/> instance.
+    /// </summary>
+    [Inject] public IJSDragDropModule JSDragDropModule { get; set; }
 
     /// <summary>
     /// Indicates whether the element can be dragged.

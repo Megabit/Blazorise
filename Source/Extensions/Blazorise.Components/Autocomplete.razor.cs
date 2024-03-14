@@ -1,4 +1,5 @@
 #region Using directives
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,11 +8,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.Components.Autocomplete;
 using Blazorise.Extensions;
+using Blazorise.Licensing;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
+
 #endregion
 
 namespace Blazorise.Components;
@@ -23,14 +26,21 @@ namespace Blazorise.Components;
 /// <typeparam name="TValue">Type of an SelectedValue field.</typeparam>
 public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAsyncDisposable
 {
-    class NullableT<T>
+    private class NullableT<T>
     {
         public NullableT( T t ) => Value = t;
+
         public T Value;
+
         public static implicit operator T( NullableT<T> nullable ) => nullable == null ? default : nullable.Value;
     }
 
     #region Members
+
+    /// <summary>
+    /// Element reference to the Autocomplete's inner virtualize.
+    /// </summary>
+    private Virtualize<TItem> virtualizeRef;
 
     /// <summary>
     /// Gets the CancellationTokenSource which could be used to issue a cancellation.
@@ -60,22 +70,27 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Allow dropdown visibility
     /// </summary>
-    bool canShowDropDown;
+    private bool canShowDropDown;
 
-    string currentSearch;
-    string currentSearchParam;
+    private string currentSearch;
+    private string currentSearchParam;
 
-    string selectedText;
-    string selectedTextParam;
+    private NullableT<TValue> selectedValue;
+    private TValue selectedValueParam;
 
-    NullableT<TValue> selectedValue;
-    TValue selectedValueParam;
+    private List<TValue> selectedValuesParam;
+    private List<string> selectedTextsParam;
 
-    List<TValue> selectedValues = new();
-    List<TValue> selectedValuesParam;
+    private Validation validationRef;
 
-    List<string> selectedTexts = new();
-    List<string> selectedTextsParam;
+    /// <summary>
+    /// Workaround for the issue where the dropdown closes when clicking on the checkbox
+    /// </summary>
+    private bool clickFromCheck;
+    /// <summary>
+    /// Workaround for the issue where the dropdown closes when clicking on the checkbox
+    /// </summary>
+    private bool focusFromCheck;
 
     #endregion
 
@@ -84,13 +99,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( parameters.TryGetValue<string>( nameof( CurrentSearch ), out var paramCurrentSearch ) && currentSearchParam != paramCurrentSearch )
+        if ( parameters.TryGetValue<string>( nameof( Search ), out var paramCurrentSearch ) && currentSearchParam != paramCurrentSearch )
         {
             currentSearch = null;
         }
 
         bool selectedValueParamChanged = false;
-        bool selectedTextParamChanged = false;
 
         if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !selectedValueParam.IsEqual( paramSelectedValue ) )
         {
@@ -98,31 +112,41 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             selectedValueParamChanged = true;
         }
 
-        if ( parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && selectedTextParam != paramSelectedText )
-        {
-            selectedText = null;
-            selectedTextParamChanged = true;
-        }
+        var selectedTextParamChanged = parameters.TryGetValue<string>( nameof( SelectedText ), out var paramSelectedText ) && SelectedText != paramSelectedText;
 
-        bool selectedValuesParamChanged = false;
-        bool selectedTextsParamChanged = false;
+        var selectedValuesParamChanged = parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues )
+            && !selectedValuesParam.AreEqualOrdered( paramSelectedValues );
 
-        if ( parameters.TryGetValue<IEnumerable<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !selectedValuesParam.AreEqualOrdered( paramSelectedValues ) )
-        {
-            selectedValuesParamChanged = true;
-            selectedValues = null;
-        }
+        var selectedTextsParamChanged = parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts )
+            && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts );
 
-        if ( parameters.TryGetValue<IEnumerable<string>>( nameof( SelectedTexts ), out var paramSelectedTexts ) && !selectedTextsParam.AreEqualOrdered( paramSelectedTexts ) )
-        {
-            selectedTextsParamChanged = true;
-            selectedTexts = null;
-        }
-
-        // set properties
         await base.SetParametersAsync( parameters );
 
-        // autoselect value based on selected text
+        await SynchronizeSingle( selectedValueParamChanged, selectedTextParamChanged );
+        await SynchronizeMultiple( selectedValuesParamChanged, selectedTextsParamChanged );
+    }
+
+    protected async ValueTask<ItemsProviderResult<TItem>> VirtualizeItemsProviderHandler( ItemsProviderRequest request )
+    {
+        // Credit to Steve Sanderson's Quickgrid implementation
+        // Debounce the requests. This eliminates a lot of redundant queries at the cost of slight lag after interactions.
+        // TODO: Consider making this configurable, or smarter (e.g., doesn't delay on first call in a batch, then the amount
+        // of delay increases if you rapidly issue repeated requests, such as when scrolling a long way)
+        await Task.Delay( 100 );
+
+        if ( request.CancellationToken.IsCancellationRequested )
+            return default;
+
+        await HandleVirtualizeReadData( request.StartIndex, request.Count, request.CancellationToken );
+
+        if ( request.CancellationToken.IsCancellationRequested )
+            return default;
+        else
+            return new( Data.ToList(), TotalItems.HasValue ? TotalItems.Value : default );
+    }
+
+    private async Task SynchronizeSingle( bool selectedValueParamChanged, bool selectedTextParamChanged )
+    {
         if ( selectedTextParamChanged && !selectedValueParamChanged )
         {
             if ( !string.IsNullOrEmpty( SelectedText ) )
@@ -148,19 +172,18 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 }
             }
 
-            if ( !IsMultiple && CurrentSearch != SelectedText )
+            if ( !IsMultiple && Search != SelectedText )
             {
                 currentSearch = SelectedText;
+                DirtyFilter();
 
                 await Task.WhenAll(
                     ResetSelectedValue(),
-                    CurrentSearchChanged.InvokeAsync( currentSearch ),
-                    SearchChanged.InvokeAsync( currentSearch )
+                    InvokeSearchChanged( currentSearch )
                 );
             }
         }
 
-        // autoselect text based on selected value
         if ( selectedValueParamChanged )
         {
             var item = GetItemByValue( SelectedValue );
@@ -171,29 +194,30 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             else
             {
                 string text = GetItemText( item );
-                if ( text != SelectedText )
+                var textAlsoChangedAndMatchesSelection = ( selectedTextParamChanged && text == SelectedText );
+                if ( text != SelectedText || textAlsoChangedAndMatchesSelection )
                 {
-                    selectedText = text;
-                    await SelectedTextChanged.InvokeAsync( selectedText );
+                    SelectedText = text;
+                    await SelectedTextChanged.InvokeAsync( SelectedText );
 
-                    if ( !IsMultiple && CurrentSearch != SelectedText && !string.IsNullOrEmpty( SelectedText ) )
+                    if ( !IsMultiple && Search != SelectedText )
                     {
                         currentSearch = SelectedText;
+                        DirtyFilter();
 
-                        await Task.WhenAll(
-                            CurrentSearchChanged.InvokeAsync( currentSearch ),
-                            SearchChanged.InvokeAsync( currentSearch )
-                        );
+                        await InvokeSearchChanged( currentSearch );
                     }
                 }
             }
         }
+    }
 
+    private async Task SynchronizeMultiple( bool selectedValuesParamChanged, bool selectedTextsParamChanged )
+    {
         List<TValue> values = null;
         List<string> texts = null;
 
-        // autoselect values based on texts
-        if ( selectedTextsParamChanged && !selectedTextsParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() && !selectedValuesParamChanged )
+        if ( selectedTextsParamChanged && selectedTextsParam is not null && !Data.IsNullOrEmpty() && !selectedValuesParamChanged )
         {
             values = Data.IntersectBy( SelectedTexts, e => GetItemText( e ) ).Select( e => GetItemValue( e ) ).ToList();
             if ( !FreeTyping )
@@ -202,29 +226,34 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             }
         }
 
-        // autoselect texts based on values
-        if ( selectedValuesParamChanged && !selectedValuesParam.IsNullOrEmpty() && !Data.IsNullOrEmpty() )
+        if ( selectedValuesParamChanged && selectedValuesParam is not null && !Data.IsNullOrEmpty() )
         {
             texts = Data.IntersectBy( SelectedValues, e => GetItemValue( e ) ).Select( e => GetItemText( e ) ).ToList();
         }
 
-        // fire change events
-        if ( !values.IsNullOrEmpty() && !SelectedValues.AreEqualOrdered( values ) )
+        if ( values is not null && !SelectedValues.AreEqualOrdered( values ) )
         {
-            selectedValues = values;
+            SelectedValues = values;
             await SelectedValuesChanged.InvokeAsync( values );
         }
 
-        if ( !texts.IsNullOrEmpty() && !SelectedTexts.AreEqualOrdered( texts ) )
+        if ( texts is not null && !SelectedTexts.AreEqualOrdered( texts ) )
         {
-            selectedTexts = texts;
+            SelectedTexts = texts;
             await SelectedTextsChanged.InvokeAsync( texts );
+        }
+
+        if ( ( selectedValuesParamChanged && values is null && SelectedValues is null ) || ( selectedTextsParamChanged && texts is null && SelectedTexts is null ) )
+        {
+            await Task.WhenAll( ResetSelectedValues(), ResetSelectedTexts() );
         }
     }
 
     /// <inheritdoc/>
     protected override async Task OnInitializedAsync()
     {
+        InputElementId = IdGenerator.Generate;
+
         ExecuteAfterRender( async () => await JSClosableModule.RegisterLight( ElementRef ) );
 
         if ( ManualReadMode )
@@ -234,13 +263,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         {
             if ( HasFilteredData )
             {
-                currentSearch = selectedText = GetItemText( FilteredData.First() );
+                currentSearch = SelectedText = GetItemText( FilteredData.First() );
                 selectedValue = new( GetItemValue( FilteredData.First() ) );
 
                 await Task.WhenAll(
-                    CurrentSearchChanged.InvokeAsync( currentSearch ),
-                    SearchChanged.InvokeAsync( currentSearch ),
-                    SelectedTextChanged.InvokeAsync( selectedText ),
+                    InvokeSearchChanged( currentSearch ),
+                    SelectedTextChanged.InvokeAsync( SelectedText ),
                     SelectedValueChanged.InvokeAsync( selectedValue )
                 );
             }
@@ -261,47 +289,28 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         //If input field is empty, clear current SelectedValue.
         if ( string.IsNullOrEmpty( text ) )
         {
-            await ResetSelected();
             await ResetCurrentSearch();
+            await ResetSelected();
 
             if ( ManualReadMode )
-                await InvokeReadData();
+                await Reload();
         }
         else
         {
             await SetCurrentSearch( text );
 
             if ( ManualReadMode )
-                await InvokeReadData();
+                await Reload();
 
-            if ( HasFilteredData && GetItemText( FilteredData.First() ) == CurrentSearch )
+            if ( !HasFilteredData )
             {
-                ActiveItemIndex = 0;
-                selectedValue = new( GetItemValue( FilteredData.First() ) );
-                selectedText = GetItemText( FilteredData.First() );
-                await Task.WhenAll(
-                    SelectedValueChanged.InvokeAsync( selectedValue ),
-                    SelectedTextChanged.InvokeAsync( selectedText )
-                );
+                await ResetActiveItemIndex();
             }
-            else
+
+            if ( FreeTyping )
             {
-                if ( !HasFilteredData )
-                {
-                    await ResetActiveItemIndex();
-                }
-
-                await ResetSelectedValue();
-
-                if ( FreeTyping )
-                {
-                    selectedText = CurrentSearch;
-                    await SelectedTextChanged.InvokeAsync( selectedText );
-                }
-                else
-                {
-                    await ResetSelectedText();
-                }
+                SelectedText = Search;
+                await SelectedTextChanged.InvokeAsync( SelectedText );
             }
         }
 
@@ -309,11 +318,13 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         if ( !HasFilteredData )
         {
-            if ( !string.IsNullOrEmpty( CurrentSearch ) )
+            if ( !string.IsNullOrEmpty( Search ) )
             {
-                await NotFound.InvokeAsync( CurrentSearch );
+                await NotFound.InvokeAsync( Search );
             }
         }
+
+        await SearchTextChanged.InvokeAsync( text );
     }
 
     /// <summary>
@@ -339,43 +350,40 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         if ( eventArgs.Code == "Escape" )
         {
             await Close();
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
-        if ( IsMultiple && string.IsNullOrEmpty( CurrentSearch ) && eventArgs.Code == "Backspace" )
+        if ( IsMultiple && string.IsNullOrEmpty( Search ) && eventArgs.Code == "Backspace" )
         {
-            await RemoveMultipleTextAndValue( SelectedTexts.LastOrDefault() );
+            await RemoveMultipleTextAndValue( SelectedTexts?.LastOrDefault() );
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
         if ( IsConfirmKey( eventArgs ) )
         {
-            if ( IsMultiple && FreeTyping && !string.IsNullOrEmpty( CurrentSearch ) && ActiveItemIndex < 0 )
+            if ( IsMultiple && FreeTyping && !string.IsNullOrEmpty( Search ) && ActiveItemIndex < 0 )
             {
-                await AddMultipleText( CurrentSearch );
+                await AddMultipleText( Search );
                 if ( CloseOnSelection )
                 {
                     await ResetCurrentSearch();
                     await Close();
                 }
+                await SearchKeyDown.InvokeAsync( eventArgs );
                 return;
             }
 
-            if ( ActiveItemIndex >= 0 )
-            {
-                var item = FilteredData[ActiveItemIndex];
-                if ( item != null && ValueField != null )
-                {
-                    await OnDropdownItemSelected( ValueField.Invoke( item ) );
-                }
-            }
-
+            await SelectedOrResetOnCommit();
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
         if ( !DropdownVisible )
         {
             await OpenDropdown();
+            await SearchKeyDown.InvokeAsync( eventArgs );
             return;
         }
 
@@ -389,6 +397,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         }
 
         await ScrollItemIntoView( Math.Max( 0, ActiveItemIndex ) );
+        await SearchKeyDown.InvokeAsync( eventArgs );
     }
 
     /// <summary>
@@ -398,11 +407,18 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextFocusHandler( FocusEventArgs eventArgs )
     {
+        if ( focusFromCheck )
+        {
+            focusFromCheck = false;
+            return;
+        }
+
         TextFocused = true;
-        if ( ManualReadMode )
-            await InvokeReadData();
+        if ( ManualReadMode || MinLength <= 0 )
+            await Reload();
 
         await OpenDropdown();
+        await SearchFocus.InvokeAsync( eventArgs );
     }
 
     /// <summary>
@@ -412,28 +428,93 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns>Returns awaitable task</returns>
     protected async Task OnTextBlurHandler( FocusEventArgs eventArgs )
     {
-        await Close();
-
-        if ( !IsMultiple )
+        if ( SelectionMode == AutocompleteSelectionMode.Checkbox )
         {
-            if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
+            //Workaround for the issue where the dropdown closes when clicking on the checkbox
+            ExecuteAfterRender( HandleBlurHandler );
+        }
+        else
+        {
+            await HandleBlurHandler();
+        }
+
+        async Task HandleBlurHandler()
+        {
+            if ( clickFromCheck )
+            {
+                clickFromCheck = false;
+                focusFromCheck = true;
+                await textEditRef.Focus();
+                return;
+            }
+            await Close();
+
+            if ( IsMultiple )
             {
                 await ResetSelected();
                 await ResetCurrentSearch();
             }
+            else
+            {
+                if ( !FreeTyping && string.IsNullOrEmpty( SelectedText ) )
+                {
+                    await ResetSelected();
+                    await ResetCurrentSearch();
+                    return;
+                }
+
+                await SelectedOrResetOnCommit();
+            }
+
+            TextFocused = false;
+
+            await SearchBlur.InvokeAsync( eventArgs );
+        }
+    }
+
+    private async Task InvokeSearchChanged( string searchValue )
+    {
+#pragma warning disable CS0618 // Type or member is obsolete
+        await Task.WhenAll(
+        CurrentSearchChanged.InvokeAsync( searchValue ),
+        SearchChanged.InvokeAsync( searchValue ) );
+#pragma warning restore CS0618 // Type or member is obsolete
+    }
+
+    private async Task SelectedOrResetOnCommit()
+    {
+        if ( ActiveItemIndex >= 0 && DropdownVisible )
+        {
+            if ( FilteredData?.Count > 0 )
+            {
+                var item = FilteredData[ActiveItemIndex];
+                if ( item != null && ValueField != null )
+                {
+                    await OnDropdownItemSelected( ValueField.Invoke( item ) );
+                }
+            }
         }
         else
         {
-            await ResetSelected();
-            await ResetCurrentSearch();
+            if ( !IsSelectedvalue( GetItemValue( Search ) ) )
+            {
+                if ( !FreeTyping )
+                {
+                    await ResetCurrentSearch();
+                    await ResetSelectedText();
+                }
+                await ResetSelectedValue();
+            }
         }
-
-        TextFocused = false;
     }
+
 
     private async Task OnDropdownItemSelected( object value )
     {
-        if ( SelectionMode == AutocompleteSelectionMode.Default )
+        clickFromCheck = ( SelectionMode == AutocompleteSelectionMode.Checkbox );
+
+        //TODO : Once Multiple is deprecated we may remove the && !IsMultiple condition
+        if ( SelectionMode == AutocompleteSelectionMode.Default && !IsMultiple )
         {
             await Close();
         }
@@ -445,18 +526,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
                 await Close();
                 await ResetCurrentSearch();
             }
-            else if ( !IsSuggestSelectedItems )
-            {
-                if ( AutoPreSelect )
-                {
-                    ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count, ActiveItemIndex ) );
-                }
-                else
-                {
-                    await ResetActiveItemIndex();
-                }
-            }
-            else
+            else if ( IsSuggestSelectedItems )
             {
                 ActiveItemIndex = FilteredData.Index( x => ValueField( x ).IsEqual( value ) );
             }
@@ -475,6 +545,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
                 await Revalidate();
             }
+            else
+            {
+                await ResyncText();
+            }
 
             return;
         }
@@ -491,22 +565,37 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         else
         {
             selectedValue = new( selectedTValue );
-            var item = GetItemByValue( selectedValue );
-            currentSearch = selectedText = GetItemText( item );
+            currentSearch = SelectedText = GetItemText( selectedValue );
             DirtyFilter();
 
             await Task.WhenAll(
                 SelectedValueChanged.InvokeAsync( selectedValue ),
-                CurrentSearchChanged.InvokeAsync( currentSearch ),
-                SearchChanged.InvokeAsync( currentSearch ),
-                SelectedTextChanged.InvokeAsync( selectedText )
+                InvokeSearchChanged( currentSearch ),
+                SelectedTextChanged.InvokeAsync( SelectedText )
             );
         }
 
+        ActiveItemIndex = Math.Max( 0, Math.Min( FilteredData.Count - 1, ActiveItemIndex ) );
         await Revalidate();
     }
 
-    protected async Task InvokeReadData( CancellationToken cancellationToken = default )
+    private async Task ResyncText()
+    {
+        var itemText = GetItemText( SelectedValue );
+        if ( Search != itemText )
+        {
+            currentSearch = itemText;
+            await InvokeSearchChanged( currentSearch );
+
+            if ( SelectedText != itemText )
+            {
+                SelectedText = itemText;
+                await SelectedTextChanged.InvokeAsync( SelectedText );
+            }
+        }
+    }
+
+    protected async Task HandleReadData( CancellationToken cancellationToken = default )
     {
         try
         {
@@ -517,7 +606,28 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
             if ( !cancellationTokenSource.Token.IsCancellationRequested && IsTextSearchable )
             {
-                await ReadData.InvokeAsync( new( CurrentSearch, cancellationTokenSource.Token ) );
+                await ReadData.InvokeAsync( new( Search, cancellationToken: cancellationTokenSource.Token ) );
+                await Task.Yield(); // rebind Data after ReadData
+            }
+        }
+        finally
+        {
+            Loading = false;
+        }
+    }
+
+    protected async Task HandleVirtualizeReadData( int startIdx, int count, CancellationToken cancellationToken )
+    {
+        try
+        {
+            cancellationTokenSource?.Cancel();
+            cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource( cancellationToken );
+
+            Loading = true;
+
+            if ( !cancellationToken.IsCancellationRequested )
+            {
+                await ReadData.InvokeAsync( new( Search, startIdx, count, cancellationToken ) );
                 await Task.Yield(); // rebind Data after ReadData
             }
         }
@@ -537,9 +647,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         if ( Loading )
             return;
 
-        if ( ManualReadMode )
+        if ( VirtualizeManualReadMode )
         {
-            await InvokeReadData( cancellationToken );
+            if ( virtualizeRef is null )
+                await InvokeAsync( () => HandleVirtualizeReadData( 0, 10, cancellationToken ) );
+            else
+                await virtualizeRef.RefreshDataAsync();
+        }
+        else if ( ManualReadMode )
+        {
+            await HandleReadData( cancellationToken );
         }
 
         DirtyFilter();
@@ -559,9 +676,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         var notifyChange = SelectedText is not null;
 
-        selectedText = null;
+        SelectedText = null;
         if ( notifyChange )
-            await SelectedTextChanged.InvokeAsync( selectedText );
+            await SelectedTextChanged.InvokeAsync( SelectedText );
     }
 
     private async Task ResetSelectedValue()
@@ -577,16 +694,13 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         currentSearch = string.Empty;
 
-        await Task.WhenAll(
-            CurrentSearchChanged.InvokeAsync( currentSearch ),
-            SearchChanged.InvokeAsync( currentSearch )
-        );
+        await InvokeSearchChanged( currentSearch );
     }
 
     private async Task ResetSelectedValues()
     {
-        selectedValues?.Clear();
-        await SelectedValuesChanged.InvokeAsync( selectedValues );
+        SelectedValues?.Clear();
+        await SelectedValuesChanged.InvokeAsync( SelectedValues );
     }
 
     private async Task ResetSelectedTexts()
@@ -599,10 +713,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         currentSearch = searchValue;
 
-        await Task.WhenAll(
-            CurrentSearchChanged.InvokeAsync( currentSearch ),
-            SearchChanged.InvokeAsync( CurrentSearch )
-        );
+        await InvokeSearchChanged( currentSearch );
     }
 
     private Task ResetActiveItemIndex()
@@ -613,6 +724,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private async Task AddMultipleValue( TValue value )
     {
+        SelectedValues ??= new();
+
         if ( !SelectedValues.Contains( value ) && value != null )
         {
             SelectedValues.Add( value );
@@ -625,7 +738,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private Task AddMultipleText( string text )
     {
-        if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( text ) )
+        SelectedTexts ??= new();
+
+        if ( !string.IsNullOrEmpty( text ) && !SelectedTexts.Contains( FreeTyping ? text.Trim() : text ) )
         {
             SelectedTexts.Add( text );
             return SelectedTextsChanged.InvokeAsync( SelectedTexts );
@@ -636,6 +751,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private async Task RemoveMultipleText( string text )
     {
+        if ( SelectedTexts is null )
+            return;
+
         SelectedTexts.Remove( text );
         await SelectedTextsChanged.InvokeAsync( SelectedTexts );
 
@@ -645,6 +763,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private async Task RemoveMultipleValue( TValue value )
     {
+        if ( SelectedValues is null )
+            return;
+
         SelectedValues.Remove( value );
         await SelectedValuesChanged.InvokeAsync( SelectedValues );
     }
@@ -669,8 +790,15 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <returns></returns>
     public async Task RemoveMultipleTextAndValue( string text )
     {
+        if ( Disabled )
+            return;
+
         await RemoveMultipleText( text );
         await RemoveMultipleValue( GetValueByText( text ) );
+
+        await validationRef.ValidateAsync();
+
+        DirtyFilter();
     }
 
     /// <summary>
@@ -682,6 +810,10 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         await RemoveMultipleText( GetItemText( value ) );
         await RemoveMultipleValue( value );
+
+        await validationRef.ValidateAsync();
+
+        DirtyFilter();
     }
 
     private void FilterData()
@@ -702,33 +834,42 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
         if ( !ManualReadMode )
         {
-            if ( IsMultiple && !IsSuggestSelectedItems )
+            if ( IsMultiple && !IsSuggestSelectedItems && !SelectedValues.IsNullOrEmpty() )
                 query = query.Where( x => !SelectedValues.Contains( ValueField.Invoke( x ) ) );
 
             if ( CustomFilter != null )
             {
                 query = from q in query
                         where q != null
-                        where CustomFilter( q, CurrentSearch )
+                        where CustomFilter( q, Search )
                         select q;
             }
             else if ( Filter == AutocompleteFilter.Contains )
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.IndexOf( CurrentSearch, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
+                        where text.IndexOf( Search, 0, StringComparison.CurrentCultureIgnoreCase ) >= 0
                         select q;
             }
             else
             {
                 query = from q in query
                         let text = GetItemText( q )
-                        where text.StartsWith( CurrentSearch, StringComparison.OrdinalIgnoreCase )
+                        where text.StartsWith( Search, StringComparison.OrdinalIgnoreCase )
                         select q;
             }
         }
 
-        filteredData = query.ToList();
+        var maxRowsLimit = LicenseChecker.GetAutoCompleteRowsLimit();
+
+        if ( maxRowsLimit.HasValue )
+        {
+            filteredData = query.Take( maxRowsLimit.Value ).ToList();
+        }
+        else
+        {
+            filteredData = query.ToList();
+        }
 
         dirtyFilter = false;
     }
@@ -822,13 +963,15 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     {
         canShowDropDown = false;
         await ResetActiveItemIndex();
+
+        await Closed.InvokeAsync( new AutocompleteClosedEventArgs( closeReason ) );
     }
 
     /// <summary>
     /// Determines if Autocomplete can be closed
     /// </summary>
     /// <returns>True if Autocomplete can be closed.</returns>
-    /// 
+    ///
     [Obsolete( "IsSafeToClose is deprecated. This API now always returns true." )]
     public Task<bool> IsSafeToClose( string elementId, CloseReason closeReason, bool isChild )
     {
@@ -839,10 +982,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Opens the <see cref="Autocomplete{TItem, TValue}"/> Dropdown.
     /// </summary>
     /// <returns></returns>
-    private Task Open()
+    private async Task Open()
     {
+        var triggerOpened = !canShowDropDown;
         canShowDropDown = true;
-        return Task.CompletedTask;
+        if ( triggerOpened )
+            await Opened.InvokeAsync();
     }
 
     /// <summary>
@@ -905,11 +1050,12 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     private string GetValidationValue()
     {
-        return FreeTyping
-            ? IsMultiple
-                ? string.Join( ';', SelectedTexts )
-                : CurrentSearch?.ToString()
-            : SelectedValue?.ToString();
+        if ( IsMultiple )
+        {
+            return SelectedTexts.IsNullOrEmpty() ? string.Empty : string.Join( ';', SelectedTexts );
+        }
+
+        return FreeTyping ? Search?.ToString() : SelectedValue?.ToString();
     }
 
     private string GetItemText( TValue value )
@@ -952,9 +1098,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <param name="value"></param>
     /// <returns></returns>
     public TItem GetItemByValue( TValue value )
-        => Data != null
-            ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
-            : default;
+        => Data is not null
+               ? Data.FirstOrDefault( x => ValueField( x ).IsEqual( value ) )
+               : default;
 
     /// <summary>
     /// Gets a <typeparamref name="TItem"/> from <see cref="Data"/> by using the provided <see cref="TextField"/>.
@@ -962,13 +1108,23 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <param name="text"></param>
     /// <returns></returns>
     public TItem GetItemByText( string text )
-        => Data != null
-            ? Data.FirstOrDefault( x => TextField( x ).IsEqual( text ) )
-            : default;
+        => Data is not null
+               ? Data.FirstOrDefault( x => TextField( x ).IsEqual( text ) )
+               : default;
 
-
+    /// <summary>
+    /// Gets a <typeparamref name="TValue"/> from <see cref="SelectedValues"/> by using the provided <see cref="TextField"/> and <see cref="ValueField"/>.
+    /// </summary>
+    /// <param name="text"></param>
+    /// <returns></returns>
     private TValue GetValueByText( string text )
-        => SelectedValues.FirstOrDefault( x => GetItemText( x ) == text );
+        => SelectedValues is not null
+        ? SelectedValues.FirstOrDefault( x => GetItemText( x ) == text )
+        : default;
+
+    private Color GetMultipleBadgeColor() => Disabled
+        ? MultipleDisabledBadgeColor
+        : MultipleBadgeColor;
 
     #endregion
 
@@ -985,6 +1141,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     public bool ManualReadMode => ReadData.HasDelegate;
 
     /// <summary>
+    /// True if user is using <see cref="ReadData"/> and <see cref="Virtualize"/> for loading the data.
+    /// </summary>
+    public bool VirtualizeManualReadMode => ReadData.HasDelegate && Virtualize;
+
+    /// <summary>
     /// Returns true if ReadData will be invoked.
     /// </summary>
     protected bool Loading { get; set; }
@@ -993,6 +1154,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets the Element Reference
     /// </summary>
     public ElementReference ElementRef => textEditRef.ElementRef;
+
+    /// <summary>
+    /// Gets the Element Id
+    /// </summary>
+    public string InputElementId { get; private set; }
 
     /// <summary>
     /// Gets the dropdown CSS styles.
@@ -1037,10 +1203,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         => !FreeTyping && canShowDropDown && NotFoundContent is not null && IsTextSearchable && !Loading && !HasFilteredData;
 
     /// <summary>
+    /// True if the free typing not found content should be visible.
+    /// </summary>
+    protected bool FreeTypingNotFoundVisible
+        => FreeTyping && canShowDropDown && FreeTypingNotFoundTemplate is not null && IsTextSearchable && !Loading && !HasFilteredData;
+
+    /// <summary>
     /// True if the text complies to the search requirements
     /// </summary>
     protected bool IsTextSearchable
-        => CurrentSearch?.Length >= MinLength;
+        => Search?.Length >= MinLength;
 
     /// <summary>
     /// True if the filtered data exists
@@ -1058,12 +1230,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets the custom class-names for dropdown element.
     /// </summary>
     protected string DropdownItemClassNames( int index )
-        => $"b-is-autocomplete-suggestion {( ActiveItemIndex == index ? "focus" : string.Empty )}";
-
-    /// <summary>
-    /// Gets the custom class-names for checkbox element.
-    /// </summary>
-    protected string DropdownCheckboxItemClassNames = $"b-is-autocomplete-suggestion-checkbox";
+        => $"b-is-autocomplete-suggestion {( ActiveItemIndex == index ? "focus" : string.Empty )} {( SelectionMode == AutocompleteSelectionMode.Checkbox ? "b-is-autocomplete-suggestion-checkbox" : string.Empty )}";
 
     /// <summary>
     /// Provides an index based id for the dropdown suggestion items.
@@ -1074,7 +1241,9 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// <summary>
     /// Tracks whether the Autocomplete is in a multiple selection state.
     /// </summary>
+#pragma warning disable CS0618 // Type or member is obsolete
     protected bool IsMultiple => Multiple || SelectionMode == AutocompleteSelectionMode.Multiple || SelectionMode == AutocompleteSelectionMode.Checkbox;
+#pragma warning restore CS0618 // Type or member is obsolete
 
     /// <summary>
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.
@@ -1087,6 +1256,16 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Inject] public IJSUtilitiesModule JSUtilitiesModule { get; set; }
 
     /// <summary>
+    /// Gets or set the IdGenerator.
+    /// </summary>
+    [Inject] public IIdGenerator IdGenerator { get; set; }
+
+    /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
     /// Gets or sets the dropdown element id.
     /// </summary>
     [Parameter] public string ElementId { get; set; }
@@ -1097,7 +1276,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public AutocompleteFilter Filter { get; set; } = AutocompleteFilter.StartsWith;
 
     /// <summary>
-    /// The minimum number of characters a user must type before a search is performed.
+    /// The minimum number of characters a user must type before a search is performed. Set this to 0 to make the Autocomplete function like a dropdown.
     /// </summary>
     [Parameter] public int MinLength { get; set; } = 1;
 
@@ -1151,9 +1330,19 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public EventCallback<AutocompleteReadDataEventArgs> ReadData { get; set; }
 
     /// <summary>
+    /// Event handler used to detect when the autocomplete is closed.
+    /// </summary>
+    [Parameter] public EventCallback<AutocompleteClosedEventArgs> Closed { get; set; }
+
+    /// <summary>
+    /// Event handler used to detect when the autocomplete is opened.
+    /// </summary>
+    [Parameter] public EventCallback Opened { get; set; }
+
+    /// <summary>
     /// Gets the data after all of the filters have being applied.
     /// </summary>
-    protected IReadOnlyList<TItem> FilteredData
+    protected IList<TItem> FilteredData
     {
         get
         {
@@ -1166,7 +1355,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 
     /// <summary>
     /// Allows the value to not be on the data source.
-    /// The value will be bound to the <see cref="CurrentSearch"/>
+    /// The value will be bound to the <see cref="SelectedText"/>
     /// </summary>
     [Parameter] public bool FreeTyping { get; set; }
 
@@ -1202,11 +1391,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets or sets the currently selected item text.
     /// </summary>
     [Parameter]
-    public string SelectedText
-    {
-        get => selectedText ?? selectedTextParam;
-        set => selectedTextParam = value;
-    }
+    public string SelectedText { get; set; }
 
     /// <summary>
     /// Gets or sets the currently selected item text.
@@ -1220,8 +1405,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Obsolete( "CurrentSearch is deprecated and will be removed in a future version, please use Search instead." )]
     public string CurrentSearch
     {
-        get => currentSearch ?? currentSearchParam ?? string.Empty;
-        set => currentSearchParam = value;
+        get => Search;
+        set => Search = value;
     }
 
     /// <summary>
@@ -1236,8 +1421,8 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter]
     public string Search
     {
-        get => CurrentSearch;
-        set => CurrentSearch = value;
+        get => currentSearch ?? currentSearchParam ?? string.Empty;
+        set => currentSearchParam = value;
     }
 
     /// <summary>
@@ -1246,13 +1431,38 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public EventCallback<string> SearchChanged { get; set; }
 
     /// <summary>
+    /// If true, the searched text will be highlighted in the dropdown list items based on <see cref="Search"/> value.
+    /// </summary>
+    [Parameter] public bool HighlightSearch { get; set; }
+
+    /// <summary>
+    /// Defines the background color of the search field.
+    /// </summary>
+    [Parameter] public Background SearchBackground { get; set; }
+
+    /// <summary>
+    /// Defines the text color of the search field.
+    /// </summary>
+    [Parameter] public TextColor SearchTextColor { get; set; }
+
+    /// <summary>
+    /// Defines class for search field.
+    /// </summary>
+    [Parameter] public string SearchClass { get; set; }
+
+    /// <summary>
+    /// Defines style for search field.
+    /// </summary>
+    [Parameter] public string SearchStyle { get; set; }
+
+    /// <summary>
     /// Currently selected items values.
     /// Used when multiple selection is set.
     /// </summary>
     [Parameter]
     public List<TValue> SelectedValues
     {
-        get => selectedValuesParam ?? ( selectedValues ??= new() );
+        get => selectedValuesParam;
         set => selectedValuesParam = ( value == null ? null : new( value ) );
     }
 
@@ -1269,7 +1479,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter]
     public List<string> SelectedTexts
     {
-        get => selectedTextsParam ?? ( selectedTexts ??= new() );
+        get => selectedTextsParam;
         set => selectedTextsParam = ( value == null ? null : new( value ) );
     }
 
@@ -1339,6 +1549,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public RenderFragment<string> NotFoundContent { get; set; }
 
     /// <summary>
+    /// Specifies the not found content to be rendered inside this <see cref="Autocomplete{TItem, TValue}"/> when no data is found and FreeTyping is enabled.
+    /// </summary>
+    [Parameter] public RenderFragment<string> FreeTypingNotFoundTemplate { get; set; }
+
+    /// <summary>
     /// Occurs on every search text change where the data does not contain the text being searched.
     /// </summary>
     [Parameter] public EventCallback<string> NotFound { get; set; }
@@ -1355,10 +1570,14 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     [Parameter] public bool Multiple { get; set; }
 
     /// <summary>
-    /// Sets the Badge color for the multiple selection values.
-    /// Used when multiple selection is set.
+    /// Sets the Badge color for the multiple selection values. Used when multiple selection is set.
     /// </summary>
     [Parameter] public Color MultipleBadgeColor { get; set; } = Color.Primary;
+
+    /// <summary>
+    /// Sets the disabled Badge color for the multiple selection values. Used when multiple selection is set.
+    /// </summary>
+    [Parameter] public Color MultipleDisabledBadgeColor { get; set; } = Color.Light;
 
     /// <summary>
     /// Specifies the item content to be rendered inside each dropdown item.
@@ -1402,6 +1621,49 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets or sets the whether first item in the list should be selected
     /// </summary>
     [Parameter] public bool AutoSelectFirstItem { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the Autocomplete will use the Virtualize functionality.
+    /// </summary>
+    [Parameter] public bool Virtualize { get; set; }
+
+    /// <summary>
+    /// Gets or sets the total number of items. Used only when <see cref="ReadData"/> and <see cref="Virtualize"/> is used to load the data.
+    /// </summary>
+    /// <remarks>
+    /// This field must be set only when <see cref="ReadData"/> and <see cref="Virtualize"/> is used to load the data.
+    /// </remarks>
+    [Parameter] public int? TotalItems { get; set; }
+
+    /// <summary>
+    /// Specifies the content to be rendered for each tag (multiple selected item).
+    /// </summary>
+    [Parameter] public RenderFragment<AutocompleteTagContext<TItem, TValue>> TagTemplate { get; set; }
+
+    /// <summary>
+    /// Occurs after the search box text has changed.
+    /// </summary>
+    [Parameter] public EventCallback<string> SearchTextChanged { get; set; }
+
+    /// <summary>
+    /// Occurs when a key is pressed down while the search box has focus.
+    /// </summary>
+    [Parameter] public EventCallback<KeyboardEventArgs> SearchKeyDown { get; set; }
+
+    /// <summary>
+    /// Occurs when the search box gains or loses focus.
+    /// </summary>
+    [Parameter] public EventCallback<FocusEventArgs> SearchFocus { get; set; }
+
+    /// <summary>
+    /// The blur event fires when the search box has lost focus.
+    /// </summary>
+    [Parameter] public EventCallback<FocusEventArgs> SearchBlur { get; set; }
+
+    /// <summary>
+    /// Defines the positioning strategy of the dropdown menu as a 'floating' element.
+    /// </summary>
+    [Parameter] public DropdownPositionStrategy PositionStrategy { get; set; } = DropdownPositionStrategy.Absolute;
 
     #endregion
 }

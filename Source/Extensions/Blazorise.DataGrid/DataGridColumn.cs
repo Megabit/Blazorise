@@ -1,13 +1,13 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Blazorise.DataGrid.Utils;
-using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.JSInterop;
 #endregion
 
 namespace Blazorise.DataGrid;
@@ -16,13 +16,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 {
     #region Members
 
-    private readonly Lazy<Func<Type>> valueTypeGetter;
-    private readonly Lazy<Func<object>> defaultValueByType;
-    private readonly Lazy<Func<TItem, object>> valueGetter;
-    private readonly Lazy<Action<TItem, object>> valueSetter;
-    private readonly Lazy<Func<TItem, object>> sortFieldGetter;
+    protected readonly Lazy<Func<Type>> valueTypeGetter;
+    protected readonly Lazy<Func<object>> defaultValueByType;
+    protected readonly Lazy<Func<TItem, object>> valueGetter;
+    protected readonly Lazy<Action<TItem, object>> valueSetter;
+    protected readonly Lazy<Func<TItem, object>> sortFieldGetter;
 
     private Dictionary<DataGridSortMode, SortDirection> currentSortDirection { get; set; } = new();
+
+    /// <summary>
+    /// FilterMethod can come from programatically defined Parameter or explicitly by the user through the interface.
+    /// </summary>
+    private DataGridColumnFilterMethod? currentFilterMethod;
 
     #endregion
 
@@ -38,23 +43,50 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         sortFieldGetter = new( () => FunctionCompiler.CreateValueGetter<TItem>( SortField ) );
     }
 
+
     #endregion
 
     #region Methods
+
+    /// <summary>
+    /// Initializes the default values for this column.
+    /// </summary>
+    private void InitializeDefaults()
+    {
+        Displaying = Displayable;
+        currentSortDirection[DataGridSortMode.Single] = SortDirection;
+        currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
+        currentFilterMethod = FilterMethod;
+
+        Filter?.Subscribe( OnSearchValueChanged );
+    }
+
+
+    /// <summary>
+    /// Provides a way to generate column specific dependencies outside the Blazor engine.
+    /// </summary>
+    /// <param name="parentDataGrid"></param>
+    /// <param name="serviceProvider"></param>
+    internal void InitializeGeneratedColumn( DataGrid<TItem> parentDataGrid, IServiceProvider serviceProvider )
+    {
+        this.ParentDataGrid = parentDataGrid;
+        this.JSRuntime = serviceProvider.GetRequiredService<IJSRuntime>();
+        this.VersionProvider = serviceProvider.GetRequiredService<IVersionProvider>();
+        this.ClassProvider = serviceProvider.GetRequiredService<IClassProvider>();
+        this.IdGenerator = serviceProvider.GetRequiredService<IIdGenerator>();
+
+        base.OnInitialized();
+
+        InitializeDefaults();
+    }
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
 
-        currentSortDirection[DataGridSortMode.Single] = SortDirection;
-        currentSortDirection[DataGridSortMode.Multiple] = SortDirection;
+        InitializeDefaults();
 
-        if ( ParentDataGrid != null )
-        {
-            ParentDataGrid.AddColumn( this );
-
-            Filter?.Subscribe( OnSearchValueChanged );
-        }
+        ParentDataGrid?.AddColumn( this, true );
     }
 
     /// <inheritdoc/>
@@ -70,7 +102,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     private void DisposeSubscriptions()
     {
-        ParentDataGrid.RemoveColumn( this );
+        ParentDataGrid?.RemoveColumn( this );
 
         if ( Filter is not null )
         {
@@ -106,7 +138,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to get the value.</param>
     /// <returns></returns>
-    internal object GetValue( TItem item )
+    protected internal object GetValue( TItem item )
         => !string.IsNullOrEmpty( Field )
             ? valueGetter.Value( item )
             : default;
@@ -116,7 +148,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to set the value.</param>
     /// <param name="value">Value to set.</param>
-    internal void SetValue( TItem item, object value )
+    protected internal virtual void SetValue( TItem item, object value )
     {
         if ( !string.IsNullOrEmpty( Field ) )
             valueSetter.Value( item, value );
@@ -127,7 +159,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// </summary>
     /// <param name="item">Item for which to get the value.</param>
     /// <returns></returns>
-    internal object GetSortValue( TItem item )
+    protected internal object GetSortValue( TItem item )
         => sortFieldGetter.Value( item );
 
     /// <summary>
@@ -154,6 +186,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     internal string GetFieldToSort()
         => string.IsNullOrEmpty( SortField ) ? Field : SortField;
 
+    /// <summary>
+    /// Gets the GroupBy Func to be applied.
+    /// </summary>
+    /// <returns></returns>
+    internal Func<TItem, object> GetGroupByFunc()
+        => GroupBy is not null ? GroupBy : valueGetter.Value;
+
     public string FormatDisplayValue( TItem item )
     {
         return FormatDisplayValue( GetValue( item ) );
@@ -166,6 +205,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
                  || ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit ) );
     }
 
+    internal string BuildHeaderCellClass()
+    {
+        var sb = new StringBuilder();
+
+        if ( !string.IsNullOrEmpty( HeaderCellClass ) )
+            sb.Append( HeaderCellClass );
+
+        sb.Append( $" {ClassProvider.DropdownFixedHeaderVisible( DropdownFilterVisible && ParentDataGrid.IsFixedHeader )}" );
+
+        return sb.ToString().TrimStart( ' ' );
+    }
+
     internal string BuildHeaderCellStyle()
     {
         var sb = new StringBuilder();
@@ -173,7 +224,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( HeaderCellStyle ) )
             sb.Append( HeaderCellStyle );
 
-        if ( Width != null )
+        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
             sb.Append( $"; width: {Width};" );
 
         return sb.ToString().TrimStart( ' ', ';' );
@@ -186,35 +237,47 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         if ( !string.IsNullOrEmpty( FilterCellStyle ) )
             sb.Append( FilterCellStyle );
 
-        if ( Width != null )
+        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
             sb.Append( $"; width: {Width};" );
 
         return sb.ToString().TrimStart( ' ', ';' );
     }
 
-    internal string BuildGroupCellStyle()
+    internal string BuildAggregateCellStyle()
     {
         var sb = new StringBuilder();
 
-        if ( !string.IsNullOrEmpty( GroupCellStyle ) )
-            sb.Append( GroupCellStyle );
+        if ( !string.IsNullOrEmpty( AggregateCellStyle ) )
+            sb.Append( AggregateCellStyle );
 
-        if ( Width != null )
+        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
             sb.Append( $"; width: {Width};" );
 
         return sb.ToString().TrimStart( ' ', ';' );
+    }
+
+    internal IFluentSizing BuildCellFluentSizing()
+    {
+        if ( Width is not null && FixedPosition != TableColumnFixedPosition.None )
+        {
+            return Blazorise.Width.Px( int.Parse( Width.Replace( "px", string.Empty ) ) );
+        }
+
+        return null;
     }
 
     internal string BuildCellStyle( TItem item )
     {
         var sb = new StringBuilder();
 
+#pragma warning disable CS0618 // Type or member is obsolete : Temporary retro compatibility usage
         var result = CellStyle?.Invoke( item );
+#pragma warning restore CS0618 // Type or member is obsolete
 
         if ( !string.IsNullOrEmpty( result ) )
             sb.Append( result );
 
-        if ( Width != null )
+        if ( Width != null && FixedPosition == TableColumnFixedPosition.None )
             sb.Append( $"; width: {Width}" );
 
         return sb.ToString().TrimStart( ' ', ';' );
@@ -229,41 +292,199 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         return SortOrderChanged.InvokeAsync( sortOrder );
     }
 
+    internal void SetFilterMethod( DataGridColumnFilterMethod? filterMethod )
+    {
+        currentFilterMethod = filterMethod;
+    }
+
+    internal DataGridColumnFilterMethod? GetFilterMethod()
+    {
+        return currentFilterMethod;
+    }
+
+    internal DataGridColumnFilterMethod GetDataGridFilterMethodAsColumn()
+    {
+        return ParentDataGrid.FilterMethod == DataGridFilterMethod.Contains ? DataGridColumnFilterMethod.Contains
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.StartsWith ? DataGridColumnFilterMethod.StartsWith
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.EndsWith ? DataGridColumnFilterMethod.EndsWith
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.Equals ? DataGridColumnFilterMethod.Equals
+            : ParentDataGrid.FilterMethod == DataGridFilterMethod.NotEquals ? DataGridColumnFilterMethod.NotEquals
+            : DataGridColumnFilterMethod.Contains;
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets or sets whether column is displaying.
+    /// </summary>
+    public bool Displaying { get; internal set; }
+
+    /// <summary>
+    /// Whether the cell is currently being edited.
+    /// </summary>
+    public bool CellEditing { get; internal set; }
+
+    /// <summary>
+    /// Determines the text alignment for the filter cell.
+    /// </summary>
+    /// <returns>Text alignment value.</returns>
+    internal TextAlignment FilterCellTextAlignment
+       => FilterTextAlignment ?? TextAlignment;
+
+    /// <summary>
+    /// Determines the vertical alignment for the filter cell.
+    /// </summary>
+    /// <returns>Vertical alignment value.</returns>
+    internal VerticalAlignment FilterCellVerticalAlignment
+      => FilterVerticalAlignment ?? VerticalAlignment;
+
+    /// <summary>
+    /// Determines the display for the filter cell.
+    /// </summary>
+    /// <returns>Display value.</returns>
+    internal IFluentDisplay FilterCellDisplay
+        => FilterDisplay ?? Display;
+
+    /// <summary>
+    /// Determines the flex for the filter cell.
+    /// </summary>
+    /// <returns>Flex value.</returns>
+    internal IFluentFlex FilterCellFlex
+        => FilterFlex ?? Flex;
+
+    /// <summary>
+    /// Determines the gap for the filter cell.
+    /// </summary>
+    /// <returns>Gap value.</returns>
+    internal IFluentGap FilterCellGap
+        => FilterGap ?? Gap;
 
     /// <summary>
     /// Builds the Filter cell background.
     /// IsFixedHeader feature needs to apply background color to columns. This makes sure to syncronize with the DataGrid header styling helpers.
     /// </summary>
     /// <returns></returns>
-    internal Background FilterCellBackground()
+    internal Background FilterCellBackground
         => ParentDataGrid.IsFixedHeader ? ( ParentDataGrid.FilterRowStyling?.Background ?? Background.Default ) : Background.Default;
 
     /// <summary>
-    /// Builds the Header cell background.
-    /// IsFixedHeader feature needs to apply background color to columns. This makes sure to syncronize with the DataGrid header styling helpers.
+    /// Determines the text alignment for the header cell.
     /// </summary>
-    /// <returns></returns>
-    internal Background HeaderCellBackground()
+    /// <returns>Text alignment value.</returns>
+    internal TextAlignment HeaderCellTextAlignment
+       => HeaderTextAlignment ?? TextAlignment;
+
+    /// <summary>
+    /// Determines the vertical alignment for the header cell.
+    /// </summary>
+    /// <returns>Vertical alignment value.</returns>
+    internal VerticalAlignment HeaderCellVerticalAlignment
+      => HeaderVerticalAlignment ?? VerticalAlignment;
+
+    /// <summary>
+    /// Determines the display for the header cell.
+    /// </summary>
+    /// <returns>Display value.</returns>
+    internal IFluentDisplay HeaderCellDisplay
+        => HeaderDisplay ?? Display;
+
+    /// <summary>
+    /// Determines the flex for the header cell.
+    /// </summary>
+    /// <returns>Flex value.</returns>
+    internal IFluentFlex HeaderCellFlex
+        => HeaderFlex ?? Flex;
+
+    /// <summary>
+    /// Determines the gap for the header cell.
+    /// </summary>
+    /// <returns>Gap value.</returns>
+    internal IFluentGap HeaderCellGap
+        => HeaderGap ?? Gap;
+
+    /// <summary>
+    /// Builds the Header cell background.
+    /// </summary>
+    /// <remarks>
+    /// IsFixedHeader feature needs to apply background color to columns. This makes sure to syncronize with the DataGrid header styling helpers.
+    /// </remarks>
+    /// <returns>Background color.</returns>
+    internal Background HeaderCellBackground
         => ParentDataGrid.IsFixedHeader ? ( ParentDataGrid.HeaderRowStyling?.Background ?? Background.Default ) : Background.Default;
+
+    /// <summary>
+    /// Determines the text alignment for the aggregate cell.
+    /// </summary>
+    /// <returns>Text alignment value.</returns>
+    internal TextAlignment AggregateCellTextAlignment
+       => AggregateTextAlignment ?? TextAlignment;
+
+    /// <summary>
+    /// Determines the vertical alignment for the aggregate cell.
+    /// </summary>
+    /// <returns>Vertical alignment value.</returns>
+    internal VerticalAlignment AggregateCellVerticalAlignment
+      => AggregateVerticalAlignment ?? VerticalAlignment;
+
+    /// <summary>
+    /// Determines the display for the aggregate cell.
+    /// </summary>
+    /// <returns>Display value.</returns>
+    internal IFluentDisplay AggregateCellDisplay
+        => AggregateDisplay ?? Display;
+
+    /// <summary>
+    /// Determines the flex for the aggregate cell.
+    /// </summary>
+    /// <returns>Flex value.</returns>
+    internal IFluentFlex AggregateCellFlex
+        => AggregateFlex ?? Flex;
+
+    /// <summary>
+    /// Determines the gap for the aggregate cell.
+    /// </summary>
+    /// <returns>Gap value.</returns>
+    internal IFluentGap AggregateCellGap
+        => AggregateGap ?? Gap;
 
     internal bool IsDisplayable => ( ColumnType == DataGridColumnType.Command && ParentDataGrid.EditMode == DataGridEditMode.Inline );
 
-    internal bool ExcludeFromFilter => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+    internal bool IsRegularColumn => !( ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect );
 
-    internal bool ExcludeFromEdit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+    internal bool ExcludeFromFilter => !IsRegularColumn;
 
-    internal bool ExcludeFromInit => ColumnType == DataGridColumnType.Command || ColumnType == DataGridColumnType.MultiSelect;
+    internal bool ExcludeFromEdit => !IsRegularColumn;
+
+    internal bool ExcludeFromInit => !IsRegularColumn;
+
+    /// <summary>
+    /// Tracks whether the dropdown filter is visible for this column.
+    /// </summary>
+    internal bool DropdownFilterVisible;
 
     /// <summary>
     /// Returns true if the cell value is editable.
     /// </summary>
     public bool CellValueIsEditable
         => Editable &&
-           ( ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
-             || ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit ) );
+           (
+                ( ParentDataGrid.EditState == DataGridEditState.Edit && ParentDataGrid.EditMode == DataGridEditMode.Cell && CellEditing
+                    && IsCellEditablePerCommand )
+                ||
+                ( ParentDataGrid.EditMode != DataGridEditMode.Cell
+                    || ( ParentDataGrid.EditState == DataGridEditState.New && ParentDataGrid.EditMode == DataGridEditMode.Cell ) //We don't have data, let's keep a regular editable row for New.
+                    && IsCellEditablePerCommand
+                )
+            );
+
+    protected bool IsCellEditablePerCommand
+        => (
+                        ( CellsEditableOnNewCommand && ParentDataGrid.EditState == DataGridEditState.New )
+                        ||
+                        ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit )
+                        );
 
     /// <summary>
     /// Gets or sets the current sort direction.
@@ -308,9 +529,39 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public DataGridColumnCustomFilter CustomFilter { get; set; }
 
     /// <summary>
+    /// Defines the alignment for column filter cell.
+    /// </summary>
+    [Parameter] public TextAlignment? FilterTextAlignment { get; set; }
+
+    /// <summary>
+    /// Defines the vertical alignment for column filter cell.
+    /// </summary>
+    [Parameter] public VerticalAlignment? FilterVerticalAlignment { get; set; }
+
+    /// <summary>
+    /// Specifies the display behavior of a filter cell.
+    /// </summary>
+    [Parameter] public IFluentDisplay FilterDisplay { get; set; }
+
+    /// <summary>
+    /// Specifies the flex utility of a filter cell.
+    /// </summary>
+    [Parameter] public IFluentFlex FilterFlex { get; set; }
+
+    /// <summary>
+    /// Specifies the gap utility of a filter cell.
+    /// </summary>
+    [Parameter] public IFluentGap FilterGap { get; set; }
+
+    /// <summary>
     /// Gets or sets the column initial sort direction.
     /// </summary>
     [Parameter] public SortDirection SortDirection { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the sort direction will be reversed.
+    /// </summary>
+    [Parameter] public bool ReverseSorting { get; set; }
 
     /// <summary>
     /// Gets or sets the column's display sort direction template.
@@ -328,24 +579,44 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public VerticalAlignment VerticalAlignment { get; set; }
 
     /// <summary>
-    /// Specifies the display behavior of a cell.
+    /// Specifies the display utility of a cell.
     /// </summary>
     [Parameter] public IFluentDisplay Display { get; set; }
 
     /// <summary>
+    /// Specifies the flex utility of a cell.
+    /// </summary>
+    [Parameter] public IFluentFlex Flex { get; set; }
+
+    /// <summary>
+    /// Specifies the gap utility of a cell.
+    /// </summary>
+    [Parameter] public IFluentGap Gap { get; set; }
+
+    /// <summary>
     /// Defines the alignment for column header cell.
     /// </summary>
-    [Parameter] public TextAlignment HeaderTextAlignment { get; set; }
+    [Parameter] public TextAlignment? HeaderTextAlignment { get; set; }
 
     /// <summary>
     /// Defines the vertical alignment for column header cell.
     /// </summary>
-    [Parameter] public VerticalAlignment HeaderVerticalAlignment { get; set; }
+    [Parameter] public VerticalAlignment? HeaderVerticalAlignment { get; set; }
 
     /// <summary>
     /// Specifies the display behavior of a header cell.
     /// </summary>
     [Parameter] public IFluentDisplay HeaderDisplay { get; set; }
+
+    /// <summary>
+    /// Specifies the flex utility of a header cell.
+    /// </summary>
+    [Parameter] public IFluentFlex HeaderFlex { get; set; }
+
+    /// <summary>
+    /// Specifies the gap utility of a header cell.
+    /// </summary>
+    [Parameter] public IFluentGap HeaderGap { get; set; }
 
     /// <summary>
     /// Gets or sets whether users can edit cell values under this column.
@@ -398,6 +669,21 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public bool Filterable { get; set; } = true;
 
     /// <summary>
+    /// Gets or sets whether the column is eligible to be used as a Group Field. A custom <see cref="GroupBy"/> function can however be provided.
+    /// </summary>
+    [Parameter] public bool Groupable { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the column should start grouped.
+    /// </summary>
+    [Parameter] public bool Grouping { get; set; }
+
+    /// <summary>
+    /// Gets or sets a custom GroupBy function. <see cref="Groupable"/> needs to be active.
+    /// </summary>
+    [Parameter] public Func<TItem, object> GroupBy { get; set; }
+
+    /// <summary>
     /// The width of the column.
     /// </summary>
     [Parameter] public string Width { get; set; }
@@ -405,12 +691,12 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Custom classname handler for cell based on the current row item.
     /// </summary>
-    [Parameter] public Func<TItem, string> CellClass { get; set; }
+    [Obsolete( "DataGridColumn: The CellClass parameter is deprecated, please use the DataGrid.CellStyling parameter." )][Parameter] public Func<TItem, string> CellClass { get; set; }
 
     /// <summary>
     /// Custom style handler for cell based on the current row item.
     /// </summary>
-    [Parameter] public Func<TItem, string> CellStyle { get; set; }
+    [Obsolete( "DataGridColumn: The CellStyle parameter is deprecated, please use the DataGrid.CellStyling parameter." )][Parameter] public Func<TItem, string> CellStyle { get; set; }
 
     /// <summary>
     /// Custom classname for header cell.
@@ -433,14 +719,56 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     [Parameter] public string FilterCellStyle { get; set; }
 
     /// <summary>
-    /// Custom classname for group cell.
+    /// Custom classname for the aggregate cell.
     /// </summary>
-    [Parameter] public string GroupCellClass { get; set; }
+    [Obsolete( "DataGridColumn: The GroupCellClass parameter is deprecated, please use the AggregateCellClass parameter instead." )]
+    [Parameter] public string GroupCellClass { get => AggregateCellClass; set => AggregateCellClass = value; }
 
     /// <summary>
-    /// Custom style for group cell.
+    /// Custom style for the aggregate cell.
     /// </summary>
-    [Parameter] public string GroupCellStyle { get; set; }
+    [Obsolete( "DataGridColumn: The GroupCellStyle parameter is deprecated, please use the AggregateCellStyle parameter instead." )]
+    [Parameter] public string GroupCellStyle { get => AggregateCellStyle; set => AggregateCellStyle = value; }
+
+    /// <summary>
+    /// Custom classname for the aggregate cell.
+    /// </summary>
+    [Parameter] public string AggregateCellClass { get; set; }
+
+    /// <summary>
+    /// Custom style for the aggregate cell.
+    /// </summary>
+    [Parameter] public string AggregateCellStyle { get; set; }
+
+    /// <summary>
+    /// Defines the alignment for column the aggregate cell.
+    /// </summary>
+    [Parameter] public TextAlignment? AggregateTextAlignment { get; set; }
+
+    /// <summary>
+    /// Defines the vertical alignment for column the aggregate cell.
+    /// </summary>
+    [Parameter] public VerticalAlignment? AggregateVerticalAlignment { get; set; }
+
+    /// <summary>
+    /// Specifies the display behavior of a the aggregate cell.
+    /// </summary>
+    [Parameter] public IFluentDisplay AggregateDisplay { get; set; }
+
+    /// <summary>
+    /// Specifies the flex utility of a the aggregate cell.
+    /// </summary>
+    [Parameter] public IFluentFlex AggregateFlex { get; set; }
+
+    /// <summary>
+    /// Specifies the gap utility of a the aggregate cell.
+    /// </summary>
+    [Parameter] public IFluentGap AggregateGap { get; set; }
+
+    /// <summary>
+    /// Template for aggregate values.
+    /// </summary>
+    [Parameter] public RenderFragment<AggregateContext<TItem>> AggregateTemplate { get; set; }
 
     /// <summary>
     /// Template for custom cell display formatting.
@@ -455,7 +783,13 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Defines the size of field for popup modal.
     /// </summary>
-    [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; } = ColumnSize.IsHalf.OnDesktop;
+    [Obsolete( "DataGridColumn: PopupFieldColumnSize is deprecated and will be removed in the future version. Please use the EditFieldColumnSize instead." )]
+    [Parameter] public IFluentColumn PopupFieldColumnSize { get; set; }
+
+    /// <summary>
+    /// Defines the size of an edit field for popup modal and edit form.
+    /// </summary>
+    [Parameter] public IFluentColumn EditFieldColumnSize { get; set; }
 
     /// <summary>
     /// Template for custom cell editing.
@@ -496,6 +830,39 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// Raises an event every time that <see cref="SortOrder"/> is changed.
     /// </summary>
     [Parameter] public EventCallback<int> SortOrderChanged { get; set; }
+
+    /// <summary>
+    /// Template for custom group.
+    /// </summary>
+    [Parameter] public RenderFragment<GroupContext<TItem>> GroupTemplate { get; set; }
+
+    /// <summary>
+    /// <para>Sets the filter method to be used for filtering the column.</para>
+    /// <para>If null, uses the <see cref="DataGrid{TItem}.FilterMethod" /> </para>
+    /// </summary>
+    [Parameter] public DataGridColumnFilterMethod? FilterMethod { get; set; }
+
+    /// <summary>
+    /// <para>Defines the caption to be displayed for a group header.</para>
+    /// <para>If set, all the column headers that are part of the group will be grouped under this caption.</para>
+    /// </summary>
+    [Parameter] public string HeaderGroupCaption { get; set; }
+
+    /// <summary>
+    /// Sets the help-text positioned below the field input when editing.
+    /// </summary>
+    [Parameter] public string HelpText { get; set; }
+
+    /// <summary>
+    /// <para>Gets or sets the filter mode for the column.</para>
+    /// <para>If set, this overrides the <see cref="DataGrid{TItem}.FilterMethod" />.</para>
+    /// </summary>
+    [Parameter] public DataGridFilterMode? FilterMode { get; set; }
+
+    /// <summary>
+    /// Defines the fixed position of the row cell within the table.
+    /// </summary>
+    [Parameter] public TableColumnFixedPosition FixedPosition { get; set; }
 
     #endregion
 }

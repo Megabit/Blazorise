@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
@@ -95,10 +96,10 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.Bar() );
-        builder.Append( ClassProvider.BarInitial( initial && Mode != BarMode.Horizontal ) );
-        builder.Append( ClassProvider.BarThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
-        builder.Append( ClassProvider.BarBreakpoint( Breakpoint ), Breakpoint != Breakpoint.None );
+        builder.Append( ClassProvider.Bar( Mode ) );
+        builder.Append( ClassProvider.BarInitial( Mode, initial && Mode != BarMode.Horizontal ) );
+        builder.Append( ClassProvider.BarThemeContrast( Mode, ThemeContrast ), ThemeContrast != ThemeContrast.None );
+        builder.Append( ClassProvider.BarBreakpoint( Mode, Breakpoint ), Breakpoint != Breakpoint.None );
         builder.Append( ClassProvider.FlexAlignment( Alignment ), Alignment != Alignment.Default );
         builder.Append( ClassProvider.BarMode( Mode ) );
 
@@ -174,9 +175,52 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
             await Toggle();
     }
 
+    /// <summary>
+    /// Hides all items except the one that is passed as a parameter.
+    /// </summary>
+    /// <param name="barItem">A bar item</param>
+    /// <returns></returns>
+    public async Task HideAllExcept( BarItem barItem )
+    {
+        foreach ( var item in BarItems )
+        {
+            if ( item != barItem )
+            {
+                await item.HideDropdown();
+            }
+        }
+    }
+
+    /// <summary>
+    /// Notifies the <see cref="Bar"/> of a new BarItem.
+    /// </summary>
+    /// <param name="barItem">Reference to the <see cref="BarItem"/> that is placed inside of this <see cref="Bar"/>.</param>
+    internal void NotifyBarItemInitialized( BarItem barItem )
+    {
+        BarItems ??= new();
+        if ( barItem is not null )
+        {
+            BarItems.Add( barItem );
+        }
+    }
+
+    /// <summary>
+    /// Notifies the <see cref="Bar"/> of a BarItem to be removed.
+    /// </summary>
+    /// <param name="barItem">Reference to the <see cref="BarItem"/> that is placed inside of this <see cref="Bar"/>.</param>
+    internal void NotifyBarItemRemoved( BarItem barItem )
+    {
+        BarItems?.Remove( barItem );
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// The Bar Items
+    /// </summary>
+    protected List<BarItem> BarItems { get; set; }
 
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
@@ -352,6 +396,11 @@ public partial class Bar : BaseComponent, IBreakpointActivator, IAsyncDisposable
     /// Cascaded layour header component.
     /// </summary>
     [CascadingParameter] protected LayoutHeader LayoutHeader { get; set; }
+
+    /// <summary>
+    /// Defines how the bar menu will behave when toggled.
+    /// </summary>
+    [Parameter] public BarMenuToggleBehavior MenuToggleBehavior { get; set; } = BarMenuToggleBehavior.AllowMultipleMenus;
 
     #endregion
 }

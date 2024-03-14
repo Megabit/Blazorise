@@ -16,6 +16,18 @@
     "{0} - {1} of {2} items": "{0} - {1} af {2}",
     "Row Edit": "Breyta röð",
     "Row Create": "Ný röð",
-    "Create": "Búa til"
+    "Create": "Búa til",
+    "Drag a column header here to group by that column": "Dragðu dálkhaus hingað til að flokka eftir þeim dálki",
+    "Contains": "Inniheldur",
+    "Starts With": "Byrjar með",
+    "Ends With": "Endar Með",
+    "Equals": "Jafnt",
+    "Not Equals": "Ekki jafnir",
+    "Greater Than": "Meiri en",
+    "Greater Than or Equal": "Stærri en eða jafn",
+    "Less Than": "Minna en",
+    "Less Than or Equal": "Minna en eða jafnt",
+    "Save Changes": "Vista breytingar",
+    "Cancel Changes": "Hætta við breytingar"
   }
 }

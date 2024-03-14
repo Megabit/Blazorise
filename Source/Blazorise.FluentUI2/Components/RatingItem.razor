@@ -1,0 +1,76 @@
+﻿@inherits Blazorise.RatingItem
+@{
+    var tooltip = Rating?.GetTooltip?.Invoke( Value );
+}
+
+@if ( string.IsNullOrEmpty( tooltip?.Text ) )
+{
+    @RatingItemTemplate
+}
+else
+{
+    <Tooltip Text="@tooltip.Text" Placement="@tooltip.Placement" Multiline="@tooltip.Multiline" ShowArrow="@tooltip.ShowArrow" Inline>
+        @RatingItemTemplate
+    </Tooltip>
+}
+@code {
+    private RenderFragment RatingItemTemplate => __builder =>
+    {
+        @if ( Rating.ReadOnly )
+        {
+            <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames">
+                @InputElement
+            </span>
+        }
+        else
+        {
+            <span @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @onclick="@HandleClick" @onmouseover="@HandleMouseOver" @onmouseout="@HandleMouseOut">
+                @InputElement
+            </span>
+        }
+    };
+
+    private RenderFragment InputElement => __builder =>
+    {
+        <input type="radio" name="@RatingName" class="fui-RatingItem__fullValueInput" value="@Value">
+        <div aria-hidden="true" class="@IconWrapperName">
+            <Icon Class="fui-RatingItem__selectedIcon" Name="@IconName" IconStyle="@IconStyle" />
+        </div>
+    };
+
+    private string RatingName
+    {
+        get
+        {
+            if ( Rating is FluentUI2.Components.Rating fluentRating )
+            {
+                return fluentRating.RatingName;
+            }
+
+            return null;
+        }
+    }
+
+    protected object IconWrapperName => Rating.IsSelectedRange( Value )
+        ? "fui-RatingItem__selectedIcon"
+        : "fui-RatingItem__unselectedOutlineIcon";
+
+    protected override IconStyle IconStyle
+    {
+        get
+        {
+            if ( Rating.ReadOnly || Rating.Disabled )
+            {
+                if ( Rating.IsSelectedRange( Value ) )
+                    return Rating.FullIconStyle ?? IconStyle.Solid;
+
+                return Rating.EmptyIconStyle ?? IconStyle.Regular;
+            }
+
+            if ( ( Rating.Hovering && Rating.IsHoveredRange( Value ) ) || ( !Rating.Hovering && Rating.IsSelectedRange( Value ) ) )
+                return Rating.FullIconStyle ?? IconStyle.Solid;
+
+            return Rating.EmptyIconStyle ?? IconStyle.Regular;
+        }
+    }
+}

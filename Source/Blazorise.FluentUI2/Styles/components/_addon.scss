@@ -1,0 +1,51 @@
+﻿.fui-Input {
+    .fui-Input__contentBefore,
+    .fui-Input__contentAfter {
+        box-sizing: border-box;
+        color: var(--colorNeutralForeground3);
+        display: flex;
+
+        button.fui-Button {
+            background-color: var(--colorNeutralBackground1);
+            color: var(--colorNeutralForeground1);
+            border: none;
+            font-family: var(--fontFamilyBase);
+            font-size: var(--fontSizeBase300);
+            font-weight: var(--fontWeightSemibold);
+            line-height: var(--lineHeightBase300);
+            cursor: pointer;
+
+            &:hover {
+                background-color: var(--colorTransparentBackgroundHover);
+                color: var(--colorNeutralForeground2BrandHover);
+            }
+        }
+
+        @each $color, $value in $background-theme-colors {
+            button.fui-Button-#{$color} {
+                &:hover {
+                    background-color: var(--colorTransparentBackgroundHover);
+                    color: var(--colorNeutralForeground2BrandHover);
+                }
+            }
+        }
+    }
+
+    .fui-Input__content {
+        flex-wrap: nowrap;
+        position: relative;
+        box-sizing: border-box;
+        align-items: center;
+        display: flex;
+        font-family: var(--fontFamilyBase);
+        flex-grow: 1;
+
+        .fui-Select__select,
+        .fui-Select__select:focus {
+            border-bottom-color: transparent;
+            border-left-color: transparent;
+            border-right-color: transparent;
+            border-top-color: transparent;
+        }
+    }
+}

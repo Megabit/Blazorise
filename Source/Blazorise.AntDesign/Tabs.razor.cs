@@ -28,7 +28,7 @@ public partial class Tabs : Blazorise.Tabs
     #region Properties
 
     string TabsBarClassNames
-        => $"ant-tabs-bar {ItemsPositionClassNames} {( IsCards && TabPosition == TabPosition.Top || TabPosition == TabPosition.Bottom ? "ant-tabs-card-bar" : "" )}";
+        => $"ant-tabs-nav {ItemsPositionClassNames} {( IsCards && TabPosition == TabPosition.Top || TabPosition == TabPosition.Bottom ? "ant-tabs-card-bar" : "" )}";
 
     protected string ItemsPositionClassNames => TabPosition switch
     {
@@ -40,27 +40,11 @@ public partial class Tabs : Blazorise.Tabs
 
     protected string ContentPositionClassNames => TabPosition switch
     {
-        TabPosition.Start => "ant-tabs-left-content",
-        TabPosition.End => "ant-tabs-right-content",
-        TabPosition.Bottom => "ant-tabs-bottom-content",
-        _ => "ant-tabs-top-content",
+        TabPosition.Start => "ant-tabs-content-left",
+        TabPosition.End => "ant-tabs-content-right",
+        TabPosition.Bottom => "ant-tabs-content-bottom",
+        _ => "ant-tabs-content-top",
     };
-
-    protected string StyleOfSelectedTab
-    {
-        get
-        {
-            var negativeIndex = IndexOfSelectedTab > 0
-                ? IndexOfSelectedTab * -100
-                : 0;
-
-            var margin = TabPosition == TabPosition.Start || TabPosition == TabPosition.End
-                ? "margin-top"
-                : "margin-left";
-
-            return $"{margin}: {negativeIndex}%;";
-        }
-    }
 
     #endregion
 }

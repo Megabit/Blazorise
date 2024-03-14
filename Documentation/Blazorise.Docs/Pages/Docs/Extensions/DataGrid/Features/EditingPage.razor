@@ -1,0 +1,88 @@
+﻿@page "/docs/extensions/datagrid/features/editing"
+
+<Seo Canonical="/docs/extensions/datagrid/features/editing" Title="Blazorise DataGrid Editing" Description="Learn Blazorise by the example. The DataGrid can perform some basic CRUD operations on the supplied Data collection." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Features/Editing">
+    Blazorise DataGrid: Editing
+</DocsPageTitle>
+
+<DocsPageLead>
+    The DataGrid component allows you to dynamically insert, delete, and update records.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The grid can perform some basic CRUD operations on the supplied <Code>Data</Code> collection. To enable editing on data-grid, set the <Code>Editable</Code> attribute to true on the DataGrid, and then set <Code>Editable</Code> to true on each column you wish to be editable.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    By default every time the <Code>Item</Code> is saved it will be automatically handled by the data-grid itself. That means that all its fields will be populated after the user clicks on Save button. If you want to change that, you can just disable it by setting the <Code>UseInternalEditing</Code> to false.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Edit Modes">
+        <Paragraph>
+            The grid can work in several different editing modes that can provide different user experiences.
+        </Paragraph>
+        <Paragraph>
+            <Code>EditMode</Code>:
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem><Code>Form</Code> editing is done in the internal DataGrid form</UnorderedListItem>
+                <UnorderedListItem><Code>Inline</Code> editing is done in the current row</UnorderedListItem>
+                <UnorderedListItem><Code>Popup</Code> editing is done in the the modal dialog</UnorderedListItem>
+                <UnorderedListItem><Code>Cell</Code> any cell value can be edited directly allowing for rapid editing of data.</UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridEditModeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridEditModeExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Batch Edit">
+        <Paragraph>
+            The grid can be set to batch edit mode by setting <Code>BatchEdit</Code> to true. This allows the user to edit multiple rows and then save all the changes at once.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridBatchEditExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridBatchEditExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NewItemDefaultSetter">
+        <Code>NewItemDefaultSetter</Code> function is used to set default values when new item is created and before the edit form is shown. It will only be evaluate, if <Code>DataGrid</Code> is editable.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridNewItemDefaultSetterExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridNewItemDefaultSetterExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Cascading values">
+        <Paragraph>In some case you want to update a different cell in a DataGrid when you update a value. This can be achieved with an <Code>UpdateCell</Code> method. You have two ways of updating a cell:</Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>by calling <Code>UpdateCell</Code> on the context inside of <Code>EditTemplate</Code>, or</UnorderedListItem>
+            <UnorderedListItem>by calling <Code>UpdateCellEditValue</Code> on the <Code>DataGrid</Code> instance</UnorderedListItem>
+        </UnorderedList>
+        <Paragraph>In the following example we’re simply calling <Code>context.UpdateCell</Code> with a field-name to change and a new value that we want it to assign:</Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridUpdateCellExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridUpdateCellExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>
+

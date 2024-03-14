@@ -1,7 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.States;
@@ -113,7 +112,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Modal() );
-        builder.Append( ClassProvider.ModalFade( Animated ) );
+        builder.Append( ClassProvider.ModalFade( Animated && State.Showing, Animated && State.Hiding ) );
         builder.Append( ClassProvider.ModalVisible( IsVisible ) );
 
         base.BuildClasses( builder );
@@ -122,8 +121,10 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        builder.Append( StyleProvider.ModalShow(), IsVisible );
-        builder.Append( $"--modal-animation-duration: {AnimationDuration}ms;" );
+        builder.Append( StyleProvider.ModalShow( IsVisible ) );
+        builder.Append( StyleProvider.ModalFade( Animated && State.Showing, Animated && State.Hiding ) );
+        builder.Append( StyleProvider.ModalZIndex( OpenIndex ) );
+        builder.Append( StyleProvider.ModalAnimationDuration( Animated, AnimationDuration ) );
 
         base.BuildStyles( builder );
     }
@@ -252,7 +253,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     {
         var safeToOpen = true;
 
-        if ( Opening != null )
+        if ( Opening is not null )
         {
             var eventArgs = new ModalOpeningEventArgs( false );
 
@@ -275,7 +276,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     {
         var safeToClose = true;
 
-        if ( Closing != null )
+        if ( Closing is not null )
         {
             var eventArgs = new ModalClosingEventArgs( false, closeReason );
 
@@ -298,6 +299,12 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     {
         if ( visible )
         {
+            if ( ModalContext is not null )
+            {
+                // save the state of the modal index
+                state = state with { OpenIndex = ModalContext.RaiseModalOpenIndex() };
+            }
+
             jsRegistered = true;
 
             ExecuteAfterRender( async () =>
@@ -309,6 +316,12 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
         }
         else
         {
+            if ( ModalContext is not null )
+            {
+                // save the state of the modal index
+                state = state with { OpenIndex = ModalContext.DecreaseModalOpenIndex() };
+            }
+
             jsRegistered = false;
 
             ExecuteAfterRender( async () =>
@@ -383,7 +396,7 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     private async Task SetVisibleState( bool visible )
     {
         if ( visible )
-            lazyLoaded = ( RenderMode == ModalRenderMode.LazyLoad );
+            lazyLoaded = RenderMode == ModalRenderMode.LazyLoad;
 
         state = state with { Visible = visible };
 
@@ -391,27 +404,40 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
         await RaiseEvents( visible );
     }
 
-    /// inheritdoc
+    /// <inheritdoc/>
     public Task BeginAnimation( bool visible )
     {
         if ( visible )
         {
+            state = state with { Showing = true };
+
             BackdropVisible = ShowBackdrop;
-            DirtyStyles();
         }
         else
-            DirtyClasses();
+        {
+            state = state with { Hiding = true };
+        }
+
+        DirtyClasses();
+        DirtyStyles();
 
         return InvokeAsync( StateHasChanged );
     }
 
-    /// inheritdoc
+    /// <inheritdoc/>
     public Task EndAnimation( bool visible )
     {
         if ( visible )
-            DirtyClasses();
+        {
+            state = state with { Showing = false };
+        }
         else
-            DirtyStyles();
+        {
+            state = state with { Hiding = false };
+        }
+
+        DirtyClasses();
+        DirtyStyles();
 
         BackdropVisible = ShowBackdrop && visible;
 
@@ -428,6 +454,11 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     protected internal bool IsVisible => State.Visible == true;
 
     /// <summary>
+    /// Returns the opened index of modal.
+    /// </summary>
+    protected internal int OpenIndex => State.OpenIndex;
+
+    /// <summary>
     /// Returns true if the modal backdrop should be visible.
     /// </summary>
     protected internal bool BackdropVisible = false;
@@ -439,6 +470,11 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// Gets the reference to state object for this modal.
     /// </summary>
     protected internal ModalState State => state;
+
+    /// <summary>
+    /// Evaluates the rendering mode to see of the modal content is ready to be rendered.
+    /// </summary>
+    protected bool ShouldRenderContent => RenderMode == ModalRenderMode.Default || ( RenderMode == ModalRenderMode.LazyReload && IsVisible ) || ( RenderMode == ModalRenderMode.LazyLoad && lazyLoaded );
 
     /// <summary>
     /// Gets the list of all element ids that could trigger modal close event.
@@ -455,6 +491,11 @@ public partial class Modal : BaseComponent, ICloseActivator, IAnimatedComponent,
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.
     /// </summary>
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
+
+    /// <summary>
+    /// Gets or sets the modal shared context.
+    /// </summary>
+    [Inject] private IModalSharedContext ModalContext { get; set; }
 
     /// <summary>
     /// Defines the visibility of modal dialog.

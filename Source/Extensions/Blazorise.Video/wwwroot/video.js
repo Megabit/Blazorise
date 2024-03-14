@@ -1,8 +1,8 @@
-﻿import "./vendors/plyr.js?v=1.1.4.1";
-import "./vendors/dash.js?v=1.1.4.1";
-import "./vendors/hls.js?v=1.1.4.1";
+﻿import "./vendors/plyr.js?v=1.4.3.0";
+import "./vendors/dash.js?v=1.4.3.0";
+import "./vendors/hls.js?v=1.4.3.0";
 
-import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.1.4.1";
+import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.4.3.0";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"https://cdn.plyr.io/3.6.12/plyr.css\" />");
 
@@ -46,6 +46,11 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         ratio: options.ratio,
         invertTime: options.invertTime || true,
         controls: options.controlsList,
+        settings: options.settingsList,
+        quality: {
+            default: options.defaultQuality || 576,
+            options: options.availableQualities || [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]
+        },
         previewThumbnails: {
             enabled: options.poster && options.poster.length > 0,
             src: options.poster
@@ -407,5 +412,9 @@ function registerToEvents(dotNetAdapter, player) {
 
     player.on('ready', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyReady");
+    });
+
+    player.on('qualitychange', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyQualityChange", event.detail.quality);
     });
 }

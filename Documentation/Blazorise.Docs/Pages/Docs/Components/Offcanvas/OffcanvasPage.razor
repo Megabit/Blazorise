@@ -1,0 +1,144 @@
+﻿@page "/docs/components/offcanvas"
+
+<Seo Canonical="/docs/components/offcanvas" Title="Blazorise Offcanvas component" Description="Learn to use and work with the Blazorise Offcanvas component, which provides a flexible way to display content off-canvas." />
+
+<DocsPageTitle Path="Components/Offcanvas">
+    Blazorise Offcanvas component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Blazorise Offcanvas component allows to build hidden sidebars into your project for navigation, shopping carts.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Offcanvas is a sidebar component that can be toggled to appear from the start, end, top, or bottom edge of the viewport.
+</DocsPageParagraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code Tag>Offcanvas</Code> the main container
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code Tag>OffcanvasHeader</Code>, a main offcanvas title.
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>OffcanvasBody</Code>, a main content of the offcanvas.
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code Tag>OffcanvasFooter</Code>, a main offcanvas footer.
+            </UnorderedListItem>
+        </UnorderedList>
+    </UnorderedListItem>
+</UnorderedList>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Start Placement">
+        The Offcanvas with the start placement appears from the beginning of the screen.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasStartExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasStartExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Top Placement">
+        The Offcanvas with the top placement appears from the top of the screen.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasTopExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasTopExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Bottom Placement">
+        The Offcanvas with the bottom placement appears from the bottom of the screen.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasBottomExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasBottomExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="End Placement">
+        The Offcanvas with the end placement appears from the end of the screen.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasEndExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasEndExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Closing">
+        If you want to prevent modal from closing you can use <Code>Closing</Code> event.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasClosingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasClosingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Footer">
+        To show a footer in the Offcanvas just add an <Code>OffcanvasFooter</Code> component.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <OffcanvasFooterExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="OffcanvasFooterExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes Title="Offcanvas">
+    <DocsAttributesItem Name="Visible" Type="bool" Default="false">
+        Determines whether the Offcanvas is visible or hidden.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="VisibleChanged" Type="EventCallback<bool>">
+        Occurs when the Visible property value changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Animated" Type="bool" Default="true">
+        Determines whether the Offcanvas has animation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AnimationDuration" Type="int" Default="300">
+        The duration of the Offcanvas animation in milliseconds.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowBackdrop" Type="bool" Default="true">
+        Determines whether to show the backdrop behind the Offcanvas.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Placement" Type="Placement" Default="Placement.Start">
+        The placement of the Offcanvas (Start, End, Top, Bottom).
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="OffcanvasHeader">
+    <DocsAttributesItem Name="Class" Type="string">
+        The custom CSS class for the OffcanvasHeader.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="OffcanvasBody">
+    <DocsAttributesItem Name="Class" Type="string">
+        The custom CSS class for the OffcanvasBody.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="OffcanvasFooter">
+    <DocsAttributesItem Name="Class" Type="string">
+        The custom CSS class for the OffcanvasFooter.
+    </DocsAttributesItem>
+</DocsAttributes>
+

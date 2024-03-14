@@ -53,7 +53,7 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
 
     /// <inheritdoc/>
     public virtual ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
-        => InvokeSafeVoidAsync( "focus", elementRef, elementId, scrollToElement );
+        => InvokeSafeVoidAsync( "focus", elementRef.Context is null ? null : elementRef, elementId, scrollToElement );
 
     /// <inheritdoc/>
     public virtual ValueTask Select( ElementReference elementRef, string elementId, bool focus )
@@ -98,6 +98,10 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
     /// <inheritdoc/>
     public ValueTask CopyToClipboard( ElementReference elementRef, string elementId )
         => InvokeSafeVoidAsync( "copyToClipboard", elementRef, elementId );
+
+    /// <inheritdoc/>
+    public ValueTask Log( string message, params string[] args )
+        => InvokeSafeVoidAsync( "log", message, args );
 
     #endregion
 

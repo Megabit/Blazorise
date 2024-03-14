@@ -1,0 +1,13 @@
+﻿.b-breadcrumb {
+    .b-breadcrumb-item:first-child {
+        > div {
+            > svg {
+                display: none;
+            }
+
+            > span {
+                margin-left: 0;
+            }
+        }
+    }
+}

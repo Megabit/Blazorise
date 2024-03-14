@@ -1,0 +1,30 @@
+﻿<Div Class="plan-switch" Position="Position.Relative" Flex="Flex.JustifyContent.Center.AlignItems.Center.Wrap" Background="Background.Light" Border="Border.Rounded" Padding="Padding.Is3" Gap="Gap.Is3">
+    @* <Div Class="plan-switch-button" Display="Display.InlineBlock" Padding="Padding.Is3" Background="@(GetSelectedBackground("one-time"))" TextColor="@(GetTextSelectedColor("one-time"))" @onclick="@(()=>OnClicked("one-time"))" Style="cursor: pointer;" Border="Border.Rounded">
+        One time payment
+    </Div> *@
+    <Div Class="plan-switch-button" Display="Display.InlineBlock" Padding="Padding.Is3.OnY.Is5.OnX" Background="@(GetSelectedBackground("monthly"))" TextColor="@(GetTextSelectedColor("monthly"))" @onclick="@(()=>OnClicked("monthly"))" Style="cursor: pointer;" Border="Border.Rounded">
+        Monthly
+    </Div>
+    <Div Class="plan-switch-button" Display="Display.InlineBlock" Padding="Padding.Is3.OnY.Is5.OnX" Background="@(GetSelectedBackground("annually"))" TextColor="@(GetTextSelectedColor("annually"))" @onclick="@(()=>OnClicked("annually"))" Style="cursor: pointer;" Border="Border.Rounded">
+        Annually
+    </Div>
+    <Div Display="Display.None.Block.OnDesktop" Position="Position.Absolute.Top.Is0.End.Is0" Flex="Flex.AlignSelf.Start" Style="transform: translateX(calc(100% - 1.5rem)) translateY(calc(100% - 3.5rem));">
+        <Image Source="img/illustrations/save-tag-monthly.svg" Text="Save annually" />
+    </Div>
+</Div>
+@code {
+    private TextColor GetSaveColor( string value ) => SelectedValue == value ? TextColor.Light : TextColor.Success;
+
+    private Background GetSelectedBackground( string value ) => SelectedValue == value ? Background.Primary : Background.Default;
+
+    private TextColor GetTextSelectedColor( string value ) => SelectedValue == value ? TextColor.White : TextColor.Default;
+
+    private Task OnClicked( string value )
+    {
+        return SelectedValueChanged.InvokeAsync( value );
+    }
+
+    [Parameter] public string SelectedValue { get; set; }
+
+    [Parameter] public EventCallback<string> SelectedValueChanged { get; set; }
+}

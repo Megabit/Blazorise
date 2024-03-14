@@ -1,0 +1,35 @@
+﻿.b-accordion {
+    > .b-collapse:not(:first-child) {
+        > .b-collapse-header {
+            .b-accordion-button {
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+        }
+    }
+
+    > .b-collapse:not(:last-child) {
+        > .b-collapse-header {
+            .b-accordion-button {
+                border-bottom-width: 0;
+            }
+        }
+    }
+
+    > .b-accordion-item:not(:first-child) {
+        > .b-accordion-header {
+            .b-accordion-button {
+                border-top-left-radius: 0;
+                border-top-right-radius: 0;
+            }
+        }
+    }
+
+    > .b-accordion-item:not(:last-child) {
+        > .b-accordion-header {
+            .b-accordion-button {
+                border-bottom-width: 0;
+            }
+        }
+    }
+}

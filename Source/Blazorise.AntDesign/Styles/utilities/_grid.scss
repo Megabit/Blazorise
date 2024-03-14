@@ -1,0 +1,120 @@
+﻿.ant-row {
+    margin-left: -$grid-gutter-width;
+    margin-right: -$grid-gutter-width;
+
+    > .ant-col {
+        flex-grow: 1;
+        padding-left: $grid-gutter-width;
+        padding-right: $grid-gutter-width;
+    }
+}
+
+.ant-container {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media (min-width: 576px) {
+    .ant-container, .ant-container-sm {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: 768px) {
+    .ant-container, .ant-container-sm, .ant-container-md {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: 992px) {
+    .ant-container, .ant-container-sm, .ant-container-md, .ant-container-lg {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: 1200px) {
+    .ant-container, .ant-container-sm, .ant-container-md, .ant-container-lg, .ant-container-xl {
+        max-width: 1140px;
+    }
+}
+
+.ant-container-fluid {
+    width: 100%;
+    padding-right: 0;
+    padding-left: 0;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.ant-row-no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+
+    > .ant-col,
+    > [class*="ant-col-"] {
+        padding-right: 0;
+        padding-left: 0;
+    }
+}
+
+@each $breakpoint in map-keys($grid-breakpoints) {
+    @include media-breakpoint-up($breakpoint) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        @if $grid-row-columns > 0 {
+            @for $i from 1 through $grid-row-columns {
+                .ant-row-columns#{$infix}-#{$i} {
+                    @include row-cols($i);
+                }
+            }
+        }
+    }
+}
+
+@mixin make-cssgrid($columns: $grid-columns, $breakpoints: $grid-breakpoints) {
+    @each $breakpoint in map-keys($breakpoints) {
+        $infix: breakpoint-infix($breakpoint, $breakpoints);
+
+        @include media-breakpoint-up($breakpoint, $breakpoints) {
+            @if $columns > 0 {
+                @for $i from 1 through $columns {
+                    .ant-grid-col#{$infix}-#{$i} {
+                        grid-column: auto / span calc($i / 2);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.ant-grid {
+    display: grid;
+    grid-template-rows: repeat(1, 1fr);
+    grid-template-columns: repeat(12, 1fr);
+    gap: #{$grid-gutter-width};
+
+    @each $breakpoint in map-keys($grid-breakpoints) {
+        $infix: breakpoint-infix($breakpoint, $grid-breakpoints);
+
+        @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+            @if $grid-columns > 0 {
+                @for $i from 1 through $grid-rows {
+                    &.ant-grid-rows#{$infix}-#{$i} {
+                        grid-template-rows: repeat($i,minmax(0,1fr));
+                    }
+                }
+
+                @for $i from 1 through $grid-columns {
+                    &.ant-grid-cols#{$infix}-#{$i} {
+                        grid-template-columns: repeat($i,minmax(0,1fr));
+                    }
+                }
+            }
+        }
+    }
+
+    @include make-cssgrid();
+}

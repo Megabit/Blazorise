@@ -1,0 +1,49 @@
+@page "/tests/accordion"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Accordion</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Accordion>
+                    <AccordionItem @bind-Visible="@accordionItem1Visible">
+                        <AccordionHeader>
+                            <Heading Size="HeadingSize.Is5">
+                                <AccordionToggle>What is Blazorise?</AccordionToggle>
+                            </Heading>
+                        </AccordionHeader>
+                        <AccordionBody>
+                            Blazorise is a component library built on top of Blazor, which is a framework from Microsoft for building interactive client-side web UIs using .NET. Blazorise provides a rich set of components that are easy to use and customizable, helping developers to build responsive and modern web applications more efficiently.
+                        </AccordionBody>
+                    </AccordionItem>
+                    <AccordionItem @bind-Visible="@accordionItem2Visible">
+                        <AccordionHeader>
+                            <Heading Size="HeadingSize.Is5">
+                                <AccordionToggle>What CSS  frameworks does Blazorise support?</AccordionToggle>
+                            </Heading>
+                        </AccordionHeader>
+                        <AccordionBody>
+                            Blazorise supports several CSS frameworks, including Bootstrap (known for responsive design elements), Bulma (valued for simplicity and Flexbox base), Material (inspired by Google's Material Design), Ant Design (geared towards enterprise-level products and adapting React components' design principles), and Tailwind CSS (famous for its utility-first approach and versatility). These frameworks provide distinct styles and philosophies, offering developers a range of options to best suit their project's requirements.
+                        </AccordionBody>
+                    </AccordionItem>
+                    <AccordionItem @bind-Visible="@accordionItem3Visible">
+                        <AccordionHeader>
+                            <Heading Size="HeadingSize.Is5">
+                                <AccordionToggle>What are the benefits of Blazorise commercial license?</AccordionToggle>
+                            </Heading>
+                        </AccordionHeader>
+                        <AccordionBody>
+                            A Blazorise commercial license typically includes access to advanced components, priority support, options for dedicated consultations, frequent updates and bug fixes, a license for unrestricted commercial use, potential access to the source code, and opportunities for training and workshops. This package enhances functionality, offers better support, and provides operational security for commercial projects.
+                        </AccordionBody>
+                    </AccordionItem>
+                </Accordion>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+@code {
+    bool accordionItem1Visible = true;
+    bool accordionItem2Visible = false;
+    bool accordionItem3Visible = false;
+}

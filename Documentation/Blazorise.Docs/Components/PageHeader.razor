@@ -1,0 +1,54 @@
+﻿<Div Class="page-header" TextAlignment="TextAlignment.Center" Padding="Padding.Is5.OnY">
+    <Container>
+        <Image Display="Display.Block" Margin="Margin.IsAuto.OnX.Is4.FromTop.Is4.FromBottom" Source="@BlazoriseLogo" Text="Blazorise logo" Style="width: 160px; height: 160px;" />
+        @if ( Title != null )
+        {
+            <DisplayHeading Size="DisplayHeadingSize.Is4" TextWeight="TextWeight.Bold" Padding="Padding.Is3.OnY.Is4.FromBottom">
+                @Title
+            </DisplayHeading>
+        }
+        @if ( Subtitle != null )
+        {
+            <Heading Size="HeadingSize.Is3" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
+                @Subtitle
+            </Heading>
+        }
+        @if ( Description != null )
+        {
+            <Heading Size="HeadingSize.Is5" TextWeight="TextWeight.Normal" TextColor="TextColor.Muted" Padding="Padding.Is3.FromBottom">
+                @Description
+            </Heading>
+        }
+        @if ( Actions != null )
+        {
+            <Div Flex="Flex.Column.Row.OnDesktop.AlignItems.Stretch.JustifyContent.Center" Gap="Gap.Is3" Padding="Padding.Is4.FromTop">
+                @Actions
+            </Div>
+        }
+    </Container>
+</Div>
+@code {
+    [Parameter] public RenderFragment Title { get; set; }
+
+    [Parameter] public RenderFragment Subtitle { get; set; }
+
+    [Parameter] public RenderFragment Description { get; set; }
+
+    [Parameter] public RenderFragment Actions { get; set; }
+
+    private bool IsChristmasHolidays
+    {
+        get
+        {
+            var d1 = new DateTime( DateTime.Today.Year, 12, 15 );
+            var d2 = d1.AddDays( 20 );
+            var now = DateTime.Now;
+
+            return now >= d1 && now <= d2;
+        }
+    }
+
+    string BlazoriseLogo => IsChristmasHolidays
+        ? "/img/logos/blazorise-small-santa-hat.svg"
+        : "/img/logos/blazorise-small.svg";
+}

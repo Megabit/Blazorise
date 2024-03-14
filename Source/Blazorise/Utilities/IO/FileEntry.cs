@@ -79,6 +79,9 @@ public class FileEntry : IFileEntry
     public string Name { get; set; }
 
     /// <inheritdoc/>
+    public string RelativePath { get; set; }
+
+    /// <inheritdoc/>
     public long Size { get; set; }
 
     /// <inheritdoc/>
@@ -92,6 +95,11 @@ public class FileEntry : IFileEntry
 
     /// <inheritdoc/>
     public FileEntryStatus Status { get; set; }
+
+    /// <summary>
+    /// Provides a completion source to delay completion until after the file operation has been fully completed.
+    /// </summary>
+    public TaskCompletionSource FileUploadEndedCallback { get; set; }
 
     #endregion
 }

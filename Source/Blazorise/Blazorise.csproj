@@ -12,6 +12,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <AssemblyAttribute Include="Blazorise.Licensing.AssemblyBuildDateAttribute">
+      <_Parameter1>$([System.DateTime]::Now.ToString( "yyyyMMddHHmmss" ))</_Parameter1>
+    </AssemblyAttribute>
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="compilerconfig.json" />
   </ItemGroup>
 
@@ -34,9 +40,14 @@
     <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Blazorise.Licensing" Version="1.2.0" />
+  </ItemGroup>
+
   <PropertyGroup>
     <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
     <CompilerGeneratedFilesOutputPath>__SOURCEGENERATED__</CompilerGeneratedFilesOutputPath>
+    <SonarQubeExclude>True</SonarQubeExclude>
   </PropertyGroup>
 
 </Project>

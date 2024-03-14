@@ -1,7 +1,14 @@
 using System;
 using System.IO.Compression;
+using System.Linq;
+using Blazored.LocalStorage;
 using Blazorise.Bootstrap5;
+using Blazorise.Captcha.ReCaptcha;
+using Blazorise.Docs.Core;
+using Blazorise.Docs.Models;
+using Blazorise.Docs.Options;
 using Blazorise.Docs.Server.Infrastructure;
+using Blazorise.Docs.Services;
 using Blazorise.FluentValidation;
 using Blazorise.Icons.FontAwesome;
 using Blazorise.RichTextEdit;
@@ -24,36 +31,47 @@ public class Startup
 
     public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
-        public void ConfigureServices( IServiceCollection services )
-        {
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
-
-            services.AddServerSideBlazor().AddHubOptions( ( o ) =>
+    // This method gets called by the runtime. Use this method to add services to the container.
+    // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+    public void ConfigureServices( IServiceCollection services )
+    {
+        // Add services to the container.
+        services
+            .AddRazorComponents()
+            .AddInteractiveServerComponents().AddHubOptions( options =>
             {
-                o.MaximumReceiveMessageSize = 1024 * 1024 * 100;
+                options.MaximumReceiveMessageSize = 1024 * 1024 * 100;
             } );
 
-            services.AddHttpContextAccessor();
+        services.AddHttpContextAccessor();
 
         services
             .AddBlazorise( options =>
             {
+                options.ProductToken = Configuration["Licensing:ProductToken"];
                 options.Immediate = true; // optional
             } )
             .AddBootstrap5Providers()
             .AddFontAwesomeIcons()
             .AddBlazoriseRichTextEdit()
-            .AddBlazoriseFluentValidation();
+            .AddBlazoriseFluentValidation()
+            .AddBlazoriseGoogleReCaptcha( x => x.SiteKey = Configuration[key: "ReCaptchaSiteKey"] );
 
+        services.Configure<AppSettings>( options => Configuration.Bind( options ) );
+        services.AddHttpClient();
         services.AddValidatorsFromAssembly( typeof( App ).Assembly );
+
+        services.AddBlazoredLocalStorage();
 
         services.AddMemoryCache();
         services.AddScoped<Shared.Data.EmployeeData>();
         services.AddScoped<Shared.Data.CountryData>();
         services.AddScoped<Shared.Data.PageEntryData>();
+
+        var emailOptions = Configuration.GetSection( "Email" ).Get<EmailOptions>();
+        services.AddSingleton<IEmailOptions>( serviceProvider => emailOptions );
+
+        services.AddSingleton<EmailSender>();
 
         services.AddResponseCompression( options =>
         {
@@ -78,18 +96,24 @@ public class Startup
             options.IncludeSubDomains = true;
             options.MaxAge = TimeSpan.FromDays( 365 );
         } );
+
+        services.AddSingleton( new DocsVersionOptions
+        {
+            Versions = Configuration.GetSection( "DocsVersions" ).Get<DocsVersion[]>().ToList()
+        } );
+
+        services.AddHealthChecks();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure( IApplicationBuilder app, IWebHostEnvironment env )
+    public void Configure( WebApplication app )
     {
-        app.UseResponseCompression();
-
-        if ( env.IsDevelopment() )
+        if ( !app.Environment.IsDevelopment() )
         {
-            app.UseDeveloperExceptionPage();
+            app.UseResponseCompression();
         }
-        else
+
+        if ( !app.Environment.IsDevelopment() )
         {
             app.UseExceptionHandler( "/Error" );
             // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
@@ -97,24 +121,17 @@ public class Startup
         }
 
         app.UseHttpsRedirection();
+
         app.UseStaticFiles();
+        app.UseAntiforgery();
 
-        app.UseRouting();
+        app.MapRazorComponents<App>()
+            .AddInteractiveServerRenderMode();
 
-        app.UseEndpoints( endpoints =>
-        {
-            endpoints.MapGet( "/robots.txt", async context =>
-            {
-                await Seo.GenerateRobots( context );
-            } );
+        //app.UseRouting();
 
-            endpoints.MapGet( "/sitemap.txt", async context =>
-            {
-                await Seo.GenerateSitemap( context );
-            } );
-
-            endpoints.MapBlazorHub();
-            endpoints.MapFallbackToPage( "/_Host" );
-        } );
+        app.MapGet( "/robots.txt", SeoGenerator.GenerateRobots );
+        app.MapGet( "/sitemap.txt", SeoGenerator.GenerateSitemap );
+        app.MapGet( "/sitemap.xml", SeoGenerator.GenerateSitemapXml );
     }
 }

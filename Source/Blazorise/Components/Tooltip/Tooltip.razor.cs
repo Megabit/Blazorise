@@ -133,7 +133,7 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     [Parameter] public string Text { get; set; }
 
     /// <summary>
-    /// Gets or sets the tooltip location relative to it's component.
+    /// Gets or sets the tooltip location relative to its component.
     /// </summary>
     [Parameter]
     public TooltipPlacement Placement

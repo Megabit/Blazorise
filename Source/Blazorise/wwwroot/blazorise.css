@@ -123,7 +123,7 @@ hr.divider.divider-text::before {
 .b-file-picker .b-file-picker-file span {
   display: block;
 }
-.b-file-picker .b-file-picker-file .b-file-picker-file-size, .b-file-picker .b-file-picker-file .b-file-picker-file-status {
+.b-file-picker .b-file-picker-file .b-file-picker-file-size, .b-file-picker .b-file-picker-file .b-file-picker-file-status, .b-file-picker .b-file-picker-file .b-file-picker-file-relativepath {
   font-size: 0.75rem;
 }
 
@@ -525,6 +525,16 @@ hr.divider.divider-text::before {
   padding-top: 1rem;
   display: block;
 }
+.b-bar-vertical-inline .b-bar-end .b-bar-dropdown,
+.b-bar-vertical-popout .b-bar-end .b-bar-dropdown,
+.b-bar-vertical-small .b-bar-end .b-bar-dropdown {
+  position: relative;
+}
+.b-bar-vertical-inline .b-bar-end .b-bar-dropdown-menu-container,
+.b-bar-vertical-popout .b-bar-end .b-bar-dropdown-menu-container,
+.b-bar-vertical-small .b-bar-end .b-bar-dropdown-menu-container {
+  bottom: 0;
+}
 .b-bar-vertical-inline .b-bar-link,
 .b-bar-vertical-popout .b-bar-link,
 .b-bar-vertical-small .b-bar-link {
@@ -859,15 +869,15 @@ hr.divider.divider-text::before {
   transition: transform 200ms ease-out;
   float: right;
   position: relative;
-  -webkit-transform: rotate(315deg);
-  transform: rotate(315deg);
+  -webkit-transform: rotate(135deg);
+  transform: rotate(135deg);
+  right: 0.8rem;
 }
 .b-bar-vertical-small .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu > .b-bar-dropdown:not([data-visible=true]) .b-bar-dropdown-toggle:before,
 .b-bar-vertical-inline[data-collapse=small] .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu > .b-bar-dropdown:not([data-visible=true]) .b-bar-dropdown-toggle:before,
 .b-bar-vertical-popout[data-collapse=small] .b-bar-dropdown .b-bar-dropdown-menu-container .b-bar-dropdown-menu > .b-bar-dropdown:not([data-visible=true]) .b-bar-dropdown-toggle:before {
-  -webkit-transform: rotate(135deg);
-  transform: rotate(135deg);
-  right: 0.8rem;
+  -webkit-transform: rotate(315deg);
+  transform: rotate(315deg);
 }
 @keyframes b-bar-link-small {
   to {
@@ -932,13 +942,13 @@ hr.divider.divider-text::before {
   transition: transform 200ms ease-out;
   float: right;
   position: relative;
-  -webkit-transform: rotate(315deg);
-  transform: rotate(315deg);
-}
-.b-bar-vertical-popout:not([data-collapse]) .b-bar-dropdown:not([data-visible=true]) .b-bar-dropdown-toggle:before {
   -webkit-transform: rotate(135deg);
   transform: rotate(135deg);
   right: 0.8rem;
+}
+.b-bar-vertical-popout:not([data-collapse]) .b-bar-dropdown:not([data-visible=true]) .b-bar-dropdown-toggle:before {
+  -webkit-transform: rotate(315deg);
+  transform: rotate(315deg);
 }
 .b-bar-vertical-popout:not([data-collapse]) .b-bar-dropdown .b-bar-dropdown-menu-container {
   z-index: 100;
@@ -1221,7 +1231,7 @@ thead tr th {
 
 .flatpickr-wrapper {
   position: relative;
-  display: inline-block;
+  display: contents;
 }
 
 .flatpickr-months {

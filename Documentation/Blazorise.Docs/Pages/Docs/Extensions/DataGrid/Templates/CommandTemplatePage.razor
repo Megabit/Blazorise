@@ -1,0 +1,35 @@
+﻿@page "/docs/extensions/datagrid/templates/commands"
+
+<Seo Canonical="/docs/extensions/datagrid/templates/commands" Title="Blazorise DataGrid Commands Template" Description="Learn Blazorise by the example. Customize your action commands with the Blazorise DataGrid's commands template feature. Assign custom templates to the command column, such as editing and deleting, or add your own custom actions." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Templates/Commands">
+    Blazorise DataGrid: Commands Template
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Blazor includes templated components that can accept one or more UI segments as input and render them as part of the component during component rendering. DataGrid is a templated Blazor component that lets you customize various parts of the user interface with template parameters. It enables you to generate custom components or content using your own logic.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Command Templates">
+        <Paragraph>
+            If you want to change the default command buttons, you can use following templates:
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Code>NewCommandTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>EditCommandTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>SaveCommandTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>CancelCommandTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>DeleteCommandTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>ClearFilterCommandTemplate</Code></UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridCommandTemplatesExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridCommandTemplatesExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>

@@ -11,23 +11,63 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    It is useful for displaying large amounts of nested data.
+    The TreeView component is a powerful and flexible way to display hierarchical data in a tree-like structure. It allows users to navigate through the tree and perform actions on the nodes, such as expanding or collapsing them, selecting them, or performing other operations.
 </DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Features
+</DocsPageSubtitle>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            Display hierarchical data in a tree structure.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            Expand or collapse nodes.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            Select single or multiple nodes (depending on the selection mode).
+        </UnorderedListItem>
+        <UnorderedListItem>
+            Allow Node Items to be disabled for selection.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            Customize the appearance of the nodes using templates.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            Perform actions on the nodes, such as deleting them or performing some other operation.
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
 
 <DocsPageSubtitle>
     Installation
 </DocsPageSubtitle>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="NuGet">
-        Install extension from NuGet.
+    <DocsPageSectionHeader>
+        <Paragraph>
+            To install the Blazorise TreeView component, run the following command in the Package Manager Console:
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="TreeViewNugetInstallExample"></DocsPageSectionSource>
+    <DocsPageSectionHeader>
+        <Paragraph Margin="Margin.Is3.FromTop">
+            Alternatively, you can install the package using the .NET Core CLI:
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="TreeViewNugetInstall2Example"></DocsPageSectionSource>
 </DocsPageSection>
 
 <DocsPageSection>
-    <DocsPageSectionHeader Title="Imports">
-        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    <DocsPageSectionHeader Title="Configuration">
+        <Paragraph>
+            Once the package is installed, you need to configure your Blazor project to use the TreeView component.
+        </Paragraph>
+        <Paragraph>
+            In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+        </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="TreeViewImportsExample"></DocsPageSectionSource>
 </DocsPageSection>
@@ -49,9 +89,53 @@
     <DocsPageSectionSource Code="TreeViewExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Expanding and Collapsing Nodes">
+        By default, all nodes are collapsed except for the root node(s). To expand a node, click on the triangle icon next to its label. To collapse a node, click on the triangle icon again. You can also programmatically expand or collapse nodes using the <Code>ExpandAll()</Code> and <Code>CollapseAll()</Code> property of the TreeView class.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TreeViewExpandExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TreeViewExpandExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple selection">
+        <Paragraph>
+            The TreeView component multiple selection mode, allows users to select multiple nodes at the same time. To enable this mode, set the <Code>SelectionMode</Code> property to <Code>Multiple</Code>. When this mode is enabled, each node in the TreeView will display a checkbox next to its label. Users can then select or deselect nodes by clicking on the checkboxes.
+        </Paragraph>
+        <Paragraph>
+            The selected nodes can be accessed through the <Code>SelectedNodes</Code> property, which returns a list of the selected nodes. You can also use the <Code>SelectedNodesChanged</Code> event to be notified when the selection changes.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TreeViewMultiSelectExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TreeViewMultiSelectExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Observable Lists">
+        <Paragraph>
+            The Observable Lists feature in Blazorise TreeView component enables automatic updates and synchronization of the TreeView data with the underlying data source. This is achieved through the implementation of an observable pattern where the TreeView component listens to changes in the data source, and updates its visual representation accordingly.
+        </Paragraph>
+        <Paragraph>
+            When using Observable Lists in the Blazorise TreeView component, any modifications to the underlying data source, such as adding, removing, or updating nodes, will automatically trigger the necessary updates in the TreeView component. This ensures that the TreeView always reflects the most up-to-date state of the data.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TreeViewObservableExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TreeViewObservableExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="Nodes" Type="IEnumerable<TNode>">
@@ -60,11 +144,23 @@
     <DocsAttributesItem Name="NodeContent" Type="RenderFragment<TNode>">
         Template to display content for the node.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectionMode" Type="TreeViewSelectionMode" Default="Single">
+        Defines the selection mode of the TreeView.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedNode" Type="TNode">
         The currently selected TreeView item/node.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedNodeChanged" Type="EventCallback<TNode>">
         Occurs when the selected TreeView node has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedNodes" Type="IList<TNode>">
+        The currently selected TreeView items/nodes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SelectedNodesChanged" Type="EventCallback<IList<TNode>>">
+        Occurs when the selected TreeView nodes are changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AutoExpandAll" Type="bool" Default="false">
+        Defines if the treenode should be automatically expanded. Note that it can happen only once when the tree is first loaded.
     </DocsAttributesItem>
     <DocsAttributesItem Name="ExpandedNodes" Type="List<TNode>">
         List of currently expanded TreeView items (child nodes).
@@ -72,11 +168,20 @@
     <DocsAttributesItem Name="ExpandedNodeChanged" Type="EventCallback<TNode>">
         Occurs when the collection of expanded nodes has changed.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="GetChildNodes" Type="expression">
-        Expression that allows the child nodes to be identifies for a particular node
+    <DocsAttributesItem Name="GetChildNodes" Type="Func<TNode, IEnumerable<TNode>>">
+        Expression that allows the child nodes to be identified for a particular node.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="HasChildNodes" Type="expression" Default="true">
+    <DocsAttributesItem Name="HasChildNodes" Type="Func<TNode, bool>" Default="(node) => false">
         Expression that indicates whether the current node has any children nodes?
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IsDisabled" Type="Func<TNode, bool>" Default="(node) => false">
+        Expression that indicates whether the current node should be disabled from selection
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="GetChildNodesAsync" Type="Func<TNode, Task<IEnumerable<TNode>>>">
+        Asynchronous expression that allows the child nodes to be identified for a particular node.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="HasChildNodesAsync" Type="Func<TNode, Task<bool>>" Default="null">
+        Asynchronous expression that indicates whether the current node has any children nodes?
     </DocsAttributesItem>
     <DocsAttributesItem Name="ExpandIconName" Type="IconName" Default="ChevronRight">
         Defines the name of the treenode expand icon.
@@ -97,3 +202,28 @@
         Defines the size of the treenode collapse icon.
     </DocsAttributesItem>
 </DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    Methods
+</Heading>
+
+<DocsMethods>
+    <DocsMethodsItem Name="ExpandAll()" ReturnType="Task">
+        Expands all the collapsed TreeView nodes.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="CollapseAll()" ReturnType="Task">
+        Collapses all the expanded TreeView nodes.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="ToggleCheckNode()" ReturnType="Task" Parameters="TNode node">
+        Toggles the checked state of the node when in multiple selection mode.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="SelectNode()" ReturnType="void" Parameters="TNode node">
+        Selects the node when in single selection mode.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="RemoveNode()" ReturnType="Task" Parameters="TNode node">
+        Attempts to find and remove an existing node from the TreeView.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="Reload()" ReturnType="Task">
+        Triggers the reload of the TreeView Nodes.
+    </DocsMethodsItem>
+</DocsMethods>

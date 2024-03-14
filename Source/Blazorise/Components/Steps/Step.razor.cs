@@ -76,6 +76,7 @@ public partial class Step : BaseComponent, IDisposable
     protected virtual void BuildMarkerClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.StepItemMarker() );
+        builder.Append( ClassProvider.StepItemMarkerColor( Color, Active ) );
     }
 
     /// <summary>
@@ -105,7 +106,7 @@ public partial class Step : BaseComponent, IDisposable
     {
         await Clicked.InvokeAsync( eventArgs );
 
-        if ( ParentSteps != null )
+        if ( ParentSteps is not null )
             await ParentSteps.SelectStep( Name );
     }
 

@@ -1,0 +1,6 @@
+@inherits Blazorise.Accordion
+<CascadingValue Value="@this" IsFixed>
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" data-accordion="collapse" @attributes="@Attributes">
+        @ChildContent
+    </div>
+</CascadingValue>

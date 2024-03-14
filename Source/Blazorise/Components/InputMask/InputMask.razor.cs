@@ -30,10 +30,17 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        // Let blazor do its thing!
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<string>( nameof( Value ), out var paramValue ) && !paramValue.IsEqual( Value ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ValueExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -101,8 +108,8 @@ public partial class InputMask : BaseTextInput<string>, IAsyncDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.InputMask( Plaintext ) );
-        builder.Append( ClassProvider.InputMaskSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.InputMaskColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.InputMaskSize( ThemeSize ) );
+        builder.Append( ClassProvider.InputMaskColor( Color ) );
         builder.Append( ClassProvider.InputMaskValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );

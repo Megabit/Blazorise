@@ -28,6 +28,7 @@ public partial class SnackbarStack : BaseComponent
             string actionButtonText,
             object actionButtonIcon,
             double? intervalBeforeClose,
+            double? animationDuration,
             bool multiline )
         {
             Message = message;
@@ -41,7 +42,10 @@ public partial class SnackbarStack : BaseComponent
             ShowActionButton = showActionButton;
             ActionButtonText = actionButtonText;
             ActionButtonIcon = actionButtonIcon;
-            IntervalBeforeClose = intervalBeforeClose;
+            IntervalBeforeClose = intervalBeforeClose is null
+                                    ? null
+                                    : intervalBeforeClose + ( animationDuration ?? 0 );
+            AnimationDuration = animationDuration;
             Multiline = multiline;
         }
 
@@ -69,13 +73,16 @@ public partial class SnackbarStack : BaseComponent
 
         public double? IntervalBeforeClose { get; }
 
+        public double? AnimationDuration { get; }
+
         public bool Visible { get; } = true;
 
         public bool Multiline { get; } = true;
-
     }
 
-    private SnackbarStackLocation location = SnackbarStackLocation.Center;
+    private SnackbarStackLocation location = SnackbarStackLocation.Bottom;
+
+    private double animationDuration = Constants.DefaultAnimationDuration;
 
     private readonly List<SnackbarInfo> snackbarInfos = new();
 
@@ -89,6 +96,16 @@ public partial class SnackbarStack : BaseComponent
         builder.Append( $"snackbar-stack-{Location.GetName()}" );
 
         base.BuildClasses( builder );
+    }
+
+    protected override void BuildStyles( StyleBuilder builder )
+    {
+        var baseAnimationDuration = AnimationDuration;
+
+        builder.Append( FormattableString.Invariant( $"--stack-transition-duration: {baseAnimationDuration * 5:0}ms;" ) );
+        builder.Append( FormattableString.Invariant( $"--stack-animation-duration: {baseAnimationDuration * 2.5:0}ms" ) );
+
+        base.BuildStyles( builder );
     }
 
     /// <summary>
@@ -151,6 +168,7 @@ public partial class SnackbarStack : BaseComponent
             snackbarOptions.ActionButtonText,
             snackbarOptions.ActionButtonIcon,
             snackbarOptions.IntervalBeforeClose,
+            snackbarOptions.AnimationDuration,
             snackbarOptions.Multiline ) );
 
         return InvokeAsync( StateHasChanged );
@@ -231,6 +249,24 @@ public partial class SnackbarStack : BaseComponent
     /// Defines an icon to show for snackbar action button. Leave as null to not show it!
     /// </summary>
     [Parameter] public object ActionButtonIcon { get; set; }
+
+    /// <summary>
+    /// Defines the duration of the animation of the stack snackbar.
+    /// </summary>
+    [Parameter]
+    public double AnimationDuration
+    {
+        get => animationDuration;
+        set
+        {
+            if ( animationDuration == value )
+                return;
+
+            animationDuration = value;
+
+            DirtyStyles();
+        }
+    }
 
     /// <summary>
     /// Occurs after the snackbar has closed.

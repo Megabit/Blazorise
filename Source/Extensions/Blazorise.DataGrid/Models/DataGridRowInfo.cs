@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 #endregion
 
-namespace Blazorise.DataGrid.Models;
+namespace Blazorise.DataGrid;
 
 /// <summary>
 /// Holds the basic information about the datagrid row.
@@ -28,6 +28,11 @@ public class DataGridRowInfo<TItem>
     public IEnumerable<DataGridColumn<TItem>> Columns { get; }
 
     /// <summary>
+    /// The Table Row
+    /// </summary>
+    public TableRow TableRow { get; private set; }
+
+    /// <summary>
     /// Holds the Row's Item
     /// </summary>
     public TItem Item { get; }
@@ -50,4 +55,10 @@ public class DataGridRowInfo<TItem>
     /// </summary>
     public void ToggleDetailRow()
         => hasDetailRow = !hasDetailRow;
+
+    /// <summary>
+    /// Sets the Table Row Reference
+    /// </summary>
+    internal void SetTableRow( TableRow tableRow )
+        => TableRow = tableRow;
 }

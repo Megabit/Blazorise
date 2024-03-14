@@ -1,5 +1,5 @@
-﻿import { Behave } from "./vendors/Behave.js?v=1.1.4.1";
-import { getRequiredElement } from "./utilities.js?v=1.1.4.1";
+﻿import { Behave } from "./vendors/Behave.js?v=1.4.3.0";
+import { getRequiredElement } from "./utilities.js?v=1.4.3.0";
 
 const _instances = [];
 
@@ -26,9 +26,9 @@ export function initialize(element, elementId, options) {
     }) : null;
 
     if (options.autoSize) {
-        element.oninput = calculateAutoHeight;
+        element.oninput = onInputChanged;
 
-        // fire input immediatelly to trigger autosize in case the text is long
+        // fire oninput immediatelly to trigger autosize in case the text is long
         if ("createEvent" in document) {
             let event = document.createEvent("HTMLEvents");
             event.initEvent("input", false, true);
@@ -91,16 +91,33 @@ export function updateOptions(element, elementId, options) {
 
         if (options.autoSize.changed) {
             element.oninput = options.autoSize.value
-                ? calculateAutoHeight
+                ? onInputChanged
                 : function () { };
         }
     };
 }
 
-function calculateAutoHeight(e) {
+function onInputChanged(e) {
     if (e && e.target) {
         e.target.style.height = 'auto';
         e.target.style.height = this.scrollHeight + 'px';
         e.target.style.overflowY = 'hidden';
+    }
+}
+
+export function recalculateAutoHeight(element, elementId) {
+    element = getRequiredElement(element, elementId);
+
+    if (!element)
+        return;
+
+    // fire input to trigger autosize in case the text is long
+    if ("createEvent" in document) {
+        let event = document.createEvent("HTMLEvents");
+        event.initEvent("input", false, true);
+        element.dispatchEvent(event);
+    }
+    else {
+        element.fireEvent("oninput");
     }
 }

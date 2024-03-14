@@ -1,0 +1,161 @@
+﻿@page "/docs/components/toast"
+
+<Seo Canonical="/docs/components/toast" Title="Blazorise Toast Component" Description="Learn to use and work with the Blazorise Toast component, a lightweight notifications designed to mimic the push notifications that have been popularized by mobile and desktop operating systems." />
+
+<DocsPageTitle Path="Components/Toast">
+    Blazorise Toast component
+</DocsPageTitle>
+
+<DocsPageLead>
+    Push notifications to your visitors with a toast, a lightweight and easily customizable alert message.
+</DocsPageLead>
+
+<DocsPageParagraph>
+    Toasts are brief alerts made to resemble push notifications, which are more common on desktop and mobile devices. Since they are flexbox-built, they are simple to align and reposition.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    Things to know when using the toast component:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>Toasts are opt-in for performance reasons, so <Strong>you must initialize them yourself</Strong>.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Toasts will automatically hide if you do not specify <Code>Autohide="false"</Code>.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Toasts must be wrapped with a <Code Tag>Toaster</Code> component to be properly placed on a screen.</Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>Use the <Anchor To="docs/services/toast-provider" Title="Link to toast service provider">toast service provider</Anchor> to show toasts programmatically with minimal code.</Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        <Paragraph>
+            We suggest using a header and body to promote predictable and extensible toasts. Toast headers use <Code>display: flex</Code>, which makes it simple to align content because of our flexbox and margin utilities.
+        </Paragraph>
+        <Paragraph>
+            Toasts have very little required markup and are as flexible as you need them to be. We at least demand that your "toasted" content be contained in a single element, and we highly recommend the inclusion of a dismiss button.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ToastBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ToastBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Live example">
+        Click the button below to show a toast (positioned with our utilities in the lower right corner) that has been hidden by default.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ToastLiveExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ToastLiveExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Placements">
+        You can use one of the following modifiers to change placements of the toast.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <ToastPlacementExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="ToastPlacementExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Best Practices
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Use Sparingly
+</Heading>
+
+<DocsPageParagraph>
+    Notifications are disruptive by design and should be used sparingly. Use fewer notifications by reserving them for more important information that may otherwise go unnoticed by the user.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Less urgent notifications can be provided through a link or drop-down in the application header or footer, instead of immediate notifications.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Limit Content Length
+</Heading>
+
+<DocsPageParagraph>
+    Aim for one or two lines of content. Notifications should be brief and to the point. More information can be provided through an embedded link or Button.
+</DocsPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Toast Positions
+</Heading>
+
+<DocsPageParagraph>
+    Toasts can be dispatched to all four corners of a page. We do not recommend to use more than one position for toasts in an application because that could be disorienting for users. Pick one desired position and configure it in the <Code>Toaster</Code>.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes Title="Toaster">
+    <DocsAttributesItem Name="Placement" Type="ToasterPlacement" Default="BottomEnd">
+        Specifies the position of the Toaster component.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PlacementStrategy" Type="ToasterPlacementStrategy" Default="Fixed">
+        Specifies the placement strategy of the Toaster component.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="Toast">
+    <DocsAttributesItem Name="Visible" Type="bool" Default="false">
+        Gets or sets the visibility state of the Toast.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="VisibleChanged" Type="EventCallback<bool>">
+        Event callback for when the visibility state of the Toast changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opening" Type="Func<ToastOpeningEventArgs, Task>">
+        Callback for handling the opening of the Toast.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closing" Type="Func<ToastClosingEventArgs, Task>">
+        Callback for handling the closing of the Toast.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opened" Type="EventCallback">
+        Event callback for when the Toast has been opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closed" Type="EventCallback">
+        Event callback for when the Toast has been closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Animated" Type="bool" Default="true">
+        Specifies whether the Toast should have an animated transition.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AnimationDuration" Type="int" Default="300ms">
+        The duration of the animation in milliseconds.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Autohide" Type="bool" Default="true">
+        Automatically hide the toast after the delay.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AutohideDelay" Type="double" Default="5000ms">
+        Delay in milliseconds before hiding the toast.
+    </DocsAttributesItem>
+</DocsAttributes>

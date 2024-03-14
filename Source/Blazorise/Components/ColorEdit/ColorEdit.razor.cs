@@ -2,6 +2,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -22,9 +23,17 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<string>( nameof( Color ), out var paramColor ) && !paramColor.IsEqual( Color ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -37,7 +46,7 @@ public partial class ColorEdit : BaseInputComponent<string>, ISelectableComponen
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ColorEdit() );
-        builder.Append( ClassProvider.ColorEditSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.ColorEditSize( ThemeSize ) );
 
         base.BuildClasses( builder );
     }

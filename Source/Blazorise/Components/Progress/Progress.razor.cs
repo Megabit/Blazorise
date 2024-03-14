@@ -50,7 +50,7 @@ public partial class Progress : BaseComponent, IDisposable
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( Theme != null )
+        if ( Theme is not null )
         {
             Theme.Changed += OnThemeChanged;
         }
@@ -63,7 +63,7 @@ public partial class Progress : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( Theme != null )
+            if ( Theme is not null )
             {
                 Theme.Changed -= OnThemeChanged;
             }
@@ -80,6 +80,7 @@ public partial class Progress : BaseComponent, IDisposable
         builder.Append( ClassProvider.ProgressColor( Color ), Color != Color.Default );
         builder.Append( ClassProvider.ProgressStriped(), Striped );
         builder.Append( ClassProvider.ProgressAnimated(), Animated );
+        builder.Append( ClassProvider.ProgressIndeterminate(), Indeterminate );
 
         base.BuildClasses( builder );
     }
@@ -95,6 +96,7 @@ public partial class Progress : BaseComponent, IDisposable
         builder.Append( ClassProvider.ProgressBarWidth( Percentage ?? 0 ) );
         builder.Append( ClassProvider.ProgressBarStriped(), Striped );
         builder.Append( ClassProvider.ProgressBarAnimated(), Animated );
+        builder.Append( ClassProvider.ProgressBarIndeterminate(), Indeterminate );
 
         if ( ThemeSize != Blazorise.Size.Default )
             builder.Append( ClassProvider.ProgressBarSize( ThemeSize ) );
@@ -106,7 +108,7 @@ public partial class Progress : BaseComponent, IDisposable
     /// <param name="builder">Styles builder used to append the styles.</param>
     private void BuildProgressBarStyles( StyleBuilder builder )
     {
-        if ( Percentage != null )
+        if ( Percentage is not null )
             builder.Append( StyleProvider.ProgressBarValue( Percentage ?? 0 ) );
 
         builder.Append( StyleProvider.ProgressBarSize( ThemeSize ) );
@@ -172,7 +174,7 @@ public partial class Progress : BaseComponent, IDisposable
     /// Calculates the percentage based on the current value and max parameters.
     /// </summary>
     protected int? Percentage
-        => Max == 0 ? 0 : (int?)( Value / (float?)Max * 100f );
+        => Indeterminate ? null : Max == 0 ? 0 : (int?)( Value / (float?)Max * 100f );
 
     /// <summary>
     /// Gets the classnames of the progress bar.
@@ -257,6 +259,21 @@ public partial class Progress : BaseComponent, IDisposable
         set
         {
             state = state with { Animated = value };
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Set to true to show that an operation is being executed.
+    /// </summary>
+    [Parameter]
+    public bool Indeterminate
+    {
+        get => state.Indeterminate;
+        set
+        {
+            state = state with { Indeterminate = value };
 
             DirtyClasses();
         }

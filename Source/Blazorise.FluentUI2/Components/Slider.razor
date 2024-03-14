@@ -1,0 +1,49 @@
+﻿@using System.Text
+@typeparam TValue
+@inherits Blazorise.Slider<TValue>
+@if ( ParentIsAddons )
+{
+    <div class="@AddonClassNames">
+        @SliderStructure
+    </div>
+}
+else
+{
+    @SliderStructure
+}
+@ChildContent
+@Feedback
+@code {
+    private RenderFragment SliderStructure => __builder =>
+    {
+        @if ( MinDefined || MaxDefined )
+        {
+            <div class="fui-Slider__container">
+                @if ( MinDefined )
+                {
+                    <label aria-hidden="true" class="fui-Label">@MinString</label>
+                }
+                <div class="@InputClassNames" style="@InputStyleNames">
+                    @SliderElement
+                </div>
+                @if ( MaxDefined )
+                {
+                    <label aria-hidden="true" class="fui-Label">@MaxString</label>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="@InputClassNames" style="@InputStyleNames">
+                @SliderElement
+            </div>
+        }
+    };
+
+    private RenderFragment SliderElement => __builder =>
+    {
+        <input @ref="@ElementRef" id="@ElementId" type="range" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" step="@StepString" min="@MinString" max="@MaxString" tabindex="@TabIndex" @bind-value="@CurrentValueAsString" @bind-value:event="oninput" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes">
+        <div class="fui-Slider__rail"></div>
+        <div class="fui-Slider__thumb"></div>
+    };
+}

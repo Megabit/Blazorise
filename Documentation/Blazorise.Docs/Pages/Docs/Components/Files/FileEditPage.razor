@@ -41,6 +41,29 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="Directories">
+        Directory uploading is supported by enabling <Code>Directory</Code> attribute to component. In this case <Code>Files</Code> property
+        of <Code>FileChangedEventArgs</Code> can contain multiple files within a directory.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <DirectoryFileEditExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DirectoryFileEditExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple Directories">
+        Multiple Directory uploading is supported by enabling <Code>Directory</Code> and <Code>Multiple</Code> attribute to component. In this case <Code>Files</Code> property
+        of <Code>FileChangedEventArgs</Code> can contain multiple files within a directory.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <MultipleDirectoryFileEditExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="MultipleDirectoryFileEditExample" />
+</DocsPageSection>
+
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="Limiting to certain file types">
         You can limit the file types by setting the <Code>Filter</Code> attribute to a string containing the allowed file type(s).
         To specify more than one type, separate the values with a comma.
@@ -176,8 +199,12 @@
 </Table>
 
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="ChildContent" Type="RenderFragment">
@@ -210,6 +237,9 @@
     <DocsAttributesItem Name="Multiple" Type="bool" Default="false">
         Specifies that multiple files can be selected.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="Directory" Type="bool" Default="false">
+        Specifies that directories can be selected.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="Placeholder" Type="string" Default="null">
         Sets the placeholder for the empty file input.
     </DocsAttributesItem>
@@ -228,5 +258,11 @@
     <DocsAttributesItem Name="DisableProgressReport" Type="bool" Default="false">
         Gets or sets whether report progress should be disabled. By enabling this setting, Progressed and Written callbacks won't be called. Internal file progress won't be tracked.
         This setting can speed up file transfer considerably.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ReadOnly" Type="bool" Default="false">
+        Add the readonly boolean attribute on an input to prevent modification of the input’s value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Add the disabled boolean attribute on an input to prevent user interactions and make it appear lighter.
     </DocsAttributesItem>
 </DocsAttributes>

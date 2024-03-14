@@ -1,0 +1,48 @@
+﻿@using Blazorise.Utilities;
+@inherits Blazorise.BaseLinkComponent
+<a id="@ElementId" href="@To" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
+    @ChildContent
+</a>
+@code {
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        if ( Mode == BarMode.Horizontal )
+        {
+            builder.Append( "block px-4 py-2 cursor-pointer" );
+
+            if ( InsideDropdown )
+            {
+                builder.Append( "font-medium hover:bg-gray-100 dark:hover:bg-gray-600" );
+
+                if ( Active )
+                {
+                    builder.Append( "bg-primary-700" );
+                }
+            }
+            else
+            {
+                builder.Append( "rounded" );
+
+                if ( Active )
+                {
+                    builder.Append( "text-white bg-primary-700 md:bg-transparent md:text-primary-700 md:dark:text-white dark:bg-primary-600 md:dark:bg-transparent" );
+                }
+                else
+                {
+                    builder.Append( "text-gray-700 hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 dark:hover:bg-gray-700 md:dark:hover:bg-transparent" );
+                }
+            }
+        }
+        else
+        {
+            // we are only interested in the active state for the vertical bar links
+            builder.Append( ClassProvider.LinkActive( Active ) );
+        }
+
+        base.BuildClasses( builder );
+    }
+
+    [Parameter] public bool InsideDropdown { get; set; }
+
+    [Parameter] public BarMode? Mode { get; set; }
+}

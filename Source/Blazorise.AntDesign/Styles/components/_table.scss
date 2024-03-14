@@ -1,0 +1,197 @@
+﻿.b-table.ant-table {
+    table {
+        position: relative;
+
+        .b-table-resizer {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 5px;
+            cursor: col-resize;
+            user-select: none;
+            z-index: 1;
+        }
+
+        .b-table-resizer:hover, .b-table-resizing {
+            cursor: col-resize !important;
+            border-right: 2px solid var(--b-theme-primary, blue);
+        }
+
+        .b-table-resizing {
+            cursor: col-resize !important;
+        }
+    }
+}
+
+.ant-table {
+    @each $name, $value in $theme-colors {
+        $background: theme-color-level($name, $table-background-level);
+        $border: theme-color-level($name, $table-border-level);
+
+        &-#{$name} {
+            &,
+            > th,
+            > td {
+                background-color: $background;
+            }
+
+            @if $border != null {
+                th,
+                td,
+                thead th,
+                tbody + tbody {
+                    border-color: $border;
+                }
+            }
+        }
+    }
+}
+
+.ant-table-striped {
+    tbody tr:nth-of-type(odd) {
+        background-color: #fbfbfb;
+    }
+
+    thead {
+        background-color: #f1f1f1;
+    }
+}
+
+.ant-table-borderless .ant-table-tbody {
+    tr,
+    th,
+    td,
+    thead th,
+    tbody + tbody {
+        border: 0;
+    }
+}
+
+.ant-table {
+    // disable antdesign default hover effect
+    tbody > tr.ant-table-row:hover > td {
+        background: unset;
+    }
+    // enable hover only when specified
+    &.ant-table-hover tbody > tr.ant-table-row:hover > td {
+        background: #f5f5f5;
+    }
+
+    tbody {
+        tr.ant-table-group {
+            cursor: pointer;
+            background-color: var(--b-theme-light, #f5f5f5);
+            font-weight: 600;
+        }
+    }
+}
+
+.ant-table {
+    // TODO: add to theme options
+    .ant-table-thead-dark {
+        th {
+            color: var(--b-table-thead-dark-color, #fff);
+            background-color: var(--b-table-thead-dark-background, #343a40);
+            border-color: var(--b-table-thead-dark-border, #343a40);
+        }
+    }
+
+    .ant-table-thead-light {
+        th {
+            color: var(--b-table-thead-light-color, #495057);
+            background-color: var(--b-table-thead-light-background, #e9ecef);
+            border-color: var(--b-table-thead-light-border, #e9ecef);
+        }
+    }
+}
+
+.ant-table-row-header {
+    font-weight: bold;
+}
+
+.ant-table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.ant-table-responsive > .ant-table-bordered {
+    border: 0;
+}
+
+.ant-table-fixed-header {
+    .ant-table-container {
+        overflow-y: auto;
+    }
+
+    .table {
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+    thead:not(.ant-table-thead-theme) th {
+        background: white;
+    }
+
+
+    thead tr th {
+        border-top: none;
+        position: sticky;
+        z-index: 1;
+    }
+
+    thead tr:nth-child(1) th {
+        top: 0;
+    }
+}
+
+tr.ant-table-row {
+    &.ant-table-row-selectable {
+        &:focus[tabindex="0"] {
+            outline: none;
+        }
+    }
+}
+
+.ant-table-fixed-columns {
+    .ant-table-container {
+        .ant-table-content {
+            width: 100%;
+            overflow-x: auto;
+            white-space: nowrap;
+            position: relative;
+
+            table {
+                table-layout: fixed !important;
+                overflow-x: auto;
+                white-space: nowrap;
+                border-collapse: separate;
+                border-spacing: 0;
+                border: 0;
+
+                .ant-header-cell-fixed,
+                .ant-row-header-fixed,
+                .ant-row-cell-fixed {
+                    &-start {
+                        position: sticky;
+                        border-left: none;
+                        z-index: 11;
+                        background-color: white;
+                        border-inline-start-width: 0;
+                        left: 0;
+                    }
+
+                    &-end {
+                        position: sticky;
+                        border-left: none;
+                        z-index: 11;
+                        background-color: white;
+                        border-inline-start-width: 0;
+                        right: 0;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,53 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Offcanvas @ref="offcanvasRef" ShowBackdrop Closing="@OnOffcanvasClosing">
+    <OffcanvasHeader>
+        Offcanvas Start
+        <CloseButton Clicked="@HideOffcanvas" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <Div Padding="Padding.Is3">
+             Offcanvas Content
+        </Div>
+        <Div Padding="Padding.Is3">
+             <Button Color="Color.Secondary" Clicked="@HideOffcanvas">This will close the offcanvas</Button>
+             <Button Color="Color.Primary" Clicked="@TryHideOffcanvas">This will not</Button>
+        </Div>
+    </OffcanvasBody>
+</Offcanvas>
+
+<Button Color="Color.Primary" Clicked="@ShowOffcanvas">Show Offcanvas Start</Button>
+
+@code {
+    private Offcanvas offcanvasRef;
+
+    private bool cancelClose;
+
+    private Task ShowOffcanvas()
+    {
+        return offcanvasRef.Show();
+    }
+
+    private Task HideOffcanvas()
+    {
+        cancelClose = false;
+
+        return offcanvasRef.Hide();
+    }
+
+    private Task TryHideOffcanvas()
+    {
+        cancelClose = true;
+
+        return offcanvasRef.Hide();
+    }
+
+    private Task OnOffcanvasClosing( OffcanvasClosingEventArgs e )
+    {
+        // just set Cancel to prevent offcanvas from closing
+        e.Cancel = cancelClose
+            || e.CloseReason != CloseReason.UserClosing;
+
+        return Task.CompletedTask;
+    }
+}

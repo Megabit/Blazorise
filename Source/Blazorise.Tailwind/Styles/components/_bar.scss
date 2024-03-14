@@ -1,0 +1,26 @@
+﻿.b-bar-horizontal {
+    .b-bar-dropdown {
+        > .b-bar-dropdown-toggle {
+            > .b-bar-dropdown-toggle-arrow {
+                transition: transform 200ms ease-out;
+            }
+
+            &[aria-expanded="true"] {
+                > svg.b-bar-dropdown-toggle-arrow {
+                    transform: rotate(180deg);
+                }
+            }
+        }
+
+        .b-bar-dropdown-menu {
+            > ul > .b-bar-dropdown {
+                > .b-bar-dropdown-menu {
+                    top: 0;
+                    left: 100%;
+                    margin-left: 0rem;
+                    margin-right: .1rem;
+                }
+            }
+        }
+    }
+}

@@ -3,18 +3,14 @@
 {
     <div class="ant-table-header" style="overflow: hidden;">
         <table style="table-layout: fixed;">
-            <thead id="@ElementId" class="@ClassNames" style="@StyleNames"
+            <thead @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
                    draggable="@DraggableString"
-                   @ondrag="@OnDragHandler"
-                   @ondrag:preventDefault="@DragPreventDefault"
                    @ondragend="@OnDragEndHandler"
                    @ondragend:preventDefault="@DragEndPreventDefault"
                    @ondragenter="@OnDragEnterHandler"
                    @ondragenter:preventDefault="@DragEnterPreventDefault"
                    @ondragleave="@OnDragLeaveHandler"
                    @ondragleave:preventDefault="@DragLeavePreventDefault"
-                   @ondragover="@OnDragOverHandler"
-                   @ondragover:preventDefault="@DragOverPreventDefault"
                    @ondragstart="@OnDragStartHandler"
                    @ondragstart:preventDefault="@DragStartPreventDefault"
                    @ondrop="@OnDropHandler"
@@ -27,18 +23,14 @@
 }
 else
 {
-    <thead id="@ElementId" class="@ClassNames" style="@StyleNames"
+    <thead @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames"
            draggable="@DraggableString"
-           @ondrag="@OnDragHandler"
-           @ondrag:preventDefault="@DragPreventDefault"
            @ondragend="@OnDragEndHandler"
            @ondragend:preventDefault="@DragEndPreventDefault"
            @ondragenter="@OnDragEnterHandler"
            @ondragenter:preventDefault="@DragEnterPreventDefault"
            @ondragleave="@OnDragLeaveHandler"
            @ondragleave:preventDefault="@DragLeavePreventDefault"
-           @ondragover="@OnDragOverHandler"
-           @ondragover:preventDefault="@DragOverPreventDefault"
            @ondragstart="@OnDragStartHandler"
            @ondragstart:preventDefault="@DragStartPreventDefault"
            @ondrop="@OnDropHandler"

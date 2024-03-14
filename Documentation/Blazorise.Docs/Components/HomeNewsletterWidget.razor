@@ -40,12 +40,12 @@
                     </Column>
                 </Row>
                 <Row>
-                    <Column>
+                    <Column TextColor="TextColor.White">
                         <Validation Validator="ValidationRule.IsChecked">
                             <Field Margin="Margin.Is1.FromBottom">
                                 <Check @bind-Checked="@termsAgreed">
                                     <ChildContent>
-                                        I agree to the <Anchor To="terms" TextColor="TextColor.White">Terms &amp; Conditions</Anchor> and <Anchor To="privacy" TextColor="TextColor.White">Privacy Policy</Anchor>.
+                                        I agree to the <Anchor To="terms" TextColor="TextColor.Secondary">Terms &amp; Conditions</Anchor> and <Anchor To="privacy" TextColor="TextColor.Secondary">Privacy Policy</Anchor>.
                                     </ChildContent>
                                     <Feedback>
                                         <ValidationError Style="font-size: .85rem;" TextColor="TextColor.Warning">You must agree to our terms and privacy policy.</ValidationError>

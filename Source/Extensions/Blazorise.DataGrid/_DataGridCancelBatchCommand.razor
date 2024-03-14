@@ -1,0 +1,22 @@
+﻿@inherits ComponentBase
+@typeparam TItem
+
+@if ( ParentDataGrid.CommandColumn?.CancelBatchCommandAllowed == true )
+{
+    var buttonString = Localizer.Localize( ParentDataGrid.Localizers?.CancelBatchButtonLocalizer, "Cancel Changes" );
+
+    @if ( ParentDataGrid.CommandColumn?.CancelBatchCommandTemplate != null )
+    {
+        @ParentDataGrid.CommandColumn.CancelBatchCommandTemplate( new()
+        {
+            Clicked = CancelBatch,
+            LocalizationString = buttonString,
+        } )
+    }
+    else
+    {
+        <Button Color="Color.Link" Clicked="@CancelBatch">
+            @buttonString
+        </Button>
+    }
+}

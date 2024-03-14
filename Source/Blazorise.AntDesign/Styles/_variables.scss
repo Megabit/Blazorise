@@ -89,6 +89,7 @@ $spacers: () !default;
 $spacers: map-merge( ( 0: 0, 1: ($spacer * .25), 2: ($spacer * .5), 3: $spacer, 4: ($spacer * 1.5), 5: ($spacer * 3) ), $spacers );
 
 $grid-columns: 24 !default;
+$grid-rows: 6 !default;
 $grid-row-columns: 6 !default;
 $grid-breakpoints: ( "xxs": 0, "xs": $mobile, "sm": $tablet, "md": $desktop, "lg": $widescreen, "xl": $fullhd ) !default;
 
@@ -96,7 +97,7 @@ $modal-dialog-margin: .5rem !default;
 
 // Cards
 
-$grid-gutter-width: 30px !default;
+$grid-gutter-width: 8px !default;
 
 $card-group-margin: $grid-gutter-width / 2 !default;
 $card-deck-margin: $card-group-margin !default;
@@ -122,6 +123,35 @@ $display3-weight: 300 !default;
 $display4-weight: 300 !default;
 $display-line-height: $headings-line-height !default;
 
+$font-size-xs: 10px;
+$font-size-sm: 12px;
+$font-size-md: 16px;
+$font-size-lg: 20px;
+$font-size-xl: 24px;
+
+$line-height-xs: 18px;
+$line-height-sm: 20px;
+$line-height-md: 24px;
+$line-height-lg: 28px;
+$line-height-xl: 32px;
+
+$h1-font-size: 38px;
+$h2-font-size: 30px;
+$h3-font-size: 24px;
+$h4-font-size: 20px;
+$h5-font-size: 16px;
+$h6-font-size: 14px;
+
+$h1-line-height: 46px;
+$h2-line-height: 38px;
+$h3-line-height: 32px;
+$h4-line-height: 28px;
+$h5-line-height: 24px;
+$h6-line-height: 22px;
+
+$font-sizes: ( xs: $font-size-xs, sm: $font-size-sm, md: $font-size-md, lg: $font-size-lg, xl: $font-size-xl, 1: $h1-font-size, 2: $h2-font-size, 3: $h3-font-size, 4: $h4-font-size, 5: $h5-font-size, 6: $h6-font-size ) !default;
+$line-heights: ( xs: $line-height-xs, sm: $line-height-sm, md: $line-height-md, lg: $line-height-lg, xl: $line-height-xl, 1: $h1-line-height, 2: $h2-line-height, 3: $h3-line-height, 4: $h4-line-height, 5: $h5-line-height, 6: $h6-line-height ) !default;
+
 // Check
 
 $check-height: 16px;
@@ -141,8 +171,6 @@ $radio-lg-height: 24px;
 $radio-xl-height: 28px;
 
 // Switch
-
-$font-size-sm: 12px;
 
 $switch-color: $primary;
 $switch-bg: $component-background;
@@ -201,7 +229,7 @@ $border-width: 1px;
 $border-color: #adb5bd;
 
 $sizes: () !default;
-$sizes: map-merge( ( 25: 25%, 50: 50%, 75: 75%, 100: 100%, auto: auto ), $sizes );
+$sizes: map-merge( ( 25: 25%, 33: 33.333333%, 50: 50%, 66: 66.666667%, 75: 75%, 100: 100%, auto: auto ), $sizes );
 
 $box-shadow-sm: 0 .125rem .25rem rgba($black, .075) !default;
 $box-shadow: 0 .5rem 1rem rgba($black, .15) !default;

@@ -15,7 +15,7 @@ public partial class FieldBody : Blazorise.FieldBody
 
     #region Properties
 
-    protected override bool ColumnSizeSupported => false; // Bulma does not support column sizes on fields.
+    protected override bool PreventColumnSize => true; // Bulma does not support column sizes on fields.
 
     #endregion
 }

@@ -99,9 +99,38 @@
     <DocsPageSectionSource Code="AutocompleteSuggestMultipleCheckboxExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Highlight search text">
+        Autocomplete <Code>HighlightSearch</Code> is a feature that allows you to highlight the search text that you have entered in a dropdown list of items. When you start typing in the search field, the dropdown list of items will automatically be filtered to show only the items that match the search text. The search text will also be highlighted in the dropdown list of items, so that you can easily see which items match your search. This can be a useful feature when you are trying to find a specific item in a long list of items, as it allows you to quickly locate the item you are looking for.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteHighlightExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteHighlightExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Virtualize">
+        <Paragraph>
+            Blazorise Autocomplete's Virtualize feature allows for loading data on demand while scrolling, which improves the performance of the component when working with large datasets. With Virtualize, the Autocomplete component only loads the items that are currently visible in the list, and as the user scrolls, more items are loaded in the background. This allows for a much faster and smoother user experience, especially when working with large lists of items.
+        </Paragraph>
+        <Paragraph>
+            This feature can be easily enabled by setting the <Code>Virtualize</Code> property to <Code>"true"</Code> on the Autocomplete component.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <AutocompleteVirtualizeExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="AutocompleteVirtualizeExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="TItem" Type="generic">
@@ -144,7 +173,7 @@
         Placeholder for the empty search field.
     </DocsAttributesItem>
     <DocsAttributesItem Name="MinLength" Type="int" Default="1">
-        Minimum number of character needed to start search.
+        Minimum number of character needed to start search. Set this to 0 to make the Autocomplete function like a dropdown.
     </DocsAttributesItem>
     <DocsAttributesItem Name="MaxMenuHeight" Type="string" Default="200px">
         Sets the maximum height of the dropdown menu.
@@ -187,7 +216,10 @@
         Multiple parameter will be removed in a future version, please replace with SelectionMode.Multiple Parameter instead.
     </DocsAttributesItem>
     <DocsAttributesItem Name="MultipleBadgeColor" Type="Color" Default="Color.Primary">
-        Sets the Badge color for the multiple selection values.
+        Sets the Badge color for the multiple selection values. Used when multiple selection is set.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MultipleDisabledBadgeColor" Type="Color" Default="Color.Light">
+        Sets the disabled Badge color for the multiple selection values. Used when multiple selection is set.
     </DocsAttributesItem>
     <DocsAttributesItem Name="SelectedValues" Type="List<TValue>">
         Currently selected items values.
@@ -227,12 +259,36 @@
     <DocsAttributesItem Name="SelectionMode" Type="AutocompleteSelectionMode" Default="AutocompleteSelectionMode.Default">
         Gets or sets the Autocomplete Selection Mode.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="HighlightSearch" Type="bool" Default="false">
+        If true, the searched text will be highlighted in the dropdown list items based on <Code>Search</Code> value.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchBackground" Type="Background" Default="null">
+        Defines the background color of the search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchTextColor" Type="TextColor" Default="null">
+        Defines the text color of the search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchClass" Type="string" Default="null">
+        Defines the class for the search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchStyle" Type="string" Default="null">
+        Defines the style for the search field.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Closed" Type="EventCallback<AutocompleteClosedEventArgs>">
+        Event handler used to detect when the autocomplete is closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Opened" Type="EventCallback">
+        Event handler used to detect when the autocomplete is opened.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FreeTypingNotFoundTemplate" Type="RenderFragment<string>">
+        Specifies the not found content to be rendered when no data is found and FreeTyping is enabled.
+    </DocsAttributesItem>
 </DocsAttributes>
 
 
-<DocsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
     Methods
-</DocsPageSubtitle>
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="ScrollItemIntoView">
@@ -277,5 +333,26 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="MaxEntryLength">
         Specifies the maximum number of characters allowed in the input element.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Virtualize" Type="bool" Default="false">
+        Gets or sets whether the Autocomplete will use the <Code>Virtualize</Code> functionality.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TagTemplate" Type="RenderFragment<AutocompleteTagContext<TItem, TValue>>">
+        Specifies the badge content to be rendered for each tag (multiple selected item).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchTextChanged" Type="EventCallback<string>">
+        Occurs after the search box text has changed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchKeyDown" Type="EventCallback<KeyboardEventArgs>">
+        Occurs when a key is pressed down while the search box has focus.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchFocus" Type="EventCallback<FocusEventArgs>">
+        Occurs when the search box gains or loses focus.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SearchBlur" Type="EventCallback<FocusEventArgs>">
+        The blur event fires when the search box has lost focus.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PositionStrategy" Type="DropdownPositionStrategy" Default="Fixed">
+        Defines the positioning strategy of the dropdown menu as a 'floating' element.
     </DocsAttributesItem>
 </DocsAttributes>

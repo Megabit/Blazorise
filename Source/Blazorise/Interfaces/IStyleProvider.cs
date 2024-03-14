@@ -4,7 +4,19 @@ public interface IStyleProvider
 {
     #region Modal
 
-    string ModalShow();
+    int DefaultModalZIndex { get; }
+
+    int DefaultModalBackdropZIndex { get; }
+
+    string ModalShow( bool visible );
+
+    string ModalFade( bool showing, bool hiding );
+
+    string ModalAnimationDuration( bool animated, int animationDuration );
+
+    string ModalZIndex( int modalOpenIndex );
+
+    string ModalBackdropZIndex( int modalOpenIndex );
 
     #endregion
 
@@ -35,6 +47,20 @@ public interface IStyleProvider
     #region Column
 
     string ColumnGutter( (int Horizontal, int Vertical) gutter );
+
+    #endregion
+
+    #region Offcanvas
+
+    string OffcanvasAnimationDuration( bool animated, int animationDuration );
+
+    string OffcanvasBackdropAnimationDuration( bool animated, int animationDuration );
+
+    #endregion
+
+    #region Toast
+
+    string ToastAnimationDuration( bool animated, int animationDuration );
 
     #endregion
 }

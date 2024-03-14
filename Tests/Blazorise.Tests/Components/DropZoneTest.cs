@@ -1,10 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
 using Blazorise.Tests.TestServices;
 using Bunit;
-using FluentAssertions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,8 +15,11 @@ public class DropZoneTest : TestContext
     public DropZoneTest()
     {
         var testServices = new TestServiceProvider( Services.AddSingleton<NavigationManager, TestNavigationManager>() );
-        BlazoriseConfig.AddBootstrapProviders( testServices );
-        BlazoriseConfig.JSInterop.AddDragDrop( this.JSInterop );
+
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop
+            .AddBlazoriseDragDrop()
+            .AddBlazoriseUtilities();
     }
 
     [Fact]
@@ -435,9 +435,11 @@ public class DropZoneTest : TestContext
             ItemDropped = new EventCallback<DraggableDroppedEventArgs<object>>( null, DropEvent )
         };
 
-        void DropEvent( DraggableDroppedEventArgs<object> e )
+        Task DropEvent( DraggableDroppedEventArgs<object> e )
         {
             returnedArgs = e;
+
+            return Task.CompletedTask;
         }
 
         sut.StartTransaction( new object(), "source_zone_name", 0, () => Task.CompletedTask, () => Task.CompletedTask );

@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Threading.Tasks;
 using Blazorise.States;
 using Blazorise.Utilities;
@@ -10,7 +11,7 @@ namespace Blazorise;
 /// <summary>
 /// Container for <see cref="BarLink"/> or <see cref="BarDropdown"/> components.
 /// </summary>
-public partial class BarItem : BaseComponent
+public partial class BarItem : BaseComponent, IAsyncDisposable
 {
     #region Members
 
@@ -35,6 +36,41 @@ public partial class BarItem : BaseComponent
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        ParentBar?.NotifyBarItemInitialized( this );
+    }
+
+    /// <summary>
+    /// The dropdown menu has been shown.
+    /// </summary>
+    /// <returns></returns>
+    internal Task OnDropdownVisible()
+    {
+        if ( ParentBar.MenuToggleBehavior == BarMenuToggleBehavior.AllowSingleMenu )
+        {
+            return ParentBar.HideAllExcept( this );
+        }
+
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Hides the dropdown menu if it's visible.
+    /// </summary>
+    /// <returns></returns>
+    internal protected Task HideDropdown()
+    {
+        if ( HasDropdown && barDropdown.IsVisible )
+        {
+            return barDropdown.Hide();
+        }
+
+        return Task.CompletedTask;
+    }
 
     /// <inheritdoc/>
     protected override async Task OnAfterRenderAsync( bool firstRender )
@@ -70,8 +106,19 @@ public partial class BarItem : BaseComponent
     internal void NotifyBarDropdownInitialized( BarDropdown barDropdown )
     {
         this.barDropdown = barDropdown;
+
     }
 
+    /// <inheritdoc/>
+    protected override async ValueTask DisposeAsync( bool disposing )
+    {
+        if ( disposing && Rendered )
+        {
+            ParentBar?.NotifyBarItemRemoved( this );
+        }
+
+        await base.DisposeAsync( disposing );
+    }
     #endregion
 
     #region Properties
@@ -84,7 +131,7 @@ public partial class BarItem : BaseComponent
     /// <summary>
     /// True if <see cref="BarDropdown"/> component is placed inside of this <see cref="BarItem"/>.
     /// </summary>
-    protected bool HasDropdown => barDropdown != null;
+    protected bool HasDropdown => barDropdown is not null;
 
     /// <summary>
     /// Gets or sets the flag to indicate if <see cref="BarItem"/> is active, or focused.
@@ -135,6 +182,11 @@ public partial class BarItem : BaseComponent
             DirtyClasses();
         }
     }
+
+    /// <summary>
+    /// Gets or sets the reference to the parent <see cref="Bar"/> component.
+    /// </summary>
+    [CascadingParameter] protected Bar ParentBar { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="BarItem"/>.

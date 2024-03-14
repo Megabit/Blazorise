@@ -16,6 +16,18 @@
     "{0} - {1} of {2} items": "{0} - {1} 条，共 {2} 条",
     "Row Edit": "编辑行",
     "Row Create": "创建行",
-    "Create": "创建"
+    "Create": "创建",
+    "Drag a column header here to group by that column": "将列标题拖到此处以按该列分组",
+    "Contains": "包含",
+    "Starts With": "以。。開始",
+    "Ends With": "以。。結束",
+    "Equals": "等於",
+    "Not Equals": "不等於",
+    "Greater Than": "比...更棒",
+    "Greater Than or Equal": "大於或等於",
+    "Less Than": "少於",
+    "Less Than or Equal": "小於或等於",
+    "Save Changes": "儲存變更",
+    "Cancel Changes": "取消更改"
   }
 }

@@ -1,6 +1,5 @@
 ﻿#region Using directives
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
+using System.Threading.Tasks;
 using Xunit;
 #endregion
 
@@ -10,38 +9,39 @@ public class AutocompleteMultipleReadDataComponentTest : AutocompleteMultipleBas
 {
     public AutocompleteMultipleReadDataComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddTextEdit( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddUtilities( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddClosable( this.JSInterop );
-        BlazoriseConfig.JSInterop.AddDropdown( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop
+            .AddBlazoriseTextEdit()
+            .AddBlazoriseUtilities()
+            .AddBlazoriseClosable()
+            .AddBlazoriseDropdown();
     }
 
     [Fact]
-    public void Focus_ShouldFocus()
+    public Task Focus_ShouldFocus()
     {
-        TestFocus<AutocompleteMultipleReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
+        return TestFocus<AutocompleteMultipleReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Focus() );
     }
 
     [Fact]
-    public void Clear_ShouldReset()
+    public Task Clear_ShouldReset()
     {
-        TestClear<AutocompleteMultipleReadDataComponent>( ( comp ) => comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
+        return TestClear<AutocompleteMultipleReadDataComponent>( async ( comp ) => await comp.Instance.AutoCompleteRef.Clear(), ( comp ) => comp.Instance.SelectedTexts?.ToArray() );
     }
 
     [Theory]
     [InlineData( new[] { "Portugal", "Croatia" }, "" )]
     [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }, "" )]
-    public void SelectValues_ShouldSet( string[] expectedTexts, string dummy )
+    public Task SelectValues_ShouldSet( string[] expectedTexts, string dummy )
     {
-        TestSelectValues<AutocompleteMultipleReadDataComponent>( expectedTexts );
+        return TestSelectValues<AutocompleteMultipleReadDataComponent>( expectedTexts );
     }
 
     [Theory]
     [InlineData( new[] { "Portugal", "Croatia" }, new[] { "MyCustomValue", "YetAnotherCustomValue" }, new[] { "Portugal", "Croatia", "MyCustomValue", "YetAnotherCustomValue" } )]
-    public void FreeTypedValue_ShouldSet( string[] startTexts, string[] addTexts, string[] expectedTexts )
+    public Task FreeTypedValue_ShouldSet( string[] startTexts, string[] addTexts, string[] expectedTexts )
     {
-        TestFreeTypedValue<AutocompleteMultipleReadDataComponent>( startTexts, addTexts, expectedTexts );
+        return TestFreeTypedValue<AutocompleteMultipleReadDataComponent>( startTexts, addTexts, expectedTexts );
     }
 
     [Theory]
@@ -50,8 +50,8 @@ public class AutocompleteMultipleReadDataComponentTest : AutocompleteMultipleBas
     [InlineData( new[] { "Antarctica", "United Arab Emirates", "Afghanistan", "Canada", "Angola", "Argentina", "Switzerland", "China", "United Kingdom", "Portugal", "Croatia" }
         , new[] { "Antarctica", "Argentina", "United Kingdom", "Canada" }
         , new[] { "United Arab Emirates", "Afghanistan", "Angola", "Switzerland", "China", "Portugal", "Croatia" } )]
-    public void RemoveValues_ShouldRemove( string[] startTexts, string[] removeTexts, string[] expectedTexts )
+    public Task RemoveValues_ShouldRemove( string[] startTexts, string[] removeTexts, string[] expectedTexts )
     {
-        TestRemoveValues<AutocompleteMultipleReadDataComponent>( startTexts, removeTexts, expectedTexts );
+        return TestRemoveValues<AutocompleteMultipleReadDataComponent>( startTexts, removeTexts, expectedTexts );
     }
 }

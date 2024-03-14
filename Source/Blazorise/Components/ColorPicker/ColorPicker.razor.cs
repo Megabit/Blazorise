@@ -69,7 +69,7 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
 
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<string>>>( nameof( ColorExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -94,7 +94,7 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     private async void OnLocalizationChanged( object sender, EventArgs eventArgs )
     {
         // no need to refresh if we're using custom localization
-        if ( PickerLocalizer != null )
+        if ( PickerLocalizer is not null )
             return;
 
         ExecuteAfterRender( async () => await JSModule.UpdateLocalization( ElementRef, ElementId, Localizer.GetStrings() ) );
@@ -115,9 +115,14 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
             HideAfterPaletteSelect,
             ShowClearButton,
             ShowCancelButton,
+            ShowOpacitySlider,
+            ShowHueSlider,
+            ShowInputField,
             Disabled,
             ReadOnly,
             Localization = Localizer.GetStrings(),
+            ColorPreviewElementSelector,
+            ColorValueElementSelector,
         } );
 
         await base.OnFirstAfterRenderAsync();
@@ -143,7 +148,7 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ColorPicker() );
-        builder.Append( ClassProvider.ColorPickerSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.ColorPickerSize( ThemeSize ) );
 
         base.BuildClasses( builder );
     }
@@ -198,6 +203,16 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Gets the CSS selector for the color preview element.
+    /// </summary>
+    protected virtual string ColorPreviewElementSelector => ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-color";
+
+    /// <summary>
+    /// Gets the CSS selector for the color value element.
+    /// </summary>
+    protected virtual string ColorValueElementSelector => ":scope > .b-input-color-picker-preview > .b-input-color-picker-curent-value";
 
     /// <inheritdoc/>
     protected override string InternalValue { get => Color; set => Color = value; }
@@ -275,6 +290,21 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
     /// Controls the visibility of the cancel buttons.
     /// </summary>
     [Parameter] public bool ShowCancelButton { get; set; } = true;
+
+    /// <summary>
+    /// Controls the visibility of the opacity slider.
+    /// </summary>
+    [Parameter] public bool ShowOpacitySlider { get; set; } = true;
+
+    /// <summary>
+    /// Controls the visibility of the hue slider.
+    /// </summary>
+    [Parameter] public bool ShowHueSlider { get; set; }
+
+    /// <summary>
+    /// Controls the visibility of the textbox which shows the selected color value.
+    /// </summary>
+    [Parameter] public bool ShowInputField { get; set; } = true;
 
     /// <summary>
     /// Function used to handle custom localization that will override a default <see cref="ITextLocalizer"/>.

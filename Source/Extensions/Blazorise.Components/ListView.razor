@@ -1,20 +1,41 @@
-﻿@typeparam TItem
-<ListGroup Class="@ListGroupClassNames" Style="@ListGroupStyleNames" Flush="@Flush" Mode="@Mode" SelectedItemChanged="@SelectedListGroupItemChanged" Attributes="@Attributes">
-    @if ( Data != null )
-    {
-        @foreach ( var item in Data ?? Enumerable.Empty<TItem>() )
+﻿@using Microsoft.AspNetCore.Components.Web.Virtualization
+@typeparam TItem
+<ListGroup Class="@ListGroupClassNames" Style="@ListGroupStyleNames" Flush="@Flush" Scrollable="@Scrollable" Mode="@Mode" SelectionMode="@SelectionMode" SelectedItem="@GetItemValue( SelectedItem )" SelectedItemChanged="@SelectedListGroupItemChanged" SelectedItems="@GetItemValues( SelectedItems )" SelectedItemsChanged="@SelectedListGroupItemsChanged" Attributes="@Attributes">
+    @{
+        var listViewData = GetData();
+
+        @if ( listViewData is not null )
         {
-            var itemText = GetItemText( item );
-            var itemValue = GetItemValue( item );
-            @if ( ItemTemplate is not null )
+            @if ( Virtualize && listViewData is ICollection<TItem> collectionableData )
             {
-                <ListGroupItem @key="item" Name="@itemValue">@ItemTemplate( new( item, itemText, itemValue ) )</ListGroupItem>
+                <Virtualize TItem="TItem" Context="item" Items="@collectionableData">
+                    @itemFragment( item )
+                </Virtualize>
             }
             else
             {
-                <ListGroupItem @key="item" Name="@itemValue">@itemText</ListGroupItem>
+                @foreach ( var item in listViewData ?? Enumerable.Empty<TItem>() )
+                {
+                    @itemFragment( item )
+                }
             }
         }
     }
     @ChildContent
 </ListGroup>
+@code {
+    protected RenderFragment<TItem> itemFragment => item => __builder =>
+    {
+        var itemText = GetItemText( item );
+        var itemValue = GetItemValue( item );
+        var itemDisabled = GetItemDisabled( item );
+        @if ( ItemTemplate is not null )
+        {
+            <ListGroupItem @key="item" Disabled=@itemDisabled Name="@itemValue">@ItemTemplate( new( item, itemText, itemValue ) )</ListGroupItem>
+        }
+        else
+        {
+            <ListGroupItem @key="item" Disabled=@itemDisabled Name="@itemValue">@itemText</ListGroupItem>
+        }
+    };
+}

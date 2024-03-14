@@ -3,9 +3,9 @@
     <CascadingValue Value="@State">
         @ChildContent
 
-        <div id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
             <div class="slick-slider slick-initialized" dir="ltr">
-                <div @ref="@slickListElementRef" class="@SlidesClassNames">
+                <div @ref="@slickListElementRef" id="@slickListElementId" class="@SlidesClassNames">
                     <div class="slick-track" style="@SlickTrackStyle">
                         @if ( carouselSlides.Count > 0 )
                         {

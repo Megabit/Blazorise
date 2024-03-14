@@ -1,21 +1,21 @@
 ﻿using System.Diagnostics;
-using BasicTestApp.Client;
-using Blazorise.Tests.Helpers;
+using System.Threading.Tasks;
 using Bunit;
 using Xunit;
 
 namespace Blazorise.Tests.Components;
 
+
 public class ValidateNumericEditComponentTest : TestContext
 {
     public ValidateNumericEditComponentTest()
     {
-        BlazoriseConfig.AddBootstrapProviders( Services );
-        BlazoriseConfig.JSInterop.AddNumericEdit( this.JSInterop );
+        Services.AddBlazoriseTests().AddBootstrapProviders().AddEmptyIconProvider().AddTestData();
+        JSInterop.AddBlazoriseNumericEdit();
     }
 
     [Fact]
-    public void CanValidateNumeric_InitiallyBlank()
+    public async Task CanValidateNumeric_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateNumericEditComponent>();
@@ -26,16 +26,16 @@ public class ValidateNumericEditComponentTest : TestContext
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( "1" );
+        await edit.InputAsync( "1" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateNumeric_InitiallyPopulated()
+    public async Task CanValidateNumeric_InitiallyPopulated()
     {
         // setup
         var comp = RenderComponent<ValidateNumericEditComponent>();
@@ -45,16 +45,16 @@ public class ValidateNumericEditComponentTest : TestContext
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( "2" );
+        await edit.InputAsync( "2" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateNumericWithBind_InitiallyBlank()
+    public async Task CanValidateNumericWithBind_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateNumericEditComponent>();
@@ -64,16 +64,16 @@ public class ValidateNumericEditComponentTest : TestContext
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( "1" );
+        await edit.InputAsync( "1" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateNumericWithBind_InitiallyPopulated()
+    public async Task CanValidateNumericWithBind_InitiallyPopulated()
     {
         // setup
         var comp = RenderComponent<ValidateNumericEditComponent>();
@@ -83,16 +83,16 @@ public class ValidateNumericEditComponentTest : TestContext
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( "2" );
+        await edit.InputAsync( "2" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateNumericWithEvent_InitiallyBlank()
+    public async Task CanValidateNumericWithEvent_InitiallyBlank()
     {
         // setup
         var comp = RenderComponent<ValidateNumericEditComponent>();
@@ -102,16 +102,16 @@ public class ValidateNumericEditComponentTest : TestContext
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( "1" );
+        await edit.InputAsync( "1" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
     }
 
     [Fact]
-    public void CanValidateNumericWithEvent_InitiallyPopulated()
+    public async Task CanValidateNumericWithEvent_InitiallyPopulated()
     {
         // setup
         var comp = RenderComponent<ValidateNumericEditComponent>();
@@ -121,11 +121,11 @@ public class ValidateNumericEditComponentTest : TestContext
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
 
         // test 1
-        edit.Input( string.Empty );
+        await edit.InputAsync( string.Empty );
         Assert.Contains( "is-invalid", edit.GetAttribute( "class" ) );
 
         // test 2
-        edit.Input( "2" );
+        await edit.InputAsync( "2" );
         Assert.Contains( "is-valid", edit.GetAttribute( "class" ) );
     }
 }

@@ -40,7 +40,7 @@
 
     Task SelectCulture( <span class="keyword">string</span> name )
     {
-        LocalizationService.ChangeLanguage( name );
+        LocalizationService.ChangeLanguage( name, <span class="keyword">false</span> );
 
         <span class="keyword">return</span> Task.CompletedTask;
     }

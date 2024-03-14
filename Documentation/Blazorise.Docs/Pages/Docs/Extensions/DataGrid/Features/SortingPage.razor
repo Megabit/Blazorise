@@ -1,0 +1,82 @@
+﻿@page "/docs/extensions/datagrid/features/sorting"
+
+<Seo Canonical="/docs/extensions/datagrid/features/sorting" Title="Blazorise DataGrid Sorting" Description="Learn Blazorise by the example. Blazorise DataGrid offers efficient data sorting with customizable options." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Features/Sorting">
+    Blazorise DataGrid: Sorting
+</DocsPageTitle>
+
+<DocsPageLead>
+    Sorting allows you to arrange data in ascending or descending order. To sort a column, click its header.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    All columns can be sorted automatically if the option <Code>Sortable</Code> is enabled on the column.
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    Use <Code>SortField</Code> if you would like to set a different field or property to be considered by the sorting mechanism on a certain column.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Single">
+        By default the DataGrid sorting mode is single column based.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridSortSingleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridSortSingleExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Multiple">
+        You may also change the DataGrid sorting mode to multiple, to allow sorting on multiple columns.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridSortMultipleExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridSortMultipleExample" />
+</DocsPageSection>
+
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="SortField">
+        <Paragraph>
+            The <code>SortField</code> feature, allows you to define a different Property or Field of the Item to be considered by the sorting mechanism.
+        </Paragraph>
+        <Paragraph>
+            In this example, we define the Sort Field of the <code>Childrens</code> Column to be the calculated property <code>ChildrensPerSalary</code>.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridSortFieldExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridSortFieldExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="ApplySorting">
+        <Paragraph>
+            You can use the <code>ApplySorting</code> method to programmatically specify the columns to sort by.
+        </Paragraph>
+        <Paragraph>
+            In this example, there are two buttons to change the sort order programmatically.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridApplySortingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridApplySortingExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>

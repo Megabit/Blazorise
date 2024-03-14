@@ -3,25 +3,43 @@
 <Seo Canonical="/docs/extensions/datagrid/validations" Title="Blazorise DataGrid validations" Description="Learn to use and work with the Blazorise DataGrid DataGrid validations to validate a user forms and input fields." />
 
 <DocsPageTitle>
-    DataGrid: Validations
+    Blazorise DataGrid: Validations
 </DocsPageTitle>
+
+<DocsPageLead>
+    Easily validate the edited or added row data.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    The <Code>DataGrid</Code> provides validations of column values at editing or creating items. For using validation of <Code>DataGrid</Code> you have to use these properties:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem><Code>UseValidation</Code> must be set to true to enable validation.</UnorderedListItem>
+        <UnorderedListItem><Code>ShowValidationFeedback</Code> of DataGrid to hide or show feedback for validation.</UnorderedListItem>
+        <UnorderedListItem><Code>ShowValidationsSummary</Code> of DataGrid to hide or show validations summary.</UnorderedListItem>
+        <UnorderedListItem><Code>ValidationsSummaryLabel</Code> of DataGrid to set label of validations summary.</UnorderedListItem>
+        <UnorderedListItem><Code>Validator</Code> of <Code>DataGridColumn</Code> validates the input value after trying to save.</UnorderedListItem>
+        <UnorderedListItem><Code>ValidationPattern</Code> of <Code>DataGridColumn</Code> forces validation to use regex pattern matching instead of default validator handler.</UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
 
 <DocsPageSection>
     <DocsPageSectionHeader Title="Validations">
-        <Paragraph>
-            The <Code>DataGrid</Code> provides validations of column values at editing or creating items. For using validation of <Code>DataGrid</Code> you have to use these properties:
-        </Paragraph>
-        <UnorderedList>
-            <UnorderedListItem><Code>UseValidation</Code> must be set to true to enable validation.</UnorderedListItem>
-            <UnorderedListItem><Code>ShowValidationFeedback</Code> of DataGrid to hide or show feedback for validation.</UnorderedListItem>
-            <UnorderedListItem><Code>ShowValidationsSummary</Code> of DataGrid to hide or show validations summary.</UnorderedListItem>
-            <UnorderedListItem><Code>ValidationsSummaryLabel</Code> of DataGrid to set label of validations summary.</UnorderedListItem>
-            <UnorderedListItem><Code>Validator</Code> of <Code>DataGridColumn</Code> validates the input value after trying to save.</UnorderedListItem>
-            <UnorderedListItem><Code>ValidationPattern</Code> of <Code>DataGridColumn</Code> forces validation to use regex pattern matching instead of default validator handler.</UnorderedListItem>
-        </UnorderedList>
         By default, <Code>DataGrid</Code> will use data-annotation to validate editing fields. You only need to define them on your model and they will automatically be picked up by the grid.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="DataGridAnnotationExample" />
+    <DocsPageSectionContent FullWidth>
+        <DocsPageSectionSource Code="DataGridAnnotationExample" />
+    </DocsPageSectionContent>
     <DocsPageSectionContent>
         <Alert Visible Color="Color.Warning">
             <AlertDescription>
@@ -29,14 +47,18 @@
             </AlertDescription>
         </Alert>
     </DocsPageSectionContent>
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth>
         To override data-annotation you only need to define a <Code>Validator</Code> attribute and assign it to your validation method.
         <DataGridValidatorExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridValidatorExample" />
-    <DocsPageSectionContent>
+    <DocsPageSectionContent FullWidth>
         If you use <Code>EditTemplate</Code> to customize editing of columns, then using <Code>Validator</Code> or <Code>ValidationPattern</Code> will not work and you have to use <Code>Validation</Code> like in the following example:
         <DataGridValidatorEditTemplateExample />
     </DocsPageSectionContent>
     <DocsPageSectionSource Code="DataGridValidatorEditTemplateExample" />
 </DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>

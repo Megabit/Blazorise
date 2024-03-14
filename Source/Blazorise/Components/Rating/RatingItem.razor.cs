@@ -38,7 +38,7 @@ public partial class RatingItem : BaseComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected virtual Task HandleClick()
     {
-        if ( Rating.Disabled )
+        if ( Rating.Disabled || Rating.ReadOnly )
             return Task.CompletedTask;
 
         IsActive = false;
@@ -60,7 +60,7 @@ public partial class RatingItem : BaseComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected virtual Task HandleMouseOver( MouseEventArgs eventArgs )
     {
-        if ( Rating.Disabled )
+        if ( Rating.Disabled || Rating.ReadOnly )
             return Task.CompletedTask;
 
         IsActive = true;
@@ -75,7 +75,7 @@ public partial class RatingItem : BaseComponent
     /// <returns>A task that represents the asynchronous operation.</returns>
     protected virtual Task HandleMouseOut( MouseEventArgs eventArgs )
     {
-        if ( Rating.Disabled )
+        if ( Rating.Disabled || Rating.ReadOnly )
             return Task.CompletedTask;
 
         IsActive = false;
@@ -90,14 +90,14 @@ public partial class RatingItem : BaseComponent
     /// <summary>
     /// Gets the icon name based on the item state.
     /// </summary>
-    protected object IconName => Rating.IsSelectedRange( Value )
+    protected virtual object IconName => Rating.IsSelectedRange( Value )
         ? Rating.FullIcon
         : Rating.EmptyIcon;
 
     /// <summary>
     /// Gets the icon style based on the item state.
     /// </summary>
-    protected IconStyle IconStyle
+    protected virtual IconStyle IconStyle
     {
         get
         {

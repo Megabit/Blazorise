@@ -19,7 +19,7 @@
         <Strong>Note:</Strong> Take note of this caveat when using the following enums:
         <UnorderedList>
             <UnorderedListItem><Code>DisplayType.None</Code> Does not render the html element at all in the page.</UnorderedListItem>
-            <UnorderedListItem><Code>Visibility.None</Code>  Hides the element, but it still takes up space in the page. It is basically invisible.</UnorderedListItem>
+            <UnorderedListItem><Code>Visibility.Default</Code>  Hides the element, but it still takes up space in the page. It is basically invisible.</UnorderedListItem>
         </UnorderedList>
     </AlertDescription>
 </Alert>
@@ -39,7 +39,7 @@
     <DocsPageSectionHeader Title="Alignment">
         <Paragraph>Defines the alignment of an element.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>Alignment.None</Code> No alignment will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>Alignment.Default</Code> No alignment will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>Alignment.Start</Code> Aligns an element to the left.</UnorderedListItem>
             <UnorderedListItem><Code>Alignment.Center</Code> Aligns an element on the center.</UnorderedListItem>
             <UnorderedListItem><Code>Alignment.End</Code> Aligns an element to the right.</UnorderedListItem>
@@ -51,7 +51,7 @@
     <DocsPageSectionHeader Title="Background">
         <Paragraph>Predefined set of contextual background colors.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>Background.None</Code> No color will be applied to an element.</UnorderedListItem>
+            <UnorderedListItem><Code>Background.Default</Code> No color will be applied to an element.</UnorderedListItem>
             <UnorderedListItem><Code>Background.Primary</Code> Primary color.</UnorderedListItem>
             <UnorderedListItem><Code>Background.Secondary</Code> Secondary color.</UnorderedListItem>
             <UnorderedListItem><Code>Background.Success</Code> Success color.</UnorderedListItem>
@@ -100,6 +100,16 @@
 </DocsPageSection>
 
 <DocsPageSection>
+    <DocsPageSectionHeader Title="BarMenuToggleBehavior">
+        <Paragraph>Defines how the bar menu will behave when toggled.</Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Code>BarMenuToggleBehavior.AllowSingleMenu</Code> Only a single menu will be toggled at a time.</UnorderedListItem>
+            <UnorderedListItem><Code>BarMenuToggleBehavior.AllowMultipleMenus</Code> Multiple menus can be toggled at a time.</UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+</DocsPageSection>
+
+<DocsPageSection>
     <DocsPageSectionHeader Title="BorderColor">
         <Paragraph>Predefined set of contextual border colors.</Paragraph>
         <UnorderedList>
@@ -121,7 +131,7 @@
     <DocsPageSectionHeader Title="BorderRadius">
         <Paragraph>Radius styles of an element.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>BorderRadius.None</Code> Don't apply any borders.</UnorderedListItem>
+            <UnorderedListItem><Code>BorderRadius.Default</Code> Don't apply any borders.</UnorderedListItem>
             <UnorderedListItem><Code>BorderRadius.Rounded</Code> Makes the element rounded on all sides.</UnorderedListItem>
             <UnorderedListItem><Code>BorderRadius.RoundedTop</Code> Makes the element rounded on top side of the element.</UnorderedListItem>
             <UnorderedListItem><Code>BorderRadius.RoundedRight</Code> Makes the element rounded on right side of the element.</UnorderedListItem>
@@ -151,7 +161,7 @@
     <DocsPageSectionHeader Title="BorderSize">
         <Paragraph>Defines the border sizes.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>BorderSize.None</Code> Border size will not be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>BorderSize.Default</Code> Border size will not be applied.</UnorderedListItem>
             <UnorderedListItem><Code>BorderSize.Is0</Code> Makes the element borderless.</UnorderedListItem>
             <UnorderedListItem><Code>BorderSize.Is1</Code> Borders will be 1px wide.</UnorderedListItem>
             <UnorderedListItem><Code>BorderSize.Is2</Code> Borders will be 2px wide.</UnorderedListItem>
@@ -246,7 +256,7 @@
     <DocsPageSectionHeader Title="Color">
         <Paragraph>Predefined set of contextual colors.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>Color.None</Code> No color will be applied to an element.</UnorderedListItem>
+            <UnorderedListItem><Code>Color.Default</Code> No color will be applied to an element.</UnorderedListItem>
             <UnorderedListItem><Code>Color.Primary</Code> Primary color.</UnorderedListItem>
             <UnorderedListItem><Code>Color.Secondary</Code> Secondary color.</UnorderedListItem>
             <UnorderedListItem><Code>Color.Success</Code> Success color.</UnorderedListItem>
@@ -264,7 +274,7 @@
     <DocsPageSectionHeader Title="ColumnWidth">
         <Paragraph>Defines number of columns to occupy in the grid.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>ColumnWidth.None</Code> No sizing.</UnorderedListItem>
+            <UnorderedListItem><Code>ColumnWidth.Default</Code> No sizing.</UnorderedListItem>
             <UnorderedListItem><Code>ColumnWidth.Is1</Code> One column width.</UnorderedListItem>
             <UnorderedListItem><Code>ColumnWidth.Is2</Code> Two columns width.</UnorderedListItem>
             <UnorderedListItem><Code>ColumnWidth.Is3</Code> Three columns width.</UnorderedListItem>
@@ -350,7 +360,7 @@
     <DocsPageSectionHeader Title="Direction">
         <Paragraph>Direction of an dropdown menu.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>Direction.None</Code> Same as</UnorderedListItem>
+            <UnorderedListItem><Code>Direction.Default</Code> A default direction will be used, in most cases it is the same as Down.</UnorderedListItem>
             <UnorderedListItem><Code>Direction.Down</Code> Trigger dropdown menus bellow an element (default behaviour).</UnorderedListItem>
             <UnorderedListItem><Code>Direction.Up</Code> Trigger dropdown menus above an element.</UnorderedListItem>
             <UnorderedListItem><Code>Direction.Right</Code> Trigger dropdown menus to the right of an element.</UnorderedListItem>
@@ -365,7 +375,7 @@
     <DocsPageSectionHeader Title="DisplayDirection">
         <Paragraph>Defines direction of flex items in a flex container.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>DisplayDirection.None</Code> Direction will not be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>DisplayDirection.Default</Code> Direction will not be applied.</UnorderedListItem>
             <UnorderedListItem><Code>DisplayDirection.Row</Code> The flex container's main-axis is defined to be the same as the text direction. The main-start and main-end points are the same as the content direction.</UnorderedListItem>
             <UnorderedListItem><Code>DisplayDirection.Column</Code> The flex container's main-axis is the same as the block-axis. The main-start and main-end points are the same as the before and after points of the writing-mode.</UnorderedListItem>
             <UnorderedListItem><Code>DisplayDirection.ReverseRow</Code> Behaves the same as row but the main-start and main-end points are permuted.</UnorderedListItem>
@@ -420,7 +430,7 @@
     <DocsPageSectionHeader Title="FigureSize">
         <Paragraph>Defines a figure size in pixels.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>FigureSize.None</Code> No sizing will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>FigureSize.Default</Code> No sizing will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>FigureSize.Is16x16</Code> 16x16px</UnorderedListItem>
             <UnorderedListItem><Code>FigureSize.Is24x24</Code> 24x24px</UnorderedListItem>
             <UnorderedListItem><Code>FigureSize.Is32x32</Code> 32x32px</UnorderedListItem>
@@ -454,7 +464,7 @@
             flex container when there is extra space in the cross-axis.
         </Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>FlexAlignContent.None</Code> Align-content will not be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>FlexAlignContent.Default</Code> Align-content will not be applied.</UnorderedListItem>
             <UnorderedListItem><Code>FlexAlignContent.Start</Code> Lines are packed toward the start of the flex container.</UnorderedListItem>
             <UnorderedListItem><Code>FlexAlignContent.End</Code> Lines are packed toward the end of the flex container.</UnorderedListItem>
             <UnorderedListItem><Code>FlexAlignContent.Center</Code> Lines are packed toward the center of the flex container.</UnorderedListItem>
@@ -469,7 +479,7 @@
     <DocsPageSectionHeader Title="FlexAlignItems">
         <Paragraph>Defines the default behavior for how flex items are laid out along the cross axis on the current line.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>FlexAlignItems.None</Code> Align-items will not be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>FlexAlignItems.Default</Code> Align-items will not be applied.</UnorderedListItem>
             <UnorderedListItem>
                 <Code>FlexAlignItems.Start</Code> Items are placed at the start of the cross axis. The difference between these is subtle,
                 and is about respecting the flex-direction rules or the writing-mode rules.
@@ -489,7 +499,7 @@
     <DocsPageSectionHeader Title="FlexAlignSelf">
         <Paragraph>Allows the default alignment (or the one specified by align-items) to be overridden for individual flex items.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>FlexAlignSelf.None</Code> Align-self will not be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>FlexAlignSelf.Default</Code> Align-self will not be applied.</UnorderedListItem>
             <UnorderedListItem><Code>FlexAlignSelf.Auto</Code> Equals to the value specified in the align-items property for the flex container (it’s the default value).</UnorderedListItem>
             <UnorderedListItem>
                 <Code>FlexAlignSelf.Start</Code> Items are placed at the start of the cross axis. The difference between these is subtle,
@@ -510,7 +520,7 @@
     <DocsPageSectionHeader Title="FlexDirection">
         <Paragraph>Defines direction of flex items in a flex container.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>FlexDirection.None</Code> Direction will not be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>FlexDirection.Default</Code> Direction will not be applied.</UnorderedListItem>
             <UnorderedListItem><Code>FlexDirection.Row</Code> The flex container's main-axis is defined to be the same as the text direction. The main-start and main-end points are the same as the content direction.</UnorderedListItem>
             <UnorderedListItem><Code>FlexDirection.Column</Code> The flex container's main-axis is the same as the block-axis. The main-start and main-end points are the same as the before and after points of the writing-mode.</UnorderedListItem>
             <UnorderedListItem><Code>FlexDirection.ReverseRow</Code> Behaves the same as row but the main-start and main-end points are permuted.</UnorderedListItem>
@@ -523,7 +533,7 @@
     <DocsPageSectionHeader Title="FlexGrowShrink">
         <Paragraph>The flex-grow property sets the flex grow factor to the provided</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>FlexGrowShrink.None</Code> No grow or shrink will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>FlexGrowShrink.Default</Code> No grow or shrink will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>FlexGrowShrink.Grow</Code> Grow rule will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>FlexGrowShrink.Shrink</Code> Shrink rule will be applied.</UnorderedListItem>
         </UnorderedList>
@@ -534,7 +544,7 @@
     <DocsPageSectionHeader Title="FlexGrowShrinkSize">
         <Paragraph>If all items have flex-grow set to 1, the remaining space in the container will be distributed equally to all children.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>FlexGrowShrinkSize.None</Code> No size will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>FlexGrowShrinkSize.Default</Code> No size will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>FlexGrowShrinkSize.Is0</Code> Element uses a default space.</UnorderedListItem>
             <UnorderedListItem><Code>FlexGrowShrinkSize.Is1</Code> Element uses all available space it can.</UnorderedListItem>
         </UnorderedList>
@@ -545,7 +555,7 @@
     <DocsPageSectionHeader Title="FlexJustifyContent">
         <Paragraph>Defines the alignment along the main axis.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>FlexJustifyContent.None</Code> Justify-content will not be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>FlexJustifyContent.Default</Code> Justify-content will not be applied.</UnorderedListItem>
             <UnorderedListItem><Code>FlexJustifyContent.Start</Code> Items are packed toward the start of the flex-direction.</UnorderedListItem>
             <UnorderedListItem><Code>FlexJustifyContent.End</Code> Items are packed toward the end of the flex-direction.</UnorderedListItem>
             <UnorderedListItem><Code>FlexJustifyContent.Center</Code> Items are centered along the line.</UnorderedListItem>
@@ -562,7 +572,7 @@
     <DocsPageSectionHeader Title="FlexOrder">
         <Paragraph>Controls the order in which items appear in the flex container.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>FlexOrder.None</Code> No order will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>FlexOrder.Default</Code> No order will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>FlexOrder.Is0</Code> A default order.</UnorderedListItem>
             <UnorderedListItem><Code>FlexOrder.Is1</Code> An element will be shown as first item.</UnorderedListItem>
             <UnorderedListItem><Code>FlexOrder.Is2</Code> An element will be shown as second item.</UnorderedListItem>
@@ -584,7 +594,7 @@
     <DocsPageSectionHeader Title="FlexType">
         <Paragraph>The flex types for the display property specifies the display behavior (the type of rendering box) of an element.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>FlexType.None</Code> Display will not be defined.</UnorderedListItem>
+            <UnorderedListItem><Code>FlexType.Default</Code> Display will not be defined.</UnorderedListItem>
             <UnorderedListItem><Code>FlexType.Flex</Code> Displays an element as a block-level flex container.</UnorderedListItem>
             <UnorderedListItem><Code>FlexType.InlineFlex</Code> Displays an element as an inline-level flex container.</UnorderedListItem>
         </UnorderedList>
@@ -595,7 +605,7 @@
     <DocsPageSectionHeader Title="FlexWrap">
         <Paragraph>Controls whether the flex container is single-line or multi-line.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>FlexWrap.None</Code> No wrap will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>FlexWrap.Default</Code> No wrap will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>FlexWrap.Wrap</Code> Flex items will wrap onto multiple lines, from top to bottom.</UnorderedListItem>
             <UnorderedListItem><Code>FlexWrap.ReverseWrap</Code> Flex items will wrap onto multiple lines from bottom to top.</UnorderedListItem>
             <UnorderedListItem><Code>FlexWrap.NoWrap</Code> All flex items will be on one line.</UnorderedListItem>
@@ -607,7 +617,7 @@
     <DocsPageSectionHeader Title="Float">
         <Paragraph>Floats an element to the left or right, or disable floating.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>Float.None</Code> Don't float on all viewport sizes.</UnorderedListItem>
+            <UnorderedListItem><Code>Float.Default</Code> Don't float on all viewport sizes.</UnorderedListItem>
             <UnorderedListItem><Code>Float.Left</Code> Float left on all viewport sizes.</UnorderedListItem>
             <UnorderedListItem><Code>Float.Right</Code> Float right on all viewport sizes.</UnorderedListItem>
             <UnorderedListItem><Code>Float.Start</Code> Float start on all viewport sizes.</UnorderedListItem>
@@ -634,7 +644,7 @@
     <DocsPageSectionHeader Title="IconSize">
         <Paragraph>Defines the size of an</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>IconSize.None</Code> The icon size will not be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>IconSize.Default</Code> The icon size will not be applied.</UnorderedListItem>
             <UnorderedListItem><Code>IconSize.ExtraSmall</Code> The icon will be size 0.75em.</UnorderedListItem>
             <UnorderedListItem><Code>IconSize.Small</Code> The icon will be size 0.875em.</UnorderedListItem>
             <UnorderedListItem><Code>IconSize.Large</Code> The icon will be size 1.33em (Also applies vertical-align: -25%).</UnorderedListItem>
@@ -692,7 +702,7 @@
     <DocsPageSectionHeader Title="JustifyContent">
         <Paragraph>Aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally).</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>JustifyContent.None</Code> Sets this property to its default value.</UnorderedListItem>
+            <UnorderedListItem><Code>JustifyContent.Default</Code> Sets this property to its default value.</UnorderedListItem>
             <UnorderedListItem><Code>JustifyContent.Start</Code> Items are positioned at the beginning of the container.</UnorderedListItem>
             <UnorderedListItem><Code>JustifyContent.End</Code> Items are positioned at the end of the container.</UnorderedListItem>
             <UnorderedListItem><Code>JustifyContent.Center</Code> Items are positioned at the center of the container.</UnorderedListItem>
@@ -883,7 +893,7 @@
     <DocsPageSectionHeader Title="OverflowType">
         <Paragraph>The overflow property controls what happens to content that is too big to fit into an area.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>OverflowType.None</Code> No overflow will be applied</UnorderedListItem>
+            <UnorderedListItem><Code>OverflowType.Default</Code> No overflow will be applied</UnorderedListItem>
             <UnorderedListItem><Code>OverflowType.Visible</Code> The overflow is not clipped. The content renders outside the element's box.</UnorderedListItem>
             <UnorderedListItem><Code>OverflowType.Hidden</Code> The overflow is clipped, and the rest of the content will be invisible.</UnorderedListItem>
             <UnorderedListItem><Code>OverflowType.Scroll</Code> The overflow is clipped, and a scrollbar is added to see the rest of the content.</UnorderedListItem>
@@ -910,7 +920,7 @@
     <DocsPageSectionHeader Title="PositionEdgeType">
         <Paragraph>Defines the type of position edge type.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>PositionEdgeType.None</Code> Edge type will not be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>PositionEdgeType.Default</Code> Edge type will not be applied.</UnorderedListItem>
             <UnorderedListItem><Code>PositionEdgeType.Top</Code> For the vertical top position.</UnorderedListItem>
             <UnorderedListItem><Code>PositionEdgeType.Start</Code> For the horizontal start position.</UnorderedListItem>
             <UnorderedListItem><Code>PositionEdgeType.Bottom</Code> For the vertical bottom position.</UnorderedListItem>
@@ -935,7 +945,7 @@
     <DocsPageSectionHeader Title="PositionType">
         <Paragraph>Type of positions allowed for the fluent position builder.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>PositionType.None</Code> Position will not be applied to an element.</UnorderedListItem>
+            <UnorderedListItem><Code>PositionType.Default</Code> Position will not be applied to an element.</UnorderedListItem>
             <UnorderedListItem><Code>PositionType.Static</Code> An element is not positioned in any special way; it is always positioned according to the normal flow of the page.</UnorderedListItem>
             <UnorderedListItem><Code>PositionType.Relative</Code> An element is positioned relative to its normal position.</UnorderedListItem>
             <UnorderedListItem>
@@ -955,7 +965,7 @@
     <DocsPageSectionHeader Title="RowColumnsSize">
         <Paragraph>Defines the number of columns to show in a row.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>RowColumnsSize.None</Code> Nothing will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>RowColumnsSize.Default</Code> Nothing will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>RowColumnsSize.Are1</Code> One column per row.</UnorderedListItem>
             <UnorderedListItem><Code>RowColumnsSize.Are2</Code> Two columns per row.</UnorderedListItem>
             <UnorderedListItem><Code>RowColumnsSize.Are3</Code> Three columns per row.</UnorderedListItem>
@@ -1012,7 +1022,7 @@
     <DocsPageSectionHeader Title="Size">
         <Paragraph>Defines an element size.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>Size.None</Code> Don't resize an element.</UnorderedListItem>
+            <UnorderedListItem><Code>Size.Default</Code> Don't resize an element.</UnorderedListItem>
             <UnorderedListItem><Code>Size.ExtraSmall</Code> Makes an element extra small size.</UnorderedListItem>
             <UnorderedListItem><Code>Size.Small</Code> Makes an element small size.</UnorderedListItem>
             <UnorderedListItem><Code>Size.Medium</Code> Makes an element medium size.</UnorderedListItem>
@@ -1026,7 +1036,7 @@
     <DocsPageSectionHeader Title="SizingSize">
         <Paragraph>Predefined list of element sizes.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>SizingSize.None</Code> No size will be defined.</UnorderedListItem>
+            <UnorderedListItem><Code>SizingSize.Default</Code> No size will be defined.</UnorderedListItem>
             <UnorderedListItem><Code>SizingSize.Is25</Code> An element will occupy 25% of its parent space.</UnorderedListItem>
             <UnorderedListItem><Code>SizingSize.Is50</Code> An element will occupy 50% of its parent space.</UnorderedListItem>
             <UnorderedListItem><Code>SizingSize.Is75</Code> An element will occupy 75% of its parent space.</UnorderedListItem>
@@ -1051,7 +1061,7 @@
     <DocsPageSectionHeader Title="SortDirection">
         <Paragraph>Specifies the direction of a sort operation.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>SortDirection.None</Code> No sorting will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>SortDirection.Default</Code> No sorting will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>SortDirection.Ascending</Code> Sorts in ascending order.</UnorderedListItem>
             <UnorderedListItem><Code>SortDirection.Descending</Code> Sorts in descending order.</UnorderedListItem>
         </UnorderedList>
@@ -1123,7 +1133,7 @@
     <DocsPageSectionHeader Title="Target">
         <Paragraph>The target attribute specifies where to open the linked document.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>Target.None</Code> No target will be applied. Usually this is the same as</UnorderedListItem>
+            <UnorderedListItem><Code>Target.Default</Code> No target will be applied. Usually this is the same as</UnorderedListItem>
             <UnorderedListItem><Code>Target.Self</Code> Opens the linked document in the same frame as it was clicked (this is default).</UnorderedListItem>
             <UnorderedListItem><Code>Target.Blank</Code> Opens the linked document in a new window or tab.</UnorderedListItem>
             <UnorderedListItem><Code>Target.Parent</Code> Opens the linked document in the parent frame.</UnorderedListItem>
@@ -1136,7 +1146,7 @@
     <DocsPageSectionHeader Title="TextAlignment">
         <Paragraph>Defines the text alignment.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>TextAlignment.None</Code> No alignment will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>TextAlignment.Default</Code> No alignment will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>TextAlignment.Left</Code> Aligns the text to the left.</UnorderedListItem>
             <UnorderedListItem><Code>TextAlignment.Right</Code> Aligns the text to the right.</UnorderedListItem>
             <UnorderedListItem><Code>TextAlignment.Start</Code> Aligns the text to the start.</UnorderedListItem>
@@ -1151,7 +1161,7 @@
     <DocsPageSectionHeader Title="TextColor">
         <Paragraph>Predefined set of contextual text colors.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>TextColor.None</Code> No color will be applied to an element.</UnorderedListItem>
+            <UnorderedListItem><Code>TextColor.Default</Code> No color will be applied to an element.</UnorderedListItem>
             <UnorderedListItem><Code>TextColor.Primary</Code> Primary color.</UnorderedListItem>
             <UnorderedListItem><Code>TextColor.Secondary</Code> Secondary color.</UnorderedListItem>
             <UnorderedListItem><Code>TextColor.Success</Code> Success color.</UnorderedListItem>
@@ -1189,7 +1199,7 @@
     <DocsPageSectionHeader Title="TextOverflow">
         <Paragraph>Determines how the text will behave when it is larger than a parent container.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>TextOverflow.None</Code> No overflow will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>TextOverflow.Default</Code> No overflow will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>TextOverflow.Wrap</Code> Text will wrap into a new line when it reaches the end of container.</UnorderedListItem>
             <UnorderedListItem><Code>TextOverflow.NoWrap</Code> Prevents text from wrapping.</UnorderedListItem>
             <UnorderedListItem><Code>TextOverflow.Truncate</Code> Truncate the text with an ellipsis.</UnorderedListItem>
@@ -1215,7 +1225,7 @@
     <DocsPageSectionHeader Title="TextTransform">
         <Paragraph>Defines the text transformation.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>TextTransform.None</Code> No capitalization. The text renders as it is. This is default.</UnorderedListItem>
+            <UnorderedListItem><Code>TextTransform.Default</Code> No capitalization. The text renders as it is. This is default.</UnorderedListItem>
             <UnorderedListItem><Code>TextTransform.Lowercase</Code> Transforms all characters to lowercase.</UnorderedListItem>
             <UnorderedListItem><Code>TextTransform.Uppercase</Code> Transforms all characters to uppercase.</UnorderedListItem>
             <UnorderedListItem><Code>TextTransform.Capitalize</Code> Transforms the first character of each word to uppercase.</UnorderedListItem>
@@ -1227,7 +1237,7 @@
     <DocsPageSectionHeader Title="TextWeight">
         <Paragraph>Defines the text weight.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>TextWeight.None</Code> No weight will be applied.</UnorderedListItem>
+            <UnorderedListItem><Code>TextWeight.Default</Code> No weight will be applied.</UnorderedListItem>
             <UnorderedListItem><Code>TextWeight.Normal</Code> Defines normal characters. This is default.</UnorderedListItem>
             <UnorderedListItem><Code>TextWeight.Bold</Code> Defines thick characters.</UnorderedListItem>
             <UnorderedListItem><Code>TextWeight.Light</Code> Defines lighter characters.</UnorderedListItem>
@@ -1318,7 +1328,7 @@
     <DocsPageSectionHeader Title="Visibility">
         <Paragraph>Control the visibility, without modifying the display, of elements with visibility utilities.</Paragraph>
         <UnorderedList>
-            <UnorderedListItem><Code>Visibility.None</Code> No visibility will be applied to an element.</UnorderedListItem>
+            <UnorderedListItem><Code>Visibility.Default</Code> No visibility will be applied to an element.</UnorderedListItem>
             <UnorderedListItem><Code>Visibility.Visible</Code> Default value. The element is visible</UnorderedListItem>
             <UnorderedListItem><Code>Visibility.Invisible</Code> The element is hidden (but still takes up space)</UnorderedListItem>
         </UnorderedList>

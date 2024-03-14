@@ -20,6 +20,10 @@ else
                 {
                     <_DataGridCellEditValidation Column="@Column" Item="@Item" ValidationItem="@ValidationItem" Field="@Column.Field" ValueType="@valueType" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" ShowValidationFeedback="@ShowValidationFeedback" ValidationPattern="@ValidationPattern" DateInputMode="@dateColumn.InputMode" />
                 }
+                else if ( Column is DataGridSelectColumn<TItem> selectColumn )
+                {
+                    <_DataGridCellSelectEdit Column="@selectColumn" CellValue="CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" ShowValidationFeedback="@ShowValidationFeedback" />
+                }
                 else
                 {
                     <_DataGridCellEditValidation Column="@Column" Item="@Item" ValidationItem="@ValidationItem" Field="@Column.Field" ValueType="@valueType" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" ShowValidationFeedback="@ShowValidationFeedback" ValidationPattern="@ValidationPattern" />
@@ -30,11 +34,15 @@ else
         {
             @if ( Column is DataGridNumericColumn<TItem> numericColumn )
             {
-                <_DataGridCellEdit Column="@Column" Item="@Item" ValidationItem="@ValidationItem" Field="@Column.Field" ValueType="@valueType" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" Step="@numericColumn.Step" Decimals="@numericColumn.Decimals" DecimalSeparator="@numericColumn.DecimalSeparator" Culture="@numericColumn.Culture" ShowStepButtons="@numericColumn.ShowStepButtons" EnableStep="@numericColumn.EnableStep" />
+                <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
             }
             else if ( Column is DataGridDateColumn<TItem> dateColumn )
             {
                 <_DataGridCellEdit Column="@Column" Item="@Item" ValidationItem="@ValidationItem" Field="@Column.Field" ValueType="@valueType" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" DateInputMode="@dateColumn.InputMode" />
+            }
+            else if ( Column is DataGridSelectColumn<TItem> selectColumn )
+            {
+                <_DataGridCellSelectEdit Column="@selectColumn" CellValue="CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
             }
             else
             {
@@ -42,4 +50,11 @@ else
             }
         }
     }
+}
+
+@if ( !string.IsNullOrWhiteSpace( Column.HelpText ) )
+{
+    <Help>
+        @Column.HelpText
+    </Help>
 }

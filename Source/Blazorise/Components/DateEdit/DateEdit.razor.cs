@@ -21,10 +21,17 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        // Let blazor do its thing!
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<TValue>( nameof( Date ), out var paramDate ) && !paramDate.IsEqual( Date ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( parameters.TryGetValue<Expression<Func<TValue>>>( nameof( DateExpression ), out var expression ) )
                 await ParentValidation.InitializeInputExpression( expression );
@@ -47,8 +54,8 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.DateEdit( Plaintext ) );
-        builder.Append( ClassProvider.DateEditSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.DateEditColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.DateEditSize( ThemeSize ) );
+        builder.Append( ClassProvider.DateEditColor( Color ) );
         builder.Append( ClassProvider.DateEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );

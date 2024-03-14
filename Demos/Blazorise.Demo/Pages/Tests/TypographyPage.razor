@@ -68,6 +68,23 @@
     </Column>
 </Row>
 <Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Leading paragraph</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Lead>
+                    Deliver great service experiences fast - without the complexity of traditional ITSM solutions.Accelerate critical development work and deploy.
+                </Lead>
+                <Paragraph>
+                    Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
     <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
         <Card Margin="Margin.Is4.FromBottom">
             <CardHeader>
@@ -205,9 +222,80 @@
             </CardBody>
             <CardBody>
                 <Paragraph TextWeight="TextWeight.Bold">Bold text.</Paragraph>
+                <Paragraph TextWeight="TextWeight.SemiBold">SemiBold text.</Paragraph>
                 <Paragraph TextWeight="TextWeight.Normal">Normal weight text.</Paragraph>
                 <Paragraph TextWeight="TextWeight.Light">Light weight text.</Paragraph>
                 <Paragraph Italic>Italic text.</Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Text Sizes</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>Quickly change the <Code>font-size</Code> of text. </CardText>
+            </CardBody>
+            <CardBody>
+                <Paragraph TextSize="TextSize.ExtraSmall">
+                    TextSize.ExtraSmall
+                </Paragraph>
+                <Paragraph TextSize="TextSize.Small">
+                    TextSize.Small
+                </Paragraph>
+                <Paragraph TextSize="TextSize.Default">
+                    TextSize.Default
+                </Paragraph>
+                <Paragraph TextSize="TextSize.Medium">
+                    TextSize.Medium
+                </Paragraph>
+                <Paragraph TextSize="TextSize.Large">
+                    TextSize.Large
+                </Paragraph>
+                <Paragraph TextSize="TextSize.ExtraLarge">
+                    TextSize.ExtraLarge
+                </Paragraph>
+
+                <Paragraph TextSize="TextSize.Heading1">
+                    TextSize.Heading1
+                </Paragraph>
+                <Paragraph TextSize="TextSize.Heading2">
+                    TextSize.Heading2
+                </Paragraph>
+                <Paragraph TextSize="TextSize.Heading3">
+                    TextSize.Heading3
+                </Paragraph>
+                <Paragraph TextSize="TextSize.Heading4">
+                    TextSize.Heading4
+                </Paragraph>
+                <Paragraph TextSize="TextSize.Heading5">
+                    TextSize.Heading5
+                </Paragraph>
+                <Paragraph TextSize="TextSize.Heading6">
+                    TextSize.Heading6
+                </Paragraph>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Links</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    Links allow users to navigate between different locations. They can be used as standalone controls or inline with text.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Paragraph>
+                    This is a <Anchor To="#">link</Anchor> used within other text, and this is a <Anchor To="#" Disabled>disabled link</Anchor>.
+                </Paragraph>
             </CardBody>
         </Card>
     </Column>

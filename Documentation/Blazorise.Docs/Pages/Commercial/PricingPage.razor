@@ -1,0 +1,27 @@
+﻿@page "/pricing"
+
+<Seo Canonical="/pricing" Title="Blazorise Pricing" Description="Purchase Blazorise components for every type of project across major development platforms. Dynamic release cycle and best support service." />
+
+<PageHeader>
+    <Title>
+        Blazorise <Span Class="gradient-commercial">Plans</Span>
+    </Title>
+    <Subtitle>
+        Thousands of developers love and use Blazorise on a daily basis.
+    </Subtitle>
+    <Description>
+        <Paragraph>
+            Be a part of the most reliable and developer focused Blazor library in the world.
+        </Paragraph>
+    </Description>
+</PageHeader>
+
+<Container TextAlignment="TextAlignment.Center">
+    <BenefitsGrid />
+
+    <Pricing @bind-Quantity="@quantity" @bind-Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
+
+    <PlansComparer Quantity="@quantity" Plan="@plan" ProfessionalPrices="@professionalPrices" EnterprisePrices="@enterprisePrices" />
+
+    <Faq />
+</Container>

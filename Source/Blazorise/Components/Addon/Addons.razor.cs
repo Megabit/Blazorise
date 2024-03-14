@@ -17,8 +17,6 @@ public partial class Addons : BaseComponent, IDisposable
 
     private Size? size;
 
-    private IFluentColumn columnSize;
-
     private List<Button> registeredButtons;
 
     #endregion
@@ -30,7 +28,7 @@ public partial class Addons : BaseComponent, IDisposable
     {
         await base.OnInitializedAsync();
 
-        if ( Theme != null )
+        if ( Theme is not null )
         {
             Theme.Changed += OnThemeChanged;
         }
@@ -54,7 +52,7 @@ public partial class Addons : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( Theme != null )
+            if ( Theme is not null )
             {
                 Theme.Changed -= OnThemeChanged;
             }
@@ -67,7 +65,7 @@ public partial class Addons : BaseComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Addons() );
-        builder.Append( ClassProvider.AddonsSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.AddonsSize( ThemeSize ) );
         builder.Append( ClassProvider.AddonsHasButton( registeredButtons?.Count > 0 ) );
 
         base.BuildClasses( builder );
@@ -79,7 +77,7 @@ public partial class Addons : BaseComponent, IDisposable
     /// <param name="button">A button reference that is placed inside of the addons.</param>
     internal void NotifyButtonInitialized( Button button )
     {
-        if ( button == null )
+        if ( button is null )
             return;
 
         registeredButtons ??= new();
@@ -96,10 +94,10 @@ public partial class Addons : BaseComponent, IDisposable
     /// <param name="button">A button reference that is placed inside of the addons.</param>
     internal void NotifyButtonRemoved( Button button )
     {
-        if ( button == null )
+        if ( button is null )
             return;
 
-        if ( registeredButtons != null && registeredButtons.Contains( button ) )
+        if ( registeredButtons is not null && registeredButtons.Contains( button ) )
         {
             registeredButtons.Remove( button );
         }
@@ -131,21 +129,6 @@ public partial class Addons : BaseComponent, IDisposable
     /// Gets the size based on the theme settings.
     /// </summary>
     protected Size ThemeSize => Size.GetValueOrDefault( Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
-
-    /// <summary>
-    /// Determines how much space will be used by the addons inside of the grid row.
-    /// </summary>
-    [Parameter]
-    public IFluentColumn ColumnSize
-    {
-        get => columnSize;
-        set
-        {
-            columnSize = value;
-
-            DirtyClasses();
-        }
-    }
 
     /// <summary>
     /// Changes the size of the elements placed inside of this <see cref="Accordion"/>.

@@ -33,7 +33,7 @@ public class FluentColumnTest
 
         columnsSize.WithColumnSize( columnWidth );
 
-        var classname = columnsSize.Class( classProvider );
+        var classname = columnsSize.Class( false, classProvider );
 
         Assert.Equal( expected, classname );
     }
@@ -99,6 +99,18 @@ public class FluentColumnTest
     [InlineData( "col-xl-10", ColumnWidth.Is10, Breakpoint.FullHD )]
     [InlineData( "col-xl-11", ColumnWidth.Is11, Breakpoint.FullHD )]
     [InlineData( "col-xl-12", ColumnWidth.Is12, Breakpoint.FullHD )]
+    [InlineData( "col-xxl-1", ColumnWidth.Is1, Breakpoint.QuadHD )]
+    [InlineData( "col-xxl-2", ColumnWidth.Is2, Breakpoint.QuadHD )]
+    [InlineData( "col-xxl-3", ColumnWidth.Is3, Breakpoint.QuadHD )]
+    [InlineData( "col-xxl-4", ColumnWidth.Is4, Breakpoint.QuadHD )]
+    [InlineData( "col-xxl-5", ColumnWidth.Is5, Breakpoint.QuadHD )]
+    [InlineData( "col-xxl-6", ColumnWidth.Is6, Breakpoint.QuadHD )]
+    [InlineData( "col-xxl-7", ColumnWidth.Is7, Breakpoint.QuadHD )]
+    [InlineData( "col-xxl-8", ColumnWidth.Is8, Breakpoint.QuadHD )]
+    [InlineData( "col-xxl-9", ColumnWidth.Is9, Breakpoint.QuadHD )]
+    [InlineData( "col-xxl-10", ColumnWidth.Is10, Breakpoint.QuadHD )]
+    [InlineData( "col-xxl-11", ColumnWidth.Is11, Breakpoint.QuadHD )]
+    [InlineData( "col-xxl-12", ColumnWidth.Is12, Breakpoint.QuadHD )]
     public void AreBreakpoints_OnAll( string expected, ColumnWidth columnWidth, Breakpoint breakpoint )
     {
         var columnsSize = new FluentColumn();
@@ -108,7 +120,7 @@ public class FluentColumnTest
         if ( breakpoint != Breakpoint.None )
             columnsSize.WithBreakpoint( breakpoint );
 
-        var classname = columnsSize.Class( classProvider );
+        var classname = columnsSize.Class( false, classProvider );
 
         Assert.Equal( expected, classname );
     }

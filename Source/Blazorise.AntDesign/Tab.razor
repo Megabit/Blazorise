@@ -1,4 +1,11 @@
 ﻿@inherits Blazorise.Tab
-<div id="@ElementId" role="tab" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" tabindex="@(Disabled ? "-1" : "0")" aria-selected="@(Active.ToString().ToLowerInvariant())" aria-disabled="@(Disabled.ToString().ToLowerInvariant())" @attributes="@Attributes">
-    @ChildContent
+<div @ref="@ElementRef" id="@ElementId" role="tab" class="@ClassNames" style="@StyleNames" @onclick="@ClickHandler" tabindex="@(Disabled ? "-1" : "0")" aria-selected="@AriaSelected" aria-disabled="@AriaDisabled" @attributes="@Attributes">
+    <div role="tab" class="ant-tabs-tab-btn" tabindex="0" aria-selected="@AriaSelected" aria-disabled="@AriaDisabled">
+        @ChildContent
+    </div>
 </div>
+@code {
+    string AriaSelected => Active ? "true" : "false";
+
+    string AriaDisabled => Disabled ? "true" : "false";
+}

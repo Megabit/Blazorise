@@ -18,7 +18,7 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
     #region Members
 
     private string selectorElementId;
-
+    
     private string inputElementId;
 
     /// <summary>
@@ -308,7 +308,7 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
             if ( Expanded )
                 sb.Append( " slide-up-enter slide-up-enter-active slide-up" );
             else
-                sb.Append( " slide-up-leave slide-up-leave-active slide-up" );
+                sb.Append( " ant-select-dropdown-hidden slide-up-leave slide-up-leave-active slide-up" );
 
             return sb.ToString();
         }
@@ -319,6 +319,8 @@ public partial class Select<TValue> : Blazorise.Select<TValue>, ICloseActivator,
 
     string DropdownInnerStyleNames
         => $"max-height: {( MaxVisibleItems == null ? 256 : MaxVisibleItems * 32 )}px; overflow-y: auto; overflow-anchor: none;";
+
+    string InputAriaExpanded => Expanded ? "true" : "false";
 
     [Inject] public IJSClosableModule JSClosableModule { get; set; }
 

@@ -84,8 +84,12 @@
 </DocsPageSection>
 
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="Location" Type="SnackbarLocation" Default="Default">
@@ -100,8 +104,11 @@
     <DocsAttributesItem Name="Multiline" Type="bool" Default="false">
         Allow snackbar to show multiple lines of text.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="DefaultInterval" Type="double" Default="5000">
+    <DocsAttributesItem Name="Interval" Type="double" Default="5000">
         Defines the interval (in milliseconds) after which the snackbar will be automatically closed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AnimationDuration" Type="double" Default="200">
+        efines the base animation duration in milliseconds.
     </DocsAttributesItem>
     <DocsAttributesItem Name="DelayCloseOnClick" Type="bool" Default="false">
         If clicked on snackbar, a close action will be delayed by increasing the DefaultInterval time (used if no value is provided in the Push method).

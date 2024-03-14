@@ -2,6 +2,8 @@
   "culture": "is",
   "translations": {
     "Choose file": "Veldu skrá",
-    "Choose files": "Veldu skrár"
+    "Choose files": "Veldu skrár",
+    "Choose folder": "Veldu möppu",
+    "Choose folders": "Veldu möppur"
   }
 }

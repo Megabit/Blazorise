@@ -30,6 +30,16 @@ public class DataGridLocalizers
     public TextLocalizerHandler SaveButtonLocalizer { get; set; }
 
     /// <summary>
+    /// Custom localization handler for 'save changes' button text.
+    /// </summary>
+    public TextLocalizerHandler SaveBatchButtonLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for 'cancel changes' button text.
+    /// </summary>
+    public TextLocalizerHandler CancelBatchButtonLocalizer { get; set; }
+
+    /// <summary>
     /// Custom localization handler for 'cancel' button text.
     /// </summary>
     public TextLocalizerHandler CancelButtonLocalizer { get; set; }
@@ -93,4 +103,34 @@ public class DataGridLocalizers
     /// Custom localization handler for 'create' text.
     /// </summary>
     public TextLocalizerHandler CreateLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for 'Drag a column header here to group by that column' text.
+    /// </summary>
+    public TextLocalizerHandler DragAndDropGroupLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for FilterMethod 'Contains' text.
+    /// </summary>
+    public TextLocalizerHandler FilterMethodContainsLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for FilterMethod 'Starts With' text.
+    /// </summary>
+    public TextLocalizerHandler FilterMethodStartsWithLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for FilterMethod 'Ends With' text.
+    /// </summary>
+    public TextLocalizerHandler FilterMethodEndsWithLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for FilterMethod 'Equals' text.
+    /// </summary>
+    public TextLocalizerHandler FilterMethodEqualsLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for FilterMethod 'Not Equals' text.
+    /// </summary>
+    public TextLocalizerHandler FilterMethodNotEqualsLocalizer { get; set; }
 }

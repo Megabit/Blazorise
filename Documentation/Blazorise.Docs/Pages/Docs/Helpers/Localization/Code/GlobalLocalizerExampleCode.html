@@ -1,0 +1,14 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+services
+    .AddBlazorise( options =&gt;
+    {
+        // other settings
+
+        options.ValidationMessageLocalizer = ( message, arguments ) =&gt;
+        {
+            return string.Format( applicationLocalizerDictionary[message], arguments );
+        };
+    } );
+</pre></div>
+</div>

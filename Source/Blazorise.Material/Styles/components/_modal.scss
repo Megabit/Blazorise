@@ -1,0 +1,82 @@
+﻿.modal {
+    .modal-fullscreen {
+        width: 100vw;
+        max-width: none;
+        height: 100%;
+        margin: 0;
+
+        .modal-content {
+            height: 100%;
+            border: 0;
+            border-radius: 0;
+        }
+
+        .modal-header {
+            border-radius: 0;
+        }
+
+        .modal-body {
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            border-radius: 0;
+        }
+    }
+
+    display: block;
+    visibility: hidden;
+
+    &:not(.show) {
+        .modal-dialog {
+            opacity: 0;
+        }
+    }
+
+    &.showing,
+    &.show {
+        .modal-dialog {
+            opacity: 1;
+        }
+
+        visibility: visible;
+    }
+
+    .modal-dialog {
+        transition-property: opacity visibility transform;
+        transition-duration: var(--modal-animation-duration, 300ms);
+        transition-timing-function: cubic-bezier(0,0,.2,1);
+        transform: scale(.8)
+    }
+
+    &.fade {
+        transition: opacity var(--modal-animation-duration, 300ms) cubic-bezier(0,0,.2,1);
+    }
+
+    &.show {
+        .modal-dialog {
+            transition-property: opacity visibility transform;
+            transition-duration: var(--modal-animation-duration, 300ms);
+            transition-timing-function: cubic-bezier(0,0,.2,1);
+            transform: scale(1);
+        }
+    }
+
+    .modal-xl {
+        max-width: 1140px;
+        width: unset;
+        margin: 1.75rem auto;
+
+        .modal-content {
+            border-radius: unset;
+            height: unset;
+            overflow: unset;
+        }
+    }
+
+    @include media-breakpoint-up(xl) {
+        .modal-xl {
+            max-width: $dialog-width-xl;
+        }
+    }
+}

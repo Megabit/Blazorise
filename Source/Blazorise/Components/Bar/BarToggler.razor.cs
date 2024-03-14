@@ -17,19 +17,32 @@ public partial class BarToggler : BaseComponent
 
     private BarState parentBarState;
 
-    private BarTogglerMode mode = BarTogglerMode.Normal;
-
-    private Bar bar;
+    /// <summary>
+    /// Holds the state for this bar component.
+    /// </summary>
+    private BarTogglerState state = new();
 
     #endregion
 
     #region Methods
 
     /// <inheritdoc/>
+    protected override Task OnInitializedAsync()
+    {
+        if ( parentBarState is not null )
+        {
+            if ( parentBarState.BarTogglerState is null )
+                parentBarState.BarTogglerState = this.state;
+        }
+
+        return base.OnInitializedAsync();
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.BarToggler( ParentBarState?.Mode ?? BarMode.Horizontal, Mode ) );
-        builder.Append( ClassProvider.BarTogglerCollapsed( ParentBarState?.Mode ?? BarMode.Horizontal, Mode, Bar != null ? Bar.Visible : ParentBarState.Visible ) );
+        builder.Append( ClassProvider.BarTogglerCollapsed( ParentBarState?.Mode ?? BarMode.Horizontal, Mode, Bar is not null ? Bar.Visible : ParentBarState.Visible ) );
 
         base.BuildClasses( builder );
     }
@@ -37,7 +50,7 @@ public partial class BarToggler : BaseComponent
     /// <inheritdoc/>
     protected override void BuildStyles( StyleBuilder builder )
     {
-        if ( Bar != null )
+        if ( Bar is not null )
         {
             builder.Append( "display: inline-flex" );
         }
@@ -57,13 +70,13 @@ public partial class BarToggler : BaseComponent
             await Clicked.InvokeAsync( eventArgs );
         }
 
-        if ( Bar != null )
+        if ( Bar is not null )
         {
             await Bar.Toggle();
 
             DirtyClasses();
         }
-        else if ( ParentBar != null )
+        else if ( ParentBar is not null )
         {
             await ParentBar.Toggle();
         }
@@ -74,9 +87,25 @@ public partial class BarToggler : BaseComponent
     #region Properties
 
     /// <summary>
+    /// Gets the reference to the state object for this <see cref="BarToggler"/> component.
+    /// </summary>
+    protected BarTogglerState State => state;
+
+    /// <summary>
     /// Occurs when the button is clicked.
     /// </summary>
-    [Parameter] public EventCallback<MouseEventArgs> Clicked { get; set; }
+    [Parameter]
+    public EventCallback<MouseEventArgs> Clicked
+    {
+        get => state.Clicked;
+        set
+        {
+            if ( state.Clicked.Equals( value ) )
+                return;
+
+            state.Clicked = value;
+        }
+    }
 
     /// <summary>
     /// Provides options for inline or popout styles. Only supported by Vertical Bar. Uses inline by default.
@@ -84,13 +113,13 @@ public partial class BarToggler : BaseComponent
     [Parameter]
     public BarTogglerMode Mode
     {
-        get => mode;
+        get => state.Mode;
         set
         {
-            if ( mode == value )
+            if ( state.Mode == value )
                 return;
 
-            mode = value;
+            state.Mode = value;
 
             DirtyClasses();
         }
@@ -102,13 +131,13 @@ public partial class BarToggler : BaseComponent
     [Parameter]
     public Bar Bar
     {
-        get => bar;
+        get => state.Bar;
         set
         {
-            if ( bar == value )
+            if ( state.Bar == value )
                 return;
 
-            bar = value;
+            state.Bar = value;
 
             DirtyClasses();
         }

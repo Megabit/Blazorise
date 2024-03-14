@@ -1,0 +1,110 @@
+﻿.list-group {
+    display: flex;
+    flex-direction: column;
+    padding-left: 0;
+    margin-bottom: 0;
+    @include border-radius($list-group-border-radius);
+
+    & > .list-group-item {
+        @each $name, $value in $theme-colors {
+            $color: $value;
+            $background: theme-color-level($color, -9);
+
+            &.is-#{$name} {
+                color: $color;
+                background-color: $background;
+
+                &.list-group-item-action {
+                    @include hover-focus() {
+                        color: $color;
+                        background-color: darken($background, 5%);
+                    }
+
+                    &.is-active {
+                        color: $white;
+                        background-color: $color;
+                        border-color: $color;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.list-group-flush {
+    @include border-radius(0);
+
+    > .list-group-item {
+        border-width: 0 0 $list-group-border-width;
+
+        &:last-child {
+            border-bottom-width: 0;
+        }
+    }
+}
+
+.list-group-item {
+    position: relative;
+    display: block;
+    padding: $list-group-item-padding-y $list-group-item-padding-x;
+    color: $list-group-color;
+    background-color: $list-group-bg;
+    border: $list-group-border-width solid $list-group-border-color;
+
+    &:first-child {
+        @include border-top-radius(inherit);
+    }
+
+    &:last-child {
+        @include border-bottom-radius(inherit);
+    }
+
+    &.disabled,
+    &:disabled {
+        color: $list-group-disabled-color;
+        pointer-events: none;
+        background-color: $list-group-disabled-bg;
+    }
+
+    &.is-active {
+        z-index: 2;
+        color: $list-group-active-color;
+        background-color: $list-group-active-bg;
+        border-color: $list-group-active-border-color;
+    }
+
+    & + & {
+        border-top-width: 0;
+
+        &.is-active {
+            margin-top: -$list-group-border-width;
+            border-top-width: $list-group-border-width;
+        }
+    }
+}
+
+.list-group-item-action {
+    width: 100%;
+    color: $list-group-action-color;
+    text-align: inherit;
+
+    @include hover-focus() {
+        z-index: 1;
+        color: $list-group-action-hover-color;
+        text-decoration: none;
+        background-color: $list-group-hover-bg;
+    }
+
+    &:active {
+        color: $list-group-action-active-color;
+        background-color: $list-group-action-active-bg;
+    }
+}
+
+li.list-group-item-action {
+    cursor: pointer;
+}
+
+.list-group-scrollable {
+    overflow-y: scroll;
+}

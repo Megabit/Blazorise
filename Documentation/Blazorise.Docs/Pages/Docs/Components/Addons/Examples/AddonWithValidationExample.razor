@@ -1,0 +1,15 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<Validation Validator="ValidationRule.IsNotEmpty">
+    <Addons>
+        <Addon AddonType="AddonType.Body">
+            <TextEdit Placeholder="Enter name" />
+        </Addon>
+        <Addon AddonType="AddonType.End">
+            <AddonLabel>This is a label</AddonLabel>
+        </Addon>
+        <ValidationNone></ValidationNone>
+        <ValidationSuccess></ValidationSuccess>
+        <ValidationError>Enter valid name!</ValidationError>
+    </Addons>
+</Validation>

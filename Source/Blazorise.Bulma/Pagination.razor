@@ -1,6 +1,8 @@
 @inherits Blazorise.Pagination
-<nav class=@("pagination " + ClassProvider.PaginationSize(ThemeSize))>
-    <ul id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        @ChildContent
-    </ul>
-</nav>
+<CascadingValue Value="@this" IsFixed>
+    <nav class=@("pagination " + ClassProvider.PaginationSize(ThemeSize))>
+        <ul @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </ul>
+    </nav>
+</CascadingValue>

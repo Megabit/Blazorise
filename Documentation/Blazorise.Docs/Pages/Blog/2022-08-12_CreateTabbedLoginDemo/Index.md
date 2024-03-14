@@ -318,7 +318,7 @@ Registration and login are essential components of web security. Form validation
 
 This post demonstrated how to embed login and registration forms into a tab element. We also showed how you could guide users to enter the correct data into your forms using validations.
 
-From the post, we established how easy it is to build modern web functionality with Blazorise components in a few lines of code. We invite you to [try Blazorise components for free](https://blazorise.com/docs) or [apply for a license](https://commercial.blazorise.com/pricing) on commercial products and get assistance from a dedicated [Blazorise Mentor](https://commercial.blazorise.com/enterprise-plus).
+From the post, we established how easy it is to build modern web functionality with Blazorise components in a few lines of code. We invite you to [try Blazorise components for free](https://blazorise.com/docs) or [apply for a license](pricing) on commercial products and get assistance from a dedicated [Blazorise Mentor](enterprise-plus).
 
 ## Related blogs
 

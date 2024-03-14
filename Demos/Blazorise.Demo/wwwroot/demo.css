@@ -2,87 +2,20 @@
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
-.sk-cube-grid {
-    width: 80px;
-    height: 80px;
-    margin: 100px auto;
+.b-demo-loading {
+    -moz-animation: spin-demo-horizontal 1.2s infinite linear;
+    -o-animation: spin-demo-horizontal 1.2s infinite linear;
+    -webkit-animation: spin-demo-horizontal 1.2s infinite linear;
+    animation: spin-demo-horizontal 1.2s infinite linear;
 }
 
-    .sk-cube-grid .sk-cube {
-        width: 33%;
-        height: 33%;
-        background-color: #494e52;
-        float: left;
-        -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
-        animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+@keyframes spin-demo-horizontal {
+    0% {
+        transform: rotateY(0deg);
     }
 
-    .sk-cube-grid .sk-cube1 {
-        -webkit-animation-delay: 0.2s;
-        animation-delay: 0.2s;
-    }
-
-    .sk-cube-grid .sk-cube2 {
-        -webkit-animation-delay: 0.3s;
-        animation-delay: 0.3s;
-    }
-
-    .sk-cube-grid .sk-cube3 {
-        -webkit-animation-delay: 0.4s;
-        animation-delay: 0.4s;
-    }
-
-    .sk-cube-grid .sk-cube4 {
-        -webkit-animation-delay: 0.1s;
-        animation-delay: 0.1s;
-    }
-
-    .sk-cube-grid .sk-cube5 {
-        -webkit-animation-delay: 0.2s;
-        animation-delay: 0.2s;
-    }
-
-    .sk-cube-grid .sk-cube6 {
-        -webkit-animation-delay: 0.3s;
-        animation-delay: 0.3s;
-    }
-
-    .sk-cube-grid .sk-cube7 {
-        -webkit-animation-delay: 0s;
-        animation-delay: 0s;
-    }
-
-    .sk-cube-grid .sk-cube8 {
-        -webkit-animation-delay: 0.1s;
-        animation-delay: 0.1s;
-    }
-
-    .sk-cube-grid .sk-cube9 {
-        -webkit-animation-delay: 0.2s;
-        animation-delay: 0.2s;
-    }
-
-@-webkit-keyframes sk-cubeGridScaleDelay {
-    0%, 70%, 100% {
-        -webkit-transform: scale3D(1, 1, 1);
-        transform: scale3D(1, 1, 1);
-    }
-
-    35% {
-        -webkit-transform: scale3D(0, 0, 1);
-        transform: scale3D(0, 0, 1);
-    }
-}
-
-@keyframes sk-cubeGridScaleDelay {
-    0%, 70%, 100% {
-        -webkit-transform: scale3D(1, 1, 1);
-        transform: scale3D(1, 1, 1);
-    }
-
-    35% {
-        -webkit-transform: scale3D(0, 0, 1);
-        transform: scale3D(0, 0, 1);
+    100% {
+        transform: rotateY(360deg);
     }
 }
 
@@ -115,7 +48,8 @@
     margin-top: 2rem
 }
 
-.b-example-border-utils [class*="border"] {
+.b-example-border-utils [class*="border"],
+.b-example-border-utils [class*="fui-Border"] {
     display: inline-block;
     width: 5rem;
     height: 5rem;
@@ -126,7 +60,8 @@
     align-items: center;
 }
 
-.b-example-border-utils [class*="rounded"] {
+.b-example-border-utils [class*="rounded"],
+.b-example-border-utils [class*="fui-Rounded"] {
     display: inline-block;
     width: 5rem;
     height: 5rem;
@@ -138,7 +73,8 @@
     align-items: center;
 }
 
-.b-example-border-utils-0 [class*="border"] {
+.b-example-border-utils-0 [class*="border"],
+.b-example-border-utils-0 [class*="fui-Border"] {
     border: 1px solid #dee2e6;
 }
 
@@ -170,4 +106,40 @@ code {
 .b-example-blazorise-icon span {
     width: 150px;
     overflow-wrap: break-word;
+}
+
+.b-demo-products {
+    cursor: pointer !important;
+    text-decoration: none !important;
+    text-decoration-line: none !important;
+}
+
+.grid.b-demo-cssgrid-columns:not(:first-child),
+.ant-grid.b-demo-cssgrid-columns:not(:first-child)
+.fui-Grid.b-demo-cssgrid-columns:not(:first-child) {
+    margin-top: 1rem;
+}
+
+.grid.b-demo-cssgrid-columns > div > div:first-child,
+.ant-grid.b-demo-cssgrid-columns > div > div:first-child,
+.fui-Grid.b-demo-cssgrid-columns > div > div:first-child {
+    padding: 0.75rem;
+    background-color: rgba(var(--b-theme-primary-r, 112), var(--b-theme-primary-g, 44), var(--b-theme-primary-b, 248), 0.15);
+    border: 1px solid rgba(var(--b-theme-primary-r, 112), var(--b-theme-primary-g, 44), var(--b-theme-primary-b, 248), 0.3);
+}
+
+.grid.b-demo-cssgrid-columns + .grid.b-demo-cssgrid-columns > div:last-child > div,
+.ant-grid.b-demo-cssgrid-columns + .ant-grid.b-demo-cssgrid-columns > div:last-child > div,
+.fui-Grid.b-demo-cssgrid-columns + .fui-Grid.b-demo-cssgrid-columns > div:last-child > div {
+    padding: 0.75rem;
+    background-color: rgba(var(--b-theme-secondary-r, 128), var(--b-theme-secondary-g, 128), var(--b-theme-secondary-b, 128), 0.15);
+    border: 1px solid rgba(var(--b-theme-secondary-r, 128), var(--b-theme-secondary-g, 128), var(--b-theme-secondary-b, 128), 0.3);
+}
+
+.grid.b-demo-cssgrid-divs > div,
+.ant-grid.b-demo-cssgrid-divs > div,
+.fui-Grid.b-demo-cssgrid-divs > div {
+    padding: 0.75rem;
+    background-color: rgba(var(--b-theme-primary-r, 112), var(--b-theme-primary-g, 44), var(--b-theme-primary-b, 248), 0.15);
+    border: 1px solid rgba(var(--b-theme-primary-r, 112), var(--b-theme-primary-g, 44), var(--b-theme-primary-b, 248), 0.3);
 }

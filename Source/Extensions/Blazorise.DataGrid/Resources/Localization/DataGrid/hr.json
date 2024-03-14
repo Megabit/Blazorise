@@ -16,6 +16,18 @@
     "{0} - {1} of {2} items": "{0} - {1} od {2} stavki",
     "Row Edit": "Editiranje stavke",
     "Row Create": "Kreiranje stavke",
-    "Create": "Kreiraj"
+    "Create": "Kreiraj",
+    "Drag a column header here to group by that column": "Povucite zaglavlje stupca ovdje za grupiranje prema tom stupcu",
+    "Contains": "Sadrži",
+    "Starts With": "Počinje sa",
+    "Ends With": "Završava sa",
+    "Equals": "Jednako",
+    "Not Equals": "Nije jednako",
+    "Greater Than": "Veći od",
+    "Greater Than or Equal": "Veće od ili jednako",
+    "Less Than": "Manje od",
+    "Less Than or Equal": "Manje od ili jednako",
+    "Save Changes": "Spremi promjene",
+    "Cancel Changes": "Otkaži promjene"
   }
 }

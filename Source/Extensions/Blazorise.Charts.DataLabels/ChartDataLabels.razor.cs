@@ -25,6 +25,26 @@ public partial class ChartDataLabels<TItem> : BaseComponent, IAsyncDisposable
     #region Methods
 
     /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( Rendered && JSModule is not null )
+        {
+            var datasetsChanged = parameters.TryGetValue<List<ChartDataLabelsDataset>>( nameof( Datasets ), out var paramDataset ) && !Datasets.AreEqual( paramDataset );
+            var optionsChanged = parameters.TryGetValue<ChartDataLabelsOptions>( nameof( Options ), out var paramOptions ) && !Options.IsEqual( paramOptions );
+
+            if ( datasetsChanged || optionsChanged )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    await JSModule.SetDataLabels( ParentChart.ElementId, Datasets, Options );
+                } );
+            }
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc/>
     protected override Task OnInitializedAsync()
     {
         if ( ParentChart is not null )

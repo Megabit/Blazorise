@@ -113,6 +113,11 @@ public interface IFluentSpacingOnBreakpoint :
     /// Breakpoint on large desktops (extra large).
     /// </summary>
     IFluentSpacingOnBreakpointWithSideAndSize OnFullHD { get; }
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    IFluentSpacingOnBreakpointWithSideAndSize OnQuadHD { get; }
 }
 
 /// <summary>
@@ -285,7 +290,7 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
 
     private IFluentSpacingWithSize WithSize( string value )
     {
-        if ( customRules == null )
+        if ( customRules is null )
             customRules = new() { value };
         else
             customRules.Add( value );
@@ -404,6 +409,11 @@ public abstract class FluentSpacing : IFluentSpacing, IFluentSpacingWithSize, IF
     /// Breakpoint on large desktops (extra large).
     /// </summary>
     public IFluentSpacingOnBreakpointWithSideAndSize OnFullHD => WithBreakpoint( Breakpoint.FullHD );
+
+    /// <summary>
+    /// Breakpoint on large desktops (extra extra large).
+    /// </summary>
+    public IFluentSpacingOnBreakpointWithSideAndSize OnQuadHD => WithBreakpoint( Breakpoint.QuadHD );
 
     #endregion
 }

@@ -10,10 +10,13 @@
         else
         {
             <div class="progress-wrapper">
-                <progress id="@ElementId" class="@ClassNames" style="@StyleNames" value="@Percentage" min="@Min" max="@Max" @attributes="@Attributes">
+                <progress @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" value="@GetPercentage()" min="@Min" max="@Max" @attributes="@Attributes">
                     @ChildContent
                 </progress>
             </div>
         }
     </CascadingValue>
 </CascadingValue>
+@code {
+    int? GetPercentage() => Indeterminate ? null : Percentage ?? 0;
+}

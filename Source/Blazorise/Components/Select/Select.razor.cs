@@ -35,9 +35,27 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        if ( Rendered )
+        {
+            if ( Multiple )
+            {
+                if ( parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( SelectedValues ), out var paramSelectedValues ) && !paramSelectedValues.AreEqual( SelectedValues ) )
+                {
+                    ExecuteAfterRender( Revalidate );
+                }
+            }
+            else
+            {
+                if ( parameters.TryGetValue<TValue>( nameof( SelectedValue ), out var paramSelectedValue ) && !paramSelectedValue.IsEqual( SelectedValue ) )
+                {
+                    ExecuteAfterRender( Revalidate );
+                }
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
-        if ( ParentValidation != null )
+        if ( ParentValidation is not null )
         {
             if ( Multiple )
             {
@@ -59,7 +77,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     {
         builder.Append( ClassProvider.Select() );
         builder.Append( ClassProvider.SelectMultiple(), Multiple );
-        builder.Append( ClassProvider.SelectSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
+        builder.Append( ClassProvider.SelectSize( ThemeSize ) );
         builder.Append( ClassProvider.SelectValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
         base.BuildClasses( builder );
@@ -85,7 +103,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
         if ( Multiple )
             return SelectedValuesChanged.InvokeAsync( value );
         else
-            return SelectedValueChanged.InvokeAsync( value == null ? default : value.FirstOrDefault() );
+            return SelectedValueChanged.InvokeAsync( value is null ? default : value.FirstOrDefault() );
     }
 
     /// <inheritdoc/>
@@ -94,7 +112,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
         if ( Multiple )
             return value;
         else
-            return value == null ? default : value.FirstOrDefault();
+            return value is null ? default : value.FirstOrDefault();
     }
 
     /// <inheritdoc/>
@@ -131,7 +149,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     /// <inheritdoc/>
     protected override string FormatValueAsString( IReadOnlyList<TValue> value )
     {
-        if ( value == null || value.Count == 0 )
+        if ( value is null || value.Count == 0 )
             return string.Empty;
 
         if ( Multiple )
@@ -141,7 +159,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
         }
         else
         {
-            if ( value[0] == null )
+            if ( value[0] is null )
                 return string.Empty;
 
             return value[0].ToString();
@@ -157,7 +175,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
     {
         var currentValue = CurrentValue;
 
-        if ( currentValue != null )
+        if ( currentValue is not null )
         {
             var result = currentValue.Any( x => x.IsEqual( value ) );
 
@@ -169,7 +187,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
 
     internal void NotifySelectItemInitialized( ISelectItem<TValue> selectItem )
     {
-        if ( selectItem == null )
+        if ( selectItem is null )
             return;
 
         if ( !selectItems.Contains( selectItem ) )
@@ -178,7 +196,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
 
     internal void NotifySelectItemRemoved( ISelectItem<TValue> selectItem )
     {
-        if ( selectItem == null )
+        if ( selectItem is null )
             return;
 
         if ( selectItems.Contains( selectItem ) )
@@ -197,7 +215,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
             if ( Multiple )
                 return InternalValue;
             else
-                return InternalValue == null ? default : InternalValue.FirstOrDefault();
+                return InternalValue is null ? default : InternalValue.FirstOrDefault();
         }
     }
 
@@ -213,7 +231,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
             }
             else
             {
-                SelectedValue = value == null ? default : value.FirstOrDefault();
+                SelectedValue = value is null ? default : value.FirstOrDefault();
             }
         }
     }

@@ -1,0 +1,7 @@
+﻿@namespace Blazorise
+@inherits BaseGridComponent
+<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+    <CascadingValue Value="@this" IsFixed>
+        @ChildContent
+    </CascadingValue>
+</div>

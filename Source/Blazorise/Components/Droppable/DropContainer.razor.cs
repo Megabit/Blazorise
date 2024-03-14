@@ -75,7 +75,7 @@ public partial class DropContainer<TItem> : BaseComponent
         {
             index = GetTransactionIndex() + 1;
 
-            if ( transaction.SourceZoneName == transaction.CurrentZoneName && IsItemMovedDownwards )
+            if ( transaction.SourceZoneName == transaction.CurrentZoneName && IsItemMovedDownwardsOrSame )
             {
                 index -= 1;
             }
@@ -162,13 +162,19 @@ public partial class DropContainer<TItem> : BaseComponent
         => transaction.Index > transaction.SourceIndex;
 
     /// <summary>
+    /// True if the draggable item is going downwards or the draggable is the same.
+    /// </summary>
+    public bool IsItemMovedDownwardsOrSame
+        => transaction.Index >= transaction.SourceIndex;
+
+    /// <summary>
     /// True if the transaction index has changed.
     /// </summary>
     public bool HasTransactionIndexChanged
     {
         get
         {
-            if ( transaction == null )
+            if ( transaction is null )
                 return false;
 
             return transaction.CurrentZoneName != transaction.SourceZoneName || transaction.Index != transaction.SourceIndex;
@@ -183,7 +189,7 @@ public partial class DropContainer<TItem> : BaseComponent
     /// <returns>True if the zone and index matches the current transaction.</returns>
     public bool IsOrigin( int index, string zoneName )
     {
-        if ( transaction == null )
+        if ( transaction is null )
         {
             return false;
         }
@@ -218,7 +224,7 @@ public partial class DropContainer<TItem> : BaseComponent
     /// True if the drag transaction is in process.
     /// </summary>
     public bool TransactionInProgress
-        => transaction != null;
+        => transaction is not null;
 
     /// <summary>
     /// Gets the name of the dropzone that started the transaction.

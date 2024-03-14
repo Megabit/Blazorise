@@ -1,0 +1,116 @@
+﻿@page "/tests/transferlist"
+@using Blazorise.Components.ListView
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull.OnMobile.IsHalf.OnTablet">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Transfer List</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    <Field>
+                        <Switch @bind-Checked="@scrollable">
+                            Scroll Mode
+                        </Switch>
+                    </Field>
+                    <Field>
+                        <Switch @bind-Checked="@multipleMode">
+                            Multiple Mode
+                        </Switch>
+                    </Field>
+                    <Field>
+                        <Switch @bind-Checked="@moveAll">
+                            Move All
+                        </Switch>
+                    </Field>
+                </Fields>
+            </CardBody>
+            <CardBody Height="Height.Max100">
+                <TransferList TItem="string"
+                              Items="@list"
+                              @bind-ItemsStart="@listStart"
+                              @bind-ItemsEnd="@listEnd"
+                              SelectionMode="@(multipleMode ? ListGroupSelectionMode.Multiple : ListGroupSelectionMode.Single)"
+                              CanMoveToEnd="@(item => item != "Cabbage")"
+                              CanMoveToStart="@(item => item != "Strawberry" && item != "Cherry")"
+                              Mode="ListGroupMode.Selectable"
+                              ShowMoveAll="@moveAll"
+                              MaxHeight="@maxHeight"
+                              Scrollable=@scrollable
+                              ValueField="@(item => item)"
+                              TextField="@(item => item)">
+                    <ItemStartTemplate>
+                        @(transferListItemContent( context ))
+                    </ItemStartTemplate>
+                    <ItemEndTemplate>
+                        @(transferListItemContent( context ))
+                    </ItemEndTemplate>
+                </TransferList>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row Margin="Margin.Is1.FromTop">
+    <Column ColumnSize="ColumnSize.Is6">
+        <Card>
+            <CardHeader>
+                <CardTitle>List 1</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    <Field>
+                        <FieldLabel>Items</FieldLabel>
+                        <FieldBody>
+                            <TextEdit ReadOnly Text="@(listStart != null ? string.Join( ',', listStart ) : "")"></TextEdit>
+                         </FieldBody>
+                     </Field>
+                 </Fields>
+             </CardBody>
+         </Card>
+     </Column>
+     <Column ColumnSize="ColumnSize.Is6">
+         <Card>
+             <CardHeader>
+                 <CardTitle>List 2</CardTitle>
+             </CardHeader>
+             <CardBody>
+                 <Fields>
+                     <Field>
+                         <FieldLabel>Items</FieldLabel>
+                         <FieldBody>
+                             <TextEdit ReadOnly Text="@(listEnd != null ? string.Join( ',', listEnd ) : "")"></TextEdit>
+                         </FieldBody>
+                     </Field>
+                 </Fields>
+             </CardBody>
+         </Card>
+     </Column>
+ </Row>
+
+
+ @code {
+    private RenderFragment<ItemContext<string>> transferListItemContent => item => __builder =>
+        {
+            <Card Background=Background.Info Shadow="Shadow.Default">
+                <CardBody>
+                    @{
+                        var imageSource = $"_content/Blazorise.Demo/img/fruit/{item.Value.ToLower()}.png";
+                    }
+                    <Image Source="@imageSource" Style="width:24px;height:24px;" />
+                    @item.Value
+                </CardBody>
+            </Card>
+        };
+    private List<string> list = new List<string> { "Apple", "Bananas", "Lemon", "Broccoli", "Strawberry", "Cherry", "Cabbage" };
+    private List<string> listStart = new List<string>() { "Cabbage", "Broccoli" };
+    private List<string> listEnd;
+
+    private string maxHeight
+        => scrollable ? "300px" : null;
+
+    private bool scrollable = false;
+    private bool multipleMode = true;
+    private bool moveAll = true;
+}

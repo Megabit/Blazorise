@@ -2,6 +2,8 @@
   "culture": "pl",
   "translations": {
     "Choose file": "Wybierz plik",
-    "Choose files": "Wybierz pliki"
+    "Choose files": "Wybierz pliki",
+    "Choose folder": "Wybierz folder",
+    "Choose folders": "wybierz foldery"
   }
 }

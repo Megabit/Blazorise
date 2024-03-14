@@ -1,6 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Threading.Tasks;
+using Blazorise.Localization;
 using Microsoft.AspNetCore.Components;
 #endregion
 
@@ -27,7 +28,7 @@ public partial class MessageAlert : BaseComponent, IDisposable
     {
         if ( disposing )
         {
-            if ( MessageService != null )
+            if ( MessageService is not null )
             {
                 MessageService.MessageReceived -= OnMessageReceived;
             }
@@ -71,7 +72,7 @@ public partial class MessageAlert : BaseComponent, IDisposable
         {
             await ModalRef.Hide();
 
-            if ( IsConfirmation && Callback != null && !Callback.Task.IsCompleted )
+            if ( IsConfirmation && Callback is not null && !Callback.Task.IsCompleted )
             {
                 await InvokeAsync( () => Callback.SetResult( true ) );
             }
@@ -90,7 +91,7 @@ public partial class MessageAlert : BaseComponent, IDisposable
         {
             await ModalRef.Hide();
 
-            if ( IsConfirmation && Callback != null && !Callback.Task.IsCompleted )
+            if ( IsConfirmation && Callback is not null && !Callback.Task.IsCompleted )
             {
                 await InvokeAsync( () => Callback.SetResult( false ) );
             }
@@ -180,7 +181,7 @@ public partial class MessageAlert : BaseComponent, IDisposable
     /// Gets the OK button text.
     /// </summary>
     protected virtual string OkButtonText
-        => Options?.OkButtonText ?? "OK";
+        => Options?.OkButtonText ?? Localizer["OK"] ?? "OK";
 
     /// <summary>
     /// Gets the OK button color.
@@ -210,7 +211,7 @@ public partial class MessageAlert : BaseComponent, IDisposable
     /// Gets the Confirm button text.
     /// </summary>
     protected virtual string ConfirmButtonText
-        => Options?.ConfirmButtonText ?? "Confirm";
+        => Options?.ConfirmButtonText ?? Localizer["Confirm"] ?? "Confirm";
 
     /// <summary>
     /// Gets the confirm button color.
@@ -228,7 +229,7 @@ public partial class MessageAlert : BaseComponent, IDisposable
     /// Gets the Cancel button text.
     /// </summary>
     protected virtual string CancelButtonText
-        => Options?.CancelButtonText ?? "Cancel";
+        => Options?.CancelButtonText ?? Localizer["Cancel"] ?? "Cancel";
 
     /// <summary>
     /// Gets the cancel button color.
@@ -270,6 +271,16 @@ public partial class MessageAlert : BaseComponent, IDisposable
     /// Gets or sets the <see cref="IMessageService"/> to which this dialog is responding.
     /// </summary>
     [Inject] protected IMessageService MessageService { get; set; }
+
+    /// <summary>
+    /// Gets or sets the DI registered <see cref="ITextLocalizerService"/>.
+    /// </summary>
+    [Inject] protected ITextLocalizerService LocalizerService { get; set; }
+
+    /// <summary>
+    /// Gets or sets the DI registered <see cref="ITextLocalizer{MessageProvider}"/>.
+    /// </summary>
+    [Inject] protected ITextLocalizer<MessageProvider> Localizer { get; set; }
 
     /// <summary>
     /// Gets or sets the message type.

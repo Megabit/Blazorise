@@ -1,0 +1,150 @@
+﻿@page "/tests/offcanvas"
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Offcanvas (Configuration)</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Row>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Animation
+                            </FieldLabel>
+                            <FieldBody>
+                                <Switch @bind-Checked="@animation">Animation</Switch>
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                    <Column ColumnSize="ColumnSize.IsAuto">
+                        <Field>
+                            <FieldLabel>
+                                Animation Duration (ms)
+                            </FieldLabel>
+                            <FieldBody>
+                                <NumericEdit TValue="int" @bind-Value="animationDuration" />
+                            </FieldBody>
+                        </Field>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Offcanvas</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    A rendered offcanvas with header, body, and set of actions in the footer.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(() => offcanvasRef1.Show())">
+                    Open Left
+                </Button>
+                <Button Color="Color.Primary" Clicked="@(() => offcanvasRef2.Show())">
+                    Open Right
+                </Button>
+                <Button Color="Color.Primary" Clicked="@(() => offcanvasRef3.Show())">
+                    Open Top
+                </Button>
+                <Button Color="Color.Primary" Clicked="@(() => offcanvasRef4.Show())">
+                    Open Bottom
+                </Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Offcanvas @ref="offcanvasRef1" Placement="Placement.Start" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Offcanvas Header
+        <CloseButton Clicked="@HideOffcanvas1" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Offcanvas Body 1</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@HideOffcanvas1">Close Action</Button>
+        <Button Color="Color.Secondary" Clicked="@HideOffcanvas1">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasRef2" Placement="Placement.End" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Offcanvas Header
+        <CloseButton Clicked="@HideOffcanvas2" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Offcanvas Body 2</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@HideOffcanvas2">Close Action</Button>
+        <Button Color="Color.Secondary" Clicked="@HideOffcanvas2">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasRef3" Placement="Placement.Top" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Offcanvas Header
+        <CloseButton Clicked="@HideOffcanvas3" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Offcanvas Body 3</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@HideOffcanvas3">Close Action</Button>
+        <Button Color="Color.Secondary" Clicked="@HideOffcanvas3">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+<Offcanvas @ref="offcanvasRef4" Placement="Placement.Bottom" Animated="@animation" AnimationDuration="@animationDuration">
+    <OffcanvasHeader>
+        Offcanvas Header
+        <CloseButton Clicked="@HideOffcanvas4" />
+    </OffcanvasHeader>
+    <OffcanvasBody>
+        <p>Offcanvas Body 4</p>
+    </OffcanvasBody>
+    <OffcanvasFooter>
+        <Button Color="Color.Primary" Clicked="@HideOffcanvas4">Close Action</Button>
+        <Button Color="Color.Secondary" Clicked="@HideOffcanvas4">Close Action</Button>
+    </OffcanvasFooter>
+</Offcanvas>
+
+@code {
+    private Offcanvas offcanvasRef1;
+    private Offcanvas offcanvasRef2;
+    private Offcanvas offcanvasRef3;
+    private Offcanvas offcanvasRef4;
+
+    private bool animation = true;
+    private int animationDuration = 300;
+
+    private Task HideOffcanvas1()
+    {
+        return offcanvasRef1.Hide();
+    }
+
+    private Task HideOffcanvas2()
+    {
+        return offcanvasRef2.Hide();
+    }
+
+    private Task HideOffcanvas3()
+    {
+        return offcanvasRef3.Hide();
+    }
+
+    private Task HideOffcanvas4()
+    {
+        return offcanvasRef4.Hide();
+    }
+}

@@ -50,7 +50,7 @@ public static class ArrayExtensions
     /// </summary>
     /// <typeparam name="T">The type of objects to enumerate.</typeparam>
     /// <param name="collection">The collection to check for emptiness.</param>
-    /// <returns>True if the source sequence is null ot not contains any elements; otherwise, false.</returns>
+    /// <returns>True if the source sequence is null or if it does not contains any elements; otherwise, false.</returns>
     public static bool IsNullOrEmpty<T>( this IEnumerable<T> collection )
     {
         return collection is null || !collection.Any();

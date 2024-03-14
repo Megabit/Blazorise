@@ -1,0 +1,31 @@
+﻿@page "/docs/extensions/datagrid/templates/loading"
+
+<Seo Canonical="/docs/extensions/datagrid/templates/loading" Title="Blazorise DataGrid Loading Template" Description="Learn Blazorise by the example. Customize the loading look of the Blazorise DataGrid with the loading template feature." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Templates/Loading">
+    Blazorise DataGrid: Loading Template
+</DocsPageTitle>
+
+<DocsPageParagraph>
+    Blazor includes templated components that can accept one or more UI segments as input and render them as part of the component during component rendering. DataGrid is a templated Blazor component that lets you customize various parts of the user interface with template parameters. It enables you to generate custom components or content using your own logic.
+</DocsPageParagraph>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Loading Templates">
+        <Paragraph>
+            If you want to change display of content, while grid is empty or <Code>ReadData</Code> is executing, you can use following templates:
+        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem><Code>EmptyTemplate</Code></UnorderedListItem>
+            <UnorderedListItem><Code>LoadingTemplate</Code></UnorderedListItem>
+        </UnorderedList>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridLoadingEmptyTemplateExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridLoadingEmptyTemplateExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>

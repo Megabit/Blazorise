@@ -71,9 +71,45 @@
     <DocsPageSectionSource Code="CustomLinkTargetExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Stretched link">
+        <Paragraph>
+            Add <Code>Stretched</Code> attribute to a link to make its containing block clickable via a <Code>::after</Code> pseudo element. In most cases, this means that an element with <Code>position: relative</Code> that contains a link with the stretched link class is clickable. Please note given how CSS position works, stretched-link cannot be mixed with most table elements.
+        </Paragraph>
+        <Paragraph>
+            Cards have <Code>position: relative</Code> by default, so in this case you can safely add the <Code>Stretched</Code> attribute to a link in the card without any other HTML changes.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LinkStretchedExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LinkStretchedExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Disabled link">
+        <Paragraph>
+            Make links look inactive by adding the <Code>Disabled</Code> boolean attribute to any <Code Tag>Link</Code> element.
+        </Paragraph>
+        <Paragraph>
+            <Alert Visible Color="Color.Info">
+                The disabled class uses <Code>pointer-events: none</Code> to try to disable the link functionality of <Code Tag>a</Code>s, but that CSS property is not yet standardized. In addition, even in browsers that do support <Code>pointer-events: none</Code>, keyboard navigation remains unaffected, meaning that sighted keyboard users and users of assistive technologies will still be able to activate these links. So to be safe, add a <Code>tabindex="-1"</Code> attribute on these links (to prevent them from receiving keyboard focus) and use custom JavaScript to disable their functionality.
+            </Alert>
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <LinkDisabledExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="LinkDisabledExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
-    Attributes
+    API
 </DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="To" Type="string" Default="null">
@@ -91,7 +127,16 @@
     <DocsAttributesItem Name="Title" Type="string" Default="null">
         Defines the title of a link, which appears to the user as a tooltip.
     </DocsAttributesItem>
+    <DocsAttributesItem Name="Unstyled" Type="bool" Default="false">
+        Removes default color styles from the link.
+    </DocsAttributesItem>
     <DocsAttributesItem Name="Clicked" Type="EventCallback">
         Occurs when the link is clicked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Stretched" Type="bool" Default="false">
+        Makes any HTML element or component clickable by “stretching” a nested link.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Disabled" Type="bool" Default="false">
+        Makes the link look inactive by adding the disabled boolean attribute.
     </DocsAttributesItem>
 </DocsAttributes>

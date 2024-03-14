@@ -1,7 +1,8 @@
 ﻿#region Using directives
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Blazorise.Licensing;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -34,6 +35,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
     private IFluentSpacing padding;
 
+    private IFluentGap gap;
+
     private IFluentDisplay display;
 
     private IFluentBorder border;
@@ -55,6 +58,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     private TextWeight textWeight = TextWeight.Default;
 
     private TextOverflow textOverflow = TextOverflow.Default;
+
+    private IFluentTextSize textSize;
 
     private VerticalAlignment verticalAlignment = VerticalAlignment.Default;
 
@@ -98,12 +103,12 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
             Attributes ??= new();
 
-            if ( widthAttribute != null && parametersDictionary.Remove( "width" ) )
+            if ( widthAttribute is not null && parametersDictionary.Remove( "width" ) )
             {
                 Attributes.Add( "width", widthAttribute );
             }
 
-            if ( heightAttribute != null && parametersDictionary.Remove( "height" ) )
+            if ( heightAttribute is not null && parametersDictionary.Remove( "height" ) )
             {
                 Attributes.Add( "height", heightAttribute );
             }
@@ -117,12 +122,26 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        if ( ShouldAutoGenerateId && ElementId == null )
+        if ( ShouldAutoGenerateId && ElementId is null )
         {
             ElementId = IdGenerator.Generate;
         }
 
         base.OnInitialized();
+    }
+
+    /// <inheritdoc/>
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            if ( LicenseChecker.ShouldPrint() )
+            {
+                await JSUtilitiesModule.Log( "%cThank you for using the free version of the Blazorise component library! We're happy to offer it to you for personal use. If you'd like to remove this message, consider purchasing a commercial license from https://blazorise.com/commercial. We appreciate your support!", "color: #3B82F6; padding: 0;" );
+            }
+        }
+
+        await base.OnAfterRenderAsync( firstRender );
     }
 
     /// <inheritdoc/>
@@ -155,28 +174,31 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <param name="builder">Class builder used to append the classnames.</param>
     protected virtual void BuildClasses( ClassBuilder builder )
     {
-        if ( Class != null )
+        if ( Class is not null )
             builder.Append( Class );
 
-        if ( Margin != null )
+        if ( Margin is not null )
             builder.Append( Margin.Class( ClassProvider ) );
 
-        if ( Padding != null )
+        if ( Padding is not null )
             builder.Append( Padding.Class( ClassProvider ) );
 
-        if ( Display != null )
+        if ( Gap is not null )
+            builder.Append( Gap.Class( ClassProvider ) );
+
+        if ( Display is not null )
             builder.Append( Display.Class( ClassProvider ) );
 
-        if ( Border != null )
+        if ( Border is not null )
             builder.Append( Border.Class( ClassProvider ) );
 
-        if ( Flex != null )
+        if ( Flex is not null )
             builder.Append( Flex.Class( ClassProvider ) );
 
-        if ( Position != null )
+        if ( Position is not null )
             builder.Append( Position.Class( ClassProvider ) );
 
-        if ( Overflow != null )
+        if ( Overflow is not null )
             builder.Append( Overflow.Class( ClassProvider ) );
 
         if ( Float != Float.Default )
@@ -191,10 +213,10 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( VerticalAlignment != VerticalAlignment.Default )
             builder.Append( ClassProvider.VerticalAlignment( VerticalAlignment ) );
 
-        if ( Width != null )
+        if ( Width is not null )
             builder.Append( Width.Class( ClassProvider ) );
 
-        if ( Height != null )
+        if ( Height is not null )
             builder.Append( Height.Class( ClassProvider ) );
 
         if ( Casing != CharacterCasing.Normal )
@@ -215,11 +237,15 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         if ( TextOverflow != TextOverflow.Default )
             builder.Append( ClassProvider.TextOverflow( TextOverflow ) );
 
+        if ( TextSize is not null )
+            builder.Append( TextSize.Class( ClassProvider ) );
+
         if ( Background != Background.Default )
             builder.Append( ClassProvider.BackgroundColor( Background ) );
 
         if ( Shadow != Shadow.None )
             builder.Append( ClassProvider.Shadow( Shadow ) );
+
     }
 
     /// <summary>
@@ -228,8 +254,14 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <param name="builder">Style builder used to append the styles.</param>
     protected virtual void BuildStyles( StyleBuilder builder )
     {
-        if ( Style != null )
+        if ( Style is not null )
             builder.Append( Style );
+
+        if ( Width != null )
+            builder.Append( Width.Style( StyleProvider ) );
+
+        if ( Height != null )
+            builder.Append( Height.Style( StyleProvider ) );
     }
 
     /// <summary>
@@ -254,7 +286,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <typeparam name="T">Type of the object.</typeparam>
     /// <param name="value">The reference of the tracked object.</param>
     /// <returns>An instance of <see cref="DotNetObjectReference{T}"/>.</returns>
-    protected DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
+    protected static DotNetObjectReference<T> CreateDotNetObjectRef<T>( T value ) where T : class
     {
         return DotNetObjectReference.Create( value );
     }
@@ -264,7 +296,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// </summary>
     /// <typeparam name="T">Type of the object.</typeparam>
     /// <param name="value">The reference of the tracked object.</param>
-    protected void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
+    protected static void DisposeDotNetObjectRef<T>( DotNetObjectReference<T> value ) where T : class
     {
         value?.Dispose();
     }
@@ -333,7 +365,17 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     protected IStyleProvider StyleProvider { get; set; }
 
     /// <summary>
-    /// Custom css classname.
+    /// Gets or sets the IJSUtilitiesModule reference.
+    /// </summary>
+    [Inject] private IJSUtilitiesModule JSUtilitiesModule { get; set; }
+
+    /// <summary>
+    /// Gets or sets the license checker for the user session.
+    /// </summary>
+    [Inject] internal BlazoriseLicenseChecker LicenseChecker { get; set; }
+
+    /// <summary>
+    /// Custom css class name.
     /// </summary>
     [Parameter]
     public string Class
@@ -401,6 +443,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => visibility;
         set
         {
+            if ( visibility == value )
+                return;
+
             visibility = value;
 
             DirtyClasses();
@@ -416,6 +461,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => width;
         set
         {
+            if ( width == value )
+                return;
+
             width = value;
 
             DirtyClasses();
@@ -431,6 +479,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => height;
         set
         {
+            if ( height == value )
+                return;
+
             height = value;
 
             DirtyClasses();
@@ -446,6 +497,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => margin;
         set
         {
+            if ( margin == value )
+                return;
+
             margin = value;
 
             DirtyClasses();
@@ -461,7 +515,28 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => padding;
         set
         {
+            if ( padding == value )
+                return;
+
             padding = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Defines the element gap spacing.
+    /// </summary>
+    [Parameter]
+    public IFluentGap Gap
+    {
+        get => gap;
+        set
+        {
+            if ( gap == value )
+                return;
+
+            gap = value;
 
             DirtyClasses();
         }
@@ -476,6 +551,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => display;
         set
         {
+            if ( display == value )
+                return;
+
             display = value;
 
             DirtyClasses();
@@ -491,6 +569,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => border;
         set
         {
+            if ( border == value )
+                return;
+
             border = value;
 
             DirtyClasses();
@@ -506,6 +587,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => flex;
         set
         {
+            if ( flex == value )
+                return;
+
             flex = value;
 
             DirtyClasses();
@@ -521,6 +605,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => position;
         set
         {
+            if ( position == value )
+                return;
+
             position = value;
 
             DirtyClasses();
@@ -536,6 +623,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => overflow;
         set
         {
+            if ( overflow == value )
+                return;
+
             overflow = value;
 
             DirtyClasses();
@@ -627,6 +717,24 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         set
         {
             textOverflow = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Determines the font size of an element.
+    /// </summary>
+    [Parameter]
+    public IFluentTextSize TextSize
+    {
+        get => textSize;
+        set
+        {
+            if ( textSize == value )
+                return;
+
+            textSize = value;
 
             DirtyClasses();
         }

@@ -1,0 +1,55 @@
+﻿.ant-list.ant-list-bordered.ant-list-flush {
+    border-right: 0;
+    border-left: 0;
+}
+
+.ant-list-item-actionable {
+    width: 100%;
+    color: $list-group-action-color;
+    text-align: inherit;
+
+    @include hover-focus() {
+        z-index: 1;
+        color: $list-group-action-hover-color;
+        text-decoration: none;
+        background-color: $list-group-hover-bg;
+    }
+
+    &:active {
+        color: $list-group-action-active-color;
+        background-color: $list-group-action-active-bg;
+    }
+}
+
+li.ant-list-item-actionable {
+    cursor: pointer;
+}
+
+.ant-list .ant-list-items > .ant-list-item {
+    @each $name, $value in $theme-colors {
+        $color: $value;
+        $background: theme-color-level($name, -9);
+
+        &.ant-list-item-#{$name} {
+            color: $color;
+            background-color: $background;
+
+            &.ant-list-item-actionable {
+                @include hover-focus() {
+                    color: $color;
+                    background-color: darken($background, 5%);
+                }
+
+                &.active {
+                    color: $white;
+                    background-color: $color;
+                    border-color: $color;
+                }
+            }
+        }
+    }
+}
+
+.ant-list-scrollable {
+    overflow-y: scroll;
+}
