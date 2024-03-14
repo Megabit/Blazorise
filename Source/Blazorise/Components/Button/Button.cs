@@ -26,7 +26,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
 
     private bool outline;
 
-    private bool disabled;
+    private ComponentParameterInfo<bool> disabled;
 
     private bool active;
 
@@ -45,6 +45,19 @@ public partial class Button : BaseComponent, IAsyncDisposable
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( nameof( Disabled ), Disabled, out disabled );
+
+        if ( disabled.Received || disabled.Changed )
+        {
+            DirtyClasses();
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
 
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
@@ -265,7 +278,9 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// <summary>
     /// True if button or it's parent dropdown is disabled.
     /// </summary>
-    protected bool IsDisabled => ParentDropdown?.Disabled ?? Disabled;
+    protected bool IsDisabled => disabled.Received
+        ? disabled.GetValueOrDefault( ParentDropdown?.Disabled == true ) || !canExecuteCommand.GetValueOrDefault( true )
+        : false;
 
     /// <summary>
     /// True if button is placed inside of a <see cref="Field"/>.
