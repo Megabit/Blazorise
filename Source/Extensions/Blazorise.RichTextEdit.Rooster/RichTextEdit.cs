@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.RichTextEdit.Rooster.Commands;
 using Blazorise.Utilities;
@@ -16,6 +17,9 @@ public class RichTextEdit : BaseComponent
     private DotNetObjectReference<RoosterAdapter> adapter;
     private Format formatCommands;
     private Editor editorCommands;
+    private FormatState formatState = new();
+
+    internal event Action<FormatState> OnFormatStateChanged;
 
     /// <inheritdoc/>
     protected override void BuildRenderTree( RenderTreeBuilder builder )
@@ -90,6 +94,13 @@ public class RichTextEdit : BaseComponent
         return ContentChanged.InvokeAsync( content );
     }
 
+    internal async Task UpdateInternalFormatState( FormatState state )
+    {
+        FormatState = state;
+        await FormatStateChanged.InvokeAsync( state );
+        OnFormatStateChanged?.Invoke( state );
+    }
+
     internal JSRoosterModule JSModule { get; set; }
 
     [Inject] private IJSRuntime JSRuntime { get; set; }
@@ -108,9 +119,18 @@ public class RichTextEdit : BaseComponent
     }
 
     /// <summary>
+    /// Current format state of the editor
+    /// </summary>
+    public FormatState FormatState
+    {
+        get => formatState;
+        private set => formatState = value;
+    }
+
+    /// <summary>
     /// The html content of the editor
     /// </summary>
     [Parameter] public string Content { get; set; }
-
     [Parameter] public EventCallback<string> ContentChanged { get; set; }
+    [Parameter] public EventCallback<FormatState> FormatStateChanged { get; set; }
 }

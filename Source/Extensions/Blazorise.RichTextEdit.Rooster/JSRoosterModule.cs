@@ -12,7 +12,6 @@ internal class JSRoosterModule : BaseJSModule, IJSDestroyableModule
     {
     }
 
-    /// <inheritdoc/>
     public override string ModuleFileName => $"./_content/Blazorise.RichTextEdit.Rooster/blazorise.rooster.js?v={VersionProvider.Version}";
 
     public ValueTask Initialize( DotNetObjectReference<RoosterAdapter> adapterReference, ElementReference elementRef, string elementId, object options )
@@ -29,4 +28,7 @@ internal class JSRoosterModule : BaseJSModule, IJSDestroyableModule
 
     public async Task SetContent( ElementReference elementRef, string elementId, string content )
         => await InvokeSafeVoidAsync( "setContent", elementRef, elementId, content );
+
+    public ValueTask<FormatState> GetFormatState( ElementReference elementRef, string elementId, string content )
+        => InvokeSafeAsync<FormatState>( "getFormatState", elementRef, elementId, content );
 }

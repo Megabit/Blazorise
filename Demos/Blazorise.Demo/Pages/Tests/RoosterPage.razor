@@ -1,6 +1,7 @@
 ﻿@page "/tests/rooster"
 @using Blazorise.RichTextEdit.Rooster
 @using Markdig.Extensions.SmartyPants
+@using System.Text.Json
 
 <Row>
     <Column>
@@ -71,15 +72,15 @@
                     </Buttons>
                 </Buttons>
 
-                <Blazorise.RichTextEdit.Rooster.RichTextEdit 
-                    @ref="editor" 
-                    @bind-Content="contentAsHtml" />
+                <Blazorise.RichTextEdit.Rooster.RichTextEdit @ref="editor" 
+                                                             @bind-Content="contentAsHtml"
+                                                             FormatStateChanged="OnFormatStateChanged" />
             </CardBody>
         </Card>
     </Column>
 </Row>
 <Row>
-    <Column>
+    <Column ColumnSize="ColumnSize.Is4">
         <Card>
             <CardHeader>
                 <CardTitle>Content Preview</CardTitle>
@@ -89,7 +90,17 @@
             </CardBody>
         </Card>
     </Column>
-    <Column>
+    <Column ColumnSize="ColumnSize.Is4">
+        <Card>
+            <CardHeader>
+                <CardTitle>State Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <pre><code>@formatStateJson</code></pre>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is4">
         <Card>
             <CardHeader>
                 <CardTitle>Actions</CardTitle>
@@ -106,6 +117,12 @@
 @code {
     private Blazorise.RichTextEdit.Rooster.RichTextEdit editor;
     private string contentAsHtml = "<p>Welcome to the <b>Rooster.js</b> RichTextEdit!</p>";
+    private string formatStateJson;
+
+    private static readonly JsonSerializerOptions SerializerOptions = new(JsonSerializerDefaults.Web)
+    {
+        WriteIndented = true
+    };
 
     private void SetContent()
     {
@@ -113,4 +130,9 @@
         InvokeAsync(StateHasChanged);
     }
 
+    private void OnFormatStateChanged(FormatState state)
+    {
+        formatStateJson = JsonSerializer.Serialize(state, SerializerOptions);
+        InvokeAsync(StateHasChanged);
+    }
 }

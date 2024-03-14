@@ -37,10 +37,23 @@ public class RichTextEditCommand : ICommand
     /// <inheritdoc />
     public event EventHandler CanExecuteChanged;
 
-    internal RichTextEditCommand( RichTextEdit editor, string action )
+    internal RichTextEditCommand( RichTextEdit editor, string action, Func<FormatState, CommandEval> eval = null )
     {
         this.editor = editor;
         this.action = action;
+
+        if ( eval != null )
+        {
+            void EvaluateState( FormatState state )
+            {
+                var result = eval( state );
+                Disabled = !result.CanExecute.GetValueOrDefault();
+                Active = result.IsActive;
+            }
+
+            editor.OnFormatStateChanged += EvaluateState;
+            EvaluateState( editor.FormatState );
+        }
     }
 
     /// <summary>
@@ -48,12 +61,13 @@ public class RichTextEditCommand : ICommand
     /// </summary>
     public bool Disabled { get; private set; }
 
+    /// <summary>
+    /// Is the command active
+    /// </summary>
+    public bool? Active { get; private set; }
+
     /// <inheritdoc />
-    public virtual bool CanExecute( object parameter )
-    {
-        // TODO
-        return true;
-    }
+    public virtual bool CanExecute( object parameter ) => !Disabled;
 
     /// <inheritdoc />
     public virtual async void Execute( object parameter )
@@ -76,3 +90,5 @@ public class RichTextEditCommand : ICommand
     /// <returns>the transformed value</returns>
     protected virtual object TransformArgument( object argument ) => argument;
 }
+
+public record CommandEval( bool? CanExecute, bool? IsActive = default );

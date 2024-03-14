@@ -1,8 +1,8 @@
-﻿import { getRequiredElement } from "../Blazorise/utilities.js?v=1.4.2.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.4.3.0";
 
 const _instances = [];
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.RichTextEdit.Rooster/blazorise.rooster.css?v=1.4.2.0\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.RichTextEdit.Rooster/blazorise.rooster.css?v=1.4.3.0\" />");
 
 export async function initialize(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
@@ -25,6 +25,8 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     ];
 
     instance.editor = roosterjs.createEditor(element, plugins);    
+
+    window.niek = instance.editor;
 
     if (options.content) {
         instance.editor.setContent(options.content);
@@ -79,13 +81,23 @@ export function getContent(element, elementId, mode) {
     return instance.editor.getContent(mode);
 }
 
+export function getFormatState(element, elementId) {
+    const instances = _instances || {};
+    const instance = instances[elementId];
+
+    if (!instance)
+        return;
+
+    return roosterjs.getFormatState(instance.editor);
+}
+
 function loadRoosterJs() {
     return new Promise((resolve, reject) => {
         try {
             const scriptEle = document.createElement("script");
             scriptEle.type = "text/javascript";
             scriptEle.async = true;
-            scriptEle.src = "_content/Blazorise.RichTextEdit.Rooster/vendors/rooster.js?v=1.4.2.0";
+            scriptEle.src = "_content/Blazorise.RichTextEdit.Rooster/vendors/rooster.js?v=1.4.3.0";
 
             scriptEle.addEventListener("load", (ev) => {
                 resolve({ status: true });
@@ -138,52 +150,64 @@ class BlazoriseRichTextEditPlugin {
     }
 
     getName() {
-        return "BlazoriseRichTextEditPlugin"
+        return "BlazoriseRichTextEditPlugin";
     }
 
     initialize(editor) {
-        this.editor = editor
+        this.editor = editor;
         this.changeDisposer = this.editor.addDomEventHandler(
             "input",
-            this.onChangeEvent
-        )
+            this.contentChangedEvent
+        );
         this.textInputDisposer = this.editor.addDomEventHandler(
             "textinput",
-            this.onChangeEvent
-        )
+            this.contentChangedEvent
+        );
         this.pasteDisposer = this.editor.addDomEventHandler(
             "paste",
-            this.onChangeEvent
-        )
+            this.contentChangedEvent
+        );
 
-        // Throttle changed event otherwise blazor gets bombed
-        this.eventHandler = throttle(() => this.dotNetAdapter
+        // Throttle events otherwise blazor gets bombed
+        this.contentChangedEvent = throttle(() => this.dotNetAdapter
             .invokeMethodAsync('OnContentChanged', this.editor.getContent())
-            .then(null, err => { throw new Error(err); }), 250);
+            .then(null, this.onError), 250);
+        this.formatStateChangedEvent = throttle(() => this.dotNetAdapter
+            .invokeMethodAsync('OnFormatStateChanged', roosterjs.getFormatState(this.editor))
+            .then(null, this.onError), 250);
    }
 
     onPluginEvent(event) {
-        if (event && event.eventType === roosterjs.PluginEventType.ContentChanged) {
-            this.onChangeEvent()
+        if (!event) return;
+
+        if (event.eventType === roosterjs.PluginEventType.ContentChanged) {
+            this.contentChangedEvent();
+        }
+        else {
+            this.formatStateChangedEvent();
         }
     }
 
     dispose() {
         if (this.changeDisposer) {
-            this.changeDisposer()
-            this.changeDisposer = null
+            this.changeDisposer();
+            this.changeDisposer = null;
         }
         if (this.textInputDisposer) {
-            this.textInputDisposer()
-            this.textInputDisposer = null
+            this.textInputDisposer();
+            this.textInputDisposer = null;
         }
         if (this.pasteDisposer) {
-            this.pasteDisposer()
-            this.pasteDisposer = null
+            this.pasteDisposer();
+            this.pasteDisposer = null;
         }
 
-        this.editor = null
+        this.editor = null;
+        this.contentChangedEvent = () => { };
+        this.formatStateChangedEvent = () => { };
     }
 
-    onChangeEvent = () => this.eventHandler();
+    onError(error) {
+        throw new Error(error);
+    }
 }

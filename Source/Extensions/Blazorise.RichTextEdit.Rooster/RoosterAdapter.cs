@@ -15,4 +15,8 @@ internal class RoosterAdapter
     [JSInvokable]
     public Task OnContentChanged( string html )
         => rte.UpdateInternalContent( html );
+
+    [JSInvokable]
+    public Task OnFormatStateChanged( FormatState state )
+        => rte.UpdateInternalFormatState( state );
 }
