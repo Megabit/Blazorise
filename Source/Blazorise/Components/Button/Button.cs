@@ -26,7 +26,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
 
     private bool outline;
 
-    private bool disabled;
+    private ComponentParameterInfo<bool> disabled;
 
     private bool active;
 
@@ -47,6 +47,19 @@ public partial class Button : BaseComponent, IAsyncDisposable
     #region Methods
 
     /// <inheritdoc/>
+    public override Task SetParametersAsync( ParameterView parameters )
+    {
+        parameters.TryGetParameter( nameof( Disabled ), Disabled, out disabled );
+
+        if ( disabled.Received || disabled.Changed )
+        {
+            DirtyClasses();
+        }
+
+        return base.SetParametersAsync( parameters );
+    }
+
+    /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Button( Outline ) );
@@ -54,7 +67,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
         builder.Append( ClassProvider.ButtonSize( ThemeSize, Outline ) );
         builder.Append( ClassProvider.ButtonBlock( Outline ), Block );
         builder.Append( ClassProvider.ButtonActive( Outline ), Active );
-        builder.Append( ClassProvider.ButtonDisabled( Outline ), Disabled );
+        builder.Append( ClassProvider.ButtonDisabled( Outline ), IsDisabled );
         builder.Append( ClassProvider.ButtonLoading( Outline ), Loading && LoadingTemplate is null );
         builder.Append( ClassProvider.ButtonStretchedLink( StretchedLink ) );
 
@@ -265,7 +278,9 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// <summary>
     /// True if button or it's parent dropdown is disabled.
     /// </summary>
-    protected bool IsDisabled => ParentDropdown?.Disabled ?? Disabled;
+    protected bool IsDisabled => disabled.Received
+        ? disabled.GetValueOrDefault( ParentDropdown?.Disabled == true ) || !canExecuteCommand.GetValueOrDefault( true )
+        : false;
 
     /// <summary>
     /// True if button is placed inside of a <see cref="Field"/>.
@@ -345,17 +360,7 @@ public partial class Button : BaseComponent, IAsyncDisposable
     /// <summary>
     /// When set to 'true', disables the component's functionality and places it in a disabled state.
     /// </summary>
-    [Parameter]
-    public bool Disabled
-    {
-        get => disabled || !canExecuteCommand.GetValueOrDefault( true );
-        set
-        {
-            disabled = value;
-
-            DirtyClasses();
-        }
-    }
+    [Parameter] public bool Disabled { get; set; }
 
     /// <summary>
     /// When set to 'true', places the component in the active state with active styling.
