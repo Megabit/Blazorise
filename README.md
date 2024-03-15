@@ -95,14 +95,14 @@ Available Blazorise packages are:
 7. Blazorise.FluentUI2
 ```
 
-This guide will show you how to setup Blazorise with **Bootstrap 4** and **FontAwesome** icons. To setup Blazorise for other CSS frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
+This guide will show you how to setup Blazorise with **Bootstrap 5** and **FontAwesome 6** icons. To setup Blazorise for other CSS frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
 
 ### 1. NuGet packages
 
-First step is to install a Bootstrap provider for Blazorise:
+First step is to install a Bootstrap 5 provider for Blazorise:
 
 ```bash
-dotnet add package Blazorise.Bootstrap
+dotnet add package Blazorise.Bootstrap5
 ```
 
 And FontAwesome icon package:
@@ -116,19 +116,11 @@ dotnet add package Blazorise.Icons.FontAwesome
 Add the following to `index.html` (Blazor WebAssembly) or `_Host.cshtml` (Blazor Server) in the `head` section.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css" rel="stylesheet">
 
 <link href="_content/Blazorise/blazorise.css?v=1.5.0.0" rel="stylesheet" />
-<link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.5.0.0" rel="stylesheet" />
-```
-
-Add the following to `index.html` or `_Host.cshtml` in the `body` section.
-
-```html
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js" integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF" crossorigin="anonymous"></script>
+<link href="_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css?v=1.5.0.0" rel="stylesheet" />
 ```
 
 Please note, that these are the Blazorise explicit dependencies, you still need to add framework specific dependencies.
@@ -158,14 +150,14 @@ Add the following lines to the relevant sections of `Program.cs`.
 
 ```cs
 using Blazorise;
-using Blazorise.Bootstrap;
+using Blazorise.Bootstrap5;
 using Blazorise.Icons.FontAwesome;
 ```
 
 ```cs
 builder.Services
   .AddBlazorise()
-  .AddBootstrapProviders()
+  .AddBootstrap5Providers()
   .AddFontAwesomeIcons();
 ```
 
