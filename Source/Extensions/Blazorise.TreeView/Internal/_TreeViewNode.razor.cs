@@ -8,6 +8,7 @@ using Blazorise.Extensions;
 using Blazorise.TreeView.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.TreeView.Internal;
@@ -249,6 +250,17 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
         await InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Event handler for <see cref="ContextMenu"/> event callback.
+    /// </summary>
+    /// <param name="nodeState">The node state that is being clicked.</param>
+    /// <param name="eventArgs">Supplies information about an contextmenu event that is being raised.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    protected virtual Task OnContextMenuHandler( TreeViewNodeState<TNode> nodeState, MouseEventArgs eventArgs )
+    {
+        return ContextMenu.InvokeAsync( new TreeViewNodeMouseEventArgs<TNode>( nodeState.Node, eventArgs ) );
+    }
+
     #endregion
 
     #region Properties
@@ -337,6 +349,16 @@ public partial class _TreeViewNode<TNode> : BaseComponent, IDisposable
     /// Gets or sets node styling.
     /// </summary>
     [Parameter] public Action<TNode, NodeStyling> NodeStyling { get; set; }
+
+    /// <summary>
+    /// The event is fired when an element or text selection is right clicked to show the context menu.
+    /// </summary>
+    [Parameter] public EventCallback<TreeViewNodeMouseEventArgs<TNode>> ContextMenu { get; set; }
+
+    /// <summary>
+    /// Used to prevent the default action for an <see cref="ContextMenu"/> event.
+    /// </summary>
+    [Parameter] public bool ContextMenuPreventDefault { get; set; }
 
     /// <summary>
     /// Specifies the content to be rendered inside this <see cref="_TreeViewNode{TNode}"/>.

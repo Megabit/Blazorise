@@ -45,6 +45,7 @@
             </CardBody>
             <CardBody>
                 <TreeView @ref="@treeViewRef"
+                          TNode="NodeInfo"
                           Nodes="Nodes"
                           SelectionMode="@selectionMode"
                           @bind-SelectedNode="selectedNode"
@@ -54,7 +55,9 @@
                           HasChildNodes="@(item => item.Children?.Any() == true)"
                           IsDisabled="@(item => item.Disabled)"
                           NodeStyling="@((item, style) => { style.TextColor = (item.Children?.Any() == true) ? TextColor.Primary : TextColor.Dark; style.Style = "font-weight:bold"; })"
-                          SelectedNodeStyling="@((item, style) => {style.Background = Background.Success; style.TextColor = TextColor.White; })">
+                          SelectedNodeStyling="@((item, style) => {style.Background = Background.Success; style.TextColor = TextColor.White; })"
+                          NodeContextMenu="@OnNodeContextMenu"
+                          NodeContextMenuPreventDefault>
                     <NodeContent>
                         <Icon Name="IconName.Folder" />
                         @context.Text
