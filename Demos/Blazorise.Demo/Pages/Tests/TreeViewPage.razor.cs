@@ -5,6 +5,7 @@ using System.Security;
 using System.Threading.Tasks;
 using Blazorise.TreeView;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Blazorise.Demo.Pages.Tests;
 
@@ -128,5 +129,12 @@ public partial class TreeViewPage : ComponentBase
             foreach ( var child in children )
                 queue.Enqueue( child );
         }
+    }
+
+    protected Task OnNodeContextMenu( TreeViewNodeMouseEventArgs<NodeInfo> eventArgs )
+    {
+        Console.WriteLine( $"NodeContextMenu: {eventArgs.Node.Text}" );
+
+        return Task.CompletedTask;
     }
 }

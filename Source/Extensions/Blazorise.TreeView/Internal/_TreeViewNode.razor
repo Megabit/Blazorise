@@ -4,7 +4,7 @@
     <div class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
         @foreach ( var nodeState in NodeStates ?? Enumerable.Empty<TreeViewNodeState<TNode>>() )
         {
-            <div @key="@nodeState.Key">
+            <div @key="@nodeState.Key" @oncontextmenu="@((eventArgs)=>OnContextMenuHandler(nodeState, eventArgs))" @oncontextmenu:stopPropagation @oncontextmenu:preventDefault="@ContextMenuPreventDefault">
                 @if ( nodeState.HasChildren )
                 {
                     <span class="b-tree-view-node-icon" @onclick="@(() => ToggleNode(nodeState))">
@@ -48,7 +48,9 @@
                                    ExpandIconStyle="@ExpandIconStyle"
                                    CollapseIconName="@CollapseIconName"
                                    CollapseIconStyle="@CollapseIconStyle"
-                                   SelectionMode="@SelectionMode" />
+                                   SelectionMode="@SelectionMode"
+                                   ContextMenu="@ContextMenu"
+                                   ContextMenuPreventDefault="@ContextMenuPreventDefault" />
                 }
             </div>
         }

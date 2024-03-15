@@ -9641,6 +9641,107 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     private List<string> list = new List<string> { ""Apple"", ""Banana"", ""Cherry"", ""Grapes"", ""Orange"", ""Pear"", ""Strawberry"" };
 }";
 
+        public const string TreeViewContextMenuExample = @"@using System.Drawing
+
+<TreeView TNode=""Item""
+          Nodes=""Items""
+          GetChildNodes=""@(item => item.Children)""
+          HasChildNodes=""@(item => item.Children?.Any() == true)""
+          AutoExpandAll
+          @bind-SelectedNode=""selectedNode""
+          @bind-ExpandedNodes=""expandedNodes""
+          NodeContextMenu=""@OnNodeContextMenu""
+          NodeContextMenuPreventDefault>
+    <NodeContent>
+        <Icon Name=""IconName.Folder"" />
+        @context.Text
+    </NodeContent>
+</TreeView>
+
+@if ( showContextMenu )
+{
+    <Div Position=""Position.Fixed"" Background=""Background.Danger"" Style=""@($""left:{contextMenuPosX}px; top:{contextMenuPosY}px;"")"">
+        <ListGroup>
+            <ListGroupItem>
+                <Strong>Node: @contextMenuNode?.Text</Strong>
+            </ListGroupItem>
+            <ListGroupItem Clicked=""@(()=>OnContextItemEditClicked(contextMenuNode))"" Style=""cursor: pointer;"">
+                <Icon Name=""IconName.Edit"" TextColor=""TextColor.Secondary"" /> Edit
+            </ListGroupItem>
+            <ListGroupItem Clicked=""@(()=>OnContextItemDeleteClicked(contextMenuNode))"" Style=""cursor: pointer;"">
+                <Icon Name=""IconName.Delete"" TextColor=""TextColor.Danger"" /> Delete
+            </ListGroupItem>
+        </ListGroup>
+    </Div>
+}
+
+@code {
+    public class Item
+    {
+        public string Text { get; set; }
+        public IEnumerable<Item> Children { get; set; }
+    }
+
+    IEnumerable<Item> Items = new[]
+    {
+        new Item { Text = ""Item 1"" },
+        new Item
+        {
+            Text = ""Item 2"",
+            Children = new []
+            {
+                new Item { Text = ""Item 2.1"" },
+                new Item
+                {
+                    Text = ""Item 2.2"",
+                    Children = new []
+                    {
+                        new Item { Text = ""Item 2.2.1"" },
+                        new Item { Text = ""Item 2.2.2"" },
+                        new Item { Text = ""Item 2.2.3"" },
+                        new Item { Text = ""Item 2.2.4"" }
+                    }
+                },
+                new Item { Text = ""Item 2.3"" },
+                new Item { Text = ""Item 2.4"" }
+            }
+        },
+        new Item { Text = ""Item 3"" },
+    };
+
+    IList<Item> expandedNodes = new List<Item>();
+    Item selectedNode;
+
+    bool showContextMenu = false;
+    double contextMenuPosX;
+    double contextMenuPosY;
+    Item contextMenuNode;
+
+    protected Task OnNodeContextMenu( TreeViewNodeMouseEventArgs<Item> eventArgs )
+    {
+        showContextMenu = true;
+        contextMenuNode = eventArgs.Node;
+        contextMenuPosX = eventArgs.MouseEventArgs.ClientX;
+        contextMenuPosY = eventArgs.MouseEventArgs.ClientY;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnContextItemEditClicked( Item item )
+    {
+        showContextMenu = false;
+
+        return Task.CompletedTask;
+    }
+
+    protected Task OnContextItemDeleteClicked( Item item )
+    {
+        showContextMenu = false;
+
+        return Task.CompletedTask;
+    }
+}";
+
         public const string TreeViewExample = @"<TreeView Nodes=""Items""
           GetChildNodes=""@(item => item.Children)""
           HasChildNodes=""@(item => item.Children?.Any() == true)""
