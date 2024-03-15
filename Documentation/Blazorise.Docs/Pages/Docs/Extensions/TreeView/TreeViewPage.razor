@@ -129,6 +129,33 @@
     <DocsPageSectionSource Code="TreeViewObservableExample" />
 </DocsPageSection>
 
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Node Context Menu">
+        <Paragraph>
+            To integrate the context menu with the <Strong>TreeView</Strong>, you need to:
+        </Paragraph>
+        <OrderedList>
+            <OrderedListItem>
+                <Paragraph>
+                    Use the TreeView <Code>NodeContextMenu</Code> event to get the current node and show the menu.
+                </Paragraph>
+            </OrderedListItem>
+            <OrderedListItem>
+                <Paragraph>
+                    Use the context menu's <Code>MouseEventArgs</Code> parameter to handle the desired operation.
+                </Paragraph>
+            </OrderedListItem>
+        </OrderedList>
+        <Paragraph>
+            In this example, the context menu is used to show the menu items, put an item in edit mode and delete items.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <TreeViewContextMenuExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="TreeViewContextMenuExample" />
+</DocsPageSection>
+
 <DocsPageSubtitle>
     API
 </DocsPageSubtitle>
