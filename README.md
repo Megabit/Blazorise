@@ -61,6 +61,7 @@ Blazorise is an open source project with its ongoing development made possible e
 - [Material Demo](https://materialdemo.blazorise.com/)
 - [Bulma Demo](https://bulmademo.blazorise.com/)
 - [AntDesign Demo](https://antdesigndemo.blazorise.com/)
+- [Fluent 2 Demo](https://fluentui2demo.blazorise.com/)
 
 ### Blazor Server
 
@@ -91,6 +92,7 @@ Available Blazorise packages are:
 4. Blazorise.Bulma
 5. Blazorise.Material
 6. Blazorise.AntDesign
+7. Blazorise.FluentUI2
 ```
 
 This guide will show you how to setup Blazorise with **Bootstrap 4** and **FontAwesome** icons. To setup Blazorise for other CSS frameworks, please refer the [Usage](https://blazorise.com/docs/usage/) page in the documentation.
