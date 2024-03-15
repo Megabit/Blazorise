@@ -5,11 +5,23 @@
 <NewsPageImage Source="img/news/150/v150.png" Text="Blazorise v1.5" />
 
 <NewsPageTitle>
-    Announcing Blazorise 1.5 -
+    Announcing Blazorise 1.5 - Dubrovnik
 </NewsPageTitle>
 
 <Paragraph>
-    We're excited to unveil the latest iteration of Blazorise, version 1.5, packed with new features, improvements, and upgrades to enhance your development experience. Let's dive into the highlights and guide you through upgrading your existing projects.
+    We're pleased to announce the release of Blazorise version 1.5, codename <Anchor To="https://en.wikipedia.org/wiki/Dubrovnik" Title="Link to Dubrovnik wikipedia">Dubrovnik</Anchor>, bringing with it new features, improvements, and important upgrades aimed at enhancing your development experience. This update reflects our ongoing efforts to refine and expand the Blazorise toolkit in response to the needs of our developer community.
+</Paragraph>
+
+<Paragraph>
+    This release introduces a range of new features and enhancements designed to support the creation of dynamic, efficient, and visually appealing applications. We've also focused on addressing and resolving issues reported in previous versions to ensure a more stable and reliable foundation for your projects.
+</Paragraph>
+
+<Paragraph>
+    We continue to offer active support for our commercial users, aiming to provide the necessary assistance to utilize Blazorise 1.5 effectively in your development projects.
+</Paragraph>
+
+<Paragraph>
+    Let's explore what's new in this release and provide guidance on upgrading your existing projects to take advantage of the latest improvements in Blazorise 1.5.
 </Paragraph>
 
 <NewsPageSubtitle>
@@ -84,11 +96,43 @@
 </NewsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
-    Fluent UI 2
+    Fluent UI 2 Provider
 </Heading>
 
 <Paragraph>
-    The introduction of the new Blazorise Fluent provider stands as the centerpiece of this release, marking a significant milestone in our ongoing development efforts. It required three months of focused work to complete this feature, and we are now able to offer it to our users. This provider is based on the Microsoft Fluent 2 design system, and we have invested considerable effort to integrate it across all Blazorise components, ensuring a consistent and modern user interface experience.
+    The introduction of the new Blazorise Fluent provider stands as the centerpiece of this release, marking a significant milestone in our ongoing development efforts. It required three months of focused work to complete this feature, and we are now able to offer it to our users.
+</Paragraph>
+
+<Paragraph>
+    This provider is based on the Microsoft <Anchor To="https://fluent2.microsoft.design/" Title="Link to Fluent 2 design system">Fluent 2 design system</Anchor>, and we have invested considerable effort to integrate it across all Blazorise components, ensuring a consistent and modern user interface experience.
+</Paragraph>
+
+<Paragraph>
+    To learn more on how to integrate Blazorise Fluent provider into your project follow the <Anchor To="docs/usage/fluent2" Title="Link to Blazorise Fluent 2 Usage Guide page">Blazorise Fluent 2 Usage Guide</Anchor> page.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Fluent Icons
+</Heading>
+
+<Paragraph>
+    Along with the Blazorise Fluent provider, we also made a lot of work in the new <Strong>Blazorise.Icons.FluentUI</Strong> package, featuring a new collection of icons derived from the Microsoft Fluent Icons library. This addition enriches the variety of icons available for your projects.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Font Awesome Additions
+</Heading>
+
+<Paragraph>
+    Furthermore, we've integrated the most recent icons from the Font Awesome <Strong>v6</Strong> branch, significantly expanding the selection of icon names at your disposal.
+</Paragraph>
+
+<Paragraph>
+    With this update, we've also adjusted how Font Awesome icons are utilized. The <Strong>Blazorise.Icons.FontAwesome</Strong> package now encompasses all icons from both the <Strong>v5.x</Strong>, and <Strong>v6.x</Strong> branches of Font Awesome. This modification was necessary due to the lack of a Content Delivery Network (CDN) for the <Strong>v6.x</Strong> icons. By incorporating these icons directly into Blazorise, we offer a direct path to leverage them in your projects. Should you prefer using your own CDN, that option remains available as an alternative.
+</Paragraph>
+
+<Paragraph>
+    It's important to note that following the integration of <Strong>FontAWesome v6.x</Strong>, certain icons from the <Strong>v5.x</Strong> collection may not function as expected. We recommend updating your CSS link to the latest <Strong>v6.x</Strong> version to ensure optimal compatibility and performance.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -96,11 +140,13 @@
 </Heading>
 
 <Paragraph>
-    We have introduced a new Toast component. Toasts are brief alerts made to resemble push notifications, which are more common on desktop and mobile devices. Since they are flexbox-built, they are simple to align and reposition.
+    We're excited to announce the addition of the Toast component in Blazorise 1.5. Designed to mimic the appearance of push notifications often seen on desktop and mobile devices, Toasts provide short-lived alerts to users. Thanks to their construction using flexbox, positioning and aligning them is straightforward and hassle-free.
 </Paragraph>
 
+<NewsPageImageModal ImageSource="img/news/150/toast-component.png" ImageTitle="Feature Toast component" />
+
 <Paragraph>
-    Please find an example of how to use this component in the <Anchor To="docs/components/toast" Title="Link to Toast page">Toast</Anchor> page.
+    For guidance on utilizing this new component, please refer to the example provided on the <Anchor To="docs/components/toast" Title="Link to Toast page">Toast</Anchor> page.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -108,15 +154,35 @@
 </Heading>
 
 <Paragraph>
-    The Progress Bar now features an indeterminate state, designed to indicate ongoing processes whose duration cannot be predicted. This enhancement improves the user interface by providing a visual indicator for operations that are in progress, enhancing the overall user experience.
+    The <Anchor To="docs/components/progress" Title="Link to Progress Bar component">Progress Bar component</Anchor> has been enriched with the addition of an <Strong>Indeterminate</Strong> state. This feature is specifically designed to represent operations whose end time is not determinable, offering a dynamic way to signify that a process is actively underway but its duration remains uncertain. This enhancement significantly boosts the user interface by introducing a visual representation for tasks that are currently in progress.
 </Paragraph>
 
+<NewsPageImageModal ImageSource="img/news/150/progress-bar-indeterminate.png" ImageTitle="Feature Progress Bar Indeterminate State" />
+
 <Heading Size="HeadingSize.Is3">
-    Accordion dedicated components
+    Dedicated Accordion components
 </Heading>
 
 <Paragraph>
-    The Accordion functionality has been enhanced with the introduction of dedicated components. This change aims to improve the performance and flexibility of accordions within applications. It addresses previous limitations by replacing the use of the Collapse component, facilitating a more efficient and straightforward implementation.
+    The Accordion functionality has been enhanced with the introduction of dedicated components.
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Code>AccordionHeader</Code>, and
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>AccordionHeader</Code>, and
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>AccordionBody</Code>
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    This change aims to improve the performance and flexibility of accordions within applications. It addresses previous limitations by replacing the use of the Collapse component which were too strongly attached to the Accordion component.
 </Paragraph>
 
 <Paragraph>
@@ -128,27 +194,11 @@
 </Heading>
 
 <Paragraph>
-    In this update, the AntDesign provider has been upgraded. Before this, we utilized the earlier 4.0 version of AntDesign, which was not fully leveraging the capabilities of this advanced framework. While our goal is to transition to the newer AntDesign 5.1 version in a future Blazorise release, the current upgrade resolves numerous challenges encountered during the development of Blazorise 1.5.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    Icon Updates and Additions
-</Heading>
-
-<Paragraph>
-    We're excited to announce the introduction of the <Strong>Blazorise.Icons.Fluent</Strong> package, featuring a new collection of icons derived from the Microsoft Fluent Icons library. This addition enriches the variety of icons available for your projects.
+    In the current update, we've upgraded the AntDesign provider to the latest 4.24 version. Previously, we were working with the earlier 4.0 version of AntDesign, which didn't fully exploit the potential of this framework.
 </Paragraph>
 
 <Paragraph>
-    Furthermore, we've integrated the most recent icons from the Font Awesome v6 branch, significantly expanding the selection of icon names at your disposal.
-</Paragraph>
-
-<Paragraph>
-    With this update, we've also adjusted how Font Awesome icons are utilized. The <Strong>Blazorise.Icons.FontAwesome</Strong> package now encompasses all icons from both the <Strong>v5.x</Strong>, and <Strong>v6.x</Strong> branches of Font Awesome. This modification was necessary due to the lack of a Content Delivery Network (CDN) for the <Strong>v6.x</Strong> icons. By incorporating these icons directly into Blazorise, we offer a direct path to leverage them in your projects. Should you prefer using your own CDN, that option remains available as an alternative.
-</Paragraph>
-
-<Paragraph>
-    It's important to note that following the integration of <Strong>FontAWesome v6.x</Strong>, certain icons from the <Strong>v5.x</Strong> collection may not function as expected. We recommend updating your CSS link to the latest <Strong>v6.x</Strong> version to ensure optimal compatibility and performance.
+    Although we aim to migrate to the newer AntDesign 5.1 version in a forthcoming Blazorise release, this upgrade to 4.24 addresses many of the challenges we faced during the development of Blazorise 1.5.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -183,15 +233,14 @@
     The introduction of the Column Chooser feature, activated by setting <Strong>ColumnChooser</Strong> to true, empowers users to dynamically show or hide columns within the DataGrid, enhancing the customization and flexibility of data presentation.
 </Paragraph>
 
+<NewsPageImageModal ImageSource="img/news/150/datagrid-columnchooser.png" ImageTitle="Feature DataGrid Column Chooser" />
+
 <Heading Size="HeadingSize.Is4">
     4. Aggregate Template for DataGrid Columns
 </Heading>
 
 <Paragraph>
-    The addition of the <Strong>AggregateTemplate</Strong> parameter to DataGridColumn represents a significant enhancement, addressing previous limitations by enabling the assignment of aggregate templates to both DataGridColumn and DataGridMultiSelectColumn, thus expanding the framework's data aggregation capabilities.
-    
-    Introduced an <Code>AggregateTemplate</Code> Parameter to the <Code>DataGridColumn</Code>.
-    This new Parameter fixes a gap in functionality where it was not possible to set an aggregate template for the <Code>DataGridColumn</Code> and <Code>DataGridMultiSelectColumn</Code>
+    The <Strong>AggregateTemplate</Strong> parameter has been added to the DataGridColumn. This enhancement resolves a functionality gap, previously making it impossible to assign an aggregate template to both <Strong>DataGridColumn</Strong> and <Strong>DataGridMultiSelectColumn</Strong>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -199,7 +248,13 @@
 </Heading>
 
 <Paragraph>
-    Now it is possible to show an extra information on the <Code>Rating</Code> component. By defining the <Code>GetTooltip</Code> callback you can show the tooltip to indicate what is the rating value that it represents.
+    The <Strong>Rating</Strong> component has been updated to allow the display of additional information. Through the implementation of the <Code>GetTooltip</Code> callback, tooltips can now be shown, providing users with insights into the rating value being represented.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/150/rating-tooltip.png" ImageTitle="Feature Rating Tooltip" />
+
+<Paragraph>
+    For a details example of this feature, refer to the <Anchor To="docs/components/rating" Title="Link to Rating component">Rating component</Anchor> page.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -247,13 +302,15 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    Bar
+    Bar menu toggle bahavior
 </Heading>
 
 <Paragraph>
-    Introduced a new <Code>BarMenuToggleBehavior</Code>.
-    By default, it is set to <Code>BarMenuToggleBehavior.AllowMultipleMenus</Code> which will keep all the menus you toggle open.
-    You can also set it to <Code>BarMenuToggleBehavior.AllowSingleMenu</Code> to only keep a menu open at a time.
+    We've recently introduced an exciting update with the addition of the <Strong>BarMenuToggleBehavior</Strong> feature. This new functionality comes with a default setting, <Code>BarMenuToggleBehavior.AllowMultipleMenus</Code>, designed to enhance user interaction by allowing all toggled menus to remain open concurrently. This setting is particularly useful for users who wish to multitask or compare content across different menus without the hassle of reopening them.
+</Paragraph>
+
+<Paragraph>
+    For those who prefer a more streamlined navigation experience, there's the option to switch the setting to <Code>BarMenuToggleBehavior.AllowSingleMenu</Code>. This alternative configuration ensures that only one menu can be open at a time, promoting a focused and clutter-free interface. This flexibility in menu behavior customization allows developers to tailor the navigation experience to the specific needs and preferences of their users, enhancing usability and user satisfaction.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -265,7 +322,7 @@
 </Paragraph>
 
 <Paragraph>
-    We also made dynamic loading of RichTextEdit JS obsolete, and made it work similar to all other Blazorise components. JavaScript is now loaded as a JS module.
+    We also made dynamic loading of RichTextEdit JavaScript files obsolete, and made it work similar to all other Blazorise components. JavaScript files are now loaded as a JS module.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -273,7 +330,25 @@
 </Heading>
 
 <Paragraph>
-    It is now possible to detect when the user right click on a TreeView node. By using the <Code>NodeContextMenu</Code> event callback you can detect the clicked Node and mouse coordinates tos how your custom context menu.
+    You can now identify when a user performs a right-click on a node within the <Strong>TreeView</Strong>. Utilizing the  <Code>NodeContextMenu</Code> event callback allows for the detection of the specific node clicked and the mouse coordinates, enabling the display of your custom context menu.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/150/treeview-menu.png" ImageTitle="Feature TreeView context menu" />
+
+<Heading>
+    Wrap Up
+</Heading>
+
+<Paragraph>
+    In conclusion, the release of Blazorise 1.5 represents a significant step forward in our mission to provide a comprehensive and robust development toolkit. We're confident that the new features, enhancements, and fixes included in this update will contribute positively to your development projects, making them more dynamic, efficient, and visually appealing.
+</Paragraph>
+
+<Paragraph>
+    We encourage all users to upgrade to this latest version to take full advantage of the improvements and to ensure your projects benefit from the latest advancements in the Blazorise toolkit. As always, we value your feedback and are here to support you through the upgrade process and beyond. For detailed instructions on upgrading and for more information on the new features, please refer to the documentation and release notes available on our website.
+</Paragraph>
+
+<Paragraph>
+    Thank you for your continued support and for being a part of the Blazorise community. We look forward to seeing the amazing applications you'll create with Blazorise 1.5 and are excited to continue supporting your development journey with future updates and enhancements. Happy coding!
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 18th, 2024" Read="9 min" />
