@@ -18,6 +18,7 @@ public partial class Check<TValue> : BaseCheckComponent<TValue>
     #region Members
 
     private bool? indeterminate;
+    private string group;
 
     #endregion
 
@@ -80,6 +81,21 @@ public partial class Check<TValue> : BaseCheckComponent<TValue>
     /// </summary>
     [Parameter]
     public bool? Indeterminate { get; set; }
+    
+    /// <summary>
+    /// Sets the check group name.
+    /// </summary>
+    [Parameter]
+    public string Group
+    {
+        get => group;
+        set
+        {
+            group = value;
+
+            DirtyClasses();
+        }
+    }
 
     #endregion
 }
