@@ -1,0 +1,382 @@
+﻿@page "/news/release-notes/150"
+
+<Seo Canonical="news/release-notes/150" Title="Blazorise v1.5" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.5 release." ImageUrl="img/news/150/v150.png" />
+
+<NewsPageImage Source="img/news/150/v150.png" Text="Blazorise v1.5" />
+
+<NewsPageTitle>
+    Announcing Blazorise 1.5 - Dubrovnik
+</NewsPageTitle>
+
+<Paragraph>
+    We're pleased to announce the release of Blazorise version 1.5, codename <Anchor To="https://en.wikipedia.org/wiki/Dubrovnik" Title="Link to Dubrovnik wikipedia">Dubrovnik</Anchor>, bringing with it new features, improvements, and important upgrades aimed at enhancing your development experience. This update reflects our ongoing efforts to refine and expand the Blazorise toolkit in response to the needs of our developer community.
+</Paragraph>
+
+<Paragraph>
+    This release introduces a range of new features and enhancements designed to support the creation of dynamic, efficient, and visually appealing applications. We've also focused on addressing and resolving issues reported in previous versions to ensure a more stable and reliable foundation for your projects.
+</Paragraph>
+
+<Paragraph>
+    We continue to offer active support for our commercial users, aiming to provide the necessary assistance to utilize Blazorise 1.5 effectively in your development projects.
+</Paragraph>
+
+<Paragraph>
+    Discover what's new in this update and how to upgrade your existing projects to leverage the enhanced capabilities of Blazorise 1.5.
+</Paragraph>
+
+<NewsPageSubtitle>
+    Key Blazorise 1.5 Highlights 💡
+</NewsPageSubtitle>
+
+<Paragraph>
+    Here's a summary of what's new in this release:
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Fluent UI 2</Strong>: Adoption of CSS provider based on the Microsoft Fluent 2 design system.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Toast Component</Strong>: New component for displaying push notifications with ease.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Progress Bar</Strong>: Introduction of an indeterminate state for more dynamic UI feedback.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Accordion Components</Strong>: Dedicated components for a more flexible and efficient accordion implementation.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Font Awesome Update</Strong>: Enhanced iconography with Font Awesome v6.x integration.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Extended Breakpoints</Strong>: Introduction of XXL (QuadHD) size for superior control on larger screens.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>AntDesign Update</Strong>: Transition to the latest 4.x version of AntDesign, enhancing UI capabilities.
+        </Paragraph>
+    </UnorderedListItem>
+</UnorderedList>
+
+<NewsPageSubtitle>
+    Upgrading from 1.4.x to 1.5 👨‍🔧
+</NewsPageSubtitle>
+
+<Paragraph>
+    Upgrade your Blazorise application seamlessly with the following steps:
+</Paragraph>
+
+<OrderedList>
+    <OrderedListItem>
+        <Paragraph>
+            Update all <Strong>Blazorise.*</Strong> package references to <Strong>1.5</Strong>.
+        </Paragraph>
+    </OrderedListItem>
+    <OrderedListItem>
+        <Paragraph>
+            Enjoy the latest features without any breaking changes to the API.
+        </Paragraph>
+    </OrderedListItem>
+</OrderedList>
+
+<NewsPageSubtitle>
+    New Features & Enhancements 🚀
+</NewsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Fluent UI 2 Provider
+</Heading>
+
+<Paragraph>
+    The introduction of the new <Strong>Blazorise Fluent 2</Strong> provider stands as the highlight of this release, marking a significant milestone in our ongoing development efforts. Achieving this milestone wasn't easy in any way. It demanded three months of dedicated effort to bring it forward.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/150/fluentui.png" ImageTitle="Feature Fluent UI 2 Provider" />
+
+<Paragraph>
+    Based on the Microsoft <Anchor To="https://fluent2.microsoft.design/" Title="Link to Fluent 2 design system">Fluent 2 design system</Anchor>, this provider's integration across all Blazorise components has been a significant focus. Our team dedicated considerable resources to this effort, ensuring seamless user interface consistency and modernity.
+</Paragraph>
+
+<Paragraph>
+    In doing so, we addressed the need for integrating a plethora of previously absent functionalities from the native Fluent Design specifications:
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Extended Theme Colors</Strong>: Additional theme colors, such as secondary, success, and info, were introduced, broadening the palette for better UI customization and visual appeal.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Extra Sizes</Strong>: We've added more size options, offering greater control over the spacing and scaling of components to fit a wide range of design needs.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Advanced Utilities</Strong>: Integrating utilities for flex, grid, and typography further empowers developers to craft responsive and aesthetically pleasing layouts easily.
+            </Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    To learn more about integrating the Blazorise Fluent provider into your project follow the <Anchor To="docs/usage/fluent2" Title="Link to Blazorise Fluent 2 Usage Guide page">Blazorise Fluent 2 Usage Guide</Anchor> page.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Fluent Icons
+</Heading>
+
+<Paragraph>
+    Along with the Blazorise Fluent provider, we also made a lot of work in the new <Strong>Blazorise.Icons.FluentUI</Strong> package, featuring a new collection of icons derived from the Microsoft Fluent Icons library. This addition enriches the variety of icons available for your projects.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/150/fluentui-icons.png" ImageTitle="Feature Fluent UI Icons" />
+
+<Heading Size="HeadingSize.Is3">
+    Font Awesome Additions
+</Heading>
+
+<Paragraph>
+    Furthermore, we've integrated the most recent icons from the Font Awesome <Strong>v6</Strong> branch, significantly expanding the selection of icon names at your disposal.
+</Paragraph>
+
+<Paragraph>
+    With this update, we've also adjusted how Font Awesome icons are utilized. The <Strong>Blazorise.Icons.FontAwesome</Strong> package now encompasses all icons from both the <Strong>v5.x</Strong>, and <Strong>v6.x</Strong> branches of Font Awesome. This modification was necessary due to the lack of a Content Delivery Network (CDN) for the <Strong>v6.x</Strong> icons. By incorporating these icons directly into Blazorise, we offer a direct path to leverage them in your projects. Should you prefer using your own CDN, that option remains available as an alternative.
+</Paragraph>
+
+<Paragraph>
+    It's important to note that following the integration of <Strong>FontAWesome v6.x</Strong>, certain icons from the <Strong>v5.x</Strong> collection may not function as expected. We recommend updating your CSS link to the latest <Strong>v6.x</Strong> version to ensure optimal compatibility and performance.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Toast component
+</Heading>
+
+<Paragraph>
+    We're excited to announce the addition of the Toast component in Blazorise 1.5. Designed to mimic the appearance of push notifications often seen on desktop and mobile devices, Toasts provide short-lived alerts to users. Thanks to their construction using flexbox, positioning and aligning them is straightforward and hassle-free.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/150/toast-component.png" ImageTitle="Feature Toast component" />
+
+<Paragraph>
+    For guidance on utilizing this new component, please refer to the example provided on the <Anchor To="docs/components/toast" Title="Link to Toast page">Toast</Anchor> page.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Progress Bar: Indeterminate State
+</Heading>
+
+<Paragraph>
+    The <Anchor To="docs/components/progress" Title="Link to Progress Bar component">Progress Bar component</Anchor> has been enriched with the addition of an <Strong>Indeterminate</Strong> state. This feature is specifically designed to represent operations whose end time is not determinable, offering a dynamic way to signify that a process is actively underway but its duration remains uncertain. This enhancement significantly boosts the user interface by introducing a visual representation for tasks that are currently in progress.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/150/progress-bar-indeterminate.png" ImageTitle="Feature Progress Bar Indeterminate State" />
+
+<Heading Size="HeadingSize.Is3">
+    Dedicated Accordion components
+</Heading>
+
+<Paragraph>
+    The Accordion functionality has been enhanced with the introduction of dedicated components.
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Code>AccordionHeader</Code>, and
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>AccordionHeader</Code>, and
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code>AccordionBody</Code>
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    This change aims to improve the performance and flexibility of accordions within applications. It addresses previous limitations by replacing the use of the Collapse component which were too strongly attached to the Accordion component.
+</Paragraph>
+
+<Paragraph>
+    The Collapse will still continue to work, but in the future you should expect it to be completelly removed from the Accordion.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    AntDesign upgrade to latest 4.24 version
+</Heading>
+
+<Paragraph>
+    In the current update, we've upgraded the AntDesign provider to the latest <Strong>AntDesign 4.24</Strong> version. Previously, we were working with the earlier <Strong>4.0</Strong> version of AntDesign, which didn't fully exploit the potential of this framework.
+</Paragraph>
+
+<Paragraph>
+    Although we aim to migrate to the newer AntDesign 5.1 version in a forthcoming Blazorise release, this upgrade to 4.24 addresses many of the challenges we faced during the development of Blazorise 1.5.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Enhancements to DataGrid
+</Heading>
+
+<Heading Size="HeadingSize.Is4">
+    1. State Management
+</Heading>
+
+<Paragraph>
+    A new feature has been added for the efficient management of DataGrid states, allowing the saving and loading of DataGrid states as needed through a centralized API. Utilize the newly introduced <Code>LoadState</Code> and <code>GetState</code> methods for managing the DataGrid's state efficiently.
+</Paragraph>
+
+<Paragraph>
+    For practical applications of this feature, refer to the <Anchor To="docs/extensions/datagrid/features/state-management" Title="Link to DataGrid State Management">DataGrid State Management</Anchor> page.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    2. PreventRowClick
+</Heading>
+
+<Paragraph>
+    We've implemented enhancements to <Strong>TableRowCell</Strong>, introducing the ability to halt default actions and stop propagation of events upon cell clicks, through <Strong>ClickPreventDefault</Strong> and <Strong>ClickStopPropagation</Strong> functionalities. This update also addresses and resolves previous issues with the DataGrid's <Strong>PreventRowClick</Strong> feature not functioning as intended.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    3. Column Chooser
+</Heading>
+
+<Paragraph>
+    The introduction of the Column Chooser feature, activated by setting <Strong>ColumnChooser</Strong> to true, empowers users to dynamically show or hide columns within the DataGrid, enhancing the customization and flexibility of data presentation.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/150/datagrid-columnchooser.png" ImageTitle="Feature DataGrid Column Chooser" />
+
+<Heading Size="HeadingSize.Is4">
+    4. Aggregate Template for DataGrid Columns
+</Heading>
+
+<Paragraph>
+    The <Strong>AggregateTemplate</Strong> parameter has been added to the DataGridColumn. This enhancement resolves a functionality gap, previously making it impossible to assign an aggregate template to both <Strong>DataGridColumn</Strong> and <Strong>DataGridMultiSelectColumn</Strong>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Show Tooltips on Rating
+</Heading>
+
+<Paragraph>
+    The <Strong>Rating</Strong> component has been updated to allow the display of additional information. Through the implementation of the <Code>GetTooltip</Code> callback, tooltips can now be shown, providing users with insights into the rating value being represented.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/150/rating-tooltip.png" ImageTitle="Feature Rating Tooltip" />
+
+<Paragraph>
+    For a details example of this feature, refer to the <Anchor To="docs/components/rating" Title="Link to Rating component">Rating component</Anchor> page.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    DropdownList
+</Heading>
+
+<Paragraph>
+    Added a new Parameter <Code>DisabledItem</Code>. By defining this, you can set the disabled items from the supplied data source.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Autocomplete
+</Heading>
+
+<Paragraph>
+    We've reworked the <Code>Autocomplete</Code> <Code>SelectionMode.Checkbox</Code> so it more closely follows the standard look of the checkboxes across the application.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Responsive font sizes
+</Heading>
+
+<Paragraph>
+    Adjusting font sizes for multiple screen sizes can be challenging. That's why we have made it possible to define different sizes for different screen sizes. This is made possible with out flexible "fluent-based" utilities.
+</Paragraph>
+
+<Paragraph>
+    Defining the font size follows the same pattern as all out fluent-based utilties, eg. <Code>TextSize="TextSize.IsLarge.OnMobile.IsSmall.OnDesktop"</Code>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Validation API
+</Heading>
+
+<Paragraph>
+    To make it easier to customize Blazorise behavior, we have exposed some internal <Code>Validation</Code>, and <Code>Validations</Code> component APIs and made them public. This will enable more customization to your forms and make it possible to implement new validation methods.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    New Breakpoints
+</Heading>
+
+<Paragraph>
+    We have introduced new XXL Breakpoints(QuadHD alias) that is supposed to be used on extra large screens, like 2K and above. This will enable more fine control over what can be visible on screen for thos large screens.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    Bar menu toggle bahavior
+</Heading>
+
+<Paragraph>
+    We've recently introduced an exciting update with the addition of the <Strong>BarMenuToggleBehavior</Strong> feature. This new functionality comes with a default setting, <Code>BarMenuToggleBehavior.AllowMultipleMenus</Code>, designed to enhance user interaction by allowing all toggled menus to remain open concurrently. This setting is particularly useful for users who wish to multitask or compare content across different menus without the hassle of reopening them.
+</Paragraph>
+
+<Paragraph>
+    For those who prefer a more streamlined navigation experience, there's the option to switch the setting to <Code>BarMenuToggleBehavior.AllowSingleMenu</Code>. This alternative configuration ensures that only one menu can be open at a time, promoting a focused and clutter-free interface. This flexibility in menu behavior customization allows developers to tailor the navigation experience to the specific needs and preferences of their users, enhancing usability and user satisfaction.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    RichTextEdit
+</Heading>
+
+<Paragraph>
+    As with many other features in this release we have updated internals of RichTextEdit to work with the latest version of <Anchor To="https://github.com/quilljs/quill" Title="Link to Quill JS">Quill JS</Anchor> library. This update means there will be less security risks that were reported by using an older version.
+</Paragraph>
+
+<Paragraph>
+    We also made dynamic loading of RichTextEdit JavaScript files obsolete, and made it work similar to all other Blazorise components. JavaScript files are now loaded as a JS module.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    TreeView context menu
+</Heading>
+
+<Paragraph>
+    You can now identify when a user performs a right-click on a node within the <Strong>TreeView</Strong>. Utilizing the  <Code>NodeContextMenu</Code> event callback allows for the detection of the specific node clicked and the mouse coordinates, enabling the display of your custom context menu.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/150/treeview-menu.png" ImageTitle="Feature TreeView context menu" />
+
+<Heading>
+    Wrap Up
+</Heading>
+
+<Paragraph>
+    In conclusion, the release of Blazorise 1.5 represents a significant step forward in our mission to provide a comprehensive and robust development toolkit. We're confident that the new features, enhancements, and fixes included in this update will contribute positively to your development projects, making them more dynamic, efficient, and visually appealing.
+</Paragraph>
+
+<Paragraph>
+    We encourage all users to upgrade to this latest version to take full advantage of the improvements and to ensure your projects benefit from the latest advancements in the Blazorise toolkit. As always, we value your feedback and are here to support you through the upgrade process and beyond. For detailed instructions on upgrading and for more information on the new features, please refer to the documentation and release notes available on our website.
+</Paragraph>
+
+<Paragraph>
+    Thank you for your continued support and for being a part of the Blazorise community. We look forward to seeing the amazing applications you'll create with Blazorise 1.5 and are excited to continue supporting your development journey with future updates and enhancements. Happy coding!
+</Paragraph>
+
+<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="March 18th, 2024" Read="9 min" />
