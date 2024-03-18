@@ -27,6 +27,11 @@
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="compilerconfig.json" />
+    <None Include="compilerconfig.json" />
+  </ItemGroup>
+
   <PropertyGroup Condition=" '$(TargetFramework)' == 'net6.0' ">
     <DefineConstants>$(DefineConstants);NET6_0</DefineConstants>
   </PropertyGroup>
