@@ -61,12 +61,12 @@
                             <BarLink To="docs/usage/licensing/register-product-token">
                                 <BarIcon IconName="IconName.Key" /> Licensing
                             </BarLink>
-                            </BarItem>
-                            <BarItem>
+                        </BarItem>
+                        <BarItem>
                             <BarLink To="docs/theming">
                                 <BarIcon IconName="IconName.Brush" /> Theming
                             </BarLink>
-                            </BarItem>
+                        </BarItem>
                         <BarItem>
                             <BarDropdown @bind-Visible="@sideBarComponentsMenuVisible">
                                 <BarDropdownToggle>
@@ -143,7 +143,10 @@
                                 <BarDropdownMenu>
                                     <BarDropdownItem To="docs/extensions/autocomplete">Autocomplete</BarDropdownItem>
                                     <BarDropdownItem To="docs/extensions/animate">Animate</BarDropdownItem>
-                                    <BarDropdownItem To="docs/extensions/captcha">Captcha</BarDropdownItem>
+                                    <BarDropdownItem To="docs/extensions/captcha">
+                                        <Span>Captcha</Span>
+                                        <Span Background="Background.Dark" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                    </BarDropdownItem>
                                     <BarDropdown>
                                         <BarDropdownToggle>Chart</BarDropdownToggle>
                                         <BarDropdownMenu>
