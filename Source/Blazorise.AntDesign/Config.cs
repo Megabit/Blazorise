@@ -43,6 +43,7 @@ public static class Config
         { typeof( Blazorise.Addon ), typeof( Components.Addon ) },
         { typeof( Blazorise.AddonLabel ), typeof( Components.AddonLabel ) },
         { typeof( Blazorise.Addons ), typeof( Components.Addons ) },
+        { typeof( Blazorise.Alert ), typeof( Components.Alert ) },
         { typeof( Blazorise.AlertDescription ), typeof( Components.AlertDescription ) },
         { typeof( Blazorise.AlertMessage ), typeof( Components.AlertMessage ) },
         { typeof( Blazorise.Badge ), typeof( Components.Badge ) },
