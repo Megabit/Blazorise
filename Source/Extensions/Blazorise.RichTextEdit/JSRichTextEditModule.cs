@@ -43,7 +43,7 @@ internal sealed class JSRichTextEditModule : BaseJSModule,
         if ( options.UseBubbleTheme )
             styles.Add( "bubble" );
 
-        if ( options.UseBubbleTheme )
+        if ( options.UseShowTheme )
             styles.Add( "snow" );
 
         if ( styles.Count > 0 )
