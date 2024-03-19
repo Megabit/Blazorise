@@ -85,4 +85,4 @@ body:
     id: additional-comments
     attributes:
       label: Any additional comments?
-      Description: For example, provide some background/context on how you ran into this bug.
+      description: For example, provide some background/context on how you ran into this bug.
