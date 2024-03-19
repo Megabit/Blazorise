@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\Blazorise.AntDesign.props" />
-</Project>

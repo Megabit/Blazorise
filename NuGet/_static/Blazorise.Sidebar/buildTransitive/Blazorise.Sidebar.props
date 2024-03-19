@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\Blazorise.Sidebar.props" />
-</Project>
