@@ -12,6 +12,8 @@ dotnet pack ../Source/Blazorise.Tailwind/Blazorise.Tailwind.csproj -o . -c Relea
 dotnet pack ../Source/Blazorise.FluentUI2/Blazorise.FluentUI2.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 
 dotnet pack ../Source/Extensions/Blazorise.Animate/Blazorise.Animate.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Captcha/Blazorise.Captcha.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
+dotnet pack ../Source/Extensions/Blazorise.Captcha.ReCaptcha/Blazorise.Captcha.ReCaptcha.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Charts/Blazorise.Charts.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Charts.Annotation/Blazorise.Charts.Annotation.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
 dotnet pack ../Source/Extensions/Blazorise.Charts.DataLabels/Blazorise.Charts.DataLabels.csproj -o . -c Release -p:IncludeSymbols=true -p:SymbolPackageFormat=snupkg
