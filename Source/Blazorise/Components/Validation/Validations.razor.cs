@@ -242,13 +242,13 @@ public partial class Validations : ComponentBase
     /// <summary>
     /// Indicates if there are any successful validation.
     /// </summary>
-    private bool AllValidationsSuccessful
+    public bool AllValidationsSuccessful
         => validations.All( x => x.Status == ValidationStatus.Success );
 
     /// <summary>
     /// Indicates if there are any failed validation.
     /// </summary>
-    private bool HasFailedValidations
+    public bool HasFailedValidations
         => validations.Any( x => x.Status == ValidationStatus.Error );
 
     /// <summary>
