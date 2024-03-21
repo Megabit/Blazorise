@@ -24,6 +24,9 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
     private bool ShowColumnChooser
         => ParentDataGrid.ShowColumnChooser;
 
+    private bool ShowPager
+        => ParentDataGrid.ShowPager;
+
     private PagerElementPosition GetButtonRowPosition()
         => ParentDataGrid.PagerOptions?.ButtonRowPosition ?? PagerElementPosition.Default;
 
