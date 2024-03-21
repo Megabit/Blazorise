@@ -1,4 +1,5 @@
 ﻿@page "/help-us-improve"
+@inherits CaptchaPage
 
 <Seo Canonical="/help-us-improve" Title="Help us improve Blazorise" Description="Have an idea or suggestion? Contact us and help us to improve Blazorise documentation, pages, and code, by voicing your thoughts!" />
 
@@ -84,18 +85,13 @@
                                 </Column>
                             </Row>
                             <Row>
-                                <Validation Validator="@ValidateRobot">
-                                    <Column ColumnSize="ColumnSize.IsHalf.OnDesktop">
-                                        <Check TValue="bool" @bind-Checked="@NotARobot">
-                                            <ChildContent>
-                                                I'm not a robot
-                                            </ChildContent>
-                                            <Feedback>
-                                                <ValidationError />
-                                            </Feedback>
-                                        </Check>
-                                    </Column>
-                                </Validation>
+                                <Column ColumnSize="ColumnSize.IsHalf.OnDesktop">
+                                    <Captcha @ref="@captcha" Solved="@Solved" Validate="@Validate" Expired="Expired" />
+                                    @if ( captchaValid.HasValue && !captchaValid.Value )
+                                    {
+                                        <Div Display=Display.Block Class="invalid-feedback">Please check to confirm you're a real human!</Div>
+                                    }
+                                </Column>
                                 <Column ColumnSize="ColumnSize.IsHalf.OnDesktop">
                                     <Button Clicked="@SendEmail" Color="Color.Primary" Float="Float.End">Send Message</Button>
                                 </Column>

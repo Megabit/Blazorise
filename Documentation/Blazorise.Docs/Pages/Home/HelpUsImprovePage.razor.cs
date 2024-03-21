@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Blazorise.Docs.Pages.Home;
 
-public partial class HelpUsImprovePage
+public partial class HelpUsImprovePage : CaptchaPage
 {
     #region Members
 
@@ -28,7 +28,8 @@ public partial class HelpUsImprovePage
     {
         try
         {
-            if (await validationsRef.ValidateAll())
+            captchaValid ??= false;
+            if (await validationsRef.ValidateAll() && captchaValid.HasValue && captchaValid.Value)
             {
                 var message = new StringBuilder();
 
@@ -52,7 +53,7 @@ public partial class HelpUsImprovePage
 
                     User = new User();
                     MessageBody = null;
-                    NotARobot = false;
+                    captchaValid = null;
 
                     await validationsRef.ClearAll();
                 }
@@ -66,27 +67,13 @@ public partial class HelpUsImprovePage
         }
     }
 
-    private void ValidateRobot( ValidatorEventArgs eventArgs )
-    {
-        eventArgs.Status = NotARobot ? ValidationStatus.Success : ValidationStatus.Error;
-
-        if (eventArgs.Status == ValidationStatus.Error)
-            eventArgs.ErrorText = "Please check to confirm you're a real human!";
-        else
-            eventArgs.ErrorText = null;
-    }
-
     #endregion
 
     #region Properties
 
-
-
     public User User { get; set; } = new User();
 
     public string MessageBody { get; set; }
-
-    public bool NotARobot { get; set; }
 
     [Inject] public EmailSender EmailSender { get; set; }
 

@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Blazorise.Docs.Pages.Home;
 
-public partial class ContactPage
+public partial class ContactPage : CaptchaPage
 {
     #region Members
 
@@ -29,7 +29,8 @@ public partial class ContactPage
     {
         try
         {
-            if ( await validationsRef.ValidateAll() )
+            captchaValid ??= false;
+            if ( await validationsRef.ValidateAll() && captchaValid.HasValue && captchaValid.Value )
             {
                 var message = new StringBuilder();
 
@@ -56,7 +57,7 @@ public partial class ContactPage
                     User = new User();
                     MessageSubject = "Product questions";
                     MessageBody = null;
-                    NotARobot = false;
+                    captchaValid = null;
 
                     await validationsRef.ClearAll();
                 }
@@ -68,16 +69,6 @@ public partial class ContactPage
         {
             Logger.LogError( exc, "Error sending email." );
         }
-    }
-
-    private void ValidateRobot( ValidatorEventArgs eventArgs )
-    {
-        eventArgs.Status = NotARobot ? ValidationStatus.Success : ValidationStatus.Error;
-
-        if ( eventArgs.Status == ValidationStatus.Error )
-            eventArgs.ErrorText = "Please check to confirm you're a real human!";
-        else
-            eventArgs.ErrorText = null;
     }
 
     #endregion
@@ -98,8 +89,6 @@ public partial class ContactPage
     public string MessageSubject { get; set; } = "Product questions";
 
     public string MessageBody { get; set; }
-
-    public bool NotARobot { get; set; }
 
     [Inject] public EmailSender EmailSender { get; set; }
 
