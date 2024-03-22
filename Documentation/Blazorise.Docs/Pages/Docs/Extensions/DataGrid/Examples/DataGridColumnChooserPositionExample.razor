@@ -1,0 +1,22 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DataGrid TItem="Employee"
+          Data="inMemoryData"
+          Responsive
+          ShowColumnChooser
+          PagerPosition="DataGridPagerPosition.Top"
+          PagerOptions="new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }">
+</DataGrid>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private IEnumerable<Employee> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+        await base.OnInitializedAsync();
+    }
+}

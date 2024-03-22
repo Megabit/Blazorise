@@ -145,7 +145,7 @@
 
     private RenderFragment totalItemsFragment => __builder =>
     {
-        @if ( !ParentDataGrid.Virtualize )
+        @if ( ShowPager && !ParentDataGrid.Virtualize )
         {
             <Field Margin="Blazorise.Margin.IsAuto.OnY.Is2.FromStart" Display="Blazorise.Display.None.OnMobile.InlineBlock.OnDesktop">
                 @if ( TotalItemsTemplate is not null )
@@ -184,7 +184,7 @@
 
     private RenderFragment paginationFragment => __builder =>
     {
-        @if ( !ParentDataGrid.Virtualize )
+        @if ( ShowPager && !ParentDataGrid.Virtualize )
         {
             <Pagination Size="@GetSize()">
                 <PaginationItem Disabled="@(PaginationContext.CurrentPage <= 1)">
