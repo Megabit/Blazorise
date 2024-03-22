@@ -52,7 +52,7 @@ public partial class TransferList<TItem> : ComponentBase
         {
             //If the start list is empty, but the end list is not empty, then we assign the remainder of existing items to the start list.
             ItemsStart = Items.Where( x => !ItemsEnd.Contains( x ) ).ToList();
-            ItemsStartChanged.InvokeAsync( ItemsEnd );
+            ItemsStartChanged.InvokeAsync( ItemsStart );
         }
     }
 
