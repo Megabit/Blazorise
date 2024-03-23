@@ -6788,9 +6788,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Responsive
           ShowColumnChooser
           PagerPosition=""DataGridPagerPosition.Top""
-          PagerOptions=""new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }""
-          ShowPager
-          ShowPageSizes>
+          PagerOptions=""new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }"">
 </DataGrid>
 
 @code {
@@ -8246,7 +8244,9 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Editable
           Filterable
           ShowPager
-          ShowPageSizes>
+          ShowPageSizes
+          ShowColumnChooser
+          PagerPosition=""DataGridPagerPosition.Top"">
     <DataGridColumns>
         <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"">
