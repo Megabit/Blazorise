@@ -6783,6 +6783,27 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
+        public const string DataGridColumnChooserPositionExample = @"<DataGrid TItem=""Employee""
+          Data=""inMemoryData""
+          Responsive
+          ShowColumnChooser
+          PagerPosition=""DataGridPagerPosition.Top""
+          PagerOptions=""new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }"">
+</DataGrid>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private IEnumerable<Employee> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+        await base.OnInitializedAsync();
+    }
+}";
+
         public const string DataGridColumnExample = @"<DataGrid TItem=""Employee"" Data=""@employeeList"" PageSize=""5"" Responsive Editable Filterable>
         <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
         <DataGridCommandColumn />
@@ -8223,7 +8244,9 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Editable
           Filterable
           ShowPager
-          ShowPageSizes>
+          ShowPageSizes
+          ShowColumnChooser
+          PagerPosition=""DataGridPagerPosition.Top"">
     <DataGridColumns>
         <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"">
