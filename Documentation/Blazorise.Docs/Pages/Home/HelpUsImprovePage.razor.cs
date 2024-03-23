@@ -12,7 +12,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Blazorise.Docs.Pages.Home;
 
-public partial class HelpUsImprovePage
+public partial class HelpUsImprovePage 
 {
     #region Members
 
@@ -66,21 +66,10 @@ public partial class HelpUsImprovePage
         }
     }
 
-    private void ValidateRobot( ValidatorEventArgs eventArgs )
-    {
-        eventArgs.Status = NotARobot ? ValidationStatus.Success : ValidationStatus.Error;
-
-        if (eventArgs.Status == ValidationStatus.Error)
-            eventArgs.ErrorText = "Please check to confirm you're a real human!";
-        else
-            eventArgs.ErrorText = null;
-    }
 
     #endregion
 
     #region Properties
-
-
 
     public User User { get; set; } = new User();
 
