@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Blazorise.Docs.Pages.Home;
 
-public partial class ContactPage : CaptchaPage
+public partial class ContactPage
 {
     #region Members
 
@@ -29,8 +29,7 @@ public partial class ContactPage : CaptchaPage
     {
         try
         {
-            captchaValid ??= false;
-            if ( await validationsRef.ValidateAll() && captchaValid.HasValue && captchaValid.Value )
+            if ( await validationsRef.ValidateAll() )
             {
                 var message = new StringBuilder();
 
@@ -57,7 +56,7 @@ public partial class ContactPage : CaptchaPage
                     User = new User();
                     MessageSubject = "Product questions";
                     MessageBody = null;
-                    captchaValid = null;
+                    NotARobot = false;
 
                     await validationsRef.ClearAll();
                 }
@@ -89,6 +88,8 @@ public partial class ContactPage : CaptchaPage
     public string MessageSubject { get; set; } = "Product questions";
 
     public string MessageBody { get; set; }
+
+    public bool NotARobot { get; set; }
 
     [Inject] public EmailSender EmailSender { get; set; }
 
