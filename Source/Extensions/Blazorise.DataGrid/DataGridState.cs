@@ -79,6 +79,30 @@ public class DataGridState<TItem>
     }
 
     /// <summary>
+    /// Adds a new displaying state for the DataGrid column.
+    /// </summary>
+    /// <param name="fieldName"></param>
+    /// <param name="displaying"></param>
+    public void AddDisplayingState( string fieldName, bool displaying )
+    {
+        ColumnDisplayingStates ??= new();
+        ColumnDisplayingStates.Add( new DataGridColumnDisplayingState<TItem>( fieldName, displaying ) );
+    }
+
+    /// <summary>
+    /// Adds a new displaying state for the DataGrid column.
+    /// </summary>
+    /// <typeparam name="TValue"></typeparam>
+    /// <param name="fieldGetter"></param>
+    /// <param name="displaying"></param>
+    public void AddDisplayingState<TValue>( Expression<Func<TItem, TValue>> fieldGetter, bool displaying )
+    {
+        var fieldName = ExtractFieldName( fieldGetter );
+        ColumnDisplayingStates ??= new();
+        ColumnDisplayingStates.Add( new DataGridColumnDisplayingState<TItem>( fieldName, displaying ) );
+    }
+
+    /// <summary>
     /// Extracts the field name from the expression.
     /// </summary>
     /// <typeparam name="TValue"></typeparam>
@@ -132,6 +156,14 @@ public class DataGridState<TItem>
     /// Gets or sets the filter state for the DataGrid columns.
     /// </summary>
     public List<DataGridColumnFilterState<TItem>> ColumnFilterStates { get; set; }
+
+    /// <summary>
+    /// Gets or sets the displaying state for the DataGrid columns.
+    /// </summary>
+    /// <remarks>
+    /// If empty, columns are displayed according to DataGrid configuration.
+    /// </remarks>
+    public List<DataGridColumnDisplayingState<TItem>> ColumnDisplayingStates { get; set; }
 
     #endregion
 }

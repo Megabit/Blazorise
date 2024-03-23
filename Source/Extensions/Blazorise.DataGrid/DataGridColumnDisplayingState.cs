@@ -1,20 +1,20 @@
 ﻿namespace Blazorise.DataGrid;
 
 /// <summary>
-/// A DataGrid column filter state container.
+/// A DataGrid column displaying state container.
 /// </summary>
 /// <typeparam name="TItem"></typeparam>
-public class DataGridColumnFilterState<TItem>
+public class DataGridColumnDisplayingState<TItem>
 {
     /// <summary>
     /// Initializes a new instance of column filter state.
     /// </summary>
     /// <param name="fieldName">Field name.</param>
-    /// <param name="searchValue">Current search value.</param>
-    public DataGridColumnFilterState( string fieldName, object searchValue )
+    /// <param name="displaying">Current displaying state.</param>
+    public DataGridColumnDisplayingState( string fieldName, bool displaying )
     {
         FieldName = fieldName;
-        SearchValue = searchValue;
+        Displaying = displaying;
     }
 
     /// <summary>
@@ -23,7 +23,7 @@ public class DataGridColumnFilterState<TItem>
     public string FieldName { get; }
 
     /// <summary>
-    /// Gets the column search value.
+    /// Gets the column displaying state.
     /// </summary>
-    public object SearchValue { get; }
+    public bool Displaying { get; }
 }
