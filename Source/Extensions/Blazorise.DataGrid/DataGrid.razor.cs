@@ -193,6 +193,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         PageSize = dataGridState.PageSize;
         CurrentPage = dataGridState.CurrentPage;
 
+        if ( !dataGridState.ColumnDisplayingStates.IsNullOrEmpty() )
+        {
+            foreach ( var displayingState in dataGridState.ColumnDisplayingStates )
+            {
+                var column = Columns?.FirstOrDefault( x => x.Field == displayingState.FieldName );
+                if ( column is not null )
+                {
+                    column.Displaying = displayingState.Displaying;
+                }
+            }
+        }
+        else
+        {
+            ResetDisplaying();
+        }
+
         if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
         {
             await ResetSorting();
@@ -273,6 +289,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue ) ).ToList();
         }
+
+
+        dataGridState.ColumnDisplayingStates = Columns.Where( x => x.IsRegularColumn ).Select( x => new DataGridColumnDisplayingState<TItem>( x.Field, x.Displaying ) ).ToList();
 
         return Task.FromResult( dataGridState );
     }
@@ -1410,6 +1429,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
 
         await Reload();
+    }
+
+    private void ResetDisplaying()
+    {
+        if ( Columns.IsNullOrEmpty() )
+            return;
+
+        foreach ( var column in Columns )
+        {
+            column.Displaying = column.Displayable;
+        }
     }
 
     private async Task ResetSorting()
