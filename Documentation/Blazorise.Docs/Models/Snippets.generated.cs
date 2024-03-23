@@ -8223,7 +8223,9 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Editable
           Filterable
           ShowPager
-          ShowPageSizes>
+          ShowPageSizes
+          ShowColumnChooser
+          PagerPosition=""DataGridPagerPosition.Top"">
     <DataGridColumns>
         <DataGridColumn TextAlignment=""TextAlignment.Center"" TItem=""Employee"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
         <DataGridColumn TItem=""Employee"" Field=""@nameof( Employee.FirstName )"" Caption=""First Name"">
