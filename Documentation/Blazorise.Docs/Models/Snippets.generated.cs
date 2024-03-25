@@ -1557,6 +1557,13 @@ public class Gender
     }
 }";
 
+        public const string CheckWithNameExample = @"<Check TValue=""bool"" Name=""@name"">Check me out</Check>
+<Check TValue=""bool"" Name=""@name"">Check me out too!</Check>
+
+@code{
+    string name = ""CheckMeOut"";
+}";
+
         public const string AutoCloseExample = @"<Alert @bind-Visible=""@visible"">
     I can be closed!
     <CloseButton AutoClose=""true"" />
