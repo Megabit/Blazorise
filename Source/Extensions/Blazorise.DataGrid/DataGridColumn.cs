@@ -205,6 +205,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
                  || ( CellsEditableOnEditCommand && ParentDataGrid.EditState == DataGridEditState.Edit ) );
     }
 
+    /// <summary>
+    /// Sets whether the column is displaying.
+    /// </summary>
+    /// <param name="displaying">The displaying value</param>
+    /// <returns></returns>
+    public async Task SetDisplaying( bool displaying )
+    {
+        Displaying = displaying;
+        await ParentDataGrid.ColumnDisplayingChanged.InvokeAsync( new ColumnDisplayChangedEventArgs<TItem>( this, displaying ) );
+        await ParentDataGrid.Refresh();
+    }
+
     internal string BuildHeaderCellClass()
     {
         var sb = new StringBuilder();
@@ -319,7 +331,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
     /// <summary>
     /// Gets or sets whether column is displaying.
     /// </summary>
-    public bool Displaying { get; internal set; }
+    public bool Displaying { get; private set; }
 
     /// <summary>
     /// Whether the cell is currently being edited.

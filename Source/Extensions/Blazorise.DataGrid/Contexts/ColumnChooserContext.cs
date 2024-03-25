@@ -1,6 +1,5 @@
 ﻿#region Using directives
 using System.Collections.Generic;
-using Blazorise.DataGrid.EventArguments;
 using Microsoft.AspNetCore.Components;
 #endregion
 

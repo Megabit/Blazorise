@@ -200,13 +200,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 var column = Columns?.FirstOrDefault( x => x.Field == displayingState.FieldName );
                 if ( column is not null )
                 {
-                    column.Displaying = displayingState.Displaying;
+                    await column.SetDisplaying( displayingState.Displaying );
                 }
             }
         }
         else
         {
-            ResetDisplaying();
+            await ResetDisplaying();
         }
 
         if ( dataGridState.ColumnSortStates.IsNullOrEmpty() )
@@ -1431,14 +1431,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         await Reload();
     }
 
-    private void ResetDisplaying()
+    private async Task ResetDisplaying()
     {
         if ( Columns.IsNullOrEmpty() )
             return;
 
         foreach ( var column in Columns )
         {
-            column.Displaying = column.Displayable;
+            await column.SetDisplaying( column.Displayable );
         }
     }
 
@@ -3667,6 +3667,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether the column chooser is visible.
     /// </summary>
     [Parameter] public bool ShowColumnChooser { get; set; }
+
+    /// <summary>
+    /// Event called after a column display change is made. 
+    /// </summary>
+    [Parameter] public EventCallback<ColumnDisplayChangedEventArgs<TItem>> ColumnDisplayingChanged { get; set; }
 
     #endregion
 }

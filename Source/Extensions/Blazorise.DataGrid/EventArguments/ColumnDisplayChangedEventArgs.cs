@@ -1,4 +1,4 @@
-﻿namespace Blazorise.DataGrid.EventArguments;
+﻿namespace Blazorise.DataGrid;
 
 /// <summary>
 /// Represents the arguments for the event that is raised when the display state of a data grid column changes.

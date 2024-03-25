@@ -6767,7 +6767,8 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           ShowColumnChooser
           PagerPosition=""DataGridPagerPosition.Top""
           ShowPager
-          ShowPageSizes>
+          ShowPageSizes
+          ColumnDisplayingChanged=""@ColumnDisplayChanged"">
 </DataGrid>
 
 @code {
@@ -6780,6 +6781,11 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     {
         inMemoryData = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
         await base.OnInitializedAsync();
+    }
+
+    protected void ColumnDisplayChanged( ColumnDisplayChangedEventArgs<Employee> args )
+    {
+        Console.WriteLine( $""Column: {args.Column.Field} | Display: {args.Display}"" );
     }
 }";
 
