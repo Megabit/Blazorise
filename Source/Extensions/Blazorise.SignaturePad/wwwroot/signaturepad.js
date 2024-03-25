@@ -3,7 +3,7 @@ import "./vendors/sigpad.js?v=1.5.0.0";
 
 const _instances = [];
 
-function GetRatio() {
+function getRatio() {
     return Math.max(window.devicePixelRatio || 1, 1);
 }
 
@@ -34,7 +34,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     });
 
     if (options.dataUrl) {
-        sigpad.fromDataURL(options.dataUrl, { ratio: GetRatio() });
+        sigpad.fromDataURL(options.dataUrl, { ratio: getRatio() });
     }
 
     if (options.readOnly === true) {
@@ -81,7 +81,7 @@ export function updateOptions(element, elementId, options) {
     if (instance && instance.sigpad && options) {
         if (options.dataUrl.changed) {
             if (options.dataUrl.value) {
-                instance.sigpad.fromDataURL(options.dataUrl.value, { ratio: GetRatio() });
+                instance.sigpad.fromDataURL(options.dataUrl.value, { ratio: getRatio() });
             } else {
                 instance.sigpad.clear();
             }
@@ -224,7 +224,7 @@ function resizeCanvas(sigpad, canvas) {
     // When zoomed out to less than 100%, for some very strange reason,
     // some browsers report devicePixelRatio as less than 1
     // and only part of the canvas is cleared then.
-    const ratio = GetRatio();
+    const ratio = getRatio();
 
     const context = canvas.getContext("2d", { willReadFrequently: true });
 
