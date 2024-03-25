@@ -3,10 +3,6 @@ import "./vendors/sigpad.js?v=1.5.0.0";
 
 const _instances = [];
 
-function getRatio() {
-    return Math.max(window.devicePixelRatio || 1, 1);
-}
-
 export function initialize(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
@@ -237,4 +233,8 @@ function resizeCanvas(sigpad, canvas) {
 
     sigpad.clear();
     context.putImageData(imageData, 0, 0);
+}
+
+function getRatio() {
+    return Math.max(window.devicePixelRatio || 1, 1);
 }
