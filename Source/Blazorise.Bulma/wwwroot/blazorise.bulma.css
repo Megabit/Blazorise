@@ -1414,6 +1414,17 @@
 .accordion > .card .card-header {
   margin-bottom: 1px;
 }
+.accordion > .card .card-header .title {
+  width: 100%;
+}
+.accordion > .card .card-header .accordion-toggle {
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.75rem;
+  position: relative;
+}
 
 .table-container-fixed-header .table thead tr th.dropdown-table-fixed-header-visible {
   z-index: 11;
