@@ -820,6 +820,17 @@ public class Gender
     }
 }";
 
+        public const string HowToOverrideFluentDesignTokens_FluentProviderThemeVariables2Example = @"<link href=""site.css"" rel=""stylesheet"" />";
+
+        public const string HowToOverrideFluentDesignTokens_FluentProviderThemeVariablesExample = @":root {
+    --borderRadiusNone: 0;
+    --borderRadiusSmall: 2px;
+    --borderRadiusMedium: 4px;
+    --borderRadiusLarge: 6px;
+    --borderRadiusXLarge: 8px;
+    // other variables
+}";
+
         public const string BasicAccordionExample = @"<Accordion>
     <AccordionItem @bind-Visible=""@accordionItem1Visible"">
         <AccordionHeader>
@@ -6788,9 +6799,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           Responsive
           ShowColumnChooser
           PagerPosition=""DataGridPagerPosition.Top""
-          PagerOptions=""new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }""
-          ShowPager
-          ShowPageSizes>
+          PagerOptions=""new DataGridPagerOptions() { ColumnChooserPosition = PagerElementPosition.End }"">
 </DataGrid>
 
 @code {
