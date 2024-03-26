@@ -34,6 +34,7 @@ public static class Config
 
     public static IDictionary<Type, Type> ComponentMap => new Dictionary<Type, Type>
     {
+        { typeof( Blazorise.AccordionToggle ), typeof( Components.AccordionToggle ) },
         { typeof( Blazorise.Addons ), typeof( Components.Addons ) },
         { typeof( Blazorise.Badge ), typeof( Components.Badge ) },
         { typeof( Blazorise.BarToggler ), typeof( Components.BarToggler ) },
