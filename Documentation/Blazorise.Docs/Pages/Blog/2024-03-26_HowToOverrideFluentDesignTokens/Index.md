@@ -1,6 +1,6 @@
 ---
 title: How to override Fluent design tokens
-description: In this blog post, we'll guide you through the steps to properly override Fluent design tokens for use in your Blazorise project, even with the current limitations in Blazorise v1.5.
+description: In this blog post, we'll guide you through the steps to properly override Fluent design tokens for use in your Blazorise project.
 permalink: /blog/how-to-override-fluent-design-tokens
 canonical: /blog/how-to-override-fluent-design-tokens
 image-url: /img/blog/2024-03-26/how-to-override-fluent-design-tokens.png
