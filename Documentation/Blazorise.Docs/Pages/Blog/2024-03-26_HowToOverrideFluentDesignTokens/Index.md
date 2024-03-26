@@ -15,7 +15,7 @@ read-time: 5 min
 
 Creating a visually appealing and user-friendly interface is crucial for any web application. [Microsoft's Fluent Design System](https://fluent2.microsoft.design/) provides a robust framework for creating such interfaces, offering a wide array of design tokens that can be utilized to craft beautiful and intuitive UIs.
 
-However, when it comes to integrating these design tokens into a Blazorise project, the process is not as straightforward as one might hope. In this blog post, we'll guide you through the steps to properly override Fluent design tokens for use in your Blazorise project, even with the current limitations in Blazorise v1.5.
+However, when it comes to integrating these design tokens into a Blazorise project, the process is not as straightforward as one might hope. In this blog post, we'll guide you through the steps to properly override Fluent design tokens for use in your Blazorise project.
 
 ## The Problem
 
