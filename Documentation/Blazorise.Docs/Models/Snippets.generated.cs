@@ -1830,30 +1830,7 @@ public class Gender
     }
 }";
 
-        public const string DragDropReorderingExample = @"@*<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
-    <ChildContent>
-        @for ( int i = 1; i < 4; i++ )
-        {
-            var dropzone = i.ToString();
-
-            <Card>
-                <CardBody>
-                    <ListGroup>
-                        <Heading Size=""HeadingSize.Is4"" Margin=""Margin.Is3.FromBottom"">Drop Zone @dropzone</Heading>
-                        <DropZone TItem=""DropItem"" Name=""@dropzone"" AllowReorder Padding=""Padding.Is3"" Margin=""Margin.Is3"" Flex=""Flex.Grow.Is1"" />
-                    </ListGroup>
-                </CardBody>
-            </Card>
-        }
-    </ChildContent>
-    <ItemTemplate>
-        <ListGroupItem>
-            @context.Name
-        </ListGroupItem>
-    </ItemTemplate>
-</DropContainer>*@
-
-<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
+        public const string DragDropReorderingExample = @"<DropContainer TItem=""DropItem"" Items=""@items"" ItemsFilter=""@((item, dropZone) => item.Group == dropZone)"" ItemDropped=""@ItemDropped"" Flex=""Flex.Wrap.Grow.Is1"">
     <ChildContent>
         @for ( int i = 1; i < 4; i++ )
         {
