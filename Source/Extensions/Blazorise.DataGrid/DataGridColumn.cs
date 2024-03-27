@@ -80,6 +80,18 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
         InitializeDefaults();
     }
 
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        var displayableChanged = parameters.TryGetValue<bool>( nameof( Displayable ), out var paramDisplayable ) && Displayable != paramDisplayable;
+
+        await base.SetParametersAsync( parameters );
+
+        if ( displayableChanged )
+        {
+            await SetDisplaying( Displayable );
+        }
+    }
+
     protected override void OnInitialized()
     {
         base.OnInitialized();
