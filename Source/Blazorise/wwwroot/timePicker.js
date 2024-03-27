@@ -50,7 +50,18 @@ export function initialize(element, elementId, options) {
         clickOpens: !(options.readOnly || false),
         locale: options.localization || {},
         inline: options.inline || false,
-        static: options.staticPicker
+        static: options.staticPicker,
+        onReady: (selectedDates, dateStr, instance) => {
+            // move the id from the hidden element to the visible element
+            if (instance && instance.input && instance.input.parentElement) {
+                const id = instance.input.id;
+                const input = instance.input.parentElement.querySelector(".input");
+                if (id && input) {
+                    instance.input.id = "flatpickr_hidden_" + id;
+                    input.id = id;
+                }
+            }
+        }
     });
 
     if (options) {
