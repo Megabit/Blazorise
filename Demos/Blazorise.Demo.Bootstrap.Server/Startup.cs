@@ -29,7 +29,10 @@ public class Startup
             .AddFontAwesomeIcons();
 
         services.AddRazorPages();
-        services.AddServerSideBlazor();
+        services.AddServerSideBlazor( options =>
+        {
+            options.DetailedErrors = true;
+        } );
 
         services.AddServerSideBlazor().AddHubOptions( ( o ) =>
         {

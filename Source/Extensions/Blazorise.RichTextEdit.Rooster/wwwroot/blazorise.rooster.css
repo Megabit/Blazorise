@@ -1,0 +1,7 @@
+﻿.b-rte-rooster {
+    width: 100%;
+    height: 5rem;
+    overflow: auto;
+    padding: 4px;
+    border: solid 1px black;
+}
