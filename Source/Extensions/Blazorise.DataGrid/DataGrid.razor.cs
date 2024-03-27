@@ -1675,6 +1675,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         if ( !IsCellEdit )
             return;
 
+        await SelectRow( item, true );
+
         var batchEditItem = BatchEdit
             ? GetBatchEditItemByLastEditItem( item ) ?? GetBatchEditItemByOriginal( item )
             : null;
@@ -2493,9 +2495,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         return filteredData;
     }
 
-    private Task SelectRow( TItem item )
+    private Task SelectRow( TItem item, bool forceSelect = false )
     {
-        if ( editState != DataGridEditState.None )
+        if ( editState != DataGridEditState.None && !forceSelect )
             return Task.CompletedTask;
 
         SelectedRow = item;
