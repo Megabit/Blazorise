@@ -26,7 +26,7 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
 
     private readonly List<ISelectItem<TValue>> selectItems = new();
 
-    private const string MULTIPLE_DELIMITER = ",";
+    private const string MULTIPLE_DELIMITER = "|~|";
 
     #endregion
 
