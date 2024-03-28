@@ -160,16 +160,13 @@
                                 </Column>
                             </Row>
                             <Row>
-                                <Validation Validator="@ValidateRobot">
+                                <Validation Validator="@CaptchaInput.ValidateRobot">
                                     <Column ColumnSize="ColumnSize.IsHalf.OnDesktop">
-                                        <Check TValue="bool" @bind-Checked="@NotARobot">
-                                            <ChildContent>
-                                                I'm not a robot
-                                            </ChildContent>
+                                        <CaptchaInput @bind-Value=NotARobot>
                                             <Feedback>
                                                 <ValidationError />
                                             </Feedback>
-                                        </Check>
+                                        </CaptchaInput>
                                     </Column>
                                 </Validation>
                                 <Column ColumnSize="ColumnSize.IsHalf.OnDesktop">

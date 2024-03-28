@@ -1,7 +1,7 @@
-﻿import "./vendors/flatpickr.js?v=1.5.0.0";
-import * as utilities from "./utilities.js?v=1.5.0.0";
-import * as inputmask from "./inputMask.js?v=1.5.0.0";
-import { ClassWatcher } from "./observer.js?v=1.5.0.0";
+﻿import "./vendors/flatpickr.js?v=1.5.1.0";
+import * as utilities from "./utilities.js?v=1.5.1.0";
+import * as inputmask from "./inputMask.js?v=1.5.1.0";
+import { ClassWatcher } from "./observer.js?v=1.5.1.0";
 
 const _pickers = [];
 
@@ -58,6 +58,17 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         static: options.staticPicker,
         errorHandler: (error) => {
             // do nothing to prevent warnings in the console
+        },
+        onReady: (selectedDates, dateStr, instance) => {
+            // move the id from the hidden element to the visible element
+            if (instance && instance.input && instance.input.parentElement) {
+                const id = instance.input.id;
+                const input = instance.input.parentElement.querySelector(".input");
+                if (id && input) {
+                    instance.input.id = "flatpickr_hidden_" + id;
+                    input.id = id;
+                }
+            }
         }
     };
 

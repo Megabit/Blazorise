@@ -141,7 +141,10 @@ public partial class BarDropdown : BaseComponent, IDisposable
 
         if ( visible )
         {
-            await ParentBarItem.OnDropdownVisible();
+            if ( ParentBarItem is not null )
+            {
+                await ParentBarItem.OnDropdownVisible();
+            }
         }
 
         await RaiseEvents( visible );

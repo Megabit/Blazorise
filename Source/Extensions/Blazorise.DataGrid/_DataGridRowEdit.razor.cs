@@ -118,16 +118,20 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
         if ( nextColumn is not null )
         {
-            if ( batchEditItem is not null )
-                await ParentDataGrid.HandleCellEdit( nextColumn, batchEditItem.NewItem );
-            else
-                await ParentDataGrid.HandleCellEdit( nextColumn, Item );
+            var item = batchEditItem is null
+                ? Item
+                : batchEditItem.NewItem;
+            await ParentDataGrid.HandleCellEdit( nextColumn, item );
         }
         else
         {
             if ( !ParentDataGrid.DisplayData.IsNullOrEmpty() )
             {
-                var currentEditRowIdx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( Item ) );
+                var item = batchEditItem is null
+                    ? Item
+                    : batchEditItem.OldItem;
+
+                var currentEditRowIdx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( item ) );
                 var nextVisibleRow = ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx + 1 );
                 var nextRowFirstColumn = OrderedColumnsForEditing.FirstOrDefault();
                 if ( nextVisibleRow is not null && nextRowFirstColumn is not null )
@@ -145,16 +149,21 @@ public abstract class _BaseDataGridRowEdit<TItem> : ComponentBase, IDisposable
 
         if ( previousColumn is not null )
         {
-            if ( batchEditItem is not null )
-                await ParentDataGrid.HandleCellEdit( previousColumn, batchEditItem.NewItem );
-            else
-                await ParentDataGrid.HandleCellEdit( previousColumn, Item );
+            var item = batchEditItem is null
+                ? Item
+                : batchEditItem.NewItem;
+
+            await ParentDataGrid.HandleCellEdit( previousColumn, item );
         }
         else
         {
             if ( !ParentDataGrid.DisplayData.IsNullOrEmpty() )
             {
-                var currentEditRowIdx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( Item ) );
+                var item = batchEditItem is null
+                    ? Item
+                    : batchEditItem.OldItem;
+
+                var currentEditRowIdx = ParentDataGrid.DisplayData.Index( x => x.IsEqual( item ) );
                 var previousVisibleRow = ParentDataGrid.DisplayData.ElementAtOrDefault( currentEditRowIdx - 1 );
                 var previousRowLastColumn = OrderedColumnsForEditing.LastOrDefault();
                 if ( previousVisibleRow is not null && previousRowLastColumn is not null )

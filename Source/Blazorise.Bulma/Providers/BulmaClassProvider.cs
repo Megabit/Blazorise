@@ -750,9 +750,9 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Accordion() => "accordion";
 
-    public override string AccordionToggle() => "button";
+    public override string AccordionToggle() => "accordion-toggle";
 
-    public override string AccordionToggleCollapsed( bool collapsed ) => null;
+    public override string AccordionToggleCollapsed( bool collapsed ) => collapsed ? null : "accordion-toggle-collapsed";
 
     public override string AccordionItem() => "card";
 
