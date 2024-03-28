@@ -2,5 +2,9 @@
   {
     "outputFile": "wwwroot/blazorise.antdesign.css",
     "inputFile": "Styles/blazorise.antdesign.scss"
+  },
+  {
+    "outputFile": "wwwroot/antd.css",
+    "inputFile": "Styles/_vendors/antd/antd.scss"
   }
 ]
