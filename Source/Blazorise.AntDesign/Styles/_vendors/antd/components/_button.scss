@@ -1,2 +1,49 @@
-﻿body {
+﻿.ant-btn-primary {
+    &.ant-btn-success {
+        background: var(--ant-color-success);
+        box-shadow: var(--ant-button-success-shadow);
+        color: var(--ant-button-success-color);
+
+        &:not(:disabled):not(.ant-btn-disabled):hover {
+            background: var(--ant-color-success-hover);
+        }
+
+        &:not(:disabled):not(.ant-btn-disabled):active {
+            background: var(--ant-color-success-active);
+        }
+    }
+}
+
+.ant-btn-primary.ant-btn-success:disabled,
+.ant-btn-primary.ant-btn-success.ant-btn-disabled {
+    cursor: not-allowed;
+    border-color: var(--ant-button-border-color-disabled);
+    color: var(--ant-color-text-disabled);
+    background: var(--ant-color-bg-container-disabled);
+    box-shadow: none;
+}
+
+.ant-btn-primary {
+    &.ant-btn-warning {
+        background: var(--ant-color-warning);
+        box-shadow: var(--ant-button-warning-shadow);
+        color: var(--ant-button-warning-color);
+
+        &:not(:disabled):not(.ant-btn-disabled):hover {
+            background: var(--ant-color-warning-hover);
+        }
+
+        &:not(:disabled):not(.ant-btn-disabled):active {
+            background: var(--ant-color-warning-active);
+        }
+    }
+}
+
+.ant-btn-primary.ant-btn-warning:disabled,
+.ant-btn-primary.ant-btn-warning.ant-btn-disabled {
+    cursor: not-allowed;
+    border-color: var(--ant-button-border-color-disabled);
+    color: var(--ant-color-text-disabled);
+    background: var(--ant-color-bg-container-disabled);
+    box-shadow: none;
 }

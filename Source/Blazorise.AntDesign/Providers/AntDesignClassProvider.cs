@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.AntDesign.Providers;
@@ -384,15 +385,19 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Button
 
-    public override string Button( bool outline ) => "ant-btn";
+    public override string Button( bool outline ) => outline
+        ? "ant-btn ant-btn-default"
+        : "ant-btn ant-btn-primary";
 
-    public override string ButtonColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
-        : color != Color.Default ? $"{Button( outline )}-{ToColor( color )}" : null;
+    public override string ButtonColor( Color color, bool outline ) => color.IsNullOrDefault()
+        ? null
+        : $"ant-btn-{ToColor( color )}";
 
-    public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"{Button( outline )}-{ToSize( size )}";
+    public override string ButtonSize( Size size, bool outline ) => size == Size.Default
+        ? null
+        : $"ant-btn-{ToSize( size )}";
 
-    public override string ButtonBlock( bool outline ) => $"{Button( outline )}-block";
+    public override string ButtonBlock( bool outline ) => "ant-btn-block";
 
     public override string ButtonActive( bool outline ) => "ant-btn-active";
 
@@ -1544,6 +1549,16 @@ public class AntDesignClassProvider : ClassProvider
     #endregion
 
     #region Enums
+
+    public override string ToColor( Color color )
+    {
+        var name = color?.Name;
+
+        if ( name == "danger" )
+            return "dangerous";
+
+        return name;
+    }
 
     public override string ToColumnWidth( ColumnWidth columnWidth )
     {
