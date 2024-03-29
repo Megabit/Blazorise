@@ -1,0 +1,7 @@
+﻿.ant-row {
+    > .ant-col {
+        flex-grow: 1;
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+}

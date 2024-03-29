@@ -1,0 +1,51 @@
+﻿.ant-btn {
+    --ant-button-font-weight: 400;
+    --ant-button-default-shadow: 0 2px 0 rgba(0, 0, 0, 0.02);
+    --ant-button-primary-shadow: 0 2px 0 rgba(5, 145, 255, 0.1);
+    --ant-button-danger-shadow: 0 2px 0 rgba(255, 38, 5, 0.06);
+    --ant-button-primary-color: #fff;
+    --ant-button-danger-color: #fff;
+    --ant-button-border-color-disabled: #d9d9d9;
+    --ant-button-default-ghost-color: #ffffff;
+    --ant-button-ghost-bg: transparent;
+    --ant-button-default-ghost-border-color: #ffffff;
+    --ant-button-padding-inline: 15px;
+    --ant-button-padding-inline-lg: 15px;
+    --ant-button-padding-inline-sm: 7px;
+    --ant-button-only-icon-size: 16px;
+    --ant-button-only-icon-size-sm: 14px;
+    --ant-button-only-icon-size-lg: 18px;
+    --ant-button-group-border-color: #4096ff;
+    --ant-button-link-hover-bg: transparent;
+    --ant-button-text-hover-bg: rgba(0, 0, 0, 0.06);
+    --ant-button-default-color: rgba(0, 0, 0, 0.88);
+    --ant-button-default-bg: #ffffff;
+    --ant-button-default-border-color: #d9d9d9;
+    --ant-button-default-border-color-disabled: #d9d9d9;
+    --ant-button-default-hover-bg: #ffffff;
+    --ant-button-default-hover-color: #4096ff;
+    --ant-button-default-hover-border-color: #4096ff;
+    --ant-button-default-active-bg: #ffffff;
+    --ant-button-default-active-color: #0958d9;
+    --ant-button-default-active-border-color: #0958d9;
+    --ant-button-content-font-size: 14px;
+    --ant-button-content-font-size-sm: 14px;
+    --ant-button-content-font-size-lg: 16px;
+    --ant-button-content-line-height: 1.5714285714285714;
+    --ant-button-content-line-height-sm: 1.5714285714285714;
+    --ant-button-content-line-height-lg: 1.5;
+    --ant-button-padding-block: 4px;
+    --ant-button-padding-block-sm: 0px;
+    --ant-button-padding-block-lg: 7px;
+}
+
+
+
+/* Custom variables */
+.ant-btn {
+    --ant-button-secondary-color: #000;
+    --ant-button-success-color: #fff;
+    --ant-button-secondary-shadow: 0 2px 0 rgba(240, 240, 240, 0.06);
+    --ant-button-warning-shadow: 0 2px 0 rgba(255, 215, 5, 0.06);
+    --ant-button-warning-color: #fff;
+}

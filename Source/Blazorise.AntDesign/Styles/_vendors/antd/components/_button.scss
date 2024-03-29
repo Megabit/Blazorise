@@ -1,4 +1,52 @@
-﻿.ant-btn-primary {
+﻿@function adjust-color($color, $lightness: 0%, $saturation: 0%) {
+    @return scale-color($color, $lightness: $lightness, $saturation: $saturation);
+}
+
+$secondary: #d9d9d9;
+
+@mixin generate-color-scheme($color-name, $color-value) {
+    $color-bg: lighten(desaturate($color-value, 15%), 52%);
+    $color-bg-hover: lighten(desaturate($color-value, 12%), 47%);
+    $color-border: lighten(desaturate($color-value, 10%), 42%);
+    $color-border-hover: lighten(saturate($color-value, 5%), 37%);
+    $color-hover: darken($color-value, 10%);
+    $color-active: darken($color-value, 20%);
+    $color-text-hover: $color-hover;
+    $color-text: $color-value;
+    $color-text-active: $color-active;
+
+    :root {
+        --ant-color-#{$color-name}: #{$color-value};
+        --ant-color-#{$color-name}-bg: #{$color-bg};
+        --ant-color-#{$color-name}-bg-hover: #{$color-bg-hover};
+        --ant-color-#{$color-name}-border: #{$color-border};
+        --ant-color-#{$color-name}-border-hover: #{$color-border-hover};
+        --ant-color-#{$color-name}-hover: #{$color-hover};
+        --ant-color-#{$color-name}-active: #{$color-active};
+        --ant-color-#{$color-name}-text-hover: #{$color-text-hover};
+        --ant-color-#{$color-name}-text: #{$color-text};
+        --ant-color-#{$color-name}-text-active: #{$color-text-active};
+    }
+}
+
+// Example usage:
+@include generate-color-scheme("secondary", #d9d9d9);
+
+.ant-btn-primary {
+    &.ant-btn-secondary {
+        background: var(--ant-color-secondary);
+        box-shadow: var(--ant-button-secondary-shadow);
+        color: var(--ant-button-secondary-color);
+
+        &:not(:disabled):not(.ant-btn-disabled):hover {
+            background: var(--ant-color-secondary-hover);
+        }
+
+        &:not(:disabled):not(.ant-btn-disabled):active {
+            background: var(--ant-color-secondary-active);
+        }
+    }
+
     &.ant-btn-success {
         background: var(--ant-color-success);
         box-shadow: var(--ant-button-success-shadow);
@@ -12,18 +60,7 @@
             background: var(--ant-color-success-active);
         }
     }
-}
 
-.ant-btn-primary.ant-btn-success:disabled,
-.ant-btn-primary.ant-btn-success.ant-btn-disabled {
-    cursor: not-allowed;
-    border-color: var(--ant-button-border-color-disabled);
-    color: var(--ant-color-text-disabled);
-    background: var(--ant-color-bg-container-disabled);
-    box-shadow: none;
-}
-
-.ant-btn-primary {
     &.ant-btn-warning {
         background: var(--ant-color-warning);
         box-shadow: var(--ant-button-warning-shadow);
@@ -37,8 +74,24 @@
             background: var(--ant-color-warning-active);
         }
     }
+
+    &.ant-btn-light {
+        background: var(--ant-color-light);
+        box-shadow: var(--ant-button-light-shadow);
+        color: var(--ant-button-light-color);
+
+        &:not(:disabled):not(.ant-btn-disabled):hover {
+            background: var(--ant-color-light-hover);
+        }
+
+        &:not(:disabled):not(.ant-btn-disabled):active {
+            background: var(--ant-color-light-active);
+        }
+    }
 }
 
+.ant-btn-primary.ant-btn-success:disabled,
+.ant-btn-primary.ant-btn-success.ant-btn-disabled,
 .ant-btn-primary.ant-btn-warning:disabled,
 .ant-btn-primary.ant-btn-warning.ant-btn-disabled {
     cursor: not-allowed;
