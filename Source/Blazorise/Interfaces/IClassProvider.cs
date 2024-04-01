@@ -766,7 +766,7 @@ public interface IClassProvider
 
     #region Grid
 
-    string Grid();
+    string Grid( bool hasRowsSizes, bool hasColumnsSizes );
 
     string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition );
 

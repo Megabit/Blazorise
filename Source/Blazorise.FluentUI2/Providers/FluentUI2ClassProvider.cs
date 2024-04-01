@@ -949,7 +949,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Grid
 
-    public override string Grid() => "fui-Grid";
+    public override string Grid( bool hasRowsSizes, bool hasColumnsSizes ) => "fui-Grid";
 
     public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
     {

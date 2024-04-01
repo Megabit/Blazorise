@@ -821,7 +821,7 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Grid
 
-    public override string Grid() => "grid";
+    public override string Grid( bool hasRowsSizes, bool hasColumnsSizes ) => "grid";
 
     public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
     {

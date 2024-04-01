@@ -810,10 +810,10 @@ public class BulmaClassProvider : ClassProvider
         {
             if ( breakpoint != Blazorise.Breakpoint.None )
             {
-                return $"is-grid-column-{ToColumnWidth( columnWidth )}-{ToBreakpoint( breakpoint )}";
+                return $"cell is-col-span-{ToColumnWidth( columnWidth )}-{ToBreakpoint( breakpoint )}";
             }
 
-            return $"is-grid-column-{ToColumnWidth( columnWidth )}";
+            return $"cell is-col-span-{ToColumnWidth( columnWidth )}";
         }
 
         var baseClass = offset ? "offset-" : null;
@@ -836,22 +836,24 @@ public class BulmaClassProvider : ClassProvider
 
     #region Grid
 
-    public override string Grid() => "grid";
+    public override string Grid( bool hasRowsSizes, bool hasColumnsSizes ) => hasColumnsSizes
+        ? "fixed-grid"
+        : "fixed-grid has-12-cols";
 
     public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
     {
         if ( gridRowsDefinition.Breakpoint != Breakpoint.None && gridRowsDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"are-grid-rows-{ToGridRowsSize( gridRows )}-{ToBreakpoint( gridRowsDefinition.Breakpoint )}";
+            return $"has-{ToGridRowsSize( gridRows )}-rows-{ToBreakpoint( gridRowsDefinition.Breakpoint )}";
 
-        return $"are-grid-rows-{ToGridRowsSize( gridRows )}";
+        return $"has-{ToGridRowsSize( gridRows )}-rows";
     }
 
     public override string GridColumns( GridColumnsSize gridColumns, GridColumnsDefinition gridColumnsDefinition )
     {
         if ( gridColumnsDefinition.Breakpoint != Breakpoint.None && gridColumnsDefinition.Breakpoint != Breakpoint.Mobile )
-            return $"are-grid-columns-{ToGridColumnsSize( gridColumns )}-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}";
+            return $"has-{ToGridColumnsSize( gridColumns )}-cols-{ToBreakpoint( gridColumnsDefinition.Breakpoint )}";
 
-        return $"are-grid-columns-{ToGridColumnsSize( gridColumns )}";
+        return $"has-{ToGridColumnsSize( gridColumns )}-cols";
     }
 
     #endregion

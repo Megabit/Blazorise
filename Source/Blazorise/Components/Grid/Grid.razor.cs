@@ -24,12 +24,12 @@ public partial class Grid : BaseGridComponent
     /// <inheritdoc/>
     protected override void BuildClasses( ClassBuilder builder )
     {
-        builder.Append( ClassProvider.Grid() );
+        builder.Append( ClassProvider.Grid( HasRowsSizes, HasColumnSizes ) );
 
         if ( Rows is not null && Rows.HasSizes )
             builder.Append( Rows.Class( ClassProvider ) );
 
-        if ( Columns is not null && Columns.HasSizes )
+        if ( HasColumnSizes )
             builder.Append( Columns.Class( ClassProvider ) );
 
         base.BuildClasses( builder );
@@ -38,6 +38,16 @@ public partial class Grid : BaseGridComponent
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Determines if the rows sizes are defined.
+    /// </summary>
+    protected bool HasRowsSizes => Rows is not null && Rows.HasSizes;
+
+    /// <summary>
+    /// Determines if the column sizes are defined.
+    /// </summary>
+    protected bool HasColumnSizes => Columns is not null && Columns.HasSizes;
 
     /// <summary>
     /// Defines the number of rows to show in a grid.

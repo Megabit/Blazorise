@@ -811,7 +811,7 @@ public class AntDesignClassProvider : ClassProvider
 
     #endregion
 
-    public override string Grid() => "ant-grid";
+    public override string Grid( bool hasRowsSizes, bool hasColumnsSizes ) => "ant-grid";
 
     public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
     {

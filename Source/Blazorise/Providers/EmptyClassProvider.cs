@@ -771,7 +771,7 @@ class EmptyClassProvider : IClassProvider
 
     #region Grid
 
-    public string Grid() => null;
+    public string Grid( bool hasRowsSizes, bool hasColumnsSizes ) => null;
 
     public string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition ) => null;
 

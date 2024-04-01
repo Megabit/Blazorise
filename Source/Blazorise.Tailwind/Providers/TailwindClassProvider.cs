@@ -1218,7 +1218,7 @@ public class TailwindClassProvider : ClassProvider
 
     #region Grid
 
-    public override string Grid() => "grid grid-cols-12 gap-4";
+    public override string Grid( bool hasRowsSizes, bool hasColumnsSizes ) => "grid grid-cols-12 gap-4";
 
     public override string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition )
     {

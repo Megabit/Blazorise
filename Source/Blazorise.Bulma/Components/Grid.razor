@@ -1,0 +1,16 @@
+﻿@inherits Blazorise.Grid
+<CascadingValue Value="@this" IsFixed>
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        <div class="grid">
+            @ChildContent
+        </div>
+    </div>
+</CascadingValue>
+@code {
+    private RenderFragment GridElement => __builder =>
+    {
+        <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+            @ChildContent
+        </div>
+    };
+}

@@ -767,7 +767,7 @@ public abstract class ClassProvider : IClassProvider
 
     #region Grid
 
-    public abstract string Grid();
+    public abstract string Grid( bool hasRowsSizes, bool hasColumnsSizes );
 
     public abstract string GridRows( GridRowsSize gridRows, GridRowsDefinition gridRowsDefinition );
 
