@@ -115,12 +115,14 @@ code {
 }
 
 .grid.b-demo-cssgrid-columns:not(:first-child),
+.fixed-grid.b-demo-cssgrid-columns:not(:first-child),
 .ant-grid.b-demo-cssgrid-columns:not(:first-child)
 .fui-Grid.b-demo-cssgrid-columns:not(:first-child) {
     margin-top: 1rem;
 }
 
 .grid.b-demo-cssgrid-columns > div > div:first-child,
+.fixed-grid.b-demo-cssgrid-columns > div > div > div:first-child,
 .ant-grid.b-demo-cssgrid-columns > div > div:first-child,
 .fui-Grid.b-demo-cssgrid-columns > div > div:first-child {
     padding: 0.75rem;
@@ -129,6 +131,7 @@ code {
 }
 
 .grid.b-demo-cssgrid-columns + .grid.b-demo-cssgrid-columns > div:last-child > div,
+.fixed-grid.b-demo-cssgrid-columns + .fixed-grid.b-demo-cssgrid-columns > div > div:last-child > div,
 .ant-grid.b-demo-cssgrid-columns + .ant-grid.b-demo-cssgrid-columns > div:last-child > div,
 .fui-Grid.b-demo-cssgrid-columns + .fui-Grid.b-demo-cssgrid-columns > div:last-child > div {
     padding: 0.75rem;
@@ -137,6 +140,7 @@ code {
 }
 
 .grid.b-demo-cssgrid-divs > div,
+.fixed-grid.b-demo-cssgrid-divs > div > div,
 .ant-grid.b-demo-cssgrid-divs > div,
 .fui-Grid.b-demo-cssgrid-divs > div {
     padding: 0.75rem;
