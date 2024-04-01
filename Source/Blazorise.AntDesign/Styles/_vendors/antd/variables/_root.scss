@@ -337,7 +337,9 @@
 
 /* Custom variables */
 :root {
-    --ant-color-secondary: #d9d9d9;
-    --ant-color-light: #fafafa;
-    --ant-color-dark: #fafafa;
+    --ant-border-radius-xl: 10px;
+    --ant-control-height-xl: 44px;
+    @include generate-color-scheme-variables("secondary", #d9d9d9);
+    @include generate-color-scheme-variables("light", #fafafa);
+    @include generate-color-scheme-variables("dark", #343a40);
 }

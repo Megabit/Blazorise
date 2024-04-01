@@ -1,1 +1,22 @@
-﻿
+﻿@mixin generate-color-scheme-variables($color-name, $color-value) {
+    $color-bg: lighten(desaturate($color-value, 15%), 52%);
+    $color-bg-hover: lighten(desaturate($color-value, 12%), 47%);
+    $color-border: lighten(desaturate($color-value, 10%), 42%);
+    $color-border-hover: lighten(saturate($color-value, 5%), 37%);
+    $color-hover: darken($color-value, 10%);
+    $color-active: darken($color-value, 20%);
+    $color-text-hover: $color-hover;
+    $color-text: $color-value;
+    $color-text-active: $color-active;
+
+    --ant-color-#{$color-name}: #{$color-value};
+    --ant-color-#{$color-name}-bg: #{$color-bg};
+    --ant-color-#{$color-name}-bg-hover: #{$color-bg-hover};
+    --ant-color-#{$color-name}-border: #{$color-border};
+    --ant-color-#{$color-name}-border-hover: #{$color-border-hover};
+    --ant-color-#{$color-name}-hover: #{$color-hover};
+    --ant-color-#{$color-name}-active: #{$color-active};
+    --ant-color-#{$color-name}-text-hover: #{$color-text-hover};
+    --ant-color-#{$color-name}-text: #{$color-text};
+    --ant-color-#{$color-name}-text-active: #{$color-text-active};
+}

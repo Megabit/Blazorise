@@ -4,33 +4,10 @@
 
 $secondary: #d9d9d9;
 
-@mixin generate-color-scheme($color-name, $color-value) {
-    $color-bg: lighten(desaturate($color-value, 15%), 52%);
-    $color-bg-hover: lighten(desaturate($color-value, 12%), 47%);
-    $color-border: lighten(desaturate($color-value, 10%), 42%);
-    $color-border-hover: lighten(saturate($color-value, 5%), 37%);
-    $color-hover: darken($color-value, 10%);
-    $color-active: darken($color-value, 20%);
-    $color-text-hover: $color-hover;
-    $color-text: $color-value;
-    $color-text-active: $color-active;
 
-    :root {
-        --ant-color-#{$color-name}: #{$color-value};
-        --ant-color-#{$color-name}-bg: #{$color-bg};
-        --ant-color-#{$color-name}-bg-hover: #{$color-bg-hover};
-        --ant-color-#{$color-name}-border: #{$color-border};
-        --ant-color-#{$color-name}-border-hover: #{$color-border-hover};
-        --ant-color-#{$color-name}-hover: #{$color-hover};
-        --ant-color-#{$color-name}-active: #{$color-active};
-        --ant-color-#{$color-name}-text-hover: #{$color-text-hover};
-        --ant-color-#{$color-name}-text: #{$color-text};
-        --ant-color-#{$color-name}-text-active: #{$color-text-active};
-    }
-}
 
 // Example usage:
-@include generate-color-scheme("secondary", #d9d9d9);
+
 
 .ant-btn-primary {
     &.ant-btn-secondary {
@@ -78,7 +55,7 @@ $secondary: #d9d9d9;
     &.ant-btn-light {
         background: var(--ant-color-light);
         box-shadow: var(--ant-button-light-shadow);
-        color: var(--ant-button-light-color);
+        color: var(--ant-button-default-color);
 
         &:not(:disabled):not(.ant-btn-disabled):hover {
             background: var(--ant-color-light-hover);
@@ -86,6 +63,34 @@ $secondary: #d9d9d9;
 
         &:not(:disabled):not(.ant-btn-disabled):active {
             background: var(--ant-color-light-active);
+        }
+    }
+
+    &.ant-btn-dark {
+        background: var(--ant-color-dark);
+        box-shadow: var(--ant-button-dark-shadow);
+        color: var(--ant-color-white);
+
+        &:not(:disabled):not(.ant-btn-disabled):hover {
+            background: var(--ant-color-dark-hover);
+        }
+
+        &:not(:disabled):not(.ant-btn-disabled):active {
+            background: var(--ant-color-dark-active);
+        }
+    }
+
+    &.ant-btn-info {
+        background: var(--ant-color-info);
+        box-shadow: var(--ant-button-info-shadow);
+        color: var(--ant-color-white);
+
+        &:not(:disabled):not(.ant-btn-disabled):hover {
+            background: var(--ant-color-info-hover);
+        }
+
+        &:not(:disabled):not(.ant-btn-disabled):active {
+            background: var(--ant-color-info-active);
         }
     }
 }
@@ -99,4 +104,20 @@ $secondary: #d9d9d9;
     color: var(--ant-color-text-disabled);
     background: var(--ant-color-bg-container-disabled);
     box-shadow: none;
+}
+
+.ant-btn-xs {
+    font-size: var(--ant-button-content-font-size-xs);
+    line-height: var(--ant-button-content-line-height-xs);
+    height: var(--ant-control-height-xs);
+    padding: var(--ant-button-padding-block-xs) var(--ant-button-padding-inline-xs);
+    border-radius: var(--ant-border-radius-xs);
+}
+
+.ant-btn-xl {
+    font-size: var(--ant-button-content-font-size-xl);
+    line-height: var(--ant-button-content-line-height-xl);
+    height: var(--ant-control-height-xl);
+    padding: var(--ant-button-padding-block-xl) var(--ant-button-padding-inline-xl);
+    border-radius: var(--ant-border-radius-xl);
 }

@@ -337,9 +337,38 @@
 
 /* Custom variables */
 :root {
+  --ant-border-radius-xl: 10px;
+  --ant-control-height-xl: 44px;
   --ant-color-secondary: #d9d9d9;
+  --ant-color-secondary-bg: white;
+  --ant-color-secondary-bg-hover: white;
+  --ant-color-secondary-border: white;
+  --ant-color-secondary-border-hover: white;
+  --ant-color-secondary-hover: silver;
+  --ant-color-secondary-active: #a6a6a6;
+  --ant-color-secondary-text-hover: silver;
+  --ant-color-secondary-text: #d9d9d9;
+  --ant-color-secondary-text-active: #a6a6a6;
   --ant-color-light: #fafafa;
-  --ant-color-dark: #fafafa;
+  --ant-color-light-bg: white;
+  --ant-color-light-bg-hover: white;
+  --ant-color-light-border: white;
+  --ant-color-light-border-hover: white;
+  --ant-color-light-hover: #e1e1e1;
+  --ant-color-light-active: #c7c7c7;
+  --ant-color-light-text-hover: #e1e1e1;
+  --ant-color-light-text: #fafafa;
+  --ant-color-light-text-active: #c7c7c7;
+  --ant-color-dark: #343a40;
+  --ant-color-dark-bg: #bfbfbf;
+  --ant-color-dark-bg-hover: #b2b2b2;
+  --ant-color-dark-border: #a5a5a5;
+  --ant-color-dark-border-hover: #8998a8;
+  --ant-color-dark-hover: #1d2124;
+  --ant-color-dark-active: #060708;
+  --ant-color-dark-text-hover: #1d2124;
+  --ant-color-dark-text: #343a40;
+  --ant-color-dark-text-active: #060708;
 }
 
 .ant-btn {
@@ -390,19 +419,14 @@
   --ant-button-secondary-shadow: 0 2px 0 rgba(240, 240, 240, 0.06);
   --ant-button-warning-shadow: 0 2px 0 rgba(255, 215, 5, 0.06);
   --ant-button-warning-color: #fff;
-}
-
-:root {
-  --ant-color-secondary: #d9d9d9;
-  --ant-color-secondary-bg: white;
-  --ant-color-secondary-bg-hover: white;
-  --ant-color-secondary-border: white;
-  --ant-color-secondary-border-hover: white;
-  --ant-color-secondary-hover: silver;
-  --ant-color-secondary-active: #a6a6a6;
-  --ant-color-secondary-text-hover: silver;
-  --ant-color-secondary-text: #d9d9d9;
-  --ant-color-secondary-text-active: #a6a6a6;
+  --ant-button-content-font-size-xs: 10px;
+  --ant-button-content-line-height-xs: 1.5714285714285714;
+  --ant-button-padding-block-xs: 0px;
+  --ant-button-padding-inline-xs: 7px;
+  --ant-button-content-font-size-xl: 18px;
+  --ant-button-content-line-height-xl: 1.5;
+  --ant-button-padding-block-xl: 7px;
+  --ant-button-padding-inline-xl: 15px;
 }
 
 .ant-btn-primary.ant-btn-secondary {
@@ -441,13 +465,35 @@
 .ant-btn-primary.ant-btn-light {
   background: var(--ant-color-light);
   box-shadow: var(--ant-button-light-shadow);
-  color: var(--ant-button-light-color);
+  color: var(--ant-button-default-color);
 }
 .ant-btn-primary.ant-btn-light:not(:disabled):not(.ant-btn-disabled):hover {
   background: var(--ant-color-light-hover);
 }
 .ant-btn-primary.ant-btn-light:not(:disabled):not(.ant-btn-disabled):active {
   background: var(--ant-color-light-active);
+}
+.ant-btn-primary.ant-btn-dark {
+  background: var(--ant-color-dark);
+  box-shadow: var(--ant-button-dark-shadow);
+  color: var(--ant-color-white);
+}
+.ant-btn-primary.ant-btn-dark:not(:disabled):not(.ant-btn-disabled):hover {
+  background: var(--ant-color-dark-hover);
+}
+.ant-btn-primary.ant-btn-dark:not(:disabled):not(.ant-btn-disabled):active {
+  background: var(--ant-color-dark-active);
+}
+.ant-btn-primary.ant-btn-info {
+  background: var(--ant-color-info);
+  box-shadow: var(--ant-button-info-shadow);
+  color: var(--ant-color-white);
+}
+.ant-btn-primary.ant-btn-info:not(:disabled):not(.ant-btn-disabled):hover {
+  background: var(--ant-color-info-hover);
+}
+.ant-btn-primary.ant-btn-info:not(:disabled):not(.ant-btn-disabled):active {
+  background: var(--ant-color-info-active);
 }
 
 .ant-btn-primary.ant-btn-success:disabled,
@@ -459,6 +505,22 @@
   color: var(--ant-color-text-disabled);
   background: var(--ant-color-bg-container-disabled);
   box-shadow: none;
+}
+
+.ant-btn-xs {
+  font-size: var(--ant-button-content-font-size-xs);
+  line-height: var(--ant-button-content-line-height-xs);
+  height: var(--ant-control-height-xs);
+  padding: var(--ant-button-padding-block-xs) var(--ant-button-padding-inline-xs);
+  border-radius: var(--ant-border-radius-xs);
+}
+
+.ant-btn-xl {
+  font-size: var(--ant-button-content-font-size-xl);
+  line-height: var(--ant-button-content-line-height-xl);
+  height: var(--ant-control-height-xl);
+  padding: var(--ant-button-padding-block-xl) var(--ant-button-padding-inline-xl);
+  border-radius: var(--ant-border-radius-xl);
 }
 
 .ant-card {

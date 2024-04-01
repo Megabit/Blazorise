@@ -385,13 +385,22 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Button
 
-    public override string Button( bool outline ) => outline
-        ? "ant-btn ant-btn-default"
-        : "ant-btn ant-btn-primary";
+    public override string Button( bool outline ) => "ant-btn";
 
-    public override string ButtonColor( Color color, bool outline ) => color.IsNullOrDefault()
-        ? null
-        : $"ant-btn-{ToColor( color )}";
+    public override string ButtonColor( Color color, bool outline )
+    {
+        if ( color.IsNullOrDefault() )
+            return null;
+
+        var colorName = ToColor( color.Name );
+
+        if ( colorName == "link" )
+            return "ant-btn-link";
+
+        return outline
+            ? $"ant-btn-default ant-btn-{colorName}"
+            : $"ant-btn-primary ant-btn-{colorName}";
+    }
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default
         ? null
