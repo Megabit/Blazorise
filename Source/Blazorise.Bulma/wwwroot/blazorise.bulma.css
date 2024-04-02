@@ -1518,9 +1518,22 @@
   box-shadow: 0 0 0 0.125em rgba(50, 115, 220, 0.25);
 }
 
+.field.has-addons .dropdown:first-child:not(:only-child) .dropdown-trigger .button {
+  border-bottom-right-radius: 0px;
+  border-top-right-radius: 0px;
+}
+
+.field.has-addons .dropdown:last-child:not(:only-child) .dropdown-trigger .button {
+  border-bottom-left-radius: 0px;
+  border-top-left-radius: 0px;
+}
+
 .dropdown .button.dropdown-trigger:not(.is-outlined) {
   box-shadow: none;
-  border: none;
+}
+.dropdown > .dropdown-trigger:not(:first-child) > .control > .button {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
 }
 .dropdown.is-disabled.b-is-autocomplete {
   background-color: var(--b-theme-light, #f5f5f5);
@@ -5738,30 +5751,6 @@ ol.is-ordered-list-upper-roman {
   font-size: 2rem !important;
 }
 
-.is-size-1 {
-  font-size: 3rem !important;
-}
-
-.is-size-2 {
-  font-size: 2.5rem !important;
-}
-
-.is-size-3 {
-  font-size: 2.5rem !important;
-}
-
-.is-size-4 {
-  font-size: 1.5rem !important;
-}
-
-.is-size-5 {
-  font-size: 1.25rem !important;
-}
-
-.is-size-6 {
-  font-size: 1rem !important;
-}
-
 @media (min-width: 576px) {
   .is-size-xs-mobile {
     font-size: 0.65rem !important;
@@ -5777,24 +5766,6 @@ ol.is-ordered-list-upper-roman {
   }
   .is-size-xl-mobile {
     font-size: 2rem !important;
-  }
-  .is-size-1-mobile {
-    font-size: 3rem !important;
-  }
-  .is-size-2-mobile {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-mobile {
-    font-size: 2.5rem !important;
-  }
-  .is-size-4-mobile {
-    font-size: 1.5rem !important;
-  }
-  .is-size-5-mobile {
-    font-size: 1.25rem !important;
-  }
-  .is-size-6-mobile {
-    font-size: 1rem !important;
   }
 }
 @media (min-width: 1023px) {
@@ -5813,24 +5784,6 @@ ol.is-ordered-list-upper-roman {
   .is-size-xl-tablet {
     font-size: 2rem !important;
   }
-  .is-size-1-tablet {
-    font-size: 3rem !important;
-  }
-  .is-size-2-tablet {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-tablet {
-    font-size: 2.5rem !important;
-  }
-  .is-size-4-tablet {
-    font-size: 1.5rem !important;
-  }
-  .is-size-5-tablet {
-    font-size: 1.25rem !important;
-  }
-  .is-size-6-tablet {
-    font-size: 1rem !important;
-  }
 }
 @media (min-width: 1215px) {
   .is-size-xs-desktop {
@@ -5847,24 +5800,6 @@ ol.is-ordered-list-upper-roman {
   }
   .is-size-xl-desktop {
     font-size: 2rem !important;
-  }
-  .is-size-1-desktop {
-    font-size: 3rem !important;
-  }
-  .is-size-2-desktop {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-desktop {
-    font-size: 2.5rem !important;
-  }
-  .is-size-4-desktop {
-    font-size: 1.5rem !important;
-  }
-  .is-size-5-desktop {
-    font-size: 1.25rem !important;
-  }
-  .is-size-6-desktop {
-    font-size: 1rem !important;
   }
 }
 @media (min-width: 1407px) {
@@ -5883,24 +5818,6 @@ ol.is-ordered-list-upper-roman {
   .is-size-xl-widescreen {
     font-size: 2rem !important;
   }
-  .is-size-1-widescreen {
-    font-size: 3rem !important;
-  }
-  .is-size-2-widescreen {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-widescreen {
-    font-size: 2.5rem !important;
-  }
-  .is-size-4-widescreen {
-    font-size: 1.5rem !important;
-  }
-  .is-size-5-widescreen {
-    font-size: 1.25rem !important;
-  }
-  .is-size-6-widescreen {
-    font-size: 1rem !important;
-  }
 }
 @media (min-width: 1907px) {
   .is-size-xs-fullhd {
@@ -5918,24 +5835,6 @@ ol.is-ordered-list-upper-roman {
   .is-size-xl-fullhd {
     font-size: 2rem !important;
   }
-  .is-size-1-fullhd {
-    font-size: 3rem !important;
-  }
-  .is-size-2-fullhd {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-fullhd {
-    font-size: 2.5rem !important;
-  }
-  .is-size-4-fullhd {
-    font-size: 1.5rem !important;
-  }
-  .is-size-5-fullhd {
-    font-size: 1.25rem !important;
-  }
-  .is-size-6-fullhd {
-    font-size: 1rem !important;
-  }
 }
 @media (min-width: 2560px) {
   .is-size-xs-quadhd {
@@ -5952,24 +5851,6 @@ ol.is-ordered-list-upper-roman {
   }
   .is-size-xl-quadhd {
     font-size: 2rem !important;
-  }
-  .is-size-1-quadhd {
-    font-size: 3rem !important;
-  }
-  .is-size-2-quadhd {
-    font-size: 2.5rem !important;
-  }
-  .is-size-3-quadhd {
-    font-size: 2.5rem !important;
-  }
-  .is-size-4-quadhd {
-    font-size: 1.5rem !important;
-  }
-  .is-size-5-quadhd {
-    font-size: 1.25rem !important;
-  }
-  .is-size-6-quadhd {
-    font-size: 1rem !important;
   }
 }
 .is-visible {

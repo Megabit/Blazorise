@@ -96,10 +96,24 @@
     }
 }
 
+.field.has-addons .dropdown:first-child:not(:only-child) .dropdown-trigger .button {
+    border-bottom-right-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.field.has-addons .dropdown:last-child:not(:only-child) .dropdown-trigger .button {
+    border-bottom-left-radius: 0px;
+    border-top-left-radius: 0px;
+}
+
 .dropdown {
     .button.dropdown-trigger:not(.is-outlined) {
         box-shadow: none;
-        border: none;
+    }
+
+    > .dropdown-trigger:not(:first-child) > .control > .button {
+        border-bottom-left-radius: 0;
+        border-top-left-radius: 0;
     }
 
     &.is-disabled.b-is-autocomplete {
