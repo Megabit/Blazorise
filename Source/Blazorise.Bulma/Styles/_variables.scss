@@ -111,7 +111,7 @@ $size-medium: $size-5 !default;
 $size-large: $size-4 !default;
 $size-extra-large: $size-3 !default;
 
-$font-sizes: ( xs: $size-extra-small, sm: $size-small, md: $size-medium, lg: $size-large, xl: $size-extra-large, 1: $size-1, 2: $size-2, 3: $size-2, 4: $size-4, 5: $size-5, 6: $size-6 ) !default;
+$font-sizes: ( xs: $size-extra-small, sm: $size-small, md: $size-medium, lg: $size-large, xl: $size-extra-large ) !default;
 
 $weight-light: 300 !default;
 $weight-normal: 400 !default;
