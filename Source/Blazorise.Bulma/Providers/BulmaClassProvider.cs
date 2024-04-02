@@ -876,7 +876,7 @@ public class BulmaClassProvider : ClassProvider
 
     #region Alert
 
-    public override string Alert() => "notification";
+    public override string Alert() => "notification is-light";
 
     public override string AlertColor( Color color ) => $"is-{ToColor( color )}";
 
