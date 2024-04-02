@@ -40,17 +40,14 @@ export function initialize(dotnetAdapter, element, elementId, readOnly, placehol
         options.modules.keyboard = {
             bindings: {
                 enter: {
-                    key: 13,
+                    key: 'Enter',
                     shiftKey: false,
                     metaKey: false,
                     ctrlKey: false,
                     altKey: false,
-                    handler: (range, context) => {
-                        if (context.format.list) {
-                            editorRef.quill.insertText(range.index, "\n");
-                        } else {
-                            dotnetAdapter.invokeMethodAsync("OnEnter");
-                        }
+                    format: { list: false },
+                    handler: () => {
+                        dotnetAdapter.invokeMethodAsync("OnEnter");
                     }
                 }
             }
