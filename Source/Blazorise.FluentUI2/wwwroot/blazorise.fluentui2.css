@@ -6919,7 +6919,6 @@ input::file-selector-button {
   overflow-y: auto;
 }
 .fui-Table-fixed-header .fui-Table {
-  border-collapse: separate;
   border-spacing: 0;
 }
 .fui-Table-fixed-header .fui-Table thead:not(.fui-TableHeader__theme) th {
@@ -6944,7 +6943,6 @@ input::file-selector-button {
   table-layout: fixed;
   overflow-x: auto;
   white-space: nowrap;
-  border-collapse: separate;
   border-spacing: 0;
   border: 0;
 }

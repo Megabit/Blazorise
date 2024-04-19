@@ -230,7 +230,6 @@
     overflow-y: auto;
 
     .fui-Table {
-        border-collapse: separate;
         border-spacing: 0;
 
         thead:not(.fui-TableHeader__theme) th {
@@ -259,7 +258,6 @@
         table-layout: fixed;
         overflow-x: auto;
         white-space: nowrap;
-        border-collapse: separate;
         border-spacing: 0;
         border: 0;
 
