@@ -35,6 +35,31 @@
 
     <link href="css/site.css?v=1.5.1.0" rel="stylesheet" />
 
+    <script src="https://cdn.jsdelivr.net/npm/cookieconsent@3/build/cookieconsent.min.js"></script>
+
+    <script>
+        window.addEventListener("load", function () {
+            window.cookieconsent.initialise({
+                type: 'info',
+                palette: {
+                    popup: {
+                        background: "rgba(100, 19, 173,.9)",
+                        text: "#fff"
+                    },
+                    button: {
+                        background: "#e03d76",
+                        text: "#fff"
+                    }
+                },
+                content: {
+                    message: "We use cookies to give you the best experience on our website.\nIf you continue to browse, then you agree to our",
+                    link: " privacy policy and cookie policy",
+                    href: "https://blazorise.com/privacy"
+                },
+                onStatusChange: function (status) { },
+            })
+        });
+    </script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script defer data-domain="blazorise.com" src="https://plausible.io/js/script.js"></script>
 
