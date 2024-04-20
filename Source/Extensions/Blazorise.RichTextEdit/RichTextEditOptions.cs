@@ -24,7 +24,7 @@ public sealed class RichTextEditOptions
     /// The QuillJs version to load
     /// </summary>
     [Obsolete( "Dynamic loading no longer used." )]
-    public string QuillJsVersion { get; set; } = "2.0.0-rc.2";
+    public string QuillJsVersion { get; set; } = "2.0.0";
 
     /// <summary>
     /// Load the RichTextEdit scripts and stylesheets on demand.
