@@ -1,7 +1,7 @@
-﻿import "./vendors/flatpickr.js?v=1.5.1.0";
-import * as utilities from "./utilities.js?v=1.5.1.0";
-import * as inputmask from "./inputMask.js?v=1.5.1.0";
-import { ClassWatcher } from "./observer.js?v=1.5.1.0";
+import "./vendors/flatpickr.js?v=1.5.2.0";
+import * as utilities from "./utilities.js?v=1.5.2.0";
+import * as inputmask from "./inputMask.js?v=1.5.2.0";
+import { ClassWatcher } from "./observer.js?v=1.5.2.0";
 
 const _pickers = [];
 
@@ -14,19 +14,23 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     function mutationObserverCallback(mutationsList, observer) {
         mutationsList.forEach(mutation => {
             if (mutation.attributeName === 'class') {
-                const picker = _pickers[mutation.target.id];
+                if (mutation.target.id) {
+                    // remove the special hidden id that we did before
+                    const targetId = mutation.target.id.replace("flatpickr_hidden_", "");
+                    const picker = _pickers[targetId];
 
-                if (picker && picker.altInput) {
-                    const altInputClassListToRemove = [...picker.altInput.classList].filter(cn => !["input", "active"].includes(cn));
-                    const inputClassListToAdd = [...picker.input.classList].filter(cn => !["flatpickr-input"].includes(cn));
+                    if (picker && picker.altInput) {
+                        const altInputClassListToRemove = [...picker.altInput.classList].filter(cn => !["input", "active"].includes(cn));
+                        const inputClassListToAdd = [...picker.input.classList].filter(cn => !["flatpickr-input"].includes(cn));
 
-                    altInputClassListToRemove.forEach(name => {
-                        picker.altInput.classList.remove(name);
-                    });
+                        altInputClassListToRemove.forEach(name => {
+                            picker.altInput.classList.remove(name);
+                        });
 
-                    inputClassListToAdd.forEach(name => {
-                        picker.altInput.classList.add(name);
-                    });
+                        inputClassListToAdd.forEach(name => {
+                            picker.altInput.classList.add(name);
+                        });
+                    }
                 }
             }
         });
