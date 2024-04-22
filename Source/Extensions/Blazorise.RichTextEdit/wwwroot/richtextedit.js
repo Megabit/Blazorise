@@ -1,5 +1,5 @@
-﻿import "./vendors/quill.js?v=1.5.1.0";
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.5.1.0";
+import "./vendors/quill.js?v=1.5.2.0";
+import { getRequiredElement } from "../Blazorise/utilities.js?v=1.5.2.0";
 
 var rteSheetsLoaded = false;
 

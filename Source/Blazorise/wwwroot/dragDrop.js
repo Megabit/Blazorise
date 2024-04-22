@@ -1,4 +1,4 @@
-﻿import { getRequiredElement } from "./utilities.js?v=1.5.1.0";
+import { getRequiredElement } from "./utilities.js?v=1.5.2.0";
 
 export function initialize(element, elementId) {
     element = getRequiredElement(element, elementId);
