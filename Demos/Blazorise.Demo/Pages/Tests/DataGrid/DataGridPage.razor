@@ -177,6 +177,17 @@
                             </Field>
                             <Field>
                                 <FieldLabel>
+                                    Filter mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@filterMode">
+                                        <SelectItem Value="@DataGridFilterMode.Default">Default</SelectItem>
+                                        <SelectItem Value="@DataGridFilterMode.Menu">Menu</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
                                     Custom Search
                                 </FieldLabel>
                                 <FieldBody>
@@ -205,6 +216,7 @@
                           SelectionMode="@selectionMode"
                           CommandMode="@commandsMode"
                           Filterable="@filterable"
+                          FilterMode="@filterMode"
                           ShowPager="@showPager"
                           PagerPosition="DataGridPagerPosition.TopAndBottom"
                           ShowPageSizes="@showPageSizes"

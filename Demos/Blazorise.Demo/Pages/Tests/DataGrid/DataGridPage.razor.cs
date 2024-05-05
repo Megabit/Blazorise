@@ -23,6 +23,7 @@ public partial class DataGridPage
     private DataGridSelectionMode selectionMode = DataGridSelectionMode.Single;
     private DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
     private TableResizeMode resizableMode = TableResizeMode.Header;
+    private DataGridFilterMode filterMode = DataGridFilterMode.Default;
 
     private DataGrid<Employee> dataGrid;
     public int currentPage { get; set; } = 1;
