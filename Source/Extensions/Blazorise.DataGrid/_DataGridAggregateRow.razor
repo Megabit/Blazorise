@@ -1,7 +1,9 @@
 ﻿@typeparam TItem
 @inherits BaseDataGridComponent
 <TableRow Class="@Class" Style="@Style" Background="@Background" Color="@Color">
-
+    
+    @ParentDataGrid.groupIndentationFragment
+    
     @foreach ( var column in Columns )
     {
         @if ( column.ColumnType == DataGridColumnType.Command )
