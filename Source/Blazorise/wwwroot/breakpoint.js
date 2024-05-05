@@ -2,15 +2,17 @@
 const breakpointComponents = [];
 let lastBreakpoint = null;
 
-// Recalculate breakpoint on resize
-if (window.attachEvent) {
-    window.attachEvent('onresize', windowResized);
-}
-else if (window.addEventListener) {
-    window.addEventListener('resize', windowResized, true);
-}
-else {
-    //The browser does not support Javascript event binding
+if (document.readyState === 'interactive' || document.readyState === 'complete') {
+    // Recalculate breakpoint on resize
+    if (window.attachEvent) {
+        window.attachEvent('onresize', windowResized);
+    }
+    else if (window.addEventListener) {
+        window.addEventListener('resize', windowResized, true);
+    }
+    else {
+        //The browser does not support Javascript event binding
+    }
 }
 
 function windowResized() {
@@ -34,7 +36,10 @@ lastBreakpoint = getBreakpoint();
 
 // Get the current breakpoint
 export function getBreakpoint() {
-    return window.getComputedStyle(document.body, ':before').content.replace(/\"/g, '');
+    if (document.readyState === 'interactive' || document.readyState === 'complete') {
+        return window.getComputedStyle(document.body, ':before').content.replace(/\"/g, '');
+    }
+    return "";
 }
 
 export function addBreakpointComponent(elementId, dotnetAdapter) {
