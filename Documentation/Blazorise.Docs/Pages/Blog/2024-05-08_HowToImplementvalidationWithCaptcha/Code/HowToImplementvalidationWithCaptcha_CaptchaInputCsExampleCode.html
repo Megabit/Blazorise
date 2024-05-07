@@ -1,0 +1,154 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+﻿#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using System.Linq.Expressions;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Blazorise.Captcha;
+using Blazorise.Docs.Domain;
+using Blazorise.Extensions;
+using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
+#endregion
+
+namespace Blazorise.Docs.Pages.Home.Components;
+
+public partial class CaptchaInput : BaseInputComponent<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>
+{
+    #region Members
+
+    public class GoogleResponse
+    {
+        public bool Success { get; set; }
+        public double Score { get; set; } //V3 only - The score for this request (0.0 - 1.0)
+        public string Action { get; set; } //v3 only - An identifier
+        public string Challenge_ts { get; set; }
+        public string Hostname { get; set; }
+        public string ErrorCodes { get; set; }
+    }
+
+    protected Captcha.Captcha captchaRef;
+
+    #endregion
+
+    #region Methods
+
+    /// <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">inheritdoc</span><span class="htmlTagDelimiter">/&gt;</span>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>( nameof( Value ), out var paramChecked ) &amp;&amp; !paramChecked.IsEqual( Value ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
+        await base.SetParametersAsync( parameters );
+
+        if ( ParentValidation is not null )
+        {
+            if ( parameters.TryGetValue&lt;Expression&lt;Func<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>&gt;&gt;( nameof( ValueExpression ), out var expression ) )
+                await ParentValidation.InitializeInputExpression( expression );
+
+            await InitializeValidation();
+        }
+
+        if ( Rendered &amp;&amp; captchaRef.State.Valid &amp;&amp; !Value )
+        {
+            await captchaRef.Reset();
+        }
+    }
+
+    /// <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">inheritdoc</span><span class="htmlTagDelimiter">/&gt;</span>
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+
+        base.BuildClasses( builder );
+    }
+
+    protected async Task Solved( CaptchaState state )
+    {
+        await CurrentValueHandler( state.Valid.ToString() );
+    }
+
+    protected async Task Expired()
+    {
+        await CurrentValueHandler( false.ToString() );
+    }
+
+    protected async Task<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span> Validate( CaptchaState state )
+    {
+        //Perform server side validation
+        //You should make sure to implement server side validation
+        //https://developers.google.com/recaptcha/docs/verify
+        //Here&#39;s a simple example:
+        var content = new FormUrlEncodedContent( new[]
+        {
+            new KeyValuePair&lt;string, string&gt;(&quot;secret&quot;, AppSettings.Value.ReCaptchaServerKey),
+            new KeyValuePair&lt;string, string&gt;(&quot;response&quot;, state.Response),
+         } );
+
+        var httpClient = HttpClientFactory.CreateClient();
+        var response = await httpClient.PostAsync( &quot;https://www.google.com/recaptcha/api/siteverify&quot;, content );
+
+        var result = await response.Content.ReadAsStringAsync();
+        var googleResponse = JsonSerializer.Deserialize<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GoogleResponse</span><span class="htmlTagDelimiter">&gt;</span>( result, new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        } );
+
+        return googleResponse.Success;
+    }
+
+    protected override Task&lt;ParseValue<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>&gt; ParseValueFromStringAsync( string value )
+    {
+        return Task.FromResult( new ParseValue<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>( true, bool.Parse( value ), null ) );
+    }
+
+    protected override Task OnInternalValueChanged( bool value )
+    {
+        return ValueChanged.InvokeAsync( value );
+    }
+
+    public static void ValidateRobot( ValidatorEventArgs eventArgs )
+    {
+        eventArgs.Status = bool.Parse( eventArgs.Value.ToString() ) ? ValidationStatus.Success : ValidationStatus.Error;
+
+        if ( eventArgs.Status == ValidationStatus.Error )
+            eventArgs.ErrorText = &quot;Please check to confirm you&#39;re a real human!&quot;;
+        else
+            eventArgs.ErrorText = null;
+    }
+
+    #endregion
+
+    #region Properties
+
+    /// <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">inheritdoc</span><span class="htmlTagDelimiter">/&gt;</span>
+    protected override bool InternalValue { get =&gt; Value; set =&gt; Value = value; }
+
+    [Inject] IOptions<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">AppSettings</span><span class="htmlTagDelimiter">&gt;</span> AppSettings { get; set; }
+    [Inject] IHttpClientFactory HttpClientFactory { get; set; }
+
+    [Parameter] public bool Value { get; set; }
+    [Parameter] public EventCallback<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span> ValueChanged { get; set; }
+
+    /// <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">summary</span><span class="htmlTagDelimiter">&gt;</span>
+    /// Gets or sets an expression that identifies the captcha valid value.
+    /// <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">summary</span><span class="htmlTagDelimiter">&gt;</span>
+    [Parameter] public Expression&lt;Func<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>&gt; ValueExpression { get; set; }
+
+    #endregion
+
+
+}
+</pre></div>
+</div>
