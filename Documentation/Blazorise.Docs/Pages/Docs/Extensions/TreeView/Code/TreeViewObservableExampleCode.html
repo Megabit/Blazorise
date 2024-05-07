@@ -1,10 +1,12 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
 <span class="atSign">&#64;</span>using System.Collections.ObjectModel;
+<span class="atSign">&#64;</span>using Blazorise.Extensions
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Row</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnAddNodeClick</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Add node<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnRemoveNodeClick</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Danger</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Remove node<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
         <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">TreeView</span> <span class="htmlAttributeName">Nodes</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Items</span><span class="quot">&quot;</span>
@@ -29,10 +31,44 @@
         <span class="keyword">return</span> Task.CompletedTask;
     }
 
+    <span class="keyword">private</span> <span class="keyword">async</span> Task OnRemoveNodeClick()
+    {
+        <span class="keyword">if</span> ( selectedNode <span class="keyword">is</span> <span class="keyword">null</span> )
+            <span class="keyword">return</span>;
+
+        <span class="keyword">await</span> RemoveItem( selectedNode );
+    }
+
+
+    <span class="keyword">public</span> Task RemoveItem( Item item )
+    {
+        SearchTryRemoveItem( Items, item );
+        <span class="keyword">return</span> Task.CompletedTask;
+    }
+
+    <span class="keyword">private</span> <span class="keyword">void</span> SearchTryRemoveItem( ObservableCollection&lt;Item&gt; rows, Item item )
+    {
+        <span class="keyword">if</span> ( rows.IsNullOrEmpty() )
+            <span class="keyword">return</span>;
+
+        <span class="keyword">var</span> nodeToRemove = rows.FirstOrDefault( x =&gt; x.Equals( item ) );
+        <span class="keyword">if</span> ( nodeToRemove <span class="keyword">is</span> not <span class="keyword">null</span> )
+        {
+            rows.Remove( nodeToRemove );
+        }
+        <span class="keyword">else</span>
+        {
+            <span class="keyword">foreach</span> ( <span class="keyword">var</span> row <span class="keyword">in</span> rows )
+            {
+                SearchTryRemoveItem( row.Children, item );
+            }
+        }
+    }
+
     <span class="keyword">public</span> <span class="keyword">class</span> Item
     {
         <span class="keyword">public</span> <span class="keyword">string</span> Text { <span class="keyword">get</span>; <span class="keyword">set</span>; }
-        <span class="keyword">public</span> IEnumerable&lt;Item&gt; Children { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">public</span> ObservableCollection&lt;Item&gt; Children { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     }
 
     ObservableCollection&lt;Item&gt; Items = <span class="keyword">new</span>()
@@ -41,13 +77,13 @@
         <span class="keyword">new</span> Item
         {
             Text = <span class="string">&quot;Item 2&quot;</span>,
-            Children = <span class="keyword">new</span> []
+            Children = <span class="keyword">new</span> ObservableCollection&lt;Item&gt;()
             {
                 <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.1&quot;</span> },
                 <span class="keyword">new</span> Item
                 {
                     Text = <span class="string">&quot;Item 2.2&quot;</span>,
-                    Children = <span class="keyword">new</span> []
+                    Children = <span class="keyword">new</span> ObservableCollection&lt;Item&gt;()
                     {
                         <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.1&quot;</span> },
                         <span class="keyword">new</span> Item { Text = <span class="string">&quot;Item 2.2.2&quot;</span> },
