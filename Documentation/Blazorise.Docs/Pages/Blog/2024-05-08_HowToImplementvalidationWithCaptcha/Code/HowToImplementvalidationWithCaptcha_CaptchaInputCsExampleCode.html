@@ -1,154 +1,152 @@
 <div class="blazorise-codeblock">
-<div class="html"><pre>
+<div class="csharp"><pre>
 ﻿#region Using directives
-using System;
-using System.Collections.Generic;
-using System.Diagnostics.Tracing;
-using System.Linq.Expressions;
-using System.Net.Http;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Blazorise.Captcha;
-using Blazorise.Docs.Domain;
-using Blazorise.Extensions;
-using Blazorise.Utilities;
-using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
-#endregion
+<span class="keyword">using</span> System;
+<span class="keyword">using</span> System.Collections.Generic;
+<span class="keyword">using</span> System.Diagnostics.Tracing;
+<span class="keyword">using</span> System.Linq.Expressions;
+<span class="keyword">using</span> System.Net.Http;
+<span class="keyword">using</span> System.Text.Json;
+<span class="keyword">using</span> System.Threading.Tasks;
+<span class="keyword">using</span> Blazorise.Captcha;
+<span class="keyword">using</span> Blazorise.Docs.Domain;
+<span class="keyword">using</span> Blazorise.Extensions;
+<span class="keyword">using</span> Blazorise.Utilities;
+<span class="keyword">using</span> Microsoft.AspNetCore.Components;
+<span class="keyword">using</span> Microsoft.Extensions.Options;
+<span class="keyword">using</span> Newtonsoft.Json.Linq;
+<span class="preprocessorKeyword">#endregion</span>
 
-namespace Blazorise.Docs.Pages.Home.Components;
+<span class="keyword">namespace</span> Blazorise.Docs.Pages.Home.Components;
 
-public partial class CaptchaInput : BaseInputComponent<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> CaptchaInput : BaseInputComponent&lt;<span class="keyword">bool</span>&gt;
 {
-    #region Members
+    <span class="preprocessorKeyword">#region</span> Members
 
-    public class GoogleResponse
+    <span class="keyword">public</span> <span class="keyword">class</span> GoogleResponse
     {
-        public bool Success { get; set; }
-        public double Score { get; set; } //V3 only - The score for this request (0.0 - 1.0)
-        public string Action { get; set; } //v3 only - An identifier
-        public string Challenge_ts { get; set; }
-        public string Hostname { get; set; }
-        public string ErrorCodes { get; set; }
+        <span class="keyword">public</span> <span class="keyword">bool</span> Success { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">public</span> <span class="keyword">double</span> Score { <span class="keyword">get</span>; <span class="keyword">set</span>; } <span class="comment">//V3 only - The score for this request (0.0 - 1.0)</span>
+        <span class="keyword">public</span> <span class="keyword">string</span> Action { <span class="keyword">get</span>; <span class="keyword">set</span>; } <span class="comment">//v3 only - An identifier</span>
+        <span class="keyword">public</span> <span class="keyword">string</span> Challenge_ts { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">public</span> <span class="keyword">string</span> Hostname { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        <span class="keyword">public</span> <span class="keyword">string</span> ErrorCodes { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     }
 
-    protected Captcha.Captcha captchaRef;
+    <span class="keyword">protected</span> Captcha.Captcha captchaRef;
 
-    #endregion
+    <span class="preprocessorKeyword">#endregion</span>
 
-    #region Methods
+    <span class="preprocessorKeyword">#region</span> Methods
 
-    /// <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">inheritdoc</span><span class="htmlTagDelimiter">/&gt;</span>
-    public override async Task SetParametersAsync( ParameterView parameters )
+    <span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;inheritdoc/&gt;</span>
+    <span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">async</span> Task SetParametersAsync( ParameterView parameters )
     {
-        if ( Rendered )
+        <span class="keyword">if</span> ( Rendered )
         {
-            if ( parameters.TryGetValue<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>( nameof( Value ), out var paramChecked ) &amp;&amp; !paramChecked.IsEqual( Value ) )
+            <span class="keyword">if</span> ( parameters.TryGetValue&lt;<span class="keyword">bool</span>&gt;( nameof( Value ), <span class="keyword">out</span> <span class="keyword">var</span> paramChecked ) &amp;&amp; !paramChecked.IsEqual( Value ) )
             {
                 ExecuteAfterRender( Revalidate );
             }
         }
 
-        await base.SetParametersAsync( parameters );
+        <span class="keyword">await</span> <span class="keyword">base</span>.SetParametersAsync( parameters );
 
-        if ( ParentValidation is not null )
+        <span class="keyword">if</span> ( ParentValidation <span class="keyword">is</span> not <span class="keyword">null</span> )
         {
-            if ( parameters.TryGetValue&lt;Expression&lt;Func<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>&gt;&gt;( nameof( ValueExpression ), out var expression ) )
-                await ParentValidation.InitializeInputExpression( expression );
+            <span class="keyword">if</span> ( parameters.TryGetValue&lt;Expression&lt;Func&lt;<span class="keyword">bool</span>&gt;&gt;&gt;( nameof( ValueExpression ), <span class="keyword">out</span> <span class="keyword">var</span> expression ) )
+                <span class="keyword">await</span> ParentValidation.InitializeInputExpression( expression );
 
-            await InitializeValidation();
+            <span class="keyword">await</span> InitializeValidation();
         }
 
-        if ( Rendered &amp;&amp; captchaRef.State.Valid &amp;&amp; !Value )
+        <span class="keyword">if</span> ( Rendered &amp;&amp; captchaRef.State.Valid &amp;&amp; !Value )
         {
-            await captchaRef.Reset();
+            <span class="keyword">await</span> captchaRef.Reset();
         }
     }
 
-    /// <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">inheritdoc</span><span class="htmlTagDelimiter">/&gt;</span>
-    protected override void BuildClasses( ClassBuilder builder )
+    <span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;inheritdoc/&gt;</span>
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
 
-        base.BuildClasses( builder );
+        <span class="keyword">base</span>.BuildClasses( builder );
     }
 
-    protected async Task Solved( CaptchaState state )
+    <span class="keyword">protected</span> <span class="keyword">async</span> Task Solved( CaptchaState state )
     {
-        await CurrentValueHandler( state.Valid.ToString() );
+        <span class="keyword">await</span> CurrentValueHandler( state.Valid.ToString() );
     }
 
-    protected async Task Expired()
+    <span class="keyword">protected</span> <span class="keyword">async</span> Task Expired()
     {
-        await CurrentValueHandler( false.ToString() );
+        <span class="keyword">await</span> CurrentValueHandler( <span class="keyword">false</span>.ToString() );
     }
 
-    protected async Task<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span> Validate( CaptchaState state )
+    <span class="keyword">protected</span> <span class="keyword">async</span> Task&lt;<span class="keyword">bool</span>&gt; Validate( CaptchaState state )
     {
-        //Perform server side validation
-        //You should make sure to implement server side validation
-        //https://developers.google.com/recaptcha/docs/verify
-        //Here&#39;s a simple example:
-        var content = new FormUrlEncodedContent( new[]
+        <span class="comment">//Perform server side validation</span>
+        <span class="comment">//You should make sure to implement server side validation</span>
+        <span class="comment">//https://developers.google.com/recaptcha/docs/verify</span>
+        <span class="comment">//Here&#39;s a simple example:</span>
+        <span class="keyword">var</span> content = <span class="keyword">new</span> FormUrlEncodedContent( <span class="keyword">new</span>[]
         {
-            new KeyValuePair&lt;string, string&gt;(&quot;secret&quot;, AppSettings.Value.ReCaptchaServerKey),
-            new KeyValuePair&lt;string, string&gt;(&quot;response&quot;, state.Response),
+            <span class="keyword">new</span> KeyValuePair&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;(<span class="string">&quot;secret&quot;</span>, AppSettings.Value.ReCaptchaServerKey),
+            <span class="keyword">new</span> KeyValuePair&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;(<span class="string">&quot;response&quot;</span>, state.Response),
          } );
 
-        var httpClient = HttpClientFactory.CreateClient();
-        var response = await httpClient.PostAsync( &quot;https://www.google.com/recaptcha/api/siteverify&quot;, content );
+        <span class="keyword">var</span> httpClient = HttpClientFactory.CreateClient();
+        <span class="keyword">var</span> response = <span class="keyword">await</span> httpClient.PostAsync( <span class="string">&quot;https://www.google.com/recaptcha/api/siteverify&quot;</span>, content );
 
-        var result = await response.Content.ReadAsStringAsync();
-        var googleResponse = JsonSerializer.Deserialize<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">GoogleResponse</span><span class="htmlTagDelimiter">&gt;</span>( result, new JsonSerializerOptions()
+        <span class="keyword">var</span> result = <span class="keyword">await</span> response.Content.ReadAsStringAsync();
+        <span class="keyword">var</span> googleResponse = JsonSerializer.Deserialize&lt;GoogleResponse&gt;( result, <span class="keyword">new</span> JsonSerializerOptions()
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase
         } );
 
-        return googleResponse.Success;
+        <span class="keyword">return</span> googleResponse.Success;
     }
 
-    protected override Task&lt;ParseValue<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>&gt; ParseValueFromStringAsync( string value )
+    <span class="keyword">protected</span> <span class="keyword">override</span> Task&lt;ParseValue&lt;<span class="keyword">bool</span>&gt;&gt; ParseValueFromStringAsync( <span class="keyword">string</span> value )
     {
-        return Task.FromResult( new ParseValue<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>( true, bool.Parse( value ), null ) );
+        <span class="keyword">return</span> Task.FromResult( <span class="keyword">new</span> ParseValue&lt;<span class="keyword">bool</span>&gt;( <span class="keyword">true</span>, <span class="keyword">bool</span>.Parse( value ), <span class="keyword">null</span> ) );
     }
 
-    protected override Task OnInternalValueChanged( bool value )
+    <span class="keyword">protected</span> <span class="keyword">override</span> Task OnInternalValueChanged( <span class="keyword">bool</span> value )
     {
-        return ValueChanged.InvokeAsync( value );
+        <span class="keyword">return</span> ValueChanged.InvokeAsync( value );
     }
 
-    public static void ValidateRobot( ValidatorEventArgs eventArgs )
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> ValidateRobot( ValidatorEventArgs eventArgs )
     {
-        eventArgs.Status = bool.Parse( eventArgs.Value.ToString() ) ? ValidationStatus.Success : ValidationStatus.Error;
+        eventArgs.Status = <span class="keyword">bool</span>.Parse( eventArgs.Value.ToString() ) ? ValidationStatus.Success : ValidationStatus.Error;
 
-        if ( eventArgs.Status == ValidationStatus.Error )
-            eventArgs.ErrorText = &quot;Please check to confirm you&#39;re a real human!&quot;;
-        else
-            eventArgs.ErrorText = null;
+        <span class="keyword">if</span> ( eventArgs.Status == ValidationStatus.Error )
+            eventArgs.ErrorText = <span class="string">&quot;Please check to confirm you&#39;re a real human!&quot;</span>;
+        <span class="keyword">else</span>
+            eventArgs.ErrorText = <span class="keyword">null</span>;
     }
 
-    #endregion
+    <span class="preprocessorKeyword">#endregion</span>
 
-    #region Properties
+    <span class="preprocessorKeyword">#region</span> Properties
 
-    /// <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">inheritdoc</span><span class="htmlTagDelimiter">/&gt;</span>
-    protected override bool InternalValue { get =&gt; Value; set =&gt; Value = value; }
+    <span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;inheritdoc/&gt;</span>
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">bool</span> InternalValue { <span class="keyword">get</span> =&gt; Value; <span class="keyword">set</span> =&gt; Value = value; }
 
-    [Inject] IOptions<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">AppSettings</span><span class="htmlTagDelimiter">&gt;</span> AppSettings { get; set; }
-    [Inject] IHttpClientFactory HttpClientFactory { get; set; }
+    [Inject] IOptions&lt;AppSettings&gt; AppSettings { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    [Inject] IHttpClientFactory HttpClientFactory { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-    [Parameter] public bool Value { get; set; }
-    [Parameter] public EventCallback<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span> ValueChanged { get; set; }
+    [Parameter] <span class="keyword">public</span> <span class="keyword">bool</span> Value { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    [Parameter] <span class="keyword">public</span> EventCallback&lt;<span class="keyword">bool</span>&gt; ValueChanged { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-    /// <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">summary</span><span class="htmlTagDelimiter">&gt;</span>
-    /// Gets or sets an expression that identifies the captcha valid value.
-    /// <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">summary</span><span class="htmlTagDelimiter">&gt;</span>
-    [Parameter] public Expression&lt;Func<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">bool</span><span class="htmlTagDelimiter">&gt;</span>&gt; ValueExpression { get; set; }
+    <span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;summary&gt;</span>
+    <span class="xmlDocTag">///</span><span class="xmlDocComment"> Gets or sets an expression that identifies the captcha valid value.</span>
+    <span class="xmlDocTag">///</span> <span class="xmlDocTag">&lt;/summary&gt;</span>
+    [Parameter] <span class="keyword">public</span> Expression&lt;Func&lt;<span class="keyword">bool</span>&gt;&gt; ValueExpression { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-    #endregion
-
-
+    <span class="preprocessorKeyword">#endregion</span>
 }
 </pre></div>
 </div>

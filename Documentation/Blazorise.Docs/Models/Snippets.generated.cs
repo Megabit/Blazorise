@@ -831,7 +831,7 @@ public class Gender
     // other variables
 }";
 
-        public const string HowToImplementvalidationWithCaptcha_CaptchaInputCsExample = @"﻿#region Using directives
+        public const string HowToImplementvalidationWithCaptcha_CaptchaInputCsExample = @"#region Using directives
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
@@ -978,8 +978,6 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     [Parameter] public Expression<Func<bool>> ValueExpression { get; set; }
 
     #endregion
-
-
 }";
 
         public const string HowToImplementvalidationWithCaptcha_CaptchaInputExample = @"@inherits BaseInputComponent<bool>

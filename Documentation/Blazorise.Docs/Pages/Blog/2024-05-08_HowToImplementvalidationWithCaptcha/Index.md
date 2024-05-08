@@ -3,7 +3,7 @@ title: How to implement validation with captcha
 description: Discover how to implementation validation with your Captcha component in Blazorise.
 permalink: /blog/how-to-implement-validation-with-captcha
 canonical: /blog/how-to-implement-validation-with-captcha
-image-url: /img/blog/2024-05-08/how_to_implement_validation_with_captcha.png
+image-url: /img/blog/2024-05-08/how-to-implement-validation-with-captcha.png
 image-title: How to implement validation with captcha
 author-name: David Moreira
 author-image: david
@@ -13,29 +13,26 @@ read-time: 5 min
 
 # How to implement validation with captcha
 
-With the release of [Blazorise v1.5](news/release-notes/150), we introduced a new extension, the **Captcha** component that enables you to easily implement captcha on your application which helps you protect your website from spam and abuse. 
+With the introduction of [Blazorise v1.5](news/release-notes/150), a new [CAPTCHA component](docs/extensions/captcha) has been integrated, offering an effective way to protect your applications from spam and abuse. This guide provides a step-by-step approach to integrating this CAPTCHA with Blazorise validation for enhanced security.
 
+## Setting Up CaptchaInput Component
 
-## Implementing Blazorise validation
+If you're looking to integrate your captcha component into your Blazorise form validation, you can integrate it with Blazorise validation by following these steps:
 
-If you're looking to integrate your captcha component into your form validation, you can integrate it with Blazorise validation by following these steps:
-
-- Create your **CaptchaInput** component that inherits from `BaseInputComponent<bool>` and override the required methods in order to make it work with Blazorise Validation.
+- Create your **CaptchaInput** component that inherits from `BaseInputComponent<bool>`.
+- Override the required methods in order to make it work with Blazorise Validation.
 
 Below you find a full example of the **CaptchaInput** component:
 
 ```html|CaptchaInputExample
-
 @inherits BaseInputComponent<bool>
 <div id="@ElementId" class="@ClassNames" style="@StyleNames">
     <Captcha @ref=captchaRef Solved="@Solved" Validate="@Validate" Expired="Expired" />
 </div>
 @Feedback
-
 ```
 
-```html|CaptchaInputCsExample
-
+```cs|CaptchaInputCsExample
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
@@ -183,16 +180,16 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     [Parameter] public Expression<Func<bool>> ValueExpression { get; set; }
 
     #endregion
-
-
 }
-
 ```
 
-- To use the **CaptchaInput** component, you can add it to your form like in the example below, note that we're using the **ValidateRobot** method that we've already created as part of our **CaptchaInput**.
+## Example Usage in Forms
+
+To use the **CaptchaInput** component, you can add it to your form like in the example below.
+
+Note that we're using the **ValidateRobot** method that we've already created as part of our **CaptchaInput**.
 
 ```html|CaptchaInputUsage
-
 <Validation Validator="@CaptchaInput.ValidateRobot">
     <Column ColumnSize="ColumnSize.IsHalf.OnDesktop">
         <CaptchaInput @bind-Value=NotARobot>
@@ -203,7 +200,6 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     </Column>
 </Validation>
 ```
-
 
 ## Conclusion
 
