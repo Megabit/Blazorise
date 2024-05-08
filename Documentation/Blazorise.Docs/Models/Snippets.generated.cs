@@ -9902,10 +9902,12 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         public const string TreeViewNugetInstallExample = @"Install-Package Blazorise.TreeView";
 
         public const string TreeViewObservableExample = @"@using System.Collections.ObjectModel;
+@using Blazorise.Extensions
 
 <Row>
     <Column>
         <Button Clicked=""@OnAddNodeClick"" Color=""Color.Primary"">Add node</Button>
+        <Button Clicked=""@OnRemoveNodeClick"" Color=""Color.Danger"">Remove node</Button>
     </Column>
     <Column>
         <TreeView Nodes=""Items""
@@ -9929,10 +9931,44 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         return Task.CompletedTask;
     }
 
+    private async Task OnRemoveNodeClick()
+    {
+        if ( selectedNode is null )
+            return;
+
+        await RemoveItem( selectedNode );
+    }
+
+    public Task RemoveItem( Item item )
+    {
+        SearchTryRemoveItem( Items, item );
+        return Task.CompletedTask;
+    }
+
+    private void SearchTryRemoveItem( ObservableCollection<Item> rows, Item item )
+    {
+        if ( rows.IsNullOrEmpty() )
+            return;
+
+        var nodeToRemove = rows.FirstOrDefault( x => x.Equals( item ) );
+
+        if ( nodeToRemove is not null )
+        {
+            rows.Remove( nodeToRemove );
+        }
+        else
+        {
+            foreach ( var row in rows )
+            {
+                SearchTryRemoveItem( row.Children, item );
+            }
+        }
+    }
+
     public class Item
     {
         public string Text { get; set; }
-        public IEnumerable<Item> Children { get; set; }
+        public ObservableCollection<Item> Children { get; set; }
     }
 
     ObservableCollection<Item> Items = new()
@@ -9941,13 +9977,13 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         new Item
         {
             Text = ""Item 2"",
-            Children = new []
+            Children = new ObservableCollection<Item>()
             {
                 new Item { Text = ""Item 2.1"" },
                 new Item
                 {
                     Text = ""Item 2.2"",
-                    Children = new []
+                    Children = new ObservableCollection<Item>()
                     {
                         new Item { Text = ""Item 2.2.1"" },
                         new Item { Text = ""Item 2.2.2"" },
