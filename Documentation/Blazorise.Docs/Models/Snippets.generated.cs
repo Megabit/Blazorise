@@ -9939,7 +9939,6 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         await RemoveItem( selectedNode );
     }
 
-
     public Task RemoveItem( Item item )
     {
         SearchTryRemoveItem( Items, item );
@@ -9952,6 +9951,7 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
             return;
 
         var nodeToRemove = rows.FirstOrDefault( x => x.Equals( item ) );
+
         if ( nodeToRemove is not null )
         {
             rows.Remove( nodeToRemove );

@@ -39,7 +39,6 @@
         <span class="keyword">await</span> RemoveItem( selectedNode );
     }
 
-
     <span class="keyword">public</span> Task RemoveItem( Item item )
     {
         SearchTryRemoveItem( Items, item );
@@ -52,6 +51,7 @@
             <span class="keyword">return</span>;
 
         <span class="keyword">var</span> nodeToRemove = rows.FirstOrDefault( x =&gt; x.Equals( item ) );
+
         <span class="keyword">if</span> ( nodeToRemove <span class="keyword">is</span> not <span class="keyword">null</span> )
         {
             rows.Remove( nodeToRemove );
