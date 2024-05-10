@@ -45,7 +45,12 @@ public class DataGridLocalizers
     public TextLocalizerHandler CancelButtonLocalizer { get; set; }
 
     /// <summary>
-    /// Custom localization handler for 'clear filter' button text.
+    /// Custom localization handler for 'Filter' button text.
+    /// </summary>
+    public TextLocalizerHandler FilterButtonLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for 'Clear Filter' button text.
     /// </summary>
     public TextLocalizerHandler ClearFilterButtonLocalizer { get; set; }
 
@@ -133,4 +138,24 @@ public class DataGridLocalizers
     /// Custom localization handler for FilterMethod 'Not Equals' text.
     /// </summary>
     public TextLocalizerHandler FilterMethodNotEqualsLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for FilterMethod 'Greater Than' text.
+    /// </summary>
+    public TextLocalizerHandler FilterMethodGreaterThanLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for FilterMethod 'Greater Than or Equal' text.
+    /// </summary>
+    public TextLocalizerHandler FilterMethodGreaterThanOrEqualLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for FilterMethod 'Less Than' text.
+    /// </summary>
+    public TextLocalizerHandler FilterMethodLessThanLocalizer { get; set; }
+
+    /// <summary>
+    /// Custom localization handler for FilterMethod 'Less Than or Equal' text.
+    /// </summary>
+    public TextLocalizerHandler FilterMethodLessThanOrEqualLocalizer { get; set; }
 }

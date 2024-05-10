@@ -893,6 +893,10 @@ input[readonly=readonly][type=range]::-ms-thumb {
   color: var(--b-theme-danger, #dc3545);
 }
 
+.form-group.row > label + div:has(> .flatpickr-wrapper) {
+  position: relative;
+}
+
 .jumbotron {
   padding: 2rem 1rem;
   margin-bottom: 2rem;
