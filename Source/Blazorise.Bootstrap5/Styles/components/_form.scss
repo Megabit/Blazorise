@@ -447,3 +447,12 @@ input[readonly="readonly"][type=range] {
     content: " *";
     color: var(--b-theme-danger, $danger);
 }
+
+// when flatpickr-wrapper is inside a form-group, make sure the calendar dropdown is positioned correctly
+.form-group.row {
+    > label {
+        + div:has( > .flatpickr-wrapper) {
+            position: relative;
+        }
+    }
+}
