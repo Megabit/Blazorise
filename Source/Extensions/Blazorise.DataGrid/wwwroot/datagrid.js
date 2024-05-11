@@ -2,7 +2,7 @@ import { getRequiredElement } from "../Blazorise/utilities.js?v=1.5.2.0";
 
 const QUERYSELECTOR_ALL_COLUMNS = "tbody tr td";
 const QUERYSELECTOR_ALL_TABLE_HEAD_INPUT = "tbody tr td";
-
+const TAG_NAME_TABLE = "TABLE";
 export function initialize(element, elementId) {
     element = getRequiredElement(element, elementId);
 
@@ -65,8 +65,16 @@ function keyPressPreventSubmitOnEnter(e) {
     preventSubmitOnEnter(e);
 }
 
+function findAncestorByTagName(el, tagName) {
+    while ((el = el.parentElement) && el.tagName !== tagName );
+    return el;
+}
+
 function clickCellNavigation(e) {
-    let allCells = document.querySelectorAll(QUERYSELECTOR_ALL_COLUMNS);
+
+    let element = findAncestorByTagName(e.target, TAG_NAME_TABLE);
+
+    let allCells = element.querySelectorAll(QUERYSELECTOR_ALL_COLUMNS);
     if (!allCells || allCells.length == 0) {
         return;
     }
@@ -81,6 +89,12 @@ function clickCellNavigation(e) {
     }
 }
 function KeyDownCellNavigation(e) {
+
+    let element = findAncestorByTagName(e.target, TAG_NAME_TABLE);
+
+    if (!element) {
+        return;
+    }
     const TAG_NAMES_INPUT = ["INPUT", "SELECT", "TEXTAREA"];
     const TAG_NAME_TABLE_COLUMN = "TD";
     const QUERYSELECTOR_FIRST_ROW_COLUMNS = "tbody tr:first-child td";
@@ -93,7 +107,7 @@ function KeyDownCellNavigation(e) {
     let isEnterKey = e.keyCode == 13;
 
     let focusedElement = document.activeElement;
-    let allCells = document.querySelectorAll(QUERYSELECTOR_ALL_COLUMNS);
+    let allCells = element.querySelectorAll(QUERYSELECTOR_ALL_COLUMNS);
 
     if (!allCells || allCells.length == 0) {
         return;
@@ -105,17 +119,14 @@ function KeyDownCellNavigation(e) {
     if (isInputFocused && isEnterKey) {
         focusedElement.addEventListener("blur", () => {
             window.setTimeout(() => {
-                let inputStillExists = document.body.contains(focusedElement);
+                let inputStillExists = element.contains(focusedElement);
 
                 if (!inputStillExists) {
 
-                    let tdElement = focusedElement.parentElement;
-                    while (!tdElement || tdElement.tagName !== TAG_NAME_TABLE_COLUMN) {
-                        tdElement = tdElement.parentElement;
-                    }
+                    let tdElement = findAncestorByTagName(focusedElement, TAG_NAME_TABLE_COLUMN);
 
                     let index = [].indexOf.call(allCells, tdElement);
-                    let toFocus = document.querySelectorAll(QUERYSELECTOR_ALL_COLUMNS)[index - 1];
+                    let toFocus = element.querySelectorAll(QUERYSELECTOR_ALL_COLUMNS)[index - 1];
                     if (toFocus && toFocus.getAttribute("tabindex") == 0) {
                         toFocus.focus();
                         return;
@@ -159,7 +170,7 @@ function KeyDownCellNavigation(e) {
     }
 
     if (isUp) {
-        let rowCount = document.querySelectorAll(QUERYSELECTOR_FIRST_ROW_COLUMNS).length;
+        let rowCount = element.querySelectorAll(QUERYSELECTOR_FIRST_ROW_COLUMNS).length;
         let toFocus = allCells[index - rowCount];
         if (toFocus && toFocus.getAttribute("tabindex") == 0) {
             toFocus.focus();
@@ -182,7 +193,7 @@ function KeyDownCellNavigation(e) {
     }
 
     if (isDown) {
-        let rowCount = document.querySelectorAll(QUERYSELECTOR_FIRST_ROW_COLUMNS).length;
+        let rowCount = element.querySelectorAll(QUERYSELECTOR_FIRST_ROW_COLUMNS).length;
         let toFocus = allCells[index + rowCount];
         if (toFocus && toFocus.getAttribute("tabindex") == 0) {
             toFocus.focus();

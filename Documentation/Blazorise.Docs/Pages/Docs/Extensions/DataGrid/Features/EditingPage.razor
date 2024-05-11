@@ -45,6 +45,26 @@
     <DocsPageSectionSource Code="DataGridEditModeExample" />
 </DocsPageSection>
 
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Rapid Editing">
+        <Paragraph>
+            For a rapid editing experience, similar to how an excel document works, we recommend enabling <Code>CellNavigable</Code> and <Code>DataGridEditMode.Cell</Code>
+        </Paragraph>
+        <Paragraph>
+            This allows to use the arrow keys to navigate between cells and edit them directly by pressing the Enter key.
+        </Paragraph>
+        <Paragraph>
+            It is also of note that you can use the <Code>DataGridEditModeOptions</Code> to further configure how the feature will work.
+            For instance, in the following example we’re using the <Code>CellEditOnSingleClick</Code> and <Code>CellEditOnDoubleClick</Code> options to disable the cell editing on single click and double click.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth Outlined>
+        <DataGridRapidEditExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridRapidEditExample" />
+</DocsPageSection>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="Batch Edit">
         <Paragraph>
