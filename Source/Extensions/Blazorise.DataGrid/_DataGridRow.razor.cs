@@ -148,6 +148,19 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         }
     }
 
+    protected async Task HandleCellKeyDown( KeyboardEventArgs args, DataGridColumn<TItem> column )
+    {
+        if ( !ParentDataGrid.IsCellEdit )
+            return;
+
+        
+        if ( args.Code == "Enter" || args.Code == "NumpadEnter" )
+        {
+            await ParentDataGrid.HandleCellEdit( column, GetCurrentItem() );
+            return;
+        }
+    }
+
     protected bool BindMouseLeave()
         => ParentDataGrid.RowMouseLeave.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
 

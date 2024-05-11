@@ -130,7 +130,8 @@ else if ( EditMode == DataGridEditMode.Inline || EditMode == DataGridEditMode.Ce
                 {
                     <TableRowCell @key=column Class="@column.CellClass?.Invoke(Item)" Style="@column.BuildCellStyle(Item)"
                                   @onkeydown="@(ParentDataGrid.IsCellEdit ? async (args) =>  await HandleCellKeyDown(args, column) : default)"
-                                  @onclick=@(ParentDataGrid.IsCellEdit && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
+                                  @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
+                                  @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && !column.CellValueIsEditable ? async () => await HandleCellClick(column) : default)
                                   TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()">
                         @if ( column.CellValueIsEditable )
                         {

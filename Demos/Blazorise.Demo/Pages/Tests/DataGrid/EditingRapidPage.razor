@@ -24,12 +24,14 @@
                           Responsive
                           ShowPager
                           ShowPageSizes
-                           @bind-SelectedRow="@selectedEmployee"
+                          @bind-SelectedRow="@selectedEmployee"
                           Editable
-                           EditMode="@DataGridEditMode.Cell"
+                          EditMode="@DataGridEditMode.Cell"
                           UseValidation
-                           ValidationsSummaryLabel="The following validation errors have occurred..."
-                          ShowValidationsSummary>
+                          ValidationsSummaryLabel="The following validation errors have occurred..."
+                          ShowValidationsSummary
+                          CellNavigable
+                          >
                     <DataGridColumns>
                         @if ( showCommandColumn )
                         {

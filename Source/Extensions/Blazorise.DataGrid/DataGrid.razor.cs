@@ -494,6 +494,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             IsClientMacintoshOS = await IsUserAgentMacintoshOS();
             await JSModule.Initialize( tableRef.ElementRef, ElementId );
+            if ( CellNavigable )
+            {
+                await JSModule.InitializeTableCellNavigation( tableRef.ElementRef, ElementId );
+            }
+
             paginationContext.SubscribeOnPageSizeChanged( OnPageSizeChanged );
             paginationContext.SubscribeOnPageChanged( OnPageChanged );
 
@@ -554,7 +559,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     }
 
     /// <inheritdoc/>
-    protected override ValueTask DisposeAsync( bool disposing )
+    protected override async ValueTask DisposeAsync( bool disposing )
     {
         if ( disposing )
         {
@@ -578,9 +583,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             filterCancellationTokenSource?.Dispose();
             filterCancellationTokenSource = null;
+
+            if ( tableRef is not null )
+            {
+                await JSModule.Destroy( tableRef.ElementRef, ElementId );
+            }
         }
 
-        return base.DisposeAsync( disposing );
+        await base.DisposeAsync( disposing );
     }
 
     /// <summary>
@@ -2564,6 +2574,18 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Inject] internal IServiceProvider ServiceProvider { get; set; }
 
     /// <summary>
+    /// Whether the cell enters edit mode on single click.
+    /// </summary>
+    internal bool IsCellEditOnSingleClick
+        => IsCellEdit && ( DataGridEditModeOptions?.CellEditOnSingleClick ?? false );
+
+    /// <summary>
+    /// Whether the cell enters edit mode on double click.
+    /// </summary>
+    internal bool IsCellEditOnDoubleClick
+        => IsCellEdit && ( DataGridEditModeOptions?.CellEditOnDoubleClick ?? true );
+
+    /// <summary>
     /// Makes sure the DataGrid has columns defined as groupable.
     /// </summary>
     /// <returns></returns>
@@ -3681,6 +3703,16 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <para>Defaults to true.</para>
     /// </summary>
     [Parameter] public bool AutoGenerateColumns { get; set; } = true;
+
+    /// <summary>
+    /// Gets or sets DataGridEditMode options.
+    /// </summary>
+    [Parameter] public DataGridEditModeOptions DataGridEditModeOptions { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the Datagrid is Cell Navigable, users will be able to navigate the Grid cells by pressing the Keyboard's ArrowLeft, ArrowUp, ArrowRight and ArrowDown keys.
+    /// </summary>
+    [Parameter] public bool CellNavigable { get; set; }
 
     #endregion
 }

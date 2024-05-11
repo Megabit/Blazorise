@@ -32,6 +32,22 @@ public class JSDataGridModule : BaseJSModule
         await moduleInstance.InvokeVoidAsync( "initialize", elementRef, elementId );
     }
 
+    /// <inheritdoc/>
+    public virtual async ValueTask Destroy( ElementReference elementRef, string elementId )
+    {
+        if ( IsUnsafe )
+            return;
+
+        await InvokeSafeVoidAsync( "destroy", elementRef, elementId );
+    }
+
+    public virtual async ValueTask InitializeTableCellNavigation( ElementReference elementRef, string elementId )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "initializeTableCellNavigation", elementRef, elementId );
+    }
+
 
     public virtual async ValueTask<int> ScrollTo( ElementReference elementRef, string classname )
     {

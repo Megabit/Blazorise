@@ -27,3 +27,8 @@ thead {
         position: relative;
     }
 }
+
+
+td:focus {
+    outline: -webkit-focus-ring-color auto 1px;
+}
