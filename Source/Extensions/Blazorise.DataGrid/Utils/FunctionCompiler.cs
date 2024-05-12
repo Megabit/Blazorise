@@ -186,11 +186,11 @@ public static class FunctionCompiler
         return Expression.Lambda<Func<TItem, object>>( Expression.Convert( property, typeof( object ) ), item ).Compile();
     }
 
-    public static Func<Type> CreateValueTypeGetter<TItem>( string fieldName )
+    public static Func<TItem, Type> CreateValueTypeGetter<TItem>( string fieldName )
     {
-        var item = Expression.Parameter( typeof( TItem ) );
+        var item = Expression.Parameter( typeof( TItem ), "item" );
         var property = GetField( item, fieldName );
-        return Expression.Lambda<Func<Type>>( Expression.Constant( property.Type ) ).Compile();
+        return Expression.Lambda<Func<TItem, Type>>( Expression.Constant( property.Type ), item ).Compile();
     }
 
     public static Func<object> CreateDefaultValueByType<TItem>( string fieldName )

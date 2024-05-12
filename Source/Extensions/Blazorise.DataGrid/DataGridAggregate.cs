@@ -31,7 +31,7 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
         if ( Data == null )
             return 0;
 
-        if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
+        if ( !ValidNumericTypes.Contains( column.GetValueType(default ) ) )
             return 0;
 
         return ( from item in Data
@@ -47,7 +47,7 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
         if ( Data == null )
             return 0;
 
-        if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
+        if ( !ValidNumericTypes.Contains( column.GetValueType( default ) ) )
             return 0;
 
         return ( from item in Data
@@ -63,7 +63,7 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
         if ( Data == null )
             return 0;
 
-        if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
+        if ( !ValidNumericTypes.Contains( column.GetValueType( default ) ) )
             return 0;
 
         return ( from item in Data
@@ -79,7 +79,7 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
         if ( Data == null )
             return 0;
 
-        if ( !ValidNumericTypes.Contains( column.GetValueType() ) )
+        if ( !ValidNumericTypes.Contains( column.GetValueType( default ) ) )
             return 0;
 
         return ( from item in Data
@@ -106,7 +106,7 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
         if ( Data == null )
             return 0;
 
-        if ( !ValidBooleanTypes.Contains( column.GetValueType() ) )
+        if ( !ValidBooleanTypes.Contains( column.GetValueType( default ) ) )
             return 0;
 
         return ( from item in Data
@@ -123,7 +123,7 @@ public class DataGridAggregate<TItem> : BaseDataGridComponent
         if ( Data == null )
             return 0;
 
-        if ( !ValidBooleanTypes.Contains( column.GetValueType() ) )
+        if ( !ValidBooleanTypes.Contains( column.GetValueType( default ) ) )
             return 0;
 
         return ( from item in Data

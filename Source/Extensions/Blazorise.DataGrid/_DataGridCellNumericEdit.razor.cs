@@ -23,7 +23,7 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
-        valueType = Column.GetValueType();
+        valueType = Column.GetValueType(default);
         elementId = IdGenerator.Generate;
         base.OnInitialized();
     }
