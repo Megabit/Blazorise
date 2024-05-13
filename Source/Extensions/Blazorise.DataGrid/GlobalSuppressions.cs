@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage( "Usage", "BL0005:Component parameter should not be set outside of its component.", Justification = "Internal setting, not critical.", Scope = "member", Target = "~M:Blazorise.DataGrid.DataGrid`1.AutoGenerateColumns" )]
+[assembly: SuppressMessage( "Usage", "BL0005:Component parameter should not be set outside of its component.", Justification = "Internal setting, not critical.", Scope = "member", Target = "~M:Blazorise.DataGrid.DataGrid`1.AutomaticallyGenerateColumns" )]

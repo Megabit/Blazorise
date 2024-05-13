@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data.Common;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -518,19 +520,65 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private void AutomaticallyGenerateColumns()
     {
-        var properties = ReflectionHelper.GetPublicProperties<TItem>();
-        foreach ( var property in properties )
+        if ( IsDynamicItem )
         {
-            if ( !( property.PropertyType.IsValueType || property.PropertyType == typeof( string ) ) )
+                var item = Data.IsNullOrEmpty() 
+                    ? NewItemCreator is not null
+                        ? NewItemCreator.Invoke()
+                        : default
+                    : Data.FirstOrDefault();
+
+            if ( item is ExpandoObject expando )
+            {
+                foreach ( var expandoKeyValue in ( expando as IDictionary<string, object> ) )
+                {
+                    var type = expandoKeyValue.Value?.GetType();
+                    if ( !IsValidColumnType( type ) )
+                    { 
+                        continue;
+                    }
+
+                    DataGridColumn<TItem> column = GetColumnByType( type );
+
+                    column.Editable = true;
+                    column.Caption = expandoKeyValue.Key;
+                    column.Field = expandoKeyValue.Key;
+                    this.AddColumn( column );
+                } 
+            }
+
+            StateHasChanged();
+            return;
+        }
+
+        foreach ( var property in ReflectionHelper.GetPublicProperties<TItem>() )
+        {
+            if ( !IsValidColumnType( property.PropertyType ) )
             {
                 continue;
             }
 
+            DataGridColumn<TItem> column = GetColumnByType(property.PropertyType);
+
+            column.Editable = property.SetMethod is not null;
+            column.Caption = ReflectionHelper.ResolveCaption( property );
+            column.Field = property.Name;
+            this.AddColumn( column );
+        }
+
+        bool IsValidColumnType(Type type )
+        {
+            return ( type.IsValueType || type == typeof( string ) );
+        }
+
+        DataGridColumn<TItem> GetColumnByType(Type type)
+        {
+
             DataGridColumn<TItem> column;
 
-            if ( property.PropertyType.IsEnum )
+            if ( type.IsEnum )
             {
-                var enumValues = Enum.GetValues( property.PropertyType ).Cast<object>();
+                var enumValues = Enum.GetValues( type ).Cast<object>();
 
                 column = new DataGridSelectColumn<TItem>()
                 {
@@ -543,13 +591,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 column = new DataGridColumn<TItem>();
             }
-
-            column.Editable = property.SetMethod is not null;
-            column.Caption = ReflectionHelper.ResolveCaption( property );
-            column.Field = property.Name;
-            this.AddColumn( column );
+            return column;
         }
-
+        
         StateHasChanged();
     }
 
@@ -2562,6 +2606,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets The service provider.
     /// </summary>
     [Inject] internal IServiceProvider ServiceProvider { get; set; }
+
+    /// <summary>
+    /// Whether the TIem is a dynamic item.
+    /// </summary>
+    internal bool IsDynamicItem 
+        => typeof( TItem ) == typeof( ExpandoObject );
 
     /// <summary>
     /// Makes sure the DataGrid has columns defined as groupable.

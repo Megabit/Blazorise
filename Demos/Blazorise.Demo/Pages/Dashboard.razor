@@ -11,6 +11,16 @@
                   Editable
                   EditMode="DataGridEditMode.Inline"
         NewItemCreator="NewItemCreator">
+            <DataGridAggregates>
+                <DataGridAggregate Field="@nameof( Employee.Email )" Aggregate="DataGridAggregateType.Count">
+                    <DisplayTemplate>
+                        @($"Total emails: {context.Value}")
+                    </DisplayTemplate>
+                </DataGridAggregate>
+                <DataGridAggregate Field="@nameof( Employee.Salary )" Aggregate="DataGridAggregateType.Sum" DisplayFormat="{0:C}" DisplayFormatProvider="@System.Globalization.CultureInfo.GetCultureInfo("fr-FR")" />
+                <DataGridAggregate Field="@nameof( Employee.IsActive )" Aggregate="DataGridAggregateType.TrueCount" />
+                <DataGridAggregate Field="@nameof( Employee.Childrens )" Aggregate="DataGridAggregateType.Sum" />
+            </DataGridAggregates>
             <DataGridColumns>
                 <DataGridCommandColumn></DataGridCommandColumn>
                 <DataGridColumn Editable TextAlignment="TextAlignment.Center" Field="@nameof( Employee.Id )" Caption="#" Width="60px" />
@@ -35,6 +45,24 @@
                         <Check TValue="bool" Checked='(context as dynamic).IsActive' Disabled ReadOnly />
                     </DisplayTemplate>
                 </DataGridCheckColumn>
+            </DataGridColumns>
+        </DataGrid>
+    </Column>
+</Row>
+
+<Row>
+    Auto Generate Columns
+    <Column>
+        <DataGrid TItem="ExpandoObject"
+                  Data="inMemoryData"
+                  Responsive
+                  ShowPager
+                  ShowPageSizes
+                  Editable
+                  EditMode="DataGridEditMode.Inline"
+                  NewItemCreator="NewItemCreator">
+            <DataGridColumns>
+
             </DataGridColumns>
         </DataGrid>
     </Column>
