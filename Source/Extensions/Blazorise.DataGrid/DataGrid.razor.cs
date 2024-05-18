@@ -518,10 +518,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private void AutomaticallyGenerateColumns()
     {
-        var properties = ReflectionHelper.GetPublicProperties<TItem>();
-        foreach ( var property in properties )
+        foreach ( var property in ReflectionHelper.GetPublicProperties<TItem>() )
         {
             if ( !( property.PropertyType.IsValueType || property.PropertyType == typeof( string ) ) )
+            {
+                continue;
+            }
+            
+            if (ReflectionHelper.ResolveIsIgnore( property ) )
             {
                 continue;
             }
@@ -539,11 +543,24 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     ValueField = x => x,
                 };
             }
-            else
+            else if ( ReflectionHelper.ResolveNumeric( property ) is NumericAttribute numeric )
+            {
+                var numericColumn = new DataGridNumericColumn<TItem>();
+                numericColumn.Step = numeric.Step;
+                numericColumn.Decimals = numeric.Decimals;
+                numericColumn.DecimalSeparator = numeric.DecimalSeparator;
+                numericColumn.Culture = numeric.Culture;
+                numericColumn.ShowStepButtons = numeric.ShowStepButtons;
+                numericColumn.EnableStep = numeric.EnableStep;
+                column = numericColumn;
+            }
+            else 
             {
                 column = new DataGridColumn<TItem>();
             }
 
+            column.DisplayOrder = ReflectionHelper.ResolveDisplayOrder( property );
+            column.EditOrder = ReflectionHelper.ResolveEditOrder( property );
             column.Editable = property.SetMethod is not null;
             column.Caption = ReflectionHelper.ResolveCaption( property );
             column.Field = property.Name;
