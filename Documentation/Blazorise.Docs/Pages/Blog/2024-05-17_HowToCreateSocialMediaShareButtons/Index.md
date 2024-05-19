@@ -22,6 +22,7 @@ way to spread the word about your awesome content. It's easier than you think, t
 ## Let's dive in and jazz up your app with these fantastic buttons.
 
 ## Install Blazorise
+
 ```bash
 Install-Package Blazorise.Bootstrap
 Install-Package Blazorise.Icons.FontAwesome
@@ -31,6 +32,7 @@ Alternatively you can use your favorite IDE's nuget package manager and add the 
 ---
 
 ## Add Static Files
+
 ```html
 <html>
 <head>
@@ -47,6 +49,7 @@ Alternatively you can use your favorite IDE's nuget package manager and add the 
 ---
 
 ## Add Imports inside `_Imports.razor`
+
 ```html
 @using Blazorise
 ```
@@ -54,6 +57,7 @@ Alternatively you can use your favorite IDE's nuget package manager and add the 
 ---
 
 ## Register Services
+
 ```cs
 using Blazorise;
 using Blazorise.Bootstrap;
@@ -68,6 +72,7 @@ builder.Services
 ---
 
 ## Create the ShareButton component
+
 ```jsx
 <Button TextColor="@TextColor" Background="@(new Background(BackgroundColor))" To="@To" 
         Type="@ButtonType.Link" Size="Size.Large" @attributes="@AdditionalAttributes">
@@ -124,6 +129,7 @@ Here is a breakdown of what each one does:
 
 ## Define the brand colors in `wwwroot/brands.css`
 Here are some colors, you may expand this further as you need
+
 ```css
 .bg-snapchat {
   background-color: #FFFC00 !important;
@@ -145,6 +151,7 @@ Here are some colors, you may expand this further as you need
 ---
 
 ## Include the `brands.css` in your app
+
 ```html
 <html>
 <head>
