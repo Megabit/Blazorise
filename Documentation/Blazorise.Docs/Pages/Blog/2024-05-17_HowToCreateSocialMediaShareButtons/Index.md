@@ -74,7 +74,7 @@ using Blazorise.Icons.FontAwesome;
 
 and somewhere inside the file, register Blazorise's services like so:
 
-```cs|
+```cs|ServiceRegistration
 builder.Services
     .AddBlazorise()
     .AddBootstrapProviders()
