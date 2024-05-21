@@ -1,0 +1,20 @@
+@code 
+{
+  [Parameter]
+  public string TextColor { get; set; }
+
+  [Parameter]
+  public string BackgroundColor { get; set; }
+
+  [Parameter]
+  public string IconName { get; set; }
+
+  [Parameter, EditorRequired]
+  public string To { get; set; }
+
+  [Parameter, EditorRequired]
+  public RenderFragment ChildContent { get; set; }
+
+  [Parameter(CaptureUnmatchedValues = true)]
+  public Dictionary<string, object> AdditionalAttributes { get; set; } = [];
+}
