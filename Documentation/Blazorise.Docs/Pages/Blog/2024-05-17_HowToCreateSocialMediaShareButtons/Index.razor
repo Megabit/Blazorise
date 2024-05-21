@@ -1,15 +1,15 @@
-@page "/blog/how-to-create-social-media-share-button"
+@page "/blog/how-to-create-social-media-share-buttons"
 
-<Seo Canonical="/blog/how-to-create-social-media-share-button" Title="How to create social media share buttons" Description="Discover how to create share buttons for your Blazor app!" ImageUrl="/img/blog/2024-05-17/how-to-create-social-media-share-buttons.png" />
+<Seo Canonical="/blog/how-to-create-social-media-share-buttons" Title="How to create social media share buttons" Description="Discover how to create share buttons for your Blazor app!" ImageUrl="/img/blog/2024-05-17/how-to-create-social-media-share-buttons.png" />
 
-<BlogPageImage Source="/img/blog/2024-05-17/how-to-create-social-media-share-buttons.png" Text="How to create social media share buttons" />
+<BlogPageImage Source="/img/blog/2024-05-17/how-to-create-social-media-share-buttons.png" Text="How to create social media share buttons with Blazorise" />
 
 <BlogPageTitle>
-    How to create a ShareButton component with <Anchor To="https://blazorise.com/" Title="Link to Blazorise">Blazorise</Anchor>!
+    How to create a ShareButton component with Blazorise!
 </BlogPageTitle>
 
 <BlogPageParagraph>
-    Are you ready to sprinkle some Blazorise magic into your Blazor app?Markdig.Syntax.Inlines.HtmlInlineMarkdig.Syntax.Inlines.LineBreakInlineAdding share buttons for social media platforms can give your users an easyMarkdig.Syntax.Inlines.HtmlInlineMarkdig.Syntax.Inlines.LineBreakInlineway to spread the word about your awesome content. It's easier than you think, thanks to Blazorise!Markdig.Syntax.Inlines.HtmlInline
+    Are you ready to sprinkle some Blazorise magic into your Blazor app? Adding share buttons for social media platforms can give your users an easy way to spread the word about your awesome content. It's easier than you think, thanks to Blazorise!
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
@@ -17,35 +17,62 @@
 </BlogPageSubtitle>
 
 <BlogPageSubtitle>
-    Install Blazorise
+    Installing Blazorise
 </BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Run the following commands in your terminal to add Blazorise as a dependency to your Blazor app.
+</BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_InstallBlazorise" />
 
 <BlogPageParagraph>
-    Alternatively you can use your favorite IDE's nuget package manager and add the packages manually!
+    Alternatively you can use your favorite IDE's nuget package manager and add the packages automatically!
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
-    Add Static Files
+    Adding static files in <Code>wwwroot/index.html</Code>
 </BlogPageSubtitle>
 
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_HeadContent" />
 
+<BlogPageParagraph>
+    We can see that we are adding a few links to our head tag, let's break them down:
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        The first link, adds a link to BootstrapCSS, this is required in order for our buttons to work! as we are using Bootstrap for this tutorial.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        The rest of the links, add Blazorise's dependencies to the web app. This is also very important!
+    </BlogPageListItem>
+</BlogPageList>
+
 <BlogPageSubtitle>
-    Add Imports inside <Code>_Imports.razor</Code>
+    Adding Imports inside of the <Code>_Imports.razor</Code>
 </BlogPageSubtitle>
 
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_UsingStatement" />
 
 <BlogPageSubtitle>
-    Register Services
+    Registering services
 </BlogPageSubtitle>
 
-<BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_ServiceRegistration" />
+<BlogPageParagraph>
+    Add the following line at the top of your <Code>Program.cs</Code> file:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_ProgramCsUsingStatements" />
+
+<BlogPageParagraph>
+    and somewhere inside the file, register Blazorise's services like so:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_" />
 
 <BlogPageSubtitle>
-    Create the ShareButton component
+    Creating the ShareButton component
 </BlogPageSubtitle>
 
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_ShareButtonComponentMarkup" />
@@ -61,12 +88,12 @@
 </Heading>
 
 <BlogPageParagraph>
-    First thing's first, we have the Button component, notice that it is typed as Markdig.Syntax.Inlines.HtmlEntityInline<Strong>B</Strong>uttonMarkdig.Syntax.Inlines.HtmlEntityInline and not Markdig.Syntax.Inlines.HtmlEntityInlinebuttonMarkdig.Syntax.Inlines.HtmlEntityInline,Markdig.Syntax.Inlines.LineBreakInlinethat is because it is not an ordinary HTML button, it is a Blazorise button component! This means it can take parameters,Markdig.Syntax.Inlines.LineBreakInlineto allow us to customize it further!
+    First thing's first, we have the Button component, notice that it is typed as <Strong>B</Strong>utton and not button that is because it is not an ordinary HTML button, it is a Blazorise button component! This means it can take parameters, to allow us to customize it further!
 </BlogPageParagraph>
 
 <BlogPageParagraph>
     <Blockquote>
-        INFO: Just like other Blazorise components, this button is framework agnostic, meaning you may use Bootstrap,Markdig.Syntax.Inlines.LineBreakInlineTailwindCSS, or Material.
+        Just like other Blazorise components, this button is framework-agnostic, meaning you may use Bootstrap, TailwindCSS, or any other supported frameworks!
     </Blockquote>
 </BlogPageParagraph>
 
@@ -90,16 +117,16 @@
         <Code>BackgroundColor</Code> - The button's background color, we will define custom brand colors soon.
     </BlogPageListItem>
     <BlogPageListItem>
-        <Code>IconName</Code> - The name of the icon displayed on the button, in this case we are using <Anchor To="https://fontawesome.com/" Title="Link to FontAwesome">FontAwesome</Anchor>
+        <Code>IconName</Code> - The name of the icon displayed on the button, in this case we are using <Anchor To="https://fontawesome.com/" Title="Link to FontAwesome">FontAwesome</Anchor>.
     </BlogPageListItem>
     <BlogPageListItem>
-        <Code>To</Code> - The link where the user is navigated to, same as the <Code>href</Code> attribute on a regular link
+        <Code>To</Code> - The link where the user is navigated to, will bind to the <Code>href</Code> attribute on a regular link.
     </BlogPageListItem>
     <BlogPageListItem>
-        <Code>ChildContent</Code> - The markup displayed inside the button. See <Anchor To="https://blazor-university.com/templating-components-with-renderfragements/" Title="Link to blazor-university">blazor-university</Anchor>
+        <Code>ChildContent</Code> - The markup displayed inside the button. See <Anchor To="https://blazor-university.com/templating-components-with-renderfragements/" Title="Link to blazor-university">blazor-university</Anchor>.
     </BlogPageListItem>
     <BlogPageListItem>
-        <Code>AdditionalAttributes</Code> - Any additional attributes the user passes to the button. Will directly be applied to the underlying button component. See <Anchor To="https://blazor-university.com/components/capturing-unexpected-parameters/" Title="Link to blazor-university">blazor-university</Anchor>
+        <Code>AdditionalAttributes</Code> - Any additional attributes the user passes to the button. Will directly be applied to the underlying button component. See <Anchor To="https://blazor-university.com/components/capturing-unexpected-parameters/" Title="Link to blazor-university">blazor-university</Anchor>.
     </BlogPageListItem>
 </BlogPageList>
 
@@ -115,7 +142,7 @@
 
 <BlogPageParagraph>
     <Blockquote>
-        NOTE: the <Code>!important</Code> property, this is necessary as, by default the Bootstrap icons will have the <Code>Color</Code> propertyMarkdig.Syntax.Inlines.LineBreakInlineset to primary, this will shadow our custom background colors, so adding <Code>!important</Code> at the end of them will fix this
+        The <Code>!important</Code> property, this is necessary as, by default the Bootstrap icons will have the <Code>Color</Code> property set to <Code>primary</Code>, this will shadow our custom background colors, so adding <Code>!important</Code> at the end of them will fix this.
     </Blockquote>
 </BlogPageParagraph>
 
@@ -126,33 +153,43 @@
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_IndexhtmlHeadSection" />
 
 <BlogPageSubtitle>
-    Create the ShareButtons!
+    Using the ShareButtons!
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    Inside your page, add the freshly created icon
+    Inside your page, add the freshly created buttons
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_ShareButtonUsage" />
 
 <BlogPageParagraph>
     <Blockquote>
-        NOTE notice how the <Code>BackgroundColor</Code> is assigned <Code>"github"</Code> and not <Code>"bg-github"</Code>, this is because Blazorise insertsMarkdig.Syntax.Inlines.LineBreakInlinethe <Code>bg-</Code> prefix automatically for us. This is happening because for normal components, we would have Bootstrap colorsMarkdig.Syntax.Inlines.LineBreakInlineso if we passed <Code>"primary"</Code> to the <Code>BackgroundColor</Code>, we would get <Code>bg-primary</Code>.
+        Notice how the <Code>BackgroundColor</Code> is assigned <Code>"x"</Code> and not <Code>"bg-x"</Code>, this is because Blazorise inserts the <Code>bg-</Code> prefix automatically for us. This is happening because for normal components, we would have Bootstrap colors so if we passed <Code>"primary"</Code> to the <Code>BackgroundColor</Code>, we would get <Code>bg-primary</Code>.
+    </Blockquote>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    <Blockquote>
+        Also notice how the text inside the button says <Code>Share on</Code> instead of <Code>Share on X</Code>, this is because X's logo is the letter X, so it would not make sense, so have X twice!
     </Blockquote>
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
-    Congratulations! You can now create ShareButtons in your Blazor Application.
+    Congratulations! You can now create ShareButtons in your web application!
 </BlogPageSubtitle>
 
-<BlogPageImageModal ImageSource="https://gist.github.com/assets/57017344/9c5f2314-dc46-42ef-b629-1067a950f9bb" ImageTitle="image" />
+<BlogPageImageModal ImageSource="img/blog/2024-05-17/share-buttons.png" ImageTitle="Share buttons" />
 
 <BlogPageParagraph>
-    Sharing your content with the world is important,Markdig.Syntax.Inlines.LineBreakInlineit allows your users to show their friends what your page is all about!Markdig.Syntax.Inlines.LineBreakInlineBlazorise makes it easy to develop framework-agnostic UI quickly.
+    Sharing your content with the world is important, it allows your users to show their friends what your page is all about!
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Thanks for reading this blog 💗
+    Blazorise makes it easy to develop framework-agnostic UI quickly.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Thanks for reading! 💗
 </BlogPageParagraph>
 
 <BlogPagePostInto UserName="Giorgi" ImageName="giorgi" PostedOn="May 21st, 2024" Read="5 min" />
