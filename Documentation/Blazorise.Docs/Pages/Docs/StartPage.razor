@@ -11,8 +11,8 @@
 </DocsPageLead>
 
 <DocsPageParagraph>
-    Blazorise is designed to work with different CSS frameworks. Each of the supported CSS framework is defined
-    by a different NuGet package. Please see the <Blazorise.Link To="docs/usage">usage page</Blazorise.Link>
+    Blazorise is designed to work independently of CSS frameworks. Each of the supported CSS framework is defined
+    by a different NuGet package for Blazorise. Please see the <Blazorise.Link To="docs/usage">integration guide</Blazorise.Link>
     to find a list of supported frameworks and how to use them.
 </DocsPageParagraph>
 
@@ -46,27 +46,45 @@
 
 <DocsPageSection>
     <DocsPageSectionHeader>
-        First step is to install a Bootstrap provider for Blazorise:
+        First step is to install a <Anchor To="https://getbootstrap.com/" Title="Link to Bootstrap 5">Bootstrap 5</Anchor> provider for Blazorise:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="BootstrapGuideNuget1Example" />
+    <DocsPageSectionSource Code="Bootstrap5GuideNuget1Example" />
 </DocsPageSection>
 
 <DocsPageSection>
     <DocsPageSectionHeader>
         You also need to install the icon package:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="BootstrapGuideNuget2Example" />
+    <DocsPageSectionSource Code="Bootstrap5GuideNuget2Example" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
     Add Static Files
 </DocsPageSubtitle>
 
+<DocsPageParagraph>
+    Modify your project's HTML template to include the necessary CSS files. The files you add depend on whether you're working with a WebAssembly or Server project:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <DocsPageUnorderedList>
+        <DocsPageUnorderedListItem>
+            For <Strong>WebAssembly</Strong>, update <Strong>index.html</Strong>.
+        </DocsPageUnorderedListItem>
+        <DocsPageUnorderedListItem>
+            For <Strong>Server</Strong>, update <Strong>_Layout.cshtml</Strong> or <Strong>_Host.cshtml</Strong>.
+        </DocsPageUnorderedListItem>
+        <DocsPageUnorderedListItem>
+            For <Strong>.NET 8</Strong>, update <Strong>App.razor</Strong>.
+        </DocsPageUnorderedListItem>
+    </DocsPageUnorderedList>
+</DocsPageParagraph>
+
 <DocsPageSection>
     <DocsPageSectionHeader>
-        The next step is to change your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file and include the CSS and JS source files:
+        Add these lines inside the <Code Tag>head</Code> section:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="BootstrapGuideSourceFilesExample" />
+    <DocsPageSectionSource Code="Bootstrap5GuideSourceFilesExample" />
 </DocsPageSection>
 
 <Alert Color="Color.Info" Visible>
@@ -86,7 +104,7 @@
     <DocsPageSectionHeader>
         In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="BootstrapGuideUsingExample" />
+    <DocsPageSectionSource Code="Bootstrap5GuideUsingExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
@@ -97,7 +115,7 @@
     <DocsPageSectionHeader>
         Add the following lines to the relevant sections of <Code>Program.cs</Code>.
     </DocsPageSectionHeader>
-    <DocsPageSectionSource Code="BootstrapGuideRegistrationExample" />
+    <DocsPageSectionSource Code="Bootstrap5GuideRegistrationExample" />
 </DocsPageSection>
 
 <DocsPageSubtitle>
