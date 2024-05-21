@@ -7,7 +7,7 @@ image-url: /img/blog/2024-05-17/how-to-create-social-media-share-buttons.png
 image-title: How to create social media share buttons
 author-name: Giorgi
 author-image: giorgi
-posted-on: May 17th, 2024
+posted-on: May 21st, 2024
 read-time: 5 min
 ---
 
@@ -23,7 +23,7 @@ way to spread the word about your awesome content. It's easier than you think, t
 
 ## Install Blazorise
 
-```bash
+```bash|InstallBlazorise
 Install-Package Blazorise.Bootstrap
 Install-Package Blazorise.Icons.FontAwesome
 ```
@@ -33,7 +33,7 @@ Alternatively you can use your favorite IDE's nuget package manager and add the 
 
 ## Add Static Files
 
-```html
+```html|HeadContent
 <html>
 <head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" 
@@ -50,7 +50,7 @@ Alternatively you can use your favorite IDE's nuget package manager and add the 
 
 ## Add Imports inside `_Imports.razor`
 
-```html
+```html|UsingStatement
 @using Blazorise
 ```
 
@@ -58,7 +58,7 @@ Alternatively you can use your favorite IDE's nuget package manager and add the 
 
 ## Register Services
 
-```cs
+```cs|ServiceRegistration
 using Blazorise;
 using Blazorise.Bootstrap;
 using Blazorise.Icons.FontAwesome;
@@ -73,7 +73,7 @@ builder.Services
 
 ## Create the ShareButton component
 
-```jsx
+```html|ShareButtonComponentMarkup
 <Button TextColor="@TextColor" Background="@(new Background(BackgroundColor))" To="@To" 
         Type="@ButtonType.Link" Size="Size.Large" @attributes="@AdditionalAttributes">
   @ChildContent
@@ -81,7 +81,7 @@ builder.Services
   <Icon Name="@IconName" IconStyle="IconStyle.Light"/>
 </Button>
 ```
-```cs
+```cs|ShareButtonComponentCode
 @code 
 {
   [Parameter]
@@ -107,7 +107,7 @@ builder.Services
 ## Let's break down the component
 
 ### Button
-First thing's first, we have the Button component, notice that it is typed as <**B**utton> and not \<button\>,
+First thing's first, we have the Button component, notice that it is typed as &lt;**B**utton&gt; and not &lt;button&gt;,
 that is because it is not an ordinary HTML button, it is a Blazorise button component! This means it can take parameters,
 to allow us to customize it further!
 
@@ -130,7 +130,7 @@ Here is a breakdown of what each one does:
 ## Define the brand colors in `wwwroot/brands.css`
 Here are some colors, you may expand this further as you need
 
-```css
+```css|Brands
 .bg-snapchat {
   background-color: #FFFC00 !important;
 }
@@ -152,7 +152,7 @@ Here are some colors, you may expand this further as you need
 
 ## Include the `brands.css` in your app
 
-```html
+```html|IndexhtmlHeadSection
 <html>
 <head>
   <link href="brands.css" rel="stylesheet" />
@@ -166,7 +166,7 @@ Here are some colors, you may expand this further as you need
 ## Create the ShareButtons!
 Inside your page, add the freshly created icon
 
-```html
+```html|ShareButtonUsage
 <ShareButton TextColor="white" BackgroundColor="github" IconName="fa-brands fa-github" To="https://github.com/ddjerqq">
     Share on GitHub
 </ShareButton>
@@ -185,6 +185,6 @@ Inside your page, add the freshly created icon
 
 Sharing your content with the world is important,
 it allows your users to show their friends what your page is all about!
-Blazorise makes it easy to develop framework agnostic UI quickly.
+Blazorise makes it easy to develop framework-agnostic UI quickly.
 
 Thanks for reading this blog 💗
