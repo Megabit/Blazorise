@@ -1,0 +1,35 @@
+﻿@page "/docs/extensions/datagrid/binding-data/dynamic"
+
+<Seo Canonical="/docs/extensions/datagrid/dynamic" Title="Blazorise DataGrid Binding Dynamic data" Description="The DataGrid can bind to your dynamic data, allowing for greater flexibility." />
+
+<DocsPageTitle Path="Extensions/DataGrid/Binding-Data/Dynamic">
+    Blazorise DataGrid: Dynamic
+</DocsPageTitle>
+
+<DocsPageLead>
+    The <Code>DataGrid</Code> can bind to your dynamic data, allowing for greater flexibility.
+</DocsPageLead>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic Example">
+        It is of note that in order for the <Code>DataGrid</Code> to properly resolve the structure and type of your dynamic data in certain operations, like creating a new item, aggregating data, you should provide a representation in the <Code>NewItemCreator</Code> function.
+        An example is provided below
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridDynamicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridDynamicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Auto Generate Columns Example">
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent FullWidth>
+        <DataGridDynamicAutoGenerateExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="DataGridDynamicAutoGenerateExample" />
+</DocsPageSection>
+
+<DocsPageApi>
+    <DocsPageApiItem Url="docs/extensions/datagrid/api" Name="<DataGrid />" />
+</DocsPageApi>
