@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-using System.Data.Common;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -541,7 +540,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     DataGridColumn<TItem> column = GetColumnByType( type );
 
                     column.Editable = true;
-                    column.Caption = expandoKeyValue.Key;
+                    column.Caption = Formaters.PascalCaseToFriendlyName( expandoKeyValue.Key );
                     column.Field = expandoKeyValue.Key;
                     this.AddColumn( column );
                 } 
