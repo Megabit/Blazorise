@@ -1060,10 +1060,6 @@ thead tr th {
   position: relative;
 }
 
-td:focus {
-  outline: -webkit-focus-ring-color auto 1px;
-}
-
 .b-character-casing-lower {
   text-transform: lowercase;
 }

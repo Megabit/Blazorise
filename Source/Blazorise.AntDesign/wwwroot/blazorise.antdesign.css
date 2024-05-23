@@ -3543,6 +3543,10 @@ tr.ant-table-row.ant-table-row-selectable:focus[tabindex="0"] {
   right: 0;
 }
 
+td:focus {
+  outline: -webkit-focus-ring-color auto 1px;
+}
+
 .ant-tabs.ant-tabs-fill .ant-tabs-tab {
   flex-grow: 1;
   margin-right: 0px;

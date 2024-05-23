@@ -1763,6 +1763,10 @@ tr.table-row-selectable:focus[tabindex="0"] {
   border-inline-start-width: 1px;
 }
 
+td:focus {
+  outline: -webkit-focus-ring-color auto 1px;
+}
+
 .snackbar-stack {
   z-index: 1069 !important;
 }

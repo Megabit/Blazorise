@@ -396,6 +396,10 @@ tr.b-table-row.b-table-row-selectable:focus[tabindex="0"] {
   border: 0;
 }
 
+td:focus {
+  outline: -webkit-focus-ring-color auto 1px;
+}
+
 .b-toast {
   display: none;
 }
