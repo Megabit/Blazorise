@@ -546,7 +546,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 } 
             }
 
-            StateHasChanged();
+            InvokeAsync( StateHasChanged );
             return;
         }
 
@@ -592,8 +592,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
             return column;
         }
-        
-        StateHasChanged();
+
+        InvokeAsync( StateHasChanged );
     }
 
     /// <inheritdoc/>
