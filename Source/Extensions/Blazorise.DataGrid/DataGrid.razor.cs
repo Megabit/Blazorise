@@ -524,8 +524,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             {
                 continue;
             }
-            
-            if (ReflectionHelper.ResolveIsIgnore( property ) )
+
+            if ( ReflectionHelper.ResolveIsIgnore( property ) )
             {
                 continue;
             }
@@ -554,7 +554,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 numericColumn.EnableStep = numeric.EnableStep;
                 column = numericColumn;
             }
-            else 
+            else if ( ReflectionHelper.ResolveSelect( property ) is SelectAttribute select )
+            {
+                var selectColumn = new DataGridSelectColumn<TItem>();
+                var selectGetDataStatic = ReflectionHelper.GetStaticMethod<TItem>( select.GetDataFunction );
+                var selectGetData = selectGetDataStatic is null ? ReflectionHelper.GetMethod<TItem>( select.GetDataFunction ) : null;
+                var data = selectGetDataStatic?.Invoke( null, null ) ?? selectGetData?.Invoke( CreateNewItem(), null );
+                selectColumn.Data = (IEnumerable<object>)data;
+                var genericType = data?.GetType()?.GenericTypeArguments.Length > 0 ? data?.GetType()?.GenericTypeArguments[0] : null;
+                if ( genericType is not null )
+                {
+                    selectColumn.TextField = ExpressionCompiler.CreatePropertyGetter<string>( genericType, select.TextField );
+                    selectColumn.ValueField = ExpressionCompiler.CreatePropertyGetter<string>( genericType, select.ValueField );
+                }
+                selectColumn.MaxVisibleItems = select.MaxVisibleItems;
+                column = selectColumn;
+            }
+            else
             {
                 column = new DataGridColumn<TItem>();
             }
@@ -970,7 +986,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             VirtualizeScrollToTop();
         }
 
-        TItem newItem = NewItemCreator != null ? NewItemCreator.Invoke() : CreateNewItem();
+        TItem newItem = CreateNewItem();
 
         NewItemDefaultSetter?.Invoke( newItem );
 
@@ -1692,7 +1708,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <returns>Return new instance of TItem.</returns>
     private TItem CreateNewItem()
-        => newItemCreator.Value();
+        => NewItemCreator is not null ? NewItemCreator.Invoke() : newItemCreator.Value();
 
     /// <summary>
     /// Prepares edit item and it's cell values for editing.

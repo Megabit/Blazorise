@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 
@@ -18,6 +19,48 @@ public static class ReflectionHelper
     {
         var properties = typeof( T ).GetProperties( BindingFlags.Public | BindingFlags.Instance );
         return properties;
+    }
+
+    /// <summary>
+    /// Gets a method by name.
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="methodName"></param>
+    /// <returns></returns>
+    public static MethodInfo GetStaticMethod( Type type, string methodName )
+    {
+        return type.GetMethod( methodName, BindingFlags.Public | BindingFlags.Static );
+    }
+
+    /// <summary>
+    /// Gets a method by name.
+    /// </summary>
+    /// <param name="methodName"></param>
+    /// <returns></returns>
+    public static MethodInfo GetStaticMethod<T>( string methodName )
+    {
+        return GetStaticMethod( typeof(T), methodName);
+    }
+
+    /// <summary>
+    /// Gets a method by name.
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="methodName"></param>
+    /// <returns></returns>
+    public static MethodInfo GetMethod( Type type, string methodName )
+    {
+        return type.GetMethod( methodName, BindingFlags.Public | BindingFlags.Instance );
+    }
+
+    /// <summary>
+    /// Gets a method by name.
+    /// </summary>
+    /// <param name="methodName"></param>
+    /// <returns></returns>
+    public static MethodInfo GetMethod<T>( string methodName )
+    {
+        return GetMethod( typeof( T ), methodName );
     }
 
     /// <summary>
@@ -82,8 +125,19 @@ public static class ReflectionHelper
     /// <returns></returns>
     public static NumericAttribute ResolveNumeric( PropertyInfo propertyInfo )
     {
-        var numericAttribute = propertyInfo.GetCustomAttribute<NumericAttribute>();
-        return numericAttribute;
+        var attribute = propertyInfo.GetCustomAttribute<NumericAttribute>();
+        return attribute;
+    }
+
+    /// <summary>
+    /// Based on this particular property, resolves a select attribute.
+    /// </summary>
+    /// <param name="propertyInfo"></param>
+    /// <returns></returns>
+    public static SelectAttribute ResolveSelect( PropertyInfo propertyInfo )
+    {
+        var attribute = propertyInfo.GetCustomAttribute<SelectAttribute>();
+        return attribute;
     }
 
 }
