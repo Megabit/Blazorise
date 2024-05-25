@@ -11292,7 +11292,15 @@ builder.Services
 
     Task ShowToast()
     {
-        return ToastService.Info( ""This is a simple toast message!"", ""Hello"" );
+        return ToastService.Info( ""This is a simple toast message!"", ""Hello"", BuildToastInstanceOptions );
+    }
+
+    private void BuildToastInstanceOptions( ToastInstanceOptions toastInstanceOptions )
+    {
+        toastInstanceOptions.Animated = true;
+        toastInstanceOptions.AnimationDuration = 300;
+        toastInstanceOptions.Autohide = true;
+        toastInstanceOptions.AutohideDelay = 3000;
     }
 }";
 
