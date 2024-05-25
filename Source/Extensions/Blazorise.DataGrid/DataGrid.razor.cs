@@ -567,7 +567,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     selectColumn.TextField = ExpressionCompiler.CreatePropertyGetter<string>( genericType, select.TextField );
                     selectColumn.ValueField = ExpressionCompiler.CreatePropertyGetter<string>( genericType, select.ValueField );
                 }
-                selectColumn.MaxVisibleItems = select.MaxVisibleItems;
+                selectColumn.MaxVisibleItems = select.MaxVisibleItems == 0 ? null : select.MaxVisibleItems;
                 column = selectColumn;
             }
             else if ( ReflectionHelper.ResolveDateAttribute( property ) is DateAttribute date)
