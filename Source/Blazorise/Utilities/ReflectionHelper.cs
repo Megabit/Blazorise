@@ -123,7 +123,7 @@ public static class ReflectionHelper
     /// </summary>
     /// <param name="propertyInfo"></param>
     /// <returns></returns>
-    public static NumericAttribute ResolveNumeric( PropertyInfo propertyInfo )
+    public static NumericAttribute ResolveNumericAttribute( PropertyInfo propertyInfo )
     {
         var attribute = propertyInfo.GetCustomAttribute<NumericAttribute>();
         return attribute;
@@ -134,9 +134,20 @@ public static class ReflectionHelper
     /// </summary>
     /// <param name="propertyInfo"></param>
     /// <returns></returns>
-    public static SelectAttribute ResolveSelect( PropertyInfo propertyInfo )
+    public static SelectAttribute ResolveSelectAttribute( PropertyInfo propertyInfo )
     {
         var attribute = propertyInfo.GetCustomAttribute<SelectAttribute>();
+        return attribute;
+    }
+
+    /// <summary>
+    /// Based on this particular property, resolves a date attribute.
+    /// </summary>
+    /// <param name="propertyInfo"></param>
+    /// <returns></returns>
+    public static DateAttribute ResolveDateAttribute( PropertyInfo propertyInfo )
+    {
+        var attribute = propertyInfo.GetCustomAttribute<DateAttribute>();
         return attribute;
     }
 

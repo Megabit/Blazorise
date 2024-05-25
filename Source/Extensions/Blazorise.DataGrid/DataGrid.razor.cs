@@ -543,7 +543,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     ValueField = x => x,
                 };
             }
-            else if ( ReflectionHelper.ResolveNumeric( property ) is NumericAttribute numeric )
+            else if ( ReflectionHelper.ResolveNumericAttribute( property ) is NumericAttribute numeric )
             {
                 var numericColumn = new DataGridNumericColumn<TItem>();
                 numericColumn.Step = numeric.Step;
@@ -554,7 +554,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 numericColumn.EnableStep = numeric.EnableStep;
                 column = numericColumn;
             }
-            else if ( ReflectionHelper.ResolveSelect( property ) is SelectAttribute select )
+            else if ( ReflectionHelper.ResolveSelectAttribute( property ) is SelectAttribute select )
             {
                 var selectColumn = new DataGridSelectColumn<TItem>();
                 var selectGetDataStatic = ReflectionHelper.GetStaticMethod<TItem>( select.GetDataFunction );
@@ -569,6 +569,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 }
                 selectColumn.MaxVisibleItems = select.MaxVisibleItems;
                 column = selectColumn;
+            }
+            else if ( ReflectionHelper.ResolveDateAttribute( property ) is DateAttribute date)
+            {
+                var dateColumn = new DataGridDateColumn<TItem>();
+                dateColumn.InputMode = date.InputMode;
+                column = dateColumn;
             }
             else
             {
