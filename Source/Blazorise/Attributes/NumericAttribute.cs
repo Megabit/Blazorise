@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 namespace Blazorise;
 
 /// <summary>
-/// Configures a numeric field.
+/// Represents an attribute that can be applied to numeric properties or fields to specify additional metadata.
 /// </summary>
 [AttributeUsage( AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false )]
 public sealed class NumericAttribute : Attribute

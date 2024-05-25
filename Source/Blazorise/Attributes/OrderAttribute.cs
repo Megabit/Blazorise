@@ -3,7 +3,7 @@
 namespace Blazorise;
 
 /// <summary>
-/// Configures the field order.
+/// Represents an attribute that can be applied to properties or fields to specify the order in which they should be displayed or edited.
 /// </summary>
 [AttributeUsage( AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false )]
 public sealed class OrderAttribute : Attribute
