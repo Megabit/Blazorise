@@ -45,7 +45,7 @@ public sealed class BlazoriseLicenseProvider
     #region Constructors
 
     /// <summary>
-    ///
+    /// A default <see cref="BlazoriseLicenseProvider"/> constructor.
     /// </summary>
     /// <param name="options"></param>
     /// <param name="jsRuntime"></param>
@@ -102,6 +102,8 @@ public sealed class BlazoriseLicenseProvider
                 {
                     Result = BlazoriseLicenseResult.Unlicensed;
                 }
+
+                PrintResult = ResolveBlazoriseLicensePrintResult( license );
             }
             else
             {
@@ -117,6 +119,8 @@ public sealed class BlazoriseLicenseProvider
                 {
                     Result = BlazoriseLicenseResult.Unlicensed;
                 }
+
+                PrintResult = ResolveBlazoriseLicensePrintResult( license );
             }
         }
         catch
@@ -127,6 +131,35 @@ public sealed class BlazoriseLicenseProvider
         {
             initialized = true;
         }
+    }
+
+    /// <summary>
+    /// Resolves the print result of the license validation by checking the license type and whether it is expired by checking against the actual internal resolved License Result state.
+    /// </summary>
+    /// <param name="license"></param>
+    /// <returns></returns>
+    private static BlazoriseLicensePrintResult ResolveBlazoriseLicensePrintResult(License license )
+    {
+        var licenseResult = ResolveBlazoriseLicenseResult( license );
+
+        if ( licenseResult == BlazoriseLicenseResult.Unlicensed)
+            return BlazoriseLicensePrintResult.InvalidProductToken;
+
+        if ( licenseResult == BlazoriseLicenseResult.Community )
+        {
+            return Result == BlazoriseLicenseResult.Community ? BlazoriseLicensePrintResult.Community : BlazoriseLicensePrintResult.CommunityExpired;
+        }
+
+        if ( licenseResult == BlazoriseLicenseResult.Licensed )
+        {
+            return Result == BlazoriseLicenseResult.Licensed ? BlazoriseLicensePrintResult.Licensed : BlazoriseLicensePrintResult.LicensedExpired;
+        }
+
+        if ( licenseResult == BlazoriseLicenseResult.Trial )
+            return BlazoriseLicensePrintResult.Trial;
+
+        return BlazoriseLicensePrintResult.None;
+
     }
 
     private static BlazoriseLicenseResult ResolveBlazoriseLicenseResult( License license )
@@ -305,6 +338,11 @@ public sealed class BlazoriseLicenseProvider
     /// Gets the result of the license validation.
     /// </summary>
     internal static BlazoriseLicenseResult Result { get; private set; } = BlazoriseLicenseResult.Initializing;
+
+    /// <summary>
+    /// Gets the print result of the license validation.
+    /// </summary>
+    internal static BlazoriseLicensePrintResult PrintResult { get; private set; } = BlazoriseLicensePrintResult.None;
 
     /// <summary>
     /// Indicates if the current app is running in WebAssembly mode.
