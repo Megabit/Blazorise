@@ -49,7 +49,7 @@ public sealed class BlazoriseLicenseChecker
 
     internal string GetPrintMessage()
     {
-        if (BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community )
+        if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.Community )
         {
             return "Thank you for using the Blazorise component library with a Community License, which is free for individual use. For additional features and commercial use, consider upgrading your license at https://blazorise.com/commercial. We appreciate your support!";
         }
@@ -61,7 +61,7 @@ public sealed class BlazoriseLicenseChecker
 
         if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.LicensedExpired )
         {
-            return "Your Commercial License for the Blazorise component library has expired. Please renew your license at https://blazorise.com/renew to maintain access to premium features and support. We appreciate your business and look forward to continuing our partnership!";
+            return "Your Commercial License for the Blazorise component library has expired. Please renew your license at https://blazorise.com/account to maintain access to premium features and support. We appreciate your business and look forward to continuing our partnership!";
         }
 
         if ( BlazoriseLicenseProvider.PrintResult == BlazoriseLicensePrintResult.InvalidProductToken )

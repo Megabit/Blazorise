@@ -3,7 +3,6 @@ using System;
 using System.ComponentModel;
 using System.Reflection;
 using Blazorise.Licensing.Signing;
-using Blazorise.Modules;
 using Microsoft.JSInterop;
 #endregion
 
@@ -138,11 +137,11 @@ public sealed class BlazoriseLicenseProvider
     /// </summary>
     /// <param name="license"></param>
     /// <returns></returns>
-    private static BlazoriseLicensePrintResult ResolveBlazoriseLicensePrintResult(License license )
+    private static BlazoriseLicensePrintResult ResolveBlazoriseLicensePrintResult( License license )
     {
         var licenseResult = ResolveBlazoriseLicenseResult( license );
 
-        if ( licenseResult == BlazoriseLicenseResult.Unlicensed)
+        if ( licenseResult == BlazoriseLicenseResult.Unlicensed )
             return BlazoriseLicensePrintResult.InvalidProductToken;
 
         if ( licenseResult == BlazoriseLicenseResult.Community )
