@@ -1330,69 +1330,8 @@ a.link-disabled[aria-disabled=true] {
   opacity: 0.7;
 }
 
-@-webkit-keyframes spinner-border {
-  to {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-@keyframes spinner-border {
-  to {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
-}
-.spinner-border {
-  display: inline-block;
-  width: 2rem;
-  height: 2rem;
-  vertical-align: text-bottom;
-  border: 0.25em solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
-  -webkit-animation: spinner-border 0.75s linear infinite;
-  animation: spinner-border 0.75s linear infinite;
-}
-
-.spinner-border-sm {
-  width: 1rem;
-  height: 1rem;
-  border-width: 0.2em;
-}
-
-@-webkit-keyframes spinner-grow {
-  0% {
-    -webkit-transform: scale(0);
-    transform: scale(0);
-  }
-  50% {
-    opacity: 1;
-  }
-}
-@keyframes spinner-grow {
-  0% {
-    -webkit-transform: scale(0);
-    transform: scale(0);
-  }
-  50% {
-    opacity: 1;
-  }
-}
-.spinner-grow {
-  display: inline-block;
-  width: 2rem;
-  height: 2rem;
-  vertical-align: text-bottom;
-  background-color: currentColor;
-  border-radius: 50%;
-  opacity: 0;
-  -webkit-animation: spinner-grow 0.75s linear infinite;
-  animation: spinner-grow 0.75s linear infinite;
-}
-
-.spinner-grow-sm {
-  width: 1rem;
-  height: 1rem;
+.btn > .spinner-border:first-child {
+  margin-right: 0.25rem;
 }
 
 .stepper-primary.done .stepper-icon {
