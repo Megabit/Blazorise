@@ -158,7 +158,6 @@ public sealed class BlazoriseLicenseProvider
             return BlazoriseLicensePrintResult.Trial;
 
         return BlazoriseLicensePrintResult.None;
-
     }
 
     private static BlazoriseLicenseResult ResolveBlazoriseLicenseResult( License license )
