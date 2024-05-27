@@ -8,10 +8,10 @@
             <Toast @key="@toastInstance.ToastId" @ref="toastInstance.ToastRef" @bind-Visible="@toastInstance.Visible"
                    Opened="@toastInstance.Opened"
                    Closed="@(() => OnToastClosed(toastInstance))"
-                   Animated="@Animated"
-                   AnimationDuration="@AnimationDuration"
-                   Autohide="@Autohide"
-                   AutohideDelay="@AutohideDelay">
+                   Animated="@toastInstance.Animated"
+                   AnimationDuration="@toastInstance.AnimationDuration"
+                   Autohide="@toastInstance.Autohide"
+                   AutohideDelay="@toastInstance.AutohideDelay">
                 <ToastHeader>
                     @if ( ShowIntentIcon )
                     {

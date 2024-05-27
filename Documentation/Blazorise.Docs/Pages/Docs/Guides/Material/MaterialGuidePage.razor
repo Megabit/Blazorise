@@ -13,8 +13,7 @@
 <DocsPageParagraph>
     <Alert Color="Color.Info" Visible>
         <AlertDescription>
-            <Strong>Note:</Strong> Before continuing please make sure that you already have a Blazor project created.
-            If not please go to the <Blazorise.Link To="https://docs.microsoft.com/en-us/aspnet/core/blazor" Target="Target.Blank">official Blazor website</Blazorise.Link> and learn how to create one.
+            <Strong>Note:</Strong> Before proceeding, ensure you have already created a Blazor project. If not, the simplest way to start with Blazorise is by using our <Blazorise.Link To="docs/templates" Title="Link to templates">Templates</Blazorise.Link>.
         </AlertDescription>
     </Alert>
 </DocsPageParagraph>
@@ -58,9 +57,27 @@
     Add Static Files
 </DocsPageSubtitle>
 
+<DocsPageParagraph>
+    Modify your project's HTML template to include the necessary CSS files. The files you add depend on whether you're working with a WebAssembly or Server project:
+</DocsPageParagraph>
+
+<DocsPageParagraph>
+    <DocsPageUnorderedList>
+        <DocsPageUnorderedListItem>
+            For <Strong>WebAssembly</Strong>, update <Strong>index.html</Strong>.
+        </DocsPageUnorderedListItem>
+        <DocsPageUnorderedListItem>
+            For <Strong>Server</Strong>, update <Strong>_Layout.cshtml</Strong> or <Strong>_Host.cshtml</Strong>.
+        </DocsPageUnorderedListItem>
+        <DocsPageUnorderedListItem>
+            For <Strong>.NET 8</Strong>, update <Strong>App.razor</Strong>.
+        </DocsPageUnorderedListItem>
+    </DocsPageUnorderedList>
+</DocsPageParagraph>
+
 <DocsPageSection>
     <DocsPageSectionHeader>
-        The next step is to change your <Code>index.html</Code> or <Code>_Layout.cshtml</Code> / <Code>_Host.cshtml</Code> file and include the CSS and JS source files:
+        Add these lines inside the <Code Tag>head</Code> section:
     </DocsPageSectionHeader>
     <DocsPageSectionSource Code="MaterialGuideSourceFilesExample" />
 </DocsPageSection>
