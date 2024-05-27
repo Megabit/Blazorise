@@ -570,7 +570,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 selectColumn.MaxVisibleItems = select.MaxVisibleItems == 0 ? null : select.MaxVisibleItems;
                 column = selectColumn;
             }
-            else if ( ReflectionHelper.ResolveDateAttribute( property ) is DateAttribute date)
+            else if ( ReflectionHelper.ResolveDateAttribute( property ) is DateAttribute date )
             {
                 var dateColumn = new DataGridDateColumn<TItem>();
                 dateColumn.InputMode = date.InputMode;

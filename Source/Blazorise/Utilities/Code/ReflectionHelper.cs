@@ -39,7 +39,7 @@ public static class ReflectionHelper
     /// <returns></returns>
     public static MethodInfo GetStaticMethod<T>( string methodName )
     {
-        return GetStaticMethod( typeof(T), methodName);
+        return GetStaticMethod( typeof( T ), methodName );
     }
 
     /// <summary>
