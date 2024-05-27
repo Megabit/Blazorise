@@ -8,7 +8,7 @@ namespace Blazorise;
 public class ToastInstance
 {
     /// <summary>
-    /// 
+    /// The constructor for the ToastInstance.
     /// </summary>
     /// <param name="toastProvider"></param>
     /// <param name="toastId"></param>
@@ -76,4 +76,24 @@ public class ToastInstance
     /// Occurs after the toast has closed.
     /// </summary>
     public EventCallback Closed => ToastInstanceOptions?.Closed ?? ToastProvider.Closed;
+
+    /// <summary>
+    /// Specifies whether the Toast should have an animated transition.
+    /// </summary>
+    public bool Animated => ToastInstanceOptions?.Animated ?? ToastProvider.Animated;
+
+    /// <summary>
+    /// The duration of the animation in milliseconds.
+    /// </summary>
+    public int AnimationDuration => ToastInstanceOptions?.AnimationDuration ?? ToastProvider.AnimationDuration;
+
+    /// <summary>
+    /// Automatically hide the toast after the delay.
+    /// </summary>
+    public bool Autohide => ToastInstanceOptions?.Autohide ?? ToastProvider.Autohide;
+
+    /// <summary>
+    /// Delay in milliseconds before hiding the toast.
+    /// </summary>
+    public double AutohideDelay => ToastInstanceOptions?.AutohideDelay ?? ToastProvider.AutohideDelay;
 }
