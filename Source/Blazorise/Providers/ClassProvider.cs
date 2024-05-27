@@ -2076,6 +2076,16 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region Extensions
+
+    #region Autocomplete
+
+    public virtual string AutocompleteItemFocus( bool focus ) => focus ? "focus" : null;
+
+    #endregion
+
+    #endregion
+
     public abstract bool UseCustomInputStyles { get; set; }
 
     public abstract string Provider { get; }

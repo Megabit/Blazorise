@@ -2417,6 +2417,16 @@ public class TailwindClassProvider : ClassProvider
 
     #endregion
 
+    #region Extensions
+
+    #region Autocomplete
+
+    public override string AutocompleteItemFocus( bool focus ) => focus ? "bg-gray-100 dark:bg-gray-600" : null;
+
+    #endregion
+
+    #endregion
+
     public override bool UseCustomInputStyles { get; set; } = true;
 
     public override string Provider => "Tailwind";
