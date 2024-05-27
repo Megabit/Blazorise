@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 #endregion
 
@@ -180,6 +182,30 @@ public static class ValidationRule
         {
             e.Status = value.Count() == 0 ? ValidationStatus.Error : ValidationStatus.Success;
         }
+    }
+
+    /// <summary>
+    /// Checks if the date is selected.
+    /// </summary>
+    /// <typeparam name="TValue">Data-type used be binded by the Date property.</typeparam>
+    /// <param name="e"></param>
+    public static void IsDateSelected<TValue>( ValidatorEventArgs e )
+    {
+        var dates = e.Value as TValue[];
+
+        e.Status = dates?.Count( x => !x.IsEqual( default ) ) >= 1 ? ValidationStatus.Success : ValidationStatus.Error;
+    }
+
+    /// <summary>
+    /// Checks if the date range is selected.
+    /// </summary>
+    /// <typeparam name="TValue">Data-type used be binded by the Dates property.</typeparam>
+    /// <param name="e"></param>
+    public static void AreDatesSelected<TValue>( ValidatorEventArgs e )
+    {
+        var dates = e.Value as IReadOnlyList<TValue>;
+
+        e.Status = dates?.Count( x => !x.IsEqual( default ) ) >= 2 ? ValidationStatus.Success : ValidationStatus.Error;
     }
 
     #endregion
