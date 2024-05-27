@@ -106,9 +106,17 @@ export function scrollElementIntoView(elementId, smooth) {
             top = element.offsetTop + element.offsetHeight - element.parentElement.clientHeight;
         }
 
-        var behavior = smooth ? "smooth" : "instant";
-        element.parentElement.scrollTo({ top: top, behavior: behavior });
+        var scrollableParent = getScrollableParent(element);
+
+        if (scrollableParent) {
+            var behavior = smooth ? "smooth" : "instant";
+            scrollableParent.scrollTo({ top: top, behavior: behavior });
+        }
     }
+}
+function getScrollableParent(el) {
+    while ((el = el.parentElement) && window.getComputedStyle(el).overflowY.indexOf('scroll') === -1);
+    return el;
 }
 
 // sets the value to the element property

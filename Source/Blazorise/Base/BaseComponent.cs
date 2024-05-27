@@ -137,7 +137,7 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         {
             if ( LicenseChecker.ShouldPrint() )
             {
-                await JSUtilitiesModule.Log( "%cThank you for using the free version of the Blazorise component library! We're happy to offer it to you for personal use. If you'd like to remove this message, consider purchasing a commercial license from https://blazorise.com/commercial. We appreciate your support!", "color: #3B82F6; padding: 0;" );
+                await JSUtilitiesModule.Log( $"%c{LicenseChecker.GetPrintMessage()}", "color: #3B82F6; padding: 0;" );
             }
         }
 
@@ -355,14 +355,12 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <summary>
     /// Gets or sets the classname provider.
     /// </summary>
-    [Inject]
-    protected IClassProvider ClassProvider { get; set; }
+    [Inject] protected IClassProvider ClassProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the style provider.
     /// </summary>
-    [Inject]
-    protected IStyleProvider StyleProvider { get; set; }
+    [Inject] protected IStyleProvider StyleProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the IJSUtilitiesModule reference.
