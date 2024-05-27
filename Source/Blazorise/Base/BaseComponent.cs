@@ -355,14 +355,12 @@ public abstract class BaseComponent : BaseAfterRenderComponent
     /// <summary>
     /// Gets or sets the classname provider.
     /// </summary>
-    [Inject]
-    protected IClassProvider ClassProvider { get; set; }
+    [Inject] protected IClassProvider ClassProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the style provider.
     /// </summary>
-    [Inject]
-    protected IStyleProvider StyleProvider { get; set; }
+    [Inject] protected IStyleProvider StyleProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the IJSUtilitiesModule reference.
