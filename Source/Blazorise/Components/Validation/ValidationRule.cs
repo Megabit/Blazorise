@@ -193,12 +193,9 @@ public static class ValidationRule
     {
         var dates = e.Value as IEnumerable<TValue>;
 
-        if ( dates is not null )
-        {
-            e.Status = dates.Any( x => !x.IsEqual( default ) )
-                ? ValidationStatus.Success
-                : ValidationStatus.Error;
-        }
+        e.Status = dates.Count( x => !x.IsEqual( default ) ) >= 1
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
     }
 
     /// <summary>
