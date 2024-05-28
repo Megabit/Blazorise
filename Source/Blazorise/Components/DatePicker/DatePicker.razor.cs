@@ -33,7 +33,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        var datesUsed = parameters.TryGetValue( nameof( Dates ), out IEnumerable<TValue> paramDates );
+        var datesUsed = parameters.TryGetValue( nameof( Dates ), out IReadOnlyList<TValue> paramDates );
 
         if ( Rendered )
         {
@@ -117,12 +117,7 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
 
                 if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
                 {
-                    // make sure we get the newest value
-                    var value = parameters.TryGetValue<IReadOnlyList<TValue>>( nameof( Dates ), out var inDates )
-                        ? inDates
-                        : InternalValue;
-
-                    await ParentValidation.InitializeInputPattern( pattern, value );
+                    await ParentValidation.InitializeInputPattern( pattern, paramDates );
                 }
             }
             else // fallback to default behavior
@@ -132,7 +127,6 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
 
                 if ( parameters.TryGetValue<string>( nameof( Pattern ), out var pattern ) )
                 {
-                    // make sure we get the newest value
                     var value = parameters.TryGetValue<TValue>( nameof( Date ), out var inDate )
                         ? new TValue[] { inDate }
                         : InternalValue;
