@@ -191,9 +191,14 @@ public static class ValidationRule
     /// <param name="e"></param>
     public static void IsDateSelected<TValue>( ValidatorEventArgs e )
     {
-        var dates = e.Value as TValue[];
+        var dates = e.Value as IEnumerable<TValue>;
 
-        e.Status = dates?.Count( x => !x.IsEqual( default ) ) >= 1 ? ValidationStatus.Success : ValidationStatus.Error;
+        if ( dates is not null )
+        {
+            e.Status = dates.Any( x => !x.IsEqual( default ) )
+                ? ValidationStatus.Success
+                : ValidationStatus.Error;
+        }
     }
 
     /// <summary>
@@ -203,9 +208,11 @@ public static class ValidationRule
     /// <param name="e"></param>
     public static void AreDatesSelected<TValue>( ValidatorEventArgs e )
     {
-        var dates = e.Value as IReadOnlyList<TValue>;
+        var dates = e.Value as IEnumerable<TValue>;
 
-        e.Status = dates?.Count( x => !x.IsEqual( default ) ) >= 2 ? ValidationStatus.Success : ValidationStatus.Error;
+        e.Status = dates?.Count( x => !x.IsEqual( default ) ) >= 2
+            ? ValidationStatus.Success
+            : ValidationStatus.Error;
     }
 
     #endregion
