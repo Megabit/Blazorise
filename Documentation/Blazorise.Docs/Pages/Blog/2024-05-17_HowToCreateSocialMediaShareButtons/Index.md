@@ -21,18 +21,11 @@ Are you ready to sprinkle some Blazorise magic into your Blazor app? Adding shar
 
 ## Installing Blazorise
 
-Run the following commands in your terminal to add Blazorise as a dependency to your Blazor app.
-
-```bash|InstallBlazorise
-Install-Package Blazorise.Bootstrap
-Install-Package Blazorise.Icons.FontAwesome
-```
-
-Alternatively you can use your favorite IDE's nuget package manager and add the packages automatically!
+You can follow [this](/blog/how-to-create-a-blazorise-application-beginners-guide) guide to install Blazorise into your project.
 
 ---
 
-## Adding static files in `wwwroot/index.html`
+## Adding static files in the index.html
 
 ```html|HeadContent
 <html>
@@ -129,16 +122,16 @@ First thing's first, we have the Button component, notice that it is typed as **
 We have just enough parameters to allow for the exact customization necessary,
 
 Here is a breakdown of what each one does:
-- `TextColor` - The button's text color.
-- `BackgroundColor` - The button's background color, we will define custom brand colors soon.
-- `IconName` - The name of the icon displayed on the button, in this case we are using [FontAwesome](https://fontawesome.com/).
-- `To` - The link where the user is navigated to, will bind to the `href` attribute on a regular link.
-- `ChildContent` - The markup displayed inside the button. See [blazor-university](https://blazor-university.com/templating-components-with-renderfragements/).
-- `AdditionalAttributes` - Any additional attributes the user passes to the button. Will directly be applied to the underlying button component. See [blazor-university](https://blazor-university.com/components/capturing-unexpected-parameters/).
+1. `TextColor` - The button's text color.
+2. `BackgroundColor` - The button's background color, we will define custom brand colors soon.
+3. `IconName` - The name of the icon displayed on the button, in this case we are using [FontAwesome](https://fontawesome.com/).
+4. `To` - The link where the user is navigated to, will bind to the `href` attribute on a regular link.
+5. `ChildContent` - The markup displayed inside the button. See [blazor-university](https://blazor-university.com/templating-components-with-renderfragements/).
+6. `AdditionalAttributes` - Any additional attributes the user passes to the button. Will directly be applied to the underlying button component. See [blazor-university](https://blazor-university.com/components/capturing-unexpected-parameters/).
 
 ---
 
-## Define the brand colors in `wwwroot/brands.css`
+## Define the brand colors in brands.css
 Here are some colors, you may expand this further as you need
 
 ```html|Brands
@@ -164,7 +157,7 @@ Here are some colors, you may expand this further as you need
 
 ---
 
-## Include the `brands.css` in your app
+## Include the brands.css file in your app
 
 ```html|IndexhtmlHeadSection
 <html>
