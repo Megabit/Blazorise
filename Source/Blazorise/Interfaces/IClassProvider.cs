@@ -1405,6 +1405,16 @@ public interface IClassProvider
 
     #endregion
 
+    #region Extensions
+
+    #region Autocomplete
+
+    string AutocompleteItemFocus( bool focus );
+
+    #endregion
+
+    #endregion
+
     /// <summary>
     /// Enables a custom css for select/check/radio/file inputs.
     /// </summary>

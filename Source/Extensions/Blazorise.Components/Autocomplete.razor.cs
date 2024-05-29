@@ -1230,7 +1230,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
     /// Gets the custom class-names for dropdown element.
     /// </summary>
     protected string DropdownItemClassNames( int index )
-        => $"b-is-autocomplete-suggestion {( ActiveItemIndex == index ? "focus" : string.Empty )} {( SelectionMode == AutocompleteSelectionMode.Checkbox ? "b-is-autocomplete-suggestion-checkbox" : string.Empty )}";
+        => $"b-is-autocomplete-suggestion {ClassProvider.AutocompleteItemFocus( ActiveItemIndex == index )} {( SelectionMode == AutocompleteSelectionMode.Checkbox ? "b-is-autocomplete-suggestion-checkbox" : string.Empty )}";
 
     /// <summary>
     /// Provides an index based id for the dropdown suggestion items.
@@ -1244,6 +1244,11 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
 #pragma warning disable CS0618 // Type or member is obsolete
     protected bool IsMultiple => Multiple || SelectionMode == AutocompleteSelectionMode.Multiple || SelectionMode == AutocompleteSelectionMode.Checkbox;
 #pragma warning restore CS0618 // Type or member is obsolete
+
+    /// <summary>
+    /// Gets or sets the classname provider.
+    /// </summary>
+    [Inject] protected IClassProvider ClassProvider { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="IJSClosableModule"/> instance.
