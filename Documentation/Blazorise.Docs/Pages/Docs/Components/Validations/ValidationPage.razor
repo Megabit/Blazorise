@@ -230,48 +230,47 @@
     List of the currently available validators.
 </DocsPageParagraph>
 
-<Table>
-    <TableHeader ThemeContrast="ThemeContrast.Light">
-        <TableRow>
-            <TableHeaderCell>Validator</TableHeaderCell>
-            <TableHeaderCell>Description</TableHeaderCell>
-        </TableRow>
-    </TableHeader>
-    <TableBody>
-        <TableRow>
-            <TableRowCell><Code>IsEmpty</Code></TableRowCell>
-            <TableRowCell>Check if the string is null or empty.</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell><Code>IsNotEmpty</Code></TableRowCell>
-            <TableRowCell>Check if the string is not null or empty.</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell><Code>IsEmail</Code></TableRowCell>
-            <TableRowCell>Check if the string is an email.</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell><Code>IsAlpha</Code></TableRowCell>
-            <TableRowCell>Check if the string contains only letters (a-zA-Z).</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell><Code>IsAlphanumeric</Code></TableRowCell>
-            <TableRowCell>Check if the string contains only letters and numbers.</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell><Code>IsAlphanumericWithUnderscore</Code></TableRowCell>
-            <TableRowCell>Check if the string contains only letters, numbers and underscore.</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell><Code>IsUppercase</Code></TableRowCell>
-            <TableRowCell>Check if the string is uppercase.</TableRowCell>
-        </TableRow>
-        <TableRow>
-            <TableRowCell><Code>IsLowercase</Code></TableRowCell>
-            <TableRowCell>Check if the string is lowercase.</TableRowCell>
-        </TableRow>
-    </TableBody>
-</Table>
+<DocsMethods ShowReturnType="false" ShowParameters="false">
+    <DocsMethodsItem Name="IsEmpty">
+        Check if the string is null or empty.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IsNotEmpty">
+        Check if the string is not null or empty.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IsEmail">
+        Check if the string is an email.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IsAlpha">
+        Check if the string contains only letters (a-zA-Z).
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IsAlphanumeric">
+        Check if the string contains only letters and numbers.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IsAlphanumericWithUnderscore">
+        Check if the string contains only letters, numbers and underscore.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IsUppercase">
+        Check if the string is uppercase.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IsLowercase">
+        Check if the string is lowercase.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IsChecked">
+        Checks if the boolean based input is checked.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IsSelected">
+        Checks if the selection based input has a valid value selected. Valid values are anything except for <Code>null</Code>, <Code>string.Empty</Code>, or <Code>0</Code>.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IsFileSelected">
+        Checks if the file is selected.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="IsDateSelected<TValue>">
+        Checks if the date is selected.
+    </DocsMethodsItem>
+    <DocsMethodsItem Name="AreDatesSelected<TValue>">
+        Checks if more than one date is selected.
+    </DocsMethodsItem>
+</DocsMethods>
 
 <DocsPageSubtitle>
     API
