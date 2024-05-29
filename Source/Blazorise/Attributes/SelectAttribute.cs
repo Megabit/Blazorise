@@ -16,15 +16,15 @@ public sealed class SelectAttribute : Attribute
 
     /// <summary>
     /// Used to get the display field from the supplied data source.
-    /// Defaults to "Description".
+    /// Defaults to "Text".
     /// </summary>
-    public string TextField { get; set; } = "Description";
+    public string TextField { get; set; } = "Text";
 
     /// <summary>
     /// Used to get the value field from the supplied data source.
-    /// Defaults to "Id".
+    /// Defaults to "Value".
     /// </summary>
-    public string ValueField { get; set; } = "Id";
+    public string ValueField { get; set; } = "Value";
 
     /// <summary>
     /// Specifies how many options should be shown at once.
