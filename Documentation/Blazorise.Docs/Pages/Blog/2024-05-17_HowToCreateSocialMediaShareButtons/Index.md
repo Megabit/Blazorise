@@ -76,37 +76,53 @@ builder.Services
 
 ---
 
+## Creating the brand record
+
+We can create a record, that will hold all the information related to each social media platform we want to support sharing to!
+
+`Platform.cs` 
+```cs|Platform
+public record Platform(string Name, string TextColor, string BackgroundColor, string IconName, string Href)
+{
+    public static Platform X => new Platform("X", "white", "x", "fa-brands fa-x", "https://twitter.com/intent/tweet");
+    
+    // your social media platform can go here.
+}
+```
+
+> If you don't know what records are, you can read about then [here](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record). 
+
+> They are a very useful concept, this is a perfect use for a record - an immutable data class.
+
 ## Creating the ShareButton component
 
 ```html|ShareButtonComponentMarkup
-<Button TextColor="@TextColor" Background="@(new Background(BackgroundColor))" To="@To" 
-        Type="@ButtonType.Link" Size="Size.Large" @attributes="@AdditionalAttributes">
+<Button TextColor="@Platform.TextColor"
+        Background="@(new Background(Platform.BackgroundColor))"
+        To="@Platform.Href"
+        Type="@ButtonType.Link"
+        Size="@ButtonSize"
+        @attributes="@AdditionalAttributes">
 
-  @ChildContent
+    @ChildContent
 
-  <Icon Name="@IconName" IconStyle="IconStyle.Light"/>
+    <Icon Name="@($"fa-brands {Platform.IconName}")" IconStyle="IconStyle.Light"/>
 </Button>
 ```
 ```cs|ShareButtonComponentCode
-@code 
+@code
 {
-  [Parameter]
-  public string TextColor { get; set; }
+    [Parameter, EditorRequired]
+    public Platform Platform { get; set; }
 
-  [Parameter]
-  public string BackgroundColor { get; set; }
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; }
 
-  [Parameter]
-  public string IconName { get; set; }
+    [Parameter]
+    public Size ButtonSize { get; set; } = Size.Large;
 
-  [Parameter, EditorRequired]
-  public string To { get; set; }
-
-  [Parameter, EditorRequired]
-  public RenderFragment ChildContent { get; set; }
-
-  [Parameter(CaptureUnmatchedValues = true)]
-  public Dictionary<string, object> AdditionalAttributes { get; set; } = [];
+    [Parameter(CaptureUnmatchedValues = true)]
+    public Dictionary<string, object> AdditionalAttributes { get; set; } = new();
 }
 ```
 
@@ -122,12 +138,10 @@ First thing's first, we have the Button component, notice that it is typed as **
 We have just enough parameters to allow for the exact customization necessary,
 
 Here is a breakdown of what each one does:
-1. `TextColor` - The button's text color.
-2. `BackgroundColor` - The button's background color, we will define custom brand colors soon.
-3. `IconName` - The name of the icon displayed on the button, in this case we are using [FontAwesome](https://fontawesome.com/).
-4. `To` - The link where the user is navigated to, will bind to the `href` attribute on a regular link.
-5. `ChildContent` - The markup displayed inside the button. See [blazor-university](https://blazor-university.com/templating-components-with-renderfragements/).
-6. `AdditionalAttributes` - Any additional attributes the user passes to the button. Will directly be applied to the underlying button component. See [blazor-university](https://blazor-university.com/components/capturing-unexpected-parameters/).
+1. `Platform` - The platform of the share button. The user will pass the platforms which will are statically defined inside the Platform record.
+2. `ChildContent` - The markup displayed inside the button. See [blazor-university](https://blazor-university.com/templating-components-with-renderfragements/).
+3. `Size` - The size of the button, this is a Blazorise class, so we can use Small, Medium, Large etc.
+4. `AdditionalAttributes` - Any additional attributes the user passes to the button. Will directly be applied to the underlying button component. See [blazor-university](https://blazor-university.com/components/capturing-unexpected-parameters/).
 
 ---
 
@@ -135,8 +149,8 @@ Here is a breakdown of what each one does:
 Here are some colors, you may expand this further as you need
 
 ```html|Brands
-.bg-snapchat {
-  background-color: #FFFC00 !important;
+.bg-x {
+  background-color: #000000 !important;
 }
 
 .bg-discord {
@@ -147,11 +161,10 @@ Here are some colors, you may expand this further as you need
   background-color: #0D1117 !important;
 }
 
-.bg-x {
-  background-color: #000000 !important;
-}
-
-/* other brand colors. add the brands you need here! */
+/* 
+ * other brand colors... add the brands you need here!
+ * IMPORTANT NOTE: please make sure, you prefix your class names with `bg-` 
+ */
 ```
 > The `!important` property, this is necessary as, by default the Bootstrap icons will have the `Color` property set to `primary`, this will shadow our custom background colors, so adding `!important` at the end of them will fix this.
 
@@ -175,13 +188,11 @@ Here are some colors, you may expand this further as you need
 Inside your page, add the freshly created buttons
 
 ```html|ShareButtonUsage
-<ShareButton TextColor="white" BackgroundColor="x" IconName="fa-brands fa-x" To="https://twitter.com/intent/tweet">
+<ShareButton Brand="@Platform.X">
     Share on
 </ShareButton>
 ```
-> Notice how the `BackgroundColor` is assigned `"x"` and not `"bg-x"`, this is because Blazorise inserts the `bg-` prefix automatically for us. This is happening because for normal components, we would have Bootstrap colors so if we passed `"primary"` to the `BackgroundColor`, we would get `bg-primary`.
-
-> Also notice how the text inside the button says `Share on` instead of `Share on X`, this is because X's logo is the letter X, so it would not make sense, so have X twice!
+> Notice how the text inside the button says `Share on` instead of `Share on X`, this is because X's logo is literally the latin letter X, so it would not make sense, so have `Share on X ✖`
 
 ---
 

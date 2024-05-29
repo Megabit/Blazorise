@@ -1,7 +1,11 @@
-<Button TextColor="@TextColor" Background="@(new Background(BackgroundColor))" To="@To" 
-        Type="@ButtonType.Link" Size="Size.Large" @attributes="@AdditionalAttributes">
+<Button TextColor="@Platform.TextColor"
+        Background="@(new Background(Platform.BackgroundColor))"
+        To="@Platform.Href"
+        Type="@ButtonType.Link"
+        Size="@ButtonSize"
+        @attributes="@AdditionalAttributes">
 
-  @ChildContent
+    @ChildContent
 
-  <Icon Name="@IconName" IconStyle="IconStyle.Light"/>
+    <Icon Name="@($"fa-brands {Platform.IconName}")" IconStyle="IconStyle.Light"/>
 </Button>
