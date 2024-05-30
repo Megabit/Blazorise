@@ -1,9 +1,23 @@
 ﻿@inherits Blazorise.FileEdit
 <Control Role="ControlRole.File">
     <Label Type="LabelType.File" For="@ElementId">
-        @BrowseButtonString
+        @if ( !HasSelectedFileNames && Placeholder != null )
+        {
+            <Span TextColor="TextColor.Muted">
+                @Placeholder
+            </Span>
+        }
+        else
+        {
+            @SelectedFilenamesString
+        }
+        @ChildContent
     </Label>
     <input @ref="@ElementRef" id="@ElementId" type="file" class="@ClassNames" webkitdirectory="@Directory" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" multiple="@Multiple" accept="@Filter" tabindex="@TabIndex" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
     @Feedback
 </Control>
-@ChildContent
+@code {
+    string SelectedFilenamesString => string.Join( ", ", SelectedFileNames );
+
+    bool HasSelectedFileNames => SelectedFileNames.Any();
+}
