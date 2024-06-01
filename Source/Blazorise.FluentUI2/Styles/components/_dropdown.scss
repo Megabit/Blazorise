@@ -332,6 +332,58 @@
                     display: none;
                 }
             }
+
+            &-xs {
+                line-height: var(--lineHeightBase100);
+                font-size: var(--fontSizeBase100);
+                font-weight: var(--fontWeightRegular);
+                border-radius: var(--borderRadiusMedium);
+                padding: 3px var(--spacingHorizontalXS);
+            }
+
+            &-sm {
+                line-height: var(--lineHeightBase200);
+                font-size: var(--fontSizeBase200);
+                font-weight: var(--fontWeightRegular);
+                border-radius: var(--borderRadiusMedium);
+                padding-left: var(--spacingHorizontalS);
+                padding-right: var(--spacingHorizontalS);
+                padding-top: 3px;
+                padding-bottom: 3px;
+            }
+
+            &-md {
+                line-height: var(--lineHeightBase400);
+                font-size: var(--fontSizeBase400);
+                font-weight: var(--fontWeightRegular);
+                border-radius: var(--borderRadiusMedium);
+                padding-left: var(--spacingHorizontalM);
+                padding-right: var(--spacingHorizontalM);
+                padding-top: 6px;
+                padding-bottom: 6px;
+            }
+
+            &-lg {
+                line-height: var(--lineHeightBase400);
+                font-size: var(--fontSizeBase400);
+                font-weight: var(--fontWeightSemibold);
+                padding-left: var(--spacingHorizontalL);
+                padding-right: var(--spacingHorizontalL);
+                padding-top: 8px;
+                padding-bottom: 8px;
+                border-radius: var(--borderRadiusMedium);
+            }
+
+            &-xl {
+                line-height: var(--lineHeightBase400);
+                font-size: var(--fontSizeBase400);
+                font-weight: var(--fontWeightSemibold);
+                padding-left: var(--spacingHorizontalXL);
+                padding-right: var(--spacingHorizontalXL);
+                padding-top: 12px;
+                padding-bottom: 12px;
+                border-radius: var(--borderRadiusMedium);
+            }
         }
     }
 

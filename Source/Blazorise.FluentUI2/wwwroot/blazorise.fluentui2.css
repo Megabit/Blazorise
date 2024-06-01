@@ -3821,6 +3821,53 @@ button {
 .fui-Menu .fui-Button.fui-MenuButton.fui-MenuButton-toggle-hidden .fui-MenuButton__menuIcon {
   display: none;
 }
+.fui-Menu .fui-Button.fui-MenuButton-xs {
+  line-height: var(--lineHeightBase100);
+  font-size: var(--fontSizeBase100);
+  font-weight: var(--fontWeightRegular);
+  border-radius: var(--borderRadiusMedium);
+  padding: 3px var(--spacingHorizontalXS);
+}
+.fui-Menu .fui-Button.fui-MenuButton-sm {
+  line-height: var(--lineHeightBase200);
+  font-size: var(--fontSizeBase200);
+  font-weight: var(--fontWeightRegular);
+  border-radius: var(--borderRadiusMedium);
+  padding-left: var(--spacingHorizontalS);
+  padding-right: var(--spacingHorizontalS);
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+.fui-Menu .fui-Button.fui-MenuButton-md {
+  line-height: var(--lineHeightBase400);
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightRegular);
+  border-radius: var(--borderRadiusMedium);
+  padding-left: var(--spacingHorizontalM);
+  padding-right: var(--spacingHorizontalM);
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.fui-Menu .fui-Button.fui-MenuButton-lg {
+  line-height: var(--lineHeightBase400);
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightSemibold);
+  padding-left: var(--spacingHorizontalL);
+  padding-right: var(--spacingHorizontalL);
+  padding-top: 8px;
+  padding-bottom: 8px;
+  border-radius: var(--borderRadiusMedium);
+}
+.fui-Menu .fui-Button.fui-MenuButton-xl {
+  line-height: var(--lineHeightBase400);
+  font-size: var(--fontSizeBase400);
+  font-weight: var(--fontWeightSemibold);
+  padding-left: var(--spacingHorizontalXL);
+  padding-right: var(--spacingHorizontalXL);
+  padding-top: 12px;
+  padding-bottom: 12px;
+  border-radius: var(--borderRadiusMedium);
+}
 .fui-Menu.fui-MenuButton-show.fui-Menu-up .fui-MenuButton__menuIcon > svg {
   transform: rotate(180deg);
 }

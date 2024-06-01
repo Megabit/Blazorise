@@ -7,7 +7,7 @@ namespace Blazorise.Utilities;
 /// <summary>
 /// An helper for reflection based apis.
 /// </summary>
-public class ReflectionHelper
+public static class ReflectionHelper
 {
     /// <summary>
     /// Gets the public instance properties of the specified type.

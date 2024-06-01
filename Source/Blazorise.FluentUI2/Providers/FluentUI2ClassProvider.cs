@@ -486,7 +486,7 @@ public class FluentUI2ClassProvider : ClassProvider
         : color != Color.Default ? $"fui-Button-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )
-        => size != Size.Default ? $"btn-{ToSize( size )}" : null;
+        => size != Size.Default ? $"fui-MenuButton-{ToSize( size )}" : null;
 
     public override string DropdownToggleSplit( bool split ) => split ? "fui-SplitButton__menuButton" : null;
 
