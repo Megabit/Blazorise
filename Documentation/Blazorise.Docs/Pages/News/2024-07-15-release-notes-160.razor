@@ -20,18 +20,18 @@
     Here's a summary of what's new in this release:
 </Paragraph>
 
-<UnorderedList>
-    <UnorderedListItem>
+<UnorderedListItem>
+    <UnorderedListItemItem>
         <Paragraph>
             <Strong></Strong>:
         </Paragraph>
-    </UnorderedListItem>
-    <UnorderedListItem>
+    </UnorderedListItemItem>
+    <UnorderedListItemItem>
         <Paragraph>
             <Strong></Strong>:
         </Paragraph>
-    </UnorderedListItem>
-</UnorderedList>
+    </UnorderedListItemItem>
+</UnorderedListItem>
 
 <NewsPageSubtitle>
     Upgrading from 1.5.x to 1.6 👨‍🔧
@@ -59,12 +59,33 @@
 </NewsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
-
+    DataGrid
 </Heading>
 
 <Paragraph>
-    
+    In the <Code>DataGrid</Code> <Code>AutoGenerateColumns</Code> feature, we've added new attributes to the attribute based API to be able to further configure the way that the columns are rendered.
 </Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code>[DisplayAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify the caption.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>[OrderAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify the order in which they should be displayed or edited.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>[IgnoreFieldAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify they should not be automatically generated.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>[SelectAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify additional metadata for a select component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>[NumericAttribute]</Code> - Represents an attribute that can be applied to numeric properties or fields to specify additional metadata.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>[DateAttribute]</Code> - Represents an attribute that can be applied to date properties or fields to specify additional metadata.
+    </UnorderedListItem>
+</UnorderedList>
 
 <Heading>
     Wrap Up
