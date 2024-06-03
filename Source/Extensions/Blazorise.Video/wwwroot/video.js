@@ -311,9 +311,9 @@ function applyDashProtectionData(dash, protection) {
             const protectionData = protection.data ? protection.data : {
                 "com.microsoft.playready": {
                     "serverURL": protection.serverUrl,
-                    "httpRequestHeaders": {
+                    "httpRequestHeaders": protection.httpRequestHeaders ? {
                         "X-AxDRM-Message": protection.httpRequestHeaders
-                    }
+                    } : null
                 }
             };
 
@@ -323,9 +323,9 @@ function applyDashProtectionData(dash, protection) {
             const protectionData = protection.data ? protection.data : {
                 "com.widevine.alpha": {
                     "serverURL": protection.serverUrl,
-                    "httpRequestHeaders": {
+                    "httpRequestHeaders": protection.httpRequestHeaders ? {
                         "X-AxDRM-Message": protection.httpRequestHeaders
-                    }
+                    } : null
                 }
             };
 

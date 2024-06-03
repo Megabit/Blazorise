@@ -3,10 +3,10 @@
 <span class="atSign">&#64;</span>using System.ComponentModel.DataAnnotations
 
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Example</span><span class="quot">&quot;</span>
-            <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">data</span><span class="quot">&quot;</span>
-            <span class="htmlAttributeName">Responsive</span>
-            <span class="htmlAttributeName">ShowPager</span>
-            <span class="htmlAttributeName">ShowPageSizes</span> <span class="htmlAttributeName">Editable</span><span class="htmlTagDelimiter">&gt;</span>
+          <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">data</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Responsive</span>
+          <span class="htmlAttributeName">ShowPager</span>
+          <span class="htmlAttributeName">ShowPageSizes</span> <span class="htmlAttributeName">Editable</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Example</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
@@ -15,17 +15,39 @@
 
     <span class="keyword">public</span> <span class="keyword">class</span> Example
     {
+        [Order( DisplayOrder = <span class="number">1</span>, EditOrder = <span class="number">2</span> )]
         [Display( Name = <span class="string">&quot;Name&quot;</span> )]
         <span class="keyword">public</span> <span class="keyword">string</span> FirstName { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
+        [Order( DisplayOrder = <span class="number">2</span>, EditOrder = <span class="number">3</span> )]
         <span class="keyword">public</span> <span class="keyword">string</span> LastName { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-
+        [Order( DisplayOrder = <span class="number">3</span>, EditOrder = <span class="number">4</span> )]
+        [Numeric( EnableStep = <span class="keyword">true</span>, ShowStepButtons = <span class="keyword">true</span>, Step = <span class="number">1</span> )]
         <span class="keyword">public</span> <span class="keyword">int</span> Age { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
+        [Order( DisplayOrder = <span class="number">5</span>, EditOrder = <span class="number">0</span> )]
+        <span class="keyword">public</span> Status Status { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        [Numeric( EnableStep = <span class="keyword">true</span>, ShowStepButtons = <span class="keyword">true</span>, Step = <span class="number">100</span> )]
+        [Order( DisplayOrder = <span class="number">4</span>, EditOrder = <span class="number">1</span> )]
         <span class="keyword">public</span> <span class="keyword">decimal</span> Balance { <span class="keyword">get</span>; <span class="keyword">set</span>; }
 
-        <span class="keyword">public</span> Status Status { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+        [IgnoreField]
+        <span class="keyword">public</span> <span class="keyword">string</span> FieldToBeIgnored { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        [Order( DisplayOrder = <span class="number">5</span>, EditOrder = <span class="number">0</span> )]
+        [Display( Name = <span class="string">&quot;Gender&quot;</span> )]
+        [Select( GetDataFunction = <span class="string">&quot;GetGenders&quot;</span>, TextField = nameof( Blazorise.Shared.Data.Gender.Description ), ValueField = nameof( Blazorise.Shared.Data.Gender.Code ) )]
+        <span class="keyword">public</span> <span class="keyword">string</span> Gender { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        [Order( DisplayOrder = <span class="number">6</span>, EditOrder = <span class="number">6</span> )]
+        [Display( Name = <span class="string">&quot;DOB&quot;</span> )]
+        [Date( InputMode = DateInputMode.Date )]
+        <span class="keyword">public</span> DateOnly DateOfBirth { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+        <span class="keyword">public</span> IEnumerable&lt;Gender&gt; GetGenders()
+            =&gt; EmployeeData.Genders;
     }
 
     <span class="keyword">public</span> <span class="keyword">enum</span> Status
@@ -36,12 +58,12 @@
 
     <span class="keyword">private</span> IEnumerable&lt;Example&gt; data = <span class="keyword">new</span> List&lt;Example&gt;()
     {
-        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;John&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">30</span>, Balance = <span class="number">1000</span>, Status = Status.Active },
-        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jane&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">28</span>, Balance = <span class="number">2000</span>, Status = Status.Active },
-        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Joe&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">26</span>, Balance = <span class="number">3000</span>, Status = Status.Inactive },
-        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jill&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">24</span>, Balance = <span class="number">4000</span>, Status = Status.Inactive },
-        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jack&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">22</span>, Balance = <span class="number">5000</span>, Status = Status.Active },
-        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jen&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Age = <span class="number">20</span>, Balance = <span class="number">6000</span>, Status = Status.Active },
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;John&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Gender = <span class="string">&quot;M&quot;</span>, Age = <span class="number">30</span>, Balance = <span class="number">1000</span>, Status = Status.Active, FieldToBeIgnored = <span class="string">&quot;4a92b1ea-e82d-4920-8d22-198a2385945e&quot;</span>, DateOfBirth = <span class="keyword">new</span> DateOnly(<span class="number">1992</span>,<span class="number">03</span>,<span class="number">05</span>) },
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jane&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Gender = <span class="string">&quot;F&quot;</span>,Age = <span class="number">28</span>, Balance = <span class="number">2000</span>, Status = Status.Active, FieldToBeIgnored = <span class="string">&quot;cb85ede4-4a66-4ab5-813d-6f09b4781489&quot;</span>, DateOfBirth = <span class="keyword">new</span> DateOnly(<span class="number">1972</span>,<span class="number">03</span>,<span class="number">03</span>) },
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Joe&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Gender = <span class="string">&quot;M&quot;</span>,Age = <span class="number">26</span>, Balance = <span class="number">3000</span>, Status = Status.Inactive, FieldToBeIgnored = <span class="string">&quot;0725a26f-1b5c-4659-be06-2b4b108a2fb4&quot;</span>, DateOfBirth = <span class="keyword">new</span> DateOnly(<span class="number">1981</span>,<span class="number">12</span>,<span class="number">05</span>) },
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jill&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Gender = <span class="string">&quot;F&quot;</span>,Age = <span class="number">24</span>, Balance = <span class="number">4000</span>, Status = Status.Inactive, FieldToBeIgnored = <span class="string">&quot;bb85d60c-96fa-4137-a9f1-e09ec0497f5d&quot;</span>, DateOfBirth = <span class="keyword">new</span> DateOnly(<span class="number">1980</span>,<span class="number">05</span>,<span class="number">29</span>) },
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jack&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>, Gender = <span class="string">&quot;M&quot;</span>,Age = <span class="number">22</span>, Balance = <span class="number">5000</span>, Status = Status.Active, FieldToBeIgnored = <span class="string">&quot;76471dfe-2efd-4ec5-b192-82abc1b05c72&quot;</span>, DateOfBirth = <span class="keyword">new</span> DateOnly(<span class="number">1990</span>,<span class="number">09</span>,<span class="number">10</span>) },
+        <span class="keyword">new</span>(){ FirstName = <span class="string">&quot;Jen&quot;</span>, LastName = <span class="string">&quot;Doe&quot;</span>,Gender = <span class="string">&quot;F&quot;</span>, Age = <span class="number">20</span>, Balance = <span class="number">6000</span>, Status = Status.Active, FieldToBeIgnored = <span class="string">&quot;be83a3c0-9636-4ebd-acca-08e6ffb5c469&quot;</span>, DateOfBirth = <span class="keyword">new</span> DateOnly(<span class="number">2000</span>,<span class="number">01</span>,<span class="number">01</span>) },
     };
 
 }

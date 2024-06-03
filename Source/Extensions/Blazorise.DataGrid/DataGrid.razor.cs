@@ -518,10 +518,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private void AutomaticallyGenerateColumns()
     {
-        var properties = ReflectionHelper.GetPublicProperties<TItem>();
-        foreach ( var property in properties )
+        foreach ( var property in ReflectionHelper.GetPublicProperties<TItem>() )
         {
             if ( !( property.PropertyType.IsValueType || property.PropertyType == typeof( string ) ) )
+            {
+                continue;
+            }
+
+            if ( ReflectionHelper.ResolveIsIgnore( property ) )
             {
                 continue;
             }
@@ -539,11 +543,46 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     ValueField = x => x,
                 };
             }
+            else if ( ReflectionHelper.ResolveNumericAttribute( property ) is NumericAttribute numeric )
+            {
+                var numericColumn = new DataGridNumericColumn<TItem>();
+                numericColumn.Step = numeric.Step;
+                numericColumn.Decimals = numeric.Decimals;
+                numericColumn.DecimalSeparator = numeric.DecimalSeparator;
+                numericColumn.Culture = numeric.Culture;
+                numericColumn.ShowStepButtons = numeric.ShowStepButtons;
+                numericColumn.EnableStep = numeric.EnableStep;
+                column = numericColumn;
+            }
+            else if ( ReflectionHelper.ResolveSelectAttribute( property ) is SelectAttribute select )
+            {
+                var selectColumn = new DataGridSelectColumn<TItem>();
+                var selectGetDataStatic = ReflectionHelper.GetStaticMethod<TItem>( select.GetDataFunction );
+                var selectGetData = selectGetDataStatic is null ? ReflectionHelper.GetMethod<TItem>( select.GetDataFunction ) : null;
+                var data = selectGetDataStatic?.Invoke( null, null ) ?? selectGetData?.Invoke( CreateNewItem(), null );
+                selectColumn.Data = (IEnumerable<object>)data;
+                var genericType = data?.GetType()?.GenericTypeArguments.Length > 0 ? data?.GetType()?.GenericTypeArguments[0] : null;
+                if ( genericType is not null )
+                {
+                    selectColumn.TextField = ExpressionCompiler.CreatePropertyGetter<string>( genericType, select.TextField );
+                    selectColumn.ValueField = ExpressionCompiler.CreatePropertyGetter<string>( genericType, select.ValueField );
+                }
+                selectColumn.MaxVisibleItems = select.MaxVisibleItems == 0 ? null : select.MaxVisibleItems;
+                column = selectColumn;
+            }
+            else if ( ReflectionHelper.ResolveDateAttribute( property ) is DateAttribute date )
+            {
+                var dateColumn = new DataGridDateColumn<TItem>();
+                dateColumn.InputMode = date.InputMode;
+                column = dateColumn;
+            }
             else
             {
                 column = new DataGridColumn<TItem>();
             }
 
+            column.DisplayOrder = ReflectionHelper.ResolveDisplayOrder( property );
+            column.EditOrder = ReflectionHelper.ResolveEditOrder( property );
             column.Editable = property.SetMethod is not null;
             column.Caption = ReflectionHelper.ResolveCaption( property );
             column.Field = property.Name;
@@ -964,7 +1003,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             VirtualizeScrollToTop();
         }
 
-        TItem newItem = NewItemCreator != null ? NewItemCreator.Invoke() : CreateNewItem();
+        TItem newItem = CreateNewItem();
 
         NewItemDefaultSetter?.Invoke( newItem );
 
@@ -1686,7 +1725,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <returns>Return new instance of TItem.</returns>
     private TItem CreateNewItem()
-        => newItemCreator.Value();
+        => NewItemCreator is not null ? NewItemCreator.Invoke() : newItemCreator.Value();
 
     /// <summary>
     /// Prepares edit item and it's cell values for editing.
