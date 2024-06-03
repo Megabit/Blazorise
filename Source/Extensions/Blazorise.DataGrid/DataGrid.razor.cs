@@ -468,9 +468,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( firstRender )
         {
-            if ( Columns.IsNullOrEmpty() || Columns.Where( x => !( x.IsCommandColumn || x.IsMultiSelectColumn ) ).Count() == 0 )
+            if ( AutoGenerateColumns && ( Columns.IsNullOrEmpty() || !Columns.Any( x => !( x.IsCommandColumn || x.IsMultiSelectColumn ) ) ) )
             {
-                AutoGenerateColumns();
+                AutomaticallyGenerateColumns();
             }
 
             IsClientMacintoshOS = await IsUserAgentMacintoshOS();
@@ -497,7 +497,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Auto generates columns based on the <typeparamref name="TItem"/> properties.
     /// </summary>
-    private void AutoGenerateColumns()
+    private void AutomaticallyGenerateColumns()
     {
         var properties = ReflectionHelper.GetPublicProperties<TItem>();
         foreach ( var property in properties )
@@ -3639,6 +3639,13 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets whether the column chooser is visible.
     /// </summary>
     [Parameter] public bool ShowColumnChooser { get; set; }
+
+    /// <summary>
+    /// Gets or sets whether the DataGrid should automatically generate columns.
+    /// <para>Columns will only be automatically generated if no columns have been provided.</para>
+    /// <para>Defaults to true.</para>
+    /// </summary>
+    [Parameter] public bool AutoGenerateColumns { get; set; } = true;
 
     #endregion
 }

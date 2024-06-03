@@ -21,6 +21,8 @@ public partial class DocsLayout : IDisposable
 
     private bool topBarVisible;
 
+    private bool sideBarIntegrationsMenuVisible;
+
     private bool sideBarComponentsMenuVisible;
 
     private bool sideBarServicesMenuVisible;

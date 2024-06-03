@@ -1,5 +1,5 @@
-﻿import "./vendors/jsencrypt.js?v=1.5.1.0";
-import "./vendors/sha512.js?v=1.5.1.0";
+import "./vendors/jsencrypt.js?v=1.5.2.0";
+import "./vendors/sha512.js?v=1.5.2.0";
 
 // adds a classname to the specified element
 export function addClass(element, classname) {
@@ -106,9 +106,17 @@ export function scrollElementIntoView(elementId, smooth) {
             top = element.offsetTop + element.offsetHeight - element.parentElement.clientHeight;
         }
 
-        var behavior = smooth ? "smooth" : "instant";
-        element.parentElement.scrollTo({ top: top, behavior: behavior });
+        var scrollableParent = getScrollableParent(element);
+
+        if (scrollableParent) {
+            var behavior = smooth ? "smooth" : "instant";
+            scrollableParent.scrollTo({ top: top, behavior: behavior });
+        }
     }
+}
+function getScrollableParent(el) {
+    while ((el = el.parentElement) && window.getComputedStyle(el).overflowY.indexOf('scroll') === -1);
+    return el;
 }
 
 // sets the value to the element property

@@ -39,5 +39,5 @@ public record VideoTrack
     /// True if the track should be default.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public bool Default { get; set; }
+    public bool? Default { get; set; }
 }

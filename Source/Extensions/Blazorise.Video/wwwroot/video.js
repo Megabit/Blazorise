@@ -1,8 +1,8 @@
-﻿import "./vendors/plyr.js?v=1.5.1.0";
-import "./vendors/dash.js?v=1.5.1.0";
-import "./vendors/hls.js?v=1.5.1.0";
+import "./vendors/plyr.js?v=1.5.2.0";
+import "./vendors/dash.js?v=1.5.2.0";
+import "./vendors/hls.js?v=1.5.2.0";
 
-import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.5.1.0";
+import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.5.2.0";
 
 document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"https://cdn.plyr.io/3.6.12/plyr.css\" />");
 
@@ -311,9 +311,9 @@ function applyDashProtectionData(dash, protection) {
             const protectionData = protection.data ? protection.data : {
                 "com.microsoft.playready": {
                     "serverURL": protection.serverUrl,
-                    "httpRequestHeaders": {
+                    "httpRequestHeaders": protection.httpRequestHeaders ? {
                         "X-AxDRM-Message": protection.httpRequestHeaders
-                    }
+                    } : null
                 }
             };
 
@@ -323,9 +323,9 @@ function applyDashProtectionData(dash, protection) {
             const protectionData = protection.data ? protection.data : {
                 "com.widevine.alpha": {
                     "serverURL": protection.serverUrl,
-                    "httpRequestHeaders": {
+                    "httpRequestHeaders": protection.httpRequestHeaders ? {
                         "X-AxDRM-Message": protection.httpRequestHeaders
-                    }
+                    } : null
                 }
             };
 

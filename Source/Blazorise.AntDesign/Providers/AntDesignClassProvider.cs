@@ -1138,7 +1138,17 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Badge() => "ant-tag";
 
-    public override string BadgeColor( Color color ) => $"{Badge()}-{ToColor( color )}";
+    public override string BadgeColor( Color color )
+    {
+        var colorName = color?.Name switch
+        {
+            "secondary" => "default",
+            "danger" => "error",
+            _ => color?.Name,
+        };
+
+        return $"{Badge()}-{colorName}";
+    }
 
     public override string BadgePill() => $"{Badge()}-pill";
 

@@ -831,6 +831,193 @@ public class Gender
     // other variables
 }";
 
+        public const string HowToImplementvalidationWithCaptcha_CaptchaInputCsExample = @"#region Using directives
+using System;
+using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using System.Linq.Expressions;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Blazorise.Captcha;
+using Blazorise.Docs.Domain;
+using Blazorise.Extensions;
+using Blazorise.Utilities;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json.Linq;
+#endregion
+
+namespace Blazorise.Docs.Pages.Home.Components;
+
+public partial class CaptchaInput : BaseInputComponent<bool>
+{
+    #region Members
+
+    public class GoogleResponse
+    {
+        public bool Success { get; set; }
+        public double Score { get; set; } //V3 only - The score for this request (0.0 - 1.0)
+        public string Action { get; set; } //v3 only - An identifier
+        public string Challenge_ts { get; set; }
+        public string Hostname { get; set; }
+        public string ErrorCodes { get; set; }
+    }
+
+    protected Captcha.Captcha captchaRef;
+
+    #endregion
+
+    #region Methods
+
+    /// <inheritdoc/>
+    public override async Task SetParametersAsync( ParameterView parameters )
+    {
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<bool>( nameof( Value ), out var paramChecked ) && !paramChecked.IsEqual( Value ) )
+            {
+                ExecuteAfterRender( Revalidate );
+            }
+        }
+
+        await base.SetParametersAsync( parameters );
+
+        if ( ParentValidation is not null )
+        {
+            if ( parameters.TryGetValue<Expression<Func<bool>>>( nameof( ValueExpression ), out var expression ) )
+                await ParentValidation.InitializeInputExpression( expression );
+
+            await InitializeValidation();
+        }
+
+        if ( Rendered && captchaRef.State.Valid && !Value )
+        {
+            await captchaRef.Reset();
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override void BuildClasses( ClassBuilder builder )
+    {
+        builder.Append( ClassProvider.CheckValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+
+        base.BuildClasses( builder );
+    }
+
+    protected async Task Solved( CaptchaState state )
+    {
+        await CurrentValueHandler( state.Valid.ToString() );
+    }
+
+    protected async Task Expired()
+    {
+        await CurrentValueHandler( false.ToString() );
+    }
+
+    protected async Task<bool> Validate( CaptchaState state )
+    {
+        //Perform server side validation
+        //You should make sure to implement server side validation
+        //https://developers.google.com/recaptcha/docs/verify
+        //Here's a simple example:
+        var content = new FormUrlEncodedContent( new[]
+        {
+            new KeyValuePair<string, string>(""secret"", AppSettings.Value.ReCaptchaServerKey),
+            new KeyValuePair<string, string>(""response"", state.Response),
+         } );
+
+        var httpClient = HttpClientFactory.CreateClient();
+        var response = await httpClient.PostAsync( ""https://www.google.com/recaptcha/api/siteverify"", content );
+
+        var result = await response.Content.ReadAsStringAsync();
+        var googleResponse = JsonSerializer.Deserialize<GoogleResponse>( result, new JsonSerializerOptions()
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+        } );
+
+        return googleResponse.Success;
+    }
+
+    protected override Task<ParseValue<bool>> ParseValueFromStringAsync( string value )
+    {
+        return Task.FromResult( new ParseValue<bool>( true, bool.Parse( value ), null ) );
+    }
+
+    protected override Task OnInternalValueChanged( bool value )
+    {
+        return ValueChanged.InvokeAsync( value );
+    }
+
+    public static void ValidateRobot( ValidatorEventArgs eventArgs )
+    {
+        eventArgs.Status = bool.Parse( eventArgs.Value.ToString() ) ? ValidationStatus.Success : ValidationStatus.Error;
+
+        if ( eventArgs.Status == ValidationStatus.Error )
+            eventArgs.ErrorText = ""Please check to confirm you're a real human!"";
+        else
+            eventArgs.ErrorText = null;
+    }
+
+    #endregion
+
+    #region Properties
+
+    /// <inheritdoc/>
+    protected override bool InternalValue { get => Value; set => Value = value; }
+
+    [Inject] IOptions<AppSettings> AppSettings { get; set; }
+    [Inject] IHttpClientFactory HttpClientFactory { get; set; }
+
+    [Parameter] public bool Value { get; set; }
+    [Parameter] public EventCallback<bool> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Gets or sets an expression that identifies the captcha valid value.
+    /// </summary>
+    [Parameter] public Expression<Func<bool>> ValueExpression { get; set; }
+
+    #endregion
+}";
+
+        public const string HowToImplementvalidationWithCaptcha_CaptchaInputExample = @"@inherits BaseInputComponent<bool>
+<div id=""@ElementId"" class=""@ClassNames"" style=""@StyleNames"">
+    <Captcha @ref=captchaRef Solved=""@Solved"" Validate=""@Validate"" Expired=""Expired"" />
+</div>
+@Feedback";
+
+        public const string HowToImplementvalidationWithCaptcha_ValidationLocalizationExample = @"<Validations @ref=_validationsRef HandlerType=""ValidationHandlerType.DataAnnotation"" Model=""_model"">
+    <Validation>
+        <Field>
+            <FieldLabel>Phone Country Code</FieldLabel>
+            <TextEdit @bind-Text=""@_model.PhoneCountryCode"">
+                <Feedback>
+                    <ValidationError />
+                </Feedback>
+            </TextEdit>
+        </Field>
+    </Validation>
+</Validations>
+
+<Button Clicked=""Submit"">Submit</Button>
+@code {
+    private ValidationLocalizationExample _model = new();
+    private Validations _validationsRef;
+    public class ValidationLocalizationExample
+    {
+        [RegularExpression( @""^(\+?\d{1,3}|\d{1,4})$"" )]
+        public string PhoneCountryCode { get; set; }
+    }
+
+    private async Task Submit()
+    {
+        if (await _validationsRef.ValidateAll())
+        {
+            Console.WriteLine( ""Validation Success!"" );
+        }
+    }
+}";
+
         public const string BasicAccordionExample = @"<Accordion>
     <AccordionItem @bind-Visible=""@accordionItem1Visible"">
         <AccordionHeader>
@@ -4897,50 +5084,50 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 	.AddBootstrapProviders()
 	.AddEmptyIconProvider();";
 
-        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.5.1.0"" type=""module""></script>";
+        public const string AntDesignScriptsExample = @"<script src=""_content/Blazorise.AntDesign/modal.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.AntDesign/tooltip.js?v=1.5.2.0"" type=""module""></script>";
 
-        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.5.1.0"" type=""module""></script>";
+        public const string Bootstrap5ScriptsExample = @"<script src=""_content/Blazorise.Bootstrap5/modal.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap5/tooltip.js?v=1.5.2.0"" type=""module""></script>";
 
-        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.5.1.0"" type=""module""></script>";
+        public const string BootstrapScriptsExample = @"<script src=""_content/Blazorise.Bootstrap/modal.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bootstrap/tooltip.js?v=1.5.2.0"" type=""module""></script>";
 
-        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.5.1.0"" type=""module""></script>";
+        public const string BulmaScriptsExample = @"<script src=""_content/Blazorise.Bulma/modal.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Bulma/tooltip.js?v=1.5.2.0"" type=""module""></script>";
 
         public const string ButtonJavascriptMockTestingExample = @"JSInterop.AddBlazoriseButton();";
 
-        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.5.1.0"" type=""module""></script>";
+        public const string ChartsScriptsExample = @"<script src=""_content/Blazorise.Charts/charts.js?v=1.5.2.0"" type=""module""></script>";
 
-        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.5.1.0"" type=""module""></script>";
+        public const string ChartsStreamingScriptsExample = @"<script src=""_content/Blazorise.Charts.Streaming/charts.streaming.js?v=1.5.2.0"" type=""module""></script>";
 
-        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.5.1.0"" type=""module""></script>";
+        public const string ChartsTrendlineScriptsExample = @"<script src=""_content/Blazorise.Charts.Trendline/charts.trendline.js?v=1.5.2.0"" type=""module""></script>";
 
-        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/button.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/closable.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/colorPicker.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/datePicker.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/dragDrop.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/dropdown.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/fileEdit.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/filePicker.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/inputMask.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/io.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/memoEdit.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/numericPicker.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/observer.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/table.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/textEdit.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/theme.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/timePicker.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/tooltip.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise/utilities.js?v=1.5.1.0"" type=""module""></script>";
+        public const string CommonScriptsExample = @"<script src=""_content/Blazorise/breakpoint.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/button.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/closable.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/colorPicker.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/datePicker.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/dragDrop.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/dropdown.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/fileEdit.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/filePicker.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/inputMask.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/io.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/memoEdit.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/numericPicker.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/observer.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/table.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/textEdit.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/theme.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/timePicker.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/tooltip.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise/utilities.js?v=1.5.2.0"" type=""module""></script>";
 
         public const string ComponentsImportExample = @"@using Blazorise.Components";
 
-        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.5.1.0"" type=""module""></script>";
+        public const string DatagridScriptsExample = @"<script src=""_content/Blazorise.DataGrid/datagrid.js?v=1.5.2.0"" type=""module""></script>";
 
         public const string EmptyProviderExample = @"public void ConfigureServices( IServiceCollection services )
 {
@@ -4948,15 +5135,15 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     .AddEmptyProviders();
 }";
 
-        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.5.1.0"" type=""module""></script>";
+        public const string MarkdownScriptsExample = @"<script src=""_content/Blazorise.Markdown/markdown.js?v=1.5.2.0"" type=""module""></script>";
 
-        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Material/tooltip.js?v=1.5.1.0"" type=""module""></script>";
+        public const string MaterialScriptsExample = @"<script src=""_content/Blazorise.Material/modal.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Material/tooltip.js?v=1.5.2.0"" type=""module""></script>";
 
-        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.5.1.0"" type=""module""></script>";
+        public const string RichTextEditScriptsExample = @"<script src=""_content/Blazorise.RichTextEdit/richtextedit.js?v=1.5.2.0"" type=""module""></script>";
 
-        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.5.1.0"" type=""module""></script>
-<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.5.1.0"" type=""module""></script>";
+        public const string TailwindScriptsExample = @"<script src=""_content/Blazorise.Tailwind/modal.js?v=1.5.2.0"" type=""module""></script>
+<script src=""_content/Blazorise.Tailwind/tooltip.js?v=1.5.2.0"" type=""module""></script>";
 
         public const string TemplatesCLIUsageExample = @"dotnet new blazorise -n MyNewBlazoriseApp -p Bootstrap5 -bh Server -ut false -f net7.0";
 
@@ -4966,7 +5153,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string TestingbUnitNugetExample = @"Install-Package Blazorise.Tests.bUnit";
 
-        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.5.1.0"" type=""module""></script>";
+        public const string VideoScriptsExample = @"<script src=""_content/Blazorise.Video/video.js?v=1.5.2.0"" type=""module""></script>";
 
         public const string AnimateExample = @"<Field>
     <Select TValue=""string"" SelectedValueChanged=""@OnSelectedAnimationChanged"">
@@ -5034,7 +5221,7 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
 
         public const string AnimateNugetInstallExample = @"Install-Package Blazorise.Animate";
 
-        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.5.1.0""></script>";
+        public const string AnimateResourcesExample = @"<script src=""_content/Blazorise.Animate/blazorise.animate.js?v=1.5.2.0""></script>";
 
         public const string AutocompleteExample = @"<Autocomplete TItem=""Country""
               TValue=""string""
@@ -8607,6 +8794,10 @@ builder.Services
 
 services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
+        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"">";
+
+        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.5.2.0"" rel=""stylesheet"" />";
+
         public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
         public const string FontAwesomeNugetInstallExample = @"Install-Package Blazorise.Icons.FontAwesome";
@@ -9902,10 +10093,12 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         public const string TreeViewNugetInstallExample = @"Install-Package Blazorise.TreeView";
 
         public const string TreeViewObservableExample = @"@using System.Collections.ObjectModel;
+@using Blazorise.Extensions
 
 <Row>
     <Column>
         <Button Clicked=""@OnAddNodeClick"" Color=""Color.Primary"">Add node</Button>
+        <Button Clicked=""@OnRemoveNodeClick"" Color=""Color.Danger"">Remove node</Button>
     </Column>
     <Column>
         <TreeView Nodes=""Items""
@@ -9929,10 +10122,44 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         return Task.CompletedTask;
     }
 
+    private async Task OnRemoveNodeClick()
+    {
+        if ( selectedNode is null )
+            return;
+
+        await RemoveItem( selectedNode );
+    }
+
+    public Task RemoveItem( Item item )
+    {
+        SearchTryRemoveItem( Items, item );
+        return Task.CompletedTask;
+    }
+
+    private void SearchTryRemoveItem( ObservableCollection<Item> rows, Item item )
+    {
+        if ( rows.IsNullOrEmpty() )
+            return;
+
+        var nodeToRemove = rows.FirstOrDefault( x => x.Equals( item ) );
+
+        if ( nodeToRemove is not null )
+        {
+            rows.Remove( nodeToRemove );
+        }
+        else
+        {
+            foreach ( var row in rows )
+            {
+                SearchTryRemoveItem( row.Children, item );
+            }
+        }
+    }
+
     public class Item
     {
         public string Text { get; set; }
-        public IEnumerable<Item> Children { get; set; }
+        public ObservableCollection<Item> Children { get; set; }
     }
 
     ObservableCollection<Item> Items = new()
@@ -9941,13 +10168,13 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
         new Item
         {
             Text = ""Item 2"",
-            Children = new []
+            Children = new ObservableCollection<Item>()
             {
                 new Item { Text = ""Item 2.1"" },
                 new Item
                 {
                     Text = ""Item 2.2"",
-                    Children = new []
+                    Children = new ObservableCollection<Item>()
                     {
                         new Item { Text = ""Item 2.2.1"" },
                         new Item { Text = ""Item 2.2.2"" },
@@ -10036,16 +10263,11 @@ builder.Services
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();";
 
-        public const string BootstrapGuideSourceFilesExample = @"<html>
-<head>
-	<!-- inside of head section -->
-	<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
-	<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
+        public const string BootstrapGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
+<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-	<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
-	<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css"" rel=""stylesheet"" />
-</head>
-</html>";
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css"" rel=""stylesheet"" />";
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
@@ -10065,16 +10287,11 @@ builder.Services
     .AddBootstrap5Providers()
     .AddFontAwesomeIcons();";
 
-        public const string Bootstrap5GuideSourceFilesExample = @"<html>
-<head>
-  <!-- inside of head section -->
-  <link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"" crossorigin=""anonymous"">
-  <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
+        public const string Bootstrap5GuideSourceFilesExample = @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"" crossorigin=""anonymous"">
+<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-  <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
-  <link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css"" rel=""stylesheet"" />
-</head>
-</html>";
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css"" rel=""stylesheet"" />";
 
         public const string Bootstrap5GuideUsingExample = @"@using Blazorise";
 
@@ -10192,7 +10409,7 @@ builder.Services
 <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
 <script src=""https://cdn.tailwindcss.com""></script>
-<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.5.1.0""></script>
+<script src=""_content/Blazorise.Tailwind/blazorise.tailwind.config.js?v=1.5.2.0""></script>
 
 <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
 <link href=""_content/Blazorise.Tailwind/blazorise.tailwind.css"" rel=""stylesheet"" />";
@@ -11067,12 +11284,12 @@ builder.Services
 
         public const string ComponentsNugetInstallExample = @"Install-Package Blazorise.Components";
 
-        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.5.1.0"" rel=""stylesheet"" />
-<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.5.1.0"" rel=""stylesheet"" />
+        public const string _0941CodeExample = @"<link href=""_content/Blazorise/blazorise.css?v=1.5.2.0"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css?v=1.5.2.0"" rel=""stylesheet"" />
 
-<script src=""_content/Blazorise/blazorise.js?v=1.5.1.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.5.1.0""></script>
-<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.5.1.0""></script>";
+<script src=""_content/Blazorise/blazorise.js?v=1.5.2.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.5.2.0""></script>
+<script src=""_content/Blazorise.Bootstrap/blazorise.bootstrap.js?v=1.5.2.0""></script>";
 
     }
 }

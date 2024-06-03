@@ -15,6 +15,23 @@ public class ButtonComponentTest : TestContext
     }
 
     [Fact]
+    public void Render_Should_Invoke_Initialize_When_PreventDefaultOnSubmit()
+    {
+        // setup
+        var buttonOpen = "<button";
+        var buttonClose = "</button>";
+
+        // test
+        var comp = RenderComponent<Button>(parameters => 
+        parameters.Add(x=> x.PreventDefaultOnSubmit, true));
+
+        // validate
+        this.JSInterop.VerifyInvoke( "initialize" );
+        Assert.Contains( buttonOpen, comp.Markup );
+        Assert.Contains( buttonClose, comp.Markup );
+    }
+
+    [Fact]
     public void RenderTest()
     {
         // setup
@@ -27,7 +44,7 @@ public class ButtonComponentTest : TestContext
         var comp = RenderComponent<ButtonComponent>();
 
         // validate
-        this.JSInterop.VerifyInvoke( "initialize" );
+        this.JSInterop.VerifyNotInvoke( "initialize" );
         Assert.Contains( buttonOpen, comp.Markup );
         Assert.Contains( buttonClose, comp.Markup );
         Assert.Contains( buttonContent, comp.Markup );
@@ -55,7 +72,7 @@ public class ButtonComponentTest : TestContext
         var result2 = result.InnerHtml;
 
         // validate
-        this.JSInterop.VerifyInvoke( "initialize" );
+        this.JSInterop.VerifyNotInvoke( "initialize" );
         Assert.Equal( "1", result1 );
         Assert.Equal( "2", result2 );
     }
