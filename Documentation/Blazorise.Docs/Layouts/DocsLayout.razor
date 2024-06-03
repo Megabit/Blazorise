@@ -39,13 +39,27 @@
                         </BarItem>
                         <BarItem>
                             <BarLink To="docs/start">
-                                <BarIcon IconName="IconName.Directions" /> Start
+                                <BarIcon IconName="IconName.Directions" /> Quick Start
                             </BarLink>
                         </BarItem>
                         <BarItem>
-                            <BarLink To="docs/usage">
-                                <BarIcon IconName="IconName.BookReader" /> Usage
-                            </BarLink>
+                            <BarDropdown @bind-Visible="@sideBarIntegrationsMenuVisible">
+                                <BarDropdownToggle>
+                                    <BarIcon IconName="IconName.BookReader" /> Integrations
+                                </BarDropdownToggle>
+                                <BarDropdownMenu>
+                                    <BarDropdownItem To="docs/usage/ant-design/">Ant Design</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/bootstrap4/">Bootstrap 4</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/bootstrap5/">Bootstrap 5</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/bulma/">Bulma</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/fluent2/" Flex="Flex.JustifyContent.Between">
+                                        <Span>Fluent 2</Span>
+                                        <Span Background="Background.Primary" TextColor="TextColor.White" Border="Border.Rounded" TextWeight="TextWeight.Bold" TextSize="TextSize.ExtraSmall" Padding="Padding.Is1">New</Span>
+                                    </BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/material/">Material</BarDropdownItem>
+                                    <BarDropdownItem To="docs/usage/tailwind/">Tailwind</BarDropdownItem>
+                                </BarDropdownMenu>
+                            </BarDropdown>
                         </BarItem>
                         <BarItem>
                             <BarLink To="docs/testing">

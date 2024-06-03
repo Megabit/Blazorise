@@ -1405,6 +1405,16 @@ class EmptyClassProvider : IClassProvider
 
     #endregion
 
+    #region Extensions
+
+    #region Autocomplete
+
+    public string AutocompleteItemFocus( bool focus ) => null;
+
+    #endregion
+
+    #endregion
+
     #region Properties
 
     public bool UseCustomInputStyles { get; set; } = false;

@@ -6761,10 +6761,10 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         public const string DataGridAutoGenerateColumnsExample = @"@using System.ComponentModel.DataAnnotations
 
 <DataGrid TItem=""Example""
-            Data=""data""
-            Responsive
-            ShowPager
-            ShowPageSizes Editable>
+          Data=""data""
+          Responsive
+          ShowPager
+          ShowPageSizes Editable>
     <DataGridCommandColumn TItem=""Example"" />
 </DataGrid>
 
@@ -6772,17 +6772,39 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
     public class Example
     {
+        [Order( DisplayOrder = 1, EditOrder = 2 )]
         [Display( Name = ""Name"" )]
         public string FirstName { get; set; }
 
+        [Order( DisplayOrder = 2, EditOrder = 3 )]
         public string LastName { get; set; }
 
-
+        [Order( DisplayOrder = 3, EditOrder = 4 )]
+        [Numeric( EnableStep = true, ShowStepButtons = true, Step = 1 )]
         public int Age { get; set; }
 
+        [Order( DisplayOrder = 5, EditOrder = 0 )]
+        public Status Status { get; set; }
+
+        [Numeric( EnableStep = true, ShowStepButtons = true, Step = 100 )]
+        [Order( DisplayOrder = 4, EditOrder = 1 )]
         public decimal Balance { get; set; }
 
-        public Status Status { get; set; }
+        [IgnoreField]
+        public string FieldToBeIgnored { get; set; }
+
+        [Order( DisplayOrder = 5, EditOrder = 0 )]
+        [Display( Name = ""Gender"" )]
+        [Select( GetDataFunction = ""GetGenders"", TextField = nameof( Blazorise.Shared.Data.Gender.Description ), ValueField = nameof( Blazorise.Shared.Data.Gender.Code ) )]
+        public string Gender { get; set; }
+
+        [Order( DisplayOrder = 6, EditOrder = 6 )]
+        [Display( Name = ""DOB"" )]
+        [Date( InputMode = DateInputMode.Date )]
+        public DateOnly DateOfBirth { get; set; }
+
+        public IEnumerable<Gender> GetGenders()
+            => EmployeeData.Genders;
     }
 
     public enum Status
@@ -6793,12 +6815,12 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
     private IEnumerable<Example> data = new List<Example>()
     {
-        new(){ FirstName = ""John"", LastName = ""Doe"", Age = 30, Balance = 1000, Status = Status.Active },
-        new(){ FirstName = ""Jane"", LastName = ""Doe"", Age = 28, Balance = 2000, Status = Status.Active },
-        new(){ FirstName = ""Joe"", LastName = ""Doe"", Age = 26, Balance = 3000, Status = Status.Inactive },
-        new(){ FirstName = ""Jill"", LastName = ""Doe"", Age = 24, Balance = 4000, Status = Status.Inactive },
-        new(){ FirstName = ""Jack"", LastName = ""Doe"", Age = 22, Balance = 5000, Status = Status.Active },
-        new(){ FirstName = ""Jen"", LastName = ""Doe"", Age = 20, Balance = 6000, Status = Status.Active },
+        new(){ FirstName = ""John"", LastName = ""Doe"", Gender = ""M"", Age = 30, Balance = 1000, Status = Status.Active, FieldToBeIgnored = ""4a92b1ea-e82d-4920-8d22-198a2385945e"", DateOfBirth = new DateOnly(1992,03,05) },
+        new(){ FirstName = ""Jane"", LastName = ""Doe"", Gender = ""F"",Age = 28, Balance = 2000, Status = Status.Active, FieldToBeIgnored = ""cb85ede4-4a66-4ab5-813d-6f09b4781489"", DateOfBirth = new DateOnly(1972,03,03) },
+        new(){ FirstName = ""Joe"", LastName = ""Doe"", Gender = ""M"",Age = 26, Balance = 3000, Status = Status.Inactive, FieldToBeIgnored = ""0725a26f-1b5c-4659-be06-2b4b108a2fb4"", DateOfBirth = new DateOnly(1981,12,05) },
+        new(){ FirstName = ""Jill"", LastName = ""Doe"", Gender = ""F"",Age = 24, Balance = 4000, Status = Status.Inactive, FieldToBeIgnored = ""bb85d60c-96fa-4137-a9f1-e09ec0497f5d"", DateOfBirth = new DateOnly(1980,05,29) },
+        new(){ FirstName = ""Jack"", LastName = ""Doe"", Gender = ""M"",Age = 22, Balance = 5000, Status = Status.Active, FieldToBeIgnored = ""76471dfe-2efd-4ec5-b192-82abc1b05c72"", DateOfBirth = new DateOnly(1990,09,10) },
+        new(){ FirstName = ""Jen"", LastName = ""Doe"",Gender = ""F"", Age = 20, Balance = 6000, Status = Status.Active, FieldToBeIgnored = ""be83a3c0-9636-4ebd-acca-08e6ffb5c469"", DateOfBirth = new DateOnly(2000,01,01) },
     };
 
 }";
@@ -8949,6 +8971,10 @@ builder.Services
 
 services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
 
+        public const string BootstrapIconsCSSExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"">";
+
+        public const string FluentIconsCSSExample = @"<link href=""_content/Blazorise.Icons.FluentUI/FluentSystemIcons-Resizable.css?v=1.5.2.0"" rel=""stylesheet"" />";
+
         public const string FontAwesomeCSSExample = @"<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">";
 
         public const string FontAwesomeNugetInstallExample = @"Install-Package Blazorise.Icons.FontAwesome";
@@ -10414,16 +10440,11 @@ builder.Services
     .AddBootstrapProviders()
     .AddFontAwesomeIcons();";
 
-        public const string BootstrapGuideSourceFilesExample = @"<html>
-<head>
-	<!-- inside of head section -->
-	<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
-	<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
+        public const string BootstrapGuideSourceFilesExample = @"<link rel=""stylesheet"" href=""https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"" integrity=""sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn"" crossorigin=""anonymous"">
+<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-	<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
-	<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css"" rel=""stylesheet"" />
-</head>
-</html>";
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap/blazorise.bootstrap.css"" rel=""stylesheet"" />";
 
         public const string BootstrapGuideUsingExample = @"@using Blazorise";
 
@@ -10443,16 +10464,11 @@ builder.Services
     .AddBootstrap5Providers()
     .AddFontAwesomeIcons();";
 
-        public const string Bootstrap5GuideSourceFilesExample = @"<html>
-<head>
-  <!-- inside of head section -->
-  <link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"" crossorigin=""anonymous"">
-  <link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
+        public const string Bootstrap5GuideSourceFilesExample = @"<link href=""https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"" rel=""stylesheet"" integrity=""sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"" crossorigin=""anonymous"">
+<link href=""_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css"" rel=""stylesheet"">
 
-  <link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
-  <link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css"" rel=""stylesheet"" />
-</head>
-</html>";
+<link href=""_content/Blazorise/blazorise.css"" rel=""stylesheet"" />
+<link href=""_content/Blazorise.Bootstrap5/blazorise.bootstrap5.css"" rel=""stylesheet"" />";
 
         public const string Bootstrap5GuideUsingExample = @"@using Blazorise";
 
@@ -11432,7 +11448,15 @@ builder.Services
 
     Task ShowToast()
     {
-        return ToastService.Info( ""This is a simple toast message!"", ""Hello"" );
+        return ToastService.Info( ""This is a simple toast message!"", ""Hello"", BuildToastInstanceOptions );
+    }
+
+    private void BuildToastInstanceOptions( ToastInstanceOptions toastInstanceOptions )
+    {
+        toastInstanceOptions.Animated = true;
+        toastInstanceOptions.AnimationDuration = 300;
+        toastInstanceOptions.Autohide = true;
+        toastInstanceOptions.AutohideDelay = 3000;
     }
 }";
 

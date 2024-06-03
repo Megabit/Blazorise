@@ -27,7 +27,7 @@ public class ButtonOnlyComponentTest : TestContext
         var comp = RenderComponent<ButtonOnlyComponent>();
 
         // validate
-        this.JSInterop.VerifyInvoke( "initialize" );
+        this.JSInterop.VerifyNotInvoke( "initialize");
         Assert.Contains( buttonOpen, comp.Markup );
         Assert.Contains( buttonClose, comp.Markup );
         Assert.Contains( buttonType, comp.Markup );
