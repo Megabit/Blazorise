@@ -70,13 +70,16 @@ public partial class Button : BaseComponent, IAsyncDisposable
         // notify addons that the button is inside of it
         ParentAddons?.NotifyButtonInitialized( this );
 
-        ExecuteAfterRender( async () =>
+        if ( PreventDefaultOnSubmit )
         {
-            await JSModule.Initialize( ElementRef, ElementId, new
+            ExecuteAfterRender( async () =>
             {
-                PreventDefaultOnSubmit
+                await JSModule.Initialize( ElementRef, ElementId, new
+                {
+                    PreventDefaultOnSubmit
+                } );
             } );
-        } );
+        }
 
         LoadingTemplate ??= ProvideDefaultLoadingTemplate();
 
