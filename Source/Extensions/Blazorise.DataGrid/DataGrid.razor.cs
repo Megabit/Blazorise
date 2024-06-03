@@ -521,11 +521,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( IsDynamicItem )
         {
-                var item = Data.IsNullOrEmpty() 
-                    ? NewItemCreator is not null
-                        ? NewItemCreator.Invoke()
-                        : default
-                    : Data.FirstOrDefault();
+            var item = Data.IsNullOrEmpty()
+                ? NewItemCreator is not null
+                    ? NewItemCreator.Invoke()
+                    : default
+                : Data.FirstOrDefault();
 
             if ( item is ExpandoObject expando )
             {
@@ -533,17 +533,33 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 {
                     var type = expandoKeyValue.Value?.GetType();
                     if ( !IsValidColumnType( type ) )
-                    { 
+                    {
                         continue;
                     }
 
-                    DataGridColumn<TItem> column = GetColumnByType( type );
+                    DataGridColumn<TItem> column;
+
+                    if ( type.IsEnum )
+                    {
+                        var enumValues = Enum.GetValues( type ).Cast<object>();
+
+                        column = new DataGridSelectColumn<TItem>()
+                        {
+                            Data = enumValues,
+                            TextField = x => x?.ToString(),
+                            ValueField = x => x,
+                        };
+                    }
+                    else
+                    {
+                        column = new DataGridColumn<TItem>();
+                    }
 
                     column.Editable = true;
                     column.Caption = Formaters.PascalCaseToFriendlyName( expandoKeyValue.Key );
                     column.Field = expandoKeyValue.Key;
-                    this.AddColumn( column );
-                } 
+                    AddColumn( column );
+                }
             }
 
             InvokeAsync( StateHasChanged );
@@ -557,22 +573,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 continue;
             }
 
-            DataGridColumn<TItem> column = GetColumnByType(property.PropertyType);
-
-            column.Editable = property.SetMethod is not null;
-            column.Caption = ReflectionHelper.ResolveCaption( property );
-            column.Field = property.Name;
-            this.AddColumn( column );
-        }
-
-        bool IsValidColumnType(Type type )
-        {
-            return ( type.IsValueType || type == typeof( string ) );
-        }
-
-        DataGridColumn<TItem> GetColumnByType(Type type)
-        {
-
             if ( ReflectionHelper.ResolveIsIgnore( property ) )
             {
                 continue;
@@ -580,9 +580,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             DataGridColumn<TItem> column;
 
-            if ( type.IsEnum )
+            if ( property.PropertyType.IsEnum )
             {
-                var enumValues = Enum.GetValues( type ).Cast<object>();
+                var enumValues = Enum.GetValues( property.PropertyType ).Cast<object>();
 
                 column = new DataGridSelectColumn<TItem>()
                 {
@@ -634,8 +634,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             column.Editable = property.SetMethod is not null;
             column.Caption = ReflectionHelper.ResolveCaption( property );
             column.Field = property.Name;
-            this.AddColumn( column );
-            return column;
+            AddColumn( column );
+        }
+
+        static bool IsValidColumnType( Type type )
+        {
+            return type is not null && ( type.IsValueType || type == typeof( string ) );
         }
 
         InvokeAsync( StateHasChanged );
@@ -2654,7 +2658,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Whether the TIem is a dynamic item.
     /// </summary>
-    internal bool IsDynamicItem 
+    internal bool IsDynamicItem
         => typeof( TItem ) == typeof( ExpandoObject );
 
     /// <summary>
