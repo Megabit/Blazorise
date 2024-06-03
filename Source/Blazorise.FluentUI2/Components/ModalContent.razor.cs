@@ -5,6 +5,24 @@ namespace Blazorise.FluentUI2.Components;
 
 public partial class ModalContent
 {
+    protected override void OnInitialized()
+    {
+        if ( ParentModal is FluentUI2.Components.Modal fluentModal )
+        {
+            if ( Size != ModalSize.Default )
+            {
+                fluentModal.NotifyModalSizeChanged( Size );
+            }
+
+            if ( Size != ModalSize.Default || Centered )
+            {
+                fluentModal.NotifyModalCenteredChanged( Centered );
+            }
+        }
+
+        base.OnInitialized();
+    }
+
     public override Task SetParametersAsync( ParameterView parameters )
     {
         if ( ParentModal is FluentUI2.Components.Modal fluentModal )
