@@ -2807,7 +2807,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Returns true if ReadData will be invoked.
     /// </summary>
-    protected bool IsLoading { get; set; }
+    public bool IsLoading { get; protected set; }
 
     /// <summary>
     /// Returns true if EmptyTemplate is set and Data is null or empty.
