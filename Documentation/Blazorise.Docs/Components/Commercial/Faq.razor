@@ -1,7 +1,7 @@
 ﻿@if ( ShowHeader )
 {
     <Paragraph TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is5.FromTop.Is4.FromBottom">
-        Frequently Asked Questions
+        Blazorise licensing FAQ
     </Paragraph>
 }
 
@@ -173,6 +173,42 @@
                 </Paragraph>
                 <Paragraph>
                     In essence, while Blazorise provides the foundational components and tools, Blazorise Blocks offer higher-level, more specialized modules that are based on those foundational components for specific use cases.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "What is indemnification?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Enterprise customers receive additional protection against possible copyright or intellectual property right (IPR) claims related to any project that uses Blazorise. Indemnification options can be customized to suit an organization or project.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "What is escrow service?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Blazorise offers third-party escrow services if your company policy requires you to use them for continuity purposes. In practice, we can store the required source code in an escrow service and make this available to you. In this way, if something unforeseen happens, you can continue developing based on the stored source code. The service is optional and available for Enterprise subscribers.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "Can I really have unlimited tickets with the Enterprise Plus tier?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Yes, the enterprise tier does offer unlimited support tickets. However, this is subject to a fair use policy. Our goal is to provide comprehensive support to all our enterprise customers. Should we notice an unusually high volume of tickets from a single agreement indicative of misuse, we reserve the right to limit the number of tickets in line with our fair use policy. This ensures all our customers receive timely and efficient support.
+                </Paragraph>
+            }
+        },
+
+        new FaqInfo {
+            Title = "What is the process for requesting new features or enhancements?",
+            Body = (__builder) => {
+                <Paragraph>
+                    Feature requests fall outside the scope of developer support, though we're happy to quote for development services.
                 </Paragraph>
             }
         },
