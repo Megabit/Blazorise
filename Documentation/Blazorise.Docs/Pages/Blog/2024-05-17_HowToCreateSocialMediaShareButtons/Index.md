@@ -42,6 +42,7 @@ You can follow [this](/blog/how-to-create-a-blazorise-application-beginners-guid
 ```
 
 We can see that we are adding a few links to our head tag, let's break them down:
+
 - The first link, adds a link to BootstrapCSS, this is required in order for our buttons to work! as we are using Bootstrap for this tutorial.
 - The rest of the links, add Blazorise's dependencies to the web app. This is also very important!
 
@@ -81,6 +82,7 @@ builder.Services
 We can create a record, that will hold all the information related to each social media platform we want to support sharing to!
 
 `Platform.cs` 
+
 ```cs|Platform
 public record Platform(string Name, string TextColor, string BackgroundColor, string IconName, string Href)
 {
@@ -146,6 +148,7 @@ Here is a breakdown of what each one does:
 ---
 
 ## Define the brand colors in brands.css
+
 Here are some colors, you may expand this further as you need
 
 ```html|Brands
@@ -166,6 +169,7 @@ Here are some colors, you may expand this further as you need
  * IMPORTANT NOTE: please make sure, you prefix your class names with `bg-` 
  */
 ```
+
 > The `!important` property, this is necessary as, by default the Bootstrap icons will have the `Color` property set to `primary`, this will shadow our custom background colors, so adding `!important` at the end of them will fix this.
 
 ---
@@ -192,6 +196,7 @@ Inside your page, add the freshly created buttons
     Share on
 </ShareButton>
 ```
+
 > Notice how the text inside the button says `Share on` instead of `Share on X`, this is because X's logo is literally the latin letter X, so it would not make sense, so have `Share on X ✖`
 
 ---
