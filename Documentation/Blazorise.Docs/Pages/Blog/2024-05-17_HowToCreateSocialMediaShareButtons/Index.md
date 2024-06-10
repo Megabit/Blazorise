@@ -19,19 +19,9 @@ Are you ready to sprinkle some Blazorise magic into your Blazor app? Adding shar
 
 ## Installing Blazorise
 
-We don't need to explain how to add Blazorise to your project in each blog, so [here](/blog/how-to-create-a-blazorise-application-beginners-guide) is the link to the existing guide on the topic! 
+Adding Blazorise to your project doesn't need to be explained in every blog post, so [here's](/docs/start) here's the link to the current guide on the subject!
 
-However, one important thing to keep in mind is, that we will need to include the FontAwesome icons in our app. To do this, add the following line to your `wwwroot/index.html`
-
-```html|HeadContentIncludeFontAwesome
-<html>
-<head>
-  <link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css" rel="stylesheet">
-  ...
-</head>
-...
-</html>
-```
+Or if you wish to install Blazorise with another CSS framework, you can follow the [Blazorise Integration Guides](/docs/usage) and choose the CSS framework you want to use!
 
 ---
 
@@ -52,7 +42,7 @@ public record Platform(string Name, string TextColor, string BackgroundColor, st
 
 ## Creating the ShareButton component
 
-The next step will be to create the actual component which will be used as the share button. This component can go inside the `Components` folder. This folder is a great place for keeping components which are reused in many different places across your app! 
+The next step will be to create the actual Blazor component which will be used as the share button. This component can go inside the `/Components/` folder. This folder is a great place for keeping components which are reused in many different places across your app! 
 
 Create a file named `ShareButtonComponent.razor`, and write the following in it:
 
@@ -75,11 +65,11 @@ Create a file named `ShareButtonComponent.razor`, and write the following in it:
     [Parameter, EditorRequired]
     public Platform Platform { get; set; }
 
-    [Parameter, EditorRequired]
-    public RenderFragment ChildContent { get; set; }
-
     [Parameter]
     public Size ButtonSize { get; set; } = Size.Large;
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> AdditionalAttributes { get; set; } = new();
@@ -100,8 +90,8 @@ We have just enough of them to allow for the exact customization necessary, whil
 
 Here is a breakdown of what each parameter does:
 1. `Platform` - The platform of the share button. The user will pass the platforms which will are statically defined inside the Platform record.
-2. `ChildContent` - The markup displayed inside the button. See [blazor-university](https://blazor-university.com/templating-components-with-renderfragements/).
-3. `Size` - The size of the button, this is a Blazorise class, so we can use Small, Medium, Large etc.
+2. `Size` - The size of the button, this is a Blazorise class, so we can use Small, Medium, Large etc.
+3. `ChildContent` - The markup displayed inside the button. See [blazor-university](https://blazor-university.com/templating-components-with-renderfragements/).
 4. `AdditionalAttributes` - Any additional attributes the user passes to the button. Will directly be applied to the underlying button component. See [blazor-university](https://blazor-university.com/components/capturing-unexpected-parameters/).
 
 To define parameters in Blazor, we use a publicly accessible property, with the `[Parameter]` attribute!
@@ -139,7 +129,7 @@ Let's create another file inside the `/wwwroot/` folder. Let's name it `brands.c
 
 ## Include the brands.css file in your app
 
-Now, writing a simple CSS file is not really enough, we need to include it in our index.html's head section, so that the browser, can actually fetch our classes. Just add the following line to wwwroot/index.html:
+Now, writing a simple CSS file is not really enough, we need to include it in our index.html's head section, so that the browser, can actually fetch our classes. Just add the following line to the `wwwroot/index.html`
 
 ```html|IndexhtmlHeadSection
 <html>
