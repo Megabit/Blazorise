@@ -17,14 +17,12 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    We don't need to explain how to add Blazorise to your project in each blog, so <Anchor To="/blog/how-to-create-a-blazorise-application-beginners-guide" Title="Link to here">here</Anchor> is the link to the existing guide on the topic!
+    Adding Blazorise to your project doesn't need to be explained in every blog post, so <Anchor To="/docs/start" Title="Link to here's">here's</Anchor> here's the link to the current guide on the subject!
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    However, one important thing to keep in mind is, that we will need to include the FontAwesome icons in our app. To do this, add the following line to your <Code>wwwroot/index.html</Code>
+    Or if you wish to install Blazorise with another CSS framework, you can follow the <Anchor To="/docs/usage" Title="Link to Blazorise Integration Guides">Blazorise Integration Guides</Anchor> and choose the CSS framework you want to use!
 </BlogPageParagraph>
-
-<BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_HeadContentIncludeFontAwesome" />
 
 <BlogPageSubtitle>
     Let's begin!
@@ -45,7 +43,7 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    The next step will be to create the actual component which will be used as the share button. This component can go inside the <Code>Components</Code> folder. This folder is a great place for keeping components which are reused in many different places across your app!
+    The next step will be to create the actual Blazor component which will be used as the share button. This component can go inside the <Code>/Components/</Code> folder. This folder is a great place for keeping components which are reused in many different places across your app!
 </BlogPageParagraph>
 
 <BlogPageParagraph>
@@ -89,10 +87,10 @@
         <Code>Platform</Code> - The platform of the share button. The user will pass the platforms which will are statically defined inside the Platform record.
     </BlogPageListItem>
     <BlogPageListItem>
-        <Code>ChildContent</Code> - The markup displayed inside the button. See <Anchor To="https://blazor-university.com/templating-components-with-renderfragements/" Title="Link to blazor-university">blazor-university</Anchor>.
+        <Code>Size</Code> - The size of the button, this is a Blazorise class, so we can use Small, Medium, Large etc.
     </BlogPageListItem>
     <BlogPageListItem>
-        <Code>Size</Code> - The size of the button, this is a Blazorise class, so we can use Small, Medium, Large etc.
+        <Code>ChildContent</Code> - The markup displayed inside the button. See <Anchor To="https://blazor-university.com/templating-components-with-renderfragements/" Title="Link to blazor-university">blazor-university</Anchor>.
     </BlogPageListItem>
     <BlogPageListItem>
         <Code>AdditionalAttributes</Code> - Any additional attributes the user passes to the button. Will directly be applied to the underlying button component. See <Anchor To="https://blazor-university.com/components/capturing-unexpected-parameters/" Title="Link to blazor-university">blazor-university</Anchor>.
@@ -128,7 +126,7 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    Now, writing a simple CSS file is not really enough, we need to include it in our index.html's head section, so that the browser, can actually fetch our classes. Just add the following line to wwwroot/index.html:
+    Now, writing a simple CSS file is not really enough, we need to include it in our index.html's head section, so that the browser, can actually fetch our classes. Just add the following line to the <Code>wwwroot/index.html</Code>
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_IndexhtmlHeadSection" />

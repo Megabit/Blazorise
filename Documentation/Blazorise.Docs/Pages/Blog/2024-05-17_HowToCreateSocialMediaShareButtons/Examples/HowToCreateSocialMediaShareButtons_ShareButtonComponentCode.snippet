@@ -3,11 +3,11 @@
     [Parameter, EditorRequired]
     public Platform Platform { get; set; }
 
-    [Parameter, EditorRequired]
-    public RenderFragment ChildContent { get; set; }
-
     [Parameter]
     public Size ButtonSize { get; set; } = Size.Large;
+
+    [Parameter, EditorRequired]
+    public RenderFragment ChildContent { get; set; }
 
     [Parameter(CaptureUnmatchedValues = true)]
     public Dictionary<string, object> AdditionalAttributes { get; set; } = new();
