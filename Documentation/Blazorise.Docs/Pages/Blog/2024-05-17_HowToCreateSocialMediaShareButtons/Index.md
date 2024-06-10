@@ -17,71 +17,29 @@ Are you ready to sprinkle some Blazorise magic into your Blazor app? Adding shar
 
 ---
 
-## Let's dive in and jazz up your app with these fantastic buttons.
-
 ## Installing Blazorise
 
-You can follow [this](/blog/how-to-create-a-blazorise-application-beginners-guide) guide to install Blazorise into your project.
+We don't need to explain how to add Blazorise to your project in each blog, so [here](/blog/how-to-create-a-blazorise-application-beginners-guide) is the link to the existing guide on the topic! 
 
----
+However, one important thing to keep in mind is, that we will need to include the FontAwesome icons in our app. To do this, add the following line to your `wwwroot/index.html`
 
-## Adding static files in the index.html
-
-```html|HeadContent
+```html|HeadContentIncludeFontAwesome
 <html>
 <head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" 
-        integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" 
-        crossorigin="anonymous">
-
   <link href="_content/Blazorise.Icons.FontAwesome/v6/css/all.min.css" rel="stylesheet">
-  <link href="_content/Blazorise/blazorise.css" rel="stylesheet" />
-  <link href="_content/Blazorise.Bootstrap/blazorise.bootstrap.css" rel="stylesheet" />
+  ...
 </head>
+...
 </html>
 ```
 
-We can see that we are adding a few links to our head tag, let's break them down:
-
-- The first link, adds a link to BootstrapCSS, this is required in order for our buttons to work! as we are using Bootstrap for this tutorial.
-- The rest of the links, add Blazorise's dependencies to the web app. This is also very important!
-
 ---
 
-## Adding Imports inside of the `_Imports.razor`
+## Let's begin!
 
-```html|UsingStatement
-@using Blazorise
-```
+We can start with creating the class which will hold all the information related to each social media platform we want to support sharing to!
 
----
-
-## Registering services
-
-Add the following line at the top of your `Program.cs` file:
-
-```cs|ProgramCsUsingStatements
-using Blazorise;
-using Blazorise.Bootstrap;
-using Blazorise.Icons.FontAwesome;
-```
-
-and somewhere inside the file, register Blazorise's services like so:
-
-```cs|ServiceRegistration
-builder.Services
-    .AddBlazorise()
-    .AddBootstrapProviders()
-    .AddFontAwesomeIcons();
-```
-
----
-
-## Creating the brand record
-
-We can create a record, that will hold all the information related to each social media platform we want to support sharing to!
-
-`Platform.cs` 
+Create `Platform.cs`. We will use a record for this. Choosing the right tool to solve our problems is always a good idea. I think records are ideal for this scenario as they are basically immutable data classes, ie. unchangeable collections of values. You can read more about them [here](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record).
 
 ```cs|Platform
 public record Platform(string Name, string TextColor, string BackgroundColor, string IconName, string Href)
@@ -92,11 +50,11 @@ public record Platform(string Name, string TextColor, string BackgroundColor, st
 }
 ```
 
-> If you don't know what records are, you can read about then [here](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record). 
-
-> They are a very useful concept, this is a perfect use for a record - an immutable data class.
-
 ## Creating the ShareButton component
+
+The next step will be to create the actual component which will be used as the share button. This component can go inside the `Components` folder. This folder is a great place for keeping components which are reused in many different places across your app! 
+
+Create a file named `ShareButtonComponent.razor`, and write the following in it:
 
 ```html|ShareButtonComponentMarkup
 <Button TextColor="@Platform.TextColor"
@@ -130,26 +88,31 @@ public record Platform(string Name, string TextColor, string BackgroundColor, st
 
 ## Let's break down the component
 
-### Button
+First thing's first, we have the Button component, notice that it is typed as **B**utton and not **b**utton that is because it is not an ordinary HTML button, it is the Blazorise **B**utton component! This means it can take parameters and allow us to customize it!
 
-First thing's first, we have the Button component, notice that it is typed as **B**utton and not button that is because it is not an ordinary HTML button, it is a Blazorise button component! This means it can take parameters, to allow us to customize it further!
+It's important to note, that all Blazor components must be named in PascalCase, this is necessary for them to be treated as components by the razor compiler. If you don't do this, they will not be treated as razor markup, rather, as regular HTML elements.
 
-> Just like other Blazorise components, this button is framework-agnostic, meaning you may use Bootstrap, TailwindCSS, or any other supported frameworks!
+Just like other Blazorise components, this button is framework-agnostic, meaning you may use Bootstrap, TailwindCSS, or any other supported frameworks!
 
 ### The parameters
-We have just enough parameters to allow for the exact customization necessary,
 
-Here is a breakdown of what each one does:
+We have just enough of them to allow for the exact customization necessary, while keeping the component very simple to use. We will write this code once, and re-use it multiple times all around our application. This is the beauty of DRY and Component based front-end frameworks.
+
+Here is a breakdown of what each parameter does:
 1. `Platform` - The platform of the share button. The user will pass the platforms which will are statically defined inside the Platform record.
 2. `ChildContent` - The markup displayed inside the button. See [blazor-university](https://blazor-university.com/templating-components-with-renderfragements/).
 3. `Size` - The size of the button, this is a Blazorise class, so we can use Small, Medium, Large etc.
 4. `AdditionalAttributes` - Any additional attributes the user passes to the button. Will directly be applied to the underlying button component. See [blazor-university](https://blazor-university.com/components/capturing-unexpected-parameters/).
 
+To define parameters in Blazor, we use a publicly accessible property, with the `[Parameter]` attribute!
+
+You may be wondering, what `[EditorRequired]` does, well, it is a really useful attribute. It marks a regular Parameter required, meaning that we will see warnings in our IDE when we don't pass the required parameters to our component. This is extremely useful to prevent accidental bugs while writing Blazor components. Because Blazor components are strongly typed, there is little to no room for making mistakes while using them.
+
 ---
 
 ## Define the brand colors in brands.css
 
-Here are some colors, you may expand this further as you need
+Let's create another file inside the `/wwwroot/` folder. Let's name it `brands.css`. This CSS file will hold all of our brand colors. Here are some example colors, which you may expand further as you need to add more brands!
 
 ```html|Brands
 .bg-x {
@@ -170,11 +133,13 @@ Here are some colors, you may expand this further as you need
  */
 ```
 
-> The `!important` property, this is necessary as, by default the Bootstrap icons will have the `Color` property set to `primary`, this will shadow our custom background colors, so adding `!important` at the end of them will fix this.
+> **Note:** The `!important` property, this is necessary as, by default the Bootstrap icons will have the `Color` property set to `primary`, this will shadow our custom background colors, so adding `!important` at the end of them will fix this.
 
 ---
 
 ## Include the brands.css file in your app
+
+Now, writing a simple CSS file is not really enough, we need to include it in our index.html's head section, so that the browser, can actually fetch our classes. Just add the following line to wwwroot/index.html:
 
 ```html|IndexhtmlHeadSection
 <html>
@@ -189,7 +154,7 @@ Here are some colors, you may expand this further as you need
 
 ## Using the ShareButtons!
 
-Inside your page, add the freshly created buttons
+And already, we are done! It's time to use your freshly created component! Inside `Index.razor` add your component like so:
 
 ```html|ShareButtonUsage
 <ShareButton Brand="@Platform.X">
@@ -197,11 +162,13 @@ Inside your page, add the freshly created buttons
 </ShareButton>
 ```
 
-> Notice how the text inside the button says `Share on` instead of `Share on X`, this is because X's logo is literally the latin letter X, so it would not make sense, so have `Share on X ✖`
+> **Note:** Notice how the text inside the button says `Share on` instead of `Share on X`, this is because X's logo is literally the latin letter X, so it would not make sense, so have `Share on X ✖`
+
+> Also, try to omit the Brand parameter, or the ChildContent - which in this case is just the text "Share on". You will see warnings in your code, your IDE will warn you about not passing required parameters to your component.
 
 ---
 
-## Congratulations! You can now create ShareButtons in your web application!
+## Congratulations! You can now create ShareButtons in your Blazor web application!
 
 ![Share buttons](img/blog/2024-05-17/share-buttons.png)
 

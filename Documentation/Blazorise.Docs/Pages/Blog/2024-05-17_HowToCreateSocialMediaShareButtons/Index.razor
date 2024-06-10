@@ -13,87 +13,44 @@
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
-    Let's dive in and jazz up your app with these fantastic buttons.
-</BlogPageSubtitle>
-
-<BlogPageSubtitle>
     Installing Blazorise
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    You can follow <Anchor To="/blog/how-to-create-a-blazorise-application-beginners-guide" Title="Link to this">this</Anchor> guide to install Blazorise into your project.
+    We don't need to explain how to add Blazorise to your project in each blog, so <Anchor To="/blog/how-to-create-a-blazorise-application-beginners-guide" Title="Link to here">here</Anchor> is the link to the existing guide on the topic!
 </BlogPageParagraph>
-
-<BlogPageSubtitle>
-    Adding static files in the index.html
-</BlogPageSubtitle>
-
-<BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_HeadContent" />
 
 <BlogPageParagraph>
-    We can see that we are adding a few links to our head tag, let's break them down:
+    However, one important thing to keep in mind is, that we will need to include the FontAwesome icons in our app. To do this, add the following line to your <Code>wwwroot/index.html</Code>
 </BlogPageParagraph>
 
-<BlogPageList>
-    <BlogPageListItem>
-        The first link, adds a link to BootstrapCSS, this is required in order for our buttons to work! as we are using Bootstrap for this tutorial.
-    </BlogPageListItem>
-    <BlogPageListItem>
-        The rest of the links, add Blazorise's dependencies to the web app. This is also very important!
-    </BlogPageListItem>
-</BlogPageList>
+<BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_HeadContentIncludeFontAwesome" />
 
 <BlogPageSubtitle>
-    Adding Imports inside of the <Code>_Imports.razor</Code>
-</BlogPageSubtitle>
-
-<BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_UsingStatement" />
-
-<BlogPageSubtitle>
-    Registering services
+    Let's begin!
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    Add the following line at the top of your <Code>Program.cs</Code> file:
-</BlogPageParagraph>
-
-<BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_ProgramCsUsingStatements" />
-
-<BlogPageParagraph>
-    and somewhere inside the file, register Blazorise's services like so:
-</BlogPageParagraph>
-
-<BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_ServiceRegistration" />
-
-<BlogPageSubtitle>
-    Creating the brand record
-</BlogPageSubtitle>
-
-<BlogPageParagraph>
-    We can create a record, that will hold all the information related to each social media platform we want to support sharing to!
+    We can start with creating the class which will hold all the information related to each social media platform we want to support sharing to!
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    <Code>Platform.cs</Code>
+    Create <Code>Platform.cs</Code>. We will use a record for this. Choosing the right tool to solve our problems is always a good idea. I think records are ideal for this scenario as they are basically immutable data classes, ie. unchangeable collections of values. You can read more about them <Anchor To="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record" Title="Link to here">here</Anchor>.
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_Platform" />
 
-<BlogPageParagraph>
-    <Blockquote>
-        If you don't know what records are, you can read about then <Anchor To="https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/record" Title="Link to here">here</Anchor>.
-    </Blockquote>
-</BlogPageParagraph>
-
-<BlogPageParagraph>
-    <Blockquote>
-        They are a very useful concept, this is a perfect use for a record - an immutable data class.
-    </Blockquote>
-</BlogPageParagraph>
-
 <BlogPageSubtitle>
     Creating the ShareButton component
 </BlogPageSubtitle>
+
+<BlogPageParagraph>
+    The next step will be to create the actual component which will be used as the share button. This component can go inside the <Code>Components</Code> folder. This folder is a great place for keeping components which are reused in many different places across your app!
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Create a file named <Code>ShareButtonComponent.razor</Code>, and write the following in it:
+</BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_ShareButtonComponentMarkup" />
 
@@ -103,18 +60,16 @@
     Let's break down the component
 </BlogPageSubtitle>
 
-<Heading Size="HeadingSize.Is3">
-    Button
-</Heading>
-
 <BlogPageParagraph>
-    First thing's first, we have the Button component, notice that it is typed as <Strong>B</Strong>utton and not button that is because it is not an ordinary HTML button, it is a Blazorise button component! This means it can take parameters, to allow us to customize it further!
+    First thing's first, we have the Button component, notice that it is typed as <Strong>B</Strong>utton and not <Strong>b</Strong>utton that is because it is not an ordinary HTML button, it is the Blazorise <Strong>B</Strong>utton component! This means it can take parameters and allow us to customize it!
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    <Blockquote>
-        Just like other Blazorise components, this button is framework-agnostic, meaning you may use Bootstrap, TailwindCSS, or any other supported frameworks!
-    </Blockquote>
+    It's important to note, that all Blazor components must be named in PascalCase, this is necessary for them to be treated as components by the razor compiler. If you don't do this, they will not be treated as razor markup, rather, as regular HTML elements.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Just like other Blazorise components, this button is framework-agnostic, meaning you may use Bootstrap, TailwindCSS, or any other supported frameworks!
 </BlogPageParagraph>
 
 <Heading Size="HeadingSize.Is3">
@@ -122,11 +77,11 @@
 </Heading>
 
 <BlogPageParagraph>
-    We have just enough parameters to allow for the exact customization necessary,
+    We have just enough of them to allow for the exact customization necessary, while keeping the component very simple to use. We will write this code once, and re-use it multiple times all around our application. This is the beauty of DRY and Component based front-end frameworks.
 </BlogPageParagraph>
 
 <BlogPageParagraph>
-    Here is a breakdown of what each one does:
+    Here is a breakdown of what each parameter does:
 </BlogPageParagraph>
 
 <BlogPageList Ordered>
@@ -144,25 +99,37 @@
     </BlogPageListItem>
 </BlogPageList>
 
+<BlogPageParagraph>
+    To define parameters in Blazor, we use a publicly accessible property, with the <Code>[Parameter]</Code> attribute!
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    You may be wondering, what <Code>[EditorRequired]</Code> does, well, it is a really useful attribute. It marks a regular Parameter required, meaning that we will see warnings in our IDE when we don't pass the required parameters to our component. This is extremely useful to prevent accidental bugs while writing Blazor components. Because Blazor components are strongly typed, there is little to no room for making mistakes while using them.
+</BlogPageParagraph>
+
 <BlogPageSubtitle>
     Define the brand colors in brands.css
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    Here are some colors, you may expand this further as you need
+    Let's create another file inside the <Code>/wwwroot/</Code> folder. Let's name it <Code>brands.css</Code>. This CSS file will hold all of our brand colors. Here are some example colors, which you may expand further as you need to add more brands!
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_Brands" />
 
 <BlogPageParagraph>
     <Blockquote>
-        The <Code>!important</Code> property, this is necessary as, by default the Bootstrap icons will have the <Code>Color</Code> property set to <Code>primary</Code>, this will shadow our custom background colors, so adding <Code>!important</Code> at the end of them will fix this.
+        <Strong>Note:</Strong> The <Code>!important</Code> property, this is necessary as, by default the Bootstrap icons will have the <Code>Color</Code> property set to <Code>primary</Code>, this will shadow our custom background colors, so adding <Code>!important</Code> at the end of them will fix this.
     </Blockquote>
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
     Include the brands.css file in your app
 </BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Now, writing a simple CSS file is not really enough, we need to include it in our index.html's head section, so that the browser, can actually fetch our classes. Just add the following line to wwwroot/index.html:
+</BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_IndexhtmlHeadSection" />
 
@@ -171,19 +138,25 @@
 </BlogPageSubtitle>
 
 <BlogPageParagraph>
-    Inside your page, add the freshly created buttons
+    And already, we are done! It's time to use your freshly created component! Inside <Code>Index.razor</Code> add your component like so:
 </BlogPageParagraph>
 
 <BlogPageSourceBlock Code="HowToCreateSocialMediaShareButtons_ShareButtonUsage" />
 
 <BlogPageParagraph>
     <Blockquote>
-        Notice how the text inside the button says <Code>Share on</Code> instead of <Code>Share on X</Code>, this is because X's logo is literally the latin letter X, so it would not make sense, so have <Code>Share on X ✖</Code>
+        <Strong>Note:</Strong> Notice how the text inside the button says <Code>Share on</Code> instead of <Code>Share on X</Code>, this is because X's logo is literally the latin letter X, so it would not make sense, so have <Code>Share on X ✖</Code>
+    </Blockquote>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    <Blockquote>
+        Also, try to omit the Brand parameter, or the ChildContent - which in this case is just the text "Share on". You will see warnings in your code, your IDE will warn you about not passing required parameters to your component.
     </Blockquote>
 </BlogPageParagraph>
 
 <BlogPageSubtitle>
-    Congratulations! You can now create ShareButtons in your web application!
+    Congratulations! You can now create ShareButtons in your Blazor web application!
 </BlogPageSubtitle>
 
 <BlogPageImageModal ImageSource="img/blog/2024-05-17/share-buttons.png" ImageTitle="Share buttons" />
