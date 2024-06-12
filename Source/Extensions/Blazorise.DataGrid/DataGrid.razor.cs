@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -518,9 +519,56 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private void AutomaticallyGenerateColumns()
     {
+        if ( IsDynamicItem )
+        {
+            var item = Data.IsNullOrEmpty()
+                ? NewItemCreator is not null
+                    ? NewItemCreator.Invoke()
+                    : default
+                : Data.FirstOrDefault();
+
+            if ( item is ExpandoObject expando )
+            {
+                foreach ( var expandoKeyValue in ( expando as IDictionary<string, object> ) )
+                {
+                    var type = expandoKeyValue.Value?.GetType();
+                    if ( !IsValidColumnType( type ) )
+                    {
+                        continue;
+                    }
+
+                    DataGridColumn<TItem> column;
+
+                    if ( type.IsEnum )
+                    {
+                        var enumValues = Enum.GetValues( type ).Cast<object>();
+
+                        column = new DataGridSelectColumn<TItem>()
+                        {
+                            Data = enumValues,
+                            TextField = x => x?.ToString(),
+                            ValueField = x => x,
+                        };
+                    }
+                    else
+                    {
+                        column = new DataGridColumn<TItem>();
+                    }
+
+                    column.Editable = true;
+                    column.Caption = Formaters.PascalCaseToFriendlyName( expandoKeyValue.Key );
+                    column.Field = expandoKeyValue.Key;
+                    AddColumn( column );
+                }
+            }
+
+            InvokeAsync( StateHasChanged );
+            return;
+        }
+
         foreach ( var property in ReflectionHelper.GetPublicProperties<TItem>() )
         {
-            if ( !( property.PropertyType.IsValueType || property.PropertyType == typeof( string ) ) )
+            if ( !IsValidColumnType( property.PropertyType ) )
             {
                 continue;
             }
@@ -586,10 +634,15 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             column.Editable = property.SetMethod is not null;
             column.Caption = ReflectionHelper.ResolveCaption( property );
             column.Field = property.Name;
-            this.AddColumn( column );
+            AddColumn( column );
         }
 
-        StateHasChanged();
+        static bool IsValidColumnType( Type type )
+        {
+            return type is not null && ( type.IsValueType || type == typeof( string ) );
+        }
+
+        InvokeAsync( StateHasChanged );
     }
 
     /// <inheritdoc/>
@@ -2263,7 +2316,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod(), column.ColumnType, column.GetValueType() )
+                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod(), column.ColumnType, column.GetValueType( item ) )
                             select item;
                 }
             }
@@ -2612,6 +2665,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets The service provider.
     /// </summary>
     [Inject] internal IServiceProvider ServiceProvider { get; set; }
+
+    /// <summary>
+    /// Whether the TIem is a dynamic item.
+    /// </summary>
+    internal bool IsDynamicItem
+        => typeof( TItem ) == typeof( ExpandoObject );
 
     /// <summary>
     /// Makes sure the DataGrid has columns defined as groupable.

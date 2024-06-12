@@ -6,7 +6,7 @@
 }
 else
 {
-    var valueType = Column.GetValueType();
+    var valueType = Column.GetValueType(Item);
     @if ( valueType is not null )
     {
         @if ( UseValidation )

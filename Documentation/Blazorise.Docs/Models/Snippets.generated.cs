@@ -6769,7 +6769,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 </DataGrid>
 
 @code {
-
     public class Example
     {
         [Order( DisplayOrder = 1, EditOrder = 2 )]
@@ -6822,7 +6821,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         new(){ FirstName = ""Jack"", LastName = ""Doe"", Gender = ""M"",Age = 22, Balance = 5000, Status = Status.Active, FieldToBeIgnored = ""76471dfe-2efd-4ec5-b192-82abc1b05c72"", DateOfBirth = new DateOnly(1990,09,10) },
         new(){ FirstName = ""Jen"", LastName = ""Doe"",Gender = ""F"", Age = 20, Balance = 6000, Status = Status.Active, FieldToBeIgnored = ""be83a3c0-9636-4ebd-acca-08e6ffb5c469"", DateOfBirth = new DateOnly(2000,01,01) },
     };
-
 }";
 
         public const string DataGridBatchEditExample = @"<Field>
@@ -7333,6 +7331,145 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     {
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridDynamicAutoGenerateExample = @"@using System.Dynamic
+
+<DataGrid TItem=""ExpandoObject""
+          Data=""inMemoryData""
+          Responsive
+          ShowPager
+          ShowPageSizes
+          PageSize=""5""
+          Editable
+          EditMode=""DataGridEditMode.Inline""
+          NewItemCreator=""NewItemCreator"" />
+
+@code {
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private List<ExpandoObject> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = new();
+        var data = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+
+        foreach ( var item in data )
+        {
+
+            IDictionary<string, object> expando = new ExpandoObject();
+
+            foreach ( var property in typeof( Employee ).GetProperties() )
+            {
+                expando.Add( property.Name, property.GetValue( item ) );
+            }
+            inMemoryData.Add( (ExpandoObject)expando );
+        }
+
+
+        await base.OnInitializedAsync();
+    }
+
+    private ExpandoObject NewItemCreator()
+    {
+        IDictionary<string, object> expando = new ExpandoObject();
+
+        foreach ( var property in typeof( Employee ).GetProperties() )
+        {
+            expando.Add( property.Name, property.PropertyType.IsValueType ? Activator.CreateInstance( property.PropertyType ) : null );
+        }
+
+        return (ExpandoObject)expando;
+    }
+}";
+
+        public const string DataGridDynamicExample = @"@using System.Dynamic
+
+<DataGrid TItem=""ExpandoObject""
+          Data=""inMemoryData""
+          Responsive
+          ShowPager
+          ShowPageSizes
+          PageSize=""5""
+          Editable
+          EditMode=""DataGridEditMode.Inline""
+          NewItemCreator=""NewItemCreator"">
+    <DataGridAggregates>
+        <DataGridAggregate Field=""Email"" Aggregate=""DataGridAggregateType.Count"">
+            <DisplayTemplate>
+                @($""Total emails: {context.Value}"")
+            </DisplayTemplate>
+        </DataGridAggregate>
+        <DataGridAggregate Field=""Salary"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" />
+        <DataGridAggregate Field=""IsActive"" Aggregate=""DataGridAggregateType.TrueCount"" />
+        <DataGridAggregate Field=""Childrens"" Aggregate=""DataGridAggregateType.Sum"" />
+    </DataGridAggregates>
+    <DataGridColumns>
+        <DataGridCommandColumn></DataGridCommandColumn>
+        <DataGridColumn Editable TextAlignment=""TextAlignment.Center"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
+        <DataGridColumn Editable Field=""FirstName"" Caption=""First Name"">
+        </DataGridColumn>
+        <DataGridColumn Editable Field=""LastName"" Caption=""Last Name"" />
+        <DataGridColumn Editable Field=""Email"" Caption=""Email"" />
+        <DataGridColumn Editable Field=""City"" Caption=""City"">
+            <CaptionTemplate>
+                <Icon Name=""IconName.City"" /> @context.Caption
+            </CaptionTemplate>
+        </DataGridColumn>
+        <DataGridColumn Editable Field=""Zip"" Caption=""Zip"">
+        </DataGridColumn>
+        <DataGridDateColumn Field=""DateOfBirth"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
+        <DataGridNumericColumn Field=""Childrens"" Caption=""Childrens"" ReverseSorting=""true"" Editable Filterable=""false"" />
+        <DataGridSelectColumn Field=""Gender"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+        <DataGridColumn Field=""Salary"" Caption=""Salary"" Editable Width=""140px"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"">
+        </DataGridColumn>
+        <DataGridCheckColumn Field=""IsActive"" Caption=""Active"" Editable Filterable=""false"">
+            <DisplayTemplate>
+                <Check TValue=""bool"" Checked='(context as dynamic).IsActive' Disabled ReadOnly />
+            </DisplayTemplate>
+        </DataGridCheckColumn>
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private List<ExpandoObject> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = new();
+        var data = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+
+        foreach ( var item in data )
+        {
+
+            IDictionary<string, object> expando = new ExpandoObject();
+
+            foreach ( var property in typeof( Employee ).GetProperties() )
+            {
+                expando.Add( property.Name, property.GetValue( item ) );
+            }
+            inMemoryData.Add( (ExpandoObject)expando );
+        }
+
+
+        await base.OnInitializedAsync();
+    }
+
+    private ExpandoObject NewItemCreator()
+    {
+        IDictionary<string, object> expando = new ExpandoObject();
+
+        foreach ( var property in typeof( Employee ).GetProperties() )
+        {
+            expando.Add( property.Name, property.PropertyType.IsValueType ? Activator.CreateInstance( property.PropertyType ) : null );
+        }
+
+        return (ExpandoObject)expando;
     }
 }";
 
