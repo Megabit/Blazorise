@@ -1035,6 +1035,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #region Commands
 
     /// <summary>
+    /// Sets the DataGrid into the loading state. 
+    /// <para>Makes sure to invoke the StateHasChanged method.</para>
+    /// </summary>
+    /// <param name="isLoading">Whether the grid is loading or not</param>
+    public void SetLoading(bool isLoading)
+    {
+        IsLoading = isLoading;
+        InvokeAsync(StateHasChanged);
+    }
+
+    /// <summary>
     /// Sets the DataGrid into the New state mode.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -2855,7 +2866,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Returns true if ReadData will be invoked.
     /// </summary>
-    protected bool IsLoading { get; set; }
+    public bool IsLoading { get; protected set; }
 
     /// <summary>
     /// Returns true if EmptyTemplate is set and Data is null or empty.
