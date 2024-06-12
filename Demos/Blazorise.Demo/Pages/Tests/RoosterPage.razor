@@ -1,0 +1,150 @@
+﻿@page "/tests/rooster"
+@using Blazorise.RichTextEdit.Rooster
+@using Markdig.Extensions.SmartyPants
+@using System.Text.Json
+@using System.Text.Json.Serialization
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>RichTextEdit based on rooster.js</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Buttons Role="ButtonsRole.Toolbar">
+                    <Buttons Margin="Margin.Is2.FromEnd">
+                        <Button Command="editor.Editor.Undo"><Icon Name="IconName.Undo" /></Button>
+                        <Button Command="editor.Editor.Redo"><Icon Name="IconName.Redo" /></Button>
+                    </Buttons>
+                    <Buttons Margin="Margin.Is2.FromEnd">
+                        <Button Command="editor.Format.ToggleBold" Active="@(editor.FormatState.IsBold ?? false)"><Icon Name="IconName.Bold"/></Button>
+                        <Button Command="editor.Format.ToggleItalic" Active="@(editor.FormatState.IsItalic ?? false)"><Icon Name="IconName.Italic" /></Button>
+                        <Button Command="editor.Format.ToggleUnderline" Active="@(editor.FormatState.IsUnderline ?? false)"><Icon Name="IconName.Underline" /></Button>
+                        <Button Command="editor.Format.ChangeFontSize" CommandParameter="FontSizeChange.Increase">A⁺</Button>
+                        <Button Command="editor.Format.ChangeFontSize" CommandParameter="FontSizeChange.Decrease">A⁻</Button>
+                        <Button Command="editor.Format.SetIndentation" CommandParameter="Indentation.Decrease">←</Button>
+                        <Button Command="editor.Format.SetIndentation" CommandParameter="Indentation.Increase">→</Button>
+                        Text: <ColorPicker Width="Width.Px(40)" Color="@editor.FormatState.TextColor" ColorChanged="editor.Format.SetTextColor"/>
+                        Bg: <ColorPicker Width="Width.Px(40)" Color="@editor.FormatState.BackgroundColor" ColorChanged="editor.Format.SetBackgroundColor"/>
+                        <Dropdown>
+                            <DropdownToggle>@GetFontLabel()</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Arial")">Arial</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Calibri")">Calibri</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Comic Sans MS")">Comic Sans MS</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Courier New")">Courier New</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Times New Roman")">Times New Roman</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontName" Value="@("Verdana")">Verdana</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                        <Dropdown>
+                            <DropdownToggle>Size</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="8">8</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="9">9</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="10">10</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="11">11</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="12">12</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="20">20</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="36">36</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="48">48</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="72">72</DropdownItem>
+                                <Divider/>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="@("1rem")">1rem</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="@("2rem")">2rem</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetFontSize" Value="@("4rem")">4rem</DropdownItem>
+                                <Divider/>
+                                <DropdownItem Clicked="editor.Format.SetFontSize">Default</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                        <Dropdown>
+                            <DropdownToggle>H1</DropdownToggle>
+                            <DropdownMenu>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is1">Heading 1</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is2">Heading 2</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is3">Heading 3</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is4">Heading 4</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is5">Heading 5</DropdownItem>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel" Value="HeadingSize.Is6">Heading 6</DropdownItem>
+                                <Divider/>
+                                <DropdownItem Clicked="editor.Format.SetHeadingLevel">No heading</DropdownItem>
+                            </DropdownMenu>
+                        </Dropdown>
+                    </Buttons>
+                </Buttons>
+
+                <Blazorise.RichTextEdit.Rooster.RichTextEdit @ref="editor" 
+                                                             @bind-Content="contentAsHtml"
+                                                             FormatStateChanged="OnFormatStateChanged" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column ColumnSize="ColumnSize.Is4">
+        <Card>
+            <CardHeader>
+                <CardTitle>Content Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                @((MarkupString)contentAsHtml)
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is4">
+        <Card>
+            <CardHeader>
+                <CardTitle>State Preview</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <pre><code>@formatStateJson</code></pre>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is4">
+        <Card>
+            <CardHeader>
+                <CardTitle>Actions</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Command="editor.Editor.Focus">Focus</Button>
+                <Button Command="editor.Editor.Clear">Clear</Button>
+                <Button Clicked="SetContent">Set content</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    private Blazorise.RichTextEdit.Rooster.RichTextEdit editor;
+    private string contentAsHtml = "<p>Welcome to the <b>Rooster.js</b> RichTextEdit!</p>";
+    private string formatStateJson;
+
+    private static readonly JsonSerializerOptions SerializerOptions = new(JsonSerializerDefaults.Web)
+    {
+        WriteIndented = true,
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull
+    };
+
+    private void SetContent()
+    {
+        contentAsHtml = $"Content from code <b>{DateTime.Now:g}</b>";
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void OnFormatStateChanged(FormatState state)
+    {
+        formatStateJson = JsonSerializer.Serialize(state, SerializerOptions);
+        InvokeAsync(StateHasChanged);
+    }
+
+    private string GetFontLabel()
+    {
+        if (string.IsNullOrWhiteSpace(editor.FormatState.FontName)) return "Select Font";
+
+        return editor.FormatState.FontName
+            .Split(',')
+            .Select(x => x.Trim('"'))
+            .FirstOrDefault();
+    }
+}
