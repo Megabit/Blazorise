@@ -18,7 +18,7 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 {
     #region Members
 
-    protected readonly Lazy<Func<TItem,Type>> valueTypeGetter;
+    protected readonly Lazy<Func<TItem, Type>> valueTypeGetter;
     protected readonly Lazy<Func<TItem, object>> valueGetter;
     protected readonly Lazy<Action<TItem, object>> valueSetter;
     protected readonly Lazy<Func<TItem, object>> sortFieldGetter;
@@ -61,8 +61,8 @@ public partial class DataGridColumn<TItem> : BaseDataGridColumn<TItem>
 
     private Func<TItem, Type> ExpandoObjectTypeGetter()
     {
-        return ( item ) => item is null 
-            ? typeof(object) 
+        return ( item ) => item is null
+            ? typeof( object )
             : ( item as ExpandoObject ).FirstOrDefault( x => x.Key == Field ).Value?.GetType() ?? typeof( object );
     }
 

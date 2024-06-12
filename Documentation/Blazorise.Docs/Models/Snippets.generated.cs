@@ -6769,7 +6769,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 </DataGrid>
 
 @code {
-
     public class Example
     {
         [Order( DisplayOrder = 1, EditOrder = 2 )]
@@ -6822,7 +6821,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         new(){ FirstName = ""Jack"", LastName = ""Doe"", Gender = ""M"",Age = 22, Balance = 5000, Status = Status.Active, FieldToBeIgnored = ""76471dfe-2efd-4ec5-b192-82abc1b05c72"", DateOfBirth = new DateOnly(1990,09,10) },
         new(){ FirstName = ""Jen"", LastName = ""Doe"",Gender = ""F"", Age = 20, Balance = 6000, Status = Status.Active, FieldToBeIgnored = ""be83a3c0-9636-4ebd-acca-08e6ffb5c469"", DateOfBirth = new DateOnly(2000,01,01) },
     };
-
 }";
 
         public const string DataGridBatchEditExample = @"<Field>
@@ -7349,7 +7347,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           NewItemCreator=""NewItemCreator"" />
 
 @code {
-
     [Inject] EmployeeData EmployeeData { get; set; }
 
     private List<ExpandoObject> inMemoryData;
