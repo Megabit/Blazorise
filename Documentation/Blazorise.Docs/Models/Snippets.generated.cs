@@ -8315,7 +8315,6 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
     private Employee selectedEmployee;
-    private DataGridEditMode editMode = DataGridEditMode.Form;
 
     protected override async Task OnInitializedAsync()
     {
