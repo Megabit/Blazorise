@@ -49,14 +49,22 @@
 <DocsPageSection>
     <DocsPageSectionHeader Title="Rapid Editing">
         <Paragraph>
-            For a rapid editing experience, similar to how an excel document works, we recommend enabling <Code>CellNavigable</Code> and <Code>DataGridEditMode.Cell</Code>
+            For a rapid editing experience, similar to how an excel document works, we recommend enabling the following options: 
         </Paragraph>
-        <Paragraph>
-            This allows to use the arrow keys to navigate between cells and edit them directly by pressing the Enter key.
-        </Paragraph>
+        <UnorderedList>
+            <UnorderedListItem>
+                <Code>CellNavigable</Code> - This allows to use the arrow keys to navigate between cells
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code>DataGridEditMode.Cell</Code> - This allows to edit the cells directly by pressing the Enter key or any text key.
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Code>DataGridEditModeOptions.CellEditSelectTextOnEdit</Code> - When a cell enters edit mode the text will be selected allowing the user to quickly copy or replace it.
+            </UnorderedListItem>
+        </UnorderedList>
         <Paragraph>
             It is also of note that you can use the <Code>DataGridEditModeOptions</Code> to further configure how the feature will work.
-            For instance, in the following example we’re using the <Code>CellEditOnSingleClick</Code> and <Code>CellEditOnDoubleClick</Code> options to disable the cell editing on single click and double click.
+            For instance, in the following example we're using the recommended options to enable rapid editing, and we’re using the <Code>CellEditOnSingleClick</Code> and <Code>CellEditOnDoubleClick</Code> edit options to disable the cell editing on single click and double click.
         </Paragraph>
     </DocsPageSectionHeader>
     <DocsPageSectionContent FullWidth Outlined>
