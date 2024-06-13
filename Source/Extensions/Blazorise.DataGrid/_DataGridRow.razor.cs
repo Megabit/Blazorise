@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -153,10 +154,10 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         if ( !ParentDataGrid.IsCellEdit )
             return;
 
-        
-        if ( args.Code == "Enter" || args.Code == "NumpadEnter" )
+        var isKeyboardKeyText = args.IsTextKey();
+        if ( !args.IsModifierKey() && ( isKeyboardKeyText || args.Code == "Enter" || args.Code == "NumpadEnter" ))
         {
-            await ParentDataGrid.HandleCellEdit( column, GetCurrentItem() );
+            await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), isKeyboardKeyText ? args.Key : null );
             return;
         }
     }

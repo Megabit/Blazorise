@@ -1813,7 +1813,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         }
     }
 
-    internal async Task HandleCellEdit( DataGridColumn<TItem> column, TItem item )
+    internal async Task HandleCellEdit( DataGridColumn<TItem> column, TItem item, string startingvalue = null )
     {
         if ( !IsCellEdit )
             return;
@@ -1845,10 +1845,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 if ( batchEditItem is not null )
                 {
                     await Edit( batchEditItem.NewItem );
+                    if ( startingvalue is not null )
+                        UpdateCellEditValue( column.Field, startingvalue );
                     return;
                 }
             }
             await Edit( item );
+            if ( startingvalue is not null )
+                UpdateCellEditValue( column.Field, startingvalue );
         }
     }
 
