@@ -17,4 +17,9 @@ public class DataGridEditModeOptions
     /// Defaults to true.
     /// </summary>
     public bool CellEditOnDoubleClick { get; set; } = true;
+
+    /// <summary>
+    /// When the DataGridEditMode is set to <see cref="DataGridEditMode.Cell" />  configures whether the text is selected when the cell enters edit mode.
+    /// </summary>
+    public bool CellEditSelectTextOnEdit { get; set; }
 }

@@ -46,8 +46,8 @@ export function focus(element, elementId, scrollToElement) {
 }
 
 // selects the given element
-export function select(element, elementId, focus) {
-    if (focus) {
+export function select(element, elementId, toFocus) {
+    if (toFocus) {
         focus(element, elementId, true);
     }
 

@@ -2693,6 +2693,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         => IsCellEdit && ( DataGridEditModeOptions?.CellEditOnDoubleClick ?? true );
 
     /// <summary>
+    /// Whether the cell selects all text on edit.
+    /// </summary>
+    internal bool IsCellEditSelectTextOnEdit
+        => IsCellEdit && ( DataGridEditModeOptions?.CellEditSelectTextOnEdit ?? false );
+
+    /// <summary>
     /// Whether the TIem is a dynamic item.
     /// </summary>
     internal bool IsDynamicItem

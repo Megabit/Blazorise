@@ -8292,7 +8292,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           CommandMode=""DataGridCommandMode.ButtonRow""
           EditMode=""DataGridEditMode.Cell""
           CellNavigable
-          DataGridEditModeOptions=""new() { CellEditOnSingleClick = false, CellEditOnDoubleClick = false }"">
+          DataGridEditModeOptions=""new() { CellEditOnSingleClick = false, CellEditOnDoubleClick = false, CellEditSelectTextOnEdit = true }"">
     <DataGridColumns>
         <DataGridCommandColumn  NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  CancelCommandAllowed >
             <SaveCommandTemplate>
