@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -523,10 +524,61 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     private void AutomaticallyGenerateColumns()
     {
-        var properties = ReflectionHelper.GetPublicProperties<TItem>();
-        foreach ( var property in properties )
+        if ( IsDynamicItem )
         {
-            if ( !( property.PropertyType.IsValueType || property.PropertyType == typeof( string ) ) )
+            var item = Data.IsNullOrEmpty()
+                ? NewItemCreator is not null
+                    ? NewItemCreator.Invoke()
+                    : default
+                : Data.FirstOrDefault();
+
+            if ( item is ExpandoObject expando )
+            {
+                foreach ( var expandoKeyValue in ( expando as IDictionary<string, object> ) )
+                {
+                    var type = expandoKeyValue.Value?.GetType();
+                    if ( !IsValidColumnType( type ) )
+                    {
+                        continue;
+                    }
+
+                    DataGridColumn<TItem> column;
+
+                    if ( type.IsEnum )
+                    {
+                        var enumValues = Enum.GetValues( type ).Cast<object>();
+
+                        column = new DataGridSelectColumn<TItem>()
+                        {
+                            Data = enumValues,
+                            TextField = x => x?.ToString(),
+                            ValueField = x => x,
+                        };
+                    }
+                    else
+                    {
+                        column = new DataGridColumn<TItem>();
+                    }
+
+                    column.Editable = true;
+                    column.Caption = Formaters.PascalCaseToFriendlyName( expandoKeyValue.Key );
+                    column.Field = expandoKeyValue.Key;
+                    AddColumn( column );
+                }
+            }
+
+            InvokeAsync( StateHasChanged );
+            return;
+        }
+
+        foreach ( var property in ReflectionHelper.GetPublicProperties<TItem>() )
+        {
+            if ( !IsValidColumnType( property.PropertyType ) )
+            {
+                continue;
+            }
+
+            if ( ReflectionHelper.ResolveIsIgnore( property ) )
             {
                 continue;
             }
@@ -544,18 +596,58 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     ValueField = x => x,
                 };
             }
+            else if ( ReflectionHelper.ResolveNumericAttribute( property ) is NumericAttribute numeric )
+            {
+                var numericColumn = new DataGridNumericColumn<TItem>();
+                numericColumn.Step = numeric.Step;
+                numericColumn.Decimals = numeric.Decimals;
+                numericColumn.DecimalSeparator = numeric.DecimalSeparator;
+                numericColumn.Culture = numeric.Culture;
+                numericColumn.ShowStepButtons = numeric.ShowStepButtons;
+                numericColumn.EnableStep = numeric.EnableStep;
+                column = numericColumn;
+            }
+            else if ( ReflectionHelper.ResolveSelectAttribute( property ) is SelectAttribute select )
+            {
+                var selectColumn = new DataGridSelectColumn<TItem>();
+                var selectGetDataStatic = ReflectionHelper.GetStaticMethod<TItem>( select.GetDataFunction );
+                var selectGetData = selectGetDataStatic is null ? ReflectionHelper.GetMethod<TItem>( select.GetDataFunction ) : null;
+                var data = selectGetDataStatic?.Invoke( null, null ) ?? selectGetData?.Invoke( CreateNewItem(), null );
+                selectColumn.Data = (IEnumerable<object>)data;
+                var genericType = data?.GetType()?.GenericTypeArguments.Length > 0 ? data?.GetType()?.GenericTypeArguments[0] : null;
+                if ( genericType is not null )
+                {
+                    selectColumn.TextField = ExpressionCompiler.CreatePropertyGetter<string>( genericType, select.TextField );
+                    selectColumn.ValueField = ExpressionCompiler.CreatePropertyGetter<string>( genericType, select.ValueField );
+                }
+                selectColumn.MaxVisibleItems = select.MaxVisibleItems == 0 ? null : select.MaxVisibleItems;
+                column = selectColumn;
+            }
+            else if ( ReflectionHelper.ResolveDateAttribute( property ) is DateAttribute date )
+            {
+                var dateColumn = new DataGridDateColumn<TItem>();
+                dateColumn.InputMode = date.InputMode;
+                column = dateColumn;
+            }
             else
             {
                 column = new DataGridColumn<TItem>();
             }
 
+            column.DisplayOrder = ReflectionHelper.ResolveDisplayOrder( property );
+            column.EditOrder = ReflectionHelper.ResolveEditOrder( property );
             column.Editable = property.SetMethod is not null;
             column.Caption = ReflectionHelper.ResolveCaption( property );
             column.Field = property.Name;
-            this.AddColumn( column );
+            AddColumn( column );
         }
 
-        StateHasChanged();
+        static bool IsValidColumnType( Type type )
+        {
+            return type is not null && ( type.IsValueType || type == typeof( string ) );
+        }
+
+        InvokeAsync( StateHasChanged );
     }
 
     /// <inheritdoc/>
@@ -953,6 +1045,17 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     #region Commands
 
     /// <summary>
+    /// Sets the DataGrid into the loading state. 
+    /// <para>Makes sure to invoke the StateHasChanged method.</para>
+    /// </summary>
+    /// <param name="isLoading">Whether the grid is loading or not</param>
+    public void SetLoading(bool isLoading)
+    {
+        IsLoading = isLoading;
+        InvokeAsync(StateHasChanged);
+    }
+
+    /// <summary>
     /// Sets the DataGrid into the New state mode.
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
@@ -963,7 +1066,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             VirtualizeScrollToTop();
         }
 
-        TItem newItem = NewItemCreator != null ? NewItemCreator.Invoke() : CreateNewItem();
+        TItem newItem = CreateNewItem();
 
         NewItemDefaultSetter?.Invoke( newItem );
 
@@ -1685,7 +1788,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// </summary>
     /// <returns>Return new instance of TItem.</returns>
     private TItem CreateNewItem()
-        => newItemCreator.Value();
+        => NewItemCreator is not null ? NewItemCreator.Invoke() : newItemCreator.Value();
 
     /// <summary>
     /// Prepares edit item and it's cell values for editing.
@@ -2223,7 +2326,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     query = from item in query
                             let cellRealValue = column.GetValue( item )
                             let cellStringValue = cellRealValue == null ? string.Empty : cellRealValue.ToString()
-                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod(), column.ColumnType, column.GetValueType() )
+                            where CompareFilterValues( cellStringValue, stringSearchValue, column.GetFilterMethod(), column.ColumnType, column.GetValueType( item ) )
                             select item;
                 }
             }
@@ -2586,6 +2689,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         => IsCellEdit && ( DataGridEditModeOptions?.CellEditOnDoubleClick ?? true );
 
     /// <summary>
+    /// Whether the TIem is a dynamic item.
+    /// </summary>
+    internal bool IsDynamicItem
+        => typeof( TItem ) == typeof( ExpandoObject );
+
+    /// <summary>
     /// Makes sure the DataGrid has columns defined as groupable.
     /// </summary>
     /// <returns></returns>
@@ -2779,7 +2888,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Returns true if ReadData will be invoked.
     /// </summary>
-    protected bool IsLoading { get; set; }
+    public bool IsLoading { get; protected set; }
 
     /// <summary>
     /// Returns true if EmptyTemplate is set and Data is null or empty.

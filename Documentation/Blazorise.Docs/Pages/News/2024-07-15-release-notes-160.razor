@@ -20,18 +20,18 @@
     Here's a summary of what's new in this release:
 </Paragraph>
 
-<UnorderedList>
-    <UnorderedListItem>
+<UnorderedListItem>
+    <UnorderedListItemItem>
+        <Paragraph>
+            <Strong>DataGrid:</Strong> Dynamic Data Binding
+        </Paragraph>
+    </UnorderedListItemItem>
+    <UnorderedListItemItem>
         <Paragraph>
             <Strong></Strong>:
         </Paragraph>
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Paragraph>
-            <Strong></Strong>:
-        </Paragraph>
-    </UnorderedListItem>
-</UnorderedList>
+    </UnorderedListItemItem>
+</UnorderedListItem>
 
 <NewsPageSubtitle>
     Upgrading from 1.5.x to 1.6 👨‍🔧
@@ -59,11 +59,52 @@
 </NewsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
+    DataGrid
+</Heading>
 
+<Heading Size="HeadingSize.Is4">
+    AutoGenerateColumns
 </Heading>
 
 <Paragraph>
-    
+    In the <Code>DataGrid</Code> <Code>AutoGenerateColumns</Code> feature, we've added new attributes to the attribute based API to be able to further configure the way that the columns are rendered.
+</Paragraph>
+
+<UnorderedList>
+    <UnorderedListItem>
+        <Code>[DisplayAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify the caption.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>[OrderAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify the order in which they should be displayed or edited.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>[IgnoreFieldAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify they should not be automatically generated.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>[SelectAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify additional metadata for a select component.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>[NumericAttribute]</Code> - Represents an attribute that can be applied to numeric properties or fields to specify additional metadata.
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Code>[DateAttribute]</Code> - Represents an attribute that can be applied to date properties or fields to specify additional metadata.
+    </UnorderedListItem>
+</UnorderedList>
+
+<Heading Size="HeadingSize.Is4">
+    Dynamic Data Binding
+</Heading>
+
+<Paragraph>
+    We are excited to announce a new feature in the Blazorise DataGrid component – dynamic data binding. This enhancement provides greater flexibility and ease of use when working with dynamic data sources.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Manual loaading state
+</Heading>
+
+<Paragraph>
+    Added a new <Code>SetLoading</Code> so you're able to control the loading state of the DataGrid.
 </Paragraph>
 
 <Heading>

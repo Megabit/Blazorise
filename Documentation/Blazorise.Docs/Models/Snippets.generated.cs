@@ -6761,28 +6761,49 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
         public const string DataGridAutoGenerateColumnsExample = @"@using System.ComponentModel.DataAnnotations
 
 <DataGrid TItem=""Example""
-            Data=""data""
-            Responsive
-            ShowPager
-            ShowPageSizes Editable>
+          Data=""data""
+          Responsive
+          ShowPager
+          ShowPageSizes Editable>
     <DataGridCommandColumn TItem=""Example"" />
 </DataGrid>
 
 @code {
-
     public class Example
     {
+        [Order( DisplayOrder = 1, EditOrder = 2 )]
         [Display( Name = ""Name"" )]
         public string FirstName { get; set; }
 
+        [Order( DisplayOrder = 2, EditOrder = 3 )]
         public string LastName { get; set; }
 
-
+        [Order( DisplayOrder = 3, EditOrder = 4 )]
+        [Numeric( EnableStep = true, ShowStepButtons = true, Step = 1 )]
         public int Age { get; set; }
 
+        [Order( DisplayOrder = 5, EditOrder = 0 )]
+        public Status Status { get; set; }
+
+        [Numeric( EnableStep = true, ShowStepButtons = true, Step = 100 )]
+        [Order( DisplayOrder = 4, EditOrder = 1 )]
         public decimal Balance { get; set; }
 
-        public Status Status { get; set; }
+        [IgnoreField]
+        public string FieldToBeIgnored { get; set; }
+
+        [Order( DisplayOrder = 5, EditOrder = 0 )]
+        [Display( Name = ""Gender"" )]
+        [Select( GetDataFunction = ""GetGenders"", TextField = nameof( Blazorise.Shared.Data.Gender.Description ), ValueField = nameof( Blazorise.Shared.Data.Gender.Code ) )]
+        public string Gender { get; set; }
+
+        [Order( DisplayOrder = 6, EditOrder = 6 )]
+        [Display( Name = ""DOB"" )]
+        [Date( InputMode = DateInputMode.Date )]
+        public DateOnly DateOfBirth { get; set; }
+
+        public IEnumerable<Gender> GetGenders()
+            => EmployeeData.Genders;
     }
 
     public enum Status
@@ -6793,14 +6814,13 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
     private IEnumerable<Example> data = new List<Example>()
     {
-        new(){ FirstName = ""John"", LastName = ""Doe"", Age = 30, Balance = 1000, Status = Status.Active },
-        new(){ FirstName = ""Jane"", LastName = ""Doe"", Age = 28, Balance = 2000, Status = Status.Active },
-        new(){ FirstName = ""Joe"", LastName = ""Doe"", Age = 26, Balance = 3000, Status = Status.Inactive },
-        new(){ FirstName = ""Jill"", LastName = ""Doe"", Age = 24, Balance = 4000, Status = Status.Inactive },
-        new(){ FirstName = ""Jack"", LastName = ""Doe"", Age = 22, Balance = 5000, Status = Status.Active },
-        new(){ FirstName = ""Jen"", LastName = ""Doe"", Age = 20, Balance = 6000, Status = Status.Active },
+        new(){ FirstName = ""John"", LastName = ""Doe"", Gender = ""M"", Age = 30, Balance = 1000, Status = Status.Active, FieldToBeIgnored = ""4a92b1ea-e82d-4920-8d22-198a2385945e"", DateOfBirth = new DateOnly(1992,03,05) },
+        new(){ FirstName = ""Jane"", LastName = ""Doe"", Gender = ""F"",Age = 28, Balance = 2000, Status = Status.Active, FieldToBeIgnored = ""cb85ede4-4a66-4ab5-813d-6f09b4781489"", DateOfBirth = new DateOnly(1972,03,03) },
+        new(){ FirstName = ""Joe"", LastName = ""Doe"", Gender = ""M"",Age = 26, Balance = 3000, Status = Status.Inactive, FieldToBeIgnored = ""0725a26f-1b5c-4659-be06-2b4b108a2fb4"", DateOfBirth = new DateOnly(1981,12,05) },
+        new(){ FirstName = ""Jill"", LastName = ""Doe"", Gender = ""F"",Age = 24, Balance = 4000, Status = Status.Inactive, FieldToBeIgnored = ""bb85d60c-96fa-4137-a9f1-e09ec0497f5d"", DateOfBirth = new DateOnly(1980,05,29) },
+        new(){ FirstName = ""Jack"", LastName = ""Doe"", Gender = ""M"",Age = 22, Balance = 5000, Status = Status.Active, FieldToBeIgnored = ""76471dfe-2efd-4ec5-b192-82abc1b05c72"", DateOfBirth = new DateOnly(1990,09,10) },
+        new(){ FirstName = ""Jen"", LastName = ""Doe"",Gender = ""F"", Age = 20, Balance = 6000, Status = Status.Active, FieldToBeIgnored = ""be83a3c0-9636-4ebd-acca-08e6ffb5c469"", DateOfBirth = new DateOnly(2000,01,01) },
     };
-
 }";
 
         public const string DataGridBatchEditExample = @"<Field>
@@ -7311,6 +7331,145 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     {
         employeeList = await EmployeeData.GetDataAsync();
         await base.OnInitializedAsync();
+    }
+}";
+
+        public const string DataGridDynamicAutoGenerateExample = @"@using System.Dynamic
+
+<DataGrid TItem=""ExpandoObject""
+          Data=""inMemoryData""
+          Responsive
+          ShowPager
+          ShowPageSizes
+          PageSize=""5""
+          Editable
+          EditMode=""DataGridEditMode.Inline""
+          NewItemCreator=""NewItemCreator"" />
+
+@code {
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private List<ExpandoObject> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = new();
+        var data = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+
+        foreach ( var item in data )
+        {
+
+            IDictionary<string, object> expando = new ExpandoObject();
+
+            foreach ( var property in typeof( Employee ).GetProperties() )
+            {
+                expando.Add( property.Name, property.GetValue( item ) );
+            }
+            inMemoryData.Add( (ExpandoObject)expando );
+        }
+
+
+        await base.OnInitializedAsync();
+    }
+
+    private ExpandoObject NewItemCreator()
+    {
+        IDictionary<string, object> expando = new ExpandoObject();
+
+        foreach ( var property in typeof( Employee ).GetProperties() )
+        {
+            expando.Add( property.Name, property.PropertyType.IsValueType ? Activator.CreateInstance( property.PropertyType ) : null );
+        }
+
+        return (ExpandoObject)expando;
+    }
+}";
+
+        public const string DataGridDynamicExample = @"@using System.Dynamic
+
+<DataGrid TItem=""ExpandoObject""
+          Data=""inMemoryData""
+          Responsive
+          ShowPager
+          ShowPageSizes
+          PageSize=""5""
+          Editable
+          EditMode=""DataGridEditMode.Inline""
+          NewItemCreator=""NewItemCreator"">
+    <DataGridAggregates>
+        <DataGridAggregate Field=""Email"" Aggregate=""DataGridAggregateType.Count"">
+            <DisplayTemplate>
+                @($""Total emails: {context.Value}"")
+            </DisplayTemplate>
+        </DataGridAggregate>
+        <DataGridAggregate Field=""Salary"" Aggregate=""DataGridAggregateType.Sum"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" />
+        <DataGridAggregate Field=""IsActive"" Aggregate=""DataGridAggregateType.TrueCount"" />
+        <DataGridAggregate Field=""Childrens"" Aggregate=""DataGridAggregateType.Sum"" />
+    </DataGridAggregates>
+    <DataGridColumns>
+        <DataGridCommandColumn></DataGridCommandColumn>
+        <DataGridColumn Editable TextAlignment=""TextAlignment.Center"" Field=""@nameof( Employee.Id )"" Caption=""#"" Width=""60px"" />
+        <DataGridColumn Editable Field=""FirstName"" Caption=""First Name"">
+        </DataGridColumn>
+        <DataGridColumn Editable Field=""LastName"" Caption=""Last Name"" />
+        <DataGridColumn Editable Field=""Email"" Caption=""Email"" />
+        <DataGridColumn Editable Field=""City"" Caption=""City"">
+            <CaptionTemplate>
+                <Icon Name=""IconName.City"" /> @context.Caption
+            </CaptionTemplate>
+        </DataGridColumn>
+        <DataGridColumn Editable Field=""Zip"" Caption=""Zip"">
+        </DataGridColumn>
+        <DataGridDateColumn Field=""DateOfBirth"" DisplayFormat=""{0:dd.MM.yyyy}"" Caption=""Date Of Birth"" Editable />
+        <DataGridNumericColumn Field=""Childrens"" Caption=""Childrens"" ReverseSorting=""true"" Editable Filterable=""false"" />
+        <DataGridSelectColumn Field=""Gender"" Caption=""Gender"" Editable Data=""EmployeeData.Genders"" ValueField=""(x) => ((Gender)x).Code"" TextField=""(x) => ((Gender)x).Description"" />
+        <DataGridColumn Field=""Salary"" Caption=""Salary"" Editable Width=""140px"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" TextAlignment=""TextAlignment.End"">
+        </DataGridColumn>
+        <DataGridCheckColumn Field=""IsActive"" Caption=""Active"" Editable Filterable=""false"">
+            <DisplayTemplate>
+                <Check TValue=""bool"" Checked='(context as dynamic).IsActive' Disabled ReadOnly />
+            </DisplayTemplate>
+        </DataGridCheckColumn>
+    </DataGridColumns>
+</DataGrid>
+
+@code {
+
+    [Inject] EmployeeData EmployeeData { get; set; }
+
+    private List<ExpandoObject> inMemoryData;
+
+    protected override async Task OnInitializedAsync()
+    {
+        inMemoryData = new();
+        var data = ( await EmployeeData.GetDataAsync().ConfigureAwait( false ) ).Take( 25 );
+
+        foreach ( var item in data )
+        {
+
+            IDictionary<string, object> expando = new ExpandoObject();
+
+            foreach ( var property in typeof( Employee ).GetProperties() )
+            {
+                expando.Add( property.Name, property.GetValue( item ) );
+            }
+            inMemoryData.Add( (ExpandoObject)expando );
+        }
+
+
+        await base.OnInitializedAsync();
+    }
+
+    private ExpandoObject NewItemCreator()
+    {
+        IDictionary<string, object> expando = new ExpandoObject();
+
+        foreach ( var property in typeof( Employee ).GetProperties() )
+        {
+            expando.Add( property.Name, property.PropertyType.IsValueType ? Activator.CreateInstance( property.PropertyType ) : null );
+        }
+
+        return (ExpandoObject)expando;
     }
 }";
 

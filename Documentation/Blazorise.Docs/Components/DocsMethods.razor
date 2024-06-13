@@ -14,8 +14,14 @@
         <TableRow>
             <TableHeaderCell>Name</TableHeaderCell>
             <TableHeaderCell>Description</TableHeaderCell>
-            <TableHeaderCell>Return</TableHeaderCell>
-            <TableHeaderCell>Parameters</TableHeaderCell>
+            @if ( ShowReturnType )
+            {
+                <TableHeaderCell>Return</TableHeaderCell>
+            }
+            @if ( ShowParameters )
+            {
+                <TableHeaderCell>Parameters</TableHeaderCell>
+            }
         </TableRow>
     </TableHeader>
     <TableBody>
@@ -28,18 +34,24 @@
                 <TableRowCell>
                     @docsMethodsItem.ChildContent
                 </TableRowCell>
-                <TableRowCell>
-                    @if ( !string.IsNullOrWhiteSpace( docsMethodsItem.ReturnType ) )
-                    {
-                        <Code Tag="@docsMethodsItem.ReturnTypeTag">@docsMethodsItem.ReturnType</Code>
-                    }
-                </TableRowCell>
-                <TableRowCell Class="@docsMethodsItem.DefaultClassNames">
-                    @if ( @docsMethodsItem.Parameters != null )
-                    {
-                        <Code>@docsMethodsItem.Parameters</Code>
-                    }
-                </TableRowCell>
+                @if ( ShowReturnType )
+                {
+                    <TableRowCell>
+                        @if ( !string.IsNullOrWhiteSpace( docsMethodsItem.ReturnType ) )
+                        {
+                            <Code Tag="@docsMethodsItem.ReturnTypeTag">@docsMethodsItem.ReturnType</Code>
+                        }
+                    </TableRowCell>
+                }
+                @if ( ShowParameters )
+                {
+                    <TableRowCell Class="@docsMethodsItem.DefaultClassNames">
+                        @if ( @docsMethodsItem.Parameters != null )
+                        {
+                            <Code>@docsMethodsItem.Parameters</Code>
+                        }
+                    </TableRowCell>
+                }
             </TableRow>
         }
     </TableBody>

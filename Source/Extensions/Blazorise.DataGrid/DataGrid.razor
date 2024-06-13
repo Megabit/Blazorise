@@ -14,7 +14,7 @@
 
         @if ( IsCellEdit && ( CommandColumn is null || !CommandColumn.SaveCommandAllowed ) )
         {
-            //Disable the default form behaviour where pressing enter submits the form and posts the page which is not expected in typical SPA fashion.
+        //Disable the default form behaviour where pressing enter submits the form and posts the page which is not expected in typical SPA fashion.
             <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Disabled Display="Display.None"></Button>
         }
 
@@ -126,7 +126,7 @@
                                             }
                                         }
 
-                                        @if ( Filterable && column.Filterable && (( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Menu ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Menu ) ))
+                                        @if ( Filterable && column.Filterable && ( ( column.FilterMode.HasValue && column.FilterMode == DataGridFilterMode.Menu ) || ( !column.FilterMode.HasValue && FilterMode == DataGridFilterMode.Menu ) ) )
                                         {
                                             <_DataGridMenuFilter Column="column" />
                                         }
@@ -275,7 +275,7 @@
                 @if ( IsLoadingTemplateVisible )
                 {
                     <_DataGridFullColumnSpanRow TItem="TItem" Columns="@Columns" RenderUpdates>
-                         @LoadingTemplate
+                        @LoadingTemplate
 
                     </_DataGridFullColumnSpanRow>
                 }
