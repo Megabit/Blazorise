@@ -796,7 +796,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         await RemoveMultipleText( text );
         await RemoveMultipleValue( GetValueByText( text ) );
 
-        if ((validationRef.ParentValidations?.Mode ?? ValidationMode.Auto) == ValidationMode.Auto)
+        if ( ( validationRef.ParentValidations?.Mode ?? ValidationMode.Auto ) == ValidationMode.Auto )
             await validationRef.ValidateAsync();
 
         DirtyFilter();
@@ -812,7 +812,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
         await RemoveMultipleText( GetItemText( value ) );
         await RemoveMultipleValue( value );
 
-        if ((validationRef.ParentValidations?.Mode ?? ValidationMode.Auto) == ValidationMode.Auto)
+        if ( ( validationRef.ParentValidations?.Mode ?? ValidationMode.Auto ) == ValidationMode.Auto )
             await validationRef.ValidateAsync();
 
         DirtyFilter();
