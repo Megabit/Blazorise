@@ -1,11 +1,20 @@
 ﻿@inherits Blazorise.FileEdit
 <Control Role="ControlRole.File">
     <Label Type="LabelType.File" For="@ElementId">
-        @if ( !HasSelectedFileNames && Placeholder != null )
+        @if ( !HasSelectedFileNames )
         {
-            <Span TextColor="TextColor.Muted">
-                @Placeholder
-            </Span>
+            @if ( Placeholder is not null )
+            {
+                <Span TextColor="TextColor.Muted">
+                    @Placeholder
+                </Span>
+            }
+            else
+            {
+                <Span TextColor="TextColor.Muted">
+                    @BrowseButtonString
+                </Span>
+            }
         }
         else
         {

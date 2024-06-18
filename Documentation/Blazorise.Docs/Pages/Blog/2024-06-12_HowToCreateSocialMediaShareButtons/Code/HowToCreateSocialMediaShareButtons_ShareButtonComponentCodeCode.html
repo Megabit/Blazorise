@@ -1,0 +1,18 @@
+<div class="blazorise-codeblock">
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code
+{
+    [Parameter, EditorRequired]
+    <span class="keyword">public</span> Platform Platform { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    [Parameter]
+    <span class="keyword">public</span> Size ButtonSize { <span class="keyword">get</span>; <span class="keyword">set</span>; } = Size.Large;
+
+    [Parameter, EditorRequired]
+    <span class="keyword">public</span> RenderFragment ChildContent { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+
+    [Parameter(CaptureUnmatchedValues = <span class="keyword">true</span>)]
+    <span class="keyword">public</span> Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">object</span>&gt; AdditionalAttributes { <span class="keyword">get</span>; <span class="keyword">set</span>; } = <span class="keyword">new</span>();
+}
+</pre></div>
+</div>
