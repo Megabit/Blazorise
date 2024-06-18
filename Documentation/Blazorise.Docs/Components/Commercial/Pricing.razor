@@ -231,7 +231,7 @@
                 <Span Class="gradient-commercial">Other Ways</Span> to Make a Purchase?
             </Heading>
             <Lead>
-                We offer a variety of ways to purchase Blazorise commercial licenses. If you have any questions, please <Anchor To="contact" Title="Contact us">contact us</Anchor>.
+                We offer a variety of ways to purchase Blazorise commercial licenses. If you have any questions, please <Anchor To="contact" Title="Contact us" TextColor="TextColor.Primary" Unstyled>contact us</Anchor>.
             </Lead>
         </Column>
     </Row>
@@ -247,8 +247,9 @@
                             </Paragraph>
                         </Column>
                         <Column ColumnSize="ColumnSize.Is12.OnTablet.Is3.OnDesktop" Flex="Flex.AlignItems.End.OnDesktop">
-                            <Button Type="ButtonType.Link" To="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/11987636635.blazorise" Color="Color.Primary" Size="Size.Large" Outline Margin="Margin.IsAuto.OnDesktop.FromStart">
-                                Purchase on Azure
+                            <Button Type="ButtonType.Link" To="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/11987636635.blazorise" Color="Color.Primary" Size="Size.Large" Outline Margin="Margin.IsAuto.OnDesktop.FromStart" Gap="Gap.Is2" Flex="Flex.InlineFlex">
+                                <Image Source="img/logos/microsoft-icon.svg" Text="Microsoft logo" Width="Width.Rem(2)" Height="Height.Rem(2)" />
+                                <Span>Purchase on Azure</Span>
                             </Button>
                         </Column>
                     </Row>
@@ -274,8 +275,8 @@
                             </Paragraph>
                         </Column>
                         <Column ColumnSize="ColumnSize.Is12.OnTablet.Is3.OnDesktop" Flex="Flex.AlignItems.End.OnDesktop">
-                            <Button Clicked="@OnProductOrderClicked" Color="Color.Primary" Size="Size.Large" Outline Margin="Margin.IsAuto.OnDesktop.FromStart">
-                                Send a Purchase Order
+                            <Button Clicked="@OnProductOrderClicked" Color="Color.Primary" Size="Size.Large" Outline Margin="Margin.IsAuto.OnDesktop.FromStart" Gap="Gap.Is2" Flex="Flex.InlineFlex">
+                                <Span>Send a Purchase Order</Span>
                             </Button>
                         </Column>
                     </Row>
