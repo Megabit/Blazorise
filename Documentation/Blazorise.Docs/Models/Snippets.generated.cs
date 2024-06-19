@@ -2735,6 +2735,8 @@ public partial class CaptchaInput : BaseInputComponent<bool>
 
         public const string BasicInputMaskExample = @"<InputMask Mask=""99-9999999"" />";
 
+        public const string InputMaskPlaceholderExample = @"<InputMask Mask=""99-9999999"" MaskPlaceholder=""X"" Placeholder=""Please enter a valid ID"" />";
+
         public const string BasicJumbotronExample = @"<Jumbotron Background=""Background.Light"" Margin=""Margin.Is4.FromBottom"">
     <JumbotronTitle Size=""JumbotronTitleSize.Is4"">Hello, world!</JumbotronTitle>
     <JumbotronSubtitle>
