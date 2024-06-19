@@ -176,15 +176,49 @@ public static class Converters
         }
     }
 
-        /// <summary>
-        /// Tries to parse a large string representing a number and returns an object of the specified type and whose value is equivalent to the specified object.
-        /// </summary>
-        /// <typeparam name="TValue">The type of object to return.</typeparam>
-        /// <param name="value">The numeric string representation.</param>
-        /// <param name="result">New instance of object whose value is equivalent to the specified object.</param>
-        /// <param name="cultureInfo">Culture info to use for conversion.</param>
-        /// <returns>True if conversion was successful.</returns>
-        public static bool TryParseAndLimitLargeNumber<TValue>( string value, out TValue result, CultureInfo cultureInfo = null )
+    /// <summary>
+    /// Returns an object of the specified type and whose value is equivalent to the specified object.
+    /// </summary>
+    /// <param name="value">An object that implements the <see cref="IConvertible"/> interface.</param>
+    /// <param name="conversionType">The conversion type</param>
+    /// <param name="result">New instance of object whose value is equivalent to the specified object.</param>
+    /// <param name="cultureInfo">Culture info to use for conversion.</param>
+    /// <returns>True if conversion was successful.</returns>
+    public static bool TryChangeType( object value, Type conversionType, out object result, CultureInfo cultureInfo = null )
+    {
+        try
+        {
+            conversionType = Nullable.GetUnderlyingType( conversionType ) ?? conversionType;
+
+            if ( conversionType.IsEnum && EnumTryParse( value?.ToString(), conversionType, out object theEnum ) )
+                result = theEnum;
+            else if ( conversionType == typeof( Guid ) )
+                result = Convert.ChangeType( Guid.Parse( value.ToString() ), conversionType );
+            else if ( conversionType == typeof( DateOnly ) )
+                result = Convert.ChangeType( DateOnly.Parse( value.ToString() ), conversionType );
+            else if ( conversionType == typeof( DateTimeOffset ) )
+                result = Convert.ChangeType( DateTimeOffset.Parse( value.ToString() ), conversionType );
+            else
+                result = Convert.ChangeType( value, conversionType, cultureInfo ?? CultureInfo.InvariantCulture );
+            
+            return true;
+        }
+        catch
+        {
+            result = default;
+            return false;
+        }
+    }
+
+    /// <summary>
+    /// Tries to parse a large string representing a number and returns an object of the specified type and whose value is equivalent to the specified object.
+    /// </summary>
+    /// <typeparam name="TValue">The type of object to return.</typeparam>
+    /// <param name="value">The numeric string representation.</param>
+    /// <param name="result">New instance of object whose value is equivalent to the specified object.</param>
+    /// <param name="cultureInfo">Culture info to use for conversion.</param>
+    /// <returns>True if conversion was successful.</returns>
+    public static bool TryParseAndLimitLargeNumber<TValue>( string value, out TValue result, CultureInfo cultureInfo = null )
         {
             try
             {

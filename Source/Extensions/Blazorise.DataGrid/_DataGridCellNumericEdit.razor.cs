@@ -37,8 +37,12 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
         {
             if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
             {
+                var cellValue = ParentDataGrid.ReadCellEditValue( Column.Field )?.ToString();
+                var columnValue = Column.GetValue( ParentDataGrid.editItem )?.ToString();
+                var valueHasChanged = cellValue != columnValue;
+
                 await Task.Yield();
-                if (ParentDataGrid.IsCellEditSelectTextOnEdit )
+                if ( ParentDataGrid.IsCellEditSelectTextOnEdit && !valueHasChanged )
                 {
                     await Select();
                 }
@@ -46,7 +50,7 @@ public partial class _DataGridCellNumericEdit<TItem> : ComponentBase
                 {
                     await Focus();
                 }
-                
+
             }
         }
         await base.OnAfterRenderAsync( firstRender );

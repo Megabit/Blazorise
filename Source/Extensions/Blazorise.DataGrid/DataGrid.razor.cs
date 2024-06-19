@@ -98,7 +98,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Currently editing item.
     /// </summary>
-    protected TItem editItem;
+    internal protected TItem editItem;
 
     /// <summary>
     /// Copy of the <see cref="editItem"/> that is used only as temporary object for data-annotation validation.
@@ -1049,10 +1049,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <para>Makes sure to invoke the StateHasChanged method.</para>
     /// </summary>
     /// <param name="isLoading">Whether the grid is loading or not</param>
-    public void SetLoading(bool isLoading)
+    public void SetLoading( bool isLoading )
     {
         IsLoading = isLoading;
-        InvokeAsync(StateHasChanged);
+        InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
@@ -1846,13 +1846,34 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 {
                     await Edit( batchEditItem.NewItem );
                     if ( startingvalue is not null )
-                        UpdateCellEditValue( column.Field, startingvalue );
-                    return;
+                    {
+                        var columnType = column.GetValueType( batchEditItem.NewItem );
+                        if ( startingvalue == String.Empty )
+                        {
+                            UpdateCellEditValue( column.Field, columnType.IsValueType ? Activator.CreateInstance( columnType ) : startingvalue );
+                        }
+                        else if ( Converters.TryChangeType( startingvalue, columnType, out var parsedBatchStartingValue ) )
+                        {
+                            UpdateCellEditValue( column.Field, parsedBatchStartingValue );
+                        }
+
+                        return;
+                    }
                 }
             }
             await Edit( item );
             if ( startingvalue is not null )
-                UpdateCellEditValue( column.Field, startingvalue );
+            {
+                var columnType = column.GetValueType( item );
+                if ( startingvalue == String.Empty )
+                {
+                    UpdateCellEditValue( column.Field, columnType.IsValueType ? Activator.CreateInstance( columnType ) : startingvalue );
+                }
+                else if ( Converters.TryChangeType( startingvalue, columnType, out var parsedStartingValue ) )
+                {
+                    UpdateCellEditValue( column.Field, parsedStartingValue );
+                }
+            }
         }
     }
 

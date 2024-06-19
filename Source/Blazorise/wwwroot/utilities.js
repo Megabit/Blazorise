@@ -38,7 +38,7 @@ export function removeClassFromBody(classname) {
 export function focus(element, elementId, scrollToElement) {
     element = getRequiredElement(element, elementId);
 
-    if (element) {
+    if (element && typeof element.focus === "function") {
         element.focus({
             preventScroll: !scrollToElement
         });
@@ -53,7 +53,7 @@ export function select(element, elementId, toFocus) {
 
     element = getRequiredElement(element, elementId);
 
-    if (element) {
+    if (element && typeof element.select === "function") {
         element.select();
     }
 }
