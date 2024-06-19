@@ -82,7 +82,7 @@
                 </CardHeader>
                 <CardBody>
                     <Div TextSize="TextSize.Heading1">
-                        <Span>@($"${( ProfessionalPrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
+                        <Span>@($"${( ProfessionalPrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextSize="TextSize.Heading3" TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
                     </Div>
                     <CardText TextColor="TextColor.Primary" Class="text-decoration-line-through" Display="@(Plan == "annually" ? Display.Block : Display.None)">
                         <Span>@($"${( ProfessionalPrices[Plan].HigherPrice * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
@@ -124,7 +124,7 @@
                 </CardHeader>
                 <CardBody Background="Background.Light">
                     <Div TextSize="TextSize.Heading1">
-                        <Span>@($"${( EnterprisePrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
+                        <Span>@($"${( EnterprisePrices[Plan].Price * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextSize="TextSize.Heading3" TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
                     </Div>
                     <CardText TextColor="TextColor.Primary" Class="text-decoration-line-through" Display="@(Plan == "annually" ? Display.Block : Display.None)">
                         <Span>@($"${( EnterprisePrices[Plan].HigherPrice * Quantity ).ToString( CultureInfo.InvariantCulture )}")</Span><Small TextColor="TextColor.Muted" TextWeight="TextWeight.Light">/@ProfessionalPrices[Plan].Unit</Small>
@@ -224,22 +224,59 @@
             </Card>
         </Column>
     </Row>
+
+    <Row Margin="Margin.Is3.OnY" TextAlignment="TextAlignment.Center">
+        <Column>
+            <Heading Size="HeadingSize.Is2" TextSize="TextSize.Heading1" TextAlignment="TextAlignment.Center" Margin="Margin.Is4.OnY">
+                <Span Class="gradient-commercial">Other Ways</Span> to Make a Purchase?
+            </Heading>
+            <Lead>
+                We offer a variety of ways to purchase Blazorise commercial licenses. If you have any questions, please <Anchor To="contact" Title="Contact us" TextColor="TextColor.Primary" Unstyled>contact us</Anchor>.
+            </Lead>
+        </Column>
+    </Row>
+
     <Row>
         <Column>
             <Card Margin="Margin.Is4.FromBottom">
                 <CardBody>
                     <Row Flex="Flex.AlignItems.Center">
                         <Column ColumnSize="ColumnSize.Is12.OnTablet.Is9.OnDesktop">
-                            <Heading Size="HeadingSize.Is3" TextAlignment="TextAlignment.Start">
-                                Other Ways to Make a Purchase?
-                            </Heading>
+                            <Paragraph Margin="Margin.Is0" TextAlignment="TextAlignment.Start" TextColor="TextColor.Muted">
+                                As a certified Microsoft partner, we provide an option for you to purchase a license directly from the Azure Marketplace. Simply click on the purchase button, and you will be redirected to the Azure Marketplace to complete your license purchase.
+                            </Paragraph>
+                        </Column>
+                        <Column ColumnSize="ColumnSize.Is12.OnTablet.Is3.OnDesktop" Flex="Flex.AlignItems.End.OnDesktop">
+                            <Button Type="ButtonType.Link" To="https://azuremarketplace.microsoft.com/en-us/marketplace/apps/11987636635.blazorise" Color="Color.Primary" Size="Size.Large" Outline Margin="Margin.IsAuto.OnDesktop.FromStart" Gap="Gap.Is2" Flex="Flex.InlineFlex">
+                                <Image Source="img/logos/microsoft-icon.svg" Text="Microsoft logo" Width="Width.Rem(2)" Height="Height.Rem(2)" />
+                                <Span>Purchase on Azure</Span>
+                            </Button>
+                        </Column>
+                    </Row>
+                </CardBody>
+            </Card>
+        </Column>
+    </Row>
+
+    <Row>
+        <Column>
+            <Heading Size="HeadingSize.Is4" Margin="Margin.Is4.FromBottom">or</Heading>
+        </Column>
+    </Row>
+
+    <Row>
+        <Column>
+            <Card Margin="Margin.Is4.FromBottom">
+                <CardBody>
+                    <Row Flex="Flex.AlignItems.Center">
+                        <Column ColumnSize="ColumnSize.Is12.OnTablet.Is9.OnDesktop">
                             <Paragraph Margin="Margin.Is0" TextAlignment="TextAlignment.Start" TextColor="TextColor.Muted">
                                 Enter your information, and you'll receive a quote or estimate to sign. We will activate your licenses and send you an invoice with NET 30 payment terms once it has been signed and returned.
                             </Paragraph>
                         </Column>
-                        <Column ColumnSize="ColumnSize.Is12.OnTablet.Is3.OnDesktop">
-                            <Button Clicked="@OnProductOrderClicked" Color="Color.Primary" Size="Size.Large" Outline>
-                                Request a Quote
+                        <Column ColumnSize="ColumnSize.Is12.OnTablet.Is3.OnDesktop" Flex="Flex.AlignItems.End.OnDesktop">
+                            <Button Clicked="@OnProductOrderClicked" Color="Color.Primary" Size="Size.Large" Outline Margin="Margin.IsAuto.OnDesktop.FromStart" Gap="Gap.Is2" Flex="Flex.InlineFlex">
+                                <Span>Send a Purchase Order</Span>
                             </Button>
                         </Column>
                     </Row>

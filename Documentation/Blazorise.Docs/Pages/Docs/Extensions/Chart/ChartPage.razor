@@ -113,7 +113,7 @@
 </DocsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
-    Attributes
+    Chart
 </Heading>
 
 <DocsAttributes>
@@ -143,88 +143,453 @@
     </DocsAttributesItem>
 </DocsAttributes>
 
-<DocsPageSubtitle>
-    ChartOptions Attributes
-</DocsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
+    ChartOptions
+</Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="Scales" Type="Scales">
+    <DocsAttributesItem Name="Scales" Type="ChartScales" Default="null">
+        Configuration for chart scales.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Legend" Type="Legend">
+    <DocsAttributesItem Name="Animation" Type="ChartAnimation" Default="null">
+        Configuration for chart animation.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Tooltips" Type="Tooltips">
+    <DocsAttributesItem Name="Plugins" Type="ChartPlugins" Default="null">
+        Configuration for chart plugins.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Animation" Type="Animation">
+    <DocsAttributesItem Name="Interactions" Type="ChartInteractions" Default="null">
+        Configuration for chart interactions.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Responsive" Type="bool?" Default="true">
+    <DocsAttributesItem Name="Parsing" Type="ChartParsing" Default="null">
+        Configuration for chart parsing.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Elements" Type="ChartElements" Default="null">
+        Configuration for chart elements.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Layout" Type="ChartLayout" Default="null">
+        Configuration for chart layout.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="IndexAxis" Type="string" Default="null">
+        Index axis for the chart.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Responsive" Type="bool?" Default="null">
         Resizes the chart canvas when its container does.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="MaintainAspectRatio" Type="bool?" Default="true">
+    <DocsAttributesItem Name="MaintainAspectRatio" Type="bool?" Default="null">
         Maintain the original canvas aspect ratio (width / height) when resizing.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="ResponsiveAnimationDuration" Type="bool?" Default="true">
-        Duration in milliseconds it takes to animate to new size after a resize event.
-    </DocsAttributesItem>
-    <DocsAttributesItem Name="AspectRatio" Type="int" Default="2">
+    <DocsAttributesItem Name="AspectRatio" Type="double?" Default="null">
         Canvas aspect ratio (i.e. width / height, a value of 1 representing a square canvas).
+        Note that this option is ignored if the height is explicitly defined either as attribute or via the style.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ResizeDelay" Type="int?" Default="null">
+        Delay the resize update by given amount of milliseconds. This can ease the resize process by debouncing update of the elements.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Locale" Type="string" Default="null">
+        A string with a BCP 47 language tag, leveraging on <Anchor To="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat" />.
     </DocsAttributesItem>
 </DocsAttributes>
 
-<DocsPageSubtitle>
-    Scales Attributes
-</DocsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
+    ChartScales
+</Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="XAxes" Type="List<Axis>">
+    <DocsAttributesItem Name="X" Type="ChartAxis" Default="null">
+        Configuration for the x-axis.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="YAxes" Type="List<Axis>">
+    <DocsAttributesItem Name="Y" Type="ChartAxis" Default="null">
+        Configuration for the y-axis.
     </DocsAttributesItem>
 </DocsAttributes>
 
-<DocsPageSubtitle>
-    Legend Attributes
-</DocsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
+    Animation
+</Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="Display" Type="bool" Default="true">
+    <DocsAttributesItem Name="Duration" Type="int?" Default="null">
+        The number of milliseconds an animation takes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Easing" Type="string" Default="null">
+        Easing function to use. <Anchor To="https://www.chartjs.org/docs/latest/configuration/animations.html#easing">more...</Anchor>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Delay" Type="int?" Default="null">
+        Delay before starting the animations.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Loop" Type="bool?" Default="null">
+        If set to true, the animations loop endlessly.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    ChartPlugins
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Legend" Type="ChartLegend" Default="null">
+        Configuration for the chart legend.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Tooltips" Type="ChartTooltips" Default="null">
+        Configuration for the chart tooltips.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Title" Type="ChartTitle" Default="null">
+        Configuration for the chart title.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Subtitle" Type="ChartSubtitle" Default="null">
+        Configuration for the chart subtitle.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Decimation" Type="ChartDecimation" Default="null">
+        Configuration for chart data decimation.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    ChartInteractions
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Mode" Type="string" Default="null">
+        Sets which elements appear in the interaction.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Intersect" Type="bool?" Default="null">
+        If true, the interaction mode only applies when the mouse position intersects an item on the chart.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Axis" Type="string" Default="null">
+        Can be set to 'x', 'y', or 'xy' to define which directions are used in calculating distances. Defaults to 'x' for 'index' mode and 'xy' in dataset and 'nearest' modes.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    ChartParsing
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="XAxisKey" Type="string" Default="null">
+        Key for the x-axis values in the data.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="YAxisKey" Type="string" Default="null">
+        Key for the y-axis values in the data.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    ChartLayout
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="AutoPadding" Type="bool?" Default="null">
+        Apply automatic padding so visible elements are completely drawn.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Padding" Type="ChartPadding" Default="null">
+        The padding to add inside the chart.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    ChartElements
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Point" Type="ChartPointElements" Default="null">
+        Point elements are used to represent the points in a line, radar or bubble chart.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Line" Type="ChartLineElements" Default="null">
+        Line elements are used to represent the line in a line chart.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Bar" Type="ChartBarElements" Default="null">
+        Bar elements are used to represent the bars in a bar chart.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Arc" Type="ChartArcElements" Default="null">
+        Arcs are used in the polar area, doughnut and pie charts.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    ChartLegend
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Display" Type="bool?" Default="null">
         Is the legend shown.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Reverse" Type="bool" Default="false">
+    <DocsAttributesItem Name="Position" Type="string" Default="null">
+        Position of the legend.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Align" Type="string" Default="null">
+        Alignment of the legend.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxHeight" Type="int?" Default="null">
+        Maximum height of the legend, in pixels.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MaxWidth" Type="int?" Default="null">
+        Maximum width of the legend, in pixels.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FullSize" Type="bool?" Default="null">
+        Marks that this box should take the full width/height of the canvas (moving other boxes). This is unlikely to need to be changed in day-to-day use.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Reverse" Type="bool?" Default="null">
         Legend will show datasets in reverse order.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="FullWidth" Type="bool" Default="true">
-        Marks that this box should take the full width of the canvas.
+    <DocsAttributesItem Name="Labels" Type="ChartLegendLabel" Default="null">
+        Options to change legend labels.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Rtl" Type="bool?" Default="null">
+        true for rendering the legends from right to left.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextDirection" Type="string" Default="null">
+        This will force the text direction 'rtl' or 'ltr' on the canvas for rendering the legend, regardless of the css specified on the canvas.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Title" Type="ChartLegendTitle" Default="null">
+        Options to change legend title.
     </DocsAttributesItem>
 </DocsAttributes>
 
-<DocsPageSubtitle>
-    Tooltips Attributes
-</DocsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
+    ChartTooltips
+</Heading>
 
 <DocsAttributes>
-    <DocsAttributesItem Name="Display" Type="bool" Default="true">
+    <DocsAttributesItem Name="Enabled" Type="bool?" Default="null">
         Are on-canvas tooltips enabled.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Mode" Type="string" Default="null">
+        Sets which elements appear in the tooltip.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Intersect" Type="bool?" Default="null">
+        If true, the tooltip mode applies only when the mouse position intersects with an element. If false, the mode will be applied at all times.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Position" Type="string" Default="null">
+        The mode for positioning the tooltip.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BackgroundColor" Type="IndexableOption<object>" Default="null">
+        Background color of the tooltip.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TitleColor" Type="IndexableOption<object>" Default="null">
+        Color of title text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TitleFont" Type="ChartFont" Default="new ChartFont { Weight = &quot;bold&quot; }">
+        See <Anchor To="https://www.chartjs.org/docs/latest/general/fonts.html">Fonts</Anchor>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TitleAlign" Type="string" Default="null">
+        Horizontal alignment of the title text lines.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TitleSpacing" Type="int?" Default="null">
+        Spacing to add to top and bottom of each title line.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TitleMarginBottom" Type="int?" Default="null">
+        Margin to add on bottom of title section.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BodyColor" Type="IndexableOption<object>" Default="null">
+        Color of body text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BodyFont" Type="ChartFont" Default="null">
+        See <Anchor To="https://www.chartjs.org/docs/latest/general/fonts.html">Fonts</Anchor>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BodyAlign" Type="string" Default="null">
+        Horizontal alignment of the body text lines.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BodySpacing" Type="int?" Default="null">
+        Spacing to add to top and bottom of each tooltip item.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FooterColor" Type="IndexableOption<object>" Default="null">
+        Color of footer text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FooterFont" Type="ChartFont" Default="null">
+        See <Anchor To="https://www.chartjs.org/docs/latest/general/fonts.html">Fonts</Anchor>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FooterAlign" Type="string" Default="null">
+        Horizontal alignment of the footer text lines.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FooterSpacing" Type="int?" Default="null">
+        Spacing to add to top and bottom of each footer line.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="FooterMarginTop" Type="int?" Default="null">
+        Margin to add before drawing the footer.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Padding" Type="object" Default="null">
+        Padding inside the tooltip.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CaretPadding" Type="object" Default="null">
+        Extra distance to move the end of the tooltip arrow away from the tooltip point.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CaretSize" Type="int?" Default="null">
+        Size, in px, of the tooltip arrow.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CornerRadius" Type="int?" Default="null">
+        Radius of tooltip corner curves.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MultiKeyBackground" Type="IndexableOption<object>" Default="null">
+        Color to draw behind the colored boxes when multiple items are in the tooltip.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="DisplayColors" Type="bool?" Default="null">
+        If true, color boxes are shown in the tooltip.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BoxWidth" Type="int?" Default="null">
+        Width of the color box if displayColors is true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BoxHeight" Type="int?" Default="null">
+        Height of the color box if displayColors is true.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BoxPadding" Type="int?" Default="null">
+        Padding between the color box and the text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="UsePointStyle" Type="bool?" Default="null">
+        Use the corresponding point style (from dataset options) instead of color boxes, ex: star, triangle etc. (size is based on the minimum value between boxWidth and boxHeight).
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BorderColor" Type="IndexableOption<object>" Default="null">
+        Color of the border.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BorderWidth" Type="int?" Default="null">
+        Size of the border.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Rtl" Type="bool?" Default="null">
+        true for rendering the tooltip from right to left.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextDirection" Type="string" Default="null">
+        This will force the text direction 'rtl' or 'ltr on the canvas for rendering the tooltips, regardless of the css specified on the canvas.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="XAlign" Type="string" Default="null">
+        Position of the tooltip caret in the X direction.
+        <UnorderedList>
+            <UnorderedListItem>
+                <Strong>"left"</Strong> (default)
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Strong>"center"</Strong>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Strong>"right"</Strong>
+            </UnorderedListItem>
+        </UnorderedList>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="YAlign" Type="string" Default="null">
+        Position of the tooltip caret in the Y direction.
+        <UnorderedList>
+            <UnorderedListItem>
+                <Strong>"left"</Strong> (default)
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Strong>"center"</Strong>
+            </UnorderedListItem>
+            <UnorderedListItem>
+                <Strong>"right"</Strong>
+            </UnorderedListItem>
+        </UnorderedList>
     </DocsAttributesItem>
 </DocsAttributes>
 
-<DocsPageSubtitle>
-    Axis Attributes
-</DocsPageSubtitle>
+<Heading Size="HeadingSize.Is3">
+    ChartAxis
+</Heading>
 
 <DocsAttributes>
     <DocsAttributesItem Name="Type" Type="string" Default="null">
+        Type of scale being employed. Custom scales can be created and registered with a string key. This allows changing the type of an axis for a chart.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="AlignToPixels" Type="bool?" Default="null">
+        Align pixel values to device pixels.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Display" Type="bool" Default="true">
+        Controls the axis global visibility (visible when <Code>true</Code>, hidden when <Code>false</Code>). When display: <Code>"auto"</Code>, the axis is visible only if at least one associated dataset is visible.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Ticks" Type="AxeTicks">
+    <DocsAttributesItem Name="Grid" Type="ChartAxisGridLine">
+        Grid line configuration. <Anchor To="https://www.chartjs.org/docs/latest/axes/styling.html#grid-line-configuration">more...</Anchor>.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="GridLines" Type="GridLines">
+    <DocsAttributesItem Name="Min" Type="double?">
+        User defined minimum number for the scale, overrides minimum value from data. <Anchor To="https://www.chartjs.org/docs/latest/axes/#axis-range-settings">more...</Anchor>
     </DocsAttributesItem>
-    <DocsAttributesItem Name="ScaleLabel" Type="ScaleLabel">
+    <DocsAttributesItem Name="Max" Type="double?">
+        User defined maximum number for the scale, overrides maximum value from data. <Anchor To="https://www.chartjs.org/docs/latest/axes/#axis-range-settings">more...</Anchor>
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Ticks" Type="AxeTicks">
+    <DocsAttributesItem Name="Reverse" Type="bool?">
+        Reverse the scale.
     </DocsAttributesItem>
-    <DocsAttributesItem Name="Stacked" Type="bool" Default="false">
-        Only used for BarChart and seting this to true will stack the datasets.
+    <DocsAttributesItem Name="Stacked" Type="bool?">
+        Should the data be stacked.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SuggestedMin" Type="double?">
+        Adjustment used when calculating the minimum data value. <Anchor To="https://www.chartjs.org/docs/latest/axes/#axis-range-settings">more...</Anchor>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="SuggestedMax" Type="double?">
+        Adjustment used when calculating the maximum data value. <Anchor To="https://www.chartjs.org/docs/latest/axes/#axis-range-settings">more...</Anchor>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Ticks" Type="ChartAxisTicks">
+        Tick configuration.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Time" Type="ChartAxisTime">
+        Time configuration.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Weight" Type="double?">
+        The weight used to sort the axis. Higher weights are further away from the chart area.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Title" Type="ChartScaleTitle">
+        Defines options for the scale title. Note that this only applies to cartesian axes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BeginAtZero" Type="bool?">
+        If true, scale will include 0 if it is not already included.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Grace" Type="object">
+        Percentage (string ending with %) or amount (number) for added room in the scale range above and below data.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is3">
+    ChartAxisTicks
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="BackdropColor" Type="IndexableOption<object>" Default="null">
+        Color of label backdrops.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BackdropPadding" Type="object" Default="null">
+        Padding of label backdrop. See <Anchor To="https://www.chartjs.org/docs/3.7.1/general/padding.html">more...</Anchor>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Callback" Type="Expression<Func<double, int, double[], string>>" Default="null">
+        <Paragraph>
+            Defines the Expression which will be converted to JavaScript as a string representation of the tick value as it should be displayed on the chart.
+        </Paragraph>
+        <Paragraph>
+            Eg. <Code>Callback = ( value, index, values ) => value / 1000 + "K"</Code>
+        </Paragraph>
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Display" Type="bool?" Default="null">
+        If true, show tick marks.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Color" Type="IndexableOption<object>" Default="null">
+        Color of ticks.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Font" Type="ChartFont" Default="null">
+        Font color for tick labels.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Major" Type="ChartAxisMajorTick" Default="null">
+        Major ticks configuration. Omitted options are inherited from options above.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Padding" Type="double?" Default="null">
+        Sets the offset of the tick labels from the axis.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowLabelBackdrop" Type="bool?" Default="null">
+        If true, draw a background behind the tick labels.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextStrokeColor" Type="IndexableOption<object>" Default="null">
+        The color of the stroke around the text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="TextStrokeWidth" Type="double?" Default="null">
+        Stroke width around the text.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Z" Type="double?" Default="null">
+        z-index of tick layer. Useful when ticks are drawn on chart area. Values &lt;= 0 are drawn under datasets, &gt; 0 on top.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Count" Type="int?" Default="null">
+        The number of ticks to generate. If specified, this overrides the automatic generation.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Format" Type="object" Default="null">
+        The number format options used by the default label formatter.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Precision" Type="double?" Default="null">
+        If defined and StepSize is not specified, the step size will be rounded to this many decimal places.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="StepSize" Type="double?" Default="null">
+        User-defined fixed step size for the scale.
     </DocsAttributesItem>
 </DocsAttributes>
