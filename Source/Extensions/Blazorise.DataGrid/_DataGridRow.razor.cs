@@ -155,10 +155,20 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             return;
 
         var isKeyboardKeyText = args.IsTextKey();
-        if ( !args.IsModifierKey() && ( isKeyboardKeyText || args.Code == "Enter" || args.Code == "NumpadEnter" ))
+        if ( !args.IsModifierKey() )
         {
-            await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), isKeyboardKeyText ? args.Key : null );
-            return;
+            if ( isKeyboardKeyText )
+            {
+                await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), args.Key );
+            }
+            else if ( args.Code == "Enter" || args.Code == "NumpadEnter" )
+            {
+                await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), null );
+            }
+            else if (args.Code == "Backspace" )
+            {
+                await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), string.Empty );
+            }
         }
     }
 
