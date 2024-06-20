@@ -1,5 +1,6 @@
-﻿@namespace Blazorise.Docs.Docs.Examples
-
+﻿@using Blazorise.DataGrid.Extensions;
+@namespace Blazorise.Docs.Docs.Examples
+<Code>@oDataQuery</Code>
 <DataGrid TItem="Employee"
           Data="@employeeList"
           ReadData="@OnReadData"
@@ -22,7 +23,7 @@
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
-
+    private string oDataQuery;
     protected override async Task OnInitializedAsync()
     {
         employeeList = await EmployeeData.GetDataAsync();
@@ -33,6 +34,7 @@
 
     private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
     {
+        oDataQuery = e.ToODataString( "https://services.odata.org/V4/Northwind/Northwind.svc/Employees" );
         if ( !e.CancellationToken.IsCancellationRequested )
         {
             List<Employee> response = null;

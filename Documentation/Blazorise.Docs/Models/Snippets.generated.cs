@@ -7947,7 +7947,9 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
         public const string DataGridImportsExample = @"@using Blazorise.DataGrid";
 
-        public const string DataGridLargeDataExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridLargeDataExample = @"@using Blazorise.DataGrid.Extensions;
+<Code>@oDataQuery</Code>
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           ReadData=""@OnReadData""
           TotalItems=""@totalEmployees""
@@ -7969,7 +7971,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
-
+    private string oDataQuery;
     protected override async Task OnInitializedAsync()
     {
         employeeList = await EmployeeData.GetDataAsync();
@@ -7980,6 +7982,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
     private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
     {
+        oDataQuery = e.ToODataString( ""https://services.odata.org/V4/Northwind/Northwind.svc/Employees"" );
         if ( !e.CancellationToken.IsCancellationRequested )
         {
             List<Employee> response = null;

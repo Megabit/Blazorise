@@ -1,5 +1,7 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
+<span class="atSign">&#64;</span>using Blazorise.DataGrid.Extensions;
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>oDataQuery<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">ReadData</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnReadData</span><span class="quot">&quot;</span>
@@ -23,7 +25,7 @@
     [Inject]
     <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     <span class="keyword">private</span> List&lt;Employee&gt; employeeList;
-
+    <span class="keyword">private</span> <span class="keyword">string</span> oDataQuery;
     <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
     {
         employeeList = <span class="keyword">await</span> EmployeeData.GetDataAsync();
@@ -34,6 +36,7 @@
 
     <span class="keyword">private</span> <span class="keyword">async</span> Task OnReadData( DataGridReadDataEventArgs&lt;Employee&gt; e )
     {
+        oDataQuery = e.ToODataString( <span class="string">&quot;https://services.odata.org/V4/Northwind/Northwind.svc/Employees&quot;</span> );
         <span class="keyword">if</span> ( !e.CancellationToken.IsCancellationRequested )
         {
             List&lt;Employee&gt; response = <span class="keyword">null</span>;
