@@ -122,6 +122,9 @@
         URL matching behavior for a link.
     </DocsAttributesItem>
     <DocsAttributesItem Name="CustomMatch" Type="Func<string, bool>" Default="null">
+        A callback function that is used to compare current uri with the user defined uri. Must enable <Code>Match="Match.Custom"</Code> to be used.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="CustomMatch" Type="Func<string, bool>" Default="null">
         A callback function that is used to compare current uri with the user defined uri. Must enable <Code>Match.Custom</Code> to be used.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Title" Type="string" Default="null">
