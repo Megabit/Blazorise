@@ -1,0 +1,10 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<DatePicker TValue="DateTime?" DisabledDays="@disabledDays" />
+
+@code {
+    DayOfWeek[] disabledDays = new[]  {
+        DayOfWeek.Saturday,
+        DayOfWeek.Sunday,
+    };
+}

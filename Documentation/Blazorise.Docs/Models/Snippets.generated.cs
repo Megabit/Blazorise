@@ -1879,6 +1879,15 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     };
 }";
 
+        public const string DatePickerDisabledDaysExample = @"<DatePicker TValue=""DateTime?"" DisabledDays=""@disabledDays"" />
+
+@code {
+    DayOfWeek[] disabledDays = new[]  {
+        DayOfWeek.Saturday,
+        DayOfWeek.Sunday,
+    };
+}";
+
         public const string DatePickerFormatBestPracticeExample = @"<Field>
     <FieldLabel>Start date</FieldLabel>
     <FieldBody>
