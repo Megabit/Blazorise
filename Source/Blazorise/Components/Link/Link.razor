@@ -1,5 +1,5 @@
 ﻿@namespace Blazorise
 @inherits BaseLinkComponent
-<a @ref="@ElementRef" id="@ElementId" href="@GetTo()" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" aria-disabled="@AriaDisabledString" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
+<a @ref="@ElementRef" id="@ElementId" href="@GetTo()" rel="@GetRel()" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" aria-disabled="@AriaDisabledString" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
     @ChildContent
 </a>
