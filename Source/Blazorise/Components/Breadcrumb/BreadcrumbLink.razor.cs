@@ -49,6 +49,14 @@ public partial class BreadcrumbLink : BaseComponent
         return Clicked.InvokeAsync( eventArgs );
     }
 
+    /// <summary>
+    /// Gets the rel attribute value.
+    /// </summary>
+    /// <returns>
+    /// Returns "noopener noreferrer" if the <see cref="Target"/> is set to <see cref="Target.Blank"/>.
+    /// </returns>
+    protected string GetRel() => Target == Target.Blank ? "noopener noreferrer" : null;
+
     #endregion
 
     #region Properties

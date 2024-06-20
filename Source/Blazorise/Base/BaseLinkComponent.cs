@@ -215,6 +215,14 @@ public abstract class BaseLinkComponent : BaseComponent, IDisposable
     /// <returns>Href value.</returns>
     protected string GetTo() => Disabled ? null : To;
 
+    /// <summary>
+    /// Gets the rel attribute value.
+    /// </summary>
+    /// <returns>
+    /// Returns "noopener noreferrer" if the <see cref="Target"/> is set to <see cref="Target.Blank"/>.
+    /// </returns>
+    protected string GetRel() => Target == Target.Blank ? "noopener noreferrer" : null;
+
     #endregion
 
     #region Properties
