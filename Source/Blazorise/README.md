@@ -1,8 +1,8 @@
 ﻿## Build external libraries
 
-External libraries must be build as a valid JS module to be consumed by Blazorise.
+External libraries must be built as a valid JS module to be consumed by Blazorise.
 
-In this section we will describe how to build external libraries that are used in Blazorise, step by step. 
+In this section, we will describe how to build external libraries that are used in Blazorise, step by step. 
 
 ### Autonumeric
 
