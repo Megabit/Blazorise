@@ -1039,10 +1039,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <para>Makes sure to invoke the StateHasChanged method.</para>
     /// </summary>
     /// <param name="isLoading">Whether the grid is loading or not</param>
-    public void SetLoading(bool isLoading)
+    public void SetLoading( bool isLoading )
     {
         IsLoading = isLoading;
-        InvokeAsync(StateHasChanged);
+        InvokeAsync( StateHasChanged );
     }
 
     /// <summary>
