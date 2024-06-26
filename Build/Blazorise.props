@@ -17,7 +17,7 @@
     <TargetFrameworks>net6.0;net7.0;net8.0</TargetFrameworks>
     <OutputType>Library</OutputType>
     <IsPackable>true</IsPackable>
-    <LangVersion>10.0</LangVersion>
+    <LangVersion>11.0</LangVersion>
 
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
