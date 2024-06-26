@@ -3,7 +3,9 @@ using System;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Blazorise.Modules;
+using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -41,6 +43,21 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// </summary>
     private bool validationInitialized;
 
+    /// <summary>
+    /// Flag that tells us if the parameters have been initialized.
+    /// </summary>
+    private bool hasInitializedParameters;
+
+    /// <summary>
+    /// Defines if need to generate field names for the input components.
+    /// </summary>
+    protected bool shouldGenerateFieldNames;
+
+    /// <summary>
+    /// Holds the formatted value of a binded field.
+    /// </summary>
+    protected string formattedValueExpression;
+
     #endregion
 
     #region Methods
@@ -48,6 +65,13 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        if ( !hasInitializedParameters )
+        {
+            shouldGenerateFieldNames = !OperatingSystem.IsBrowser();
+
+            hasInitializedParameters = true;
+        }
+
         await base.SetParametersAsync( parameters );
 
         // For modals we need to make sure that autofocus is applied every time the modal is opened.
@@ -123,6 +147,20 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
         {
             Theme.Changed -= OnThemeChanged;
         }
+    }
+
+    /// <summary>
+    /// Initializes parameters that are not going to be changed again.
+    /// </summary>
+    protected void IntializeParameters()
+    {
+        if ( hasInitializedParameters )
+            return;
+
+        // we only need to generate field names on the server side
+        shouldGenerateFieldNames = !OperatingSystem.IsBrowser();
+
+        hasInitializedParameters = true;
     }
 
     /// <summary>
@@ -326,6 +364,12 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
         InvokeAsync( StateHasChanged );
     }
 
+    /// <summary>
+    /// Gets the formatted value expression for the input component.
+    /// </summary>
+    /// <returns>Returns the formatted value expression for the input component</returns>
+    protected abstract string GetFormatedValueExpression();
+
     #endregion
 
     #region Properties
@@ -361,6 +405,22 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// their own specialized parameters that can be binded(Text, Date, Value etc.)
     /// </remarks>
     protected abstract TValue InternalValue { get; set; }
+
+    /// <summary>
+    /// Gets the value to be used for the input's "name" attribute.
+    /// </summary>
+    protected string NameAttributeValue
+    {
+        get
+        {
+            if ( shouldGenerateFieldNames && formattedValueExpression is null )
+            {
+                formattedValueExpression = GetFormatedValueExpression();
+            }
+
+            return formattedValueExpression;
+        }
+    }
 
     /// <summary>
     /// Gets or sets the current input value.
@@ -399,6 +459,11 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// Gets the size based on the theme settings.
     /// </summary>
     protected Size ThemeSize => Size.GetValueOrDefault( ParentAddons?.Size ?? Theme?.InputOptions?.Size ?? Blazorise.Size.Default );
+
+    /// <summary>
+    /// Holds the field prefix for the input.
+    /// </summary>
+    [CascadingParameter] protected HtmlFieldPrefix HtmlFieldPrefix { get; set; }
 
     /// <summary>
     /// Gets or sets the <see cref="IJSUtilitiesModule"/> instance.

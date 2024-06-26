@@ -477,6 +477,17 @@ public partial class DatePicker<TValue> : BaseTextInput<IReadOnlyList<TValue>>, 
     /// <inheritdoc/>
     protected override bool IsSameAsInternalValue( IReadOnlyList<TValue> value ) => value.AreEqual( InternalValue );
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( DateExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( DateExpression )
+            : ExpressionFormatter.FormatLambda( DateExpression );
+    }
+
     #endregion
 
     #region Properties

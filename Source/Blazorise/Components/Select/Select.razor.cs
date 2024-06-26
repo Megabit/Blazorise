@@ -203,6 +203,25 @@ public partial class Select<TValue> : BaseInputComponent<IReadOnlyList<TValue>>
             selectItems.Remove( selectItem );
     }
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( Multiple && SelectedValuesExpression is not null )
+        {
+            return HtmlFieldPrefix is not null
+                ? HtmlFieldPrefix.GetFieldName( SelectedValuesExpression )
+                : ExpressionFormatter.FormatLambda( SelectedValuesExpression );
+        }
+        else if ( SelectedValueExpression is not null )
+        {
+            return HtmlFieldPrefix is not null
+                ? HtmlFieldPrefix.GetFieldName( SelectedValueExpression )
+                : ExpressionFormatter.FormatLambda( SelectedValueExpression );
+        }
+
+        return null;
+    }
+
     #endregion
 
     #region Properties
