@@ -26,7 +26,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         } : {};
 
     const otherOptions = {
-        placeholder: options.placeholder || "_",
+        placeholder: options.maskPlaceholder || "_",
         showMaskOnFocus: options.showMaskOnFocus,
         showMaskOnHover: options.showMaskOnHover,
         numericInput: options.numericInput || false,
@@ -44,7 +44,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         ? Object.assign({}, aliasOptions, eventOptions, otherOptions)
         : Object.assign({}, maskOptions, regexOptions, eventOptions, otherOptions);
 
-    var inputMask = new Inputmask(finalOptions);
+    let inputMask = new Inputmask(finalOptions);
 
     inputMask.mask(element);
 
@@ -59,7 +59,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
 }
 
 export function destroy(element, elementId) {
-    var instances = _instances || {};
+    let instances = _instances || {};
     delete instances[elementId];
 }
 

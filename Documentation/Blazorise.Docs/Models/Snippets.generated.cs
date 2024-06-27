@@ -1879,6 +1879,15 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     };
 }";
 
+        public const string DatePickerDisabledDaysExample = @"<DatePicker TValue=""DateTime?"" DisabledDays=""@disabledDays"" />
+
+@code {
+    DayOfWeek[] disabledDays = new[]  {
+        DayOfWeek.Saturday,
+        DayOfWeek.Sunday,
+    };
+}";
+
         public const string DatePickerFormatBestPracticeExample = @"<Field>
     <FieldLabel>Start date</FieldLabel>
     <FieldBody>
@@ -2734,6 +2743,8 @@ public partial class CaptchaInput : BaseInputComponent<bool>
         public const string AliasInputMaskExample = @"<InputMask Alias=""datetime"" InputFormat=""dd/mm/yyyy"" OutputFormat=""ddmmyyyy"" />";
 
         public const string BasicInputMaskExample = @"<InputMask Mask=""99-9999999"" />";
+
+        public const string InputMaskPlaceholderExample = @"<InputMask Mask=""99-9999999"" MaskPlaceholder=""X"" Placeholder=""Please enter a valid ID"" />";
 
         public const string BasicJumbotronExample = @"<Jumbotron Background=""Background.Light"" Margin=""Margin.Is4.FromBottom"">
     <JumbotronTitle Size=""JumbotronTitleSize.Is4"">Hello, world!</JumbotronTitle>
