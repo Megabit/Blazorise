@@ -2705,19 +2705,19 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Whether the cell enters edit mode on single click.
     /// </summary>
     internal bool IsCellEditOnSingleClick
-        => IsCellEdit && ( DataGridEditModeOptions?.CellEditOnSingleClick ?? false );
+        => IsCellEdit && ( EditModeOptions?.CellEditOnSingleClick ?? false );
 
     /// <summary>
     /// Whether the cell enters edit mode on double click.
     /// </summary>
     internal bool IsCellEditOnDoubleClick
-        => IsCellEdit && ( DataGridEditModeOptions?.CellEditOnDoubleClick ?? true );
+        => IsCellEdit && ( EditModeOptions?.CellEditOnDoubleClick ?? true );
 
     /// <summary>
     /// Whether the cell selects all text on edit.
     /// </summary>
     internal bool IsCellEditSelectTextOnEdit
-        => IsCellEdit && ( DataGridEditModeOptions?.CellEditSelectTextOnEdit ?? false );
+        => IsCellEdit && ( EditModeOptions?.CellEditSelectTextOnEdit ?? false );
 
     /// <summary>
     /// Whether the TIem is a dynamic item.
@@ -3847,7 +3847,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets DataGridEditMode options.
     /// </summary>
-    [Parameter] public DataGridEditModeOptions DataGridEditModeOptions { get; set; }
+    [Parameter] public DataGridEditModeOptions EditModeOptions { get; set; }
 
     /// <summary>
     /// Gets or sets whether the Datagrid is Cell Navigable, users will be able to navigate the Grid cells by pressing the Keyboard's ArrowLeft, ArrowUp, ArrowRight and ArrowDown keys.
