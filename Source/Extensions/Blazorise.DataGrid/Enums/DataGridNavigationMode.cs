@@ -5,7 +5,6 @@
 /// </summary>
 public enum DataGridNavigationMode
 {
-
     /// <summary>
     /// The default navigation mode.
     /// </summary>

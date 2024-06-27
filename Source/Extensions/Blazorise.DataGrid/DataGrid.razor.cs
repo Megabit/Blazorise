@@ -495,7 +495,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
             IsClientMacintoshOS = await IsUserAgentMacintoshOS();
             await JSModule.Initialize( tableRef.ElementRef, ElementId );
-            if ( CellNavigable )
+            if ( IsCellNavigable )
             {
                 await JSModule.InitializeTableCellNavigation( tableRef.ElementRef, ElementId );
             }
@@ -1439,7 +1439,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         await SelectRow( item );
 
-        if ( Navigable )
+        if ( IsRowNavigable )
         {
             var selectedTableRow = GetRowInfo( item )?.TableRow;
             if ( selectedTableRow is not null )
@@ -2720,6 +2720,20 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         => IsCellEdit && ( EditModeOptions?.CellEditSelectTextOnEdit ?? false );
 
     /// <summary>
+    /// Whether the Datagrid is Cell Navigable.
+    /// </summary>
+    internal bool IsCellNavigable
+        => NavigationMode == DataGridNavigationMode.Cell;
+
+    /// <summary>
+    /// Whether the Datagrid is Row Navigable.
+    /// </summary>
+    internal bool IsRowNavigable
+#pragma warning disable CS0618 // Type or member is obsolete
+        => ( Navigable && NavigationMode == DataGridNavigationMode.Default ) || NavigationMode == DataGridNavigationMode.Row;
+#pragma warning restore CS0618 // Type or member is obsolete
+
+    /// <summary>
     /// Whether the TIem is a dynamic item.
     /// </summary>
     internal bool IsDynamicItem
@@ -3742,6 +3756,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// <summary>
     /// Gets or sets whether the Datagrid is Navigable, users will be able to navigate the Grid by pressing the Keyboard's ArrowUp and ArrowDown keys.
     /// </summary>
+
+    [Obsolete( "DataGrid: The Navigable parameter is deprecated, please replace with NavigationMode.Row" )]
     [Parameter] public bool Navigable { get; set; }
 
     /// <summary>
@@ -3850,9 +3866,10 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public DataGridEditModeOptions EditModeOptions { get; set; }
 
     /// <summary>
-    /// Gets or sets whether the Datagrid is Cell Navigable, users will be able to navigate the Grid cells by pressing the Keyboard's ArrowLeft, ArrowUp, ArrowRight and ArrowDown keys.
+    /// Gets or sets the DataGrid Navigation Mode.
     /// </summary>
-    [Parameter] public bool CellNavigable { get; set; }
+    [Parameter] public DataGridNavigationMode NavigationMode { get; set; }
+
 
     #endregion
 }

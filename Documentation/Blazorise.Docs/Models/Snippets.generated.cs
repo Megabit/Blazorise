@@ -8291,7 +8291,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           ShowPager
           CommandMode=""DataGridCommandMode.ButtonRow""
           EditMode=""DataGridEditMode.Cell""
-          CellNavigable
+          NavigationMode=""DataGridNavigationMode.Cell""
           EditModeOptions=""new() { CellEditOnSingleClick = false, CellEditOnDoubleClick = false, CellEditSelectTextOnEdit = true }"">
     <DataGridColumns>
         <DataGridCommandColumn  NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  CancelCommandAllowed >
