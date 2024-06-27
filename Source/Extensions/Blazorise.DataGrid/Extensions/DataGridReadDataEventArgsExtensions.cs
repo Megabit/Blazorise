@@ -1,10 +1,7 @@
-﻿using System;
+﻿#region Using directives
 using System.Collections.Generic;
-using System.Data.Common;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blazorise.Extensions;
+#endregion
 
 namespace Blazorise.DataGrid.Extensions;
 
@@ -89,5 +86,4 @@ public static class DataGridReadDataEventArgsExtensions
 
         return $"{url}?{string.Join( "&", querySegments )}";
     }
-
 }

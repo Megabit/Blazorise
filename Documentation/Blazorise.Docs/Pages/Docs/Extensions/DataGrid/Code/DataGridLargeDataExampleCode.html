@@ -1,12 +1,12 @@
 <div class="blazorise-codeblock">
 <div class="html"><pre>
 <span class="atSign">&#64;</span>using Blazorise.DataGrid.Extensions;
-<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>oDataQuery<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>
+
 <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGrid</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Employee</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>employeeList</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">ReadData</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>OnReadData</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">TotalItems</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>totalEmployees</span><span class="quot">&quot;</span>
-          <span class="htmlAttributeName">PageSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">1</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">PageSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">10</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">ShowPager</span>
           <span class="htmlAttributeName">Responsive</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">DataGridCommandColumn</span> <span class="htmlTagDelimiter">/&gt;</span>
@@ -19,9 +19,22 @@
         <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">EditTemplate</span><span class="htmlTagDelimiter">&gt;</span>
     <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGridColumn</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Row</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Card</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardHeader</span><span class="htmlTagDelimiter">&gt;</span>
+                ODataQuery
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardHeader</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
+                <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span><span class="atSign">&#64;</span>oDataQuery<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Code</span><span class="htmlTagDelimiter">&gt;</span>
+            <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">CardBody</span><span class="htmlTagDelimiter">&gt;</span>
+        <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Card</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Column</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Row</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
-<span class="atSign">&#64;</span>code{
+<span class="atSign">&#64;</span>code {
     [Inject]
     <span class="keyword">public</span> EmployeeData EmployeeData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
     <span class="keyword">private</span> List&lt;Employee&gt; employeeList;
@@ -37,6 +50,7 @@
     <span class="keyword">private</span> <span class="keyword">async</span> Task OnReadData( DataGridReadDataEventArgs&lt;Employee&gt; e )
     {
         oDataQuery = e.ToODataString( <span class="string">&quot;https://services.odata.org/V4/Northwind/Northwind.svc/Employees&quot;</span> );
+
         <span class="keyword">if</span> ( !e.CancellationToken.IsCancellationRequested )
         {
             List&lt;Employee&gt; response = <span class="keyword">null</span>;
@@ -44,15 +58,15 @@
             <span class="comment">// this can be call to anything, in this case we&#39;re calling a fictional api</span>
             <span class="comment">//var response = await Http.GetJsonAsync&lt;Employee[]&gt;( $&quot;some-api/employees?page={e.Page}&amp;pageSize={e.PageSize}&quot; );</span>
             <span class="keyword">if</span> ( e.ReadDataMode <span class="keyword">is</span> DataGridReadDataMode.Virtualize )
-                response = (<span class="keyword">await</span> EmployeeData.GetDataAsync()).Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
+                response = ( <span class="keyword">await</span> EmployeeData.GetDataAsync() ).Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
             <span class="keyword">else</span> <span class="keyword">if</span> ( e.ReadDataMode <span class="keyword">is</span> DataGridReadDataMode.Paging )
-                response = (<span class="keyword">await</span> EmployeeData.GetDataAsync()).Skip( ( e.Page - <span class="number">1</span> ) * e.PageSize ).Take( e.PageSize ).ToList();
+                response = ( <span class="keyword">await</span> EmployeeData.GetDataAsync() ).Skip( ( e.Page - <span class="number">1</span> ) * e.PageSize ).Take( e.PageSize ).ToList();
             <span class="keyword">else</span>
                 <span class="keyword">throw</span> <span class="keyword">new</span> Exception( <span class="string">&quot;Unhandled ReadDataMode&quot;</span> );
 
             <span class="keyword">if</span> ( !e.CancellationToken.IsCancellationRequested )
             {
-                totalEmployees = (<span class="keyword">await</span> EmployeeData.GetDataAsync()).Count;
+                totalEmployees = ( <span class="keyword">await</span> EmployeeData.GetDataAsync() ).Count;
                 employeeList = <span class="keyword">new</span> List&lt;Employee&gt;( response ); <span class="comment">// an actual data for the current page</span>
             }
         }
