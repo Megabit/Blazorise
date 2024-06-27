@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -104,6 +105,11 @@ public partial class SidebarLink : BaseComponent
     /// URL matching behavior for a link.
     /// </summary>
     [Parameter] public Match Match { get; set; } = Match.All;
+
+    /// <summary>
+    /// A callback function that is used to compare current uri with the user defined uri. Must enable <see cref="Match.Custom"/> to be used.
+    /// </summary>
+    [Parameter] public Func<string, bool> CustomMatch { get; set; }
 
     /// <summary>
     /// Specify extra information about the element.

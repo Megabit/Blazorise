@@ -1879,6 +1879,15 @@ public partial class CaptchaInput : BaseInputComponent<bool>
     };
 }";
 
+        public const string DatePickerDisabledDaysExample = @"<DatePicker TValue=""DateTime?"" DisabledDays=""@disabledDays"" />
+
+@code {
+    DayOfWeek[] disabledDays = new[]  {
+        DayOfWeek.Saturday,
+        DayOfWeek.Sunday,
+    };
+}";
+
         public const string DatePickerFormatBestPracticeExample = @"<Field>
     <FieldLabel>Start date</FieldLabel>
     <FieldBody>
@@ -2734,6 +2743,8 @@ public partial class CaptchaInput : BaseInputComponent<bool>
         public const string AliasInputMaskExample = @"<InputMask Alias=""datetime"" InputFormat=""dd/mm/yyyy"" OutputFormat=""ddmmyyyy"" />";
 
         public const string BasicInputMaskExample = @"<InputMask Mask=""99-9999999"" />";
+
+        public const string InputMaskPlaceholderExample = @"<InputMask Mask=""99-9999999"" MaskPlaceholder=""X"" Placeholder=""Please enter a valid ID"" />";
 
         public const string BasicJumbotronExample = @"<Jumbotron Background=""Background.Light"" Margin=""Margin.Is4.FromBottom"">
     <JumbotronTitle Size=""JumbotronTitleSize.Is4"">Hello, world!</JumbotronTitle>
@@ -8283,7 +8294,13 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     }
 }";
 
-        public const string DataGridRapidEditExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridRapidEditExample = @"<Field>
+    <FieldBody>
+        <Switch @bind-Checked=""@showCommandColumn"" Size=""Size.Medium"">Show Command Column</Switch>
+    </FieldBody>
+</Field>
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           @bind-SelectedRow=""@selectedEmployee""
           Editable
@@ -8294,14 +8311,17 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
           NavigationMode=""DataGridNavigationMode.Cell""
           EditModeOptions=""new() { CellEditOnSingleClick = false, CellEditOnDoubleClick = false, CellEditSelectTextOnEdit = true }"">
     <DataGridColumns>
-        <DataGridCommandColumn  NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false""  CancelCommandAllowed >
-            <SaveCommandTemplate>
-                <Button ElementId=""btnSave"" Type=""ButtonType.Submit"" PreventDefaultOnSubmit Color=""Color.Primary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
-            </SaveCommandTemplate>
-            <CancelCommandTemplate>
-                <Button ElementId=""btnCancel"" Color=""Color.Secondary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
-            </CancelCommandTemplate>
-        </DataGridCommandColumn>
+        @if ( showCommandColumn )
+        {
+            <DataGridCommandColumn NewCommandAllowed=""false"" EditCommandAllowed=""false"" DeleteCommandAllowed=""false"" CancelCommandAllowed>
+                <SaveCommandTemplate>
+                    <Button ElementId=""btnSave"" Type=""ButtonType.Submit"" PreventDefaultOnSubmit Color=""Color.Primary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
+                </SaveCommandTemplate>
+                <CancelCommandTemplate>
+                    <Button ElementId=""btnCancel"" Color=""Color.Secondary"" Clicked=""@context.Clicked"">@context.LocalizationString</Button>
+                </CancelCommandTemplate>
+            </DataGridCommandColumn>
+        }
         <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
         <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
         <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
@@ -8310,11 +8330,12 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     </DataGridColumns>
 </DataGrid>
 
-@code{
+@code {
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
     private Employee selectedEmployee;
+    private bool showCommandColumn;
 
     protected override async Task OnInitializedAsync()
     {
