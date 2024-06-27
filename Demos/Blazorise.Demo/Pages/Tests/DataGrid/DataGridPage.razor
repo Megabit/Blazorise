@@ -109,7 +109,7 @@
                                     </Tooltip>
                                 </FieldLabel>
                                 <FieldBody>
-                                    <Check @bind-Checked="@largeDataMode">Large Data</Check>
+                                    <Check TValue=bool Checked="@readDataMode" CheckedChanged="OnReadDataModeChanged">Large Data</Check>
                                 </FieldBody>
                             </Field>
                         </Fields>
@@ -201,9 +201,9 @@
             <CardBody>
                 <DataGrid @ref="dataGrid"
                           TItem="Employee"
-                          ReadData="@(largeDataMode ? OnReadData : null)"
-                          Data="@(largeDataMode ? employeeList : dataModels)"
-                          TotalItems="@(largeDataMode ? totalEmployees : null)"
+                          ReadData="@(readDataMode ? OnReadData : null)"
+                          Data="@(readDataMode ? employeeList : dataModels)"
+                          TotalItems="@(readDataMode ? totalEmployees : null)"
                           EditMode="@editMode"
                           Editable="@editable"
                           FixedHeader="@fixedHeader"
