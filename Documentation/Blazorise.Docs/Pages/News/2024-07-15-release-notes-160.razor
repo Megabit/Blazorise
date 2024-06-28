@@ -92,6 +92,22 @@
 </UnorderedList>
 
 <Heading Size="HeadingSize.Is4">
+    Generate ODataQuery support
+</Heading>
+
+<Paragraph>
+    Added a new extension method <Code>ToODataString</Code> to the ReadData, <Code>DataGridReadDataEventArgs</Code> that can be used to generate an OData query string.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    Contextual Filtering
+</Heading>
+
+<Paragraph>
+    The filtering components have further been improved to render contextual numeric, select, check, date and text edit components according to the DataGrid column types you have provided.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
     Dynamic Data Binding
 </Heading>
 
@@ -151,6 +167,14 @@
 
 <Paragraph>
     We've also introduced a new <Code>DataGridEditModeOptions</Code> that allows you to futher customize how your DataGrid will act regarding edit operations. Currently we've introduced two new CellEdit options to be able to enable or disable editing or single or double click.
+</Paragraph>
+
+</Heading>
+    Better form support in SSR mode
+</Heading>
+
+<Paragraph>
+    In this release we have made some changes to enable beter support our input components like TextEdit, NumericEdit, etc. to work with server-side rendering. It works by automatically calculating the <Code>name</Code> attribute of form field which then helps it to properly POST the form.
 </Paragraph>
 
 <Heading>

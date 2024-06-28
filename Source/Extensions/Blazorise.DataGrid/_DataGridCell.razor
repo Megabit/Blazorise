@@ -38,11 +38,15 @@ else
             }
             else if ( Column is DataGridDateColumn<TItem> dateColumn )
             {
-                <_DataGridCellEdit Column="@Column" Item="@Item" ValidationItem="@ValidationItem" Field="@Column.Field" ValueType="@valueType" CellEditContext="CellEditContext" Readonly="@Column.Readonly" CellValueChanged="@CellValueChanged" DateInputMode="@dateColumn.InputMode" />
+                <_DataGridCellDateEdit Column="@dateColumn" CellValue="@CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
             }
             else if ( Column is DataGridSelectColumn<TItem> selectColumn )
             {
                 <_DataGridCellSelectEdit Column="@selectColumn" CellValue="CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
+            }
+            else if ( Column is DataGridCheckColumn<TItem> checkColumn )
+            {
+                <_DataGridCellCheckEdit Column="@checkColumn" CellValue="@CellEditContext.CellValue" CellValueChanged="@OnEditValueChanged" />
             }
             else
             {

@@ -14,7 +14,7 @@
 
         @if ( IsCellEdit && ( CommandColumn is null || !CommandColumn.SaveCommandAllowed ) )
         {
-        //Disable the default form behaviour where pressing enter submits the form and posts the page which is not expected in typical SPA fashion.
+            //Disable the default form behaviour where pressing enter submits the form and posts the page which is not expected in typical SPA fashion.
             <Button Type="ButtonType.Submit" PreventDefaultOnSubmit Disabled Display="Display.None"></Button>
         }
 
@@ -181,21 +181,7 @@
                                     }
                                     else
                                     {
-                                        //If this grows, move to a seperate component.
-                                        if ( column is DataGridNumericColumn<TItem> numericColumn )
-                                        {
-                                            <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@(numericColumn.Filter.SearchValue)" CellValueChanged="@((newValue) => OnFilterChanged(column, newValue))"></_DataGridCellNumericEdit>
-
-                                        }
-                                        else if ( column is DataGridSelectColumn<TItem> selectColumn )
-                                        {
-                                            <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@((newValue) => OnFilterChanged(column, newValue))"></_DataGridCellSelectEdit>
-
-                                        }
-                                        else
-                                        {
-                                            <TextEdit Text="@column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => OnFilterChanged(column, newValue))" />
-                                        }
+                                        <_DataGridCellFilter Column="column" OnFilterChanged="@((newValue) => OnFilterChanged(column, newValue))" />
                                     }
                                 </TableHeaderCell>
                             }

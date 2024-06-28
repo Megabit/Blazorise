@@ -7958,11 +7958,13 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
         public const string DataGridImportsExample = @"@using Blazorise.DataGrid";
 
-        public const string DataGridLargeDataExample = @"<DataGrid TItem=""Employee""
+        public const string DataGridLargeDataExample = @"@using Blazorise.DataGrid.Extensions;
+
+<DataGrid TItem=""Employee""
           Data=""@employeeList""
           ReadData=""@OnReadData""
           TotalItems=""@totalEmployees""
-          PageSize=""1""
+          PageSize=""10""
           ShowPager
           Responsive>
     <DataGridCommandColumn />
@@ -7976,11 +7978,24 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
     </DataGridColumn>
 </DataGrid>
 
-@code{
+<Row>
+    <Column>
+        <Card>
+            <CardHeader>
+                ODataQuery
+            </CardHeader>
+            <CardBody>
+                <Code>@oDataQuery</Code>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
     [Inject]
     public EmployeeData EmployeeData { get; set; }
     private List<Employee> employeeList;
-
+    private string oDataQuery;
     protected override async Task OnInitializedAsync()
     {
         employeeList = await EmployeeData.GetDataAsync();
@@ -7991,6 +8006,8 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
     private async Task OnReadData( DataGridReadDataEventArgs<Employee> e )
     {
+        oDataQuery = e.ToODataString( ""https://services.odata.org/V4/Northwind/Northwind.svc/Employees"" );
+
         if ( !e.CancellationToken.IsCancellationRequested )
         {
             List<Employee> response = null;
@@ -7998,15 +8015,15 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
             // this can be call to anything, in this case we're calling a fictional api
             //var response = await Http.GetJsonAsync<Employee[]>( $""some-api/employees?page={e.Page}&pageSize={e.PageSize}"" );
             if ( e.ReadDataMode is DataGridReadDataMode.Virtualize )
-                response = (await EmployeeData.GetDataAsync()).Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
+                response = ( await EmployeeData.GetDataAsync() ).Skip( e.VirtualizeOffset ).Take( e.VirtualizeCount ).ToList();
             else if ( e.ReadDataMode is DataGridReadDataMode.Paging )
-                response = (await EmployeeData.GetDataAsync()).Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
+                response = ( await EmployeeData.GetDataAsync() ).Skip( ( e.Page - 1 ) * e.PageSize ).Take( e.PageSize ).ToList();
             else
                 throw new Exception( ""Unhandled ReadDataMode"" );
 
             if ( !e.CancellationToken.IsCancellationRequested )
             {
-                totalEmployees = (await EmployeeData.GetDataAsync()).Count;
+                totalEmployees = ( await EmployeeData.GetDataAsync() ).Count;
                 employeeList = new List<Employee>( response ); // an actual data for the current page
             }
         }

@@ -113,6 +113,17 @@ public partial class DateEdit<TValue> : BaseTextInput<TValue>
         return JSUtilitiesModule.ShowPicker( ElementRef, ElementId ).AsTask();
     }
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( DateExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( DateExpression )
+            : ExpressionFormatter.FormatLambda( DateExpression );
+    }
+
     #endregion
 
     #region Properties

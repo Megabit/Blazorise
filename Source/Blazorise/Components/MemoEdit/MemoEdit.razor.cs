@@ -219,6 +219,17 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
         await JSUtilitiesModule.Select( ElementRef, ElementId, focus );
     }
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( TextExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( TextExpression )
+            : ExpressionFormatter.FormatLambda( TextExpression );
+    }
+
     #endregion
 
     #region Properties

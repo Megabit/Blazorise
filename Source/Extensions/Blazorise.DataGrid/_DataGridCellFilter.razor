@@ -1,0 +1,39 @@
+@using Blazorise.Extensions;
+@typeparam TItem
+@{
+    if ( Column is DataGridNumericColumn<TItem> numericColumn )
+    {
+        <_DataGridCellNumericEdit Column="@numericColumn" CellValue="@(numericColumn.Filter.SearchValue)" CellValueChanged="@((newValue) => FilterChanged(newValue))"></_DataGridCellNumericEdit>
+
+    }
+    else if ( Column is DataGridSelectColumn<TItem> selectColumn )
+    {
+        <_DataGridCellSelectEdit Column="@selectColumn" CellValue="@selectColumn.Filter.SearchValue" CellValueChanged="@((newValue) => FilterChanged(newValue))"></_DataGridCellSelectEdit>
+
+    }
+    else if ( Column is DataGridCheckColumn<TItem> checkColumn )
+    {
+        <_DataGridCellCheckEdit Column="@checkColumn" CellValue="@checkColumn.Filter.SearchValue" CellValueChanged="@((newValue) => FilterChanged(newValue))"></_DataGridCellCheckEdit>
+
+    }
+    else if ( Column is DataGridDateColumn<TItem> dateColumn )
+    {
+        <_DataGridCellDateEdit Column="@dateColumn" CellValue="@dateColumn.Filter.SearchValue" CellValueChanged="@((newValue) => FilterChanged(newValue))"></_DataGridCellDateEdit>
+
+    }
+    else
+    {
+        <TextEdit Text="@Column.Filter.SearchValue?.ToString()" TextChanged="@((newValue) => FilterChanged(newValue))" />
+    }
+}
+@code {
+    [Parameter] public DataGridColumn<TItem> Column { get; set; }
+
+    [Parameter] public EventCallback<object> OnFilterChanged { get; set; }
+
+    private Task FilterChanged( object newValue )
+    {
+        return OnFilterChanged.InvokeAsync( newValue );
+    }
+
+}

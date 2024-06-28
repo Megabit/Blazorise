@@ -8,6 +8,7 @@ using Blazorise.Modules;
 using Blazorise.Utilities;
 using Blazorise.Vendors;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -269,6 +270,17 @@ public partial class TimePicker<TValue> : BaseTextInput<TValue>, IAsyncDisposabl
         {
             amPM = new[] { Localizer["AM"], Localizer["PM"] }
         };
+    }
+
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( TimeExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( TimeExpression )
+            : ExpressionFormatter.FormatLambda( TimeExpression );
     }
 
     #endregion
