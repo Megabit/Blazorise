@@ -5,7 +5,6 @@ using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 #endregion
 
@@ -70,11 +69,11 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
         await base.SetParametersAsync( parameters );
 
         // For modals we need to make sure that autofocus is applied every time the modal is opened.
-        if ( parameters.TryGetValue<bool>( nameof( Autofocus ), out var autofocus ) && this.autofocus != autofocus )
+        if ( parameters.TryGetValue<bool>( nameof( Autofocus ), out var paramAutofocus ) && autofocus != paramAutofocus )
         {
-            this.autofocus = autofocus;
+            autofocus = paramAutofocus;
 
-            if ( autofocus )
+            if ( paramAutofocus )
             {
                 if ( ParentFocusableContainer is not null )
                 {
