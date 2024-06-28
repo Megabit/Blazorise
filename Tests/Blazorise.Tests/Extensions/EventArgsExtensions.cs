@@ -40,5 +40,4 @@ public class EventArgsExtensions
 
         keyboardEventArgs.IsTextKey().Should().BeFalse();
     }
-
 }

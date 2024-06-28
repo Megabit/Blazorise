@@ -5,7 +5,6 @@
 /// </summary>
 public class DataGridEditModeOptions
 {
-
     /// <summary>
     /// When the DataGridEditMode is set to <see cref="DataGridEditMode.Cell" /> configures whether the cell enters edit mode on single click.
     /// Defaults to false.
@@ -19,7 +18,8 @@ public class DataGridEditModeOptions
     public bool CellEditOnDoubleClick { get; set; } = true;
 
     /// <summary>
-    /// When the DataGridEditMode is set to <see cref="DataGridEditMode.Cell" />  configures whether the text is selected when the cell enters edit mode.
+    /// When the DataGridEditMode is set to <see cref="DataGridEditMode.Cell" /> configures whether the text is selected when the cell enters edit mode.
+    /// Defaults to false.
     /// </summary>
     public bool CellEditSelectTextOnEdit { get; set; }
 }

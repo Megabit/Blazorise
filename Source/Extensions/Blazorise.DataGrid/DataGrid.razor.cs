@@ -198,7 +198,8 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             foreach ( var displayingState in dataGridState.ColumnDisplayingStates )
             {
-                var column = Columns?.FirstOrDefault( x => x.Field == displayingState.FieldName );
+                var column = Columns?.Find( x => x.Field == displayingState.FieldName );
+
                 if ( column is not null )
                 {
                     await column.SetDisplaying( displayingState.Displaying );
@@ -230,7 +231,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             foreach ( var filterState in dataGridState.ColumnFilterStates )
             {
-                var column = Columns?.FirstOrDefault( x => x.Field == filterState.FieldName );
+                var column = Columns?.Find( x => x.Field == filterState.FieldName );
                 if ( column is not null )
                 {
                     column.Filter.SearchValue = filterState.SearchValue;
@@ -254,12 +255,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
         {
             await New();
         }
-        else if ( dataGridState.EditState == DataGridEditState.Edit )
+        else if ( dataGridState.EditState == DataGridEditState.Edit && dataGridState.EditItem is not null )
         {
-            if ( dataGridState.EditItem is not null )
-            {
-                await Edit( dataGridState.EditItem );
-            }
+            await Edit( dataGridState.EditItem );
         }
 
         await ReloadInternal();
@@ -286,7 +284,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             dataGridState.ColumnSortStates = SortByColumns.Select( x => new DataGridColumnSortState<TItem>( x.Field, x.CurrentSortDirection ) ).ToList();
         }
 
-        if ( Columns.Any( x => x.Filter?.SearchValue != null ) )
+        if ( Columns.Exists( x => x.Filter?.SearchValue != null ) )
         {
             dataGridState.ColumnFilterStates = Columns.Where( x => x.Filter?.SearchValue is not null ).Select( x => new DataGridColumnFilterState<TItem>( x.Field, x.Filter.SearchValue ) ).ToList();
         }
@@ -488,7 +486,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     {
         if ( firstRender )
         {
-            if ( AutoGenerateColumns && ( Columns.IsNullOrEmpty() || !Columns.Any( x => !( x.IsCommandColumn || x.IsMultiSelectColumn ) ) ) )
+            if ( AutoGenerateColumns && ( Columns.IsNullOrEmpty() || !Columns.Exists( x => !( x.IsCommandColumn || x.IsMultiSelectColumn ) ) ) )
             {
                 AutomaticallyGenerateColumns();
             }
@@ -3861,15 +3859,14 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     [Parameter] public bool AutoGenerateColumns { get; set; } = true;
 
     /// <summary>
-    /// Gets or sets DataGridEditMode options.
+    /// Gets or sets DataGridEditMode options, allowing to customize how the edit mode will work.
     /// </summary>
     [Parameter] public DataGridEditModeOptions EditModeOptions { get; set; }
 
     /// <summary>
-    /// Gets or sets the DataGrid Navigation Mode.
+    /// Gets or sets the DataGrid navigation mode, allowing to control the navigation via keyboard.
     /// </summary>
     [Parameter] public DataGridNavigationMode NavigationMode { get; set; }
-
 
     #endregion
 }

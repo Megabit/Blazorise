@@ -53,7 +53,7 @@ public class JSUtilitiesModule : BaseJSModule, IJSUtilitiesModule
 
     /// <inheritdoc/>
     public virtual ValueTask Focus( ElementReference elementRef, string elementId, bool scrollToElement )
-        => InvokeSafeVoidAsync( "focus", ResolveElementReference(elementRef), elementId, scrollToElement );
+        => InvokeSafeVoidAsync( "focus", ResolveElementReference( elementRef ), elementId, scrollToElement );
 
     /// <inheritdoc/>
     public virtual ValueTask Select( ElementReference elementRef, string elementId, bool focus )
