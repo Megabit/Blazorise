@@ -65,12 +65,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
-        if ( !hasInitializedParameters )
-        {
-            shouldGenerateFieldNames = !OperatingSystem.IsBrowser();
-
-            hasInitializedParameters = true;
-        }
+        InitializeParameters();
 
         await base.SetParametersAsync( parameters );
 
@@ -152,7 +147,7 @@ public abstract class BaseInputComponent<TValue> : BaseComponent, IValidationInp
     /// <summary>
     /// Initializes parameters that are not going to be changed again.
     /// </summary>
-    protected void IntializeParameters()
+    protected void InitializeParameters()
     {
         if ( hasInitializedParameters )
             return;
