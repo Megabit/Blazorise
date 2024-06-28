@@ -49,3 +49,7 @@ tr.b-table-row {
         border: 0;
     }
 }
+
+td:focus {
+    outline: -webkit-focus-ring-color auto 1px;
+}

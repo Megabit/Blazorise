@@ -20,18 +20,18 @@
     Here's a summary of what's new in this release:
 </Paragraph>
 
-<UnorderedListItem>
-    <UnorderedListItemItem>
+<UnorderedList>
+    <UnorderedListItem>
         <Paragraph>
             <Strong>DataGrid:</Strong> Dynamic Data Binding
         </Paragraph>
-    </UnorderedListItemItem>
-    <UnorderedListItemItem>
+    </UnorderedListItem>
+    <UnorderedListItem>
         <Paragraph>
             <Strong></Strong>:
         </Paragraph>
-    </UnorderedListItemItem>
-</UnorderedListItem>
+    </UnorderedListItem>
+</UnorderedList>
 
 <NewsPageSubtitle>
     Upgrading from 1.5.x to 1.6 👨‍🔧
@@ -116,7 +116,7 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
-    Manual loaading state
+    Manual loading state
 </Heading>
 
 <Paragraph>
@@ -156,6 +156,20 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
+    CellNavigable
+</Heading>
+
+<Paragraph>
+    Introduce the <Code>CellNavigable</Code> parameter. By enabling this feature you will be able to navigate the DataGrid cells by using the arrows keys, tabbing and clicking.
+    This feature is specially useful in conjuction with the <Code>DataGridEditMode.Cell</Code> to make the rapid editing experience more seamless.
+    Find out an updated example for Rapid Editing in the <Anchor To="docs/extensions/datagrid/features/editing" Title="Link to DataGrid Editing">DataGrid Editing</Anchor> page.
+</Paragraph>
+
+<Paragraph>
+    We've also introduced a new <Code>DataGridEditModeOptions</Code> that allows you to futher customize how your DataGrid will act regarding edit operations. Currently we've introduced two new CellEdit options to be able to enable or disable editing or single or double click.
+</Paragraph>
+
+<Heading>
     Better form support in SSR mode
 </Heading>
 

@@ -1803,6 +1803,10 @@ tr.table-row-selectable:focus[tabindex="0"] {
   right: 0;
 }
 
+td:focus {
+  outline: -webkit-focus-ring-color auto 1px;
+}
+
 .nav.nav-tabs .nav-item a.nav-link {
   cursor: pointer;
 }

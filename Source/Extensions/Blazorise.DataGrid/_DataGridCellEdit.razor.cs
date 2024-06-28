@@ -27,8 +27,20 @@ public partial class _DataGridCellEdit<TItem> : ComponentBase
         {
             if ( ParentDataGrid.IsCellEdit && Column.CellEditing )
             {
+                var cellValue = ParentDataGrid.ReadCellEditValue( Column.Field )?.ToString();
+                var columnValue = Column.GetValue( ParentDataGrid.editItem )?.ToString();
+                var valueHasChanged = cellValue != columnValue;
+
                 await Task.Yield();
-                await Focus();
+                if ( ParentDataGrid.IsCellEditSelectTextOnEdit && !valueHasChanged )
+                {
+                    await Select();
+                }
+                else
+                {
+                    await Focus();
+                }
+
             }
         }
         await base.OnAfterRenderAsync( firstRender );
@@ -37,6 +49,11 @@ public partial class _DataGridCellEdit<TItem> : ComponentBase
     public async Task Focus()
     {
         await JSUtilitiesModule.Focus( default, elementId, true );
+    }
+
+    public async Task Select()
+    {
+        await JSUtilitiesModule.Select( default, elementId, true );
     }
 
     /// <summary>
