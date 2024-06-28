@@ -456,6 +456,17 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
     /// <returns>Number of decimals.</returns>
     protected int GetDecimals() => isIntegerType ? 0 : Decimals;
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( ValueExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( ValueExpression )
+            : ExpressionFormatter.FormatLambda( ValueExpression );
+    }
+
     #endregion
 
     #region Properties

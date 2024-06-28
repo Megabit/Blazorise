@@ -6,6 +6,7 @@ using Blazorise.Extensions;
 using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 #endregion
 
 namespace Blazorise;
@@ -89,6 +90,17 @@ public partial class TextEdit : BaseTextInput<string>, IAsyncDisposable
     protected override Task<ParseValue<string>> ParseValueFromStringAsync( string value )
     {
         return Task.FromResult( new ParseValue<string>( true, value, null ) );
+    }
+
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( TextExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( TextExpression )
+            : ExpressionFormatter.FormatLambda( TextExpression );
     }
 
     #endregion

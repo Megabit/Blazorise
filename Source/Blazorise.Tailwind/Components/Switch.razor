@@ -2,7 +2,7 @@
 @inherits Blazorise.Switch<TValue>
 <Control Role="@ControlRole.Switch" Inline="@Inline">
     <Label Type="LabelType.Switch" For="@ElementId" Style="@Style" Cursor="@Cursor">
-        <input @ref="@ElementRef" id="@ElementId" type="checkbox" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@Checked" tabindex="@TabIndex" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
+        <input @ref="@ElementRef" id="@ElementId" type="checkbox" name="@NameAttributeValue" class="@ClassNames" style="@StyleNames" disabled="@Disabled" readonly="@ReadOnly" checked="@Checked" tabindex="@TabIndex" @onclick:preventDefault="@ReadOnly" @onchange="@OnChangeHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
         <div class="@BackgroundClassNames"></div>
         <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">@ChildContent</span>
     </Label>

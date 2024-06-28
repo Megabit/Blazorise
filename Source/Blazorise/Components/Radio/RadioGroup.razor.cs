@@ -116,6 +116,17 @@ public partial class RadioGroup<TValue> : BaseInputComponent<TValue>
         RadioCheckedChanged?.Invoke( this, new( CheckedValue ) );
     }
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( CheckedValueExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( CheckedValueExpression )
+            : ExpressionFormatter.FormatLambda( CheckedValueExpression );
+    }
+
     #endregion
 
     #region Properties
