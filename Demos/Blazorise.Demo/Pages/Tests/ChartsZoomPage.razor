@@ -1,0 +1,17 @@
+﻿@page "/tests/charts/zoom"
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Zoom</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Outline Clicked="@(async () => await HandleRedraw( lineChart, GetLineChartDataset ))">Redraw</Button>
+                <Button Color="Color.Danger" Outline Clicked="@(async ()=> await lineChart.ChangeType(ChartType.Bar))">Change Type</Button>
+            </CardBody>
+            <CardBody>
+                <LineChart @ref="lineChart" TItem="double" Options="@lineChartOptions" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
