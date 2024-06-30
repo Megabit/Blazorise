@@ -63,6 +63,11 @@ public partial class ChartsZoomPage
                         Min = 0,
                         Max = 50000
                     }
+                },
+                Animation = new ChartAnimation()
+                {
+                    Duration = 1000,
+                    Easing = "easeOutCubic"
                 }
             }
         }
