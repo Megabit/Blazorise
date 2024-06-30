@@ -17,7 +17,7 @@ public class ChartZoomPanOptions
     public bool? Enabled { get; set; }
 
     /// <summary>
-    /// Enable panning
+    /// Allowed panning directions
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Mode { get; set; }

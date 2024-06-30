@@ -41,7 +41,7 @@ public class ChartZoomDrag
     public double? Threshold { get; set; }
 
     /// <summary>
-    /// Modifier key required for zooming via mouse wheel
+    /// Modifier key required for drag-to-zoom
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string ModifierKey { get; set; }

@@ -65,5 +65,142 @@
 </DocsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
-    Attributes
+    ChartZoom
 </Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Zoom" Type="ChartZoomOptions">
+        Zoom options
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Pan" Type="ChartZoomPanOptions">
+        Pan options
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Limits" Type="ChartZoomLimitsOptions">
+        Limits options
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is4">
+    ChartZoomOptions
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Wheel" Type="ChartZoomWheel" Default="null">
+        The Wheel options
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Drag" Type="ChartZoomDrag" Default="null">
+        The Drag options
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Pinch" Type="ChartZoomPinch" Default="null">
+        The Pinch options
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Mode" Type="string" Default="null">
+        Allowed zoom directions
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScaleMode" Type="string" Default="null">
+        Which of the enabled zooming directions should only be available when the mouse cursor is over a scale for that axis
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is5">
+    ChartZoomWheel
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Enabled" Type="bool?" Default="null">
+        Enable zooming via mouse wheel
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Speed" Type="double?" Default="null">
+        Factor of zoom speed via mouse wheel
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ModifierKey" Type="string" Default="null">
+        Modifier key required for zooming via mouse wheel
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is5">
+    ChartZoomDrag
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Enabled" Type="bool?" Default="null">
+        Enable drag-to-zoom
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BackgroundColor" Type="string" Default="null">
+        Fill color
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BorderColor" Type="string" Default="null">
+        Stroke color
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="BorderWidth" Type="double?" Default="null">
+        Stroke width
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Threshold" Type="double?" Default="null">
+        Minimal zoom distance required before actually applying zoom
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ModifierKey" Type="string" Default="null">
+        Modifier key required for drag-to-zoom
+    </DocsAttributesItem>
+</DocsAttributes>
+
+
+<Heading Size="HeadingSize.Is5">
+    ChartZoomPinch
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Enabled" Type="bool?" Default="null">
+        Enable zooming via pinch
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is4">
+    ChartZoomPanOptions
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Enabled" Type="bool?" Default="null">
+        Enable panning
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Mode" Type="string" Default="null">
+        Allowed panning directions
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ModifierKey" Type="string" Default="null">
+        Modifier key required for panning with mouse
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ScaleMode" Type="double?" Default="null">
+        Enable panning over a scale for that axis (regardless of mode)
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Threshold" Type="double?" Default="null">
+        Minimal pan distance required before actually applying pan
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is4">
+    ChartZoomLimitsOptions
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="X" Type="ChartZoomScaleLimits" Default="null">
+        Limits for x-axis
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Y" Type="ChartZoomScaleLimits" Default="null">
+        Limits for y-axis
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<Heading Size="HeadingSize.Is5">
+    ChartZoomScaleLimits
+</Heading>
+
+<DocsAttributes>
+    <DocsAttributesItem Name="Min" Type="double?" Default="null">
+        Minimum allowed value for scale.min
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Max" Type="double?" Default="null">
+        Maximum allowed value for scale.max
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="MinRange" Type="double?" Default="null">
+        Minimum allowed range (max - min). This defines the max zoom level.
+    </DocsAttributesItem>
+</DocsAttributes>
