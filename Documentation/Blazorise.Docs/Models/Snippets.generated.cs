@@ -6614,8 +6614,8 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
                     Y = new()
                     {
                         Min = 0,
-                        Max = 25,
-                        MinRange = 5
+                        Max = 50,
+                        MinRange = 25
                     }
                 },
             },
