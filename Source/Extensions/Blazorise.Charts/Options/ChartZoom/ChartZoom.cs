@@ -39,10 +39,4 @@ public class ChartZoom
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartZoomLimitsOptions Limits { get; set; } = new ChartZoomLimitsOptions { };
 
-    /// <summary>
-    /// Animation options
-    /// </summary>
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartAnimation Animation { get; set; }
-
 }

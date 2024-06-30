@@ -37,7 +37,7 @@ public partial class ChartsZoomPage
             {
                 Zoom = new()
                 {
-                    Mode = "xy",
+                    Mode = "y",
                     Wheel = new()
                     {
                         Enabled = true,
@@ -53,17 +53,19 @@ public partial class ChartsZoomPage
                 },
                 Limits = new()
                 {
-                    X = new()
-                    {
-                        Min = 0,
-                        Max = 50000,
-                    },
                     Y = new()
                     {
                         Min = 0,
-                        Max = 50000
+                        Max = 50000,
+                        MinRange = 20000
                     }
                 },
+            },
+        },
+        Transitions = new ChartTransition()
+        {
+            Zoom = new ChartZoomTransition()
+            {
                 Animation = new ChartAnimation()
                 {
                     Duration = 1000,
