@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Charts;
 using Blazorise.Charts.DataLabels;
+using Blazorise.Charts.Zoom;
 
 namespace Blazorise.Demo.Pages.Tests;
 
@@ -34,54 +35,50 @@ public partial class ChartsZoomPage
                 }
             }
         },
-        Plugins = new ChartPlugins()
+    };
+
+    private ChartZoomPluginOptions lineChartZoomOptions = new()
+    {
+        Zoom = new()
         {
-            Zoom = new()
+            Mode = "y",
+            Wheel = new()
             {
-                Zoom = new()
-                {
-                    Mode = "y",
-                    Wheel = new()
-                    {
-                        Enabled = true,
-                    },
-                    Pinch = new()
-                    {
-                        Enabled = true
-                    },
-                    Drag = new()
-                    {
-                        Enabled = true
-                    }
-                },
-                Limits = new()
-                {
-                    Y = new()
-                    {
-                        Min = 0,
-                        Max = 50000,
-                        MinRange = 20000
-                    }
-                },
+                Enabled = true,
             },
-        },
-        Transitions = new ChartTransition()
-        {
-            Zoom = new ChartZoomTransition()
+            Pinch = new()
             {
-                Animation = new ChartAnimation()
-                {
-                    Duration = 1000,
-                    Easing = "easeOutCubic"
-                }
+                Enabled = true
+            },
+            Drag = new()
+            {
+                Enabled = true
+            }
+        },
+        Limits = new()
+        {
+            Y = new()
+            {
+                Min = 0,
+                Max = 50000,
+                MinRange = 20000
+            }
+        },
+        Transition = new ChartZoomTransition()
+        {
+            Animation = new ChartAnimation()
+            {
+                Duration = 1000,
+                Easing = "easeOutCubic"
             }
         }
     };
 
-
     #endregion
 
     #region Bar
+
+
 
     BarChartOptions barChartOptions = new()
     {
@@ -124,34 +121,6 @@ public partial class ChartsZoomPage
             Legend = new()
             {
                 Display = false
-            },
-            Zoom = new()
-            {
-                Zoom = new()
-                {
-                    Mode = "y",
-                    Wheel = new()
-                    {
-                        Enabled = true,
-                    },
-                    Pinch = new()
-                    {
-                        Enabled = true
-                    },
-                    Drag = new()
-                    {
-                        Enabled = true
-                    }
-                },
-                Limits = new()
-                {
-                    Y = new()
-                    {
-                        Min = 0,
-                        Max = 50000,
-                        MinRange = 20000
-                    }
-                },
             },
         }
     };
@@ -207,6 +176,44 @@ public partial class ChartsZoomPage
         Padding = new( 6 )
     };
 
+
+
+    private ChartZoomPluginOptions barChartZoomOptions = new()
+    {
+        Zoom = new()
+        {
+            Mode = "y",
+            Wheel = new()
+            {
+                Enabled = true,
+            },
+            Pinch = new()
+            {
+                Enabled = true
+            },
+            Drag = new()
+            {
+                Enabled = true
+            }
+        },
+        Limits = new()
+        {
+            Y = new()
+            {
+                Min = 0,
+                Max = 4000,
+                MinRange = 1000
+            }
+        },
+        Transition = new ChartZoomTransition()
+        {
+            Animation = new ChartAnimation()
+            {
+                Duration = 1000,
+                Easing = "easeOutCubic"
+            }
+        }
+    };
     #endregion
 
     private string[] Labels = { "Red", "Blue", "Yellow", "Green", "Purple", "Orange" };
@@ -214,6 +221,7 @@ public partial class ChartsZoomPage
     private static List<string> BorderColors = new() { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
 
     private Random random = new( DateTime.Now.Millisecond );
+
 
     protected override async Task OnAfterRenderAsync( bool firstRender )
     {

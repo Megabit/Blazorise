@@ -52,12 +52,6 @@ public class ChartOptions
     public ChartLayout Layout { get; set; }
 
     /// <summary>
-    /// Configuration for chart transitions.
-    /// </summary>
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartTransition Transitions { get; set; }
-
-    /// <summary>
     /// Index axis for the chart.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]

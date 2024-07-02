@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System.Text.Json.Serialization;
 #endregion
 
 namespace Blazorise.Charts;
@@ -9,10 +8,6 @@ namespace Blazorise.Charts;
 /// </summary>
 public class ChartTransition
 {
-    /// <summary>
-    /// The number of milliseconds an animation takes.
-    /// </summary>
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartZoomTransition Zoom { get; set; }
+
 
 }

@@ -6,7 +6,9 @@
                 <CardTitle>Line</CardTitle>
             </CardHeader>
             <CardBody>
-                <LineChart @ref="lineChart" TItem="double" Options="@lineChartOptions" />
+                <LineChart @ref="lineChart" TItem="double" Options="@lineChartOptions">
+                    <ChartZoom TItem="double" Options="@lineChartZoomOptions" />
+                </LineChart>
             </CardBody>
         </Card>
     </Column>
@@ -18,6 +20,7 @@
             <CardBody>
                 <BarChart @ref="barChart" TItem="double" Options="@barChartOptions">
                     <ChartDataLabels TItem="double" Datasets="@barDataLabelsDatasets" Options="@barDataLabelsOptions" />
+                    <ChartZoom TItem="double" Options="@barChartZoomOptions" />
                 </BarChart>
             </CardBody>
         </Card>

@@ -6536,7 +6536,9 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
         public const string ChartZoomExample = @"<Button Color=""Color.Primary"" Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
 
-<LineChart @ref=""lineChart"" TItem=""double"" Options=""@lineChartOptions"" />
+<LineChart @ref=""lineChart"" TItem=""double"" >
+    <ChartZoom TItem=""double"" Options=""@lineChartZoomOptions"" />
+</LineChart>
 
 @code {
     LineChart<double> lineChart;
@@ -6587,42 +6589,34 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
             r.Next( 3, 50 ) * r.NextDouble() };
     }
 
-    LineChartOptions lineChartOptions = new()
-    {
-        Plugins = new ChartPlugins()
+    private ChartZoomPluginOptions lineChartZoomOptions = new()
         {
             Zoom = new()
             {
-                Zoom = new()
+                Mode = ""y"",
+                Wheel = new()
                 {
-                    Mode = ""y"",
-                    Wheel = new()
-                    {
-                        Enabled = true,
-                    },
-                    Pinch = new()
-                    {
-                        Enabled = true
-                    },
-                    Drag = new()
-                    {
-                        Enabled = true
-                    }
+                    Enabled = true,
                 },
-                Limits = new()
+                Pinch = new()
                 {
-                    Y = new()
-                    {
-                        Min = 0,
-                        Max = 50,
-                        MinRange = 25
-                    }
+                    Enabled = true
                 },
+                Drag = new()
+                {
+                    Enabled = true
+                }
             },
-        },
-        Transitions = new ChartTransition()
-        {
-            Zoom = new ChartZoomTransition()
+            Limits = new()
+            {
+                Y = new()
+                {
+                    Min = 0,
+                    Max = 50,
+                    MinRange = 25
+                }
+            },
+            Transition = new ChartZoomTransition()
             {
                 Animation = new ChartAnimation()
                 {
@@ -6630,9 +6624,11 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
                     Easing = ""easeOutCubic""
                 }
             }
-        }
-    };
+        };
 }";
+
+        public const string ChartZoomNugetInstallExample = @"Install-Package Blazorise.Charts
+Install-Package Blazorise.Chart.Zoom";
 
         public const string ChartZoomResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/hammerjs@2.0.8""></script>
 <script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js""></script>";

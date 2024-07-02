@@ -39,9 +39,4 @@ public class ChartPlugins
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartDecimation Decimation { get; set; }
 
-    /// <summary>
-    /// Configuration for the chart zoom.
-    /// </summary>
-    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartZoom Zoom { get; set; }
 }

@@ -2,12 +2,12 @@
 using System.Text.Json.Serialization;
 #endregion
 
-namespace Blazorise.Charts;
+namespace Blazorise.Charts.Zoom;
 
 /// <summary>
 /// https://www.chartjs.org/chartjs-plugin-zoom/latest/guide/options.html
 /// </summary>
-public class ChartZoom
+public class ChartZoomPluginOptions
 {
 
     /// <summary>
@@ -38,5 +38,12 @@ public class ChartZoom
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartZoomLimitsOptions Limits { get; set; } = new ChartZoomLimitsOptions { };
+
+
+    /// <summary>
+    /// Transition options
+    /// </summary>
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public ChartZoomTransition Transition { get; set; }
 
 }

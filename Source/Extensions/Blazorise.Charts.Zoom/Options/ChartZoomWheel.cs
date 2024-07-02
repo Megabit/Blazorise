@@ -2,7 +2,7 @@
 using System.Text.Json.Serialization;
 #endregion
 
-namespace Blazorise.Charts;
+namespace Blazorise.Charts.Zoom;
 
 /// <summary>
 /// The Chart Zoom plugin zoom wheel 
