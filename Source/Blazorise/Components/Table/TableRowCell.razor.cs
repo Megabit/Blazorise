@@ -156,5 +156,10 @@ public partial class TableRowCell : BaseDraggableComponent
     /// </summary>
     [Parameter] public bool ClickStopPropagation { get; set; }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    [Parameter] public string MobileModeTitle { get; set; }
+
     #endregion
 }

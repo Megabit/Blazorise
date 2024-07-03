@@ -648,9 +648,15 @@
                                 }
                             </Row>
                         </Field>
+                        <Field>
+                            <Select @bind-SelectedValue="@responsiveMode">
+                                <SelectItem Value="TableResponsiveMode.Default">Default</SelectItem>
+                                <SelectItem Value="TableResponsiveMode.Mobile">Mobile</SelectItem>
+                            </Select>
+                        </Field>
                     </Column>
                     <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is12.OnMobile">
-                        <Table @ref="@tableRef" FixedHeader="@fixedHeader" Striped="@stripped" Bordered="@bordered" Borderless="@borderless" Hoverable="@hoverable" Narrow="@small" Resizable="@resizable" ResizeMode="@resizeMode" FixedHeaderTableHeight="300px">
+                        <Table @ref="@tableRef" FixedHeader="@fixedHeader" Striped="@stripped" Bordered="@bordered" Borderless="@borderless" Hoverable="@hoverable" Narrow="@small" Resizable="@resizable" ResizeMode="@resizeMode" ResponsiveMode="@responsiveMode" FixedHeaderTableHeight="300px">
                             <TableHeader>
                                 <TableRow>
                                     <TableHeaderCell>#</TableHeaderCell>
@@ -672,9 +678,9 @@
 
                                     <TableRow @key="@index">
                                         <TableRowHeader>@index</TableRowHeader>
-                                        <TableRowCell>Column content</TableRowCell>
-                                        <TableRowCell>Column content</TableRowCell>
-                                        <TableRowCell>Column content</TableRowCell>
+                                        <TableRowCell MobileModeTitle="Column heading">Column content</TableRowCell>
+                                        <TableRowCell MobileModeTitle="Column heading">Column content</TableRowCell>
+                                        <TableRowCell MobileModeTitle="Column heading">Column content</TableRowCell>
                                     </TableRow>
                                 }
                             </TableBody>
