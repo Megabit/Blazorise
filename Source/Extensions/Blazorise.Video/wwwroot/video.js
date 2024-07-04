@@ -1,10 +1,13 @@
 import "./vendors/plyr.js?v=1.5.3.0";
-import "./vendors/dash.js?v=1.5.3.0";
-import "./vendors/hls.js?v=1.5.3.0";
+import { PlyrLayout, VidstackPlayer } from "./vendors/player.js?v=1.5.3.0";
+import { Plyr } from "./vendors/plyr.js?v=1.5.3.0";
+//import "./vendors/dash.js?v=1.5.3.0";
+//import "./vendors/hls.js?v=1.5.3.0";
 
 import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.5.3.0";
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"https://cdn.plyr.io/3.6.12/plyr.css\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Video/vendors/player.css\" />");
+document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.Video/vendors/plyr.css\" />");
 
 const _instances = [];
 
@@ -21,47 +24,169 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         dash: null,
     };
 
-    if (options.streamingLibrary !== "Html5") {
-        const sourceUrl = extractSingleSourceUrl(options.source);
+    //=========================================================================================================
+    // example with Plyr player implementation
+    //=========================================================================================================
+    //const plyr = new Plyr(element, {
+    //    source: options.source,
+    //    poster: options.poster,
+    //    hideControls: options.automaticallyHideControls,
+    //    autopause: options.autoPause || true,
+    //    seekTime: options.seekTime || 10,
+    //    volume: options.volume || 1,
+    //    currentTime: options.currentTime || 0,
+    //    muted: options.muted || false,
+    //    clickToPlay: options.clickToPlay || true,
+    //    disableContextMenu: options.disableContextMenu || true,
+    //    resetOnEnd: options.resetOnEnd || false,
+    //    ratio: options.ratio,
+    //    invertTime: options.invertTime || true,
+    //    controls: options.controlsList,
+    //    settings: options.settingsList,
+    //    quality: {
+    //        default: options.defaultQuality || 576,
+    //        options: options.availableQualities || [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]
+    //    },
+    //    previewThumbnails: {
+    //        enabled: options.poster && options.poster.length > 0,
+    //        src: options.poster
+    //    },
+    //    captions: {
+    //        active: true,
+    //        update: true
+    //    }
+    //});
 
-        if (options.streamingLibrary === "Hls" && Hls.isSupported()) {
-            instance.hls = createHls(element, sourceUrl, options);
-        } else if (options.streamingLibrary === "Dash" && dashjs.supportsMediaSource()) {
-            instance.dash = createDash(element, sourceUrl, options);
-        }
-    }
+    //instance.player = plyr.player;
 
-    instance.player = new Plyr(element, {
-        source: options.source,
+    //instance.player.addEventListener('provider-change', (event) => {
+    //    const provider = event.detail;
+    //    if (provider?.type === 'hls') {
+    //        provider.library = '_content/Blazorise.Video/vendors/hls.js?v=1.5.3.0';
+    //    }
+    //    else if (provider?.type === 'dash') {
+    //        provider.library = '_content/Blazorise.Video/vendors/dash.js?v=1.5.3.0';
+    //    }
+    //});
+
+    //instance.player.addEventListener('provider-setup', (event) => {
+    //    const provider = event.detail;
+    //    if (provider.type === 'dash' && provider.instance) {
+    //        applyDashProtectionData(provider.instance, options.protection);
+    //    }
+    //});
+
+    //instance.player.addEventListener('hls-manifest-loaded', (event) => {
+    //    const levelLoadedData = event.detail; // `HLS.ManifestLoadedData`
+    //    // ...
+    //});
+    //=========================================================================================================
+
+    //=========================================================================================================
+    // example with VidstackPlayer player implementation
+    //=========================================================================================================
+    VidstackPlayer.create({
+        target: element,
+        title: 'Sprite Fight',
+        src: options.source,
         poster: options.poster,
-        hideControls: options.automaticallyHideControls,
-        autopause: options.autoPause || true,
-        seekTime: options.seekTime || 10,
+
+        hideControlsOnMouseLeave: options.automaticallyHideControls,
+        //    autopause: options.autoPause || true,
+        //    seekTime: options.seekTime || 10,
         volume: options.volume || 1,
         currentTime: options.currentTime || 0,
         muted: options.muted || false,
-        clickToPlay: options.clickToPlay || true,
-        disableContextMenu: options.disableContextMenu || true,
-        resetOnEnd: options.resetOnEnd || false,
-        ratio: options.ratio,
-        invertTime: options.invertTime || true,
+        //    clickToPlay: options.clickToPlay || true,
+        //    disableContextMenu: options.disableContextMenu || true,
+        //    resetOnEnd: options.resetOnEnd || false,
+        aspectRatio: options.aspectRatio,
+        //    invertTime: options.invertTime || true,
         controls: options.controlsList,
-        settings: options.settingsList,
-        quality: {
-            default: options.defaultQuality || 576,
-            options: options.availableQualities || [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]
-        },
-        previewThumbnails: {
-            enabled: options.poster && options.poster.length > 0,
-            src: options.poster
-        },
-        captions: {
-            active: true,
-            update: true
-        }
-    });
+        //    settings: options.settingsList,
+        quality: options.defaultQuality || { height: 576 },
+        //qualities: options.availableQualities || [{ height: 4320 }, { height: 2880 }],
+        //    quality: {
+        //        default: options.defaultQuality || 576,
+        //        options: options.availableQualities || [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]
+        //    },
+        //    previewThumbnails: {
+        //        enabled: options.poster && options.poster.length > 0,
+        //        src: options.poster
+        //    },
+        //    captions: {
+        //        active: true,
+        //        update: true
+        //    }
+    }).then((player) => {
+        instance.player = player;
 
-    registerToEvents(dotNetAdapter, instance.player);
+        player.addEventListener('provider-change', (event) => {
+            const provider = event.detail;
+            if (provider?.type === 'hls') {
+                provider.library = '_content/Blazorise.Video/vendors/hls.js?v=1.5.3.0';
+            }
+            else if (provider?.type === 'dash') {
+                provider.library = '_content/Blazorise.Video/vendors/dash.js?v=1.5.3.0';
+            }
+        });
+
+        player.addEventListener('provider-setup', (event) => {
+            const provider = event.detail;
+            if (provider.type === 'dash' && provider.instance) {
+                applyDashProtectionData(provider.instance, options.protection);
+            }
+        });
+
+        player.addEventListener('hls-manifest-loaded', (event) => {
+            const levelLoadedData = event.detail; // `HLS.ManifestLoadedData`
+            // ...
+        });
+    });
+    //=========================================================================================================
+
+
+    //if (options.streamingLibrary !== "Html5") {
+    //    const sourceUrl = extractSingleSourceUrl(options.source);
+
+    //    if (options.streamingLibrary === "Hls" && Hls.isSupported()) {
+    //        instance.hls = createHls(element, sourceUrl, options);
+    //    } else if (options.streamingLibrary === "Dash" && dashjs.supportsMediaSource()) {
+    //        instance.dash = createDash(element, sourceUrl, options);
+    //    }
+    //}
+
+    //instance.player = new Plyr(element, {
+    //    source: options.source,
+    //    poster: options.poster,
+    //    hideControls: options.automaticallyHideControls,
+    //    autopause: options.autoPause || true,
+    //    seekTime: options.seekTime || 10,
+    //    volume: options.volume || 1,
+    //    currentTime: options.currentTime || 0,
+    //    muted: options.muted || false,
+    //    clickToPlay: options.clickToPlay || true,
+    //    disableContextMenu: options.disableContextMenu || true,
+    //    resetOnEnd: options.resetOnEnd || false,
+    //    ratio: options.ratio,
+    //    invertTime: options.invertTime || true,
+    //    controls: options.controlsList,
+    //    settings: options.settingsList,
+    //    quality: {
+    //        default: options.defaultQuality || 576,
+    //        options: options.availableQualities || [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]
+    //    },
+    //    previewThumbnails: {
+    //        enabled: options.poster && options.poster.length > 0,
+    //        src: options.poster
+    //    },
+    //    captions: {
+    //        active: true,
+    //        update: true
+    //    }
+    //});
+
+    //registerToEvents(dotNetAdapter, instance.player);
 
     _instances[elementId] = instance;
 }
@@ -306,7 +431,7 @@ function createDash(element, sourceUrl, options) {
 }
 
 function applyDashProtectionData(dash, protection) {
-    if (protection) {
+    if (dash && protection) {
         if (protection.type === "PlayReady") {
             const protectionData = protection.data ? protection.data : {
                 "com.microsoft.playready": {

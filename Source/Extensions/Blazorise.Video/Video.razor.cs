@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Video.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -84,10 +86,10 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 ClickToPlay,
                 DisableContextMenu,
                 ResetOnEnd,
-                Ratio,
+                AspectRatio = VideoParsers.ParseAspectRatio( Ratio ),
                 InvertTime,
-                DefaultQuality,
-                AvailableQualities,
+                DefaultQuality = new { Height = DefaultQuality },
+                AvailableQualities = AvailableQualities?.Select( x => new { Height = x } ),
                 Protection = ProtectionType != VideoProtectionType.None ? new
                 {
                     Data = ProtectionData,

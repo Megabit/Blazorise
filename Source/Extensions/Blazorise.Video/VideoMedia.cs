@@ -1,4 +1,5 @@
 ﻿#region Using directives
+using System;
 using System.Text.Json.Serialization;
 #endregion
 
@@ -48,5 +49,20 @@ public record VideoMedia
     /// Gets or sets the media size, eg. 720 or 1080.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public int? Size { get; set; }
+    [Obsolete( "Size property is deprecated and will be removed, please use the Height property instead." )]
+    public int? Size { get => Height; set => Height = value; }
+
+    /// <summary>
+    /// Gets or sets the media width.
+    /// </summary>
+    [JsonPropertyName( "width" )]
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public int? Width { get; set; }
+
+    /// <summary>
+    /// Gets or sets the media height.
+    /// </summary>
+    [JsonPropertyName( "height" )]
+    [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
+    public int? Height { get; set; }
 }
