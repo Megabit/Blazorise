@@ -29,13 +29,19 @@
         var itemText = GetItemText( item );
         var itemValue = GetItemValue( item );
         var itemDisabled = GetItemDisabled( item );
+        var itemTextColor = GetItemTextColor( item );
+        var itemBackground = GetItemBackground( item );
+        var itemPadding = GetItemPadding( item );
+        var itemMargin = GetItemMargin( item );
+        var itemClass = GetItemClass( item );
+        var itemStyles = GetItemStyle( item );
         @if ( ItemTemplate is not null )
         {
-            <ListGroupItem @key="item" Disabled=@itemDisabled Name="@itemValue">@ItemTemplate( new( item, itemText, itemValue ) )</ListGroupItem>
+            <ListGroupItem @key="item" Disabled=@itemDisabled TextColor="@itemTextColor" Background="@itemBackground" Padding="@itemPadding" Margin="@itemMargin" Class="@itemClass" Style="@itemStyles" Name="@itemValue">@ItemTemplate( new( item, itemText, itemValue ) )</ListGroupItem>
         }
         else
         {
-            <ListGroupItem @key="item" Disabled=@itemDisabled Name="@itemValue">@itemText</ListGroupItem>
+            <ListGroupItem @key="item" Disabled=@itemDisabled TextColor="@itemTextColor" Background="@itemBackground" Padding="@itemPadding" Margin="@itemMargin" Class="@itemClass" Style="@itemStyles" Name="@itemValue">@itemText</ListGroupItem>
         }
     };
 }

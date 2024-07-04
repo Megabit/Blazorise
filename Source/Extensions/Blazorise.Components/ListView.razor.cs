@@ -55,6 +55,56 @@ public partial class ListView<TItem> : ComponentBase
         return DisabledItem.Invoke( item );
     }
 
+    private TextColor GetItemTextColor( TItem item )
+    {
+        if (item is null || ItemTextColor is null)
+            // is this correct to do?
+            return TextColor.Default;
+
+        return ItemTextColor.Invoke( item );
+    }
+
+    private Background GetItemBackground( TItem item )
+    {
+        if (item is null || ItemBackground is null)
+            // im assuming we should do default here, as no other value would make sense
+            return Background.Default;
+
+        return ItemBackground.Invoke( item );
+    }
+
+    private IFluentSpacing GetItemPadding( TItem item )
+    {
+        if (item is null || ItemPadding is null)
+            return null;
+
+        return ItemPadding.Invoke( item );
+    }
+
+    private IFluentSpacing GetItemMargin( TItem item )
+    {
+        if (item is null || ItemMargin is null)
+            return null;
+
+        return ItemMargin.Invoke( item );
+    }
+
+    private string GetItemClass( TItem item )
+    {
+        if (item is null || ItemClass is null)
+            return null;
+
+        return ItemClass.Invoke( item );
+    }
+
+    private string GetItemStyle( TItem item )
+    {
+        if (item is null || ItemStyle is null)
+            return null;
+
+        return ItemStyle.Invoke( item );
+    }
+
     private List<string> GetItemValues( List<TItem> selectedItems )
     {
         if ( selectedItems is null || ValueField is null )
@@ -168,6 +218,36 @@ public partial class ListView<TItem> : ComponentBase
     /// Method used to get the disabled items from the supplied data source.
     /// </summary>
     [Parameter] public Func<TItem, bool> DisabledItem { get; set; }
+
+    /// <summary>
+    /// Method used to get the text color for the item.
+    /// </summary>
+    [Parameter] public Func<TItem, TextColor> ItemTextColor { get; set; }
+
+    /// <summary>
+    /// Method used to get the background color for the item.
+    /// </summary>
+    [Parameter] public Func<TItem, Background> ItemBackground { get; set; }
+
+    /// <summary>
+    /// Method used to get the padding for the item.
+    /// </summary>
+    [Parameter] public Func<TItem, IFluentSpacing> ItemPadding { get; set; }
+
+    /// <summary>
+    /// Method used to get the margin for the item.
+    /// </summary>
+    [Parameter] public Func<TItem, IFluentSpacing> ItemMargin { get; set; }
+
+    /// <summary>
+    /// Method used to get the class for the item.
+    /// </summary>
+    [Parameter] public Func<TItem, string> ItemClass { get; set; }
+
+    /// <summary>
+    /// Method used to get the style for the item.
+    /// </summary>
+    [Parameter] public Func<TItem, string> ItemStyle { get; set; }
 
     /// <summary>
     /// Currently selected item.

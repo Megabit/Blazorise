@@ -1,0 +1,37 @@
+﻿@namespace Blazorise.Docs.Docs.Examples
+
+<ListView TItem="Country"
+          Data="Countries"
+          TextField="(item) => item.Name"
+          ValueField="(item) => item.Iso"
+          Mode="ListGroupMode.Selectable"
+          MaxHeight="300px"
+          ItemTextColor="(item) => TextColor.Danger"
+          ItemBackground="(item) => Background.Default"
+          ItemPadding="(item) => Padding.Is2"
+          ItemMargin="(item) => Margin.Is2"
+          ItemClass="@((item) => $"country-{item.Iso}")"
+          ItemStyle="@((item) => "{ border: 1px solid red }")"
+          @bind-SelectedItem="@selectedListViewItem">
+</ListView>
+
+<Field Horizontal>
+    <FieldBody ColumnSize="ColumnSize.Is12">
+        Selected Item: @selectedListViewItem?.Name
+    </FieldBody>
+</Field>
+
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public IEnumerable<Country> Countries;
+
+    private Country selectedListViewItem;
+
+    protected override async Task OnInitializedAsync()
+    {
+    Countries = await CountryData.GetDataAsync();
+    await base.OnInitializedAsync();
+    }
+}
