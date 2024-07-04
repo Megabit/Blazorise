@@ -100,7 +100,7 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        var module = jsInterop.SetupModule( new MockJsModalModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName );
+        var module = jsInterop.SetupModule( new MockJsModalModule( jsInterop.JSRuntime, new MockVersionProvider(), null ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "open", _ => true ).SetVoidResult();
         module.SetupVoid( "close", _ => true ).SetVoidResult();

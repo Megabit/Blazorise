@@ -9,8 +9,9 @@ namespace Blazorise.Modules;
 /// <summary>
 /// Default implementation of the modal JS module.
 /// </summary>
-public abstract class JSModalModule : BaseJSModule, IJSModalModule
+public abstract class JSModalModule : BaseSafeJSModule, IJSModalModule
 {
+    private readonly BlazoriseOptions options;
     #region Constructors
 
     /// <summary>
@@ -18,8 +19,8 @@ public abstract class JSModalModule : BaseJSModule, IJSModalModule
     /// </summary>
     /// <param name="jsRuntime">JavaScript runtime instance.</param>
     /// <param name="versionProvider">Version provider.</param>
-    public JSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public JSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

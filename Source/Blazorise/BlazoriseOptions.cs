@@ -119,5 +119,10 @@ public class BlazoriseOptions
     /// </summary>
     public IServiceProvider Services => serviceProvider;
 
+    /// <summary>
+    /// Whether to safely invoke internal javascript. Will ignore any exceptions that might be thrown as part of the javascript invoke process.
+    /// </summary>
+    public bool SafeJsInvoke { get; set; } = true;
+
     #endregion
 }

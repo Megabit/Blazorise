@@ -5,8 +5,8 @@ namespace Blazorise.AntDesign.Modules;
 
 internal class AntDesignJSModalModule : JSModalModule
 {
-    public AntDesignJSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public AntDesignJSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

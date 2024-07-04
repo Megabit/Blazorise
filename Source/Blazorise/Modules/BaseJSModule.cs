@@ -8,6 +8,125 @@ using Microsoft.JSInterop;
 namespace Blazorise.Modules;
 
 /// <inheritdoc/>
+public abstract class BaseSafeJSModule : BaseJSModule
+{
+    private readonly BlazoriseOptions options;
+    #region Members
+
+
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Default module constructor.
+    /// </summary>
+    /// <param name="jsRuntime">JavaScript runtime instance.</param>
+    /// <param name="versionProvider">Version provider.</param>
+    public BaseSafeJSModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options ) : base( jsRuntime, versionProvider )
+    {
+        this.options = options;
+    }
+
+    #endregion
+
+    #region Methods
+
+    /// <summary>
+    /// Safe invocation on the JavaScript <see cref="Module"/>.
+    /// </summary>
+    /// <param name="identifier">An identifier for the function to invoke. For example, the value <c>"someScope.someFunction"</c> will invoke the function <c>someScope.someFunction</c> on the target instance.</param>
+    /// <param name="args">JSON-serializable arguments.</param>
+    protected override async ValueTask InvokeSafeVoidAsync( string identifier, params object[] args )
+    {
+        if ( options.SafeJsInvoke )
+        {
+            try
+            {
+                var module = await Module;
+
+                if ( AsyncDisposed )
+                {
+                    return;
+                }
+
+                await module.InvokeVoidAsync( identifier, args );
+            }
+            catch ( Exception exc )
+            {
+            }
+        }
+        else
+        {
+            try
+            {
+                var module = await Module;
+
+                if ( AsyncDisposed )
+                {
+                    return;
+                }
+
+                await module.InvokeVoidAsync( identifier, args );
+            }
+            catch ( Exception exc ) when ( exc is JSDisconnectedException or ObjectDisposedException or TaskCanceledException )
+            {
+            }
+        }
+
+    }
+
+    /// <summary>
+    /// Safe invocation on the JavaScript <see cref="Module"/>.
+    /// </summary>
+    /// <typeparam name="TValue">The JSON-serializable return type.</typeparam>
+    /// <param name="identifier">An identifier for the function to invoke. For example, the value <c>"someScope.someFunction"</c> will invoke the function <c>someScope.someFunction</c> on the target instance.</param>
+    /// <param name="args">JSON-serializable arguments.</param>
+    /// <returns>An instance of <typeparamref name="TValue"/> obtained by JSON-deserializing the return value.</returns>
+    protected override async ValueTask<TValue> InvokeSafeAsync<TValue>( string identifier, params object[] args )
+    {
+        if ( options.SafeJsInvoke )
+        {
+            try
+            {
+                var module = await Module;
+
+                if ( AsyncDisposed )
+                {
+                    return default;
+                }
+
+                return await module.InvokeAsync<TValue>( identifier, args );
+            }
+            catch ( Exception exc )
+            {
+                return default;
+            }
+        }
+        else
+        {
+            try
+            {
+                var module = await Module;
+
+                if ( AsyncDisposed )
+                {
+                    return default;
+                }
+
+                return await module.InvokeAsync<TValue>( identifier, args );
+            }
+            catch ( Exception exc ) when ( exc is JSDisconnectedException or ObjectDisposedException or TaskCanceledException )
+            {
+                return default;
+            }
+        }
+    }
+
+    #endregion
+}
+
+/// <inheritdoc/>
 public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
 {
     #region Members
@@ -109,11 +228,11 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
     }
 
     /// <summary>
-    /// Save invocation on the JavaScript <see cref="Module"/>.
+    /// Safe invocation on the JavaScript <see cref="Module"/>.
     /// </summary>
     /// <param name="identifier">An identifier for the function to invoke. For example, the value <c>"someScope.someFunction"</c> will invoke the function <c>someScope.someFunction</c> on the target instance.</param>
     /// <param name="args">JSON-serializable arguments.</param>
-    protected async ValueTask InvokeSafeVoidAsync( string identifier, params object[] args )
+    protected virtual async ValueTask InvokeSafeVoidAsync( string identifier, params object[] args )
     {
         try
         {
@@ -132,13 +251,13 @@ public abstract class BaseJSModule : IBaseJSModule, IAsyncDisposable
     }
 
     /// <summary>
-    /// Save invocation on the JavaScript <see cref="Module"/>.
+    /// Safe invocation on the JavaScript <see cref="Module"/>.
     /// </summary>
     /// <typeparam name="TValue">The JSON-serializable return type.</typeparam>
     /// <param name="identifier">An identifier for the function to invoke. For example, the value <c>"someScope.someFunction"</c> will invoke the function <c>someScope.someFunction</c> on the target instance.</param>
     /// <param name="args">JSON-serializable arguments.</param>
     /// <returns>An instance of <typeparamref name="TValue"/> obtained by JSON-deserializing the return value.</returns>
-    protected async ValueTask<TValue> InvokeSafeAsync<TValue>( string identifier, params object[] args )
+    protected virtual async ValueTask<TValue> InvokeSafeAsync<TValue>( string identifier, params object[] args )
     {
         try
         {
