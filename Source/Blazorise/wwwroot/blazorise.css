@@ -1060,59 +1060,6 @@ thead tr th {
   position: relative;
 }
 
-/*-- ==============================================================
- Screen smaller than 760px and iPads.
- ============================================================== */
-@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-  [data-content]:before {
-    content: attr(data-content);
-  }
-  /* Force table to not be like tables anymore */
-  .b-table-mobile,
-  .b-table-mobile thead,
-  .b-table-mobile tbody,
-  .b-table-mobile th,
-  .b-table-mobile td,
-  .b-table-mobile tr {
-    display: block;
-  }
-  .b-table-mobile.text-center {
-    text-align: left !important;
-  }
-  .b-table-mobile caption {
-    width: max-content;
-  }
-  /* Hide table headers (but not display: none;, for accessibility) */
-  .b-table-mobile thead tr {
-    position: absolute;
-    top: -9999px;
-    left: -9999px;
-  }
-  .b-table-mobile > :not(:first-child) {
-    border-top: none;
-  }
-  /* Default layout */
-  .b-table-mobile td {
-    /* Behave  like a "row" */
-    border: none;
-    position: relative;
-    padding-top: 1.5rem !important;
-  }
-  .b-table-mobile td:before {
-    /* Now like a table header */
-    position: absolute;
-    /* Top/left values mimic padding */
-    top: 0;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-    font-weight: bold;
-  }
-  .b-table-mobile tr {
-    border-bottom: 2px solid black;
-  }
-}
 .b-character-casing-lower {
   text-transform: lowercase;
 }

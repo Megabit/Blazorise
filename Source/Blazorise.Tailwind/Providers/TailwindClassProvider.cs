@@ -1672,6 +1672,8 @@ public class TailwindClassProvider : ClassProvider
         ? "b-table-fixed-columns w-full overflow-x-auto whitespace-nowrap relative" :
         null;
 
+    public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "b-table-mobile" : null;
+
     #endregion
 
     #region Badge

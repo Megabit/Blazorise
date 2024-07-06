@@ -1275,6 +1275,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "fui-Table-fixed-columns" : null;
 
+    public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "b-table-mobile" : null;
+
     #endregion
 
     #region Badge

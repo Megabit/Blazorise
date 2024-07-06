@@ -157,9 +157,9 @@ public partial class TableRowCell : BaseDraggableComponent
     [Parameter] public bool ClickStopPropagation { get; set; }
 
     /// <summary>
-    /// 
+    /// When the <see cref="Table.ResponsiveMode"/> is set to <see cref="TableResponsiveMode.Mobile"/>, this title will be used for the row.
     /// </summary>
-    [Parameter] public string MobileModeTitle { get; set; }
+    [Parameter] public string MobileModeCaption { get; set; }
 
     #endregion
 }

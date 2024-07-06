@@ -71,8 +71,9 @@ public partial class Table : BaseDraggableComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-table" );
-        builder.Append( "b-table-mobile", ResponsiveMode == TableResponsiveMode.Mobile );
+
         builder.Append( ClassProvider.Table() );
+        builder.Append( ClassProvider.TableResponsiveMode( ResponsiveMode ) );
         builder.Append( ClassProvider.TableFullWidth(), FullWidth );
         builder.Append( ClassProvider.TableStriped(), Striped );
         builder.Append( ClassProvider.TableBordered(), Bordered );

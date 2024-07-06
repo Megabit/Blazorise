@@ -127,5 +127,10 @@ public partial class TableRowHeader : BaseDraggableComponent
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
 
+    /// <summary>
+    /// When the <see cref="Table.ResponsiveMode"/> is set to <see cref="TableResponsiveMode.Mobile"/>, this title will be used for the row.
+    /// </summary>
+    [Parameter] public string MobileModeCaption { get; set; }
+
     #endregion
 }

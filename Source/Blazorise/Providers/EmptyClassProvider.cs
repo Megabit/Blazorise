@@ -1017,6 +1017,8 @@ class EmptyClassProvider : IClassProvider
 
     public string TableFixedColumns( bool fixedColumns ) => null;
 
+    public string TableResponsiveMode( TableResponsiveMode responsiveMode ) => null;
+
     #endregion
 
     #region Badge

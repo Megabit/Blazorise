@@ -12,6 +12,7 @@ public enum TableResponsiveMode
 
     /// <summary>
     /// The table will have a dedicated layout for mobile devices where the columns are stacked on top of each other.
+    /// <para>NOTE: In this mode the table may have limited functionality</para>
     /// </summary>
     Mobile
 }
