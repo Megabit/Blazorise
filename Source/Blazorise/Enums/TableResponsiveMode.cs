@@ -1,7 +1,7 @@
 ﻿namespace Blazorise;
 
 /// <summary>
-/// Defines the mobile mode of the Table.
+/// Defines the responsive mode of the Table.
 /// </summary>
 public enum TableResponsiveMode
 {
