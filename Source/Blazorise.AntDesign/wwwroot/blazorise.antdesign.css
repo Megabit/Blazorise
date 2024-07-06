@@ -3638,6 +3638,7 @@ td:focus {
     /* Behave  like a "row" */
     position: relative;
     padding-top: 1.5rem !important;
+    width: 100%;
   }
   .b-table-mobile td:before, .b-table-mobile th:before {
     position: absolute;

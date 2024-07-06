@@ -223,6 +223,7 @@ td:focus {
             /* Behave  like a "row" */
             position: relative;
             padding-top: 1.5rem !important;
+            width: 100%;
 
             &:before {
                 position: absolute;

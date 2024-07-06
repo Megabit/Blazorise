@@ -164,6 +164,12 @@
                                     </Select>
                                 </FieldBody>
                             </Field>
+                        </Fields>
+                    </Column>
+                </Row>
+                <Row>
+                    <Column>
+                        <Fields>
                             <Field>
                                 <FieldLabel>
                                     Sort mode
@@ -183,6 +189,17 @@
                                     <Select @bind-SelectedValue="@filterMode">
                                         <SelectItem Value="@DataGridFilterMode.Default">Default</SelectItem>
                                         <SelectItem Value="@DataGridFilterMode.Menu">Menu</SelectItem>
+                                    </Select>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>
+                                    Responsive mode
+                                </FieldLabel>
+                                <FieldBody>
+                                    <Select @bind-SelectedValue="@responsiveMode">
+                                        <SelectItem Value="@TableResponsiveMode.Default">Default</SelectItem>
+                                        <SelectItem Value="@TableResponsiveMode.Mobile">Mobile</SelectItem>
                                     </Select>
                                 </FieldBody>
                             </Field>
@@ -243,7 +260,8 @@
                           FilteredDataChanged="@OnFilteredDataChanged"
                           UseValidation
                           SortChanged="@OnSortChanged"
-                          HeaderThemeContrast="@ThemeContrast.Light">
+                          HeaderThemeContrast="@ThemeContrast.Light"
+                          ResponsiveMode="@responsiveMode">
                     <EmptyTemplate>
                         <Span>
                             <Icon Name="IconName.InfoCircle" TextColor="TextColor.Info" Margin="Margin.Is2.FromEnd" />
