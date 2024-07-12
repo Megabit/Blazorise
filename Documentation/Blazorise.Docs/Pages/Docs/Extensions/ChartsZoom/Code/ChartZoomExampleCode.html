@@ -1,0 +1,97 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Button</span> <span class="htmlAttributeName">Color</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">Color</span><span class="enumValue">.Primary</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Clicked</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>(async () =&gt; await HandleRedraw())</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>Redraw<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Button</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">LineChart</span> <span class="htmlAttributeName"><span class="atSign">&#64;</span>ref</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">lineChart</span><span class="quot">&quot;</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">double</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ChartZoom</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">double</span><span class="quot">&quot;</span> <span class="htmlAttributeName">Options</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>lineChartZoomOptions</span><span class="quot">&quot;</span> <span class="htmlTagDelimiter">/&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">LineChart</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    LineChart&lt;<span class="keyword">double</span>&gt; lineChart;
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnAfterRenderAsync( <span class="keyword">bool</span> firstRender )
+    {
+        <span class="keyword">if</span> ( firstRender )
+        {
+            <span class="keyword">await</span> HandleRedraw();
+        }
+    }
+
+    <span class="keyword">async</span> Task HandleRedraw()
+    {
+        <span class="keyword">await</span> lineChart.Clear();
+
+        <span class="keyword">await</span> lineChart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );
+    }
+
+    LineChartDataset&lt;<span class="keyword">double</span>&gt; GetLineChartDataset()
+    {
+        <span class="keyword">return</span> <span class="keyword">new</span> LineChartDataset&lt;<span class="keyword">double</span>&gt;
+            {
+                Label = <span class="string">&quot;# of randoms&quot;</span>,
+                Data = RandomizeData(),
+                BackgroundColor = backgroundColors,
+                BorderColor = borderColors,
+                Fill = <span class="keyword">true</span>,
+                PointRadius = <span class="number">3</span>,
+                CubicInterpolationMode = <span class="string">&quot;monotone&quot;</span>,
+            };
+    }
+
+    <span class="keyword">string</span>[] Labels = { <span class="string">&quot;Red&quot;</span>, <span class="string">&quot;Blue&quot;</span>, <span class="string">&quot;Yellow&quot;</span>, <span class="string">&quot;Green&quot;</span>, <span class="string">&quot;Purple&quot;</span>, <span class="string">&quot;Orange&quot;</span> };
+    List&lt;<span class="keyword">string</span>&gt; backgroundColors = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; { ChartColor.FromRgba( <span class="number">255</span>, <span class="number">99</span>, <span class="number">132</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">54</span>, <span class="number">162</span>, <span class="number">235</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">206</span>, <span class="number">86</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">75</span>, <span class="number">192</span>, <span class="number">192</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">153</span>, <span class="number">102</span>, <span class="number">255</span>, <span class="number">0</span>.2f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">159</span>, <span class="number">64</span>, <span class="number">0</span>.2f ) };
+    List&lt;<span class="keyword">string</span>&gt; borderColors = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt; { ChartColor.FromRgba( <span class="number">255</span>, <span class="number">99</span>, <span class="number">132</span>, 1f ), ChartColor.FromRgba( <span class="number">54</span>, <span class="number">162</span>, <span class="number">235</span>, 1f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">206</span>, <span class="number">86</span>, 1f ), ChartColor.FromRgba( <span class="number">75</span>, <span class="number">192</span>, <span class="number">192</span>, 1f ), ChartColor.FromRgba( <span class="number">153</span>, <span class="number">102</span>, <span class="number">255</span>, 1f ), ChartColor.FromRgba( <span class="number">255</span>, <span class="number">159</span>, <span class="number">64</span>, 1f ) };
+
+    List&lt;<span class="keyword">double</span>&gt; RandomizeData()
+    {
+        <span class="keyword">var</span> r = <span class="keyword">new</span> Random( DateTime.Now.Millisecond );
+
+        <span class="keyword">return</span> <span class="keyword">new</span> List&lt;<span class="keyword">double</span>&gt; {
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble(),
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble(),
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble(),
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble(),
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble(),
+            r.Next( <span class="number">3</span>, <span class="number">50</span> ) * r.NextDouble() };
+    }
+
+    <span class="keyword">private</span> ChartZoomPluginOptions lineChartZoomOptions = <span class="keyword">new</span>()
+        {
+            Zoom = <span class="keyword">new</span>()
+            {
+                Mode = <span class="string">&quot;y&quot;</span>,
+                Wheel = <span class="keyword">new</span>()
+                {
+                    Enabled = <span class="keyword">true</span>,
+                },
+                Pinch = <span class="keyword">new</span>()
+                {
+                    Enabled = <span class="keyword">true</span>
+                },
+                Drag = <span class="keyword">new</span>()
+                {
+                    Enabled = <span class="keyword">true</span>
+                }
+            },
+            Limits = <span class="keyword">new</span>()
+            {
+                Y = <span class="keyword">new</span>()
+                {
+                    Min = <span class="number">0</span>,
+                    Max = <span class="number">50</span>,
+                    MinRange = <span class="number">25</span>
+                }
+            },
+            Transition = <span class="keyword">new</span> ChartZoomTransitionOptions()
+            {
+                Animation = <span class="keyword">new</span> ChartAnimation()
+                {
+                    Duration = <span class="number">1000</span>,
+                    Easing = <span class="string">&quot;easeOutCubic&quot;</span>
+                }
+            }
+        };
+}
+</pre></div>
+</div>

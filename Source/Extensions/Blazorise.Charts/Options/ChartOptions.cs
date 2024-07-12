@@ -31,7 +31,7 @@ public class ChartOptions
     /// Configuration for chart interactions.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartInteractions Interactions { get; set; }
+    public ChartInteraction Interaction { get; set; }
 
     /// <summary>
     /// Configuration for chart parsing.

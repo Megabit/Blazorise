@@ -6534,6 +6534,105 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
         public const string ChartAnnotationResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@2.2.1""></script>";
 
+        public const string ChartZoomExample = @"<Button Color=""Color.Primary"" Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
+
+<LineChart @ref=""lineChart"" TItem=""double"">
+    <ChartZoom TItem=""double"" Options=""@lineChartZoomOptions"" />
+</LineChart>
+
+@code {
+    LineChart<double> lineChart;
+
+    protected override async Task OnAfterRenderAsync( bool firstRender )
+    {
+        if ( firstRender )
+        {
+            await HandleRedraw();
+        }
+    }
+
+    async Task HandleRedraw()
+    {
+        await lineChart.Clear();
+
+        await lineChart.AddLabelsDatasetsAndUpdate( Labels, GetLineChartDataset() );
+    }
+
+    LineChartDataset<double> GetLineChartDataset()
+    {
+        return new LineChartDataset<double>
+            {
+                Label = ""# of randoms"",
+                Data = RandomizeData(),
+                BackgroundColor = backgroundColors,
+                BorderColor = borderColors,
+                Fill = true,
+                PointRadius = 3,
+                CubicInterpolationMode = ""monotone"",
+            };
+    }
+
+    string[] Labels = { ""Red"", ""Blue"", ""Yellow"", ""Green"", ""Purple"", ""Orange"" };
+    List<string> backgroundColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 0.2f ), ChartColor.FromRgba( 54, 162, 235, 0.2f ), ChartColor.FromRgba( 255, 206, 86, 0.2f ), ChartColor.FromRgba( 75, 192, 192, 0.2f ), ChartColor.FromRgba( 153, 102, 255, 0.2f ), ChartColor.FromRgba( 255, 159, 64, 0.2f ) };
+    List<string> borderColors = new List<string> { ChartColor.FromRgba( 255, 99, 132, 1f ), ChartColor.FromRgba( 54, 162, 235, 1f ), ChartColor.FromRgba( 255, 206, 86, 1f ), ChartColor.FromRgba( 75, 192, 192, 1f ), ChartColor.FromRgba( 153, 102, 255, 1f ), ChartColor.FromRgba( 255, 159, 64, 1f ) };
+
+    List<double> RandomizeData()
+    {
+        var r = new Random( DateTime.Now.Millisecond );
+
+        return new List<double> {
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble(),
+            r.Next( 3, 50 ) * r.NextDouble() };
+    }
+
+    private ChartZoomPluginOptions lineChartZoomOptions = new()
+        {
+            Zoom = new()
+            {
+                Mode = ""y"",
+                Wheel = new()
+                {
+                    Enabled = true,
+                },
+                Pinch = new()
+                {
+                    Enabled = true
+                },
+                Drag = new()
+                {
+                    Enabled = true
+                }
+            },
+            Limits = new()
+            {
+                Y = new()
+                {
+                    Min = 0,
+                    Max = 50,
+                    MinRange = 25
+                }
+            },
+            Transition = new ChartZoomTransitionOptions()
+            {
+                Animation = new ChartAnimation()
+                {
+                    Duration = 1000,
+                    Easing = ""easeOutCubic""
+                }
+            }
+        };
+}";
+
+        public const string ChartZoomNugetInstallExample = @"Install-Package Blazorise.Charts
+Install-Package Blazorise.Chart.Zoom";
+
+        public const string ChartZoomResourcesExample = @"<script src=""https://cdn.jsdelivr.net/npm/hammerjs@2.0.8""></script>
+<script src=""https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js""></script>";
+
         public const string BasicCropperExample = @"<Row>
     <Column>
         <FieldLabel>

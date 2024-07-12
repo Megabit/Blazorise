@@ -16,6 +16,7 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Trendline\Blazorise.Charts.Trendline.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.DataLabels\Blazorise.Charts.DataLabels.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Annotation\Blazorise.Charts.Annotation.csproj" />
+    <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts.Zoom\Blazorise.Charts.Zoom.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Charts\Blazorise.Charts.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Components\Blazorise.Components.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.DataGrid\Blazorise.DataGrid.csproj" />
@@ -34,10 +35,10 @@
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Cropper\Blazorise.Cropper.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.SignaturePad\Blazorise.SignaturePad.csproj" />
     <ProjectReference Include="..\..\Source\Extensions\Blazorise.Splitter\Blazorise.Splitter.csproj" />
-    <PackageReference Include="MailKit" Version="3.1.1" />
+    <PackageReference Include="MailKit" Version="4.7.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
-    <PackageReference Include="MimeKit" Version="3.1.1" />
-    <PackageReference Include="Blazored.LocalStorage" Version="4.4.0" />
+    <PackageReference Include="MimeKit" Version="4.7.1" />
+    <PackageReference Include="Blazored.LocalStorage" Version="4.5.0" />
   </ItemGroup>
 
   <!--Binary path for the code generator-->
@@ -73,10 +74,10 @@
     <EmbeddedResource Include="Pages\**\*.html" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Markdig" Version="0.30.4" />
+    <PackageReference Include="Markdig" Version="0.37.0" />
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.*" />
-    <PackageReference Include="SendGrid" Version="9.28.1" />
+    <PackageReference Include="SendGrid" Version="9.29.3" />
   </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
