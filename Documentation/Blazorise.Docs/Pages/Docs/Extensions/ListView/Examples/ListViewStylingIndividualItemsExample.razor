@@ -1,4 +1,5 @@
 ﻿@namespace Blazorise.Docs.Docs.Examples
+@using System.Linq
 
 <ListView TItem="Country"
           Data="Countries"
@@ -6,12 +7,11 @@
           ValueField="(item) => item.Iso"
           Mode="ListGroupMode.Selectable"
           MaxHeight="300px"
-          ItemTextColor="(item) => TextColor.Danger"
+          ItemTextColor="((item) => Countries.IndexOf( item ) % 2 == 0 ? TextColor.Danger : TextColor.Success)"
           ItemBackground="(item) => Background.Default"
-          ItemPadding="(item) => Padding.Is2"
-          ItemMargin="(item) => Margin.Is2"
+          ItemPadding="(item) => Padding.Is4"
           ItemClass="@((item) => $"country-{item.Iso}")"
-          ItemStyle="@((item) => "{ border: 1px solid red }")"
+          ItemStyle="@((item) => "border: 1px solid red")"
           @bind-SelectedItem="@selectedListViewItem">
 </ListView>
 
@@ -25,13 +25,13 @@
 @code {
     [Inject]
     public CountryData CountryData { get; set; }
-    public IEnumerable<Country> Countries;
+    public List<Country> Countries;
 
     private Country selectedListViewItem;
 
     protected override async Task OnInitializedAsync()
     {
-    Countries = await CountryData.GetDataAsync();
-    await base.OnInitializedAsync();
+        Countries = (await CountryData.GetDataAsync()).ToList();
+        await base.OnInitializedAsync();
     }
 }

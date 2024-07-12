@@ -9253,7 +9253,6 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     </FieldBody>
 </Field>
 
-
 @code {
     [Inject]
     public CountryData CountryData { get; set; }
@@ -9264,6 +9263,43 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     protected override async Task OnInitializedAsync()
     {
         Countries = await CountryData.GetDataAsync();
+        await base.OnInitializedAsync();
+    }
+}";
+
+        public const string ListViewStylingIndividualItemsExample = @"@using System.Linq
+
+<ListView TItem=""Country""
+          Data=""Countries""
+          TextField=""(item) => item.Name""
+          ValueField=""(item) => item.Iso""
+          Mode=""ListGroupMode.Selectable""
+          MaxHeight=""300px""
+          ItemTextColor=""((item) => Countries.IndexOf( item ) % 2 == 0 ? TextColor.Danger : TextColor.Success)""
+          ItemBackground=""(item) => Background.Default""
+          ItemPadding=""(item) => Padding.Is4""
+          ItemClass=""@((item) => $""country-{item.Iso}"")""
+          ItemStyle=""@((item) => ""border: 1px solid red"")""
+          @bind-SelectedItem=""@selectedListViewItem"">
+</ListView>
+
+<Field Horizontal>
+    <FieldBody ColumnSize=""ColumnSize.Is12"">
+        Selected Item: @selectedListViewItem?.Name
+    </FieldBody>
+</Field>
+
+
+@code {
+    [Inject]
+    public CountryData CountryData { get; set; }
+    public List<Country> Countries;
+
+    private Country selectedListViewItem;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Countries = (await CountryData.GetDataAsync()).ToList();
         await base.OnInitializedAsync();
     }
 }";

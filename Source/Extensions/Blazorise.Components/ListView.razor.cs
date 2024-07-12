@@ -57,7 +57,7 @@ public partial class ListView<TItem> : ComponentBase
 
     private TextColor GetItemTextColor( TItem item )
     {
-        if (item is null || ItemTextColor is null)
+        if ( item is null || ItemTextColor is null )
             // is this correct to do?
             return TextColor.Default;
 
@@ -66,7 +66,7 @@ public partial class ListView<TItem> : ComponentBase
 
     private Background GetItemBackground( TItem item )
     {
-        if (item is null || ItemBackground is null)
+        if ( item is null || ItemBackground is null )
             // im assuming we should do default here, as no other value would make sense
             return Background.Default;
 
@@ -75,7 +75,7 @@ public partial class ListView<TItem> : ComponentBase
 
     private IFluentSpacing GetItemPadding( TItem item )
     {
-        if (item is null || ItemPadding is null)
+        if ( item is null || ItemPadding is null )
             return null;
 
         return ItemPadding.Invoke( item );
@@ -83,7 +83,7 @@ public partial class ListView<TItem> : ComponentBase
 
     private IFluentSpacing GetItemMargin( TItem item )
     {
-        if (item is null || ItemMargin is null)
+        if ( item is null || ItemMargin is null )
             return null;
 
         return ItemMargin.Invoke( item );
@@ -91,7 +91,7 @@ public partial class ListView<TItem> : ComponentBase
 
     private string GetItemClass( TItem item )
     {
-        if (item is null || ItemClass is null)
+        if ( item is null || ItemClass is null )
             return null;
 
         return ItemClass.Invoke( item );
@@ -99,7 +99,7 @@ public partial class ListView<TItem> : ComponentBase
 
     private string GetItemStyle( TItem item )
     {
-        if (item is null || ItemStyle is null)
+        if ( item is null || ItemStyle is null )
             return null;
 
         return ItemStyle.Invoke( item );

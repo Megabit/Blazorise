@@ -35,6 +35,7 @@
         var itemMargin = GetItemMargin( item );
         var itemClass = GetItemClass( item );
         var itemStyles = GetItemStyle( item );
+
         @if ( ItemTemplate is not null )
         {
             <ListGroupItem @key="item" Disabled=@itemDisabled TextColor="@itemTextColor" Background="@itemBackground" Padding="@itemPadding" Margin="@itemMargin" Class="@itemClass" Style="@itemStyles" Name="@itemValue">@ItemTemplate( new( item, itemText, itemValue ) )</ListGroupItem>
