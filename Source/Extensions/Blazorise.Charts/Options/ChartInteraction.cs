@@ -7,7 +7,7 @@ namespace Blazorise.Charts;
 /// <summary>
 /// To configure which events trigger chart interactions.
 /// </summary>
-public class ChartInteractions
+public class ChartInteraction
 {
     /// <summary>
     /// Sets which elements appear in the interaction.
