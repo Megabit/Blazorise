@@ -5,19 +5,19 @@ using System.Text.Json.Serialization;
 namespace Blazorise.Charts.Zoom;
 
 /// <summary>
-/// The Chart Zoom plugin scale limits
+/// The Chart Zoom plugin scale limits.
 /// <para>https://www.chartjs.org/chartjs-plugin-zoom/latest/guide/options.html#scale-limits</para>
 /// </summary>
-public class ChartZoomScaleLimits
+public class ChartZoomScaleLimitsOptions
 {
     /// <summary>
-    /// Minimum allowed value for scale.min
+    /// Minimum allowed value for scale.min.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? Min { get; set; }
 
     /// <summary>
-    /// Maximum allowed value for scale.max
+    /// Maximum allowed value for scale.max.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? Max { get; set; }

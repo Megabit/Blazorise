@@ -5,20 +5,20 @@ using System.Text.Json.Serialization;
 namespace Blazorise.Charts.Zoom;
 
 /// <summary>
-/// The Chart Zoom plugin limits options
+/// Limits options define the limits per axis for pan and zoom.
 /// <para>https://www.chartjs.org/chartjs-plugin-zoom/latest/guide/options.html#limit-options</para>
 /// </summary>
 public class ChartZoomLimitsOptions
 {
     /// <summary>
-    /// Limits for x-axis
+    /// Limits for x-axis.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartZoomScaleLimits X { get; set; }
+    public ChartZoomScaleLimitsOptions X { get; set; }
 
     /// <summary>
-    /// Limits for y-axis
+    /// Limits for y-axis.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartZoomScaleLimits Y { get; set; }
+    public ChartZoomScaleLimitsOptions Y { get; set; }
 }

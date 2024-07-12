@@ -5,25 +5,25 @@ using System.Text.Json.Serialization;
 namespace Blazorise.Charts.Zoom;
 
 /// <summary>
-/// The Chart Zoom plugin zoom wheel 
+/// The Chart Zoom plugin zoom wheel.
 /// <para>https://www.chartjs.org/chartjs-plugin-zoom/latest/guide/options.html#wheel-options</para>
 /// </summary>
-public class ChartZoomWheel
+public class ChartZoomWheelOptions
 {
     /// <summary>
-    /// Enable zooming via mouse wheel
+    /// Enable zooming via mouse wheel.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public bool? Enabled { get; set; }
 
     /// <summary>
-    /// Factor of zoom speed via mouse wheel
+    /// Factor of zoom speed via mouse wheel.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public double? Speed { get; set; }
 
     /// <summary>
-    /// Modifier key required for zooming via mouse wheel
+    /// Modifier key required for zooming via mouse wheel.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string ModifierKey { get; set; }

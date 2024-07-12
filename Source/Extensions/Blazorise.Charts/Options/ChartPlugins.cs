@@ -38,5 +38,4 @@ public class ChartPlugins
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartDecimation Decimation { get; set; }
-
 }

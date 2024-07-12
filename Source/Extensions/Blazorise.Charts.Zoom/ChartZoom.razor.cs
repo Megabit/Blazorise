@@ -20,6 +20,8 @@ public partial class ChartZoom<TItem> : BaseComponent, IAsyncDisposable
 
     #endregion
 
+    #region Methods
+
     /// <inheritdoc/>
     public override Task SetParametersAsync( ParameterView parameters )
     {
@@ -85,6 +87,10 @@ public partial class ChartZoom<TItem> : BaseComponent, IAsyncDisposable
         await base.DisposeAsync( disposing );
     }
 
+    #endregion
+
+    #region Properties
+
     /// <inheritdoc/>
     protected override bool ShouldAutoGenerateId => true;
 
@@ -100,4 +106,6 @@ public partial class ChartZoom<TItem> : BaseComponent, IAsyncDisposable
     /// Defines the options for an annotation.
     /// </summary>
     [Parameter] public ChartZoomPluginOptions Options { get; set; }
+
+    #endregion
 }

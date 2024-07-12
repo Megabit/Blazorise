@@ -5,15 +5,13 @@ using System.Text.Json.Serialization;
 namespace Blazorise.Charts.Zoom;
 
 /// <summary>
-/// The Chart Zoom plugin zoom pinch 
-/// <para>https://www.chartjs.org/chartjs-plugin-zoom/latest/guide/options.html#pinch-options</para>
+/// Defines the chart transition options for Zoom.
 /// </summary>
-public class ChartZoomPinch
+public class ChartZoomTransitionOptions
 {
     /// <summary>
-    /// Enable zooming via pinch
+    /// Defines the zoom animation options.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public bool? Enabled { get; set; }
-
+    public ChartAnimation Animation { get; set; }
 }

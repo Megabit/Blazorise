@@ -14,10 +14,10 @@ export function addZoom(canvasId, options) {
             }
 
             chart.options.plugins.zoom = options;
-            if (options.transition) { 
+
+            if (options.transition) {
                 chart.options.transitions.zoom = options.transition;
             }
-
         }
 
         chart.update();

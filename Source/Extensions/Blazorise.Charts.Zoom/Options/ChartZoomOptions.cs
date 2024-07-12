@@ -5,39 +5,38 @@ using System.Text.Json.Serialization;
 namespace Blazorise.Charts.Zoom;
 
 /// <summary>
-/// The Chart Zoom plugin zoom options
+/// The Chart Zoom plugin zoom options.
 /// <para>https://www.chartjs.org/chartjs-plugin-zoom/latest/guide/options.html#zoom-options</para>
 /// </summary>
 public class ChartZoomOptions
 {
     /// <summary>
-    /// The Wheel options
+    /// The Wheel options.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartZoomWheel Wheel { get; set; }
+    public ChartZoomWheelOptions Wheel { get; set; }
 
     /// <summary>
-    /// The Drag options
+    /// The Drag options.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartZoomDrag Drag { get; set; }
+    public ChartZoomDragOptions Drag { get; set; }
 
     /// <summary>
-    /// The Pinch options
+    /// The Pinch options.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartZoomPinch Pinch { get; set; }
+    public ChartZoomPinchOptions Pinch { get; set; }
 
     /// <summary>
-    /// Allowed zoom directions
+    /// Allowed zoom directions.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Mode { get; set; }
 
     /// <summary>
-    /// Which of the enabled zooming directions should only be available when the mouse cursor is over a scale for that axis
+    /// Which of the enabled zooming directions should only be available when the mouse cursor is over a scale for that axis.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string ScaleMode { get; set; }
-
 }

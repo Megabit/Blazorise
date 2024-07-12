@@ -64,7 +64,7 @@ public partial class ChartsZoomPage
                 MinRange = 20000
             }
         },
-        Transition = new ChartZoomTransition()
+        Transition = new ChartZoomTransitionOptions()
         {
             Animation = new ChartAnimation()
             {
@@ -205,7 +205,7 @@ public partial class ChartsZoomPage
                 MinRange = 1000
             }
         },
-        Transition = new ChartZoomTransition()
+        Transition = new ChartZoomTransitionOptions()
         {
             Animation = new ChartAnimation()
             {

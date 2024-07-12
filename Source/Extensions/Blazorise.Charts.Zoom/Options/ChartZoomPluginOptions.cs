@@ -16,11 +16,11 @@ public class ChartZoomPluginOptions
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public ChartZoomOptions Zoom { get; set; } = new ChartZoomOptions
     {
-        Wheel = new ChartZoomWheel()
+        Wheel = new ChartZoomWheelOptions()
         {
             Enabled = true
         },
-        Pinch = new ChartZoomPinch()
+        Pinch = new ChartZoomPinchOptions()
         {
             Enabled = true
         },
@@ -28,22 +28,20 @@ public class ChartZoomPluginOptions
     };
 
     /// <summary>
-    /// Pan options
+    /// Pan options.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartZoomPanOptions Pan { get; set; } = new ChartZoomPanOptions { };
+    public ChartZoomPanOptions Pan { get; set; } = new();
 
     /// <summary>
-    /// Limits options
+    /// Limits options.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartZoomLimitsOptions Limits { get; set; } = new ChartZoomLimitsOptions { };
-
+    public ChartZoomLimitsOptions Limits { get; set; } = new();
 
     /// <summary>
-    /// Transition options
+    /// Transition options.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
-    public ChartZoomTransition Transition { get; set; }
-
+    public ChartZoomTransitionOptions Transition { get; set; }
 }

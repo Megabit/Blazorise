@@ -6616,7 +6616,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
                     MinRange = 25
                 }
             },
-            Transition = new ChartZoomTransition()
+            Transition = new ChartZoomTransitionOptions()
             {
                 Animation = new ChartAnimation()
                 {
