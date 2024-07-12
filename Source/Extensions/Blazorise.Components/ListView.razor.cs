@@ -58,7 +58,6 @@ public partial class ListView<TItem> : ComponentBase
     private TextColor GetItemTextColor( TItem item )
     {
         if ( item is null || ItemTextColor is null )
-            // is this correct to do?
             return TextColor.Default;
 
         return ItemTextColor.Invoke( item );
@@ -67,7 +66,6 @@ public partial class ListView<TItem> : ComponentBase
     private Background GetItemBackground( TItem item )
     {
         if ( item is null || ItemBackground is null )
-            // im assuming we should do default here, as no other value would make sense
             return Background.Default;
 
         return ItemBackground.Invoke( item );
