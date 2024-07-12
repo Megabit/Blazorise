@@ -79,9 +79,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.*" />
     <PackageReference Include="SendGrid" Version="9.28.1" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Pages\Docs\Extensions\ChartsZoom\Code\" />
-  </ItemGroup>
 
   <!--Is this a rebuild - Dont clean generated files as this breaks rebuild behaviour-->
   <Target Name="ShouldCleanGeneratedFiles" BeforeTargets="BeforeRebuild">
