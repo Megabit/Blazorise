@@ -525,15 +525,11 @@ hr.divider.divider-text::before {
   padding-top: 1rem;
   display: block;
 }
-.b-bar-vertical-inline .b-bar-end .b-bar-dropdown,
-.b-bar-vertical-popout .b-bar-end .b-bar-dropdown,
-.b-bar-vertical-small .b-bar-end .b-bar-dropdown {
-  position: relative;
-}
 .b-bar-vertical-inline .b-bar-end .b-bar-dropdown-menu-container,
 .b-bar-vertical-popout .b-bar-end .b-bar-dropdown-menu-container,
 .b-bar-vertical-small .b-bar-end .b-bar-dropdown-menu-container {
   bottom: 0;
+  padding-bottom: 0.5rem;
 }
 .b-bar-vertical-inline .b-bar-link,
 .b-bar-vertical-popout .b-bar-link,
