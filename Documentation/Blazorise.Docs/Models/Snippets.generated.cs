@@ -6536,7 +6536,7 @@ List<ChartDataLabelsDataset> lineDataLabelsDatasets = new()
 
         public const string ChartZoomExample = @"<Button Color=""Color.Primary"" Clicked=""@(async () => await HandleRedraw())"">Redraw</Button>
 
-<LineChart @ref=""lineChart"" TItem=""double"" >
+<LineChart @ref=""lineChart"" TItem=""double"">
     <ChartZoom TItem=""double"" Options=""@lineChartZoomOptions"" />
 </LineChart>
 
