@@ -1132,7 +1132,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableFixedColumns( bool fixedColumns ) => fixedColumns ? "ant-table-fixed-columns" : null;
 
-    public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "b-table-mobile" : null;
+    public override string TableResponsiveMode( TableResponsiveMode responsiveMode ) => responsiveMode == Blazorise.TableResponsiveMode.Mobile ? "ant-table-mobile" : null;
 
     #endregion
 
