@@ -7064,33 +7064,33 @@ td:focus {
 }
 
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-  .b-table-mobile {
+  .fui-Table-mobile {
     /* Force table to not be like tables anymore */
     /* Hide table headers (but not display: none;, for accessibility) */
   }
-  .b-table-mobile [data-caption]:before {
+  .fui-Table-mobile [data-caption]:before {
     content: attr(data-caption);
   }
-  .b-table-mobile thead, .b-table-mobile tbody, .b-table-mobile th, .b-table-mobile td, .b-table-mobile tr {
+  .fui-Table-mobile thead, .fui-Table-mobile tbody, .fui-Table-mobile th, .fui-Table-mobile td, .fui-Table-mobile tr {
     display: block !important;
   }
-  .b-table-mobile thead tr {
+  .fui-Table-mobile thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
-  .b-table-mobile td, .b-table-mobile th {
+  .fui-Table-mobile td, .fui-Table-mobile th {
     /* Behave  like a "row" */
     position: relative;
     padding-top: 1.25rem !important;
   }
-  .b-table-mobile td:before, .b-table-mobile th:before {
+  .fui-Table-mobile td:before, .fui-Table-mobile th:before {
     position: absolute;
     top: 0;
     white-space: nowrap;
     font-weight: bold;
   }
-  .b-table-mobile:not(.fui-Table-borderless) tr {
+  .fui-Table-mobile:not(.fui-Table-borderless) tr {
     border-bottom: 1px solid;
   }
 }
