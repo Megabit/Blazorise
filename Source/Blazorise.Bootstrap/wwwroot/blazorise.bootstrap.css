@@ -2165,33 +2165,33 @@ td:focus {
 }
 
 @media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
-  .b-table-mobile {
+  .table-mobile {
     /* Force table to not be like tables anymore */
     /* Hide table headers (but not display: none;, for accessibility) */
   }
-  .b-table-mobile [data-caption]:before {
+  .table-mobile [data-caption]:before {
     content: attr(data-caption);
   }
-  .b-table-mobile thead, .b-table-mobile tbody, .b-table-mobile th, .b-table-mobile td, .b-table-mobile tr {
+  .table-mobile thead, .table-mobile tbody, .table-mobile th, .table-mobile td, .table-mobile tr {
     display: block;
   }
-  .b-table-mobile thead tr {
+  .table-mobile thead tr {
     position: absolute;
     top: -9999px;
     left: -9999px;
   }
-  .b-table-mobile td, .b-table-mobile th {
+  .table-mobile td, .table-mobile th {
     /* Behave  like a "row" */
     position: relative;
     padding-top: 1.5rem !important;
   }
-  .b-table-mobile td:before, .b-table-mobile th:before {
+  .table-mobile td:before, .table-mobile th:before {
     position: absolute;
     top: 0;
     white-space: nowrap;
     font-weight: bold;
   }
-  .b-table-mobile:not(.table-borderless) tr {
+  .table-mobile:not(.table-borderless) tr {
     border-bottom: 1px solid;
   }
 }
