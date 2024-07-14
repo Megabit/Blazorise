@@ -1,5 +1,30 @@
 ﻿<Div Class="@ClassNames">
     <Div Class="b-docs-page-section-content-inner">
-        @ChildContent
+        @if ( !string.IsNullOrWhiteSpace( FrameUrl ) )
+        {
+            <Tooltip Text="Desktop View" Inline>
+                <Button Clicked="@OnDesktopViewClicked">
+                    <Icon Name="IconName.Laptop" />
+                </Button>
+            </Tooltip>
+            <Tooltip Text="Mobile View" Inline>
+                <Button Clicked="@OnMobileViewClicked">
+                    <Icon Name="IconName.Smartphone" />
+                </Button>
+            </Tooltip>
+        }
+
+        @if ( FrameView == "desktop" )
+        {
+            @ChildContent
+        }
+        else
+        {
+            <Div Height="Height.Px(500)" Background="Background.Light">
+                <iframe src="@FrameUrl" style="@FrameStyle" />
+            </Div>
+        }
     </Div>
 </Div>
+
+

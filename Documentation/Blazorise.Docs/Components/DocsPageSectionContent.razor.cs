@@ -1,6 +1,7 @@
 ﻿#region Using directives
-using Microsoft.AspNetCore.Components;
 using System.Text;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
 #endregion
 
 namespace Blazorise.Docs.Components;
@@ -8,10 +9,52 @@ namespace Blazorise.Docs.Components;
 public partial class DocsPageSectionContent
 {
     #region Methods
+    public Task OnDesktopViewClicked()
+    {
+        FrameView = "desktop";
 
+        return Task.CompletedTask;
+    }
+
+    public Task OnMobileViewClicked()
+    {
+        FrameView = "mobile";
+
+        return Task.CompletedTask;
+    }
     #endregion
 
     #region Properties
+
+    protected string FrameStyle
+    {
+        get
+        {
+            var sb = new StringBuilder( "margin-left: auto; margin-right: auto; display: block; vertical-align: middle; height: 100%;" );
+
+            sb.Append( FrameWidth );
+
+            return sb.ToString();
+        }
+    }
+    private string FrameView { get; set; } = "desktop";
+    private string FrameWidth
+    {
+        get
+        {
+            switch ( FrameView )
+            {
+                case "tablet":
+                    return "width: 768px;";
+                case "mobile":
+                    return "width: 425px;";
+                default:
+                    return "width: 100%;";
+            }
+        }
+    }
+
+
 
     private string ClassNames
     {
@@ -34,6 +77,8 @@ public partial class DocsPageSectionContent
     [Parameter] public bool FullWidth { get; set; }
 
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    [Parameter] public string FrameUrl { get; set; }
 
     #endregion
 }

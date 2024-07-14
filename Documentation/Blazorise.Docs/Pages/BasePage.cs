@@ -13,6 +13,6 @@ namespace Blazorise.Docs.Pages
 
         [Inject] protected NavigationManager NavigationManager { get; set; }
 
-        [Inject] protected IEmailOptions EmailOptions { get; set; }        
+        [Inject] protected IEmailOptions EmailOptions { get; set; }
     }
 }
