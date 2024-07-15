@@ -5446,13 +5446,13 @@ input::file-selector-button {
 .fui-SpinButton:not(.fui-Input .fui-SpinButton):focus-within::after:active {
   border-bottom-color: var(--colorCompoundBrandStrokePressed);
 }
-.fui-SpinButton-error {
+.fui-SpinButton-error:not(.fui-Input .fui-SpinButton):not(.disabled)::before, .fui-SpinButton-error:not(.fui-Input .fui-SpinButton):not(:disabled)::before {
   border-bottom-color: var(--colorPaletteRedBorder2) !important;
   border-left-color: var(--colorPaletteRedBorder2) !important;
   border-right-color: var(--colorPaletteRedBorder2) !important;
   border-top-color: var(--colorPaletteRedBorder2) !important;
 }
-.fui-SpinButton-success {
+.fui-SpinButton-success:not(.fui-Input .fui-SpinButton):not(.disabled)::before, .fui-SpinButton-success:not(.fui-Input .fui-SpinButton):not(:disabled)::before {
   border-bottom-color: var(--colorPaletteGreenForeground1) !important;
   border-left-color: var(--colorPaletteGreenForeground1) !important;
   border-right-color: var(--colorPaletteGreenForeground1) !important;
