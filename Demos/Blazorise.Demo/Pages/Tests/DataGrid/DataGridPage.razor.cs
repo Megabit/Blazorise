@@ -36,7 +36,7 @@ public partial class DataGridPage
     private bool filterable = true;
     private bool showPager = true;
     private bool showPageSizes = true;
-    private bool largeDataMode = false;
+    private bool readDataMode = false;
     private bool showButtonRow = true;
 
     private Employee selectedEmployee;
@@ -52,10 +52,19 @@ public partial class DataGridPage
     private List<Employee> dataModels = new();
     private List<Employee> inMemoryDataModels;
 
+    [Inject] private EmployeeData EmployeeData { get; set; }
+
     #endregion
 
     #region Methods
-    [Inject] private EmployeeData EmployeeData { get; set; }
+
+    protected async Task OnReadDataModeChanged( bool readDataMode )
+    {
+        this.readDataMode = readDataMode;
+        await InvokeAsync( StateHasChanged );
+        await Task.Yield();
+        await dataGrid.Reload();
+    }
 
     protected override async Task OnInitializedAsync()
     {

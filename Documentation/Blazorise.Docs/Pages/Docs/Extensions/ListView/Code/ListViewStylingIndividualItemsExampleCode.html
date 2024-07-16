@@ -1,0 +1,40 @@
+<div class="blazorise-codeblock">
+<div class="html"><pre>
+<span class="atSign">&#64;</span>using System.Linq
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">ListView</span> <span class="htmlAttributeName">TItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Country</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Data</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">Countries</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">TextField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">(item) =&gt; item.Name</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ValueField</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">(item) =&gt; item.Iso</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">Mode</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ListGroupMode</span><span class="enumValue">.Selectable</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">MaxHeight</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">300px</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ItemTextColor</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">((item) =&gt; Countries.IndexOf( item ) % 2 == 0 ? TextColor.Danger : TextColor.Success)</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ItemBackground</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">(item) =&gt; Background.Default</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ItemPadding</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue">(item) =&gt; Padding.Is4</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ItemClass</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item) =&gt; $&quot;country-{item.Iso}&quot;)</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName">ItemStyle</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="htmlAttributeValue"><span class="atSign">&#64;</span>((item) =&gt; &quot;border: 1px solid red&quot;)</span><span class="quot">&quot;</span>
+          <span class="htmlAttributeName"><span class="atSign">&#64;</span>bind-SelectedItem</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>selectedListViewItem</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">ListView</span><span class="htmlTagDelimiter">&gt;</span>
+
+<span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">Field</span> <span class="htmlAttributeName">Horizontal</span><span class="htmlTagDelimiter">&gt;</span>
+    <span class="htmlTagDelimiter">&lt;</span><span class="htmlElementName">FieldBody</span> <span class="htmlAttributeName">ColumnSize</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">ColumnSize</span><span class="enumValue">.Is12</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
+        Selected Item: <span class="atSign">&#64;</span>selectedListViewItem?.Name
+    <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">FieldBody</span><span class="htmlTagDelimiter">&gt;</span>
+<span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">Field</span><span class="htmlTagDelimiter">&gt;</span>
+</pre></div>
+<div class="csharp"><pre>
+<span class="atSign">&#64;</span>code {
+    [Inject]
+    <span class="keyword">public</span> CountryData CountryData { <span class="keyword">get</span>; <span class="keyword">set</span>; }
+    <span class="keyword">public</span> List&lt;Country&gt; Countries;
+
+    <span class="keyword">private</span> Country selectedListViewItem;
+
+    <span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">async</span> Task OnInitializedAsync()
+    {
+        Countries = (<span class="keyword">await</span> CountryData.GetDataAsync()).ToList();
+        <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
+    }
+}
+</pre></div>
+</div>
