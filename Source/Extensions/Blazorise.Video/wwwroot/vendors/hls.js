@@ -552,7 +552,7 @@
       // Some browsers don't allow to use bind on console object anyway
       // fallback to default if needed
       try {
-        exportedLogger.log("Debug logs enabled for \"" + id + "\" in hls.js version " + "1.5.12");
+        exportedLogger.log("Debug logs enabled for \"" + id + "\" in hls.js version " + "1.5.13");
       } catch (e) {
         exportedLogger = fakeLogger;
       }
@@ -3292,14 +3292,18 @@
   }
   function convertAVC1ToAVCOTI(codec) {
     // Convert avc1 codec string from RFC-4281 to RFC-6381 for MediaSource.isTypeSupported
-    var avcdata = codec.split('.');
-    if (avcdata.length > 2) {
-      var result = avcdata.shift() + '.';
-      result += parseInt(avcdata.shift()).toString(16);
-      result += ('000' + parseInt(avcdata.shift()).toString(16)).slice(-4);
-      return result;
+    // Examples: avc1.66.30 to avc1.42001e and avc1.77.30,avc1.66.30 to avc1.4d001e,avc1.42001e.
+    var codecs = codec.split(',');
+    for (var i = 0; i < codecs.length; i++) {
+      var avcdata = codecs[i].split('.');
+      if (avcdata.length > 2) {
+        var result = avcdata.shift() + '.';
+        result += parseInt(avcdata.shift()).toString(16);
+        result += ('000' + parseInt(avcdata.shift()).toString(16)).slice(-4);
+        codecs[i] = result;
+      }
     }
-    return codec;
+    return codecs.join(',');
   }
 
   var MASTER_PLAYLIST_REGEX = /#EXT-X-STREAM-INF:([^\r\n]*)(?:[\r\n](?:#[^\r\n]*)?)*([^\r\n]+)|#EXT-X-(SESSION-DATA|SESSION-KEY|DEFINE|CONTENT-STEERING|START):([^\r\n]*)[\r\n]+/g;
@@ -10185,8 +10189,8 @@
     };
     _proto.reduceMaxBufferLength = function reduceMaxBufferLength(threshold, fragDuration) {
       var config = this.config;
-      var minLength = Math.max(Math.min(threshold, config.maxBufferLength), fragDuration);
-      var reducedLength = Math.max(threshold - fragDuration * 3, config.maxMaxBufferLength / 2);
+      var minLength = Math.max(Math.min(threshold - fragDuration, config.maxBufferLength), fragDuration);
+      var reducedLength = Math.max(threshold - fragDuration * 3, config.maxMaxBufferLength / 2, minLength);
       if (reducedLength >= minLength) {
         // reduce max buffer length as it might be too high. we do this to avoid loop flushing ...
         config.maxMaxBufferLength = reducedLength;
@@ -29238,7 +29242,7 @@
        * Get the video-dev/hls.js package version.
        */
       function get() {
-        return "1.5.12";
+        return "1.5.13";
       }
     }, {
       key: "Events",
