@@ -1,8 +1,5 @@
-import "./vendors/plyr.js?v=1.5.3.0";
 import { PlyrLayout, VidstackPlayer } from "./vendors/player.js?v=1.5.3.0";
 import { Plyr } from "./vendors/plyr.js?v=1.5.3.0";
-//import "./vendors/dash.js?v=1.5.3.0";
-//import "./vendors/hls.js?v=1.5.3.0";
 
 import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.5.3.0";
 
@@ -24,167 +21,66 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         dash: null,
     };
 
-    //=========================================================================================================
-    // example with Plyr player implementation
-    //=========================================================================================================
-    //const plyr = new Plyr(element, {
-    //    source: options.source,
-    //    poster: options.poster,
-    //    hideControls: options.automaticallyHideControls,
-    //    autopause: options.autoPause || true,
-    //    seekTime: options.seekTime || 10,
-    //    volume: options.volume || 1,
-    //    currentTime: options.currentTime || 0,
-    //    muted: options.muted || false,
-    //    clickToPlay: options.clickToPlay || true,
-    //    disableContextMenu: options.disableContextMenu || true,
-    //    resetOnEnd: options.resetOnEnd || false,
-    //    ratio: options.ratio,
-    //    invertTime: options.invertTime || true,
-    //    controls: options.controlsList,
-    //    settings: options.settingsList,
-    //    quality: {
-    //        default: options.defaultQuality || 576,
-    //        options: options.availableQualities || [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]
-    //    },
-    //    previewThumbnails: {
-    //        enabled: options.poster && options.poster.length > 0,
-    //        src: options.poster
-    //    },
-    //    captions: {
-    //        active: true,
-    //        update: true
-    //    }
-    //});
-
-    //instance.player = plyr.player;
-
-    //instance.player.addEventListener('provider-change', (event) => {
-    //    const provider = event.detail;
-    //    if (provider?.type === 'hls') {
-    //        provider.library = '_content/Blazorise.Video/vendors/hls.js?v=1.5.3.0';
-    //    }
-    //    else if (provider?.type === 'dash') {
-    //        provider.library = '_content/Blazorise.Video/vendors/dash.js?v=1.5.3.0';
-    //    }
-    //});
-
-    //instance.player.addEventListener('provider-setup', (event) => {
-    //    const provider = event.detail;
-    //    if (provider.type === 'dash' && provider.instance) {
-    //        applyDashProtectionData(provider.instance, options.protection);
-    //    }
-    //});
-
-    //instance.player.addEventListener('hls-manifest-loaded', (event) => {
-    //    const levelLoadedData = event.detail; // `HLS.ManifestLoadedData`
-    //    // ...
-    //});
-    //=========================================================================================================
-
-    //=========================================================================================================
-    // example with VidstackPlayer player implementation
-    //=========================================================================================================
-    VidstackPlayer.create({
-        target: element,
-        title: 'Sprite Fight',
-        src: options.source,
+    const plyr = new Plyr(element, {
+        source: options.source,
         poster: options.poster,
-
-        hideControlsOnMouseLeave: options.automaticallyHideControls,
-        //    autopause: options.autoPause || true,
-        //    seekTime: options.seekTime || 10,
+        hideControls: options.automaticallyHideControls,
+        autopause: options.autoPause || true,
+        seekTime: options.seekTime || 10,
         volume: options.volume || 1,
         currentTime: options.currentTime || 0,
         muted: options.muted || false,
-        //    clickToPlay: options.clickToPlay || true,
-        //    disableContextMenu: options.disableContextMenu || true,
-        //    resetOnEnd: options.resetOnEnd || false,
-        aspectRatio: options.aspectRatio,
-        //    invertTime: options.invertTime || true,
+        clickToPlay: options.clickToPlay || true,
+        disableContextMenu: options.disableContextMenu || true,
+        resetOnEnd: options.resetOnEnd || false,
+        ratio: options.ratio,
+        invertTime: options.invertTime || true,
         controls: options.controlsList,
-        //    settings: options.settingsList,
-        quality: options.defaultQuality || { height: 576 },
-        //qualities: options.availableQualities || [{ height: 4320 }, { height: 2880 }],
-        //    quality: {
-        //        default: options.defaultQuality || 576,
-        //        options: options.availableQualities || [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]
-        //    },
-        //    previewThumbnails: {
-        //        enabled: options.poster && options.poster.length > 0,
-        //        src: options.poster
-        //    },
-        //    captions: {
-        //        active: true,
-        //        update: true
-        //    }
-    }).then((player) => {
-        instance.player = player;
-
-        player.addEventListener('provider-change', (event) => {
-            const provider = event.detail;
-            if (provider?.type === 'hls') {
-                provider.library = '_content/Blazorise.Video/vendors/hls.js?v=1.5.3.0';
-            }
-            else if (provider?.type === 'dash') {
-                provider.library = '_content/Blazorise.Video/vendors/dash.js?v=1.5.3.0';
-            }
-        });
-
-        player.addEventListener('provider-setup', (event) => {
-            const provider = event.detail;
-            if (provider.type === 'dash' && provider.instance) {
-                applyDashProtectionData(provider.instance, options.protection);
-            }
-        });
-
-        player.addEventListener('hls-manifest-loaded', (event) => {
-            const levelLoadedData = event.detail; // `HLS.ManifestLoadedData`
-            // ...
-        });
+        settings: options.settingsList,
+        quality: {
+            default: options.defaultQuality || 576,
+            options: options.availableQualities || [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]
+        },
+        previewThumbnails: {
+            enabled: options.poster && options.poster.length > 0,
+            src: options.poster
+        },
+        captions: {
+            active: true,
+            update: true
+        }
     });
-    //=========================================================================================================
 
+    instance.player = plyr.player;
 
-    //if (options.streamingLibrary !== "Html5") {
-    //    const sourceUrl = extractSingleSourceUrl(options.source);
+    instance.player.addEventListener('provider-change', (event) => {
+        const provider = event.detail;
 
-    //    if (options.streamingLibrary === "Hls" && Hls.isSupported()) {
-    //        instance.hls = createHls(element, sourceUrl, options);
-    //    } else if (options.streamingLibrary === "Dash" && dashjs.supportsMediaSource()) {
-    //        instance.dash = createDash(element, sourceUrl, options);
-    //    }
-    //}
+        if (provider?.type === 'hls') {
+            provider.library = '_content/Blazorise.Video/vendors/hls.js?v=1.5.3.0';
+        }
+        else if (provider?.type === 'dash') {
+            provider.library = '_content/Blazorise.Video/vendors/dash.js?v=1.5.3.0';
+        }
+    });
 
-    //instance.player = new Plyr(element, {
-    //    source: options.source,
-    //    poster: options.poster,
-    //    hideControls: options.automaticallyHideControls,
-    //    autopause: options.autoPause || true,
-    //    seekTime: options.seekTime || 10,
-    //    volume: options.volume || 1,
-    //    currentTime: options.currentTime || 0,
-    //    muted: options.muted || false,
-    //    clickToPlay: options.clickToPlay || true,
-    //    disableContextMenu: options.disableContextMenu || true,
-    //    resetOnEnd: options.resetOnEnd || false,
-    //    ratio: options.ratio,
-    //    invertTime: options.invertTime || true,
-    //    controls: options.controlsList,
-    //    settings: options.settingsList,
-    //    quality: {
-    //        default: options.defaultQuality || 576,
-    //        options: options.availableQualities || [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]
-    //    },
-    //    previewThumbnails: {
-    //        enabled: options.poster && options.poster.length > 0,
-    //        src: options.poster
-    //    },
-    //    captions: {
-    //        active: true,
-    //        update: true
-    //    }
-    //});
+    instance.player.addEventListener('provider-setup', (event) => {
+        const provider = event.detail;
+
+        if (provider.type === 'dash' && provider.instance) {
+            applyDashProtectionData(provider.instance, options.protection);
+
+            instance.dash = provider.instance;
+        } else if (provider.type === 'hls' && provider.instance) {
+            instance.hls = provider.instance;
+        }
+    });
+
+    instance.player.addEventListener('hls-manifest-loaded', (event) => {
+        const levelLoadedData = event.detail; // `HLS.ManifestLoadedData`
+        // ...
+    });
+
 
     //registerToEvents(dotNetAdapter, instance.player);
 
@@ -243,19 +139,17 @@ export function updateSource(element, elementId, source, protection) {
     const instance = _instances[elementId];
 
     if (instance) {
+        const sourceUrl = extractSingleSourceUrl(source);
+
         if (instance.player) {
-            instance.player.source = source;
+            instance.player.src = sourceUrl;
         }
 
         if (instance.dash) {
-            const sourceUrl = extractSingleSourceUrl(source);
-
             instance.dash.attachSource(sourceUrl);
         }
 
         if (instance.hls) {
-            const sourceUrl = extractSingleSourceUrl(source);
-
             instance.hls.loadSource(sourceUrl);
         }
     }
