@@ -1,4 +1,3 @@
-import { PlyrLayout, VidstackPlayer } from "./vendors/player.js?v=1.5.3.0";
 import { Plyr } from "./vendors/plyr.js?v=1.5.3.0";
 
 import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.5.3.0";
@@ -301,27 +300,6 @@ function extractSingleSourceUrl(source) {
     }
 
     return null;
-}
-
-function createHls(element, sourceUrl, options) {
-    const hls = new Hls({
-        debug: false,
-    });
-
-    hls.loadSource(sourceUrl);
-    hls.attachMedia(element);
-
-    return hls;
-}
-
-function createDash(element, sourceUrl, options) {
-    const dash = dashjs.MediaPlayer().create();
-
-    dash.initialize(element, sourceUrl, options.autoPlay || false);
-
-    applyDashProtectionData(dash, options.protection);
-
-    return dash;
 }
 
 function applyDashProtectionData(dash, protection) {
