@@ -1,0 +1,39 @@
+﻿@page "/tests/memoedit"
+@using Blazorise
+
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Memo Editor</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Fields>
+                    <Field ColumnSize="ColumnSize.IsAuto">
+                        <Button Color="Color.Primary" Clicked="@(() => memoValue = "Ovo je nova vrijednost iz Value Parameter")">
+                            Postavi Value Parameter
+                        </Button>
+                    </Field>
+                </Fields>
+            </CardBody>
+            <CardBody>
+                <Row>
+                    <Column>
+                        <MemoEdit @bind-Text="@memoValue"
+                                  Placeholder="Unesite svoj memo ovdje..."
+                                  MaxLength="500"
+                                  Rows="5" />
+                    </Column>
+                    <Column>
+                        <h5>Vaš Memo:</h5>
+                        <p>@memoValue</p>
+                    </Column>
+                </Row>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    string memoValue = "Početni tekst u memu.";
+}
