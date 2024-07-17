@@ -81,7 +81,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     });
 
 
-    //registerToEvents(dotNetAdapter, instance.player);
+    registerToEvents(dotNetAdapter, instance.player);
 
     _instances[elementId] = instance;
 }
@@ -339,79 +339,84 @@ function invokeDotNetMethodAsync(dotNetAdapter, methodName, ...args) {
 }
 
 function registerToEvents(dotNetAdapter, player) {
-    player.on('progress', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifyProgress", event.detail.plyr.buffered || 0);
+    player.addEventListener('progress', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyProgress", event.detail.timeStamp || 0);
     });
 
-    player.on('playing', (event) => {
+    player.addEventListener('playing', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyPlaying");
     });
 
-    player.on('play', (event) => {
+    player.addEventListener('play', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyPlay");
     });
 
-    player.on('pause', (event) => {
+    player.addEventListener('pause', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyPause");
     });
 
-    player.on('timeupdate', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifyTimeUpdate", event.detail.plyr.currentTime || 0);
+    player.addEventListener('time-update', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyTimeUpdate", event.detail.currentTime || 0);
     });
 
-    player.on('volumechange', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifyVolumeChange", event.detail.plyr.volume || 0, event.detail.plyr.muted || false);
+    player.addEventListener('volume-change', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyVolumeChange", event.detail.volume || 0, event.detail.muted || false);
     });
 
-    player.on('seeking', (event) => {
+    player.addEventListener('seeking', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifySeeking");
     });
 
-    player.on('seeked', (event) => {
+    player.addEventListener('seeked', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifySeeked");
     });
 
-    player.on('ratechange', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifyRateChange", event.detail.plyr.speed || 0);
+    player.addEventListener('rate-change', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyRateChange", event.detail || 0);
     });
 
-    player.on('ended', (event) => {
+    player.addEventListener('ended', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyEnded");
     });
 
-    player.on('enterfullscreen', (event) => {
+    player.addEventListener('enter-fullscreen', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyFullScreenEntered");
     });
 
-    player.on('exitfullscreen', (event) => {
+    player.addEventListener('exit-fullscreen', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyFullScreenExited");
     });
 
-    player.on('captionsenabled', (event) => {
+    player.addEventListener('captionsenabled', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyCaptionsEnabled");
     });
 
-    player.on('captionsdisabled', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifyCaptionsDisabled");
+    player.addEventListener('text-track-change', (event) => {
+        if (event.detail) {
+            invokeDotNetMethodAsync(dotNetAdapter, "NotifyCaptionsEnabled");
+        }
+        else {
+            invokeDotNetMethodAsync(dotNetAdapter, "NotifyCaptionsDisabled");
+        }
     });
 
-    player.on('languagechange', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifyLanguageChange", event.detail.plyr.language);
-    });
+    //player.on('languagechange', (event) => {
+    //    invokeDotNetMethodAsync(dotNetAdapter, "NotifyLanguageChange", event.detail.plyr.language);
+    //});
 
-    player.on('controlshidden', (event) => {
+    player.addEventListener('controls-change', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyControlsHidden");
     });
 
-    player.on('controlsshown', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifyControlsShown");
-    });
+    //player.addEventListener('controls-shown', (event) => {
+    //    invokeDotNetMethodAsync(dotNetAdapter, "NotifyControlsShown");
+    //});
 
-    player.on('ready', (event) => {
+    player.addEventListener('can-play', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyReady");
     });
 
-    player.on('qualitychange', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifyQualityChange", event.detail.quality);
+    player.addEventListener('quality-change', (event) => {
+        invokeDotNetMethodAsync(dotNetAdapter, "NotifyQualityChange", event.detail.height);
     });
 }
