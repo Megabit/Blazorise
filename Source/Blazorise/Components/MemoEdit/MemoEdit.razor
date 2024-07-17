@@ -1,12 +1,24 @@
 ﻿@namespace Blazorise
 @inherits BaseInputComponent<string>
-@if ( IsImmediate && IsDebounce )
-{
-    <textarea @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" data-pattern="@Pattern" maxlength="@MaxLength" rows="@Rows" tabindex="@TabIndex" value="@CurrentValue" @onchange="@OnChangeHandler" @oninput="@OnInputHandler" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
-}
-else
-{
-    <textarea @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" data-pattern="@Pattern" maxlength="@MaxLength" rows="@Rows" tabindex="@TabIndex" @bind-value="CurrentValueAsString" @bind-value:event="@BindValueEventName" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes" />
-}
+
+<div class="grow-wrap">
+    <textarea @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" placeholder="@Placeholder" disabled="@Disabled" readonly="@ReadOnly" data-pattern="@Pattern" maxlength="@MaxLength" rows="@Rows" tabindex="@TabIndex" @bind-value="CurrentValueAsString" @bind-value:event="@BindValueEventName" @oninput="AutoSize" @onkeydown="@OnKeyDownHandler" @onkeypress="@OnKeyPressHandler" @onkeyup="@OnKeyUpHandler" @onblur="@OnBlurHandler" @onfocus="@OnFocusHandler" @onfocusin="@OnFocusInHandler" @onfocusout="@OnFocusOutHandler" @attributes="@Attributes"></textarea>
+</div>
 @ChildContent
 @Feedback
+
+@code {
+    protected override async Task OnFirstAfterRenderAsync()
+    {
+        AutoSize();
+        await base.OnFirstAfterRenderAsync();
+    }
+
+    private void AutoSize()
+    {
+        var textarea = ElementRef;
+        textarea.Style.Height = "auto";
+        textarea.Style.Height = $"{textarea.ScrollHeight}px";
+        textarea.Style.OverflowY = "hidden";
+    }
+}
