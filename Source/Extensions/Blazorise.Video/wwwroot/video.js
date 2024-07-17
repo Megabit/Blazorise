@@ -50,6 +50,14 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         }
     });
 
+    if (options.source.tracks && options.source.tracks.length > 0) {
+        plyr.player.textTracks.clear();
+
+        for (const track of options.source.tracks) {
+            plyr.player.textTracks.add(track);
+        }
+    }
+
     instance.player = plyr.player;
 
     instance.player.addEventListener('provider-change', (event) => {
