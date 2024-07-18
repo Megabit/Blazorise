@@ -36,7 +36,7 @@ public record VideoTrack
     public string Type { get; set; }
 
     /// <summary>
-    /// Gets or sets the track kind, eg. "subtitles".
+    /// Gets or sets the track kind, eg. 'metadata' | 'captions' | 'chapters' | 'descriptions' | 'subtitles'.
     /// </summary>
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Kind { get; set; }
@@ -50,7 +50,6 @@ public record VideoTrack
     /// <summary>
     /// Gets or sets the track language.
     /// </summary>
-    [JsonPropertyName( "srclang" )]
     [JsonIgnore( Condition = JsonIgnoreCondition.WhenWritingNull )]
     public string Language { get; set; }
 
