@@ -150,6 +150,14 @@ export function updateSource(element, elementId, source, protection) {
 
         if (instance.player) {
             instance.player.src = sourceUrl;
+
+            instance.player.textTracks.clear();
+
+            if (source.tracks && source.tracks.length > 0) {
+                for (const track of source.tracks) {
+                    instance.player.textTracks.add(track);
+                }
+            }
         }
 
         if (instance.dash) {
