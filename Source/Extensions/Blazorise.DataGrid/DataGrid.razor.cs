@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Dynamic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -3850,6 +3849,11 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the DataGrid navigation mode, allowing to control the navigation via keyboard.
     /// </summary>
     [Parameter] public DataGridNavigationMode NavigationMode { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Table's responsive mode.
+    /// </summary>
+    [Parameter] public TableResponsiveMode ResponsiveMode { get; set; }
 
     #endregion
 }

@@ -1014,6 +1014,8 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableFixedColumns( bool fixedColumns );
 
+    public abstract string TableResponsiveMode( TableResponsiveMode responsiveMode );
+
     #endregion
 
     #region Badge
