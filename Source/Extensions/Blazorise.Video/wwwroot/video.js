@@ -196,7 +196,13 @@ export function togglePlay(element, elementId) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.togglePlay();
+        const toggle = instance.player.paused;
+
+        if (toggle) {
+            instance.player.play();
+        } else {
+            instance.player.pause();
+        }
     }
 }
 
@@ -204,7 +210,8 @@ export function stop(element, elementId) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.stop();
+        instance.player.pause();
+        instance.player.currentTime = 0;
     }
 }
 
@@ -212,7 +219,7 @@ export function restart(element, elementId) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.restart();
+        instance.player.currentTime = 0;
     }
 }
 
@@ -220,7 +227,7 @@ export function rewind(element, elementId, seekTime) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.rewind(seekTime);
+        instance.player.currentTime -= seekTime;
     }
 }
 
@@ -228,7 +235,7 @@ export function forward(element, elementId, seekTime) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.forward(seekTime);
+        instance.player.currentTime += seekTime;
     }
 }
 
@@ -236,7 +243,7 @@ export function increaseVolume(element, elementId, step) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.increaseVolume(step);
+        instance.player.volume += step;
     }
 }
 
@@ -244,7 +251,7 @@ export function decreaseVolume(element, elementId, step) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.decreaseVolume(step);
+        instance.player.volume -= step;
     }
 }
 
@@ -252,7 +259,14 @@ export function toggleCaptions(element, elementId) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.toggleCaptions();
+        const toggle = !instance.player.textTracks.selected;
+        const controller = instance.player.remoteControl;
+
+        if (toggle) {
+            controller.showCaptions();
+        } else {
+            controller.disableCaptions();
+        }
     }
 }
 
@@ -260,7 +274,7 @@ export function enterFullscreen(element, elementId) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.fullscreen.enter();
+        instance.player.enterFullscreen();
     }
 }
 
@@ -268,7 +282,7 @@ export function exitFullscreen(element, elementId) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.fullscreen.exit();
+        instance.player.exitFullscreen();
     }
 }
 
@@ -276,7 +290,14 @@ export function toggleFullscreen(element, elementId) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.fullscreen.toggle();
+        const toggle = !instance.player.fullscreen;
+
+        if (toggle) {
+            instance.player.enterFullscreen();
+        }
+        else {
+            instance.player.exitFullscreen();
+        }
     }
 }
 
@@ -284,7 +305,7 @@ export function airplay(element, elementId) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.airplay();
+        instance.player.requestAirPlay();
     }
 }
 
@@ -292,7 +313,13 @@ export function toggleControls(element, elementId, toggle) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.toggleControls(toggle);
+        const controls = instance.player.controls;
+
+        if (toggle) {
+            controls.show();
+        } else {
+            controls.hide();
+        }
     }
 }
 
