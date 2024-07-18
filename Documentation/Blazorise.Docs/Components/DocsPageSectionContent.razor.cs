@@ -38,6 +38,7 @@ public partial class DocsPageSectionContent
         }
     }
     private string FrameView { get; set; } = "desktop";
+
     private string FrameWidth
     {
         get
@@ -54,8 +55,6 @@ public partial class DocsPageSectionContent
         }
     }
 
-
-
     private string ClassNames
     {
         get
@@ -71,6 +70,8 @@ public partial class DocsPageSectionContent
             return sb.ToString();
         }
     }
+
+    bool ShowFrame => !string.IsNullOrEmpty( FrameUrl );
 
     [Parameter] public bool Outlined { get; set; }
 
