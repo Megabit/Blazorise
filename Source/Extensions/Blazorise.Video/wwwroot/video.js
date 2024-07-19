@@ -438,17 +438,19 @@ function registerToEvents(dotNetAdapter, player) {
         }
     });
 
-    //player.on('languagechange', (event) => {
+    // Disabled because it's not supported at the moment.
+    //player.addEventListener('language-change', (event) => {
     //    invokeDotNetMethodAsync(dotNetAdapter, "NotifyLanguageChange", event.detail.plyr.language);
     //});
 
     player.addEventListener('controls-change', (event) => {
-        invokeDotNetMethodAsync(dotNetAdapter, "NotifyControlsHidden");
+        if (event.detail) {
+            invokeDotNetMethodAsync(dotNetAdapter, "NotifyControlsShown");
+        }
+        else {
+            invokeDotNetMethodAsync(dotNetAdapter, "NotifyControlsHidden");
+        }
     });
-
-    //player.addEventListener('controls-shown', (event) => {
-    //    invokeDotNetMethodAsync(dotNetAdapter, "NotifyControlsShown");
-    //});
 
     player.addEventListener('can-play', (event) => {
         invokeDotNetMethodAsync(dotNetAdapter, "NotifyReady");
