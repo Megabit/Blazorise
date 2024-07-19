@@ -119,6 +119,7 @@ public class PageEntryData
                 new PageEntry( "docs/extensions/datagrid/features/sorting", "DataGrid Sorting", "Blazorise DataGrid offers efficient data sorting with customizable options." ),
                 new PageEntry( "docs/extensions/datagrid/features/header-group", "DataGrid Header Group", "Header Group feature for Blazorise DataGrid allows you to easily group a set of defined columns by rendering a top row header which groups the columns by the defined Caption" ),
                 new PageEntry( "docs/extensions/datagrid/features/state-management", "DataGrid State Management", "You are able to manage the state of the DataGrid by using the provided GetState and LoadState methods." ),
+                new PageEntry( "docs/extensions/datagrid/features/mobile-mode", "DataGrid Mobile Mode", "The table will have a dedicated layout for mobile devices where the columns are stacked on top of each other." ),
 
 
                 new PageEntry( "docs/extensions/datagrid/selection", "DataGrid Selection" ),

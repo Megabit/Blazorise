@@ -3618,6 +3618,38 @@ td:focus {
   outline: -webkit-focus-ring-color auto 1px;
 }
 
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  .ant-table-mobile {
+    /* Force table to not be like tables anymore */
+    /* Hide table headers (but not display: none;, for accessibility) */
+  }
+  .ant-table-mobile [data-caption]:before {
+    content: attr(data-caption);
+  }
+  .ant-table-mobile thead, .ant-table-mobile tbody, .ant-table-mobile th, .ant-table-mobile td, .ant-table-mobile tr {
+    display: block;
+  }
+  .ant-table-mobile thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  .ant-table-mobile td, .ant-table-mobile th {
+    /* Behave  like a "row" */
+    position: relative;
+    padding-top: 1.5rem !important;
+    width: 100%;
+  }
+  .ant-table-mobile td:before, .ant-table-mobile th:before {
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+  .ant-table-mobile:not(.ant-table-borderless) tr {
+    border-bottom: 1px solid;
+  }
+}
 .ant-tabs.ant-tabs-fill .ant-tabs-tab {
   flex-grow: 1;
   margin-right: 0px;

@@ -3918,6 +3918,37 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     }
 }";
 
+        public const string BasicMobileTableExample = @"<Table ResponsiveMode=""TableResponsiveMode.Mobile"">
+    <TableHeader>
+        <TableRow>
+            <TableHeaderCell>#</TableHeaderCell>
+            <TableHeaderCell>First Name</TableHeaderCell>
+            <TableHeaderCell>Last Name</TableHeaderCell>
+            <TableHeaderCell>Username</TableHeaderCell>
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowHeader MobileModeCaption=""#"">1</TableRowHeader>
+            <TableRowCell MobileModeCaption=""First Name"">Mark</TableRowCell>
+            <TableRowCell MobileModeCaption=""Last Name"">Otto</TableRowCell>
+            <TableRowCell MobileModeCaption=""Username"">@@mdo</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader MobileModeCaption=""#"">2</TableRowHeader>
+            <TableRowCell MobileModeCaption=""First Name"">Jacob</TableRowCell>
+            <TableRowCell MobileModeCaption=""Last Name"">Thornton</TableRowCell>
+            <TableRowCell MobileModeCaption=""Username"">@@fat</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowHeader MobileModeCaption=""#"">3</TableRowHeader>
+            <TableRowCell MobileModeCaption=""First Name"">Larry</TableRowCell>
+            <TableRowCell MobileModeCaption=""Last Name"">the Bird</TableRowCell>
+            <TableRowCell MobileModeCaption=""Username"">@@twitter</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>";
+
         public const string BasicTableExample = @"<Table>
     <TableHeader>
         <TableRow>
@@ -8195,6 +8226,36 @@ Install-Package Blazorise.Chart.Zoom";
         await Task.Delay( 500 );
         progress = 100;
         await InvokeAsync( StateHasChanged );
+    }
+}";
+
+        public const string DataGridMobileModeExample = @"<DataGrid TItem=""Employee""
+          Data=""@employeeList""
+          @bind-SelectedRow=""@selectedEmployee""
+          Responsive
+          ResponsiveMode=""@TableResponsiveMode.Mobile"">
+    <DataGridCommandColumn />
+    <DataGridColumn Field=""@nameof(Employee.Id)"" Caption=""#"" Sortable=""false"" />
+    <DataGridColumn Field=""@nameof(Employee.FirstName)"" Caption=""First Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.LastName)"" Caption=""Last Name"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Email)"" Caption=""Email"" Editable />
+    <DataGridColumn Field=""@nameof(Employee.Salary)"" Caption=""Salary"" DisplayFormat=""{0:C}"" DisplayFormatProvider=""@System.Globalization.CultureInfo.GetCultureInfo(""fr-FR"")"" Editable>
+        <EditTemplate>
+            <NumericEdit TValue=""decimal"" Value=""@((decimal)context.CellValue)"" ValueChanged=""@( v => context.CellValue = v)"" />
+        </EditTemplate>
+    </DataGridColumn>
+</DataGrid>
+
+@code{
+    [Inject]
+    public EmployeeData EmployeeData { get; set; }
+    private List<Employee> employeeList;
+    private Employee selectedEmployee;
+
+    protected override async Task OnInitializedAsync()
+    {
+        employeeList = await EmployeeData.GetDataAsync();
+        await base.OnInitializedAsync();
     }
 }";
 

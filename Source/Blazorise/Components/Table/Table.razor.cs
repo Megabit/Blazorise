@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Modules;
 using Blazorise.Utilities;
@@ -39,6 +38,8 @@ public partial class Table : BaseDraggableComponent
 
     private bool resizable;
 
+    private TableResponsiveMode responsiveMode;
+
     #endregion
 
     #region Constructors
@@ -70,7 +71,9 @@ public partial class Table : BaseDraggableComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-table" );
+
         builder.Append( ClassProvider.Table() );
+        builder.Append( ClassProvider.TableResponsiveMode( ResponsiveMode ) );
         builder.Append( ClassProvider.TableFullWidth(), FullWidth );
         builder.Append( ClassProvider.TableStriped(), Striped );
         builder.Append( ClassProvider.TableBordered(), Bordered );
@@ -434,6 +437,24 @@ public partial class Table : BaseDraggableComponent
     /// Specifies the content to be rendered inside this <see cref="Table"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Table's responsive mode.
+    /// </summary>
+    [Parameter]
+    public TableResponsiveMode ResponsiveMode
+    {
+        get => responsiveMode;
+        set
+        {
+            if ( responsiveMode == value )
+                return;
+
+            responsiveMode = value;
+
+            DirtyClasses();
+        }
+    }
 
     #endregion
 }
