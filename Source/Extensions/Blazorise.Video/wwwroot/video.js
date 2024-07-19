@@ -84,12 +84,6 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         }
     });
 
-    instance.player.addEventListener('hls-manifest-loaded', (event) => {
-        const levelLoadedData = event.detail; // `HLS.ManifestLoadedData`
-        // ...
-    });
-
-
     registerToEvents(dotNetAdapter, instance.player);
 
     _instances[elementId] = instance;
