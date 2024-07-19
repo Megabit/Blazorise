@@ -5,13 +5,13 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Memo Edit</CardTitle>
+                <CardTitle>MemoEdit</CardTitle>
             </CardHeader>
             <CardBody>
                 <Fields>
                     <Field ColumnSize="ColumnSize.IsAuto">
-                        <Button Color="Color.Primary" Clicked="@(() => memoValue = "New Vlaue")">
-                            SetValueParameter
+                        <Button Color="Color.Primary" Clicked="@(() => memoValue = "Ovo je nova vrijednost iz Value Parameter")">
+                            Set value parameter
                         </Button>
                     </Field>
                 </Fields>
@@ -26,7 +26,7 @@
                                   AutoSize/>
                     </Column>
                     <Column>
-                        <h5>Memo:</h5>
+                        <h5>Header:</h5>
                         <p>@memoValue</p>
                     </Column>
                 </Row>
