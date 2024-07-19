@@ -4,6 +4,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
+using System.Timers;
 #endregion
 
 namespace Blazorise;
@@ -11,8 +12,10 @@ namespace Blazorise;
 /// <summary>
 /// Component that allows you to display and edit multi-line text.
 /// </summary>
-public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
+public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent, IAsyncDisposable
 {
+    private Timer debounceTimer;
+
     #region Methods
 
     /// <inheritdoc/>
@@ -46,14 +49,20 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     }
 
     /// <inheritdoc/>
-    protected override Task OnFirstAfterRenderAsync()
+    protected override async Task OnFirstAfterRenderAsync()
     {
-        return base.OnFirstAfterRenderAsync();
+        await base.OnFirstAfterRenderAsync();
     }
 
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
+        if ( disposing && debounceTimer != null )
+        {
+            debounceTimer.Dispose();
+            debounceTimer = null;
+        }
+
         await base.DisposeAsync( disposing );
     }
 
@@ -95,7 +104,21 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     {
         if ( IsImmediate )
         {
-            return CurrentValueHandler( e?.Value?.ToString() );
+            // Debounce logic
+            if ( debounceTimer != null )
+            {
+                debounceTimer.Stop();
+                debounceTimer.Dispose();
+            }
+
+            debounceTimer = new Timer( 300 ); // Adjust debounce delay as needed
+            debounceTimer.Elapsed += async ( _, __ ) =>
+            {
+                debounceTimer.Dispose();
+                debounceTimer = null;
+                await CurrentValueHandler( e?.Value?.ToString() );
+            };
+            debounceTimer.Start();
         }
 
         return Task.CompletedTask;
@@ -104,10 +127,7 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     /// <inheritdoc/>
     public virtual async Task Select( bool focus = true )
     {
-        // Ovo je mjesto gdje biste inače koristili JS za selekciju.
-        // S obzirom da želimo eliminirati JS, ovo ćemo ostaviti kao praznu metodu.
-        // Alternativno, možete dodati kod za selekciju koristeći .NET metode ako je moguće.
-        await Task.CompletedTask;
+        await JSUtilitiesModule.Select( ElementRef, ElementId, focus );
     }
 
     #endregion
@@ -123,14 +143,12 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     /// <summary>
     /// Returns true if internal value should be updated with each key press.
     /// </summary>
-    protected bool IsImmediate
-        => Immediate.GetValueOrDefault( Options?.Immediate ?? true );
+    protected bool IsImmediate => Immediate.GetValueOrDefault( Options?.Immediate ?? true );
 
     /// <summary>
     /// The name of the event for the textarea element.
     /// </summary>
-    protected string BindValueEventName
-        => IsImmediate ? "oninput" : "onchange";
+    protected string BindValueEventName => IsImmediate ? "oninput" : "onchange";
 
     /// <summary>
     /// Sets the placeholder for the empty text.

@@ -5,13 +5,13 @@
     <Column>
         <Card Margin="Margin.Is4.OnY">
             <CardHeader>
-                <CardTitle>Memo Editor</CardTitle>
+                <CardTitle>Memo Edit</CardTitle>
             </CardHeader>
             <CardBody>
                 <Fields>
                     <Field ColumnSize="ColumnSize.IsAuto">
-                        <Button Color="Color.Primary" Clicked="@(() => memoValue = "Ovo je nova vrijednost iz Value Parameter")">
-                            Postavi Value Parameter
+                        <Button Color="Color.Primary" Clicked="@(() => memoValue = "New Vlaue")">
+                            SetValueParameter
                         </Button>
                     </Field>
                 </Fields>
@@ -35,5 +35,5 @@
 </Row>
 
 @code {
-    string memoValue = "Početni tekst u memu.";
+    string memoValue = "First Value.";
 }
