@@ -23,7 +23,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
     const plyr = new Plyr(element, {
         source: options.source,
         poster: options.poster,
-        hideControls: options.automaticallyHideControls,
+        hideControlsOnMouseLeave: options.automaticallyHideControls,
         autopause: options.autoPause || true,
         seekTime: options.seekTime || 10,
         volume: options.volume || 1,
@@ -34,7 +34,6 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         resetOnEnd: options.resetOnEnd || false,
         ratio: options.ratio,
         invertTime: options.invertTime || true,
-        controls: options.controlsList,
         settings: options.settingsList,
         quality: {
             default: options.defaultQuality || 576,
@@ -49,6 +48,8 @@ export function initialize(dotNetAdapter, element, elementId, options) {
             update: true
         }
     });
+
+    plyr.layout.controls = options.controlsList;
 
     if (options.source.tracks && options.source.tracks.length > 0) {
         plyr.player.textTracks.clear();
