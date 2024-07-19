@@ -1,23 +1,25 @@
 .grow-wrap {
     display: grid;
+    position: relative;
 }
 
 .grow-wrap::after {
     content: attr(data-replicated-value) " ";
     white-space: pre-wrap;
     visibility: hidden;
-    height: auto; 
+    height: auto;
 }
 
 .grow-wrap > textarea {
-    resize: none;
-    overflow: hidden;
+    resize: both; 
+    overflow: auto; 
     border: 1px solid black;
     padding: 0.5rem;
     font: inherit;
     grid-area: 1 / 1 / 2 / 2;
-    height: auto; 
-    min-height: 1.5em; 
+    height: auto;
+    min-height: 1.5em;
+    box-sizing: border-box; 
 }
 
 .grow-wrap > textarea,

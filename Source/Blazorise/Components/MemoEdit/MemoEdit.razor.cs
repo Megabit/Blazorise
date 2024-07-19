@@ -2,9 +2,11 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Blazorise.Extensions;
+using Blazorise.Modules;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using System.Timers;
+using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise;
@@ -14,13 +16,49 @@ namespace Blazorise;
 /// </summary>
 public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent, IAsyncDisposable
 {
-    private Timer debounceTimer;
+    #region Members
+
+    private ValueDebouncer inputValueDebouncer;
+
+    #endregion
 
     #region Methods
 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
     {
+        var replaceTabChanged = parameters.TryGetValue( nameof( ReplaceTab ), out bool paramReplaceTab ) && ReplaceTab != paramReplaceTab;
+        var tabSizeChanged = parameters.TryGetValue( nameof( TabSize ), out int paramTabSize ) && TabSize != paramTabSize;
+        var softTabsChanged = parameters.TryGetValue( nameof( SoftTabs ), out bool paramSoftTabs ) && SoftTabs != paramSoftTabs;
+        var autoSizeChanged = parameters.TryGetValue( nameof( AutoSize ), out bool paramAutoSize ) && AutoSize != paramAutoSize;
+
+        if ( Rendered && ( replaceTabChanged || tabSizeChanged || softTabsChanged || autoSizeChanged ) )
+        {
+            ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
+            {
+                ReplaceTab = new { Changed = replaceTabChanged, Value = paramReplaceTab },
+                TabSize = new { Changed = tabSizeChanged, Value = paramTabSize },
+                SoftTabs = new { Changed = softTabsChanged, Value = paramSoftTabs },
+                AutoSize = new { Changed = autoSizeChanged, Value = paramAutoSize },
+            } ) );
+        }
+
+        if ( Rendered )
+        {
+            if ( parameters.TryGetValue<string>( nameof( Text ), out var paramText ) && !paramText.IsEqual( Text ) )
+            {
+                ExecuteAfterRender( async () =>
+                {
+                    await Revalidate();
+
+                    if ( AutoSize )
+                    {
+                        await JSModule.RecalculateAutoHeight( ElementRef, ElementId );
+                    }
+                } );
+            }
+        }
+
         await base.SetParametersAsync( parameters );
 
         if ( ParentValidation is not null )
@@ -45,22 +83,40 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     /// <inheritdoc/>
     protected override void OnInitialized()
     {
+        if ( IsDebounce )
+        {
+            inputValueDebouncer = new( DebounceIntervalValue );
+            inputValueDebouncer.Debounce += OnInputValueDebounce;
+        }
+
         base.OnInitialized();
     }
 
     /// <inheritdoc/>
-    protected override async Task OnFirstAfterRenderAsync()
+    protected async override Task OnFirstAfterRenderAsync()
     {
+        await JSModule.Initialize( ElementRef, ElementId, new
+        {
+            ReplaceTab,
+            TabSize,
+            SoftTabs,
+            AutoSize,
+        } );
+
         await base.OnFirstAfterRenderAsync();
     }
 
     /// <inheritdoc/>
     protected override async ValueTask DisposeAsync( bool disposing )
     {
-        if ( disposing && debounceTimer != null )
+        if ( disposing && Rendered )
         {
-            debounceTimer.Dispose();
-            debounceTimer = null;
+            await JSModule.SafeDestroy( ElementRef, ElementId );
+
+            if ( inputValueDebouncer is not null )
+            {
+                inputValueDebouncer.Debounce -= OnInputValueDebounce;
+            }
         }
 
         await base.DisposeAsync( disposing );
@@ -100,28 +156,58 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     }
 
     /// <inheritdoc/>
-    protected Task OnInputHandler( ChangeEventArgs e )
+    protected async Task OnInputHandler( ChangeEventArgs e )
     {
         if ( IsImmediate )
         {
-            // Debounce logic
-            if ( debounceTimer != null )
+            if ( IsDebounce )
             {
-                debounceTimer.Stop();
-                debounceTimer.Dispose();
+                inputValueDebouncer?.Update( e?.Value?.ToString() );
             }
-
-            debounceTimer = new Timer( 300 ); // Adjust debounce delay as needed
-            debounceTimer.Elapsed += async ( _, __ ) =>
+            else
             {
-                debounceTimer.Dispose();
-                debounceTimer = null;
+                var caret = await JSUtilitiesModule.GetCaret( ElementRef );
+
                 await CurrentValueHandler( e?.Value?.ToString() );
-            };
-            debounceTimer.Start();
+
+                await JSUtilitiesModule.SetCaret( ElementRef, caret );
+            }
+        }
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnKeyPressHandler( KeyboardEventArgs eventArgs )
+    {
+        if ( IsImmediate
+             && IsDebounce
+             && ( eventArgs?.Key?.Equals( "Enter", StringComparison.OrdinalIgnoreCase ) ?? false ) )
+        {
+            inputValueDebouncer?.Flush();
         }
 
-        return Task.CompletedTask;
+        return base.OnKeyPressHandler( eventArgs );
+    }
+
+    /// <inheritdoc/>
+    protected override Task OnBlurHandler( FocusEventArgs eventArgs )
+    {
+        if ( IsImmediate
+             && IsDebounce )
+        {
+            inputValueDebouncer?.Flush();
+        }
+
+        return base.OnBlurHandler( eventArgs );
+    }
+
+    /// <summary>
+    /// Event raised after the delayed value time has expired.
+    /// </summary>
+    /// <param name="sender">Object that raised an event.</param>
+    /// <param name="value">Latest received value.</param>
+    private void OnInputValueDebounce( object sender, string value )
+    {
+        InvokeAsync( () => CurrentValueHandler( value ) );
     }
 
     /// <inheritdoc/>
@@ -143,12 +229,31 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     /// <summary>
     /// Returns true if internal value should be updated with each key press.
     /// </summary>
-    protected bool IsImmediate => Immediate.GetValueOrDefault( Options?.Immediate ?? true );
+    protected bool IsImmediate
+        => Immediate.GetValueOrDefault( Options?.Immediate ?? true );
+
+    /// <summary>
+    /// Returns true if updating of internal value should be delayed.
+    /// </summary>
+    protected bool IsDebounce
+        => Debounce.GetValueOrDefault( Options?.Debounce ?? false );
+
+    /// <summary>
+    /// Time in milliseconds by which internal value update should be delayed.
+    /// </summary>
+    protected int DebounceIntervalValue
+        => DebounceInterval.GetValueOrDefault( Options?.DebounceInterval ?? 300 );
 
     /// <summary>
     /// The name of the event for the textarea element.
     /// </summary>
-    protected string BindValueEventName => IsImmediate ? "oninput" : "onchange";
+    protected string BindValueEventName
+        => IsImmediate ? "oninput" : "onchange";
+
+    /// <summary>
+    /// Gets or sets the <see cref="IJSMemoEditModule"/> instance.
+    /// </summary>
+    [Inject] public IJSMemoEditModule JSModule { get; set; }
 
     /// <summary>
     /// Sets the placeholder for the empty text.
@@ -200,6 +305,36 @@ public partial class MemoEdit : BaseInputComponent<string>, ISelectableComponent
     /// Note that setting this will override global settings in <see cref="BlazoriseOptions.Immediate"/>.
     /// </remarks>
     [Parameter] public bool? Immediate { get; set; }
+
+    /// <summary>
+    /// If true the entered text will be slightly delayed before submitting it to the internal value.
+    /// </summary>
+    [Parameter] public bool? Debounce { get; set; }
+
+    /// <summary>
+    /// Interval in milliseconds that entered text will be delayed from submitting to the internal value.
+    /// </summary>
+    [Parameter] public int? DebounceInterval { get; set; }
+
+    /// <summary>
+    /// If set to true, <see cref="ReplaceTab"/> will insert a tab instead of cycle input focus.
+    /// </summary>
+    [Parameter] public bool ReplaceTab { get; set; } = false;
+
+    /// <summary>
+    /// Defines the number of characters that tab key will override.
+    /// </summary>
+    [Parameter] public int TabSize { get; set; } = 4;
+
+    /// <summary>
+    /// If set to true, spaces will be used instead of a tab character.
+    /// </summary>
+    [Parameter] public bool SoftTabs { get; set; } = true;
+
+    /// <summary>
+    /// If true, the textarea will automatically grow in height according to its content.
+    /// </summary>
+    [Parameter] public bool AutoSize { get; set; }
 
     #endregion
 }

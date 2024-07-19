@@ -20,12 +20,13 @@
                 <Row>
                     <Column>
                         <MemoEdit @bind-Text="@memoValue"
-                                  Placeholder="Unesite svoj memo ovdje..."
-                                  MaxLength="500"
-                                  Rows="5" />
+                                  Placeholder="text..."
+                                  MaxLength="20"
+                                  Rows="5" 
+                                  AutoSize/>
                     </Column>
                     <Column>
-                        <h5>Vaš Memo:</h5>
+                        <h5>Memo:</h5>
                         <p>@memoValue</p>
                     </Column>
                 </Row>

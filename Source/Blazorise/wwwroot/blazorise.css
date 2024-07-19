@@ -1062,6 +1062,7 @@ thead tr th {
 
 .grow-wrap {
   display: grid;
+  position: relative;
 }
 
 .grow-wrap::after {
@@ -1072,14 +1073,15 @@ thead tr th {
 }
 
 .grow-wrap > textarea {
-  resize: none;
-  overflow: hidden;
+  resize: both;
+  overflow: auto;
   border: 1px solid black;
   padding: 0.5rem;
   font: inherit;
   grid-area: 1/1/2/2;
   height: auto;
   min-height: 1.5em;
+  box-sizing: border-box;
 }
 
 .grow-wrap > textarea,
