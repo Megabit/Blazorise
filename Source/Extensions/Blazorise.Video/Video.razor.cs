@@ -245,6 +245,33 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ToggleControls() => JSModule.ToggleControls( ElementRef, ElementId ).AsTask();
 
+    /// <summary>
+    /// Show the track from the list of tracks.
+    /// </summary>
+    /// <param name="textTrackId">Index of the track to be shown.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ShowTextTrack( int textTrackId ) => JSModule.ShowTextTrack( ElementRef, ElementId, textTrackId ).AsTask();
+
+    /// <summary>
+    /// Hide the track from the list of tracks.
+    /// </summary>
+    /// <param name="textTrackId">Index of the track to be hidden.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task HideTextTrack( int textTrackId ) => JSModule.HideTextTrack( ElementRef, ElementId, textTrackId ).AsTask();
+
+    /// <summary>
+    /// Adds a new text track to the list of tracks.
+    /// </summary>
+    /// <param name="track">Track to be added to the list of tracks.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task AddTextTrack( VideoTrack track ) => JSModule.AddTextTrack( ElementRef, ElementId, track ).AsTask();
+
+    /// <summary>
+    /// Clear all the text tracks.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ClearTextTracks() => JSModule.ClearTextTracks( ElementRef, ElementId ).AsTask();
+
     #region Events
 
     /// <summary>

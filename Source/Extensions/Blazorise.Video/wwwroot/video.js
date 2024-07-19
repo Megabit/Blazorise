@@ -326,6 +326,42 @@ export function toggleControls(element, elementId, toggle) {
     }
 }
 
+export function showTextTrack(element, elementId, textTrackId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        const remote = instance.player.remoteControl;
+
+        remote.changeTextTrackMode(textTrackId, 'showing');
+    }
+}
+
+export function hideTextTrack(element, elementId, textTrackId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        const remote = instance.player.remoteControl;
+
+        remote.changeTextTrackMode(textTrackId, 'hidden');
+    }
+}
+
+export function addTextTrack(element, elementId, track) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.textTracks.add(track);
+    }
+}
+
+export function clearTextTracks(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player) {
+        instance.player.textTracks.clear();
+    }
+}
+
 function extractSingleSourceUrl(source) {
     if (!source)
         return null;
