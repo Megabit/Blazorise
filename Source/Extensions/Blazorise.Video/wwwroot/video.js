@@ -426,6 +426,17 @@ function applyHlsProtectionData(hls, protection) {
                 }
             };
         }
+        else if (protection.type === "PlayReady") {
+            hls.config.emeEnabled = true;
+            hls.config.drmSystems = {
+                'com.microsoft.playready': {
+                    licenseUrl: protection.serverUrl,
+                    httpRequestHeaders: protection.httpRequestHeaders ? {
+                        'X-AxDRM-Message': protection.httpRequestHeaders
+                    } : null
+                }
+            };
+        }
         else if (protection.type === "Widevine") {
             hls.config.emeEnabled = true;
             hls.config.drmSystems = {
