@@ -80,6 +80,8 @@ export function initialize(dotNetAdapter, element, elementId, options) {
 
             instance.dash = provider.instance;
         } else if (provider.type === 'hls' && provider.instance) {
+            applyHlsProtectionData(provider.instance, options.protection);
+
             instance.hls = provider.instance;
         }
     });
@@ -175,6 +177,10 @@ export function updateProtection(element, elementId, protection) {
     if (instance) {
         if (instance.dash) {
             applyDashProtectionData(instance.dash, protection);
+        }
+
+        if (instance.hls) {
+            applyHlsProtectionData(instance.hls, protection);
         }
     }
 }
@@ -401,6 +407,24 @@ function applyDashProtectionData(dash, protection) {
             };
 
             dash.setProtectionData(protectionData);
+        }
+    }
+}
+
+function applyHlsProtectionData(hls, protection) {
+    if (hls && protection) {
+        if (protection.type === "Widevine") {
+            hls.config.emeEnabled = true;
+            hls.config.emeSettings = {
+                drmSystems: {
+                    'com.widevine.alpha': {
+                        licenseUrl: protection.serverUrl,
+                        httpRequestHeaders: protection.httpRequestHeaders ? {
+                            'X-AxDRM-Message': protection.httpRequestHeaders
+                        } : null
+                    }
+                }
+            };
         }
     }
 }
