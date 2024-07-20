@@ -120,11 +120,12 @@ export function updateOptions(element, elementId, options) {
             updateSource(element, elementId, options.source.value);
         }
 
-        if (options.protectionType.changed || options.protectionServerUrl.changed || options.protectionHttpRequestHeaders.changed) {
+        if (options.protectionType.changed || options.protectionServerUrl.changed || options.protectionServerCertificateUrl.changed || options.protectionHttpRequestHeaders.changed) {
             updateProtection(element, elementId, {
                 data: options.protectionData ? options.protectionData.value : null,
                 type: options.protectionType ? options.protectionType.value : null,
                 serverUrl: options.protectionServerUrl ? options.protectionServerUrl.value : null,
+                serverCertificateUrl: options.protectionServerCertificateUrl ? options.protectionServerCertificateUrl.value : null,
                 httpRequestHeaders: options.protectionHttpRequestHeaders ? options.protectionHttpRequestHeaders.value : null
             });
         }
@@ -413,7 +414,19 @@ function applyDashProtectionData(dash, protection) {
 
 function applyHlsProtectionData(hls, protection) {
     if (hls && protection) {
-        if (protection.type === "Widevine") {
+        if (protection.type === "FairPlay") {
+            hls.config.emeEnabled = true;
+            hls.config.drmSystems = {
+                'com.apple.fps': {
+                    licenseUrl: protection.serverUrl,
+                    serverCertificateUrl: protection.serverCertificateUrl,
+                    httpRequestHeaders: protection.httpRequestHeaders ? {
+                        'X-AxDRM-Message': protection.httpRequestHeaders
+                    } : null
+                }
+            };
+        }
+        else if (protection.type === "Widevine") {
             hls.config.emeEnabled = true;
             hls.config.drmSystems = {
                 'com.widevine.alpha': {

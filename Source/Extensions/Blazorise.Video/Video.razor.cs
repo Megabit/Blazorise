@@ -27,6 +27,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
             var protectionTypeChanged = parameters.TryGetValue<VideoProtectionType>( nameof( ProtectionType ), out var paramProtectionType ) && !ProtectionType.IsEqual( paramProtectionType );
             var protectionDataChanged = parameters.TryGetValue<object>( nameof( ProtectionData ), out var paramProtectionData ) && !ProtectionData.IsEqual( paramProtectionData );
             var protectionServerUrlChanged = parameters.TryGetValue<string>( nameof( ProtectionServerUrl ), out var paramProtectionServerUrl ) && !ProtectionServerUrl.IsEqual( paramProtectionServerUrl );
+            var protectionServerCertificateUrlChanged = parameters.TryGetValue<string>( nameof( ProtectionServerCertificateUrl ), out var paramProtectionServerCertificateUrl ) && !ProtectionServerCertificateUrl.IsEqual( paramProtectionServerCertificateUrl );
             var protectionHttpRequestHeadersChanged = parameters.TryGetValue<string>( nameof( ProtectionHttpRequestHeaders ), out var paramProtectionHttpRequestHeaders ) && !ProtectionHttpRequestHeaders.IsEqual( paramProtectionHttpRequestHeaders );
 
             var currentTimeChanged = parameters.TryGetValue<double>( nameof( CurrentTime ), out var paramCurrentTime ) && !CurrentTime.IsEqual( paramCurrentTime );
@@ -40,6 +41,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                     ProtectionType = new { Changed = protectionTypeChanged, Value = paramProtectionType },
                     ProtectionData = new { Changed = protectionDataChanged, Value = paramProtectionData },
                     ProtectionServerUrl = new { Changed = protectionServerUrlChanged, Value = paramProtectionServerUrl },
+                    ProtectionServerCertificateUrl = new { Changed = protectionServerCertificateUrlChanged, Value = paramProtectionServerCertificateUrl },
                     ProtectionHttpRequestHeaders = new { Changed = protectionHttpRequestHeadersChanged, Value = paramProtectionHttpRequestHeaders },
                     CurrentTime = new { Changed = currentTimeChanged, Value = paramCurrentTime },
                     Volume = new { Changed = volumeChanged, Value = paramVolume },
@@ -95,6 +97,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                     Data = ProtectionData,
                     Type = ProtectionType.ToVideoProtectionType(),
                     ServerUrl = ProtectionServerUrl,
+                    ServerCertificateUrl = ProtectionServerCertificateUrl,
                     HttpRequestHeaders = ProtectionHttpRequestHeaders
                 } : null
             } );
@@ -130,8 +133,9 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// <param name="protectionData"></param>
     /// <param name="protectionServerUrl"></param>
     /// <param name="protectionHttpRequestHeaders"></param>
+    /// <param name="protectionServerCertificateUrl"></param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task UpdateSource( VideoSource source, VideoProtectionType protectionType = VideoProtectionType.None, object protectionData = null, string protectionServerUrl = null, string protectionHttpRequestHeaders = null )
+    public async Task UpdateSource( VideoSource source, VideoProtectionType protectionType = VideoProtectionType.None, object protectionData = null, string protectionServerUrl = null, string protectionHttpRequestHeaders = null, string protectionServerCertificateUrl = null )
     {
         if ( Rendered )
         {
@@ -139,6 +143,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
             ProtectionData = protectionData;
             ProtectionType = protectionType;
             ProtectionServerUrl = protectionServerUrl;
+            ProtectionServerCertificateUrl = protectionServerCertificateUrl;
             ProtectionHttpRequestHeaders = protectionHttpRequestHeaders;
 
             await JSModule.UpdateSource( ElementRef, ElementId, source: Source, protection: ProtectionType != VideoProtectionType.None ? new
@@ -146,6 +151,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 Data = protectionData,
                 Type = ProtectionType.ToVideoProtectionType(),
                 ServerUrl = ProtectionServerUrl,
+                ServerCertificateUrl = ProtectionServerCertificateUrl,
                 HttpRequestHeaders = ProtectionHttpRequestHeaders
             } : null );
         }
@@ -647,6 +653,11 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// Defines the server url of the DRM protection.
     /// </summary>
     [Parameter] public string ProtectionServerUrl { get; set; }
+
+    /// <summary>
+    /// Defines the server certificate url of the DRM protection (currently used only with FairPlay).
+    /// </summary>
+    [Parameter] public string ProtectionServerCertificateUrl { get; set; }
 
     /// <summary>
     /// Defines the protection token for the http header that is sent to the server.
