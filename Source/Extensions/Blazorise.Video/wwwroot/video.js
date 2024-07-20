@@ -415,14 +415,12 @@ function applyHlsProtectionData(hls, protection) {
     if (hls && protection) {
         if (protection.type === "Widevine") {
             hls.config.emeEnabled = true;
-            hls.config.emeSettings = {
-                drmSystems: {
-                    'com.widevine.alpha': {
-                        licenseUrl: protection.serverUrl,
-                        httpRequestHeaders: protection.httpRequestHeaders ? {
-                            'X-AxDRM-Message': protection.httpRequestHeaders
-                        } : null
-                    }
+            hls.config.drmSystems = {
+                'com.widevine.alpha': {
+                    licenseUrl: protection.serverUrl,
+                    httpRequestHeaders: protection.httpRequestHeaders ? {
+                        'X-AxDRM-Message': protection.httpRequestHeaders
+                    } : null
                 }
             };
         }
