@@ -89,7 +89,7 @@ public sealed class BlazoriseLicenseProvider
         {
             if ( IsWebAssembly )
             {
-                var wasmLicenseVerifier = LicenseVerifier.Create().WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, PublicKey );
+                var wasmLicenseVerifier = LicenseVerifier.Create().WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, options, PublicKey );
                 var license = await wasmLicenseVerifier.Load( options.ProductToken, true );
 
                 if ( wasmLicenseVerifier.Verify( license, new Assembly[] { CurrentAssembly } ) )

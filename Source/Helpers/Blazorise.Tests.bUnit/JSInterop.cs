@@ -12,7 +12,7 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSButtonModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSButtonModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
@@ -24,7 +24,7 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSBreakpointModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSBreakpointModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
@@ -39,7 +39,7 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSTextEditModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSTextEditModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
@@ -51,7 +51,7 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName )
+        jsInterop.SetupModule( new JSDatePickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName )
             .SetupVoid( "initialize", _ => true ).SetVoidResult();
 
         return jsInterop;
@@ -61,7 +61,7 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSClosableModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSClosableModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "registerClosableComponent", _ => true ).SetVoidResult();
         module.SetupVoid( "unregisterClosableComponent", _ => true ).SetVoidResult();
@@ -75,7 +75,7 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSNumericPickerModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSNumericPickerModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();
@@ -85,7 +85,7 @@ public static class JSInterop
 
     public static BunitJSInterop AddBlazoriseUtilities( this BunitJSInterop jsInterop )
     {
-        var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSUtilitiesModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "setProperty", _ => true ).SetVoidResult();
         module.Setup<string>( "getUserAgent", _ => true ).SetResult( String.Empty );
@@ -100,7 +100,7 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        var module = jsInterop.SetupModule( new MockJsModalModule( jsInterop.JSRuntime, new MockVersionProvider(), null ).ModuleFileName );
+        var module = jsInterop.SetupModule( new MockJsModalModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "import", _ => true ).SetVoidResult();
         module.SetupVoid( "open", _ => true ).SetVoidResult();
         module.SetupVoid( "close", _ => true ).SetVoidResult();
@@ -113,7 +113,7 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSTableModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSTableModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initializeTableFixedHeader", _ => true ).SetVoidResult();
         module.SetupVoid( "destroyTableFixedHeader", _ => true ).SetVoidResult();
         module.SetupVoid( "fixedHeaderScrollTableToPixels", _ => true ).SetVoidResult();
@@ -134,7 +134,7 @@ public static class JSInterop
         AddBlazoriseDropdown( jsInterop );
         AddBlazoriseDragDrop( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSDataGridModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSDataGridModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "scrollTo", _ => true ).SetVoidResult();
 
@@ -145,7 +145,7 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSDropdownModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSDropdownModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true );
         module.SetupVoid( "destroy", _ => true );
         module.SetupVoid( "show", _ => true );
@@ -158,7 +158,7 @@ public static class JSInterop
     {
         AddBlazoriseUtilities( jsInterop );
 
-        var module = jsInterop.SetupModule( new JSDragDropModule( jsInterop.JSRuntime, new MockVersionProvider() ).ModuleFileName );
+        var module = jsInterop.SetupModule( new JSDragDropModule( jsInterop.JSRuntime, new MockVersionProvider(), new( null, ( Options ) => { } ) ).ModuleFileName );
         module.SetupVoid( "initialize", _ => true ).SetVoidResult();
         module.SetupVoid( "initializeThrottledDragEvents", _ => true ).SetVoidResult();
         module.SetupVoid( "destroy", _ => true ).SetVoidResult();

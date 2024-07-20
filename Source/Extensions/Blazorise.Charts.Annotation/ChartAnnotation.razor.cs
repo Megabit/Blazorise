@@ -1,8 +1,6 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -59,7 +57,7 @@ public partial class ChartAnnotation<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( JSModule == null )
         {
-            JSModule = new JSChartAnnotationModule( JSRuntime, VersionProvider );
+            JSModule = new JSChartAnnotationModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
             ExecuteAfterRender( async () =>
             {
@@ -96,6 +94,8 @@ public partial class ChartAnnotation<TItem> : BaseComponent, IAsyncDisposable
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
 
     [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }
 

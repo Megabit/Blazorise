@@ -5,8 +5,8 @@ namespace Blazorise.AntDesign.Modules;
 
 internal class AntDesignJSTooltipModule : JSTooltipModule
 {
-    public AntDesignJSTooltipModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public AntDesignJSTooltipModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

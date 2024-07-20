@@ -27,9 +27,10 @@ namespace Blazorise.Modules
         /// </summary>
         /// <param name="jsRuntime">JavaScript runtime instance.</param>
         /// <param name="versionProvider">Version provider.</param>
+        /// <param name="options">Blazorise options.</param>
         /// <param name="publicKey">Public RSA key used to generate the license.</param>
-        public WebAssemblyRsaVerifier( IJSRuntime jsRuntime, IVersionProvider versionProvider, string publicKey )
-            : base( jsRuntime, versionProvider )
+        public WebAssemblyRsaVerifier( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options, string publicKey )
+            : base( jsRuntime, versionProvider, options )
         {
             this.publicKey = publicKey;
             this.publicKeyBytes = Convert.FromBase64String( publicKey );

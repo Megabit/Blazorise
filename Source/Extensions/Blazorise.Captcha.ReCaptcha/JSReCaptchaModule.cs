@@ -10,8 +10,8 @@ namespace Blazorise.Cropper;
 
 internal class JSReCaptchaModule : BaseJSModule, IJSDestroyableModule
 {
-    public JSReCaptchaModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public JSReCaptchaModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

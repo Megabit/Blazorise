@@ -5,8 +5,8 @@ namespace Blazorise.Tailwind.Modules;
 
 public class TailwindJSTooltipModule : JSTooltipModule
 {
-    public TailwindJSTooltipModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public TailwindJSTooltipModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

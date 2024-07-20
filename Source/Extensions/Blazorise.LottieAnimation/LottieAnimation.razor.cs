@@ -105,7 +105,7 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
         if ( JSModule == null )
         {
             DotNetObjectRef ??= DotNetObjectReference.Create( this );
-            JSModule = new JSLottieAnimationModule( JSRuntime, VersionProvider );
+            JSModule = new JSLottieAnimationModule( JSRuntime, VersionProvider, BlazoriseOptions );
         }
 
         return base.OnInitializedAsync();
@@ -319,6 +319,11 @@ public partial class LottieAnimation : BaseComponent, IAsyncDisposable
     /// Gets or sets the version provider.
     /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// Relative or absolute path to the animation object
