@@ -1,5 +1,4 @@
 ﻿#region Using directives
-using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
@@ -19,8 +18,9 @@ public class JSFileEditModule : BaseJSModule, IJSFileEditModule
     /// </summary>
     /// <param name="jsRuntime">JavaScript runtime instance.</param>
     /// <param name="versionProvider">Version provider.</param>
-    public JSFileEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    /// <param name="options">Blazorise options.</param>
+    public JSFileEditModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

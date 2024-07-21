@@ -5,8 +5,8 @@ namespace Blazorise.Material.Modules;
 
 internal class MaterialJSModalModule : JSModalModule
 {
-    public MaterialJSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public MaterialJSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

@@ -59,7 +59,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
         {
             DotNetObjectRef ??= DotNetObjectReference.Create( this );
 
-            JSModule = new JSVideoModule( JSRuntime, VersionProvider );
+            JSModule = new JSVideoModule( JSRuntime, VersionProvider, BlazoriseOptions );
         }
 
         return base.OnInitializedAsync();
@@ -554,6 +554,11 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// Gets or sets the controls visibility of the player.

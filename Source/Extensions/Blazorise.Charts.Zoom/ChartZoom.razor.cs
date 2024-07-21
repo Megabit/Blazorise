@@ -58,7 +58,7 @@ public partial class ChartZoom<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( JSModule == null )
         {
-            JSModule = new JSChartZoomModule( JSRuntime, VersionProvider );
+            JSModule = new JSChartZoomModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
             ExecuteAfterRender( async () =>
             {
@@ -99,6 +99,11 @@ public partial class ChartZoom<TItem> : BaseComponent, IAsyncDisposable
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }
 
