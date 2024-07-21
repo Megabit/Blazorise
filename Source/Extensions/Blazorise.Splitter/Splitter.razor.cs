@@ -61,7 +61,7 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// <inheritdoc />
     protected override Task OnInitializedAsync()
     {
-        JSModule ??= new JSSplitModule( JSRuntime, VersionProvider );
+        JSModule ??= new JSSplitModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
         return base.OnInitializedAsync();
     }
@@ -209,6 +209,11 @@ public partial class Splitter : BaseComponent, IAsyncDisposable
     /// Gets or sets the version provider.
     /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// When the splitter is created, if ExpandToMin is true, the minSize for each element overrides the percentage value from the sizes option.

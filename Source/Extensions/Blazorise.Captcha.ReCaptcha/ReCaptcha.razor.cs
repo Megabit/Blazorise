@@ -48,7 +48,7 @@ public partial class ReCaptcha : Captcha, IAsyncDisposable
     /// <inheritdoc/>
     protected override async Task Initialize()
     {
-        JSModule ??= new JSReCaptchaModule( JSRuntime, VersionProvider );
+        JSModule ??= new JSReCaptchaModule( JSRuntime, VersionProvider, BlazoriseOptions );
 
         await JSModule.Initialize( dotNetObjectReference, ElementRef, ElementId,
             new
@@ -96,6 +96,8 @@ public partial class ReCaptcha : Captcha, IAsyncDisposable
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    [Inject] private BlazoriseOptions BlazoriseOptions { get; set; }
 
     [Inject] public ReCaptchaOptions Options { get; set; }
 

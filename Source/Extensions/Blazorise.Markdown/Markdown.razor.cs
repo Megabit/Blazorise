@@ -41,7 +41,7 @@ public partial class Markdown : BaseComponent,
     {
         if ( JSModule == null )
         {
-            JSModule = new JSMarkdownModule( JSRuntime, VersionProvider );
+            JSModule = new JSMarkdownModule( JSRuntime, VersionProvider, BlazoriseOptions );
         }
 
         base.OnInitialized();
@@ -437,6 +437,11 @@ public partial class Markdown : BaseComponent,
     /// Gets or sets the version provider.
     /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// Gets or sets the markdown value.

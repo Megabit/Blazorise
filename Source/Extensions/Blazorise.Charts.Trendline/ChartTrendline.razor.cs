@@ -1,9 +1,7 @@
 ﻿#region Using directives
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -25,7 +23,7 @@ public partial class ChartTrendline<TItem> : BaseComponent, IChartTrendline, IAs
     {
         if ( JSModule == null )
         {
-            JSModule = new JSChartTrendlineModule( JSRuntime, VersionProvider );
+            JSModule = new JSChartTrendlineModule( JSRuntime, VersionProvider, BlazoriseOptions );
         }
 
         return base.OnInitializedAsync();
@@ -47,6 +45,11 @@ public partial class ChartTrendline<TItem> : BaseComponent, IChartTrendline, IAs
     [Inject] private IJSRuntime JSRuntime { get; set; }
 
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     [CascadingParameter] protected BaseChart<TItem> ParentChart { get; set; }
 }

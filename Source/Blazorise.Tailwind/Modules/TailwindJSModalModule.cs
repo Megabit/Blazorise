@@ -5,8 +5,8 @@ namespace Blazorise.Tailwind.Modules;
 
 public class TailwindJSModalModule : JSModalModule
 {
-    public TailwindJSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public TailwindJSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 
