@@ -13,17 +13,17 @@ read-time: 7 min
 
 # Styling Blazorise components
 
-Hello! today we are going to go over how to style Blazorise components!
+Learn how CSS works with Blazor, how to style Blazorise components, and the limitations of CSS isolation in Blazor.
 
-As your know, Blazorise is a framework-agnostic library, this means we have a lot of options when it comes to choosing what type of framework we want to use.
+Blazorise is an amazing component library that, is not really tied to any front-end framework. This means we have a lot of options when it comes to choosing which framework we want to use, for example: Bootstrap, Tailwind, Material and many others. check out the full list [here](https://blazorise.com/docs/usage/tailwind/)
 
 Check out the [quick start](https://blazorise.com/docs/start) guide here to get started with Blazorise.
 
 ## In this article, we will go over the following:
 
-- Styling Blazorise components#How does CSS work with Blazorise?|How does CSS work with Blazorise?
-- Styling Blazorise components#How to style Blazorise components?|How to style Blazorise components?
-- Styling Blazorise components#Limitations of CSS Isolation|Limitations of CSS Isolation
+- How does CSS work with Blazorise?
+- How to style Blazorise components?
+- Limitations of CSS Isolation
 
 ---
 
@@ -31,7 +31,16 @@ So let's dive into the topics and explore our options when it comes to styling B
 
 ## How does CSS work with Blazorise?
 
-Blazorise, just like plain Blazor, is a framework that helps us generate responsive web UI. This means that Blazorise supports every CSS property that is supported by the browser. There are no special CSS properties that only apply to Blazor or Blazorise.
+Blazorise supports every CSS property that is supported by the browser. There are no special CSS properties that only apply to Blazor or Blazorise.
+
+We can pass any of these attributes to any Blazorise components, and using the magical `CaptureUnmatchedValues` option, we will capture all the attributes that are not directly caught by our parameters.
+```cs|CaptureUnmatched
+[Parameter(CaptureUnmatchedValues = true)]
+public Dictionary<string, object> AdditionalAttributes { get; set; } = [];
+```
+
+To read up about this Blazor feature, head over to [blazor-university](https://blazor-university.com/components/capturing-unexpected-parameters/)
+
 
 If you would like to find out how to give your Blazorise application a different theme, check out [the docs about theming](https://blazorise.com/docs/theming)
 
@@ -53,14 +62,14 @@ Let's take a look at how we can use CSS classes to style our Blazor app.
 
 First we should create a `styles.css` file inside the `wwwroot` folder and add a reference to it inside `App.razor` like so:
 
-create styles.css
+Create styles.css
 ```css|StylesCss
 .bg-topo {
     background-image: url("...");
 }
 ```
 
-App.razor
+Inert the link tag inside App.razor
 ```html|AppRazor
 <html>
 <head>
@@ -97,11 +106,11 @@ Here is a small example that shows how we can use inline styles with Blazorise.
 </Alert>
 ```
 
-As we can see from [BaseComponent.customStyle](https://github.com/Megabit/Blazorise/blob/master/Source/Blazorise/Base/BaseComponent.cs#L22) all Blazorise components have support for the `Style` and `Class` and many other default attributes.
+All Blazorise components support `Style`, `Class`, and many other attributes. These will get added directly to the underlying HTML element, as we can see from the [BaseComponent.razor](https://github.com/Megabit/Blazorise/blob/master/Source/Blazorise/Base/BaseComponent.cs#L379)
 
 ### CSS classes
 
-Applying CSS classes is as straight forward as plain on Blazorise, we just specify the class like so:
+Applying CSS classes to Blazorise is as straight forward as plain Blazor - we just supply the class parameter, like so:
 
 ```html|BlazoriseCSSExample
 <Alert Color="Color.Success" Visible>
@@ -110,17 +119,19 @@ Applying CSS classes is as straight forward as plain on Blazorise, we just speci
 </Alert>
 ```
 
+> Notice that the parameter is spelled in Uppercase, that is because it is a Blazor parameter!
+
 ### Theming
 
-Blazorise has support for themes. Customize Blazorise with your theme. You can change the colors, the typography and much more using themes.
+Blazorise has support for themes. You can customize Blazorise with your own theme! Change the colors, the typography and much more using themes.
 
 To learn more about theming, head over to the [documentation page](https://blazorise.com/docs/theming)
 
 ## Limitations of CSS Isolation
 
-Blazorise just like other Blazor frameworks has a limitation with CSS isolation, you see, CSS Isolation works by compiling the CSS styles and bundling them up with the Assembly.
+Blazor at the date of posting this blog, has a limitation with CSS isolation, you see, CSS Isolation works by compiling the CSS styles and bundling them up with the Assembly at compile time.
 
-CSS isolation occurs at build time. Blazor rewrites CSS selectors to match markup rendered by the component. The rewritten CSS styles are bundled and produced as a static asset. The stylesheet is referenced inside the `<head>` tag ([location of `<head>` content](https://learn.microsoft.com/en-us/aspnet/core/blazor/project-structure?view=aspnetcore-8.0#location-of-head-and-body-content))
+CSS isolation occurs at compile time. Blazor rewrites CSS selectors to match markup rendered by the component. The rewritten CSS styles are bundled and produced as a static asset. The stylesheet is referenced inside the `<head>` tag ([location of `<head>` content](https://learn.microsoft.com/en-us/aspnet/core/blazor/project-structure?view=aspnetcore-8.0#location-of-head-and-body-content))
 
 The following `<link>` element is added by default to an app created from the Blazor project templates:
 
@@ -132,31 +143,46 @@ The `{ASSEMBLY NAME}` placeholder is the project's assembly name.
 
 Within the bundled file, each component is associated with a scope identifier. For each styled component, an HTML attribute is appended with the format `b-{STRING}`, where the `{STRING}` placeholder is a ten-character string generated by the framework. The identifier is unique for each app.
 
-The problem here is that, the bundle is generated at compile time of the CSS.
-
 ### Let me illustrate this limitation with an example.
 
-Let's create a component in our project, call it `TestComponent`
 
-`TestComponent.razor`
-```html|TestComponentRazor
-<Div Class="isolated-class-name">
-    ...
-</Div>
+### Let's see an example, of how it works
+
+Here is an example, of a component that uses CSS isolation and how CSS isolation works.
+
+This is the `Component.razor`
+```html|ComponentRazor
+<div class="foo">div one</div>
+<Blazorise.Div Class="foo">div one</Blazorise.Div>
 ```
 
-Then create the scoped CSS file for it
-
-`TestComponent.razor.css`
-```css|TestComponentRazorCss
-.isolated-class-name {
-    /* class info here */
+This is the isolated CSS file - `Component.razor.css`
+```css|ComponentRazorCss
+.foo {
+  background-color: purple;
 }
 ```
 
-This will not work, because when your application is compiled, the generated `b-{STRING}` will be different than that of Blazorise's. This is a known limitation of Blazor, but the workaround is very simple!
+After our project is compiled, the output `{ASSEMBLY NAME}.styles.css` will contain the following CSS:
+
+```css|GeneratedCss
+.foo[b-3xxtam6d07] {
+  background-color: purple;
+}
+```
+
+And the compiled html for our page will look like this:
+
+```html|GeneratedHtml
+<div class="foo" b-3xxtam6d07>div one</div>
+<Blazorise.Div Class="foo">div one</Blazorise.Div>
+```
+
+The problem here is that, the bundle is generated at compile time. The b-string will be different from the b-string of Blazorise,
+
+Because of this, the regular HTML div will be styled correctly, however the Blazorise component, because it has a different b-string, will not.
 
 ### The workaround:
 This is not really a "workaround" rather a different approach at the issue. You cannot make 3rd party libraries work with your isolated CSS classes, **however** what you can do, is move those classes to a separate CSS file hosted under `wwwroot`.
 
-# Thanks for reading this blog and using Blazorise!!!
+Thanks for reading! we expect you in the next blog post!
