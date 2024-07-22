@@ -33,6 +33,21 @@ public record VideoMedia
     }
 
     /// <summary>
+    /// Default constructor for all the media information.
+    /// </summary>
+    /// <param name="source">Media source, or url.</param>
+    /// <param name="type">Media type, eg. "video/mp4" or "video/webm".</param>
+    /// <param name="width">Media width, eg. 720 or 1080.</param>
+    /// <param name="height">Media height, eg. 720 or 1080.</param>
+    public VideoMedia( string source, string type, int? width, int? height )
+    {
+        Source = source;
+        Type = type;
+        Width = width;
+        Height = height;
+    }
+
+    /// <summary>
     /// Gets or sets the media source, or url.
     /// </summary>
     [JsonPropertyName( "src" )]
