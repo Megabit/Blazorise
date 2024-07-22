@@ -81,6 +81,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 Muted,
                 Source,
                 Poster,
+                Thumbnails,
                 StreamingLibrary = StreamingLibrary.ToStreamingLibrary(),
                 SeekTime,
                 CurrentTime,
@@ -593,9 +594,14 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public VideoSource Source { get; set; }
 
     /// <summary>
-    /// Gets or sets the current poster image for the player. The setter accepts a string; the URL for the updated poster image.
+    /// Gets or sets the the URL of media poster or thumbnail image, generally before playback begins.
     /// </summary>
     [Parameter] public string Poster { get; set; }
+
+    /// <summary>
+    /// Gets or sets the URL of thumbnails which will be used to display preview images when interacting with the time slider and in the chapters menu.
+    /// </summary>
+    [Parameter] public string Thumbnails { get; set; }
 
     /// <summary>
     /// If defined the video will run in streaming mode.

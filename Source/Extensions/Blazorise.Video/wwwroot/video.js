@@ -26,6 +26,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     }
 
     const layout = new PlyrLayout({
+        thumbnails: options.thumbnails,
         clickToPlay: options.clickToPlay || true,
         seekTime: options.seekTime || 10,
         invertTime: options.invertTime || true,
