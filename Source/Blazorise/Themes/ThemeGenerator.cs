@@ -110,7 +110,7 @@ public abstract class ThemeGenerator : IThemeGenerator
             Variables[ThemeVariables.BodyTextColor] = ToHex( ParseColor( theme.BodyOptions.TextColor ) );
         }
 
-        if ( theme.BodyOptions.FontOptions is not null )
+        if ( theme.BodyOptions?.FontOptions is not null )
         {
             var fontOptions = theme.BodyOptions.FontOptions;
 
