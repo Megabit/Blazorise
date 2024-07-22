@@ -1,4 +1,4 @@
-import { Plyr } from "./vendors/plyr.js?v=1.5.3.0";
+import { VidstackPlayer, PlyrLayout } from "./vendors/player.js?v=1.5.3.0";
 
 import { getRequiredElement, isString } from "../Blazorise/utilities.js?v=1.5.3.0";
 
@@ -7,7 +7,7 @@ document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link 
 
 const _instances = [];
 
-export function initialize(dotNetAdapter, element, elementId, options) {
+export async function initialize(dotNetAdapter, element, elementId, options) {
     element = getRequiredElement(element, elementId);
 
     if (!element)
@@ -20,46 +20,39 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         dash: null,
     };
 
-    const plyr = new Plyr(element, {
-        source: options.source,
+    // if no controls are provided then we will not show any controls
+    if (!options.controls) {
+        options.controlsList = [];
+    }
+
+    const layout = new PlyrLayout({
+        clickToPlay: options.clickToPlay || true,
+        seekTime: options.seekTime || 10,
+        invertTime: options.invertTime || true,
+        controls: options.controlsList,
+    });
+
+    const player = await VidstackPlayer.create({
+        target: element,
+        src: options.source,
         poster: options.poster,
         hideControlsOnMouseLeave: options.automaticallyHideControls,
-        autopause: options.autoPause || true,
-        seekTime: options.seekTime || 10,
         volume: options.volume || 1,
         currentTime: options.currentTime || 0,
         muted: options.muted || false,
-        clickToPlay: options.clickToPlay || true,
-        disableContextMenu: options.disableContextMenu || true,
-        resetOnEnd: options.resetOnEnd || false,
-        ratio: options.ratio,
-        invertTime: options.invertTime || true,
-        settings: options.settingsList,
-        quality: {
-            default: options.defaultQuality || 576,
-            options: options.availableQualities || [4320, 2880, 2160, 1440, 1080, 720, 576, 480, 360, 240]
-        },
-        previewThumbnails: {
-            enabled: options.poster && options.poster.length > 0,
-            src: options.poster
-        },
-        captions: {
-            active: true,
-            update: true
-        }
+        aspectRatio: options.aspectRatio,
+        controls: false, // setting this to false because we are using custom controls
+        quality: options.defaultQuality || 576,
+        layout: layout,
     });
 
-    plyr.layout.controls = options.controlsList;
+    instance.player = player;
 
     if (options.source.tracks && options.source.tracks.length > 0) {
-        plyr.player.textTracks.clear();
-
         for (const track of options.source.tracks) {
-            plyr.player.textTracks.add(track);
+            player.textTracks.add(track);
         }
     }
-
-    instance.player = plyr.player;
 
     instance.player.addEventListener('provider-change', (event) => {
         const provider = event.detail;
