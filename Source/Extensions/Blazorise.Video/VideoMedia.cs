@@ -29,7 +29,7 @@ public record VideoMedia
     {
         Source = source;
         Type = type;
-        Size = size;
+        Height = size;
     }
 
     /// <summary>
