@@ -1,4 +1,4 @@
-import { getChart } from "../Blazorise.Charts/charts.js?v=1.5.3.0";
+import { getChart } from "../Blazorise.Charts/charts.js?v=1.6.0.0";
 
 export function addZoom(canvasId, options) {
     const chart = getChart(canvasId);
