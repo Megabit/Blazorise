@@ -1,7 +1,9 @@
 ﻿#region Using directives
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Video.Utilities;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -25,6 +27,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
             var protectionTypeChanged = parameters.TryGetValue<VideoProtectionType>( nameof( ProtectionType ), out var paramProtectionType ) && !ProtectionType.IsEqual( paramProtectionType );
             var protectionDataChanged = parameters.TryGetValue<object>( nameof( ProtectionData ), out var paramProtectionData ) && !ProtectionData.IsEqual( paramProtectionData );
             var protectionServerUrlChanged = parameters.TryGetValue<string>( nameof( ProtectionServerUrl ), out var paramProtectionServerUrl ) && !ProtectionServerUrl.IsEqual( paramProtectionServerUrl );
+            var protectionServerCertificateUrlChanged = parameters.TryGetValue<string>( nameof( ProtectionServerCertificateUrl ), out var paramProtectionServerCertificateUrl ) && !ProtectionServerCertificateUrl.IsEqual( paramProtectionServerCertificateUrl );
             var protectionHttpRequestHeadersChanged = parameters.TryGetValue<string>( nameof( ProtectionHttpRequestHeaders ), out var paramProtectionHttpRequestHeaders ) && !ProtectionHttpRequestHeaders.IsEqual( paramProtectionHttpRequestHeaders );
 
             var currentTimeChanged = parameters.TryGetValue<double>( nameof( CurrentTime ), out var paramCurrentTime ) && !CurrentTime.IsEqual( paramCurrentTime );
@@ -38,6 +41,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                     ProtectionType = new { Changed = protectionTypeChanged, Value = paramProtectionType },
                     ProtectionData = new { Changed = protectionDataChanged, Value = paramProtectionData },
                     ProtectionServerUrl = new { Changed = protectionServerUrlChanged, Value = paramProtectionServerUrl },
+                    ProtectionServerCertificateUrl = new { Changed = protectionServerCertificateUrlChanged, Value = paramProtectionServerCertificateUrl },
                     ProtectionHttpRequestHeaders = new { Changed = protectionHttpRequestHeadersChanged, Value = paramProtectionHttpRequestHeaders },
                     CurrentTime = new { Changed = currentTimeChanged, Value = paramCurrentTime },
                     Volume = new { Changed = volumeChanged, Value = paramVolume },
@@ -77,6 +81,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 Muted,
                 Source,
                 Poster,
+                Thumbnails,
                 StreamingLibrary = StreamingLibrary.ToStreamingLibrary(),
                 SeekTime,
                 CurrentTime,
@@ -84,15 +89,16 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 ClickToPlay,
                 DisableContextMenu,
                 ResetOnEnd,
-                Ratio,
+                AspectRatio = VideoParsers.ParseAspectRatio( Ratio ),
                 InvertTime,
-                DefaultQuality,
-                AvailableQualities,
+                DefaultQuality = new { Height = DefaultQuality },
+                AvailableQualities = AvailableQualities?.Select( x => new { Height = x } ),
                 Protection = ProtectionType != VideoProtectionType.None ? new
                 {
                     Data = ProtectionData,
                     Type = ProtectionType.ToVideoProtectionType(),
                     ServerUrl = ProtectionServerUrl,
+                    ServerCertificateUrl = ProtectionServerCertificateUrl,
                     HttpRequestHeaders = ProtectionHttpRequestHeaders
                 } : null
             } );
@@ -128,8 +134,9 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// <param name="protectionData"></param>
     /// <param name="protectionServerUrl"></param>
     /// <param name="protectionHttpRequestHeaders"></param>
+    /// <param name="protectionServerCertificateUrl"></param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    public async Task UpdateSource( VideoSource source, VideoProtectionType protectionType = VideoProtectionType.None, object protectionData = null, string protectionServerUrl = null, string protectionHttpRequestHeaders = null )
+    public async Task UpdateSource( VideoSource source, VideoProtectionType protectionType = VideoProtectionType.None, object protectionData = null, string protectionServerUrl = null, string protectionHttpRequestHeaders = null, string protectionServerCertificateUrl = null )
     {
         if ( Rendered )
         {
@@ -137,6 +144,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
             ProtectionData = protectionData;
             ProtectionType = protectionType;
             ProtectionServerUrl = protectionServerUrl;
+            ProtectionServerCertificateUrl = protectionServerCertificateUrl;
             ProtectionHttpRequestHeaders = protectionHttpRequestHeaders;
 
             await JSModule.UpdateSource( ElementRef, ElementId, source: Source, protection: ProtectionType != VideoProtectionType.None ? new
@@ -144,6 +152,7 @@ public partial class Video : BaseComponent, IAsyncDisposable
                 Data = protectionData,
                 Type = ProtectionType.ToVideoProtectionType(),
                 ServerUrl = ProtectionServerUrl,
+                ServerCertificateUrl = ProtectionServerCertificateUrl,
                 HttpRequestHeaders = ProtectionHttpRequestHeaders
             } : null );
         }
@@ -242,6 +251,33 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <returns>A task that represents the asynchronous operation.</returns>
     public Task ToggleControls() => JSModule.ToggleControls( ElementRef, ElementId ).AsTask();
+
+    /// <summary>
+    /// Show the track from the list of tracks.
+    /// </summary>
+    /// <param name="textTrackId">Index of the track to be shown.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ShowTextTrack( int textTrackId ) => JSModule.ShowTextTrack( ElementRef, ElementId, textTrackId ).AsTask();
+
+    /// <summary>
+    /// Hide the track from the list of tracks.
+    /// </summary>
+    /// <param name="textTrackId">Index of the track to be hidden.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task HideTextTrack( int textTrackId ) => JSModule.HideTextTrack( ElementRef, ElementId, textTrackId ).AsTask();
+
+    /// <summary>
+    /// Adds a new text track to the list of tracks.
+    /// </summary>
+    /// <param name="track">Track to be added to the list of tracks.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task AddTextTrack( VideoTrack track ) => JSModule.AddTextTrack( ElementRef, ElementId, track ).AsTask();
+
+    /// <summary>
+    /// Clear all the text tracks.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public Task ClearTextTracks() => JSModule.ClearTextTracks( ElementRef, ElementId ).AsTask();
 
     #region Events
 
@@ -558,9 +594,14 @@ public partial class Video : BaseComponent, IAsyncDisposable
     [Parameter] public VideoSource Source { get; set; }
 
     /// <summary>
-    /// Gets or sets the current poster image for the player. The setter accepts a string; the URL for the updated poster image.
+    /// Gets or sets the the URL of media poster or thumbnail image, generally before playback begins.
     /// </summary>
     [Parameter] public string Poster { get; set; }
+
+    /// <summary>
+    /// Gets or sets the URL of thumbnails which will be used to display preview images when interacting with the time slider and in the chapters menu.
+    /// </summary>
+    [Parameter] public string Thumbnails { get; set; }
 
     /// <summary>
     /// If defined the video will run in streaming mode.
@@ -623,6 +664,11 @@ public partial class Video : BaseComponent, IAsyncDisposable
     /// Defines the server url of the DRM protection.
     /// </summary>
     [Parameter] public string ProtectionServerUrl { get; set; }
+
+    /// <summary>
+    /// Defines the server certificate url of the DRM protection (currently used only with FairPlay).
+    /// </summary>
+    [Parameter] public string ProtectionServerCertificateUrl { get; set; }
 
     /// <summary>
     /// Defines the protection token for the http header that is sent to the server.

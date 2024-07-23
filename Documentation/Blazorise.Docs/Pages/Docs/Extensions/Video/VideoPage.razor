@@ -112,7 +112,10 @@
         Gets or sets the current source for the player.
     </DocsAttributesItem>
     <DocsAttributesItem Name="Poster" Type="string" Default="null">
-        Gets or sets the current poster image for the player.
+        Gets or sets the the URL of media poster or thumbnail image, generally before playback begins.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Thumbnails" Type="string" Default="null">
+        Gets or sets the URL of thumbnails which will be used to display preview images when interacting with the time slider and in the chapters menu.
     </DocsAttributesItem>
     <DocsAttributesItem Name="StreamingLibrary" Type="StreamingLibrary" Default="Html5">
         If defined the video will run in streaming mode.
@@ -146,6 +149,9 @@
     </DocsAttributesItem>
     <DocsAttributesItem Name="ProtectionServerUrl" Type="string" Default="null">
         Defines the server url of the DRM protection.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ProtectionServerCertificateUrl" Type="string" Default="null">
+        Defines the server certificate url of the DRM protection (currently used only with FairPlay).
     </DocsAttributesItem>
     <DocsAttributesItem Name="ProtectionHttpRequestHeaders" Type="string" Default="null">
         Defines the protection token for the http header that is sent to the server. The request headers are optional; if left out, the server will not receive them.
