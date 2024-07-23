@@ -214,8 +214,8 @@ export function stop(element, elementId) {
     const instance = _instances[elementId];
 
     if (instance && instance.player) {
-        instance.player.pause();
         instance.player.currentTime = 0;
+        instance.player.pause();
     }
 }
 
