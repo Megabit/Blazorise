@@ -1,15 +1,15 @@
 ﻿@page "/news/release-notes/160"
 
-<Seo Canonical="news/release-notes/160" Title="Blazorise v1.6" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.6 release." ImageUrl="img/news/empty.png" />
+<Seo Canonical="news/release-notes/160" Title="Blazorise v1.6" Description="This blog post contains the changelog of the most recent bug fixes, improvements and new features included in the Blazorise v1.6 release." ImageUrl="img/news/160/v160.png" />
 
-<NewsPageImage Source="img/news/empty.png" Text="Blazorise v1.6" />
+<NewsPageImage Source="img/news/160/v160.png" Text="Blazorise v1.6" />
 
 <NewsPageTitle>
-    Announcing Blazorise 1.6 -
+    Announcing Blazorise 1.6 - Adriatic
 </NewsPageTitle>
 
 <Paragraph>
-    We're pleased to announce the release of Blazorise version 1.6.
+    Welcome to the July 2024 Blazorise 1.6 update! In this version, we are excited to bring you a host of new features and enhancements designed to improve the functionality and user experience of our components. Our latest update includes significant advancements in chart interactivity, mobile responsiveness, dynamic data handling, and data grid editing capabilities.
 </Paragraph>
 
 <NewsPageSubtitle>
@@ -23,15 +23,34 @@
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
+            <Strong>Charts - Zoom Plugin:</Strong> Enhance your data exploration with our new zoom and pan functionalities.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Video</Strong>: updated to the new VidStack library
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
             <Strong>DataGrid:</Strong> Dynamic Data Binding
         </Paragraph>
     </UnorderedListItem>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Video</Strong>: updated to use new VidStack library
+            <Strong>DataGrid:</Strong> Rapid Editing Mode
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>Table & DataGrid:</Strong> Mobile Responsive Mode
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
+
+<Paragraph>
+    Dive into each section for a comprehensive overview of these features and learn how they can enhance your projects. We value your feedback and encourage you to share your thoughts as we continue to refine and improve Blazorise.
+</Paragraph>
 
 <NewsPageSubtitle>
     Upgrading from 1.5.x to 1.6 👨‍🔧
@@ -59,25 +78,50 @@
 </NewsPageSubtitle>
 
 <Heading Size="HeadingSize.Is3">
-    Charts
-</Heading>
-
-<Heading Size="HeadingSize.Is4">
-    Zoom plugin
+    Charts - Zoom Plugin
 </Heading>
 
 <Paragraph>
-    The zoom plugin was added to the <Code>Chart</Code> component. This feature allows users to zoom in and out on specific areas of the chart, it also the ability to pan around the chart, making it easy to explore the data in more detail.
-    Visit our docs for more information, <Anchor To="docs/extensions/chart-zoom">Chart Zoom Plugin</Anchor>
+    We are excited to announce the addition of a <Strong>Zoom</Strong> plugin to the <Strong>Chart</Strong> component. This new feature significantly enhances the interactivity and usability of our charts, providing users with the ability to zoom in and out on specific areas, as well as pan around the chart. These functionalities allow for a more detailed and dynamic exploration of data.
+</Paragraph>
+
+<Paragraph>
+    Key Features:
+</Paragraph>
+
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Zoom In/Out</Strong>: Users can now zoom into specific areas of the chart to get a closer look at the data points and trends.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Panning</Strong>: The ability to pan around the chart ensures that users can easily navigate to different sections of the chart without losing their zoomed-in view.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>Enhanced Data Exploration</Strong>: These new interactive capabilities make it easier to analyze and interpret data, leading to more insightful observations and decisions.
+            </Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
+
+<Paragraph>
+    For more detailed information and instructions on how to use the Chart Zoom Plugin, please visit our <Anchor To="docs/extensions/chart-zoom">documentation</Anchor>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    Video update
+    Video Component - update to new library
 </Heading>
 
 <Paragraph>
-    We have updated our Video extension component to work with the new <Anchor To="https://www.vidstack.io/">VidStack</Anchor> library. Previously, we were utilizing the Plyr library for our video playback needs. However, over time, Plyr has gradually been supplanted by the newer and more advanced VidStack library.
+    We have updated our <Anchor To="docs/extensions/video">Video extension component</Anchor> to work with the new <Anchor To="https://www.vidstack.io/">VidStack</Anchor> library. Previously, we were utilizing the <Anchor To="https://plyr.io/">Plyr</Anchor> library for our video playback needs. However, over time, Plyr has gradually been replaced by the newer and more advanced VidStack library.
 </Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/160/video.png" ImageTitle="Feature Video Component" />
 
 <Paragraph>
     The decision to transition to VidStack was driven by several compelling reasons. First and foremost, VidStack offers a host of new features that were not available in Plyr. These features enhance the overall user experience by providing more robust and versatile functionality. Additionally, VidStack is significantly more stable, which means fewer bugs and crashes, leading to a smoother and more reliable performance.
@@ -115,107 +159,149 @@
 </Paragraph>
 
 <Heading Size="HeadingSize.Is3">
-    Table
-</Heading>
-
-<Heading Size="HeadingSize.Is4">
-    New Mobile Responsive Mode
+    DataGrid Improvements
 </Heading>
 
 <Paragraph>
-    Introduced a new <Code>ResponsiveMode</Code> parameter, you are now able to set the table to <Code>TableResponsiveMode.Mobile</Code>, the table will render a dedicated layout for mobile devices where the columns are stacked on top of each other.
-</Paragraph>
-
-<Paragraph>
-    Please note, that in this mode the table may have limited functionality, where features like fixed headers, resize, etc, might not be compatible.
-</Paragraph>
-
-<Paragraph>
-    Please note, that we consider this feature as experimental, and we'd like your feedback going further.
-</Paragraph>
-
-<Heading Size="HeadingSize.Is3">
-    DataGrid
-</Heading>
-
-<Heading Size="HeadingSize.Is4">
-    New Mobile Responsive Mode
-</Heading>
-
-<Paragraph>
-    With the introduction of the new <Code>ResponsiveMode</Code> parameter in the underlying Table. The DataGrid now also supports the <Code>TableResponsiveMode.Mobile</Code> mode. This will render a dedicated layout for mobile devices where the columns are stacked on top of each other.
-</Paragraph>
-
-<Paragraph>
-    Please note, that in this mode the Data Grid may have limited functionality, where features like caption templates, fixed headers, resize, etc, might not be compatible.
-</Paragraph>
-
-<Paragraph>
-    Please note, that we consider this feature as experimental, and we'd like your feedback going further.
+    The Blazorise DataGrid has received a multitude of new improvements in this update, significantly enhancing its functionality and user experience.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
-    AutoGenerateColumns
+    1. New Mobile Responsive Mode
+</Heading>
+
+<Paragraph>
+    With the introduction of the new <Strong>ResponsiveMode</Strong> parameter in the underlying <Anchor To="docs/components/table">Table component</Anchor>, the DataGrid now supports <Strong>TableResponsiveMode.Mobile</Strong>. This mode renders a dedicated layout for mobile devices, where the columns are stacked on top of each other for better readability and usability on smaller screens.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/160/mobile-mode.png" ImageTitle="Feature Mobile Responsive Mode" />
+
+<Paragraph>
+    Please note that in this mode, the DataGrid may have limited functionality. Features such as caption templates, fixed headers, resizing, and others might not be compatible. This feature is highly opinionated, meaning it enforces a specific design philosophy aimed at optimizing mobile experience.
+</Paragraph>
+
+<Paragraph>
+    We consider this feature experimental and are actively seeking feedback to improve it further.
+</Paragraph>
+
+<Paragraph>
+    For more detailed information and to provide feedback, please visit our <Anchor To="docs/extensions/datagrid/features/mobile-mode">documentation</Anchor>.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    2. New Attributes for Auto Generate Columns
 </Heading>
 
 <Paragraph>
     In the <Code>DataGrid</Code> <Code>AutoGenerateColumns</Code> feature, we've added new attributes to the attribute based API to be able to further configure the way that the columns are rendered.
 </Paragraph>
 
-<UnorderedList>
-    <UnorderedListItem>
-        <Code>[DisplayAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify the caption.
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Code>[OrderAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify the order in which they should be displayed or edited.
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Code>[IgnoreFieldAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify they should not be automatically generated.
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Code>[SelectAttribute]</Code> - Represents an attribute that can be applied to properties or fields to specify additional metadata for a select component.
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Code>[NumericAttribute]</Code> - Represents an attribute that can be applied to numeric properties or fields to specify additional metadata.
-    </UnorderedListItem>
-    <UnorderedListItem>
-        <Code>[DateAttribute]</Code> - Represents an attribute that can be applied to date properties or fields to specify additional metadata.
-    </UnorderedListItem>
-</UnorderedList>
-
-<Heading Size="HeadingSize.Is4">
-    Generate ODataQuery support
-</Heading>
+<Paragraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>[DisplayAttribute]</Strong>: Represents an attribute that can be applied to properties or fields to specify the caption.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>[OrderAttribute]</Strong>: Represents an attribute that can be applied to properties or fields to specify the order in which they should be displayed or edited.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>[IgnoreFieldAttribute]</Strong>: Represents an attribute that can be applied to properties or fields to specify they should not be automatically generated.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>[SelectAttribute]</Strong>: Represents an attribute that can be applied to properties or fields to specify additional metadata for a select component.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>[NumericAttribute]</Strong>: Represents an attribute that can be applied to numeric properties or fields to specify additional metadata.
+            </Paragraph>
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Paragraph>
+                <Strong>[DateAttribute]</Strong>: Represents an attribute that can be applied to date properties or fields to specify additional metadata.
+            </Paragraph>
+        </UnorderedListItem>
+    </UnorderedList>
+</Paragraph>
 
 <Paragraph>
-    Added a new extension method <Code>ToODataString</Code> to the ReadData, <Code>DataGridReadDataEventArgs</Code> that can be used to generate an OData query string.
+    For more detailed information, please visit our <Anchor To="docs/extensions/datagrid/features/auto-generate-columns">documentation</Anchor>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
-    Contextual Filtering
+    3. Generate ODataQuery API
 </Heading>
 
 <Paragraph>
-    The filtering components have further been improved to render contextual numeric, select, check, date and text edit components according to the DataGrid column types you have provided.
+    We have introduced a new feature to enhance the functionality of the Blazorise DataGrid with OData support. A new extension method, <Code>ToODataString()</Code>, has been added to the <Code>ReadData</Code> and <Code>DataGridReadDataEventArgs</Code>. This method allows users to generate an OData query string easily.
+</Paragraph>
+
+<Paragraph>
+    This addition simplifies the process of creating OData queries, making it more straightforward to integrate and interact with OData services. The ability to generate these query strings programmatically enhances the flexibility and power of data operations within the DataGrid component.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
-    Dynamic Data Binding
+    4. Contextual Filtering
 </Heading>
 
 <Paragraph>
-    We are excited to announce a new feature in the Blazorise DataGrid component – dynamic data binding. This enhancement provides greater flexibility and ease of use when working with dynamic data sources.
+    Enhancements have been made to the filtering components of the Blazorise DataGrid, providing more contextual and relevant filtering options based on the column types you have specified.
+</Paragraph>
+
+<Paragraph>
+    The improved filtering system now dynamically renders numeric, select, check, date, and text edit components according to the DataGrid column types. This ensures that users can filter data more effectively, using input methods that are most appropriate for the type of data in each column.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
-    Manual loading state
+    5. Dynamic Data Binding
 </Heading>
 
 <Paragraph>
-    Added a new <Code>SetLoading</Code> so you're able to control the loading state of the DataGrid.
+    With dynamic data binding, the DataGrid can now seamlessly bind to dynamic data sources, providing a more flexible and efficient way to handle data. Additionally, this feature includes support for <Strong>ExpandoObject</Strong>, enabling the DataGrid to work with dynamic objects that can have their properties added or removed at runtime.
+</Paragraph>
+
+<Paragraph>
+    This new capability enhances the usability of the DataGrid, particularly in scenarios where data structures are not known at compile time or can change dynamically.
+</Paragraph>
+
+<Paragraph>
+    For more detailed information, please visit our <Anchor To="docs/extensions/datagrid/binding-data/dynamic">documentation</Anchor>.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
+    6. Manual loading state
+</Heading>
+
+<Paragraph>
+    Added a new <Code>.SetLoading()</Code> method so you're able to control the loading state of the DataGrid.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is4">
+    7. Rapid Editing Mode
+</Heading>
+
+<Paragraph>
+    Introducing the new <Strong>CellNavigable</Strong> parameter for the Blazorise DataGrid. Enabling this feature allows you to navigate DataGrid cells using arrow keys, tabbing, and clicking, enhancing the ease of use and efficiency. This feature is especially useful when used in conjunction with <Strong>DataGridEditMode.Cell</Strong>, providing a seamless rapid editing experience. For more details and an updated example, please visit the Rapid Editing section on the DataGrid Editing page.
+</Paragraph>
+
+<NewsPageImageModal ImageSource="img/news/160/rapid-editing.png" ImageTitle="Feature Rapid Editing Mode" />
+
+<Paragraph>
+    Find out an updated example for Rapid Editing in the <Anchor To="docs/extensions/datagrid/features/editing" Title="Link to DataGrid Editing">DataGrid Editing</Anchor> page.
+</Paragraph>
+
+<Paragraph>
+    We have also introduced the <Strong>DataGridEditModeOptions</Strong> to give you further customization over how your DataGrid handles edit operations. This new feature includes two additional <Strong>CellEdit</Strong> options, allowing you to enable or disable editing on a single or double click. These options offer more control over the editing experience, tailoring it to fit your specific needs.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
     New MaskPlaceholder on InputMask
 </Heading>
 
@@ -223,15 +309,15 @@
     Introduced a new <Code>MaskPlaceholder</Code> property on the <Code>InputMask</Code> component to provide additional information to the user about the valid input format. While the change is not groundbreaking, it is a small but important step towards improving the user experience.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is4">
-    Disable days of week in DatePicker
+<Heading Size="HeadingSize.Is3">
+    Disable Days Of Week In DatePicker
 </Heading>
 
 <Paragraph>
     We have added a new parameter to the <Code>DatePicker</Code> component, named <Code>DisabledDays</Code>. It is now possible to disable any days of a week to be picked by the user.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is4">
+<Heading Size="HeadingSize.Is3">
     Automatic <Code>rel</Code> Attribute for Blazorise Link Component
 </Heading>
 
@@ -239,7 +325,7 @@
     Links with <Code>Target="Target.Blank"</Code> now automatically include <Code>rel="noopener noreferrer"</Code> for enhanced security and privacy. This update prevents new pages from accessing the original page, reducing phishing risks, and ensures referrer information is not sent to the target site, thereby enhancing the security and privacy of external links by default.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is4">
+<Heading Size="HeadingSize.Is3">
     Updated NumericPicker library
 </Heading>
 
@@ -247,26 +333,12 @@
     As an ongoing process to improve security of Blazorise dependencies, we have updated autoNumeric.js library to use the latest version.
 </Paragraph>
 
-<Heading Size="HeadingSize.Is4">
-    CellNavigable
-</Heading>
-
-<Paragraph>
-    Introduce the <Code>CellNavigable</Code> parameter. By enabling this feature you will be able to navigate the DataGrid cells by using the arrows keys, tabbing and clicking.
-    This feature is specially useful in conjuction with the <Code>DataGridEditMode.Cell</Code> to make the rapid editing experience more seamless.
-    Find out an updated example for Rapid Editing in the <Anchor To="docs/extensions/datagrid/features/editing" Title="Link to DataGrid Editing">DataGrid Editing</Anchor> page.
-</Paragraph>
-
-<Paragraph>
-    We've also introduced a new <Code>DataGridEditModeOptions</Code> that allows you to futher customize how your DataGrid will act regarding edit operations. Currently we've introduced two new CellEdit options to be able to enable or disable editing or single or double click.
-</Paragraph>
-
 <Heading>
     Better form support in SSR mode
 </Heading>
 
 <Paragraph>
-    In this release we have made some changes to enable beter support our input components like TextEdit, NumericEdit, etc. to work with server-side rendering. It works by automatically calculating the <Code>name</Code> attribute of form field which then helps it to properly POST the form.
+    In this release we have made some changes to enable beter support our input components like TextEdit, NumericEdit, etc. to work with <Strong>server-side rendering</Strong>. It works by automatically calculating the <Code>name</Code> attribute of form field which then helps it to properly POST the form.
 </Paragraph>
 
 <Heading Size="HeadingSize.Is4">
@@ -277,16 +349,16 @@
     Added few more options to easily define font options for the document <Code Tag>body</Code> element. It is now possible to define <Code>font-family</Code>, <Code>font-size</Code>, <Code>font-style</Code>, <Code>font-weight</Code>. All by defining the FontOptions on Blazorise theme.
 </Paragraph>
 
-<Heading>
-    Wrap Up
-</Heading>
-
-<Heading>
-    Added more customization options to the ListView component
-</Heading>
+<NewsPageSubtitle>
+    Wrap Up ️🔚
+</NewsPageSubtitle>
 
 <Paragraph>
-    Added The following customization options to the ListView component: ItemTextColor, ItemBackground, ItemPadding, ItemMargin, ItemClass, ItemStyles. These properties are callbacks that take the individual item, and return the respected values.
+    We believe these enhancements will significantly improve your development experience and the functionality of your applications. We are continually working to make Blazorise better and your feedback is invaluable to us. Please try out these new features and let us know your thoughts and experiences. Your input helps us to refine and enhance our components to better meet your needs.
 </Paragraph>
 
-<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="July 15th, 2024" Read="9 min" />
+<Paragraph>
+    Thank you for your continued support and happy coding with Blazorise!
+</Paragraph>
+
+<NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="July 23rd, 2024" Read="7 min" />
