@@ -127,7 +127,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string NumericPickerColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-SpinButton-{ToValidationStatus( validationStatus )}";
 
     #endregion
 

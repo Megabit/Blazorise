@@ -5,7 +5,7 @@ using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
 
-namespace Blazorise.FluentUI2;
+namespace Blazorise.FluentUI2.Components;
 
 public partial class NumericPicker<TValue> : Blazorise.NumericPicker<TValue>
 {
