@@ -10,7 +10,6 @@ using Blazorise.TreeView.Extensions;
 using Blazorise.TreeView.Internal;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
 #endregion
 
 namespace Blazorise.TreeView;
@@ -131,8 +130,6 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     /// <returns>Returns the awaitable task.</returns>
     public async Task Reload()
     {
-        var maxRowsLimit = LicenseChecker.GetTreeViewRowsLimit();
-
         treeViewNodeStates = new();
 
         await foreach ( var nodeState in Nodes.ToNodeStates( HasChildNodesAsync, DetermineHasChildNodes, ( node ) => ExpandedNodes?.Contains( node ) == true, DetermineIsDisabled ) )
@@ -145,7 +142,7 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
 
     private void AddTreeViewNodeState( TreeViewNodeState<TNode> treeViewNodeState )
     {
-        var maxRowsLimit = LicenseChecker.GetTreeViewRowsLimit();
+        var maxRowsLimit = BlazoriseLicenseLimitsHelper.GetTreeViewRowsLimit( LicenseChecker );
 
         if ( maxRowsLimit.HasValue )
         {

@@ -2357,7 +2357,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
         }
 
-        var maxRowsLimit = LicenseChecker.GetDataGridRowsLimit();
+        var maxRowsLimit = BlazoriseLicenseLimitsHelper.GetDataGridRowsLimit( LicenseChecker );
 
         if ( maxRowsLimit.HasValue )
         {
