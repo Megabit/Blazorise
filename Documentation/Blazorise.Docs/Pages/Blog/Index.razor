@@ -37,7 +37,7 @@
                             </CardTitle>
                         </CardBody>
                         <CardBody Padding="Padding.Is0.OnY">
-                            <BlogPagePostInto UserName="@pinnedBlog.AuthorName" ImageName="@pinnedBlog.AuthorImage" PostedOn="@pinnedBlog.PostedOn" Read="@pinnedBlog.ReadTime" />
+                            <BlogPagePostInto UserName="@pinnedBlog.AuthorName" ImageName="@pinnedBlog.AuthorImage" PostedOn="@pinnedBlog.PostedOnFormatted" Read="@pinnedBlog.ReadTime" />
                         </CardBody>
                     </Card>
                 }
@@ -54,7 +54,7 @@
 <BlogPageEntries Year="2022">
     @foreach ( var item in BlogEntries.Where( x => ( ( selectedCategory == "All" || !string.IsNullOrEmpty( search ) ) || x.Category == selectedCategory ) && x.Text.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) )
     {
-        <BlogPageEntriesItem @key="@item" To="@item.Url" ToText="@item.Text" ImageSource="@item.Image" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOn" ReadTime="@item.ReadTime" />
+        <BlogPageEntriesItem @key="@item" To="@item.Url" ToText="@item.Text" ImageSource="@item.Image" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOnFormatted" ReadTime="@item.ReadTime" />
     }
 </BlogPageEntries>
 
@@ -64,7 +64,7 @@
     string search = "";
     string selectedCategory = "All";
 
-    List<BlogEntry> BlogEntries = new List<BlogEntry>
+    public static List<BlogEntry> BlogEntries = new List<BlogEntry>
     {
         new BlogEntry { Category = "How To Guides", Url = "blog/how-to-create-social-media-share-buttons", Text = "How to create social media share buttons with Blazorise", Image = "img/blog/2024-05-17/how-to-create-social-media-share-buttons.png", AuthorName="Giorgi", AuthorImage="giorgi", PostedOn="2024-06-12", ReadTime="5 min" },
         new BlogEntry { Category = "How To Guides", Url = "blog/how-to-implement-validation-with-captcha", Text = "How to implement validation with captcha", Image = "img/blog/2024-05-08/how-to-implement-validation-with-captcha.png", AuthorName="David Moreira", AuthorImage="david", PostedOn="2024-05-08", ReadTime="5 min", Pinned = true },
