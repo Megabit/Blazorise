@@ -1,4 +1,7 @@
-﻿namespace Blazorise.Shared.Models;
+﻿using System;
+using System.Globalization;
+
+namespace Blazorise.Shared.Models;
 
 public class BlogEntry
 {
@@ -12,4 +15,5 @@ public class BlogEntry
     public string PostedOn { get; set; }
     public string ReadTime { get; set; }
     public bool Pinned { get; set; }
+    public string PostedOnFormatted => DateTime.TryParse( PostedOn, CultureInfo.InvariantCulture, out var dt ) ? dt.ToString( "MMMM dd, yyyy", CultureInfo.InvariantCulture ) : null;
 }

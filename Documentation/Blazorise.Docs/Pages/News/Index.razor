@@ -37,7 +37,7 @@
                             </CardTitle>
                         </CardBody>
                         <CardBody Padding="Padding.Is0.OnY">
-                            <NewsPagePostInfo UserName="@pinnedNews.AuthorName" ImageName="@pinnedNews.AuthorImage" PostedOn="@pinnedNews.PostedOn" Read="@pinnedNews.ReadTime" />
+                            <NewsPagePostInfo UserName="@pinnedNews.AuthorName" ImageName="@pinnedNews.AuthorImage" PostedOn="@pinnedNews.PostedOnFormatted" Read="@pinnedNews.ReadTime" />
                         </CardBody>
                     </Card>
                 }
@@ -54,7 +54,7 @@
 <NewsPageEntries Year="2022">
     @foreach ( var item in NewsEntries.Where( x => ( ( selectedCategory == "All" || !string.IsNullOrEmpty( search ) ) || x.Category == selectedCategory ) && ( x.Text.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) || x.Description.Contains( search ?? string.Empty, StringComparison.InvariantCultureIgnoreCase ) ) ) )
     {
-        <NewsPageEntriesItem @key="@item" To="@item.Url" ToText="@item.Text" ImageSource="@item.Image" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOn" ReadTime="@item.ReadTime">
+        <NewsPageEntriesItem @key="@item" To="@item.Url" ToText="@item.Text" ImageSource="@item.Image" AuthorName="@item.AuthorName" AuthorImage="@item.AuthorImage" PostedOn="@item.PostedOnFormatted" ReadTime="@item.ReadTime">
             @item.Description
         </NewsPageEntriesItem>
     }
@@ -66,7 +66,7 @@
     string search = "";
     string selectedCategory = "All";
 
-    List<BlogEntry> NewsEntries = new List<BlogEntry>
+    public static List<BlogEntry> NewsEntries = new List<BlogEntry>
     {
         new BlogEntry { Category = "Major releases", Url = "news/release-notes/160", Text = "Announcing Blazorise 1.6", Description = "Welcome to the July 2024 Blazorise 1.6 update! In this version, we are excited to bring you a host of new...", Image = "img/news/160/v160.png", AuthorName = "Mladen Macanović", AuthorImage = "mladen", PostedOn = "2024-07-23", ReadTime = "7 min", Pinned = true },
         new BlogEntry { Category = "Maintenance", Url = "news/release-notes/153", Text = "Maintenance release: Blazorise 1.5.3", Description = "It's been a while, but we're excited to bring you the latest version of Blazorise! In version...", Image = "img/news/150/v153.png", AuthorName = "Mladen Macanović", AuthorImage = "mladen", PostedOn = "2024-06-03", ReadTime = "3 min" },
