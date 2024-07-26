@@ -29,7 +29,8 @@ export function initialize(dotnetAdapter, element, elementId, readOnly, placehol
     let options = {
         modules: {
             toolbar: toolbarRef,
-            keyboard: undefined
+            keyboard: undefined,
+            table: true,
         },
         bounds: element,
         placeholder: placeholder,
@@ -75,6 +76,18 @@ export function initialize(dotnetAdapter, element, elementId, readOnly, placehol
         } else if (range !== null && oldRange === null)
             dotnetAdapter.invokeMethodAsync("OnEditorFocus");
     });
+
+    const toolbar = quill.getModule('toolbar');
+
+    if (toolbar) {
+        toolbar.addHandler('table', () => {
+            var table = quill.getModule('table');
+
+            if (table) {
+                table.insertTable(3, 3);
+            }
+        });
+    }
 
     function setContent() {
         if (contentUpdating) return;
