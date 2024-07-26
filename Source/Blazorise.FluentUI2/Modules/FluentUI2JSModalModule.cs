@@ -5,8 +5,8 @@ namespace Blazorise.FluentUI2.Modules;
 
 internal class FluentUI2JSModalModule : JSModalModule
 {
-    public FluentUI2JSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider )
-        : base( jsRuntime, versionProvider )
+    public FluentUI2JSModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options )
+        : base( jsRuntime, versionProvider, options )
     {
     }
 

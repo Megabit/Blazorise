@@ -24,6 +24,7 @@ public partial class DataGridPage
     private DataGridCommandMode commandsMode = DataGridCommandMode.Commands;
     private TableResizeMode resizableMode = TableResizeMode.Header;
     private DataGridFilterMode filterMode = DataGridFilterMode.Default;
+    private TableResponsiveMode responsiveMode = TableResponsiveMode.Default;
 
     private DataGrid<Employee> dataGrid;
     public int currentPage { get; set; } = 1;

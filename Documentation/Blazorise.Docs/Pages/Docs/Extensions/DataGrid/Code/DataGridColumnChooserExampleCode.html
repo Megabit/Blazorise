@@ -6,7 +6,8 @@
           <span class="htmlAttributeName">ShowColumnChooser</span>
           <span class="htmlAttributeName">PagerPosition</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="enum">DataGridPagerPosition</span><span class="enumValue">.Top</span><span class="quot">&quot;</span>
           <span class="htmlAttributeName">ShowPager</span>
-          <span class="htmlAttributeName">ShowPageSizes</span><span class="htmlTagDelimiter">&gt;</span>
+          <span class="htmlAttributeName">ShowPageSizes</span>
+          <span class="htmlAttributeName">ColumnDisplayingChanged</span><span class="htmlOperator">=</span><span class="quot">&quot;</span><span class="sharpVariable"><span class="atSign">&#64;</span>ColumnDisplayChanged</span><span class="quot">&quot;</span><span class="htmlTagDelimiter">&gt;</span>
 <span class="htmlTagDelimiter">&lt;/</span><span class="htmlElementName">DataGrid</span><span class="htmlTagDelimiter">&gt;</span>
 </pre></div>
 <div class="csharp"><pre>
@@ -20,6 +21,11 @@
     {
         inMemoryData = ( <span class="keyword">await</span> EmployeeData.GetDataAsync().ConfigureAwait( <span class="keyword">false</span> ) ).Take( <span class="number">25</span> );
         <span class="keyword">await</span> <span class="keyword">base</span>.OnInitializedAsync();
+    }
+
+    <span class="keyword">protected</span> <span class="keyword">void</span> ColumnDisplayChanged( ColumnDisplayChangedEventArgs&lt;Employee&gt; args )
+    {
+        Console.WriteLine( $<span class="string">&quot;Column: {args.Column.Field} | Display: {args.Display}&quot;</span> );
     }
 }
 </pre></div>

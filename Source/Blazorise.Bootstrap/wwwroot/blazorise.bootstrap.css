@@ -2160,6 +2160,41 @@ tr.table-row-selectable:focus[tabindex="0"] {
   right: 0;
 }
 
+td:focus {
+  outline: -webkit-focus-ring-color auto 1px;
+}
+
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  .table-mobile {
+    /* Force table to not be like tables anymore */
+    /* Hide table headers (but not display: none;, for accessibility) */
+  }
+  .table-mobile [data-caption]:before {
+    content: attr(data-caption);
+  }
+  .table-mobile thead, .table-mobile tbody, .table-mobile th, .table-mobile td, .table-mobile tr {
+    display: block;
+  }
+  .table-mobile thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  .table-mobile td, .table-mobile th {
+    /* Behave  like a "row" */
+    position: relative;
+    padding-top: 1.5rem !important;
+  }
+  .table-mobile td:before, .table-mobile th:before {
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+  .table-mobile:not(.table-borderless) tr {
+    border-bottom: 1px solid;
+  }
+}
 .toast-container {
   z-index: 1060;
 }

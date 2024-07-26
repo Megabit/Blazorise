@@ -52,7 +52,7 @@ public partial class QRCode : BaseComponent, IAsyncDisposable
     {
         if ( JSModule == null )
         {
-            JSModule = new JSQRCodeModule( JSRuntime, VersionProvider );
+            JSModule = new JSQRCodeModule( JSRuntime, VersionProvider, BlazoriseOptions );
         }
 
         return base.OnInitializedAsync();
@@ -126,6 +126,11 @@ public partial class QRCode : BaseComponent, IAsyncDisposable
     /// Gets or sets the version provider.
     /// </summary>
     [Inject] private IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// Value used for QR code generation.

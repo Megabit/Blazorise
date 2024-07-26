@@ -1,7 +1,7 @@
-import "./vendors/flatpickr.js?v=1.5.3.0";
-import * as utilities from "./utilities.js?v=1.5.3.0";
-import * as inputmask from "./inputMask.js?v=1.5.3.0";
-import { ClassWatcher } from "./observer.js?v=1.5.3.0";
+import "./vendors/flatpickr.js?v=1.6.0.0";
+import * as utilities from "./utilities.js?v=1.6.0.0";
+import * as inputmask from "./inputMask.js?v=1.6.0.0";
+import { ClassWatcher } from "./observer.js?v=1.6.0.0";
 
 const _pickers = [];
 
@@ -42,6 +42,11 @@ export function initialize(dotnetAdapter, element, elementId, options) {
     const mutationObserver = new MutationObserver(mutationObserverCallback);
     mutationObserver.observe(document.getElementById(elementId), { attributes: true });
 
+    const disableDatesOptions = options.disabledDates || [];
+    const disableDaysOptions = options.disabledDays ? [function (date) {
+        return options.disabledDays && options.disabledDays.length > 0 && options.disabledDays.includes(date.getDay());
+    }] : [];
+
     const defaultOptions = {
         enableTime: options.inputMode === 1,
         dateFormat: options.inputMode === 1 ? 'Y-m-d H:i' : 'Y-m-d',
@@ -56,7 +61,7 @@ export function initialize(dotnetAdapter, element, elementId, options) {
         },
         time_24hr: options.timeAs24hr ? options.timeAs24hr : false,
         clickOpens: !(options.readOnly || false),
-        disable: options.disabledDates || [],
+        disable: disableDatesOptions.concat(disableDaysOptions),
         inline: options.inline || false,
         disableMobile: options.disableMobile || true,
         static: options.staticPicker,
@@ -287,8 +292,13 @@ export function updateOptions(element, elementId, options) {
             picker.set("clickOpens", !options.readOnly.value);
         }
 
-        if (options.disabledDates.changed) {
-            picker.set("disable", options.disabledDates.value || []);
+        if (options.disabledDates.changed || options.disabledDays.changed) {
+            const disableDatesOptions = options.disabledDates.value || [];
+            const disableDaysOptions = options.disabledDays.value ? [function (date) {
+                return options.disabledDays.value && options.disabledDays.value.length > 0 && options.disabledDays.value.includes(date.getDay());
+            }] : [];
+
+            picker.set("disable", disableDatesOptions.concat(disableDaysOptions));
         }
 
         if (options.selectionMode.changed) {

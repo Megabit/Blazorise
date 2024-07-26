@@ -7059,6 +7059,41 @@ input::file-selector-button {
   cursor: col-resize !important;
 }
 
+td:focus {
+  outline: -webkit-focus-ring-color auto 1px;
+}
+
+@media only screen and (max-width: 760px), (min-device-width: 768px) and (max-device-width: 1024px) {
+  .fui-Table-mobile {
+    /* Force table to not be like tables anymore */
+    /* Hide table headers (but not display: none;, for accessibility) */
+  }
+  .fui-Table-mobile [data-caption]:before {
+    content: attr(data-caption);
+  }
+  .fui-Table-mobile thead, .fui-Table-mobile tbody, .fui-Table-mobile th, .fui-Table-mobile td, .fui-Table-mobile tr {
+    display: block !important;
+  }
+  .fui-Table-mobile thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  .fui-Table-mobile td, .fui-Table-mobile th {
+    /* Behave  like a "row" */
+    position: relative;
+    padding-top: 1.25rem !important;
+  }
+  .fui-Table-mobile td:before, .fui-Table-mobile th:before {
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+  .fui-Table-mobile:not(.fui-Table-borderless) tr {
+    border-bottom: 1px solid;
+  }
+}
 .fui-TabList {
   align-items: stretch;
   position: relative;

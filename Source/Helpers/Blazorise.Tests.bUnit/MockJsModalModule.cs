@@ -7,7 +7,7 @@ namespace Blazorise.Tests.bUnit;
 
 public class MockJsModalModule : JSModalModule
 {
-    public MockJsModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider ) : base( jsRuntime, versionProvider )
+    public MockJsModalModule( IJSRuntime jsRuntime, IVersionProvider versionProvider, BlazoriseOptions options ) : base( jsRuntime, versionProvider, options )
     {
     }
 

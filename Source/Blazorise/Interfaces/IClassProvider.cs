@@ -1012,6 +1012,8 @@ public interface IClassProvider
 
     string TableFixedColumns( bool fixedColumns );
 
+    string TableResponsiveMode( TableResponsiveMode responsiveMode );
+
     #endregion
 
     #region Badge

@@ -200,6 +200,17 @@ public partial class ColorPicker : BaseInputComponent<string>, ISelectableCompon
         return CurrentValueHandler( value );
     }
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( ColorExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( ColorExpression )
+            : ExpressionFormatter.FormatLambda( ColorExpression );
+    }
+
     #endregion
 
     #region Properties

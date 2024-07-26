@@ -56,6 +56,17 @@ public abstract class BaseCheckComponent<TValue> : BaseInputComponent<TValue>
         return CheckedChanged.InvokeAsync( Checked );
     }
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( CheckedExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( CheckedExpression )
+            : ExpressionFormatter.FormatLambda( CheckedExpression );
+    }
+
     #endregion
 
     #region Properties

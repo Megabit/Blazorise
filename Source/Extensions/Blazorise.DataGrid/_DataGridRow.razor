@@ -36,8 +36,8 @@
                   Class="@GetClass(styling, selectedStyling, rowBatchEditStyling)"
                   Style="@GetStyle(styling, selectedStyling, rowBatchEditStyling)"
                   HoverCursor="@GetHoverCursor()"
-                  @onkeydown="@(ParentDataGrid.Navigable ? HandleKeyDown : null)"
-                  tabindex="@(ParentDataGrid.Navigable || ParentDataGrid.IsCellEdit ? 0 : null)">
+                  @onkeydown="@(ParentDataGrid.IsRowNavigable ? HandleKeyDown : null)"
+                  tabindex="@(ParentDataGrid.IsRowNavigable || ParentDataGrid.IsCellEdit ? 0 : null)">
 
             @ParentDataGrid.groupIndentationFragment
 
@@ -80,11 +80,15 @@
                 else
                 {
                     <TableRowCell @key=column
-                                  @onclick=@(ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, GetCurrentItem()) : default)
+                                  @onclick=@(ParentDataGrid.IsCellEditOnSingleClick && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, GetCurrentItem()) : default)
+                                  @ondblclick=@(ParentDataGrid.IsCellEditOnDoubleClick && ParentDataGrid.EditState != DataGridEditState.New ? async () => await ParentDataGrid.HandleCellEdit(column, GetCurrentItem()) : default)
+                                  @onkeydown="@(args => ParentDataGrid.IsCellEdit && ParentDataGrid.EditState != DataGridEditState.New ? HandleCellKeyDown(args, column) : default)"
+                                  tabindex="@(ParentDataGrid.IsCellNavigable ? 0 : null)"
                                   ClickStopPropagation=@column.PreventRowClick
                                   TextAlignment="@column.TextAlignment" VerticalAlignment="@column.VerticalAlignment" Display="@column.Display" Flex="@column.Flex" Gap="@column.Gap" FixedPosition="@column.FixedPosition" Width="@column.BuildCellFluentSizing()"
                                   Style="@GetCellStyle(column, styling, selectedStyling, cellBatchEditStyling)" Class="@GetCellClass(column, styling, selectedStyling, cellBatchEditStyling)"
-                                  Background="@GetCellBackground(styling, selectedStyling, cellBatchEditStyling)" Color="@GetCellColor(styling, selectedStyling, cellBatchEditStyling)" TextColor="@GetCellTextColor(styling, selectedStyling, cellBatchEditStyling)">
+                                  Background="@GetCellBackground(styling, selectedStyling, cellBatchEditStyling)" Color="@GetCellColor(styling, selectedStyling, cellBatchEditStyling)" TextColor="@GetCellTextColor(styling, selectedStyling, cellBatchEditStyling)"
+                                  MobileModeCaption="@column.Caption">
                         @if ( column.DisplayTemplate != null )
                         {
                             @column.DisplayTemplate( GetCurrentItem() )

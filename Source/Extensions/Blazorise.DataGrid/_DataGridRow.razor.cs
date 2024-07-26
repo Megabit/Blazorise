@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -144,6 +145,29 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             {
                 await ParentDataGrid.Select( ParentDataGrid.DisplayData.ElementAt( idx + 1 ) );
                 return;
+            }
+        }
+    }
+
+    protected async Task HandleCellKeyDown( KeyboardEventArgs args, DataGridColumn<TItem> column )
+    {
+        if ( !ParentDataGrid.IsCellEdit )
+            return;
+
+        var isKeyboardKeyText = args.IsTextKey();
+        if ( !args.IsModifierKey() )
+        {
+            if ( isKeyboardKeyText )
+            {
+                await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), args.Key );
+            }
+            else if ( args.Code == "Enter" || args.Code == "NumpadEnter" )
+            {
+                await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), null );
+            }
+            else if (args.Code == "Backspace" )
+            {
+                await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), string.Empty );
             }
         }
     }

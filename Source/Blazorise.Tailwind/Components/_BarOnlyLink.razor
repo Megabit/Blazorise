@@ -1,6 +1,6 @@
 ﻿@using Blazorise.Utilities;
 @inherits Blazorise.BaseLinkComponent
-<a id="@ElementId" href="@To" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
+<a id="@ElementId" href="@To" rel="@GetRel()" class="@ClassNames" style="@StyleNames" title="@Title" target="@TargetName" @onclick="@OnClickHandler" @onclick:preventDefault="@PreventDefault" @attributes="@Attributes">
     @ChildContent
 </a>
 @code {

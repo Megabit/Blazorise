@@ -1,5 +1,5 @@
-import "./vendors/jsencrypt.js?v=1.5.3.0";
-import "./vendors/sha512.js?v=1.5.3.0";
+import "./vendors/jsencrypt.js?v=1.6.0.0";
+import "./vendors/sha512.js?v=1.6.0.0";
 
 // adds a classname to the specified element
 export function addClass(element, classname) {
@@ -38,7 +38,7 @@ export function removeClassFromBody(classname) {
 export function focus(element, elementId, scrollToElement) {
     element = getRequiredElement(element, elementId);
 
-    if (element) {
+    if (element && typeof element.focus === "function") {
         element.focus({
             preventScroll: !scrollToElement
         });
@@ -46,14 +46,14 @@ export function focus(element, elementId, scrollToElement) {
 }
 
 // selects the given element
-export function select(element, elementId, focus) {
-    if (focus) {
+export function select(element, elementId, toFocus) {
+    if (toFocus) {
         focus(element, elementId, true);
     }
 
     element = getRequiredElement(element, elementId);
 
-    if (element) {
+    if (element && typeof element.select === "function") {
         element.select();
     }
 }

@@ -62,8 +62,7 @@ partial class _DataGridPagination<TItem> : BaseComponent, IDisposable
 
     private async Task ColumnDisplayingChanged( DataGridColumn<TItem> dataGridColumn, bool displaying )
     {
-        dataGridColumn.Displaying = displaying;
-        await ParentDataGrid.Refresh();
+        await dataGridColumn.SetDisplaying( displaying );
     }
 
     private async void OnLocalizationChanged( object sender, EventArgs e )

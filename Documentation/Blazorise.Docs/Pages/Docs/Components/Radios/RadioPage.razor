@@ -44,6 +44,17 @@
     <DocsPageSectionSource Code="BasicRadioGroupExample" />
 </DocsPageSection>
 
+<Paragraph>
+    <Alert Color="Color.Warning" Visible>
+        <AlertMessage>
+            Important Note:
+        </AlertMessage>
+        <AlertDescription>
+            For the <Code>RadioGroup</Code> and <Code>Radio</Code> components to work correctly, the <Code>TValue</Code> type must match across both. This is especially important when using nullable types, as mismatched types can lead to unexpected behavior.
+        </AlertDescription>
+    </Alert>
+</Paragraph>
+
 <DocsPageSection>
     <DocsPageSectionHeader Title="Standalone Radio">
         <Code>Radio</Code> can also be used standalone, without the <Code>RadioGroup</Code> wrapper.

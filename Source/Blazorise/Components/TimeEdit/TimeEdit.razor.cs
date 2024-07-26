@@ -122,6 +122,17 @@ public partial class TimeEdit<TValue> : BaseTextInput<TValue>
         return JSUtilitiesModule.ShowPicker( ElementRef, ElementId ).AsTask();
     }
 
+    /// <inheritdoc/>
+    protected override string GetFormatedValueExpression()
+    {
+        if ( TimeExpression is null )
+            return null;
+
+        return HtmlFieldPrefix is not null
+            ? HtmlFieldPrefix.GetFieldName( TimeExpression )
+            : ExpressionFormatter.FormatLambda( TimeExpression );
+    }
+
     #endregion
 
     #region Properties

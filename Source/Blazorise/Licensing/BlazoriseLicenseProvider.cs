@@ -14,6 +14,11 @@ namespace Blazorise.Licensing;
 public sealed class BlazoriseLicenseProvider
 {
     #region Members
+    internal const int DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS = 1000;
+    internal const int DEFAULT_UNLICENSED_LIMIT_AUTOCOMPLETE_MAX_ROWS = 1000;
+    internal const int DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS = 10;
+    internal const int DEFAULT_UNLICENSED_LIMIT_LISTVIEW_MAX_ROWS = 1000;
+    internal const int DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS = 100;
 
     private static readonly Assembly CurrentAssembly = typeof( BlazoriseLicenseProvider ).Assembly;
 
@@ -89,7 +94,7 @@ public sealed class BlazoriseLicenseProvider
         {
             if ( IsWebAssembly )
             {
-                var wasmLicenseVerifier = LicenseVerifier.Create().WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, PublicKey );
+                var wasmLicenseVerifier = LicenseVerifier.Create().WithWebAssemblyRsaPublicKey( jsRuntime, versionProvider, options, PublicKey );
                 var license = await wasmLicenseVerifier.Load( options.ProductToken, true );
 
                 if ( wasmLicenseVerifier.Verify( license, new Assembly[] { CurrentAssembly } ) )
@@ -205,7 +210,7 @@ public sealed class BlazoriseLicenseProvider
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
-            limitsDataGridMaxRows = 1000;
+            limitsDataGridMaxRows = DEFAULT_UNLICENSED_LIMIT_DATAGRID_MAX_ROWS;
         }
 
         return limitsDataGridMaxRows;
@@ -233,7 +238,7 @@ public sealed class BlazoriseLicenseProvider
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
-            limitsAutocompleteMaxRows = 1000;
+            limitsAutocompleteMaxRows = DEFAULT_UNLICENSED_LIMIT_AUTOCOMPLETE_MAX_ROWS;
         }
 
         return limitsAutocompleteMaxRows;
@@ -261,7 +266,7 @@ public sealed class BlazoriseLicenseProvider
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
-            limitsChartsMaxRows = 10;
+            limitsChartsMaxRows = DEFAULT_UNLICENSED_LIMIT_CHARTS_MAX_ROWS;
         }
 
         return limitsChartsMaxRows;
@@ -289,7 +294,7 @@ public sealed class BlazoriseLicenseProvider
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
-            limitsListViewMaxRows = 1000;
+            limitsListViewMaxRows = DEFAULT_UNLICENSED_LIMIT_LISTVIEW_MAX_ROWS;
         }
 
         return limitsListViewMaxRows;
@@ -317,7 +322,7 @@ public sealed class BlazoriseLicenseProvider
         }
         else if ( Result == BlazoriseLicenseResult.Unlicensed )
         {
-            limitsTreeViewMaxRows = 100;
+            limitsTreeViewMaxRows = DEFAULT_UNLICENSED_LIMIT_TREEVIEW_MAX_ROWS;
         }
 
         return limitsTreeViewMaxRows;

@@ -60,7 +60,7 @@ public class DataGridReadDataEventArgs<TItem> : EventArgs
             sortByColumns?.FirstOrDefault( sortCol => sortCol.IsEqual( x ) )?.SortOrder ?? -1,
             x.ColumnType,
             x.GetFieldToSort(),
-            x.GetFilterMethod() ));
+            x.GetFilterMethod() ?? x.GetDataGridFilterMethodAsColumn() ) );
         CancellationToken = cancellationToken;
         VirtualizeOffset = virtualizeOffset;
         VirtualizeCount = virtualizeCount;

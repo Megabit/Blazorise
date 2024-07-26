@@ -21,7 +21,7 @@ public class BaseDataGridComponent : BaseAfterRenderComponent, IAsyncDisposable
 
         if ( JSModule is null )
         {
-            JSModule = new JSDataGridModule( JSRuntime, VersionProvider );
+            JSModule = new JSDataGridModule( JSRuntime, VersionProvider, BlazoriseOptions );
         }
 
         ElementId ??= IdGenerator.Generate;
@@ -52,6 +52,11 @@ public class BaseDataGridComponent : BaseAfterRenderComponent, IAsyncDisposable
     /// Gets or sets the version provider.
     /// </summary>
     [Inject] protected IVersionProvider VersionProvider { get; set; }
+
+    /// <summary>
+    /// Gets or sets the blazorise options.
+    /// </summary>
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// Gets or sets the classname provider.

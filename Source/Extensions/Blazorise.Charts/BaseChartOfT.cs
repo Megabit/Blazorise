@@ -36,7 +36,7 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     {
         if ( JSModule == null )
         {
-            JSModule = new JSChartModule( JSRuntime, VersionProvider );
+            JSModule = new JSChartModule( JSRuntime, VersionProvider, BlazoriseOptions );
         }
 
         return base.OnInitializedAsync();
@@ -118,6 +118,8 @@ public class BaseChart<TItem> : BaseComponent, IAsyncDisposable
     [Inject] protected IJSRuntime JSRuntime { get; set; }
 
     [Inject] protected IVersionProvider VersionProvider { get; set; }
+
+    [Inject] protected BlazoriseOptions BlazoriseOptions { get; set; }
 
     /// <summary>
     /// Defines the chart data.
