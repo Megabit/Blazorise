@@ -788,15 +788,15 @@ public interface IClassProvider
 
     string AlertColor( Color color );
 
-    string AlertDismisable();
+    string AlertDismisable( bool dismissable );
 
-    string AlertFade();
+    string AlertFade( bool dismissable );
 
-    string AlertShow();
+    string AlertShow( bool dismissable, bool visible );
 
-    string AlertHasMessage();
+    string AlertHasMessage( bool hasMessage );
 
-    string AlertHasDescription();
+    string AlertHasDescription( bool hasDescription );
 
     string AlertMessage();
 

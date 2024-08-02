@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.AntDesign.Providers;
@@ -849,17 +850,17 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Alert() => "ant-alert ant-alert-no-icon";
 
-    public override string AlertColor( Color color ) => $"ant-alert-{ToColor( color )}";
+    public override string AlertColor( Color color ) => color.IsNullOrDefault() ? null : $"ant-alert-{ToColor( color )}";
 
-    public override string AlertDismisable() => "ant-alert-closable";
+    public override string AlertDismisable( bool dismissable ) => dismissable ? "ant-alert-closable" : null;
 
-    public override string AlertFade() => Fade();
+    public override string AlertFade( bool dismissable ) => dismissable ? Fade() : null;
 
-    public override string AlertShow() => Show();
+    public override string AlertShow( bool dismissable, bool visible ) => dismissable && visible ? Show() : null;
 
-    public override string AlertHasMessage() => null;
+    public override string AlertHasMessage( bool hasMessage ) => null;
 
-    public override string AlertHasDescription() => "ant-alert-with-description";
+    public override string AlertHasDescription( bool hasDescription ) => hasDescription ? "ant-alert-with-description" : null;
 
     public override string AlertMessage() => "ant-alert-message";
 

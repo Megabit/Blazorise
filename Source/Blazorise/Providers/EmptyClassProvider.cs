@@ -793,15 +793,15 @@ class EmptyClassProvider : IClassProvider
 
     public string AlertColor( Color color ) => null;
 
-    public string AlertDismisable() => null;
+    public string AlertDismisable( bool dismissable ) => null;
 
-    public string AlertFade() => null;
+    public string AlertFade( bool dismissable ) => null;
 
-    public string AlertShow() => null;
+    public string AlertShow( bool dismissable, bool visible ) => null;
 
-    public string AlertHasMessage() => null;
+    public string AlertHasMessage( bool hasMessage ) => null;
 
-    public string AlertHasDescription() => null;
+    public string AlertHasDescription( bool hasDescription ) => null;
 
     public string AlertMessage() => null;
 

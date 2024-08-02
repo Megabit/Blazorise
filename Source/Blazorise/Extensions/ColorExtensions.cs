@@ -14,4 +14,14 @@ public static class ColorExtensions
     {
         return color == null || color == Color.Default;
     }
+
+    /// <summary>
+    /// Determines if the supplied color is defined, i.e. not null or empty.
+    /// </summary>
+    /// <param name="color">Color value to check.</param>
+    /// <returns>True if color is not <c>null</c> or <see cref="Color.Default"/>.</returns>
+    public static bool IsNotNullOrDefault( this Color color )
+    {
+        return color != null && color != Color.Default;
+    }
 }

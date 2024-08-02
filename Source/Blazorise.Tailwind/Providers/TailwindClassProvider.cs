@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.Tailwind.Providers;
@@ -1262,6 +1263,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string AlertColor( Color color )
     {
+        if ( color.IsNullOrDefault() )
+            return null;
+
         var name = color?.Name;
 
         return name switch
@@ -1279,15 +1283,15 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string AlertDismisable() => "alert-dismissible";
+    public override string AlertDismisable( bool dismissable ) => dismissable ? "alert-dismissible" : null;
 
-    public override string AlertFade() => Fade();
+    public override string AlertFade( bool dismissable ) => dismissable ? Fade() : null;
 
-    public override string AlertShow() => Show();
+    public override string AlertShow( bool dismissable, bool visible ) => dismissable && visible ? Show() : null;
 
-    public override string AlertHasMessage() => null;
+    public override string AlertHasMessage( bool hasMessage ) => null;
 
-    public override string AlertHasDescription() => null;
+    public override string AlertHasDescription( bool hasDescription ) => null;
 
     public override string AlertMessage() => null;
 

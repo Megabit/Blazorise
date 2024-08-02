@@ -790,15 +790,15 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string AlertColor( Color color );
 
-    public abstract string AlertDismisable();
+    public abstract string AlertDismisable( bool dismissable );
 
-    public abstract string AlertFade();
+    public abstract string AlertFade( bool dismissable );
 
-    public abstract string AlertShow();
+    public abstract string AlertShow( bool dismissable, bool visible );
 
-    public abstract string AlertHasMessage();
+    public abstract string AlertHasMessage( bool hasMessage );
 
-    public abstract string AlertHasDescription();
+    public abstract string AlertHasDescription( bool hasDescription );
 
     public abstract string AlertMessage();
 
