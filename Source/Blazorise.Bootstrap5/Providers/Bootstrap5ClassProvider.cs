@@ -147,13 +147,13 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Check() => "form-check-input";
 
-    public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
+    public override string CheckSize( Size size ) => size != Size.Default ? $"{Check()}-{ToSize( size )}" : null;
 
     public override string CheckInline() => "form-check-inline";
 
-    public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
+    public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Check()}-{ToCursor( cursor )}" : null;
 
-    public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

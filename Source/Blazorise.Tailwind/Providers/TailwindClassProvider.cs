@@ -188,6 +188,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CheckSize( Size size )
     {
+        if ( size == Size.Default )
+            return null;
+
         return size switch
         {
             Size.ExtraSmall => "w-2 h-2",
@@ -201,9 +204,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CheckInline() => null;
 
-    public override string CheckCursor( Cursor cursor ) => $"cursor-{ToCursor( cursor )}";
+    public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
-    public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

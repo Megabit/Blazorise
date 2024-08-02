@@ -147,13 +147,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Check() => "is-checkradio";
 
-    public override string CheckSize( Size size ) => $"is-{ToSize( size )}";
+    public override string CheckSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     public override string CheckInline() => "is-inline";
 
-    public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
+    public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Check()}-{ToCursor( cursor )}" : null;
 
-    public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

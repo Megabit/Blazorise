@@ -147,13 +147,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Check() => "fui-Checkbox__input";
 
-    public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
+    public override string CheckSize( Size size ) => size != Size.Default ? $"{Check()}-{ToSize( size )}" : null;
 
     public override string CheckInline() => "fui-Checkbox__input-inline";
 
-    public override string CheckCursor( Cursor cursor ) => $"{Check()}-{ToCursor( cursor )}";
+    public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Check()}-{ToCursor( cursor )}" : null;
 
-    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 

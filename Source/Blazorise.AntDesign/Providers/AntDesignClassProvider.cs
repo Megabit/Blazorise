@@ -147,13 +147,13 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Check() => "ant-checkbox-input";
 
-    public override string CheckSize( Size size ) => $"{Check()}-{ToSize( size )}";
+    public override string CheckSize( Size size ) => size != Size.Default ? $"{Check()}-{ToSize( size )}" : null;
 
     public override string CheckInline() => null;
 
     public override string CheckCursor( Cursor cursor ) => null;
 
-    public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
