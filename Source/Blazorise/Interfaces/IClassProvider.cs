@@ -1022,9 +1022,11 @@ public interface IClassProvider
 
     string BadgeColor( Color color );
 
-    string BadgePill();
+    string BadgePill( bool pill );
 
     string BadgeClose();
+
+    string BadgeCloseColor( Color color );
 
     #endregion
 

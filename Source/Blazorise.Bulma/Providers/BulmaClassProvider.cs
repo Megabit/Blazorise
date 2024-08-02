@@ -1178,11 +1178,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Badge() => "tag";
 
-    public override string BadgeColor( Color color ) => $"is-{ToColor( color )}";
+    public override string BadgeColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
 
-    public override string BadgePill() => null;
+    public override string BadgePill( bool pill ) => null;
 
     public override string BadgeClose() => "delete is-small";
+
+    public override string BadgeCloseColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
 
     #endregion
 

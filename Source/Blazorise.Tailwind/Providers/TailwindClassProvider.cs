@@ -1686,6 +1686,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BadgeColor( Color color )
     {
+        if ( color.IsNullOrDefault() )
+            return null;
+
         var name = color?.Name;
 
         return name switch
@@ -1703,9 +1706,11 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string BadgePill() => "b-badge-pill rounded-full";
+    public override string BadgePill( bool pill ) => pill ? "b-badge-pill rounded-full" : null;
 
     public override string BadgeClose() => null;
+
+    public override string BadgeCloseColor( Color color ) => BadgeColor( color );
 
     #endregion
 

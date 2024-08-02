@@ -1024,9 +1024,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BadgeColor( Color color );
 
-    public abstract string BadgePill();
+    public abstract string BadgePill( bool pill );
 
     public abstract string BadgeClose();
+
+    public abstract string BadgeCloseColor( Color color );
 
     #endregion
 

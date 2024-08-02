@@ -1143,6 +1143,9 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BadgeColor( Color color )
     {
+        if ( color.IsNullOrDefault() )
+            return null;
+
         var colorName = color?.Name switch
         {
             "secondary" => "default",
@@ -1153,9 +1156,24 @@ public class AntDesignClassProvider : ClassProvider
         return $"{Badge()}-{colorName}";
     }
 
-    public override string BadgePill() => $"{Badge()}-pill";
+    public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
     public override string BadgeClose() => "anticon anticon-close";
+
+    public override string BadgeCloseColor( Color color )
+    {
+        if ( color.IsNullOrDefault() )
+            return null;
+
+        var colorName = color?.Name switch
+        {
+            "secondary" => "default",
+            "danger" => "error",
+            _ => color?.Name,
+        };
+
+        return $"{Badge()}-{colorName}";
+    }
 
     #endregion
 

@@ -1027,9 +1027,11 @@ class EmptyClassProvider : IClassProvider
 
     public string BadgeColor( Color color ) => null;
 
-    public string BadgePill() => null;
+    public string BadgePill( bool pill ) => null;
 
     public string BadgeClose() => null;
+
+    public string BadgeCloseColor( Color color ) => null;
 
     #endregion
 
