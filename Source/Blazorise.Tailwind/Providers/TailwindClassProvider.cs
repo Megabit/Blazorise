@@ -1098,9 +1098,11 @@ public class TailwindClassProvider : ClassProvider
         ? "b-bar-dropdown-menu-show block"
         : "b-bar-dropdown-menu-hide hidden";
 
-    public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "b-bar-dropdown-menu-right right-0 left-auto"
-        : "b-bar-right";
+    public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned
+        ? mode == Blazorise.BarMode.Horizontal
+            ? "b-bar-dropdown-menu-right right-0 left-auto"
+            : "b-bar-right"
+        : null;
 
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
 

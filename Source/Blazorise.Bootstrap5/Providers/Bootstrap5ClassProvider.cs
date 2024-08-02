@@ -726,7 +726,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string BarDropdownMenuVisible( BarMode mode, bool visible ) => visible ? Show() : null;
 
-    public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-end" : "b-bar-right";
+    public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned ? mode == Blazorise.BarMode.Horizontal ? "dropdown-menu-end" : "b-bar-right" : null;
 
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
 

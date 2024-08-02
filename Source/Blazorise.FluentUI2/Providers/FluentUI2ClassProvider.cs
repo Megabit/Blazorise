@@ -870,9 +870,11 @@ public class FluentUI2ClassProvider : ClassProvider
         ? visible ? "fui-NavigationBar__dropdown-menu-show" : null
         : visible ? "dropdown-menu-show" : null;
 
-    public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__dropdown-right"
-        : "b-bar-right";
+    public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned
+        ? mode == Blazorise.BarMode.Horizontal
+            ? "fui-NavigationBar__dropdown-right"
+            : "b-bar-right"
+        : null;
 
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ?
         null :

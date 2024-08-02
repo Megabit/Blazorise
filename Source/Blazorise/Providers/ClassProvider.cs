@@ -697,7 +697,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarDropdownMenuVisible( BarMode mode, bool visible );
 
-    public abstract string BarDropdownMenuRight( BarMode mode );
+    public abstract string BarDropdownMenuRight( BarMode mode, bool rightAligned );
 
     public abstract string BarDropdownMenuContainer( BarMode mode );
 

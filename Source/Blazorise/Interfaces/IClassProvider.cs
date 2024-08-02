@@ -696,7 +696,7 @@ public interface IClassProvider
 
     string BarDropdownMenuVisible( BarMode mode, bool visible );
 
-    string BarDropdownMenuRight( BarMode mode );
+    string BarDropdownMenuRight( BarMode mode, bool rightAligned );
 
     string BarDropdownMenuContainer( BarMode mode );
 
