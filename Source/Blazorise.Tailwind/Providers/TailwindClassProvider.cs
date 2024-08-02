@@ -1054,7 +1054,7 @@ public class TailwindClassProvider : ClassProvider
         ? "b-bar-menu collapse navbar-collapse z-30"
         : "b-bar-menu";
 
-    public override string BarMenuShow( BarMode mode ) => Show();
+    public override string BarMenuShow( BarMode mode, bool show ) => show ? Show() : null;
 
     public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-start items-center justify-between hidden w-full md:flex md:w-auto md:order-1 mr-auto"

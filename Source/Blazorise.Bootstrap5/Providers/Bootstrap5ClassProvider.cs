@@ -695,7 +695,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "collapse navbar-collapse" : "b-bar-menu";
 
-    public override string BarMenuShow( BarMode mode ) => Show();
+    public override string BarMenuShow( BarMode mode, bool show ) => show ? Show() : null;
 
     public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-nav me-auto" : "b-bar-start";
 

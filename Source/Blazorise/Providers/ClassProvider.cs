@@ -671,7 +671,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarMenu( BarMode mode );
 
-    public abstract string BarMenuShow( BarMode mode );
+    public abstract string BarMenuShow( BarMode mode, bool show );
 
     public abstract string BarStart( BarMode mode );
 

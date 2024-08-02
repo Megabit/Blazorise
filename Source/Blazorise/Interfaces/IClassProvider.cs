@@ -670,7 +670,7 @@ public interface IClassProvider
 
     string BarMenu( BarMode mode );
 
-    string BarMenuShow( BarMode mode );
+    string BarMenuShow( BarMode mode, bool show );
 
     string BarStart( BarMode mode );
 

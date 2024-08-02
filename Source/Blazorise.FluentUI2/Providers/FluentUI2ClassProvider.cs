@@ -818,9 +818,11 @@ public class FluentUI2ClassProvider : ClassProvider
         ? "fui-NavigationBar__menu"
         : "b-bar-menu";
 
-    public override string BarMenuShow( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__menu-show"
-        : Show();
+    public override string BarMenuShow( BarMode mode, bool show ) => show
+        ? mode == Blazorise.BarMode.Horizontal
+            ? "fui-NavigationBar__menu-show"
+            : Show()
+        : null;
 
     public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__start"

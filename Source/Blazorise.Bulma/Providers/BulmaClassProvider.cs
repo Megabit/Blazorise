@@ -703,7 +703,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string BarMenu( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-menu" : "b-bar-menu";
 
-    public override string BarMenuShow( BarMode mode ) => Active();
+    public override string BarMenuShow( BarMode mode, bool show ) => show ? Active() : null;
 
     public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-start" : "b-bar-start";
 

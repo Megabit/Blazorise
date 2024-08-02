@@ -697,7 +697,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarMenu( BarMode mode ) => null;
 
-    public override string BarMenuShow( BarMode mode ) => null;
+    public override string BarMenuShow( BarMode mode, bool show ) => null;
 
     public override string BarStart( BarMode mode ) => "ant-menu-start";
 

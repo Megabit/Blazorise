@@ -675,7 +675,7 @@ class EmptyClassProvider : IClassProvider
 
     public string BarMenu( BarMode mode ) => null;
 
-    public string BarMenuShow( BarMode mode ) => null;
+    public string BarMenuShow( BarMode mode, bool show ) => null;
 
     public string BarStart( BarMode mode ) => null;
 
