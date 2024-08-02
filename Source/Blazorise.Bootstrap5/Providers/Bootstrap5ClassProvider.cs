@@ -705,7 +705,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal ? "dropdown" : "b-bar-dropdown";
 
-    public override string BarDropdownShow( BarMode mode ) => Show();
+    public override string BarDropdownShow( BarMode mode, bool show ) => show ? Show() : null;
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu

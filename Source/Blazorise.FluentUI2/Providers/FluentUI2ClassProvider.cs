@@ -834,9 +834,11 @@ public class FluentUI2ClassProvider : ClassProvider
         ? isBarDropDownSubmenu ? "fui-NavigationBar__subdropdown" : "fui-NavigationBar__dropdown"
         : "b-bar-dropdown";
 
-    public override string BarDropdownShow( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__dropdown-show"
-        : Show();
+    public override string BarDropdownShow( BarMode mode, bool show ) => show
+        ? mode == Blazorise.BarMode.Horizontal
+            ? "fui-NavigationBar__dropdown-show"
+            : Show()
+        : null;
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu

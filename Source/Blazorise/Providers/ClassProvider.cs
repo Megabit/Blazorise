@@ -681,7 +681,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
 
-    public abstract string BarDropdownShow( BarMode mode );
+    public abstract string BarDropdownShow( BarMode mode, bool show );
 
     public abstract string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
 

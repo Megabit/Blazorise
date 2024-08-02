@@ -715,7 +715,7 @@ public class BulmaClassProvider : ClassProvider
         ? "dropdown"
         : "b-bar-dropdown";
 
-    public override string BarDropdownShow( BarMode mode ) => Active();
+    public override string BarDropdownShow( BarMode mode, bool show ) => show ? Active() : null;
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu

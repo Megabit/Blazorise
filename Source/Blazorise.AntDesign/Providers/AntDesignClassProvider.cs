@@ -707,7 +707,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarDropdown( BarMode mode, bool isBarDropDownSubmenu ) => $"ant-menu-submenu ant-menu-submenu-{ToBarMode( mode )}";
 
-    public override string BarDropdownShow( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-open" : "ant-menu-submenu-open";
+    public override string BarDropdownShow( BarMode mode, bool show ) => show ? "ant-menu-submenu-open" : null;
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-submenu-title" : "ant-menu-submenu-title";
 

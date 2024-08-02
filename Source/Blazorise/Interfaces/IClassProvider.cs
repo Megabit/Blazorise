@@ -680,7 +680,7 @@ public interface IClassProvider
 
     string BarDropdown( BarMode mode, bool isBarDropDownSubmenu );
 
-    string BarDropdownShow( BarMode mode );
+    string BarDropdownShow( BarMode mode, bool show );
 
     string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu );
 
