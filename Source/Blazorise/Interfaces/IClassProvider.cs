@@ -1130,7 +1130,7 @@ public interface IClassProvider
 
     string BreadcrumbItem();
 
-    string BreadcrumbItemActive();
+    string BreadcrumbItemActive( bool active );
 
     string BreadcrumbLink();
 

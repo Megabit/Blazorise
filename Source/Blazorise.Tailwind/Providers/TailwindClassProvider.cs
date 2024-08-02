@@ -1920,7 +1920,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BreadcrumbItem() => "b-breadcrumb-item";
 
-    public override string BreadcrumbItemActive() => null;
+    public override string BreadcrumbItemActive( bool active ) => null;
 
     public override string BreadcrumbLink() => "b-breadcrumb-link flex items-center";
 

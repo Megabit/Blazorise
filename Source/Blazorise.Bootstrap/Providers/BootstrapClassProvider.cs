@@ -1277,7 +1277,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string BreadcrumbItem() => "breadcrumb-item";
 
-    public override string BreadcrumbItemActive() => Active();
+    public override string BreadcrumbItemActive( bool active ) => active ? Active() : null;
 
     public override string BreadcrumbLink() => null;
 

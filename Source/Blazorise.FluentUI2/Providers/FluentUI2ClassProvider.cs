@@ -1422,7 +1422,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string BreadcrumbItem() => "fui-BreadcrumbItem";
 
-    public override string BreadcrumbItemActive() => "fui-BreadcrumbItem-active";
+    public override string BreadcrumbItemActive( bool active ) => active ? "fui-BreadcrumbItem-active" : null;
 
     public override string BreadcrumbLink() => "fui-BreadcrumbButton";
 

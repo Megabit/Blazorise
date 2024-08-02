@@ -1132,7 +1132,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BreadcrumbItem();
 
-    public abstract string BreadcrumbItemActive();
+    public abstract string BreadcrumbItemActive( bool active );
 
     public abstract string BreadcrumbLink();
 

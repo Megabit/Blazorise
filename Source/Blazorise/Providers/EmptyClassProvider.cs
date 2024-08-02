@@ -1135,7 +1135,7 @@ class EmptyClassProvider : IClassProvider
 
     public string BreadcrumbItem() => null;
 
-    public string BreadcrumbItemActive() => null;
+    public string BreadcrumbItemActive( bool active ) => null;
 
     public string BreadcrumbLink() => null;
 
