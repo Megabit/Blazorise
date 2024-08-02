@@ -149,7 +149,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string CheckSize( Size size ) => size != Size.Default ? $"{Check()}-{ToSize( size )}" : null;
 
-    public override string CheckInline() => "fui-Checkbox__input-inline";
+    public override string CheckInline( bool inline ) => inline ? "fui-Checkbox__input-inline" : null;
 
     public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Check()}-{ToCursor( cursor )}" : null;
 
@@ -346,15 +346,17 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => null;
+    public override string ControlCheck( ControlRole role ) => null;
 
-    public override string ControlRadio() => null;
+    public override string ControlRadio( ControlRole role ) => null;
 
-    public override string ControlSwitch() => null;
+    public override string ControlSwitch( ControlRole role ) => null;
 
-    public override string ControlFile() => null;
+    public override string ControlFile( ControlRole role ) => null;
 
-    public override string ControlText() => null;
+    public override string ControlText( ControlRole role ) => null;
+
+    public override string ControlInline( ControlRole role, bool inline ) => ( role == ControlRole.Check || role == ControlRole.Radio || role == ControlRole.Switch ) && inline ? "fui-Checkbox__input-inline" : null;
 
     #endregion
 

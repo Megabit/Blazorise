@@ -147,7 +147,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string CheckSize( Size size );
 
-    public abstract string CheckInline();
+    public abstract string CheckInline( bool inline );
 
     public abstract string CheckCursor( Cursor cursor );
 
@@ -321,15 +321,17 @@ public abstract class ClassProvider : IClassProvider
 
     #region Control
 
-    public abstract string ControlCheck();
+    public abstract string ControlCheck( ControlRole role );
 
-    public abstract string ControlRadio();
+    public abstract string ControlRadio( ControlRole role );
 
-    public abstract string ControlSwitch();
+    public abstract string ControlSwitch( ControlRole role );
 
-    public abstract string ControlFile();
+    public abstract string ControlFile( ControlRole role );
 
-    public abstract string ControlText();
+    public abstract string ControlText( ControlRole role );
+
+    public abstract string ControlInline( ControlRole role, bool inline );
 
     #endregion
 

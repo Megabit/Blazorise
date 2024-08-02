@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using Blazorise.Extensions;
@@ -149,7 +150,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string CheckSize( Size size ) => size != Size.Default ? $"{Check()}-{ToSize( size )}" : null;
 
-    public override string CheckInline() => UseCustomInputStyles ? "custom-control-inline" : "form-check-inline";
+    public override string CheckInline( bool inline ) => inline ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline" : null;
 
     public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Check()}-{ToCursor( cursor )}" : null;
 
@@ -340,15 +341,17 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check";
+    public override string ControlCheck( ControlRole role ) => role == ControlRole.Check ? UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check" : null;
 
-    public override string ControlRadio() => UseCustomInputStyles ? "custom-control custom-radio" : "form-check";
+    public override string ControlRadio( ControlRole role ) => role == ControlRole.Radio ? UseCustomInputStyles ? "custom-control custom-radio" : "form-check" : null;
 
-    public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
+    public override string ControlSwitch( ControlRole role ) => role == ControlRole.Switch ? UseCustomInputStyles ? "custom-control custom-switch" : "form-check" : null;
 
-    public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
+    public override string ControlFile( ControlRole role ) => role == ControlRole.File ? UseCustomInputStyles ? "custom-file" : "form-group" : null;
 
-    public override string ControlText() => null;
+    public override string ControlText( ControlRole role ) => null;
+
+    public override string ControlInline( ControlRole role, bool inline ) => ( role == ControlRole.Check || role == ControlRole.Radio || role == ControlRole.Switch ) && inline ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline" : null;
 
     #endregion
 

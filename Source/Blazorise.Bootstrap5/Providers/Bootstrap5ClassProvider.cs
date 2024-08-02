@@ -149,7 +149,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string CheckSize( Size size ) => size != Size.Default ? $"{Check()}-{ToSize( size )}" : null;
 
-    public override string CheckInline() => "form-check-inline";
+    public override string CheckInline( bool inline ) => inline ? "form-check-inline" : null;
 
     public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Check()}-{ToCursor( cursor )}" : null;
 
@@ -340,15 +340,17 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => "form-check";
+    public override string ControlCheck( ControlRole role ) => role == ControlRole.Check ? "form-check" : null;
 
-    public override string ControlRadio() => "form-check";
+    public override string ControlRadio( ControlRole role ) => role == ControlRole.Radio ? "form-check" : null;
 
-    public override string ControlSwitch() => "form-check form-switch";
+    public override string ControlSwitch( ControlRole role ) => role == ControlRole.Switch ? "form-check form-switch" : null;
 
-    public override string ControlFile() => "input-group form-file";
+    public override string ControlFile( ControlRole role ) => role == ControlRole.File ? "input-group form-file" : null;
 
-    public override string ControlText() => null;
+    public override string ControlText( ControlRole role ) => null;
+
+    public override string ControlInline( ControlRole role, bool inline ) => ( role == ControlRole.Check || role == ControlRole.Radio || role == ControlRole.Switch ) && inline ? "form-check-inline" : null;
 
     #endregion
 

@@ -146,7 +146,7 @@ public interface IClassProvider
 
     string CheckSize( Size size );
 
-    string CheckInline();
+    string CheckInline( bool inline );
 
     string CheckCursor( Cursor cursor );
 
@@ -320,15 +320,17 @@ public interface IClassProvider
 
     #region Control
 
-    string ControlCheck();
+    string ControlCheck( ControlRole role );
 
-    string ControlRadio();
+    string ControlRadio( ControlRole role );
 
-    string ControlSwitch();
+    string ControlSwitch( ControlRole role );
 
-    string ControlFile();
+    string ControlFile( ControlRole role );
 
-    string ControlText();
+    string ControlText( ControlRole role );
+
+    string ControlInline( ControlRole role, bool inline );
 
     #endregion
 

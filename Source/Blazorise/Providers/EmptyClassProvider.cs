@@ -149,7 +149,7 @@ class EmptyClassProvider : IClassProvider
 
     public string CheckSize( Size size ) => null;
 
-    public string CheckInline() => null;
+    public string CheckInline( bool inline ) => null;
 
     public string CheckCursor( Cursor cursor ) => null;
 
@@ -323,15 +323,17 @@ class EmptyClassProvider : IClassProvider
 
     #region Control
 
-    public string ControlCheck() => null;
+    public string ControlCheck( ControlRole role ) => null;
 
-    public string ControlRadio() => null;
+    public string ControlRadio( ControlRole role ) => null;
 
-    public string ControlSwitch() => null;
+    public string ControlSwitch( ControlRole role ) => null;
 
-    public string ControlFile() => null;
+    public string ControlFile( ControlRole role ) => null;
 
-    public string ControlText() => null;
+    public string ControlText( ControlRole role ) => null;
+
+    public string ControlInline( ControlRole role, bool inline ) => null;
 
     #endregion
 

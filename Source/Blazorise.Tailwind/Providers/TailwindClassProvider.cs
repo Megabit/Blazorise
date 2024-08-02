@@ -202,7 +202,7 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string CheckInline() => null;
+    public override string CheckInline( bool inline ) => null;
 
     public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
@@ -410,15 +410,17 @@ public class TailwindClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => "inline-flex items-center mr-4";
+    public override string ControlCheck( ControlRole role ) => role == ControlRole.Check ? "inline-flex items-center mr-4" : null;
 
-    public override string ControlRadio() => "inline-flex items-center mr-4";
+    public override string ControlRadio( ControlRole role ) => role == ControlRole.Radio ? "inline-flex items-center mr-4" : null;
 
-    public override string ControlSwitch() => "inline-flex relative items-center cursor-pointer mr-4";
+    public override string ControlSwitch( ControlRole role ) => role == ControlRole.Switch ? "inline-flex relative items-center cursor-pointer mr-4" : null;
 
-    public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
+    public override string ControlFile( ControlRole role ) => role == ControlRole.File ? UseCustomInputStyles ? "custom-file" : "form-group" : null;
 
-    public override string ControlText() => null;
+    public override string ControlText( ControlRole role ) => null;
+
+    public override string ControlInline( ControlRole role, bool inline ) => null;
 
     #endregion
 

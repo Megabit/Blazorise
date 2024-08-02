@@ -149,7 +149,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string CheckSize( Size size ) => size != Size.Default ? $"{Check()}-{ToSize( size )}" : null;
 
-    public override string CheckInline() => null;
+    public override string CheckInline( bool inline ) => null;
 
     public override string CheckCursor( Cursor cursor ) => null;
 
@@ -338,15 +338,17 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check";
+    public override string ControlCheck( ControlRole role ) => role == ControlRole.Check ? UseCustomInputStyles ? "custom-control custom-checkbox" : "form-check" : null;
 
-    public override string ControlRadio() => UseCustomInputStyles ? "custom-control custom-radio" : "form-check";
+    public override string ControlRadio( ControlRole role ) => role == ControlRole.Radio ? UseCustomInputStyles ? "custom-control custom-radio" : "form-check" : null;
 
-    public override string ControlSwitch() => UseCustomInputStyles ? "custom-control custom-switch" : "form-check";
+    public override string ControlSwitch( ControlRole role ) => role == ControlRole.Switch ? UseCustomInputStyles ? "custom-control custom-switch" : "form-check" : null;
 
-    public override string ControlFile() => UseCustomInputStyles ? "custom-control custom-file" : "form-group";
+    public override string ControlFile( ControlRole role ) => role == ControlRole.File ? UseCustomInputStyles ? "custom-control custom-file" : "form-group" : null;
 
-    public override string ControlText() => null;
+    public override string ControlText( ControlRole role ) => null;
+
+    public override string ControlInline( ControlRole role, bool inline ) => null;
 
     #endregion
 
