@@ -862,7 +862,7 @@ public partial class Autocomplete<TItem, TValue> : BaseAfterRenderComponent, IAs
             }
         }
 
-        var maxRowsLimit = LicenseChecker.GetAutoCompleteRowsLimit();
+        var maxRowsLimit = BlazoriseLicenseLimitsHelper.GetAutocompleteRowsLimit( LicenseChecker );
 
         if ( maxRowsLimit.HasValue )
         {

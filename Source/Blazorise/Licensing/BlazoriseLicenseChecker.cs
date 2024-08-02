@@ -87,7 +87,7 @@ public sealed class BlazoriseLicenseChecker
     /// Null if no limit is set.
     /// </summary>
     /// <returns></returns>
-    public int? GetAutoCompleteRowsLimit()
+    public int? GetAutocompleteRowsLimit()
     {
         return blazoriseLicenseProvider.GetAutocompleteRowsLimit();
     }

@@ -2357,7 +2357,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             }
         }
 
-        var maxRowsLimit = LicenseChecker.GetDataGridRowsLimit();
+        var maxRowsLimit = BlazoriseLicenseLimitsHelper.GetDataGridRowsLimit( LicenseChecker );
 
         if ( maxRowsLimit.HasValue )
         {
@@ -2805,16 +2805,23 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 .Where( x => x.IsDisplayable || x.Displaying )
                 .OrderBy( x => x.DisplayOrder );
 
+
             if ( !IsGroupHeaderCaptionsEnabled )
-                return orderedDisplayColumns;
+            {
+                foreach ( var orderedDisplayColumn in orderedDisplayColumns )
+                {
+                    yield return orderedDisplayColumn;
+
+                }
+                yield break;
+            }
 
             var orderedDisplayColumnsAsList = orderedDisplayColumns.ToList();
-            var newOrderedDisplayColumns = new List<DataGridColumn<TItem>>();
 
             for ( int i = 0; i < orderedDisplayColumnsAsList.Count; i++ )
             {
                 var displayColumn = orderedDisplayColumnsAsList[i];
-                newOrderedDisplayColumns.Add( displayColumn );
+                yield return displayColumn;
 
                 if ( !string.IsNullOrWhiteSpace( displayColumn.HeaderGroupCaption ) && orderedDisplayColumnsAsList.Count > i + 1 )
                 {
@@ -2824,7 +2831,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     {
                         if ( remainingDisplayColumn.HeaderGroupCaption == displayColumn.HeaderGroupCaption )
                         {
-                            newOrderedDisplayColumns.Add( remainingDisplayColumn );
+                            yield return remainingDisplayColumn;
                             toRemove.Add( remainingDisplayColumn );
                         }
                     }
@@ -2832,8 +2839,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     orderedDisplayColumnsAsList.RemoveAll( x => toRemove.Contains( x ) );
                 }
             }
-
-            return newOrderedDisplayColumns;
         }
     }
 
@@ -2849,7 +2854,6 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                 .OrderBy( x => x.DisplayOrder )
                 .ToList();
 
-            var newOrderedDisplayColumns = new List<(DataGridColumn<TItem> col, int colSpan)>();
 
             for ( int i = 0; i < orderedDisplayColumns.Count; i++ )
             {
@@ -2872,10 +2876,9 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
                     orderedDisplayColumns.RemoveAll( x => toRemove.Contains( x ) );
                 }
 
-                newOrderedDisplayColumns.Add( (displayColumn, colSpan) );
+                yield return ( (displayColumn, colSpan) );
             }
 
-            return newOrderedDisplayColumns;
         }
     }
 
