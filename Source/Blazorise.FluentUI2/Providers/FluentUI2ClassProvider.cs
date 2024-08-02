@@ -423,7 +423,7 @@ public class FluentUI2ClassProvider : ClassProvider
         return "fui-ButtonGroup";
     }
 
-    public override string ButtonsSize( Size size ) => $"fui-ButtonGroup-{ToSize( size )}";
+    public override string ButtonsSize( Size size ) => size != Size.Default ? $"fui-ButtonGroup-{ToSize( size )}" : null;
 
     #endregion
 

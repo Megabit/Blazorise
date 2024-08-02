@@ -409,7 +409,7 @@ public class Bootstrap5ClassProvider : ClassProvider
         return "btn-group";
     }
 
-    public override string ButtonsSize( Size size ) => $"btn-group-{ToSize( size )}";
+    public override string ButtonsSize( Size size ) => size != Size.Default ? $"btn-group-{ToSize( size )}" : null;
 
     #endregion
 

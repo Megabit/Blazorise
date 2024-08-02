@@ -26,7 +26,7 @@ public partial class Buttons : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Buttons( Role, Orientation ) );
-        builder.Append( ClassProvider.ButtonsSize( Size ), Size != Size.Default );
+        builder.Append( ClassProvider.ButtonsSize( Size ) );
 
         base.BuildClasses( builder );
     }

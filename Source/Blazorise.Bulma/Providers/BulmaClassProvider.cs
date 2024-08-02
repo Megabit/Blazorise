@@ -419,7 +419,7 @@ public class BulmaClassProvider : ClassProvider
         return "field has-addons";
     }
 
-    public override string ButtonsSize( Size size ) => $"are-{ToSize( size )}";
+    public override string ButtonsSize( Size size ) => size != Size.Default ? $"are-{ToSize( size )}" : null;
 
     #endregion
 

@@ -418,7 +418,7 @@ public class AntDesignClassProvider : ClassProvider
         return "ant-btn-group";
     }
 
-    public override string ButtonsSize( Size size ) => $"ant-btn-group-{ToSize( size )}";
+    public override string ButtonsSize( Size size ) => size != Size.Default ? $"ant-btn-group-{ToSize( size )}" : null;
 
     #endregion
 
