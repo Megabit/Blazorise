@@ -555,7 +555,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Card() => null;
 
-    public string CardWhiteText() => null;
+    public string CardWhiteText( bool whiteText ) => null;
 
     public string CardActions() => null;
 

@@ -848,7 +848,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Card() => "b-card relative max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ";
 
-    public override string CardWhiteText() => "text-white";
+    public override string CardWhiteText( bool whiteText ) => whiteText ? "text-white" : null;
 
     public override string CardActions() => "b-card-actions";
 

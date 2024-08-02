@@ -602,7 +602,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Card() => "card";
 
-    public override string CardWhiteText() => "text-white";
+    public override string CardWhiteText( bool whiteText ) => whiteText ? "text-white" : null;
 
     public override string CardActions() => "card-actions";
 

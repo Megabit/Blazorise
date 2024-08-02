@@ -604,7 +604,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Card() => "card";
 
-    public override string CardWhiteText() => "has-text-white";
+    public override string CardWhiteText( bool whiteText ) => whiteText ? "has-text-white" : null;
 
     public override string CardActions() => "card-actions";
 

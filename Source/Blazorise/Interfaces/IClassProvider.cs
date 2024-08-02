@@ -552,7 +552,7 @@ public interface IClassProvider
 
     string Card();
 
-    string CardWhiteText();
+    string CardWhiteText( bool whiteText );
 
     string CardActions();
 

@@ -553,7 +553,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Card();
 
-    public abstract string CardWhiteText();
+    public abstract string CardWhiteText( bool whiteText );
 
     public abstract string CardActions();
 

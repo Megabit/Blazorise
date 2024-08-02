@@ -603,7 +603,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Card() => "ant-card ant-card-bordered";
 
-    public override string CardWhiteText() => "ant-text-white";
+    public override string CardWhiteText( bool whiteText ) => whiteText ? "ant-text-white" : null;
 
     public override string CardActions() => "ant-card-actions";
 
