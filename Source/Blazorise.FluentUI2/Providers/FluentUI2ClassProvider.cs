@@ -1326,7 +1326,7 @@ public class FluentUI2ClassProvider : ClassProvider
         return $"fui-TextSize-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic() => "fui-Text-italic";
+    public override string TextItalic( bool italic ) => italic ? "fui-Text-italic" : null;
 
     #endregion
 

@@ -1056,7 +1056,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition );
 
-    public abstract string TextItalic();
+    public abstract string TextItalic( bool italic );
 
     #endregion
 

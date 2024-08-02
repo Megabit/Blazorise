@@ -1059,7 +1059,7 @@ class EmptyClassProvider : IClassProvider
 
     public string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition ) => null;
 
-    public string TextItalic() => null;
+    public string TextItalic( bool italic ) => null;
 
     #endregion
 

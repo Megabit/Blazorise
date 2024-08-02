@@ -1054,7 +1054,7 @@ public interface IClassProvider
 
     string TextSize( TextSizeType textSizeType, TextSizeDefinition textSizeDefinition );
 
-    string TextItalic();
+    string TextItalic( bool italic );
 
     #endregion
 

@@ -1196,7 +1196,7 @@ public class Bootstrap5ClassProvider : ClassProvider
         return $"fs-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic() => "fst-italic";
+    public override string TextItalic( bool italic ) => italic ? "fst-italic" : null;
 
     #endregion
 

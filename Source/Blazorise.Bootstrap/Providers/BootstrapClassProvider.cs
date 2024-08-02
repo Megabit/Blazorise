@@ -1200,7 +1200,7 @@ public class BootstrapClassProvider : ClassProvider
         return $"fs-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic() => "font-italic";
+    public override string TextItalic( bool italic ) => italic ? "font-italic" : null;
 
     #endregion
 

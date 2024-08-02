@@ -1220,7 +1220,7 @@ public class BulmaClassProvider : ClassProvider
         return $"is-size-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic() => "is-italic";
+    public override string TextItalic( bool italic ) => italic ? "is-italic" : null;
 
     #endregion
 

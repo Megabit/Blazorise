@@ -1193,7 +1193,7 @@ public class AntDesignClassProvider : ClassProvider
         return $"ant-font-size-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic() => "ant-typography-italic";
+    public override string TextItalic( bool italic ) => italic ? "ant-typography-italic" : null;
 
     #endregion
 

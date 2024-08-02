@@ -1770,7 +1770,7 @@ public class TailwindClassProvider : ClassProvider
         return $"text-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic() => "italic";
+    public override string TextItalic( bool italic ) => italic ? "italic" : null;
 
     #endregion
 
