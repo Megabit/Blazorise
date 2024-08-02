@@ -661,7 +661,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarLink( BarMode mode );
 
-    public abstract string BarLinkDisabled( BarMode mode );
+    public abstract string BarLinkDisabled( BarMode mode, bool disabled );
 
     public abstract string BarBrand( BarMode mode );
 

@@ -795,9 +795,11 @@ public class FluentUI2ClassProvider : ClassProvider
         ? "fui-NavigationBar__link"
         : "b-bar-link";
 
-    public override string BarLinkDisabled( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "fui-NavigationBar__link-disabled"
-        : Disabled();
+    public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled
+        ? mode == Blazorise.BarMode.Horizontal
+            ? "fui-NavigationBar__link-disabled"
+            : Disabled()
+        : null;
 
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__brand"

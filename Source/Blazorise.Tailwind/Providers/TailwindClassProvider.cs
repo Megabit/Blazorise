@@ -1039,7 +1039,7 @@ public class TailwindClassProvider : ClassProvider
         ? "b-bar-link block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 md:dark:hover:text-primary-600 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
         : "b-bar-link";
 
-    public override string BarLinkDisabled( BarMode mode ) => Disabled();
+    public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-brand flex items-center"

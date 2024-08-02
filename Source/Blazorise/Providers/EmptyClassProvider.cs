@@ -665,7 +665,7 @@ class EmptyClassProvider : IClassProvider
 
     public string BarLink( BarMode mode ) => null;
 
-    public string BarLinkDisabled( BarMode mode ) => null;
+    public string BarLinkDisabled( BarMode mode, bool disabled ) => null;
 
     public string BarBrand( BarMode mode ) => null;
 

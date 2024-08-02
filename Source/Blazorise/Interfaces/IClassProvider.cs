@@ -660,7 +660,7 @@ public interface IClassProvider
 
     string BarLink( BarMode mode );
 
-    string BarLinkDisabled( BarMode mode );
+    string BarLinkDisabled( BarMode mode, bool disabled );
 
     string BarBrand( BarMode mode );
 

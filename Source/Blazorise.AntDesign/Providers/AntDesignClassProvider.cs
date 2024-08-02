@@ -686,7 +686,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-link" : null;
 
-    public override string BarLinkDisabled( BarMode mode ) => Disabled();
+    public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-item" : "ant-menu-item ant-bar-brand";
 

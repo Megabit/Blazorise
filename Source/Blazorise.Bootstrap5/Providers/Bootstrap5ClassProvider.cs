@@ -684,7 +684,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-link" : "b-bar-link";
 
-    public override string BarLinkDisabled( BarMode mode ) => Disabled();
+    public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-brand" : "b-bar-brand";
 
