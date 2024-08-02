@@ -1901,7 +1901,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Figure() => "b-figure max-w-lg";
 
-    public override string FigureSize( FigureSize figureSize ) => $"b-figure-{ToFigureSize( figureSize )}";
+    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"b-figure-{ToFigureSize( figureSize )}" : null;
 
     public override string FigureImage() => "b-figure-image max-w-full h-auto";
 

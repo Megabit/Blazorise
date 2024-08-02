@@ -1400,7 +1400,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Figure() => "fui-Figure";
 
-    public override string FigureSize( FigureSize figureSize ) => $"fui-Figure-{ToFigureSize( figureSize )}";
+    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"fui-Figure-{ToFigureSize( figureSize )}" : null;
 
     public override string FigureImage() => "fui-Figure__image";
 

@@ -1256,7 +1256,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Figure() => "figure";
 
-    public override string FigureSize( FigureSize figureSize ) => $"figure-is-{ToFigureSize( figureSize )}";
+    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"figure-is-{ToFigureSize( figureSize )}" : null;
 
     public override string FigureImage() => "figure-img img-fluid";
 

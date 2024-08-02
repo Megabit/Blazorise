@@ -1275,7 +1275,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Figure() => "image";
 
-    public override string FigureSize( FigureSize figureSize ) => $"is-{ToFigureSize( figureSize )}";
+    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"is-{ToFigureSize( figureSize )}" : null;
 
     public override string FigureImage() => "figure-img";
 

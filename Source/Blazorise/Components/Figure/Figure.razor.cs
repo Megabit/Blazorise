@@ -22,7 +22,7 @@ public partial class Figure : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Figure() );
-        builder.Append( ClassProvider.FigureSize( Size ), Size != FigureSize.Default );
+        builder.Append( ClassProvider.FigureSize( Size ) );
 
         base.BuildClasses( builder );
     }

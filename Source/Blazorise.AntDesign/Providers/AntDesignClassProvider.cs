@@ -1264,7 +1264,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Figure() => "ant-figure";
 
-    public override string FigureSize( FigureSize figureSize ) => $"ant-figure-is-{ToFigureSize( figureSize )}";
+    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"ant-figure-is-{ToFigureSize( figureSize )}" : null;
 
     public override string FigureImage() => "ant-figure-img ant-figure-img-fluid";
 
