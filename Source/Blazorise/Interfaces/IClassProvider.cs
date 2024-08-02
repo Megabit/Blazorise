@@ -362,13 +362,13 @@ public interface IClassProvider
 
     string ButtonSize( Size size, bool outline );
 
-    string ButtonBlock( bool outline );
+    string ButtonBlock( bool outline, bool block );
 
-    string ButtonActive( bool outline );
+    string ButtonActive( bool outline, bool active );
 
-    string ButtonDisabled( bool outline );
+    string ButtonDisabled( bool outline, bool disabled );
 
-    string ButtonLoading( bool outline );
+    string ButtonLoading( bool outline, bool loading );
 
     string ButtonStretchedLink( bool stretched );
 

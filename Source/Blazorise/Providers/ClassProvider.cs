@@ -363,13 +363,13 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ButtonSize( Size size, bool outline );
 
-    public abstract string ButtonBlock( bool outline );
+    public abstract string ButtonBlock( bool outline, bool block );
 
-    public abstract string ButtonActive( bool outline );
+    public abstract string ButtonActive( bool outline, bool active );
 
-    public abstract string ButtonDisabled( bool outline );
+    public abstract string ButtonDisabled( bool outline, bool disabled );
 
-    public abstract string ButtonLoading( bool outline );
+    public abstract string ButtonLoading( bool outline, bool loading );
 
     public abstract string ButtonStretchedLink( bool stretched );
 

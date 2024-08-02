@@ -393,13 +393,13 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"{Button( outline )}-{ToSize( size )}";
 
-    public override string ButtonBlock( bool outline ) => $"{Button( outline )}-block";
+    public override string ButtonBlock( bool outline, bool block ) => block ? $"{Button( outline )}-block" : null;
 
-    public override string ButtonActive( bool outline ) => "ant-btn-active";
+    public override string ButtonActive( bool outline, bool active ) => active ? "ant-btn-active" : null;
 
-    public override string ButtonDisabled( bool outline ) => "ant-btn-disabled";
+    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "ant-btn-disabled" : null;
 
-    public override string ButtonLoading( bool outline ) => "ant-btn-loading";
+    public override string ButtonLoading( bool outline, bool loading ) => loading ? "ant-btn-loading" : null;
 
     public override string ButtonStretchedLink( bool stretched ) => stretched ? "ant-link-stretched" : null;
 

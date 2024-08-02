@@ -398,13 +398,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"fui-Button-{ToSize( size )}";
 
-    public override string ButtonBlock( bool outline ) => $"{Button( outline )}-block";
+    public override string ButtonBlock( bool outline, bool block ) => block ? $"{Button( outline )}-block" : null;
 
-    public override string ButtonActive( bool outline ) => "fui-Button-active";
+    public override string ButtonActive( bool outline, bool active ) => active ? "fui-Button-active" : null;
 
-    public override string ButtonDisabled( bool outline ) => "fui-Button-disabled";
+    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "fui-Button-disabled" : null;
 
-    public override string ButtonLoading( bool outline ) => "fui-Button-loading";
+    public override string ButtonLoading( bool outline, bool loading ) => loading ? "fui-Button-loading" : null;
 
     public override string ButtonStretchedLink( bool stretched ) => stretched ? "fui-Button-link-stretched" : null;
 

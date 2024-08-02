@@ -515,13 +515,13 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string ButtonBlock( bool outline ) => "w-full";
+    public override string ButtonBlock( bool outline, bool block ) => block ? "w-full" : null;
 
-    public override string ButtonActive( bool outline ) => "active";
+    public override string ButtonActive( bool outline, bool active ) => active ? "active" : null;
 
-    public override string ButtonDisabled( bool outline ) => "cursor-not-allowed opacity-60";
+    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "cursor-not-allowed opacity-60" : null;
 
-    public override string ButtonLoading( bool outline ) => null;
+    public override string ButtonLoading( bool outline, bool loading ) => null;
 
     public override string ButtonStretchedLink( bool stretched ) => stretched ? "after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:z-1 after:content-['_']" : null;
 

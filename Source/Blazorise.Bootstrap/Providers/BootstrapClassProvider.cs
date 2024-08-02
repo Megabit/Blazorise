@@ -392,13 +392,13 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"{Button( outline )}-{ToSize( size )}";
 
-    public override string ButtonBlock( bool outline ) => $"{Button( outline )}-block";
+    public override string ButtonBlock( bool outline, bool block ) => block ? $"{Button( outline )}-block" : null;
 
-    public override string ButtonActive( bool outline ) => "active";
+    public override string ButtonActive( bool outline, bool active ) => active ? "active" : null;
 
-    public override string ButtonDisabled( bool outline ) => "disabled";
+    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "disabled" : null;
 
-    public override string ButtonLoading( bool outline ) => null;
+    public override string ButtonLoading( bool outline, bool loading ) => null;
 
     public override string ButtonStretchedLink( bool stretched ) => stretched ? "stretched-link" : null;
 

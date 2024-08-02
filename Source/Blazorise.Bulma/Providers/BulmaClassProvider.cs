@@ -394,13 +394,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"is-{ToSize( size )}";
 
-    public override string ButtonBlock( bool outline ) => "is-fullwidth";
+    public override string ButtonBlock( bool outline, bool block ) => block ? "is-fullwidth" : null;
 
-    public override string ButtonActive( bool outline ) => "is-active";
+    public override string ButtonActive( bool outline, bool active ) => active ? "is-active" : null;
 
-    public override string ButtonDisabled( bool outline ) => "is-disabled";
+    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "is-disabled" : null;
 
-    public override string ButtonLoading( bool outline ) => "is-loading";
+    public override string ButtonLoading( bool outline, bool loading ) => loading ? "is-loading" : null;
 
     public override string ButtonStretchedLink( bool stretched ) => stretched ? "is-link-stretched" : null;
 

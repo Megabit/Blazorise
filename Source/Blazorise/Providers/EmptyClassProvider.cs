@@ -365,13 +365,13 @@ class EmptyClassProvider : IClassProvider
 
     public string ButtonSize( Size size, bool outline ) => null;
 
-    public string ButtonBlock( bool outline ) => null;
+    public string ButtonBlock( bool outline, bool block ) => null;
 
-    public string ButtonActive( bool outline ) => null;
+    public string ButtonActive( bool outline, bool active ) => null;
 
-    public string ButtonDisabled( bool outline ) => null;
+    public string ButtonDisabled( bool outline, bool disabled ) => null;
 
-    public string ButtonLoading( bool outline ) => null;
+    public string ButtonLoading( bool outline, bool loading ) => null;
 
     public string ButtonStretchedLink( bool stretched ) => null;
 
