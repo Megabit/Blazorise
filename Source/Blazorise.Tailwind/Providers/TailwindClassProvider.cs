@@ -1009,11 +1009,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Bar( BarMode mode ) => "b-bar";
 
-    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => mode != Blazorise.BarMode.Horizontal && initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => alignment != Alignment.Default ? $"justify-{ToAlignment( alignment )}" : null;
 
-    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}" : null;
 
     public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
         ? $"navbar-expand-{ToBreakpoint( breakpoint )}"
@@ -1432,7 +1432,33 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Pagination() => "pagination flex -space-x-px mb-3";
 
-    public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
+    public override string PaginationSize( Size size ) => size != Size.Default ? $"{Pagination()}-{ToSize( size )}" : null;
+
+    public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-{ToAlignment( alignment )}" : null;
+
+    public override string PaginationBackgroundColor( Background background )
+    {
+        if ( background.IsNullOrDefault() )
+            return null;
+
+        var name = background?.Name;
+
+        return name switch
+        {
+            "primary" => "!bg-primary-500",
+            "secondary" => "!bg-secondary-500",
+            "success" => "!bg-success-500",
+            "danger" => "!bg-danger-500",
+            "warning" => "!bg-warning-400",
+            "info" => "!bg-info",
+            "light" => "!bg-light",
+            "dark" => "!bg-dark",
+            "white" => "!bg-white",
+            "transparent" => "!bg-transparent",
+            "body" => "!bg-body",
+            _ => name,
+        };
+    }
 
     public override string PaginationItem() => "pagination-item";
 
@@ -2074,8 +2100,6 @@ public class TailwindClassProvider : ClassProvider
 
         return sb.ToString();
     }
-
-    public override string FlexAlignment( Alignment alignment ) => $"justify-{ToAlignment( alignment )}";
 
     #endregion
 

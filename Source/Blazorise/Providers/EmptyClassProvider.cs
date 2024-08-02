@@ -897,6 +897,10 @@ class EmptyClassProvider : IClassProvider
 
     public string PaginationSize( Size size ) => null;
 
+    public string PaginationAlignment( Alignment alignment ) => null;
+
+    public string PaginationBackgroundColor( Background background ) => null;
+
     public string PaginationItem() => null;
 
     public string PaginationItemActive( bool active ) => null;
@@ -1224,8 +1228,6 @@ class EmptyClassProvider : IClassProvider
     public string Flex( FlexDefinition flexDefinition ) => null;
 
     public string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions ) => null;
-
-    public string FlexAlignment( Alignment alignment ) => null;
 
     #endregion
 

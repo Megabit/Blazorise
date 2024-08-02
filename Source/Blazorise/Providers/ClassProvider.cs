@@ -894,6 +894,10 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string PaginationSize( Size size );
 
+    public abstract string PaginationAlignment( Alignment alignment );
+
+    public abstract string PaginationBackgroundColor( Background background );
+
     public abstract string PaginationItem();
 
     public abstract string PaginationItemActive( bool active );
@@ -1222,8 +1226,6 @@ public abstract class ClassProvider : IClassProvider
     public abstract string Flex( FlexDefinition flexDefinition );
 
     public abstract string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
-
-    public abstract string FlexAlignment( Alignment alignment );
 
     #endregion
 

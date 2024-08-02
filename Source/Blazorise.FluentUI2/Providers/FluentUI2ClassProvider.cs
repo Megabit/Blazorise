@@ -751,17 +751,29 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Bar( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "fui-NavigationBar" : "navbar";
 
-    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => mode != Blazorise.BarMode.Horizontal && initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => alignment != Alignment.Default ? $"fui-JustifyContent-{ToAlignment( alignment )}" : null;
 
-    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => mode == Blazorise.BarMode.Horizontal
-        ? $"fui-NavigationBar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}"
-        : $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast )
+    {
+        if ( themeContrast == ThemeContrast.None )
+            return null;
 
-    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => mode == Blazorise.BarMode.Horizontal
-        ? breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"fui-NavigationBar-expand-{ToBreakpoint( breakpoint )}" : null
-        : breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
+        return mode == Blazorise.BarMode.Horizontal
+            ? $"fui-NavigationBar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}"
+            : $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
+    }
+
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint )
+    {
+        if ( breakpoint == Breakpoint.None )
+            return null;
+
+        return mode == Blazorise.BarMode.Horizontal
+            ? breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"fui-NavigationBar-expand-{ToBreakpoint( breakpoint )}" : null
+            : breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
+    }
 
     public override string BarMode( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? $"fui-NavigationBar-{ToBarMode( mode )}"
@@ -1129,7 +1141,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Pagination() => "fui-Pagination";
 
-    public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
+    public override string PaginationSize( Size size ) => size != Size.Default ? $"{Pagination()}-{ToSize( size )}" : null;
+
+    public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"fui-JustifyContent-{ToAlignment( alignment )}" : null;
+
+    public override string PaginationBackgroundColor( Background background ) => background.IsNullOrDefault() ? null : $"fui-Background-{ToBackground( background )}";
 
     public override string PaginationItem() => "fui-PaginationItem";
 
@@ -1573,8 +1589,6 @@ public class FluentUI2ClassProvider : ClassProvider
 
         return sb.ToString();
     }
-
-    public override string FlexAlignment( Alignment alignment ) => $"fui-JustifyContent-{ToAlignment( alignment )}";
 
     #endregion
 

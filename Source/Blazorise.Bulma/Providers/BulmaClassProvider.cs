@@ -667,13 +667,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Bar( BarMode mode ) => "navbar";
 
-    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => mode != Blazorise.BarMode.Horizontal && initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
 
-    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"b-bar-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"b-bar-{ToThemeContrast( themeContrast )}" : null;
 
-    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => $"navbar-expand-{ToBreakpoint( breakpoint )}";
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => breakpoint != Breakpoint.None ? $"navbar-expand-{ToBreakpoint( breakpoint )}" : null;
 
     public override string BarMode( BarMode mode ) => $"b-bar-{ToBarMode( mode )}";
 
@@ -1024,7 +1024,11 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Pagination() => "pagination-list";
 
-    public override string PaginationSize( Size size ) => $"is-{ToSize( size )}";
+    public override string PaginationSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
+
+    public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
+
+    public override string PaginationBackgroundColor( Background background ) => background.IsNullOrDefault() ? null : $"has-background-{ToBackground( background )}";
 
     public override string PaginationItem() => null;
 
@@ -1464,8 +1468,6 @@ public class BulmaClassProvider : ClassProvider
 
         return sb.ToString();
     }
-
-    public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
 
     #endregion
 

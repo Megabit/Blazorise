@@ -892,6 +892,10 @@ public interface IClassProvider
 
     string PaginationSize( Size size );
 
+    string PaginationAlignment( Alignment alignment );
+
+    string PaginationBackgroundColor( Background background );
+
     string PaginationItem();
 
     string PaginationItemActive( bool active );
@@ -1219,8 +1223,6 @@ public interface IClassProvider
     string Flex( FlexDefinition flexDefinition );
 
     string Flex( FlexType flexType, IEnumerable<FlexDefinition> flexDefinitions );
-
-    string FlexAlignment( Alignment alignment );
 
     #endregion
 

@@ -666,13 +666,13 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Bar( BarMode mode ) => "ant-menu ant-menu-root";
 
-    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => mode != Blazorise.BarMode.Horizontal && initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( BarMode mode, Alignment alignment ) => $"ant-menu-{ToAlignment( alignment )}";
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
 
-    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"ant-menu-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"ant-menu-{ToThemeContrast( themeContrast )}" : null;
 
-    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => $"ant-menu-expand-{ToBreakpoint( breakpoint )}";
+    public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => breakpoint != Breakpoint.None ? $"ant-menu-expand-{ToBreakpoint( breakpoint )}" : null;
 
     public override string BarMode( BarMode mode ) => $"ant-menu-{ToBarMode( mode )} {( mode == Blazorise.BarMode.VerticalSmall ? "ant-menu-inline-collapsed" : null )}";
 
@@ -987,7 +987,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Pagination() => "ant-pagination";
 
-    public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
+    public override string PaginationSize( Size size ) => size != Size.Default ? $"{Pagination()}-{ToSize( size )}" : null;
+
+    public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
+
+    public override string PaginationBackgroundColor( Background background ) => background.IsNullOrDefault() ? null : $"bg-{ToBackground( background )}";
 
     public override string PaginationItem() => "ant-pagination-item";
 
@@ -1456,8 +1460,6 @@ public class AntDesignClassProvider : ClassProvider
 
         return sb.ToString();
     }
-
-    public override string FlexAlignment( Alignment alignment ) => $"justify-content-{ToAlignment( alignment )}";
 
     #endregion
 
