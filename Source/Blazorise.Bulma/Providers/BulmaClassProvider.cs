@@ -683,13 +683,11 @@ public class BulmaClassProvider : ClassProvider
             : "nav-item dropdown"
         : "b-bar-item";
 
-    public override string BarItemActive( BarMode mode ) => Active();
+    public override string BarItemActive( BarMode mode, bool active ) => active ? Active() : null;
 
-    public override string BarItemDisabled( BarMode mode ) => Disabled();
+    public override string BarItemDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
-    public override string BarItemHasDropdown( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "has-dropdown" : null;
-
-    public override string BarItemHasDropdownShow( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? Active() : Show();
+    public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => mode == Blazorise.BarMode.Horizontal && hasDropdown ? "has-dropdown" : null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "navbar-item" : "b-bar-link";
 

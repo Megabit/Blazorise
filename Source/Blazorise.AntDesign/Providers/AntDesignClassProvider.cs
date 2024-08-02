@@ -678,13 +678,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string BarItem( BarMode mode, bool hasDropdown ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-item ant-menu-item-only-child" : "ant-menu-item";
 
-    public override string BarItemActive( BarMode mode ) => "ant-menu-item-selected";
+    public override string BarItemActive( BarMode mode, bool active ) => active ? "ant-menu-item-selected" : null;
 
-    public override string BarItemDisabled( BarMode mode ) => "ant-menu-item-disabled";
+    public override string BarItemDisabled( BarMode mode, bool disabled ) => disabled ? "ant-menu-item-disabled" : null;
 
-    public override string BarItemHasDropdown( BarMode mode ) => null;
-
-    public override string BarItemHasDropdownShow( BarMode mode ) => null;
+    public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "ant-menu-link" : null;
 

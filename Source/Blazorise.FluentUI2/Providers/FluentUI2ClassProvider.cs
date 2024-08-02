@@ -785,13 +785,11 @@ public class FluentUI2ClassProvider : ClassProvider
             : "fui-NavigationBar__item"
         : "b-bar-item";
 
-    public override string BarItemActive( BarMode mode ) => "fui-NavigationBar__item-active";
+    public override string BarItemActive( BarMode mode, bool active ) => active ? "fui-NavigationBar__item-active" : null;
 
-    public override string BarItemDisabled( BarMode mode ) => "fui-NavigationBar__item-disabled";
+    public override string BarItemDisabled( BarMode mode, bool disabled ) => disabled ? "fui-NavigationBar__item-disabled" : null;
 
-    public override string BarItemHasDropdown( BarMode mode ) => null;
-
-    public override string BarItemHasDropdownShow( BarMode mode ) => null;
+    public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "fui-NavigationBar__link"

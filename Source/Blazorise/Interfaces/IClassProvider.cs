@@ -652,13 +652,11 @@ public interface IClassProvider
 
     string BarItem( BarMode mode, bool hasDropdown );
 
-    string BarItemActive( BarMode mode );
+    string BarItemActive( BarMode mode, bool active );
 
-    string BarItemDisabled( BarMode mode );
+    string BarItemDisabled( BarMode mode, bool disabled );
 
-    string BarItemHasDropdown( BarMode mode );
-
-    string BarItemHasDropdownShow( BarMode mode );
+    string BarItemHasDropdown( BarMode mode, bool hasDropdown );
 
     string BarLink( BarMode mode );
 

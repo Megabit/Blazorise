@@ -681,13 +681,11 @@ public class BootstrapClassProvider : ClassProvider
             : "nav-item"
         : "b-bar-item";
 
-    public override string BarItemActive( BarMode mode ) => Active();
+    public override string BarItemActive( BarMode mode, bool active ) => active ? Active() : null;
 
-    public override string BarItemDisabled( BarMode mode ) => Disabled();
+    public override string BarItemDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
-    public override string BarItemHasDropdown( BarMode mode ) => null;
-
-    public override string BarItemHasDropdownShow( BarMode mode ) => null;
+    public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? "nav-link" : "b-bar-link";
 

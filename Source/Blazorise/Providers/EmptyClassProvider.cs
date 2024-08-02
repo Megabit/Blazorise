@@ -657,13 +657,11 @@ class EmptyClassProvider : IClassProvider
 
     public string BarItem( BarMode mode, bool hasDropdown ) => null;
 
-    public string BarItemActive( BarMode mode ) => null;
+    public string BarItemActive( BarMode mode, bool active ) => null;
 
-    public string BarItemDisabled( BarMode mode ) => null;
+    public string BarItemDisabled( BarMode mode, bool disabled ) => null;
 
-    public string BarItemHasDropdown( BarMode mode ) => null;
-
-    public string BarItemHasDropdownShow( BarMode mode ) => null;
+    public string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
 
     public string BarLink( BarMode mode ) => null;
 

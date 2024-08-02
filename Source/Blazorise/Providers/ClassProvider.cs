@@ -653,13 +653,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarItem( BarMode mode, bool hasDropdown );
 
-    public abstract string BarItemActive( BarMode mode );
+    public abstract string BarItemActive( BarMode mode, bool active );
 
-    public abstract string BarItemDisabled( BarMode mode );
+    public abstract string BarItemDisabled( BarMode mode, bool disabled );
 
-    public abstract string BarItemHasDropdown( BarMode mode );
-
-    public abstract string BarItemHasDropdownShow( BarMode mode );
+    public abstract string BarItemHasDropdown( BarMode mode, bool hasDropdown );
 
     public abstract string BarLink( BarMode mode );
 

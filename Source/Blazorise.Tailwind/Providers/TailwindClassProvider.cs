@@ -1029,13 +1029,11 @@ public class TailwindClassProvider : ClassProvider
             : "b-bar-item relative"
         : "b-bar-item";
 
-    public override string BarItemActive( BarMode mode ) => Active();
+    public override string BarItemActive( BarMode mode, bool active ) => active ? Active() : null;
 
-    public override string BarItemDisabled( BarMode mode ) => Disabled();
+    public override string BarItemDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
-    public override string BarItemHasDropdown( BarMode mode ) => null;
-
-    public override string BarItemHasDropdownShow( BarMode mode ) => null;
+    public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-link block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 md:dark:hover:text-primary-600 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
