@@ -81,7 +81,7 @@ public partial class FileEdit : BaseInputComponent<IFileEntry[]>, IFileEdit,
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.FileEdit() );
-        builder.Append( ClassProvider.FileEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.FileEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }

@@ -204,7 +204,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string FileEditSize( Size size ) => null;
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
