@@ -225,7 +225,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string SliderColor( Color color ) => $"fui-Slider__input-{ToColor( color )}";
 
-    public override string SliderValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Slider__input-{ToValidationStatus( validationStatus )}";
+    public override string SliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Slider__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 

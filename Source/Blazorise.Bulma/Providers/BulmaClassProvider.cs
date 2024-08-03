@@ -214,7 +214,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string SliderColor( Color color ) => $"is-{ToColor( color )}";
 
-    public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
