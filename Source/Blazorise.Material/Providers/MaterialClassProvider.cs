@@ -1,4 +1,5 @@
 ﻿using Blazorise.Bootstrap.Providers;
+using Blazorise.Extensions;
 
 namespace Blazorise.Material.Providers;
 
@@ -14,7 +15,7 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "done" : null;
 
-    public override string StepItemColor( Color color ) => $"{StepItem()}-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => color.IsNullOrDefault() ? null : $"{StepItem()}-{ToColor( color )}";
 
     public override string StepItemMarkerColor( Color color, bool active ) => null;
 

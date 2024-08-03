@@ -529,7 +529,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "is-completed" : null;
 
-    public override string StepItemColor( Color color ) => $"is-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
 
     public override string StepItemMarker() => "step-marker";
 

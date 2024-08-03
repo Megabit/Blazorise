@@ -531,7 +531,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "ant-steps-item-finish" : null;
 
-    public override string StepItemColor( Color color ) => $"ant-steps-item-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => color.IsNullOrDefault() ? null : $"ant-steps-item-{ToColor( color )}";
 
     public override string StepItemMarker() => "ant-steps-item-icon";
 

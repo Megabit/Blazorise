@@ -619,7 +619,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "fui-Step-completed" : null;
 
-    public override string StepItemColor( Color color ) => $"{StepItem()}-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => color.IsNullOrDefault() ? null : $"{StepItem()}-{ToColor( color )}";
 
     public override string StepItemMarker() => "fui-Step__circle";
 

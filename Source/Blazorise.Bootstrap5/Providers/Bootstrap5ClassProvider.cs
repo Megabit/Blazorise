@@ -537,7 +537,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "step-completed" : null;
 
-    public override string StepItemColor( Color color ) => $"{StepItem()}-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => color.IsNullOrDefault() ? null : $"{StepItem()}-{ToColor( color )}";
 
     public override string StepItemMarker() => "step-circle";
 
