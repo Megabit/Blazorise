@@ -244,19 +244,14 @@ public class BootstrapClassProvider : ClassProvider
 
     #region Label
 
-    public override string Label() => null;
-
-    public override string LabelType( LabelType labelType )
+    public override string LabelType( LabelType labelType ) => labelType switch
     {
-        return labelType switch
-        {
-            Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => UseCustomInputStyles ? "custom-control-label" : "form-check-label",
-            Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
-            _ => null,
-        };
-    }
+        Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => UseCustomInputStyles ? "custom-control-label" : "form-check-label",
+        Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
+        _ => null,
+    };
 
-    public override string LabelCursor( Cursor cursor ) => UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}";
+    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? UseCustomInputStyles ? $"custom-control-label-{ToCursor( cursor )}" : $"form-check-label-{ToCursor( cursor )}" : null;
 
     #endregion
 

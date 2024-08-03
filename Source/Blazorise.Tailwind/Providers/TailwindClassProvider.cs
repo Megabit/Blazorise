@@ -310,20 +310,15 @@ public class TailwindClassProvider : ClassProvider
 
     #region Label
 
-    public override string Label() => null;
-
-    public override string LabelType( LabelType labelType )
+    public override string LabelType( LabelType labelType ) => labelType switch
     {
-        return labelType switch
-        {
-            Blazorise.LabelType.Check or Blazorise.LabelType.Radio => "ml-2 text-sm font-medium text-gray-900 dark:text-gray-300",
-            Blazorise.LabelType.Switch => "inline-flex relative items-center cursor-pointer",
-            Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
-            _ => null,
-        };
-    }
+        Blazorise.LabelType.Check or Blazorise.LabelType.Radio => "ml-2 text-sm font-medium text-gray-900 dark:text-gray-300",
+        Blazorise.LabelType.Switch => "inline-flex relative items-center cursor-pointer",
+        Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
+        _ => null,
+    };
 
-    public override string LabelCursor( Cursor cursor ) => $"cursor-{ToCursor( cursor )}";
+    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
     #endregion
 

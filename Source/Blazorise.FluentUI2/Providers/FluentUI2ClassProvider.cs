@@ -249,19 +249,14 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #region Label
 
-    public override string Label() => "fui-Label";
-
-    public override string LabelType( LabelType labelType )
+    public override string LabelType( LabelType labelType ) => labelType switch
     {
-        return labelType switch
-        {
-            Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => "fui-Checkbox__label",
-            Blazorise.LabelType.File => "fui-File__label",
-            _ => null,
-        };
-    }
+        Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => "fui-Checkbox__label",
+        Blazorise.LabelType.File => "fui-File__label",
+        _ => "fui-Label",
+    };
 
-    public override string LabelCursor( Cursor cursor ) => $"fui-Label-{ToCursor( cursor )}";
+    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? $"fui-Label-{ToCursor( cursor )}" : null;
 
     #endregion
 

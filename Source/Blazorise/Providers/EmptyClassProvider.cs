@@ -237,8 +237,6 @@ class EmptyClassProvider : IClassProvider
 
     #region Label
 
-    public string Label() => null;
-
     public string LabelType( LabelType labelType ) => null;
 
     public string LabelCursor( Cursor cursor ) => null;

@@ -238,8 +238,6 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Label
 
-    public override string Label() => null;
-
     public override string LabelType( LabelType labelType ) => null;
 
     public override string LabelCursor( Cursor cursor ) => null;

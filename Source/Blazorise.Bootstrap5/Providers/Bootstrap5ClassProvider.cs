@@ -243,19 +243,17 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     #region Label
 
-    public override string Label() => "form-label";
-
     public override string LabelType( LabelType labelType )
     {
         return labelType switch
         {
             Blazorise.LabelType.Check or Blazorise.LabelType.Radio or Blazorise.LabelType.Switch => "form-check-label",
             Blazorise.LabelType.File => "input-group-text",
-            _ => null,
+            _ => "form-label",
         };
     }
 
-    public override string LabelCursor( Cursor cursor ) => $"form-check-label-{ToCursor( cursor )}";
+    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? $"form-check-label-{ToCursor( cursor )}" : null;
 
     #endregion
 

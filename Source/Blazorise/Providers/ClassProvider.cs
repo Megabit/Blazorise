@@ -235,8 +235,6 @@ public abstract class ClassProvider : IClassProvider
 
     #region Label
 
-    public abstract string Label();
-
     public abstract string LabelType( LabelType labelType );
 
     public abstract string LabelCursor( Cursor cursor );

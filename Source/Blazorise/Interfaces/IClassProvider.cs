@@ -234,8 +234,6 @@ public interface IClassProvider
 
     #region Label
 
-    string Label();
-
     string LabelType( LabelType labelType );
 
     string LabelCursor( Cursor cursor );

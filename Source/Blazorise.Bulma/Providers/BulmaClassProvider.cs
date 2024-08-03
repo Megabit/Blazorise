@@ -238,24 +238,13 @@ public class BulmaClassProvider : ClassProvider
 
     #region Label
 
-    public override string Label() => "label";
-
-    public override string LabelType( LabelType labelType )
+    public override string LabelType( LabelType labelType ) => labelType switch
     {
-        switch ( labelType )
-        {
-            case Blazorise.LabelType.File:
-                return "file-label";
-            case Blazorise.LabelType.Check:
-            case Blazorise.LabelType.Radio:
-            case Blazorise.LabelType.Switch:
-            case Blazorise.LabelType.None:
-            default:
-                return null;
-        }
-    }
+        Blazorise.LabelType.File => "file-label",
+        _ => "label",
+    };
 
-    public override string LabelCursor( Cursor cursor ) => $"label-{ToCursor( cursor )}";
+    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? $"label-{ToCursor( cursor )}" : null;
 
     #endregion
 
