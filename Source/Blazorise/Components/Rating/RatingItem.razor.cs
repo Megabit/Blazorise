@@ -25,7 +25,7 @@ public partial class RatingItem : BaseComponent
         var hovered = Rating.IsHoveredRange( Value );
 
         builder.Append( ClassProvider.RatingItem() );
-        builder.Append( ClassProvider.RatingItemColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.RatingItemColor( Color ) );
         builder.Append( ClassProvider.RatingItemSelected( selected ) );
         builder.Append( ClassProvider.RatingItemHovered( hovered ) );
 

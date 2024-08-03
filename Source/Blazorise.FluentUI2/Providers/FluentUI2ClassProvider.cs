@@ -239,7 +239,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string RatingItem() => "fui-RatingItem";
 
-    public override string RatingItemColor( Color color ) => $"fui-RatingItem-{ToColor( color )}";
+    public override string RatingItemColor( Color color ) => color.IsNullOrDefault() ? null : $"fui-RatingItem-{ToColor( color )}";
 
     public override string RatingItemSelected( bool selected ) => selected ? "fui-RatingItem-selected" : null;
 

@@ -228,7 +228,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string RatingItem() => "ant-rate-star";
 
-    public override string RatingItemColor( Color color ) => $"ant-rate-star-{ToColor( color )}";
+    public override string RatingItemColor( Color color ) => color.IsNullOrDefault() ? null : $"ant-rate-star-{ToColor( color )}";
 
     public override string RatingItemSelected( bool selected ) => selected ? "ant-rate-star-full" : "ant-rate-star-zero";
 

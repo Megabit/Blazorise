@@ -240,7 +240,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string RatingItem() => "rating-item";
 
-    public override string RatingItemColor( Color color ) => $"rating-item-{ToColor( color )}";
+    public override string RatingItemColor( Color color ) => color.IsNullOrDefault() ? null : $"rating-item-{ToColor( color )}";
 
     public override string RatingItemSelected( bool selected ) => null;
 

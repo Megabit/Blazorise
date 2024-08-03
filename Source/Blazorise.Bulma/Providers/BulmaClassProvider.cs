@@ -228,7 +228,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string RatingItem() => "rating-item";
 
-    public override string RatingItemColor( Color color ) => $"is-{ToColor( color )}";
+    public override string RatingItemColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
 
     public override string RatingItemSelected( bool selected ) => null;
 

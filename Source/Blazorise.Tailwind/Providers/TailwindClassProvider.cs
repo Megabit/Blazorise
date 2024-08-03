@@ -300,7 +300,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string RatingItem() => "w-5 h-5";
 
-    public override string RatingItemColor( Color color ) => $"text-{ToColor( color )}-400";
+    public override string RatingItemColor( Color color ) => color.IsNullOrDefault() ? null : $"text-{ToColor( color )}-400";
 
     public override string RatingItemSelected( bool selected ) => null;
 
