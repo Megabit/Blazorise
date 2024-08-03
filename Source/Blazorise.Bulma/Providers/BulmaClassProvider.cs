@@ -162,9 +162,9 @@ public class BulmaClassProvider : ClassProvider
     public override string RadioGroup( bool buttons, Orientation orientation )
         => $"{( buttons ? "buttons has-addons" : "control" )}{( orientation == Orientation.Horizontal ? null : " are-vertical" )}";
 
-    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => $"are-{ToSize( size )}";
+    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => size != Size.Default ? $"are-{ToSize( size )}" : null;
 
-    public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

@@ -163,11 +163,17 @@ public class Bootstrap5ClassProvider : ClassProvider
         ? orientation == Orientation.Horizontal ? "btn-group btn-group-toggle" : "btn-group-vertical btn-group-toggle"
         : null;
 
-    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => buttons
-        ? orientation == Orientation.Horizontal ? $"btn-group-{ToSize( size )}" : $"btn-group-vertical-{ToSize( size )}"
-        : null;
+    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size )
+    {
+        if ( size == Size.Default )
+            return null;
 
-    public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+        return buttons
+            ? orientation == Orientation.Horizontal ? $"btn-group-{ToSize( size )}" : $"btn-group-vertical-{ToSize( size )}"
+            : null;
+    }
+
+    public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

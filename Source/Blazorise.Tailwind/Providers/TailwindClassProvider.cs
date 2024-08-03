@@ -221,7 +221,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => null;
 
-    public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

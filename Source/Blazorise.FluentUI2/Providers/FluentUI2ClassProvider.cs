@@ -173,7 +173,7 @@ public class FluentUI2ClassProvider : ClassProvider
             : orientation == Orientation.Horizontal ? $"fui-RadioGroup__horizontal-{ToSize( size )}" : $"fui-RadioGroup-{ToSize( size )}";
     }
 
-    public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-RadioGroup-{ToValidationStatus( validationStatus )}";
+    public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-RadioGroup-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 

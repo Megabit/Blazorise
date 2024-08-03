@@ -162,9 +162,9 @@ public class AntDesignClassProvider : ClassProvider
     public override string RadioGroup( bool buttons, Orientation orientation )
         => "ant-radio-group ant-radio-group-outline" + ( orientation == Orientation.Horizontal ? "" : " ant-radio-group-vertical" );
 
-    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => $"ant-btn-group-{ToSize( size )}";
+    public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => size != Size.Default ? $"ant-btn-group-{ToSize( size )}" : null;
 
-    public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
