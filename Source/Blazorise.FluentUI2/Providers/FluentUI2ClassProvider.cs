@@ -1172,15 +1172,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Progress() => "fui-ProgressBar";
 
-    public override string ProgressSize( Size size ) => size == Size.Default ? null : $"fui-ProgressBar-{ToSize( size )}";
+    public override string ProgressSize( Size size ) => size != Size.Default ? $"fui-ProgressBar-{ToSize( size )}" : null;
 
     public override string ProgressColor( Color color ) => null;
 
-    public override string ProgressStriped() => null;
+    public override string ProgressStriped( bool stripped ) => null;
 
-    public override string ProgressAnimated() => null;
+    public override string ProgressAnimated( bool animated ) => null;
 
-    public override string ProgressIndeterminate() => null;
+    public override string ProgressIndeterminate( bool indeterminate ) => null;
 
     public override string ProgressWidth( int width ) => null;
 
@@ -1188,13 +1188,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => size == Size.Default ? null : $"fui-ProgressBar__bar-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => $"fui-ProgressBar__bar-{ToColor( color )}";
+    public override string ProgressBarColor( Color color ) => color.IsNullOrDefault() ? null : $"fui-ProgressBar__bar-{ToColor( color )}";
 
-    public override string ProgressBarStriped() => "fui-ProgressBar__bar-striped";
+    public override string ProgressBarStriped( bool striped ) => striped ? "fui-ProgressBar__bar-striped" : null;
 
-    public override string ProgressBarAnimated() => "fui-ProgressBar__bar-animated";
+    public override string ProgressBarAnimated( bool animated ) => animated ? "fui-ProgressBar__bar-animated" : null;
 
-    public override string ProgressBarIndeterminate() => "fui-ProgressBar__bar-indeterminate";
+    public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "fui-ProgressBar__bar-indeterminate" : null;
 
     public override string ProgressBarWidth( int width ) => null;
 

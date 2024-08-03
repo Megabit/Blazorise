@@ -1007,15 +1007,15 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Progress() => "ant-progress ant-progress-line";
 
-    public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
+    public override string ProgressSize( Size size ) => size != Size.Default ? $"progress-{ToSize( size )}" : null;
 
     public override string ProgressColor( Color color ) => null;
 
-    public override string ProgressStriped() => null;
+    public override string ProgressStriped( bool stripped ) => null;
 
-    public override string ProgressAnimated() => null;
+    public override string ProgressAnimated( bool animated ) => null;
 
-    public override string ProgressIndeterminate() => "ant-progress-indeterminate";
+    public override string ProgressIndeterminate( bool indeterminate ) => indeterminate ? "ant-progress-indeterminate" : null;
 
     public override string ProgressWidth( int width ) => null;
 
@@ -1023,13 +1023,13 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => $"ant-progress-bg-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => $"bg-{ToColor( color )}";
+    public override string ProgressBarColor( Color color ) => color.IsNullOrDefault() ? null : $"bg-{ToColor( color )}";
 
-    public override string ProgressBarStriped() => "ant-progress-bar-striped";
+    public override string ProgressBarStriped( bool striped ) => striped ? "ant-progress-bar-striped" : null;
 
-    public override string ProgressBarAnimated() => "ant-progress-bar-animated";
+    public override string ProgressBarAnimated( bool animated ) => animated ? "ant-progress-bar-animated" : null;
 
-    public override string ProgressBarIndeterminate() => "ant-progress-bar-indeterminate";
+    public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "ant-progress-bar-indeterminate" : null;
 
     public override string ProgressBarWidth( int width ) => null;
 

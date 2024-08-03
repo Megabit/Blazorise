@@ -1028,15 +1028,15 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Progress() => "progress";
 
-    public override string ProgressSize( Size size ) => $"progress-{ToSize( size )}";
+    public override string ProgressSize( Size size ) => size != Size.Default ? $"progress-{ToSize( size )}" : null;
 
     public override string ProgressColor( Color color ) => null;
 
-    public override string ProgressStriped() => null;
+    public override string ProgressStriped( bool stripped ) => null;
 
-    public override string ProgressAnimated() => null;
+    public override string ProgressAnimated( bool animated ) => null;
 
-    public override string ProgressIndeterminate() => "progress-indeterminate";
+    public override string ProgressIndeterminate( bool indeterminate ) => indeterminate ? "progress-indeterminate" : null;
 
     public override string ProgressWidth( int width ) => null;
 
@@ -1044,13 +1044,13 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => null;
 
-    public override string ProgressBarColor( Color color ) => $"bg-{ToColor( color )}";
+    public override string ProgressBarColor( Color color ) => color.IsNullOrDefault() ? null : $"bg-{ToColor( color )}";
 
-    public override string ProgressBarStriped() => "progress-bar-striped";
+    public override string ProgressBarStriped( bool striped ) => striped ? "progress-bar-striped" : null;
 
-    public override string ProgressBarAnimated() => "progress-bar-animated";
+    public override string ProgressBarAnimated( bool animated ) => animated ? "progress-bar-animated" : null;
 
-    public override string ProgressBarIndeterminate() => "progress-bar-indeterminate";
+    public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "progress-bar-indeterminate" : null;
 
     public override string ProgressBarWidth( int width ) => null;
 

@@ -920,11 +920,11 @@ public interface IClassProvider
 
     string ProgressColor( Color color );
 
-    string ProgressStriped();
+    string ProgressStriped( bool stripped );
 
-    string ProgressAnimated();
+    string ProgressAnimated( bool animated );
 
-    string ProgressIndeterminate();
+    string ProgressIndeterminate( bool indeterminate );
 
     string ProgressWidth( int width );
 
@@ -934,11 +934,11 @@ public interface IClassProvider
 
     string ProgressBarColor( Color color );
 
-    string ProgressBarStriped();
+    string ProgressBarStriped( bool striped );
 
-    string ProgressBarAnimated();
+    string ProgressBarAnimated( bool animated );
 
-    string ProgressBarIndeterminate();
+    string ProgressBarIndeterminate( bool indeterminate );
 
     string ProgressBarWidth( int width );
 

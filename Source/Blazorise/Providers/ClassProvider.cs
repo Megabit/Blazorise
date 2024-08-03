@@ -922,11 +922,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ProgressColor( Color color );
 
-    public abstract string ProgressStriped();
+    public abstract string ProgressStriped( bool stripped );
 
-    public abstract string ProgressAnimated();
+    public abstract string ProgressAnimated( bool animated );
 
-    public abstract string ProgressIndeterminate();
+    public abstract string ProgressIndeterminate( bool indeterminate );
 
     public abstract string ProgressWidth( int width );
 
@@ -936,11 +936,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ProgressBarColor( Color color );
 
-    public abstract string ProgressBarStriped();
+    public abstract string ProgressBarStriped( bool striped );
 
-    public abstract string ProgressBarAnimated();
+    public abstract string ProgressBarAnimated( bool animated );
 
-    public abstract string ProgressBarIndeterminate();
+    public abstract string ProgressBarIndeterminate( bool indeterminate );
 
     public abstract string ProgressBarWidth( int width );
 

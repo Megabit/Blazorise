@@ -925,11 +925,11 @@ class EmptyClassProvider : IClassProvider
 
     public string ProgressColor( Color color ) => null;
 
-    public string ProgressStriped() => null;
+    public string ProgressStriped( bool stripped ) => null;
 
-    public string ProgressAnimated() => null;
+    public string ProgressAnimated( bool animated ) => null;
 
-    public string ProgressIndeterminate() => null;
+    public string ProgressIndeterminate( bool indeterminate ) => null;
 
     public string ProgressWidth( int width ) => null;
 
@@ -939,11 +939,11 @@ class EmptyClassProvider : IClassProvider
 
     public string ProgressBarColor( Color color ) => null;
 
-    public string ProgressBarStriped() => null;
+    public string ProgressBarStriped( bool striped ) => null;
 
-    public string ProgressBarAnimated() => null;
+    public string ProgressBarAnimated( bool animated ) => null;
 
-    public string ProgressBarIndeterminate() => null;
+    public string ProgressBarIndeterminate( bool indeterminate ) => null;
 
     public string ProgressBarWidth( int width ) => null;
 

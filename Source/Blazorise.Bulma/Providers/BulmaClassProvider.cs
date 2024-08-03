@@ -1041,15 +1041,15 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Progress() => "progress";
 
-    public override string ProgressSize( Size size ) => $"is-{ToSize( size )}";
+    public override string ProgressSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string ProgressColor( Color color ) => $"is-{ToColor( color )}";
+    public override string ProgressColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
 
-    public override string ProgressStriped() => "progress-striped";
+    public override string ProgressStriped( bool stripped ) => stripped ? "progress-striped" : null;
 
-    public override string ProgressAnimated() => "progress-animated";
+    public override string ProgressAnimated( bool animated ) => animated ? "progress-animated" : null;
 
-    public override string ProgressIndeterminate() => "progress-indeterminate";
+    public override string ProgressIndeterminate( bool indeterminate ) => indeterminate ? "progress-indeterminate" : null;
 
     public override string ProgressWidth( int width ) => null;
 
@@ -1057,13 +1057,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => $"is-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => $"is-{ToColor( color )}";
+    public override string ProgressBarColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
 
-    public override string ProgressBarStriped() => "progress-striped";
+    public override string ProgressBarStriped( bool striped ) => striped ? "progress-striped" : null;
 
-    public override string ProgressBarAnimated() => "progress-animated";
+    public override string ProgressBarAnimated( bool animated ) => animated ? "progress-animated" : null;
 
-    public override string ProgressBarIndeterminate() => "progress-indeterminate";
+    public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "progress-indeterminate" : null;
 
     public override string ProgressBarWidth( int width ) => null;
 

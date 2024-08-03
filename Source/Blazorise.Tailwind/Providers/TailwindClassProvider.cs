@@ -1513,11 +1513,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ProgressColor( Color color ) => null;
 
-    public override string ProgressStriped() => null;
+    public override string ProgressStriped( bool stripped ) => null;
 
-    public override string ProgressAnimated() => null;
+    public override string ProgressAnimated( bool animated ) => null;
 
-    public override string ProgressIndeterminate() => "overflow-hidden";
+    public override string ProgressIndeterminate( bool indeterminate ) => indeterminate ? "overflow-hidden" : null;
 
     public override string ProgressWidth( int width ) => null;
 
@@ -1527,6 +1527,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ProgressBarColor( Color color )
     {
+        if ( color.IsNullOrDefault() )
+            return null;
+
         var name = color?.Name;
 
         return name switch
@@ -1543,11 +1546,11 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string ProgressBarStriped() => "progress-bar-striped";
+    public override string ProgressBarStriped( bool striped ) => striped ? "progress-bar-striped" : null;
 
-    public override string ProgressBarAnimated() => "progress-bar-animated";
+    public override string ProgressBarAnimated( bool animated ) => animated ? "progress-bar-animated" : null;
 
-    public override string ProgressBarIndeterminate() => "progress-bar-indeterminate";
+    public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "progress-bar-indeterminate" : null;
 
     public override string ProgressBarWidth( int width ) => null;
 
