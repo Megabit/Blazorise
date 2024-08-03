@@ -44,7 +44,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string MemoEditSize( Size size ) => TextEditSize( size );
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
