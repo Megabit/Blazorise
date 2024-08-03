@@ -609,17 +609,17 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string Layout() => "b-layout";
 
-    public virtual string LayoutHasSider() => "b-layout-has-sider";
+    public virtual string LayoutHasSider( bool hasSider ) => hasSider ? "b-layout-has-sider" : null;
 
     public virtual string LayoutContent() => "b-layout-content";
 
     public virtual string LayoutHeader() => "b-layout-header";
 
-    public virtual string LayoutHeaderFixed() => "b-layout-header-fixed";
+    public virtual string LayoutHeaderFixed( bool @fixed ) => @fixed ? "b-layout-header-fixed" : null;
 
     public virtual string LayoutFooter() => "b-layout-footer";
 
-    public virtual string LayoutFooterFixed() => "b-layout-footer-fixed";
+    public virtual string LayoutFooterFixed( bool @fixed ) => @fixed ? "b-layout-footer-fixed" : null;
 
     public virtual string LayoutSider() => "b-layout-sider";
 
@@ -627,7 +627,7 @@ public abstract class ClassProvider : IClassProvider
 
     public virtual string LayoutLoading() => "b-layout-loading";
 
-    public virtual string LayoutRoot() => "b-layout-root";
+    public virtual string LayoutRoot( bool root ) => root ? "b-layout-root" : null;
 
     #endregion
 

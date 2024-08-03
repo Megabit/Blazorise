@@ -611,7 +611,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Layout() => null;
 
-    public string LayoutHasSider() => null;
+    public string LayoutHasSider( bool hasSider ) => null;
 
     public string LayoutBody() => null;
 
@@ -619,11 +619,11 @@ class EmptyClassProvider : IClassProvider
 
     public string LayoutHeader() => null;
 
-    public string LayoutHeaderFixed() => null;
+    public string LayoutHeaderFixed( bool @fixed ) => null;
 
     public string LayoutFooter() => null;
 
-    public string LayoutFooterFixed() => null;
+    public string LayoutFooterFixed( bool @fixed ) => null;
 
     public string LayoutSider() => null;
 
@@ -631,7 +631,7 @@ class EmptyClassProvider : IClassProvider
 
     public string LayoutLoading() => null;
 
-    public string LayoutRoot() => null;
+    public string LayoutRoot( bool root ) => null;
 
     #endregion
 

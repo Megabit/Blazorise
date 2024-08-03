@@ -608,17 +608,17 @@ public interface IClassProvider
 
     string Layout();
 
-    string LayoutHasSider();
+    string LayoutHasSider( bool hasSider );
 
     string LayoutContent();
 
     string LayoutHeader();
 
-    string LayoutHeaderFixed();
+    string LayoutHeaderFixed( bool @fixed );
 
     string LayoutFooter();
 
-    string LayoutFooterFixed();
+    string LayoutFooterFixed( bool @fixed );
 
     string LayoutSider();
 
@@ -626,7 +626,7 @@ public interface IClassProvider
 
     string LayoutLoading();
 
-    string LayoutRoot();
+    string LayoutRoot( bool root );
 
     #endregion
 

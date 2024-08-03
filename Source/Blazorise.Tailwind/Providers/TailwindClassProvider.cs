@@ -975,17 +975,17 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Layout() => "b-layout";
 
-    public override string LayoutHasSider() => "b-layout-has-sider";
+    public override string LayoutHasSider( bool hasSider ) => hasSider ? "b-layout-has-sider" : null;
 
     public override string LayoutContent() => "b-layout-content";
 
     public override string LayoutHeader() => "b-layout-header z-30";
 
-    public override string LayoutHeaderFixed() => "b-layout-header-fixed";
+    public override string LayoutHeaderFixed( bool @fixed ) => @fixed ? "b-layout-header-fixed" : null;
 
     public override string LayoutFooter() => "b-layout-footer";
 
-    public override string LayoutFooterFixed() => "b-layout-footer-fixed";
+    public override string LayoutFooterFixed( bool @fixed ) => @fixed ? "b-layout-footer-fixed" : null;
 
     public override string LayoutSider() => "b-layout-sider";
 
@@ -993,7 +993,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string LayoutLoading() => "b-layout-loading";
 
-    public override string LayoutRoot() => "b-layout-root";
+    public override string LayoutRoot( bool root ) => root ? "b-layout-root" : null;
 
     #endregion
 

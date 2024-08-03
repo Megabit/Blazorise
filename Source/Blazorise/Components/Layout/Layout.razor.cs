@@ -38,8 +38,8 @@ public partial class Layout : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Layout() );
-        builder.Append( ClassProvider.LayoutHasSider(), Sider );
-        builder.Append( ClassProvider.LayoutRoot(), ParentLayout is null );
+        builder.Append( ClassProvider.LayoutHasSider( Sider ) );
+        builder.Append( ClassProvider.LayoutRoot( ParentLayout is null ) );
 
         base.BuildClasses( builder );
     }
