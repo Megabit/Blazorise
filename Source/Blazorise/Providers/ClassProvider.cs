@@ -395,15 +395,15 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Dropdown( bool isDropdownSubmenu );
 
-    public abstract string DropdownDisabled();
+    public abstract string DropdownDisabled( bool disabled );
 
-    public abstract string DropdownGroup();
+    public abstract string DropdownGroup( bool group );
 
     public abstract string DropdownObserverShow();
 
-    public abstract string DropdownShow();
+    public abstract string DropdownShow( bool show );
 
-    public abstract string DropdownRight();
+    public abstract string DropdownRight( bool rightAligned );
 
     public abstract string DropdownItem();
 
@@ -423,11 +423,11 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string DropdownMenuSelector();
 
-    public abstract string DropdownMenuScrollable();
+    public abstract string DropdownMenuScrollable( bool scrollable );
 
     public abstract string DropdownMenuVisible( bool visible );
 
-    public abstract string DropdownMenuRight();
+    public abstract string DropdownMenuRight( bool rightAligned );
 
     public abstract string DropdownToggle( bool isDropdownSubmenu, bool outline );
 

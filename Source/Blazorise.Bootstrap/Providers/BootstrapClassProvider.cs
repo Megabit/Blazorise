@@ -434,15 +434,15 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
 
-    public override string DropdownDisabled() => "dropdown-disabled";
+    public override string DropdownDisabled( bool disabled ) => disabled ? "dropdown-disabled" : null;
 
-    public override string DropdownGroup() => "btn-group";
+    public override string DropdownGroup( bool group ) => group ? "btn-group" : null;
 
-    public override string DropdownObserverShow() => DropdownShow();
+    public override string DropdownObserverShow() => Show();
 
-    public override string DropdownShow() => Show();
+    public override string DropdownShow( bool show ) => show ? Show() : null;
 
-    public override string DropdownRight() => null;
+    public override string DropdownRight( bool rightAligned ) => null;
 
     public override string DropdownItem() => "dropdown-item";
 
@@ -464,11 +464,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DropdownMenuSelector() => "dropdown-menu";
 
-    public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
+    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "dropdown-menu-scrollable" : null;
 
     public override string DropdownMenuVisible( bool visible ) => visible ? Show() : null;
 
-    public override string DropdownMenuRight() => "dropdown-menu-right";
+    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "dropdown-menu-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 

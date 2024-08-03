@@ -434,15 +434,15 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Dropdown( bool isDropdownSubmenu ) => isDropdownSubmenu ? "ant-dropdown-menu-submenu ant-dropdown-menu-submenu-vertical" : "ant-dropdown-group ant-dropdown-button"; // ant-dropdown-group is custom class
 
-    public override string DropdownDisabled() => "ant-dropdown-disabled";
+    public override string DropdownDisabled( bool disabled ) => disabled ? "ant-dropdown-disabled" : null;
 
-    public override string DropdownGroup() => null;
+    public override string DropdownGroup( bool group ) => null;
 
-    public override string DropdownObserverShow() => DropdownMenuVisible( false );
+    public override string DropdownObserverShow() => "ant-dropdown-hidden";
 
-    public override string DropdownShow() => null;
+    public override string DropdownShow( bool show ) => null;
 
-    public override string DropdownRight() => null;
+    public override string DropdownRight( bool rightAligned ) => null;
 
     public override string DropdownItem() => "ant-dropdown-menu-item";
 
@@ -464,11 +464,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string DropdownMenuSelector() => "ant-dropdown";
 
-    public override string DropdownMenuScrollable() => "ant-dropdown-menu-scrollable";
+    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "ant-dropdown-menu-scrollable" : null;
 
     public override string DropdownMenuVisible( bool visible ) => visible ? null : "ant-dropdown-hidden";
 
-    public override string DropdownMenuRight() => "dropdown-menu-right";
+    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "dropdown-menu-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "ant-dropdown-menu-item" : "ant-btn ant-dropdown-trigger";
 

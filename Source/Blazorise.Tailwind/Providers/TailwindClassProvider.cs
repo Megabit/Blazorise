@@ -561,15 +561,15 @@ public class TailwindClassProvider : ClassProvider
         ? "b-dropdown b-dropdown-submenu relative inline-flex w-full"
         : "b-dropdown relative inline-flex";
 
-    public override string DropdownDisabled() => "b-dropdown-disabled";
+    public override string DropdownDisabled( bool disabled ) => disabled ? "b-dropdown-disabled" : null;
 
-    public override string DropdownGroup() => "b-dropdown-group align-middle";
+    public override string DropdownGroup( bool group ) => group ? "b-dropdown-group align-middle" : null;
 
-    public override string DropdownObserverShow() => DropdownShow();
+    public override string DropdownObserverShow() => "b-dropdown-show";
 
-    public override string DropdownShow() => "b-dropdown-show";
+    public override string DropdownShow( bool show ) => show ? "b-dropdown-show" : null;
 
-    public override string DropdownRight() => null;
+    public override string DropdownRight( bool rightAligned ) => null;
 
     public override string DropdownItem() => "b-dropdown-item block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white";
 
@@ -591,13 +591,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
-    public override string DropdownMenuScrollable() => "b-dropdown-menu-scrollable max-h-[var(--dropdown-list-menu-max-height)] overflow-y-scroll";
+    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "b-dropdown-menu-scrollable max-h-[var(--dropdown-list-menu-max-height)] overflow-y-scroll" : null;
 
     public override string DropdownMenuVisible( bool visible ) => visible
         ? "b-dropdown-menu-show block"
         : "b-dropdown-menu-hide hidden";
 
-    public override string DropdownMenuRight() => "b-dropdown-menu-right";
+    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "b-dropdown-menu-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
     {

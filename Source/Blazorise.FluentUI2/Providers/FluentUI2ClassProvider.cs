@@ -439,15 +439,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Dropdown( bool isDropdownSubmenu ) => "fui-Menu";
 
-    public override string DropdownDisabled() => "fui-MenuButton-disabled";
+    public override string DropdownDisabled( bool disabled ) => disabled ? "fui-MenuButton-disabled" : null;
 
-    public override string DropdownGroup() => "fui-ButtonGroup";
+    public override string DropdownGroup( bool group ) => group ? "fui-ButtonGroup" : null;
 
-    public override string DropdownObserverShow() => DropdownShow();
+    public override string DropdownObserverShow() => "fui-MenuButton-show";
 
-    public override string DropdownShow() => "fui-MenuButton-show";
+    public override string DropdownShow( bool show ) => show ? "fui-MenuButton-show" : null;
 
-    public override string DropdownRight() => null;
+    public override string DropdownRight( bool rightAligned ) => null;
 
     public override string DropdownItem() => "fui-MenuItem";
 
@@ -469,11 +469,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DropdownMenuSelector() => "fui-MenuPopover";
 
-    public override string DropdownMenuScrollable() => "fui-MenuPopover-scrollable";
+    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "fui-MenuPopover-scrollable" : null;
 
     public override string DropdownMenuVisible( bool visible ) => visible ? "fui-MenuPopover-show" : null;
 
-    public override string DropdownMenuRight() => "fui-MenuPopover-right";
+    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "fui-MenuPopover-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu
         ? "fui-MenuItem"

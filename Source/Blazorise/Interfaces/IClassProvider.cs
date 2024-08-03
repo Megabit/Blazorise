@@ -394,15 +394,15 @@ public interface IClassProvider
 
     string Dropdown( bool isDropdownSubmenu );
 
-    string DropdownDisabled();
+    string DropdownDisabled( bool disabled );
 
-    string DropdownGroup();
+    string DropdownGroup( bool group );
 
     string DropdownObserverShow();
 
-    string DropdownShow();
+    string DropdownShow( bool show );
 
-    string DropdownRight();
+    string DropdownRight( bool rightAligned );
 
     string DropdownItem();
 
@@ -422,11 +422,11 @@ public interface IClassProvider
 
     string DropdownMenuSelector();
 
-    string DropdownMenuScrollable();
+    string DropdownMenuScrollable( bool scrollable );
 
     string DropdownMenuVisible( bool visible );
 
-    string DropdownMenuRight();
+    string DropdownMenuRight( bool rightAligned );
 
     string DropdownToggle( bool isDropdownSubmenu, bool outline );
 

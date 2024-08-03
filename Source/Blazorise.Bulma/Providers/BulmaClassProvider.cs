@@ -435,15 +435,15 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Dropdown( bool isDropdownSubmenu ) => "dropdown";
 
-    public override string DropdownDisabled() => "is-disabled";
+    public override string DropdownDisabled( bool disabled ) => disabled ? "is-disabled" : null;
 
-    public override string DropdownGroup() => "field has-addons";
+    public override string DropdownGroup( bool group ) => group ? "field has-addons" : null;
 
-    public override string DropdownObserverShow() => DropdownShow();
+    public override string DropdownObserverShow() => Show();
 
-    public override string DropdownShow() => Active();
+    public override string DropdownShow( bool show ) => show ? Active() : null;
 
-    public override string DropdownRight() => "is-right";
+    public override string DropdownRight( bool rightAligned ) => rightAligned ? "is-right" : null;
 
     public override string DropdownItem() => "dropdown-item";
 
@@ -465,11 +465,11 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DropdownMenuSelector() => "dropdown-menu";
 
-    public override string DropdownMenuScrollable() => "dropdown-menu-scrollable";
+    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "dropdown-menu-scrollable" : null;
 
     public override string DropdownMenuVisible( bool visible ) => null;
 
-    public override string DropdownMenuRight() => null;
+    public override string DropdownMenuRight( bool rightAligned ) => null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 

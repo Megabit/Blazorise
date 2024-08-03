@@ -397,15 +397,15 @@ class EmptyClassProvider : IClassProvider
 
     public string Dropdown( bool isDropdownSubmenu ) => null;
 
-    public string DropdownDisabled() => null;
+    public string DropdownDisabled( bool disabled ) => null;
 
-    public string DropdownGroup() => null;
+    public string DropdownGroup( bool group ) => null;
 
     public string DropdownObserverShow() => null;
 
-    public string DropdownShow() => null;
+    public string DropdownShow( bool show ) => null;
 
-    public string DropdownRight() => null;
+    public string DropdownRight( bool rightAligned ) => null;
 
     public string DropdownItem() => null;
 
@@ -425,11 +425,11 @@ class EmptyClassProvider : IClassProvider
 
     public string DropdownMenuSelector() => null;
 
-    public string DropdownMenuScrollable() => null;
+    public string DropdownMenuScrollable( bool scrollable ) => null;
 
     public string DropdownMenuVisible( bool visible ) => null;
 
-    public string DropdownMenuRight() => null;
+    public string DropdownMenuRight( bool rightAligned ) => null;
 
     public string DropdownToggle( bool isDropdownSubmenu, bool outline ) => null;
 
