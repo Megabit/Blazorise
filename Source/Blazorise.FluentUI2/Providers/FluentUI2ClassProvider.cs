@@ -181,15 +181,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Radio( bool button ) => "fui-Radio__input";
 
-    public override string RadioSize( bool button, Size size ) => $"fui-Radio__input-{ToSize( size )}";
+    public override string RadioSize( bool button, Size size ) => size != Size.Default ? $"fui-Radio__input-{ToSize( size )}" : null;
 
     public override string RadioInline( bool inline ) => inline
         ? "fui-Radio__input-inline"
         : null;
 
-    public override string RadioCursor( Cursor cursor ) => $"fui-Radio__input-{ToCursor( cursor )}";
+    public override string RadioCursor( Cursor cursor ) => cursor != Cursor.Default ? $"fui-Radio__input-{ToCursor( cursor )}" : null;
 
-    public override string RadioValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Radio__input-{ToValidationStatus( validationStatus )}";
+    public override string RadioValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Radio__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 

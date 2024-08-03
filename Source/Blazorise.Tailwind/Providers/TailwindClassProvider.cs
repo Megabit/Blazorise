@@ -248,9 +248,9 @@ public class TailwindClassProvider : ClassProvider
         ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline"
         : null;
 
-    public override string RadioCursor( Cursor cursor ) => $"cursor-{ToCursor( cursor )}";
+    public override string RadioCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
-    public override string RadioValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string RadioValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

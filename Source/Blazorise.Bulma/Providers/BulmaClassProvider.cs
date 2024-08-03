@@ -172,13 +172,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Radio( bool button ) => "is-checkradio";
 
-    public override string RadioSize( bool button, Size size ) => $"is-{ToSize( size )}";
+    public override string RadioSize( bool button, Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     public override string RadioInline( bool inline ) => inline ? "is-inline" : null;
 
-    public override string RadioCursor( Cursor cursor ) => $"is-checkradio-{ToCursor( cursor )}";
+    public override string RadioCursor( Cursor cursor ) => cursor != Cursor.Default ? $"is-checkradio-{ToCursor( cursor )}" : null;
 
-    public override string RadioValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string RadioValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

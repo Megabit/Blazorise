@@ -175,15 +175,15 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string Radio( bool button ) => button ? "btn-check" : "form-check-input";
 
-    public override string RadioSize( bool button, Size size ) => $"{Radio( button )}-{ToSize( size )}";
+    public override string RadioSize( bool button, Size size ) => size != Size.Default ? $"{Radio( button )}-{ToSize( size )}" : null;
 
     public override string RadioInline( bool inline ) => inline
         ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline"
         : null;
 
-    public override string RadioCursor( Cursor cursor ) => $"{( UseCustomInputStyles ? "custom-control-input" : "form-check-input" )}-{ToCursor( cursor )}";
+    public override string RadioCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{( UseCustomInputStyles ? "custom-control-input" : "form-check-input" )}-{ToCursor( cursor )}" : null;
 
-    public override string RadioValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string RadioValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
