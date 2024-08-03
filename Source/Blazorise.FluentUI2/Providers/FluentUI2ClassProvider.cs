@@ -1406,7 +1406,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string FigureImage() => "fui-Figure__image";
 
-    public override string FigureImageRounded() => "fui-Figure-rounded";
+    public override string FigureImageRounded( bool rounded ) => rounded ? "fui-Figure-rounded" : null;
 
     public override string FigureCaption() => "fui-Figure__caption";
 

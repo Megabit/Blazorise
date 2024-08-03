@@ -1281,7 +1281,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string FigureImage() => "figure-img";
 
-    public override string FigureImageRounded() => "is-rounded";
+    public override string FigureImageRounded( bool rounded ) => rounded ? "is-rounded" : null;
 
     public override string FigureCaption() => "figure-caption";
 

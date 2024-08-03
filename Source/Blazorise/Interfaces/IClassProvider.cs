@@ -1114,7 +1114,7 @@ public interface IClassProvider
 
     string FigureImage();
 
-    string FigureImageRounded();
+    string FigureImageRounded( bool rounded );
 
     string FigureCaption();
 

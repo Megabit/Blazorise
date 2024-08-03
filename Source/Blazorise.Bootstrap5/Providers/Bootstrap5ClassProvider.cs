@@ -1257,7 +1257,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string FigureImage() => "figure-img img-fluid";
 
-    public override string FigureImageRounded() => "rounded";
+    public override string FigureImageRounded( bool rounded ) => rounded ? "rounded" : null;
 
     public override string FigureCaption() => "figure-caption";
 

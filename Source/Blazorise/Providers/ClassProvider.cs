@@ -1116,7 +1116,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string FigureImage();
 
-    public abstract string FigureImageRounded();
+    public abstract string FigureImageRounded( bool rounded );
 
     public abstract string FigureCaption();
 

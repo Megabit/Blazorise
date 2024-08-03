@@ -1264,7 +1264,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string FigureImage() => "ant-figure-img ant-figure-img-fluid";
 
-    public override string FigureImageRounded() => "ant-figure-rounded";
+    public override string FigureImageRounded( bool rounded ) => rounded ? "ant-figure-rounded" : null;
 
     public override string FigureCaption() => "ant-figure-caption";
 

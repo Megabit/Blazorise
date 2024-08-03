@@ -1907,7 +1907,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string FigureImage() => "b-figure-image max-w-full h-auto";
 
-    public override string FigureImageRounded() => "b-figure-rounded rounded-lg";
+    public override string FigureImageRounded( bool rounded ) => rounded ? "b-figure-rounded rounded-lg" : null;
 
     public override string FigureCaption() => "b-figure-caption mt-2 text-sm text-center text-gray-500 dark:text-gray-400";
 

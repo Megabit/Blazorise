@@ -1119,7 +1119,7 @@ class EmptyClassProvider : IClassProvider
 
     public string FigureImage() => null;
 
-    public string FigureImageRounded() => null;
+    public string FigureImageRounded( bool rounded ) => null;
 
     public string FigureCaption() => null;
 
