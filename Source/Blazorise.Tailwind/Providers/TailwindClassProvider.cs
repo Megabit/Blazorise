@@ -52,11 +52,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Select() => TextEdit( false );
 
-    public override string SelectMultiple() => null;
+    public override string SelectMultiple( bool multiple ) => null;
 
     public override string SelectSize( Size size ) => TextEditSize( size );
 
-    public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

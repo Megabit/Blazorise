@@ -35,7 +35,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Select() => null;
 
-    public string SelectMultiple() => null;
+    public string SelectMultiple( bool multiple ) => null;
 
     public string SelectSize( Size size ) => null;
 

@@ -32,7 +32,7 @@ public interface IClassProvider
 
     string Select();
 
-    string SelectMultiple();
+    string SelectMultiple( bool multiple );
 
     string SelectSize( Size size );
 

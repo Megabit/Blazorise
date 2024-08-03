@@ -35,11 +35,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Select() => "fui-Select__select";
 
-    public override string SelectMultiple() => null;
+    public override string SelectMultiple( bool multiple ) => null;
 
     public override string SelectSize( Size size ) => size != Size.Default ? $"{Select()}-{ToSize( size )}" : null;
 
-    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Select__select-{ToValidationStatus( validationStatus )}";
+    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Select__select-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 

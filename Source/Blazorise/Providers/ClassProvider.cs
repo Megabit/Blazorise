@@ -33,7 +33,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Select();
 
-    public abstract string SelectMultiple();
+    public abstract string SelectMultiple( bool multiple );
 
     public abstract string SelectSize( Size size );
 

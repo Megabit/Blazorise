@@ -36,11 +36,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Select() => UseCustomInputStyles ? "custom-select" : "form-control";
 
-    public override string SelectMultiple() => null;
+    public override string SelectMultiple( bool multiple ) => null;
 
     public override string SelectSize( Size size ) => size != Size.Default ? $"{Select()}-{ToSize( size )}" : null;
 
-    public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

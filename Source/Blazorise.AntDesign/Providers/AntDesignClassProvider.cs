@@ -35,11 +35,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Select() => "ant-select-selection-search-input";
 
-    public override string SelectMultiple() => null;
+    public override string SelectMultiple( bool multiple ) => null;
 
     public override string SelectSize( Size size ) => size != Size.Default ? $"ant-select-{ToSize( size )}" : null;
 
-    public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

@@ -35,11 +35,11 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Select() => "select is-fullwidth";
 
-    public override string SelectMultiple() => "is-multiple";
+    public override string SelectMultiple( bool multiple ) => multiple ? "is-multiple" : null;
 
     public override string SelectSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
