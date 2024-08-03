@@ -51,7 +51,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericEditColor( Color color ) => $"ant-form-text-{ToColor( color )}";
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -127,7 +127,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string NumericPickerColor( Color color ) => color != Color.Default ? $"ant-form-text-{ToColor( color )}" : null;
 
-    public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

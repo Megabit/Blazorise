@@ -68,7 +68,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string NumericEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -166,7 +166,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string NumericPickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
