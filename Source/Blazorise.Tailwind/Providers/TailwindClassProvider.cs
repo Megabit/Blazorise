@@ -839,7 +839,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Jumbotron() => "b-jumbotron py-8 px-4 mx-auto w-full text-center lg:py-16 lg:px-12 text-gray-100 dark:text-gray-800";
 
-    public override string JumbotronBackground( Background background ) => $"bg-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNullOrDefault() ? null : $"bg-{ToBackground( background )}";
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"b-jumbotron-title text-gray-100 dark:text-gray-800 {DisplayHeadingSize( (Blazorise.DisplayHeadingSize)jumbotronTitleSize )}";
 

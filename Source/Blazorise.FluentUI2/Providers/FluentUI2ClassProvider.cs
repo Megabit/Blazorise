@@ -676,7 +676,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Jumbotron() => "fui-Jumbotron";
 
-    public override string JumbotronBackground( Background background ) => $"fui-Jumbotron-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNullOrDefault() ? null : $"fui-Jumbotron-{ToBackground( background )}";
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"fui-Jumbotron__title-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 

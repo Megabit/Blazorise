@@ -592,7 +592,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Jumbotron() => "hero";
 
-    public override string JumbotronBackground( Background background ) => $"is-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNullOrDefault() ? null : $"is-{ToBackground( background )}";
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"title is-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 

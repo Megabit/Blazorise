@@ -591,7 +591,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Jumbotron() => "jumbotron";
 
-    public override string JumbotronBackground( Background background ) => $"jumbotron-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNullOrDefault() ? null : $"jumbotron-{ToBackground( background )}";
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 

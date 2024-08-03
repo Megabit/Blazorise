@@ -585,7 +585,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Jumbotron() => "ant-hero";
 
-    public override string JumbotronBackground( Background background ) => $"ant-hero-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNullOrDefault() ? null : $"ant-hero-{ToBackground( background )}";
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"ant-display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 
