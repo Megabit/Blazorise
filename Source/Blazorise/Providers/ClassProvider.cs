@@ -281,7 +281,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Field();
 
-    public abstract string FieldHorizontal();
+    public abstract string FieldHorizontal( bool horizontal );
 
     public abstract string FieldColumn();
 
@@ -298,6 +298,8 @@ public abstract class ClassProvider : IClassProvider
     public abstract string FieldLabel( bool horizontal );
 
     public abstract string FieldLabelRequiredIndicator( bool requiredIndicator );
+
+    public abstract string FieldLabelScreenreader( Screenreader screenreader );
 
     #endregion
 

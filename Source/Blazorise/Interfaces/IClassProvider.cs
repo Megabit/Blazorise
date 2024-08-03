@@ -280,7 +280,7 @@ public interface IClassProvider
 
     string Field();
 
-    string FieldHorizontal();
+    string FieldHorizontal( bool horizontal );
 
     string FieldColumn();
 
@@ -297,6 +297,8 @@ public interface IClassProvider
     string FieldLabel( bool horizontal );
 
     string FieldLabelRequiredIndicator( bool requiredIndicator );
+
+    string FieldLabelScreenreader( Screenreader screenreader );
 
     #endregion
 

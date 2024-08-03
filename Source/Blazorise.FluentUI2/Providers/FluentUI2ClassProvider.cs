@@ -303,7 +303,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Field() => "fui-Field";
 
-    public override string FieldHorizontal() => "fui-FieldHorizontal";
+    public override string FieldHorizontal( bool horizontal ) => horizontal ? "fui-FieldHorizontal" : null;
 
     public override string FieldColumn() => "fui-Column";
 
@@ -323,6 +323,8 @@ public class FluentUI2ClassProvider : ClassProvider
         => requiredIndicator
             ? "fui-Label__required"
             : null;
+
+    public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 

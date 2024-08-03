@@ -298,7 +298,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Field() => "form-group";
 
-    public override string FieldHorizontal() => "row";
+    public override string FieldHorizontal( bool horizontal ) => horizontal ? "row" : null;
 
     public override string FieldColumn() => "col";
 
@@ -318,6 +318,8 @@ public class BootstrapClassProvider : ClassProvider
         => requiredIndicator
             ? "form-label-required"
             : null;
+
+    public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 

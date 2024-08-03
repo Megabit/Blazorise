@@ -297,7 +297,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Field() => "field";
 
-    public override string FieldHorizontal() => "is-horizontal";
+    public override string FieldHorizontal( bool horizontal ) => horizontal ? "is-horizontal" : null;
 
     public override string FieldColumn() => "column";
 
@@ -317,6 +317,8 @@ public class BulmaClassProvider : ClassProvider
         => requiredIndicator
             ? "field-label-required"
             : null;
+
+    public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 

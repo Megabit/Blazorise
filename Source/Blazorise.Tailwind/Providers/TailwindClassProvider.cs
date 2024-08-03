@@ -365,7 +365,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Field() => "mb-3";
 
-    public override string FieldHorizontal() => "flex flex-wrap flex-row";
+    public override string FieldHorizontal( bool horizontal ) => horizontal ? "flex flex-wrap flex-row" : null;
 
     public override string FieldColumn() => "relative basis-0 grow pl-2 pr-2 w-full max-w-full";
 
@@ -387,6 +387,8 @@ public class TailwindClassProvider : ClassProvider
         => requiredIndicator
             ? "after:content-['_*'] after:[color:var(--b-theme-danger,--btw-color-danger-500)]"
             : null;
+
+    public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 

@@ -283,7 +283,7 @@ class EmptyClassProvider : IClassProvider
 
     public string Field() => null;
 
-    public string FieldHorizontal() => null;
+    public string FieldHorizontal( bool horizontal ) => null;
 
     public string FieldColumn() => null;
 
@@ -300,6 +300,8 @@ class EmptyClassProvider : IClassProvider
     public string FieldLabel( bool horizontal ) => null;
 
     public string FieldLabelRequiredIndicator( bool requiredIndicator ) => null;
+
+    public string FieldLabelScreenreader( Screenreader screenreader ) => null;
 
     #endregion
 
