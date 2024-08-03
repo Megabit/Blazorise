@@ -900,7 +900,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ListGroupItem() => "b-listgroup-item py-3 px-4 w-full border-b last:border-b-0";
 
-    public override string ListGroupItemSelectable() => "b-listgroup-item-selectable cursor-pointer focus:outline-none";
+    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "b-listgroup-item-selectable cursor-pointer focus:outline-none" : null;
 
     public override string ListGroupItemActive( bool active ) => active ? "b-listgroup-item-active" : null;
 

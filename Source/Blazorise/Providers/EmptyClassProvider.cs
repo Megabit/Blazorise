@@ -597,7 +597,7 @@ class EmptyClassProvider : IClassProvider
 
     public string ListGroupItem() => null;
 
-    public string ListGroupItemSelectable() => null;
+    public string ListGroupItemSelectable( bool selectable ) => null;
 
     public string ListGroupItemActive( bool active ) => null;
 

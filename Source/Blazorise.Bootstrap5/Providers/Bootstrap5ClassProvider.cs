@@ -639,7 +639,7 @@ public class Bootstrap5ClassProvider : ClassProvider
 
     public override string ListGroupItem() => "list-group-item";
 
-    public override string ListGroupItemSelectable() => "list-group-item-action";
+    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "list-group-item-action" : null;
 
     public override string ListGroupItemActive( bool active ) => active ? Active() : null;
 

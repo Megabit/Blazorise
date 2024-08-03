@@ -727,7 +727,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ListGroupItem() => "fui-ListGroupItem";
 
-    public override string ListGroupItemSelectable() => "fui-ListGroupItem-action";
+    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "fui-ListGroupItem-action" : null;
 
     public override string ListGroupItemActive( bool active ) => active ? "fui-ListGroupItem-active" : null;
 

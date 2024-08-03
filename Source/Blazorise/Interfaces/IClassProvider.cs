@@ -594,7 +594,7 @@ public interface IClassProvider
 
     string ListGroupItem();
 
-    string ListGroupItemSelectable();
+    string ListGroupItemSelectable( bool selectable );
 
     string ListGroupItemActive( bool active );
 

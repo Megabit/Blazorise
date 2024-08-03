@@ -639,7 +639,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ListGroupItem() => "ant-list-item ant-list-item-no-flex";
 
-    public override string ListGroupItemSelectable() => "ant-list-item-actionable";
+    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "ant-list-item-actionable" : null;
 
     public override string ListGroupItemActive( bool active ) => active ? Active() : null;
 

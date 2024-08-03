@@ -595,7 +595,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string ListGroupItem();
 
-    public abstract string ListGroupItemSelectable();
+    public abstract string ListGroupItemSelectable( bool selectable );
 
     public abstract string ListGroupItemActive( bool active );
 
