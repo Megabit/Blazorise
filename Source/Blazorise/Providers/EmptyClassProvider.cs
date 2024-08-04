@@ -1149,13 +1149,13 @@ class EmptyClassProvider : IClassProvider
 
     public string TooltipPlacement( TooltipPlacement tooltipPlacement ) => null;
 
-    public string TooltipMultiline() => null;
+    public string TooltipMultiline( bool multiline ) => null;
 
-    public string TooltipAlwaysActive() => null;
+    public string TooltipAlwaysActive( bool alwaysActive ) => null;
 
-    public string TooltipFade() => null;
+    public string TooltipFade( bool fade ) => null;
 
-    public string TooltipInline() => null;
+    public string TooltipInline( bool inline ) => null;
 
     #endregion
 

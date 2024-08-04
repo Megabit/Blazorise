@@ -1433,13 +1433,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"fui-Tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
-    public override string TooltipMultiline() => "fui-Tooltip-multiline";
+    public override string TooltipMultiline( bool multiline ) => multiline ? "fui-Tooltip-multiline" : null;
 
-    public override string TooltipAlwaysActive() => "fui-Tooltip-active";
+    public override string TooltipAlwaysActive( bool alwaysActive ) => alwaysActive ? "fui-Tooltip-active" : null;
 
-    public override string TooltipFade() => "fui-Tooltip-fade";
+    public override string TooltipFade( bool fade ) => fade ? "fui-Tooltip-fade" : null;
 
-    public override string TooltipInline() => "fui-Tooltip-inline";
+    public override string TooltipInline( bool inline ) => inline ? "fui-Tooltip-inline" : null;
 
     #endregion
 

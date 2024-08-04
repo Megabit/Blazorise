@@ -1146,13 +1146,13 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TooltipPlacement( TooltipPlacement tooltipPlacement );
 
-    public abstract string TooltipMultiline();
+    public abstract string TooltipMultiline( bool multiline );
 
-    public abstract string TooltipAlwaysActive();
+    public abstract string TooltipAlwaysActive( bool alwaysActive );
 
-    public abstract string TooltipFade();
+    public abstract string TooltipFade( bool fade );
 
-    public abstract string TooltipInline();
+    public abstract string TooltipInline( bool inline );
 
     #endregion
 

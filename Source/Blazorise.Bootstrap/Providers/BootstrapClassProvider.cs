@@ -1295,13 +1295,13 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
-    public override string TooltipMultiline() => "b-tooltip-multiline";
+    public override string TooltipMultiline( bool multiline ) => multiline ? "b-tooltip-multiline" : null;
 
-    public override string TooltipAlwaysActive() => "b-tooltip-active";
+    public override string TooltipAlwaysActive( bool alwaysActive ) => alwaysActive ? "b-tooltip-active" : null;
 
-    public override string TooltipFade() => "b-tooltip-fade";
+    public override string TooltipFade( bool fade ) => fade ? "b-tooltip-fade" : null;
 
-    public override string TooltipInline() => "b-tooltip-inline";
+    public override string TooltipInline( bool inline ) => inline ? "b-tooltip-inline" : null;
 
     #endregion
 

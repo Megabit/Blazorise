@@ -1144,13 +1144,13 @@ public interface IClassProvider
 
     string TooltipPlacement( TooltipPlacement tooltipPlacement );
 
-    string TooltipMultiline();
+    string TooltipMultiline( bool multiline );
 
-    string TooltipAlwaysActive();
+    string TooltipAlwaysActive( bool alwaysActive );
 
-    string TooltipFade();
+    string TooltipFade( bool fade );
 
-    string TooltipInline();
+    string TooltipInline( bool inline );
 
     #endregion
 

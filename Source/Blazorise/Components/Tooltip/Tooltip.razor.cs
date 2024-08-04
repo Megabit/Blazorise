@@ -43,10 +43,10 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     {
         builder.Append( ClassProvider.Tooltip() );
         builder.Append( ClassProvider.TooltipPlacement( Placement ) );
-        builder.Append( ClassProvider.TooltipMultiline(), Multiline );
-        builder.Append( ClassProvider.TooltipAlwaysActive(), AlwaysActive );
-        builder.Append( ClassProvider.TooltipInline(), Inline );
-        builder.Append( ClassProvider.TooltipFade(), Fade );
+        builder.Append( ClassProvider.TooltipMultiline( Multiline ) );
+        builder.Append( ClassProvider.TooltipAlwaysActive( AlwaysActive ) );
+        builder.Append( ClassProvider.TooltipInline( Inline ) );
+        builder.Append( ClassProvider.TooltipFade( Fade ) );
 
         base.BuildClasses( builder );
     }
