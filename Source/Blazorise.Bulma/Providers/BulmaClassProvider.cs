@@ -1573,7 +1573,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "is-ordered-list-unstyled" : null;
 
-    public override string OrderedListType( OrderedListType orderedListType ) => $"is-ordered-list-{ToOrderedListType( orderedListType )}";
+    public override string OrderedListType( OrderedListType orderedListType ) => orderedListType != Blazorise.OrderedListType.Default ? $"is-ordered-list-{ToOrderedListType( orderedListType )}" : null;
 
     public override string DescriptionList() => null;
 

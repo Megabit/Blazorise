@@ -2215,7 +2215,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
 
-    public override string OrderedListType( OrderedListType orderedListType ) => $"ordered-list-{ToOrderedListType( orderedListType )}";
+    public override string OrderedListType( OrderedListType orderedListType ) => orderedListType != Blazorise.OrderedListType.Default ? $"ordered-list-{ToOrderedListType( orderedListType )}" : null;
 
     public override string DescriptionList() => null;
 

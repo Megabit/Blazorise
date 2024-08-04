@@ -1561,7 +1561,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "ant-ordered-list-unstyled" : null;
 
-    public override string OrderedListType( OrderedListType orderedListType ) => $"ant-ordered-list-{ToOrderedListType( orderedListType )}";
+    public override string OrderedListType( OrderedListType orderedListType ) => orderedListType != Blazorise.OrderedListType.Default ? $"ant-ordered-list-{ToOrderedListType( orderedListType )}" : null;
 
     public override string DescriptionList() => null;
 
