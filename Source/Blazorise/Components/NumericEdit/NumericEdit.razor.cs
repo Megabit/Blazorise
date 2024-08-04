@@ -224,12 +224,12 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     /// <summary>
     /// Gets the min value if defined, otherwise null.
     /// </summary>
-    protected object GetMin => minDefined ? Min : null;
+    protected object MinValue => minDefined ? Min : null;
 
     /// <summary>
     /// Gets the max value if defined, otherwise null.
     /// </summary>
-    protected object GetMax => maxDefined ? Max : null;
+    protected object MaxValue => maxDefined ? Max : null;
 
     /// <summary>
     /// Gets the culture info defined on the input field.
