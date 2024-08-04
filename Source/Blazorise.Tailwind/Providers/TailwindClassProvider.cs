@@ -92,7 +92,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TimeEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -135,7 +135,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TimePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

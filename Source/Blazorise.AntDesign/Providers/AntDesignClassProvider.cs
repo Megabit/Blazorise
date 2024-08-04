@@ -76,7 +76,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimeEditColor( Color color ) => color != Color.Default ? $"ant-form-text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -108,7 +108,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TimePickerColor( Color color ) => color != Color.Default ? $"ant-form-text-{ToColor( color )}" : null;
 
-    public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

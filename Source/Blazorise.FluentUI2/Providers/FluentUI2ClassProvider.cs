@@ -75,7 +75,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimeEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
@@ -107,7 +107,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimePickerColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
 
-    public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
+    public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 
