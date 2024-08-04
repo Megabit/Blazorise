@@ -449,13 +449,13 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Tabs( bool pills );
 
-    public abstract string TabsCards();
+    public abstract string TabsCards( bool cards );
 
-    public abstract string TabsFullWidth();
+    public abstract string TabsFullWidth( bool fullWidth );
 
-    public abstract string TabsJustified();
+    public abstract string TabsJustified( bool justified );
 
-    public abstract string TabsVertical();
+    public abstract string TabsVertical( bool vertical );
 
     public abstract string TabItem( TabPosition tabPosition );
 

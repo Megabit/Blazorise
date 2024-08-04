@@ -451,13 +451,13 @@ class EmptyClassProvider : IClassProvider
 
     public string Tabs( bool pills ) => null;
 
-    public string TabsCards() => null;
+    public string TabsCards( bool cards ) => null;
 
-    public string TabsFullWidth() => null;
+    public string TabsFullWidth( bool fullWidth ) => null;
 
-    public string TabsJustified() => null;
+    public string TabsJustified( bool justified ) => null;
 
-    public string TabsVertical() => null;
+    public string TabsVertical( bool vertical ) => null;
 
     public string TabItem( TabPosition tabPosition ) => null;
 

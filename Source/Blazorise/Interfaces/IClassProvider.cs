@@ -448,13 +448,13 @@ public interface IClassProvider
 
     string Tabs( bool pills );
 
-    string TabsCards();
+    string TabsCards( bool cards );
 
-    string TabsFullWidth();
+    string TabsFullWidth( bool fullWidth );
 
-    string TabsJustified();
+    string TabsJustified( bool justified );
 
-    string TabsVertical();
+    string TabsVertical( bool vertical );
 
     string TabItem( TabPosition tabPosition );
 

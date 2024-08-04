@@ -494,13 +494,13 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Tabs( bool pills ) => pills ? "ant-tabs ant-tabs-top ant-tabs-line ant-tabs-pills" : "ant-tabs ant-tabs-top ant-tabs-line";
 
-    public override string TabsCards() => "ant-tabs-card";
+    public override string TabsCards( bool cards ) => cards ? "ant-tabs-card" : null;
 
-    public override string TabsFullWidth() => "ant-tabs-fill";
+    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "ant-tabs-fill" : null;
 
-    public override string TabsJustified() => "ant-tabs-justified";
+    public override string TabsJustified( bool justified ) => justified ? "ant-tabs-justified" : null;
 
-    public override string TabsVertical() => null;
+    public override string TabsVertical( bool vertical ) => null;
 
     public override string TabItem( TabPosition tabPosition ) => "ant-tabs-tab";
 

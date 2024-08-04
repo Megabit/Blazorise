@@ -685,13 +685,13 @@ public class TailwindClassProvider : ClassProvider
         ? "flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400"
         : "flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400";
 
-    public override string TabsCards() => "card-header-tabs";
+    public override string TabsCards( bool cards ) => cards ? "card-header-tabs" : null;
 
-    public override string TabsFullWidth() => "w-full";
+    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "w-full" : null;
 
-    public override string TabsJustified() => "nav-justified";
+    public override string TabsJustified( bool justified ) => justified ? "nav-justified" : null;
 
-    public override string TabsVertical() => "flex-col";
+    public override string TabsVertical( bool vertical ) => vertical ? "flex-col" : null;
 
     public override string TabItem( TabPosition tabPosition ) => "mr-2";
 

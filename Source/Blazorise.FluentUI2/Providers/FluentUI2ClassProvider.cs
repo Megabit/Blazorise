@@ -572,13 +572,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Tabs( bool pills ) => "fui-TabList";
 
-    public override string TabsCards() => null;
+    public override string TabsCards( bool cards ) => null;
 
-    public override string TabsFullWidth() => "fui-TabList-fill";
+    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "fui-TabList-fill" : null;
 
-    public override string TabsJustified() => "fui-TabList-justified";
+    public override string TabsJustified( bool justified ) => justified ? "fui-TabList-justified" : null;
 
-    public override string TabsVertical() => null;
+    public override string TabsVertical( bool vertical ) => null;
 
     public override string TabItem( TabPosition tabPosition )
     {

@@ -502,13 +502,13 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Tabs( bool pills ) => pills ? "nav nav-pills" : "nav nav-tabs";
 
-    public override string TabsCards() => "card-header-tabs";
+    public override string TabsCards( bool cards ) => cards ? "card-header-tabs" : null;
 
-    public override string TabsFullWidth() => "nav-fill";
+    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "nav-fill" : null;
 
-    public override string TabsJustified() => "nav-justified";
+    public override string TabsJustified( bool justified ) => justified ? "nav-justified" : null;
 
-    public override string TabsVertical() => "flex-column";
+    public override string TabsVertical( bool vertical ) => vertical ? "flex-column" : null;
 
     public override string TabItem( TabPosition tabPosition ) => "nav-item";
 

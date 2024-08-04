@@ -491,13 +491,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Tabs( bool pills ) => pills ? "tabs is-toggle" : "tabs";
 
-    public override string TabsCards() => null;
+    public override string TabsCards( bool cards ) => null;
 
-    public override string TabsFullWidth() => "is-fullwidth";
+    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "is-fullwidth" : null;
 
-    public override string TabsJustified() => "is-justified";
+    public override string TabsJustified( bool justified ) => justified ? "is-justified" : null;
 
-    public override string TabsVertical() => "is-vertical"; // this is custom class, bulma natively does not have vertical tabs
+    public override string TabsVertical( bool vertical ) => vertical ? "is-vertical" : null; // this is custom class, bulma natively does not have vertical tabs
 
     public override string TabItem( TabPosition tabPosition ) => null;
 
