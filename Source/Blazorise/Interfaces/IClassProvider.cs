@@ -960,17 +960,17 @@ public interface IClassProvider
 
     string Table();
 
-    string TableFullWidth();
+    string TableFullWidth( bool fullWidth );
 
-    string TableStriped();
+    string TableStriped( bool striped );
 
-    string TableHoverable();
+    string TableHoverable( bool hoverable );
 
-    string TableBordered();
+    string TableBordered( bool bordered );
 
-    string TableNarrow();
+    string TableNarrow( bool narrow );
 
-    string TableBorderless();
+    string TableBorderless( bool borderless );
 
     string TableHeader();
 
@@ -990,9 +990,9 @@ public interface IClassProvider
 
     string TableRowColor( Color color );
 
-    string TableRowHoverCursor();
+    string TableRowHoverCursor( Cursor cursor );
 
-    string TableRowIsSelected();
+    string TableRowIsSelected( bool selected );
 
     string TableRowHeader();
 

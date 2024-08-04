@@ -1052,21 +1052,21 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Table() => "ant-table";
 
-    public override string TableFullWidth() => null;
+    public override string TableFullWidth( bool fullWidth ) => null;
 
-    public override string TableStriped() => "ant-table-striped";
+    public override string TableStriped( bool striped ) => striped ? "ant-table-striped" : null;
 
-    public override string TableHoverable() => "ant-table-hover";
+    public override string TableHoverable( bool hoverable ) => hoverable ? "ant-table-hover" : null;
 
-    public override string TableBordered() => "ant-table-bordered";
+    public override string TableBordered( bool bordered ) => bordered ? "ant-table-bordered" : null;
 
-    public override string TableNarrow() => "ant-table-small";
+    public override string TableNarrow( bool narrow ) => narrow ? "ant-table-small" : null;
 
-    public override string TableBorderless() => "ant-table-borderless";
+    public override string TableBorderless( bool borderless ) => borderless ? "ant-table-borderless" : null;
 
     public override string TableHeader() => "ant-table-thead";
 
-    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"ant-table-thead-theme ant-table-thead-{ToThemeContrast( themeContrast )}";
+    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"ant-table-thead-theme ant-table-thead-{ToThemeContrast( themeContrast )}" : null;
 
     public override string TableHeaderCell() => null;
 
@@ -1088,11 +1088,11 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => "ant-table-row";
 
-    public override string TableRowColor( Color color ) => $"ant-table-{ToColor( color )}";
+    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-table-{ToColor( color )}" : null;
 
-    public override string TableRowHoverCursor() => "ant-table-row-selectable";
+    public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "ant-table-row-selectable" : null;
 
-    public override string TableRowIsSelected() => "selected";
+    public override string TableRowIsSelected( bool selected ) => selected ? "selected" : null;
 
     public override string TableRowHeader() => "ant-table-cell ant-table-row-header";
 
@@ -1108,7 +1108,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string TableRowCell() => "ant-table-cell";
 
-    public override string TableRowCellColor( Color color ) => $"ant-table-{ToColor( color )}";
+    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-table-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {

@@ -1078,21 +1078,21 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Table() => "table";
 
-    public override string TableFullWidth() => null;
+    public override string TableFullWidth( bool fullWidth ) => null;
 
-    public override string TableStriped() => "table-striped";
+    public override string TableStriped( bool striped ) => striped ? "table-striped" : null;
 
-    public override string TableHoverable() => "table-hover";
+    public override string TableHoverable( bool hoverable ) => hoverable ? "table-hover" : null;
 
-    public override string TableBordered() => "table-bordered";
+    public override string TableBordered( bool bordered ) => bordered ? "table-bordered" : null;
 
-    public override string TableNarrow() => "table-sm";
+    public override string TableNarrow( bool narrow ) => narrow ? "table-sm" : null;
 
-    public override string TableBorderless() => "table-borderless";
+    public override string TableBorderless( bool borderless ) => borderless ? "table-borderless" : null;
 
     public override string TableHeader() => null;
 
-    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"table-thead-theme thead-{ToThemeContrast( themeContrast )}";
+    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"table-thead-theme thead-{ToThemeContrast( themeContrast )}" : null;
 
     public override string TableHeaderCell() => null;
 
@@ -1114,11 +1114,11 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => null;
 
-    public override string TableRowColor( Color color ) => $"table-{ToColor( color )}";
+    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
 
-    public override string TableRowHoverCursor() => "table-row-selectable";
+    public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "table-row-selectable" : null;
 
-    public override string TableRowIsSelected() => "selected";
+    public override string TableRowIsSelected( bool selected ) => selected ? "selected" : null;
 
     public override string TableRowHeader() => null;
 
@@ -1134,7 +1134,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TableRowCell() => null;
 
-    public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
+    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {

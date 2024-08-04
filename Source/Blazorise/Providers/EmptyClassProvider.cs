@@ -965,17 +965,17 @@ class EmptyClassProvider : IClassProvider
 
     public string Table() => null;
 
-    public string TableFullWidth() => null;
+    public string TableFullWidth( bool fullWidth ) => null;
 
-    public string TableStriped() => null;
+    public string TableStriped( bool striped ) => null;
 
-    public string TableHoverable() => null;
+    public string TableHoverable( bool hoverable ) => null;
 
-    public string TableBordered() => null;
+    public string TableBordered( bool bordered ) => null;
 
-    public string TableNarrow() => null;
+    public string TableNarrow( bool narrow ) => null;
 
-    public string TableBorderless() => null;
+    public string TableBorderless( bool borderless ) => null;
 
     public string TableHeader() => null;
 
@@ -995,9 +995,9 @@ class EmptyClassProvider : IClassProvider
 
     public string TableRowColor( Color color ) => null;
 
-    public string TableRowHoverCursor() => null;
+    public string TableRowHoverCursor( Cursor cursor ) => null;
 
-    public string TableRowIsSelected() => null;
+    public string TableRowIsSelected( bool selected ) => null;
 
     public string TableRowHeader() => null;
 

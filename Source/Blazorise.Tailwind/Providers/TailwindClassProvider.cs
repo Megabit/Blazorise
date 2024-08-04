@@ -1591,17 +1591,17 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Table() => "b-table w-full text-sm text-left text-gray-500 dark:text-gray-400 group mb-3";
 
-    public override string TableFullWidth() => "b-table-fullwidth";
+    public override string TableFullWidth( bool fullWidth ) => fullWidth ? "b-table-fullwidth" : null;
 
-    public override string TableStriped() => "b-table-striped";
+    public override string TableStriped( bool striped ) => striped ? "b-table-striped" : null;
 
-    public override string TableHoverable() => "b-table-hoverable";
+    public override string TableHoverable( bool hoverable ) => hoverable ? "b-table-hoverable" : null;
 
-    public override string TableBordered() => "b-table-bordered border";
+    public override string TableBordered( bool bordered ) => bordered ? "b-table-bordered border" : null;
 
-    public override string TableNarrow() => "b-table-sm";
+    public override string TableNarrow( bool narrow ) => narrow ? "b-table-sm" : null;
 
-    public override string TableBorderless() => "b-table-borderless border-0";
+    public override string TableBorderless( bool borderless ) => borderless ? "b-table-borderless border-0" : null;
 
     public override string TableHeader() => "text-xs text-gray-800 bg-white dark:bg-gray-700 dark:text-gray-400";
 
@@ -1646,6 +1646,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowColor( Color color )
     {
+        if ( color.IsNullOrDefault() )
+            return null;
+
         var name = color?.Name;
 
         return name switch
@@ -1663,9 +1666,9 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string TableRowHoverCursor() => "b-table-row-selectable cursor-pointer";
+    public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "b-table-row-selectable cursor-pointer" : null;
 
-    public override string TableRowIsSelected() => "b-table-row-selected !text-primary-800 !bg-primary-300 !dark:bg-primary-500 !dark:text-primary-800";
+    public override string TableRowIsSelected( bool selected ) => selected ? "b-table-row-selected !text-primary-800 !bg-primary-300 !dark:bg-primary-500 !dark:text-primary-800" : null;
 
     public override string TableRowHeader() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
 
@@ -1681,7 +1684,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowCell() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4";
 
-    public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
+    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {

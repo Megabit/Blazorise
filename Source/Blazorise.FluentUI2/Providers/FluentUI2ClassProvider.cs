@@ -1216,21 +1216,21 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Table() => "fui-Table";
 
-    public override string TableFullWidth() => "fui-Table-fullwidth";
+    public override string TableFullWidth( bool fullWidth ) => fullWidth ? "fui-Table-fullwidth" : null;
 
-    public override string TableStriped() => "fui-Table-striped";
+    public override string TableStriped( bool striped ) => striped ? "fui-Table-striped" : null;
 
-    public override string TableHoverable() => "fui-Table-hoverable";
+    public override string TableHoverable( bool hoverable ) => hoverable ? "fui-Table-hoverable" : null;
 
-    public override string TableBordered() => "fui-Table-bordered";
+    public override string TableBordered( bool bordered ) => bordered ? "fui-Table-bordered" : null;
 
-    public override string TableNarrow() => "fui-Table-narrow";
+    public override string TableNarrow( bool narrow ) => narrow ? "fui-Table-narrow" : null;
 
-    public override string TableBorderless() => "fui-Table-borderless";
+    public override string TableBorderless( bool borderless ) => borderless ? "fui-Table-borderless" : null;
 
     public override string TableHeader() => "fui-TableHeader";
 
-    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"fui-TableHeader__theme fui-TableHeader__theme-{ToThemeContrast( themeContrast )}";
+    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"fui-TableHeader__theme fui-TableHeader__theme-{ToThemeContrast( themeContrast )}" : null;
 
     public override string TableHeaderCell() => "fui-TableHeaderCell";
 
@@ -1252,11 +1252,11 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => "fui-TableRow";
 
-    public override string TableRowColor( Color color ) => $"fui-TableRow-{ToColor( color )}";
+    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TableRow-{ToColor( color )}" : null;
 
-    public override string TableRowHoverCursor() => "fui-TableRow-selectable";
+    public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "fui-TableRow-selectable" : null;
 
-    public override string TableRowIsSelected() => "fui-TableRow-selected";
+    public override string TableRowIsSelected( bool selected ) => selected ? "fui-TableRow-selected" : null;
 
     public override string TableRowHeader() => "fui-TableRowHeader";
 
@@ -1272,7 +1272,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TableRowCell() => "fui-TableCell";
 
-    public override string TableRowCellColor( Color color ) => $"fui-TableCell-{ToColor( color )}";
+    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TableCell-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {

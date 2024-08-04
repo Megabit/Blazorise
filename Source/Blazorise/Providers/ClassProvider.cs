@@ -962,17 +962,17 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string Table();
 
-    public abstract string TableFullWidth();
+    public abstract string TableFullWidth( bool fullWidth );
 
-    public abstract string TableStriped();
+    public abstract string TableStriped( bool striped );
 
-    public abstract string TableHoverable();
+    public abstract string TableHoverable( bool hoverable );
 
-    public abstract string TableBordered();
+    public abstract string TableBordered( bool bordered );
 
-    public abstract string TableNarrow();
+    public abstract string TableNarrow( bool narrow );
 
-    public abstract string TableBorderless();
+    public abstract string TableBorderless( bool borderless );
 
     public abstract string TableHeader();
 
@@ -992,9 +992,9 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string TableRowColor( Color color );
 
-    public abstract string TableRowHoverCursor();
+    public abstract string TableRowHoverCursor( Cursor cursor );
 
-    public abstract string TableRowIsSelected();
+    public abstract string TableRowIsSelected( bool selected );
 
     public abstract string TableRowHeader();
 

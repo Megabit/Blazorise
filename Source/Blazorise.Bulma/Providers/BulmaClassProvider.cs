@@ -1085,21 +1085,21 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Table() => "table";
 
-    public override string TableFullWidth() => "is-fullwidth";
+    public override string TableFullWidth( bool fullWidth ) => fullWidth ? "is-fullwidth" : null;
 
-    public override string TableStriped() => "is-striped";
+    public override string TableStriped( bool striped ) => striped ? "is-striped" : null;
 
-    public override string TableHoverable() => "is-hoverable";
+    public override string TableHoverable( bool hoverable ) => hoverable ? "is-hoverable" : null;
 
-    public override string TableBordered() => "is-bordered";
+    public override string TableBordered( bool bordered ) => bordered ? "is-bordered" : null;
 
-    public override string TableNarrow() => "is-narrow";
+    public override string TableNarrow( bool narrow ) => narrow ? "is-narrow" : null;
 
-    public override string TableBorderless() => "is-borderless";
+    public override string TableBorderless( bool borderless ) => borderless ? "is-borderless" : null;
 
     public override string TableHeader() => null;
 
-    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => $"table-thead-theme has-background-{ToThemeContrast( themeContrast )}";
+    public override string TableHeaderThemeContrast( ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"table-thead-theme has-background-{ToThemeContrast( themeContrast )}" : null;
 
     public override string TableHeaderCell() => null;
 
@@ -1121,11 +1121,11 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRow( bool striped, bool hoverable ) => null;
 
-    public override string TableRowColor( Color color ) => $"has-background-{ToColor( color )}";
+    public override string TableRowColor( Color color ) => color.IsNotNullOrDefault() ? $"has-background-{ToColor( color )}" : null;
 
-    public override string TableRowHoverCursor() => "table-row-selectable";
+    public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "table-row-selectable" : null;
 
-    public override string TableRowIsSelected() => "is-selected";
+    public override string TableRowIsSelected( bool selected ) => selected ? "is-selected" : null;
 
     public override string TableRowHeader() => null;
 
@@ -1141,7 +1141,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TableRowCell() => null;
 
-    public override string TableRowCellColor( Color color ) => $"has-background-{ToColor( color )}";
+    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"has-background-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
