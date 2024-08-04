@@ -16,7 +16,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TextEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -50,7 +50,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string NumericEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string NumericEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -62,7 +62,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DateEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string DateEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -74,7 +74,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TimeEditSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -94,7 +94,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -106,7 +106,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -126,7 +126,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -138,7 +138,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"form-control-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color != Color.Default ? $"text-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}" : null;
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -393,8 +393,8 @@ public class BootstrapClassProvider : ClassProvider
     public override string Button( bool outline ) => "btn";
 
     public override string ButtonColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
-        : color != Color.Default ? $"{Button( outline )}-{ToColor( color )}" : null;
+        ? color.IsNotNullOrDefault() ? $"{Button( outline )}-outline-{ToColor( color )}" : $"{Button( outline )}-outline"
+        : color.IsNotNullOrDefault() ? $"{Button( outline )}-{ToColor( color )}" : null;
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"{Button( outline )}-{ToSize( size )}";
 
@@ -478,8 +478,8 @@ public class BootstrapClassProvider : ClassProvider
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "btn dropdown-toggle";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
-        : color != Color.Default ? $"btn-{ToColor( color )}" : null;
+        ? color.IsNotNullOrDefault() ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
+        : color.IsNotNullOrDefault() ? $"btn-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )
         => size != Size.Default ? $"btn-{ToSize( size )}" : null;

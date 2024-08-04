@@ -15,7 +15,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TextEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
+    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string TextEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
 
@@ -49,7 +49,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string NumericEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
+    public override string NumericEditColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -61,7 +61,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DateEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string DateEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
+    public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -73,7 +73,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TimeEditSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
+    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -93,7 +93,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -105,7 +105,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -125,7 +125,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -137,7 +137,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color != Color.Default ? $"is-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
@@ -382,8 +382,8 @@ public class BulmaClassProvider : ClassProvider
     public override string Button( bool outline ) => "button";
 
     public override string ButtonColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"is-{ToColor( color )} is-outlined" : $"is-{ToColor( color )} is-outlined"
-        : color != Color.Default ? $"is-{ToColor( color )}" : null;
+        ? color.IsNotNullOrDefault() ? $"is-{ToColor( color )} is-outlined" : $"is-{ToColor( color )} is-outlined"
+        : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"is-{ToSize( size )}";
 
@@ -467,8 +467,8 @@ public class BulmaClassProvider : ClassProvider
     public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item" : "button dropdown-trigger";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"is-{ToColor( color )}" : $"is-outlined"
-        : color != Color.Default ? $"is-{ToColor( color )}" : null;
+        ? color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : $"is-outlined"
+        : color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )
         => size != Size.Default ? $"is-{ToSize( size )}" : null;

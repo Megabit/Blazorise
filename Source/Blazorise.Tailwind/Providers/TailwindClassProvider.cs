@@ -945,7 +945,7 @@ public class TailwindClassProvider : ClassProvider
             } );
         }
 
-        if ( color != Color.Default && selectable )
+        if ( color.IsNotNullOrDefault() && selectable )
         {
             sb.Append( ' ' ).Append( name switch
             {

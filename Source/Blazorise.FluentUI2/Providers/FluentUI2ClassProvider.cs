@@ -15,7 +15,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TextEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TextEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string TextEditValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Input__input-{ToValidationStatus( validationStatus )}";
 
@@ -49,7 +49,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string NumericEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string NumericEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string NumericEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -61,7 +61,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DateEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string DateEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string DateEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -73,7 +73,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimeEditSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TimeEditColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TimeEditColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -93,7 +93,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string DatePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string DatePickerColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string DatePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -105,7 +105,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TimePickerSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string TimePickerColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string TimePickerColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -125,7 +125,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string NumericPickerSize( Size size ) => size != Size.Default ? $"fui-SpinButton__input-{ToSize( size )}" : null;
 
-    public override string NumericPickerColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string NumericPickerColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-SpinButton-{ToValidationStatus( validationStatus )}" : null;
 
@@ -137,7 +137,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string InputMaskSize( Size size ) => size != Size.Default ? $"fui-Input__input-{ToSize( size )}" : null;
 
-    public override string InputMaskColor( Color color ) => color != Color.Default ? $"fui-TextColor-{ToColor( color )}" : null;
+    public override string InputMaskColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-TextColor-{ToColor( color )}" : null;
 
     public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Input__input-{ToValidationStatus( validationStatus )}" : null;
 
@@ -392,8 +392,8 @@ public class FluentUI2ClassProvider : ClassProvider
     public override string Button( bool outline ) => "fui-Button";
 
     public override string ButtonColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"{Button( outline )}Outline-{ToColor( color )}" : $"{Button( outline )}Outline"
-        : color != Color.Default ? $"{Button( outline )}-{ToColor( color )}" : null;
+        ? color.IsNotNullOrDefault() ? $"{Button( outline )}Outline-{ToColor( color )}" : $"{Button( outline )}Outline"
+        : color.IsNotNullOrDefault() ? $"{Button( outline )}-{ToColor( color )}" : null;
 
     public override string ButtonSize( Size size, bool outline ) => size == Size.Default ? null : $"fui-Button-{ToSize( size )}";
 
@@ -481,8 +481,8 @@ public class FluentUI2ClassProvider : ClassProvider
         : "fui-Button fui-MenuButton";
 
     public override string DropdownToggleColor( Color color, bool outline ) => outline
-        ? color != Color.Default ? $"fui-ButtonOutline-{ToColor( color )}" : $"fui-ButtonOutline"
-        : color != Color.Default ? $"fui-Button-{ToColor( color )}" : null;
+        ? color.IsNotNullOrDefault() ? $"fui-ButtonOutline-{ToColor( color )}" : $"fui-ButtonOutline"
+        : color.IsNotNullOrDefault() ? $"fui-Button-{ToColor( color )}" : null;
 
     public override string DropdownToggleSize( Size size, bool outline )
         => size != Size.Default ? $"fui-MenuButton-{ToSize( size )}" : null;
@@ -548,8 +548,8 @@ public class FluentUI2ClassProvider : ClassProvider
     //public override string DropdownToggleSelector( bool isDropdownSubmenu ) => isDropdownSubmenu ? "dropdown-item dropdown-toggle" : "fui-Dropdown__button";
 
     //public override string DropdownToggleColor( Color color, bool outline ) => outline
-    //    ? color != Color.Default ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
-    //    : color != Color.Default ? $"btn-{ToColor( color )}" : null;
+    //    ? color.IsNotNullOrDefault() ? $"btn-outline-{ToColor( color )}" : $"btn-outline"
+    //    : color.IsNotNullOrDefault() ? $"btn-{ToColor( color )}" : null;
 
     //public override string DropdownToggleSize( Size size, bool outline )
     //    => size != Size.Default ? $"btn-{ToSize( size )}" : null;
