@@ -198,7 +198,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Switch() => UseCustomInputStyles ? "custom-control-input" : "form-check-input";
 
-    public override string SwitchColor( Color color ) => color.IsNullOrDefault() ? null : $"{Switch()}-{ToColor( color )}";
+    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"custom-control-input-{ToSize( size )}" : null;
 
@@ -240,7 +240,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string RatingItem() => "rating-item";
 
-    public override string RatingItemColor( Color color ) => color.IsNullOrDefault() ? null : $"rating-item-{ToColor( color )}";
+    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"rating-item-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => null;
 
@@ -540,7 +540,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "step-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNullOrDefault() ? null : $"{StepItem()}-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "step-circle";
 
@@ -592,7 +592,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Jumbotron() => "jumbotron";
 
-    public override string JumbotronBackground( Background background ) => background.IsNullOrDefault() ? null : $"jumbotron-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNotNullOrDefault() ? $"jumbotron-{ToBackground( background )}" : null;
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 
@@ -866,7 +866,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Alert() => "alert";
 
-    public override string AlertColor( Color color ) => color.IsNullOrDefault() ? null : $"{Alert()}-{ToColor( color )}";
+    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"{Alert()}-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => dismissable ? "alert-dismissible" : null;
 
@@ -1012,7 +1012,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
 
-    public override string PaginationBackgroundColor( Background background ) => background.IsNullOrDefault() ? null : $"bg-{ToBackground( background )}";
+    public override string PaginationBackgroundColor( Background background ) => background.IsNotNullOrDefault() ? $"bg-{ToBackground( background )}" : null;
 
     public override string PaginationItem() => "page-item";
 
@@ -1050,7 +1050,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => null;
 
-    public override string ProgressBarColor( Color color ) => color.IsNullOrDefault() ? null : $"bg-{ToColor( color )}";
+    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"bg-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "progress-bar-striped" : null;
 
@@ -1166,13 +1166,13 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Badge() => "badge";
 
-    public override string BadgeColor( Color color ) => color.IsNullOrDefault() ? null : $"{Badge()}-{ToColor( color )}";
+    public override string BadgeColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
     public override string BadgeClose() => "badge-close";
 
-    public override string BadgeCloseColor( Color color ) => color.IsNullOrDefault() ? null : $"{Badge()}-{ToColor( color )}";
+    public override string BadgeCloseColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
 
     #endregion
 

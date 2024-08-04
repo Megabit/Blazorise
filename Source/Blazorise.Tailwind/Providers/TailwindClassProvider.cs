@@ -258,7 +258,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Switch() => "sr-only peer";
 
-    public override string SwitchColor( Color color ) => color.IsNullOrDefault() ? null : $"{Switch()}-{ToColor( color )}";
+    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => null;
 
@@ -300,7 +300,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string RatingItem() => "w-5 h-5";
 
-    public override string RatingItemColor( Color color ) => color.IsNullOrDefault() ? null : $"text-{ToColor( color )}-400";
+    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}-400" : null;
 
     public override string RatingItemSelected( bool selected ) => null;
 
@@ -834,7 +834,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Jumbotron() => "b-jumbotron py-8 px-4 mx-auto w-full text-center lg:py-16 lg:px-12 text-gray-100 dark:text-gray-800";
 
-    public override string JumbotronBackground( Background background ) => background.IsNullOrDefault() ? null : $"bg-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNotNullOrDefault() ? $"bg-{ToBackground( background )}" : null;
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"b-jumbotron-title text-gray-100 dark:text-gray-800 {DisplayHeadingSize( (Blazorise.DisplayHeadingSize)jumbotronTitleSize )}";
 
@@ -1281,7 +1281,7 @@ public class TailwindClassProvider : ClassProvider
             "light" => "text-light-500 bg-light-100 dark:bg-light-100 dark:text-light-600",
             "dark" => "text-dark-100 bg-dark-800 dark:bg-dark-300 dark:text-dark-700",
             "link" => "text-primary-600 dark:text-primary-500 hover:underline",
-            _ => null,
+            _ => name,
         };
     }
 
@@ -1542,7 +1542,7 @@ public class TailwindClassProvider : ClassProvider
             "info" => "bg-info-600 text-info-100",
             "light" => "bg-light-100 text-light-600",
             "dark" => "bg-dark-600 text-dark-100",
-            _ => null,
+            _ => name,
         };
     }
 
@@ -1662,7 +1662,7 @@ public class TailwindClassProvider : ClassProvider
             "light" => "!text-light-500 bg-light-100 !dark:bg-light-100 !dark:text-light-600",
             "dark" => "!text-dark-100 !bg-dark-800 !dark:bg-dark-300 !dark:text-dark-700",
             "link" => "!text-primary-600 !dark:text-primary-500 !hover:underline",
-            _ => null,
+            _ => name,
         };
     }
 
@@ -1736,7 +1736,7 @@ public class TailwindClassProvider : ClassProvider
             "light" => "bg-light-100 text-light-800 dark:bg-light-200 dark:text-light-800",
             "dark" => "bg-dark-800 text-dark-100 dark:bg-dark-300 dark:text-dark-700",
             "link" => "text-primary-600 dark:text-primary-500 hover:underline",
-            _ => null,
+            _ => name,
         };
     }
 

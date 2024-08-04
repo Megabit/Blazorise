@@ -197,7 +197,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Switch() => "fui-Switch__input";
 
-    public override string SwitchColor( Color color ) => color.IsNullOrDefault() ? null : $"{Switch()}-{ToColor( color )}";
+    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"fui-Switch__input-{ToSize( size )}" : null;
 
@@ -239,7 +239,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string RatingItem() => "fui-RatingItem";
 
-    public override string RatingItemColor( Color color ) => color.IsNullOrDefault() ? null : $"fui-RatingItem-{ToColor( color )}";
+    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-RatingItem-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => selected ? "fui-RatingItem-selected" : null;
 
@@ -619,7 +619,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "fui-Step-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNullOrDefault() ? null : $"{StepItem()}-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "fui-Step__circle";
 
@@ -671,7 +671,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Jumbotron() => "fui-Jumbotron";
 
-    public override string JumbotronBackground( Background background ) => background.IsNullOrDefault() ? null : $"fui-Jumbotron-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNotNullOrDefault() ? $"fui-Jumbotron-{ToBackground( background )}" : null;
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"fui-Jumbotron__title-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 
@@ -733,7 +733,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ListGroupItemDisabled( bool disabled ) => disabled ? "fui-ListGroupItem-disabled" : null;
 
-    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color.IsNullOrDefault() ? null : $"{ListGroupItem()}-{base.ToColor( color )}";
+    public override string ListGroupItemColor( Color color, bool selectable, bool active ) => color.IsNotNullOrDefault() ? $"{ListGroupItem()}-{base.ToColor( color )}" : null;
 
     #endregion
 
@@ -1006,7 +1006,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Alert() => "fui-MessageBar";
 
-    public override string AlertColor( Color color ) => color.IsNullOrDefault() ? null : $"fui-MessageBar-{ToColor( color )}";
+    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-MessageBar-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => dismissable ? "fui-MessageBar-closable" : null;
 
@@ -1150,7 +1150,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"fui-JustifyContent-{ToAlignment( alignment )}" : null;
 
-    public override string PaginationBackgroundColor( Background background ) => background.IsNullOrDefault() ? null : $"fui-Background-{ToBackground( background )}";
+    public override string PaginationBackgroundColor( Background background ) => background.IsNotNullOrDefault() ? $"fui-Background-{ToBackground( background )}" : null;
 
     public override string PaginationItem() => "fui-PaginationItem";
 
@@ -1188,7 +1188,7 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => size == Size.Default ? null : $"fui-ProgressBar__bar-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => color.IsNullOrDefault() ? null : $"fui-ProgressBar__bar-{ToColor( color )}";
+    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"fui-ProgressBar__bar-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "fui-ProgressBar__bar-striped" : null;
 
@@ -1304,13 +1304,13 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Badge() => "fui-Badge";
 
-    public override string BadgeColor( Color color ) => color.IsNullOrDefault() ? null : $"{Badge()}-{ToColor( color )}";
+    public override string BadgeColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
 
     public override string BadgePill( bool pill ) => pill ? $"{Badge()}-pill" : null;
 
     public override string BadgeClose() => "fui-Badge__close";
 
-    public override string BadgeCloseColor( Color color ) => color.IsNullOrDefault() ? null : $"{Badge()}-{ToColor( color )}";
+    public override string BadgeCloseColor( Color color ) => color.IsNotNullOrDefault() ? $"{Badge()}-{ToColor( color )}" : null;
 
     #endregion
 

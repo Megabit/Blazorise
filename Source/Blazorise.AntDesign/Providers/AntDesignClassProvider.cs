@@ -187,7 +187,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Switch() => "ant-switch";
 
-    public override string SwitchColor( Color color ) => color.IsNullOrDefault() ? null : $"{Switch()}-{ToColor( color )}";
+    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"{Switch()}-{ToSize( size )}" : null;
 
@@ -229,7 +229,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string RatingItem() => "ant-rate-star";
 
-    public override string RatingItemColor( Color color ) => color.IsNullOrDefault() ? null : $"ant-rate-star-{ToColor( color )}";
+    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-rate-star-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => selected ? "ant-rate-star-full" : "ant-rate-star-zero";
 
@@ -532,7 +532,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "ant-steps-item-finish" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNullOrDefault() ? null : $"ant-steps-item-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-steps-item-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "ant-steps-item-icon";
 
@@ -584,7 +584,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Jumbotron() => "ant-hero";
 
-    public override string JumbotronBackground( Background background ) => background.IsNullOrDefault() ? null : $"ant-hero-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNotNullOrDefault() ? $"ant-hero-{ToBackground( background )}" : null;
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"ant-display-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 
@@ -845,7 +845,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Alert() => "ant-alert ant-alert-no-icon";
 
-    public override string AlertColor( Color color ) => color.IsNullOrDefault() ? null : $"ant-alert-{ToColor( color )}";
+    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"ant-alert-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => dismissable ? "ant-alert-closable" : null;
 
@@ -986,7 +986,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
 
-    public override string PaginationBackgroundColor( Background background ) => background.IsNullOrDefault() ? null : $"bg-{ToBackground( background )}";
+    public override string PaginationBackgroundColor( Background background ) => background.IsNotNullOrDefault() ? $"bg-{ToBackground( background )}" : null;
 
     public override string PaginationItem() => "ant-pagination-item";
 
@@ -1024,7 +1024,7 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => $"ant-progress-bg-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => color.IsNullOrDefault() ? null : $"bg-{ToColor( color )}";
+    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"bg-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "ant-progress-bar-striped" : null;
 
@@ -1145,11 +1145,13 @@ public class AntDesignClassProvider : ClassProvider
         if ( color.IsNullOrDefault() )
             return null;
 
-        var colorName = color?.Name switch
+        var name = color?.Name;
+
+        var colorName = name switch
         {
             "secondary" => "default",
             "danger" => "error",
-            _ => color?.Name,
+            _ => name,
         };
 
         return $"{Badge()}-{colorName}";
@@ -1164,11 +1166,13 @@ public class AntDesignClassProvider : ClassProvider
         if ( color.IsNullOrDefault() )
             return null;
 
-        var colorName = color?.Name switch
+        var name = color?.Name;
+
+        var colorName = name switch
         {
             "secondary" => "default",
             "danger" => "error",
-            _ => color?.Name,
+            _ => name,
         };
 
         return $"{Badge()}-{colorName}";

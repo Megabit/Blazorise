@@ -34,4 +34,14 @@ public static class ColorExtensions
     {
         return background == null || background == Background.Default;
     }
+
+    /// <summary>
+    /// Determines if the supplied background color is defined, i.e. not null or empty.
+    /// </summary>
+    /// <param name="background">Color value to check.</param>
+    /// <returns>True if background color is not <c>null</c> or <see cref="Background.Default"/>.</returns>
+    public static bool IsNotNullOrDefault( this Background background )
+    {
+        return background != null && background != Background.Default;
+    }
 }

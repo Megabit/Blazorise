@@ -15,7 +15,7 @@ public class MaterialClassProvider : BootstrapClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "done" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNullOrDefault() ? null : $"{StepItem()}-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"{StepItem()}-{ToColor( color )}" : null;
 
     public override string StepItemMarkerColor( Color color, bool active ) => null;
 

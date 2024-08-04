@@ -186,7 +186,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Switch() => "switch";
 
-    public override string SwitchColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
+    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
@@ -228,7 +228,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string RatingItem() => "rating-item";
 
-    public override string RatingItemColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
+    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string RatingItemSelected( bool selected ) => null;
 
@@ -529,7 +529,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string StepItemCompleted( bool completed ) => completed ? "is-completed" : null;
 
-    public override string StepItemColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
+    public override string StepItemColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string StepItemMarker() => "step-marker";
 
@@ -581,7 +581,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Jumbotron() => "hero";
 
-    public override string JumbotronBackground( Background background ) => background.IsNullOrDefault() ? null : $"is-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNotNullOrDefault() ? $"is-{ToBackground( background )}" : null;
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"title is-{ToJumbotronTitleSize( jumbotronTitleSize )}";
 
@@ -868,7 +868,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Alert() => "notification";
 
-    public override string AlertColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
+    public override string AlertColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string AlertDismisable( bool dismissable ) => null;
 
@@ -1019,7 +1019,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-content-{ToAlignment( alignment )}" : null;
 
-    public override string PaginationBackgroundColor( Background background ) => background.IsNullOrDefault() ? null : $"has-background-{ToBackground( background )}";
+    public override string PaginationBackgroundColor( Background background ) => background.IsNotNullOrDefault() ? $"has-background-{ToBackground( background )}" : null;
 
     public override string PaginationItem() => null;
 
@@ -1043,7 +1043,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ProgressSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
-    public override string ProgressColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
+    public override string ProgressColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string ProgressStriped( bool stripped ) => stripped ? "progress-striped" : null;
 
@@ -1057,7 +1057,7 @@ public class BulmaClassProvider : ClassProvider
 
     public override string ProgressBarSize( Size size ) => $"is-{ToSize( size )}";
 
-    public override string ProgressBarColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
+    public override string ProgressBarColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string ProgressBarStriped( bool striped ) => striped ? "progress-striped" : null;
 
@@ -1173,13 +1173,13 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Badge() => "tag";
 
-    public override string BadgeColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
+    public override string BadgeColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     public override string BadgePill( bool pill ) => null;
 
     public override string BadgeClose() => "delete is-small";
 
-    public override string BadgeCloseColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
+    public override string BadgeCloseColor( Color color ) => color.IsNotNullOrDefault() ? $"is-{ToColor( color )}" : null;
 
     #endregion
 
