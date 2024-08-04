@@ -258,7 +258,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Switch() => "sr-only peer";
 
-    public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+    public override string SwitchColor( Color color ) => color.IsNullOrDefault() ? null : $"{Switch()}-{ToColor( color )}";
 
     public override string SwitchSize( Size size ) => null;
 
@@ -266,7 +266,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string SwitchCursor( Cursor cursor ) => null;
 
-    public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

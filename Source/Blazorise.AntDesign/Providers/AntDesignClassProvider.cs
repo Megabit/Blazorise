@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using Blazorise.Extensions;
@@ -186,15 +187,15 @@ public class AntDesignClassProvider : ClassProvider
 
     public override string Switch() => "ant-switch";
 
-    public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+    public override string SwitchColor( Color color ) => color.IsNullOrDefault() ? null : $"{Switch()}-{ToColor( color )}";
 
-    public override string SwitchSize( Size size ) => $"{Switch()}-{ToSize( size )}";
+    public override string SwitchSize( Size size ) => size != Size.Default ? $"{Switch()}-{ToSize( size )}" : null;
 
     public override string SwitchChecked( bool @checked ) => @checked ? "ant-switch-checked" : null;
 
-    public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
+    public override string SwitchCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Switch()}-{ToCursor( cursor )}" : null;
 
-    public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 

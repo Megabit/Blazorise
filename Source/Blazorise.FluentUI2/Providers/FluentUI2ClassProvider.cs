@@ -197,15 +197,15 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string Switch() => "fui-Switch__input";
 
-    public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+    public override string SwitchColor( Color color ) => color.IsNullOrDefault() ? null : $"{Switch()}-{ToColor( color )}";
 
-    public override string SwitchSize( Size size ) => $"fui-Switch__input-{ToSize( size )}";
+    public override string SwitchSize( Size size ) => size != Size.Default ? $"fui-Switch__input-{ToSize( size )}" : null;
 
     public override string SwitchChecked( bool @checked ) => null;
 
-    public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
+    public override string SwitchCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Switch()}-{ToCursor( cursor )}" : null;
 
-    public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus == ValidationStatus.None ? null : $"fui-Switch__input-{ToValidationStatus( validationStatus )}";
+    public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? $"fui-Switch__input-{ToValidationStatus( validationStatus )}" : null;
 
     #endregion
 

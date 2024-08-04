@@ -186,15 +186,15 @@ public class BulmaClassProvider : ClassProvider
 
     public override string Switch() => "switch";
 
-    public override string SwitchColor( Color color ) => $"is-{ToColor( color )}";
+    public override string SwitchColor( Color color ) => color.IsNullOrDefault() ? null : $"is-{ToColor( color )}";
 
-    public override string SwitchSize( Size size ) => $"is-{ToSize( size )}";
+    public override string SwitchSize( Size size ) => size != Size.Default ? $"is-{ToSize( size )}" : null;
 
     public override string SwitchChecked( bool @checked ) => null;
 
-    public override string SwitchCursor( Cursor cursor ) => $"{Switch()}-{ToCursor( cursor )}";
+    public override string SwitchCursor( Cursor cursor ) => cursor != Cursor.Default ? $"{Switch()}-{ToCursor( cursor )}" : null;
 
-    public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
