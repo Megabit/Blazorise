@@ -84,10 +84,15 @@ public partial class DropZone<TItem> : BaseComponent, IAsyncDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-drop-zone" );
-        //builder.Append( "b-drop-zone-drag-block", ParentContainer?.TransactionInProgress == true && TransactionSourceZoneName != Name );
-        builder.Append( DropAllowedClass ?? ParentContainer?.DropAllowedClass ?? "b-drop-zone-drop-allowed", ParentContainer?.TransactionInProgress == true && TransactionSourceZoneName != Name && dropAllowed && ( dragCounter > 0 || GetApplyDropClassesOnDragStarted() ) );
-        builder.Append( DropNotAllowedClass ?? ParentContainer?.DropNotAllowedClass ?? "b-drop-zone-drop-not-allowed", ParentContainer?.TransactionInProgress == true && TransactionSourceZoneName != Name && !dropAllowed && ( dragCounter > 0 || GetApplyDropClassesOnDragStarted() ) );
-        builder.Append( GetDraggingClass(), dragging );
+
+        if ( ParentContainer?.TransactionInProgress == true && TransactionSourceZoneName != Name && dropAllowed && ( dragCounter > 0 || GetApplyDropClassesOnDragStarted() ) )
+            builder.Append( DropAllowedClass ?? ParentContainer?.DropAllowedClass ?? "b-drop-zone-drop-allowed" );
+
+        if ( ParentContainer?.TransactionInProgress == true && TransactionSourceZoneName != Name && !dropAllowed && ( dragCounter > 0 || GetApplyDropClassesOnDragStarted() ) )
+            builder.Append( DropNotAllowedClass ?? ParentContainer?.DropNotAllowedClass ?? "b-drop-zone-drop-not-allowed" );
+
+        if ( dragging )
+            builder.Append( GetDraggingClass() );
 
         base.BuildClasses( builder );
     }
