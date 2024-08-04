@@ -705,7 +705,7 @@ class EmptyClassProvider : IClassProvider
 
     public string BarDropdownMenuContainer( BarMode mode ) => null;
 
-    public string BarCollapsed( BarMode mode ) => null;
+    public string BarCollapsed( BarMode mode, bool visible ) => null;
 
     public string BarLabel( BarMode mode ) => null;
 

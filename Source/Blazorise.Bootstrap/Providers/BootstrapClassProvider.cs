@@ -741,7 +741,7 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
 
-    public override string BarCollapsed( BarMode mode ) => null;
+    public override string BarCollapsed( BarMode mode, bool visible ) => null;
 
     public override string BarLabel( BarMode mode ) => "b-bar-label";
 

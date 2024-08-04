@@ -700,7 +700,7 @@ public interface IClassProvider
 
     string BarDropdownMenuContainer( BarMode mode );
 
-    string BarCollapsed( BarMode mode );
+    string BarCollapsed( BarMode mode, bool visible );
 
     string BarLabel( BarMode mode );
 

@@ -701,7 +701,7 @@ public abstract class ClassProvider : IClassProvider
 
     public abstract string BarDropdownMenuContainer( BarMode mode );
 
-    public abstract string BarCollapsed( BarMode mode );
+    public abstract string BarCollapsed( BarMode mode, bool visible );
 
     public abstract string BarLabel( BarMode mode );
 
