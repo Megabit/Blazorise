@@ -222,6 +222,16 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
     protected string MaxString => Max.ToCultureInvariantString();
 
     /// <summary>
+    /// Gets the min value if defined, otherwise null.
+    /// </summary>
+    protected object MinValue => minDefined ? Min : null;
+
+    /// <summary>
+    /// Gets the max value if defined, otherwise null.
+    /// </summary>
+    protected object MaxValue => maxDefined ? Max : null;
+
+    /// <summary>
     /// Gets the culture info defined on the input field.
     /// </summary>
     protected CultureInfo CurrentCultureInfo
