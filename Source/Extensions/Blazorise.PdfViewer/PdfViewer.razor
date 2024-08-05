@@ -1,4 +1,28 @@
 ﻿@namespace Blazorise.PdfViewer
 @inherits BaseComponent
-<canvas @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-</canvas>
+<Div>
+    <Div Flex="Blazorise.Flex.JustifyContent.Between" Padding="Blazorise.Padding.Is2">
+        <Div Flex="Blazorise.Flex.AlignItems.Center">
+            <Tooltip Text="Previous page">
+                <Icon Name="IconName.ChevronLeft" Clicked="@OnPreviousPageClicked" Padding="Blazorise.Padding.Is2" Margin="Blazorise.Margin.Is2.FromEnd" role="button" />
+            </Tooltip>
+            <NumericEdit TValue="int" Value="@PageNumber" ValueChanged="@OnPageNumberChanged" Size="Blazorise.Size.Small" TextAlignment="Blazorise.TextAlignment.Center" Width="Blazorise.Width.Rem( 4 )" />
+            <Tooltip Text="Next page">
+                <Icon Name="IconName.ChevronRight" Clicked="@OnNextPageClicked" Padding="Blazorise.Padding.Is2" Margin="Blazorise.Margin.Is2.FromStart" role="button" />
+            </Tooltip>
+            <Div Flex="Blazorise.Flex.AlignSelf.Center" Padding="Blazorise.Padding.Is2.FromStart">of @totalPages</Div>
+        </Div>
+        <Div Flex="Blazorise.Flex.AlignItems.Center">
+            <Tooltip Text="Zoom In">
+                <Icon Name="IconName.ZoomIn" Padding="Blazorise.Padding.Is2" Margin="Blazorise.Margin.Is2.FromEnd" role="button" />
+            </Tooltip>
+            <Tooltip Text="Zoom Out">
+                <Icon Name="IconName.ZoomOut" Padding="Blazorise.Padding.Is2" Margin="Blazorise.Margin.Is2.FromEnd" role="button" />
+            </Tooltip>
+        </Div>
+    </Div>
+    <Div TextAlignment="Blazorise.TextAlignment.Center" Padding="Blazorise.Padding.Is3.OnY" Overflow="Blazorise.Overflow.Auto">
+        <canvas @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        </canvas>
+    </Div>
+</Div>

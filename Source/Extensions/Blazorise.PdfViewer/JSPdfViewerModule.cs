@@ -45,6 +45,34 @@ public class JSPdfViewerModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "destroy", canvasRef, canvasId );
     }
 
+    public virtual async ValueTask UpdateOptions( ElementReference elementRef, string elementId, object options )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "updateOptions", elementRef, elementId, options );
+    }
+
+    public virtual async ValueTask PreviousPage( ElementReference elementRef, string elementId )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "prevPage", elementRef, elementId );
+    }
+
+    public virtual async ValueTask NextPage( ElementReference elementRef, string elementId )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "nextPage", elementRef, elementId );
+    }
+
+    public virtual async ValueTask GoToPage( ElementReference elementRef, string elementId, int pageNumber )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "goToPage", elementRef, elementId, pageNumber );
+    }
+
     #endregion
 
     #region Properties

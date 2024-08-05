@@ -13,10 +13,16 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         return;
 
     const instance = {
+        dotNetAdapter: dotNetAdapter,
+        canvas: element,
         options: options,
+        pageNumber: 1,
+        totalPages: 0,
+        pageRendering: false,
+        pageNumberPending: null,
     };
 
-    var url = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/examples/learning/helloworld.pdf';
+    var url = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
 
     const { pdfjsLib } = globalThis;
 
@@ -25,32 +31,11 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     // Asynchronous download of PDF
     var loadingTask = pdfjsLib.getDocument(url);
     loadingTask.promise.then(function (pdf) {
-        console.log('PDF loaded');
+        instance.pdf = pdf;
+        instance.totalPages = pdf.numPages;
+        renderPage(instance, instance.pageNumber);
 
-        // Fetch the first page
-        var pageNumber = 1;
-        pdf.getPage(pageNumber).then(function (page) {
-            console.log('Page loaded');
-
-            var scale = 1.5;
-            var viewport = page.getViewport({ scale: scale });
-
-            // Prepare canvas using PDF page dimensions
-            var canvas = element;
-            var context = canvas.getContext('2d');
-            canvas.height = viewport.height;
-            canvas.width = viewport.width;
-
-            // Render PDF page into canvas context
-            var renderContext = {
-                canvasContext: context,
-                viewport: viewport
-            };
-            var renderTask = page.render(renderContext);
-            renderTask.promise.then(function () {
-                console.log('Page rendered');
-            });
-        });
+        NotifyDocumentLoaded(instance);
     }, function (reason) {
         // PDF loading error
         console.error(reason);
@@ -68,4 +53,112 @@ export function destroy(element, elementId) {
 
         delete instances[elementId];
     }
+}
+
+export function updateOptions(element, elementId, options) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player && options) {
+        if (options.source.changed) {
+            // TODO
+        }
+    }
+}
+
+function renderPage(instance, pageNumber) {
+    instance.pageRendering = true;
+
+    instance.pdf.getPage(pageNumber).then(function (page) {
+        const viewport = page.getViewport({ scale: instance.options.scale, rotation: instance.options.rotation });
+
+        const canvas = instance.canvas;
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+        };
+
+        const renderTask = page.render(renderContext);
+
+        renderTask.promise.then(function () {
+            instance.pageRendering = false;
+
+            if (instance.pageNumberPending !== null) {
+                renderPage(instance, instance.pageNumberPending);
+                instance.pageNumberPending = null;
+            }
+        });
+    });
+}
+
+export function queueRenderPage(instance, pageNumber) {
+    if (instance && pageNumber) {
+        if (instance.pageRendering) {
+            instance.pageNumberPending = pageNumber;
+        } else {
+            renderPage(instance, pageNumber);
+        }
+    }
+}
+
+export function prevPage(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        if (instance.pageNumber <= 1) {
+            return;
+        }
+
+        instance.pageNumber--;
+        queueRenderPage(instance, instance.pageNumber);
+
+        NotifyPageNumberChanged(instance);
+    }
+}
+
+export function nextPage(element, elementId) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        if (instance.pageNumber >= instance.totalPages) {
+            return;
+        }
+
+        instance.pageNumber++;
+        queueRenderPage(instance, instance.pageNumber);
+
+        NotifyPageNumberChanged(instance);
+    }
+}
+
+export function goToPage(element, elementId, pageNumber) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+        if (pageNumber <= 1 || pageNumber >= instance.totalPages) {
+            return;
+        }
+
+        instance.pageNumber = pageNumber;
+        queueRenderPage(instance, instance.pageNumber);
+
+        NotifyPageNumberChanged(instance);
+    }
+}
+
+function NotifyDocumentLoaded(instance) {
+    instance.dotNetAdapter.invokeMethodAsync('NotifyDocumentLoaded', {
+        pageNumber: instance.pageNumber,
+        totalPages: instance.totalPages,
+    });
+}
+
+function NotifyPageNumberChanged(instance) {
+    instance.dotNetAdapter.invokeMethodAsync('NotifyPageNumberChanged', {
+        pageNumber: instance.pageNumber,
+        totalPages: instance.totalPages,
+    });
 }
