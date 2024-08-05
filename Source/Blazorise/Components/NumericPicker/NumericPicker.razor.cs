@@ -227,7 +227,7 @@ public partial class NumericPicker<TValue> : BaseTextInput<TValue>, INumericPick
         builder.Append( ClassProvider.NumericPicker( Plaintext ) );
         builder.Append( ClassProvider.NumericPickerSize( ThemeSize ) );
         builder.Append( ClassProvider.NumericPickerColor( Color ) );
-        builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.NumericPickerValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }

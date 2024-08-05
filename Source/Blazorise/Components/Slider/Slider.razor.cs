@@ -63,7 +63,7 @@ public partial class Slider<TValue> : BaseInputComponent<TValue>
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Slider() );
-        builder.Append( ClassProvider.SliderValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.SliderValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }

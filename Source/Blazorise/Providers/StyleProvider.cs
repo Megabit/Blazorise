@@ -46,6 +46,9 @@ public abstract class StyleProvider : IStyleProvider
 
     public virtual string RowGutter( (int Horizontal, int Vertical) gutter )
     {
+        if ( gutter == default )
+            return null;
+
         var sb = new StringBuilder();
 
         if ( gutter.Horizontal > 0 )
@@ -63,6 +66,9 @@ public abstract class StyleProvider : IStyleProvider
 
     public virtual string ColumnGutter( (int Horizontal, int Vertical) gutter )
     {
+        if ( gutter == default )
+            return null;
+
         var sb = new StringBuilder();
 
         if ( gutter.Horizontal > 0 )

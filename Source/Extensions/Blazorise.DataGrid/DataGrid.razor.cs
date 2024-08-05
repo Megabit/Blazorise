@@ -737,7 +737,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             VirtualizeOptions ??= new();
 
             if ( editState == DataGridEditState.Edit && EditMode != DataGridEditMode.Popup && VirtualizeOptions.ScrollRowOnEdit )
-                virtualizeState.EditLastKnownScroll = await JSModule.ScrollTo( tableRef.ElementRef, ClassProvider.TableRowHoverCursor() );
+                virtualizeState.EditLastKnownScroll = await JSModule.ScrollTo( tableRef.ElementRef, ClassProvider.TableRowHoverCursor( Cursor.Pointer ) );
         }
         else
         {

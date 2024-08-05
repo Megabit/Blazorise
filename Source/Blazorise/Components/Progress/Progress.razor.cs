@@ -76,11 +76,11 @@ public partial class Progress : BaseComponent, IDisposable
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Progress() );
-        builder.Append( ClassProvider.ProgressSize( ThemeSize ), ThemeSize != Blazorise.Size.Default );
-        builder.Append( ClassProvider.ProgressColor( Color ), Color != Color.Default );
-        builder.Append( ClassProvider.ProgressStriped(), Striped );
-        builder.Append( ClassProvider.ProgressAnimated(), Animated );
-        builder.Append( ClassProvider.ProgressIndeterminate(), Indeterminate );
+        builder.Append( ClassProvider.ProgressSize( ThemeSize ) );
+        builder.Append( ClassProvider.ProgressColor( Color ) );
+        builder.Append( ClassProvider.ProgressStriped( Striped ) );
+        builder.Append( ClassProvider.ProgressAnimated( Animated ) );
+        builder.Append( ClassProvider.ProgressIndeterminate( Indeterminate ) );
 
         base.BuildClasses( builder );
     }
@@ -92,11 +92,11 @@ public partial class Progress : BaseComponent, IDisposable
     private void BuildProgressBarClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.ProgressBar() );
-        builder.Append( ClassProvider.ProgressBarColor( Color ), Color != Color.Default );
+        builder.Append( ClassProvider.ProgressBarColor( Color ) );
         builder.Append( ClassProvider.ProgressBarWidth( Percentage ?? 0 ) );
-        builder.Append( ClassProvider.ProgressBarStriped(), Striped );
-        builder.Append( ClassProvider.ProgressBarAnimated(), Animated );
-        builder.Append( ClassProvider.ProgressBarIndeterminate(), Indeterminate );
+        builder.Append( ClassProvider.ProgressBarStriped( Striped ) );
+        builder.Append( ClassProvider.ProgressBarAnimated( Animated ) );
+        builder.Append( ClassProvider.ProgressBarIndeterminate( Indeterminate ) );
 
         if ( ThemeSize != Blazorise.Size.Default )
             builder.Append( ClassProvider.ProgressBarSize( ThemeSize ) );

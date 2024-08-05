@@ -99,7 +99,7 @@ public partial class NumericEdit<TValue> : BaseTextInput<TValue>, IAsyncDisposab
         builder.Append( ClassProvider.NumericEdit( Plaintext ) );
         builder.Append( ClassProvider.NumericEditSize( ThemeSize ) );
         builder.Append( ClassProvider.NumericEditColor( Color ) );
-        builder.Append( ClassProvider.NumericEditValidation( ParentValidation?.Status ?? ValidationStatus.None ), ParentValidation?.Status != ValidationStatus.None );
+        builder.Append( ClassProvider.NumericEditValidation( ParentValidation?.Status ?? ValidationStatus.None ) );
 
         base.BuildClasses( builder );
     }

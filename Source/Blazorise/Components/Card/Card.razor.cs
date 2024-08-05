@@ -23,7 +23,7 @@ public partial class Card : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.Card() );
-        builder.Append( ClassProvider.CardWhiteText(), WhiteText );
+        builder.Append( ClassProvider.CardWhiteText( WhiteText ) );
 
         base.BuildClasses( builder );
     }

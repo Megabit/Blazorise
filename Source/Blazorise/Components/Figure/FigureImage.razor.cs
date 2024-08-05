@@ -22,7 +22,7 @@ public partial class FigureImage : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.FigureImage() );
-        builder.Append( ClassProvider.FigureImageRounded(), Rounded );
+        builder.Append( ClassProvider.FigureImageRounded( Rounded ) );
 
         base.BuildClasses( builder );
     }
