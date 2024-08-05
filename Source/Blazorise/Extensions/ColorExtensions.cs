@@ -12,7 +12,7 @@ public static class ColorExtensions
     /// <returns>True if color is <c>null</c> or <see cref="Color.Default"/>.</returns>
     public static bool IsNullOrDefault( this Color color )
     {
-        return color == null || color == Color.Default;
+        return color is null || color == Color.Default;
     }
 
     /// <summary>
@@ -22,7 +22,7 @@ public static class ColorExtensions
     /// <returns>True if color is not <c>null</c> or <see cref="Color.Default"/>.</returns>
     public static bool IsNotNullOrDefault( this Color color )
     {
-        return color != null && color != Color.Default;
+        return color is not null && color != Color.Default;
     }
 
     /// <summary>
@@ -32,7 +32,7 @@ public static class ColorExtensions
     /// <returns>True if background color is <c>null</c> or <see cref="Background.Default"/>.</returns>
     public static bool IsNullOrDefault( this Background background )
     {
-        return background == null || background == Background.Default;
+        return background is null || background == Background.Default;
     }
 
     /// <summary>
@@ -42,6 +42,6 @@ public static class ColorExtensions
     /// <returns>True if background color is not <c>null</c> or <see cref="Background.Default"/>.</returns>
     public static bool IsNotNullOrDefault( this Background background )
     {
-        return background != null && background != Background.Default;
+        return background is not null && background != Background.Default;
     }
 }
