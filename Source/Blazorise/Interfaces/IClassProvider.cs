@@ -1054,6 +1054,8 @@ public interface IClassProvider
 
     string TextTransform( TextTransform textTransform );
 
+    string TextDecoration( TextDecoration textDecoration );
+
     string TextWeight( TextWeight textWeight );
 
     string TextOverflow( TextOverflow textOverflow );

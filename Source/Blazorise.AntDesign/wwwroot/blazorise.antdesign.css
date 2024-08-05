@@ -10556,6 +10556,22 @@ ol.ant-ordered-list-upper-roman {
   font-weight: 300;
 }
 
+.ant-typography-decoration-underline {
+  text-decoration: underline !important;
+}
+.ant-typography-decoration-overline {
+  text-decoration: overline !important;
+}
+.ant-typography-decoration-line-through {
+  text-decoration: line-through !important;
+}
+.ant-typography-decoration-inherit {
+  text-decoration: inherit !important;
+}
+.ant-typography-decoration-none {
+  text-decoration: none !important;
+}
+
 .ant-visible {
   visibility: visible !important;
 }

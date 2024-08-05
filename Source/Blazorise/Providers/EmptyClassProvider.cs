@@ -1059,6 +1059,8 @@ class EmptyClassProvider : IClassProvider
 
     public string TextTransform( TextTransform textTransform ) => null;
 
+    public string TextDecoration( TextDecoration textDecoration ) => null;
+
     public string TextWeight( TextWeight textWeight ) => null;
 
     public string TextOverflow( TextOverflow textOverflow ) => null;

@@ -1789,6 +1789,8 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => ToTextTransform( textTransform );
 
+    public override string TextDecoration( TextDecoration textDecoration ) => ToTextDecoration( textDecoration );
+
     public override string TextWeight( TextWeight textWeight ) => $"font-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow )
@@ -2452,6 +2454,19 @@ public class TailwindClassProvider : ClassProvider
             Blazorise.TextSizeType.Heading4 => "2xl",
             Blazorise.TextSizeType.Heading5 => "xl",
             Blazorise.TextSizeType.Heading6 => "lg",
+            _ => null,
+        };
+    }
+
+    public override string ToTextDecoration( TextDecoration textDecoration )
+    {
+        return textDecoration switch
+        {
+            Blazorise.TextDecoration.None => "no-underline",
+            Blazorise.TextDecoration.Underline => "underline",
+            Blazorise.TextDecoration.Overline => "overline",
+            Blazorise.TextDecoration.LineThrough => "line-through",
+            Blazorise.TextDecoration.Inherit => "inherit",
             _ => null,
         };
     }
