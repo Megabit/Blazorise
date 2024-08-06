@@ -17,14 +17,15 @@
             <Div Flex="Blazorise.Flex.AlignSelf.Center" Padding="Blazorise.Padding.Is2.FromStart">of @totalPages</Div>
         </Div>
         <Div Flex="Blazorise.Flex.AlignItems.Center">
-            <Tooltip Text="Zoom In">
-                <Button Size="Blazorise.Size.Small" Margin="Blazorise.Margin.Is2.FromEnd">
-                    <Icon Name="IconName.ZoomIn" />
+            <Tooltip Text="Zoom Out">
+                <Button Size="Blazorise.Size.Small" Clicked="@OnZoomOutClicked">
+                    <Icon Name="IconName.ZoomOut" />
                 </Button>
             </Tooltip>
-            <Tooltip Text="Zoom Out">
-                <Button Size="Blazorise.Size.Small" Margin="Blazorise.Margin.Is2.FromEnd">
-                    <Icon Name="IconName.ZoomOut" />
+            <Div Flex="Blazorise.Flex.AlignSelf.Center">@($"{zoomLevels[zoomLevelIndex]}%")</Div>
+            <Tooltip Text="Zoom In">
+                <Button Size="Blazorise.Size.Small" Clicked="@OnZoomInClicked">
+                    <Icon Name="IconName.ZoomIn" />
                 </Button>
             </Tooltip>
         </Div>

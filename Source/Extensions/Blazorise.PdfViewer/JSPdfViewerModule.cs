@@ -73,6 +73,13 @@ public class JSPdfViewerModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "goToPage", elementRef, elementId, pageNumber );
     }
 
+    public virtual async ValueTask SetScale( ElementReference elementRef, string elementId, double scale )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "setScale", elementRef, elementId, scale );
+    }
+
     #endregion
 
     #region Properties

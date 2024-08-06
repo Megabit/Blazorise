@@ -351,8 +351,8 @@ class FontAwesomeIconProvider : BaseIconProvider
         { IconName.WineBottle, FontAwesomeIcons.WineBottle },
         { IconName.Wrench, FontAwesomeIcons.Wrench },
         { IconName.Zoom, FontAwesomeIcons.Search },
-        { IconName.ZoomIn, FontAwesomeIcons.SearchMinus },
-        { IconName.ZoomOut, FontAwesomeIcons.SearchPlus },
+        { IconName.ZoomIn, FontAwesomeIcons.SearchPlus },
+        { IconName.ZoomOut, FontAwesomeIcons.SearchMinus },
     };
 
     private static Dictionary<IconStyle, string> styles = new()

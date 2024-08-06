@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -16,6 +17,21 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     #region Members
 
     private int totalPages;
+
+    private readonly List<int> zoomLevels = new()
+    {
+        50,
+        75,
+        100,
+        125,
+        150,
+        200,
+        300,
+        400,
+        500,
+    };
+
+    private int zoomLevelIndex = 2;
 
     #endregion
 
@@ -111,6 +127,24 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             PageNumber = value;
 
         await JSModule.GoToPage( ElementRef, ElementId, PageNumber );
+    }
+
+    private async Task OnZoomInClicked()
+    {
+        if ( zoomLevelIndex >= zoomLevels.Count - 1 )
+            return;
+
+        zoomLevelIndex++;
+        await JSModule.SetScale( ElementRef, ElementId, zoomLevels[zoomLevelIndex] / 100.0 );
+    }
+
+    private async Task OnZoomOutClicked()
+    {
+        if ( zoomLevelIndex <= 0 )
+            return;
+
+        zoomLevelIndex--;
+        await JSModule.SetScale( ElementRef, ElementId, zoomLevels[zoomLevelIndex] / 100.0 );
     }
 
     /// <summary>

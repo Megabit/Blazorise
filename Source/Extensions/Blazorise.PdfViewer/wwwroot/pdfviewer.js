@@ -152,6 +152,16 @@ export function goToPage(element, elementId, pageNumber) {
     }
 }
 
+export function setScale(element, elementId, scale) {
+    const instance = _instances[elementId];
+
+    if (instance) {
+
+        instance.options.scale = scale;
+        queueRenderPage(instance, instance.pageNumber);
+    }
+}
+
 function NotifyDocumentLoaded(instance) {
     instance.dotNetAdapter.invokeMethodAsync('NotifyDocumentLoaded', {
         pageNumber: instance.pageNumber,
