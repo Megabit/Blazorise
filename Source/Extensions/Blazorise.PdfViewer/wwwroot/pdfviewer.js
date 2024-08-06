@@ -1,8 +1,16 @@
 import "./vendors/pdf.min.mjs?v=1.6.0.0";
+import { getRequiredElement, insertCSSIntoDocument } from "../Blazorise/utilities.js?v=1.6.0.0";
 
-import { getRequiredElement } from "../Blazorise/utilities.js?v=1.6.0.0";
+const { pdfjsLib } = globalThis;
 
-document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", "<link rel=\"stylesheet\" href=\"_content/Blazorise.PdfViewer/vendors/pdf_viewer.min.css\" />");
+if (pdfjsLib && pdfjsLib.GlobalWorkerOptions) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "./pdf.worker.min.mjs?v=1.6.0.0";
+}
+else {
+    console.error("Blazorise.PdfViewer: Could not find pdfjsLib.");
+}
+
+insertCSSIntoDocument("_content/Blazorise.PdfViewer/vendors/pdf_viewer.min.css?v=1.6.0.0");
 
 const _instances = [];
 
@@ -22,14 +30,8 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         pageNumberPending: null,
     };
 
-    var url = 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf';
+    var loadingTask = pdfjsLib.getDocument(options.source);
 
-    const { pdfjsLib } = globalThis;
-
-    pdfjsLib.GlobalWorkerOptions.workerSrc = "./pdf.worker.min.mjs?v=1.6.0.0";
-
-    // Asynchronous download of PDF
-    var loadingTask = pdfjsLib.getDocument(url);
     loadingTask.promise.then(function (pdf) {
         instance.pdf = pdf;
         instance.totalPages = pdf.numPages;
@@ -37,7 +39,6 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
 
         NotifyDocumentLoaded(instance);
     }, function (reason) {
-        // PDF loading error
         console.error(reason);
     });
 
