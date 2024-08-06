@@ -22,7 +22,7 @@ public partial class TableHeader : BaseDraggableComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.TableHeader() );
-        builder.Append( ClassProvider.TableHeaderThemeContrast( ThemeContrast ), ThemeContrast != ThemeContrast.None );
+        builder.Append( ClassProvider.TableHeaderThemeContrast( ThemeContrast ) );
 
         base.BuildClasses( builder );
     }

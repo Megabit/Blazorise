@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Blazorise.Extensions;
 #endregion
 
 namespace Blazorise.Tailwind.Providers;
@@ -43,7 +44,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string MemoEditSize( Size size ) => TextEditSize( size );
 
-    public override string MemoEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string MemoEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -51,11 +52,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Select() => TextEdit( false );
 
-    public override string SelectMultiple() => null;
+    public override string SelectMultiple( bool multiple ) => null;
 
     public override string SelectSize( Size size ) => TextEditSize( size );
 
-    public override string SelectValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SelectValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -67,7 +68,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string NumericEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string NumericEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -79,7 +80,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DateEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string DateEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string DateEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -91,7 +92,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TimeEditColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string TimeEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TimeEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -122,7 +123,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DatePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string DatePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string DatePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -134,7 +135,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TimePickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string TimePickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string TimePickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -165,7 +166,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string NumericPickerColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string NumericPickerValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string NumericPickerValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -177,7 +178,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string InputMaskColor( Color color ) => color?.Name?.Length > 0 ? $"text-{ToColor( color )}" : null;
 
-    public override string InputMaskValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string InputMaskValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -187,6 +188,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string CheckSize( Size size )
     {
+        if ( size == Size.Default )
+            return null;
+
         return size switch
         {
             Size.ExtraSmall => "w-2 h-2",
@@ -198,11 +202,11 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string CheckInline() => null;
+    public override string CheckInline( bool inline ) => null;
 
-    public override string CheckCursor( Cursor cursor ) => $"cursor-{ToCursor( cursor )}";
+    public override string CheckCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
-    public override string CheckValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string CheckValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -217,7 +221,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string RadioGroupSize( bool buttons, Orientation orientation, Size size ) => null;
 
-    public override string RadioGroupValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string RadioGroupValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -244,9 +248,9 @@ public class TailwindClassProvider : ClassProvider
         ? UseCustomInputStyles ? "custom-control-inline" : "form-check-inline"
         : null;
 
-    public override string RadioCursor( Cursor cursor ) => $"cursor-{ToCursor( cursor )}";
+    public override string RadioCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
-    public override string RadioValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string RadioValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -254,7 +258,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Switch() => "sr-only peer";
 
-    public override string SwitchColor( Color color ) => $"{Switch()}-{ToColor( color )}";
+    public override string SwitchColor( Color color ) => color.IsNotNullOrDefault() ? $"{Switch()}-{ToColor( color )}" : null;
 
     public override string SwitchSize( Size size ) => null;
 
@@ -262,7 +266,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string SwitchCursor( Cursor cursor ) => null;
 
-    public override string SwitchValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SwitchValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -272,7 +276,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string FileEditSize( Size size ) => TextEditSize( size );
 
-    public override string FileEditValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string FileEditValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -282,7 +286,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string SliderColor( Color color ) => $"form-control-range-{ToColor( color )}";
 
-    public override string SliderValidation( ValidationStatus validationStatus ) => ToValidationStatus( validationStatus );
+    public override string SliderValidation( ValidationStatus validationStatus ) => validationStatus != ValidationStatus.None ? ToValidationStatus( validationStatus ) : null;
 
     #endregion
 
@@ -296,7 +300,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string RatingItem() => "w-5 h-5";
 
-    public override string RatingItemColor( Color color ) => $"text-{ToColor( color )}-400";
+    public override string RatingItemColor( Color color ) => color.IsNotNullOrDefault() ? $"text-{ToColor( color )}-400" : null;
 
     public override string RatingItemSelected( bool selected ) => null;
 
@@ -306,20 +310,15 @@ public class TailwindClassProvider : ClassProvider
 
     #region Label
 
-    public override string Label() => null;
-
-    public override string LabelType( LabelType labelType )
+    public override string LabelType( LabelType labelType ) => labelType switch
     {
-        return labelType switch
-        {
-            Blazorise.LabelType.Check or Blazorise.LabelType.Radio => "ml-2 text-sm font-medium text-gray-900 dark:text-gray-300",
-            Blazorise.LabelType.Switch => "inline-flex relative items-center cursor-pointer",
-            Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
-            _ => null,
-        };
-    }
+        Blazorise.LabelType.Check or Blazorise.LabelType.Radio => "ml-2 text-sm font-medium text-gray-900 dark:text-gray-300",
+        Blazorise.LabelType.Switch => "inline-flex relative items-center cursor-pointer",
+        Blazorise.LabelType.File => UseCustomInputStyles ? "custom-file-label" : null,
+        _ => null,
+    };
 
-    public override string LabelCursor( Cursor cursor ) => $"cursor-{ToCursor( cursor )}";
+    public override string LabelCursor( Cursor cursor ) => cursor != Cursor.Default ? $"cursor-{ToCursor( cursor )}" : null;
 
     #endregion
 
@@ -361,7 +360,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Field() => "mb-3";
 
-    public override string FieldHorizontal() => "flex flex-wrap flex-row";
+    public override string FieldHorizontal( bool horizontal ) => horizontal ? "flex flex-wrap flex-row" : null;
 
     public override string FieldColumn() => "relative basis-0 grow pl-2 pr-2 w-full max-w-full";
 
@@ -383,6 +382,8 @@ public class TailwindClassProvider : ClassProvider
         => requiredIndicator
             ? "after:content-['_*'] after:[color:var(--b-theme-danger,--btw-color-danger-500)]"
             : null;
+
+    public override string FieldLabelScreenreader( Screenreader screenreader ) => screenreader != Screenreader.Always ? ToScreenreader( screenreader ) : null;
 
     #endregion
 
@@ -406,15 +407,17 @@ public class TailwindClassProvider : ClassProvider
 
     #region Control
 
-    public override string ControlCheck() => "inline-flex items-center mr-4";
+    public override string ControlCheck( ControlRole role ) => role == ControlRole.Check ? "inline-flex items-center mr-4" : null;
 
-    public override string ControlRadio() => "inline-flex items-center mr-4";
+    public override string ControlRadio( ControlRole role ) => role == ControlRole.Radio ? "inline-flex items-center mr-4" : null;
 
-    public override string ControlSwitch() => "inline-flex relative items-center cursor-pointer mr-4";
+    public override string ControlSwitch( ControlRole role ) => role == ControlRole.Switch ? "inline-flex relative items-center cursor-pointer mr-4" : null;
 
-    public override string ControlFile() => UseCustomInputStyles ? "custom-file" : "form-group";
+    public override string ControlFile( ControlRole role ) => role == ControlRole.File ? UseCustomInputStyles ? "custom-file" : "form-group" : null;
 
-    public override string ControlText() => null;
+    public override string ControlText( ControlRole role ) => null;
+
+    public override string ControlInline( ControlRole role, bool inline ) => null;
 
     #endregion
 
@@ -514,13 +517,13 @@ public class TailwindClassProvider : ClassProvider
         };
     }
 
-    public override string ButtonBlock( bool outline ) => "w-full";
+    public override string ButtonBlock( bool outline, bool block ) => block ? "w-full" : null;
 
-    public override string ButtonActive( bool outline ) => "active";
+    public override string ButtonActive( bool outline, bool active ) => active ? "active" : null;
 
-    public override string ButtonDisabled( bool outline ) => "cursor-not-allowed opacity-60";
+    public override string ButtonDisabled( bool outline, bool disabled ) => disabled ? "cursor-not-allowed opacity-60" : null;
 
-    public override string ButtonLoading( bool outline ) => null;
+    public override string ButtonLoading( bool outline, bool loading ) => null;
 
     public override string ButtonStretchedLink( bool stretched ) => stretched ? "after:absolute after:top-0 after:right-0 after:bottom-0 after:left-0 after:z-1 after:content-['_']" : null;
 
@@ -539,7 +542,7 @@ public class TailwindClassProvider : ClassProvider
         return "group b-button-group inline-flex gap-x-0";
     }
 
-    public override string ButtonsSize( Size size ) => $"btn-group-{ToSize( size )}";
+    public override string ButtonsSize( Size size ) => size != Size.Default ? $"btn-group-{ToSize( size )}" : null;
 
     #endregion
 
@@ -555,15 +558,15 @@ public class TailwindClassProvider : ClassProvider
         ? "b-dropdown b-dropdown-submenu relative inline-flex w-full"
         : "b-dropdown relative inline-flex";
 
-    public override string DropdownDisabled() => "b-dropdown-disabled";
+    public override string DropdownDisabled( bool disabled ) => disabled ? "b-dropdown-disabled" : null;
 
-    public override string DropdownGroup() => "b-dropdown-group align-middle";
+    public override string DropdownGroup( bool group ) => group ? "b-dropdown-group align-middle" : null;
 
-    public override string DropdownObserverShow() => DropdownShow();
+    public override string DropdownObserverShow() => "b-dropdown-show";
 
-    public override string DropdownShow() => "b-dropdown-show";
+    public override string DropdownShow( bool show ) => show ? "b-dropdown-show" : null;
 
-    public override string DropdownRight() => null;
+    public override string DropdownRight( bool rightAligned ) => null;
 
     public override string DropdownItem() => "b-dropdown-item block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white";
 
@@ -585,13 +588,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string DropdownMenuSelector() => "b-dropdown-menu>ul";
 
-    public override string DropdownMenuScrollable() => "b-dropdown-menu-scrollable max-h-[var(--dropdown-list-menu-max-height)] overflow-y-scroll";
+    public override string DropdownMenuScrollable( bool scrollable ) => scrollable ? "b-dropdown-menu-scrollable max-h-[var(--dropdown-list-menu-max-height)] overflow-y-scroll" : null;
 
     public override string DropdownMenuVisible( bool visible ) => visible
         ? "b-dropdown-menu-show block"
         : "b-dropdown-menu-hide hidden";
 
-    public override string DropdownMenuRight() => "b-dropdown-menu-right";
+    public override string DropdownMenuRight( bool rightAligned ) => rightAligned ? "b-dropdown-menu-right" : null;
 
     public override string DropdownToggle( bool isDropdownSubmenu, bool outline )
     {
@@ -682,13 +685,13 @@ public class TailwindClassProvider : ClassProvider
         ? "flex flex-wrap text-sm font-medium text-center text-gray-500 dark:text-gray-400"
         : "flex flex-wrap text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400";
 
-    public override string TabsCards() => "card-header-tabs";
+    public override string TabsCards( bool cards ) => cards ? "card-header-tabs" : null;
 
-    public override string TabsFullWidth() => "w-full";
+    public override string TabsFullWidth( bool fullWidth ) => fullWidth ? "w-full" : null;
 
-    public override string TabsJustified() => "nav-justified";
+    public override string TabsJustified( bool justified ) => justified ? "nav-justified" : null;
 
-    public override string TabsVertical() => "flex-col";
+    public override string TabsVertical( bool vertical ) => vertical ? "flex-col" : null;
 
     public override string TabItem( TabPosition tabPosition ) => "mr-2";
 
@@ -831,7 +834,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Jumbotron() => "b-jumbotron py-8 px-4 mx-auto w-full text-center lg:py-16 lg:px-12 text-gray-100 dark:text-gray-800";
 
-    public override string JumbotronBackground( Background background ) => $"bg-{ToBackground( background )}";
+    public override string JumbotronBackground( Background background ) => background.IsNotNullOrDefault() ? $"bg-{ToBackground( background )}" : null;
 
     public override string JumbotronTitle( JumbotronTitleSize jumbotronTitleSize ) => $"b-jumbotron-title text-gray-100 dark:text-gray-800 {DisplayHeadingSize( (Blazorise.DisplayHeadingSize)jumbotronTitleSize )}";
 
@@ -847,7 +850,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Card() => "b-card relative max-w bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 ";
 
-    public override string CardWhiteText() => "text-white";
+    public override string CardWhiteText( bool whiteText ) => whiteText ? "text-white" : null;
 
     public override string CardActions() => "b-card-actions";
 
@@ -897,7 +900,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ListGroupItem() => "b-listgroup-item py-3 px-4 w-full border-b last:border-b-0";
 
-    public override string ListGroupItemSelectable() => "b-listgroup-item-selectable cursor-pointer focus:outline-none";
+    public override string ListGroupItemSelectable( bool selectable ) => selectable ? "b-listgroup-item-selectable cursor-pointer focus:outline-none" : null;
 
     public override string ListGroupItemActive( bool active ) => active ? "b-listgroup-item-active" : null;
 
@@ -942,7 +945,7 @@ public class TailwindClassProvider : ClassProvider
             } );
         }
 
-        if ( color != Color.Default && selectable )
+        if ( color.IsNotNullOrDefault() && selectable )
         {
             sb.Append( ' ' ).Append( name switch
             {
@@ -972,17 +975,17 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Layout() => "b-layout";
 
-    public override string LayoutHasSider() => "b-layout-has-sider";
+    public override string LayoutHasSider( bool hasSider ) => hasSider ? "b-layout-has-sider" : null;
 
     public override string LayoutContent() => "b-layout-content";
 
     public override string LayoutHeader() => "b-layout-header z-30";
 
-    public override string LayoutHeaderFixed() => "b-layout-header-fixed";
+    public override string LayoutHeaderFixed( bool @fixed ) => @fixed ? "b-layout-header-fixed" : null;
 
     public override string LayoutFooter() => "b-layout-footer";
 
-    public override string LayoutFooterFixed() => "b-layout-footer-fixed";
+    public override string LayoutFooterFixed( bool @fixed ) => @fixed ? "b-layout-footer-fixed" : null;
 
     public override string LayoutSider() => "b-layout-sider";
 
@@ -990,7 +993,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string LayoutLoading() => "b-layout-loading";
 
-    public override string LayoutRoot() => "b-layout-root";
+    public override string LayoutRoot( bool root ) => root ? "b-layout-root" : null;
 
     #endregion
 
@@ -1008,11 +1011,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Bar( BarMode mode ) => "b-bar";
 
-    public override string BarInitial( BarMode mode, bool initial ) => initial ? "b-bar-initial" : null;
+    public override string BarInitial( BarMode mode, bool initial ) => mode != Blazorise.BarMode.Horizontal && initial ? "b-bar-initial" : null;
 
-    public override string BarAlignment( BarMode mode, Alignment alignment ) => FlexAlignment( alignment );
+    public override string BarAlignment( BarMode mode, Alignment alignment ) => alignment != Alignment.Default ? $"justify-{ToAlignment( alignment )}" : null;
 
-    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}";
+    public override string BarThemeContrast( BarMode mode, ThemeContrast themeContrast ) => themeContrast != ThemeContrast.None ? $"navbar-{ToThemeContrast( themeContrast )} b-bar-{ToThemeContrast( themeContrast )}" : null;
 
     public override string BarBreakpoint( BarMode mode, Breakpoint breakpoint ) => breakpoint != Breakpoint.None && breakpoint != Breakpoint.Mobile
         ? $"navbar-expand-{ToBreakpoint( breakpoint )}"
@@ -1028,19 +1031,17 @@ public class TailwindClassProvider : ClassProvider
             : "b-bar-item relative"
         : "b-bar-item";
 
-    public override string BarItemActive( BarMode mode ) => Active();
+    public override string BarItemActive( BarMode mode, bool active ) => active ? Active() : null;
 
-    public override string BarItemDisabled( BarMode mode ) => Disabled();
+    public override string BarItemDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
-    public override string BarItemHasDropdown( BarMode mode ) => null;
-
-    public override string BarItemHasDropdownShow( BarMode mode ) => null;
+    public override string BarItemHasDropdown( BarMode mode, bool hasDropdown ) => null;
 
     public override string BarLink( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-link block px-4 py-2 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-primary-700 dark:text-gray-400 md:dark:hover:text-primary-600 dark:hover:bg-gray-700 md:dark:hover:bg-transparent"
         : "b-bar-link";
 
-    public override string BarLinkDisabled( BarMode mode ) => Disabled();
+    public override string BarLinkDisabled( BarMode mode, bool disabled ) => disabled ? Disabled() : null;
 
     public override string BarBrand( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-brand flex items-center"
@@ -1055,7 +1056,7 @@ public class TailwindClassProvider : ClassProvider
         ? "b-bar-menu collapse navbar-collapse z-30"
         : "b-bar-menu";
 
-    public override string BarMenuShow( BarMode mode ) => Show();
+    public override string BarMenuShow( BarMode mode, bool show ) => show ? Show() : null;
 
     public override string BarStart( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
         ? "b-bar-start items-center justify-between hidden w-full md:flex md:w-auto md:order-1 mr-auto"
@@ -1069,7 +1070,7 @@ public class TailwindClassProvider : ClassProvider
         ? "b-bar-dropdown b-bar-dropdown-horizontal relative"
         : "b-bar-dropdown";
 
-    public override string BarDropdownShow( BarMode mode ) => Show();
+    public override string BarDropdownShow( BarMode mode, bool show ) => show ? Show() : null;
 
     public override string BarDropdownToggle( BarMode mode, bool isBarDropDownSubmenu ) => mode == Blazorise.BarMode.Horizontal
         ? isBarDropDownSubmenu
@@ -1097,13 +1098,15 @@ public class TailwindClassProvider : ClassProvider
         ? "b-bar-dropdown-menu-show block"
         : "b-bar-dropdown-menu-hide hidden";
 
-    public override string BarDropdownMenuRight( BarMode mode ) => mode == Blazorise.BarMode.Horizontal
-        ? "b-bar-dropdown-menu-right right-0 left-auto"
-        : "b-bar-right";
+    public override string BarDropdownMenuRight( BarMode mode, bool rightAligned ) => rightAligned
+        ? mode == Blazorise.BarMode.Horizontal
+            ? "b-bar-dropdown-menu-right right-0 left-auto"
+            : "b-bar-right"
+        : null;
 
     public override string BarDropdownMenuContainer( BarMode mode ) => mode == Blazorise.BarMode.Horizontal ? null : "b-bar-dropdown-menu-container";
 
-    public override string BarCollapsed( BarMode mode ) => null;
+    public override string BarCollapsed( BarMode mode, bool visible ) => null;
 
     public override string BarLabel( BarMode mode ) => "b-bar-label";
 
@@ -1262,6 +1265,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string AlertColor( Color color )
     {
+        if ( color.IsNullOrDefault() )
+            return null;
+
         var name = color?.Name;
 
         return name switch
@@ -1275,19 +1281,19 @@ public class TailwindClassProvider : ClassProvider
             "light" => "text-light-500 bg-light-100 dark:bg-light-100 dark:text-light-600",
             "dark" => "text-dark-100 bg-dark-800 dark:bg-dark-300 dark:text-dark-700",
             "link" => "text-primary-600 dark:text-primary-500 hover:underline",
-            _ => null,
+            _ => name,
         };
     }
 
-    public override string AlertDismisable() => "alert-dismissible";
+    public override string AlertDismisable( bool dismissable ) => dismissable ? "alert-dismissible" : null;
 
-    public override string AlertFade() => Fade();
+    public override string AlertFade( bool dismissable ) => dismissable ? Fade() : null;
 
-    public override string AlertShow() => Show();
+    public override string AlertShow( bool dismissable, bool visible ) => dismissable && visible ? Show() : null;
 
-    public override string AlertHasMessage() => null;
+    public override string AlertHasMessage( bool hasMessage ) => null;
 
-    public override string AlertHasDescription() => null;
+    public override string AlertHasDescription( bool hasDescription ) => null;
 
     public override string AlertMessage() => null;
 
@@ -1428,7 +1434,33 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Pagination() => "pagination flex -space-x-px mb-3";
 
-    public override string PaginationSize( Size size ) => $"{Pagination()}-{ToSize( size )}";
+    public override string PaginationSize( Size size ) => size != Size.Default ? $"{Pagination()}-{ToSize( size )}" : null;
+
+    public override string PaginationAlignment( Alignment alignment ) => alignment != Alignment.Default ? $"justify-{ToAlignment( alignment )}" : null;
+
+    public override string PaginationBackgroundColor( Background background )
+    {
+        if ( background.IsNullOrDefault() )
+            return null;
+
+        var name = background?.Name;
+
+        return name switch
+        {
+            "primary" => "!bg-primary-500",
+            "secondary" => "!bg-secondary-500",
+            "success" => "!bg-success-500",
+            "danger" => "!bg-danger-500",
+            "warning" => "!bg-warning-400",
+            "info" => "!bg-info",
+            "light" => "!bg-light",
+            "dark" => "!bg-dark",
+            "white" => "!bg-white",
+            "transparent" => "!bg-transparent",
+            "body" => "!bg-body",
+            _ => name,
+        };
+    }
 
     public override string PaginationItem() => "pagination-item";
 
@@ -1481,11 +1513,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ProgressColor( Color color ) => null;
 
-    public override string ProgressStriped() => null;
+    public override string ProgressStriped( bool stripped ) => null;
 
-    public override string ProgressAnimated() => null;
+    public override string ProgressAnimated( bool animated ) => null;
 
-    public override string ProgressIndeterminate() => "overflow-hidden";
+    public override string ProgressIndeterminate( bool indeterminate ) => indeterminate ? "overflow-hidden" : null;
 
     public override string ProgressWidth( int width ) => null;
 
@@ -1495,6 +1527,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string ProgressBarColor( Color color )
     {
+        if ( color.IsNullOrDefault() )
+            return null;
+
         var name = color?.Name;
 
         return name switch
@@ -1507,15 +1542,15 @@ public class TailwindClassProvider : ClassProvider
             "info" => "bg-info-600 text-info-100",
             "light" => "bg-light-100 text-light-600",
             "dark" => "bg-dark-600 text-dark-100",
-            _ => null,
+            _ => name,
         };
     }
 
-    public override string ProgressBarStriped() => "progress-bar-striped";
+    public override string ProgressBarStriped( bool striped ) => striped ? "progress-bar-striped" : null;
 
-    public override string ProgressBarAnimated() => "progress-bar-animated";
+    public override string ProgressBarAnimated( bool animated ) => animated ? "progress-bar-animated" : null;
 
-    public override string ProgressBarIndeterminate() => "progress-bar-indeterminate";
+    public override string ProgressBarIndeterminate( bool indeterminate ) => indeterminate ? "progress-bar-indeterminate" : null;
 
     public override string ProgressBarWidth( int width ) => null;
 
@@ -1556,17 +1591,17 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Table() => "b-table w-full text-sm text-left text-gray-500 dark:text-gray-400 group mb-3";
 
-    public override string TableFullWidth() => "b-table-fullwidth";
+    public override string TableFullWidth( bool fullWidth ) => fullWidth ? "b-table-fullwidth" : null;
 
-    public override string TableStriped() => "b-table-striped";
+    public override string TableStriped( bool striped ) => striped ? "b-table-striped" : null;
 
-    public override string TableHoverable() => "b-table-hoverable";
+    public override string TableHoverable( bool hoverable ) => hoverable ? "b-table-hoverable" : null;
 
-    public override string TableBordered() => "b-table-bordered border";
+    public override string TableBordered( bool bordered ) => bordered ? "b-table-bordered border" : null;
 
-    public override string TableNarrow() => "b-table-sm";
+    public override string TableNarrow( bool narrow ) => narrow ? "b-table-sm" : null;
 
-    public override string TableBorderless() => "b-table-borderless border-0";
+    public override string TableBorderless( bool borderless ) => borderless ? "b-table-borderless border-0" : null;
 
     public override string TableHeader() => "text-xs text-gray-800 bg-white dark:bg-gray-700 dark:text-gray-400";
 
@@ -1611,6 +1646,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowColor( Color color )
     {
+        if ( color.IsNullOrDefault() )
+            return null;
+
         var name = color?.Name;
 
         return name switch
@@ -1624,13 +1662,13 @@ public class TailwindClassProvider : ClassProvider
             "light" => "!text-light-500 bg-light-100 !dark:bg-light-100 !dark:text-light-600",
             "dark" => "!text-dark-100 !bg-dark-800 !dark:bg-dark-300 !dark:text-dark-700",
             "link" => "!text-primary-600 !dark:text-primary-500 !hover:underline",
-            _ => null,
+            _ => name,
         };
     }
 
-    public override string TableRowHoverCursor() => "b-table-row-selectable cursor-pointer";
+    public override string TableRowHoverCursor( Cursor cursor ) => cursor != Cursor.Default ? "b-table-row-selectable cursor-pointer" : null;
 
-    public override string TableRowIsSelected() => "b-table-row-selected !text-primary-800 !bg-primary-300 !dark:bg-primary-500 !dark:text-primary-800";
+    public override string TableRowIsSelected( bool selected ) => selected ? "b-table-row-selected !text-primary-800 !bg-primary-300 !dark:bg-primary-500 !dark:text-primary-800" : null;
 
     public override string TableRowHeader() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4 font-medium text-gray-900 whitespace-nowrap dark:text-white";
 
@@ -1646,7 +1684,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TableRowCell() => "group-[.b-table-sm]:py-2 group-[:not(.b-table-sm)]:py-4 px-4";
 
-    public override string TableRowCellColor( Color color ) => $"table-{ToColor( color )}";
+    public override string TableRowCellColor( Color color ) => color.IsNotNullOrDefault() ? $"table-{ToColor( color )}" : null;
 
     public override string TableRowCellFixed( TableColumnFixedPosition fixedPosition )
     {
@@ -1682,6 +1720,9 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BadgeColor( Color color )
     {
+        if ( color.IsNullOrDefault() )
+            return null;
+
         var name = color?.Name;
 
         return name switch
@@ -1695,13 +1736,15 @@ public class TailwindClassProvider : ClassProvider
             "light" => "bg-light-100 text-light-800 dark:bg-light-200 dark:text-light-800",
             "dark" => "bg-dark-800 text-dark-100 dark:bg-dark-300 dark:text-dark-700",
             "link" => "text-primary-600 dark:text-primary-500 hover:underline",
-            _ => null,
+            _ => name,
         };
     }
 
-    public override string BadgePill() => "b-badge-pill rounded-full";
+    public override string BadgePill( bool pill ) => pill ? "b-badge-pill rounded-full" : null;
 
     public override string BadgeClose() => null;
+
+    public override string BadgeCloseColor( Color color ) => BadgeColor( color );
 
     #endregion
 
@@ -1770,7 +1813,7 @@ public class TailwindClassProvider : ClassProvider
         return $"text-{ToTextSizeType( textSizeType )}";
     }
 
-    public override string TextItalic() => "italic";
+    public override string TextItalic( bool italic ) => italic ? "italic" : null;
 
     #endregion
 
@@ -1861,11 +1904,11 @@ public class TailwindClassProvider : ClassProvider
 
     public override string Figure() => "b-figure max-w-lg";
 
-    public override string FigureSize( FigureSize figureSize ) => $"b-figure-{ToFigureSize( figureSize )}";
+    public override string FigureSize( FigureSize figureSize ) => figureSize != Blazorise.FigureSize.Default ? $"b-figure-{ToFigureSize( figureSize )}" : null;
 
     public override string FigureImage() => "b-figure-image max-w-full h-auto";
 
-    public override string FigureImageRounded() => "b-figure-rounded rounded-lg";
+    public override string FigureImageRounded( bool rounded ) => rounded ? "b-figure-rounded rounded-lg" : null;
 
     public override string FigureCaption() => "b-figure-caption mt-2 text-sm text-center text-gray-500 dark:text-gray-400";
 
@@ -1885,7 +1928,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string BreadcrumbItem() => "b-breadcrumb-item";
 
-    public override string BreadcrumbItemActive() => null;
+    public override string BreadcrumbItemActive( bool active ) => null;
 
     public override string BreadcrumbLink() => "b-breadcrumb-link flex items-center";
 
@@ -1897,13 +1940,13 @@ public class TailwindClassProvider : ClassProvider
 
     public override string TooltipPlacement( TooltipPlacement tooltipPlacement ) => $"b-tooltip-{ToTooltipPlacement( tooltipPlacement )}";
 
-    public override string TooltipMultiline() => "b-tooltip-multiline";
+    public override string TooltipMultiline( bool multiline ) => multiline ? "b-tooltip-multiline" : null;
 
-    public override string TooltipAlwaysActive() => "b-tooltip-active";
+    public override string TooltipAlwaysActive( bool alwaysActive ) => alwaysActive ? "b-tooltip-active" : null;
 
-    public override string TooltipFade() => "b-tooltip-fade";
+    public override string TooltipFade( bool fade ) => fade ? "b-tooltip-fade" : null;
 
-    public override string TooltipInline() => "b-tooltip-inline";
+    public override string TooltipInline( bool inline ) => inline ? "b-tooltip-inline" : null;
 
     #endregion
 
@@ -2066,8 +2109,6 @@ public class TailwindClassProvider : ClassProvider
         return sb.ToString();
     }
 
-    public override string FlexAlignment( Alignment alignment ) => $"justify-{ToAlignment( alignment )}";
-
     #endregion
 
     #region Sizing
@@ -2174,7 +2215,7 @@ public class TailwindClassProvider : ClassProvider
 
     public override string OrderedListUnstyled( bool unstyled ) => unstyled ? "list-unstyled" : null;
 
-    public override string OrderedListType( OrderedListType orderedListType ) => $"ordered-list-{ToOrderedListType( orderedListType )}";
+    public override string OrderedListType( OrderedListType orderedListType ) => orderedListType != Blazorise.OrderedListType.Default ? $"ordered-list-{ToOrderedListType( orderedListType )}" : null;
 
     public override string DescriptionList() => null;
 

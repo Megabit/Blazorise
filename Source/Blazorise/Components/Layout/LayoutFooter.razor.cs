@@ -23,7 +23,7 @@ public partial class LayoutFooter : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( ClassProvider.LayoutFooter() );
-        builder.Append( ClassProvider.LayoutFooterFixed(), Fixed );
+        builder.Append( ClassProvider.LayoutFooterFixed( Fixed ) );
 
         base.BuildClasses( builder );
     }

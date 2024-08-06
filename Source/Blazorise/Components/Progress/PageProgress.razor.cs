@@ -1,5 +1,6 @@
 ﻿#region Using directives
 using System.Threading.Tasks;
+using Blazorise.Extensions;
 using Blazorise.Utilities;
 using Microsoft.AspNetCore.Components;
 #endregion
@@ -39,7 +40,9 @@ public partial class PageProgress : BaseComponent
     protected override void BuildClasses( ClassBuilder builder )
     {
         builder.Append( "b-page-progress" );
-        builder.Append( "b-page-progress-active", Visible );
+
+        if ( Visible )
+            builder.Append( "b-page-progress-active" );
 
         base.BuildClasses( builder );
     }
@@ -51,8 +54,12 @@ public partial class PageProgress : BaseComponent
     protected virtual void BuildIndicatorClasses( ClassBuilder builder )
     {
         builder.Append( "b-page-progress-indicator" );
-        builder.Append( $"b-page-progress-indicator-{ClassProvider.ToColor( Color )}", Color != Color.Default );
-        builder.Append( "b-page-progress-indicator-indeterminate", Value is null );
+
+        if ( Color.IsNotNullOrDefault() )
+            builder.Append( $"b-page-progress-indicator-{ClassProvider.ToColor( Color )}" );
+
+        if ( Value is null )
+            builder.Append( "b-page-progress-indicator-indeterminate" );
     }
 
     /// <inheritdoc/>
