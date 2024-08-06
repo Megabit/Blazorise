@@ -30,7 +30,32 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         pageNumberPending: null,
     };
 
-    var loadingTask = pdfjsLib.getDocument(options.source);
+    loadDocument(instance, options.source);
+
+    _instances[elementId] = instance;
+}
+
+export function destroy(element, elementId) {
+    const instances = _instances || {};
+    const instance = instances[elementId];
+
+    if (instance) {
+        delete instances[elementId];
+    }
+}
+
+export function updateOptions(element, elementId, options) {
+    const instance = _instances[elementId];
+
+    if (instance && instance.player && options) {
+        if (options.source.changed) {
+            loadDocument(instance, options.source.value);
+        }
+    }
+}
+
+function loadDocument(instance, source) {
+    var loadingTask = pdfjsLib.getDocument(source);
 
     loadingTask.promise.then(function (pdf) {
         instance.pdf = pdf;
@@ -41,29 +66,6 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     }, function (reason) {
         console.error(reason);
     });
-
-    _instances[elementId] = instance;
-}
-
-export function destroy(element, elementId) {
-    const instances = _instances || {};
-    const instance = instances[elementId];
-
-    if (instance) {
-
-
-        delete instances[elementId];
-    }
-}
-
-export function updateOptions(element, elementId, options) {
-    const instance = _instances[elementId];
-
-    if (instance && instance.player && options) {
-        if (options.source.changed) {
-            // TODO
-        }
-    }
 }
 
 function renderPage(instance, pageNumber) {
