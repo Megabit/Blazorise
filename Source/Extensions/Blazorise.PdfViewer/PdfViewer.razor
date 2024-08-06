@@ -4,20 +4,28 @@
     <Div Flex="Blazorise.Flex.JustifyContent.Between" Padding="Blazorise.Padding.Is2">
         <Div Flex="Blazorise.Flex.AlignItems.Center">
             <Tooltip Text="Previous page">
-                <Icon Name="IconName.ChevronLeft" Clicked="@OnPreviousPageClicked" Padding="Blazorise.Padding.Is2" Margin="Blazorise.Margin.Is2.FromEnd" role="button" />
+                <Button Size="Blazorise.Size.Small" Clicked="@OnPreviousPageClicked" Margin="Blazorise.Margin.Is2.FromEnd">
+                    <Icon Name="IconName.ChevronLeft" />
+                </Button>
             </Tooltip>
             <NumericEdit TValue="int" Value="@PageNumber" ValueChanged="@OnPageNumberChanged" Size="Blazorise.Size.Small" TextAlignment="Blazorise.TextAlignment.Center" Width="Blazorise.Width.Rem( 4 )" />
             <Tooltip Text="Next page">
-                <Icon Name="IconName.ChevronRight" Clicked="@OnNextPageClicked" Padding="Blazorise.Padding.Is2" Margin="Blazorise.Margin.Is2.FromStart" role="button" />
+                <Button Size="Blazorise.Size.Small" Clicked="@OnNextPageClicked" Margin="Blazorise.Margin.Is2.FromStart">
+                    <Icon Name="IconName.ChevronRight" />
+                </Button>
             </Tooltip>
             <Div Flex="Blazorise.Flex.AlignSelf.Center" Padding="Blazorise.Padding.Is2.FromStart">of @totalPages</Div>
         </Div>
         <Div Flex="Blazorise.Flex.AlignItems.Center">
             <Tooltip Text="Zoom In">
-                <Icon Name="IconName.ZoomIn" Padding="Blazorise.Padding.Is2" Margin="Blazorise.Margin.Is2.FromEnd" role="button" />
+                <Button Size="Blazorise.Size.Small" Margin="Blazorise.Margin.Is2.FromEnd">
+                    <Icon Name="IconName.ZoomIn" />
+                </Button>
             </Tooltip>
             <Tooltip Text="Zoom Out">
-                <Icon Name="IconName.ZoomOut" Padding="Blazorise.Padding.Is2" Margin="Blazorise.Margin.Is2.FromEnd" role="button" />
+                <Button Size="Blazorise.Size.Small" Margin="Blazorise.Margin.Is2.FromEnd">
+                    <Icon Name="IconName.ZoomOut" />
+                </Button>
             </Tooltip>
         </Div>
     </Div>
