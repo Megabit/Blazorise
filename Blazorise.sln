@@ -155,7 +155,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Captcha.ReCaptcha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts.Zoom", "Source\Extensions\Blazorise.Charts.Zoom\Blazorise.Charts.Zoom.csproj", "{045536EC-BD97-409D-BDF7-C148B7C5AAFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazorise.PdfViewer", "Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj", "{EAB7EC89-900A-4280-B24A-152B9DD2B503}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.PdfViewer", "Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj", "{EAB7EC89-900A-4280-B24A-152B9DD2B503}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
