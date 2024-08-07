@@ -68,6 +68,12 @@ export function updateOptions(element, elementId, newOptions) {
             queueNeeded = true;
         }
 
+        if (newOptions.rotation.changed) {
+            instance.rotation = newOptions.rotation.value;
+
+            queueNeeded = true;
+        }
+
         if (queueNeeded && !newOptions.source.changed) {
             queueRenderPage(instance, instance.pageNumber);
 
