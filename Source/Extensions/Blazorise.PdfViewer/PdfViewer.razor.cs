@@ -58,15 +58,21 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         if ( Rendered )
         {
             var sourceChanged = parameters.TryGetValue<string>( nameof( Source ), out var paramSource ) && !Source.IsEqual( paramSource );
+            var pageNumberChanged = parameters.TryGetValue<int>( nameof( PageNumber ), out var paramPageNumber ) && !PageNumber.IsEqual( paramPageNumber );
+            var scaleChanged = parameters.TryGetValue<double>( nameof( Scale ), out var paramScale ) && !Scale.IsEqual( paramScale );
             var orientationChanged = parameters.TryGetValue<PdfOrientation>( nameof( Orientation ), out var paramOrientation ) && !Orientation.IsEqual( paramOrientation );
 
             if ( sourceChanged
+                || pageNumberChanged
+                || scaleChanged
                 || orientationChanged )
             {
                 ExecuteAfterRender( async () => await JSModule.UpdateOptions( ElementRef, ElementId, new
                 {
-                    source = new { Changed = sourceChanged, Value = paramSource },
-                    rotation = new { Changed = orientationChanged, Value = paramOrientation.ToRotation() },
+                    source = new { changed = sourceChanged, value = paramSource },
+                    pageNumber = new { changed = pageNumberChanged, value = paramPageNumber },
+                    scale = new { changed = scaleChanged, value = paramScale },
+                    rotation = new { changed = orientationChanged, value = paramOrientation.ToRotation() },
                 } ) );
             }
         }
@@ -95,6 +101,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             await JSModule.Initialize( DotNetObjectRef, ElementRef, ElementId, new
             {
                 source = Source,
+                pageNumber = PageNumber,
                 scale = Scale,
                 rotation = Orientation.ToRotation(),
             } );

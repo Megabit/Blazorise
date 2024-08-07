@@ -23,14 +23,16 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
     const instance = {
         dotNetAdapter: dotNetAdapter,
         canvas: element,
-        options: options,
+        source: options.source,
         pageNumber: 1,
         totalPages: 0,
+        scale: options.scale,
+        rotation: options.rotation,
         pageRendering: false,
         pageNumberPending: null,
     };
 
-    loadDocument(instance, options.source);
+    loadDocument(instance, instance.source);
 
     _instances[elementId] = instance;
 }
@@ -48,12 +50,34 @@ export function destroy(element, elementId) {
     }
 }
 
-export function updateOptions(element, elementId, options) {
+export function updateOptions(element, elementId, newOptions) {
     const instance = _instances[elementId];
 
-    if (instance && instance.player && options) {
-        if (options.source.changed) {
-            loadDocument(instance, options.source.value);
+    if (instance && instance.pdf && newOptions) {
+        let queueNeeded = false;
+
+        if (newOptions.pageNumber.changed && newOptions.pageNumber.value >= 1 && newOptions.pageNumber.value <= instance.totalPages) {
+            instance.pageNumber = newOptions.pageNumber.value;
+
+            queueNeeded = true;
+        }
+
+        if (newOptions.scale.changed) {
+            instance.scale = newOptions.scale.value;
+
+            queueNeeded = true;
+        }
+
+        if (queueNeeded && !newOptions.source.changed) {
+            queueRenderPage(instance, instance.pageNumber);
+
+            NotifyPdfChanged(instance);
+        }
+        else if (newOptions.source.changed) {
+            instance.source = newOptions.source.value;
+            loadDocument(instance, instance.source);
+
+            NotifyPdfInitialized(instance);
         }
     }
 }
@@ -76,7 +100,7 @@ function renderPage(instance, pageNumber) {
     instance.pageRendering = true;
 
     instance.pdf.getPage(pageNumber).then(function (page) {
-        const viewport = page.getViewport({ scale: instance.options.scale, rotation: instance.options.rotation });
+        const viewport = page.getViewport({ scale: instance.scale, rotation: instance.rotation });
 
         const canvas = instance.canvas;
         const context = canvas.getContext('2d');
@@ -161,7 +185,7 @@ export function setScale(element, elementId, scale) {
 
     if (instance) {
 
-        instance.options.scale = scale;
+        instance.scale = scale;
         queueRenderPage(instance, instance.pageNumber);
 
         NotifyPdfChanged(instance);
@@ -179,6 +203,6 @@ function NotifyPdfChanged(instance) {
     instance.dotNetAdapter.invokeMethodAsync('NotifyPdfChanged', {
         pageNumber: instance.pageNumber,
         totalPages: instance.totalPages,
-        scale: instance.options.scale,
+        scale: instance.scale,
     });
 }
