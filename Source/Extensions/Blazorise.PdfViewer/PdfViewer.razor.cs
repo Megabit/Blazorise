@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
+using Blazorise.Infrastructure;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 #endregion
@@ -16,26 +17,40 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
 {
     #region Members
 
-    private int totalPages;
+    private readonly EventCallbackSubscriber<object> nextPageSubscriber;
+    private readonly EventCallbackSubscriber<object> prevPageSubscriber;
+    private readonly EventCallbackSubscriber<int> goToPageSubscriber;
+    private readonly EventCallbackSubscriber<double> setScaleSubscriber;
 
-    private readonly List<int> zoomLevels = new()
+    #endregion
+
+    #region Constructors
+
+    /// <summary>
+    /// Default <see cref="PdfViewer"/> constructor.
+    /// </summary>
+    public PdfViewer()
     {
-        50,
-        75,
-        100,
-        125,
-        150,
-        200,
-        300,
-        400,
-        500,
-    };
-
-    private int zoomLevelIndex = 2;
+        nextPageSubscriber = new EventCallbackSubscriber<object>( EventCallback.Factory.Create<object>( this, NextPage ) );
+        prevPageSubscriber = new EventCallbackSubscriber<object>( EventCallback.Factory.Create<object>( this, PreviousPage ) );
+        goToPageSubscriber = new EventCallbackSubscriber<int>( EventCallback.Factory.Create<int>( this, GoToPage ) );
+        setScaleSubscriber = new EventCallbackSubscriber<double>( EventCallback.Factory.Create<double>( this, SetScale ) );
+    }
 
     #endregion
 
     #region Methods
+
+    /// <inheritdoc/>
+    protected override Task OnParametersSetAsync()
+    {
+        nextPageSubscriber.SubscribeOrMove( ViewerState?.NextPageRequested );
+        prevPageSubscriber.SubscribeOrMove( ViewerState?.PrevPageRequested );
+        goToPageSubscriber.SubscribeOrMove( ViewerState?.GoToPageRequested );
+        setScaleSubscriber.SubscribeOrMove( ViewerState?.SetScaleRequested );
+
+        return base.OnParametersSetAsync();
+    }
 
     /// <inheritdoc/>
     public override async Task SetParametersAsync( ParameterView parameters )
@@ -93,6 +108,11 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     {
         if ( disposing && Rendered )
         {
+            nextPageSubscriber.Dispose();
+            prevPageSubscriber.Dispose();
+            goToPageSubscriber.Dispose();
+            setScaleSubscriber.Dispose();
+
             await JSModule.SafeDestroy( ElementRef, ElementId );
 
             await JSModule.SafeDisposeAsync();
@@ -107,44 +127,44 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         await base.DisposeAsync( disposing );
     }
 
-    private async Task OnPreviousPageClicked()
+    /// <summary>
+    /// Navigates to the previous page of the PDF document.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task PreviousPage()
     {
         await JSModule.PreviousPage( ElementRef, ElementId );
     }
 
-    private async Task OnNextPageClicked()
+    /// <summary>
+    /// Navigates to the next page of the PDF document.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task NextPage()
     {
         await JSModule.NextPage( ElementRef, ElementId );
     }
 
-    private async Task OnPageNumberChanged( int value )
+    /// <summary>
+    /// Navigates to the specified page number in the PDF document.
+    /// </summary>
+    /// <param name="pageNumber">The page number to navigate to.</param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task GoToPage( int pageNumber )
     {
-        if ( value < 1 )
-            PageNumber = 1;
-        else if ( value > totalPages )
-            PageNumber = totalPages;
-        else
-            PageNumber = value;
-
-        await JSModule.GoToPage( ElementRef, ElementId, PageNumber );
+        await JSModule.GoToPage( ElementRef, ElementId, pageNumber );
     }
 
-    private async Task OnZoomInClicked()
+    /// <summary>
+    /// Sets the scale factor for displaying the PDF document.
+    /// </summary>
+    /// <param name="scale">
+    /// The scale factor to set. A value of <c>1.0</c> represents 100% (original size).
+    /// </param>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task SetScale( double scale )
     {
-        if ( zoomLevelIndex >= zoomLevels.Count - 1 )
-            return;
-
-        zoomLevelIndex++;
-        await JSModule.SetScale( ElementRef, ElementId, zoomLevels[zoomLevelIndex] / 100.0 );
-    }
-
-    private async Task OnZoomOutClicked()
-    {
-        if ( zoomLevelIndex <= 0 )
-            return;
-
-        zoomLevelIndex--;
-        await JSModule.SetScale( ElementRef, ElementId, zoomLevels[zoomLevelIndex] / 100.0 );
+        await JSModule.SetScale( ElementRef, ElementId, scale );
     }
 
     /// <summary>
@@ -152,18 +172,23 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="model">An instance of <see cref="PdfModel"/> containing the information about the loaded PDF document.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    [JSInvokable( "NotifyDocumentLoaded" )]
-    public async Task NotifyDocumentLoaded( PdfModel model )
+    [JSInvokable( "NotifyPdfInitialized" )]
+    public async Task NotifyPdfInitialized( PdfModel model )
     {
         if ( model is null )
             return;
 
         PageNumber = model.PageNumber;
-        totalPages = model.TotalPages;
+        TotalPages = model.TotalPages;
 
         await InvokeAsync( StateHasChanged );
 
-        await Loaded.InvokeAsync( new PdfLoadedEventArgs( PageNumber, totalPages ) );
+        await Loaded.InvokeAsync( new PdfLoadedEventArgs( PageNumber, TotalPages ) );
+
+        if ( ViewerState != null )
+        {
+            await ViewerState.PdfInitialized.InvokeCallbackAsync( model );
+        }
     }
 
     /// <summary>
@@ -171,16 +196,21 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// </summary>
     /// <param name="model">An instance of <see cref="PdfModel"/> containing the current page number of the PDF document.</param>
     /// <returns>A task that represents the asynchronous operation.</returns>
-    [JSInvokable( "NotifyPageNumberChanged" )]
-    public async Task NotifyPageNumberChanged( PdfModel model )
+    [JSInvokable( "NotifyPdfChanged" )]
+    public async Task NotifyPdfChanged( PdfModel model )
     {
         if ( model is null )
             return;
 
         PageNumber = model.PageNumber;
-        totalPages = model.TotalPages;
+        TotalPages = model.TotalPages;
 
         await PageNumberChanged.InvokeAsync( PageNumber );
+
+        if ( ViewerState != null )
+        {
+            await ViewerState.PdfChanged.InvokeCallbackAsync( model );
+        }
     }
 
     #endregion
@@ -198,7 +228,15 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// <summary>
     /// Gets or sets the <see cref="JSPdfViewerModule"/> instance.
     /// </summary>
-    protected JSPdfViewerModule JSModule { get; private set; }
+    internal protected JSPdfViewerModule JSModule { get; private set; }
+
+    /// <summary>
+    /// Gets the total number of pages in the PDF document.
+    /// </summary>
+    /// <value>
+    /// The total number of pages available in the currently loaded PDF document.
+    /// </value>
+    public int TotalPages { get; private set; }
 
     /// <summary>
     /// Gets or sets the <see cref="IJSRuntime"/>.
@@ -247,6 +285,11 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// The default value is <see cref="PdfOrientation.Portrait"/>.
     /// </summary>
     [Parameter] public PdfOrientation Orientation { get; set; } = PdfOrientation.Portrait;
+
+    /// <summary>
+    /// Gets or sets the state of the PDF viewer.
+    /// </summary>
+    [Parameter] public PdfViewerState ViewerState { get; set; }
 
     /// <summary>
     /// Gets or sets the content to be rendered inside the component.

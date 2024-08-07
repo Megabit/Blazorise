@@ -40,6 +40,10 @@ export function destroy(element, elementId) {
     const instance = instances[elementId];
 
     if (instance) {
+        if (instance.pdf) {
+            instance.pdf.destroy();
+        }
+
         delete instances[elementId];
     }
 }
@@ -62,7 +66,7 @@ function loadDocument(instance, source) {
         instance.totalPages = pdf.numPages;
         renderPage(instance, instance.pageNumber);
 
-        NotifyDocumentLoaded(instance);
+        NotifyPdfInitialized(instance);
     }, function (reason) {
         console.error(reason);
     });
@@ -118,7 +122,7 @@ export function prevPage(element, elementId) {
         instance.pageNumber--;
         queueRenderPage(instance, instance.pageNumber);
 
-        NotifyPageNumberChanged(instance);
+        NotifyPdfChanged(instance);
     }
 }
 
@@ -133,7 +137,7 @@ export function nextPage(element, elementId) {
         instance.pageNumber++;
         queueRenderPage(instance, instance.pageNumber);
 
-        NotifyPageNumberChanged(instance);
+        NotifyPdfChanged(instance);
     }
 }
 
@@ -148,7 +152,7 @@ export function goToPage(element, elementId, pageNumber) {
         instance.pageNumber = pageNumber;
         queueRenderPage(instance, instance.pageNumber);
 
-        NotifyPageNumberChanged(instance);
+        NotifyPdfChanged(instance);
     }
 }
 
@@ -159,19 +163,22 @@ export function setScale(element, elementId, scale) {
 
         instance.options.scale = scale;
         queueRenderPage(instance, instance.pageNumber);
+
+        NotifyPdfChanged(instance);
     }
 }
 
-function NotifyDocumentLoaded(instance) {
-    instance.dotNetAdapter.invokeMethodAsync('NotifyDocumentLoaded', {
+function NotifyPdfInitialized(instance) {
+    instance.dotNetAdapter.invokeMethodAsync('NotifyPdfInitialized', {
         pageNumber: instance.pageNumber,
         totalPages: instance.totalPages,
     });
 }
 
-function NotifyPageNumberChanged(instance) {
-    instance.dotNetAdapter.invokeMethodAsync('NotifyPageNumberChanged', {
+function NotifyPdfChanged(instance) {
+    instance.dotNetAdapter.invokeMethodAsync('NotifyPdfChanged', {
         pageNumber: instance.pageNumber,
         totalPages: instance.totalPages,
+        scale: instance.options.scale,
     });
 }

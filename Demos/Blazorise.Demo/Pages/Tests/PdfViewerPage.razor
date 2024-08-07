@@ -6,11 +6,33 @@
                 <CardTitle>PdfViewer</CardTitle>
             </CardHeader>
             <CardBody>
-                <PdfViewer Source="https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf" />
+                <PdfViewerContainer Height="Height.Rem(50)" Overflow="Overflow.Auto">
+                    <PdfViewerToolbar ViewerState="@State" />
+                    <PdfViewer ViewerState="@State" Source="https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf" />
+                </PdfViewerContainer>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>As a standalone PdfViewer</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <Button Color="Color.Primary" Clicked="@(()=>standalonePdfViewerRef.PreviousPage())">Previous page</Button>
+                <Button Color="Color.Primary" Clicked="@(()=>standalonePdfViewerRef.NextPage())">Next page</Button>
+            </CardBody>
+            <CardBody>
+                <Div Height="Height.Rem(50)" Overflow="Overflow.Auto">
+                    <PdfViewer @ref="@standalonePdfViewerRef" Source="https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf" />
+                </Div>
             </CardBody>
         </Card>
     </Column>
 </Row>
 @code {
-
+    PdfViewerState State = new();
+    PdfViewer standalonePdfViewerRef;
 }

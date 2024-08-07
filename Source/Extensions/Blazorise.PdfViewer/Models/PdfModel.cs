@@ -10,10 +10,12 @@ public class PdfModel
     /// </summary>
     /// <param name="pageNumber">The current page number of the PDF document.</param>
     /// <param name="totalPages">The total number of pages in the PDF document.</param>
-    public PdfModel( int pageNumber, int totalPages )
+    /// <param name="scale">The scale of the PDF document.</param>
+    public PdfModel( int pageNumber, int totalPages, double scale )
     {
         PageNumber = pageNumber;
         TotalPages = totalPages;
+        Scale = scale;
     }
 
     /// <summary>
@@ -25,4 +27,9 @@ public class PdfModel
     /// Gets or sets the total number of pages in the PDF document.
     /// </summary>
     public int TotalPages { get; set; }
+
+    /// <summary>
+    /// Gets or sets the scale of the PDF document.
+    /// </summary>
+    public double Scale { get; set; }
 }

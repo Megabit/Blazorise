@@ -1,37 +1,6 @@
 ﻿@namespace Blazorise.PdfViewer
 @inherits BaseComponent
-<Div>
-    <Div Flex="Blazorise.Flex.JustifyContent.Between" Padding="Blazorise.Padding.Is2">
-        <Div Flex="Blazorise.Flex.AlignItems.Center">
-            <Tooltip Text="Previous page">
-                <Button Size="Blazorise.Size.Small" Clicked="@OnPreviousPageClicked" Margin="Blazorise.Margin.Is2.FromEnd">
-                    <Icon Name="IconName.ChevronLeft" />
-                </Button>
-            </Tooltip>
-            <NumericEdit TValue="int" Value="@PageNumber" ValueChanged="@OnPageNumberChanged" Size="Blazorise.Size.Small" TextAlignment="Blazorise.TextAlignment.Center" Width="Blazorise.Width.Rem( 4 )" />
-            <Tooltip Text="Next page">
-                <Button Size="Blazorise.Size.Small" Clicked="@OnNextPageClicked" Margin="Blazorise.Margin.Is2.FromStart">
-                    <Icon Name="IconName.ChevronRight" />
-                </Button>
-            </Tooltip>
-            <Div Flex="Blazorise.Flex.AlignSelf.Center" Padding="Blazorise.Padding.Is2.FromStart">of @totalPages</Div>
-        </Div>
-        <Div Flex="Blazorise.Flex.AlignItems.Center">
-            <Tooltip Text="Zoom Out">
-                <Button Size="Blazorise.Size.Small" Clicked="@OnZoomOutClicked">
-                    <Icon Name="IconName.ZoomOut" />
-                </Button>
-            </Tooltip>
-            <Div Flex="Blazorise.Flex.AlignSelf.Center">@($"{zoomLevels[zoomLevelIndex]}%")</Div>
-            <Tooltip Text="Zoom In">
-                <Button Size="Blazorise.Size.Small" Clicked="@OnZoomInClicked">
-                    <Icon Name="IconName.ZoomIn" />
-                </Button>
-            </Tooltip>
-        </Div>
-    </Div>
-    <Div TextAlignment="Blazorise.TextAlignment.Center" Padding="Blazorise.Padding.Is3.OnY" Overflow="Blazorise.Overflow.Auto">
-        <canvas @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-        </canvas>
-    </Div>
+<Div Class="@ClassNames" Style="@StyleNames" TextAlignment="Blazorise.TextAlignment.Center" Padding="Blazorise.Padding.Is3.OnY" Overflow="Blazorise.Overflow.Auto" Attributes="@Attributes">
+    <canvas @ref="@ElementRef" id="@ElementId">
+    </canvas>
 </Div>
