@@ -55,6 +55,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
     private TextTransform textTransform = TextTransform.Default;
 
+    private TextDecoration textDecoration = TextDecoration.Default;
+
     private TextWeight textWeight = TextWeight.Default;
 
     private TextOverflow textOverflow = TextOverflow.Default;
@@ -230,6 +232,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
         if ( TextTransform != TextTransform.Default )
             builder.Append( ClassProvider.TextTransform( TextTransform ) );
+
+        if ( TextDecoration != TextDecoration.Default )
+            builder.Append( ClassProvider.TextDecoration( TextDecoration ) );
 
         if ( TextWeight != TextWeight.Default )
             builder.Append( ClassProvider.TextWeight( TextWeight ) );
@@ -685,6 +690,21 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         set
         {
             textTransform = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the text decoration.
+    /// </summary>
+    [Parameter]
+    public TextDecoration TextDecoration
+    {
+        get => textDecoration;
+        set
+        {
+            textDecoration = value;
 
             DirtyClasses();
         }

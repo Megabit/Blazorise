@@ -9338,6 +9338,22 @@ ol.is-ordered-list-upper-roman {
     font-size: 1rem !important;
   }
 }
+.has-text-decoration-underline {
+  text-decoration: underline !important;
+}
+.has-text-decoration-overline {
+  text-decoration: overline !important;
+}
+.has-text-decoration-line-through {
+  text-decoration: line-through !important;
+}
+.has-text-decoration-inherit {
+  text-decoration: inherit !important;
+}
+.has-text-decoration-none {
+  text-decoration: none !important;
+}
+
 .is-visible {
   visibility: visible !important;
 }

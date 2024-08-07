@@ -15136,6 +15136,22 @@ code {
   white-space: nowrap;
 }
 
+.fui-TextDecoration-underline {
+  text-decoration: underline !important;
+}
+.fui-TextDecoration-overline {
+  text-decoration: overline !important;
+}
+.fui-TextDecoration-line-through {
+  text-decoration: line-through !important;
+}
+.fui-TextDecoration-inherit {
+  text-decoration: inherit !important;
+}
+.fui-TextDecoration-none {
+  text-decoration: none !important;
+}
+
 .fui-Visible {
   visibility: visible !important;
 }

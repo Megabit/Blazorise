@@ -4469,6 +4469,13 @@ ol.ordered-list-upper-roman {
     font-size: calc(1.275rem + 0.3vw) !important;
   }
 }
+.text-decoration-overline {
+  text-decoration: overline !important;
+}
+.text-decoration-inherit {
+  text-decoration: inherit !important;
+}
+
 .flatpickr-months {
   margin: 0.5rem 0;
 }
