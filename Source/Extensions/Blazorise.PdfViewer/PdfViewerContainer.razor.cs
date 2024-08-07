@@ -18,6 +18,7 @@ public partial class PdfViewerContainer : BaseComponent
     public PdfViewerContainer()
     {
         Background = Background.Light;
+        Overflow = Blazorise.Overflow.Auto;
     }
 
     #endregion

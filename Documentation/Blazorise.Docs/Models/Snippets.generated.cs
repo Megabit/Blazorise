@@ -9694,6 +9694,29 @@ services.AddValidatorsFromAssembly( typeof( App ).Assembly );";
     }
 }";
 
+        public const string ImportPdfViewerExample = @"@using Blazorise.PdfViewer";
+
+        public const string PdfViewerBasicExample = @"<PdfViewer Source=""https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf"" />";
+
+        public const string PdfViewerNugetInstallExample = @"Install-Package Blazorise.PdfViewer";
+
+        public const string PdfViewerPagingExample = @"<Button Color=""Color.Primary"" Clicked=""@(()=>pdfViewerRef.PreviousPage())"">Prev</Button>
+<Button Color=""Color.Primary"" Clicked=""@(()=>pdfViewerRef.NextPage())"">Next</Button>
+
+<PdfViewer @ref=""@pdfViewerRef"" Source=""https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf"" />
+
+@code {
+    PdfViewer pdfViewerRef;
+}";
+
+        public const string PdfViewerToolbarExample = @"<PdfViewerContainer Height=""Height.Rem(35)"">
+    <PdfViewerToolbar ViewerState=""@State"" />
+    <PdfViewer ViewerState=""@State"" Source=""https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf"" />
+</PdfViewerContainer>
+@code {
+    PdfViewerState State = new();
+}";
+
         public const string BasicQRCodeExample = @"<QRCode Value=""https://blazorise.com"" Alt=""QRCode image"" />";
 
         public const string ImportQRCodeExample = @"@using Blazorise.QRCode";

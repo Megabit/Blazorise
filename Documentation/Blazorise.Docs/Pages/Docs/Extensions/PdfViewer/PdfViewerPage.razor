@@ -1,0 +1,142 @@
+﻿@page "/docs/extensions/pdfviewer"
+
+<Seo Canonical="/docs/extensions/pdfviewer" Title="Blazorise PdfViewer Component" Description="Learn to use and work with the Blazorise PdfViewer component, a component used to display a regular PDF documents." />
+
+<DocsPageTitle Path="Extensions/PdfViewer">
+    Blazorise PdfViewer Component
+</DocsPageTitle>
+
+<DocsPageLead>
+    A <Code>PdfViewer</Code> component used to display a regular PDF document.
+</DocsPageLead>
+
+<DocsPageSubtitle>
+    Overview
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+   This documentation covers the integration of a PDF viewer with a toolbar in a Blazor application using the <Strong>PdfViewerContainer</Strong>, <Strong>PdfViewerToolbar</Strong>, and <Strong>PdfViewer</Strong> components. The <Strong>PdfViewerState</Strong> class is utilized to manage the state and events associated with the PDF viewer. This setup provides a complete solution for displaying and interacting with PDF documents.
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Structure
+</DocsPageSubtitle>
+
+<DocsPageParagraph>
+    <UnorderedList>
+        <UnorderedListItem>
+            <Code Tag>PdfViewerContainer</Code>: Acts as the main container for both the toolbar and the PDF viewer. It ensures proper layout and scrolling if needed.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code Tag>PdfViewerToolbar</Code>: A toolbar component is included within the container, bound to the same <Code>PdfViewerState</Code> as the viewer.
+        </UnorderedListItem>
+        <UnorderedListItem>
+            <Code Tag>PdfViewer</Code>: The main component for displaying the PDF document.
+        </UnorderedListItem>
+    </UnorderedList>
+</DocsPageParagraph>
+
+<DocsPageSubtitle>
+    Installation
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="NuGet">
+        Install extension from NuGet.
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="PdfViewerNugetInstallExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Imports">
+        In your main <Badge Color="Color.Light">_Imports.razor</Badge> add:
+    </DocsPageSectionHeader>
+    <DocsPageSectionSource Code="ImportPdfViewerExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    Examples
+</DocsPageSubtitle>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="Basic">
+        This example demonstrates how to use the PdfViewer component to display a PDF document within your application. The <Code>Source</Code> attribute is set to the URL of the PDF you want to render.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <PdfViewerBasicExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PdfViewerBasicExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With Navigation">
+        This example demonstrates how to integrate the PdfViewer component with navigation buttons in a Blazor application. The PdfViewer is set up to display a PDF document, while the buttons allow for page navigation.
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <PdfViewerPagingExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PdfViewerPagingExample" />
+</DocsPageSection>
+
+<DocsPageSection>
+    <DocsPageSectionHeader Title="With Toolbar">
+        <Paragraph>
+            This example illustrates how to use the <Strong>PdfViewerContainer</Strong> to integrate both a toolbar and a viewer component for displaying and interacting with a PDF document. The <Strong>PdfViewerState</Strong> manages the state and events for the PDF viewer.
+        </Paragraph>
+        <Paragraph>
+            <UnorderedList>
+                <UnorderedListItem>
+                    <Strong>PdfViewerContainer</Strong>: Acts as the main container for both the toolbar and the PDF viewer. It ensures proper layout and scrolling if needed.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Strong>PdfViewerToolbar</Strong>: A toolbar component is included within the container, bound to the same <Code>PdfViewerState</Code> as the viewer. This toolbar typically provides controls for interacting with the PDF, such as navigation and scaling.
+                </UnorderedListItem>
+                <UnorderedListItem>
+                    <Strong>PdfViewer</Strong>: The main component for displaying the PDF document. It is configured with the Source attribute to load a sample PDF from the provided URL. It also uses the shared <Code>PdfViewerState</Code> to synchronize with the toolbar.
+                </UnorderedListItem>
+            </UnorderedList>
+        </Paragraph>
+        <Paragraph>
+            <Strong>Note:</Strong> The <Strong>PdfViewer</Strong> component can function independently of the <Strong>PdfViewerToolbar</Strong> if needed, directly rendering the specified PDF document. However, when used together in this setup, they offer a complete solution for PDF viewing and interaction.
+        </Paragraph>
+    </DocsPageSectionHeader>
+    <DocsPageSectionContent Outlined FullWidth>
+        <PdfViewerToolbarExample />
+    </DocsPageSectionContent>
+    <DocsPageSectionSource Code="PdfViewerToolbarExample" />
+</DocsPageSection>
+
+<DocsPageSubtitle>
+    API
+</DocsPageSubtitle>
+
+<Heading Size="HeadingSize.Is3">
+    Attributes
+</Heading>
+
+<DocsAttributes Title="PdfViewer">
+    <DocsAttributesItem Name="Source" Type="string" Default="null">
+        Gets or sets the source URL or path of the PDF document to be loaded.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PageNumber" Type="int" Default="1">
+        Gets or sets the current page number of the PDF document. The default value is <Code>1</Code>.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="PageNumberChanged" Type="EventCallback<int>">
+        Gets or sets the callback event that is triggered when the page number changes.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Scale" Type="double" Default="1">
+        Gets or sets the scale factor for displaying the PDF document. The default value is <Code>1</Code>, which represents the original size.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="Orientation" Type="PdfOrientation" Default="Portrait">
+        Gets or sets the orientation of the PDF document.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ViewerState" Type="PdfViewerState" Default="null">
+        Gets or sets the state of the PDF viewer.
+    </DocsAttributesItem>
+</DocsAttributes>
+
+<DocsAttributes Title="PdfViewerToolbar">
+    <DocsAttributesItem Name="ViewerState" Type="PdfViewerState" Default="null">
+        Gets or sets the state of the PDF viewer.
+    </DocsAttributesItem>
+</DocsAttributes>

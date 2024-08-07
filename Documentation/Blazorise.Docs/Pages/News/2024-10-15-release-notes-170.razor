@@ -23,7 +23,12 @@
 <UnorderedList>
     <UnorderedListItem>
         <Paragraph>
-            <Strong>Optimizations:</Strong> Optimized the internals of class providers.
+            <Strong>Optimizations</Strong>: Optimized the internals of class providers.
+        </Paragraph>
+    </UnorderedListItem>
+    <UnorderedListItem>
+        <Paragraph>
+            <Strong>PdfViewer</Strong>: Added a new PdfViewer component for rendering PDF documents.
         </Paragraph>
     </UnorderedListItem>
 </UnorderedList>
@@ -67,6 +72,18 @@
 
 <Paragraph>
     So, what did we do. We have changed the signatures of many of IClassProvider methods to make them accept extra attribites. This allows for more customization since now every CSS provider can decide for itsels how it will assign the classname, and how it will render.
+</Paragraph>
+
+<Heading Size="HeadingSize.Is3">
+    PdfViewer
+</Heading>
+
+<Paragraph>
+    We are excited to introduce the new PdfViewer component in version 1.7. This component provides a powerful and flexible solution for rendering PDF documents within your application. With this release, you can now easily integrate PDF viewing capabilities directly into your projects, using a simple and intuitive API. The PdfViewer supports a variety of features, including zooming and page navigation, and can be used both standalone or in conjunction with other components like PdfViewerToolbar.     
+</Paragraph>
+
+<Paragraph>
+    For detailed usage instructions and integration examples, please visit the <Anchor To="docs/extensions/pdfviewer" >PdfViewer documentation</Anchor>.
 </Paragraph>
 
 <NewsPagePostInfo UserName="Mladen Macanović" ImageName="mladen" PostedOn="October 15th, 2024" Read="7 min" />
