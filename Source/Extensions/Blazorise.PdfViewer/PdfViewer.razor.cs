@@ -209,10 +209,22 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         if ( model is null )
             return;
 
+        var pageNumberChanged = PageNumber != model.PageNumber;
+        var scaleChanged = Scale != model.Scale;
+
         PageNumber = model.PageNumber;
         TotalPages = model.TotalPages;
+        Scale = model.Scale;
 
-        await PageNumberChanged.InvokeAsync( PageNumber );
+        if ( pageNumberChanged )
+        {
+            await PageNumberChanged.InvokeAsync( PageNumber );
+        }
+
+        if ( scaleChanged )
+        {
+            await ScaleChanged.InvokeAsync( Scale );
+        }
 
         if ( ViewerState != null )
         {
@@ -286,6 +298,11 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// The default value is <c>1</c>, which represents the original size.
     /// </summary>
     [Parameter] public double Scale { get; set; } = 1;
+
+    /// <summary>
+    /// Gets or sets the callback event that is triggered when the scale changes.
+    /// </summary>
+    [Parameter] public EventCallback<double> ScaleChanged { get; set; }
 
     /// <summary>
     /// Gets or sets the orientation of the PDF document.
