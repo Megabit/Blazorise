@@ -82,8 +82,6 @@ export function updateOptions(element, elementId, newOptions) {
         else if (newOptions.source.changed) {
             instance.source = newOptions.source.value;
             loadDocument(instance, instance.source);
-
-            NotifyPdfInitialized(instance);
         }
     }
 }
