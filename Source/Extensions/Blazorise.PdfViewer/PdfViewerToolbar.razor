@@ -1,31 +1,50 @@
 ﻿@namespace Blazorise.PdfViewer
 @inherits BaseComponent
-<div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
-    <Div Flex="Blazorise.Flex.AlignItems.Center">
-        <Tooltip Text="Previous page">
-            <Button Size="Blazorise.Size.Small" Clicked="@OnPreviousPageClicked" Margin="Blazorise.Margin.Is2.FromEnd">
-                <Icon Name="IconName.ChevronLeft" />
-            </Button>
-        </Tooltip>
-        <NumericEdit TValue="int" Value="@pageNumber" ValueChanged="@OnPageNumberChanged" Size="Blazorise.Size.Small" TextAlignment="Blazorise.TextAlignment.Center" Width="Blazorise.Width.Rem( 4 )" />
-        <Tooltip Text="Next page">
-            <Button Size="Blazorise.Size.Small" Clicked="@OnNextPageClicked" Margin="Blazorise.Margin.Is2.FromStart">
-                <Icon Name="IconName.ChevronRight" />
-            </Button>
-        </Tooltip>
-        <Div Flex="Blazorise.Flex.AlignSelf.Center" Padding="Blazorise.Padding.Is2.FromStart">of @totalPages</Div>
-    </Div>
-    <Div Flex="Blazorise.Flex.AlignItems.Center">
-        <Tooltip Text="Zoom Out">
-            <Button Size="Blazorise.Size.Small" Clicked="@OnZoomOutClicked">
-                <Icon Name="IconName.ZoomOut" />
-            </Button>
-        </Tooltip>
-        <Div Flex="Blazorise.Flex.AlignSelf.Center" Margin="Blazorise.Margin.Is2.OnX">@($"{zoomLevelPercentage}%")</Div>
-        <Tooltip Text="Zoom In">
-            <Button Size="Blazorise.Size.Small" Clicked="@OnZoomInClicked">
-                <Icon Name="IconName.ZoomIn" />
-            </Button>
-        </Tooltip>
-    </Div>
-</div>
+@if ( ShowToolbar )
+{
+    <div @ref="@ElementRef" id="@ElementId" class="@ClassNames" style="@StyleNames" @attributes="@Attributes">
+        @if ( ShowPaging )
+        {
+            <Div Flex="Blazorise.Flex.AlignItems.Center">
+                <Tooltip Text="Previous page">
+                    <Button Size="Blazorise.Size.Small" Clicked="@OnPreviousPageClicked" Margin="Blazorise.Margin.Is2.FromEnd">
+                        <Icon Name="IconName.ChevronLeft" />
+                    </Button>
+                </Tooltip>
+                <NumericEdit TValue="int" Value="@pageNumber" ValueChanged="@OnPageNumberChanged" Size="Blazorise.Size.Small" TextAlignment="Blazorise.TextAlignment.Center" Width="Blazorise.Width.Rem( 4 )" />
+                <Tooltip Text="Next page">
+                    <Button Size="Blazorise.Size.Small" Clicked="@OnNextPageClicked" Margin="Blazorise.Margin.Is2.FromStart">
+                        <Icon Name="IconName.ChevronRight" />
+                    </Button>
+                </Tooltip>
+                <Div Flex="Blazorise.Flex.AlignSelf.Center" Padding="Blazorise.Padding.Is2.FromStart">of @totalPages</Div>
+            </Div>
+        }
+        @if ( ShowZooming )
+        {
+            <Div Flex="Blazorise.Flex.AlignItems.Center">
+                <Tooltip Text="Zoom Out">
+                    <Button Size="Blazorise.Size.Small" Clicked="@OnZoomOutClicked">
+                        <Icon Name="IconName.ZoomOut" />
+                    </Button>
+                </Tooltip>
+                <Div Flex="Blazorise.Flex.AlignSelf.Center" Margin="Blazorise.Margin.Is2.OnX">@($"{zoomLevelPercentage}%")</Div>
+                <Tooltip Text="Zoom In">
+                    <Button Size="Blazorise.Size.Small" Clicked="@OnZoomInClicked">
+                        <Icon Name="IconName.ZoomIn" />
+                    </Button>
+                </Tooltip>
+            </Div>
+        }
+        @if ( ShowPrinting )
+        {
+            <Div Flex="Blazorise.Flex.AlignItems.Center">
+                <Tooltip Text="Print">
+                    <Button Size="Blazorise.Size.Small" Clicked="@OnPrintClicked">
+                        <Icon Name="IconName.Print" />
+                    </Button>
+                </Tooltip>
+            </Div>
+        }
+    </div>
+}

@@ -127,6 +127,9 @@
     <DocsMethodsItem Name="SetScale()" ReturnType="Task" Parameters="double scale">
         Sets the scale factor for displaying the PDF document.
     </DocsMethodsItem>
+    <DocsMethodsItem Name="Print()" ReturnType="Task">
+        Prints the currently loaded PDF document.
+    </DocsMethodsItem>
 </DocsMethods>
 
 <Heading Size="HeadingSize.Is3">
@@ -160,5 +163,14 @@
 <DocsAttributes Title="PdfViewerToolbar">
     <DocsAttributesItem Name="ViewerState" Type="PdfViewerState" Default="null">
         Gets or sets the state of the PDF viewer.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowPaging" Type="bool" Default="true">
+        Defines if the paging buttons should be displayed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowZooming" Type="bool" Default="true">
+        Defines if the zoom buttons should be displayed.
+    </DocsAttributesItem>
+    <DocsAttributesItem Name="ShowPrinting" Type="bool" Default="true">
+        Defines if the print button should be displayed.
     </DocsAttributesItem>
 </DocsAttributes>

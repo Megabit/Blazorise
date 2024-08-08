@@ -39,4 +39,9 @@ public class PdfViewerState
     /// Gets the event callback that is triggered when a request is made to set the scale of the PDF viewer.
     /// </summary>
     internal EventCallbackSubscribable<double> SetScaleRequested { get; } = new();
+
+    /// <summary>
+    /// Gets the event callback that is triggered when a request is made to print the PDF document.
+    /// </summary>
+    internal EventCallbackSubscribable<object> PrintRequested { get; } = new();
 }

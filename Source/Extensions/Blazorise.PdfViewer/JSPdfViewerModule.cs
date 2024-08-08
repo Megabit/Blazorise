@@ -80,6 +80,13 @@ public class JSPdfViewerModule : BaseJSModule,
         await moduleInstance.InvokeVoidAsync( "setScale", elementRef, elementId, scale );
     }
 
+    public virtual async ValueTask Print( string source )
+    {
+        var moduleInstance = await Module;
+
+        await moduleInstance.InvokeVoidAsync( "print", source );
+    }
+
     #endregion
 
     #region Properties

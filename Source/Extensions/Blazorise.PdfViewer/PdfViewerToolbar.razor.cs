@@ -141,9 +141,34 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
         await ViewerState.SetScaleRequested.InvokeCallbackAsync( zoomLevels[zoomLevelIndex] / 100.0 );
     }
 
+    private async Task OnPrintClicked()
+    {
+        await ViewerState.PrintRequested.InvokeCallbackAsync( default );
+    }
+
     #endregion
 
     #region Properties
+
+    /// <summary>
+    /// Defines if the toolbar should be displayed.
+    /// </summary>
+    protected bool ShowToolbar => ShowPaging || ShowZooming || ShowPrinting;
+
+    /// <summary>
+    /// Defines if the paging buttons should be displayed.
+    /// </summary>
+    [Parameter] public bool ShowPaging { get; set; } = true;
+
+    /// <summary>
+    /// Defines if the zoom buttons should be displayed.
+    /// </summary>
+    [Parameter] public bool ShowZooming { get; set; } = true;
+
+    /// <summary>
+    /// Defines if the print button should be displayed.
+    /// </summary>
+    [Parameter] public bool ShowPrinting { get; set; } = true;
 
     /// <summary>
     /// Gets or sets the viewer state.

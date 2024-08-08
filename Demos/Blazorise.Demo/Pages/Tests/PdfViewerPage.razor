@@ -26,6 +26,7 @@
                 <Button Color="Color.Secondary" Clicked="@(()=>pageNumber = 5)">Go to Page 5</Button>
                 <Button Color="Color.Secondary" Clicked="@(()=>scale = 1)">Set Scale 1</Button>
                 <Button Color="Color.Secondary" Clicked="@(()=>scale = 2)">Set Scale 2</Button>
+                <Button Color="Color.Dark" Clicked="@(()=>standalonePdfViewerRef.Print())">Print</Button>
             </CardBody>
             <CardBody>
                 <Div Height="Height.Rem(50)" Overflow="Overflow.Auto">

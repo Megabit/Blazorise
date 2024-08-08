@@ -129,6 +129,59 @@ function renderPage(instance, pageNumber) {
     });
 }
 
+export async function print(source) {
+    const iframe = document.createElement('iframe');
+    iframe.style = 'display: none';
+    document.body.appendChild(iframe);
+
+    const canvasContainer = document.createElement('div');
+
+    try {
+        var pdf = await pdfjsLib.getDocument(source).promise;
+
+        if (pdf) {
+            for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+                const page = await pdf.getPage(pageNumber);
+
+                if (!page) {
+                    continue;
+                }
+
+                const viewport = page.getViewport({ scale: 1.5, rotation: 0 });
+                const canvas = document.createElement("canvas");
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+
+                await page.render(renderContext).promise;
+
+                canvasContainer.appendChild(canvas);
+            }
+        }
+
+        const iframeDoc = iframe.contentWindow.document;
+        iframeDoc.body.appendChild(canvasContainer);
+    }
+    finally {
+        if (iframe) {
+            if (iframe.contentWindow) {
+                iframe.contentWindow.print();
+            }
+
+            document.body.removeChild(iframe);
+
+            if (iframe.contentWindow && iframe.contentWindow.document && canvasContainer) {
+                iframeDoc.body.removeChild(canvasContainer);
+            }
+        }
+    }
+}
+
 export function queueRenderPage(instance, pageNumber) {
     if (instance && pageNumber) {
         if (instance.pageRendering) {

@@ -21,6 +21,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     private readonly EventCallbackSubscriber<object> prevPageSubscriber;
     private readonly EventCallbackSubscriber<int> goToPageSubscriber;
     private readonly EventCallbackSubscriber<double> setScaleSubscriber;
+    private readonly EventCallbackSubscriber<object> printSubscriber;
 
     #endregion
 
@@ -35,6 +36,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         prevPageSubscriber = new EventCallbackSubscriber<object>( EventCallback.Factory.Create<object>( this, PreviousPage ) );
         goToPageSubscriber = new EventCallbackSubscriber<int>( EventCallback.Factory.Create<int>( this, GoToPage ) );
         setScaleSubscriber = new EventCallbackSubscriber<double>( EventCallback.Factory.Create<double>( this, SetScale ) );
+        printSubscriber = new EventCallbackSubscriber<object>( EventCallback.Factory.Create<object>( this, Print ) );
     }
 
     #endregion
@@ -48,6 +50,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
         prevPageSubscriber.SubscribeOrMove( ViewerState?.PrevPageRequested );
         goToPageSubscriber.SubscribeOrMove( ViewerState?.GoToPageRequested );
         setScaleSubscriber.SubscribeOrMove( ViewerState?.SetScaleRequested );
+        printSubscriber.SubscribeOrMove( ViewerState?.PrintRequested );
 
         return base.OnParametersSetAsync();
     }
@@ -119,6 +122,7 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
             prevPageSubscriber.Dispose();
             goToPageSubscriber.Dispose();
             setScaleSubscriber.Dispose();
+            printSubscriber.Dispose();
 
             await JSModule.SafeDestroy( ElementRef, ElementId );
 
@@ -172,6 +176,18 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     public async Task SetScale( double scale )
     {
         await JSModule.SetScale( ElementRef, ElementId, scale );
+    }
+
+    /// <summary>
+    /// Prints the currently loaded PDF document.
+    /// </summary>
+    /// <returns>A task that represents the asynchronous operation.</returns>
+    public async Task Print()
+    {
+        if ( string.IsNullOrEmpty( Source ) )
+            return;
+
+        await JSModule.Print( Source );
     }
 
     /// <summary>
