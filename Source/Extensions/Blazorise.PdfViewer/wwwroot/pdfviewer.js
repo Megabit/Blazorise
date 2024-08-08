@@ -24,7 +24,7 @@ export async function initialize(dotNetAdapter, element, elementId, options) {
         dotNetAdapter: dotNetAdapter,
         canvas: element,
         source: options.source,
-        pageNumber: 1,
+        pageNumber: options.pageNumber,
         totalPages: 0,
         scale: options.scale,
         rotation: options.rotation,
