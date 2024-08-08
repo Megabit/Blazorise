@@ -320,3 +320,7 @@ export function createEvent(name) {
 export function coalesce(value, defaultValue) {
     return value === null || value === undefined ? defaultValue : value;
 }
+
+export function insertCSSIntoDocument(url) {
+    document.getElementsByTagName("head")[0].insertAdjacentHTML("beforeend", `<link rel=\"stylesheet\" href=\"${url}\" />`);
+}

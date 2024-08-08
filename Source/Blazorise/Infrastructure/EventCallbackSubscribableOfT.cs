@@ -8,14 +8,15 @@ namespace Blazorise.Infrastructure;
 
 /// <summary>
 /// Represents an event that you may subscribe to. This differs from normal C# events in that the handlers
-/// are EventCallback, and so may have async behaviors and cause component re-rendering
+/// are EventCallback<typeparamref name="T"/>, and so may have async behaviors and cause component re-rendering
 /// while retaining error flow.
 /// </summary>
-public class EventCallbackSubscribable
+/// <typeparam name="T">A type for the eventargs.</typeparam>
+public class EventCallbackSubscribable<T>
 {
     #region Members
 
-    private readonly Dictionary<EventCallbackSubscriber, EventCallback> callbacks = new();
+    private readonly Dictionary<EventCallbackSubscriber<T>, EventCallback<T>> callbacks = new();
 
     #endregion
 
@@ -24,11 +25,11 @@ public class EventCallbackSubscribable
     /// <summary>
     /// Invokes all the registered callbacks sequentially, in an undefined order.
     /// </summary>
-    public async Task InvokeCallbackAsync()
+    public async Task InvokeCallbackAsync( T eventArgs )
     {
         foreach ( var callback in callbacks.Values )
         {
-            await callback.InvokeAsync();
+            await callback.InvokeAsync( eventArgs );
         }
     }
 
@@ -37,14 +38,14 @@ public class EventCallbackSubscribable
     /// </summary>
     /// <param name="owner"></param>
     /// <param name="callback"></param>
-    public void Subscribe( EventCallbackSubscriber owner, EventCallback callback )
+    public void Subscribe( EventCallbackSubscriber<T> owner, EventCallback<T> callback )
         => callbacks.Add( owner, callback );
 
     /// <summary>
     /// Don't call this directly - it gets called by EventCallbackSubscription.
     /// </summary>
     /// <param name="owner"></param>
-    public void Unsubscribe( EventCallbackSubscriber owner )
+    public void Unsubscribe( EventCallbackSubscriber<T> owner )
         => callbacks.Remove( owner );
 
     #endregion

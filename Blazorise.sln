@@ -155,6 +155,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Captcha.ReCaptcha
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.Charts.Zoom", "Source\Extensions\Blazorise.Charts.Zoom\Blazorise.Charts.Zoom.csproj", "{045536EC-BD97-409D-BDF7-C148B7C5AAFC}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazorise.PdfViewer", "Source\Extensions\Blazorise.PdfViewer\Blazorise.PdfViewer.csproj", "{EAB7EC89-900A-4280-B24A-152B9DD2B503}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -405,6 +407,10 @@ Global
 		{045536EC-BD97-409D-BDF7-C148B7C5AAFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{045536EC-BD97-409D-BDF7-C148B7C5AAFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{045536EC-BD97-409D-BDF7-C148B7C5AAFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAB7EC89-900A-4280-B24A-152B9DD2B503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAB7EC89-900A-4280-B24A-152B9DD2B503}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAB7EC89-900A-4280-B24A-152B9DD2B503}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAB7EC89-900A-4280-B24A-152B9DD2B503}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -474,6 +480,7 @@ Global
 		{D24EA4EF-0AEC-43B2-BCDC-56229D60C285} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{2B4FD79A-42E2-4B81-828B-0799E4744ADA} = {9731051E-0AA7-411E-A76A-987854F034DA}
 		{045536EC-BD97-409D-BDF7-C148B7C5AAFC} = {9731051E-0AA7-411E-A76A-987854F034DA}
+		{EAB7EC89-900A-4280-B24A-152B9DD2B503} = {9731051E-0AA7-411E-A76A-987854F034DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {205B3EA4-470F-45DA-911E-346AF7D0A9A5}
