@@ -1,0 +1,253 @@
+@page "/blog/how-to-style-blazorise-components"
+
+<Seo Canonical="/blog/how-to-style-blazorise-components" Title="How to style Blazorise components" Description="Discover" ImageUrl="/img/blog/2024-07-19/how-to-style-blazorise-components.png" />
+
+<BlogPageImage Source="/img/blog/2024-07-19/how-to-style-blazorise-components.png" Text="How to style Blazorise components" />
+
+<BlogPageTitle>
+    Styling Blazorise components
+</BlogPageTitle>
+
+<BlogPageParagraph>
+    Learn how CSS works with Blazor, how to style Blazorise components, and the limitations of CSS isolation in Blazor.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Blazorise is an amazing component library that, is not really tied to any front-end framework. This means we have a lot of options when it comes to choosing which framework we want to use, for example: Bootstrap, Tailwind, Material and many others. check out the full list <Anchor To="https://blazorise.com/docs/usage/tailwind/" Title="Link to here">here</Anchor>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Check out the <Anchor To="https://blazorise.com/docs/start" Title="Link to quick start">quick start</Anchor> guide here to get started with Blazorise.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    In this article, we will go over the following:
+</BlogPageSubtitle>
+
+<BlogPageList>
+    <BlogPageListItem>
+        How does CSS work with Blazorise?
+    </BlogPageListItem>
+    <BlogPageListItem>
+        How to style Blazorise components?
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Limitations of CSS Isolation
+    </BlogPageListItem>
+</BlogPageList>
+
+<BlogPageParagraph>
+    So let's dive into the topics and explore our options when it comes to styling Blazorise components.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    How does CSS work with Blazorise?
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Blazorise supports every CSS property that is supported by the browser. There are no special CSS properties that only apply to Blazor or Blazorise.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    We can pass any of these attributes to any Blazorise components, and using the magical <Code>CaptureUnmatchedValues</Code> option, we will capture all the attributes that are not directly caught by our parameters.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_CaptureUnmatched" />
+
+<BlogPageParagraph>
+    To read up about this Blazor feature, head over to <Anchor To="https://blazor-university.com/components/capturing-unexpected-parameters/" Title="Link to blazor-university">blazor-university</Anchor>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    If you would like to find out how to give your Blazorise application a different theme, check out <Anchor To="https://blazorise.com/docs/theming" Title="Link to the docs about theming">the docs about theming</Anchor>
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Inline styling
+</Heading>
+
+<BlogPageParagraph>
+    Inline CSS styling can be applied to any Blazor component directly.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_InlineClass" />
+
+<BlogPageParagraph>
+    Just like regular html elements, Blazor elements can receive all attributes such as style, class, type, and so on.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    CSS classes
+</Heading>
+
+<BlogPageParagraph>
+    Let's take a look at how we can use CSS classes to style our Blazor app.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    First we should create a <Code>styles.css</Code> file inside the <Code>wwwroot</Code> folder and add a reference to it inside <Code>App.razor</Code> like so:
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Create styles.css
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_StylesCss" />
+
+<BlogPageParagraph>
+    Inert the link tag inside App.razor
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_AppRazor" />
+
+<BlogPageParagraph>
+    After adding this, we can use these classes as usual with our Blazorise components.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Let's see an example:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_UseClassesCss" />
+
+<BlogPageParagraph>
+    The class will be applied to our div element, and we will see the background image appear.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This is pretty much all the basics covered for regular Blazor
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    How to style Blazorise components
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Styling Blazorise components is really straightforward. Blazorise being an abstraction over Blazor means that we can directly access the attributes that will be passed to the underlying HTML elements.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Inline styling
+</Heading>
+
+<BlogPageParagraph>
+    Here is a small example that shows how we can use inline styles with Blazorise.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_BlazoriseInlineStylesExample" />
+
+<BlogPageParagraph>
+    All Blazorise components support <Code>Style</Code>, <Code>Class</Code>, and many other attributes. These will get added directly to the underlying HTML element, as we can see from the <Anchor To="https://github.com/Megabit/Blazorise/blob/master/Source/Blazorise/Base/BaseComponent.cs#L379" Title="Link to BaseComponent.razor">BaseComponent.razor</Anchor>
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    CSS classes
+</Heading>
+
+<BlogPageParagraph>
+    Applying CSS classes to Blazorise is as straight forward as plain Blazor - we just supply the class parameter, like so:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_BlazoriseCSSExample" />
+
+<BlogPageParagraph>
+    <Blockquote>
+        Notice that the parameter is spelled in Uppercase, that is because it is a Blazor parameter!
+    </Blockquote>
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Theming
+</Heading>
+
+<BlogPageParagraph>
+    Blazorise has support for themes. You can customize Blazorise with your own theme! Change the colors, the typography and much more using themes.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    To learn more about theming, head over to the <Anchor To="https://blazorise.com/docs/theming" Title="Link to documentation page">documentation page</Anchor>
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Limitations of CSS Isolation
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Blazor at the date of posting this blog, has a limitation with CSS isolation, you see, CSS Isolation works by compiling the CSS styles and bundling them up with the Assembly at compile time.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    CSS isolation occurs at compile time. Blazor rewrites CSS selectors to match markup rendered by the component. The rewritten CSS styles are bundled and produced as a static asset. The stylesheet is referenced inside the <Code Tag>head</Code> tag (<Anchor To="https://learn.microsoft.com/en-us/aspnet/core/blazor/project-structure?view=aspnetcore-8.0#location-of-head-and-body-content" Title="Link to location of ">location of </Anchor>)
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The following <Code Tag>link</Code> element is added by default to an app created from the Blazor project templates:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_BlazorHtmlStylesLink" />
+
+<BlogPageParagraph>
+    The <Code>{ASSEMBLY NAME}</Code> placeholder is the project's assembly name.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Within the bundled file, each component is associated with a scope identifier. For each styled component, an HTML attribute is appended with the format <Code>b-{STRING}</Code>, where the <Code>{STRING}</Code> placeholder is a ten-character string generated by the framework. The identifier is unique for each app.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Let me illustrate this limitation with an example.
+</Heading>
+
+<Heading Size="HeadingSize.Is3">
+    Let's see an example, of how it works
+</Heading>
+
+<BlogPageParagraph>
+    Here is an example, of a component that uses CSS isolation and how CSS isolation works.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    This is the <Code>Component.razor</Code>
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_ComponentRazor" />
+
+<BlogPageParagraph>
+    This is the isolated CSS file - <Code>Component.razor.css</Code>
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_ComponentRazorCss" />
+
+<BlogPageParagraph>
+    After our project is compiled, the output <Code>{ASSEMBLY NAME}.styles.css</Code> will contain the following CSS:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_GeneratedCss" />
+
+<BlogPageParagraph>
+    And the compiled html for our page will look like this:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="HowToStyleBlazoriseComponents_GeneratedHtml" />
+
+<BlogPageParagraph>
+    The problem here is that, the bundle is generated at compile time. The b-string will be different from the b-string of Blazorise,
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Because of this, the regular HTML div will be styled correctly, however the Blazorise component, because it has a different b-string, will not.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    The workaround:
+</Heading>
+
+<BlogPageParagraph>
+    This is not really a "workaround" rather a different approach at the issue. You cannot make 3rd party libraries work with your isolated CSS classes, <Strong>however</Strong> what you can do, is move those classes to a separate CSS file hosted under <Code>wwwroot</Code>.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Thanks for reading! we expect you in the next blog post!
+</BlogPageParagraph>
+
+<BlogPagePostInto UserName="Giorgi" ImageName="giorgi" PostedOn="Jul 19th, 2024" Read="7 min" />
