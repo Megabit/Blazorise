@@ -103,12 +103,12 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
 
     private async Task OnPreviousPageClicked()
     {
-        await ViewerState.PrevPageRequested.InvokeCallbackAsync( default );
+        await ViewerState.PrevPageRequested.InvokeCallbackAsync();
     }
 
     private async Task OnNextPageClicked()
     {
-        await ViewerState.NextPageRequested.InvokeCallbackAsync( default );
+        await ViewerState.NextPageRequested.InvokeCallbackAsync();
     }
 
     private async Task OnPageNumberChanged( int value )
@@ -143,7 +143,7 @@ public partial class PdfViewerToolbar : BaseComponent, IDisposable
 
     private async Task OnPrintClicked()
     {
-        await ViewerState.PrintRequested.InvokeCallbackAsync( default );
+        await ViewerState.PrintRequested.InvokeCallbackAsync();
     }
 
     #endregion

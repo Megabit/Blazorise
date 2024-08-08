@@ -23,12 +23,12 @@ public class PdfViewerState
     /// <summary>
     /// Gets the event callback that is triggered when a request is made to navigate to the next page.
     /// </summary>
-    internal EventCallbackSubscribable<object> NextPageRequested { get; } = new();
+    internal EventCallbackSubscribable NextPageRequested { get; } = new();
 
     /// <summary>
     /// Gets the event callback that is triggered when a request is made to navigate to the previous page.
     /// </summary>
-    internal EventCallbackSubscribable<object> PrevPageRequested { get; } = new();
+    internal EventCallbackSubscribable PrevPageRequested { get; } = new();
 
     /// <summary>
     /// Gets the event callback that is triggered when a request is made to go to a specific page number.
@@ -43,5 +43,5 @@ public class PdfViewerState
     /// <summary>
     /// Gets the event callback that is triggered when a request is made to print the PDF document.
     /// </summary>
-    internal EventCallbackSubscribable<object> PrintRequested { get; } = new();
+    internal EventCallbackSubscribable PrintRequested { get; } = new();
 }

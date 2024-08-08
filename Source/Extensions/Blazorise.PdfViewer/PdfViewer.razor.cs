@@ -17,11 +17,11 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
 {
     #region Members
 
-    private readonly EventCallbackSubscriber<object> nextPageSubscriber;
-    private readonly EventCallbackSubscriber<object> prevPageSubscriber;
+    private readonly EventCallbackSubscriber nextPageSubscriber;
+    private readonly EventCallbackSubscriber prevPageSubscriber;
     private readonly EventCallbackSubscriber<int> goToPageSubscriber;
     private readonly EventCallbackSubscriber<double> setScaleSubscriber;
-    private readonly EventCallbackSubscriber<object> printSubscriber;
+    private readonly EventCallbackSubscriber printSubscriber;
 
     #endregion
 
@@ -32,11 +32,11 @@ public partial class PdfViewer : BaseComponent, IAsyncDisposable
     /// </summary>
     public PdfViewer()
     {
-        nextPageSubscriber = new EventCallbackSubscriber<object>( EventCallback.Factory.Create<object>( this, NextPage ) );
-        prevPageSubscriber = new EventCallbackSubscriber<object>( EventCallback.Factory.Create<object>( this, PreviousPage ) );
+        nextPageSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, NextPage ) );
+        prevPageSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, PreviousPage ) );
         goToPageSubscriber = new EventCallbackSubscriber<int>( EventCallback.Factory.Create<int>( this, GoToPage ) );
         setScaleSubscriber = new EventCallbackSubscriber<double>( EventCallback.Factory.Create<double>( this, SetScale ) );
-        printSubscriber = new EventCallbackSubscriber<object>( EventCallback.Factory.Create<object>( this, Print ) );
+        printSubscriber = new EventCallbackSubscriber( EventCallback.Factory.Create( this, Print ) );
     }
 
     #endregion
