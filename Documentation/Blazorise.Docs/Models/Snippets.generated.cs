@@ -11341,6 +11341,77 @@ builder.Services
     </Column>
 </Row>";
 
+        public const string ObjectFitBasicExample = @"<Div Flex=""Flex.Row"" Overflow=""Overflow.Auto"" Gap=""Gap.Is3"">
+    <Image Source=""@imageSrc"" Text=""Placeholder : Object fit contain"" ObjectFit=""ObjectFit.Contain"" Border=""@border"" Width=""@width"" Height=""@height"" />
+    <Image Source=""@imageSrc"" Text=""Placeholder : Object fit cover"" ObjectFit=""ObjectFit.Cover"" Border=""@border"" Width=""@width"" Height=""@height"" />
+    <Image Source=""@imageSrc"" Text=""Placeholder : Object fit fill"" ObjectFit=""ObjectFit.Fill"" Border=""@border"" Width=""@width"" Height=""@height"" />
+    <Image Source=""@imageSrc"" Text=""Placeholder : Object fit scale"" ObjectFit=""ObjectFit.Scale"" Border=""@border"" Width=""@width"" Height=""@height"" />
+    <Image Source=""@imageSrc"" Text=""Placeholder : Object fit none"" ObjectFit=""ObjectFit.None"" Border=""@border"" Width=""@width"" Height=""@height"" />
+</Div>
+
+@code {
+    IFluentSizing width = Width.Px( 140 );
+    IFluentSizing height = Height.Px( 120 );
+    IFluentBorder border = Border.Is1.Rounded;
+    string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
+}";
+
+        public const string ObjectFitContainExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
+    <Image Source=""@imageSrc"" ObjectFit=""ObjectFit.Contain"" Height=""Height.Rem(12)"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+</Div>
+
+@code {
+    string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
+}";
+
+        public const string ObjectFitCoverExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
+    <Image Source=""@imageSrc"" ObjectFit=""ObjectFit.Cover"" Height=""Height.Rem(12)"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+</Div>
+
+@code {
+    string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
+}";
+
+        public const string ObjectFitFillExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
+    <Image Source=""@imageSrc"" ObjectFit=""ObjectFit.Fill"" Height=""Height.Rem(12)"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+</Div>
+
+@code {
+    string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
+}";
+
+        public const string ObjectFitNoneExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
+    <Image Source=""@imageSrc"" ObjectFit=""ObjectFit.None"" Height=""Height.Rem(12)"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+</Div>
+
+@code {
+    string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
+}";
+
+        public const string ObjectFitResponsiveExample = @"<Div Flex=""Flex.Row"" Overflow=""Overflow.Auto"" Gap=""Gap.Is3"">
+    <Image Source=""@imageSrc"" Text=""Placeholder : Contain on xs"" ObjectFit=""ObjectFit.Contain.OnMobile"" Border=""@border"" Width=""@width"" Height=""@height"" />
+    <Image Source=""@imageSrc"" Text=""Placeholder : Contain on sm"" ObjectFit=""ObjectFit.Contain.OnTablet"" Border=""@border"" Width=""@width"" Height=""@height"" />
+    <Image Source=""@imageSrc"" Text=""Placeholder : Contain on md"" ObjectFit=""ObjectFit.Contain.OnDesktop"" Border=""@border"" Width=""@width"" Height=""@height"" />
+    <Image Source=""@imageSrc"" Text=""Placeholder : Contain on lg"" ObjectFit=""ObjectFit.Contain.OnWidescreen"" Border=""@border"" Width=""@width"" Height=""@height"" />
+    <Image Source=""@imageSrc"" Text=""Placeholder : Contain on xl"" ObjectFit=""ObjectFit.Contain.OnFullHD"" Border=""@border"" Width=""@width"" Height=""@height"" />
+    <Image Source=""@imageSrc"" Text=""Placeholder : Contain on xxl"" ObjectFit=""ObjectFit.Contain.OnQuadHD"" Border=""@border"" Width=""@width"" Height=""@height"" />
+</Div>
+
+@code {
+    IFluentSizing width = Width.Px( 140 );
+    IFluentSizing height = Height.Px( 80 );
+    IFluentBorder border = Border.Is1.Rounded;
+    string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
+}";
+
+        public const string ObjectFitScaleExample = @"<Div Width=""Width.Rem(24)"" Background=""Background.Light"" Margin=""Margin.IsAuto.OnX"">
+    <Image Source=""@imageSrc"" ObjectFit=""ObjectFit.Scale"" Height=""Height.Rem(12)"" Width=""Width.Is100"" Border=""Border.Is1.Rounded"" />
+</Div>
+
+@code {
+    string imageSrc = ""_content/Blazorise.Docs/assets/img/photo/mountain.jpg"";
+}";
+
         public const string BasicPositionExample = @"<Div Position=""Position.Static"">...</Div>
 <Div Position=""Position.Relative"">...</Div>
 <Div Position=""Position.Absolute"">...</Div>

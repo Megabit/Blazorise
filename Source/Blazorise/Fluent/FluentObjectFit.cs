@@ -63,64 +63,35 @@ public interface IFluentObjectFitWithSize
     : IFluentObjectFit
 {
     /// <summary>
-    /// No particular size rule will be applied, meaning a default size will be used.
+    /// The default object fit behavior.
     /// </summary>
     IFluentObjectFitOnBreakpoint Default { get; }
 
     /// <summary>
-    /// Makes an element text extra small size.
+    /// The object does not scale to fit the container and may be clipped.
     /// </summary>
     IFluentObjectFitOnBreakpoint None { get; }
 
     /// <summary>
-    /// Makes an element text small size.
+    /// The object is scaled to maintain its aspect ratio while fitting within the container.
     /// </summary>
     IFluentObjectFitOnBreakpoint Contain { get; }
 
     /// <summary>
-    /// Makes an element text medium size.
-    /// </summary>
-    IFluentObjectFitOnBreakpoint Fill { get; }
-
-    /// <summary>
-    /// Makes an element text large.
-    /// </summary>
-    IFluentObjectFitOnBreakpoint Scale { get; }
-
-    /// <summary>
-    /// Makes an element text extra large.
+    /// The object is scaled to cover the entire container, possibly clipping some parts.
     /// </summary>
     IFluentObjectFitOnBreakpoint Cover { get; }
 
     /// <summary>
-    /// Matches the element object-fit with the h1 object-fit.
+    /// The object is scaled to completely fill the container. 
+    /// Its aspect ratio is not preserved, and the object may be stretched or compressed.
     /// </summary>
-    IFluentObjectFitOnBreakpoint Heading1 { get; }
+    IFluentObjectFitOnBreakpoint Fill { get; }
 
     /// <summary>
-    /// Matches the element object-fit with the h2 object-fit.
+    /// The object is scaled to fill the container without preserving its aspect ratio.
     /// </summary>
-    IFluentObjectFitOnBreakpoint Heading2 { get; }
-
-    /// <summary>
-    /// Matches the element object-fit with the h3 object-fit.
-    /// </summary>
-    IFluentObjectFitOnBreakpoint Heading3 { get; }
-
-    /// <summary>
-    /// Matches the element object-fit with the h4 object-fit.
-    /// </summary>
-    IFluentObjectFitOnBreakpoint Heading4 { get; }
-
-    /// <summary>
-    /// Matches the element object-fit with the h5 object-fit.
-    /// </summary>
-    IFluentObjectFitOnBreakpoint Heading5 { get; }
-
-    /// <summary>
-    /// Matches the element object-fit with the h6 object-fit.
-    /// </summary>
-    IFluentObjectFitOnBreakpoint Heading6 { get; }
+    IFluentObjectFitOnBreakpoint Scale { get; }
 }
 
 /// <summary>
@@ -239,37 +210,19 @@ public class FluentObjectFit :
     public IFluentObjectFitOnBreakpoint Default => WithSize( ObjectFitType.Default );
 
     /// <inheritdoc/>
-    public IFluentObjectFitOnBreakpoint ExtraSmall => WithSize( ObjectFitType.ExtraSmall );
+    public IFluentObjectFitOnBreakpoint None => WithSize( ObjectFitType.None );
 
     /// <inheritdoc/>
-    public IFluentObjectFitOnBreakpoint Small => WithSize( ObjectFitType.Small );
+    public IFluentObjectFitOnBreakpoint Contain => WithSize( ObjectFitType.Contain );
 
     /// <inheritdoc/>
-    public IFluentObjectFitOnBreakpoint Medium => WithSize( ObjectFitType.Medium );
+    public IFluentObjectFitOnBreakpoint Cover => WithSize( ObjectFitType.Cover );
 
     /// <inheritdoc/>
-    public IFluentObjectFitOnBreakpoint Large => WithSize( ObjectFitType.Large );
+    public IFluentObjectFitOnBreakpoint Fill => WithSize( ObjectFitType.Fill );
 
     /// <inheritdoc/>
-    public IFluentObjectFitOnBreakpoint ExtraLarge => WithSize( ObjectFitType.ExtraLarge );
-
-    /// <inheritdoc/>
-    public IFluentObjectFitOnBreakpoint Heading1 => WithSize( ObjectFitType.Heading1 );
-
-    /// <inheritdoc/>
-    public IFluentObjectFitOnBreakpoint Heading2 => WithSize( ObjectFitType.Heading2 );
-
-    /// <inheritdoc/>
-    public IFluentObjectFitOnBreakpoint Heading3 => WithSize( ObjectFitType.Heading3 );
-
-    /// <inheritdoc/>
-    public IFluentObjectFitOnBreakpoint Heading4 => WithSize( ObjectFitType.Heading4 );
-
-    /// <inheritdoc/>
-    public IFluentObjectFitOnBreakpoint Heading5 => WithSize( ObjectFitType.Heading5 );
-
-    /// <inheritdoc/>
-    public IFluentObjectFitOnBreakpoint Heading6 => WithSize( ObjectFitType.Heading6 );
+    public IFluentObjectFitOnBreakpoint Scale => WithSize( ObjectFitType.Scale );
 
     #endregion
 }
@@ -280,62 +233,33 @@ public class FluentObjectFit :
 public static class ObjectFit
 {
     /// <summary>
-    /// No particular size rule will be applied, meaning a default size will be used.
+    /// The default object fit behavior.
     /// </summary>
     public static IFluentObjectFitOnBreakpoint Default => new FluentObjectFit().Default;
 
     /// <summary>
-    /// Makes an element text extra small size.
+    /// The object does not scale to fit the container and may be clipped.
     /// </summary>
-    public static IFluentObjectFitOnBreakpoint ExtraSmall => new FluentObjectFit().ExtraSmall;
+    public static IFluentObjectFitOnBreakpoint None => new FluentObjectFit().None;
 
     /// <summary>
-    /// Makes an element text small size.
+    /// The object is scaled to maintain its aspect ratio while fitting within the container.
     /// </summary>
-    public static IFluentObjectFitOnBreakpoint Small => new FluentObjectFit().Small;
+    public static IFluentObjectFitOnBreakpoint Contain => new FluentObjectFit().Contain;
 
     /// <summary>
-    /// Makes an element text medium size.
+    /// The object is scaled to cover the entire container, possibly clipping some parts.
     /// </summary>
-    public static IFluentObjectFitOnBreakpoint Medium => new FluentObjectFit().Medium;
+    public static IFluentObjectFitOnBreakpoint Cover => new FluentObjectFit().Cover;
 
     /// <summary>
-    /// Makes an element text large.
+    /// The object is scaled to completely fill the container. 
+    /// Its aspect ratio is not preserved, and the object may be stretched or compressed.
     /// </summary>
-    public static IFluentObjectFitOnBreakpoint Large => new FluentObjectFit().Large;
+    public static IFluentObjectFitOnBreakpoint Fill => new FluentObjectFit().Fill;
 
     /// <summary>
-    /// Makes an element text extra large.
+    /// The object is scaled to fill the container without preserving its aspect ratio.
     /// </summary>
-    public static IFluentObjectFitOnBreakpoint ExtraLarge => new FluentObjectFit().ExtraLarge;
-
-    /// <summary>
-    /// Matches the element object-fit with the h1 object-fit.
-    /// </summary>
-    public static IFluentObjectFitOnBreakpoint Heading1 => new FluentObjectFit().Heading1;
-
-    /// <summary>
-    /// Matches the element object-fit with the h2 object-fit.
-    /// </summary>
-    public static IFluentObjectFitOnBreakpoint Heading2 => new FluentObjectFit().Heading2;
-
-    /// <summary>
-    /// Matches the element object-fit with the h3 object-fit.
-    /// </summary>
-    public static IFluentObjectFitOnBreakpoint Heading3 => new FluentObjectFit().Heading3;
-
-    /// <summary>
-    /// Matches the element object-fit with the h4 object-fit.
-    /// </summary>
-    public static IFluentObjectFitOnBreakpoint Heading4 => new FluentObjectFit().Heading4;
-
-    /// <summary>
-    /// Matches the element object-fit with the h5 object-fit.
-    /// </summary>
-    public static IFluentObjectFitOnBreakpoint Heading5 => new FluentObjectFit().Heading5;
-
-    /// <summary>
-    /// Matches the element object-fit with the h6 object-fit.
-    /// </summary>
-    public static IFluentObjectFitOnBreakpoint Heading6 => new FluentObjectFit().Heading6;
+    public static IFluentObjectFitOnBreakpoint Scale => new FluentObjectFit().Scale;
 }

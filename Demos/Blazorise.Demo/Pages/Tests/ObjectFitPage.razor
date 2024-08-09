@@ -1,0 +1,62 @@
+﻿@page "/tests/utilities/object-fit"
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Examples</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Add the <Code>ObjectFit.{Value}</Code> class to the <Anchor To="https://developer.mozilla.org/en-US/docs/Web/CSS/Replaced_element">replaced element</Anchor>:
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.Row" Overflow="Overflow.Auto" Gap="Gap.Is3">
+                    <Image Source="@imageSrcContain" Text="Placeholder : Object fit contain" ObjectFit="ObjectFit.Contain" Border="@border" Width="@width" Height="@height" />
+                    <Image Source="@imageSrcCover" Text="Placeholder : Object fit cover" ObjectFit="ObjectFit.Cover" Border="@border" Width="@width" Height="@height" />
+                    <Image Source="@imageSrcFill" Text="Placeholder : Object fit fill" ObjectFit="ObjectFit.Fill" Border="@border" Width="@width" Height="@height" />
+                    <Image Source="@imageSrcScale" Text="Placeholder : Object fit scale" ObjectFit="ObjectFit.Scale" Border="@border" Width="@width" Height="@height" />
+                    <Image Source="@imageSrcNone" Text="Placeholder : Object fit none" ObjectFit="ObjectFit.None" Border="@border" Width="@width" Height="@height" />
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+<Row>
+    <Column ColumnSize="ColumnSize.IsFull">
+        <Card Margin="Margin.Is4.OnY">
+            <CardHeader>
+                <CardTitle>Responsive</CardTitle>
+            </CardHeader>
+            <CardBody Padding="Padding.Is0.FromBottom">
+                <Paragraph Margin="Margin.Is0.FromBottom">
+                    Responsive variations also exist for each <Code>ObjectFit</Code> value using the format <Code>ObjectFit.{Value}.{Breakpoint}</Code>, for the following breakpoint abbreviations: <Code>OnMobile</Code>, <Code>OnTablet</Code>, <Code>OnDesktop</Code>, <Code>OnWidescreen</Code>, <Code>OnFullHD</Code>, <Code>OnQuadHD</Code>. Classes can be combined for various effects as you need.
+                </Paragraph>
+            </CardBody>
+            <CardBody>
+                <Div Flex="Flex.Row" Overflow="Overflow.Auto" Gap="Gap.Is3">
+                    <Image Source="@imageSrcContain" Text="Placeholder : Contain on xs" ObjectFit="ObjectFit.Contain.OnMobile" Border="@border" Width="@width" Height="@height2" />
+                    <Image Source="@imageSrcContain" Text="Placeholder : Contain on sm" ObjectFit="ObjectFit.Contain.OnTablet" Border="@border" Width="@width" Height="@height2" />
+                    <Image Source="@imageSrcContain" Text="Placeholder : Contain on md" ObjectFit="ObjectFit.Contain.OnDesktop" Border="@border" Width="@width" Height="@height2" />
+                    <Image Source="@imageSrcContain" Text="Placeholder : Contain on lg" ObjectFit="ObjectFit.Contain.OnWidescreen" Border="@border" Width="@width" Height="@height2" />
+                    <Image Source="@imageSrcContain" Text="Placeholder : Contain on xl" ObjectFit="ObjectFit.Contain.OnFullHD" Border="@border" Width="@width" Height="@height2" />
+                    <Image Source="@imageSrcContain" Text="Placeholder : Contain on xxl" ObjectFit="ObjectFit.Contain.OnQuadHD" Border="@border" Width="@width" Height="@height2" />
+                </Div>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+
+@code {
+    IFluentSizing width = Width.Px( 140 );
+    IFluentSizing height = Height.Px( 120 );
+    IFluentSizing height2 = Height.Px( 80 );
+    IFluentBorder border = Border.Is1.Rounded;
+    string imageSrcContain = "data:image/svg+xml,%3Csvg%20style='font-size:%201.125rem;%20font-family:system-ui,-apple-system,%22Segoe%20UI%22,Roboto,%22Helvetica%20Neue%22,%22Noto%20Sans%22,%22Liberation%20Sans%22,Arial,sans-serif,%22Apple%20Color%20Emoji%22,%22Segoe%20UI%20Emoji%22,%22Segoe%20UI%20Symbol%22,%22Noto%20Color%20Emoji%22;%20-webkit-user-select:%20none;%20-moz-user-select:%20none;%20user-select:%20none;%20text-anchor:%20middle;'%20width='200'%20height='200'%20xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3EPlaceholder%3C/title%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23dee2e6'%3E%3C/rect%3E%3Ctext%20x='50%25'%20y='50%25'%20fill='%23868e96'%20dy='.3em'%3EObject%20fit%20contain%3C/text%3E%3C/svg%3E";
+    string imageSrcCover = "data:image/svg+xml,%3Csvg%20style='font-size:%201.125rem;%20font-family:system-ui,-apple-system,%22Segoe%20UI%22,Roboto,%22Helvetica%20Neue%22,%22Noto%20Sans%22,%22Liberation%20Sans%22,Arial,sans-serif,%22Apple%20Color%20Emoji%22,%22Segoe%20UI%20Emoji%22,%22Segoe%20UI%20Symbol%22,%22Noto%20Color%20Emoji%22;%20-webkit-user-select:%20none;%20-moz-user-select:%20none;%20user-select:%20none;%20text-anchor:%20middle;'%20width='200'%20height='200'%20xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3EPlaceholder%3C/title%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23dee2e6'%3E%3C/rect%3E%3Ctext%20x='50%25'%20y='50%25'%20fill='%23868e96'%20dy='.3em'%3EObject%20fit%20cover%3C/text%3E%3C/svg%3E";
+    string imageSrcFill = "data:image/svg+xml,%3Csvg%20style='font-size:%201.125rem;%20font-family:system-ui,-apple-system,%22Segoe%20UI%22,Roboto,%22Helvetica%20Neue%22,%22Noto%20Sans%22,%22Liberation%20Sans%22,Arial,sans-serif,%22Apple%20Color%20Emoji%22,%22Segoe%20UI%20Emoji%22,%22Segoe%20UI%20Symbol%22,%22Noto%20Color%20Emoji%22;%20-webkit-user-select:%20none;%20-moz-user-select:%20none;%20user-select:%20none;%20text-anchor:%20middle;'%20width='200'%20height='200'%20xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3EPlaceholder%3C/title%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23dee2e6'%3E%3C/rect%3E%3Ctext%20x='50%25'%20y='50%25'%20fill='%23868e96'%20dy='.3em'%3EObject%20fit%20fill%3C/text%3E%3C/svg%3E";
+    string imageSrcScale = "data:image/svg+xml,%3Csvg%20style='font-size:%201.125rem;%20font-family:system-ui,-apple-system,%22Segoe%20UI%22,Roboto,%22Helvetica%20Neue%22,%22Noto%20Sans%22,%22Liberation%20Sans%22,Arial,sans-serif,%22Apple%20Color%20Emoji%22,%22Segoe%20UI%20Emoji%22,%22Segoe%20UI%20Symbol%22,%22Noto%20Color%20Emoji%22;%20-webkit-user-select:%20none;%20-moz-user-select:%20none;%20user-select:%20none;%20text-anchor:%20middle;'%20width='200'%20height='200'%20xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3EPlaceholder%3C/title%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23dee2e6'%3E%3C/rect%3E%3Ctext%20x='50%25'%20y='50%25'%20fill='%23868e96'%20dy='.3em'%3EObject%20fit%20scale%20down%3C/text%3E%3C/svg%3E";
+    string imageSrcNone = "data:image/svg+xml,%3Csvg%20style='font-size:%201.125rem;%20font-family:system-ui,-apple-system,%22Segoe%20UI%22,Roboto,%22Helvetica%20Neue%22,%22Noto%20Sans%22,%22Liberation%20Sans%22,Arial,sans-serif,%22Apple%20Color%20Emoji%22,%22Segoe%20UI%20Emoji%22,%22Segoe%20UI%20Symbol%22,%22Noto%20Color%20Emoji%22;%20-webkit-user-select:%20none;%20-moz-user-select:%20none;%20user-select:%20none;%20text-anchor:%20middle;'%20width='200'%20height='200'%20xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3EPlaceholder%3C/title%3E%3Crect%20width='100%25'%20height='100%25'%20fill='%23dee2e6'%3E%3C/rect%3E%3Ctext%20x='50%25'%20y='50%25'%20fill='%23868e96'%20dy='.3em'%3EObject%20fit%20none%3C/text%3E%3C/svg%3E";
+}
