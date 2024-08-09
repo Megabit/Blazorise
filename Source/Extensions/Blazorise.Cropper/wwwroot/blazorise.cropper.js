@@ -149,9 +149,10 @@ export function updateOptions(element, elementId, options) {
 
 export function destroy(element, elementId) {
     const instances = _instances || {};
-    let instance = instances[elementId];
-    if (instance) {
 
+    let instance = instances[elementId];
+
+    if (instance) {
         const cropper = instance.cropper;
         const cropperCanvas = cropper.getCropperCanvas();
         const cropperSelection = cropper.getCropperSelection();
@@ -297,9 +298,9 @@ export function resetSelection(element, elementId) {
     }
 }
 
-
 function onCropperStartHandler(event) {
     let parentElementId = event.srcElement.parentElement.id;
+
     const instance = _instances[parentElementId];
 
     if (instance) {
@@ -309,7 +310,9 @@ function onCropperStartHandler(event) {
 
 function onCropperMoveHandler(event) {
     let parentElementId = event.srcElement.parentElement.id;
+
     const instance = _instances[parentElementId];
+
     if (instance) {
         invokeDotNetMethodAsync(instance.adapter, "CropMove");
     }
@@ -317,7 +320,9 @@ function onCropperMoveHandler(event) {
 
 function onCropperEndHandler(event) {
     let parentElementId = event.srcElement.parentElement.id;
+
     const instance = _instances[parentElementId];
+
     if (instance) {
         invokeDotNetMethodAsync(instance.adapter, "CropMove");
     }
@@ -325,7 +330,9 @@ function onCropperEndHandler(event) {
 
 function onCropperActionHandler(event) {
     let parentElementId = event.srcElement.parentElement.id;
+
     const instance = _instances[parentElementId];
+
     if (instance) {
         if (event.detail.action !== "scale") {
             invokeDotNetMethodAsync(instance.adapter, "Crop", event.detail.startX, event.detail.startY, event.detail.endX, event.detail.endY);
@@ -338,6 +345,7 @@ function onCropperActionHandler(event) {
 function onCropperSelectionHandler(event) {
     let parentElementId = event.srcElement.parentElement.parentElement.id;
     const instance = _instances[parentElementId];
+
     if (instance) {
         invokeDotNetMethodAsync(instance.adapter, "SelectionChanged", event.detail.x, event.detail.y, event.detail.width, event.detail.height);
     }
