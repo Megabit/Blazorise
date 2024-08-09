@@ -1563,6 +1563,21 @@ public class BulmaClassProvider : ClassProvider
 
     #endregion
 
+    #region ObjectFit
+
+    public override string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition )
+    {
+        if ( objectFitType == ObjectFitType.Default )
+            return null;
+
+        if ( objectFitDefinition.Breakpoint != Breakpoint.None && objectFitDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"is-object-fit-{ToBreakpoint( objectFitDefinition.Breakpoint )}-{ToObjectFitType( objectFitType )}";
+
+        return $"is-object-fit-{ToObjectFitType( objectFitType )}";
+    }
+
+    #endregion
+
     #region Elements
 
     public override string UnorderedList() => "is-unordered-list";
