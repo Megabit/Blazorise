@@ -60,7 +60,7 @@ export function initialize(dotNetAdapter, element, elementId, options) {
         invokeDotNetMethodAsync(dotNetAdapter, "ImageReady");
     });
 
-    registerEvents(cropperCanvas, cropperSelection, dotNetAdapter);
+    registerEvents(cropperCanvas, cropperSelection);
 
     _instances[elementId] = instance;
 }
@@ -149,6 +149,19 @@ export function updateOptions(element, elementId, options) {
 
 export function destroy(element, elementId) {
     const instances = _instances || {};
+
+    let instance = instances[elementId];
+
+    if (instance) {
+        const cropper = instance.cropper;
+        const cropperCanvas = cropper.getCropperCanvas();
+        const cropperSelection = cropper.getCropperSelection();
+
+        unregisterEvents(cropperCanvas, cropperSelection);
+
+        instance.destroy();
+    }
+
     delete instances[elementId];
 }
 
@@ -285,37 +298,83 @@ export function resetSelection(element, elementId) {
     }
 }
 
-function registerEvents(cropperCanvas, cropperSelection, dotNetAdapter) {
+function onCropperStartHandler(event) {
+    let parentElementId = event.srcElement.parentElement.id;
+
+    const instance = _instances[parentElementId];
+
+    if (instance) {
+        invokeDotNetMethodAsync(instance.adapter, "CropStart");
+    }
+}
+
+function onCropperMoveHandler(event) {
+    let parentElementId = event.srcElement.parentElement.id;
+
+    const instance = _instances[parentElementId];
+
+    if (instance) {
+        invokeDotNetMethodAsync(instance.adapter, "CropMove");
+    }
+}
+
+function onCropperEndHandler(event) {
+    let parentElementId = event.srcElement.parentElement.id;
+
+    const instance = _instances[parentElementId];
+
+    if (instance) {
+        invokeDotNetMethodAsync(instance.adapter, "CropMove");
+    }
+}
+
+function onCropperActionHandler(event) {
+    let parentElementId = event.srcElement.parentElement.id;
+
+    const instance = _instances[parentElementId];
+
+    if (instance) {
+        if (event.detail.action !== "scale") {
+            invokeDotNetMethodAsync(instance.adapter, "Crop", event.detail.startX, event.detail.startY, event.detail.endX, event.detail.endY);
+        } else if (event.detail.action === "scale") {
+            invokeDotNetMethodAsync(instance.adapter, "Zoom", event.detail.scale);
+        }
+    }
+}
+
+function onCropperSelectionHandler(event) {
+    let parentElementId = event.srcElement.parentElement.parentElement.id;
+    const instance = _instances[parentElementId];
+
+    if (instance) {
+        invokeDotNetMethodAsync(instance.adapter, "SelectionChanged", event.detail.x, event.detail.y, event.detail.width, event.detail.height);
+    }
+}
+
+
+function registerEvents(cropperCanvas, cropperSelection) {
     if (cropperCanvas) {
-        cropperCanvas.addEventListener('actionstart', (event) => {
-            invokeDotNetMethodAsync(dotNetAdapter, "CropStart");
-        });
-
-        cropperCanvas.addEventListener('actionmove', (event) => {
-            invokeDotNetMethodAsync(dotNetAdapter, "CropMove");
-        });
-
-        cropperCanvas.addEventListener('actionend', (event) => {
-            invokeDotNetMethodAsync(dotNetAdapter, "CropEnd");
-        });
-
-        cropperCanvas.addEventListener('action', (event) => {
-            if (event.detail.action !== "scale") {
-                invokeDotNetMethodAsync(dotNetAdapter, "Crop", event.detail.startX, event.detail.startY, event.detail.endX, event.detail.endY);
-            }
-        });
-
-        cropperCanvas.addEventListener('action', (event) => {
-            if (event.detail.action === "scale") {
-                invokeDotNetMethodAsync(dotNetAdapter, "Zoom", event.detail.scale);
-            }
-        });
+        cropperCanvas.addEventListener('actionstart', onCropperStartHandler);
+        cropperCanvas.addEventListener('actionmove', onCropperMoveHandler);
+        cropperCanvas.addEventListener('actionend', onCropperEndHandler);
+        cropperCanvas.addEventListener('action', onCropperActionHandler);
     }
 
     if (cropperSelection) {
-        cropperSelection.addEventListener('change', (event) => {
-            invokeDotNetMethodAsync(dotNetAdapter, "SelectionChanged", event.detail.x, event.detail.y, event.detail.width, event.detail.height);
-        });
+        cropperSelection.addEventListener('change', onCropperSelectionHandler);
+    }
+}
+
+function unregisterEvents(cropperCanvas, cropperSelection) {
+    if (cropperCanvas) {
+        cropperCanvas.removeEventListener('actionstart', onCropperStartHandler);
+        cropperCanvas.removeEventListener('actionmove', onCropperMoveHandler);
+        cropperCanvas.removeEventListener('actionend', onCropperEndHandler);
+        cropperCanvas.removeEventListener('action', onCropperActionHandler);
+    }
+
+    if (cropperSelection) {
+        cropperSelection.removeEventListener('change', onCropperSelectionHandler);
     }
 }
 
