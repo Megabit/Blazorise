@@ -342,6 +342,14 @@ public partial class TreeView<TNode> : BaseComponent, IDisposable
     [Parameter] public bool AutoExpandAll { get; set; }
 
     /// <summary>
+    /// Defines if hidden treenodes should be visible
+    /// </summary>
+    /// <see href="https://learn.microsoft.com/en-us/aspnet/core/blazor/components/virtualization">
+    /// Docs for virtualization
+    /// </see>
+    [Parameter] public bool Virtualize { get; set; }
+
+    /// <summary>
     /// List of currently expanded TreeView items (child nodes).
     /// </summary>
     [Parameter] public IList<TNode> ExpandedNodes { get; set; } = new List<TNode>();
