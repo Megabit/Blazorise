@@ -114,7 +114,7 @@ public class FluentObjectFit :
 {
     #region Members
 
-    private ObjectFitDefinition currentObjectFitDefintion;
+    private ObjectFitDefinition currentObjectFitDefinition;
 
     private readonly Dictionary<ObjectFitType, ObjectFitDefinition> rules = new();
 
@@ -165,7 +165,7 @@ public class FluentObjectFit :
 
         rules.Add( objectFit, objectFitDefinition );
 
-        currentObjectFitDefintion = objectFitDefinition;
+        currentObjectFitDefinition = objectFitDefinition;
         Dirty();
 
         return this;
@@ -178,7 +178,7 @@ public class FluentObjectFit :
     /// <returns>Next rule reference.</returns>
     public IFluentObjectFitWithSize WithBreakpoint( Breakpoint breakpoint )
     {
-        currentObjectFitDefintion.Breakpoint = breakpoint;
+        currentObjectFitDefinition.Breakpoint = breakpoint;
         Dirty();
 
         return this;
