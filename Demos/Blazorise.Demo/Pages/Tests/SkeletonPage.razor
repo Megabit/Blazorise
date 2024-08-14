@@ -1,0 +1,56 @@
+﻿@page "/tests/skeleton"
+<Row>
+    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardImage Source="_content/Blazorise.Demo/img/cards/image-1.jpg" Alt="Placeholder image">
+            </CardImage>
+            <CardBody>
+                <CardTitle Size="5">Card title</CardTitle>
+                <CardText>
+                    Some quick example text to build on the card title and make up the bulk of the card's content.
+                </CardText>
+                <Button Color="Color.Primary">Button</Button>
+            </CardBody>
+        </Card>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is4.OnTablet.Is3.OnWidescreen.Is12.OnMobile">
+        <Card Margin="Margin.Is4.OnY">
+            <CardImage Source="_content/Blazorise.Demo/img/cards/image-2.jpg" Alt="Placeholder image">
+            </CardImage>
+            <CardBody>
+                <CardTitle Size="5">
+                    <Skeleton>
+                        <SkeletonItem ColumnSize="ColumnSize.Is6" />
+                    </Skeleton>                    
+                </CardTitle>
+                <CardText>
+                    <Skeleton Animation="SkeletonAnimation.Pulse">
+                        <SkeletonItem ColumnSize="ColumnSize.Is7" />
+                        <SkeletonItem ColumnSize="ColumnSize.Is4" />
+                        <SkeletonItem ColumnSize="ColumnSize.Is4" />
+                        <SkeletonItem ColumnSize="ColumnSize.Is6" />
+                        <SkeletonItem ColumnSize="ColumnSize.Is8" />
+                    </Skeleton>
+                </CardText>
+                <Button Color="Color.Primary">Button</Button>
+            </CardBody>
+        </Card>
+    </Column>
+</Row>
+<Row>
+    <Column>
+        <Card Margin="Margin.Is4.FromBottom">
+            <CardHeader>
+                <CardTitle>Table</CardTitle>
+            </CardHeader>
+            <CardBody>
+                <CardText>
+                    <Code Tag>SkeletonTable</Code> allows you to scaffold a basic table structure by utilizing the rows and columns props to define the size of the table.
+                </CardText>
+            </CardBody>
+            <CardBody>
+                <SkeletonTable Rows="5" Columns="4" />
+            </CardBody>
+        </Card>
+    </Column>
+</Row>

@@ -1,0 +1,27 @@
+﻿@namespace Blazorise
+@inherits BaseComponent
+<Table Class="@ClassNames" Style="@StyleNames" Bordered Striped Attributes="@Attributes">
+    <TableHeader>
+        <TableRow>
+            @for ( int c = 0; c < Columns; ++c )
+            {
+                <TableHeaderCell @key="@c">
+                    <SkeletonItem Width="Blazorise.Width.Is100" />
+                </TableHeaderCell>
+            }
+        </TableRow>
+    </TableHeader>
+    <TableBody>
+        @for ( int r = 0; r < Rows; ++r )
+        {
+            <TableRow @key="r">
+                @for ( int c = 0; c < Columns; ++c )
+                {
+                    <TableRowCell @key="@c">
+                        <SkeletonItem Width="Blazorise.Width.Is75" />
+                    </TableRowCell>
+                }
+            </TableRow>
+        }
+    </TableBody>
+</Table>

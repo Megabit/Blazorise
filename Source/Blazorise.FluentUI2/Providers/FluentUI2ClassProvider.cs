@@ -1443,6 +1443,16 @@ public class FluentUI2ClassProvider : ClassProvider
 
     #endregion
 
+    #region Skeleton
+
+    public override string Skeleton() => null;
+
+    public override string SkeletonAnimation( SkeletonAnimation animation ) => null;
+
+    public override string SkeletonItem() => null;
+
+    #endregion
+
     #region Divider
 
     public override string Divider() => "fui-Divider";
