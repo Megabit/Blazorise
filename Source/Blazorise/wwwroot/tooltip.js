@@ -28,7 +28,8 @@ export function initialize(element, elementId, options) {
         zIndex: options.zIndex,
         interactive: options.interactive,
         zIndex: options.zIndex || 9999,
-        appendTo: appendTo
+        appendTo: appendTo,
+        delay: [options.delay.show, options.delay.hide],
     };
 
     const alwaysActiveOptions = options.alwaysActive
