@@ -16,12 +16,20 @@ public partial class DocsPageSectionContent
         return Task.CompletedTask;
     }
 
+    public Task OnTabletViewClicked()
+    {
+        FrameView = "tablet";
+
+        return Task.CompletedTask;
+    }
+
     public Task OnMobileViewClicked()
     {
         FrameView = "mobile";
 
         return Task.CompletedTask;
     }
+
     #endregion
 
     #region Properties
