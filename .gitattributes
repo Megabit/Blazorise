@@ -1,3 +1,6 @@
 * text=auto
 
 *.json      text eol=crlf working-tree-encoding=UTF-8
+
+
+*.verified.txt text eol=lf working-tree-encoding=UTF-8
