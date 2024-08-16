@@ -1,0 +1,383 @@
+@page "/blog/blazor-and-tailwind-quick-setup-without-npm"
+
+<Seo Canonical="/blog/blazor-and-tailwind-quick-setup-without-npm" Title="Blazor and Tailwind - Quick Setup Without npm" Description="Learn how to seamlessly integrate TailwindCSS with Blazor for a streamlined and efficient web development experience without using npm." ImageUrl="/img/blog/2024-08-18/blazor-plus-tailwind.png" />
+
+<BlogPageImage Source="/img/blog/2024-08-18/blazor-plus-tailwind.png" Text="" />
+
+<BlogPageTitle>
+    Blazor and Tailwind - Quick Setup Without npm
+</BlogPageTitle>
+
+<BlogPageParagraph>
+    This guide will show you how to set up TailwindCSS in your Blazor application without using npm, explains why TailwindCSS is beneficial, compares it to Bootstrap, walks you through setting up the Tailwind CLI, and offers tips for streamlining your development process and building a production-ready pipeline.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    If you want to quickly try TailwindCSS in your Blazor application, you can easily do so using the CDN. Just add the following script to your <Code>App.razor</Code> (Blazor WebApp) or <Code>index.html</Code> (Blazor WASM Standalone app):
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm1" />
+
+<BlogPageParagraph>
+    Now use any tailwind class. And it will just work.
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm2" />
+
+<BlogPageImageModal ImageSource="img/blog/2024-08-18/img.png" ImageTitle="hello" />
+
+<BlogPageSubtitle>
+    TailwindCSS CDN is Not for Production
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    The CDN file is a 112KB (compressed) js (not css) file that scans for any Tailwind classes and adds their definitions directly as a <Code Tag>style</Code> element in the <Code Tag>head</Code> of the current page. You can even configure it by adding values inside a <Code Tag>script</Code> tag in the <Code Tag>head</Code>. While this approach works well for initial testing, it has limitations.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The biggest concerns are file size and performance—especially as noted <Anchor To="https://github.com/tailwindlabs/tailwindcss/discussions/7637" Title="Link to here">here</Anchor>, "...noticeable if you ever have elements that are dynamically added".
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    You'll also receive a warning in the developer console:
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    <Blockquote>
+        cdn.tailwindcss.com should not be used in production. To use Tailwind CSS in production, install it as a PostCSS plugin or use the Tailwind CLI: https://tailwindcss.com/docs/installation
+    </Blockquote>
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    The Tailwind CLI mentioned here is the approach we'll be using.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Why TailwindCSS?
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    <Strong>TL;DR:</Strong> It's efficient. You gonna develop faster...
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    TailwindCSS simplifies your development process through its utility-based class approach.
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        You can see exactly which styles are applied directly in your markup.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Eliminates the headache of naming CSS classes and avoids the common issue of wondering whether you're allowed to change a specific color or style in a certain context.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Usually results in a smaller CSS payload since many classes are reused throughout your project.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        The flexibility of arbitrary classes and arbitrary variants means you can style almost anything.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        You won't have to worry about "dead" CSS classes that you're hesitant to delete.
+    </BlogPageListItem>
+</BlogPageList>
+
+<BlogPageParagraph>
+    However, TailwindCSS does come with a few drawbacks. One notable downside is that it can lead to longer markup code, as you're applying multiple utility classes directly in your markup rather than abstracting them into a separate CSS file:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm3" />
+
+<BlogPageParagraph>
+    versus the traditional CSS approach:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm4" />
+
+<BlogPageParagraph>
+    Other drawbacks are:
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        Need for some kind of build tool (which is what this article is about)
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Learning curve (as always with new stuff)
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Lack of concern separation—elements and their styles are in one place. This can be an issue when different people are responsible for HTML and CSS.
+    </BlogPageListItem>
+</BlogPageList>
+
+<Heading Size="HeadingSize.Is3">
+    Tailwind vs Bootstrap
+</Heading>
+
+<BlogPageParagraph>
+    There are many similarities between TailwindCSS and the well-known and established CSS framework <Anchor To="https://getbootstrap.com/" Title="Link to Bootstrap">Bootstrap</Anchor>. Both frameworks even share several class names like <Code>border</Code>, <Code>opacity-50</Code>, <Code>top-0</Code>, and <Code>visible</Code>. However, TailwindCSS takes the concept of utility classes to the extreme compared to Bootstrap.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Bootstrap sits somewhere in the middle between custom CSS and TailwindCSS:
+</BlogPageParagraph>
+
+<BlogPageList>
+    <BlogPageListItem>
+        With Tailwind, you usually don't need to write any custom CSS. You can define almost everything directly in your HTML, with the help of arbitrary classes and variants.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Bootstrap provides classes for components like alerts, buttons, and modals. Tailwind doesn’t offer these out of the box, and while you can create similar components in CSS, it's generally not recommended as it goes against Tailwind’s utility-first approach.
+    </BlogPageListItem>
+    <BlogPageListItem>
+        Tailwind allows for greater customization, enabling unique designs, whereas Bootstrap often results in more uniform and similar-looking pages.
+    </BlogPageListItem>
+</BlogPageList>
+
+<BlogPageSubtitle>
+    TailwindCSS CLI
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    The standard way to use TailwindCSS is by installing it via npm, creating a configuration file, and setting up build actions. If you're already comfortable with npm and don't mind adding another package, this approach works well.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    However, this article focuses on using TailwindCSS without requiring npm, which is common in .NET projects. TailwindCSS offers a <Anchor To="https://tailwindcss.com/blog/standalone-cli" Title="Link to standalone CLI executable">standalone CLI executable</Anchor> to help with this.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Installation
+</Heading>
+
+<BlogPageParagraph>
+    You can download the TailwindCSS standalone executable <Anchor To="https://github.com/tailwindlabs/tailwindcss/releases" Title="Link to here">here</Anchor>.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    On Windows, you can install it with a single command using winget :
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm5" />
+
+<BlogPageParagraph>
+    Afterward, you'll need to reload the PATH (simply by closing and reopening the terminal tab).
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    On Linux, use the following commands:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm6" />
+
+<BlogPageParagraph>
+    Then, test the installation with:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm7" />
+
+<BlogPageParagraph>
+    Now, you should see the TailwindCSS CLI is working.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Adding it to Blazor
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    I will describe the scenario where you have a .NET 8 Blazor Web App, building on the official TailwindCSS <Anchor To="https://tailwindcss.com/docs/installation" Title="Link to installation guide">installation guide</Anchor>.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    First, navigate to the root of your Blazor project (where the <Code>.csproj</Code> file is located. If you also have the WASM client part, navigate to the server project) and:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm8" />
+
+<BlogPageParagraph>
+    This will create the <Code>tailwind.config.js</Code> file (or you can do it manually).
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    (BTW this step won't be necessary with <Anchor To="https://tailwindcss.com/blog/tailwindcss-v4-alpha#css-first-configuration" Title="Link to upcoming v4">upcoming v4</Anchor>, where the config will happen through the CSS file.)
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Open the <Code>tailwind.config.js</Code> and make it look akin to this:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm9" />
+
+<BlogPageParagraph>
+    This adds paths for the Tailwind CLI to look for the Tailwind classes. You need to add all the paths where your Razor files are. For example, if you also have a WASM client project, you probably want to add something like: <Code>'../NameOfYourProj.Client/**/*.razor'</Code>.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    Then, go to your <Code>wwwroot/app.css</Code> and add this to the top of the file:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm10" />
+
+<BlogPageParagraph>
+    Now run <Code>tailwindcss</Code> in your terminal. It will scan through your Razor files, find Tailwind classes, and create a new CSS file called <Code>app.min.css</Code>:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm11" />
+
+<BlogPageParagraph>
+    You will get output similar to this:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm12" />
+
+<BlogPageParagraph>
+    Tailwind will copy all the content from <Code>app.css</Code> into <Code>app.min.css</Code> and also add all the definitions of the classes you are using (the outputted file should be ignored by git, more about that later). Now we need to use the file, so change the <Code Tag>link</Code> tag inside <Code>App.razor</Code> (or <Code>index.html</Code>):
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm13" />
+
+<BlogPageParagraph>
+    Now this code:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm14" />
+
+<BlogPageParagraph>
+    Should result in:
+</BlogPageParagraph>
+
+<BlogPageImageModal ImageSource="img/blog/2024-08-18/img.png" ImageTitle="hello" />
+
+<BlogPageSubtitle>
+    Workflow with TailwindCSS
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    Now that TailwindCSS is set up, what's the best workflow for using it?
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Running it in the Terminal
+</Heading>
+
+<BlogPageParagraph>
+    From my experience, the most efficient workflow is to open the terminal in the directory where <Code>tailwind.config.js</Code> resides and run the following command:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm15" />
+
+<BlogPageParagraph>
+    The <Code>-w</Code> parameter stands for <Code>watch</Code>, which keeps the program running. Every time you save a file, TailwindCSS will search for classes and recreate the final CSS (<Code>app.min.css</Code>).
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    You can simplify this command to just two letters (<Code>tw</Code>) by editing your PowerShell profile:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm16" />
+
+<BlogPageParagraph>
+    Add the following function:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm17" />
+
+<BlogPageParagraph>
+    For Linux:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm18" />
+
+<BlogPageParagraph>
+    Add the alias:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm19" />
+
+<BlogPageParagraph>
+    Then running <Code>tw</Code> in your terminal will do the job.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    Adding a Target in .csproj
+</Heading>
+
+<BlogPageParagraph>
+    You can configure your <Code>.csproj</Code> file to automatically run TailwindCSS every time the project is compiled:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm20" />
+
+<BlogPageParagraph>
+    The drawback with this approach is that it only runs once during compilation. If you modify your code and hot-reload kicks in, TailwindCSS won't update automatically. Adding the <Code>-w</Code> parameter would start a new process every time you recompile, which isn’t ideal.
+</BlogPageParagraph>
+
+<Heading Size="HeadingSize.Is3">
+    IDE-Based Solutions
+</Heading>
+
+<BlogPageParagraph>
+    You can also create a Run Configuration in your IDE to run the command. However, this approach has the same limitation as the <Code>.csproj</Code> solution—TailwindCSS won’t update automatically with hot-reloads.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    If you have any ideas on how to streamline this process further, feel free to share them.
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Build Pipeline for Production
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    As mentioned earlier, the generated <Code>app.min.css</Code> file should not be included in your git repository. To ensure this, add the following line to your <Code>.gitignore</Code> file:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm21" />
+
+<BlogPageParagraph>
+    Changes to this file are not important because it will be regenerated each time someone runs the Tailwind CLI.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    For production, you should set up a build pipeline similar to this:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm22" />
+
+<BlogPageParagraph>
+    This script mirrors the Linux command I described earlier, with the added step of minifying the CSS file. You’ll want to run this step early in your pipeline (mainly before running <Code>dotnet publish</Code>).
+</BlogPageParagraph>
+
+<BlogPageSubtitle>
+    Tailwind Integration with Blazorise
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    There are several ways to integrate Tailwind into a project that uses Blazorise components.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    First, there is the <Anchor To="https://blazorise.com/docs/usage/tailwind/" Title="Link to Tailwind provider">Tailwind provider</Anchor> for Blazorise, which utilizes Flowbite components under the hood and makes all the Tailwind classes available via CDN with no extra setup required. You can add your Tailwind classes, and they will render correctly. However, since it uses the CDN, this solution is not production-ready. A production version is currently under development.
+</BlogPageParagraph>
+
+<BlogPageParagraph>
+    You can also use Tailwind with different style providers by following the guide above. In this case, I recommend using a prefix for your Tailwind classes to avoid conflicts with classes from other frameworks (e.g., Bootstrap).
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm23" />
+
+<BlogPageParagraph>
+    Then, update all your Tailwind classes like this:
+</BlogPageParagraph>
+
+<BlogPageSourceBlock Code="BlazorAndTailwindQuickSetupWithoutNpm24" />
+
+<BlogPageSubtitle>
+    Conclusion
+</BlogPageSubtitle>
+
+<BlogPageParagraph>
+    With this guide, you should be well-equipped to start leveraging the advantages of Blazor and TailwindCSS combo. You can see these in action in the <Anchor To="https://github.com/tesar-tech/BlazorAndTailwind" Title="Link to BlazorAndTailwind repository">BlazorAndTailwind repository</Anchor>, which includes the full build pipeline, additional tips, and useful links.
+</BlogPageParagraph>
+
+<BlogPagePostInto UserName="Jan Tesař" ImageName="tesy" PostedOn="August 18th, 2024" Read="8 min" />
