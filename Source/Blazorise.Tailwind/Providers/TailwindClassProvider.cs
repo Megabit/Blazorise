@@ -1952,11 +1952,11 @@ public class TailwindClassProvider : ClassProvider
 
     #region Skeleton
 
-    public override string Skeleton() => null;
+    public override string Skeleton() => "b-skeleton max-w-sm flex flex-row flex-wrap";
 
-    public override string SkeletonAnimation( SkeletonAnimation animation ) => null;
+    public override string SkeletonAnimation( SkeletonAnimation animation ) => animation != Blazorise.SkeletonAnimation.Default ? $"animate-{ToSkeletonAnimation( animation )}" : null;
 
-    public override string SkeletonItem() => null;
+    public override string SkeletonItem() => "b-skeleton-item relative h-2.5 bg-gray-200 rounded-full dark:bg-gray-700 mb-4";
 
     #endregion
 

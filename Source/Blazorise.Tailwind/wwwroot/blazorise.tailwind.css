@@ -337,6 +337,30 @@
     transform: translateX(100%) scaleX(0.5);
   }
 }
+.b-skeleton .b-skeleton-item {
+  position: relative;
+}
+.b-skeleton.animate-wave .b-skeleton-item {
+  background-color: var(--colorNeutralStencil1);
+}
+.b-skeleton.animate-wave .b-skeleton-item::after {
+  transform: translate(-100%);
+  background-image: linear-gradient(to right, var(--colorNeutralStencil1) 0%, var(--colorNeutralStencil2) 50%, var(--colorNeutralStencil1) 100%);
+  animation-name: skeleton-wave-anim;
+  animation-timing-function: ease-in-out;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+  position: absolute;
+  display: block;
+  content: "";
+  inset: 0px;
+}
+
+@keyframes skeleton-wave-anim {
+  100% {
+    transform: translate(100%);
+  }
+}
 .b-steps .b-step-item:not(:first-child) .b-step-item-head:before {
   flex: 1;
   height: 1px;
