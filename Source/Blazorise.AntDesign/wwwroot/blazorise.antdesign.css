@@ -2784,6 +2784,14 @@ li.ant-list-item-actionable {
   opacity: 0.7;
 }
 
+.ant-skeleton {
+  display: inline-block;
+  width: 100%;
+}
+.ant-skeleton .ant-skeleton-content {
+  display: inline-block;
+}
+
 .ant-steps-item.ant-steps-item-active.ant-steps-item-process.ant-steps-item-finish .ant-steps-item-icon {
   background-color: #1890ff;
 }

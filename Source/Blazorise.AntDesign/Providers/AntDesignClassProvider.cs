@@ -1311,11 +1311,11 @@ public class AntDesignClassProvider : ClassProvider
 
     #region Skeleton
 
-    public override string Skeleton() => null;
+    public override string Skeleton() => "ant-skeleton ant-skeleton-element";
 
-    public override string SkeletonAnimation( SkeletonAnimation animation ) => null;
+    public override string SkeletonAnimation( SkeletonAnimation animation ) => animation != Blazorise.SkeletonAnimation.Default ? $"ant-skeleton-active ant-skeleton-{ToSkeletonAnimation( animation )}" : null;
 
-    public override string SkeletonItem() => null;
+    public override string SkeletonItem() => "ant-skeleton-content";
 
     #endregion
 

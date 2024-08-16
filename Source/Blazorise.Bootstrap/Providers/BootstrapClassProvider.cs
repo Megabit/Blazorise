@@ -1309,9 +1309,9 @@ public class BootstrapClassProvider : ClassProvider
 
     public override string Skeleton() => null;
 
-    public override string SkeletonAnimation( SkeletonAnimation animation ) => null;
+    public override string SkeletonAnimation( SkeletonAnimation animation ) => animation != Blazorise.SkeletonAnimation.Default ? $"placeholder-{ToSkeletonAnimation( animation )}" : null;
 
-    public override string SkeletonItem() => null;
+    public override string SkeletonItem() => "placeholder";
 
     #endregion
 
@@ -1575,6 +1575,20 @@ public class BootstrapClassProvider : ClassProvider
     public override string DescriptionListTerm() => null;
 
     public override string DescriptionListDefinition() => null;
+
+    #endregion
+
+    #region Enums
+
+    public override string ToSkeletonAnimation( SkeletonAnimation animation )
+    {
+        return animation switch
+        {
+            Blazorise.SkeletonAnimation.Wave => "wave",
+            Blazorise.SkeletonAnimation.Pulse => "glow",
+            _ => null
+        };
+    }
 
     #endregion
 
