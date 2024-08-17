@@ -63,6 +63,8 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
     private IFluentTextSize textSize;
 
+    private IFluentObjectFit objectFit;
+
     private VerticalAlignment verticalAlignment = VerticalAlignment.Default;
 
     private Background background = Background.Default;
@@ -202,6 +204,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
 
         if ( Overflow is not null )
             builder.Append( Overflow.Class( ClassProvider ) );
+
+        if ( ObjectFit is not null )
+            builder.Append( ObjectFit.Class( ClassProvider ) );
 
         if ( Float != Float.Default )
             builder.Append( ClassProvider.Float( Float ) );
@@ -753,6 +758,27 @@ public abstract class BaseComponent : BaseAfterRenderComponent
                 return;
 
             textSize = value;
+
+            DirtyClasses();
+        }
+    }
+
+    /// <summary>
+    /// Gets or sets the object fit configuration, which specifies how an object should fit within its container.
+    /// </summary>
+    /// <remarks>
+    /// Changing this property will update the CSS classes related to object fit styling.
+    /// </remarks>
+    [Parameter]
+    public IFluentObjectFit ObjectFit
+    {
+        get => objectFit;
+        set
+        {
+            if ( objectFit == value )
+                return;
+
+            objectFit = value;
 
             DirtyClasses();
         }

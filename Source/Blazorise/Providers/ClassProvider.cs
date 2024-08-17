@@ -1279,6 +1279,12 @@ public abstract class ClassProvider : IClassProvider
 
     #endregion
 
+    #region ObjectFit
+
+    public abstract string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition );
+
+    #endregion
+
     #region Custom
 
     public virtual string Casing( CharacterCasing characterCasing ) => $"b-character-casing-{ToCharacterCasing( characterCasing )}";
@@ -2091,6 +2097,19 @@ public abstract class ClassProvider : IClassProvider
         {
             TableColumnFixedPosition.Start => "start",
             TableColumnFixedPosition.End => "end",
+            _ => null,
+        };
+    }
+
+    public virtual string ToObjectFitType( ObjectFitType objectFitType )
+    {
+        return objectFitType switch
+        {
+            ObjectFitType.None => "none",
+            ObjectFitType.Contain => "contain",
+            ObjectFitType.Cover => "cover",
+            ObjectFitType.Fill => "fill",
+            ObjectFitType.Scale => "scale",
             _ => null,
         };
     }

@@ -73,20 +73,21 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         {
             await JSModule.Initialize( ElementRef, ElementId, new
             {
-                Text,
-                Placement = ClassProvider.ToTooltipPlacement( Placement ),
-                Multiline,
-                AlwaysActive,
-                ShowArrow,
-                Fade,
-                FadeDuration,
-                Trigger = ToTippyTrigger( Trigger ),
-                TriggerTargetId,
-                MaxWidth = Theme?.TooltipOptions?.MaxWidth,
-                AutodetectInline = autodetectInline,
-                ZIndex,
-                Interactive,
-                AppendTo,
+                text = Text,
+                placement = ClassProvider.ToTooltipPlacement( Placement ),
+                multiline = Multiline,
+                alwaysActive = AlwaysActive,
+                showArrow = ShowArrow,
+                fade = Fade,
+                fadeDuration = FadeDuration,
+                trigger = ToTippyTrigger( Trigger ),
+                triggerTargetId = TriggerTargetId,
+                maxWidth = Theme?.TooltipOptions?.MaxWidth,
+                autodetectInline,
+                zIndex = ZIndex,
+                interactive = Interactive,
+                appendTo = AppendTo,
+                delay = new { show = Delay.Show, hide = Delay.Hide }
             } );
         } );
 
@@ -141,6 +142,9 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         get => placement;
         set
         {
+            if ( placement == value )
+                return;
+
             placement = value;
 
             DirtyClasses();
@@ -156,6 +160,9 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         get => multiline;
         set
         {
+            if ( multiline == value )
+                return;
+
             multiline = value;
 
             DirtyClasses();
@@ -171,6 +178,9 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         get => alwaysActive;
         set
         {
+            if ( alwaysActive == value )
+                return;
+
             alwaysActive = value;
 
             DirtyClasses();
@@ -186,6 +196,9 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         get => showArrow;
         set
         {
+            if ( showArrow == value )
+                return;
+
             showArrow = value;
 
             DirtyClasses();
@@ -201,6 +214,9 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         get => inline;
         set
         {
+            if ( inline == value )
+                return;
+
             inline = value;
 
             DirtyClasses();
@@ -216,6 +232,9 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         get => fade;
         set
         {
+            if ( fade == value )
+                return;
+
             fade = value;
 
             DirtyClasses();
@@ -231,6 +250,9 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         get => fadeDuration;
         set
         {
+            if ( fadeDuration == value )
+                return;
+
             fadeDuration = value;
 
             DirtyClasses();
@@ -246,6 +268,9 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
         get => trigger;
         set
         {
+            if ( trigger == value )
+                return;
+
             trigger = value;
 
             DirtyClasses();
@@ -276,6 +301,11 @@ public partial class Tooltip : BaseComponent, IAsyncDisposable
     /// Specifies the content to be rendered inside this <see cref="Tooltip"/>.
     /// </summary>
     [Parameter] public RenderFragment ChildContent { get; set; }
+
+    /// <summary>
+    /// Specifies the delay in ms once a trigger event is fired before a Tooltip shows or hides.
+    /// </summary>
+    [Parameter] public (int Show, int Hide) Delay { get; set; } = (0, 0);
 
     /// <summary>
     /// Cascaded theme settings.

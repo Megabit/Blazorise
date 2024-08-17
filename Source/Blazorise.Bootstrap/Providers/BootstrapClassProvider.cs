@@ -1550,6 +1550,21 @@ public class BootstrapClassProvider : ClassProvider
 
     #endregion
 
+    #region ObjectFit
+
+    public override string ObjectFit( ObjectFitType objectFitType, ObjectFitDefinition objectFitDefinition )
+    {
+        if ( objectFitType == ObjectFitType.Default )
+            return null;
+
+        if ( objectFitDefinition.Breakpoint != Breakpoint.None && objectFitDefinition.Breakpoint != Breakpoint.Mobile )
+            return $"object-fit-{ToBreakpoint( objectFitDefinition.Breakpoint )}-{ToObjectFitType( objectFitType )}";
+
+        return $"object-fit-{ToObjectFitType( objectFitType )}";
+    }
+
+    #endregion
+
     #region Elements
 
     public override string UnorderedList() => "unordered-list";
