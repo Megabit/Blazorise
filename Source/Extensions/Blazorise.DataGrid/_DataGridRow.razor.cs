@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Blazorise.Extensions;
 using Microsoft.AspNetCore.Components;
@@ -165,7 +164,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             {
                 await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), null );
             }
-            else if (args.Code == "Backspace" )
+            else if ( args.Code == "Backspace" )
             {
                 await ParentDataGrid.HandleCellEdit( column, GetCurrentItem(), string.Empty );
             }
@@ -199,6 +198,7 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
 
     protected internal async Task HandleClick( BLMouseEventArgs eventArgs )
     {
+        var multiSelectPreventRowClick = clickFromMultiSelectCheck && ( ParentDataGrid.MultiSelectColumn?.PreventRowClick ?? false );
         if ( !clickFromMultiSelectCheck )
             await ParentDataGrid.OnRowClickedCommand( new( Item, eventArgs ) );
 
@@ -212,7 +212,10 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
             await HandleMultiSelectClick( eventArgs );
         }
 
-        await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
+        if ( !multiSelectPreventRowClick )
+        {
+            await ParentDataGrid.ToggleDetailRow( Item, DetailRowTriggerType.RowClick );
+        }
 
         clickFromMultiSelectCheck = false;
     }
@@ -278,6 +281,11 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
     protected Task OnMultiSelectCheckClicked()
     {
         clickFromMultiSelectCheck = true;
+
+        if ( ParentDataGrid.MultiSelectColumn?.PreventRowClick ?? false ) // MultiSelectColumn was prevented from propagating RowClick however we still want to process parts of it.
+        {
+            return HandleClick( new BLMouseEventArgs( MouseButton.Left, 1, System.Drawing.Point.Empty, System.Drawing.Point.Empty, false, false, false, false ) );
+        }
 
         return Task.CompletedTask;
     }
