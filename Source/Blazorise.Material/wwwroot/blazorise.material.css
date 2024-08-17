@@ -5235,6 +5235,19 @@ h6.card-title,
   font-weight: 600 !important;
 }
 
+.text-decoration-underline {
+  text-decoration: underline !important;
+}
+.text-decoration-overline {
+  text-decoration: overline !important;
+}
+.text-decoration-line-through {
+  text-decoration: line-through !important;
+}
+.text-decoration-inherit {
+  text-decoration: inherit !important;
+}
+
 .flatpickr-months {
   margin: 0.5rem 0;
 }

@@ -1334,6 +1334,8 @@ public class FluentUI2ClassProvider : ClassProvider
 
     public override string TextTransform( TextTransform textTransform ) => $"fui-TextTransform-{ToTextTransform( textTransform )}";
 
+    public override string TextDecoration( TextDecoration textDecoration ) => $"fui-TextDecoration-{ToTextDecoration( textDecoration )}";
+
     public override string TextWeight( TextWeight textWeight ) => $"fui-TextWeight-{ToTextWeight( textWeight )}";
 
     public override string TextOverflow( TextOverflow textOverflow ) => $"fui-TextOverflow-{ToTextOverflow( textOverflow )}";

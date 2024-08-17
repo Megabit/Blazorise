@@ -4834,6 +4834,25 @@ Proin volutpat, sapien ut facilisis ultricies, eros purus blandit velit, at ultr
     Track work across the enterprise through an open, collaborative platform. Link issues across Jira and ingest data from other software development tools, so your IT support and operations teams have richer contextual information to rapidly respond to requests, incidents, and changes.
 </Paragraph>";
 
+        public const string TypographyTextDecorationExample = @"<Row>
+    <Column>
+        <Paragraph TextDecoration=""TextDecoration.Underline"">
+            The quick brown fox jumps over the lazy dog.
+        </Paragraph>
+        <Paragraph TextDecoration=""TextDecoration.Overline"">
+            The quick brown fox jumps over the lazy dog.
+        </Paragraph>
+        <Paragraph TextDecoration=""TextDecoration.LineThrough"">
+            The quick brown fox jumps over the lazy dog.
+        </Paragraph>
+        <Paragraph>
+            <Anchor To=""#"" TextDecoration=""TextDecoration.None"">
+                This link has its text decoration removed
+            </Anchor>
+        </Paragraph>
+    </Column>
+</Row>";
+
         public const string TypographyTextExample = @"<Text TextColor=""TextColor.Primary"">
     Lorem ipsum dolor sit amet.
 </Text>
