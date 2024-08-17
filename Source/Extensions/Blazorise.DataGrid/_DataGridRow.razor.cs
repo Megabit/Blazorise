@@ -172,6 +172,14 @@ public abstract class _BaseDataGridRow<TItem> : BaseDataGridComponent
         }
     }
 
+    protected async Task HandleCellFocus( FocusEventArgs args, DataGridColumn<TItem> column )
+    {
+        if ( !ParentDataGrid.IsCellNavigable )
+            return;
+
+        await ParentDataGrid.HandleSelectedCell(Item, RowInfo, column );
+    }
+
     protected bool BindMouseLeave()
         => ParentDataGrid.RowMouseLeave.HasDelegate || ParentDataGrid.RowOverlayTemplate is not null;
 

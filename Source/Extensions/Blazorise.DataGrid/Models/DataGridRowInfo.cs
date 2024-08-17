@@ -3,7 +3,6 @@ using System.Collections.Generic;
 #endregion
 
 namespace Blazorise.DataGrid;
-
 /// <summary>
 /// Holds the basic information about the datagrid row.
 /// </summary>

@@ -53,14 +53,7 @@ public class DataGridReadDataEventArgs<TItem> : EventArgs
     {
         Page = page;
         PageSize = pageSize;
-        Columns = columns?.Select( x => new DataGridColumnInfo(
-            x.Field,
-            x.Filter?.SearchValue,
-            x.CurrentSortDirection,
-            sortByColumns?.FirstOrDefault( sortCol => sortCol.IsEqual( x ) )?.SortOrder ?? -1,
-            x.ColumnType,
-            x.GetFieldToSort(),
-            x.GetFilterMethod() ?? x.GetDataGridFilterMethodAsColumn() ) );
+        Columns = columns?.Select( x => x.ToColumnInfo( sortByColumns ) );
         CancellationToken = cancellationToken;
         VirtualizeOffset = virtualizeOffset;
         VirtualizeCount = virtualizeCount;

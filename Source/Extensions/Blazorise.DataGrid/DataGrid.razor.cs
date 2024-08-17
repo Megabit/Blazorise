@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Data.Common;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -2179,6 +2180,12 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
             return new( Data.ToList(), TotalItems.Value );
     }
 
+    internal async Task HandleSelectedCell( TItem item, DataGridRowInfo<TItem> rowInfo, DataGridColumn<TItem> column  )
+    {
+        SelectedCell = new( item, rowInfo, column, column.ToColumnInfo(SortByColumns), ResolveItemIndex(item) );
+        await SelectedCellChanged.InvokeAsync( SelectedCell );
+    }
+
     protected void HandleSortColumn( DataGridColumn<TItem> column, bool changeSortDirection, SortDirection? sortDirection = null ) =>
         HandleSortColumn( column, changeSortDirection, sortDirection, false );
 
@@ -2647,6 +2654,7 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
 
         return filteredData;
     }
+
 
     private Task SelectRow( TItem item, bool forceSelect = false )
     {
@@ -3857,6 +3865,22 @@ public partial class DataGrid<TItem> : BaseDataGridComponent
     /// Gets or sets the Table's responsive mode.
     /// </summary>
     [Parameter] public TableResponsiveMode ResponsiveMode { get; set; }
+
+    /// <summary>
+    /// Gets or sets currently selected cell.
+    /// </summary>
+    /// <remarks>
+    /// NavigationMode <see cref="DataGridNavigationMode.Cell"/> must be active.
+    /// </remarks>
+    [Parameter] public DataGridCellInfo<TItem> SelectedCell { get; set; }
+
+    /// <summary>
+    /// Occurs after the selected cell has changed.
+    /// </summary>
+    /// <remarks>
+    /// NavigationMode <see cref="DataGridNavigationMode.Cell"/> must be active.
+    /// </remarks>
+    [Parameter] public EventCallback<DataGridCellInfo<TItem>> SelectedCellChanged { get; set; }
 
     #endregion
 }
