@@ -709,6 +709,9 @@ public abstract class BaseComponent : BaseAfterRenderComponent
         get => textDecoration;
         set
         {
+            if ( textDecoration == value )
+                return;
+
             textDecoration = value;
 
             DirtyClasses();
