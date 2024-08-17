@@ -6,7 +6,7 @@
 public enum TextDecoration
 {
     /// <summary>
-    /// No decoration. The text renders as it is. This is default.
+    /// No specific decoration. The text renders using the default CSS rule or inherits from its parent element if applicable.
     /// </summary>
     Default,
 
